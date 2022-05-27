@@ -10,6 +10,11 @@ namespace Z0
     {
         MultiParser Mp() => state(nameof(Mp), () => new MultiParser(discover(Wf.Components)));
 
+        [MethodImpl(Inline)]
+        public static SeqSplitter<T> splitter<T>(T delimiter)
+            where T : unmanaged
+                => new SeqSplitter<T>(delimiter);
+
         public IParser RecordParser(Type t)
             => Mp().RecordParser(t);
 

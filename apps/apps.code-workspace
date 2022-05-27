@@ -1,25 +1,28 @@
 {
 	"folders": [
 		{
-			"path": "..\\notes"
+			"path": "../notes"
 		},
 		{
-			"path": "..\\numbers"
+			"path": "../numbers"
 		},
 		{
-			"path": "..\\alloc"
+			"path": "../alloc"
 		},
 		{
-			"path": "..\\archives"
+			"path": "../archives"
 		},
 		{
-			"path": "..\\bits"
+			"path": "../bits"
 		},
 		{
-			"path": "..\\diagnostics"
+			"path": "../diagnostics"
 		},
 		{
-			"path": "..\\lines"
+			"path": "../lines"
+		},
+		{
+			"path": "../test/test.checks"
 		},
         {
 			"path": "."

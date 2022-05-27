@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     using static core;
 
     partial class ApiCode
@@ -41,7 +39,7 @@ namespace Z0
 
             dst.Symbols = dispenser;
             dst.Index = index;
-            dst.CodeBuffer = memory.gcpin(data.Storage);
+            dst.CodeBuffer = ManagedBuffer.pin(data.Storage);
             dst.Offsets = offsets;
             dst.Tokens = tokens;
             return new EncodedMembers(dst);

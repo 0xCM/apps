@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
     public class CheckerAttribute : Attribute
     {

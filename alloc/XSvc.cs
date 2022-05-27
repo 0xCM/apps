@@ -20,8 +20,8 @@ namespace Z0
             public ApiCode ApiCode(IWfRuntime wf)
                 => Service<ApiCode>(wf);
 
-            public ApiDataPaths ApiDataPaths(IWfRuntime wf)
-                => Service<ApiDataPaths>(wf);
+            public ApiCodeFiles ApiCodeFiles(IWfRuntime wf)
+                => Service<ApiCodeFiles>(wf);
 
             public Heaps Heaps(IWfRuntime wf)
                 => Service<Heaps>(wf);
@@ -44,7 +44,7 @@ namespace Z0
         public static ApiCode ApiCode(this IWfRuntime wf)
             => Services.ApiCode(wf);
 
-        public static ApiDataPaths ApiDataPaths(this IWfRuntime wf)
-            => Services.ApiDataPaths(wf);
+        public static ApiCodeFiles ApiCodeFiles(this IWfRuntime wf)
+            => Services.ApiCodeFiles(wf);
     }
 }

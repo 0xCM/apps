@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
+
     using System.Linq;
 
     using static core;
@@ -15,11 +17,10 @@ namespace Z0
         {
             var paths = Wf.Db();
             var files = paths.ParsedExtractPaths().View;
-            var empty = Index<ApiCodeDescriptor>.Empty;
             if(files.Length == 0)
             {
-                wf.Warn($"No code found in {paths.ParsedExtractRoot()}");
-                return empty;
+                Warn($"No code found in {paths.ParsedExtractRoot()}");
+                return sys.empty<ApiCodeDescriptor>();
             }
 
             var count = files.Length;
@@ -58,6 +59,5 @@ namespace Z0
             dst.Encoded = src.Data;
             return ref dst;
         }
-
     }
 }

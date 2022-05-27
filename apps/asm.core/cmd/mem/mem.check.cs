@@ -145,8 +145,8 @@ namespace Z0
             if(args.Count != 0)
                 spec = text.trim(arg(args,0).Value.Format());
 
-            using var bank = ApiCode.Encoding(spec);
-            CheckSize(bank);
+            using var members = ApiCode.Encoding(spec);
+            CheckSize(members);
 
             return result;
         }

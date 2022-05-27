@@ -10,16 +10,17 @@ namespace Z0
 
     using static core;
 
-    [ApiHost]
     public partial class ApiCode : AppService<ApiCode>
     {
         ApiJit ApiJit => Service(Wf.ApiJit);
 
-        ApiDataPaths DataPaths => Wf.ApiDataPaths();
+        ApiCodeFiles ApiCodeFiles => Wf.ApiCodeFiles();
 
-        public EncodedMembers Encoding()
+        AppSvcOps AppSvc => Wf.AppSvc();
+
+        public EncodedMembers Load()
         {
-            var result = LoadCollected(out var index, out var code);
+            var result = Load(out var index, out var code);
             if(result.Fail)
                 Errors.Throw(result.Message);
             return members(index,code);
@@ -32,27 +33,25 @@ namespace Z0
             {
                 var i = text.index(spec, Chars.FSlash);
                 if(i>0)
-                    return Encoding(ApiHostUri.define(ApiParsers.part(text.left(spec,i)), text.right(spec,i)));
+                    return Load(ApiHostUri.define(ApiParsers.part(text.left(spec,i)), text.right(spec,i)));
                 else
-                    return Encoding(ApiParsers.part(spec));
+                    return Load(ApiParsers.part(spec));
             }
             else
-            {
-                return Encoding();
-            }
+                return Load();
         }
 
-        public EncodedMembers Encoding(PartId src)
+        public EncodedMembers Load(PartId src)
         {
-            var result = LoadCollected(src, out var index, out var code);
+            var result = Load(src, out var index, out var code);
             if(result.Fail)
                 Errors.Throw(result.Message);
             return members(index,code);
         }
 
-        public EncodedMembers Encoding(ApiHostUri src)
+        public EncodedMembers Load(ApiHostUri src)
         {
-            var result = LoadCollected(src, out var index, out var code);
+            var result = Load(src, out var index, out var code);
             if(result.Fail)
                 Errors.Throw(result.Message);
             return members(index,code);
@@ -67,20 +66,12 @@ namespace Z0
         public static bool accepts(ApiCodeBlock src, NumericKind match)
             => TypeIdentity.numeric(src.Id.Components.Skip(2)).Contains(match);
 
-        /// <summary>
-        /// Determines the arity of the encoded operation
-        /// </summary>
-        /// <param name="src">The encoded operation</param>
-        [MethodImpl(Inline), Op]
-        public static int arity(ApiCodeBlock src)
-            => src.OpUri.OpId.Components.Count() - 1;
-
         public Outcome Collect(SymbolDispenser symbols, ApiHostUri src)
         {
             if(ApiRuntimeCatalog.FindHost(src, out var host))
             {
                 var members = Collect(symbols, MethodEntryPoints.create(ApiJit.JitHost(host)));
-                Emit(members, DataPaths.Path(src, FS.Csv), DataPaths.Path(src, FS.Hex));
+                Emit(members, ApiCodeFiles.Csv(src), ApiCodeFiles.Hex(src));
                 return true;
             }
             else
@@ -95,7 +86,7 @@ namespace Z0
             {
                 using var symbols = Alloc.symbols();
                 var members = Collect(symbols,MethodEntryPoints.create(ApiJit.JitHost(host)));
-                Emit(members, DataPaths.Path(src,FS.Csv), DataPaths.Path(src,FS.Hex));
+                Emit(members, ApiCodeFiles.Csv(src), ApiCodeFiles.Hex(src));
                 return true;
             }
             else
@@ -110,7 +101,7 @@ namespace Z0
             {
                 using var symbols = Alloc.symbols();
                 var members = Collect(symbols,MethodEntryPoints.create(ApiJit.JitPart(part)));
-                Emit(members, DataPaths.Path(src, FS.Csv), DataPaths.Path(src,FS.Hex));
+                Emit(members, ApiCodeFiles.Path(src, FS.Csv), ApiCodeFiles.Path(src,FS.Hex));
                 return true;
             }
             else
@@ -122,7 +113,7 @@ namespace Z0
         public Outcome Collect(SymbolDispenser symbols)
         {
             var members = Collect(symbols,MethodEntryPoints.create(ApiJit.JitCatalog(ApiRuntimeCatalog)));
-            Emit(members, DataPaths.Path(FS.Csv), DataPaths.Path(FS.Hex));
+            Emit(members, ApiCodeFiles.Path(FS.Csv), ApiCodeFiles.Path(FS.Hex));
             return true;
         }
 
@@ -148,12 +139,12 @@ namespace Z0
         {
             using var symbols = Alloc.symbols();
             var members = Collect(symbols, MethodEntryPoints.create(ApiJit.JitCatalog(ApiRuntimeCatalog)));
-            Emit(members, DataPaths.Path(FS.Csv), DataPaths.Path(FS.Hex));
+            Emit(members, ApiCodeFiles.Path(FS.Csv), ApiCodeFiles.Path(FS.Hex));
             return true;
         }
 
         Index<CollectedEncoding> Collect(SymbolDispenser symbols, ReadOnlySpan<MethodEntryPoint> src)
-            => DivineCode(CollectRaw(symbols, src));
+            => DivineCode(collect(symbols, src));
 
         Index<CollectedEncoding> DivineCode(ReadOnlySpan<RawMemberCode> src)
         {
@@ -199,7 +190,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var member = ref members[i];
-                seek(descriptions,i) = Describe(member);
+                seek(descriptions,i) = describe(member);
                 writer.WriteLine(member.Code.Format(options));
             }
 
@@ -212,30 +203,7 @@ namespace Z0
             }
 
             EmittedFile(emitting, count);
-            TableEmit(@readonly(descriptions), EncodedMember.RenderWidths, index);
-        }
-
-        static EncodedMember Describe(in CollectedEncoding member)
-        {
-            var token = member.Token;
-            var dst = new EncodedMember();
-            dst.Id = token.Id;
-            dst.EntryAddress = token.EntryAddress;
-            dst.TargetAddress = token.TargetAddress;
-            if(token.EntryAddress != token.TargetAddress)
-            {
-                dst.Disp = AsmRel32.disp((token.EntryAddress, JmpRel32.InstSize), token.TargetAddress);
-                dst.StubAsm = string.Format("jmp near ptr {0:x}h", (int)AsmRel32.reltarget(dst.Disp));
-            }
-            dst.CodeSize = (ushort)member.Code.Size;
-            dst.Sig = token.Sig.Format();
-            dst.Uri = token.Uri.Format();
-            var result = ApiUri.parse(dst.Uri, out var uri);
-            if(result.Fail)
-                Errors.Throw(AppMsg.ParseFailure.Format(nameof(uri), dst.Uri));
-
-            dst.Host = uri.Host.Format();
-            return dst;
+            AppSvc.TableEmit(descriptions, index);
         }
 
         EncodingLookup Parse(Dictionary<ApiHostUri,CollectedCodeExtracts> src)
@@ -262,77 +230,11 @@ namespace Z0
             return dst;
         }
 
-        static Index<RawMemberCode> CollectRaw(SymbolDispenser symbols, ReadOnlySpan<MethodEntryPoint> entries)
-        {
-            var count = entries.Length;
-            var code = alloc<RawMemberCode>(count);
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var entry = ref skip(entries,i);
-                var buffer = Cells.alloc(w64).Bytes;
-                ref var data = ref entry.Location.Ref<byte>();
-                ByteReader.read5(data, buffer);
-                ref var dst = ref seek(code,i);
-                CollectRaw(symbols, entry, out seek(code, i));
-            }
-            return code;
-        }
-
-        internal static MemoryAddress GetTargetAddress(MemoryAddress src, out AsmHexCode stub)
-        {
-            stub = AsmHexCode.Empty;
-            var target = src;
-            var buffer = Cells.alloc(w64).Bytes;
-            ref var data = ref src.Ref<byte>();
-            ByteReader.read5(data, buffer);
-            if(JmpRel32.test(buffer))
-            {
-                stub = AsmHexCode.asmhex(slice(buffer,0,5));
-                target = AsmRel32.target((src, 5), stub.Bytes);
-            }
-            return target;
-        }
-
-        static void CollectRaw(SymbolDispenser symbols, MethodEntryPoint entry, out RawMemberCode dst)
-        {
-            dst = new RawMemberCode();
-            dst.Entry = entry.Location;
-            dst.Uri = entry.Uri;
-            var target = GetTargetAddress(entry.Location, out dst.StubCode);
-            dst.Target = target;
-            if(target != entry.Location)
-            {
-                dst.Disp = AsmRel32.disp(dst.StubCode.Bytes);
-                dst.Stub = new JmpStub(entry.Location, target);
-                dst.Token = ApiToken.create(symbols, entry, target);
-            }
-            else
-            {
-                dst.Token = ApiToken.create(symbols, entry);
-            }
-        }
-
-        static Outcome InferHost(FS.FileName src, FS.FileExt ext, out ApiHostUri host)
-        {
-            var components = @readonly(src.Name.Text.Remove(string.Format(".{0}", ext)).SplitClean(Chars.Dot));
-            var count = components.Length;
-            if(count >= 2)
-            {
-                if(ApiParsers.part(first(components), out var part))
-                {
-                    host =  new ApiHostUri(part, slice(components,1).Join(Chars.Dot));
-                    return true;
-                }
-            }
-            host = ApiHostUri.Empty;
-            return false;
-        }
-
-        Outcome LoadCollected(out Index<EncodedMember> index, out BinaryCode data)
+        Outcome Load(out Index<EncodedMember> index, out BinaryCode data)
         {
             var result = Outcome.Success;
-            var rA = LoadIndex(DataPaths.Path(FS.Csv), out index);
-            var rB = LoadData(DataPaths.Path(FS.Hex), out data);
+            var rA = load(ApiCodeFiles.Path(FS.Csv), out index);
+            var rB = load(ApiCodeFiles.Path(FS.Hex), out data);
             if(rA.Fail)
                 result = rA;
             else
@@ -340,11 +242,11 @@ namespace Z0
             return result;
         }
 
-        Outcome LoadCollected(PartId src, out Index<EncodedMember> index, out BinaryCode data)
+        Outcome Load(PartId src, out Index<EncodedMember> index, out BinaryCode data)
         {
             var result = Outcome.Success;
-            var rA = LoadIndex(DataPaths.Path(src,FS.Csv), out index);
-            var rB = LoadData(DataPaths.Path(src,FS.Hex), out data);
+            var rA = load(ApiCodeFiles.Path(src, FS.Csv), out index);
+            var rB = load(ApiCodeFiles.Path(src, FS.Hex), out data);
             if(rA.Fail)
                 result = rA;
             else
@@ -352,52 +254,15 @@ namespace Z0
             return result;
         }
 
-        Outcome LoadCollected(ApiHostUri src, out Index<EncodedMember> index, out BinaryCode data)
+        Outcome Load(ApiHostUri src, out Index<EncodedMember> index, out BinaryCode data)
         {
             var result = Outcome.Success;
-            var rA = LoadIndex(DataPaths.Path(src, FS.Csv), out index);
-            var rB = LoadData(DataPaths.Path(src, FS.Hex), out data);
+            var rA = load(ApiCodeFiles.Csv(src), out index);
+            var rB = load(ApiCodeFiles.Hex(src), out data);
             if(rA.Fail)
                 result = rA;
             else
                 result = rB;
-            return result;
-        }
-
-        Outcome LoadIndex(FS.FilePath src, out Index<EncodedMember> dst)
-        {
-            var result = Outcome.Success;
-            var lines = src.ReadLines(true);
-            var count = lines.Count - 1;
-            dst = alloc<EncodedMember>(count);
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var line = ref lines[i + 1];
-                result = parse(line, out dst[i]);
-                if(result.Fail)
-                    break;
-            }
-
-            return result;
-        }
-
-        Outcome LoadData(FS.FilePath path, out BinaryCode dst)
-        {
-            var result = Outcome.Success;
-            var cells = path.ReadLines().SelectMany(x => text.split(x,Chars.Space));
-            var count = cells.Count;
-            var data = alloc<byte>(count);
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var cell = ref cells[i];
-                result = HexParser.parse8u(cell, out seek(data,i));
-                if(result.Fail)
-                    break;
-            }
-            if(result)
-                dst = data;
-            else
-                dst = BinaryCode.Empty;
             return result;
         }
 
@@ -415,30 +280,11 @@ namespace Z0
 
         [Op]
         public static MemorySeg AccessorData(SpanResAccessor src)
-            => AccessorData(GetTargetAddress(src.Member.Location, out _));
+            => AccessorData(stub(src.Member.Location, out _));
 
         [Op]
         public static MemorySeg AccessorCode(SpanResAccessor src)
-            => AccessorCode(GetTargetAddress(src.Member.Location, out _));
-
-
-
-        // static CapturedAccessor capture(SymbolDispenser symbols, SpanResAccessor src)
-        // {
-        //     var target = GetTargetAddress(src.Member.Location, out _);
-        //     var token = ApiToken.create(symbols, src.Member, target);
-        //     var member = new CollectedEncoding(token, AccessorCode(target).View.ToArray());
-        //     return new CapturedAccessor(member, AccessorData(target), src.Kind);
-        // }
-
-        // static Index<CapturedAccessor> capture(SymbolDispenser symbols, ReadOnlySpan<SpanResAccessor> accessors)
-        // {
-        //     var count = accessors.Length;
-        //     var buffer = alloc<CapturedAccessor>(count);
-        //     for(var i=0; i<count; i++)
-        //         seek(buffer,i) = capture(symbols, skip(accessors,i));
-        //     return buffer;
-        // }
+            => AccessorCode(stub(src.Member.Location, out _));
 
         /// <summary>
         /// Queries the source type for ByteSpan property getters

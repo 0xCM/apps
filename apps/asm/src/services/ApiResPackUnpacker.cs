@@ -32,7 +32,6 @@ namespace Z0.Asm
             {
                 var seqlabel = sequence.ToString("d6") + ": ";
                 ref readonly var accessor = ref skip(accessors,i);
-
                 var codeSize = ApiCode.AccessorCode(accessor, out var storage);
                 var bytes = slice(storage.Bytes,0, codeSize);
                 var decoded = decoder.Decode(bytes.ToArray(), MemoryAddress.Zero).View;

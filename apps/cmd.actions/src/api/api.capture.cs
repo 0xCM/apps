@@ -14,25 +14,23 @@ namespace Z0
             var spec = EmptyString;
             if(args.Count != 0)
                 spec = text.trim(arg(args,0).Value.Format());
-            var result = CodeCollector.Collect(spec);
+            var result = ApiCode.Collect(spec);
             if(result)
                 result = EmitAsm(spec);
             return result;
         }
 
-        ApiCode ApiCode => Wf.ApiCode();
-
         Outcome EmitAsm(string spec)
         {
             var result = Outcome.Success;
-            var path = DataPaths.Path(spec, FS.Asm);
+            var path = ApiCodeFiles.Path(spec, FS.Asm);
             var emitting = EmittingFile(path);
             using var writer = path.Writer();
-            using var bank = ApiCode.Encoding(spec);
-            var count = bank.MemberCount;
+            using var members = ApiCode.Encoding(spec);
+            var count = members.MemberCount;
             for(var i=0; i<count; i++)
             {
-                result = AsmDecoder.DecodeAsm(bank.Encoding(i), out var asm);
+                result = AsmDecoder.DecodeAsm(members.Encoding(i), out var asm);
                 writer.WriteLine(asm);
                 if(result.Fail)
                     break;

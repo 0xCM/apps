@@ -14,9 +14,9 @@ namespace Z0
         public static CmdScriptExpr create(CmdScriptPattern pattern, CmdVars vars)
             => new CmdScriptExpr(pattern, vars);
 
-        public CmdScriptPattern Pattern {get;}
+        public readonly CmdScriptPattern Pattern;
 
-        public CmdVars Variables {get;}
+        public readonly CmdVars Variables;
 
         [MethodImpl(Inline)]
         public CmdScriptExpr(string pattern)

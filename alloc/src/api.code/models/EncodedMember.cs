@@ -13,24 +13,34 @@ namespace Z0
 
         public const byte FieldCount = 11;
 
+        [Render(16)]
         public Hex64 Id;
 
+        [Render(16)]
         public MemoryAddress EntryAddress;
 
+        [Render(16)]
         public MemoryAddress EntryRebase;
 
+        [Render(16)]
         public MemoryAddress TargetAddress;
 
+        [Render(16)]
         public MemoryAddress TargetRebase;
 
+        [Render(24)]
         public @string StubAsm;
 
+        [Render(10)]
         public Disp32 Disp;
 
+        [Render(8)]
         public ushort CodeSize;
 
+        [Render(3)]
         public @string Host;
 
+        [Render(120)]
         public @string Sig;
 
         public @string Uri;
@@ -38,8 +48,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public int CompareTo(EncodedMember src)
             => EntryAddress.CompareTo(src.EntryAddress);
-
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{16,16,16,16,16,24,10,8,32,120,1};
 
         public static IComparer<EncodedMember> comparer(CmpKind kind)
             => new Cmp(kind);

@@ -1,4 +1,7 @@
 @echo off
+set TopDir=%ZDev%
+set SlnPath=%TopDir%/%SlnName%
+
 set LogRoot=%DevWs%\projects\db\logs
 set EtlLogs=%LogRoot%\etl
 mkdir %EtlLogs% 1>nul 2>nul
@@ -11,8 +14,8 @@ mkdir %RepoLogs% 1>nul 2>nul
 
 set Archives=%ZArchive%
 set RepoArchives=%Archives%\bin\source
-set SlnRoot=%ZDev%
-set FrameworkMoniker=netcoreapp3.1
+set SlnRoot=%TopDir%
+set FrameworkMoniker=net6.0
 set BuildKind=Release
 set RuntimeMoniker=win-x64
 set BuildVerbosity=normal
@@ -30,6 +33,7 @@ set CgProjectPath=%CgRoot%\%ProjectId%\%ProjectFile%
 set ZSln=%SlnRoot%\z0.sln
 set BuildPlatform="Any CPU"
 set ZLibBuildLog=%BuildLogs%\z0.lib.log
+set SlnBuildLog=%BuildLogs%\z0.build.log
 set TestBuildLog=%BuildLogs%\z0.test.log
 set AppsBuildLog=%BuildLogs%\z0.apps.log
 set BuildBinRoot=%ZDev%\.build\bin
@@ -45,4 +49,5 @@ set BuildTestCmd=dotnet build %TestSln% %BuildProps% -fl -flp:logfile=%TestBuild
 set BuildCgSlnCmd=dotnet build %CgSln% %BuildProps% -fl -flp:logfile=%BuildLogPath%;verbosity=%BuildVerbosity% -graph:true -m:24
 set BuildAppsCmd=dotnet build %ZSln% %BuildProps% -fl -flp:logfile=%AppsBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 set BuildCgProjectCmd=dotnet build %CgProjectPath% %BuildProps% -fl -flp:logfile=%BuildLogPath%;verbosity=%BuildVerbosity% -graph:true -m:24
+set BuildSlnCmd=dotnet build %SlnPath% -c Release -fl -flp:logfile=%SlnBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 

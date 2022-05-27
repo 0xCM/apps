@@ -10,19 +10,13 @@ namespace Z0
 
     public partial class ApiCmd : AppCmdProvider<ApiCmd>
     {
-        AppDb AppDb => Service(Wf.AppDb);
-
         ApiHex ApiHex => Service(Wf.ApiHex);
-
-        ApiServices ApiSvc => Service(Wf.ApiServices);
 
         ApiMetadataService ApiMetadata => Service(Wf.ApiMetadata);
 
         AsmTables AsmTables => Service(Wf.AsmTables);
 
         ApiPacks ApiPacks => Service(Wf.ApiPacks);
-
-        Parsers Parsers => Service(Wf.Parsers);
 
         ApiHexPacks ApiHexPacks => Service(Wf.ApiHexPacks);
 
@@ -38,7 +32,7 @@ namespace Z0
 
         ApiComments ApiComments => Service(() => Z0.ApiComments.create(Wf));
 
-        ApiCode CodeCollector => Wf.ApiCode();
+        ApiCode ApiCode => Wf.ApiCode();
 
         Index<ProcessAsmRecord> ProcessAsm() => Data(nameof(ProcessAsm), _LoadProcessAsm);
 
@@ -46,7 +40,7 @@ namespace Z0
 
         ApiResPackEmitter ResPackEmitter => Service(Wf.ResPackEmitter);
 
-        ApiDataPaths DataPaths => Service(Wf.ApiDataPaths);
+        ApiCodeFiles ApiCodeFiles => Wf.ApiCodeFiles();
 
         Index<ProcessAsmRecord> _LoadProcessAsm()
         {

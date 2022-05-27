@@ -7,9 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../test.units/z0.test.units.csproj" />
-    <ProjectReference Include="../test.checks/z0.test.checks.csproj" />
+    <ProjectReference Include="$(TestUnits)" />
+    <ProjectReference Include="$(TestChecks)" />
+    <ProjectReference Include="$(ZLib)" />
+    <ProjectReference Include="$(Bits)" />
   </ItemGroup>
-
-  <Import Project="../imports.props"/>
 </Project>

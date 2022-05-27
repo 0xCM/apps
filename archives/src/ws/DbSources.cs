@@ -49,6 +49,9 @@ namespace Z0
         public FS.FilePath Path(string name, FileKind kind)
             => Sources() + File(name, kind);
 
+        public FS.FilePath Path(FS.FileName file)
+            => Sources() + file;
+
         public FS.FilePath Path(string @class, string name, FileKind kind)
             => Sources(@class) + File(@class, name,kind);
 
