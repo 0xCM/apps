@@ -14,7 +14,7 @@ namespace Z0
 
         static MsgPattern<Count,Count> LocatedSegments => "Computed {0} segment entries for {0} methods";
 
-        public ReadOnlySpan<ProcessSegment> LocateSegments(AddressBank src, ReadOnlySpan<ApiMemberInfo> methods, FS.FolderPath dir)
+        public ReadOnlySpan<ProcessSegment> LocateSegments(ProcAddresses src, ReadOnlySpan<ApiMemberInfo> methods, FS.FolderPath dir)
         {
             var count = methods.Length;
             var flow = Running(LocatingSegments.Format(count));

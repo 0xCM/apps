@@ -12,22 +12,22 @@ namespace Z0.Asm
         /// <summary>
         /// The encoded bytes
         /// </summary>
-        public CodeBlock Encoded {get;}
+        public readonly CodeBlock Encoded;
 
         /// <summary>
         /// The zero-based offset of the function, relative to the base address
         /// </summary>
-        public uint Offset {get;}
+        public readonly uint Offset;
 
         /// <summary>
         /// The instruction content, suitable for display
         /// </summary>
-        public AsmExpr Statement {get;}
+        public readonly AsmExpr Statement;
 
         /// <summary>
         /// The instruction string paired with the op code
         /// </summary>
-        public AsmFormInfo AsmForm {get;}
+        public readonly AsmFormInfo AsmForm;
 
         [MethodImpl(Inline)]
         public AsmInstructionInfo(MemoryAddress @base, uint offset, AsmExpr statment, AsmFormInfo form, byte[] code)

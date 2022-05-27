@@ -8,13 +8,23 @@ namespace Z0
 
     public class DumpArchives : AppService<DumpArchives>
     {
-        FS.FolderPath Dir => FS.dir("j:/dumps");
+        public DbTargets Targets()
+            => new DbTargets(FS.dir("j:/"), dumps);
+
+        public DbTargets Targets(string scope)
+            => new DbTargets(Targets(), scope);
+
+        public DumpArchive Archive()
+            => new DumpArchive(Targets());
+
+        public DumpArchive Archive(string scope)
+            => new DumpArchive(Targets(scope));
+
+        public DumpArchive Archive(string scope, Timestamp ts)
+            => new DumpArchive(Targets(ts.Format()));
 
         public DumpPaths DumpPaths()
-            => new DumpPaths(Dir, Env.Db + FS.folder(tables) + FS.folder("dumps.tables"));
-
-        public DumpArchive Default()
-            => new DumpArchive(Dir);
+            => new DumpPaths(Targets(), Env.Db + FS.folder(tables) + FS.folder($"{dumps}.tables"));
 
         public DumpArchive Refs()
             => new (Env.CacheRoot + FS.folder(dumps) + FS.folder(images));

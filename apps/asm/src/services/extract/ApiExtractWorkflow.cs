@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
     using System.IO;
 
     using static core;
@@ -32,32 +31,21 @@ namespace Z0
         }
 
         internal void Deposit(PartResolvedEvent e)
-        {
-            inc(ref PartResolvedCount);
-        }
+            => inc(ref PartResolvedCount);
 
         internal void Deposit(HostResolvedEvent e)
-        {
-
-            inc(ref HostResolvedCount);
-        }
+            => inc(ref HostResolvedCount);
 
         internal void Deposit(MemberParsedEvent e)
-        {
-            inc(ref MemberParsedCount);
-        }
+            => inc(ref MemberParsedCount);
 
         internal void Deposit(MemberDecodedEvent e)
-        {
-            inc(ref MemberDecodedCount);
-        }
+            => inc(ref MemberDecodedCount);
 
         internal void Deposit(ExtractErrorEvent e)
-        {
-            Wf.Error(e);
-        }
+            => Wf.Error(e);
 
-        public ApiCollection Run(in ApiExtractSettings settings)
+        public ResolvedParts Run(in ApiExtractSettings settings)
         {
             var pdb = false;
             var packs = Wf.ApiPacks();
@@ -65,14 +53,12 @@ namespace Z0
             var collection = Run(pack);
             packs.CreateLink(settings.Timestamp);
             if(pdb)
-                IndexPdbSymbols(collection.ResolvedParts, pack.Root + FS.file("symbols", FS.Log));
+                IndexPdbSymbols(collection.View, pack.Root + FS.file("symbols", FS.Log));
             return collection;
         }
 
-        public ApiCollection Run(CmdArgs args)
-        {
-            return Run(ApiExtractSettings.init(Db.CapturePackRoot(), now()));
-        }
+        public ResolvedParts Run(CmdArgs args)
+            => Run(ApiExtractSettings.init(Db.CapturePackRoot(), now()));
 
         void IndexPdbSymbols(ReadOnlySpan<ResolvedPart> parts, FS.FilePath dst)
         {
@@ -115,7 +101,7 @@ namespace Z0
             return counter;
         }
 
-        public ApiCollection Run(IApiPack dst)
+        public ResolvedParts Run(IApiPack dst)
         {
             var flow = Wf.Running(string.Format("Packing api to {0}", dst.Root));
             var collected = Wf.ApiExtractor().Run(EventChannel, dst);

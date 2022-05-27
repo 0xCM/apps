@@ -4,12 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    public readonly struct AsmOpCodeString : IComparable<AsmOpCodeString>, ITextual
+    public readonly struct AsmOpCodeString : IComparable<AsmOpCodeString>
     {
-        [MethodImpl(Inline), Op]
-        public static AsmOpCodeString define(string src)
-            => new AsmOpCodeString(src);
-
         readonly TextBlock _Data;
 
         [MethodImpl(Inline)]

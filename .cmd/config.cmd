@@ -44,7 +44,7 @@ set BuildProps=/p:Configuration=%BuildKind% /p:Platform=%BuildPlatform%
 set LibDeployRoot=%ZLibs%\z0.%ProjectId%
 set LibDeployDir=%LibDeployRoot%\%FrameworkMoniker%
 
-set BuildLibsCmd=dotnet build %ZLibProj% %BuildProps% -fl -flp:logfile=%ZLibBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
+set BuildLibCmd=dotnet build %ZLibProj% %BuildProps% -fl -flp:logfile=%ZLibBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 set BuildTestCmd=dotnet build %TestSln% %BuildProps% -fl -flp:logfile=%TestBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 set BuildCgSlnCmd=dotnet build %CgSln% %BuildProps% -fl -flp:logfile=%BuildLogPath%;verbosity=%BuildVerbosity% -graph:true -m:24
 set BuildAppsCmd=dotnet build %ZSln% %BuildProps% -fl -flp:logfile=%AppsBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24

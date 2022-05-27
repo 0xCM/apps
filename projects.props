@@ -44,8 +44,6 @@
     <Alloc>$(MSBuildThisFileDirectory)alloc/z0.alloc.csproj</Alloc>
     <Diagnostics>$(MSBuildThisFileDirectory)diagnostics/z0.diagnostics.csproj</Diagnostics>
     <Archives>$(MSBuildThisFileDirectory)archives/z0.archives.csproj</Archives>
-    <Extract>$(MSBuildThisFileDirectory)extract/z0.extract.csproj</Extract>
-
     <TestChecks>$(MSBuildThisFileDirectory)test/test.checks/z0.test.checks.csproj</TestChecks>
 
   </PropertyGroup>

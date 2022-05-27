@@ -32,7 +32,7 @@ namespace Z0
                     Wf.ApiHex().EmitIndex(sorted, Db.IndexFile("api.hex.index"));
 
                 if(options.EmitHexPack)
-                    Wf.ApiHexPacks().Emit(sorted);
+                    Wf.HexPack().Emit(sorted);
 
                 if(options.EmitResBytes)
                     Wf.ResPackEmitter().Emit(blocks);

@@ -20,11 +20,14 @@ namespace Z0
             public RuntimeServices RuntimeServices(IWfRuntime wf)
                 => Service<RuntimeServices>(wf);
 
-            public RegionProcessor RegionProcessor(IWfRuntime wf)
-                => Service<RegionProcessor>(wf);
+            public ApiCodeExtractor CodeExtractor(IWfRuntime wf)
+                => Service<ApiCodeExtractor>(wf);
         }
 
         static Svc Services => Svc.Instance;
+
+        public static ApiCodeExtractor CodeExtractor(this IWfRuntime wf)
+            => Services.CodeExtractor(wf);
 
         public static DumpArchives DumpArchives(this IWfRuntime wf)
             => Services.DumpArchives(wf);
@@ -37,8 +40,5 @@ namespace Z0
 
         public static RuntimeServices RuntimeServices(this IWfRuntime wf)
             => Services.RuntimeServices(wf);
-
-        public static RegionProcessor RegionProcessor(this IWfRuntime wf)
-            => Services.RegionProcessor(wf);
     }
 }

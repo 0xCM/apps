@@ -18,7 +18,7 @@ namespace Z0
 
         ApiPacks ApiPacks => Service(Wf.ApiPacks);
 
-        ApiHexPacks ApiHexPacks => Service(Wf.ApiHexPacks);
+        ApiHexPacks ApiHexPacks => Service(Wf.HexPack);
 
         ApiPackArchive ApiPackArchive => Service(ApiPacks.Archive);
 

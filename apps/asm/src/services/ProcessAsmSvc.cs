@@ -4,18 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System.Text;
-
     using static core;
 
     public sealed class ProcessAsmSvc : AppService<ProcessAsmSvc>
     {
-        AsmDecoder Decoder;
-
-        protected override void OnInit()
-        {
-            Decoder = Wf.AsmDecoder();
-        }
+        AsmDecoder Decoder => Wf.AsmDecoder();
 
         public SortedReadOnlySpan<ProcessAsmRecord> BuildProcessAsm(ReadOnlySpan<AsmRoutine> src)
         {

@@ -4,19 +4,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class ApiCollection
+    public class ResolvedParts
     {
-        internal Index<ResolvedPart> _ResolvedParts;
+        public Index<ResolvedPart> Data;
 
-        internal ApiCollection()
+        public ResolvedParts(ResolvedPart[] src)
         {
-            _ResolvedParts = new();
+            Data = src;
         }
 
-        public ReadOnlySpan<ResolvedPart> ResolvedParts
+        public ReadOnlySpan<ResolvedPart> View
         {
             [MethodImpl(Inline)]
-            get => _ResolvedParts.View;
+            get => Data.View;
         }
     }
 }

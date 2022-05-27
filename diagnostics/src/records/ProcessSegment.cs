@@ -9,7 +9,7 @@ namespace Z0
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct ProcessSegment : IComparableRecord<ProcessSegment>
     {
-        public const string TableId = "process.segments";
+        const string TableId = "process.segments";
 
         [Render(16)]
         public uint Index;

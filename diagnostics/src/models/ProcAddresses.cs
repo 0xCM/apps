@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public readonly struct AddressBank
+    public readonly struct ProcAddresses
     {
         readonly Index<Address16> _Selectors;
 
@@ -14,7 +14,7 @@ namespace Z0
 
         readonly Index<ProcessSegment> _Segments;
 
-        public AddressBank(Index<ProcessSegment> segments, Index<Address16> selectors, Index<List<Paired<Address32,uint>>> bases)
+        public ProcAddresses(Index<ProcessSegment> segments, Index<Address16> selectors, Index<List<Paired<Address32,uint>>> bases)
         {
             _Segments = segments;
             _Selectors = selectors;
@@ -26,6 +26,9 @@ namespace Z0
             [MethodImpl(Inline)]
             get => _Segments.View;
         }
+
+        public ByteSize Traverse(MemoryAddress @base, FS.FolderPath dst)
+            => new ProcessSegments(@base, dst).Traverse(Segments);
 
         public uint SegmentCount
         {

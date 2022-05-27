@@ -9,7 +9,6 @@ namespace Z0
     {
         const NumericKind Closure = Root.UnsignedInts;
 
-
         public static MsgPattern<string> ChipCodeNotFound => "Code for chip {0} not found";
 
         public static MsgPattern<ApiHostUri> ParsingHostMembers => "Parsing {0} members";

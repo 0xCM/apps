@@ -6,19 +6,13 @@ namespace Z0
 {
     using static core;
 
-    partial class XTend
-    {
-        public static ApiCodeExtractor CodeExtractor(this IWfRuntime wf)
-            => Z0.ApiCodeExtractor.create(wf);
-    }
-
     public class ApiCodeExtractor : AppService<ApiCodeExtractor>
     {
         ApiExtractParser Parser => ApiExtracts.parser();
 
         ApiResolver Resolver => Wf.ApiResolver();
 
-        ApiHexPacks HexPacks => Wf.ApiHexPacks();
+        ApiHexPacks HexPacks => Wf.HexPack();
 
         ApiHex ApiHex => Service(Wf.ApiHex);
 
@@ -37,12 +31,10 @@ namespace Z0
             var rawPath = dst.RawHexPath(host);
             var raw = ExtractHost(src).Sort();
             EmitRawHex(host, raw.View,rawPath);
-
             var parsed = ParseBlocks(raw.View);
             var packedPath = dst.ParsedHexPath(host);
             var parsedPath = dst.ParsedExtractPath(pack, host);
             EmitParsedHex(host, parsed.View, pack, packedPath, parsedPath);
-
             var result = new ApiHostCode();
             result.Resolved = src;
             result.RawPath =rawPath;
@@ -109,17 +101,16 @@ namespace Z0
             if(count == 0)
                 return 0;
 
-            var buffer = alloc<MemoryBlock>(count);
-            ref var target = ref first(buffer);
+            var dst = alloc<MemoryBlock>(count);
             for(var i=0; i<count; i++)
             {
                 ref readonly var code = ref skip(src,i);
-                seek(target, i) = new MemoryBlock(code.Address, code.Size, code.Encoded);
+                seek(dst, i) = new MemoryBlock(code.Address, code.Size, code.Encoded);
             }
 
-            HexPacks.Emit(MemoryStore.pack(buffer), packPath);
+            var blocks = MemoryStore.pack(dst);
+            HexPacks.Emit(blocks, packPath);
             ApiHex.WriteBlocks(host, src, extractPath);
-
             return count;
         }
 

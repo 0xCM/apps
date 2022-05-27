@@ -101,23 +101,7 @@ namespace Z0
             => runJobs(match);
 
         protected override ICmdProvider[] CmdProviders(IWfRuntime wf)
-        {
-            return _Providers;
-            // var asmrt = AsmCmdRt.runtime(wf, false);
-            // var cmd = wf.ProjectCommands();
-            // ProjectCmd.inject(asmrt, cmd);
-            // var projects = ProjectCmd.inject((ICmdRunner)this, cmd);
-            // return array<ICmdProvider>(
-            //     this,
-            //     projects,
-            //     asmrt.Commands,
-            //     wf.PbCmd(),
-            //     wf.ApiCommands(),
-            //     wf.LlvmCommands(),
-            //     wf.CheckCommands(),
-            //     wf.AsmCommands()
-            //     );
-        }
+            => _Providers;
 
         [CmdOp("asm-gen-models")]
         protected Outcome GenAsmModels(CmdArgs args)

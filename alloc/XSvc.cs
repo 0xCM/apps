@@ -25,6 +25,9 @@ namespace Z0
 
             public Heaps Heaps(IWfRuntime wf)
                 => Service<Heaps>(wf);
+
+            public ApiHexPacks HexPack(IWfRuntime wf)
+                => Service<ApiHexPacks>(wf);
         }
 
         static Svc Services => Svc.Instance;
@@ -46,5 +49,8 @@ namespace Z0
 
         public static ApiCodeFiles ApiCodeFiles(this IWfRuntime wf)
             => Services.ApiCodeFiles(wf);
+
+        public static ApiHexPacks HexPack(this IWfRuntime wf)
+            => Services.HexPack(wf);
     }
 }

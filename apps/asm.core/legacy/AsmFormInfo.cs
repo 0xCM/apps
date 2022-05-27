@@ -6,9 +6,9 @@ namespace Z0.Asm
 {
     public readonly struct AsmFormInfo : ISyntaxPart<AsmFormInfo>
     {
-        public AsmOpCodeString OpCode {get;}
+        public readonly AsmOpCodeString OpCode;
 
-        public AsmSigInfo Sig {get;}
+        public readonly AsmSigInfo Sig;
 
         [MethodImpl(Inline)]
         public AsmFormInfo(AsmOpCodeString opcode, AsmSigInfo sig)

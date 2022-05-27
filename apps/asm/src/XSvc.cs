@@ -9,56 +9,48 @@ namespace Z0
     [ApiHost]
     public static class XSvc
     {
-        [Op]
+        sealed class Svc : AppServices<Svc>
+        {
+            public AsmDecoder AsmDecoder(IWfRuntime wf)
+                => Service<AsmDecoder>(wf);
+
+            public ApiExtractor ApiExtractor(IWfRuntime wf)
+                => Service<ApiExtractor>(wf);
+
+            public ApiExtractWorkflow ApiExtractWorkflow(IWfRuntime wf)
+                => Service<ApiExtractWorkflow>(wf);
+        }
+
+        static Svc Services => Svc.Instance;
+
         public static AsmEtl AsmEtl(this IWfRuntime context)
             => Asm.AsmEtl.create(context);
 
-        [Op]
+        public static ApiExtractor ApiExtractor(this IWfRuntime wf)
+            => Services.ApiExtractor(wf);
+
+        public static ApiExtractWorkflow ApiExtractWorkflow(this IWfRuntime wf)
+            => Services.ApiExtractWorkflow(wf);
+
         public static AsmRowBuilder AsmRowBuilder(this IWfRuntime wf)
             => Asm.AsmRowBuilder.create(wf);
 
-        [Op]
         public static HostAsmEmitter HostAsmEmitter(this IWfRuntime wf)
             => Asm.HostAsmEmitter.create(wf);
 
-        [Op]
-        public static ApiResPackUnpacker ResPackUnpacker(this IWfRuntime wf)
-            => Asm.ApiResPackUnpacker.create(wf);
-
-        [Op]
         public static AsmJmpPipe AsmJmpPipe(this IWfRuntime wf)
             => Asm.AsmJmpPipe.create(wf);
 
-        [Op]
         public static AsmDecoder AsmDecoder(this IWfRuntime wf)
-            => Asm.AsmDecoder.create(wf);
+            => Services.AsmDecoder(wf);
 
-        [Op]
         public static ProcessAsmSvc ProcessAsmSvc(this IWfRuntime wf)
             => Asm.ProcessAsmSvc.create(wf);
 
-        [Op]
-        public static ApiCodeBlockTraverser ApiCodeBlockTraverser(this IWfRuntime src)
-            => Asm.ApiCodeBlockTraverser.create(src);
-
-        [Op]
         public static AsmCallPipe AsmCallPipe(this IWfRuntime wf)
             => Asm.AsmCallPipe.create(wf);
 
-        [Op]
-        public static ApiExtractor ApiExtractor(this IWfRuntime wf)
-            => Z0.ApiExtractor.create(wf);
-
-        [Op]
-        public static SegmentTraverser SegmentTraverser(this IWfRuntime wf)
-            => Z0.SegmentTraverser.create(wf);
-
-        [Op]
         public static AsmAnalyzer AsmAnalyzer(this IWfRuntime wf)
             => Z0.AsmAnalyzer.create(wf);
-
-        [Op]
-        public static ApiExtractWorkflow ApiExtractWorkflow(this IWfRuntime wf)
-            => Z0.ApiExtractWorkflow.create(wf);
     }
 }

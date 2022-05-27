@@ -5,7 +5,6 @@
 namespace Z0
 {
     using System.Diagnostics;
-
     using Z0.Asm;
 
     using static core;
@@ -37,7 +36,7 @@ namespace Z0
 
         ApiCatalogs ApiCatalogs;
 
-        ApiCodeExtractor CodeExtractor => Service(Wf.CodeExtractor);
+        ApiCodeExtractor CodeExtractor => Wf.CodeExtractor();
 
         public ApiExtractor()
         {
@@ -51,7 +50,7 @@ namespace Z0
             Parser = ApiExtracts.parser();
             Resolver = Wf.ApiResolver();
             Decoder = Wf.AsmDecoder();
-            HexPacks = Wf.ApiHexPacks();
+            HexPacks = Wf.HexPack();
             Channel = new ApiExtractChannel();
             DatasetReceiver = new();
             ApiCatalogs = Wf.ApiCatalogs();
@@ -121,9 +120,7 @@ namespace Z0
         ReadOnlySpan<ApiCatalogEntry> EmitApiCatalog(Timestamp ts)
             => ApiCatalogs.EmitApiCatalog(ApiMembers.create(CollectedDatasets.SelectMany(x => x.Members)), PackArchive.ApiCatalogPath());
 
-
-
-        internal ApiCollection Run(ApiExtractChannel receivers, IApiPack pack)
+        internal ResolvedParts Run(ApiExtractChannel receivers, IApiPack pack)
         {
             Channel = receivers;
             PackArchive = ApiPackArchive.create(pack.Root);
@@ -135,11 +132,7 @@ namespace Z0
             EmitApiCatalog(pack.Timestamp);
             EmitContext(pack);
             EmitAnalyses(pack);
-            var collection = new ApiCollection();
-            collection._ResolvedParts = ResolvedParts;
-            return collection;
+            return new ResolvedParts(ResolvedParts);
         }
-
-
     }
 }

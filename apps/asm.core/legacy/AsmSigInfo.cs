@@ -34,10 +34,9 @@ namespace Z0.Asm
             return true;
         }
 
+        public readonly AsmMnemonic Mnemonic;
 
-        public AsmMnemonic Mnemonic {get;}
-
-        public TextBlock Content {get;}
+        public readonly TextBlock Content;
 
         public AsmSigInfo(AsmMnemonic mnemonic, TextBlock content)
         {

@@ -15,6 +15,10 @@ namespace Z0
             Root = root;
         }
 
+        public FS.FilePath Table<T>()
+            where T : struct
+                => Root + Tables.filename<T>();
+
         public FS.FolderPath DumpRoot()
             => Root;
 

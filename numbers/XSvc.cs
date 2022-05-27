@@ -124,9 +124,6 @@ namespace Z0
         public static ApiPackages ApiPackages(this IEnvPaths src)
             => src.PackageRoot();
 
-        public static ApiHexPacks ApiHexPacks(this IWfRuntime wf)
-            => Z0.ApiHexPacks.create(wf);
-
         public static ApiMetadataService ApiMetadata(this IWfRuntime ws)
             => Z0.ApiMetadataService.create(ws);
     }

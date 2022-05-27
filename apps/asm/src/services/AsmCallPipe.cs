@@ -8,6 +8,8 @@ namespace Z0.Asm
 
     public sealed class AsmCallPipe : AppService<AsmCallPipe>
     {
+        AppSvcOps AppSvc => Wf.AppSvc();
+
         public ReadOnlySpan<AsmCallRow> EmitRows(ReadOnlySpan<ApiPartRoutines> src)
         {
             var dst = Db.TableDir<AsmCallRow>();
@@ -33,7 +35,7 @@ namespace Z0.Asm
             iter(src, routine => instructions.AddRange(routine.Instructions));
             var calls = BuildRows(instructions.ViewDeposited()).ToSortedSpan();
             var count = calls.Length;
-            TableEmit(calls.View, AsmCallRow.RenderWidths, dst);
+            AppSvc.TableEmit(calls.View, dst);
             return calls;
         }
 
@@ -44,7 +46,7 @@ namespace Z0.Asm
             var calls = BuildRows(src.Instructions());
             var view = calls.View;
             var count = view.Length;
-            var formatter = Tables.formatter<AsmCallRow>(AsmCallRow.RenderWidths);
+            var formatter = Tables.formatter<AsmCallRow>();
             writer.WriteLine(formatter.FormatHeader());
             for(var i=0; i<count; i++)
             {
@@ -101,30 +103,16 @@ namespace Z0.Asm
             var count = paths.Length;
             for(var i=0; i<count; i++)
             {
-                ref readonly var file = ref skip(paths,i);
-                var doc = TextGrids.parse(file);
+                var doc = TextGrids.parse(skip(paths,i));
                 if(doc)
                 {
                     var rows = doc.Value.Rows;
-                    var kRows = rows.Length;
-                    for(var j = 0; j<kRows; j++)
+                    for(var j = 0; j<rows.Length; j++)
                     {
-                        ref readonly var row = ref skip(rows,j);
-                        if(row.CellCount == AsmCallRow.FieldCount)
-                        {
-                            var cells = row.Cells;
-                            var record = new AsmCallRow();
-                            var k = 0;
-                            DataParser.eparse(skip(cells, k++).Text, out record.SourcePart);
-                            DataParser.parse(skip(cells, k++).Text, out record.Block);
-                            DataParser.parse(skip(cells, k++).Text, out record.Source);
-                            DataParser.parse(skip(cells, k++).Text, out record.Target);
-                            DataParser.parse(skip(cells, k++).Text, out record.InstructionSize);
-                            DataParser.parse(skip(cells, k++).Text, out record.TargetOffset);
-                            record.Instruction = skip(cells, k++).Text;
-                            DataParser.parse(skip(cells, k).Text, out record.Encoded);
+                        if(AsmCallRow.parse(skip(rows,j), out var record))
                             dst.Add(record);
-                        }
+                        else
+                            Errors.Throw(AppMsg.ParseFailure.Format(nameof(AsmCallRow), skip(rows,j).Format()));
                     }
                 }
             }

@@ -45,8 +45,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.bits", "bits\z0.bits.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.expr", "expr\z0.expr.csproj", "{0469B5E2-DAC6-4183-B403-E2804B7FDA85}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.extract", "extract\z0.extract.csproj", "{5AFF395B-FAA0-46A1-8213-03D59776F9CE}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.lines", "lines\z0.lines.csproj", "{ED92AB00-E3E7-4800-9A05-C579A0611821}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.numbers", "numbers\z0.numbers.csproj", "{2684499A-CC18-4D5A-B9C2-9941F726B19C}"
@@ -154,10 +152,6 @@ Global
 		{0469B5E2-DAC6-4183-B403-E2804B7FDA85}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0469B5E2-DAC6-4183-B403-E2804B7FDA85}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0469B5E2-DAC6-4183-B403-E2804B7FDA85}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5AFF395B-FAA0-46A1-8213-03D59776F9CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5AFF395B-FAA0-46A1-8213-03D59776F9CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5AFF395B-FAA0-46A1-8213-03D59776F9CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5AFF395B-FAA0-46A1-8213-03D59776F9CE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{ED92AB00-E3E7-4800-9A05-C579A0611821}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{ED92AB00-E3E7-4800-9A05-C579A0611821}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED92AB00-E3E7-4800-9A05-C579A0611821}.Release|Any CPU.ActiveCfg = Release|Any CPU

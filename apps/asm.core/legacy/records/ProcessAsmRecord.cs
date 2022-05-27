@@ -7,7 +7,7 @@ namespace Z0
     using Z0.Asm;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct ProcessAsmRecord : IRecord<ProcessAsmRecord>, IComparable<ProcessAsmRecord>, IAsmHexProvider<ProcessAsmRecord>
+    public struct ProcessAsmRecord : IComparable<ProcessAsmRecord>, IAsmHexProvider<ProcessAsmRecord>
     {
         public const string TableId = "asm.global";
 
@@ -65,18 +65,6 @@ namespace Z0
 
         public override int GetHashCode()
             => (int)Sequence;
-
-        [MethodImpl(Inline)]
-        public ProcessAsmRef GetRef()
-        {
-            var dst = new ProcessAsmRef();
-            dst.Sequence = Sequence;
-            dst.GlobalOffset = GlobalOffset;
-            dst.BlockAddress = BlockAddress;
-            dst.IP = IP;
-            dst.BlockOffset = BlockOffset;
-            return dst;
-        }
 
         public static ReadOnlySpan<byte> RenderWidths
             => new byte[FieldCount]{12,16,16,16,16,42,32,42,32,128,80};

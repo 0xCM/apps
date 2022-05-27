@@ -10,33 +10,9 @@ namespace Z0
 
     public partial class RuntimeServices : AppService<RuntimeServices>
     {
-        DumpArchives DumpArchives => Wf.DumpArchives();
+        DumpArchives Dumps => Wf.DumpArchives();
 
         AppSvcOps AppSvc => Wf.AppSvc();
-
-        FS.FolderPath SegDir
-            => Db.TableDir("segments");
-
-        public AddressBank LogSegments()
-        {
-            var bank = ImageMemory.bank(Wf, LogRegions());
-            AppSvc.TableEmit(bank.Segments, Db.Table<ProcessSegment>(SegDir));
-            return bank;
-        }
-
-        public ReadOnlySpan<ProcessMemoryRegion> LogRegions()
-        {
-            var regions = ImageMemory.regions();
-            AppSvc.TableEmit(regions.View, Db.Table<ProcessMemoryRegion>(SegDir));
-            return regions;
-        }
-
-        public AddressBank LogSegments(ReadOnlySpan<ProcessMemoryRegion> src)
-        {
-            var bank = ImageMemory.bank(Wf, src);
-            AppSvc.TableEmit(bank.Segments, Db.Table<ProcessSegment>(SegDir));
-            return bank;
-        }
 
         public Timestamp EmitContext()
         {
@@ -44,7 +20,7 @@ namespace Z0
             var process = Process.GetCurrentProcess();
             var summaries = EmitPartitions(process, ts);
             var details = EmitRegions(process, ts);
-            var archive = DumpArchives.Default();
+            var archive = Dumps.Archive();
             EmitDump(process, archive.DumpPath(process, ts));
             return ts;
         }
@@ -152,7 +128,7 @@ namespace Z0
             }
             if(selection.EmitDump)
             {
-                var archive = DumpArchives.Default();
+                var archive = Dumps.Archive();
                 context.DumpPath = archive.DumpPath(process, ts);
                 EmitDump(process, context.DumpPath);
             }
@@ -175,10 +151,9 @@ namespace Z0
 
         public ReadOnlySpan<AddressBankEntry> LoadContextAddresses()
         {
-            var regions = LoadRegions();
-            var worker = Wf.RegionProcessor();
-            worker.Submit(regions);
-            ref readonly var product = ref worker.Bank;
+            var worker = new RegionProcessor();
+            worker.Include(LoadRegions());
+            var product = worker.Complete();
             var count = product.SelectorCount;
             var dst = list<AddressBankEntry>();
             var total = 0ul;
@@ -212,10 +187,7 @@ namespace Z0
             writer.WriteLine(formatter.FormatHeader());
             var count = addresses.Length;
             for(var i=0; i<count; i++)
-            {
-                ref readonly var region = ref skip(addresses,i);
-                writer.WriteLine(formatter.Format(region));
-            }
+                writer.WriteLine(formatter.Format(skip(addresses,i)));
         }
    }
 }

@@ -8,69 +8,68 @@ namespace Z0
 
     using static XedImport;
 
-    sealed class ServiceCache : AppServices<ServiceCache>
-    {
-        static AsmCmdRt runtime(IWfRuntime wf, Index<ICmdProvider> providers, bool start = true)
-        {
-            var runtime = Z0.AsmCmdRt.create(wf);
-            runtime.XedRt = XedRuntime.create(wf);
-            runtime.CmdSvc = AsmCoreCmd.create(wf, runtime, providers);
-            if(start)
-                runtime.Xed.Start();
-            return runtime;
-        }
-
-        public IntelSdm IntelSdm(IWfRuntime wf)
-            => Service<IntelSdm>(wf);
-
-        public XedImport XedImport(IWfRuntime wf, XedRuntime xed)
-            => Service<XedImport>(wf).With(xed);
-
-        public XedRules XedRules(IWfRuntime wf, XedRuntime xed)
-            => Service<XedRules>(wf).With(xed);
-
-        public XedDb XedDb(IWfRuntime wf, XedRuntime xed)
-            => Service<XedDb>(wf).With(xed);
-
-        public XedDisasmSvc XedDisasm(IWfRuntime wf, XedRuntime xed)
-            => Service<XedDisasmSvc>(wf).With(xed);
-
-        public XedDocs XedDocs(IWfRuntime wf, XedRuntime xed)
-            => Service<XedDocs>(wf).With(xed);
-
-        public AsmCmdRt AsmCmdRt(IWfRuntime wf, Index<ICmdProvider> providers, bool start = true)
-            => Service<AsmCmdRt>(wf, _ => runtime(wf, providers, start));
-
-        public AsmCmdRt AsmCmdRt(IWfRuntime wf, bool start = true)
-            => Service<AsmCmdRt>(wf, _ => runtime(wf, sys.empty<ICmdProvider>(), start));
-
-        public CoffServices CoffServices(IWfRuntime wf)
-            => Service<CoffServices>(wf);
-
-        public AsmTables AsmTables(IWfRuntime wf)
-            => Service<AsmTables>(wf);
-
-        public AsmObjects AsmObjects(IWfRuntime wf)
-            => Service<AsmObjects>(wf);
-
-        public XedTool XedTool(IWfRuntime wf)
-            => Service<XedTool>(wf);
-
-        public XedPaths XedPaths(IWfRuntime wf)
-            => Z0.XedPaths.Service;
-
-        public CpuIdSvc CpuId(IWfRuntime wf)
-            => Service<CpuIdSvc>(wf);
-
-        public InstBlockImporter BlockImporter(IWfRuntime wf)
-            => Service<InstBlockImporter>(wf);
-
-    }
-
     [ApiHost]
     public static class XSvc
     {
-        static ServiceCache Services => ServiceCache.Instance;
+        sealed class Svc : AppServices<Svc>
+        {
+            static AsmCmdRt runtime(IWfRuntime wf, Index<ICmdProvider> providers, bool start = true)
+            {
+                var runtime = Z0.AsmCmdRt.create(wf);
+                runtime.XedRt = XedRuntime.create(wf);
+                runtime.CmdSvc = AsmCoreCmd.create(wf, runtime, providers);
+                if(start)
+                    runtime.Xed.Start();
+                return runtime;
+            }
+
+            public IntelSdm IntelSdm(IWfRuntime wf)
+                => Service<IntelSdm>(wf);
+
+            public XedImport XedImport(IWfRuntime wf, XedRuntime xed)
+                => Service<XedImport>(wf).With(xed);
+
+            public XedRules XedRules(IWfRuntime wf, XedRuntime xed)
+                => Service<XedRules>(wf).With(xed);
+
+            public XedDb XedDb(IWfRuntime wf, XedRuntime xed)
+                => Service<XedDb>(wf).With(xed);
+
+            public XedDisasmSvc XedDisasm(IWfRuntime wf, XedRuntime xed)
+                => Service<XedDisasmSvc>(wf).With(xed);
+
+            public XedDocs XedDocs(IWfRuntime wf, XedRuntime xed)
+                => Service<XedDocs>(wf).With(xed);
+
+            public AsmCmdRt AsmCmdRt(IWfRuntime wf, Index<ICmdProvider> providers, bool start = true)
+                => Service<AsmCmdRt>(wf, _ => runtime(wf, providers, start));
+
+            public AsmCmdRt AsmCmdRt(IWfRuntime wf, bool start = true)
+                => Service<AsmCmdRt>(wf, _ => runtime(wf, sys.empty<ICmdProvider>(), start));
+
+            public CoffServices CoffServices(IWfRuntime wf)
+                => Service<CoffServices>(wf);
+
+            public AsmTables AsmTables(IWfRuntime wf)
+                => Service<AsmTables>(wf);
+
+            public AsmObjects AsmObjects(IWfRuntime wf)
+                => Service<AsmObjects>(wf);
+
+            public XedTool XedTool(IWfRuntime wf)
+                => Service<XedTool>(wf);
+
+            public XedPaths XedPaths(IWfRuntime wf)
+                => Z0.XedPaths.Service;
+
+            public CpuIdSvc CpuId(IWfRuntime wf)
+                => Service<CpuIdSvc>(wf);
+
+            public InstBlockImporter BlockImporter(IWfRuntime wf)
+                => Service<InstBlockImporter>(wf);
+        }
+
+        static Svc Services => Svc.Instance;
 
         public static AsmCmdRt AsmCmdRt(this IWfRuntime wf, Index<ICmdProvider> providers, bool start = true)
             => Services.AsmCmdRt(wf,providers,start);
