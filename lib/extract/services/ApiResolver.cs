@@ -9,9 +9,9 @@ namespace Z0
     [ApiHost]
     public class ApiResolver : AppService<ApiResolver>
     {
-        HashSet<string> Exclusions;
+        readonly HashSet<string> Exclusions;
 
-        IMultiDiviner Identity {get;}
+        readonly IMultiDiviner Identity;
 
         public ApiResolver()
         {
@@ -75,6 +75,15 @@ namespace Z0
             return dst.ViewDeposited();
         }
 
+        public static string format(in ResolvedMethod src)
+            => src.IsEmpty ? "<empty>"
+            : string.Format("{0}::{1}:{2}:{3}",
+                src.EntryPoint.Format(),
+                src.Component.Format(),
+                src.HostType.Format(),
+                src.Method.DisplaySig()
+            );
+
         /// <summary>
         /// Resolves a specified method
         /// </summary>
@@ -88,11 +97,51 @@ namespace Z0
             return resolved;
         }
 
-        public ReadOnlySpan<ApiMemberInfo> Describe(in ResolvedPart src)
+        public static ApiMemberInfo describe(in ResolvedMethod src)
+        {
+            var dst = new ApiMemberInfo();
+            var msil = ClrDynamic.msil(src.EntryPoint, src.Uri, src.Method);
+            dst.EntryPoint = src.EntryPoint;
+            dst.ApiKind = src.Method.ApiClass();
+            dst.CliSig = msil.CliSig;
+            dst.DisplaySig = src.Method.DisplaySig().Format();
+            dst.Token = msil.Token;
+            dst.Uri = src.Uri.Format();
+            dst.MsilCode = msil.CliCode;
+            return dst;
+        }
+
+        public Index<ApiMemberInfo> Describe(in ResolvedPart src)
         {
             var buffer = alloc<ApiMemberInfo>(src.MethodCount);
             Describe(src,buffer);
             return buffer;
+        }
+
+        public Index<ApiMemberInfo> ResolveParts(Index<PartId> src, Index<ResolvedPart> dst)
+        {
+            for(var i=0; i<src.Length; i++)
+                dst[i] = ResolvePart(src[i]);
+            var methods = alloc<ApiMemberInfo>(MethodCount(dst));
+            Members(dst.View, methods);
+            return methods;
+        }
+
+        public void Members(ReadOnlySpan<ResolvedPart> src, Index<ApiMemberInfo> dst)
+        {
+            var q = 0u;
+            for(var i=0; i<src.Length;i++)
+            {
+                ref readonly var part = ref skip(src,i);
+                ref readonly var hosts = ref part.Hosts;
+                for(var j=0; j<hosts.Length; j++)
+                {
+                    ref readonly var host = ref hosts[j];
+                    ref readonly var methods = ref host.Methods;
+                    for(var k=0; i<methods.Count; k++, q++)
+                        dst[q] = methods[k].Describe();
+                }
+            }
         }
 
         public ReadOnlySpan<ApiMemberInfo> ResolveParts(params PartId[] parts)
@@ -114,13 +163,8 @@ namespace Z0
             var count = src.Length;
             var offset = 0u;
             for(var i=0; i<count; i++)
-            {
-                ref readonly var part = ref skip(src,i);
-                offset += Describe(part, slice(dst,offset));
-            }
-
-            var path = Db.IndexTable<ApiMemberInfo>();
-            TableEmit(@readonly(dst), ApiMemberInfo.RenderWidths, path);
+                offset += Describe(skip(src,i), slice(dst,offset));
+            TableEmit(@readonly(dst), Db.IndexTable<ApiMemberInfo>());
         }
 
         public uint Describe(in ResolvedPart src, Span<ApiMemberInfo> dst)

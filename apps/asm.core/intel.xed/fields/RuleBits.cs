@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedFields;
-    using static XedRules;
     using static core;
 
     using CK = XedRules.RuleCellKind;

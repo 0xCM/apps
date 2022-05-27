@@ -18,6 +18,48 @@ namespace Z0
         AppDb AppDb
             => Service(Wf.AppDb);
 
+        static uint FieldCount(Index<Type> tables)
+        {
+            var counter = 0u;
+            for(var i=0; i<tables.Count; i++)
+                counter += tables[i].DeclaredInstanceFields().Ignore().Index().Count;
+            return counter;
+        }
+
+        public Index<TableField> CalcTableDefs()
+        {
+            var tables = ApiRuntimeCatalog.Components.Storage.Types().Tagged<RecordAttribute>().Index();
+            var count = FieldCount(tables);
+            var buffer = alloc<TableField>(count);
+            var k=0u;
+            for(var i=0; i<tables.Count; i++)
+            {
+                ref readonly var type = ref tables[i];
+                var fields = Tables.fields(type);
+                var total = 0u;
+                var id = TableId.identify(type).Format();
+                var typename = type.DisplayName();
+                for(var j=z16; j<fields.Length; j++, k++)
+                {
+                    ref readonly var src = ref skip(fields,j);
+                    ref readonly var field = ref src.Definition;
+                    ref var dst = ref seek(buffer,k);
+                    var size = (ushort)(Sizes.bits(field.FieldType)/8);
+                    total += size;
+                    dst.Seq = j;
+                    dst.TableId = id;
+                    dst.TableType = typename;
+                    dst.Col = j;
+                    dst.FieldSize = size;
+                    dst.TableSize = total;
+                    dst.RenderWidth = src.FieldWidth;
+                    dst.FieldName = field.Name;
+                    dst.FieldType = field.FieldType.DisplayName();
+                }
+            }
+            return buffer;
+        }
+
         public void Emit()
         {
             ApiEmit(Heaps.CalcSymLits());
@@ -83,10 +125,10 @@ namespace Z0
 
         void ApiEmit(Index<SymLiteralRow> symlits)
             => core.exec(true,
-                EmitDataTypes,
                 EmitDataFlows,
                 EmitEnumList,
                 EmitCompilationLits,
+                EmitDataTypes,
                 EmitComments,
                 EmitParsers,
                 EmitApiTables,
@@ -120,7 +162,7 @@ namespace Z0
             => Heaps.Emit(Heaps.symbols(src));
 
         void EmitApiTables()
-            => ApiSvc.Emit(ApiSvc.CalcTableDefs());
+            => ApiSvc.Emit(CalcTableDefs());
 
         void EmitParsers()
         {

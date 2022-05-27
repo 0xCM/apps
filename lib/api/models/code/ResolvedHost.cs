@@ -6,11 +6,11 @@ namespace Z0
 {
     public readonly struct ResolvedHost : IComparable<ResolvedHost>
     {
-        public ApiHostUri Host {get;}
+        public readonly ApiHostUri Host;
 
-        public Index<ResolvedMethod> Methods {get;}
+        public readonly Index<ResolvedMethod> Methods;
 
-        public MemoryAddress BaseAddress {get;}
+        public readonly MemoryAddress BaseAddress;
 
         [MethodImpl(Inline)]
         public ResolvedHost(ApiHostUri uri, MemoryAddress @base, Index<ResolvedMethod> methods)

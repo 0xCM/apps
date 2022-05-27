@@ -16,8 +16,6 @@ namespace Z0
 
         public ApiComments Comments => Service(Wf.ApiComments);
 
-        public ApiCatalogs Catalogs => Service(Wf.ApiCatalogs);
-
         Index<Assembly> _ApiParts;
 
         protected override void Initialized()
@@ -39,17 +37,11 @@ namespace Z0
             return records;
         }
 
-        public Index<TableDefRecord> CalcTableDefs()
-            => Data(nameof(TableDefRecord), () => Catalogs.TableDefRecords());
-
-        // public Index<BitMaskInfo> CalcBitMasks()
-        //     => BitMasks.CalcMasks();
-
         public Index<CompilationLiteral> CalcCompilationLits()
             => Data(nameof(CalcCompilationLits), () => LiteralProvider.CompilationLiterals(ApiParts));
 
-        public Index<DataTypeRecord> CalcDataTypes()
-            => DataTypes.records(ApiParts);
+        public Index<DataTypeInfo> CalcDataTypes()
+            => DataTypes.describe(ApiParts);
 
         public Index<ApiFlowSpec> CalcDataFlows()
         {
@@ -107,30 +99,14 @@ namespace Z0
                 .Enums()
                 .Where(x => x.ContainsGenericParameters == false && nonempty(x.Namespace));
 
-        // public void EmitBitMasks()
-        //     => Emit(CalcBitMasks());
-
         public Dictionary<FS.FilePath, Dictionary<string,string>> EmitComments()
             => Data(nameof(EmitComments), () => Comments.Collect());
-
-        // public void EmitApiMd()
-        //     => Comments.EmitMarkdownDocs(new string[]{
-        //         nameof(vpack),
-        //         nameof(vmask),
-        //         nameof(cpu),
-        //         nameof(gcpu),
-        //         nameof(BitMasks),
-        //         nameof(BitMaskLiterals),
-        //         });
 
         public void Emit(ReadOnlySpan<ApiCmdRow> src)
             => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<ApiCmdRow>());
 
-        public void Emit(ReadOnlySpan<TableDefRecord> src)
-            => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<TableDefRecord>());
-
-        // public void Emit(ReadOnlySpan<BitMaskInfo> src)
-        //     => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<BitMaskInfo>());
+        public void Emit(ReadOnlySpan<TableField> src)
+            => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<TableField>());
 
         public void Emit(ReadOnlySpan<SymLiteralRow> src)
             => AppSvc.TableEmit(src, AppDb.ApiTargets().Path("api.symbols", FileKind.Csv), TextEncodingKind.Unicode);
@@ -138,8 +114,8 @@ namespace Z0
         public void Emit(ReadOnlySpan<CompilationLiteral> src)
             => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<CompilationLiteral>(), TextEncodingKind.Unicode);
 
-        public void Emit(ReadOnlySpan<DataTypeRecord> src)
-            => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<DataTypeRecord>());
+        public void Emit(ReadOnlySpan<DataTypeInfo> src)
+            => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<DataTypeInfo>());
 
         public void Emit(ReadOnlySpan<ApiFlowSpec> src)
             => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<ApiFlowSpec>());

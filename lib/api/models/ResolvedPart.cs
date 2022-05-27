@@ -4,29 +4,23 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Linq;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct ResolvedPart
     {
-        public PartId Part {get;}
+        public readonly PartId Part;
 
-        public FS.FilePath Location {get;}
+        public readonly FS.FilePath Location;
 
-        public Index<ResolvedHost> Hosts {get;}
+        public readonly Index<ResolvedHost> Hosts;
 
-        [MethodImpl(Inline)]
+        public readonly uint MethodCount;
+
         public ResolvedPart(PartId part, FS.FilePath location, Index<ResolvedHost> hosts)
         {
             Part = part;
             Location = location;
             Hosts = hosts;
+            MethodCount = (uint)Hosts.Select(x => (int)x.MethodCount).Storage.Sum();
         }
-
-        public uint MethodCount
-            => (uint)Hosts.Select(x => (int)x.MethodCount).Storage.Sum();
 
         public static ResolvedPart Empty
         {

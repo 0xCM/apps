@@ -9,87 +9,6 @@ namespace Z0
     [ApiHost]
     public class DataTypes
     {
-        static object KeyLocker = new();
-
-        public static TypeKey NextKey(DataTypeKind kind)
-        {
-            lock(KeyLocker)
-            {
-                ref var key = ref _DataTypeKeys[kind];
-                key++;
-                return key;
-            }
-        }
-
-        static void init(out Index<DataTypeKind,TypeKey> dst)
-        {
-            var kinds = Symbols.index<DataTypeKind>();
-            dst = alloc<TypeKey>(kinds.Count);
-            for(var i=0; i<kinds.Count; i++)
-                dst[kinds[i].Kind] = TypeKey.Empty;
-        }
-
-
-        static DataTypes()
-        {
-            init(out _DataTypeKeys);
-            init(out _RuntimeDataTypes);
-
-            _Primitives = PrimalType.Intrinsic.Types;
-            _RuntimePrimitives = LiteralType.Intrinsic.ClrIntrinsic;
-            _IntrinsicLiterals = LiteralType.Intrinsic.Types;
-            _IntrinsicNumeric = NumericType.Intrinsic.Types;
-        }
-
-        static Index<PrimalKind,PrimalType> _Primitives;
-
-        static Index<PrimalKind,LiteralType> _IntrinsicLiterals;
-
-        static Index<PrimalKind,Type> _RuntimePrimitives;
-
-        static Index<NumericKind,NumericType> _IntrinsicNumeric;
-
-        static Index<DataTypeKind,Type> _RuntimeDataTypes;
-
-        static Index<DataTypeKind,TypeKey> _DataTypeKeys;
-
-        static ref Index<DataTypeKind,Type> init(out Index<DataTypeKind,Type> dst)
-        {
-            var types = Symbols.index<DataTypeKind>();
-            dst = alloc<Type>(types.Count);
-            for(var i=0; i<types.Count; i++)
-            {
-                ref var type = ref dst[types[i].Kind];
-                switch(types[i].Kind)
-                {
-                    case DataTypeKind.Primitive:
-                        type = typeof(PrimalType);
-                    break;
-
-                    case DataTypeKind.Numeric:
-                        type = typeof(NumericType);
-                    break;
-
-                    case DataTypeKind.Literal:
-                        type = typeof(LiteralType);
-                    break;
-
-                    case DataTypeKind.TypedLiteral:
-                        type = typeof(TypedLiteral);
-                    break;
-                    case DataTypeKind.None:
-                        type = typeof(void);
-                    break;
-
-                    default:
-                        type = typeof(void);
-                    break;
-                }
-            }
-
-            return ref dst;
-        }
-
         [MethodImpl(Inline), Op]
         public static PrimalType primitive(PrimalKind kind, asci64 name, AlignedWidth width)
             => new PrimalType(kind, name,width);
@@ -132,9 +51,40 @@ namespace Z0
         public static NumericType numeric(PrimalType key, asci64 name, NumWidth width)
             => numeric(key, name, width);
 
-        public static LiteralType CalcLiteralType(TypeKey key, Type type)
+        public static DataTypeInfo describe(Type src)
         {
-            var @base = CalcPrimitive(type);
+            var dst = DataTypeInfo.Empty;
+            var size = Sizes.measure(src);
+            var width = Sizes.bits(src);
+            dst.Name = src.Name;
+            dst.Part = src.Assembly.PartName();
+            dst.PackedWidth = size.Packed;
+            dst.NativeWidth = size.Native;
+            dst.NativeSize = size.Native/8;
+            return dst;
+        }
+
+        public static Index<DataTypeInfo> describe(Assembly[] src, bool pll = true)
+        {
+            var types = src.Types().Concrete().Where(x => x.IsStruct() || x.IsEnum);
+            var dst = bag<DataTypeInfo>();
+            iter(types, t => dst.Add(describe(t)), pll);
+            return dst.ToArray().Index().Sort().Resequence();
+        }
+
+        public static TypeKey NextKey(DataTypeKind kind)
+        {
+            lock(KeyLocker)
+            {
+                ref var key = ref _TypeKeys[kind];
+                key++;
+                return key;
+            }
+        }
+
+        public static LiteralType literal(TypeKey key, Type type)
+        {
+            var @base = primal(type);
             var name = type.DisplayName();
             Require.invariant(name.Length <= 32);
             var tag = type.Tag<WidthAttribute>();
@@ -145,28 +95,28 @@ namespace Z0
             return literal(key, name, @base, new DataSize(packed, @base.Size.NativeWidth));
         }
 
-        public static PrimalType ToPrimalType(PrimalKind kind)
+        public static PrimalType type(PrimalKind kind)
             => PrimalType.type(kind);
 
-        public static LiteralType[] CalcLiteralTypes(params Type[] src)
+        public static LiteralType[] literals(params Type[] src)
         {
             var count = src.Length;
             var dst = alloc<LiteralType>(count);
             for(var i=0; i<count; i++)
-                seek(dst,i) = CalcLiteralType(NextKey(DataTypeKind.Literal), skip(src,i));
+                seek(dst,i) = literal(NextKey(DataTypeKind.Literal), skip(src,i));
             return dst;
         }
 
-        public static PrimalType CalcPrimitive(Type src)
+        public static PrimalType primal(Type src)
         {
             if(src == typeof(bit))
                 return PrimalType.Intrinsic.U1;
             else if(src == typeof(void))
                 return PrimalType.Intrinsic.Void;
             else if(src.IsPrimalNumeric())
-                return ToPrimalType(DataTypes.ToPrimalKind(src.NumericKind()));
+                return type(DataTypes.primitive(src.NumericKind()));
             else if(src.IsEnum)
-                return ToPrimalType(DataTypes.ToPrimalKind(src.EnumScalarKind()));
+                return type(DataTypes.primitive(src.EnumScalarKind()));
             else if(src == typeof(Null))
                 return PrimalType.Intrinsic.Empty;
             else
@@ -174,8 +124,7 @@ namespace Z0
             return PrimalType.Intrinsic.Empty;
         }
 
-
-        public static PrimalKind ToPrimalKind(ClrEnumKind scalar)
+        public static PrimalKind primitive(ClrEnumKind scalar)
         {
             var @base = PrimalKind.None;
             switch(scalar)
@@ -200,7 +149,7 @@ namespace Z0
             return @base;
         }
 
-        public static PrimalKind ToPrimalKind(NumericKind src)
+        public static PrimalKind primitive(NumericKind src)
             => src switch{
                 NumericKind.U8 => PrimalKind.U8,
                 NumericKind.U16 => PrimalKind.U16,
@@ -212,38 +161,6 @@ namespace Z0
                 NumericKind.I64 => PrimalKind.U64,
                 _ => PrimalKind.None
             };
-
-        public static Index<DataTypeRecord> records(Assembly[] src, bool pll = true)
-        {
-            var types = src.Types().Concrete().Where(x => x.IsStruct() || x.IsEnum);
-            var dst = bag<DataTypeRecord>();
-            iter(types, t => dst.Add(record(t)),pll);
-            return resequence(dst.ToArray().Index().Sort());
-        }
-
-        public static Index<T> resequence<T>(Index<T> src)
-            where T : ISequential<T>
-        {
-            for(var i=0u; i<src.Length; i++)
-                src[i].Seq = i;
-            return src;
-        }
-
-        public static T[] resequence<T>(T[] src)
-            where T : ISequential<T>
-        {
-            for(var i=0u; i<src.Length; i++)
-                seek(src,i).Seq = i;
-            return src;
-        }
-
-        public static Span<T> resequence<T>(Span<T> src)
-            where T : ISequential<T>
-        {
-            for(var i=0u; i<src.Length; i++)
-                seek(src,i).Seq = i;
-            return src;
-        }
 
         [MethodImpl(Inline)]
         public static DataType define(asci32 name, DataSize size)
@@ -277,20 +194,24 @@ namespace Z0
             return dst.Index().Sort();
         }
 
-        static DataTypeRecord record(Type src)
-        {
-            var dst = default(DataTypeRecord);
-            var size = Sizes.measure(src);
-            dst.Name = src.Name;
-            dst.Part = src.Assembly.PartName();
-            dst.PackedWidth = size.Packed;
-            dst.NativeWidth = size.Native;
-            dst.PackedSize = size.Packed != 0 ? (size.Packed/8 + (size.Packed % 8 == 0 ? 0 : 1)) : 0;
-            dst.NativeSize = size.Native/8;
-            return dst;
-        }
-
         static Type[] candidates(Assembly src)
             => src.Types().Concrete().Where(x => x.IsStruct() || x.IsEnum);
+
+        static object KeyLocker = new();
+
+        static DataTypes()
+        {
+            init(out _TypeKeys);
+        }
+
+        static Index<DataTypeKind,TypeKey> _TypeKeys;
+
+        static void init(out Index<DataTypeKind,TypeKey> dst)
+        {
+            var kinds = Symbols.index<DataTypeKind>();
+            dst = alloc<TypeKey>(kinds.Count);
+            for(var i=0; i<kinds.Count; i++)
+                dst[kinds[i].Kind] = TypeKey.Empty;
+        }
     }
 }

@@ -6,13 +6,6 @@ namespace Z0
 {
     partial class ApiCmd
     {
-        [CmdOp("api/emit")]
-        Outcome ApiEmit(CmdArgs args)
-        {
-            Wf.ApiEmitters().Emit();
-            return true;
-        }
-
         [CmdOp("api/emit/metadata")]
         Outcome EmitApiMetadata(CmdArgs args)
         {
@@ -36,11 +29,8 @@ namespace Z0
             EmitApiTokens();
         }
 
-        void EmitTableReport()
-            => ApiCatalogs.EmitTableDefs();
-
         void EmitApiDataTypes()
-            => TableEmit(DataTypes.records(ApiRuntimeCatalog.Components).View, DataTypeRecord.RenderWidths, Ws.Api().TablePath<DataTypeRecord>());
+            => TableEmit(DataTypes.describe(ApiRuntimeCatalog.Components).View, Ws.Api().TablePath<DataTypeInfo>());
 
         void EmitApiComments()
             => ApiComments.Collect();

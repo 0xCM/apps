@@ -4,9 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
-    [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(64,64)]
+    [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(64)]
     public readonly record struct DataSize : IComparable<DataSize>
     {
         readonly ulong Data;

@@ -37,6 +37,9 @@ namespace Z0
         public static DbTargets ApiTargets(this AppDb db, string scope)
             => db.Targets($"api/{scope}");
 
+        public static DbTargets MsilTargets(this AppDb db)
+            => db.ApiTargets("msil");
+
         public static DbSources CpuIdSources(this AppDb db)
             => db.IntelSources().Scoped("sde.cpuid");
 

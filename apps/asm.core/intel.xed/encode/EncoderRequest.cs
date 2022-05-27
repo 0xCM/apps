@@ -5,10 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-    using static XedModels;
-    using static XedRules;
-
     public class XedEncoder : AppService<XedEncoder>
     {
         /// <summary>

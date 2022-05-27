@@ -67,6 +67,9 @@ namespace Z0
         public FS.FilePath Path(string name, FileKind kind)
             => OutDir() + File(name, kind);
 
+        public FS.FilePath MsilPath(ApiHostUri host)
+            => Root + FS.hostfile(host, FS.Il);
+
         public FS.FilePath Path(FS.FileName file)
             => OutDir() + file;
 

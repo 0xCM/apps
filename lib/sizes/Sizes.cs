@@ -161,26 +161,24 @@ namespace Z0
         public static DataSize measure(Type src)
         {
             var dst = DataSize.Empty;
+            var width = bits(src);
             try
             {
                 var tag = src.Tag<DataWidthAttribute>();
                 if(src.IsEnum)
                 {
-                    var native = bits(PrimalBits.width(Enums.@base(src)));
+                    width = bits(PrimalBits.width(Enums.@base(src)));
                     if(tag)
-                        dst = (tag.Value.PackedWidth, native);
+                        dst = new (tag.Value.PackedWidth, width);
                     else
-                        dst = (native,native);
+                        dst = (width, width);
                 }
                 else
                 {
                     if(tag)
-                        dst = (tag.Value.PackedWidth, Sizes.bits(src));
+                        dst = new (tag.Value.PackedWidth, width);
                     else
-                    {
-                        var width = Sizes.bits(src);
                         dst = (width,width);
-                    }
                 }
             }
             catch(AmbiguousMatchException)

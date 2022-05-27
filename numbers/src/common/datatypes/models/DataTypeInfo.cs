@@ -5,11 +5,9 @@
 namespace Z0
 {
     [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
-    public record struct DataTypeRecord : IComparable<DataTypeRecord>, ISequential<DataTypeRecord>
+    public record struct DataTypeInfo : IComparable<DataTypeInfo>, ISequential<DataTypeInfo>
     {
-        public const string TableId = "api.datatype";
-
-        public const byte FieldCount = 7;
+        const string TableId = "api.datatype";
 
         [Render(6)]
         public uint Seq;
@@ -27,12 +25,9 @@ namespace Z0
         public BitWidth NativeWidth;
 
         [Render(12)]
-        public ByteSize PackedSize;
-
-        [Render(12)]
         public ByteSize NativeSize;
 
-        public int CompareTo(DataTypeRecord src)
+        public int CompareTo(DataTypeInfo src)
         {
             var result = Part.CompareTo(src.Part);
             if(result == 0)
@@ -40,13 +35,12 @@ namespace Z0
             return result;
         }
 
-
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{6,32,32,12,12,12,12};
-
         uint ISequential.Seq
         {
             get => Seq;
             set => Seq = value;
         }
+
+        public static DataTypeInfo Empty => default;
     }
 }

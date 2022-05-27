@@ -18,9 +18,18 @@ namespace Z0
 
         ApiPackArchive ApiPacks => ApiPackArchive.create(AppDb.ApiTargets("capture"));
 
+        ApiMetadataService ApiMetadata => Service(Wf.ApiMetadata);
+
         ApiHexPacks HexPacks => Wf.HexPack();
 
         HexEmitter HexEmitter => Wf.HexEmitter();
+
+        [CmdOp("api/emit/msil")]
+        void EmitMsil()
+        {
+            AppDb.MsilTargets().Clear();
+            ApiMetadata.EmitMsil(ApiRuntimeCatalog.ApiHosts, AppDb.MsilTargets());
+        }
 
         [CmdOp("api/emit/hex")]
         void EmitApiHex()

@@ -15,50 +15,6 @@ namespace Z0
 
         ApiRuntime Runtime => Service(Wf.ApiRuntime);
 
-        static uint FieldCount(ReadOnlySpan<TableDef> src)
-        {
-            var counter = 0u;
-            var count = src.Length;
-            for(var i=0; i<count; i++)
-                counter += skip(src,i).FieldCount;
-            return counter;
-        }
-
-        public Index<TableDefRecord> TableDefRecords()
-        {
-            var tables = ApiRuntimeCatalog.TableDefs;
-            var kTables = tables.Length;
-            var kFields = FieldCount(tables);
-            var buffer = alloc<TableDefRecord>(kFields);
-            var k=0u;
-            for(var i=0; i<kTables; i++)
-            {
-                ref readonly var table = ref skip(tables,i);
-                ref readonly var fields = ref table.Fields;
-                for(var j=0; j<fields.Count; j++)
-                {
-                    ref readonly var field = ref fields[j];
-                    ref var record = ref seek(buffer,k);
-                    record.Seq = k;
-                    record.TableId = table.TableId;
-                    record.TableType = table.TypeName;
-                    record.FieldIndex = field.FieldIndex;
-                    record.FieldType = field.DataType;
-                    record.FieldName = field.FieldName;
-                    k++;
-                }
-            }
-            return buffer;
-        }
-
-        public Index<TableDefRecord> EmitTableDefs()
-        {
-            var dst = ProjectDb.Subdir("api") + FS.file("api.tables", FS.Csv);
-            var src = TableDefRecords();
-            TableEmit(src.View, dst);
-            return src;
-        }
-
         public Index<SymLiteralRow> EmitApiClasses()
             => EmitApiClasses(ProjectDb.Api() +  FS.file("api.classes", FS.Csv));
 

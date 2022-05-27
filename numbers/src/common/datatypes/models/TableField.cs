@@ -5,26 +5,35 @@
 namespace Z0
 {
     [Record(RecordId), StructLayout(StructLayout, Pack=1)]
-    public struct TableDefRecord
+    public record struct TableField
     {
         const string RecordId = "api.tables";
 
         [Render(8)]
         public uint Seq;
 
-        [Render(36)]
-        public TableId TableId;
+        [Render(8)]
+        public ushort Col;
 
-        [Render(36)]
-        public Name TableType;
+        [Render(32)]
+        public asci32 TableId;
+
+        [Render(24)]
+        public asci32 TableType;
 
         [Render(12)]
-        public ushort FieldIndex;
+        public ushort FieldSize;
 
-        [Render(36)]
-        public Name FieldName;
+        [Render(12)]
+        public uint TableSize;
+
+        [Render(12)]
+        public ushort RenderWidth;
+
+        [Render(24)]
+        public asci32 FieldName;
 
         [Render(1)]
-        public Identifier FieldType;
+        public asci32 FieldType;
     }
 }

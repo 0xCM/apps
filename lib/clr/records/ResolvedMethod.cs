@@ -4,19 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct ResolvedMethod : ITextual, IComparable<ResolvedMethod>
     {
-        public OpUri Uri {get;}
+        public readonly OpUri Uri;
 
-        public MethodInfo Method {get;}
+        public readonly MethodInfo Method;
 
-        public MemoryAddress EntryPoint {get;}
+        public readonly MemoryAddress EntryPoint;
 
         [MethodImpl(Inline)]
         public ResolvedMethod(OpUri uri, MethodInfo method, MemoryAddress address)
@@ -62,7 +56,7 @@ namespace Z0
             => new ApiMember(Uri, Method, EntryPoint);
 
         public string Format()
-            => IsEmpty ? "<empty>" : string.Format("{0}::{1}:{2}:{3}", EntryPoint.Format(), Component.Format(), HostType.Format(), Method.DisplaySig());
+            => ApiResolver.format(this);
 
 
         public override string ToString()
@@ -72,20 +66,7 @@ namespace Z0
         public int CompareTo(ResolvedMethod src)
             => EntryPoint.CompareTo(src.EntryPoint);
 
-        [Op]
         public ApiMemberInfo Describe()
-        {
-            var dst = new ApiMemberInfo();
-            var src = this;
-            var msil = ClrDynamic.msil(src.EntryPoint, src.Uri, src.Method);
-            dst.EntryPoint = src.EntryPoint;
-            dst.ApiKind = src.Method.ApiClass();
-            dst.CliSig = msil.CliSig;
-            dst.DisplaySig = src.Method.DisplaySig().Format();
-            dst.Token = msil.Token;
-            dst.Uri = src.Uri.Format();
-            dst.MsilCode = msil.CliCode;
-            return dst;
-        }
+            => ApiResolver.describe(this);
     }
 }

@@ -33,10 +33,34 @@ namespace Z0
             return result;
         }
 
+        public uint EmitMsil(ReadOnlySpan<IApiHost> hosts, FS.FolderPath dst)
+        {
+            var emitter = text.buffer();
+            var counter = 0u;
+            for(var i=0; i<hosts.Length; i++)
+            {
+                ref readonly var host = ref skip(hosts, i);
+                var members = ApiJit.JitHost(host).View;
+                var count = members.Length;
+                if(count == 0)
+                    continue;
+
+                for(var j=0; j<count; j++)
+                {
+                    MsilPipe.RenderCode(members[j].Msil, emitter);
+                    counter++;
+                }
+
+                FileEmit(emitter.Emit(), count, dst + FS.hostfile(host.HostUri, FS.Il), TextEncodingKind.Unicode);
+            }
+
+            return counter;
+        }
+
         public Outcome EmitMsil(ReadOnlySpan<IApiHost> hosts)
         {
             var result = Outcome.Success;
-            var buffer = text.buffer();
+            var dst = text.buffer();
             var jit = ApiJit;
             var pipe = MsilPipe;
             var counter = 0u;
@@ -48,19 +72,16 @@ namespace Z0
                 if(count == 0)
                     continue;
 
-                var dst = MsilOutPath(host.HostUri);
-                var flow = EmittingFile(dst);
-
+                var path = MsilOutPath(host.HostUri);
+                var flow = EmittingFile(path);
                 for(var j=0; j<count; j++)
                 {
-                    ref readonly var member = ref members[j];
-                    ref readonly var msil = ref member.Msil;
-                    pipe.RenderCode(msil, buffer);
+                    pipe.RenderCode(members[j].Msil, dst);
                     counter++;
                 }
 
-                using var writer = dst.UnicodeWriter();
-                writer.Write(buffer.Emit());
+                using var writer = path.UnicodeWriter();
+                writer.Write(dst.Emit());
                 EmittedFile(flow, count);
             }
 

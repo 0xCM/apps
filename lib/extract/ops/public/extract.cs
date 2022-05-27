@@ -47,12 +47,12 @@ namespace Z0
         [Op]
         public static ApiExtractBlock extract(MethodInfo src, Span<byte> buffer)
         {
-            var resolution = ApiResolver.method(src);
-            var result = extract2(resolution.EntryPoint, buffer);
+            var method = ApiResolver.method(src);
+            var result = extract2(method.EntryPoint, buffer);
             if(result > 0)
-                return new ApiExtractBlock(resolution.EntryPoint, resolution.Uri.Format(), slice(buffer, 0, result));
+                return new ApiExtractBlock(method.EntryPoint, method.Uri.Format(), slice(buffer, 0, result));
             else
-                return new ApiExtractBlock(resolution.EntryPoint, resolution.Uri.Format(), buffer.ToArray());
+                return new ApiExtractBlock(method.EntryPoint, method.Uri.Format(), buffer.ToArray());
         }
 
         [Op]

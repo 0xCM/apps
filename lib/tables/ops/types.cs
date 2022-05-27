@@ -4,13 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class ApiCmd
+    partial struct Tables
     {
-        [CmdOp("api/emit/tables")]
-        Outcome EmitTableReport(CmdArgs args)
-        {
-            EmitTableReport();
-            return true;
-        }
+        public static Index<Type> types(params Assembly[] src)
+            => src.Types().Tagged<RecordAttribute>();
     }
 }
