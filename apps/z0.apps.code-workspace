@@ -1,23 +1,26 @@
 {
 	"folders": [
 		{
+			"path": "../alloc"
+		},
+		{
+			"path": "../archives"
+		},
+		{
+			"path": "../bits"
+		},
+		{
+			"path": "../diagnostics"
+		},
+		{
+			"path": "../lines"
+		},
+		{
+			"path": "../numbers"
+		},
+		{
 			"path": "."
 		},
-		{
-			"path": "..\\alloc"
-		},
-		{
-			"path": "..\\archives"
-		},
-		{
-			"path": "..\\diagnostics"
-		},
-		{
-			"path": "..\\bits"
-		},
-		{
-			"path": "..\\numbers"
-		}
 	],
 	"settings": {}
 }
