@@ -71,6 +71,29 @@ namespace Z0
             ApiEmitters.Emit();
         }
 
+        [CmdOp("api/tables")]
+        void ApiTables()
+        {
+            var src = Tables.reflected(ApiRuntimeCatalog.Components);
+            for(var i=0; i<src.Count; i++)
+            {
+                ref readonly var table = ref src[i];
+                ref readonly var fields = ref table.Fields;
+                for(var j=0; j<fields.Count; j++)
+                {
+                    ref readonly var field = ref fields[j];
+                    Write(string.Format("{0,-24} | {1,-12} | {2,-12} | {3,-12} | {4,-12}",
+                        table.Type.DisplayName(),
+                        table.Layout,
+                        table.Pack,
+                        field.FieldIndex,
+                        field.FieldWidth
+                        ));
+                }
+            }
+
+        }
+
         [CmdOp("api/emit/comments")]
         void ApiEmitComments()
         {

@@ -10,7 +10,23 @@ namespace Z0
     {
         [Op]
         public static ReflectedTable reflected(Type src)
-            => ReflectedTable.load(src);
+        {
+            var layout = src.Tag<StructLayoutAttribute>();
+            var id = TableId.identify(src);
+            LayoutKind? kind = null;
+            CharSet? charset = null;
+            byte? pack = null;
+            uint? size = null;
+            if(layout)
+            {
+                var value = layout.Value;
+                kind = value.Value;
+                charset = value.CharSet;
+                pack = (byte)value.Pack;
+                size = (uint)value.Size;
+            }
+            return new ReflectedTable(src, id, Tables.fields(src), kind, charset, pack, size);
+        }
 
         [Op]
         public static Index<ReflectedTable> reflected(ReadOnlySpan<Assembly> src)

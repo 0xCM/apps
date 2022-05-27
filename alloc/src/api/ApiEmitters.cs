@@ -26,6 +26,7 @@ namespace Z0
             return counter;
         }
 
+
         public Index<TableField> CalcTableDefs()
         {
             var tables = ApiRuntimeCatalog.Components.Storage.Types().Tagged<RecordAttribute>().Index();

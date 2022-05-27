@@ -10,12 +10,16 @@ namespace Z0
         public static RenderSpec Default(int index)
             => new RenderSpec(index, 0, 0, FormatterImpl.Default);
 
+        [Render(8)]
         public readonly int Index;
 
+        [Render(8)]
         public readonly uint Width;
 
+        [Render(8)]
         public readonly ushort Selector;
 
+        [Ignore]
         readonly IFormatter Formatter;
 
         [MethodImpl(Inline)]

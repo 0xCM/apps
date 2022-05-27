@@ -7,32 +7,15 @@ namespace Z0
     /// <summary>
     /// Describes an extant table
     /// </summary>
-    public class ReflectedTable
+    public class ReflectedTable : IComparable<ReflectedTable>
     {
-        [Op]
-        public static ReflectedTable load(Type type)
-        {
-            var layout = type.Tag<StructLayoutAttribute>();
-            var id = TableId.identify(type);
-            LayoutKind? kind = null;
-            CharSet? charset = null;
-            byte? pack = null;
-            uint? size = null;
-            layout.OnSome(a =>{
-                kind = a.Value;
-                charset = a.CharSet;
-                pack = (byte)a.Pack;
-                size = (uint)a.Size;
-            });
-
-            return new ReflectedTable(type, id, Tables.fields(type), kind, charset, pack,size);
-        }
-
+        [Render(24)]
         public readonly Type Type;
 
+        [Render(24)]
         public readonly TableId Id;
 
-        public readonly ClrTableField[] Fields;
+        public readonly Index<ClrTableField> Fields;
 
         public readonly LayoutKind? Layout;
 
@@ -43,7 +26,7 @@ namespace Z0
         public readonly uint? Size;
 
         [MethodImpl(Inline)]
-        public ReflectedTable(Type type, TableId id, ClrTableField[] fields, LayoutKind? layout = null, CharSet? charset = null, byte? pack = null, uint? size = null)
+        public ReflectedTable(Type type, TableId id, ClrTableField[] fields, LayoutKind? layout, CharSet? charset, byte? pack, uint? size)
         {
 
             Type = type;
@@ -58,7 +41,11 @@ namespace Z0
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => Id.IsEmpty || Fields == null;
+            get => Id.IsEmpty || Fields.IsEmpty;
         }
+
+        public int CompareTo(ReflectedTable src)
+            => Type.DisplayName().CompareTo(src.Type.DisplayName());
+
     }
 }

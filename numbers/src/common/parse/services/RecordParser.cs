@@ -35,7 +35,7 @@ namespace Z0
                 dst = Activator.CreateInstance(Table.Type);
                 for(var i=0; i<count; i++)
                 {
-                    ref readonly var field = ref skip(fields,i);
+                    ref readonly var field = ref fields[i];
                     ref readonly var value = ref skip(values,i);
                     result = Parser.Parse(field.DataType, value, out var v);
                     if(result.Fail)
