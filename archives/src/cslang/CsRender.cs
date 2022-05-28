@@ -27,7 +27,9 @@ namespace Z0
 
             for(var i=0; i<types.Length; i++)
             {
-                EnumReplicant(offset, types[i], dst);
+                var symbols = Symbols.set(types[i]);
+                Code(offset, symbols, dst);
+
                 if(i != 0 && i % 128 == 0)
                     log(EventFactory.babble(typeof(CsRender), string.Format("Generated code for {0} enums", i)));
             }
@@ -40,6 +42,17 @@ namespace Z0
 
             offset -= 4;
             dst.Indent(offset, Chars.RBrace);
+        }
+
+        public static void Code(uint offset, SymSet src, ITextEmitter dst)
+        {
+            dst.AppendLine();
+            CsRender.@enum(offset, src, dst);
+        }
+
+        public static void Data(uint offset, SymSet src, ITextEmitter dst)
+        {
+
         }
 
         public static void EnumReplicant(uint offset, Type type, ITextEmitter dst)
@@ -95,19 +108,16 @@ namespace Z0
             if(descriptions)
                 Require.equal(count, src.Descriptions.Length);
 
-            if(src.Description.IsNonEmpty)
-                dst.Append(comment(src.Description).Format(offset));
-
             Span<string> attribs = new string[12];
             var k=0u;
             if(src.Flags)
                 seek(attribs,k++) = "Flags";
-            if(src.SymbolKind.IsNonEmpty)
-                seek(attribs,k++) = string.Format("SymSource(\"{0}\")", src.SymbolKind);
+            if(text.nonempty(src.Group))
+                seek(attribs,k++) = string.Format("SymSource(\"{0}\")", src.Group);
             else
                 seek(attribs,k++) = "SymSource";
-            if(src.SymSize.Packed != src.SymSize.Native)
-                seek(attribs,k++) = $"DataWidth({src.SymSize.Packed})";
+            if(src.Size.Packed != src.Size.Native)
+                seek(attribs,k++) = $"DataWidth({src.Size.Packed})";
 
             dst.IndentLine(offset, text.bracket(text.join(", ", slice(attribs,0,k).ToArray())));
             dst.IndentLineFormat(offset, "public enum {0} : {1}", src.Name, NumericKinds.kind(src.DataType).Keyword());

@@ -16,9 +16,6 @@ namespace Z0
 
             public BitfieldServices Bitfields(IWfRuntime wf)
                 => Service<BitfieldServices>(wf);
-
-            public BitMaskServices ApiBitMasks(IWfRuntime wf)
-                => Service<BitMaskServices>(wf);
         }
 
         static Svc Services => Svc.Instance;
@@ -31,8 +28,5 @@ namespace Z0
 
         public static BitfieldServices Bitfields(this IWfRuntime wf)
             => Services.Bitfields(wf);
-
-        public static BitMaskServices ApiBitMasks(this IWfRuntime wf)
-            => Services.ApiBitMasks(wf);
     }
 }

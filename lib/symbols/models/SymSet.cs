@@ -11,31 +11,35 @@ namespace Z0
     /// </summary>
     public class SymSet
     {
-        public static SymSet create(uint count)
-            => new SymSet(count);
-
-        internal SymSet(uint count)
+        public SymSet(uint count, string name, ClrEnumKind type,  DataSize size, NumericBaseKind @base,  bool flags, string group)
         {
+            DataType = type;
+            Name = name;
+            Group = group;
+            SymbolCount = count;
+            Flags = flags;
+            Base = @base;
+            Size = size;
             Symbols = alloc<SymExpr>(count);
             Names = alloc<Identifier>(count);
             Values = alloc<SymVal>(count);
             Descriptions = alloc<TextBlock>(count);
-            Kinds = alloc<@string>(count);
-            Name = Identifier.Empty;
-            Description = TextBlock.Empty;
+            Positions = alloc<uint>(count);
         }
 
-        public Identifier Name;
+        public readonly string Name;
 
-        public DataSize SymSize;
+        public readonly ClrEnumKind DataType;
 
-        public ClrEnumKind DataType;
+        public readonly DataSize Size;
 
-        public bool Flags;
+        public readonly NumericBaseKind Base;
 
-        public Identifier SymbolKind;
+        public readonly bool Flags;
 
-        public TextBlock Description;
+        public readonly string Group;
+
+        public readonly uint SymbolCount;
 
         public readonly Index<Identifier> Names;
 
@@ -45,6 +49,29 @@ namespace Z0
 
         public readonly Index<TextBlock> Descriptions;
 
-        public readonly Index<@string> Kinds;
+        public readonly Index<uint> Positions;
+
+        public Index<SymInfo> Records()
+        {
+            var buffer = alloc<SymInfo>(SymbolCount);
+            for(var i=0; i <SymbolCount; i++)
+            {
+                ref readonly var name = ref Names[i];
+                ref readonly var symbol = ref Symbols[i];
+                ref readonly var value = ref Values[i];
+                ref readonly var desc = ref Descriptions[i];
+                ref readonly var index = ref Positions[i];
+                ref var dst = ref seek(buffer,i);
+                dst.Group = Group;
+                dst.Type = Name;
+                dst.Size = Size;
+                dst.Value = value;
+                dst.Name = name;
+                dst.Expr = symbol;
+                dst.Description = desc;
+                dst.Index = index;
+            }
+            return buffer;
+        }
     }
 }

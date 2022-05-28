@@ -30,14 +30,14 @@ namespace Z0
 
             DataParser.parse(skip(cells,j++), out dst.Component);
             DataParser.parse(skip(cells,j++), out dst.Type);
-            DataParser.parse(skip(cells,j++), out dst.Class);
+            DataParser.parse(skip(cells,j++), out dst.Group);
             DataParser.parse(skip(cells,j++), out dst.Size);
-            DataParser.parse(skip(cells,j++), out dst.Position);
+            DataParser.parse(skip(cells,j++), out dst.Index);
             DataParser.parse(skip(cells,j++), out dst.Name);
             DataParser.parse(skip(cells,j++), out dst.Symbol);
             DataParser.eparse(skip(cells,j++), out dst.DataType);
             DataParser.parse(skip(cells,j++), out dst.Value);
-            DataParser.eparse(skip(cells,j++), out dst.NumericBase);
+            DataParser.eparse(skip(cells,j++), out dst.Base);
             DataParser.parse(skip(cells,j++), out dst.Hidden);
             DataParser.parse(skip(cells,j++), out dst.Description);
             DataParser.parse(skip(cells,j++), out dst.Identity);
@@ -48,19 +48,19 @@ namespace Z0
         /// The component that defines the literal
         /// </summary>
         [Render(24)]
-        public Name Component;
-
-        /// <summary>
-        /// The literal's declaring type
-        /// </summary>
-        [Render(32)]
-        public Identifier Type;
+        public @string Component;
 
         /// <summary>
         /// A literal classifier
         /// </summary>
         [Render(16)]
-        public SymClass Class;
+        public @string Group;
+
+        /// <summary>
+        /// The literal's declaring type
+        /// </summary>
+        [Render(32)]
+        public @string Type;
 
         /// <summary>
         /// The token size
@@ -72,13 +72,13 @@ namespace Z0
         /// The container-relative declaration order of the literal
         /// </summary>
         [Render(10)]
-        public ushort Position;
+        public uint Index;
 
         /// <summary>
         /// The literal name
         /// </summary>
         [Render(64)]
-        public Identifier Name;
+        public @string Name;
 
         /// <summary>
         /// The symbol, if so attributed, otherwise, the identifier
@@ -102,7 +102,7 @@ namespace Z0
         /// The numeric base interpretation given to the literal
         /// </summary>
         [Render(12)]
-        public NumericBaseKind NumericBase;
+        public NumericBaseKind Base;
 
         /// <summary>
         /// Indicates whether the literal is occluded

@@ -4,9 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [ApiHost]
-    public readonly partial struct Hex
+    partial class Literals
     {
-        const NumericKind Closure = UnsignedInts;
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static Literal<T> literal<T>(string name, T value)
+            => new Literal<T>(name, value);
     }
 }

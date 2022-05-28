@@ -31,7 +31,7 @@ namespace Z0.llvm
             var name = "AsmId";
             ItemList<string> items = (name, asmids.Map(x => new ListItem<string>(x.Key, x.Value.Format())));
             CsLang.EmitStringTable(TargetNs, ClrEnumKind.U16, items, CgTarget.Llvm, true);
-            var literals = @readonly(map(DataProvider.AsmIdentifiers().Entries,e => Literals.define(e.Key, e.Value.Id)));
+            var literals = @readonly(map(DataProvider.AsmIdentifiers().Entries,e => Literals.literal(e.Key, e.Value.Id)));
             var buffer = text.buffer();
             var offset = 0u;
             buffer.IndentLineFormat(offset, "namespace {0}", "Z0");

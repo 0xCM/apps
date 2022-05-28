@@ -10,38 +10,11 @@ namespace Z0.Asm
     {
         IntelSdm Sdm => Service(Wf.IntelSdm);
 
-        const string Ops1Pattern = "{0}";
-
-        const string Ops2Pattern = "{0}, {1}";
-
-        const string Ops3Pattern = "{0}, {1}, {2}";
-
-        const string Ops4Pattern = "{0}, {1}, {2}, {3}";
-
-        const string Ops5Pattern = "{0}, {1}, {2}, {3}, {4}";
-
         const string TargetNamespace = "Z0.Asm";
 
         const string AsmSigTableName = "AsmSigST";
 
         const string MnemonicNameProvider = "AsmMnemonicNames";
-
-        Index<string> OpsPatterns()
-        {
-            return state(nameof(OpsPatterns), Load);
-
-            Index<string> Load()
-            {
-                var dst = alloc<string>(5);
-                var i=0;
-                seek(dst,i++) = Ops1Pattern;
-                seek(dst,i++) = Ops2Pattern;
-                seek(dst,i++) = Ops3Pattern;
-                seek(dst,i++) = Ops4Pattern;
-                seek(dst,i++) = Ops5Pattern;
-                return dst;
-            }
-        }
 
         CsLang CsLang => Service(Wf.CsLang);
 
@@ -55,13 +28,11 @@ namespace Z0.Asm
 
         public void GenMnemonicNames()
         {
-            var g = CsLang.LiteralProviders();
             var src = Sdm.CalcMnemonics().Select(x => x.Format(MnemonicCase.Lowercase));
-            var dst = CsLang.SourceFile(MnemonicNameProvider, CgTarget.Intel);
-            var names = src.View;
-            var values = src.View;
-            var literals = Literals.seq(MnemonicNameProvider, names, values);
-            g.Emit(TargetNamespace, literals, dst);
+            CsLang.LiteralProviders().Emit(TargetNamespace,
+                Literals.seq(MnemonicNameProvider, src.View),
+                CsLang.SourceFile(MnemonicNameProvider, CgTarget.Intel)
+                );
         }
 
         public void GenFormKinds()

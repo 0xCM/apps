@@ -11,15 +11,14 @@ namespace Z0
         public static SymSet set(Type src)
         {
             var specs = Symbols.syminfo(src);
-            var count = specs.Length;
+            var tag = src.Tag<SymSourceAttribute>();
+            var count = specs.Count;
+            var size = Sizes.measure(src);
+            var flags = src.Tag<FlagsAttribute>().IsSome();
+            var @base = tag.MapValueOrDefault(x => x.NumericBase, NumericBaseKind.Base10);
             var type = Enums.@base(src);
-            var dst = new SymSet((uint)count);
-            var attrib = src.Tag<SymSourceAttribute>();
-            dst.Name = src.Name;
-            dst.DataType = type;
-            dst.SymSize = Sizes.measure(src);
-            dst.Flags = src.Tag<FlagsAttribute>().IsSome();
-            dst.SymbolKind = src.Tag<SymSourceAttribute>().MapValueOrElse(x => x.SymGroup, () => EmptyString);
+            var group = tag.MapValueOrDefault(x => x.SymGroup, EmptyString);
+            var dst = new SymSet(count, src.Name, type, size, @base, flags, group);
             for(var i=0; i<count; i++)
             {
                 ref readonly var spec = ref specs[i];
@@ -27,29 +26,23 @@ namespace Z0
                 dst.Names[i] = spec.Name;
                 dst.Values[i] = spec.Value;
                 dst.Descriptions[i] = spec.Description;
-                dst.Kinds[i] = spec.Description.Format();
+                dst.Positions[i] = spec.Index;
             }
-
             return dst;
         }
 
-        public static SymSet set(Identifier name, ClrEnumKind @base, DataSize size, ReadOnlySpan<string> members)
+        public static SymSet set(Identifier name, ClrEnumKind type, DataSize size, ReadOnlySpan<string> members, NumericBaseKind @base = NumericBaseKind.Base10)
         {
-            var count = members.Length;
-            var dst = new SymSet((uint)count);
-            dst.Name = name;
-            dst.DataType = @base;
-            dst.SymbolKind = EmptyString;
-            dst.SymSize = size;
-            for(var i=0; i<count; i++)
+            var count = (uint)members.Length;
+            var dst = new SymSet(count, name, type, size, @base, false, EmptyString);
+            for(var i=0u; i<count; i++)
             {
                 ref readonly var member = ref skip(members,i);
                 dst.Symbols[i] = member;
                 dst.Names[i] = member;
                 dst.Values[i] = i;
                 dst.Descriptions[i] = EmptyString;
-                dst.Kinds[i] = EmptyString;
-
+                dst.Positions[i] = i;
             }
             return dst;
         }

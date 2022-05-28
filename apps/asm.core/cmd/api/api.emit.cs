@@ -10,11 +10,9 @@ namespace Z0
 
     partial class AsmCoreCmd
     {
-        ApiServices ApiSvc => Service(Wf.ApiServices);
+        ApiEmitters ApiEmitters => Wf.ApiEmitters();
 
-        ApiEmitters ApiEmitters => ApiSvc.Emitters;
-
-        ApiComments ApiComments => ApiSvc.Comments;
+        ApiComments ApiComments => Wf.ApiComments();
 
         ApiPackArchive ApiPacks => ApiPackArchive.create(AppDb.ApiTargets("capture"));
 

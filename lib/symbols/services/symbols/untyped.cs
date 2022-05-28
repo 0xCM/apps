@@ -13,7 +13,7 @@ namespace Z0
         [Op, Closures(Closure)]
         internal static Sym untyped<T>(Sym<T> src)
             where T : unmanaged
-                => new Sym(src.Identity, src.Class, src.Key, src.Type, bw64(src.Kind), src.Name, src.Expr.Text, src.Description, src.Hidden, src.Kind, src.Size);
+                => new Sym(src.Identity, src.Group, src.Key, src.Type, bw64(src.Kind), src.Name, src.Expr.Text, src.Description, src.Hidden, src.Kind, src.Size);
 
         public static SymIndex untyped(Type src)
         {
@@ -29,14 +29,14 @@ namespace Z0
             var dst = new SymLiteralRow();
             dst.Component = src.Component.SimpleName;
             dst.Type = src.Type;
-            dst.Class = src.Class;
+            dst.Group = src.Group;
             dst.Size = src.Size;
-            dst.Position = src.Position;
+            dst.Index = src.Index;
             dst.Name = src.Name;
             dst.Symbol = src.Symbol;
             dst.DataType = src.DataType;
             dst.Value = src.Value;
-            dst.NumericBase = NumericBaseKind.Base10;
+            dst.Base = NumericBaseKind.Base10;
             dst.Description = src.Description;
             dst.Hidden = src.Hidden;
             dst.Identity = src.Identity;

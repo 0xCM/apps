@@ -17,19 +17,20 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var type = ref skip(src,i);
-                var symbols = untyped(type).View;
+                var symbols = untyped(type);
+                var size = Sizes.measure(type);
                 for(var j=0u; j<symbols.Length; j++)
                 {
-                    ref readonly var symbol = ref skip(symbols,j);
+                    ref readonly var symbol = ref symbols[j];
                     var record = new SymInfo();
                     var tag = type.Tag<SymSourceAttribute>();
-                    var nbk = tag.MapValueOrDefault(t => t.NumericBase, NumericBaseKind.Base10);
-                    record.TokenType = type.Name;
-                    record.TokenKind = type.Name;
-                    record.TokenClass = symbol.Class;
-                    record.TokenSize = Sizes.measure(type);
+                    var group = tag.MapValueOrDefault(x => x.SymGroup, EmptyString);
+                    var @base = tag.MapValueOrDefault(t => t.NumericBase, NumericBaseKind.Base10);
                     record.Index = j;
-                    record.Value = (symbol.Value,nbk);
+                    record.Type = type.Name;
+                    record.Group = group;
+                    record.Size = size;
+                    record.Value = (symbol.Value,@base);
                     record.Name = symbol.Name;
                     record.Expr = symbol.Expr;
                     record.Description = symbol.Description;
@@ -49,20 +50,20 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var type = ref skip(src,i);
-                var symbols = untyped(type).View;
+                var symbols = untyped(type);
+                var size = Sizes.measure(type);
                 for(var j=0u; j<symbols.Length; j++)
                 {
-                    ref readonly var symbol = ref skip(symbols,j);
+                    ref readonly var symbol = ref symbols[j];
                     var record = new SymInfo();
                     var tag = type.Tag<SymSourceAttribute>();
-                    var nbk = tag.MapValueOrDefault(t => t.NumericBase, NumericBaseKind.Base10);
-                    var kind = tag.MapRequired(t => t.SymKind);
-                    record.TokenType = type.Name;
-                    record.TokenKind = kind.ToString();
-                    record.TokenClass = symbol.Class;
-                    record.TokenSize = Sizes.measure(type);
+                    var @base = tag.MapValueOrDefault(t => t.NumericBase, NumericBaseKind.Base10);
+                    var group = tag.MapValueOrDefault(x => x.SymGroup, EmptyString);
                     record.Index = j;
-                    record.Value = (symbol.Value,nbk);
+                    record.Type = type.Name;
+                    record.Group = group;
+                    record.Size = size;
+                    record.Value = (symbol.Value,@base);
                     record.Name = symbol.Name;
                     record.Expr = symbol.Expr;
                     record.Description = symbol.Description;
@@ -75,21 +76,22 @@ namespace Z0
         [Op]
         public static Index<SymInfo> syminfo(Type src)
         {
-            var symbols = Symbols.untyped(src).View;
+            var symbols = Symbols.untyped(src);
             var count = symbols.Length;
             var tag = src.Tag<SymSourceAttribute>();
-            var nbk = tag.MapValueOrDefault(t => t.NumericBase, NumericBaseKind.Base10);
+            var @base = tag.MapValueOrDefault(t => t.NumericBase, NumericBaseKind.Base10);
+            var group = tag.MapValueOrDefault(x => x.SymGroup, EmptyString);
             var buffer = alloc<SymInfo>(count);
+            var size = Sizes.measure(src);
             for(var i=0u; i<count; i++)
             {
-                ref readonly var symbol = ref skip(symbols,i);
+                ref readonly var symbol = ref symbols[i];
                 ref var dst = ref seek(buffer,i);
-                dst.TokenType = src.Name;
-                dst.TokenClass = symbol.Class;
-                dst.TokenKind = src.Name;
-                dst.TokenSize = Sizes.measure(src);
                 dst.Index = i;
-                dst.Value = (symbol.Value, nbk);
+                dst.Type = src.Name;
+                dst.Group = group;
+                dst.Size = size;
+                dst.Value = (symbol.Value, @base);
                 dst.Name =  symbol.Name;
                 dst.Expr = symbol.Expr;
                 dst.Description = symbol.Description;

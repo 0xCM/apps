@@ -12,47 +12,62 @@ namespace Z0
         /// <summary>
         /// The component that defines the literal
         /// </summary>
-        public ClrAssemblyName Component;
-
-        /// <summary>
-        /// The literal's declaring type
-        /// </summary>
-        public Identifier Type;
+        [Render(24)]
+        public Name Component;
 
         /// <summary>
         /// A literal classifier
         /// </summary>
-        public SymClass Class;
+        [Render(16)]
+        public @string Group;
+
+        /// <summary>
+        /// The literal's declaring type
+        /// </summary>
+        [Render(32)]
+        public Identifier Type;
 
         /// <summary>
         /// The token size
         /// </summary>
+        [Render(12)]
         public DataSize Size;
 
         /// <summary>
         /// The container-relative declaration order of the literal
         /// </summary>
-        public ushort Position;
+        [Render(10)]
+        public ushort Index;
 
         /// <summary>
         /// The literal name
         /// </summary>
-        public string Name;
+        [Render(64)]
+        public @string Name;
 
         /// <summary>
         /// The symbol, if so attributed, otherwise, the identifier
         /// </summary>
+        [Render(64)]
         public SymExpr Symbol;
 
         /// <summary>
         /// The literal's primitive classifier
         /// </summary>
+        [Render(12)]
         public ClrPrimitiveKind DataType;
 
         /// <summary>
         /// The encoded literal, possibly an invariant address to a string resource
         /// </summary>
+        [Render(22)]
         public SymVal Value;
+
+        /// <summary>
+        /// The numeric base interpretation given to the literal
+        /// </summary>
+        [Render(8)]
+        public NumericBaseKind Base;
 
         /// <summary>
         /// Indicates whether the literal is occluded

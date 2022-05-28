@@ -9,9 +9,9 @@ namespace Z0
     {
         Index<Literal<T>> Data;
 
-        public Identifier Name {get;}
+        public readonly string Name;
 
-        public LiteralSeq(Identifier name, Literal<T>[] values)
+        public LiteralSeq(string name, Literal<T>[] values)
         {
             Name = name;
             Data = values;
@@ -22,7 +22,6 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Data;
         }
-
 
         public ref readonly Literal<T> this[ulong index]
         {
@@ -41,5 +40,8 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Data.Count;
         }
+
+        Identifier ILiteralSeq<T>.Name
+            => Name;
     }
 }

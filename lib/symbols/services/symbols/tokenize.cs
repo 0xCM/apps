@@ -8,26 +8,21 @@ namespace Z0
 
     partial struct Symbols
     {
-        public static Index<Token> tokenize(Type symtype)
+        public static Index<Token> tokenize(Type src)
         {
-            var symbols = untyped(symtype).View;
+            var symbols = untyped(src);
             var count = symbols.Length;
             var dst = alloc<Token>(count);
-            for(var i=0; i<count; i++)
+            for(var i=0u; i<count; i++)
             {
-                ref readonly var symbol = ref skip(symbols,i);
-                seek(dst,i) = new Token(symbol.Key, symbol.Class, symbol.Type.Name.Content, symbol.Name, symbol.Expr.Text, symbol.Value);
+                ref readonly var symbol = ref symbols[i];
+                seek(dst,i) = new Token(symbol.Key, symbol.Group, symbol.Type.Name.Content, symbol.Name, symbol.Expr.Text, symbol.Value);
             }
             return dst;
         }
 
-        public static Index<Token<K>> tokenize<K>(Type symtype)
+        public static Index<Token<K>> tokenize<K>(Type src)
             where K : unmanaged
-        {
-            var tag = symtype.Tag<SymSourceAttribute>().Require();
-            var kind = (K)tag.SymKind;
-            var src = tokenize(symtype);
-            return map(src, t => t.WithKind(kind));
-        }
+                => map(tokenize(src), t => t.WithKind(@as<ulong,K>(t.Value)));
     }
 }

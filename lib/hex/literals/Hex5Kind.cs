@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines identifiers corresponding to each value that can be represented with a 5-bit unsigned integer
     /// </summary>
-    [SymSource(SymGroups.hex, NumericBaseKind.Base16), DataWidth(5)]
+    [SymSource("hex", NumericBaseKind.Base16), DataWidth(5)]
     public enum Hex5Kind : byte
     {
         /// <summary>

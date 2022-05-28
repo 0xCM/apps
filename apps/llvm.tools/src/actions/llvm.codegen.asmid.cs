@@ -21,7 +21,7 @@ namespace Z0.llvm
                 emitIndex:true
                 );
             ItemList<string> items = ("AsmId", asmids.Map(x => new ListItem<string>(x.Key, x.Value.Format())));
-            var literals = @readonly(map(DataProvider.AsmIdentifiers().Entries,e => Literals.define(e.Key, e.Value.Id)));
+            var literals = @readonly(map(DataProvider.AsmIdentifiers().Entries,e => Literals.literal(e.Key, e.Value.Id)));
             var dst = text.buffer();
             CsRender.@enum(0u, "AsmId", literals, dst);
             Write(dst.Emit());

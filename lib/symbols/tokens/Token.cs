@@ -9,7 +9,7 @@ namespace Z0
     {
         public readonly SymKey Key;
 
-        public readonly SymClass Class;
+        public readonly @string Group;
 
         public readonly Identifier Type;
 
@@ -20,10 +20,10 @@ namespace Z0
         public readonly SymVal Value;
 
         [MethodImpl(Inline)]
-        public Token(SymKey key, SymClass @class, Identifier type, Identifier name, SymExpr expr, SymVal value)
+        public Token(SymKey key, @string group, Identifier type, Identifier name, SymExpr expr, SymVal value)
         {
             Key = key;
-            Class = @class;
+            Group = group;
             Type = type;
             Name = name;
             Expr = expr;
@@ -33,7 +33,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public Token<K> WithKind<K>(K kind)
             where K : unmanaged
-                => new Token<K>(kind,Key,Class,Type,Name,Expr,Value);
+                => new Token<K>(kind, Key, Group, Type, Name, Expr, Value);
 
         public string Format()
             => string.Format("{0,-5} | {1,-36} | {2,-64} | {3,-64} | {4}", Key, Type, Name, RP.squote(Expr), Value);

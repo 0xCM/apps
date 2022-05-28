@@ -8,9 +8,9 @@ namespace Z0
 
     public class ApiEmitters : AppService<ApiEmitters>
     {
-        ApiServices ApiSvc => Service(Wf.ApiServices);
-
         Heaps Heaps => Wf.Heaps();
+
+        ApiMd ApiMd => Wf.ApiMetadata();
 
         AppSvcOps AppSvc
             => Service(Wf.AppSvc);
@@ -88,47 +88,11 @@ namespace Z0
             return buffer;
         }
 
-        public Index<SymDetailRow> EmitDetails<E>(Symbols<E> src, FS.FilePath dst)
-            where E : unmanaged, Enum
-        {
-            var count = src.Count;
-            var buffer = alloc<SymDetailRow>(count);
-            for(var i=0; i<count; i++)
-                Symbols.detail(src[i], (ushort)count, out seek(buffer,i));
-            AppSvc.TableEmit(buffer,dst);
-            return buffer;
-        }
-
         public Index<SymInfo> EmitTokens(Type src)
         {
             var tokens = Symbols.syminfo(src);
             WfEmit.TableEmit(tokens, ApiTargets().Table<SymInfo>("tokens" + "." +  src.Name.ToLower()));
             return tokens;
-        }
-
-        public Index<SymInfo> LoadTokens(string name)
-        {
-            var src = ApiTargets().Table<SymInfo>("tokens" + "." +  name.ToLower());
-            using var reader = src.TableReader<SymInfo>(SymInfo.parse);
-            var header = reader.Header.Split(Chars.Pipe);
-            if(header.Length != SymInfo.FieldCount)
-            {
-                Error(AppMsg.FieldCountMismatch.Format(SymInfo.FieldCount, header.Length));
-                return Index<SymInfo>.Empty;
-            }
-            var dst = list<SymInfo>();
-            while(!reader.Complete)
-            {
-                var outcome = reader.ReadRow(out var row);
-                if(!outcome)
-                {
-                    Error(outcome.Message);
-                    break;
-                }
-                dst.Add(row);
-            }
-
-            return dst.ToArray();
         }
 
         void ApiEmit(Index<SymLiteralRow> symlits)
@@ -141,39 +105,43 @@ namespace Z0
                 EmitParsers,
                 EmitApiTables,
                 EmitApiCommands,
+                EmitApiBitMasks,
                 () => EmitSymHeap(symlits),
                 () => EmitSymLits(symlits)
             );
 
         void EmitApiCommands()
-            => ApiSvc.Emit(ApiSvc.CalcApiCommands());
+            => ApiMd.Emit(ApiMd.ApiCommands);
 
         void EmitCompilationLits()
-            => ApiSvc.Emit(ApiSvc.CalcCompilationLits());
+            => ApiMd.Emit(ApiMd.ApiLiterals);
 
         void EmitComments()
-            => ApiSvc.EmitComments();
+            => ApiMd.EmitComments();
+
+        void EmitApiBitMasks()
+            => ApiMd.Emit(ApiMd.ApiBitMasks);
 
         void EmitTypeLists()
         {
-            ApiSvc.EmitTypeList("api.types.enums", ApiSvc.CalcEnumTypes());
-            ApiSvc.EmitTypeList("api.types.records", CalcRecordTypes());
+            ApiMd.EmitTypeList("api.types.enums", ApiMd.EnumTypes);
+            ApiMd.EmitTypeList("api.types.records", CalcRecordTypes());
         }
 
         void EmitDataFlows()
-            => ApiSvc.Emit(ApiSvc.CalcDataFlows());
+            => ApiMd.Emit(ApiMd.DataFlows);
 
         void EmitDataTypes()
-            => ApiSvc.Emit(ApiSvc.CalcDataTypes());
+            => ApiMd.Emit(ApiMd.DataTypes);
 
         void EmitSymLits(Index<SymLiteralRow> src)
-            => ApiSvc.Emit(src);
+            => ApiMd.Emit(src);
 
         void EmitSymHeap(Index<SymLiteralRow> src)
             => Heaps.Emit(Heaps.symbols(src));
 
         void EmitApiTables()
-            => ApiSvc.Emit(CalcTableFields());
+            => ApiMd.Emit(CalcTableFields());
 
         void EmitParsers()
         {

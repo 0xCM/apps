@@ -17,13 +17,13 @@ namespace Z0
         /// The literal's declaring type
         /// </summary>
         [Render(32)]
-        public Identifier Type;
+        public string Type;
 
         /// <summary>
         /// A literal classifier
         /// </summary>
         [Render(16)]
-        public SymClass Class;
+        public @string Group;
 
         /// <summary>
         /// The token size
@@ -35,7 +35,7 @@ namespace Z0
         /// The container-relative declaration order of the literal
         /// </summary>
         [Render(10)]
-        public ushort Position;
+        public uint Index;
 
         /// <summary>
         /// The literal name

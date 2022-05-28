@@ -33,12 +33,6 @@ namespace Z0
             get => core.nonempty(Name);
         }
 
-        public string Group
-            => Symbols.symgroup(this);
-
-        public string Kind
-            => Symbols.symkind(this);
-
         public string Format()
             => Name ?? EmptyString;
 

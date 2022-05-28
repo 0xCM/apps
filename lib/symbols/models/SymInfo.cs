@@ -25,38 +25,34 @@ namespace Z0
                 return (false, AppMsg.FieldCountMismatch.Format(FieldCount, cells.Length));
             }
 
-            DataParser.parse(skip(cells,j++), out dst.TokenKind);
-            DataParser.parse(skip(cells,j++), out dst.TokenType);
-            DataParser.parse(skip(cells,j++), out dst.TokenClass);
-            DataParser.parse(skip(cells,j++), out dst.TokenSize);
+            DataParser.parse(skip(cells,j++), out dst.Group);
+            DataParser.parse(skip(cells,j++), out dst.Type);
+            DataParser.parse(skip(cells,j++), out dst.Size);
             DataParser.parse(skip(cells,j++), out dst.Index);
-            DataParser.parse(skip(cells,j++), out dst.Value);
             DataParser.parse(skip(cells,j++), out dst.Name);
+            DataParser.parse(skip(cells,j++), out dst.Value);
             DataParser.parse(skip(cells,j++), out dst.Expr);
             DataParser.parse(skip(cells,j++), out dst.Description);
             return outcome;
         }
 
         [Render(24)]
-        public Identifier TokenKind;
+        public @string Group;
 
         [Render(24)]
-        public Identifier TokenType;
-
-        [Render(32)]
-        public SymClass TokenClass;
+        public @string Type;
 
         [Render(12)]
-        public DataSize TokenSize;
+        public DataSize Size;
 
         [Render(8)]
         public uint Index;
 
-        [Render(16)]
-        public SymVal Value;
-
         [Render(64)]
         public Identifier Name;
+
+        [Render(16)]
+        public SymVal Value;
 
         [Render(64)]
         public SymExpr Expr;

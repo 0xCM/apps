@@ -19,13 +19,13 @@ namespace Z0
             var type = typeof(E);
             dst.Component = typeof(E).Assembly;
             dst.DataType = PrimalBits.kind(type);
-            dst.Class = src.Class;
+            dst.Group = src.Group;
             dst.Size = src.Size;
             dst.Description = src.Description;
             dst.Value = src.Value;
             dst.Identity = src.Identity;
             dst.Name = src.Name;
-            dst.Position = (ushort)src.Key.Value;
+            dst.Index = (uint)src.Key.Value;
             dst.Symbol = (src.Kind, src.Expr.Format());
             dst.Type = src.Type;
             dst.Hidden = src.Hidden;

@@ -46,7 +46,7 @@ namespace Z0
             for(var i=0u; i<count; i++)
             {
                 ref readonly var lit = ref skip(src,i);
-                seek(dst,i) = new Sym(lit.Identity, lit.Class, lit.Position, lit.Type, lit.Value, lit.Name, lit.Symbol.Text, lit.Description, lit.Hidden, lit.FieldValue, lit.Size);
+                seek(dst,i) = new Sym(lit.Identity, lit.Group, lit.Index, lit.Type, lit.Value, lit.Name, lit.Symbol.Text, lit.Description, lit.Hidden, lit.FieldValue, lit.Size);
             }
 
             return new SymIndex(symbols, luString(symbols), luValue(symbols));
@@ -55,7 +55,7 @@ namespace Z0
         [Op, Closures(Closure)]
         static Sym untype<T>(Sym<T> src)
             where T : unmanaged
-                => new Sym(src.Identity, src.Class, src.Key, src.Type, bw64(src.Kind), src.Name, src.Expr.Text, src.Description, src.Hidden, src.Kind, src.Size);
+                => new Sym(src.Identity, src.Group, src.Key, src.Type, bw64(src.Kind), src.Name, src.Expr.Text, src.Description, src.Hidden, src.Kind, src.Size);
 
         public static SymIndex untype<E>(Sym<E>[] src)
             where E : unmanaged
@@ -160,7 +160,7 @@ namespace Z0
             var count = fields.Length;
             var dst = span<SymLiteral<E>>(count);
             var kind = PrimalBits.kind(src);
-            var @class = Symbols.@class(typeof(E));
+            var group = Symbols.group(typeof(E));
             var size = Sizes.measure(src);
             var counter = 0u;
             for(var i=z16; i<count; i++)
@@ -173,9 +173,9 @@ namespace Z0
                 row.Component = component;
                 row.Type = src.Name;
                 row.DataType = kind;
-                row.Class = @class;
+                row.Group = group;
                 row.Size = size;
-                row.Position = i;
+                row.Index = i;
                 row.Name = f.Name;
                 row.Symbol = (litval,expr);
                 row.Value = @ulong(kind, litval);
@@ -191,30 +191,33 @@ namespace Z0
         static Span<SymLiteral> discover(Type src)
         {
             ClrAssemblyName component = src.Assembly;
+            var tag = src.Tag<SymSourceAttribute>();
             var fields = src.LiteralFields().ToReadOnlySpan();
             var count = fields.Length;
             var dst = span<SymLiteral>(count);
             var kind = PrimalBits.kind(src);
-            var @class = Symbols.@class(src);
+            var group = Symbols.group(src);
             var size = Sizes.measure(src);
+            var @base = tag.MapValueOrDefault(t => t.NumericBase, NumericBaseKind.Base10);
             var counter = 0u;
             for(var i=z16; i<count; i++)
             {
                 ref readonly var f = ref skip(fields,i);
-                var tag = f.Tag<SymbolAttribute>();
+                var symtag = f.Tag<SymbolAttribute>();
                 ref var row = ref seek(dst,i);
-                var expr = tag ? tag.Value.Symbol : f.Name;
+                var expr = symtag ? symtag.Value.Symbol : f.Name;
                 var litval = f.GetRawConstantValue();
-                row.Component = component;
+                row.Component = src.Assembly.GetSimpleName();
                 row.Type = src.Name;
                 row.DataType = kind;
-                row.Class = @class;
+                row.Group = group;
                 row.Size = size;
-                row.Position = i;
+                row.Base = @base;
+                row.Index = i;
                 row.Name = f.Name;
                 row.Symbol = expr;
                 row.Value = @ulong(kind, litval);
-                row.Description = tag.MapValueOrDefault(a => a.Description, EmptyString);
+                row.Description = symtag.MapValueOrDefault(a => a.Description, EmptyString);
                 row.Identity = identity(f, i, expr);
                 row.Hidden = f.Ignored();
                 row.FieldValue = litval;

@@ -6,12 +6,12 @@ namespace Z0
 {
     public readonly struct ApiClassifier
     {
-        public readonly Name Type;
+        public readonly @string Type;
 
         public readonly Index<SymLiteralRow> Literals;
 
         [MethodImpl(Inline)]
-        public ApiClassifier(Name type, Index<SymLiteralRow> literals)
+        public ApiClassifier(@string type, Index<SymLiteralRow> literals)
         {
             Type = type;
             Literals = literals;

@@ -14,6 +14,16 @@ namespace Z0.Asm
 
         const NumericKind Closure = UnsignedInts;
 
+        public class OcTokenKind : TokenKindAttribute<TK>
+        {
+            public OcTokenKind(TK kind)
+                : base(kind)
+            {
+
+
+            }
+        }
+
         [LiteralProvider]
         public readonly struct OpCodeText
         {
@@ -130,7 +140,7 @@ namespace Z0.Asm
             public const string rd7 = "/7";
         }
 
-        [SymSource(Group, TK.Hex16)]
+        [SymSource(Group), OcTokenKind(TK.Hex16)]
         public enum Hex16Token : byte
         {
             [Symbol(T.x0F38)]
@@ -140,14 +150,14 @@ namespace Z0.Asm
             x0F3A,
         }
 
-        [SymSource(Group, TK.Integer)]
+        [SymSource(Group), OcTokenKind(TK.Integer)]
         public enum IntegerToken : byte
         {
             [Symbol(T.n1)]
             x1,
         }
 
-        [SymSource(Group, TK.Rex)]
+        [SymSource(Group), OcTokenKind(TK.Rex)]
         public enum RexToken : byte
         {
             [Symbol(T.Rex, "Indicates the presence of a REX prefix")]
@@ -160,7 +170,7 @@ namespace Z0.Asm
             RexR,
         }
 
-        [SymSource(Group, TK.Vex)]
+        [SymSource(Group), OcTokenKind(TK.Vex)]
         public enum VexToken : byte
         {
             [Symbol(T.W, "Opcode extension field")]
@@ -221,7 +231,7 @@ namespace Z0.Asm
             Vsib,
         }
 
-        [SymSource(Group, TK.Evex)]
+        [SymSource(Group), OcTokenKind(TK.Evex)]
         public enum EvexToken : byte
         {
             [Symbol(T.Evex)]
@@ -231,7 +241,7 @@ namespace Z0.Asm
             W512,
         }
 
-        [SymSource(Group, TK.Disp)]
+        [SymSource(Group), OcTokenKind(TK.Disp)]
         public enum DispToken : byte
         {
             [Symbol(T.cb, "Indicates a 1-byte value follows the opcode to specify a code offset and/or new value for the code segment register")]
@@ -253,7 +263,7 @@ namespace Z0.Asm
             ct,
         }
 
-        [SymSource(Group, TK.SegOverride)]
+        [SymSource(Group), OcTokenKind(TK.SegOverride)]
         public enum SegOverrideToken : byte
         {
             [Symbol("cs", "CS segment override")]
@@ -275,7 +285,7 @@ namespace Z0.Asm
             GS,
         }
 
-        [SymSource(Group, TK.RegDigit)]
+        [SymSource(Group), OcTokenKind(TK.RegDigit)]
         public enum RegDigitToken : byte
         {
             [Symbol(T.rd0, "The ModR/M byte of the instruction uses only the r/m operand; The register field digit 0 provides an extension to the instruction's opcode")]
@@ -307,7 +317,7 @@ namespace Z0.Asm
         /// Specifies a '/r' token where r = 0..7. A digit between 0 and 7 indicates that the ModR/M byte of the instruction
         /// uses only the r/m (register or memory) operand. The reg field contains the digit that provides an extension to the instruction's opcode.
         /// </summary>
-        [SymSource(Group, TK.ModRm)]
+        [SymSource(Group), OcTokenKind(TK.ModRm)]
         public enum ModRmToken : byte
         {
             [Symbol(T.RRM, "The ModR/M byte of the instruction contains a register operand and an r/m operand")]
@@ -317,7 +327,7 @@ namespace Z0.Asm
         /// <summary>
         /// Indicates the lower 3 bits of the opcode byte is used to encode the register operand without a modR/M byte Represents one of ['+rb', '+rw', '+rd', '+ro']
         /// </summary>
-        [SymSource(Group, TK.RexB)]
+        [SymSource(Group), OcTokenKind(TK.RexB)]
         public enum RexBToken : byte
         {
             [Symbol("+rb", "For an 8-bit register, indicates the four bit field of REX.b and opcode[2:0] field encodes the register operand of the instruction")]
@@ -336,7 +346,7 @@ namespace Z0.Asm
         /// <summary>
         /// "Specifies the size of an immediate operand in the context of an opcode specification"
         /// </summary>
-        [SymSource(Group, TK.ImmSize)]
+        [SymSource(Group), OcTokenKind(TK.ImmSize)]
         public enum ImmSizeToken : byte
         {
             [Symbol(T.ib, "Indicates a 1-byte immediate operand to the instruction that follows the opcode or ModR/M bytes or scale-indexing bytes.")]
@@ -352,7 +362,7 @@ namespace Z0.Asm
             io,
         }
 
-        [SymSource(Group, TK.FpuDigit)]
+        [SymSource(Group), OcTokenKind(TK.FpuDigit)]
         public enum FpuDigitToken : byte
         {
             [Symbol(T.ST0)]
@@ -380,7 +390,7 @@ namespace Z0.Asm
             st7,
         }
 
-        [SymSource(Group, TK.Exclusion)]
+        [SymSource(Group), OcTokenKind(TK.Exclusion)]
         public enum ExclusionToken
         {
             [Symbol(T.NP, "Indicates the use of 66/F2/F3 prefixes are not allowed with the instruction")]
@@ -393,7 +403,7 @@ namespace Z0.Asm
             NDS,
         }
 
-        [SymSource(Group, TK.Mask)]
+        [SymSource(Group), OcTokenKind(TK.Mask)]
         public enum MaskToken : byte
         {
             [Symbol("{k1}", "Indicates a mask register used as instruction writemask for instructions that do not allow zeroing-masking but support merging-masking")]
@@ -406,7 +416,7 @@ namespace Z0.Asm
             WriteMask,
         }
 
-        [SymSource(Group, TK.Operator)]
+        [SymSource(Group), OcTokenKind(TK.Operator)]
         public enum OperatorToken : byte
         {
             [Symbol(T.Plus)]
@@ -417,7 +427,7 @@ namespace Z0.Asm
 
         }
 
-        [SymSource(Group, TK.Sep)]
+        [SymSource(Group), OcTokenKind(TK.Sep)]
         public enum SeparatorToken : byte
         {
             [Symbol(T.Sep)]

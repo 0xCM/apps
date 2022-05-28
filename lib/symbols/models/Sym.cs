@@ -10,7 +10,7 @@ namespace Z0
 
         public SymIdentity Identity {get;}
 
-        public SymClass Class {get;}
+        public string Group {get;}
 
         public SymKey Key {get;}
 
@@ -36,7 +36,7 @@ namespace Z0
         {
             Identity = SymIdentity.Empty;
             Key = default;
-            Class = SymClass.Empty;
+            Group = EmptyString;
             Name = Identifier.Empty;
             Kind = default;
             Expr = SymExpr.Empty;
@@ -48,10 +48,10 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public Sym(SymIdentity id, SymClass @class, SymKey index, string type, ulong kind, string name, string symbol, TextBlock? description, bool hidden, object value, DataSize size)
+        public Sym(SymIdentity id, string group, SymKey index, string type, ulong kind, string name, string symbol, TextBlock? description, bool hidden, object value, DataSize size)
         {
             Identity = id;
-            Class = @class;
+            Group = group;
             Key = index;
             Type = type;
             Kind = kind;

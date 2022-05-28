@@ -13,7 +13,6 @@ namespace Z0
         public static Alloc create()
             => new Alloc();
 
-
         public static LabelAllocation labels(ReadOnlySpan<string> src)
         {
             var count = src.Length;

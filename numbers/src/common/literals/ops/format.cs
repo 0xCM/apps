@@ -29,13 +29,14 @@ namespace Z0
             var dst = text.buffer();
             var w = core.width<T>();
             var count = src.Count;
-            var margin = 0u;
-            dst.AppendLineFormat("{1}:seq<uint{0}> = {{", w, src.Name);
-            margin +=4;
+            var offset = 0u;
+            dst.AppendLine(string.Format("LiteralSeq<{0}> {1} = new ({1}, new {0}[{2}]", typeof(T).Name, src.Name, src.Count));
+            dst.AppendLine("{");
+            offset +=4;
             for(var i=0; i<count; i++)
-                dst.IndentLine(margin, src[i].Format());
-            margin -=4;
-            dst.IndentLine(margin, "}");
+                dst.IndentLine(offset, src[i].Format());
+            offset -=4;
+            dst.IndentLine(offset, "})");
             return dst.Emit();
         }
     }

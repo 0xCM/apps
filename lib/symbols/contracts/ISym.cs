@@ -12,6 +12,8 @@ namespace Z0
 
         Identifier Type {get;}
 
+        string Group {get;}
+
         string Name {get;}
 
         SymExpr Expr {get;}

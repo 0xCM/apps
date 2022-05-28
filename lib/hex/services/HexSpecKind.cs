@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Classifies hex number specifiers
     /// </summary>
-    [SymSource(SymGroups.hex)]
+    [SymSource("hex")]
     public enum HexSpecKind : byte
     {
         /// <summary>

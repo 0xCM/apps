@@ -11,6 +11,7 @@ namespace Z0
 
     public class WfMachine : AppService<WfMachine>
     {
+        ApiMd ApiMd => Wf.ApiMetadata();
         public void Run(WorkflowOptions options)
         {
             var parts = Wf.ApiCatalog.PartIdentities;
@@ -49,7 +50,7 @@ namespace Z0
                     Wf.Heaps().EmitSymLits();
 
                 if(options.EmitApiBitMasks)
-                    Wf.ApiBitMasks().Emit();
+                    ApiMd.Emit(ApiMd.ApiBitMasks);
 
                 if(options.CollectApiDocs)
                     Wf.ApiComments().Collect();

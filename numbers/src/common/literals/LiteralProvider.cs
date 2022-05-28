@@ -6,18 +6,18 @@ namespace Z0
 {
     public readonly struct LiteralProvider
     {
+        public readonly PartId Part;
+
         public readonly string Name;
 
         public readonly Type Definition;
 
-        public readonly PartId Part;
-
         [MethodImpl(Inline)]
-        public LiteralProvider(string name, Type src)
+        public LiteralProvider(string name, Type src, PartId part)
         {
             Definition = src;
             Name = name;
-            Part = src.Assembly.Id();
+            Part = part;
         }
     }
 }

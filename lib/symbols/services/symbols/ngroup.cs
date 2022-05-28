@@ -4,9 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [ApiHost]
-    public readonly partial struct Hex
+    partial struct Symbols
     {
-        const NumericKind Closure = UnsignedInts;
+        [Op]
+        public static string group(Type src)
+            => text.ifempty(src.Tag<SymSourceAttribute>().MapValueOrDefault(a => a.SymGroup, EmptyString), EmptyString);
     }
 }

@@ -130,7 +130,7 @@ namespace Z0
                 dst.Sym(i) = sym;
                 dst.SymName(i) = sym.Name;
                 dst.Value(i) = (sym.Name,sym.Value);
-                dst.Class(i) = new ValueClass(sym.Key, sym.Class.Name, sym.Name, sym.Expr.Text, sym.Value);
+                dst.Class(i) = new ValueClass(sym.Key, sym.Group, sym.Name, sym.Expr.Text, sym.Value);
             }
             return dst;
         }

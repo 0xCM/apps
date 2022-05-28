@@ -36,9 +36,6 @@ namespace Z0
         public RuntimeLiteralValue<string> Value()
             => Literals.value(this);
 
-        public CompilationLiteral Specify()
-            => Literals.compilation(this);
-
         public string Format()
             => Literals.format(this);
 

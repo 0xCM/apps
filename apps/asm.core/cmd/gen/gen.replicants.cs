@@ -11,7 +11,7 @@ namespace Z0
         {
             const string Name = "api.types.enums";
             var src = AppDb.ApiTargets().Path(Name, FileKind.List);
-            var types = ApiSvc.LoadTypes(src);
+            var types = ApiMd.LoadTypes(src);
             var name = "EnumDefs";
             CsLang.EmitReplicants(CsLang.replicant(AppDb.CgStage(name), out var spec), types, AppDb.CgStage(name));
             return true;

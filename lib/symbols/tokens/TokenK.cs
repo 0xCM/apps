@@ -12,7 +12,7 @@ namespace Z0
 
         public readonly SymKey Key;
 
-        public readonly SymClass Class;
+        public readonly @string Group;
 
         public readonly Identifier Type;
 
@@ -23,11 +23,11 @@ namespace Z0
         public readonly SymVal Value;
 
         [MethodImpl(Inline)]
-        public Token(K kind, SymKey key, SymClass @class, Identifier type, Identifier name, SymExpr expr, SymVal value)
+        public Token(K kind, SymKey key, @string group, Identifier type, Identifier name, SymExpr expr, SymVal value)
         {
             Kind = kind;
             Key = key;
-            Class = @class;
+            Group = group;
             Type = type;
             Name = name;
             Expr = expr;
@@ -36,7 +36,7 @@ namespace Z0
 
 
         public Token Untyped()
-            => new Token(Key,Class,Type,Name, Expr, Value);
+            => new Token(Key,Group,Type,Name, Expr, Value);
         public string Format()
             => string.Format("{0,-5} | {1,-36} | {2,-64} | {3,-64} | {4}", Key, Type, Name, RP.squote(Expr), Value);
 

@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines identifiers corresponding to each value that can be represented with an 8-bit unsigned integer
     /// </summary>
-    [SymSource(SymGroups.hex, NumericBaseKind.Base16), DataWidth(7)]
+    [SymSource("hex", NumericBaseKind.Base16), DataWidth(7)]
     public enum Hex7Kind : byte
     {
         /// <summary>

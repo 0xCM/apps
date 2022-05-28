@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
+    using static AsmSigTokens;
+
     public sealed class AsmSigTokenSet : TokenSet<AsmSigTokenSet,AsmSigTokenKind>
     {
         public override string Name
@@ -13,6 +15,7 @@ namespace Z0.Asm
             => typeof(AsmSigTokens).GetNestedTypes().Enums().Tagged<SymSourceAttribute>();
 
         public Dictionary<Type,AsmSigTokenKind> TypeKinds()
-            => Types().Map(t => (t,(AsmSigTokenKind)t.Tag<SymSourceAttribute>().Require().SymKind)).ToDictionary();
+            => Types().Map(t => (t,(AsmSigTokenKind)t.Tag<SigTokenKind>().Require().Kind)).ToDictionary();
+
     }
 }

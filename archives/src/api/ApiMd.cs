@@ -16,6 +16,8 @@ namespace Z0
 
         AppSvcOps AppSvc => Wf.AppSvc();
 
+        ApiComments Comments => Wf.ApiComments();
+
         DbTargets ApiTargets()
             => AppDb.ApiTargets();
 
@@ -41,7 +43,9 @@ namespace Z0
             => ApiRuntimeCatalog.Parts;
 
         public Type[] EnumTypes
-            => data("EnumTypes", () => Components.Enums());
+            => data("EnumTypes", () => Components
+                .Enums()
+                .Where(x => x.ContainsGenericParameters == false && nonempty(x.Namespace)));
 
         public Index<ReflectedTable> ReflectedTables
             => data("ReflectedTable",() => Tables.reflected(Components));
@@ -58,6 +62,58 @@ namespace Z0
         public Index<IApiHost> ApiHosts
             => data("ApiHosts", () => ApiRuntimeCatalog.ApiHosts.Index());
 
+        public Index<DataTypeInfo> DataTypes
+            => data("DataTypes", () => Z0.DataTypes.describe(Components));
+
+        public Index<ApiCmdRow> ApiCommands
+            => data("ApiCommands", CalcApiCommands);
+
+        public Index<CompilationLiteral> ApiLiterals
+            => data(nameof(CompilationLiteral), () => Literals.literals(Components));
+
+        public Index<ApiFlowSpec> DataFlows
+            => data("DataFlows", CalcDataFlows);
+
+        public Index<BitMaskInfo> ApiBitMasks
+            => Data(nameof(BitMaskInfo), () => BitMask.masks(typeof(BitMaskLiterals)));
+
+        public Dictionary<FS.FilePath, Dictionary<string,string>> EmitComments()
+            => Data(nameof(EmitComments), () => Comments.Collect());
+
+        public FS.FilePath EmitTypeList(string name, ReadOnlySpan<Type> src)
+        {
+            var path = AppDb.ApiTargets().Path(name, FileKind.List);
+            var dst = text.emitter();
+            for(var i=0; i<src.Length; i++)
+                dst.AppendLine(skip(src,i).AssemblyQualifiedName);
+            AppSvc.FileEmit(dst.Emit(), src.Length, path);
+            return path;
+        }
+
+        public void Emit(ReadOnlySpan<ApiCmdRow> src)
+            => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<ApiCmdRow>());
+
+        public void Emit(ReadOnlySpan<TableField> src)
+            => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<TableField>());
+
+        public void Emit(ReadOnlySpan<SymLiteralRow> src)
+            => AppSvc.TableEmit(src, AppDb.ApiTargets().Path("api.symbols", FileKind.Csv), TextEncodingKind.Unicode);
+
+        public void Emit(ReadOnlySpan<CompilationLiteral> src)
+            => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<CompilationLiteral>(), TextEncodingKind.Unicode);
+
+        public void Emit(ReadOnlySpan<DataTypeInfo> src)
+            => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<DataTypeInfo>());
+
+        public void Emit(ReadOnlySpan<ApiFlowSpec> src)
+            => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<ApiFlowSpec>());
+
+        public void Emit(ReadOnlySpan<ClrEnumRecord> src)
+            => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<ClrEnumRecord>(), TextEncodingKind.Unicode);
+
+        public void Emit(Index<BitMaskInfo> src)
+            => AppSvc.TableEmit(src, ProjectDb.ApiTablePath<BitMaskInfo>());
+
         public void EmitHostMsil(string hostid)
         {
             var result = Outcome.Success;
@@ -68,6 +124,49 @@ namespace Z0
                 if(result.Ok)
                     EmitMsil(array(host));
             }
+        }
+
+        Index<ApiFlowSpec> CalcDataFlows()
+        {
+            var src = ApiDataFlow.discover(Components);
+            var count = src.Length;
+            var buffer = alloc<ApiFlowSpec>(count);
+            for(var i=0; i<count; i++)
+            {
+                ref var dst = ref seek(buffer,i);
+                ref readonly var flow = ref src[i];
+                dst.Actor = flow.Actor.Name;
+                dst.Source = flow.Source?.ToString() ?? EmptyString;
+                dst.Target = flow.Target?.ToString() ?? EmptyString;
+                dst.Description = flow.Format();
+            }
+            return buffer.Sort();
+        }
+
+        Index<ApiCmdRow> CalcApiCommands()
+        {
+            var types = Cmd.types(ApiRuntimeCatalog.Components);
+            var buffer = list<ApiCmdRow>();
+            foreach(var type in types)
+            {
+                var name = type.Tag<CmdAttribute>().Require().Name;
+                var cmdargs = type.DeclaredInstanceFields();
+                var instance = Activator.CreateInstance(type);
+                var values = ClrFields.values(instance);
+                foreach(var arg in cmdargs)
+                {
+                    var cmdarg = new ApiCmdRow();
+                    cmdarg.CmdName = name;
+                    cmdarg.CmdType = type.Name;
+                    cmdarg.ArgName = arg.Name;
+                    cmdarg.DataType = TypeSyntax.infer(arg.FieldType);
+                    cmdarg.Expression = arg.Tag<CmdArgAttribute>().MapValueOrDefault(x => x.Expression, EmptyString);
+                    cmdarg.DefaultValue = values[arg.Name].Value?.ToString() ?? EmptyString;
+                    buffer.Add(cmdarg);
+                }
+            }
+
+            return buffer.ToIndex();
         }
 
         public ConstLookup<ApiHostUri,FS.FilePath> EmitMsil()
@@ -171,6 +270,70 @@ namespace Z0
 
                 return dst;
             }
+        }
+
+        public Index<Type> LoadTypes(FS.FilePath src)
+        {
+            var lines = src.ReadLines(skipBlank:true);
+            var count = lines.Count;
+            var dst = alloc<Type>(count);
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var line = ref lines[i];
+                var type = Type.GetType(line) ?? typeof(void);
+                if(type.IsEmpty())
+                    Warn($"Unable to load {line}");
+                seek(dst,i) = type;
+            }
+            return dst;
+        }
+
+        public Index<ClrEnumRecord> EmitEnums(Assembly src, FS.FilePath dst)
+        {
+            var records = Enums.records(src);
+            if(records.Length != 0)
+                AppSvc.TableEmit(records, dst);
+            return records;
+        }
+
+
+        public Index<ClrEnumRecord> CalcEnumRecords(Assembly src)
+            => Data(src.GetSimpleName() + nameof(ClrEnumRecord), () => Enums.records(src));
+
+        public Index<SymInfo> LoadTokens(string name)
+        {
+            var src = ApiTargets().Table<SymInfo>("tokens" + "." +  name.ToLower());
+            using var reader = src.TableReader<SymInfo>(SymInfo.parse);
+            var header = reader.Header.Split(Chars.Pipe);
+            if(header.Length != SymInfo.FieldCount)
+            {
+                Error(AppMsg.FieldCountMismatch.Format(SymInfo.FieldCount, header.Length));
+                return Index<SymInfo>.Empty;
+            }
+            var dst = list<SymInfo>();
+            while(!reader.Complete)
+            {
+                var outcome = reader.ReadRow(out var row);
+                if(!outcome)
+                {
+                    Error(outcome.Message);
+                    break;
+                }
+                dst.Add(row);
+            }
+
+            return dst.ToArray();
+        }
+
+        public Index<SymDetailRow> EmitDetails<E>(Symbols<E> src, FS.FilePath dst)
+            where E : unmanaged, Enum
+        {
+            var count = src.Count;
+            var buffer = alloc<SymDetailRow>(count);
+            for(var i=0; i<count; i++)
+                Symbols.detail(src[i], (ushort)count, out seek(buffer,i));
+            AppSvc.TableEmit(buffer,dst);
+            return buffer;
         }
 
         public Index<SymInfo> EmitTokens(ITokenSet src, FS.FilePath dst)

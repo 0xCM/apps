@@ -17,7 +17,7 @@ namespace Z0
 
         public string Name {get;}
 
-        public SymClass Class {get;}
+        public string Group {get;}
 
         public K Kind {get;}
 
@@ -40,7 +40,7 @@ namespace Z0
             Expr = SymExpr.Empty;
             Description = TextBlock.Empty;
             Hidden = true;
-            Class = SymClass.Empty;
+            Group = EmptyString;
             Value = SymVal.Zero;
             Size = DataSize.Zero;
         }
@@ -50,28 +50,13 @@ namespace Z0
         {
             Identity = src.Identity;
             Key = index;
-            Class = src.Class;
+            Group = src.Group;
             Kind = src.Symbol.Kind;
             Name = src.Name;
             Expr = src.Symbol;
             Description = src.Description;
             Hidden = src.Hidden;
             Value = src.Value;
-            Size = Sizes.measure(typeof(K));
-        }
-
-        [MethodImpl(Inline)]
-        internal Sym(SymIdentity id, SymKey index, Identifier name, K kind, SymExpr symbol, TextBlock? description = null, bool hidden = false)
-        {
-            Identity = id;
-            Key = index;
-            Name = name;
-            Kind = kind;
-            Expr = symbol;
-            Description = description ?? TextBlock.Empty;
-            Hidden = hidden;
-            Class = SymClass.Empty;
-            Value = bw64(Kind);
             Size = Sizes.measure(typeof(K));
         }
 
@@ -83,7 +68,6 @@ namespace Z0
 
         public override string ToString()
             => Format();
-
 
         [MethodImpl(Inline)]
         public static implicit operator K(Sym<K> src)

@@ -9,13 +9,12 @@ namespace Z0
     using System.Linq;
 
     using static core;
-    using static Markdown;
 
     using CT = ApiCommentTarget;
 
     public sealed partial class ApiComments : AppService<ApiComments>
     {
-        AppDb AppDb => Service(Wf.AppDb);
+        AppDb AppDb => Wf.AppDb();
 
         public CommentDataset Calc()
         {

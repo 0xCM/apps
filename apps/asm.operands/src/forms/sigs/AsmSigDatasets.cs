@@ -306,41 +306,59 @@ namespace Z0.Asm
                 if(_Instance == null)
                 {
                     var dst = new AsmSigDatasets();
-                    var kinds = Symbols.index<AsmSigTokenKind>();
-                    var ts = AsmSigTokenSet.create();
-                    dst.TypeKinds = ts.TypeKinds();
-                    var symtokens = ts.View;
-                    var count = (uint)symtokens.Length;
-                    dst.Tokens = alloc<AsmSigOp>(count);
-
+                    var tokenKinds = Symbols.index<AsmSigTokenKind>();
+                    var sts = AsmSigTokenSet.create();
+                    var typeKinds = sts.TypeKinds();
+                    var types = dst.TypeKinds.Keys;
+                    var count = (uint)sts.View.Length;
                     var tokenExpr = dict<uint,string>();
                     var tokenIds = dict<uint,string>();
                     var exprToken = dict<string,AsmSigOp>();
-                    var j=0;
+                    dst.Tokens = alloc<AsmSigOp>(count);
+                    dst.TypeKinds = typeKinds;
 
-                    for(var i=0; i<count; i++)
+                    var k=0u;
+                    for(var i=0; i<types.Length; i++)
                     {
-                        ref readonly var symtoken = ref skip(symtokens,i);
-                        ref readonly var @class = ref symtoken.Class;
-                        if(kinds.ExprKind(@class.Kind, out var kind))
+                        ref readonly var type = ref skip(types,i);
+                        var tk = dst.TypeKinds[type];
+                        var tokens = Symbols.tokenize(type);
+                        for(var j=0; j<tokens.Count; j++, k++)
                         {
-                            var sigtoken = new AsmSigOp(kind, (byte)symtoken.Value);
-                            var xpr = symtoken.Expr.Text;
-                            dst.Tokens[j++] = sigtoken;
-                            tokenExpr[sigtoken.Id] = xpr;
-                            exprToken[xpr] = sigtoken;
-                            if(!tokenIds.TryAdd(sigtoken.Id, symtoken.Name))
-                                Errors.Throw(string.Format("Duplicate token - {0}:{1}", kind, symtoken.Name));
+                            ref readonly var token = ref tokens[j];
+                            var sigop = new AsmSigOp(tk, (byte)token.Value);
+                            var xpr = token.Expr.Text;
+                            dst.Tokens[k] = sigop;
+                            tokenExpr[sigop.Id] = xpr;
+                            exprToken[xpr] = sigop;
+                            if(!tokenIds.TryAdd(sigop.Id, token.Name))
+                                Errors.Throw(string.Format("Duplicate token - {0}:{1}", tk, token.Name));
                         }
-                        else
-                            Errors.Throw(string.Format("Kind for {0} not found", @class.Kind));
                     }
-
                     dst.TokenExpressions = tokenExpr;
                     dst.OpsByExpression = exprToken;
                     dst.TokenIdentifiers = tokenIds;
                     dst.Modifers = Symbols.index<AsmModifierKind>();
                     dst.Nonterminals = nonterminals();
+
+                    // for(var i=0; i<count; i++)
+                    // {
+                    //     ref readonly var token = ref skip(tokens.View,i);
+
+                    //     if(kinds.ExprKind(@class.Kind, out var kind))
+                    //     {
+                    //         var sigtoken = new AsmSigOp(kind, (byte)token.Value);
+                    //         var xpr = token.Expr.Text;
+                    //         dst.Tokens[j++] = sigtoken;
+                    //         tokenExpr[sigtoken.Id] = xpr;
+                    //         exprToken[xpr] = sigtoken;
+                    //         if(!tokenIds.TryAdd(sigtoken.Id, token.Name))
+                    //             Errors.Throw(string.Format("Duplicate token - {0}:{1}", kind, token.Name));
+                    //     }
+                    //     else
+                    //         Errors.Throw(string.Format("Kind for {0} not found", @class.Kind));
+                    // }
+
                     _Instance = dst;
                 }
 

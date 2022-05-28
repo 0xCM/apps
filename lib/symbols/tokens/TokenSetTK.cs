@@ -35,7 +35,7 @@ namespace Z0
         protected void Load()
         {
             _Tokens.Clear();
-            var types = Types().ToReadOnlySpan();
+            var types = Types();
             var count = types.Length;
             for(var i=0; i<count; i++)
                 _Tokens.AddRange(Symbols.tokenize<K>(skip(types,i)).ToArray());

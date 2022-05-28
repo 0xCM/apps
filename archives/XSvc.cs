@@ -58,7 +58,8 @@ namespace Z0
             public GLiteralProvider GenLitProviders(IWfRuntime wf)
                 => Service<GLiteralProvider>(wf);
 
-
+            public ApiComments ApiComments(IWfRuntime wf)
+                => Service<ApiComments>(wf);
         }
 
         static Svc Services => Svc.Instance;
@@ -111,6 +112,10 @@ namespace Z0
 
         public static GLiteralProvider GenLitProviders(this IWfRuntime wf)
             => Services.GenLitProviders(wf);
+
+        public static ApiComments ApiComments(this IWfRuntime wf)
+            => Services.ApiComments(wf);
+
 
     }
 }

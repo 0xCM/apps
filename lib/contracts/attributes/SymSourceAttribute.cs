@@ -29,17 +29,10 @@ namespace Z0
             SymKind = string.Empty;
         }
 
-        public SymSourceAttribute(string group, object @class)
-        {
-            SymGroup = group;
-            SymKind = @class;
-            NumericBase = NumericBaseKind.Base10;
-        }
-
-        public SymSourceAttribute(string group, NumericBaseKind nbk)
+        public SymSourceAttribute(string group, NumericBaseKind @base)
         {
             SymGroup = group ?? string.Empty;
-            NumericBase = nbk;
+            NumericBase = @base;
             SymKind = string.Empty;
         }
 

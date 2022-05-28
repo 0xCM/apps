@@ -10,12 +10,12 @@ namespace Z0
     [StructLayout(LayoutKind.Sequential)]
     public readonly struct Literal<T> : ILiteralExpr<T>
     {
-        public readonly Identifier Name;
+        public readonly string Name;
 
         public readonly Constant<T> Value;
 
         [MethodImpl(Inline)]
-        public Literal(Identifier name, Constant<T> value)
+        public Literal(string name, Constant<T> value)
         {
             Name = name;
             Value = value;
