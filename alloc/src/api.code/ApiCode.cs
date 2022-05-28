@@ -38,6 +38,13 @@ namespace Z0
             }
         }
 
+        public Index<CollectedEncoding> Collect(SymbolDispenser symbols, IPart src)
+        {
+            var collected = Collect(symbols, MethodEntryPoints.create(ApiJit.JitPart(src)));
+            //Emit(collected, Files.Path(src.Id, FS.Hex), Files.Path(src.Id, FS.Csv));
+            return collected;
+        }
+
         public Index<CollectedEncoding> Collect(SymbolDispenser symbols, PartId src)
         {
             if(ApiRuntimeCatalog.FindPart(src, out var part))
@@ -139,6 +146,32 @@ namespace Z0
             return members(symbols, index, code);
         }
 
+        public ByteSize EmitHex(Index<CollectedEncoding> src, FS.FilePath dst)
+        {
+            var count = src.Count;
+            var emitting = EmittingFile(dst);
+            var size = ApiCode.hex(src, dst);
+            EmittedFile(emitting,count);
+            return size;
+        }
+
+        public Index<EncodedMember> EmitCsv(Index<CollectedEncoding> collected, FS.FilePath dst)
+        {
+            var count = collected.Count;
+            var buffer = alloc<EncodedMember>(count);
+            for(var i=0; i<count; i++)
+                seek(buffer,i) = describe(collected[i]);
+            var rebase = min(buffer.Select(x => (ulong)x.EntryAddress).Min(), buffer.Select(x => (ulong)x.TargetAddress).Min());
+            for(var i=0; i<count; i++)
+            {
+                seek(buffer,i).EntryRebase = skip(buffer,i).EntryAddress - rebase;
+                seek(buffer,i).TargetRebase = skip(buffer,i).TargetAddress - rebase;
+            }
+
+            AppSvc.TableEmit(buffer, dst);
+            return buffer;
+        }
+
         void Load(out Index<EncodedMember> index, out BinaryCode data)
         {
             ApiCode.hex(Files.Path(FS.Hex), out data).Require();
@@ -159,6 +192,8 @@ namespace Z0
 
         Index<CollectedEncoding> Collect(SymbolDispenser symbols, ReadOnlySpan<MethodEntryPoint> src)
             => divine(collect(symbols, src), x => Write(x.Format(), x.Flair));
+
+
 
         Index<EncodedMember> Emit(Index<CollectedEncoding> src, FS.FilePath hex, FS.FilePath csv)
         {

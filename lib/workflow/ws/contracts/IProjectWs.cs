@@ -63,8 +63,8 @@ namespace Z0
         FS.Files ProjectFiles()
             => Home().Files(true).Array().Sort();
 
-        FS.Files Files(params FileKind[] kinds)
-            => Home().Files(true, kinds.Select(FileTypes.ext));
+        FS.Files Files(params FS.FileExt[] ext)
+            => Home().Files(true, ext);
 
         FS.FilePath FilePath(string scope, string suffix, FS.FileExt ext)
             => Subdir(scope) +  FS.file(suffix, ext);
@@ -106,8 +106,8 @@ namespace Z0
         FS.Files OutFiles(FS.FileExt ext)
             => Out().Files(ext, true);
 
-        FS.Files OutFiles(params FileKind[] kinds)
-            => Out().Files(true, kinds.Select(FileTypes.ext));
+        // FS.Files OutFiles(params FileKind[] kinds)
+        //     => Out().Files(true, kinds.Select(FileTypes.ext));
 
         FS.Files OutFiles(FS.FolderName subdir)
             => (Out() + subdir).Files(true);
@@ -127,17 +127,17 @@ namespace Z0
         FS.Files SrcFiles(bool recurse = true)
             => SrcDir().Files(recurse);
 
-        FS.Files SrcFiles(string scope, FileKind kind, bool recurse = true)
-            => SrcDir(scope).Files(kind.Ext(), recurse);
+        // FS.Files SrcFiles(string scope, FileKind kind, bool recurse = true)
+        //     => SrcDir(scope).Files(kind.Ext(), recurse);
 
-        FS.Files SrcFiles(FileKind kind, bool recurse = true)
-            => SrcDir().Files(kind.Ext(), recurse);
+        // FS.Files SrcFiles(FileKind kind, bool recurse = true)
+        //     => SrcDir().Files(kind.Ext(), recurse);
 
         FS.Files SrcFiles(string scope, bool recurse = true)
             => SrcDir(scope).Files(recurse);
 
-        FS.FilePath SrcFile(string scope, string fileid, FileKind kind)
-            => SrcDir(scope) + FS.file(fileid, kind.Ext());
+        // FS.FilePath SrcFile(string scope, string fileid, FileKind kind)
+        //     => SrcDir(scope) + FS.file(fileid, kind.Ext());
 
         FS.FolderPath Assets()
             => Home() + FS.folder(assets);

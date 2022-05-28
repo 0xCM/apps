@@ -23,6 +23,8 @@ namespace Z0
             public HostAsmEmitter HostAsmEmitter(IWfRuntime wf)
                 => Service<HostAsmEmitter>(wf);
 
+            public ApiCapture ApiCapture(IWfRuntime wf)
+                => Service<ApiCapture>(wf);
         }
 
         static Svc Services => Svc.Instance;
@@ -41,6 +43,9 @@ namespace Z0
 
         public static HostAsmEmitter HostAsmEmitter(this IWfRuntime wf)
             => Services.HostAsmEmitter(wf);
+
+        public static ApiCapture ApiCapture2(this IWfRuntime wf)
+            => Services.ApiCapture(wf);
 
         public static AsmJmpPipe AsmJmpPipe(this IWfRuntime wf)
             => Asm.AsmJmpPipe.create(wf);

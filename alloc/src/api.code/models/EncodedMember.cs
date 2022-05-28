@@ -37,12 +37,13 @@ namespace Z0
         [Render(8)]
         public ushort CodeSize;
 
-        [Render(3)]
+        [Render(24)]
         public @string Host;
 
         [Render(120)]
         public @string Sig;
 
+        [Render(1)]
         public @string Uri;
 
         [MethodImpl(Inline)]

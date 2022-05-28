@@ -24,35 +24,8 @@ namespace Z0
             }
             else
             {
-                Capture();
+                Wf.ApiCapture2().Run();
             }
-        }
-
-        public void Capture()
-        {
-            using var symbols = Alloc.dispenser(Alloc.symbols);
-            var parts = ApiRuntimeCatalog.PartIdentities.Index();
-            for(var i=0; i<parts.Length; i++)
-            {
-                ref readonly var part = ref parts[i];
-                var collected = ApiCode.Collect(symbols,part);
-                var asm = EmitAsm(symbols, part, collected);
-            }
-        }
-
-        Index<AsmRoutine> EmitAsm(SymbolDispenser symbols, PartId part, Index<CollectedEncoding> src)
-        {
-            var dst = alloc<AsmRoutine>(src.Count);
-            var emitter = text.emitter();
-            for(var i=0; i<src.Count; i++)
-            {
-                var routine = AsmDecoder.Decode(src[i]);
-                seek(dst,i) = routine;
-                emitter.AppendLine(routine.AsmRender(routine));
-            }
-
-            AppSvc.FileEmit(emitter.Emit(), src.Count, ApiCodeFiles.AsmPath(part));
-            return dst;
         }
 
         Outcome EmitAsm(SymbolDispenser symbols, string spec)

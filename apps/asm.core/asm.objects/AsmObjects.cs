@@ -236,7 +236,7 @@ namespace Z0
         public Index<ObjDumpRow> ConsolidateRows(WsContext context)
         {
             var project = context.Project;
-            var src = project.OutFiles(FileKind.ObjAsm).Storage.Sort();
+            var src = project.OutFiles(FileKind.ObjAsm.Ext()).Storage.Sort();
             var result = Outcome.Success;
             var count = src.Length;
             var formatter = Tables.formatter<ObjDumpRow>();

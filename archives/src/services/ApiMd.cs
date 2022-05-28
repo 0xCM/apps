@@ -128,25 +128,6 @@ namespace Z0
             return lookup;
         }
 
-        // void EmitTokenSet(ITokenSet src)
-        //     => EmitTokens(src, ApiTargets(tokens).Table<SymInfo>(src.Name));
-
-
-        // public TokenSet EmitApiTokens(string tag, string scope)
-        // {
-        //     var types = EnumTypes.TypeTags<SymSourceAttribute>();
-        //     var selected = list<Type>();
-        //     foreach(var (t,tv) in types.Storage)
-        //     {
-        //         if(tv.SymGroup == tag)
-        //             selected.Add(t);
-        //     }
-
-        //     var data = Tokens.set(tag, selected.Array());
-        //     EmitTokens(data, ApiTargets(tokens).Table<SymInfo>(data.Name));
-        //     return data;
-        // }
-
         public ConstLookup<string,Index<SymInfo>> CollectApiTokens()
         {
             return Data(nameof(CollectApiTokens), Load);

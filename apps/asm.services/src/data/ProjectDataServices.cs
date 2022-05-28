@@ -93,10 +93,10 @@ namespace Z0
         }
 
         public FS.Files SynAsmSources(IProjectWs project)
-            => project.OutFiles(FileKind.SynAsm);
+            => project.OutFiles(FileKind.SynAsm.Ext());
 
         public FS.Files McAsmSources(IProjectWs project)
-            => project.OutFiles(FileKind.McAsm);
+            => project.OutFiles(FileKind.McAsm.Ext());
 
         public FS.FilePath AsmSyntaxTable(IProjectWs project)
             => Projects.Table<AsmSyntaxRow>(project);

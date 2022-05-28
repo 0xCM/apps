@@ -84,8 +84,8 @@ namespace Z0
         FS.FileName ProjectFile(IProjectWs project, string name, FS.FileExt ext)
             => FS.file(string.Format("{0}.{1}", project.Name, name), ext);
 
-        FS.FileName ProjectFile(IProjectWs project, string name, FileKind kind)
-            => FS.file(string.Format("{0}.{1}", project.Name, name), kind.Ext());
+        // FS.FileName ProjectFile(IProjectWs project, string name, FileKind kind)
+        //     => FS.file(string.Format("{0}.{1}", project.Name, name), kind.Ext());
 
         FS.FileName TableFileName<T>(IProjectWs project)
             where T : struct

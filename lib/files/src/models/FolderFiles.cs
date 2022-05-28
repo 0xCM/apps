@@ -66,8 +66,8 @@ namespace Z0
             get => ref Data[index];
         }
 
-        public FolderFiles Filter(FileKind kind)
-            => new FolderFiles(Location, Data.Where(x => FileTypes.kind(x.Ext) == kind));
+        // public FolderFiles Filter(FileKind kind)
+        //     => new FolderFiles(Location, Data.Where(x => FileTypes.kind(x.Ext) == kind));
 
         public FolderFiles Filter(FS.FileExt ext)
             => new FolderFiles(Location, Data.Where(x => x.Ext == ext));
