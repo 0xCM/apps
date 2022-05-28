@@ -4,38 +4,38 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using I = Rel;
+    using W = W32;
+    using T = Rel16;
 
-    /// <summary>
-    /// Defines a 32-bit immediate value
-    /// </summary>
-    public readonly struct Rel : IRelOp<uint>
+    public readonly struct Rel16 : IRelOp<ushort>
     {
-        public uint Value {get;}
+        public const AsmRelKind Kind = AsmRelKind.Rel16;
 
-        public NativeSize Size {get;}
+        public const byte Width = 16;
+
+        public readonly ushort Value;
 
         [MethodImpl(Inline)]
-        public Rel(NativeSize size, uint value)
-        {
-            Value = value;
-            Size = size;
-        }
+        public Rel16(ushort src)
+            => Value = src;
 
         public AsmOpKind OpKind
-        {
-            [MethodImpl(Inline)]
-            get => AsmOps.kind(AsmOpClass.Rel, Size);
-        }
+            => AsmOpKind.Rel16;
 
         public AsmOpClass OpClass
             => AsmOpClass.Rel;
 
+        public NativeSize Size
+            => NativeSizeCode.W16;
+
         public string Format()
-            => HexFormatter.format(Size, Value, prespec:true, @case:UpperCase);
+            => HexFormatter.format(w, Value, HexPadStyle.Unpadded, prespec:true, @case:UpperCase);
 
         public override string ToString()
             => Format();
+
+        ushort IRelOp<ushort>.Value
+            => Value;
 
         public uint Hash
         {
@@ -47,55 +47,52 @@ namespace Z0.Asm
             => (int)Hash;
 
         [MethodImpl(Inline)]
-        public int CompareTo(I src)
+        public int CompareTo(T src)
             => Value == src.Value ? 0 : Value < src.Value ? -1 : 1;
 
         [MethodImpl(Inline)]
-        public bool Equals(I src)
+        public bool Equals(T src)
             => Value == src.Value;
 
         public override bool Equals(object src)
-            => src is I x && Equals(x);
+            => src is T x && Equals(x);
 
         [MethodImpl(Inline)]
-        public MemoryAddress ToAddress()
+        public Address16 ToAddress()
             => Value;
 
         [MethodImpl(Inline)]
-        public static bool operator <(I a, I b)
+        public static bool operator <(T a, T b)
             => a.Value < b.Value;
 
         [MethodImpl(Inline)]
-        public static bool operator >(I a, I b)
+        public static bool operator >(T a, T b)
             => a.Value > b.Value;
 
         [MethodImpl(Inline)]
-        public static bool operator <=(I a, I b)
+        public static bool operator <=(T a, T b)
             => a.Value <= b.Value;
 
         [MethodImpl(Inline)]
-        public static bool operator >=(I a, I b)
+        public static bool operator >=(T a, T b)
             => a.Value >= b.Value;
 
         [MethodImpl(Inline)]
-        public static bool operator ==(I a, I b)
+        public static bool operator ==(T a, T b)
             => a.Value == b.Value;
 
         [MethodImpl(Inline)]
-        public static bool operator !=(I a, I b)
+        public static bool operator !=(T a, T b)
             => a.Value != b.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator Rel(Rel8 src)
-            => new Rel(NativeSizeCode.W8, src.Value);
+        public static implicit operator ushort(T src)
+            => src.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator Rel(Rel16 src)
-            => new Rel(NativeSizeCode.W16, src.Value);
+        public static implicit operator T(ushort src)
+            => new Rel16(src);
 
-        [MethodImpl(Inline)]
-        public static implicit operator Rel(Rel32 src)
-            => new Rel(NativeSizeCode.W32, src.Value);
-
+        public static W w=> default;
     }
 }

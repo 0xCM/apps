@@ -2,30 +2,31 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
+    using Asm;
+
     /// <summary>
-    /// Defines a signed 8-bit displacement
+    /// Defines a signed 64-bit displacement
     /// </summary>
-    [DataWidth(8,8)]
-    public readonly struct Disp8 : IDisplacement<Disp8,sbyte>
+    public readonly struct Disp64 : IDisplacement<Disp64,long>
     {
         [Parser]
-        public static Outcome parse(string src, out Disp8 dst)
+        public static Outcome parse(string src, out Disp64 dst)
         {
             var result = Outcome.Success;
-            var input = text.trim(src);
-            if(text.empty(input))
+            if(text.empty(text.trim(src)))
             {
-                dst = z8i;
+                dst = 0L;
                 return true;
             }
 
             dst = default;
-            var disp = z8i;
-            if(HexFormatSpecs.HasSpec(input))
+            var i = text.index(src,HexFormatSpecs.PreSpec);
+            var disp = 0ul;
+            if(i>=0)
             {
-                result = HexParser.parse8i(src, out disp);
+                result = HexParser.parse64u(src, out disp);
                 if(result)
                     dst = disp;
             }
@@ -38,22 +39,19 @@ namespace Z0.Asm
             return result;
         }
 
-        /// <summary>
-        /// The base displacement magnitude
-        /// </summary>
-        public sbyte Value {get;}
+        public readonly long Value;
 
         [MethodImpl(Inline)]
-        public Disp8(sbyte @base)
+        public Disp64(long value)
         {
-            Value = @base;
+            Value = value;
         }
 
         public NativeSize Size
-            => NativeSizeCode.W8;
+            => NativeSizeCode.W64;
 
         public AsmOpKind OpKind
-            => AsmOpKind.Disp8;
+            => AsmOpKind.Disp64;
 
         public AsmOpClass OpClass
             => AsmOpClass.Disp;
@@ -76,11 +74,8 @@ namespace Z0.Asm
             get => Value < 0;
         }
 
-        long IDisplacement.Value
-            => Value;
-
         [MethodImpl(Inline)]
-        public bool Equals(Disp8 src)
+        public bool Equals(Disp64 src)
             => Value == src.Value;
 
         public string Format()
@@ -89,24 +84,40 @@ namespace Z0.Asm
         public override string ToString()
             => Format();
 
-        [MethodImpl(Inline)]
-        public static implicit operator Disp8(byte src)
-            => new Disp8((sbyte)src);
+        long IDisplacement<long>.Value
+             => Value;
+
+        long IDisplacement.Value
+            => Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator Disp8(sbyte src)
-            => new Disp8(src);
+        public static implicit operator ulong(Disp64 src)
+            => (ulong)src.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator byte(Disp8 src)
-            => (byte)src.Value;
-
-        [MethodImpl(Inline)]
-        public static explicit operator sbyte(Disp8 src)
+        public static implicit operator long(Disp64 src)
             => src.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator Disp(Disp8 src)
+        public static implicit operator Disp(Disp64 src)
             => new Disp(src.Value, src.Size);
+
+        [MethodImpl(Inline)]
+        public static implicit operator Disp64(ulong src)
+            => new Disp64((long)src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator Disp64(long src)
+            => new Disp64((int)src);
+
+        // [MethodImpl(Inline)]
+        // public static implicit operator AsmOperand(Disp64 src)
+        //     => new AsmOperand(src);
+
+        public static Disp64 Empty
+        {
+            [MethodImpl(Inline)]
+            get => new Disp64(0);
+        }
     }
 }

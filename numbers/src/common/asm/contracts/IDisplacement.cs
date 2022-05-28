@@ -2,13 +2,17 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
+    using Asm;
+
     [Free]
-    public interface IDisplacement : IAsmOp
+    public interface IDisplacement// : IAsmOp
     {
-        AsmOpClass IAsmOp.OpClass
-            => AsmOpClass.Disp;
+        // AsmOpClass IAsmOp.OpClass
+        //     => AsmOpClass.Disp;
+
+        NativeSize Size {get;}
 
         long Value {get;}
 

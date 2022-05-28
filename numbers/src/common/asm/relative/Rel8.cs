@@ -4,41 +4,38 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using Asm;
+    using W = W8;
+    using T = Rel8;
 
-    using W = W32;
-    using I = Rel32;
-
-    /// <summary>
-    /// Defines a 32-bit immediate value
-    /// </summary>
-    [DataWidth(Width, Width)]
-    public readonly struct Rel32 : IRelOp<uint>
+    public readonly struct Rel8 : IRelOp<byte>
     {
-        public const AsmRelKind Kind = AsmRelKind.Rel32;
+        public const AsmRelKind Kind = AsmRelKind.Rel8;
 
-        public const byte Width = 32;
+        public const byte Width = 8;
 
-        public uint Value {get;}
+        public readonly byte Value;
 
         [MethodImpl(Inline)]
-        public Rel32(uint src)
+        public Rel8(byte src)
             => Value = src;
 
         public AsmOpKind OpKind
-            => AsmOpKind.Rel32;
+            => AsmOpKind.Rel8;
+
+        public NativeSize Size
+            => NativeSizeCode.W8;
 
         public AsmOpClass OpClass
             => AsmOpClass.Rel;
-
-        public NativeSize Size
-            => NativeSizeCode.W32;
 
         public string Format()
             => HexFormatter.format(w, Value, HexPadStyle.Unpadded, prespec:true, @case:UpperCase);
 
         public override string ToString()
             => Format();
+
+        byte IRelOp<byte>.Value
+            => Value;
 
         public uint Hash
         {
@@ -50,51 +47,51 @@ namespace Z0.Asm
             => (int)Hash;
 
         [MethodImpl(Inline)]
-        public int CompareTo(I src)
+        public int CompareTo(T src)
             => Value == src.Value ? 0 : Value < src.Value ? -1 : 1;
 
         [MethodImpl(Inline)]
-        public bool Equals(I src)
+        public bool Equals(T src)
             => Value == src.Value;
 
         public override bool Equals(object src)
-            => src is I x && Equals(x);
+            => src is T x && Equals(x);
 
         [MethodImpl(Inline)]
-        public Address32 ToAddress()
+        public Address8 ToAddress()
             => Value;
 
         [MethodImpl(Inline)]
-        public static bool operator <(I a, I b)
+        public static bool operator <(T a, T b)
             => a.Value < b.Value;
 
         [MethodImpl(Inline)]
-        public static bool operator >(I a, I b)
+        public static bool operator >(T a, T b)
             => a.Value > b.Value;
 
         [MethodImpl(Inline)]
-        public static bool operator <=(I a, I b)
+        public static bool operator <=(T a, T b)
             => a.Value <= b.Value;
 
         [MethodImpl(Inline)]
-        public static bool operator >=(I a, I b)
+        public static bool operator >=(T a, T b)
             => a.Value >= b.Value;
 
         [MethodImpl(Inline)]
-        public static bool operator ==(I a, I b)
+        public static bool operator ==(T a, T b)
             => a.Value == b.Value;
 
         [MethodImpl(Inline)]
-        public static bool operator !=(I a, I b)
+        public static bool operator !=(T a, T b)
             => a.Value != b.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator uint(I src)
+        public static implicit operator byte(T src)
             => src.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator I(uint src)
-            => new I(src);
+        public static implicit operator T(byte src)
+            => new T(src);
 
         public static W w => default;
     }

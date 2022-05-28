@@ -2,12 +2,14 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
+    using Asm;
+
     /// <summary>
     /// Defines an 8, 16, or 32-bit signed displacement
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack = 1),DataWidth(72)]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public readonly struct Disp : IDisplacement, IEquatable<Disp>
     {
         public static string format<T>(T src, bool @signop = false)

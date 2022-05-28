@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using static core;
-
     public readonly struct AsmInlineComment : IAsmSourcePart
     {
         public static AsmInlineComment array(ReadOnlySpan<byte> src)
@@ -36,10 +34,6 @@ namespace Z0.Asm
 
         public static implicit operator string(AsmInlineComment src)
             => src.Format();
-
-        // [MethodImpl(Inline)]
-        // public static implicit operator AsmCell(AsmInlineComment src)
-        //     => AsmCell.define(src.Format(), src.PartKind);
 
         public static AsmInlineComment Empty
         {

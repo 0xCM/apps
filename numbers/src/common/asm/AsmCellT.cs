@@ -9,11 +9,14 @@ namespace Z0.Asm
         /// <summary>
         /// The content origin
         /// </summary>
-        public GridPoint<uint> Location {get;}
+        public readonly GridPoint<uint> Location;
 
-        public AsmCellKind PartKind {get;}
+        public readonly AsmCellKind PartKind;
 
         public T Content {get;}
+
+        AsmCellKind IAsmSourcePart.PartKind
+            => PartKind;
 
         [MethodImpl(Inline)]
         public AsmCell(GridPoint<uint> loc, AsmCellKind kind, T data)

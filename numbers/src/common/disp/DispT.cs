@@ -2,8 +2,10 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
+    using Asm;
+
     using static core;
 
     /// <summary>
@@ -29,8 +31,8 @@ namespace Z0.Asm
         public NativeSize Size
             => Sizes.native(width<T>());
 
-        public AsmOpKind OpKind
-            => Source.OpKind;
+        // public AsmOpKind OpKind
+        //     => Source.OpKind;
 
         public AsmOpClass OpClass
             => AsmOpClass.Disp;

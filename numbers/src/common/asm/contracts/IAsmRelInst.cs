@@ -14,8 +14,6 @@ namespace Z0.Asm
 
         LocatedSymbol Target {get;}
 
-        AsmHexCode Encoding {get;}
-
         MemoryAddress SourceAddress
             => Source.Location;
 

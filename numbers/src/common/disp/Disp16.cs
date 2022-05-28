@@ -2,12 +2,13 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
+    using Asm;
+
     /// <summary>
     /// Defines a signed 16-bit displacement
     /// </summary>
-    [DataWidth(16,16)]
     public readonly struct Disp16 : IDisplacement<Disp16,short>
     {
         [Parser]

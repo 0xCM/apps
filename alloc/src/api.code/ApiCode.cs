@@ -39,11 +39,7 @@ namespace Z0
         }
 
         public Index<CollectedEncoding> Collect(SymbolDispenser symbols, IPart src)
-        {
-            var collected = Collect(symbols, MethodEntryPoints.create(ApiJit.JitPart(src)));
-            //Emit(collected, Files.Path(src.Id, FS.Hex), Files.Path(src.Id, FS.Csv));
-            return collected;
-        }
+            => Collect(symbols, MethodEntryPoints.create(ApiJit.JitPart(src)));
 
         public Index<CollectedEncoding> Collect(SymbolDispenser symbols, PartId src)
         {
