@@ -4,7 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
+
     using static core;
+
 
     [ApiHost]
     public partial class PolyBits : AppService<PolyBits>
@@ -128,12 +131,19 @@ namespace Z0
             return src;
         }
 
-        public void EmitPatterns(string label, Type src)
+        public void EmitPatterns()
         {
-            var name = label + ".bits.patterns.info";
+            var types = array(typeof(AsmBitPatterns));
+            iter(types, EmitPatterns);
+        }
+
+        public void EmitPatterns(Type src)
+        {
+            var attrib = src.Tag<LiteralProviderAttribute>();
+            var name = attrib ? text.ifempty(attrib.Value.Name, src.Name) : src.Name;
             var patterns = BitPatterns.reflected(src);
             EmitDescriptions(name, patterns);
-            EmitRecords(label, patterns);
+            EmitRecords(name, patterns);
         }
 
         public void EmitDescriptions(string name, ReadOnlySpan<BpInfo> src)

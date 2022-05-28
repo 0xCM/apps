@@ -19,13 +19,13 @@ namespace Z0
         const NumericKind Closure = UnsignedInts;
 
         [ApiHost(checks)]
-        public partial class IntrinsicChecks : Checker<IntrinsicChecks>
+        public partial class Checks : Checker<Checks>
         {
             readonly PageBank16x4x4 Buffer;
 
             //readonly IPolyrand Random;
 
-            public IntrinsicChecks()
+            public Checks()
             {
                 Buffer = PageBank16x4x4.allocated();
                 //Random = Rng.wyhash64(PolySeed64.lookup(5));

@@ -5,14 +5,31 @@
 
 namespace Z0
 {
+    using I=IntelIntrinsics;
+
     public static class XSvc
     {
-        [Op]
-        public static IntelIntrinsicSvc IntelIntrinsics(this IWfRuntime wf)
-            => IntelIntrinsicSvc.create(wf);
+        sealed class Svc : AppServices<Svc>
+        {
+            public IntelIntrinsicSvc IntelIntrinsics(IWfRuntime wf)
+                => Service<IntelIntrinsicSvc>(wf);
 
-        [Op]
-        public static Z0.IntelInstrinsicsCmd IntelIntrinsicsCmd(this IWfRuntime wf)
-            => Z0.IntelInstrinsicsCmd.create(wf);
+            public IntelInstrinsicsCmd IntelIntrinsicsCmd(IWfRuntime wf)
+                => Service<IntelInstrinsicsCmd>(wf);
+
+            public I.Checks Checks(IWfRuntime wf)
+                => Service<I.Checks>(wf);
+        }
+
+        static Svc Services => Svc.Instance;
+
+        public static IntelIntrinsicSvc IntelIntrinsics(this IWfRuntime wf)
+            => Services.IntelIntrinsics(wf);
+
+        public static IntelInstrinsicsCmd IntelIntrinsicsCmd(this IWfRuntime wf)
+            => Services.IntelIntrinsicsCmd(wf);
+
+        public static I.Checks Checks(this IWfRuntime wf)
+            => Services.Checks(wf);
     }
 }

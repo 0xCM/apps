@@ -18,7 +18,6 @@ global using CallerFile = System.Runtime.CompilerServices.CallerFilePathAttribut
 global using CallerLine = System.Runtime.CompilerServices.CallerLineNumberAttribute;
 
 [assembly: PartId(PartId.Bits)]
-
 namespace Z0.Parts
 {
     public sealed partial class Bits : Part<Bits>
@@ -40,10 +39,8 @@ namespace Z0
         const NumericKind Closure = Root.UnsignedInts;
     }
 
-
     partial struct Msg
     {
         const NumericKind Closure = Root.UnsignedInts;
-
     }
 }

@@ -1,0 +1,42 @@
+//-----------------------------------------------------------------------------
+// Copyright   :  (c) Chris Moore, 2020
+// License     :  MIT
+//-----------------------------------------------------------------------------
+namespace Z0
+{
+    partial class Literals
+    {
+        public static string format(in RuntimeLiteral src)
+            => string.Format("{0,-16} | {1,-16} | {2,-12} | {3}", src.Type, src.Name, src.Kind, value(src));
+
+        public static string format<T>(in RuntimeLiteralValue<T> src)
+            where T : IEquatable<T>
+        {
+            var data = src.Data.ToString();
+            var content = data switch
+            {
+                RP.WinEol => "<weol>",
+                RP.LinuxEol => "<leol>",
+                RP.AsciNull => "<ascinull>",
+                _ => data
+            };
+            return RP.ticks(content);
+        }
+
+        public static string format<T>(LiteralSeq<T> src)
+            where T : IEquatable<T>, IComparable<T>
+        {
+            var dst = text.buffer();
+            var w = core.width<T>();
+            var count = src.Count;
+            var margin = 0u;
+            dst.AppendLineFormat("{1}:seq<uint{0}> = {{", w, src.Name);
+            margin +=4;
+            for(var i=0; i<count; i++)
+                dst.IndentLine(margin, src[i].Format());
+            margin -=4;
+            dst.IndentLine(margin, "}");
+            return dst.Emit();
+        }
+    }
+}

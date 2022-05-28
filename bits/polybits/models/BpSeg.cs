@@ -7,7 +7,7 @@ namespace Z0
     [StructLayout(StructLayout,Pack=1), Record(TableId)]
     public record struct BpSeg : IComparable<BpSeg>
     {
-        const string TableId = "bits.patterns.segs";
+        const string TableId = "segs";
 
         /// <summary>
         /// The name of the pattern source

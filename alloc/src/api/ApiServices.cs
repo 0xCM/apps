@@ -54,7 +54,7 @@ namespace Z0
         }
 
         public Index<CompilationLiteral> CalcCompilationLits()
-            => Data(nameof(CalcCompilationLits), () => LiteralProvider.CompilationLiterals(ApiParts));
+            => Data(nameof(CalcCompilationLits), () => Literals.compilation(ApiParts));
 
         public Index<DataTypeInfo> CalcDataTypes()
             => DataTypes.describe(ApiParts);

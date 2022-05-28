@@ -9,11 +9,9 @@ namespace Z0
     class App : WfApp<App>
     {
         public static void start(params string[] args)
-            => run(args, PartId.CpuDsl);
+            => run(args, PartId.IntelIntrinsics, PartId.IntelCore, PartId.AsmCore);
 
         EventQueue Queue;
-
-        IntrinsicChecks Checks;
 
         IAppCmdService Commands;
 
@@ -25,7 +23,6 @@ namespace Z0
         protected override void OnInit()
         {
             Queue = EventQueue.allocate(GetType(), EventRaised);
-            Checks = IntrinsicChecks.create(Wf);
             Commands = AppCmd.create(Wf);
         }
 

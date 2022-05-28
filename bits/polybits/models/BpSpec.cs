@@ -7,7 +7,7 @@ namespace Z0
     [StructLayout(StructLayout,Pack=1), Record(TableId)]
     public record struct BpSpec
     {
-        public const string TableId = "bits.patterns.specs";
+        public const string TableId = "specs";
 
         /// <summary>
         /// The name of the pattern source

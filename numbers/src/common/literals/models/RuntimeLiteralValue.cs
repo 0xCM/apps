@@ -16,7 +16,7 @@ namespace Z0
         }
 
         public string Format()
-            => LiteralProvider.format(this);
+            => Literals.format(this);
 
         public override string ToString()
             => Format();

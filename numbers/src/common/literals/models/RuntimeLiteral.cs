@@ -13,35 +13,9 @@ namespace Z0
     [StructLayout(LayoutKind.Sequential,Pack=1)]
     public readonly record struct RuntimeLiteral : ITextual, IRuntimeLiteral, IComparableRecord<RuntimeLiteral>
     {
-        public static string format(in RuntimeLiteral src)
-            => string.Format("{0,-16} | {1,-16} | {2,-12} | {3}", src.Source, src.Name, src.Kind, value(src));
+        public readonly PartId Part;
 
-        [Op]
-        public static RuntimeLiteralValue<string> value(in RuntimeLiteral src)
-        {
-            var value = EmptyString;
-            if(src.Kind == ClrLiteralKind.String)
-                value = ((StringAddress)src.Data).Format();
-            else
-                value = src.Data.ToString();
-            return new RuntimeLiteralValue<string>(value);
-        }
-
-        [Op]
-        public static CompilationLiteral specify(in RuntimeLiteral src)
-        {
-            var dst = default(CompilationLiteral);
-            dst.Source = src.Source.Format();
-            dst.Name = src.Name.Format();
-            dst.Kind = src.Kind.ToString();
-            dst.Value = src.Value();
-            dst.Length = (uint)dst.Value.Data.Length;
-            return dst;
-        }
-
-        public const string TableName = "literals.runtime";
-
-        public readonly StringAddress Source;
+        public readonly StringAddress Type;
 
         public readonly StringAddress Name;
 
@@ -50,23 +24,23 @@ namespace Z0
         public readonly ClrLiteralKind Kind;
 
         [MethodImpl(Inline)]
-        public RuntimeLiteral(StringAddress source, StringAddress name, ulong content, ClrLiteralKind clr)
+        public RuntimeLiteral(PartId part, StringAddress source, StringAddress name, ulong content, ClrLiteralKind clr)
         {
-            Source = source;
+            Part = part;
+            Type = source;
             Name = name;
             Data = content;
             Kind = clr;
         }
 
-
         public RuntimeLiteralValue<string> Value()
-            => value(this);
+            => Literals.value(this);
 
         public CompilationLiteral Specify()
-            => specify(this);
+            => Literals.compilation(this);
 
         public string Format()
-            => format(this);
+            => Literals.format(this);
 
         public override string ToString()
             => Format();
@@ -75,7 +49,7 @@ namespace Z0
             => Format().CompareTo(src.Format());
 
         StringAddress IRuntimeLiteral.Source
-            => Source;
+            => Type;
 
         StringAddress IRuntimeLiteral.Name
             => Name;

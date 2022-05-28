@@ -23,13 +23,15 @@ global using CallerLine = System.Runtime.CompilerServices.CallerLineNumberAttrib
 
 namespace Z0.Parts
 {
-    public sealed partial class IntelIntrinsics : Part<IntelIntrinsics>
+    public sealed class IntelIntrinsics : Part<IntelIntrinsics>
     {
-        public static IntelIntrinsicsAssets Assets = new();
-    }
+        public static Assets PartAssets = new();
 
-    public sealed class IntelIntrinsicsAssets : Assets<IntelIntrinsicsAssets>
-    {
+        public sealed class Assets : Assets<Assets>
+        {
+            public Asset Csv() => Asset("intrinsics.csv");
 
+            public Asset Algorithms() => Asset("intrinsics.algorithms.txt");
+        }
     }
 }

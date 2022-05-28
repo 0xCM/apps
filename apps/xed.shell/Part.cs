@@ -23,8 +23,6 @@ global using CallerLine = System.Runtime.CompilerServices.CallerLineNumberAttrib
 
 namespace Z0.Parts
 {
-    using static core;
-
     public sealed class XedShell : Part<XedShell>
     {
         [ModuleInitializer]

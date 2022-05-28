@@ -22,7 +22,7 @@ namespace Z0
         [CmdOp("pb/emit")]
         Outcome Emit(CmdArgs args)
         {
-            //PolyBits.PatternEmit();
+            PolyBits.EmitPatterns();
             return true;
         }
     }

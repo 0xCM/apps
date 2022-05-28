@@ -18,7 +18,7 @@ namespace Z0
 
         ApiPackArchive ApiPacks => ApiPackArchive.create(AppDb.ApiTargets("capture"));
 
-        ApiMd ApiMetadata => Service(Wf.ApiMetadata);
+        ApiMd ApiMd => Wf.ApiMetadata();
 
         ApiHexPacks HexPacks => Wf.HexPack();
 
@@ -30,7 +30,7 @@ namespace Z0
         void EmitMsil()
         {
             AppDb.MsilTargets().Delete();
-            ApiMetadata.EmitMsil(ApiRuntimeCatalog.ApiHosts, AppDb.MsilTargets(il));
+            ApiMd.EmitMsil(ApiRuntimeCatalog.ApiHosts, AppDb.MsilTargets(il));
         }
 
         [CmdOp("api/emit/hex")]
@@ -73,10 +73,16 @@ namespace Z0
             ApiEmitters.Emit();
         }
 
+        [CmdOp("api/parts")]
+        void Parts()
+        {
+            iter(ApiMd.Parts, part => Write(part.Name));
+        }
+
         [CmdOp("api/tables")]
         void ApiTables()
         {
-            var src = Tables.reflected(ApiRuntimeCatalog.Components);
+            var src = ApiMd.ReflectedTables;
             for(var i=0; i<src.Count; i++)
             {
                 ref readonly var table = ref src[i];
@@ -93,7 +99,6 @@ namespace Z0
                         ));
                 }
             }
-
         }
 
         [CmdOp("api/emit/comments")]

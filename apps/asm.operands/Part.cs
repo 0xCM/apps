@@ -24,10 +24,6 @@ namespace Z0.Parts
 
 namespace Z0
 {
-    using System.IO;
-
-    using static core;
-
     public static partial class XTend
     {
 

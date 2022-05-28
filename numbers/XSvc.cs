@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static CsLang;
 
     public static class XSvc
     {
@@ -23,21 +22,6 @@ namespace Z0
 
             public CheckRunner CheckRunner(IWfRuntime wf)
                 => Service<CheckRunner>(wf);
-
-            public CsLang CsLang(IWfRuntime wf)
-                => Service<CsLang>(wf);
-
-            public GStringLits GenLiterals(IWfRuntime wf)
-                => Service<GStringLits>(wf);
-
-            public GAsciLookup GenAsciLookups(IWfRuntime wf)
-                => Service<GAsciLookup>(wf);
-
-            public GRecord GenRecords(IWfRuntime wf)
-                => Service<GRecord>(wf);
-
-            public GLiteralProvider GenLitProviders(IWfRuntime wf)
-                => Service<GLiteralProvider>(wf);
 
             public MemoryEmitter MemoryEmitter(IWfRuntime wf)
                 => Service<MemoryEmitter>(wf);
@@ -82,9 +66,6 @@ namespace Z0
         public static MemoryEmitter MemoryEmitter(this IWfRuntime wf)
             => Services.MemoryEmitter(wf);
 
-        public static CsLang CsLang(this IWfRuntime wf)
-            => Services.CsLang(wf);
-
         public static AssetServices Assets(this IWfRuntime wf)
             => Services.Assets(wf);
 
@@ -94,17 +75,6 @@ namespace Z0
         public static FileSplitter FileSplitter(this IWfRuntime wf)
             => Services.FileSplitter(wf);
 
-        public static GStringLits GenLiterals(this IWfRuntime wf)
-            => Services.GenLiterals(wf);
-
-        public static GAsciLookup GenAsciLookups(this IWfRuntime wf)
-            => Services.GenAsciLookups(wf);
-
-        public static GRecord GenRecords(this IWfRuntime wf)
-            => Services.GenRecords(wf);
-
-        public static GLiteralProvider GenLitProviders(this IWfRuntime wf)
-            => Services.GenLitProviders(wf);
 
         public static ApiResolver ApiResolver(this IWfRuntime wf)
             => Services.ApiResolver(wf);

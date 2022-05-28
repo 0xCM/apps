@@ -6,9 +6,9 @@ namespace Z0
 {
     using static core;
 
-    public partial class IntelInstrinsicsCmd : AppCmdProvider<IntelInstrinsicsCmd>
+    public class IntelInstrinsicsCmd : AppCmdProvider<IntelInstrinsicsCmd>
     {
-        IntelIntrinsicSvc IntelIntrinsics => Service(Wf.IntelIntrinsics);
+        IntelIntrinsicSvc IntelIntrinsics => Wf.IntelIntrinsics();
 
         [CmdOp("intel/int/emit")]
         Outcome ImportIntrinsics(CmdArgs args)
