@@ -2,11 +2,9 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Vdsl
+namespace Z0
 {
-    using static core;
-    using static Intrinsics;
-
+    using static IntelIntrinsics;
 
     class App : WfApp<App>
     {
@@ -15,7 +13,7 @@ namespace Z0.Vdsl
 
         EventQueue Queue;
 
-        Checks Checks;
+        IntrinsicChecks Checks;
 
         IAppCmdService Commands;
 
@@ -27,8 +25,8 @@ namespace Z0.Vdsl
         protected override void OnInit()
         {
             Queue = EventQueue.allocate(GetType(), EventRaised);
-            Checks = Checks.create(Wf);
-            Commands = CpuDslCmd.create(Wf);
+            Checks = IntrinsicChecks.create(Wf);
+            Commands = AppCmd.create(Wf);
         }
 
         protected override void Disposing()

@@ -2,40 +2,103 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Vdsl
+namespace Z0
 {
+    using Expr;
+    using Asm;
 
     using static intel;
-
+    using static IntelIntrinsics.Defs;
+    using static IntelIntrinsics.Specs;
     using static core;
-    using Expr;
 
-    partial struct Intrinsics
+    using K = IntrinsicKind;
+
+    partial class IntelIntrinsics
     {
-        [ApiComplete("intrinsics.specs")]
-        public readonly partial struct Specs
-        {
+        const NumericKind Closure = UnsignedInts;
 
-
-        }
-
-        [ApiComplete("intrinsics.refs")]
-        public readonly partial struct Refs
-        {
-
-        }
-
-        [ApiHost("intrinsics.checks")]
-        public partial class Checks : Service<Checks>
+        [ApiHost(checks)]
+        public partial class IntrinsicChecks : Checker<IntrinsicChecks>
         {
             readonly PageBank16x4x4 Buffer;
 
-            readonly IPolyrand Random;
+            //readonly IPolyrand Random;
 
-            public Checks()
+            public IntrinsicChecks()
             {
                 Buffer = PageBank16x4x4.allocated();
-                Random = Rng.wyhash64(PolySeed64.lookup(5));
+                //Random = Rng.wyhash64(PolySeed64.lookup(5));
+            }
+
+            void Compute(IntrinsicKind kind)
+            {
+                switch(kind)
+                {
+                    case K._mm256_cvtepi16_epi8:
+                    break;
+
+                    case K.mm256_min_epu8:
+                    {
+                        var block0 = Cells<byte>(n0);
+                        Random.Fill(block0);
+                        var block1 = Cells<byte>(n1);
+                        Random.Fill(block1);
+                        var left = recover<__m256i<byte>>(block0);
+                        var right = recover<__m256i<byte>>(block1);
+                        var count = left.Length;
+                        for(var i=0; i<count; i++)
+                        {
+                            var input = new mm256_min_epu8(skip(left,i), skip(right,i));
+                            var output = IntelIntrinsics.Specs.calc(input);
+                            var expr = string.Format("{0}(\r\n  {1}, \r\n  {2}) -> \r\n  {3}", input.Kind, input.A, input.B, output);
+                            Write(expr);
+                        }
+                    }
+                    break;
+
+                    case K.mm_packus_epi16:
+                    {
+                        var block0 = Cells<short>(n0);
+                        Random.Fill(block0);
+                        var block1 = Cells<short>(n1);
+                        Random.Fill(block1);
+                        var left = recover<__m128i<short>>(block0);
+                        var right = recover<__m128i<short>>(block1);
+                        var count = left.Length;
+                        for(var i=0; i<count; i++)
+                        {
+                            var input = new mm_packus_epi16(skip(left,i), skip(right,i));
+                            var output = Specs.calc(input);
+                            var expr = string.Format("{0}(\r\n  {1}, \r\n  {2}) -> \r\n  {3}", input.Kind, input.A, input.B, output);
+                            var y = eq(vpack.vpackus(input.A, input.B), output).Format();
+                            Write(y);
+                        }
+                    }
+                    break;
+
+                    case K.mm_min_epi8:
+                    {
+                        var block0 = Cells<sbyte>(n0);
+                        Random.Fill(block0);
+                        var block1 = Cells<sbyte>(n1);
+                        Random.Fill(block1);
+                        var left = recover<__m128i<sbyte>>(block0);
+                        var right = recover<__m128i<sbyte>>(block1);
+                        var count = left.Length;
+                        for(var i=0; i<count; i++)
+                        {
+                            var input = new mm_min_epi8(skip(left,i), skip(right,i));
+                            var output = Specs.calc(input);
+                            var expr = string.Format("{0}(\r\n  {1}, \r\n  {2}) -> \r\n  {3}", input.Kind, input.A, input.B, output);
+                            Write(expr);
+                        }
+                    }
+                    break;
+
+                    default:
+                    break;
+                }
             }
 
             public ref readonly PageBankInfo BufferInfo
@@ -141,12 +204,14 @@ namespace Z0.Vdsl
                     Write(string.Format("{0}:{1} -> {2}", op, skip(src,i), skip(dst,i)));
             }
 
-            public void Run()
+            public override void Run()
             {
                 Compute(IntrinsicKind.mm256_min_epu8);
                 Compute(IntrinsicKind.mm_packus_epi16);
                 Compute(IntrinsicKind.mm_min_epi8);
             }
         }
+
     }
+
 }
