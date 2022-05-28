@@ -12,20 +12,20 @@ namespace Z0.Asm
         /// <summary>
         /// Encoded assembly
         /// </summary>
-        public ApiCodeBlock Encoded {get;}
+        public readonly ApiCodeBlock Encoded;
 
         /// <summary>
         /// The decoded instructions
         /// </summary>
-        public Index<IceInstruction> Decoded {get;}
+        public readonly Index<IceInstruction> Decoded;
 
         /// <summary>
         /// The reason capture was terminated
         /// </summary>
-        public ExtractTermCode TermCode {get;}
+        public readonly ExtractTermCode TermCode;
 
         [MethodImpl(Inline)]
-        public ApiBlockAsm(ApiCodeBlock encoded, IceInstruction[] decoded, ExtractTermCode term)
+        public ApiBlockAsm(ApiCodeBlock encoded, IceInstruction[] decoded, ExtractTermCode term = 0)
         {
             Encoded = encoded;
             Decoded = decoded;

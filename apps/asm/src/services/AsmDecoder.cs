@@ -149,6 +149,15 @@ namespace Z0.Asm
             return dst;
         }
 
+        public AsmRoutine Decode(CollectedEncoding src)
+        {
+            ApiUri.parse(src.Token.Uri.Format(), out var uri).Require();
+            var code = new ApiCodeBlock(src.Token.TargetAddress, uri, src.Code);
+            Decode(code, out var instructions);
+            var asm = new ApiBlockAsm(code, instructions);
+            return routine(uri, src.Sig.Format(), asm, r => AsmFormatter.format(r, AsmFormatter.header(src), AsmFormat));
+        }
+
         public AsmHostRoutines Decode(ApiHostUri uri, ReadOnlySpan<ApiMemberCode> src)
         {
             try
@@ -230,7 +239,6 @@ namespace Z0.Asm
                 return result;
 
             var cb = new ApiCodeBlock(src.TargetAddress, uri, src.Data.ToArray());
-
             result = Decode(cb, out var instructions);
             if(result.Fail)
                 return result;
@@ -324,7 +332,7 @@ namespace Z0.Asm
             return decoder;
         }
 
-        static AsmRoutine routine(OpUri uri, string sig, ApiBlockAsm src, bool check = false)
+        static AsmRoutine routine(OpUri uri, string sig, ApiBlockAsm src, Func<AsmRoutine,string> render = null, bool check = false)
         {
             var count = src.InstructionCount;
             var buffer = new AsmInstructionInfo[count];
@@ -344,7 +352,7 @@ namespace Z0.Asm
             if(check)
                 CheckBlockLength(src);
 
-            return new AsmRoutine(uri, sig, src.Encoded, src.TermCode, ApiInstructions.from(src.Encoded, src.Decoded));
+            return new AsmRoutine(uri, sig, src.Encoded, src.TermCode, ApiInstructions.from(src.Encoded, src.Decoded), render);
         }
 
         static void CheckInstructionSize(in IceInstruction instruction, uint offset, in ApiBlockAsm src)

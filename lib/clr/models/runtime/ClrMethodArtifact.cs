@@ -78,7 +78,7 @@ namespace Z0
         public Index<string> TypeParameters;
 
         public MethodDisplaySig DisplaySig
-            => new MethodDisplaySig(ClrMethodArtifact.format(this));
+            => new MethodDisplaySig(format(this));
 
         CliToken IClrArtifact.Token
             => Id;

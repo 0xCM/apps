@@ -13,9 +13,32 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
-        [MethodImpl(Inline), Op]
-        public static MsilSourceBlock msil(CliToken id, CliSig sig, BinaryCode encoded, MethodImplAttributes attributes = default)
-            => new MsilSourceBlock(id, sig, encoded);
+        public static Index<ReflectedByteSpan> bytespans(Type[] src)
+        {
+            var props = src.StaticProperties().Where(p => p.GetGetMethod() != null && p.PropertyType == typeof(ReadOnlySpan<byte>)).ToReadOnlySpan();
+            var count = props.Length;
+            var dst = alloc<ReflectedByteSpan>(count);
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var prop = ref skip(props,i);
+                var method = prop.GetGetMethod();
+                seek(dst,i) = new ReflectedByteSpan(method.Artifact(), method.GetMethodBody().GetILAsByteArray());
+            }
+            return dst;
+        }
+
+
+        [Op]
+        public static ApiMsil msil(MemoryAddress @base, OpUri uri, MethodInfo src)
+            => new ApiMsil(
+                src.MetadataToken,
+                @base,
+                src.DisplaySig(),
+                uri,
+                src.ResolveSignature(),
+                src.GetMethodBody().GetILAsByteArray(),
+                src.GetMethodImplementationFlags()
+                );
 
         [MethodImpl(Inline), Op]
         public static MethodBase method(RuntimeMethodHandle src)
@@ -23,7 +46,7 @@ namespace Z0
 
         [Op]
         public static MsilCompilation compilation(DynamicMethod src)
-            => new MsilCompilation(msil(default, src.ResolveSignature(), msildata(src), src.GetMethodImplementationFlags()), _pointer(src));
+            => new MsilCompilation(MsilCode.define(default, src.ResolveSignature(), msildata(src), src.GetMethodImplementationFlags()), _pointer(src));
 
         [Op]
         public static MsilCompilation compilation(DynamicDelegate src)
@@ -31,13 +54,13 @@ namespace Z0
 
         [Op]
         public static MsilCompilation compilation(MemoryAddress @base, MethodInfo src)
-            => new MsilCompilation(msil(default, src.ResolveSignature(), src.GetMethodBody().GetILAsByteArray(), src.GetMethodImplementationFlags()), @base);
+            => new MsilCompilation(MsilCode.define(default, src.ResolveSignature(), src.GetMethodBody().GetILAsByteArray(), src.GetMethodImplementationFlags()), @base);
 
         [Op]
         public static RuntimeMethodHandle handle(DynamicMethod src)
         {
-            var getMethodDescriptorInfo = typeof(DynamicMethod).GetMethod("GetMethodDescriptor", BindingFlags.NonPublic | BindingFlags.Instance);
-            return (RuntimeMethodHandle)getMethodDescriptorInfo.Invoke(src, null);
+            var method = typeof(DynamicMethod).GetMethod("GetMethodDescriptor", BindingFlags.NonPublic | BindingFlags.Instance);
+            return (RuntimeMethodHandle)method.Invoke(src, null);
         }
 
         /// <summary>
@@ -63,17 +86,6 @@ namespace Z0
             where D : Delegate
                 => pointer(src);
 
-        /// <summary>
-        /// Finds the magical function pointer for a dynamic method
-        /// </summary>
-        /// <param name="method">The source method</param>
-        /// <remarks>See https://stackoverflow.com/questions/45972562/c-sharp-how-to-get-runtimemethodhandle-from-dynamicmethod</remarks>
-        static IntPtr _pointer(DynamicMethod method)
-        {
-            var descriptor = typeof(DynamicMethod).GetMethod("GetMethodDescriptor", BindingFlags.NonPublic | BindingFlags.Instance);
-            return ((RuntimeMethodHandle)descriptor.Invoke(method, null)).GetFunctionPointer();
-        }
-
         public static MethodSlots<I> slots<I>(Type src)
             where I : unmanaged
                 => new MethodSlots<I>(slots(src));
@@ -94,9 +106,16 @@ namespace Z0
             return buffer;
         }
 
-        [Op]
-        public static ApiMsil msil(MemoryAddress @base, OpUri uri, MethodInfo src)
-            => new ApiMsil(src.MetadataToken, @base, uri, src.ResolveSignature(), src.GetMethodBody().GetILAsByteArray(), src.GetMethodImplementationFlags());
+        /// <summary>
+        /// Finds the magical function pointer for a dynamic method
+        /// </summary>
+        /// <param name="method">The source method</param>
+        /// <remarks>See https://stackoverflow.com/questions/45972562/c-sharp-how-to-get-runtimemethodhandle-from-dynamicmethod</remarks>
+        static IntPtr _pointer(DynamicMethod method)
+        {
+            var descriptor = typeof(DynamicMethod).GetMethod("GetMethodDescriptor", BindingFlags.NonPublic | BindingFlags.Instance);
+            return ((RuntimeMethodHandle)descriptor.Invoke(method, null)).GetFunctionPointer();
+        }
 
         /// <summary>
         /// See https://stackoverflow.com/questions/4148297/resolving-the-tokens-found-in-the-il-from-a-dynamic-method/35711376#35711376

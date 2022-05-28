@@ -10,10 +10,6 @@ namespace Z0
     public static partial class XSvc
     {
         [Op]
-        public static MsilPipe MsilPipe(this IWfRuntime wf)
-            => Z0.MsilPipe.create(wf);
-
-        [Op]
         public static CmdLineRunner CmdLineRunner(this IWfRuntime wf)
             => Z0.CmdLineRunner.create(wf);
 

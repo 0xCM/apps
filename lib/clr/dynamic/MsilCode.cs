@@ -4,8 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct MsilSourceBlock
+    [StructLayout(StructLayout,Pack=1)]
+    public readonly struct MsilCode
     {
+        [MethodImpl(Inline), Op]
+        public static MsilCode define(CliToken token, CliSig sig, BinaryCode encoded, MethodImplAttributes attribs)
+            => new MsilCode(token, sig, encoded, attribs);
+
         /// <summary>
         /// The source method token
         /// </summary>
@@ -27,7 +32,7 @@ namespace Z0
         public readonly MethodImplAttributes Attributes;
 
         [MethodImpl(Inline)]
-        public MsilSourceBlock(CliToken id, CliSig sig, BinaryCode encoded, MethodImplAttributes attributes = default)
+        public MsilCode(CliToken id, CliSig sig, BinaryCode encoded, MethodImplAttributes attributes)
         {
             Token = id;
             Sig = sig;
@@ -59,16 +64,16 @@ namespace Z0
             get => Token.IsNonEmpty && Sig.IsNonEmpty && Encoded.IsNonEmpty;
         }
 
-        public static MsilSourceBlock Empty
-        {
-            [MethodImpl(Inline)]
-            get => new MsilSourceBlock(CliToken.Empty, CliSig.Empty, BinaryCode.Empty);
-        }
-
         public ReadOnlySpan<byte> View
         {
             [MethodImpl(Inline)]
             get => Encoded.View;
+        }
+
+        public static MsilCode Empty
+        {
+            [MethodImpl(Inline)]
+            get => new MsilCode(CliToken.Empty, CliSig.Empty, BinaryCode.Empty, MethodImplAttributes.Managed);
         }
     }
 }

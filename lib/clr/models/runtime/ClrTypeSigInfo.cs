@@ -8,26 +8,35 @@ namespace Z0
     /// A succinct type signature
     /// </summary>
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct ClrTypeSigInfo : IRecord<ClrTypeSigInfo>
+    public struct ClrTypeSigInfo
     {
         public const string TableId = "clr.typesigs";
 
+        [Render(32)]
         public string DisplayName;
 
+        [Render(12)]
         public string Modifier;
 
+        [Render(16)]
         public bool IsOpenGeneric;
 
+        [Render(16)]
         public bool IsClosedGeneric;
 
+        [Render(12)]
         public bool IsByRef;
 
+        [Render(12)]
         public bool IsIn;
 
+        [Render(12)]
         public bool IsOut;
 
+        [Render(12)]
         public bool IsPointer;
 
+        [Render(12)]
         public bool IsArray;
 
         public static ClrTypeSigInfo Empty

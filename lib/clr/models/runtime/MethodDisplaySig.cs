@@ -4,30 +4,38 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    public readonly struct MethodDisplaySig
+    public readonly record struct MethodDisplaySig
     {
-        readonly TextBlock Content;
+        readonly string Content;
 
         [MethodImpl(Inline)]
-        internal MethodDisplaySig(TextBlock src)
-            => Content = ApiUri.safe(src);
+        internal MethodDisplaySig(string src)
+            => Content = src ?? EmptyString;
+
+        public string Text
+        {
+            [MethodImpl(Inline)]
+            get => Content ?? EmptyString;
+        }
 
         [MethodImpl(Inline)]
         public string Format()
-            => Content.Format();
+            => Text;
 
         public override string ToString()
             => Format();
 
+        public bool Equals(MethodDisplaySig src)
+            => Text == src.Text;
+
+        public override int GetHashCode()
+            => core.hash(Text);
+
+
         public static MethodDisplaySig Empty
         {
             [MethodImpl(Inline)]
-            get => new MethodDisplaySig(TextBlock.Empty);
+            get => new MethodDisplaySig(EmptyString);
         }
     }
 }

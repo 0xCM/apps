@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="$(Asm)" />
+    <ProjectReference Include="$(Archives)" />
   </ItemGroup>
 
   <Import Project="../imports.props"/>

@@ -4,22 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    /// <summary>
-    /// Specifies a <see cref='MsilSourceBlock'/> along with the compiled entry point
-    /// </summary>
+    [StructLayout(StructLayout,Pack=1)]
     public readonly struct MsilCompilation
     {
-        public MsilSourceBlock Msil {get;}
+        public readonly MsilCode Msil;
 
-        public MemoryAddress EntryPoint {get;}
+        public readonly MemoryAddress EntryPoint;
 
         [MethodImpl(Inline)]
-        public MsilCompilation(MsilSourceBlock msil, MemoryAddress entry)
+        public MsilCompilation(MsilCode msil, MemoryAddress entry)
         {
             Msil = msil;
             EntryPoint = entry;

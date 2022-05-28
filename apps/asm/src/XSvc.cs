@@ -19,6 +19,10 @@ namespace Z0
 
             public ApiExtractWorkflow ApiExtractWorkflow(IWfRuntime wf)
                 => Service<ApiExtractWorkflow>(wf);
+
+            public HostAsmEmitter HostAsmEmitter(IWfRuntime wf)
+                => Service<HostAsmEmitter>(wf);
+
         }
 
         static Svc Services => Svc.Instance;
@@ -36,7 +40,7 @@ namespace Z0
             => Asm.AsmRowBuilder.create(wf);
 
         public static HostAsmEmitter HostAsmEmitter(this IWfRuntime wf)
-            => Asm.HostAsmEmitter.create(wf);
+            => Services.HostAsmEmitter(wf);
 
         public static AsmJmpPipe AsmJmpPipe(this IWfRuntime wf)
             => Asm.AsmJmpPipe.create(wf);

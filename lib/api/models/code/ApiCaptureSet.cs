@@ -7,31 +7,31 @@ namespace Z0
     public class ApiCaptureSet
     {
         [MethodImpl(Inline), Op]
-        public static ApiCaptureSet create(OpUri id, MsilSourceBlock msil, CodeBlock hex, AsmSourceBlock asm, MethodDisplaySig sig)
-            => new ApiCaptureSet(id, msil, hex, asm,sig);
+        public static ApiCaptureSet create(OpUri uri, MsilCode msil, CodeBlock hex, AsmSourceBlock asm, MethodDisplaySig sig)
+            => new ApiCaptureSet(uri, msil, hex, asm,sig);
 
         [MethodImpl(Inline), Op]
         public static ApiCaptureSet create(in ApiCaptureBlock src, in AsmSourceBlock asm)
-            => new ApiCaptureSet(src.OpUri, msil(src.Msil), src.CodeBlock, asm, src.Method.DisplaySig());
+            => new ApiCaptureSet(src.OpUri, src.Msil, src.CodeBlock, asm);
 
         [Op]
         public static ApiCaptureSet create(OpIdentity id, MethodInfo method, CodeBlock hex, AsmSourceBlock asm)
         {
             var uri = ApiUri.hex(method.DeclaringType.ApiHostUri(), method.Name, id);
-            return new ApiCaptureSet(uri, msil(ClrDynamic.msil(hex.BaseAddress, uri, method)), hex, asm, method.DisplaySig());
+            return new (uri,ClrDynamic.msil(hex.BaseAddress, uri, method), hex, asm);
         }
 
-        [MethodImpl(Inline), Op]
-        public static MsilSourceBlock msil(CliToken id, CliSig sig, BinaryCode encoded, MethodImplAttributes attributes = default)
-            => new MsilSourceBlock(id, sig, encoded);
+        // [MethodImpl(Inline), Op]
+        // public static MsilCode msil(CliToken id, CliSig sig, BinaryCode encoded, MethodImplAttributes attributes)
+        //     => new MsilCode(id, sig, encoded, attributes);
 
-        [MethodImpl(Inline), Op]
-        public static MsilSourceBlock msil(in ApiMsil src, MethodImplAttributes attributes = default)
-            => msil(src.Token, src.CliSig, src.CliCode, attributes);
+        // [MethodImpl(Inline), Op]
+        // public static MsilCode msil(ApiMsil src, MethodImplAttributes attributes)
+        //     => MsilCode.define(src.Token, src.CliSig, src.CliCode, src.Attributes);
 
         public readonly OpUri Id;
 
-        public readonly MsilSourceBlock Msil;
+        public readonly MsilCode Msil;
 
         public readonly CodeBlock Hex;
 
@@ -40,7 +40,17 @@ namespace Z0
         public readonly MethodDisplaySig DisplaySig;
 
         [MethodImpl(Inline)]
-        public ApiCaptureSet(in OpUri id, in MsilSourceBlock msil,  in CodeBlock hex, in AsmSourceBlock asm, in MethodDisplaySig sig)
+        public ApiCaptureSet(OpUri uri, ApiMsil msil, in CodeBlock hex, in AsmSourceBlock asm)
+        {
+            Id = uri;
+            Msil = msil.Source;
+            Hex = hex;
+            Asm = asm;
+            DisplaySig = msil.DisplaySig;
+        }
+
+        [MethodImpl(Inline)]
+        public ApiCaptureSet(OpUri id, MsilCode msil, in CodeBlock hex, in AsmSourceBlock asm, in MethodDisplaySig sig)
         {
             Id = id;
             Msil = msil;

@@ -16,6 +16,97 @@ namespace Z0
 
         AppSvcOps AppSvc => Wf.AppSvc();
 
+        public Index<CollectedEncoding> Collect(SymbolDispenser symbols)
+        {
+            var collected = Collect(symbols, MethodEntryPoints.create(ApiJit.JitCatalog(ApiRuntimeCatalog)));
+            Emit(collected, Files.Path(FS.Csv), Files.Path(FS.Hex));
+            return collected;
+        }
+
+        public Index<CollectedEncoding> Collect(SymbolDispenser symbols, ApiHostUri src)
+        {
+            if(ApiRuntimeCatalog.FindHost(src, out var host))
+            {
+                var collected = Collect(symbols, MethodEntryPoints.create(ApiJit.JitHost(host)));
+                Emit(collected, Files.Path(src, FS.Hex), Files.Path(src, FS.Csv));
+                return collected;
+            }
+            else
+            {
+                Errors.Throw(AppMsg.NotFound.Format(src.Format()));
+                return sys.empty<CollectedEncoding>();
+            }
+        }
+
+        public Index<CollectedEncoding> Collect(SymbolDispenser symbols, PartId src)
+        {
+            if(ApiRuntimeCatalog.FindPart(src, out var part))
+            {
+                var collected = Collect(symbols, MethodEntryPoints.create(ApiJit.JitPart(part)));
+                Emit(collected, Files.Path(src, FS.Hex), Files.Path(src, FS.Csv));
+                return collected;
+            }
+            else
+            {
+                Errors.Throw(AppMsg.NotFound.Format(src.Format()));
+                return sys.empty<CollectedEncoding>();
+            }
+        }
+
+        public Index<CollectedEncoding> Collect()
+        {
+            using var symbols = Alloc.symbols();
+            var collected = Collect(symbols, MethodEntryPoints.create(ApiJit.JitCatalog(ApiRuntimeCatalog)));
+            Emit(collected, Files.Path(FS.Csv), Files.Path(FS.Hex));
+            return collected;
+        }
+
+        public Index<CollectedEncoding> Collect(SymbolDispenser symbols, string spec)
+        {
+            var emitted = Index<CollectedEncoding>.Empty;
+            if(text.nonempty(spec))
+            {
+                var i = text.index(spec, Chars.FSlash);
+                if(i>0)
+                    emitted = Collect(symbols, ApiHostUri.define(ApiParsers.part(text.left(spec,i)), text.right(spec,i)));
+                else
+                    emitted = Collect(symbols, ApiParsers.part(spec));
+            }
+            else
+                emitted = Collect(symbols);
+
+            return emitted;
+        }
+
+        public Index<CollectedEncoding> Collect(ApiHostUri src)
+        {
+            using var symbols = Alloc.symbols();
+            return Collect(symbols, src);
+        }
+
+        public Index<CollectedEncoding> Collect(PartId src)
+        {
+            using var symbols = Alloc.symbols();
+            return Collect(symbols, src);
+        }
+
+        public Index<CollectedEncoding> Collect(string spec)
+        {
+            var emitted = Index<CollectedEncoding>.Empty;
+            if(text.nonempty(spec))
+            {
+                var i = text.index(spec, Chars.FSlash);
+                if(i>0)
+                    emitted = Collect(ApiHostUri.define(ApiParsers.part(text.left(spec,i)), text.right(spec,i)));
+                else
+                    emitted = Collect(ApiParsers.part(spec));
+            }
+            else
+                emitted = Collect();
+
+            return emitted;
+        }
+
         public EncodedMembers Load(SymbolDispenser symbols)
         {
             Load(out var index, out var code);
@@ -48,48 +139,6 @@ namespace Z0
             return members(symbols, index, code);
         }
 
-        public Index<EncodedMember> Collect(SymbolDispenser symbols)
-        {
-            var collected = Collect(symbols, MethodEntryPoints.create(ApiJit.JitCatalog(ApiRuntimeCatalog)));
-            return Emit(collected, Files.Path(FS.Csv), Files.Path(FS.Hex));
-        }
-
-        public Index<EncodedMember> Collect(SymbolDispenser symbols, ApiHostUri src)
-        {
-            if(ApiRuntimeCatalog.FindHost(src, out var host))
-            {
-                var collected = Collect(symbols, MethodEntryPoints.create(ApiJit.JitHost(host)));
-                return Emit(collected, Files.Path(src, FS.Hex), Files.Path(src, FS.Csv));
-            }
-            else
-            {
-                Errors.Throw(AppMsg.NotFound.Format(src.Format()));
-                return sys.empty<EncodedMember>();
-            }
-        }
-
-        public Index<EncodedMember> Collect(SymbolDispenser symbols, PartId src)
-        {
-            if(ApiRuntimeCatalog.FindPart(src, out var part))
-            {
-                var collected = Collect(symbols, MethodEntryPoints.create(ApiJit.JitPart(part)));
-                var emitted = Emit(collected, Files.Path(src, FS.Hex), Files.Path(src, FS.Csv));
-                return emitted;
-            }
-            else
-            {
-                Errors.Throw(AppMsg.NotFound.Format(src.Format()));
-                return sys.empty<EncodedMember>();
-            }
-        }
-
-        public Index<EncodedMember> Collect()
-        {
-            using var symbols = Alloc.symbols();
-            var collected = Collect(symbols, MethodEntryPoints.create(ApiJit.JitCatalog(ApiRuntimeCatalog)));
-            return Emit(collected, Files.Path(FS.Csv), Files.Path(FS.Hex));
-        }
-
         void Load(out Index<EncodedMember> index, out BinaryCode data)
         {
             ApiCode.hex(Files.Path(FS.Hex), out data).Require();
@@ -104,54 +153,8 @@ namespace Z0
 
         void Load(ApiHostUri src, out Index<EncodedMember> index, out BinaryCode data)
         {
-            ApiCode.hex(Files.Hex(src), out data).Require();
-            ApiCode.index(Files.Csv(src), out index).Require();
-        }
-
-        public Index<EncodedMember> Collect(SymbolDispenser symbols, string spec)
-        {
-            var emitted = Index<EncodedMember>.Empty;
-            if(text.nonempty(spec))
-            {
-                var i = text.index(spec, Chars.FSlash);
-                if(i>0)
-                    emitted = Collect(symbols, ApiHostUri.define(ApiParsers.part(text.left(spec,i)), text.right(spec,i)));
-                else
-                    emitted = Collect(symbols, ApiParsers.part(spec));
-            }
-            else
-                emitted = Collect(symbols);
-
-            return emitted;
-        }
-
-        public Index<EncodedMember> Collect(ApiHostUri src)
-        {
-            using var symbols = Alloc.symbols();
-            return Collect(symbols, src);
-        }
-
-        public Index<EncodedMember> Collect(PartId src)
-        {
-            using var symbols = Alloc.symbols();
-            return Collect(symbols, src);
-        }
-
-        public Index<EncodedMember> Collect(string spec)
-        {
-            var emitted = Index<EncodedMember>.Empty;
-            if(text.nonempty(spec))
-            {
-                var i = text.index(spec, Chars.FSlash);
-                if(i>0)
-                    emitted = Collect(ApiHostUri.define(ApiParsers.part(text.left(spec,i)), text.right(spec,i)));
-                else
-                    emitted = Collect(ApiParsers.part(spec));
-            }
-            else
-                emitted = Collect();
-
-            return emitted;
+            ApiCode.hex(Files.HexPath(src), out data).Require();
+            ApiCode.index(Files.CsvPath(src), out index).Require();
         }
 
         Index<CollectedEncoding> Collect(SymbolDispenser symbols, ReadOnlySpan<MethodEntryPoint> src)

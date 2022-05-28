@@ -10,24 +10,17 @@ namespace Z0
 
     public class ApiCaptureEmitter : AppService<ApiCaptureEmitter>
     {
-        MsilPipe IlPipe;
+        MsilPipe IlPipe => Wf.MsilSvc();
 
-        ApiHex ApiHex;
+        ApiHex ApiHex => Service(Wf.ApiHex);
 
-        HostAsmEmitter HostEmitter;
+        HostAsmEmitter HostEmitter => Wf.HostAsmEmitter();
 
         ApiExtractParser ExtractParser;
 
         public ApiCaptureEmitter()
         {
             ExtractParser = ApiExtracts.parser();
-        }
-
-        protected override void OnInit()
-        {
-            IlPipe = Wf.MsilPipe();
-            ApiHex = Wf.ApiHex();
-            HostEmitter = Wf.HostAsmEmitter();
         }
 
         public AsmHostRoutines Emit(ApiHostUri host, Index<ApiMemberExtract> src)

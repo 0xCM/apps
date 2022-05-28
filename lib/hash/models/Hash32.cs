@@ -4,8 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct Hash32 : IHashCode<uint,uint>, IComparable<Hash32>, IEquatable<Hash32>
+    public readonly record struct Hash32 : IHashCode<uint,uint>, IComparable<Hash32>, IEquatable<Hash32>
     {
+        [MethodImpl(Inline)]
+        public static Hash32 bytehash<C>(C src)
+            where C : struct
+                => alg.ghash.bytehash(src);
+
         [Parser]
         public static Outcome parse(string src, out Hash32 dst)
         {
@@ -45,9 +50,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public int CompareTo(Hash32 src)
             => Value.CompareTo(src.Value);
-
-        public override bool Equals(object src)
-            => src is Hash32 h && Equals(h);
 
         public override int GetHashCode()
             => (int)Value;

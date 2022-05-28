@@ -24,11 +24,13 @@ namespace Z0
 
         HexEmitter HexEmitter => Wf.HexEmitter();
 
+        const string il = nameof(il);
+
         [CmdOp("api/emit/msil")]
         void EmitMsil()
         {
-            AppDb.MsilTargets().Clear();
-            ApiMetadata.EmitMsil(ApiRuntimeCatalog.ApiHosts, AppDb.MsilTargets());
+            AppDb.MsilTargets().Delete();
+            ApiMetadata.EmitMsil(ApiRuntimeCatalog.ApiHosts, AppDb.MsilTargets(il));
         }
 
         [CmdOp("api/emit/hex")]

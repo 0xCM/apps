@@ -14,31 +14,40 @@ namespace Z0
         DbSources Sources()
             => Targets().ToSource();
 
-        public FS.Files Hex()
+        public FS.Files HexFiles()
             => Sources().Files(FileKind.Hex);
 
-        public FS.Files Hex(PartId part)
+        public FS.Files HexFiles(PartId part)
             => Sources().Files(FileKind.Hex).Where(x => x.FileName.StartsWith(part.Format() + "."));
 
-        public FS.FilePath Hex(ApiHostUri host)
+        public FS.FilePath HexPath(ApiHostUri host)
             => Sources().Path(host.FileName(FS.Hex));
 
-        public FS.Files Asm()
+        public FS.Files AsmFiles()
             => Sources().Files(FileKind.Asm);
 
-        public FS.Files Asm(PartId part)
+        public FS.Files AsmFiles(PartId part)
             => Sources().Files(FileKind.Asm).Where(x => x.FileName.StartsWith(part.Format() + "."));
 
-        public FS.FilePath Asm(ApiHostUri host)
+        public FS.FilePath AsmPath(ApiHostUri host)
             => Sources().Path(host.FileName(FS.Asm));
 
-        public FS.Files Csv()
+        public FS.FilePath AsmPath(PartId part)
+            => Sources().Path(FS.file(part.Format(), FS.Asm));
+
+        public FS.FilePath HexPath(PartId part)
+            => Sources().Path(FS.file(part.Format(), FS.Hex));
+
+        public FS.FilePath CsvPath(PartId part)
+            => Sources().Path(FS.file(part.Format(), FS.Csv));
+
+        public FS.Files CsvFiles()
             => Sources().Files(FileKind.Csv);
 
-        public FS.Files Csv(PartId part)
+        public FS.Files CsvFiles(PartId part)
             => Sources().Files(FileKind.Csv).Where(x => x.FileName.StartsWith(part.Format() + "."));
 
-        public FS.FilePath Csv(ApiHostUri host)
+        public FS.FilePath CsvPath(ApiHostUri host)
             => Sources().Path(host.FileName(FS.Csv));
 
         public FS.FilePath Path(FS.FileExt ext)

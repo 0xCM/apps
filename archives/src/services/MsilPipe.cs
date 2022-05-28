@@ -10,7 +10,7 @@ namespace Z0
     {
         const string CommentToken = "// ";
 
-        const string CilCodeHeader = CommentToken + "Id:{0,-16} BaseAddress:{1,-16} Uri:{2}";
+        const string CilCodeHeader = CommentToken + "Id:{0,-12} Uri:{1}";
 
         const string CilSigHeader = CommentToken + "CliSig:[{0}] = [{1}]";
 
@@ -113,15 +113,15 @@ namespace Z0
             Wf.EmittedFile(flow, count);
         }
 
-        public void EmitCode(Index<ApiMemberCode> src, FS.FilePath dst)
+        public void EmitCode(Index<ApiMemberCode> src, FS.FilePath path)
         {
             var count = src.Count;
             var builder = text.build();
             if(count != 0)
             {
-                var flow = Wf.EmittingFile(dst);
+                var flow = Wf.EmittingFile(path);
                 var view = src.View;
-                using var writer = dst.Writer();
+                using var dst = path.Writer();
                 for(var i=0u; i<count; i++)
                 {
                     ref readonly var code = ref skip(view,i);
@@ -129,17 +129,19 @@ namespace Z0
                     var cil = member.Msil;
                     var sig = code.CliSig.Data;
                     var bytes = cil.CliCode;
-                    writer.WriteLine(CilPageBreak);
-                    writer.WriteLine(string.Format(CilCodeHeader, member.Token, member.BaseAddress, member.OpUri));
-                    writer.WriteLine(string.Format(CilSigHeader, sig.Length, sig.Format()));
-                    writer.WriteLine(string.Format(CilEncodedHeader, bytes.Length, bytes.Format()));
-                    writer.WriteLine(CommentToken + member.Metadata.DisplaySig);
+                    var _sig = member.Method.DisplaySig();
+                    dst.AppendLine(CilPageBreak);
+                    dst.AppendLineFormat("// {0}", member.Method.DisplaySig());
+                    dst.AppendLine(string.Format(CilCodeHeader, member.Token, member.OpUri));
+                    dst.AppendLine(string.Format(CilSigHeader, sig.Length, sig.Format()));
+                    dst.AppendLine(string.Format(CilEncodedHeader, bytes.Length, bytes.Format()));
+                    dst.AppendLine(CommentToken + member.Metadata.DisplaySig);
                     builder.Clear();
                     IlViz.DumpILBlock(bytes, bytes.Length, builder);
-                    writer.WriteLine("{");
-                    writer.Write(builder.ToString());
-                    writer.WriteLine("}");
-                    writer.WriteLine();
+                    dst.AppendLine("{");
+                    dst.Write(builder.ToString());
+                    dst.AppendLine("}");
+                    dst.AppendLine();
                 }
 
                 Wf.EmittedFile(flow, count);
@@ -151,9 +153,12 @@ namespace Z0
             var bytes = src.CliCode;
             var sig = src.CliSig.Data;
             dst.AppendLine(CilPageBreak);
-            dst.AppendLine(string.Format(CilCodeHeader, src.Token, src.BaseAddress, src.Uri));
+            dst.AppendLineFormat("// {0}", src.DisplaySig);
+            dst.AppendLineFormat("// {0}", src.Uri);
+            dst.AppendLineFormat("// {0}", src.Token);
             dst.AppendLine(string.Format(CilSigHeader, sig.Length, sig.Format()));
             dst.AppendLine(string.Format(CilEncodedHeader, bytes.Length, bytes.Format()));
+            dst.AppendLine(CilPageBreak);
             dst.AppendLine("{");
             IlViz.DumpILBlock(bytes, bytes.Length, dst.ToStringBuilder());
             dst.AppendLine("}");

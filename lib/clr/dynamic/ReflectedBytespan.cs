@@ -4,11 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public struct ReflectedByteSpan
+    [StructLayout(LayoutKind.Sequential)]
+    public readonly struct ReflectedByteSpan
     {
-        public ClrMethodArtifact Source;
+        public readonly ClrMethodArtifact Source;
 
-        public BinaryCode Content;
+        public readonly BinaryCode Content;
 
         [MethodImpl(Inline)]
         public ReflectedByteSpan(ClrMethodArtifact source, BinaryCode content)

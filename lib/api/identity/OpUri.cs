@@ -4,28 +4,22 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    [DataType("opuri")]
     public class OpUri : IApiUri<OpUri>
     {
         /// <summary>
         /// The full uri in the form {scheme}://{hostpath}/{opid}
         /// </summary>
-        public string UriText {get;}
+        public readonly string UriText;
 
         /// <summary>
         /// The host fragment, of the form {assembly_short_name}/{hostname}
         /// </summary>
-        public ApiHostUri Host {get;}
+        public readonly ApiHostUri Host;
 
         /// <summary>
         /// Defines host-relative identity in the form, for example, {opname}_{typewidth}X{segwidth}{u | i | f}
         /// </summary>
-        public OpIdentity OpId {get;}
+        public readonly OpIdentity OpId;
 
         OpUri()
         {
@@ -97,5 +91,8 @@ namespace Z0
         /// </summary>
         public static OpUri Empty
             => new OpUri();
+
+        string IApiUri.UriText
+            => UriText;
     }
 }

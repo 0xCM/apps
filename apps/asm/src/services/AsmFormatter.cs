@@ -38,6 +38,21 @@ namespace Z0.Asm
             return dst.Emit();
         }
 
+        public static string header(in CollectedEncoding src)
+        {
+            const string PageBreak = "#" + CharText.Space + RP.PageBreak160;
+            const AsmCommentMarker CommentMarker = AsmCommentMarker.Hash;
+            const sbyte Pad = -14;
+            var dst = text.buffer();
+            dst.AppendLine(PageBreak);
+            dst.AppendLine(new AsmInlineComment(CommentMarker, $"{src.Sig}::{src.Uri}"));
+            dst.AppendLine(AsmInlineComment.array(src.Code).Format());
+            dst.AppendLine(new AsmInlineComment(CommentMarker, RP.attrib(Pad, nameof(src.Token.EntryAddress), src.Token.EntryAddress)));
+            dst.AppendLine(new AsmInlineComment(CommentMarker, RP.attrib(Pad, nameof(src.Token.TargetAddress), src.Token.TargetAddress)));
+            dst.Append(PageBreak);
+            return dst.Emit();
+        }
+
         [Op]
         public static string format(AsmRoutine src, in AsmFormatConfig config)
         {

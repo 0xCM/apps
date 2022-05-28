@@ -4,16 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
+    [StructLayout(LayoutKind.Sequential)]
     public readonly struct MethodSlot
     {
-        public MemoryAddress Address {get;}
+        public readonly MemoryAddress Address;
 
-        public Name Name {get;}
+        public readonly Name Name;
 
         [MethodImpl(Inline)]
         public MethodSlot(Name name, MemoryAddress address)

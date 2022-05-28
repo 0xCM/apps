@@ -138,7 +138,7 @@ namespace Z0.alg
 
         [MethodImpl(Inline), Op]
         public static uint calc(string src)
-            => hash.marvin(text.ifempty(src,EmptyString)); //(uint)text.ifempty(src,EmptyString).GetHashCode();
+            => hash.marvin(text.ifempty(src,EmptyString));
 
         [MethodImpl(Inline), Op]
         public static uint calc(ushort a, ushort b)

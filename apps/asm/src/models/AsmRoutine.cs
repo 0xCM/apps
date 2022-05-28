@@ -12,36 +12,42 @@ namespace Z0.Asm
         /// <summary>
         /// The defining operation uri
         /// </summary>
-        public OpUri Uri {get;}
+        public readonly OpUri Uri;
 
         /// <summary>
         /// The source member signature
         /// </summary>
-        public @string DisplaySig {get;}
+        public readonly @string DisplaySig;
 
         /// <summary>
         /// The function encoding
         /// </summary>
-        public ApiCodeBlock Code {get;}
+        public readonly ApiCodeBlock Code;
 
         /// <summary>
         /// The encoded instructions
         /// </summary>
-        public Index<ApiInstruction> Instructions {get;}
+        public readonly Index<ApiInstruction> Instructions;
 
         /// <summary>
         /// Specifies the reason for capture termination
         /// </summary>
-        public ExtractTermCode TermCode {get;}
+        public readonly ExtractTermCode TermCode;
+
+        /// <summary>
+        /// Specifies formatted assembly code
+        /// </summary>
+        public readonly Func<AsmRoutine,string> AsmRender;
 
         [MethodImpl(Inline)]
-        public AsmRoutine(OpUri uri, @string sig, ApiCodeBlock code, ExtractTermCode term, Index<ApiInstruction> instructions)
+        public AsmRoutine(OpUri uri, @string sig, ApiCodeBlock code, ExtractTermCode term, Index<ApiInstruction> instructions, Func<AsmRoutine,string> render = null)
         {
             Uri = uri;
             DisplaySig = sig;
             Instructions = instructions;
             Code = code;
             TermCode = term;
+            AsmRender = render ?? (r => Code.Format());
         }
 
         [MethodImpl(Inline)]

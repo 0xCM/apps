@@ -9,11 +9,11 @@ namespace Z0.Asm
     /// </summary>
     public class ApiInstruction : IComparable<ApiInstruction>
     {
-        public MemoryAddress BaseAddress {get;}
+        public readonly MemoryAddress BaseAddress;
 
-        public ApiCodeBlock Encoded {get;}
+        public readonly ApiCodeBlock Encoded;
 
-        public IceInstruction Instruction {get;}
+        public readonly IceInstruction Instruction;
 
         [MethodImpl(Inline)]
         public ApiInstruction(MemoryAddress @base, IceInstruction fx, ApiCodeBlock encoded)

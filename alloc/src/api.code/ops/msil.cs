@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     using static core;
 
     partial class ApiCode
@@ -19,16 +17,21 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var method = ref skip(src,i);
-                var address = ClrJit.jit(method);
-                var uri = ApiUri.located(method.DeclaringType.ApiHostUri(), method.Name, method.Identify());
-                var located = new ResolvedMethod(uri, method, address);
+                var entry = ClrJit.jit(method);
                 var body = method.GetMethodBody();
-                var sig = method.ResolveSignature();
                 if(body != null)
                 {
-                    var ilbytes = body.GetILAsByteArray() ?? Array.Empty<byte>();
-                    var length = ilbytes.Length;
-                    seek(target,i) = new ApiMsil(method.MetadataToken, address, uri, sig, ilbytes, method.MethodImplementationFlags);
+                    var uri = ApiUri.located(method.DeclaringType.ApiHostUri(), method.Name, method.Identify());
+                    var resolved = new ResolvedMethod(uri, method, entry);
+                    seek(target,i) = new ApiMsil(
+                        method.MetadataToken,
+                        resolved.EntryPoint,
+                        resolved.Method.DisplaySig(),
+                        resolved.Uri,
+                        method.ResolveSignature(),
+                        body.GetILAsByteArray() ?? sys.empty<byte>(),
+                        method.MethodImplementationFlags
+                        );
                 }
             }
 
