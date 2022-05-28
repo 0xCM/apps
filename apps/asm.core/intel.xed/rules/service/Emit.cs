@@ -10,6 +10,35 @@ namespace Z0
 
     partial class XedRules
     {
+        public Index<FieldUsage> CalcFieldDeps()
+            => Data(nameof(CalcFieldDeps), () => RuleTableDeps.fields(Xed.Views.CellTables));
+
+        public void Emit(Index<FieldUsage> src)
+        {
+            const string RenderPattern = "{0,-6} | {1,-6} | {2,-6} | {3,-3} | {4,-32} | {5,-32}";
+            var headers = new string[]{"Seq", "Index", "Kind", "C", "Rule", "Field"};
+            var dst = text.emitter();
+            dst.AppendLineFormat(RenderPattern, headers);
+            var j=z8;
+            var rule = src.First.Rule;
+            for(var i=0; i<src.Count; i++,j++)
+            {
+                ref readonly var u = ref src[i];
+                if(u.Rule != rule)
+                {
+                    j=0;
+                    rule = u.Rule;
+                }
+
+                dst.AppendLineFormat(RenderPattern, i, j, u.TableKind, u.Consequent, u.RuleName, u.Field);
+            }
+
+            AppSvc.FileEmit(dst.Emit(), XedPaths.RuleTargets().Path("xed.rules.fields.deps", FileKind.Csv));
+        }
+
+        void EmitRuleDeps()
+            => Emit(CalcFieldDeps());
+
         public void EmitCatalog(Index<InstPattern> patterns, RuleTables rules)
         {
             exec(PllExec,
@@ -17,6 +46,7 @@ namespace Z0
                 () => Emit(mapi(RuleMacros.matches().Values.ToArray().Sort(), (i,m) => m.WithSeq((uint)i))),
                 () => Emit(CalcMacroDefs().View),
                 () => Emit(XedFields.Defs.Positioned),
+                EmitRuleDeps,
                 () => ApiMd.EmitTokens(XedFields.EffectiveFields.create(), XedPaths.Target("xed.fields.symbolic", FS.Csv))
             );
 

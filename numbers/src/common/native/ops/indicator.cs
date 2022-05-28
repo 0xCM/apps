@@ -8,7 +8,7 @@ namespace Z0
 
     partial class NativeTypes
     {
-        [Op]
+        [MethodImpl(Inline), Op]
         public static char indicator(NativeClass @class)
             => @class switch {
                 B => Chars.b,

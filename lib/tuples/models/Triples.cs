@@ -4,24 +4,29 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Collections.Generic;
-
-    using static Root;
     using static core;
 
     public readonly ref struct Triples<T>
     {
-        readonly Span<Triple<T>> Data;
+        readonly Index<Triple<T>> Data;
 
         [MethodImpl(Inline)]
-        public Triples(Span<Triple<T>> src)
+        public Triples(Triple<T>[] src)
             => Data = src;
+        public Triple<T>[] Storage
+        {
+            [MethodImpl(Inline)]
+            get => Data;
+        }
 
         [MethodImpl(Inline)]
+
         public ref Triple<T> Select(int index)
-            => ref seek(Data, (uint)index);
+            => ref Data[index];
+
+        [MethodImpl(Inline)]
+        public ref Triple<T> Select(uint index)
+            => ref Data[index];
 
         public ref Triple<T> this[int index]
         {
@@ -29,21 +34,25 @@ namespace Z0
             get => ref Select(index);
         }
 
-        public int Count
+        public ref Triple<T> this[uint index]
         {
             [MethodImpl(Inline)]
-            get => Data.Length;
+            get => ref Select(index);
         }
 
-        public IEnumerable<Triple<T>> Enumerate()
-            => Data.ToEnumerable();
-
-        [MethodImpl(Inline)]
-        public static implicit operator Triples<T>(Span<Triple<T>> src)
-            => new Triples<T>(src);
+        public uint Count
+        {
+            [MethodImpl(Inline)]
+            get => (uint)Data.Length;
+        }
 
         [MethodImpl(Inline)]
         public static implicit operator Triples<T>(Triple<T>[] src)
             => new Triples<T>(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator Triples<T>(Index<Triple<T>> src)
+            => new Triples<T>(src);
+
     }
 }

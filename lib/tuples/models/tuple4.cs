@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
-
     [StructLayout(LayoutKind.Sequential, Pack=1), DataType("tuple<t0:{0},t1:{1},t2:{2},t3:{3}>")]
     public struct tuple<T0,T1,T2,T3>  : ITuple<tuple<T0,T1,T2,T3>,N4,T0,T1,T2>
         where T0: IEquatable<T0>

@@ -4,15 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// An homogenous mutable 3-tuple
     /// </summary>
-    [DataType("triple<t:{0}>")]
     public struct Triple<T> : ITriple<Triple<T>, T>
     {
         /// <summary>

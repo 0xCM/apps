@@ -20,6 +20,9 @@ namespace Z0
                 RowCount = src.Values.Map(x => x.RowCount).Sum();
             }
 
+            public new static TableSpecs Empty
+                => new TableSpecs(core.dict<RuleSig,TableSpec>());
+
             public static implicit operator TableSpecs(Dictionary<RuleSig,TableSpec> src)
                 => new TableSpecs(src);
         }

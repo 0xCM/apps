@@ -10,12 +10,8 @@ namespace Z0
         uint Capacity {get;}
     }
 
-    public interface IFixedCells<T> : IFixedCells, ICellSeq<T>
-    {
-
-    }
-
-    public interface IMutableFixedCells<T> : IFixedCells<T>, IMutableCells<T>
+    public interface IFixedCells<T> : IMutableSeq<T>
+        where T : unmanaged
     {
 
     }

@@ -16,8 +16,31 @@ namespace Z0
         {
            CheckRuleNames();
            CheckInstDefs();
-           CalcRuleDeps();
         }
+
+        // void EmitRuleDeps()
+        // {
+        //     const string RenderPattern = "{0,-6} | {1,-6} | {2,-6} | {3,-3} | {4,-32} | {5,-32}";
+        //     var headers = new string[]{"Seq", "Index", "Kind", "C", "Rule", "Field"};
+        //     var dst = text.emitter();
+        //     var usage = RuleTableDeps.fields(Xed.Views.CellTables);
+        //     dst.AppendLineFormat(RenderPattern, headers);
+        //     var j=z8;
+        //     var rule = usage.First.Rule;
+        //     for(var i=0; i<usage.Count; i++,j++)
+        //     {
+        //         ref readonly var u = ref usage[i];
+        //         if(u.Rule != rule)
+        //         {
+        //             j=0;
+        //             rule = u.Rule;
+        //         }
+
+        //         dst.AppendLineFormat(RenderPattern, i, j, u.TableKind, u.Consequent, u.RuleName, u.Field);
+        //     }
+
+        //     AppSvc.FileEmit(dst.Emit(), XedPaths.RuleTargets().Path("xed.rules.fields.deps", FileKind.Csv));
+        // }
 
         void CheckInstDefs()
         {
@@ -42,7 +65,6 @@ namespace Z0
             for(var i=0; i<rows.Count; i++)
             {
                 ref readonly var row = ref rows[i];
-
                 var antecedants = row.Antecedants();
                 for(var j=0; j<antecedants.Length; j++)
                 {
@@ -59,53 +81,6 @@ namespace Z0
                         right.Include(consequent.Field);
                 }
             }
-        }
-
-        void CalcRuleDeps()
-        {
-            var src = CellTables;
-            var count = src.Count;
-            var left = alloc<HashSet<FieldKind>>(count);
-            var right = alloc<HashSet<FieldKind>>(count);
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var table = ref src[i];
-                collect(table, out seek(left,i), out seek(right,i));
-            }
-
-            var dst = text.emitter();
-            for(var i=0; i<count; i++)
-            {
-                var q=0;
-                ref readonly var table =ref src[i];
-                dst.AppendFormat("{0,-4} | {1,-32}", table.Kind, table.Name);
-                ref readonly var fLeft = ref skip(left,i);
-                foreach(var f in fLeft)
-                {
-                    if(q != 0)
-                        dst.Append(Chars.Comma);
-                    else
-                        q = 1;
-
-                    dst.Append(f.ToString());
-                }
-
-                ref readonly var fRight = ref skip(right,i);
-                foreach(var f in fRight)
-                {
-                    if(q != 0)
-                        dst.Append(Chars.Comma);
-                    else
-                        q = 1;
-
-                    dst.Append(f.ToString());
-                }
-
-                dst.AppendLine();
-            }
-
-            Write(dst.Emit());
-
         }
 
         SectionHeader header(RuleCaller target)
@@ -145,9 +120,7 @@ namespace Z0
         void CheckRuleNames()
         {
             const uint RuleCount = RuleNames.MaxCount;
-
             var src = Symbols.index<RuleName>();
-
             var names = src.Kinds;
             for(var i=0; i<names.Length; i++)
             {

@@ -82,14 +82,14 @@ namespace Z0
                 get => ref seek(Edit,i);
             }
 
-            string ICellSeq.Delimiter
-                => ":";
+            // string ICellSeq.Delimiter
+            //     => ":";
 
             public override string ToString()
                 => (this as ITextual).Format();
 
-            uint IFixedCells.Capacity
-                => Capacity;
+            // uint IFixedCells.Capacity
+            //     => Capacity;
 
             public bool Search(OpAttribKind @class, out OpAttrib dst)
                 => XedPatterns.first(this, @class, out dst);

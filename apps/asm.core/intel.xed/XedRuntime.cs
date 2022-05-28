@@ -12,7 +12,7 @@ namespace Z0
     using static XedModels;
     using static core;
     using static XedOperands;
-
+    using static XedImport;
     using I = XedViewKind;
 
     public partial class XedRuntime : AppService<XedRuntime>
@@ -100,9 +100,6 @@ namespace Z0
             return XedRules.tables(dst);
         }
 
-        void CalcInstDefs()
-            => Views.Store(I.InstDefs, InstDefParser.parse(Paths.DocSource(XedDocKind.EncInstDef)));
-
         void CalcTypeTables()
         {
             Views.Store(I.TypeTables, MemDb.typetables(Alloc, typeof(XedDb).Assembly,"xed"));
@@ -111,29 +108,49 @@ namespace Z0
 
         void RunCalcs()
         {
+            var defs = sys.empty<InstDef>();
+            var blocks = InstImportBlocks.Empty;
+            var forms = sys.empty<FormImport>();
+            var chips = ChipMap.Empty;
             exec(PllExec,
                 CalcTypeTables,
                 CalcCpuIdImports,
-                CalcInstDefs,
+                () => defs = InstDefParser.parse(Paths.DocSource(XedDocKind.EncInstDef)),
+                //() => Views.Store(I.InstDefs, InstDefParser.parse(Paths.DocSource(XedDocKind.EncInstDef))),
                 () => Views.Store(I.AsmBroadcastDefs, Import.CalcBroadcastDefs()),
                 () => Views.Store(I.OpWidths, Import.CalcOpWidths()),
-                () => Import.CalcInstImports(data => Views.Store(I.InstImports, data)),
-                () => Import.CalcFormImports(data => Views.Store(I.FormImports, data)),
-                () => XedRules.CalcChipMap(data =>  Views.Store(I.ChipMap, data))
+                () => Import.CalcInstImports(data => blocks = data),
+                //() => Import.CalcInstImports(data => Views.Store(I.InstImports, data)),
+                () => Import.CalcFormImports(data => forms = data),
+                //() => Import.CalcFormImports(data => Views.Store(I.FormImports, data)),
+                () => XedRules.CalcChipMap(data =>  chips = data)
+                //() => XedRules.CalcChipMap(data =>  Views.Store(I.ChipMap, data))
                 );
 
+            Views.Store(I.InstDefs, defs);
+            Views.Store(I.InstImports, blocks);
+            Views.Store(I.FormImports, forms);
+            Views.Store(I.ChipMap, chips);
+
+            var tables = RuleTables.Empty;
+            var patterns = sys.empty<InstPattern>();
             exec(PllExec,
-                () => Views.Store(I.RuleTables, CalcRuleTables()),
-                () => Views.Store(I.InstPattern, InstPattern.load(Views.InstDefs)),
+                //() => Views.Store(I.RuleTables, CalcRuleTables()),
+                () => tables = CalcRuleTables(),
+                () => patterns = InstPattern.load(defs),
+                //() => Views.Store(I.InstPattern, InstPattern.load(Views.InstDefs)),
                 () => Views.Store(I.OpWidthLookup, Import.CalcOpWidthLookup(Views.OpWidths))
                 );
 
+            Views.Store(I.RuleTables, tables);
+            Views.Store(I.InstPattern, patterns);
+
             exec(PllExec,
-                () => Views.Store(I.OpCodes, XedOpCodes.poc(Views.Patterns)),
-                () => Views.Store(I.InstFields, XedPatterns.fieldrows(Views.Patterns))
+                () => Views.Store(I.OpCodes, XedOpCodes.poc(patterns)),
+                () => Views.Store(I.InstFields, XedPatterns.fieldrows(patterns))
                 );
 
-            Views.Store(I.CellDatasets, RuleTables.datasets(Views.RuleTables));
+            Views.Store(I.CellDatasets, RuleTables.datasets(tables));
             Views.Store(I.CellTables, CellTables.from(Views.CellDatasets));
             Views.Store(I.RuleExpr, Rules.CalcRuleExpr(Views.CellTables));
             Started = true;
@@ -147,6 +164,12 @@ namespace Z0
                 if(!Started)
                     RunCalcs();
             }
+        }
+
+        public new bool Running
+        {
+            [MethodImpl(Inline)]
+            get => Started;
         }
 
         protected override void Disposing()

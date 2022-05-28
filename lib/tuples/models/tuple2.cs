@@ -4,13 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
-
-    [StructLayout(LayoutKind.Sequential, Pack=1), DataType("tuple<t0:{0},t1:{1}>")]
+    [StructLayout(LayoutKind.Sequential, Pack=1)]
     public struct tuple<T0,T1> : ITuple<tuple<T0,T1>,N2,T0,T1>
         where T0: IEquatable<T0>
         where T1: IEquatable<T1>

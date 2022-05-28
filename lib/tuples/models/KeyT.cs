@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    [DataType("key<t:{0}>")]
     public readonly struct Key<T> : ITextual, IHashed
         where T : unmanaged
     {

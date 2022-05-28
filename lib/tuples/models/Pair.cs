@@ -4,15 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// An homogenous mutable 2-tuple
     /// </summary>
-    [DataType("pair<t:{0}>")]
     public struct Pair<T> : IPair<Pair<T>,T>
     {
         /// <summary>

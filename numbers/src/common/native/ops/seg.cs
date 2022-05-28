@@ -8,6 +8,19 @@ namespace Z0
 
     partial class NativeTypes
     {
+        public static byte nonempty(in NativeTypeSeq src)
+        {
+            var count = z8;
+            for(var i=0; i<src.MaxCount; i++)
+            {
+                ref readonly var type = ref src[i];
+                if(type.IsVoid)
+                    break;
+                count++;
+            }
+            return count;
+        }
+
         [MethodImpl(Inline)]
         public static NativeType seg(NativeScalar cellType, byte cellCount)
             => new NativeType(NativeSizes.seg(cellType, cellCount));

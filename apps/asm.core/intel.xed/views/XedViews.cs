@@ -17,12 +17,17 @@ namespace Z0
     {
         [MethodImpl(Inline)]
         public ref readonly T Load<T>(XedViewKind index)
-            => ref core.@as<object,T>(DataStores[(byte)index]);
+        {
+            // if(!Xed.Running)
+            //     Xed.Start();
+
+            return ref @as<object,T>(DataStores[(byte)index]);
+        }
 
         [MethodImpl(Inline)]
         internal void Store<T>(XedViewKind kind, T data)
         {
-            core.@as<object,T>(DataStores[(byte)kind]) = data;
+            @as<object,T>(DataStores[(byte)kind]) = data;
             AppSvc.Status(FlairKind.StatusData, $"Computed {kind}");
         }
 
@@ -39,7 +44,7 @@ namespace Z0
             _AppSvc = svc;
             AppSvc = svc();
             Xed = xed;
-            DataStores =  alloc<object>(32);
+            DataStores = alloc<object>(32);
         }
 
         public ref readonly Index<InstPattern> Patterns

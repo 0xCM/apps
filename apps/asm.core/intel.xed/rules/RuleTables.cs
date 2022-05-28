@@ -43,8 +43,12 @@ namespace Z0
 
             public RuleTables()
             {
-
+                _Criteria = sys.empty<TableCriteria>();
+                _Specs = TableSpecs.Empty;
             }
+
+            public static RuleTables Empty
+                => new RuleTables();
 
             public RuleTables(Index<TableCriteria> criteria, TableSpecs specs)
             {

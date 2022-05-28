@@ -128,7 +128,7 @@ namespace Z0
             where T : struct
                 => triples(src, count, t);
 
-        public static Triples<T> Triples<T>(this ISource src, Span<Triple<T>> dst)
+        public static Triples<T> Triples<T>(this ISource src, Triples<T> dst)
             where T : struct
                 => triples(src, dst);
 
@@ -220,9 +220,9 @@ namespace Z0
                 => triplestream<T>(src).Take(count).Array();
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Triples<T> triples<T>(ISource src, Span<Triple<T>> dst, T t = default)
+        public static Triples<T> triples<T>(ISource src, Triples<T> dst, T t = default)
             where T : struct
-                => PolyStreams.deposit(triplestream<T>(src).Take(dst.Length),dst);
+                => PolyStreams.deposit(triplestream<T>(src).Take(dst.Count), dst.Storage);
 
 
         [MethodImpl(Inline), Op, Closures(Closure)]

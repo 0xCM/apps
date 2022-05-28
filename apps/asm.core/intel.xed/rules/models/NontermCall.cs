@@ -34,12 +34,6 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            // RuleSig IArrow<RuleSig,RuleSig>.Source
-            //     => Source;
-
-            // RuleSig IArrow<RuleSig,RuleSig>.Target
-            //     => Target;
-
             [MethodImpl(Inline)]
             public static implicit operator NontermCall<RuleSig>(NontermCall src)
                 => new NontermCall<RuleSig>(src.Source.ToRule(), src.Target);

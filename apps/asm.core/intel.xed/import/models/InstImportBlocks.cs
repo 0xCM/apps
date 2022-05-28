@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static XedModels;
+    using static core;
 
     partial class XedImport
     {
@@ -26,6 +27,11 @@ namespace Z0
 
             public ConcurrentDictionary<InstForm,string> FormHeaders;
 
+            public InstImportBlocks()
+            {
+                Forms = dict<InstForm,uint>();
+            }
+
             public string Description(InstForm form)
                 => FormBlocks[form];
 
@@ -33,6 +39,8 @@ namespace Z0
                 => FormHeaders[form];
 
             public SortedLookup<string,InstBlockImport> ImportLookup;
+
+            public static InstImportBlocks Empty => new();
         }
     }
 }

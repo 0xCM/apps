@@ -113,6 +113,10 @@ namespace Z0
             => alg.ghash.calc(x,y,z,z);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
+        public static Hash32 hash<T>(T a, T b, T c, T d)
+            => alg.ghash.calc(a,b,c,d);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
         public static Hash64 hash64<X,Y>(X x, Y y)
             => alg.ghash.calc64(x,y);
 

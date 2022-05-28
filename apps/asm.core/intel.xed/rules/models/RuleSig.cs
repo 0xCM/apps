@@ -32,6 +32,12 @@ namespace Z0
                 Data = data;
             }
 
+            public Hash32 Hash
+            {
+                [MethodImpl(Inline)]
+                get => Data;
+            }
+
             public RuleName TableName
             {
                 [MethodImpl(Inline)]
@@ -75,10 +81,10 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public NontermCall CallTo(RuleSig dst)
-                => call(this,dst);
+                => call(this, dst);
 
             public override int GetHashCode()
-                => Data;
+                => Hash;
 
             [MethodImpl(Inline)]
             public int CompareTo(RuleSig src)

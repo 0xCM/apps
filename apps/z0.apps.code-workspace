@@ -22,5 +22,8 @@
 			"path": "."
 		},
 	],
-	"settings": {}
+
+    "settings": {
+        "omnisharp.defaultLaunchSolution": "z0.apps.sln",
+    }
 }

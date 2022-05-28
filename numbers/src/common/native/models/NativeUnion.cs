@@ -6,12 +6,12 @@ namespace Z0
 {
     public readonly struct NativeUnion
     {
-        readonly Index<NativeType> Data;
+        readonly NativeTypeSeq Data;
 
         public readonly string Name;
 
         [MethodImpl(Inline)]
-        public NativeUnion(string name, NativeType[] src)
+        public NativeUnion(string name, NativeTypeSeq src)
         {
             Name = name;
             Data = src;
@@ -26,7 +26,7 @@ namespace Z0
         public ReadOnlySpan<NativeType> Members
         {
             [MethodImpl(Inline)]
-            get => Data;
+            get => Data.View;
         }
 
         public ref NativeType this[uint i]

@@ -30,7 +30,7 @@ namespace Z0
         /// <param name="src">The source value</param>
         /// <param name="n">The target partition count</param>
         [MethodImpl(Inline), Split]
-        public static ConstQuad<byte> split(uint src, N4 n)
+        public static Quad<byte> split(uint src, N4 n)
             => ((byte)src,(byte)(src >> 8),(byte)(src >> 16), (byte)(src >> 24));
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Z0
         /// <param name="src">The source value</param>
         /// <param name="n">The target partition count</param>
         [MethodImpl(Inline), Split]
-        public static ConstQuad<ushort> split(ulong src, N4 n)
+        public static Quad<ushort> split(ulong src, N4 n)
             => ((ushort)src,(ushort)(src >> 16),(ushort)(src >> 32), (ushort)(src >> 48));
 
         /// <summary>

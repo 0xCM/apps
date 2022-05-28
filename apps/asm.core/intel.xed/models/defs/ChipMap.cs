@@ -33,6 +33,8 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get => Data.Values;
             }
+
+            public static ChipMap Empty => new ChipMap(core.dict<ChipCode,IsaKinds>());
         }
     }
 }

@@ -3,6 +3,5 @@
         "enabled": true,
         "Configuration": "Release"
     },
-    "omnisharp.defaultLaunchSolution": "z0.apps.sln",
     "omnisharp.enableDecompilationSupport": true
 }

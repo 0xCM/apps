@@ -56,7 +56,6 @@ namespace Z0
     {
         Span<T> Edit {get;}
 
-
         ReadOnlySpan<T> ISeq<T>.View
             => Edit;
 
@@ -84,7 +83,6 @@ namespace Z0
             get => ref Cell(index);
         }
 
-
         [MethodImpl(Inline)]
         new ref T Cell(int index)
             => ref seek(Edit, index);
@@ -110,11 +108,10 @@ namespace Z0
             [MethodImpl(Inline)]
             get => ref Cell(index);
         }
-
     }
 
     [Free]
-    public interface ISeq<N,T> : ISeq<T>
+    public interface ISeq<N,T> : IMutableSeq<T>
         where N : unmanaged, ITypeNat
     {
         uint ICounted.Count

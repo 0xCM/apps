@@ -47,6 +47,5 @@ namespace Z0
             public NativeSigSpec _mm_add_epi64()
                 => NativeTypes.sig(Scope, nameof(_mm_add_epi64), Type(__m128i), Op("a", __m128i), Op("b", __m128i));
         }
-
     }
 }
