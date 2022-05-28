@@ -30,6 +30,8 @@ namespace Z0
 
         public object FieldValue {get;}
 
+        public readonly DataSize Size;
+
         Sym()
         {
             Identity = SymIdentity.Empty;
@@ -42,10 +44,11 @@ namespace Z0
             Hidden = true;
             Value = SymVal.Zero;
             FieldValue = 0ul;
+            Size = DataSize.Zero;
         }
 
         [MethodImpl(Inline)]
-        public Sym(SymIdentity id, SymClass @class, SymKey index, string type, ulong kind, string name, string symbol, TextBlock? description, bool hidden, object value)
+        public Sym(SymIdentity id, SymClass @class, SymKey index, string type, ulong kind, string name, string symbol, TextBlock? description, bool hidden, object value, DataSize size)
         {
             Identity = id;
             Class = @class;
@@ -58,6 +61,7 @@ namespace Z0
             Hidden = hidden;
             Value = kind;
             FieldValue = value;
+            Size = size;
         }
 
         public string Format()

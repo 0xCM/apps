@@ -27,6 +27,8 @@ namespace Z0
 
         public Identifier Name;
 
+        public DataSize SymSize;
+
         public ClrEnumKind DataType;
 
         public bool Flags;
@@ -35,14 +37,14 @@ namespace Z0
 
         public TextBlock Description;
 
-        public Index<Identifier> Names {get;}
+        public readonly Index<Identifier> Names;
 
-        public Index<SymVal> Values {get;}
+        public readonly Index<SymVal> Values;
 
-        public Index<SymExpr> Symbols {get;}
+        public readonly Index<SymExpr> Symbols;
 
-        public Index<TextBlock> Descriptions {get;}
+        public readonly Index<TextBlock> Descriptions;
 
-        public Index<@string> Kinds {get;}
+        public readonly Index<@string> Kinds;
     }
 }

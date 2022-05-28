@@ -22,6 +22,9 @@ namespace Z0
             where N : unmanaged, ITypeNat
                 => AsciG.parse(src, n, out dst);
 
+        public static bool parse(string src, out DataSize dst)
+            => DataSize.parse(src, out dst);
+
         public static bool parse(string src, out uint1 dst)
             => BitNumbers.parse(src, out dst);
 

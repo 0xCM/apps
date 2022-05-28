@@ -29,6 +29,22 @@ namespace Z0
             get => ref _ApiParts;
         }
 
+        public Index<Type> LoadTypes(FS.FilePath src)
+        {
+            var lines = src.ReadLines(skipBlank:true);
+            var count = lines.Count;
+            var dst = alloc<Type>(count);
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var line = ref lines[i];
+                var type = Type.GetType(line) ?? typeof(void);
+                if(type.IsEmpty())
+                    Warn($"Unable to load {line}");
+                seek(dst,i) = type;
+            }
+            return dst;
+        }
+
         public Index<ClrEnumRecord> EmitEnums(Assembly src, FS.FilePath dst)
         {
             var records = Enums.records(src);

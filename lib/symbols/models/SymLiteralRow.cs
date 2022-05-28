@@ -31,6 +31,7 @@ namespace Z0
             DataParser.parse(skip(cells,j++), out dst.Component);
             DataParser.parse(skip(cells,j++), out dst.Type);
             DataParser.parse(skip(cells,j++), out dst.Class);
+            DataParser.parse(skip(cells,j++), out dst.Size);
             DataParser.parse(skip(cells,j++), out dst.Position);
             DataParser.parse(skip(cells,j++), out dst.Name);
             DataParser.parse(skip(cells,j++), out dst.Symbol);
@@ -60,6 +61,12 @@ namespace Z0
         /// </summary>
         [Render(16)]
         public SymClass Class;
+
+        /// <summary>
+        /// The token size
+        /// </summary>
+        [Render(12)]
+        public DataSize Size;
 
         /// <summary>
         /// The container-relative declaration order of the literal

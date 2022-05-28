@@ -5,31 +5,28 @@
 namespace Z0
 {
     using System.Linq;
+    using static core;
 
     partial class CsLang
     {
-        public void EmitReplicants(Index<ClrEnumAdapter> enums, FS.FilePath dst)
-        {
-            var types = enums.GroupBy(x => x.Definition.Namespace).Map(x => (x.Key, x.ToArray())).ToDictionary();
-            var keys = types.Keys;
-            var counter = 0u;
-            var buffer = text.emitter();
-            var name = "EnumDefs";
-            foreach(var ns in keys)
-                counter += CsRender.replicants(ns, name, types[ns], buffer);
-            AppSvc.FileEmit(buffer.Emit(), counter, dst);
-        }
+        const string EnumReplicantContainer = "EnumDefs";
 
-        public void EmitReplicants(Type[] enums, FS.FilePath dst)
+        public void EmitReplicants(Type[] enums, FS.FolderPath dst)
         {
             var types = enums.GroupBy(x => x.Namespace).Map(x => (x.Key, x.ToArray())).ToDictionary();
-            var keys = types.Keys;
-            var counter = 0u;
-            var buffer = text.buffer();
-            var name = "EnumDefs";
-            foreach(var ns in keys)
-                counter += CsRender.enums(ns, name, types[ns], buffer);
-            FileEmit(buffer.Emit(), counter, dst);
+            var namespaces = types.Keys.ToIndex();
+            iter(namespaces, ns => EmitReplicants(ns,types[ns], dst), true);
+        }
+
+        static FS.FilePath EnumReplicantPath(FS.FolderPath dst, string ns)
+            => dst + FS.file(string.Format("{0}.{1}", ns, EnumReplicantContainer), FS.Cs);
+
+        void EmitReplicants(string ns, Type[] types, FS.FolderPath dst)
+        {
+            var buffer = text.emitter();
+            RenderHeader(core.timestamp(), buffer);
+            CsRender.EnumReplicants(ns, EnumReplicantContainer, types, buffer, e => Write(e.Format(), e.Flair));
+            AppSvc.FileEmit(buffer.Emit(), types.Length, EnumReplicantPath(dst,ns), TextEncodingKind.Utf8);
         }
     }
 }

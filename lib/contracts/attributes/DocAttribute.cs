@@ -12,11 +12,26 @@ namespace Z0
     [AttributeUsage(AttributeTargets.All)]
     public class DocAttribute : Attribute
     {
-        public string Content {get;}
+        /// <summary>
+        /// The documentation origin, if applicable
+        /// </summary>
+        public readonly string Origin;
 
-        public DocAttribute(string info)
+        /// <summary>
+        /// The documentation content
+        /// </summary>
+        public readonly string Content;
+
+        public DocAttribute(string content)
         {
-            Content = info;
+            Origin = EmptyString;
+            Content = content;
+        }
+
+        public DocAttribute(string src, string content)
+        {
+            Origin = src;
+            Content = content;
         }
     }
 }

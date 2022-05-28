@@ -227,13 +227,13 @@ namespace Z0
         /// <summary>
         /// Defines the literal '{0} {1} {2} {3}'
         /// </summary>
-        [RenderPattern(4)]
+        [RenderPattern(4, SSx4)]
         public const string SSx4 = "{0} {1} {2} {3}";
 
         /// <summary>
         /// Defines the literal '{0} {1} {2} {3} {4}'
         /// </summary>
-        [RenderPattern(5)]
+        [RenderPattern(5, SSx5)]
         public const string SSx5 = "{0} {1} {2} {3} {4}";
 
         /// <summary>
@@ -241,7 +241,6 @@ namespace Z0
         /// </summary>
         [RenderPattern(6, "{1} {2}")]
         public const string SS1x2 = Slot1 + SS2;
-
 
         [RenderPattern(1, "{0} ")]
         public const string RSpace = "{0} ";

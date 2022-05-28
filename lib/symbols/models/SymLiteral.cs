@@ -25,6 +25,11 @@ namespace Z0
         public SymClass Class;
 
         /// <summary>
+        /// The token size
+        /// </summary>
+        public DataSize Size;
+
+        /// <summary>
         /// The container-relative declaration order of the literal
         /// </summary>
         public ushort Position;

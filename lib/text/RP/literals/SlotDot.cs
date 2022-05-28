@@ -9,19 +9,19 @@ namespace Z0
         /// <summary>
         /// Defines the literal '{0}.{1}'
         /// </summary>
-        [RenderPattern("{0}.{1}")]
+        [RenderPattern(2, "{0}.{1}")]
         public const string SlotDot2 = Slot0 + Dot + Slot1;
 
         /// <summary>
         /// Defines the literal '{0}.{1}.{2}'
         /// </summary>
-        [RenderPattern("{0}.{1}.{2}")]
+        [RenderPattern(3, "{0}.{1}.{2}")]
         public const string SlotDot3 = SlotDot2 + Dot + Slot2;
 
         /// <summary>
         /// Defines the literal '{0}.{1}.{2}.{3}'
         /// </summary>
-        [RenderPattern("{0}.{1}.{2}.{3}")]
+        [RenderPattern(4, "{0}.{1}.{2}.{3}")]
         public const string SlotDot4 = SlotDot3 + Dot + Slot3;
 
         /// <summary>

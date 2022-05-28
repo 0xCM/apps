@@ -63,6 +63,7 @@ namespace Z0
                 row.Type = type.Name;
                 row.DataType = kind;
                 row.Class = @class(type);
+                row.Size = Sizes.measure(type);
                 row.Position = (ushort)i;
                 row.Name = f.Name;
                 row.Value = Enums.unbox(kind, f.GetRawConstantValue());

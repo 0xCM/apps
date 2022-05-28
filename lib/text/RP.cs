@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Root;
-
     [ApiHost, LiteralProvider]
     public readonly partial struct RP
     {
@@ -23,7 +21,7 @@ namespace Z0
         /// <summary>
         /// Defines the literal '{0} -> {1}'
         /// </summary>
-        [RenderPattern("{0} -> {1}")]
+        [RenderPattern(2, "{0} -> {1}")]
         public const string ArrowAxB = "{0} -> {1}";
     }
 }

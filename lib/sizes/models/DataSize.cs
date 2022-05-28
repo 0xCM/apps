@@ -4,9 +4,26 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(64)]
     public readonly record struct DataSize : IComparable<DataSize>
     {
+        [Parser]
+        public static bool parse(string src, out DataSize dst)
+        {
+            dst = Empty;
+            var parts = text.split(text.trim(text.despace(src)),Chars.Space);
+            var result = parts.Length == 2;
+            if(result)
+            {
+                result &= DataParser.parse(skip(parts,0), out uint p);
+                result &= DataParser.parse(skip(parts,1), out uint n);
+                dst = new DataSize(p,n);
+            }
+            return result;
+        }
+
         readonly ulong Data;
 
         [MethodImpl(Inline)]
@@ -62,10 +79,10 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public void Deconstruct(out byte packed, out byte native)
+        public void Deconstruct(out uint packed, out uint native)
         {
-            packed = (byte)Packed;
-            native = (byte)Native;
+            packed = Packed;
+            native = Native;
         }
 
         public Hash32 Hash
@@ -77,8 +94,8 @@ namespace Z0
         public override int GetHashCode()
             => Hash;
 
-        public string Format(byte pN, byte aN)
-            => string.Format(string.Format("{0} {1}", RP.digits(0,pN), RP.digits(1, aN)), Packed, Native);
+        public string Format(byte pN, byte nN)
+            => string.Format(string.Format("{0} {1}", RP.digits(0,pN), RP.digits(1, nN)), Packed, Native);
 
         public string Format()
             => Format(4,4);

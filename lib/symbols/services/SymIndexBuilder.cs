@@ -46,7 +46,7 @@ namespace Z0
             for(var i=0u; i<count; i++)
             {
                 ref readonly var lit = ref skip(src,i);
-                seek(dst,i) = new Sym(lit.Identity, lit.Class, lit.Position, lit.Type, lit.Value, lit.Name, lit.Symbol.Text, lit.Description, lit.Hidden, lit.FieldValue);
+                seek(dst,i) = new Sym(lit.Identity, lit.Class, lit.Position, lit.Type, lit.Value, lit.Name, lit.Symbol.Text, lit.Description, lit.Hidden, lit.FieldValue, lit.Size);
             }
 
             return new SymIndex(symbols, luString(symbols), luValue(symbols));
@@ -55,7 +55,7 @@ namespace Z0
         [Op, Closures(Closure)]
         static Sym untype<T>(Sym<T> src)
             where T : unmanaged
-                => new Sym(src.Identity, src.Class, src.Key, src.Type, bw64(src.Kind), src.Name, src.Expr.Text, src.Description, src.Hidden, src.Kind);
+                => new Sym(src.Identity, src.Class, src.Key, src.Type, bw64(src.Kind), src.Name, src.Expr.Text, src.Description, src.Hidden, src.Kind, src.Size);
 
         public static SymIndex untype<E>(Sym<E>[] src)
             where E : unmanaged
@@ -161,6 +161,7 @@ namespace Z0
             var dst = span<SymLiteral<E>>(count);
             var kind = PrimalBits.kind(src);
             var @class = Symbols.@class(typeof(E));
+            var size = Sizes.measure(src);
             var counter = 0u;
             for(var i=z16; i<count; i++)
             {
@@ -173,6 +174,7 @@ namespace Z0
                 row.Type = src.Name;
                 row.DataType = kind;
                 row.Class = @class;
+                row.Size = size;
                 row.Position = i;
                 row.Name = f.Name;
                 row.Symbol = (litval,expr);
@@ -194,6 +196,7 @@ namespace Z0
             var dst = span<SymLiteral>(count);
             var kind = PrimalBits.kind(src);
             var @class = Symbols.@class(src);
+            var size = Sizes.measure(src);
             var counter = 0u;
             for(var i=z16; i<count; i++)
             {
@@ -206,6 +209,7 @@ namespace Z0
                 row.Type = src.Name;
                 row.DataType = kind;
                 row.Class = @class;
+                row.Size = size;
                 row.Position = i;
                 row.Name = f.Name;
                 row.Symbol = expr;

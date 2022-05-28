@@ -45,20 +45,28 @@ namespace Z0
         [RenderSlot(3, Slot3x12)]
         public const string Slot3x12 = "{3,-12}";
 
+        [RenderSlot(4, Slot4x12)]
         public const string Slot4x12 = "{4,-12}";
 
+        [RenderSlot(5, Slot5x12)]
         public const string Slot5x12 = "{5,-12}";
 
+        [RenderSlot(6, Slot6x12)]
         public const string Slot6x12 = "{6,-12}";
 
+        [RenderSlot(7, Slot7x12)]
         public const string Slot7x12 = "{7,-12}";
 
+        [RenderSlot(8, Slot8x12)]
         public const string Slot8x12 = "{8,-12}";
 
+        [RenderSlot(0, Slot0x16)]
         public const string Slot0x16 = "{0,-16}";
 
+        [RenderSlot(1, Slot1x16)]
         public const string Slot1x16 = "{1,-16}";
 
+        [RenderSlot(2, Slot2x16)]
         public const string Slot2x16 = "{2,-16}";
 
         public const string Slot3x16 = "{3,-16}";

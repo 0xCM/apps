@@ -17,6 +17,7 @@ namespace Z0
             var attrib = src.Tag<SymSourceAttribute>();
             dst.Name = src.Name;
             dst.DataType = type;
+            dst.SymSize = Sizes.measure(src);
             dst.Flags = src.Tag<FlagsAttribute>().IsSome();
             dst.SymbolKind = src.Tag<SymSourceAttribute>().MapValueOrElse(x => x.SymGroup, () => EmptyString);
             for(var i=0; i<count; i++)
@@ -32,13 +33,14 @@ namespace Z0
             return dst;
         }
 
-        public static SymSet set(Identifier name, ClrEnumKind @base, ReadOnlySpan<string> members)
+        public static SymSet set(Identifier name, ClrEnumKind @base, DataSize size, ReadOnlySpan<string> members)
         {
             var count = members.Length;
             var dst = new SymSet((uint)count);
             dst.Name = name;
             dst.DataType = @base;
             dst.SymbolKind = EmptyString;
+            dst.SymSize = size;
             for(var i=0; i<count; i++)
             {
                 ref readonly var member = ref skip(members,i);

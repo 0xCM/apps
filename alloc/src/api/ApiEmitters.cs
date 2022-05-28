@@ -26,39 +26,46 @@ namespace Z0
             return counter;
         }
 
+        public Index<Type> CalcRecordTypes()
+            => Data(nameof(CalcRecordTypes), () => ApiRuntimeCatalog.Components.Storage.Types().Tagged<RecordAttribute>().Index());
 
-        public Index<TableField> CalcTableDefs()
+        public Index<TableField> CalcTableFields()
         {
-            var tables = ApiRuntimeCatalog.Components.Storage.Types().Tagged<RecordAttribute>().Index();
-            var count = FieldCount(tables);
-            var buffer = alloc<TableField>(count);
-            var k=0u;
-            for(var i=0; i<tables.Count; i++)
+            return Data(nameof(TableField), Calc);
+
+            Index<TableField> Calc()
             {
-                ref readonly var type = ref tables[i];
-                var fields = Tables.fields(type);
-                var total = 0u;
-                var id = TableId.identify(type).Format();
-                var typename = type.DisplayName();
-                for(var j=z16; j<fields.Length; j++, k++)
+                var tables = CalcRecordTypes();
+                var count = FieldCount(tables);
+                var buffer = alloc<TableField>(count);
+                var k=0u;
+                for(var i=0; i<tables.Count; i++)
                 {
-                    ref readonly var src = ref skip(fields,j);
-                    ref readonly var field = ref src.Definition;
-                    ref var dst = ref seek(buffer,k);
-                    var size = (ushort)(Sizes.bits(field.FieldType)/8);
-                    total += size;
-                    dst.Seq = j;
-                    dst.TableId = id;
-                    dst.TableType = typename;
-                    dst.Col = j;
-                    dst.FieldSize = size;
-                    dst.TableSize = total;
-                    dst.RenderWidth = src.FieldWidth;
-                    dst.FieldName = field.Name;
-                    dst.FieldType = field.FieldType.DisplayName();
+                    ref readonly var type = ref tables[i];
+                    var fields = Tables.fields(type);
+                    var total = 0u;
+                    var id = TableId.identify(type).Format();
+                    var typename = type.DisplayName();
+                    for(var j=z16; j<fields.Length; j++, k++)
+                    {
+                        ref readonly var src = ref skip(fields,j);
+                        ref readonly var field = ref src.Definition;
+                        ref var dst = ref seek(buffer,k);
+                        var size = (ushort)(Sizes.bits(field.FieldType)/8);
+                        total += size;
+                        dst.Seq = j;
+                        dst.TableId = id;
+                        dst.TableType = typename;
+                        dst.Col = j;
+                        dst.FieldSize = size;
+                        dst.TableSize = total;
+                        dst.RenderWidth = src.FieldWidth;
+                        dst.FieldName = field.Name;
+                        dst.FieldType = field.FieldType.DisplayName();
+                    }
                 }
+                return buffer;
             }
-            return buffer;
         }
 
         public void Emit()
@@ -127,7 +134,7 @@ namespace Z0
         void ApiEmit(Index<SymLiteralRow> symlits)
             => core.exec(true,
                 EmitDataFlows,
-                EmitEnumList,
+                EmitTypeLists,
                 EmitCompilationLits,
                 EmitDataTypes,
                 EmitComments,
@@ -147,8 +154,11 @@ namespace Z0
         void EmitComments()
             => ApiSvc.EmitComments();
 
-        void EmitEnumList()
-            => ApiSvc.EmitTypeList("api.enums.types", ApiSvc.CalcEnumTypes());
+        void EmitTypeLists()
+        {
+            ApiSvc.EmitTypeList("api.types.enums", ApiSvc.CalcEnumTypes());
+            ApiSvc.EmitTypeList("api.types.records", CalcRecordTypes());
+        }
 
         void EmitDataFlows()
             => ApiSvc.Emit(ApiSvc.CalcDataFlows());
@@ -163,7 +173,7 @@ namespace Z0
             => Heaps.Emit(Heaps.symbols(src));
 
         void EmitApiTables()
-            => ApiSvc.Emit(CalcTableDefs());
+            => ApiSvc.Emit(CalcTableFields());
 
         void EmitParsers()
         {

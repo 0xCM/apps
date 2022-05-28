@@ -29,6 +29,8 @@ namespace Z0
 
         public SymVal Value {get;}
 
+        public readonly DataSize Size;
+
         Sym()
         {
             Identity = SymIdentity.Empty;
@@ -40,6 +42,7 @@ namespace Z0
             Hidden = true;
             Class = SymClass.Empty;
             Value = SymVal.Zero;
+            Size = DataSize.Zero;
         }
 
         [MethodImpl(Inline)]
@@ -54,6 +57,7 @@ namespace Z0
             Description = src.Description;
             Hidden = src.Hidden;
             Value = src.Value;
+            Size = Sizes.measure(typeof(K));
         }
 
         [MethodImpl(Inline)]
@@ -68,6 +72,7 @@ namespace Z0
             Hidden = hidden;
             Class = SymClass.Empty;
             Value = bw64(Kind);
+            Size = Sizes.measure(typeof(K));
         }
 
         public Identifier Type

@@ -10,46 +10,35 @@ namespace Z0
 
     public readonly struct CsRender
     {
-        public static uint replicants(string ns, string name, ReadOnlySpan<ClrEnumAdapter> src, ITextEmitter dst)
-            => @enums(ns,name, recover<ClrEnumAdapter,Type>(src), dst);
-
-        public static uint @enums(string ns, string name, ReadOnlySpan<Type> types, ITextEmitter buffer)
+        public static void EnumReplicants(string ns, string name, ReadOnlySpan<Type> types, ITextEmitter dst, Action<IWfEvent> log)
         {
             var offset = 0u;
-            var counter = 0u;
-            buffer.IndentLineFormat(offset, "namespace {0}", ns);
-            buffer.IndentLine(offset, Chars.LBrace);
+            dst.IndentLineFormat(offset, "namespace {0}", ns);
+            dst.IndentLine(offset, Chars.LBrace);
             offset += 4;
-            buffer.IndentLineFormat(offset, "public readonly struct {0}", name);
-            buffer.IndentLine(offset, Chars.LBrace);
+            dst.IndentLineFormat(offset, "public readonly struct {0}", name);
+            dst.IndentLine(offset, Chars.LBrace);
             offset += 4;
-            var enumBuffer = text.buffer();
 
-            for(var i=0; i<types.Length; i++, counter++)
+            for(var i=0; i<types.Length; i++)
             {
-                ref readonly var type = ref types[i];
-                var spec = Symbols.set(type);
-                CsRender.@enum(offset,spec,enumBuffer);
-                buffer.Indent(offset, enumBuffer.Emit());
-
-                if(counter != 0 && counter % 100 == 0)
-                {
-                    term.babble(string.Format("Generated code for {0} enums", counter));
-                    counter = 0;
-                }
+                EnumReplicant(offset, types[i], dst);
+                if(i != 0 && i % 128 == 0)
+                    log(EventFactory.babble(typeof(CsRender), string.Format("Generated code for {0} enums", i)));
             }
 
             offset -= 4;
-            buffer.IndentLine(offset, Chars.RBrace);
+            dst.IndentLine(offset, Chars.RBrace);
 
             offset -= 4;
-            buffer.Indent(offset, Chars.RBrace);
-            return counter;
+            dst.Indent(offset, Chars.RBrace);
         }
 
-        public static void @enum<T>(uint offset, LiteralSeq<T> src, ITextEmitter dst)
-            where T : IComparable<T>, IEquatable<T>
-                => @enum(offset, src.Name, string.Empty, src.View, dst);
+        public static void EnumReplicant(uint offset, Type type, ITextEmitter dst)
+        {
+            dst.AppendLine();
+            CsRender.@enum(offset, Symbols.set(type), dst);
+        }
 
         public static void @enum<T>(uint offset, Identifier name, ReadOnlySpan<Literal<T>> literals, ITextEmitter dst)
             => @enum(offset, name, string.Empty, literals, dst);
@@ -81,46 +70,42 @@ namespace Z0
             dst.IndentLine(indent,"}");
         }
 
-        public static void @enum(uint margin, SymSet spec, ITextEmitter dst)
+        public static void @enum(uint offset, SymSet src, ITextEmitter dst)
         {
             var counter = 0ul;
-            var offset = margin;
-            var names = spec.Names.View;
+            var names = src.Names.View;
             var count = names.Length;
-            var values = spec.Values.IsNonEmpty;
+            var values = src.Values.IsNonEmpty;
             if(values)
-                Require.equal(count, spec.Values.Length);
+                Require.equal(count, src.Values.Length);
 
-            var symbols = spec.Symbols.IsNonEmpty;
+            var symbols = src.Symbols.IsNonEmpty;
             if(symbols)
-                Require.equal(count, spec.Symbols.Length);
+                Require.equal(count, src.Symbols.Length);
 
-            var descriptions = spec.Descriptions.IsNonEmpty;
+            var descriptions = src.Descriptions.IsNonEmpty;
             if(descriptions)
-                Require.equal(count, spec.Descriptions.Length);
+                Require.equal(count, src.Descriptions.Length);
 
-            if(spec.Description.IsNonEmpty)
-                dst.Append(comment(spec.Description).Format(offset));
+            if(src.Description.IsNonEmpty)
+                dst.Append(comment(src.Description).Format(offset));
 
-            if(spec.SymbolKind.IsNonEmpty)
-            {
-                if(spec.Flags)
-                    dst.IndentLineFormat(offset,"[Flags, SymSource(\"{0}\")]", spec.SymbolKind);
-                else
-                    dst.IndentLineFormat(offset,"[SymSource(\"{0}\")]", spec.SymbolKind);
-            }
+            Span<string> attribs = new string[12];
+            var k=0u;
+            if(src.Flags)
+                seek(attribs,k++) = "Flags";
+            if(src.SymbolKind.IsNonEmpty)
+                seek(attribs,k++) = string.Format("SymSource(\"{0}\")", src.SymbolKind);
             else
-            {
-                if(spec.Flags)
-                    dst.IndentLine(offset,"[SymSource]");
-                else
-                    dst.IndentLine(offset,"[Flags,SymSource]");
-            }
+                seek(attribs,k++) = "SymSource";
+            if(src.SymSize.Packed != src.SymSize.Native)
+                seek(attribs,k++) = $"DataWidth({src.SymSize.Packed})";
 
-            dst.IndentLineFormat(offset, "public enum {0} : {1}", spec.Name, NumericKinds.kind(spec.DataType).Keyword());
+            dst.IndentLine(offset, text.bracket(text.join(", ", slice(attribs,0,k).ToArray())));
+            dst.IndentLineFormat(offset, "public enum {0} : {1}", src.Name, NumericKinds.kind(src.DataType).Keyword());
             dst.IndentLine(offset,"{");
-            offset += 4;
 
+            offset += 4;
             for(var i=0; i<count; i++)
             {
                 var name = CsKeywords.identifier(skip(names,i));
@@ -128,19 +113,17 @@ namespace Z0
                 var value = (ulong)i;
                 var symbol = SymExpr.Empty;
                 if(values)
-                    value = spec.Values[i];
+                    value = src.Values[i];
                 if(symbols)
-                    symbol = spec.Symbols[i];
+                    symbol = src.Symbols[i];
                 if(descriptions)
-                    description = text.ifempty(spec.Descriptions[i],EmptyString);
+                    description = text.ifempty(src.Descriptions[i],EmptyString);
 
                 if(nonempty(description))
                     comment(description).Render(offset, dst);
 
                 if(symbol.IsNonEmpty)
                 {
-                    // OpCode
-                    ref readonly var kind = ref spec.Kinds[i];
                     if(nonempty(description))
                         dst.IndentLineFormat(offset, "[Symbol(\"{0}\",\"{1}\")]", symbol, description);
                     else
@@ -152,6 +135,7 @@ namespace Z0
                     dst.AppendLine();
             }
             offset -= 4;
+
             dst.IndentLine(offset,"}");
         }
     }

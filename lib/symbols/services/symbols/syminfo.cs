@@ -27,6 +27,7 @@ namespace Z0
                     record.TokenType = type.Name;
                     record.TokenKind = type.Name;
                     record.TokenClass = symbol.Class;
+                    record.TokenSize = Sizes.measure(type);
                     record.Index = j;
                     record.Value = (symbol.Value,nbk);
                     record.Name = symbol.Name;
@@ -59,6 +60,7 @@ namespace Z0
                     record.TokenType = type.Name;
                     record.TokenKind = kind.ToString();
                     record.TokenClass = symbol.Class;
+                    record.TokenSize = Sizes.measure(type);
                     record.Index = j;
                     record.Value = (symbol.Value,nbk);
                     record.Name = symbol.Name;
@@ -78,19 +80,19 @@ namespace Z0
             var tag = src.Tag<SymSourceAttribute>();
             var nbk = tag.MapValueOrDefault(t => t.NumericBase, NumericBaseKind.Base10);
             var buffer = alloc<SymInfo>(count);
-            ref var dst = ref first(buffer);
             for(var i=0u; i<count; i++)
             {
                 ref readonly var symbol = ref skip(symbols,i);
-                ref var record = ref seek(dst,i);
-                record.TokenType = src.Name;
-                record.TokenClass = symbol.Class;
-                record.TokenKind = src.Name;
-                record.Index = i;
-                record.Value = (symbol.Value, nbk);
-                record.Name =  symbol.Name;
-                record.Expr = symbol.Expr;
-                record.Description = symbol.Description;
+                ref var dst = ref seek(buffer,i);
+                dst.TokenType = src.Name;
+                dst.TokenClass = symbol.Class;
+                dst.TokenKind = src.Name;
+                dst.TokenSize = Sizes.measure(src);
+                dst.Index = i;
+                dst.Value = (symbol.Value, nbk);
+                dst.Name =  symbol.Name;
+                dst.Expr = symbol.Expr;
+                dst.Description = symbol.Description;
             }
             return buffer;
         }

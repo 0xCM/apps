@@ -20,6 +20,7 @@ namespace Z0
             dst.Component = typeof(E).Assembly;
             dst.DataType = PrimalBits.kind(type);
             dst.Class = src.Class;
+            dst.Size = src.Size;
             dst.Description = src.Description;
             dst.Value = src.Value;
             dst.Identity = src.Identity;

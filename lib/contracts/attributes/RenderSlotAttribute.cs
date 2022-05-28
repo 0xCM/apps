@@ -4,14 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     [AttributeUsage(AttributeTargets.Field)]
     public class RenderSlotAttribute : Attribute
     {
-        public byte Position {get;}
+        public readonly byte Position;
 
-        public string SlotContent {get;}
+        public readonly string SlotContent;
 
         public RenderSlotAttribute(byte position, string content)
         {

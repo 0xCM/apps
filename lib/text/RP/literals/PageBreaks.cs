@@ -6,43 +6,43 @@ namespace Z0
 {
     partial struct RP
     {
-        [RenderLiteral(PageBreak4, 2)]
+        [RenderLiteral(PageBreak4)]
         public const string PageBreak2 = Dash2;
 
-        [RenderLiteral(PageBreak4, 4)]
+        [RenderLiteral(PageBreak4)]
         public const string PageBreak4 = Dash4;
 
-        [RenderLiteral(PageBreak5, 5)]
+        [RenderLiteral(PageBreak5)]
         public const string PageBreak5 = Dash5;
 
-        [RenderLiteral(PageBreak6, 6)]
+        [RenderLiteral(PageBreak6)]
         public const string PageBreak6 = PageBreak4 + PageBreak2;
 
-        [RenderLiteral(PageBreak10, 10)]
+        [RenderLiteral(PageBreak10)]
         public const string PageBreak10 = PageBreak5 + PageBreak5;
 
-        [RenderLiteral(PageBreak10, 12)]
+        [RenderLiteral(PageBreak10)]
         public const string PageBreak12 = PageBreak6 + PageBreak6;
 
-        [RenderLiteral(PageBreak14, 14)]
+        [RenderLiteral(PageBreak14)]
         public const string PageBreak14 = PageBreak12 + PageBreak2;
 
-        [RenderLiteral(PageBreak16, 16)]
+        [RenderLiteral(PageBreak16)]
         public const string PageBreak16 = PageBreak14 + PageBreak2;
 
-        [RenderLiteral(PageBreak20, 20)]
+        [RenderLiteral(PageBreak20)]
         public const string PageBreak20 = PageBreak10 + PageBreak10;
 
-        [RenderLiteral(PageBreak24, 24)]
+        [RenderLiteral(PageBreak24)]
         public const string PageBreak24 = PageBreak20 + PageBreak4;
 
-        [RenderLiteral(PageBreak30, 30)]
+        [RenderLiteral(PageBreak30)]
         public const string PageBreak30 = PageBreak24 + PageBreak6;
 
-        [RenderLiteral(PageBreak32, 32)]
+        [RenderLiteral(PageBreak32)]
         public const string PageBreak32 = PageBreak30 + PageBreak2;
 
-        [RenderLiteral(PageBreak34, 34)]
+        [RenderLiteral(PageBreak34)]
         public const string PageBreak34 = PageBreak32 + PageBreak2;
 
         [RenderLiteral(PageBreak36, 36)]
@@ -51,19 +51,19 @@ namespace Z0
         [RenderLiteral(PageBreak40, 40)]
         public const string PageBreak40 = PageBreak20 + PageBreak20;
 
-        [RenderLiteral(PageBreak40, 50)]
+        [RenderLiteral(PageBreak40)]
         public const string PageBreak50 = PageBreak40 + PageBreak10;
 
-        [RenderLiteral(PageBreak60,60)]
+        [RenderLiteral(PageBreak60)]
         public const string PageBreak60 = PageBreak40 + PageBreak20;
 
-        [RenderLiteral(PageBreak70,70)]
+        [RenderLiteral(PageBreak70)]
         public const string PageBreak70 = PageBreak60 + PageBreak10;
 
-        [RenderLiteral(PageBreak80, 80)]
+        [RenderLiteral(PageBreak80)]
         public const string PageBreak80 = PageBreak40 + PageBreak40;
 
-        [RenderLiteral(PageBreak120, 100)]
+        [RenderLiteral(PageBreak120)]
         public const string PageBreak100 = PageBreak80 + PageBreak20;
 
         [RenderLiteral(PageBreak120, 120)]

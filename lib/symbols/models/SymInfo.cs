@@ -11,7 +11,7 @@ namespace Z0
     {
         public const string TableId = "tokens";
 
-        public const byte FieldCount = 8;
+        public const byte FieldCount = 9;
 
         [Parser]
         public static Outcome parse(string src, out SymInfo dst)
@@ -19,15 +19,16 @@ namespace Z0
             var outcome = Outcome.Success;
             var j=0;
             var cells = text.split(src,Chars.Pipe);
-            if(cells.Length != SymInfo.FieldCount)
+            if(cells.Length != FieldCount)
             {
                 dst = default;
-                return (false, AppMsg.FieldCountMismatch.Format(SymLiteralRow.FieldCount, cells.Length));
+                return (false, AppMsg.FieldCountMismatch.Format(FieldCount, cells.Length));
             }
 
             DataParser.parse(skip(cells,j++), out dst.TokenKind);
             DataParser.parse(skip(cells,j++), out dst.TokenType);
             DataParser.parse(skip(cells,j++), out dst.TokenClass);
+            DataParser.parse(skip(cells,j++), out dst.TokenSize);
             DataParser.parse(skip(cells,j++), out dst.Index);
             DataParser.parse(skip(cells,j++), out dst.Value);
             DataParser.parse(skip(cells,j++), out dst.Name);
@@ -44,6 +45,9 @@ namespace Z0
 
         [Render(32)]
         public SymClass TokenClass;
+
+        [Render(12)]
+        public DataSize TokenSize;
 
         [Render(8)]
         public uint Index;
