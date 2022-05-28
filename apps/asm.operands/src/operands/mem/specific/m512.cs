@@ -7,9 +7,9 @@ namespace Z0.Asm.Operands
     [DataType(TypeSyntax.Mem512), StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly struct m512 : IMemOp512<m512>
     {
-        public NativeSize TargetSize {get;}
+        public readonly NativeSize TargetSize;
 
-        public AsmAddress Address {get;}
+        public readonly AsmAddress Address;
 
         [MethodImpl(Inline)]
         public m512(AsmAddress address)
@@ -42,6 +42,12 @@ namespace Z0.Asm.Operands
 
         public override string ToString()
             => Format();
+
+       AsmAddress IMemOp.Address
+            => Address;
+
+        NativeSize IMemOp.TargetSize
+            => Size;
 
         [MethodImpl(Inline)]
         public static implicit operator m512(AsmAddress src)

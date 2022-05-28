@@ -7,7 +7,6 @@ namespace Z0.llvm
     using Asm;
 
     using static core;
-    using static AsmSyntaxModel;
 
     public class AsmSyntaxTreeParser
     {

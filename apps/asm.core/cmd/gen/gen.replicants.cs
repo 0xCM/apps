@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
-    using static core;
-
     partial class AsmCoreCmd
     {
         [CmdOp("gen/replicants")]
@@ -17,7 +13,7 @@ namespace Z0
             var src = AppDb.ApiTargets().Path(Name, FileKind.List);
             var types = ApiSvc.LoadTypes(src);
             var name = "EnumDefs";
-            CsLang.EmitReplicants(types, AppDb.CgStage(name));
+            CsLang.EmitReplicants(CsLang.replicant(AppDb.CgStage(name), out var spec), types, AppDb.CgStage(name));
             return true;
         }
     }

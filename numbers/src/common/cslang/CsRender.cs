@@ -7,18 +7,23 @@ namespace Z0
     using static core;
 
     using static CsModels;
+    using static CsLang;
 
     public readonly struct CsRender
     {
-        public static void EnumReplicants(string ns, string name, ReadOnlySpan<Type> types, ITextEmitter dst, Action<IWfEvent> log)
+        public static void EnumReplicants(EnumReplicantSpec spec, ReadOnlySpan<Type> types, ITextEmitter dst, Action<IWfEvent> log)
         {
             var offset = 0u;
-            dst.IndentLineFormat(offset, "namespace {0}", ns);
+            dst.IndentLineFormat(offset, "namespace {0}", spec.Namespace);
             dst.IndentLine(offset, Chars.LBrace);
             offset += 4;
-            dst.IndentLineFormat(offset, "public readonly struct {0}", name);
-            dst.IndentLine(offset, Chars.LBrace);
-            offset += 4;
+
+            if(text.nonempty(spec.DeclaringType))
+            {
+                dst.IndentLineFormat(offset, "public readonly struct {0}", spec.DeclaringType);
+                dst.IndentLine(offset, Chars.LBrace);
+                offset += 4;
+            }
 
             for(var i=0; i<types.Length; i++)
             {
@@ -27,8 +32,11 @@ namespace Z0
                     log(EventFactory.babble(typeof(CsRender), string.Format("Generated code for {0} enums", i)));
             }
 
-            offset -= 4;
-            dst.IndentLine(offset, Chars.RBrace);
+            if(text.nonempty(spec.DeclaringType))
+            {
+                offset -= 4;
+                dst.IndentLine(offset, Chars.RBrace);
+            }
 
             offset -= 4;
             dst.Indent(offset, Chars.RBrace);

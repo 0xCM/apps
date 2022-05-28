@@ -4,19 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial struct AsmSyntaxModel
     {
         public struct Operand<K,T> : IOperand<K,T>
             where K : unmanaged
             where T : unmanaged
         {
-            public K Kind {get;}
+            public readonly K Kind;
 
-            public T Value {get;}
+            public readonly T Value;
 
             [MethodImpl(Inline)]
             public Operand(K kind, T value)
@@ -24,6 +20,12 @@ namespace Z0.llvm
                 Kind = kind;
                 Value = value;
             }
+
+            K IOperand<K,T>.Kind
+                => Kind;
+
+            T IOperand<T>.Value
+                => Value;
         }
     }
 }

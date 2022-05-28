@@ -20,7 +20,7 @@ namespace Z0
 
         public enum Code : byte
         {
-            [Symbol("\0")]
+            [Symbol("")]
             Null,
 
             [Symbol("a")]

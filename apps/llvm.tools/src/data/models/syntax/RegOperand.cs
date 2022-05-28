@@ -8,10 +8,9 @@ namespace Z0.llvm
 
     partial struct AsmSyntaxModel
     {
-        [StructLayout(LayoutKind.Sequential, Pack=1)]
         public struct RegOperand : IOperand<AsmOpClass,RegIdentifier>
         {
-            public RegIdentifier Value {get;}
+            public readonly RegIdentifier Value;
 
             [MethodImpl(Inline)]
             public RegOperand(RegIdentifier value)
@@ -19,7 +18,11 @@ namespace Z0.llvm
                 Value = value;
             }
 
-            public AsmOpClass Kind => AsmOpClass.Reg;
+            public AsmOpClass Kind
+                => AsmOpClass.Reg;
+
+            RegIdentifier IOperand<RegIdentifier>.Value
+                => Value;
         }
     }
 }

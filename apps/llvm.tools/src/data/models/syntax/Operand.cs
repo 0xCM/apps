@@ -11,9 +11,9 @@ namespace Z0.llvm
         [StructLayout(LayoutKind.Sequential, Pack=1)]
         public struct Operand : IOperand<AsmOpClass,Cell256>
         {
-            public AsmOpClass Kind {get;}
+            public readonly AsmOpClass Kind;
 
-            public Cell256 Value {get;}
+            public readonly Cell256 Value;
 
             [MethodImpl(Inline)]
             public Operand(AsmOpClass kind, Cell256 value)
@@ -21,6 +21,12 @@ namespace Z0.llvm
                 Kind = kind;
                 Value = value;
             }
+
+            AsmOpClass IOperand<AsmOpClass, Cell256>.Kind
+                => Kind;
+
+            Cell256 IOperand<Cell256>.Value
+                => Value;
         }
     }
 }

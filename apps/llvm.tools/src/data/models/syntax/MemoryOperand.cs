@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System.Runtime.InteropServices;
-
     using Asm;
 
     partial struct AsmSyntaxModel
@@ -25,7 +23,8 @@ namespace Z0.llvm
 
             public Disp Displacement;
 
-            public AsmOpClass Kind => AsmOpClass.Mem;
+            public AsmOpClass Kind
+                => AsmOpClass.Mem;
 
             public MemoryOperand Value
                 => this;

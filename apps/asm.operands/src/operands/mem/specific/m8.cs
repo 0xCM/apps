@@ -7,9 +7,9 @@ namespace Z0.Asm.Operands
     [DataType(TypeSyntax.Mem8), StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly struct m8 : IMemOp8<m8>
     {
-        public NativeSize TargetSize {get;}
+        public readonly NativeSize TargetSize;
 
-        public AsmAddress Address {get;}
+        public readonly AsmAddress Address;
 
         [MethodImpl(Inline)]
         public m8(AsmAddress address)
@@ -36,6 +36,9 @@ namespace Z0.Asm.Operands
             [MethodImpl(Inline)]
             get => TargetSize;
         }
+
+        AsmAddress IMemOp.Address
+            => Address;
 
         public string Format()
             => AsmRender.mem(this);

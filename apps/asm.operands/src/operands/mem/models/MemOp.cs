@@ -7,9 +7,9 @@ namespace Z0.Asm
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly struct MemOp : IMemOp
     {
-        public NativeSize TargetSize {get;}
+        public readonly NativeSize TargetSize;
 
-        public AsmAddress Address {get;}
+        public readonly AsmAddress Address;
 
         [MethodImpl(Inline)]
         public MemOp(NativeSize target, AsmAddress address)
@@ -47,5 +47,11 @@ namespace Z0.Asm
             => new AsmOperand(src);
 
         public static MemOp Empty => default;
+
+        AsmAddress IMemOp.Address
+            => Address;
+
+        NativeSize IMemOp.TargetSize
+            => Size;
     }
 }

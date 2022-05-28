@@ -10,15 +10,18 @@ namespace Z0.llvm
     {
         public struct ImmOperand : IOperand<AsmOpClass,Imm>
         {
-            public Imm Value {get;}
-
-            public AsmOpClass Kind => AsmOpClass.Imm;
+            public readonly Imm Value;
 
             [MethodImpl(Inline)]
             public ImmOperand(Imm value)
             {
                 Value = value;
             }
+
+            public AsmOpClass Kind => AsmOpClass.Imm;
+
+            Imm IOperand<Imm>.Value
+                => Value;
         }
     }
 }
