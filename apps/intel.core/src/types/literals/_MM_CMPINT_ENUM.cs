@@ -9,6 +9,7 @@ namespace Z0
         /// <summary>
         /// Constants for integer comparison predicates
         /// </summary>
+        [SymSource(group)]
         public enum _MM_CMPINT_ENUM : byte
         {
             /// <summary>

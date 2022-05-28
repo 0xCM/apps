@@ -17,7 +17,7 @@ namespace Z0
         [ApiHost(specs)]
         public class Specs
         {
-            [MethodImpl(Inline)]
+            [MethodImpl(Inline), Op]
             public static byte trunc8(ushort src)
                 => (byte)src;
 
@@ -44,7 +44,7 @@ namespace Z0
                 return count;
             }
 
-            [MethodImpl(Inline)]
+            [MethodImpl(Inline), Op]
             public static __m128i<uint> calc(in mm_ternarylogic_epi32 src)
                 => Specs.mm_ternarylogic_epi32(src.A, src.B, src.C, src.Imm8);
 
@@ -56,7 +56,7 @@ namespace Z0
             /// the corresponding bit from "a", "b", and "c" are used to form a 3 bit index into "imm8", and the value at
             /// that bit in "imm8" is written to the corresponding bit in "dst".
             /// </summary>
-            [MethodImpl(Inline)]
+            [MethodImpl(Inline), Op]
             public static __m128i<uint> mm_ternarylogic_epi32(__m128i<uint> a, __m128i<uint> b, __m128i<uint> c, imm8 imm8)
             {
                 var dst = m128i<uint>();
@@ -72,11 +72,11 @@ namespace Z0
                 return dst;
             }
 
-            [MethodImpl(Inline)]
+            [MethodImpl(Inline), Op]
             public static __m128i<byte> calc(in mm256_cvtepi16_epi8 src)
                 => Specs.mm256_cvtepi16_epi8(src.A);
 
-            [MethodImpl(Inline)]
+            [MethodImpl(Inline), Op]
             public static __m128i<byte> mm256_cvtepi16_epi8(__m256i<ushort> a)
             {
                 var dst = m128i<byte>();
@@ -94,7 +94,7 @@ namespace Z0
             public static __m128i<byte> calc(in mm_packus_epi16 io)
                 => Specs.mm_packus_epi16(io.A, io.B);
 
-            [MethodImpl(Inline)]
+            [MethodImpl(Inline), Op]
             public static __m128i<byte> mm_packus_epi16(in __m128i<short> a, in __m128i<short> b)
             {
                 var dst = m128i<byte>();
@@ -117,11 +117,11 @@ namespace Z0
                 return dst;
             }
 
-            [MethodImpl(Inline)]
+            [MethodImpl(Inline), Op]
             public static __m128i<sbyte> calc(in mm_min_epi8 src)
                 => mm_min_epi8(src.A, src.B);
 
-            [MethodImpl(Inline)]
+            [MethodImpl(Inline), Op]
             public static __m128i<sbyte> mm_min_epi8(in __m128i<sbyte> a, in __m128i<sbyte> b)
             {
                 var dst = m128i<sbyte>();

@@ -1,0 +1,50 @@
+//-----------------------------------------------------------------------------
+// Copyright   :  (c) Chris Moore, 2020
+// License     :  MIT
+//-----------------------------------------------------------------------------
+namespace Z0
+{
+    using static core;
+
+    using System.Text;
+
+    partial class IntelIntrinsics
+    {
+        public class CmdSvc : AppCmdProvider<CmdSvc>
+        {
+            IntelIntrinsics Intrinsics => Wf.IntelIntrinsics();
+
+            Checks IntrinsicChecks => Wf.Checks();
+
+            AppDb AppDb => Wf.AppDb();
+
+            AppSvcOps AppSvc => Wf.AppSvc();
+
+            [CmdOp("intel/int/emit")]
+            void ImportIntrinsics()
+            {
+                var intrinsics = Intrinsics.Emit();
+                var types = intrinsics.SelectMany(x => x.parameters).Select(x => x.type.Format().Remove("*").Remove("const").Trim()).Distinct().Sort();
+                iter(types, t => Write(t));
+            }
+
+            public static TextEncoding encoding()
+                => new TextEncoding(Encoding.UTF8);
+
+            [CmdOp("intel/int/algs")]
+            void EmitAlgs()
+            {
+                var asset = Assets.Algorithms();
+                Utf8.decode(asset.ResBytes, out var doc);
+                AppSvc.FileEmit(doc, AppDb.Targets("intrinsics").Path(algs,FileKind.Txt), TextEncodingKind.Utf8);
+            }
+
+            [CmdOp("intel/int/check")]
+            Outcome RunChecks(CmdArgs args)
+            {
+                IntrinsicChecks.Run();
+                return true;
+            }
+        }
+    }
+}

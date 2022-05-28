@@ -9,6 +9,7 @@ namespace Z0
         /// <summary>
         /// Constants for mantissa extraction
         /// </summary>
+        [SymSource(group)]
         public enum _MM_MANTISSA_NORM_ENUM: byte
         {
             /// <summary>

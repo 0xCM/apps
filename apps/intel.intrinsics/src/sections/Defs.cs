@@ -13,7 +13,8 @@ namespace Z0
     {
         public class Defs
         {
-            public struct mm_ternarylogic_epi32 : IIntrinsicInput<mm_ternarylogic_epi32>
+            [StructLayout(StructLayout,Pack=1)]
+            public struct mm_ternarylogic_epi32
             {
                 public __m128i<uint> A;
 
@@ -36,7 +37,8 @@ namespace Z0
                     => IntrinsicKind.mm_ternarylogic_epi32;
             }
 
-            public readonly struct mm256_cvtepi16_epi8 : IIntrinsicInput<mm256_cvtepi16_epi8>
+            [StructLayout(StructLayout,Pack=1)]
+            public readonly struct mm256_cvtepi16_epi8
             {
                 public readonly __m256i<ushort> A;
 
@@ -50,6 +52,7 @@ namespace Z0
                     => IntrinsicKind._mm256_cvtepi16_epi8;
             }
 
+            [StructLayout(StructLayout,Pack=1)]
             public struct mm_packus_epi16
             {
                 public __m128i<short> A;
@@ -68,7 +71,8 @@ namespace Z0
             }
 
 
-            public readonly struct mm_min_epi8 : IIntrinsicInput<mm_min_epi8>
+            [StructLayout(StructLayout,Pack=1)]
+            public readonly struct mm_min_epi8
             {
                 public readonly __m128i<sbyte> A;
 
@@ -85,7 +89,8 @@ namespace Z0
                     => IntrinsicKind.mm_min_epi8;
             }
 
-            public readonly struct mm_blend_epi32 : IIntrinsicInput<mm_blend_epi32>
+            [StructLayout(StructLayout,Pack=1)]
+            public readonly struct mm_blend_epi32
             {
                 public readonly __m128i<uint> A;
 
@@ -105,8 +110,8 @@ namespace Z0
                     => IntrinsicKind.mm_blend_epi32;
             }
 
-
-            public readonly struct mm_avg_epu8 : IIntrinsicInput<mm_avg_epu8>
+            [StructLayout(StructLayout,Pack=1)]
+            public readonly struct mm_avg_epu8
             {
                 public readonly __m128i<byte> A;
 
@@ -123,8 +128,8 @@ namespace Z0
                     => IntrinsicKind.mm_avg_epu8;
             }
 
-
-            public readonly struct mm_delta_epu8 : IIntrinsicInput<mm_delta_epu8>
+            [StructLayout(StructLayout,Pack=1)]
+            public readonly struct mm_delta_epu8
             {
                 public readonly __m128i<byte> A;
 
@@ -141,7 +146,8 @@ namespace Z0
                     => IntrinsicKind.mm_avg_epu8;
             }
 
-            public readonly struct mm256_min_epu8 : IIntrinsicInput<mm256_min_epu8>
+            [StructLayout(StructLayout,Pack=1)]
+            public readonly struct mm256_min_epu8
             {
                 public readonly __m256i<byte> A;
 

@@ -9,6 +9,8 @@ namespace Z0
     {
         const NumericKind Closure = NumericKind.UnsignedInts;
 
+        const string group = "intel";
+
         [MethodImpl(Inline)]
         public static CmpPred128<T> eq<T>(__m128i<T> a, __m128i<T> b)
             where T : unmanaged

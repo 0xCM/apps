@@ -6,9 +6,7 @@ namespace Z0
 {
     partial class intel
     {
-        /// <summary>
-        ///
-        /// </summary>
+        [SymSource(group)]
         public enum _MM_MANTISSA_SIGN_ENUM : byte
         {
             /// <summary>

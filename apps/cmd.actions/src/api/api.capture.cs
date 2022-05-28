@@ -14,17 +14,32 @@ namespace Z0
         [CmdOp("api/capture")]
         void Capture(CmdArgs args)
         {
-            var spec = EmptyString;
+            var capture = Wf.ApiCapture2();
             if(args.Count != 0)
             {
-                spec = text.trim(arg(args,0).Value.Format());
-                using var symbols = Alloc.dispenser(Alloc.symbols);
-                ApiCode.Collect(symbols, spec);
-                EmitAsm(symbols, spec);
+                var spec = text.trim(arg(args,0).Value.Format());
+                var i = text.index(spec, Chars.FSlash);
+                if(i>0)
+                {
+                    var host = ApiHostUri.define(ApiParsers.part(text.left(spec,i)), text.right(spec,i));
+                }
+                else
+                {
+                    var part = ApiParsers.part(spec);
+                    if(part != 0)
+                        capture.Run(part);
+                    else
+                        Warn($"Specification '{spec}' invalid");
+                }
+
+                // spec = text.trim(arg(args,0).Value.Format());
+                // using var symbols = Alloc.dispenser(Alloc.symbols);
+                // ApiCode.Collect(symbols, spec);
+                // EmitAsm(symbols, spec);
             }
             else
             {
-                Wf.ApiCapture2().Run();
+                capture.Run();
             }
         }
 

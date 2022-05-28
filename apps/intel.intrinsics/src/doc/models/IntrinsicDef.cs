@@ -36,8 +36,8 @@ namespace Z0
 
             public Header header;
 
-            public Sig Sig()
-                => new Sig(@return, name, parameters);
+            public DocSig Sig()
+                => new DocSig(@return, name, parameters);
 
             public int CompareTo(IntrinsicDef src)
             {

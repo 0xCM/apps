@@ -11,11 +11,11 @@ namespace Z0
     {
         sealed class Svc : AppServices<Svc>
         {
-            public IntelIntrinsicSvc IntelIntrinsics(IWfRuntime wf)
-                => Service<IntelIntrinsicSvc>(wf);
+            public IntelIntrinsics IntelIntrinsics(IWfRuntime wf)
+                => Service<IntelIntrinsics>(wf);
 
-            public IntelInstrinsicsCmd IntelIntrinsicsCmd(IWfRuntime wf)
-                => Service<IntelInstrinsicsCmd>(wf);
+            public I.CmdSvc IntelIntrinsicsCmd(IWfRuntime wf)
+                => Service<I.CmdSvc>(wf);
 
             public I.Checks Checks(IWfRuntime wf)
                 => Service<I.Checks>(wf);
@@ -23,10 +23,10 @@ namespace Z0
 
         static Svc Services => Svc.Instance;
 
-        public static IntelIntrinsicSvc IntelIntrinsics(this IWfRuntime wf)
+        public static IntelIntrinsics IntelIntrinsics(this IWfRuntime wf)
             => Services.IntelIntrinsics(wf);
 
-        public static IntelInstrinsicsCmd IntelIntrinsicsCmd(this IWfRuntime wf)
+        public static I.CmdSvc IntelIntrinsicsCmd(this IWfRuntime wf)
             => Services.IntelIntrinsicsCmd(wf);
 
         public static I.Checks Checks(this IWfRuntime wf)

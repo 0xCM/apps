@@ -83,6 +83,14 @@ namespace Z0
             EmittedFile(emitting, count);
         }
 
+        public void FileEmit<T>(T src, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
+        {
+            var emitting = EmittingFile(dst);
+            using var emitter = dst.Writer(encoding);
+            emitter.Write(src.ToString());
+            EmittedFile(emitting, 0);
+        }
+
         public void FileEmit<T>(T src, string msg, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
         {
             Write(string.Format("{0,-12} | {1}", "Emitting", dst.ToUri()), FlairKind.Running);

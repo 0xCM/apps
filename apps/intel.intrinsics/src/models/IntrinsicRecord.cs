@@ -14,7 +14,7 @@ namespace Z0
         [Record(TableId)]
         public struct IntrinsicRecord : IComparable<IntrinsicRecord>, ISequential<IntrinsicRecord>
         {
-            const string TableId = "intel.intrinsics";
+            const string TableId = intrinsics;
 
             [Render(8)]
             public uint Key;
@@ -44,7 +44,7 @@ namespace Z0
             public string Category;
 
             [Render(1)]
-            public Sig Signature;
+            public DocSig Signature;
 
             uint ISequential.Seq
             {

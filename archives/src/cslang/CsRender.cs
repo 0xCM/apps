@@ -11,24 +11,28 @@ namespace Z0
 
     public readonly struct CsRender
     {
-        public static void EnumReplicants(EnumReplicantSpec spec, ReadOnlySpan<Type> types, ITextEmitter dst, Action<IWfEvent> log)
+        public static void EnumReplicants(EnumReplicantSpec spec, ReadOnlySpan<Type> types, ITextEmitter code, ITextEmitter data, Action<IWfEvent> log)
         {
             var offset = 0u;
-            dst.IndentLineFormat(offset, "namespace {0}", spec.Namespace);
-            dst.IndentLine(offset, Chars.LBrace);
+            code.IndentLineFormat(offset, "namespace {0}", spec.Namespace);
+            code.IndentLine(offset, Chars.LBrace);
             offset += 4;
 
             if(text.nonempty(spec.DeclaringType))
             {
-                dst.IndentLineFormat(offset, "public readonly struct {0}", spec.DeclaringType);
-                dst.IndentLine(offset, Chars.LBrace);
+                code.IndentLineFormat(offset, "public readonly struct {0}", spec.DeclaringType);
+                code.IndentLine(offset, Chars.LBrace);
                 offset += 4;
             }
 
             for(var i=0; i<types.Length; i++)
             {
                 var symbols = Symbols.set(types[i]);
-                Code(offset, symbols, dst);
+                if(symbols.SymbolCount != 0)
+                {
+                    Code(offset, symbols, code);
+                    Data(symbols, data, i==0);
+                }
 
                 if(i != 0 && i % 128 == 0)
                     log(EventFactory.babble(typeof(CsRender), string.Format("Generated code for {0} enums", i)));
@@ -37,11 +41,11 @@ namespace Z0
             if(text.nonempty(spec.DeclaringType))
             {
                 offset -= 4;
-                dst.IndentLine(offset, Chars.RBrace);
+                code.IndentLine(offset, Chars.RBrace);
             }
 
             offset -= 4;
-            dst.Indent(offset, Chars.RBrace);
+            code.Indent(offset, Chars.RBrace);
         }
 
         public static void Code(uint offset, SymSet src, ITextEmitter dst)
@@ -50,9 +54,15 @@ namespace Z0
             CsRender.@enum(offset, src, dst);
         }
 
-        public static void Data(uint offset, SymSet src, ITextEmitter dst)
+        public static void Data(SymSet src, ITextEmitter dst, bool header)
         {
+            var records = src.Records();
+            var formatter = Tables.formatter<SymInfo>();
+            if(header)
+                dst.AppendLine(formatter.FormatHeader());
 
+            for(var i=0; i<records.Count; i++)
+                dst.AppendLine(formatter.Format(records[i]));
         }
 
         public static void EnumReplicant(uint offset, Type type, ITextEmitter dst)

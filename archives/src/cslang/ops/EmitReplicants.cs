@@ -65,24 +65,28 @@ namespace Z0
 
         void EmitTopReplicants(EnumReplicantSpec spec, Type[] tops)
         {
-            var buffer = text.emitter();
-            RenderHeader(core.timestamp(), buffer);
-            CsRender.EnumReplicants(spec, tops, buffer, e => Write(e.Format(),e.Flair));
-            AppSvc.FileEmit(buffer.Emit(), tops.Length, ReplicantCodePath(spec, spec.Namespace), TextEncodingKind.Utf8);
+            var code = text.emitter();
+            var data = text.emitter();
+            RenderHeader(core.timestamp(), code);
+            CsRender.EnumReplicants(spec, tops, code, data, e => Write(e.Format(),e.Flair));
+            AppSvc.FileEmit(code.Emit(), tops.Length, ReplicantCodePath(spec, spec.Namespace), TextEncodingKind.Utf8);
+            AppSvc.FileEmit(data.Emit(), tops.Length, ReplicantDataPath(spec, spec.Namespace), TextEncodingKind.Utf8);
         }
 
         void EmitEnclosedReplicants(EnumReplicantSpec spec, Dictionary<Type,Index<Type>> src)
         {
             var keys = src.Keys.Index();
-            var buffer = text.emitter();
+            var code = text.emitter();
+            var data = text.emitter();
             for(var i=0; i<keys.Count; i++)
             {
                 ref readonly var key = ref keys[i];
                 spec = spec.WithDeclaringType(key.Name);
-                RenderHeader(core.timestamp(), buffer);
+                RenderHeader(core.timestamp(), code);
                 var enclosed = src[key];
-                CsRender.EnumReplicants(spec, enclosed, buffer, e => Write(e.Format(),e.Flair));
-                AppSvc.FileEmit(buffer.Emit(), enclosed.Count, ReplicantCodePath(spec, spec.Namespace), TextEncodingKind.Utf8);
+                CsRender.EnumReplicants(spec, enclosed, code, data, e => Write(e.Format(),e.Flair));
+                AppSvc.FileEmit(code.Emit(), enclosed.Count, ReplicantCodePath(spec, spec.Namespace), TextEncodingKind.Utf8);
+                AppSvc.FileEmit(data.Emit(), enclosed.Count, ReplicantDataPath(spec, spec.Namespace), TextEncodingKind.Utf8);
             }
         }
     }

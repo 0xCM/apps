@@ -7,17 +7,22 @@ namespace Z0
     using static core;
     using static IntrinsicsDoc;
 
-    partial class IntelIntrinsicSvc
+    partial class IntelIntrinsics
     {
         public class AlgRender
         {
-            public static string format(IntrinsicDef src)
+            public static void render(ReadOnlySpan<IntrinsicDef> src, ITextEmitter dst)
             {
-                var dst = text.emitter();
-                overview(src, dst);
-                dst.AppendLine(src.Sig());
-                body(src, dst);
-                return dst.Emit();
+                for(var i=0; i<src.Length; i++)
+                {
+                    if(i!=0)
+                        dst.AppendLine();
+
+                    ref readonly var def = ref skip(src,i);
+                    overview(def,dst);
+                    dst.AppendLine(def.Sig());
+                    body(def,dst);
+                }
             }
 
             static void body(IntrinsicDef src, ITextEmitter dst)

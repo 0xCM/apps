@@ -6,7 +6,7 @@ namespace Z0
 {
     partial class IntrinsicsDoc
     {
-        public readonly record struct Sig
+        public readonly record struct DocSig
         {
             public readonly Return Return;
 
@@ -15,7 +15,7 @@ namespace Z0
             public readonly Parameters Params;
 
             [MethodImpl(Inline)]
-            public Sig(Return ret, string name, Parameters ops)
+            public DocSig(Return ret, string name, Parameters ops)
             {
                 Return = ret;
                 Name = name;

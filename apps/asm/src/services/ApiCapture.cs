@@ -25,6 +25,15 @@ namespace Z0
             iter(parts, part => Run(symbols,part), true);
         }
 
+        public void Run(PartId id)
+        {
+            if(ApiRuntimeCatalog.FindPart(id, out var part))
+            {
+                using var symbols = Alloc.dispenser(Alloc.symbols);
+                Run(symbols, part);
+            }
+        }
+
         void Run(SymbolDispenser symbols, IPart part)
         {
             var id = part.Id;

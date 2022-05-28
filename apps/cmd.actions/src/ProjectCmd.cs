@@ -23,8 +23,6 @@ namespace Z0
 
         AsmRegSets Regs => Service(AsmRegSets.create);
 
-        IntelIntrinsicSvc IntelIntrinsics => Service(Wf.IntelIntrinsics);
-
         DumpBin DumpBin => Service(Wf.DumpBin);
 
         CoffServices CoffServices => Service(Wf.CoffServices);

@@ -4,8 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public partial class IntrinsicsDoc
+    partial class IntrinsicsDoc
     {
-
     }
 }

@@ -9,6 +9,7 @@ namespace Z0
         /// <summary>
         /// Constants for permute/shuffle.
         /// </summary>
+        [SymSource(group)]
         public enum _MM_PERM_ENUM : byte
         {
             _MM_PERM_AAAA = 0x00, _MM_PERM_AAAB = 0x01, _MM_PERM_AAAC = 0x02,

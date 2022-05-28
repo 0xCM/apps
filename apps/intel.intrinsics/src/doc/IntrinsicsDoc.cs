@@ -9,11 +9,12 @@ namespace Z0
 
     using static core;
     using static XedModels;
-    using static IntrinsicsDoc;
 
-    partial class IntelIntrinsicSvc
+    public partial class IntrinsicsDoc
     {
-        static Index<IntrinsicDef> read(XmlDoc src)
+        const int MaxDefCount = Pow2.T13;
+
+        public static Index<IntrinsicDef> read(XmlDoc src)
         {
             var entries = new IntrinsicDef[MaxDefCount];
             var i = -1;
@@ -110,12 +111,6 @@ namespace Z0
             target.memwidth = reader[nameof(target.memwidth)] ?? EmptyString;
             target.immwidth = reader[nameof(target.immwidth)] ?? EmptyString;
             dst.Add(target);
-            // dst.Add(new (
-            //     varname:reader[nameof(IntrinsicsDoc.Operand.varname)],
-            //     etype:reader[nameof(IntrinsicsDoc.Operand.type)],
-            //     type:reader[nameof(IntrinsicsDoc.Operand.etype)],
-            //     memwidth:reader[nameof(IntrinsicsDoc.Operand.memwidth)]
-            //     ));
         }
 
         static void read(XmlReader reader, InstructionTypes dst)

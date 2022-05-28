@@ -4,9 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
     using static IntrinsicsDoc;
 
-    partial class IntelIntrinsicSvc
+    partial class IntelIntrinsics
     {
         static bool instruction(in IntrinsicDef src, out Instruction dst)
         {

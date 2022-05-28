@@ -4,10 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class IntrinsicsDoc
+    public partial class intel
     {
-        [SymSource("intel.intrinsics")]
-        public enum SuffixToken : byte
+        [SymSource(group)]
+        public enum TypeSuffix : byte
         {
             [Symbol("i8", "signed 8-bit integer")]
             i8,
