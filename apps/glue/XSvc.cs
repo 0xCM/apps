@@ -16,37 +16,11 @@ namespace Z0
 
         sealed class Svc : AppServices<Svc>
         {
-            public CliSvc CliSvc(IWfRuntime wf)
-                => Service<CliSvc>(wf);
 
-            public CliEmitter CliEmitter(IWfRuntime wf)
-                => Service<CliEmitter>(wf);
-
-            public PdbIndexBuilder PdbIndexBuilder(IWfRuntime wf)
-                => Service<PdbIndexBuilder>(wf);
-
-            public AppModules AppModules(IWfRuntime wf)
-                => Service<AppModules>(wf);
-
-            public PdbSymbolStore PdbSymbolStore(IWfRuntime wf)
-                => Service<PdbSymbolStore>(wf);
         }
 
         static Svc Services => Svc.Instance;
 
-        public static CliSvc CliSvc(this IWfRuntime wf)
-            => Services.CliSvc(wf);
-
-        public static CliEmitter CliEmitter(this IWfRuntime wf)
-            => Services.CliEmitter(wf);
-
-        public static PdbIndexBuilder PdbIndexBuilder(this IWfRuntime wf)
-            => Services.PdbIndexBuilder(wf);
-
-        public static AppModules AppModules(this IWfRuntime wf)
-            => Services.AppModules(wf);
-        public static PdbSymbolStore PdbSymbolStore(this IWfRuntime wf)
-            => Services.PdbSymbolStore(wf);
 
         public static Roslyn Roslyn(this IWfRuntime wf)
             => Z0.Roslyn.create(wf);
@@ -74,12 +48,6 @@ namespace Z0
             seek(dst,1) = new RobocopyResultHandler(paths);
             return buffer;
         }
-
-        public static PdbReader PdbReader(this IWfRuntime wf, in PdbSymbolSource src)
-            => Z0.PdbReader.create(wf,src);
-
-        public static PdbIndex PdbIndex(this IWfRuntime wf)
-            => Z0.PdbIndex.create(wf);
 
         public static DumpParser DumpParser(this IWfRuntime wf)
             => Z0.DumpParser.create(wf);

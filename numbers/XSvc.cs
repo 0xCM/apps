@@ -59,8 +59,8 @@ namespace Z0
         public static AppSvcOps AppSvc(this IWfRuntime wf)
             => Services.AppSvc(wf);
 
-        public static CheckRunner CheckRunner(this IWfRuntime wf)
-            => Services.CheckRunner(wf);
+        // public static CheckRunner CheckRunner(this IWfRuntime wf)
+        //     => Services.CheckRunner(wf);
 
         public static MemorySeqChecks MemorySeqChecks(this IWfRuntime wf)
             => Services.MemorySeqChecks(wf);

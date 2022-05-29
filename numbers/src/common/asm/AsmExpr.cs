@@ -32,14 +32,14 @@ namespace Z0.Asm
             get => Content.View;
         }
 
-        public AsmInlineComment Comment()
-        {
-            var result = AsmParser.comment(Data, out var comment);
-            if(result)
-                return comment;
-            else
-                return AsmInlineComment.Empty;
-        }
+        // public AsmInlineComment Comment()
+        // {
+        //     var result = AsmParser.comment(Data, out var comment);
+        //     if(result)
+        //         return comment;
+        //     else
+        //         return AsmInlineComment.Empty;
+        // }
 
         public string FormatPadded(int padding = DefaultPadding)
             => string.Format(RP.pad(padding), Content);

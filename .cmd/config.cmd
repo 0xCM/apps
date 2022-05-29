@@ -33,7 +33,6 @@ set CmdLogs=%BuildLogs%
 mkdir %CmdLogs% 1>nul 2>nul
 
 set CmdLog=%CmdLogs%\z0.cmd.log
-
 set ProjectBuildRoot=%BuildBinRoot%\z0.%ProjectId%\%BuildKind%\%FrameworkMoniker%
 set ProjectFile=z0.%ProjectId%.csproj
 set ProjectBinLog=%BuildLogs%\z0.%ProjectId%.build.bin
@@ -41,12 +40,20 @@ set ProjectBuildLog=%BuildLogs%\z0.%ProjectId%.build.log
 set ProjectGraphPath=%BuildLogs%\z0.%ProjectId%.dg.json
 set ProjectBuildLogPath="%BuildLogs%\z0.%ProjectId%.log"
 
+set TargetSpec=%SlnRoot%\apps\%ProjectId%\%ProjectFile%
+set BuildAppLibCmd=dotnet build %TargetSpec% %BuildProps% -fl -flp:logfile=%ProjectBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
+echo BuildAppLibCmd:%BuildAppLibCmd% > %CmdLog%
+
+set TargetSpec=%SlnRoot%\%ProjectId%\%ProjectFile%
+set BuildRootLibCmd=dotnet build %TargetSpec% %BuildProps% -fl -flp:logfile=%ProjectBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
+echo BuildRootLibCmd:%BuildRootLibCmd% >> %CmdLog%
+
 set Area=apps
 set AreaSln=%SlnRoot%\%Area%\z0.%Area%.sln
 set AreaBuildLog=%BuildLogs%\z0.%Area%.build.log
 set AreaBuildCmd=dotnet build %AreaSln% %BuildProps% -fl -flp:logfile=%AreaBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 set BuildAppsCmd=%AreaBuildCmd%
-echo BuildAppsCmd:%BuildAppsCmd% > %CmdLog%
+echo BuildAppsCmd:%BuildAppsCmd% >> %CmdLog%
 
 set Area=test
 set AreaSln=%SlnRoot%\%Area%\z0.%Area%.sln

@@ -57,8 +57,8 @@ public enum PartId : byte
     [Symbol("numbers")]
     Numbers,
 
-    [Symbol("ws")]
-    Ws,
+    [Symbol("cli")]
+    Cli,
 
     [Symbol("llvm.tools")]
     LlvmTools,

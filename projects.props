@@ -11,6 +11,17 @@
     <IntelIntrinsics>$(AppsRoot)intel.intrinsics/z0.intel.intrinsics.csproj</IntelIntrinsics>
     <IntelCore>$(AppsRoot)intel.core/z0.intel.core.csproj</IntelCore>
 
+    <Cli>$(TopDir)cli/z0.cli.csproj</Cli>
+    <Alloc>$(MSBuildThisFileDirectory)alloc/z0.alloc.csproj</Alloc>
+    <Archives>$(MSBuildThisFileDirectory)archives/z0.archives.csproj</Archives>
+    <Bits>$(MSBuildThisFileDirectory)bits/z0.bits.csproj</Bits>
+    <Lines>$(MSBuildThisFileDirectory)lines/z0.lines.csproj</Lines>
+    <Numbers>$(MSBuildThisFileDirectory)numbers/z0.numbers.csproj</Numbers>
+    <Expr>$(MSBuildThisFileDirectory)expr/z0.expr.csproj</Expr>
+    <Diagnostics>$(MSBuildThisFileDirectory)diagnostics/z0.diagnostics.csproj</Diagnostics>
+    <Archives>$(MSBuildThisFileDirectory)archives/z0.archives.csproj</Archives>
+    <TestChecks>$(MSBuildThisFileDirectory)test/test.checks/z0.test.checks.csproj</TestChecks>
+
     <Capture>$(AppsRoot)capture/z0.capture.csproj</Capture>
     <CpuDsl>$(AppsRoot)cpu.dsl/z0.cpu.dsl.csproj</CpuDsl>
     <Canonical>$(AppsRoot)canonical/z0.canonical.csproj</Canonical>
@@ -37,15 +48,6 @@
     <CodeGenIntel>$(CodeGenRoot)codegen.intel/z0.codegen.intel.csproj</CodeGenIntel>
     <CgCommon>$(CodeGenRoot)codegen.common/z0.codegen.common.csproj</CgCommon>
 
-    <Alloc>$(MSBuildThisFileDirectory)alloc/z0.alloc.csproj</Alloc>
-    <Archives>$(MSBuildThisFileDirectory)archives/z0.archives.csproj</Archives>
-    <Bits>$(MSBuildThisFileDirectory)bits/z0.bits.csproj</Bits>
-    <Lines>$(MSBuildThisFileDirectory)lines/z0.lines.csproj</Lines>
-    <Numbers>$(MSBuildThisFileDirectory)numbers/z0.numbers.csproj</Numbers>
-    <Expr>$(MSBuildThisFileDirectory)expr/z0.expr.csproj</Expr>
-    <Diagnostics>$(MSBuildThisFileDirectory)diagnostics/z0.diagnostics.csproj</Diagnostics>
-    <Archives>$(MSBuildThisFileDirectory)archives/z0.archives.csproj</Archives>
-    <TestChecks>$(MSBuildThisFileDirectory)test/test.checks/z0.test.checks.csproj</TestChecks>
 
   </PropertyGroup>
 

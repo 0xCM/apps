@@ -10,6 +10,7 @@
     <EmbeddedResource Include="assets/**/*.*" />
     <ProjectReference Include="$(AsmOperands)" />
     <ProjectReference Include="$(CodeGenIntel)" />
+    <ProjectReference Include="$(Diagnostics)" />
 
   </ItemGroup>
 </Project>
