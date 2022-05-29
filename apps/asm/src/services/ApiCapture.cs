@@ -18,29 +18,58 @@ namespace Z0
 
         ApiCode ApiCode => Wf.ApiCode();
 
+        ApiMd ApiMd => Wf.ApiMetadata();
+
         public void Run()
         {
             using var symbols = Alloc.dispenser(Alloc.symbols);
-            var parts = ApiRuntimeCatalog.Parts.Index();
-            iter(parts, part => Run(symbols,part), true);
+            iter(ApiMd.Parts, part => Run(symbols,part), true);
         }
 
         public void Run(PartId id)
         {
-            if(ApiRuntimeCatalog.FindPart(id, out var part))
+            if(ApiRuntimeCatalog.FindPart(id, out var src))
             {
                 using var symbols = Alloc.dispenser(Alloc.symbols);
-                Run(symbols, part);
+                Run(symbols, src);
             }
         }
 
-        void Run(SymbolDispenser symbols, IPart part)
+        public void Run(CmdArgs args)
         {
-            var id = part.Id;
-            var collected = ApiCode.Collect(symbols,part).Sort();
-            var size = ApiCode.EmitHex(collected, ApiCodeFiles.HexPath(id));
-            var records = ApiCode.EmitCsv(collected, ApiCodeFiles.CsvPath(id));
-            var asm = EmitAsm(symbols, id, collected);
+            if(args.Count != 0)
+            {
+                var spec = text.trim(arg(args,0).Value.Format());
+                var i = text.index(spec, Chars.FSlash);
+                if(i>0)
+                    Run(ApiHostUri.define(ApiParsers.part(text.left(spec,i)), text.right(spec,i)));
+                else
+                    Run(ApiParsers.part(spec));
+            }
+            else
+                Run();
+        }
+
+        public void Run(ApiHostUri src)
+        {
+            using var symbols = Alloc.dispenser(Alloc.symbols);
+            Run(symbols, src);
+        }
+
+        void Run(SymbolDispenser symbols, ApiHostUri src)
+        {
+            var collected = ApiCode.Collect(src);
+            var size = ApiCode.EmitHex(collected, ApiCodeFiles.HexPath(src));
+            var csv = ApiCode.EmitCsv(collected, ApiCodeFiles.CsvPath(src));
+            var asm = EmitAsm(symbols, src, collected);
+        }
+
+        void Run(SymbolDispenser symbols, IPart src)
+        {
+            var collected = ApiCode.Collect(symbols,src).Sort();
+            var size = ApiCode.EmitHex(collected, ApiCodeFiles.HexPath(src.Id));
+            var csv = ApiCode.EmitCsv(collected, ApiCodeFiles.CsvPath(src.Id));
+            var asm = EmitAsm(symbols, src.Id, collected);
         }
 
         Index<AsmRoutine> EmitAsm(SymbolDispenser symbols, PartId part, Index<CollectedEncoding> src)
@@ -55,6 +84,21 @@ namespace Z0
             }
 
             AppSvc.FileEmit(emitter.Emit(), src.Count, ApiCodeFiles.AsmPath(part));
+            return dst;
+        }
+
+        Index<AsmRoutine> EmitAsm(SymbolDispenser symbols, ApiHostUri host, Index<CollectedEncoding> src)
+        {
+            var dst = alloc<AsmRoutine>(src.Count);
+            var emitter = text.emitter();
+            for(var i=0; i<src.Count; i++)
+            {
+                var routine = AsmDecoder.Decode(src[i]);
+                seek(dst,i) = routine;
+                emitter.AppendLine(routine.AsmRender(routine));
+            }
+
+            AppSvc.FileEmit(emitter.Emit(), src.Count, ApiCodeFiles.AsmPath(host));
             return dst;
         }
     }

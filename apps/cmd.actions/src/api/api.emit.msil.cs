@@ -6,10 +6,6 @@ namespace Z0
 {
     partial class ApiCmd
     {
-        [CmdOp("api/emit/msil")]
-        void EmitMsil()
-            => ApiMetadata.EmitMsil();
-
         [CmdOp("api/emit/msil-host")]
         void EmitHostMsil(CmdArgs args)
             => ApiMetadata.EmitHostMsil(arg(args,0));

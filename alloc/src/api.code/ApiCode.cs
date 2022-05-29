@@ -10,32 +10,52 @@ namespace Z0
     {
         ApiJit ApiJit => Service(Wf.ApiJit);
 
-        ApiHex ApiHex => Service(Wf.ApiHex);
+        ApiHex ApiHex => Wf.ApiHex();
+
+        ApiMd ApiMd => Wf.ApiMetadata();
 
         new ApiCodeFiles Files => Wf.ApiCodeFiles();
 
         AppSvcOps AppSvc => Wf.AppSvc();
 
+        public Index<MethodEntryPoint> CalcEntryPoints()
+            => MethodEntryPoints.create(ApiJit.JitCatalog(ApiMd.Catalog));
+
+        public Index<MethodEntryPoint> CalcEntryPoints(ApiHostUri src)
+        {
+            var dst = sys.empty<MethodEntryPoint>();
+            if(ApiMd.Catalog.FindHost(src, out var host))
+               dst = MethodEntryPoints.create(ApiJit.JitHost(host));
+            return dst;
+        }
+
+        public Index<MethodEntryPoint> CalcEntryPoints(PartId id)
+        {
+            var dst = sys.empty<MethodEntryPoint>();
+            if(ApiMd.Catalog.FindPart(id, out var src))
+                dst = MethodEntryPoints.create(ApiJit.JitPart(src));
+            return dst;
+        }
+
         public Index<CollectedEncoding> Collect(SymbolDispenser symbols)
         {
-            var collected = Collect(symbols, MethodEntryPoints.create(ApiJit.JitCatalog(ApiRuntimeCatalog)));
+            var collected = Collect(symbols, CalcEntryPoints());
             Emit(collected, Files.Path(FS.Csv), Files.Path(FS.Hex));
             return collected;
         }
 
         public Index<CollectedEncoding> Collect(SymbolDispenser symbols, ApiHostUri src)
         {
-            if(ApiRuntimeCatalog.FindHost(src, out var host))
+            var entries = CalcEntryPoints(src);
+            var collected = sys.empty<CollectedEncoding>();
+            if(entries.IsNonEmpty)
             {
-                var collected = Collect(symbols, MethodEntryPoints.create(ApiJit.JitHost(host)));
+                collected = Collect(symbols, entries);
                 Emit(collected, Files.Path(src, FS.Hex), Files.Path(src, FS.Csv));
-                return collected;
             }
             else
-            {
-                Errors.Throw(AppMsg.NotFound.Format(src.Format()));
-                return sys.empty<CollectedEncoding>();
-            }
+                Warn($"{src} has no exposed methods");
+            return collected;
         }
 
         public Index<CollectedEncoding> Collect(SymbolDispenser symbols, IPart src)
@@ -43,23 +63,23 @@ namespace Z0
 
         public Index<CollectedEncoding> Collect(SymbolDispenser symbols, PartId src)
         {
-            if(ApiRuntimeCatalog.FindPart(src, out var part))
+            var entries = CalcEntryPoints(src);
+            var collected = sys.empty<CollectedEncoding>();
+            if(entries.IsNonEmpty)
             {
-                var collected = Collect(symbols, MethodEntryPoints.create(ApiJit.JitPart(part)));
+                collected = Collect(symbols, entries);
                 Emit(collected, Files.Path(src, FS.Hex), Files.Path(src, FS.Csv));
-                return collected;
             }
             else
-            {
-                Errors.Throw(AppMsg.NotFound.Format(src.Format()));
-                return sys.empty<CollectedEncoding>();
-            }
+                Warn($"{src} has no exposed methods");
+
+            return collected;
         }
 
         public Index<CollectedEncoding> Collect()
         {
             using var symbols = Alloc.symbols();
-            var collected = Collect(symbols, MethodEntryPoints.create(ApiJit.JitCatalog(ApiRuntimeCatalog)));
+            var collected = Collect(symbols, CalcEntryPoints());
             Emit(collected, Files.Path(FS.Csv), Files.Path(FS.Hex));
             return collected;
         }

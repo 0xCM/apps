@@ -6,8 +6,6 @@ namespace Z0
 {
     using Asm;
 
-    using static core;
-
     partial class ApiCode
     {
         static EncodedMember describe(in CollectedEncoding src)
@@ -28,7 +26,6 @@ namespace Z0
             var result = ApiUri.parse(dst.Uri, out var uri);
             if(result.Fail)
                 Errors.Throw(AppMsg.ParseFailure.Format(nameof(uri), dst.Uri));
-
             dst.Host = uri.Host.Format();
             return dst;
         }

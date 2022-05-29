@@ -7,10 +7,10 @@ namespace Z0
     partial class ApiCmd
     {
         [CmdOp("api/emit/cli")]
-        Outcome EmitMetadataCli(CmdArgs args)
+        void EmitMetadataCli()
         {
-            EmitCliMetadata();
-            return true;
+            CliEmitter.EmitMetadaSets(WorkflowOptions.@default());
+            ApiMetadata.EmitMsil();
         }
     }
 }

@@ -65,7 +65,6 @@ namespace Z0
 
             if(options.EmitCliRowStats)
                 EmitRowStats(ApiRuntimeCatalog.Components, ProjectDb.TablePath<CliRowStats>(CliScope));
-
         }
     }
 }

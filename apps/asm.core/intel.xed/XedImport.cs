@@ -101,7 +101,7 @@ namespace Z0
             => AppSvc.TableEmit(src, XedPaths.Imports().Table<OpWidthRecord>());
 
         void EmitChips()
-            => AppSvc.TableEmit(Heaps.symkinds<ChipCode>(), Targets().Path("xed.chips", FileKind.Csv));
+            => AppSvc.TableEmit(ApiMd.symkinds<ChipCode>(), Targets().Path("xed.chips", FileKind.Csv));
 
         void EmitChipMap()
         {
