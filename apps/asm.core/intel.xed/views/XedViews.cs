@@ -137,10 +137,10 @@ namespace Z0
             get => ref Load<InstImportBlocks>(XedViewKind.InstImports);
         }
 
-        public ref readonly Index<AsmBroadcastDef> AsmBroadcastDefs
+        public ref readonly Index<AsmBroadcast> AsmBroadcastDefs
         {
             [MethodImpl(Inline)]
-            get => ref Load<Index<AsmBroadcastDef>>(XedViewKind.AsmBroadcastDefs);
+            get => ref Load<Index<AsmBroadcast>>(XedViewKind.AsmBroadcastDefs);
         }
 
         public ref readonly Index<OpWidthRecord> OpWidths

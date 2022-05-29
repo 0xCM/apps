@@ -12,7 +12,7 @@ namespace Z0
 
     public partial class XedImport : AppService<XedImport>
     {
-        public static ReadOnlySpan<AsmBroadcastDef> BroadcastDefs
+        public static ReadOnlySpan<AsmBroadcast> BroadcastDefs
         {
             [MethodImpl(Inline), Op]
             get => _BroadcastDefs;
@@ -74,7 +74,7 @@ namespace Z0
             => f(FormImporter.calc(XedPaths.DocSource(XedDocKind.FormData)));
 
         void EmitBroadcastDefs()
-            => AppSvc.TableEmit(XedImport.BroadcastDefs, Targets().Table<AsmBroadcastDef>());
+            => AppSvc.TableEmit(XedImport.BroadcastDefs, Targets().Table<AsmBroadcast>());
 
         void EmitIsaImports()
             => AppSvc.TableEmit(Xed.Views.IsaImport, Targets().Table<IsaImport>());
@@ -155,7 +155,7 @@ namespace Z0
 
         static Index<OpWidthRecord> _OpWidths;
 
-        static Index<AsmBroadcastDef> _BroadcastDefs;
+        static Index<AsmBroadcast> _BroadcastDefs;
 
         static ConstLookup<OpWidthCode,OpWidthRecord> _OpWidthLookup;
 

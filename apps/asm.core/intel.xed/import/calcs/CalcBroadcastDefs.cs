@@ -8,7 +8,7 @@ namespace Z0
 
     partial class XedImport
     {
-        public Index<AsmBroadcastDef> CalcBroadcastDefs()
+        public Index<AsmBroadcast> CalcBroadcastDefs()
             => _BroadcastDefs;
     }
 }

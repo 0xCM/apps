@@ -18,30 +18,6 @@ namespace Z0
            CheckInstDefs();
         }
 
-        // void EmitRuleDeps()
-        // {
-        //     const string RenderPattern = "{0,-6} | {1,-6} | {2,-6} | {3,-3} | {4,-32} | {5,-32}";
-        //     var headers = new string[]{"Seq", "Index", "Kind", "C", "Rule", "Field"};
-        //     var dst = text.emitter();
-        //     var usage = RuleTableDeps.fields(Xed.Views.CellTables);
-        //     dst.AppendLineFormat(RenderPattern, headers);
-        //     var j=z8;
-        //     var rule = usage.First.Rule;
-        //     for(var i=0; i<usage.Count; i++,j++)
-        //     {
-        //         ref readonly var u = ref usage[i];
-        //         if(u.Rule != rule)
-        //         {
-        //             j=0;
-        //             rule = u.Rule;
-        //         }
-
-        //         dst.AppendLineFormat(RenderPattern, i, j, u.TableKind, u.Consequent, u.RuleName, u.Field);
-        //     }
-
-        //     AppSvc.FileEmit(dst.Emit(), XedPaths.RuleTargets().Path("xed.rules.fields.deps", FileKind.Csv));
-        // }
-
         void CheckInstDefs()
         {
             var a = "0x83 MOD[mm] MOD!=3 REG[0b010] RM[nnn] MODRM() SIMM8() LOCK=0";

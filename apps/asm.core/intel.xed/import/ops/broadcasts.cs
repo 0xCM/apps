@@ -11,11 +11,11 @@ namespace Z0
 
     partial class XedImport
     {
-        static void broadcasts(out Index<AsmBroadcastDef> dst)
+        static void broadcasts(out Index<AsmBroadcast> dst)
         {
             var kinds = Symbols.index<BCastKind>().Kinds;
             var count = kinds.Length;
-            dst = alloc<AsmBroadcastDef>(count);
+            dst = alloc<AsmBroadcast>(count);
             for(var j=0; j<kinds.Length; j++)
                 dst[j] = XedOperands.broadcast(skip(kinds,j));
         }

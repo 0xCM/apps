@@ -1,11 +1,10 @@
 @echo off
-set TopDir=%ZDev%
-set AppDir=%TopDir%/apps
-set TestDir=%TopDir%/test
-set CgDir=%TopDir%/codegen
-set LibDir=%TopDir%/lib
-set SlnName = z0.apps.sln
-set SlnPath=%AppDir%/%SlnName%
+call %~dp0config.cmd
+
+set Area=apps
+set SlnName=z0.%Area%.sln
+set SlnPath=%SlnRoot%/%SlnName%
+echo SlnPath:%SlnPath%
 
 dotnet sln %SlnPath% add %TopDir%/alloc/z0.alloc.csproj
 dotnet sln %SlnPath% add %TopDir%/archives/z0.archives.csproj
@@ -15,6 +14,10 @@ dotnet sln %SlnPath% add %TopDir%/expr/z0.expr.csproj
 dotnet sln %SlnPath% add %TopDir%/extract/z0.extract.csproj
 dotnet sln %SlnPath% add %TopDir%/lines/z0.lines.csproj
 dotnet sln %SlnPath% add %TopDir%/numbers/z0.numbers.csproj
+
+dotnet sln %SlnPath% add %CgDir%/codegen.intel/z0.codegen.intel.csproj
+dotnet sln %SlnPath% add %CgDir%/codegen.common/z0.codegen.common.csproj
+dotnet sln %SlnPath% add %CgDir%/codegen.llvm/z0.codegen.llvm.csproj
 
 dotnet sln %SlnPath% add %AppDir%/apps.core/z0.apps.core.csproj
 dotnet sln %SlnPath% add %AppDir%/asm/z0.asm.csproj
