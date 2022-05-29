@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     using api = Resources;
 
     /// <summary>
@@ -28,6 +23,12 @@ namespace Z0
             Name = name;
             Address = address;
             Size = size;
+        }
+
+        public BitWidth Width
+        {
+            [MethodImpl(Inline)]
+            get => Size.Bits;
         }
 
         public MemorySeg Segment

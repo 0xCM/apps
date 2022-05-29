@@ -60,6 +60,18 @@ namespace Z0
             get => Address.IsNonZero;
         }
 
+        public ByteSize Size
+        {
+            [MethodImpl(Inline)]
+            get => Length*2;
+        }
+
+        public BitWidth Width
+        {
+            [MethodImpl(Inline)]
+            get => Size.Bits;
+        }
+
         [MethodImpl(Inline)]
         public uint Render(ref uint i, Span<char> dst)
             => MemoryStrings.render(this, ref i, dst);

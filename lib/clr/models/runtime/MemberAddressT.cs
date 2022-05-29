@@ -4,17 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    public readonly struct MemberAddress<T> : IAddressable<MemberAddress<T>, MemoryAddress>
+    public readonly struct MemberAddress<T>
         where T : IRuntimeMember
     {
-        public T Member {get;}
+        public readonly T Member;
 
-        public MemoryAddress Address {get;}
+        public readonly MemoryAddress Address;
 
         [MethodImpl(Inline)]
         public MemberAddress(T member, MemoryAddress address)

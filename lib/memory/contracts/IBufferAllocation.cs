@@ -5,8 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     public interface IBufferAllocation : IDisposable
     {
         MemoryAddress BaseAddress {get;}

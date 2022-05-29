@@ -23,5 +23,4 @@ namespace Z0
         BitWidth ISized.Width
             => core.width<T>();
     }
-
 }

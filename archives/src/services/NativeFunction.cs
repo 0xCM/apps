@@ -6,11 +6,11 @@ namespace Z0
 {
     public readonly struct NativeFunction : INativeFunction
     {
-        public readonly NativeModule Source {get;}
+        public readonly NativeModule Source;
 
-        public readonly MemoryAddress Address {get;}
+        public readonly MemoryAddress Address;
 
-        public readonly string Name {get;}
+        public readonly string Name;
 
         [MethodImpl(Inline)]
         public NativeFunction(NativeModule src, MemoryAddress @base, string name)
@@ -19,6 +19,15 @@ namespace Z0
             Address = @base;
             Name = name;
         }
+
+        string INativeFunction.Name
+            => Name;
+
+        NativeModule INativeFunction.Source
+            => Source;
+
+        MemoryAddress INativeFunction.Address
+            => Address;
 
         public string Format()
             => Address.Format();

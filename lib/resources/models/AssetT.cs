@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     /// <summary>
@@ -15,9 +11,9 @@ namespace Z0
     /// </summary>
     public readonly struct Asset<T> : IComparable<Asset<T>>, IEquatable<Asset<T>>, IAddressable
     {
-        public Identifier Name {get;}
+        public readonly Identifier Name;
 
-        public MemorySeg Segment {get;}
+        public readonly MemorySeg Segment;
 
         [MethodImpl(Inline)]
         public Asset(Identifier name, MemorySeg seg)
@@ -35,7 +31,7 @@ namespace Z0
         public uint CellCount
         {
             [MethodImpl(Inline)]
-            get => DataSize/CellSize;
+            get => Size/CellSize;
         }
 
         public ByteSize CellSize
@@ -44,10 +40,16 @@ namespace Z0
             get => size<T>();
         }
 
-        public ByteSize DataSize
+        public ByteSize Size
         {
             [MethodImpl(Inline)]
             get => Segment.Length;
+        }
+
+        public BitWidth Width
+        {
+            [MethodImpl(Inline)]
+            get => Size.Bits;
         }
 
         [MethodImpl(Inline)]
@@ -60,7 +62,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public string Format()
-            => string.Format(RP.PSx3, Address, DataSize, Name);
+            => string.Format(RP.PSx3, Address, Size, Name);
 
         public override string ToString()
             => Format();

@@ -5,10 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
     [Free]
     public interface IBufferTokenSource
     {
@@ -19,13 +15,13 @@ namespace Z0
     }
 
     [Free]
-    public interface IBufferToken : IAddressable
+    public interface IBufferToken
     {
         IntPtr Handle {get;}
 
         int Size {get;}
 
-        MemoryAddress IAddressable.Address
+        MemoryAddress Address
             => Handle;
     }
 

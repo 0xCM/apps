@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     public interface IAddress : ITextual, INullity
     {
         NativeSize Capacity {get;}
@@ -15,7 +13,6 @@ namespace Z0
         where T : unmanaged
     {
         T Location {get;}
-
 
         NativeSize IAddress.Capacity
             => Sizes.native<T>();

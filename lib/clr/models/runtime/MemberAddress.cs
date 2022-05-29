@@ -4,16 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    public readonly struct MemberAddress : IAddressable<MemberAddress, MemoryAddress>, IComparable<MemberAddress>
+    public readonly struct MemberAddress : IComparable<MemberAddress>
     {
-        public ClrMember Member {get;}
+        public readonly ClrMember Member;
 
-        public MemoryAddress Address {get;}
+        public readonly MemoryAddress Address;
 
         [MethodImpl(Inline)]
         public MemberAddress(ClrMember member, MemoryAddress address)
