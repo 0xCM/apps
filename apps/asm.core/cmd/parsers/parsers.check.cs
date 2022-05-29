@@ -4,18 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
+    using static core;
 
     partial class AsmCoreCmd
     {
-        [CmdOp("lang/emit")]
-        Outcome EmitCilOpCodes(CmdArgs args)
+        [CmdOp("parsers/check")]
+        void CheckParsers()
         {
-            EmitCilOpCodes();
-            return true;
+            var count = Digital.parse("01001101", out GBlock64<BinaryDigit> dst);
+            Write(Digital.format(slice(dst.Cells,0,count)));
         }
-
-        void EmitCilOpCodes()
-            => AppSvc.TableEmit(Cil.opcodes(), AppDb.Targets("lang").Path("cil.opcodes", FileKind.Csv));
     }
 }

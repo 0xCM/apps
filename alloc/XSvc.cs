@@ -8,9 +8,6 @@ namespace Z0
     {
         sealed class Svc : AppServices<Svc>
         {
-            public ApiEmitters ApiEmitters(IWfRuntime wf)
-                => Service<ApiEmitters>(wf);
-
             public ApiCode ApiCode(IWfRuntime wf)
                 => Service<ApiCode>(wf);
 
@@ -28,9 +25,6 @@ namespace Z0
 
         public static Heaps Heaps(this IWfRuntime wf)
             => Services.Heaps(wf);
-
-        public static ApiEmitters ApiEmitters(this IWfRuntime wf)
-            => Services.ApiEmitters(wf);
 
         public static ApiCode ApiCode(this IWfRuntime wf)
             => Services.ApiCode(wf);

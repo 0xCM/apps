@@ -4,10 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
     /// <summary>
-    /// Characterizes source capable of producing an interminable sequence of pseudorandom bounded points
+    /// Characterizes a source capable of producing an interminable sequence of pseudorandom bounded points
     /// of any numeric type among: sbyte, byte, short, ushort, int, uint, long, ulong, float, double
     /// </summary>
     [Free]

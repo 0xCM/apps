@@ -235,7 +235,7 @@ namespace Z0
                     Write(string.Format("{0}:{1} -> {2}", op, skip(src,i), skip(dst,i)));
             }
 
-            public override void Run()
+            protected override void Execute()
             {
                 Compute(IntrinsicKind.mm256_min_epu8);
                 Compute(IntrinsicKind.mm_packus_epi16);

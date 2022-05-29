@@ -11,8 +11,6 @@ namespace Z0
     {
         FixedBitFormatter Formatter;
 
-        ITextBuffer Log;
-
         Index<byte> _Data;
 
         Index<char> _Buffer;
@@ -34,7 +32,6 @@ namespace Z0
         {
             Formatter = new();
             _Buffer = alloc<char>(Pow2.T08);
-            Log = text.buffer();
         }
 
         void CheckNibbleSpan()
@@ -44,15 +41,15 @@ namespace Z0
             var storage = Cells.join(m0,m1);
             var bytes = storage.Bytes;
             var bits = BitRender.render8x8(bytes);
-            Log.AppendLine(text.format(bits));
+            Log(text.format(bits));
 
             var nibbles = Nibbles.from(bytes);
             var count = nibbles.Count;
-            Log.AppendLine(string.Format("{0}:{1}", "Count", count));
+            Log(string.Format("{0}:{1}", "Count", count));
             if(count != 32)
                 return;
 
-            Log.AppendLine(nibbles.Format());
+            Log(nibbles.Format());
         }
 
         void CheckJoin()
@@ -62,10 +59,10 @@ namespace Z0
             var c2 = Cells.cell64(BitMaskLiterals.Lsb63x3x1);
             var c3 = Cells.cell64(BitMaskLiterals.Odd64);
             var c256 = Cells.join(c0,c1,c2,c3);
-            Log.AppendLine(c256);
+            Log(c256);
             var bytes = c256.Bytes;
             var nibbles = Nibbles.from(bytes);
-            Log.AppendLine(nibbles.Format());
+            Log(nibbles.Format());
         }
 
         public void RunChecks()
@@ -78,7 +75,7 @@ namespace Z0
 
         public void Show(HexVector8<N4> src)
         {
-            Log.AppendLine(src.Format());
+            Log(src.Format());
 
             var offset = 0u;
             var buffer = RentBuffer();
@@ -90,7 +87,7 @@ namespace Z0
 
             offset += HexVector.bitstring(src, offset, buffer);
 
-            Log.AppendLine(FormatBuffer(0, offset));
+            Log(FormatBuffer(0, offset));
         }
 
         public Index<BitFormatCheck<W3,uint3>> Check(W3 w)

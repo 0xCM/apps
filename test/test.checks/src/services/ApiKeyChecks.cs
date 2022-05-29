@@ -34,7 +34,6 @@ namespace Z0
                     var key = ApiKeys.key(host.PartId, (ushort)host.HostType.MetadataToken, @class);
                     var sig = method.Definition.DisplaySig();
                     var output = string.Format("{0} | {1,-12} | {2}", ApiKeyFormats.bitfield(key), @class, sig);
-                    //Wf.Row(output);
                 }
             }
         }

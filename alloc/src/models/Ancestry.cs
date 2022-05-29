@@ -12,37 +12,6 @@ namespace Z0
 
         public readonly bool IsEmpty;
 
-        // public static Ancestry parse(string src, LabelDispenser dispenser)
-        // {
-        //     const string sep = "->";
-        //     var input = text.trim(src);
-        //     if(empty(input))
-        //         return Ancestry.Empty;
-
-        //     else if(input.Contains(sep))
-        //     {
-        //         var parts = @readonly(input.Split(sep).Select(x => x.Trim()));
-        //         var count = parts.Length;
-        //         if(count == 0)
-        //             return Ancestry.Empty;
-
-        //         if(count == 1)
-        //         {
-        //             var name = dispenser.Label(first(parts));
-        //             return new Ancestry(name);
-        //         }
-        //         else
-        //         {
-        //             var names = alloc<Label>(count-1);
-        //             for(var i=1; i<count; i++)
-        //                 seek(names,i-1) = dispenser.Label(skip(parts,i));
-        //             return new Ancestry(first(parts), names);
-        //         }
-        //     }
-        //     else
-        //         return new Ancestry(input);
-        // }
-
         public bool Equals(Ancestry src)
         {
             if(src is null)

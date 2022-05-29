@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct CaptureChecks : ICaptureChecks
     {
         public static ICheckContext context(IWfRuntime wf)

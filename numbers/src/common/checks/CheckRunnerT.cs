@@ -6,26 +6,38 @@ namespace Z0
 {
     using static core;
 
-    public abstract class CheckRunner<T> : AppCmdService<T,CmdShellState>
+    public abstract class CheckRunner<T> : AppCmdService<T,CmdShellState>, ICheckRunner
         where T : CheckRunner<T>, new()
     {
-        ConstLookup<Identifier,ICheckService> CheckServices;
+        ConstLookup<Type,ICheckService> Services;
+
+        protected CheckRunner()
+        {
+            Pll = true;
+        }
 
         protected override void Initialized()
         {
             State.Init(Wf, Ws);
-            CheckServices = Checkers.discover(Wf, ApiRuntimeCatalog.Components);
+            Services = Checkers.discover(Wf, ApiRuntimeCatalog.Components);
         }
 
-        public override void Run()
+        protected virtual bool Pll {get;}
+
+        public override sealed void Run()
         {
-            iter(CheckServices.Values, svc => svc.Run());
+            iter(Services.Values, svc => svc.Run(Pll), Pll);
+        }
+
+        public void Run(bool pll)
+        {
+            iter(Services.Values, svc => svc.Run(pll), pll);
         }
 
         public Index<string> ListChecks()
         {
             var dst = list<string>();
-            foreach(var svc in CheckServices.Values)
+            foreach(var svc in Services.Values)
                 foreach(var c in svc.Checks)
                     dst.Add(string.Format("{0}/{1}", svc.Name, c));
             iter(dst, cmd => Write(cmd));
@@ -46,11 +58,10 @@ namespace Z0
                 var count = args.Count;
                 for(var i=0; i<count; i++)
                 {
-                    var name = args[0].Value;
-                    if(CheckServices.Find(name, out var checker))
-                        checker.Run();
-                    else
-                        Warn(string.Format("{0} checker not found", name));
+                    var match = args[0].Value;
+                    var keys = Services.Keys.Where(t => t.Name == match);
+                    foreach(var key in keys)
+                        Services[key].Run();
                 }
             }
         }

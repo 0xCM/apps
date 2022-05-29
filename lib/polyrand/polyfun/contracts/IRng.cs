@@ -4,21 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
-    public class RngAttribute : Attribute
-    {
-        public RngAttribute(string name)
-        {
-            Name = name;
-        }
-
-        public string Name {get;}
-    }
-
     [Free]
     public interface IRng
     {

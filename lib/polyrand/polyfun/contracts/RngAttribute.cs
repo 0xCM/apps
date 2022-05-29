@@ -4,8 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public sealed class CheckRunner : CheckRunner<CheckRunner>
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
+    public class RngAttribute : Attribute
     {
+        public RngAttribute(string name)
+        {
+            Name = name;
+        }
 
+        public string Name {get;}
     }
 }

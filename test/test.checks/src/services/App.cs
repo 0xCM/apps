@@ -8,20 +8,13 @@ namespace Z0
     using static core;
 
     using System.Reflection;
-    using System.IO;
 
     using Masks = BitMaskLiterals;
 
     using Alg;
 
-    class CalcRunner : AppService<CalcRunner>
+    class CalcRunner : Checker<CalcRunner>
     {
-        // public static void Main(params string[] args)
-        //     => run(args, PartId.Cpu, PartId.CalcShell);
-
-        EventQueue Queue;
-
-        TextWriter Log;
 
         void EventRaised(IWfEvent e)
         {
@@ -42,36 +35,21 @@ namespace Z0
             }
         }
 
-        protected override void OnInit()
+        protected override void Execute()
         {
-            Queue = EventQueue.allocate(GetType(), EventRaised);
-            var project = Ws.Project("calcs");
-            Log = project.Log("calcs").AsciWriter();
+            RunValidators();
         }
 
-        protected override void Disposing()
-        {
-            EmptyQueue();
-            Queue.Dispose();
-            Log.Dispose();
-        }
 
         void LogHeader<N>(MethodBase src, N n)
             where N : unmanaged, ITypeNat
         {
-            Log.WriteLine(string.Format("{0} {1} ", src.Name, n).PadRight(80,Chars.Dash));
-        }
-
-        void EmptyQueue()
-        {
-            while(Queue.Next(out var e))
-                Wf.Raise(e);
+            Log(string.Format("{0} {1} ", src.Name, n).PadRight(80,Chars.Dash));
         }
 
         void Run(N1 n)
         {
             LogHeader(MethodInfo.GetCurrentMethod(), n);
-
             var checker = BitLogicChecker.create(Wf, Rng.@default());
             checker.Validate();
         }
@@ -90,24 +68,22 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var j = ref first(recover<uint>(skip(src,i).Bytes));
-                Log.WriteLine(string.Format("{0:D4}:{1}",i, j.FormatHex()));
+                Log(string.Format("{0:D4}:{1}",i, j.FormatHex()));
             }
 
-            Log.WriteLine(block.Describe());
+            Log(block.Describe());
         }
 
         void Run(N4 n)
         {
             LogHeader(MethodInfo.GetCurrentMethod(), n);
-
             var buffer = span<char>(Pow2.T12);
             var src = (uint)Masks.Hi32x16;
             var dst = ByteBlock32.Empty.Bytes;
             BitPack.unpack1x32x8(src, dst);
             var count = Hex.render(UpperCase, dst, buffer);
             var hex = text.format(slice(buffer,0,count));
-
-            Log.WriteLine(hex);
+            Log(hex);
 
             buffer.Clear();
             var k=0;
@@ -120,7 +96,7 @@ namespace Z0
             }
 
             var bitstring = text.format(slice(buffer,0,k));
-            Log.WriteLine(bitstring);
+            Log(bitstring);
         }
 
         void Run(N8 n)
@@ -138,11 +114,10 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var j = ref first(recover<uint>(skip(src,i).Bytes));
-                Log.WriteLine(string.Format("{0:D4}:{1}",i, j.FormatHex()));
+                Log(string.Format("{0:D4}:{1}",i, j.FormatHex()));
             }
 
-
-            Log.WriteLine(block.Describe());
+            Log(block.Describe());
         }
 
         void Run(N9 n)
@@ -158,11 +133,11 @@ namespace Z0
 
             Size<byte> a = 31;
             var b = a.Align(4);
-            Log.WriteLine(a.Measure);
-            Log.WriteLine(a.Untyped);
-            Log.WriteLine(b.Measure);
+            Log(a.Measure);
+            Log(a.Untyped);
+            Log(b.Measure);
 
-            Log.WriteLine(string.Format("Align({0}) = {1}", a, b));
+            Log(string.Format("Align({0}) = {1}", a, b));
         }
 
         void Run(N18 n)
@@ -177,7 +152,7 @@ namespace Z0
             var count = BitRender.render4x4(bytes, buffer.Data);
             var chars = slice(buffer.Data,0,count);
             var fmt = text.format(chars);
-            Log.WriteLine(fmt);
+            Log(fmt);
         }
 
         void Run(N24 n)
@@ -201,7 +176,7 @@ namespace Z0
             {
                 var cin = math.odd(i + j);
                 var y = math.adc(i, j, cin, out var cout);
-                Log.WriteLine(string.Format("adc({0},{1}) carry {2} = {3} carry {4}", i, j,cin, y, (uint)cout));
+                Log(string.Format("adc({0},{1}) carry {2} = {3} carry {4}", i, j,cin, y, (uint)cout));
             }
         }
 

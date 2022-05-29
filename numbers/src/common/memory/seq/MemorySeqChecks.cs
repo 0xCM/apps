@@ -9,7 +9,7 @@ namespace Z0
     {
         ITextEmitter Output;
 
-        public override void Run()
+        protected override void Execute()
         {
             Output  = text.emitter();
             Run(Output);

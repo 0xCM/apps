@@ -52,7 +52,7 @@ namespace Z0
             log.Append("]");
         }
 
-        public override void Run()
+        protected override void Execute()
         {
             var log = text.emitter();
             Run(log);

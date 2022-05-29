@@ -99,7 +99,7 @@ namespace Z0
 
         }
 
-        public override void Run()
+        protected override void Execute()
         {
             RenderHeader(Emitter);
             Check(n0);

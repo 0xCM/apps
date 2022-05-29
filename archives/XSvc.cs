@@ -31,9 +31,6 @@ namespace Z0
             public WsCmdRunner WsCmdRunner(IWfRuntime wf)
                 => Service<WsCmdRunner>(wf);
 
-            public AppDb AppDb(IWfRuntime wf)
-                => Service<AppDb>(wf);
-
             public ApiMd ApiMetadata(IWfRuntime wf)
                 => Service<ApiMd>(wf);
 
@@ -88,9 +85,6 @@ namespace Z0
         public static WsCmdRunner WsCmdRunner(this IWfRuntime wf)
             => Services.WsCmdRunner(wf);
 
-        public static AppDb AppDb(this IWfRuntime wf)
-            => Services.AppDb(wf);
-
         public static ApiMd ApiMetadata(this IWfRuntime wf)
             => Services.ApiMetadata(wf);
 
@@ -99,7 +93,6 @@ namespace Z0
 
         public static ApiJit Jit(this IWfRuntime wf)
             => Services.Jit(wf);
-
 
         public static CsLang CsLang(this IWfRuntime wf)
             => Services.CsLang(wf);
@@ -119,10 +112,7 @@ namespace Z0
         public static ApiComments ApiComments(this IWfRuntime wf)
             => Services.ApiComments(wf);
 
-
         public static MemoryEmitter MemoryEmitter(this IWfRuntime wf)
             => Services.MemoryEmitter(wf);
-
-
     }
 }

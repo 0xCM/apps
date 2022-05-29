@@ -8,15 +8,8 @@ namespace Z0
 
     partial class AsmCoreCmd
     {
-        [CmdOp("digits/check")]
-        void CheckDigitParser()
-        {
-            var count = Digital.parse("01001101", out GBlock64<BinaryDigit> dst);
-            Write(Digital.format(slice(dst.Cells,0,count)));
-        }
-
-        [CmdOp("alloc/check/strings")]
-        Outcome CheckStringBuffers(CmdArgs args)
+        [CmdOp("alloc/check")]
+        Outcome CheckAlloc(CmdArgs args)
         {
             var result = Outcome.Success;
 

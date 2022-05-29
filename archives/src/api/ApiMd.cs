@@ -5,7 +5,6 @@
 namespace Z0
 {
     using static core;
-
     public sealed class ApiMd : AppService<ApiMd>
     {
         ApiJit Jit => Wf.Jit();
@@ -64,7 +63,7 @@ namespace Z0
                 EmitDataTypes,
                 () => EmitComments(),
                 () => Emit(SymLits),
-                EmitParsers,
+                EmitParsers2,
                 EmitApiTables,
                 EmitApiCommands,
                 () => EmitApiTokens(),
@@ -98,11 +97,29 @@ namespace Z0
 
         void EmitParsers()
         {
-            var parsers = Parsers.discover(ApiRuntimeCatalog.Components);
+            var parsers = Parsers.discover(Components);
             var targets = parsers.Keys;
             var dst = text.emitter();
             iter(targets, target => dst.AppendLineFormat("parse:string -> {0}", target.DisplayName()));
+
             AppSvc.FileEmit(dst.Emit(), targets.Count, AppDb.ApiTargets().Path("parsers", FileKind.List));
+        }
+
+        void EmitParsers2()
+        {
+            const string RenderPattern = "{0,-8} | {1,-8} | {2}";
+            var cols = new string[]{"Seq", "Returns", "Target"};
+            var parsers = Parsers._discover(Components);
+            var emitter = text.emitter();
+            emitter.AppendLineFormat(RenderPattern, cols);
+            var i=0u;
+            iter(parsers.Values.Index().Sort(), parser
+                => emitter.AppendLineFormat(RenderPattern,
+                    i++,
+                    parser.ResultType.DisplayName(),
+                    parser.TargetType.DisplayName()
+                    ));
+            AppSvc.FileEmit(emitter.Emit(), parsers.Count, AppDb.ApiTargets().Path("api.parsers", FileKind.Csv));
         }
 
         public Index<SymLiteralRow> EmitSymLits()
@@ -609,6 +626,5 @@ namespace Z0
             }
             return buffer;
         }
-
     }
 }

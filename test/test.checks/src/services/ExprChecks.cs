@@ -33,7 +33,7 @@ namespace Z0
         }
 
         [Op]
-        Outcome CheckPointMappers(CmdArgs args)
+        public void CheckPointMappers()
         {
             var result = Outcome.Success;
             var symbols = Symbols.index<DecimalDigitValue>();
@@ -50,8 +50,6 @@ namespace Z0
                 ref readonly var index = ref skip(data,i);
                 Write(string.Format("{0} => {1}", entry, BitRender.format16(skip(bits,i))));
             }
-
-            return result;
         }
 
         [CmdOp("check/points/fx")]
@@ -61,7 +59,6 @@ namespace Z0
             ref var f = ref PointFunctions.fx<AsciCode>(n8, src, Target, out _);
 
             byte x = 0;
-
             x = skip(src,0);
             Write(f.Map(x));
 

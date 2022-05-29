@@ -53,7 +53,6 @@ namespace Z0
             var buffer = SpanBuffers.ring<uint>(Pow2.T08);
             var count = Random.Next<int>(20,Pow2.T07);
             var points = Random.Span<uint>(count);
-
             for(var i=0; i<points.Length; i++)
                 buffer.Push(points[i]);
 
@@ -71,7 +70,6 @@ namespace Z0
             buffer.Next = 0xFFul;
             buffer.Next = 0xFFFul;
             buffer.Next = 0xFFFFul;
-
             Claim.eq(buffer.Data.AsUInt64()[0],0xF);
             Claim.eq(buffer.Data.AsUInt64()[1],0xFF);
             Claim.eq(buffer.Data.AsUInt64()[2],0xFFF);

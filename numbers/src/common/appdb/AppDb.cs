@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class AppDb : AppService<AppDb>
+    public class AppDb : AppService<AppDb>, IAppDb
     {
         FS.FolderPath WsRoot;
 

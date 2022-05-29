@@ -24,7 +24,7 @@ namespace Z0
 
         public void Run(bool pll)
         {
-            CheckRunner.run(pll,
+            Checkers.run(pll,
                 (nameof(CheckBitNumbers), CheckBitNumbers),
                 (nameof(CheckBitReplication), CheckBitReplication),
                 (nameof(CheckSegVars), CheckSegVars),

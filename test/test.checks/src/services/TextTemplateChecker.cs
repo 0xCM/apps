@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     public class TextTemplateChecker : Checker<TextTemplateChecker>
     {
         public Outcome Check1()

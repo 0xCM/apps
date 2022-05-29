@@ -47,44 +47,81 @@ namespace Z0
 
         BinaryLiterals<ulong> Literals64;
 
-        CheckHiMaskResults<byte> HiMaskResults8;
+        HiMaskLogs<byte> HiMaskLog8;
 
-        CheckHiMaskResults<ushort> HiMaskResults16;
+        HiMaskLogs<ushort> HiMaskLog16;
 
-        CheckHiMaskResults<uint> HiMaskResults32;
+        HiMaskLogs<uint> HiMaskLog32;
 
-        CheckHiMaskResults<ulong> HiMaskResults64;
-
-        ITextBuffer Log;
-
-
-        public BitMaskChecker()
-        {
-
-        }
+        HiMaskLogs<ulong> HiMaskLog64;
 
         public const uint Reps = Pow2.T08;
 
-        [Op]
-        void Init(IPolySource source, ITextBuffer log)
+        protected override void Prepare()
         {
-            Log = log;
-            Cases8 = source.Fill(z8, width<byte>(w8), alloc<byte>(Reps));
-            Cases16 = source.Fill(z8, width<ushort>(w8), alloc<byte>(Reps));
-            Cases32 = source.Fill(z8, width<uint>(w8), alloc<byte>(Reps));
-            Cases64 = source.Fill(z8, width<uint>(w8), alloc<byte>(Reps));
+            Init();
+        }
+
+        [Op]
+        void Exec()
+        {
+            var results = 0ul;
+            var index = z8;
+            Check(base2);
+            CheckLoMasks(ref index, ref results);
+            CheckHiMasks();
+            Counts = (SuccessCount, FailureCount);
+        }
+
+        protected override void Execute()
+        {
+            Exec();
+        }
+
+        [Op]
+        void Init()
+        {
+            Cases8 = Random.Fill(z8, width<byte>(w8), alloc<byte>(Reps));
+            Cases16 = Random.Fill(z8, width<ushort>(w8), alloc<byte>(Reps));
+            Cases32 = Random.Fill(z8, width<uint>(w8), alloc<byte>(Reps));
+            Cases64 = Random.Fill(z8, width<uint>(w8), alloc<byte>(Reps));
             Literals8 = ClrLiterals.tagged<byte>(base2, typeof(BitMaskLiterals));
             Literals16 = ClrLiterals.tagged<ushort>(base2, typeof(BitMaskLiterals));
             Literals32 = ClrLiterals.tagged<uint>(base2, typeof(BitMaskLiterals));
             Literals64 = ClrLiterals.tagged<ulong>(base2, typeof(BitMaskLiterals));
-            HiMaskResults8 = alloc<CheckHiMaskResult<byte>>(Reps);
-            HiMaskResults16 = alloc<CheckHiMaskResult<ushort>>(Reps);
-            HiMaskResults32 = alloc<CheckHiMaskResult<uint>>(Reps);
-            HiMaskResults64 = alloc<CheckHiMaskResult<ulong>>(Reps);
+            HiMaskLog8 = alloc<HiMaskLog<byte>>(Reps);
+            HiMaskLog16 = alloc<HiMaskLog<ushort>>(Reps);
+            HiMaskLog32 = alloc<HiMaskLog<uint>>(Reps);
+            HiMaskLog64 = alloc<HiMaskLog<ulong>>(Reps);
         }
 
         [MethodImpl(Inline)]
-        ReadOnlySpan<byte> Cases<W>(W w = default)
+        static CaseProvider<W> cases<W>(BitMaskChecker checker, W w = default)
+            where W : unmanaged, ITypeWidth<W>
+                => new CaseProvider<W>(checker);
+
+        readonly struct CaseProvider<W>
+            where W : unmanaged, ITypeWidth<W>
+        {
+            static W Width => default;
+
+            readonly BitMaskChecker Checker;
+
+            [MethodImpl(Inline)]
+            public CaseProvider(BitMaskChecker checker)
+            {
+                Checker = checker;
+            }
+
+            public ReadOnlySpan<byte> Cases
+            {
+                [MethodImpl(Inline)]
+                get => Checker.Cases(Width);
+            }
+        }
+
+        [MethodImpl(Inline)]
+        ReadOnlySpan<byte> Cases<W>(W w)
             where W : unmanaged, ITypeWidth<W>
         {
             if(typeof(W) == typeof(W8))
@@ -116,35 +153,16 @@ namespace Z0
         }
 
         [Op]
-        public void RunAll()
-        {
-            var log = text.buffer();
-            Init(Random, log);
-            var results = 0ul;
-            var index = z8;
-            Check(base2);
-            CheckLoMasks(ref index, ref results);
-            CheckHiMasks();
-            EmitReport(log);
-            Counts = (SuccessCount, FailureCount);
-        }
-
-        void EmitReport(ITextBuffer src)
-        {
-            //Wf.Row(src.Emit());
-        }
-
-        [Op]
         void CheckHiMasks()
         {
-            CheckHiMask(w8, z8, HiMaskResults8);
-            CheckHiMask(w16, z16, HiMaskResults16);
-            CheckHiMask(w32, z32, HiMaskResults32);
-            CheckHiMask(w64,z64, HiMaskResults64);
+            CheckHimask(w8);
+            CheckHimask(w16);
+            CheckHimask(w32);
+            CheckHimask(w64);
         }
 
         [Op]
-        public static void CheckLoMasks(ref byte index, ref ulong log)
+        static void CheckLoMasks(ref byte index, ref ulong log)
         {
             CheckLoMask(n0, ref index, ref log);
             CheckLoMask(n1, ref index, ref log);
@@ -152,7 +170,7 @@ namespace Z0
         }
 
         [Op]
-        public static void CheckLoMask(N0 @case, ref byte index, ref ulong log)
+        static void CheckLoMask(N0 @case, ref byte index, ref ulong log)
         {
             eq((Pow2.pow(3) - 1)^Pow2.pow(3), lo64(3), ref index, ref log);
             eq((Pow2.pow(7) - 1)^Pow2.pow(7), lo64(7), ref index, ref log);
@@ -162,7 +180,7 @@ namespace Z0
         }
 
         [Op]
-        public static void CheckLoMask(N1 @case, ref byte index, ref ulong log)
+        static void CheckLoMask(N1 @case, ref byte index, ref ulong log)
         {
             eq(4u, bits.pop(lo64(3)), ref index, ref log);
             eq(7u, bits.pop(lo64(6)), ref index, ref log);
@@ -172,7 +190,7 @@ namespace Z0
         }
 
         [Op]
-        public static void CheckLoMask(N2 @case, ref byte index, ref ulong log)
+        static void CheckLoMask(N2 @case, ref byte index, ref ulong log)
         {
             var lomask = BitMasks.lo<uint>(6);
             var himask = BitMasks.hi<uint>(8);
@@ -187,47 +205,30 @@ namespace Z0
         [Op]
         void Check(Base2 @base)
         {
-            Check(@base, w8);
-            Check(@base, w16);
-            Check(@base, w32);
-            Check(@base, w64);
+            Check<byte>(@base,Log);
+            Check<ushort>(@base,Log);
+            Check<uint>(@base,Log);
+            Check<ulong>(@base,Log);
         }
 
-        [Op]
-        void Check(Base2 @base, W8 w)
-            =>  Check(@base, z8);
+        [MethodImpl(Inline), Op]
+        void CheckHimask(W8 w)
+            => CheckHiMask(cases(this,w), HiMaskLog8);
 
+        [MethodImpl(Inline), Op]
+        void CheckHimask(W16 w)
+            => CheckHiMask(cases(this,w), HiMaskLog16);
 
-        [Op]
-        void Check(Base2 @base, W16 w)
-            => Check(@base, z16);
+        [MethodImpl(Inline), Op]
+        void CheckHimask(W32 w)
+            => CheckHiMask(cases(this,w), HiMaskLog32);
 
-        [Op]
-        void Check(Base2 @base, W32 w)
-            => Check(@base, z32);
-
-        [Op]
-        void Check(Base2 @base, W64 w)
-            => Check(@base, z64);
-
-        [Op]
-        public void Himask(W8 w)
-            => CheckHiMask(w, z8, HiMaskResults8);
-
-        [Op]
-        public void Himask(W16 w)
-            => CheckHiMask(w, z16, HiMaskResults16);
-
-        [Op]
-        public void Himask(W32 w)
-            => CheckHiMask(w, z32, HiMaskResults32);
-
-        [Op]
-        public void Himask(W64 w)
-            => CheckHiMask(w,z64, HiMaskResults64);
+        [MethodImpl(Inline), Op]
+        void CheckHimask(W64 w)
+            => CheckHiMask(cases(this,w), HiMaskLog64);
 
         [MethodImpl(Inline)]
-        void Check<T>(Base2 @base, T t = default)
+        void Check<T>(Base2 @base, Action<object> Log)
             where T : unmanaged
         {
             var literals = Lit<T>();
@@ -243,39 +244,64 @@ namespace Z0
                     FailureCount++;
 
                 var results = EvalResults.eq(bitval,m.Data,ok);
-
                 var sym = ok ? "==" : "!=";
                 var title = ok ? "Success" : "Failure";
                 var normalized = BitStrings.normalize(m.Text);
                 var bs = BitStrings.scalar(m.Data);
                 var expr = RP.format("{0} {1} {2}", normalized, sym, bs);
                 var description = RP.format("{0,-12} | {1,-14} | {2}", title, m.Name, expr);
-                Log.AppendLine(description);
+                Log(description);
             }
         }
 
+        // [MethodImpl(Inline)]
+        // void CheckHiMask<W,T>(W w, T t, Span<CheckHiMaskResult<T>> logs)
+        //     where T : unmanaged
+        //     where W : unmanaged, ITypeWidth<W>
+        // {
+        //     var mincount = (byte)1;
+        //     var maxcount = (byte)width<T>();
+        //     var cases = Cases(w);
+
+        //     for(var i=0u; i<Reps; i++)
+        //     {
+        //         ref var log = ref seek(logs,i);
+        //         log.Check1 = true;
+        //         log.Count = skip(cases, i);
+        //         log.Mask = BitMasks.hi<T>(log.Count);
+        //         log.PopCount = (byte)gbits.pop(log.Mask);
+        //         log.Check1 = log.PopCount != log.Count;
+        //         log.Check1 = eq(log.Count, gbits.pop(log.Mask));
+        //         log.Lowered = gmath.srl(log.Mask, (byte)(width<T>() -  log.Count));
+        //         log.EffectiveWidth = gbits.effwidth(log.Lowered);
+        //         log.Check3 = log.Count == log.EffectiveWidth;
+        //     }
+        // }
+
         [MethodImpl(Inline)]
-        void CheckHiMask<W,T>(W w, T t, Span<CheckHiMaskResult<T>> outcomes)
+        void CheckHiMask<W,T>(CaseProvider<W> src, HiMaskLogs<T> dst)
             where T : unmanaged
             where W : unmanaged, ITypeWidth<W>
         {
+            var w = default(W);
             var mincount = (byte)1;
             var maxcount = (byte)width<T>();
-            var cases = Cases(w);
-
+            var cases = src.Cases;
             for(var i=0u; i<Reps; i++)
             {
-                ref var dst = ref seek(outcomes,i);
-                dst.Check1 = true;
-                dst.Count = skip(cases, i);
-                dst.Mask = BitMasks.hi<T>(dst.Count);
-                dst.PopCount = (byte)gbits.pop(dst.Mask);
-                dst.Check1 = dst.PopCount != dst.Count;
-                dst.Check1 = eq(dst.Count, gbits.pop(dst.Mask));
-                dst.Lowered = gmath.srl(dst.Mask, (byte)(width<T>() -  dst.Count));
-                dst.EffectiveWidth = gbits.effwidth(dst.Lowered);
-                dst.Check3 = dst.Count == dst.EffectiveWidth;
+                ref var log = ref dst[i];
+                log.Check1 = true;
+                log.Count = skip(cases, i);
+                log.Mask = BitMasks.hi<T>(log.Count);
+                log.PopCount = (byte)gbits.pop(log.Mask);
+                log.Check1 = log.PopCount != log.Count;
+                log.Check1 = eq(log.Count, gbits.pop(log.Mask));
+                log.Lowered = gmath.srl(log.Mask, (byte)(width<T>() -  log.Count));
+                log.PackedWidth = gbits.effwidth(log.Lowered);
+                log.Check3 = log.Count == log.PackedWidth;
             }
+
+            TableEmit($"{w.BitWidth}u",dst.View);
         }
     }
 }

@@ -8,6 +8,9 @@ namespace Z0
     {
         sealed class Svc : AppServices<Svc>
         {
+            public AppDb AppDb(IWfRuntime wf)
+                => Service<AppDb>(wf);
+
             public Parsers Parsers(IWfRuntime wf)
                 => Service<Parsers>(wf);
 
@@ -88,5 +91,8 @@ namespace Z0
 
         public static ApiPackages ApiPackages(this IEnvPaths src)
             => src.PackageRoot();
+
+        public static AppDb AppDb(this IWfRuntime wf)
+            => Services.AppDb(wf);
     }
 }

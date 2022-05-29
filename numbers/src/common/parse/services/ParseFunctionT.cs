@@ -20,7 +20,6 @@ namespace Z0
         public static implicit operator ParseFunction<T>(ParserDelegate<T> src)
             => new ParseFunction<T>(src);
 
-
         static Outcome empty(string src, out T dst)
         {
             dst = default;

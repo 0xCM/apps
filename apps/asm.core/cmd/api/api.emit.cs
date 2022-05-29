@@ -10,8 +10,6 @@ namespace Z0
 
     partial class AsmCoreCmd
     {
-        ApiEmitters ApiEmitters => Wf.ApiEmitters();
-
         ApiComments ApiComments => Wf.ApiComments();
 
         ApiPackArchive ApiPacks => ApiPackArchive.create(AppDb.ApiTargets("capture"));
@@ -29,6 +27,7 @@ namespace Z0
         {
             AppDb.MsilTargets().Delete();
             ApiMd.EmitMsil(ApiRuntimeCatalog.ApiHosts, AppDb.MsilTargets(il));
+            AppSvc.TableEmit(Cil.opcodes(), AppDb.Targets("clr").Path("cil.opcodes", FileKind.Csv));
         }
 
         [CmdOp("api/emit/hex")]

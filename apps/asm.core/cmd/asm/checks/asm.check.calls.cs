@@ -24,7 +24,6 @@ namespace Z0
                 Write(call.Format());
             }
 
-
             void Check3()
             {
                 const string Asm = "call 7fff92427890h";
