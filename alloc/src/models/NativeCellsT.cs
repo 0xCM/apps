@@ -11,6 +11,7 @@ namespace Z0
     {
         uint CellCount {get;}
     }
+
     public unsafe readonly struct NativeCells<T> : INativeCells
     {
         readonly long Id;

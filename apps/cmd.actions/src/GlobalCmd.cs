@@ -103,12 +103,12 @@ namespace Z0
         protected override ICmdProvider[] CmdProviders(IWfRuntime wf)
             => _Providers;
 
-        [CmdOp("asm-gen-models")]
-        protected Outcome GenAsmModels(CmdArgs args)
-        {
-            var dst = Service(Wf.CodeGen).CodeGenDir("asm.models");
-            return true;
-        }
+        // [CmdOp("asm-gen-models")]
+        // protected Outcome GenAsmModels(CmdArgs args)
+        // {
+        //     var dst = Service(Wf.CodeGen).CodeGenDir("asm.models");
+        //     return true;
+        // }
 
         [CmdOp("capture")]
         Outcome CaptureV1(CmdArgs args)

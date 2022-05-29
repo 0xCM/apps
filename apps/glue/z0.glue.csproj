@@ -10,7 +10,6 @@
 
   <ItemGroup>
       <ProjectReference Include="$(AsmCore)"/>
-      <ProjectReference Include="$(Gen)"/>
       <ProjectReference Include="$(Diagnostics)"/>
   </ItemGroup>
 

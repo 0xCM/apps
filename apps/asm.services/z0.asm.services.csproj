@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="$(AsmCore)" />
-    <ProjectReference Include="$(Gen)" />
     <ProjectReference Include="$(LlvmTools)" />
   </ItemGroup>
 </Project>
