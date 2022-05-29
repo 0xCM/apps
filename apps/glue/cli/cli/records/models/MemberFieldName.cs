@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
-
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct MemberFieldName : IRecord<MemberFieldName>
     {

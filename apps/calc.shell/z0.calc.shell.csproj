@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="$(AsmCore)" />
     <ProjectReference Include="$(Glue)" />
+    <ProjectReference Include="$(TestChecks)" />
   </ItemGroup>
 
   <Import Project="../imports.props"/>

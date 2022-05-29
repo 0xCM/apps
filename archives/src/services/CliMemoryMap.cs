@@ -15,15 +15,15 @@ namespace Z0
 
         readonly MemoryFile Source;
 
-        public PEReader PE {get;}
+        public readonly PEReader PE;
 
-        public MetadataReader MD {get;}
+        public readonly MetadataReader MD;
 
-        public ulong ImageSize {get;}
+        public readonly ulong ImageSize;
 
-        public Ptr<byte> BasePointer {get;}
+        public readonly Ptr<byte> BasePointer;
 
-        public PEMemoryBlock MtadataBlock {get;}
+        public readonly PEMemoryBlock MtadataBlock;
 
         public CliMemoryMap(FS.FilePath src)
         {

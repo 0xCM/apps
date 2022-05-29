@@ -4,14 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct CliRows
+    public static class XSvc
     {
-        [CliRecord(CliTableKind.FieldLayout), StructLayout(LayoutKind.Sequential)]
-        public struct FieldLayoutRow : ICliRecord<FieldLayoutRow>
+        sealed class Svc : AppServices<Svc>
         {
-            public uint Offset;
 
-            public CliRowKey Field;
         }
+
+
+        static Svc Services => Svc.Instance;
     }
 }

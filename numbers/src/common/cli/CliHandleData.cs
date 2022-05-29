@@ -7,7 +7,7 @@ namespace Z0
     using static core;
 
     [StructLayout(LayoutKind.Sequential)]
-    public readonly struct CliHandleData : ITextual, IComparable<CliHandleData>, IEquatable<CliHandleData>
+    public readonly struct CliHandleData : IComparable<CliHandleData>, IEquatable<CliHandleData>
     {
         [MethodImpl(Inline), Op]
         public Handle handle(CliToken src)
@@ -43,14 +43,6 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static Handle handle(CliHandleData src)
             => @as<CliHandleData,Handle>(src);
-
-        // [MethodImpl(Inline), Op]
-        // public Handle handle(CliToken src)
-        //     => handle(new CliHandleData(src.Table, src.Row));
-
-        // [MethodImpl(Inline), Op]
-        // public static EntityHandle handle(uint src)
-        //     => @as<uint,EntityHandle>(src);
 
         public uint RowId {get;}
 

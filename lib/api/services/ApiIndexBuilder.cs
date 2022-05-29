@@ -20,6 +20,8 @@ namespace Z0
 
         ApiCodeLookup UriCode;
 
+        ApiHex ApiHex => Service(() => Z0.ApiHex.create(Wf));
+
         public ApiIndexBuilder()
         {
             CodeAddress = core.dict<MemoryAddress,ApiCodeBlock>();
@@ -35,21 +37,20 @@ namespace Z0
         {
             var src = Db.ParsedExtractPaths().View;
             var count = src.Length;
-            var flow = Wf.Running(Msg.IndexingPartFiles.Format(count));
-            var hex = Wf.ApiHex();
+            var flow = Running(Msg.IndexingPartFiles.Format(count));
 
             for(var i=0; i<count; i++)
             {
                 ref readonly var path = ref skip(src,i);
-                var inner = Wf.Running(Msg.IndexingCodeBlocks.Format(path));
-                var blocks = hex.ReadRows(path);
+                var inner = Running(Msg.IndexingCodeBlocks.Format(path));
+                var blocks = ApiHex.ReadRows(path);
                 if(blocks.Length != 0)
                 {
                     Include(blocks);
-                    Wf.Ran(inner, Msg.AbsorbedCodeBlocks.Format(blocks.Length, path));
+                    Ran(inner, Msg.AbsorbedCodeBlocks.Format(blocks.Length, path));
                 }
                 else
-                    Wf.Error(Msg.Unparsed(path));
+                    Error(Msg.Unparsed(path));
             }
 
             IndexStatus = Status();

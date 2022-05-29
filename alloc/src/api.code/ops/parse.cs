@@ -10,11 +10,14 @@ namespace Z0
 
     partial class ApiCode
     {
+        const byte ZeroLimit = 10;
+
+
         public static ReadOnlySpan<byte> parse(in RawMemberCode src, Span<byte> dst)
         {
             if(src.StubCode != src.Stub.Encoding)
                 Errors.Throw("Stub code mismatch");
-            return slice(dst,0, ApiExtracts.extract(src.Target, dst));
+            return slice(dst,0, Bytes.readz(ZeroLimit, src.Target, dst));
         }
 
         [Parser]

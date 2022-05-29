@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.InteropServices;
-    using System.Reflection.Metadata;
-
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct ConstantFieldInfo : IRecord<ConstantFieldInfo>
     {

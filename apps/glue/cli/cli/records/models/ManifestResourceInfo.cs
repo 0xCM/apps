@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection.Metadata;
-    using System.Reflection;
-
     /// <summary>
     /// Captures <see cref='ManifestResource'/> data in usable form
     /// </summary>

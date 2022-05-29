@@ -99,8 +99,8 @@ public enum PartId : byte
     [Symbol("bits")]
     Bits,
 
-    [Symbol("bitvectors")]
-    BitVectors,
+    [Symbol("srm.internals")]
+    SrmInternals,
 
     [Symbol("bitspans")]
     BitSpans,

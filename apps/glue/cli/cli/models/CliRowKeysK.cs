@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct CliRowKeys<K> : IIndex<CliRowKey<K>>
         where K : unmanaged, ICliTableKind<K>
     {

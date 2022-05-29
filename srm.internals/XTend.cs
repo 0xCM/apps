@@ -4,12 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct CliRows
+    public static partial class XTend
     {
-        [CliRecord(CliTableKind.ImportScope), StructLayout(LayoutKind.Sequential)]
-        public struct ImportScopeRow : ICliRecord<ImportScopeRow>
-        {
-            public CliBlobIndex Imports;
-        }
+
+
     }
 }

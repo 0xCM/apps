@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.InteropServices;
-    using System.Reflection;
-
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct MethodDefInfo : IRecord<MethodDefInfo>
     {

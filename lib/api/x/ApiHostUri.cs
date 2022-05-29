@@ -4,18 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection;
-    using System.Collections.Generic;
-
     using static core;
 
     partial class XApi
     {
-        [Op]
-        public static ApiHex ApiHex(this IWfRuntime wf)
-            => Z0.ApiHex.create(wf);
-
         [Op]
         public static ApiHostUri ApiHostUri(this Type host)
         {

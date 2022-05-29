@@ -4,11 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     public static class XSvc
     {
-        static Svc Services => Svc.Instance;
-
         sealed class Svc : AppServices<Svc>
         {
             public Parsers Parsers(IWfRuntime wf)
@@ -46,7 +43,12 @@ namespace Z0
 
             public ApiCatalogs ApiCatalogs(IWfRuntime wf)
                 => Service<ApiCatalogs>(wf);
+
+            public ApiHex ApiHex(IWfRuntime wf)
+                => Service<ApiHex>(wf);
         }
+
+        static Svc Services => Svc.Instance;
 
         public static Parsers Parsers(this IWfRuntime wf)
             => Services.Parsers(wf);
@@ -75,6 +77,8 @@ namespace Z0
         public static FileSplitter FileSplitter(this IWfRuntime wf)
             => Services.FileSplitter(wf);
 
+        public static ApiHex ApiHex(this IWfRuntime wf)
+            => Services.ApiHex(wf);
 
         public static ApiResolver ApiResolver(this IWfRuntime wf)
             => Services.ApiResolver(wf);

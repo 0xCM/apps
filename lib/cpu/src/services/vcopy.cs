@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
     using static gcpu;
 
@@ -27,7 +23,7 @@ namespace Z0
         public static void copy<T>(W128 w, ReadOnlySpan<T> src, Span<T> dst)
             where T : unmanaged
         {
-            var seg = (uint)vcount<T>(w);
+            var seg = (uint)cpu.vcount<T>(w);
             var length = src.Length;
             var blocks = length/seg;
             var rem = length % seg;

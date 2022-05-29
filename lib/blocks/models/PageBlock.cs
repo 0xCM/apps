@@ -9,7 +9,6 @@ namespace Z0
     using api = PageBlocks;
 
     [ApiComplete]
-    [DataWidth(PageSize*8,PageSize*8)]
     public unsafe struct PageBlock
     {
         /// <summary>
@@ -17,7 +16,7 @@ namespace Z0
         /// </summary>
         public const uint PageSize = Pow2.T12;
 
-        public MemoryRange Range {get;}
+        public readonly MemoryRange Range;
 
         [MethodImpl(Inline)]
         public PageBlock(MemoryRange range)

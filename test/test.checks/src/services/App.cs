@@ -14,10 +14,10 @@ namespace Z0
 
     using Alg;
 
-    class App : WfApp<App>
+    class CalcRunner : AppService<CalcRunner>
     {
-        public static void Main(params string[] args)
-            => run(args, PartId.Cpu, PartId.CalcShell);
+        // public static void Main(params string[] args)
+        //     => run(args, PartId.Cpu, PartId.CalcShell);
 
         EventQueue Queue;
 
@@ -26,6 +26,20 @@ namespace Z0
         void EventRaised(IWfEvent e)
         {
 
+        }
+
+        public void Run(string[] args)
+        {
+            var count = args.Length;
+            if(count != 0)
+            {
+                for(var i=0; i<count; i++)
+                    Run(skip(args,i));
+            }
+            else
+            {
+                RunValidators();
+            }
         }
 
         protected override void OnInit()
@@ -60,19 +74,6 @@ namespace Z0
 
             var checker = BitLogicChecker.create(Wf, Rng.@default());
             checker.Validate();
-        }
-
-        void Run(N2 n)
-        {
-            LogHeader(MethodInfo.GetCurrentMethod(), n);
-            using var table = SymStores.table(Pow2.T14);
-            table.Deposit("abc");
-            table.Deposit("def");
-            table.Deposit("ghi");
-            var src = table.Symbols;
-            var count = src.Length;
-            for(var i=0; i<count; i++)
-                Log.WriteLine(skip(src,i).Format());
         }
 
         void Run(N3 n)
@@ -164,33 +165,6 @@ namespace Z0
             Log.WriteLine(string.Format("Align({0}) = {1}", a, b));
         }
 
-        void Run(N16 n)
-        {
-            LogHeader(MethodInfo.GetCurrentMethod(), n);
-            Reader(PartId.Cpu, out var reader);
-            var strings = reader.ReadStrings(CliStringKind.User);
-            var count = strings.Length;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var s = ref skip(strings,i);
-                Log.WriteLine(string.Format("{0:D5}:{1}", i, s));
-            }
-        }
-
-        bool Reader(PartId part, out CliReader dst)
-        {
-            if(Wf.ApiCatalog.FindComponent(part, out var component))
-            {
-                dst = CliReader.read(component);
-                return true;
-            }
-            else
-            {
-                dst = default;
-                return false;
-            }
-        }
-
         void Run(N18 n)
         {
             LogHeader(MethodInfo.GetCurrentMethod(), n);
@@ -205,7 +179,6 @@ namespace Z0
             var fmt = text.format(chars);
             Log.WriteLine(fmt);
         }
-
 
         void Run(N24 n)
         {
@@ -232,7 +205,6 @@ namespace Z0
             }
         }
 
-
         void Run(N30 n)
         {
             var x0 = "0x3412a";
@@ -248,27 +220,18 @@ namespace Z0
                 Error(result.Message);
         }
 
-
         void RunValidators()
         {
             Md5Validator.create(Wf).Run();
             Run("1");
-            Run("2");
             Run("3");
             Run("4");
-            Run("5");
             Run("8");
             Run("9");
             Run("13");
-            Run("15");
-            Run("16");
-            Run("17");
             Run("18");
-            Run("20");
-            Run("23");
             Run("24");
             Run("25");
-            //Run("27");
             Run("28");
             Run("30");
         }
@@ -281,9 +244,6 @@ namespace Z0
                 {
                     case 1:
                         Run(n1);
-                    break;
-                    case 2:
-                        Run(n2);
                     break;
                     case 3:
                         Run(n3);
@@ -300,9 +260,6 @@ namespace Z0
                     case 15:
                         Run(n15);
                     break;
-                    case 16:
-                        Run(n16);
-                    break;
                     case 18:
                         Run(n18);
                     break;
@@ -312,9 +269,6 @@ namespace Z0
                     case 25:
                         Run(n25);
                     break;
-                    // case 27:
-                    //     Run(n27);
-                    // break;
                     case 28:
                         Run(n28);
                     break;
@@ -325,24 +279,6 @@ namespace Z0
                      Error(string.Format("Command '{0}' unrecognized", spec));
                     break;
                 }
-            }
-        }
-
-        protected override void Run()
-        {
-        }
-
-        protected override void Run(string[] args)
-        {
-            var count = args.Length;
-            if(count != 0)
-            {
-                for(var i=0; i<count; i++)
-                    Run(skip(args,i));
-            }
-            else
-            {
-                RunValidators();
             }
         }
     }

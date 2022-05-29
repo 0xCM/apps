@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.InteropServices;
-    using System.Reflection;
-
     partial struct CliRows
     {
         [CliRecord(CliTableKind.Field), StructLayout(LayoutKind.Sequential)]

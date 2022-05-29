@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [ApiHost, RecordGroup]
+    [ApiHost]
     public readonly partial struct CliRows
     {
         [MethodImpl(Inline)]

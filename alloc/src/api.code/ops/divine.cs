@@ -31,7 +31,7 @@ namespace Z0
                 if(uri.Host != host)
                     host = uri.Host;
 
-                var extract = slice(buffer,0, ApiExtracts.extract(raw.Target, buffer));
+                var extract = slice(buffer,0, Bytes.readz(ZeroLimit, raw.Target, buffer));
                 var extracted = new CollectedCodeExtract(raw, extract.ToArray());
                 if(dst.TryGetValue(host, out var extracts))
                     extracts.Include(extracted);

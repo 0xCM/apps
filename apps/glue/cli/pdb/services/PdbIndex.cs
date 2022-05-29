@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static PdbModel;
-
     public sealed class PdbIndex : GlobalService<PdbIndex,PdbDocuments>
     {
         public uint Include(ReadOnlySpan<PdbDocument> src)

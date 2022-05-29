@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.InteropServices;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Describes the length-invariant leading bytes of the metadata root as specified in II.24.2.1
     /// </summary>

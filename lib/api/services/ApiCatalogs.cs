@@ -15,6 +15,8 @@ namespace Z0
 
         ApiRuntime Runtime => Service(Wf.ApiRuntime);
 
+        ApiHex ApiHex => Service(() => ApiHex.create(Wf));
+
         public Index<SymLiteralRow> EmitApiClasses()
             => EmitApiClasses(ProjectDb.Api() +  FS.file("api.classes", FS.Csv));
 
@@ -114,7 +116,6 @@ namespace Z0
         public Index<ApiMemberCode> Correlate(ReadOnlySpan<IApiPartCatalog> src, FS.FilePath path)
         {
             var flow = Running(Msg.CorrelatingParts.Format(src.Length));
-            var hex = Wf.ApiHex();
             var count = src.Length;
             var dst = list<ApiMemberCode>();
             var records = list<ApiCorrelationEntry>();
@@ -130,7 +131,7 @@ namespace Z0
                     var hexpath = Db.ParsedExtractPath(srcHost.HostUri);
                     if(hexpath.Exists)
                     {
-                        var blocks = hex.ReadBlocks(hexpath);
+                        var blocks = ApiHex.ReadBlocks(hexpath);
                         Require.invariant(ApiRuntimeCatalog.FindHost(srcHost.HostUri, out var host));
                         var catalog = Runtime.HostCatalog(host);
                         Correlate(catalog, blocks, dst, records);

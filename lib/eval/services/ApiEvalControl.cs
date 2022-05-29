@@ -47,7 +47,8 @@ namespace Z0
             if(catalog.IsEmpty)
                 return;
 
-            var hex = Wf.ApiHex();
+
+            var hex = ApiHex.create(Wf);
             var members = Wf.ApiIndexBuilder().CreateMemberIndex(catalog);
             Wf.Status($"Indexed {members.EntryCount} {uri} members");
 

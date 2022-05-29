@@ -32,5 +32,7 @@ dotnet sln %SlnPath% add %AppDir%/intel.intrinsics/z0.intel.intrinsics.csproj
 dotnet sln %SlnPath% add %AppDir%/glue/z0.glue.csproj
 dotnet sln %SlnPath% add %AppDir%/llvm.tools/z0.llvm.tools.csproj
 dotnet sln %SlnPath% add %AppDir%/machines.X86/z0.machines.x86.csproj
+
 dotnet sln %SlnPath% add %AppDir%/cmd.shell/z0.cmd.shell.csproj
 dotnet sln %SlnPath% add %AppDir%/xed.shell/z0.xed.shell.csproj
+dotnet sln %SlnPath% add %AppDir%/calc.shell/z0.calc.shell.csproj

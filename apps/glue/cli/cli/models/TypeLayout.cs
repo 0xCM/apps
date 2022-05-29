@@ -4,18 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     using Srm = System.Reflection.Metadata;
 
-    public readonly struct TypeLayout : ITextual
+    public readonly struct TypeLayout
     {
-        public uint Size {get;}
+        public readonly uint Size;
 
-        public uint Pack {get;}
+        public readonly uint Pack;
 
         [MethodImpl(Inline)]
         public TypeLayout(uint size, uint pack)

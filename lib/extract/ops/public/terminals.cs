@@ -18,7 +18,7 @@ namespace Z0
                 ref readonly var extract = ref skip(src,i);
                 var term = terminal(extract.Encoded.Bytes);
                 if(term.TerminalFound)
-                    seek(dst, j++) = memblock(extract, term);
+                    seek(dst, j++) = MemoryBlocks.block(extract, term);
             }
             return j;
         }

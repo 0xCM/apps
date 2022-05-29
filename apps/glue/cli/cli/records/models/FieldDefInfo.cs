@@ -4,12 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.InteropServices;
-    using System.Reflection;
-
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct FieldDefInfo : IRecord<FieldDefInfo>
+    public struct FieldDefInfo
     {
         public const string TableId = "image.field-defs";
 

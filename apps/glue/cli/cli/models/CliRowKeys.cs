@@ -4,16 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct CliRowKeys : IIndex<CliRowKey>
     {
         readonly Index<CliRowKey> Data;
 
-        public CliTableKind Table {get;}
+        public readonly CliTableKind Table;
 
         [MethodImpl(Inline)]
         public CliRowKeys(Index<CliRowKey> src, CliTableKind table = default)

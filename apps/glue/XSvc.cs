@@ -9,33 +9,60 @@ namespace Z0
     public static partial class XTend
     {
 
-
     }
 
-    [ApiHost]
     public static partial class XSvc
     {
-        [Op]
+
+        sealed class Svc : AppServices<Svc>
+        {
+            public CliSvc CliSvc(IWfRuntime wf)
+                => Service<CliSvc>(wf);
+
+            public CliEmitter CliEmitter(IWfRuntime wf)
+                => Service<CliEmitter>(wf);
+
+            public PdbIndexBuilder PdbIndexBuilder(IWfRuntime wf)
+                => Service<PdbIndexBuilder>(wf);
+
+            public AppModules AppModules(IWfRuntime wf)
+                => Service<AppModules>(wf);
+
+            public PdbSymbolStore PdbSymbolStore(IWfRuntime wf)
+                => Service<PdbSymbolStore>(wf);
+        }
+
+        static Svc Services => Svc.Instance;
+
+        public static CliSvc CliSvc(this IWfRuntime wf)
+            => Services.CliSvc(wf);
+
+        public static CliEmitter CliEmitter(this IWfRuntime wf)
+            => Services.CliEmitter(wf);
+
+        public static PdbIndexBuilder PdbIndexBuilder(this IWfRuntime wf)
+            => Services.PdbIndexBuilder(wf);
+
+        public static AppModules AppModules(this IWfRuntime wf)
+            => Services.AppModules(wf);
+        public static PdbSymbolStore PdbSymbolStore(this IWfRuntime wf)
+            => Services.PdbSymbolStore(wf);
+
         public static Roslyn Roslyn(this IWfRuntime wf)
             => Z0.Roslyn.create(wf);
 
-        [Op]
         public static SourceSymbolic SourceSymbolic(this IWfRuntime wf)
             => Z0.SourceSymbolic.create(wf);
 
-        [Op]
         public static CultProcessor CultProcessor(this IWfRuntime wf)
             => Z0.CultProcessor.create(wf);
 
-        [Op]
         public static BdDisasm BdDisasm(this IWfRuntime wf)
             => Z0.BdDisasm.create(wf);
 
-        [Op]
         public static WinSdk WinSdk(this IWfRuntime wf)
             => Z0.WinSdk.create(wf);
 
-        [Op]
         public static Msvs Msvs(this IWfRuntime wf)
             => Z0.Msvs.create(wf);
 
@@ -48,35 +75,15 @@ namespace Z0
             return buffer;
         }
 
-        [Op]
-        public static CliEmitter CliEmitter(this IWfRuntime wf)
-            => Z0.CliEmitter.create(wf);
-
-        [Op]
-        public static AppModules AppModules(this IWfRuntime wf)
-            => Z0.AppModules.create(wf);
-
-        [Op]
-        public static PdbSymbolStore PdbSymbolStore(this IWfRuntime wf)
-            => Z0.PdbSymbolStore.create(wf);
-
-        [Op]
         public static PdbReader PdbReader(this IWfRuntime wf, in PdbSymbolSource src)
             => Z0.PdbReader.create(wf,src);
 
-        [Op]
         public static PdbIndex PdbIndex(this IWfRuntime wf)
             => Z0.PdbIndex.create(wf);
 
-        [Op]
-        public static PdbIndexBuilder PdbIndexBuilder(this IWfRuntime wf)
-            => Z0.PdbIndexBuilder.create(wf);
-
-        [Op]
         public static DumpParser DumpParser(this IWfRuntime wf)
             => Z0.DumpParser.create(wf);
 
-        [Op]
         public static MsDocsService MsDocs(this IWfRuntime wf)
             => Z0.MsDocsService.create(wf);
     }

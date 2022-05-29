@@ -9,7 +9,6 @@ namespace Z0
     using static Root;
     using static core;
 
-
     public readonly struct ApiBlocks
     {
         [Op]

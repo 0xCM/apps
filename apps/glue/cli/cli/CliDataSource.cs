@@ -4,14 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Reflection;
-    using System.Reflection.Metadata;
-    using System.Reflection.PortableExecutable;
-
-    using static Root;
-
     public sealed class CliDataSource : DataSource<CliDataSource>
     {
         public CliReader Reader {get;}

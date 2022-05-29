@@ -9,9 +9,141 @@ namespace Z0
     using static core;
 
     [ApiHost]
-    public readonly struct Bytes
+    public unsafe readonly struct Bytes
     {
         const NumericKind Closure = UnsignedInts;
+
+        [MethodImpl(Inline), Op]
+        public static void read4096(byte* pSrc, ref PageBlock dst)
+        {
+            ReadLo(pSrc, ref dst);
+            ReadHi(pSrc, ref dst);
+        }
+
+        [MethodImpl(Inline), Op]
+        static void ReadLo(byte* pSrc, ref PageBlock dst)
+        {
+            var pData = pSrc;
+            var offset = z16;
+            read2048(ref pData, ref dst, ref offset);
+        }
+
+        [MethodImpl(Inline), Op]
+        static void ReadHi(byte* pSrc, ref PageBlock dst)
+        {
+            const ushort Half = Root.PageSize/2;
+            var pData = pSrc + Half;
+            var offset = Half;
+            read2048(ref pData, ref dst, ref offset);
+        }
+
+        [MethodImpl(Inline), Op]
+        public static void read32(ref byte* pSrc, ref PageBlock dst, ref ushort offset)
+        {
+            ref var target = ref u8(dst);
+            cpu.vstore(cpu.vload(w256, pSrc), ref target, (int)offset);
+            pSrc +=32;
+            offset+= 32;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static void read64(ref byte* pSrc, ref PageBlock dst, ref ushort offset)
+        {
+            read32(ref pSrc, ref dst, ref offset);
+            read32(ref pSrc, ref dst, ref offset);
+        }
+
+        [MethodImpl(Inline), Op]
+        public static void read128(ref byte* pSrc, ref PageBlock dst, ref ushort offset)
+        {
+            read64(ref pSrc, ref dst, ref offset);
+            read64(ref pSrc, ref dst, ref offset);
+        }
+
+        [MethodImpl(Inline), Op]
+        public static void read256(ref byte* pSrc, ref PageBlock dst, ref ushort offset)
+        {
+            read128(ref pSrc, ref dst, ref offset);
+            read128(ref pSrc, ref dst, ref offset);
+        }
+
+        [MethodImpl(Inline), Op]
+        public static void read512(ref byte* pSrc, ref PageBlock dst, ref ushort offset)
+        {
+            read256(ref pSrc, ref dst, ref offset);
+            read256(ref pSrc, ref dst, ref offset);
+        }
+
+        [MethodImpl(Inline), Op]
+        public static void read1024(ref byte* pSrc, ref PageBlock dst, ref ushort offset)
+        {
+            read512(ref pSrc, ref dst, ref offset);
+            read512(ref pSrc, ref dst, ref offset);
+        }
+
+        [MethodImpl(Inline), Op]
+        public static void read2048(ref byte* pSrc, ref PageBlock dst, ref ushort offset)
+        {
+            read1024(ref pSrc, ref dst, ref offset);
+            read1024(ref pSrc, ref dst, ref offset);
+        }
+
+        [MethodImpl(Inline), Op]
+        public static unsafe int readz(uint zmax, MemoryAddress src, Span<byte> dst)
+        {
+            var pSrc = src.Pointer<byte>();
+            return readz(zmax, ref pSrc, dst.Length, dst);
+        }
+
+        [MethodImpl(Inline), Op]
+        public static unsafe int readz(uint zmax, ref byte* pSrc, int limit, Span<byte> dst)
+            => readz(zmax, ref pSrc, limit, ref first(dst));
+
+        [MethodImpl(Inline), Op]
+        public static unsafe int readz(uint zmax, ref byte* pSrc, int limit, ref byte dst)
+        {
+            var offset = 0;
+            var count = 0;
+            while(offset<limit && count<zmax)
+            {
+                var value = Unsafe.Read<byte>(pSrc++);
+                seek(dst, offset++) = value;
+                if(value != 0)
+                    count = 0;
+                else
+                    count++;
+            }
+            return offset;
+        }
+
+        // [MethodImpl(Inline), Op]
+        // public static unsafe int read(MemoryAddress src, Span<byte> dst)
+        // {
+        //     var pSrc = src.Pointer<byte>();
+        //     var limit = dst.Length;
+        //     return read(ref pSrc, limit, dst);
+        // }
+
+        // [MethodImpl(Inline), Op]
+        // public static unsafe int read(ref byte* pSrc, int count, Span<byte> dst)
+        //     => read(ref pSrc, count, ref first(dst));
+
+        // [MethodImpl(Inline), Op]
+        // public static unsafe int read(ref byte* pSrc, int limit, ref byte dst)
+        // {
+        //     var offset = 0;
+        //     var count = 0;
+        //     while(offset<limit && count<MaxZeroCount)
+        //     {
+        //         var value = Unsafe.Read<byte>(pSrc++);
+        //         seek(dst, offset++) = value;
+        //         if(value != 0)
+        //             count = 0;
+        //         else
+        //             count++;
+        //     }
+        //     return offset;
+        // }
 
         [MethodImpl(Inline)]
         public static ReadOnlySpan<byte> sequential(byte i0, byte i1)

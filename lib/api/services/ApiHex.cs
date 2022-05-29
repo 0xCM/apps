@@ -9,6 +9,38 @@ namespace Z0
     [ApiHost]
     public class ApiHex : AppService<ApiHex>
     {
+        public static MemoryBlocks memory(FS.FilePath src)
+        {
+            var dst = MemoryBlocks.Empty;
+            var result = Outcome<MemoryBlocks>.Success;
+            var unpacked = Outcome<ByteSize>.Success;
+            var size  = ByteSize.Zero;
+            var buffer = list<MemoryBlock>();
+            var counter = z16;
+            using var reader = src.AsciReader();
+            var data = reader.ReadLine();
+            var block = MemoryBlock.Empty;
+            while(result.Ok && text.nonempty(data))
+            {
+                unpacked = parse(counter++, data, out block);
+                if(unpacked.Fail)
+                {
+                    result = (false, unpacked.Message);
+                    Errors.Throw(unpacked.Message);
+                }
+                else
+                {
+                    buffer.Add(block);
+                    size += unpacked.Data;
+                    data = reader.ReadLine();
+                }
+            }
+
+            dst = buffer.ToArray();
+            return dst;
+        }
+
+
         [MethodImpl(Inline), Op]
         public static MemoryBlock memory(in ApiHexRow src)
             => new MemoryBlock(new MemoryRange(src.Address, src.Address + src.Data.Size), src.Data);
@@ -112,37 +144,6 @@ namespace Z0
             return new MemoryBlocks(dst);
         }
 
-        public static MemoryBlocks memory(FS.FilePath src)
-        {
-            var dst = MemoryBlocks.Empty;
-            var result = Outcome<MemoryBlocks>.Success;
-            var unpacked = Outcome<ByteSize>.Success;
-            var size  = ByteSize.Zero;
-            var buffer = list<MemoryBlock>();
-            var counter = z16;
-            using var reader = src.AsciReader();
-            var data = reader.ReadLine();
-            var block = MemoryBlock.Empty;
-            while(result.Ok && text.nonempty(data))
-            {
-                unpacked = parse(counter++, data, out block);
-                if(unpacked.Fail)
-                {
-                    result = (false, unpacked.Message);
-                    Errors.Throw(unpacked.Message);
-                }
-                else
-                {
-                    buffer.Add(block);
-                    size += unpacked.Data;
-                    data = reader.ReadLine();
-                }
-            }
-
-            dst = buffer.ToArray();
-            return dst;
-        }
-
         [Op]
         public static Outcome parse(string src, out ApiHexRow dst)
         {
@@ -194,6 +195,7 @@ namespace Z0
             }
         }
 
+        // x7ffb651869e0[00012:00017]=<c5f8776690c5f857c0c5f91101488bc1c3>
         public static Outcome<ByteSize> parse(ushort index, string src, out MemoryBlock dst)
         {
             var count = src.Length;
