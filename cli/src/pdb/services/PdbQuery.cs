@@ -4,8 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
     using System.IO;
+
+    using static core;
 
     [ApiHost]
     public unsafe readonly struct PdbQuery

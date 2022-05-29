@@ -5,8 +5,8 @@
 namespace Z0
 {
     using Z0.Asm;
-    using static core;
 
+    using static core;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct AsmCallRow : IComparableRecord<AsmCallRow>

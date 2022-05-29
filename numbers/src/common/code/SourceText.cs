@@ -6,11 +6,11 @@ namespace Z0
 {
     using static core;
 
-    public unsafe readonly struct SourceText : IMemoryString<char>, IComparable<SourceText>, IEquatable<SourceText>
+    public unsafe readonly record struct SourceText : ILocatedSource<SourceText,char>
     {
-        public MemoryAddress Address {get;}
+        public readonly MemoryAddress Address;
 
-        public int Length {get;}
+        public readonly int Length;
 
         [MethodImpl(Inline)]
         public SourceText(MemoryAddress @base, int length)
@@ -56,7 +56,7 @@ namespace Z0
         }
 
         public bool Equals(SourceText src)
-            => text.equals(Cells,src.Cells);
+            => text.equals(Cells, src.Cells);
 
         public int CompareTo(SourceText src)
             => Cells.CompareTo(src.Cells, StringComparison.InvariantCulture);
@@ -70,15 +70,9 @@ namespace Z0
         public override int GetHashCode()
             => (int)Hash;
 
-        public override bool Equals(object src)
-            => src is SourceText l && Equals(l);
+        MemoryAddress ILocatedSource.Location
+            => Address;
 
         public static SourceText Empty => default;
-
-        public static bool operator==(SourceText a, SourceText b)
-            => a.Equals(b);
-
-        public static bool operator!=(SourceText a, SourceText b)
-            => !a.Equals(b);
     }
 }
