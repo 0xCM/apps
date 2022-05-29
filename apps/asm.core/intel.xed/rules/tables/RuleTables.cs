@@ -7,8 +7,6 @@ namespace Z0
 {
     using static core;
 
-    using CK = XedRules.RuleCellKind;
-
     partial class XedRules
     {
         public partial class RuleTables

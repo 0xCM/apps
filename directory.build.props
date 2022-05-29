@@ -40,12 +40,6 @@
     <ZTestPath>J:\z0\.build\bin\z0.test.units\Release\$(TargetFramework)\z0.test.units.dll</ZTestPath>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <CgCommonName>z0.codegen.common</CgCommonName>
-    <CgCommonPath>$(BuildRootDir)bin\$(CgCommonName)\$(Configuration)\$(TargetFramework)\$(CgCommonName).dll</CgCommonPath>
-  </PropertyGroup>
-
-
   <Import Project="projects.props"/>
 
 </Project>

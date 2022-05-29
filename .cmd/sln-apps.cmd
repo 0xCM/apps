@@ -3,7 +3,7 @@ call %~dp0config.cmd
 
 set Area=apps
 set SlnName=z0.%Area%.sln
-set SlnPath=%SlnRoot%/%SlnName%
+set SlnPath=%SlnRoot%/%Area%/%SlnName%
 echo SlnPath:%SlnPath%
 
 dotnet sln %SlnPath% add %TopDir%/alloc/z0.alloc.csproj

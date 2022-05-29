@@ -42,7 +42,7 @@ set ProjectGraphPath=%BuildLogs%\z0.%ProjectId%.dg.json
 set ProjectBuildLogPath="%BuildLogs%\z0.%ProjectId%.log"
 
 set Area=apps
-set AreaSln=%SlnRoot%\z0.%Area%.sln
+set AreaSln=%SlnRoot%\%Area%\z0.%Area%.sln
 set AreaBuildLog=%BuildLogs%\z0.%Area%.build.log
 set AreaBuildCmd=dotnet build %AreaSln% %BuildProps% -fl -flp:logfile=%AreaBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 set BuildAppsCmd=%AreaBuildCmd%
@@ -63,7 +63,7 @@ set BuildLibCmd=%AreaBuildCmd%
 echo BuildLibCmd:%BuildLibCmd% >> %CmdLog%
 
 set Area=codegen
-set AreaSln=%SlnRoot%\z0.%Area%.sln
+set AreaSln=%SlnRoot%\%Area%\z0.%Area%.sln
 set AreaBuildLog=%BuildLogs%\z0.%Area%.build.log
 set BuildAreaCmd=dotnet build %AreaSln% %BuildProps% -fl -flp:logfile=%AreaBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 set BuildCgCmd=%BuildAreaCmd%
@@ -71,7 +71,7 @@ echo BuildCgCmd:%BuildCgCmd% >> %CmdLog%
 
 set Area=z0
 set AreaSln=%SlnRoot%\%Area%.sln
-set AreaBuildLog=%BuildLogs%\%Area%.build.log
+set AreaBuildLog=%BuildLogs%\%Area%.main.build.log
 set BuildAreaCmd=dotnet build %AreaSln% %BuildProps% -fl -flp:logfile=%AreaBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 set BuildMainCmd=%BuildAreaCmd%
 echo BuildMainCmd:%BuildMainCmd% >> %CmdLog%

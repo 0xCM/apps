@@ -1,0 +1,37 @@
+{
+	"folders": [
+		{
+			"path": "../alloc"
+		},
+		{
+			"path": "../archives"
+		},
+		{
+			"path": "../bits"
+		},
+		{
+			"path": "../diagnostics"
+		},
+		{
+			"path": "../lines"
+		},
+		{
+			"path": "../expr"
+		},
+		{
+			"path": "../extract"
+		},
+		{
+			"path": "../numbers"
+		},
+		{
+			"path": "../codegen"
+		},
+		{
+			"path": "."
+		},
+		{
+			"path": "../.build"
+		}
+	],
+}
