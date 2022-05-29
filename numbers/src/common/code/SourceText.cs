@@ -70,7 +70,7 @@ namespace Z0
         public override int GetHashCode()
             => (int)Hash;
 
-        MemoryAddress ILocatedSource.Location
+        MemoryAddress IAddressable.Address
             => Address;
 
         public static SourceText Empty => default;

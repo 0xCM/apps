@@ -60,6 +60,9 @@ namespace Z0
 
             public ApiComments ApiComments(IWfRuntime wf)
                 => Service<ApiComments>(wf);
+
+             public MemoryEmitter MemoryEmitter(IWfRuntime wf)
+                => Service<MemoryEmitter>(wf);
         }
 
         static Svc Services => Svc.Instance;
@@ -115,6 +118,10 @@ namespace Z0
 
         public static ApiComments ApiComments(this IWfRuntime wf)
             => Services.ApiComments(wf);
+
+
+        public static MemoryEmitter MemoryEmitter(this IWfRuntime wf)
+            => Services.MemoryEmitter(wf);
 
 
     }

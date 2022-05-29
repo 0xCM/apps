@@ -4,22 +4,22 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-   using static core;
+    using static core;
 
-    /// <summary>
-    /// Defines a character string over an embedded resource
-    /// </summary>
-    public unsafe struct StringRefs
+    using api = StringRefs;
+
+    public unsafe struct StringRefs<C>
+        where C : unmanaged
     {
         readonly MemoryAddress BaseAddress;
 
         /// <summary>
         /// The maximum number of symbols in the string
         /// </summary>
-        public readonly uint Length;
+        public uint Length {get;}
 
         [MethodImpl(Inline)]
-        public StringRefs(ReadOnlySpan<char> src)
+        public StringRefs(ReadOnlySpan<C> src)
         {
             BaseAddress = address(first(src));
             Length = (uint)src.Length;
@@ -28,13 +28,13 @@ namespace Z0
         public ByteSize Size
         {
             [MethodImpl(Inline)]
-            get => Length*size<char>();
+            get => Length*size<C>();
         }
 
-        public ReadOnlySpan<char> View
+        public ReadOnlySpan<C> View
         {
             [MethodImpl(Inline)]
-            get => cover(BaseAddress.Pointer<char>(), Length);
+            get => cover(BaseAddress.Pointer<C>(), Length);
         }
 
         [MethodImpl(Inline)]
@@ -46,58 +46,54 @@ namespace Z0
             => address(skip(View,index));
 
         [MethodImpl(Inline)]
-        public ref readonly char Symbol(ulong index)
+        public ref readonly C Symbol(ulong index)
             => ref skip(View,index);
 
         [MethodImpl(Inline)]
-        public ref readonly char Symbol(long index)
+        public ref readonly C Symbol(long index)
             => ref skip(View,index);
 
         [MethodImpl(Inline)]
-        public StringRef Word(ulong index, ulong length)
-            => StringRef.word(this, index, length);
+        public StringRef<C> Word(ulong index, ulong length)
+            => api.word(this, index, length);
 
         [MethodImpl(Inline)]
-        public StringRef Word(long index, long length)
-            => StringRef.word(this, index, length);
+        public StringRef<C> Word(long index, long length)
+            => api.word(this, index, length);
 
-        public ref readonly char this[ulong index]
+        public ref readonly C this[ulong index]
         {
             [MethodImpl(Inline)]
             get => ref Symbol(index);
         }
 
-        public ref readonly char this[long index]
+        public ref readonly C this[long index]
         {
             [MethodImpl(Inline)]
             get => ref Symbol(index);
         }
 
-        public StringRef this[long offset, long length]
+        public StringRef<C> this[long offset, long length]
         {
             [MethodImpl(Inline)]
-            get => StringRef.word(this, offset, length);
+            get => api.word(this, offset, length);
         }
 
-        public StringRef this[ulong offset, ulong length]
+        public StringRef<C> this[ulong offset, ulong length]
         {
             [MethodImpl(Inline)]
-            get => StringRef.word(this, offset, length);
+            get => api.word(this, offset, length);
         }
 
         public string Format()
-            => text.format(View);
+            => api.format(this);
 
 
         public override string ToString()
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator StringRefs(ReadOnlySpan<char> src)
-            => new StringRefs(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator StringRefs(string src)
-            => new StringRefs(src);
+        public static implicit operator StringRefs<C>(ReadOnlySpan<C> src)
+            => new StringRefs<C>(src);
     }
 }

@@ -20,9 +20,6 @@ namespace Z0
             public CheckRunner CheckRunner(IWfRuntime wf)
                 => Service<CheckRunner>(wf);
 
-            public MemoryEmitter MemoryEmitter(IWfRuntime wf)
-                => Service<MemoryEmitter>(wf);
-
             public MemorySeqChecks MemorySeqChecks(IWfRuntime wf)
                 => Service<MemorySeqChecks>(wf);
 
@@ -59,14 +56,8 @@ namespace Z0
         public static AppSvcOps AppSvc(this IWfRuntime wf)
             => Services.AppSvc(wf);
 
-        // public static CheckRunner CheckRunner(this IWfRuntime wf)
-        //     => Services.CheckRunner(wf);
-
         public static MemorySeqChecks MemorySeqChecks(this IWfRuntime wf)
             => Services.MemorySeqChecks(wf);
-
-        public static MemoryEmitter MemoryEmitter(this IWfRuntime wf)
-            => Services.MemoryEmitter(wf);
 
         public static AssetServices Assets(this IWfRuntime wf)
             => Services.Assets(wf);

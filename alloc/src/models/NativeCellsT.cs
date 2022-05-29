@@ -7,6 +7,10 @@ namespace Z0
 {
     using static core;
 
+    public interface INativeCells : IBufferAllocation
+    {
+        uint CellCount {get;}
+    }
     public unsafe readonly struct NativeCells<T> : INativeCells
     {
         readonly long Id;

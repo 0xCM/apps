@@ -40,7 +40,7 @@ namespace Z0
             get => cover<byte>(Address, Size);
         }
 
-        MemoryAddress IMemoryString.Address
+        MemoryAddress IAddressable.Address
             => Address;
     }
 }

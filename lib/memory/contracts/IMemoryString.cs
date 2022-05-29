@@ -4,13 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    public interface IMemoryString : INullity, IMeasured, IHashed
+    [Free]
+    public interface IMemoryString : INullity, IMeasured, IHashed, IAddressable
     {
         ReadOnlySpan<byte> Bytes {get;}
 
-        MemoryAddress Address {get;}
+        ByteSize ISized.Size
+            => Bytes.Length;
+
+        BitWidth ISized.Width
+            => Bytes.Length*8;
 
         uint IHashed.Hash
             => alg.hash.marvin(Bytes);
@@ -22,6 +25,7 @@ namespace Z0
             => Bytes.Length != 0;
     }
 
+    [Free]
     public interface IMemoryString<T> : IMemoryString
         where T : unmanaged
     {

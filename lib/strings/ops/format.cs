@@ -6,21 +6,6 @@ namespace Z0
 {
     partial struct strings
     {
-        [Op]
-        public static string format(in StringRef src)
-            => new string(src.Cells);
-
-        public static string format<S>(in StringRef<S> src)
-            where S : unmanaged
-                => new string(core.recover<S,char>(src.View));
-
-        [Op]
-        public static string format(in StringRefs src)
-            => new string(src.View);
-
-        public static string format<S>(in StringRefs<S> src)
-            where S : unmanaged
-                => new string(core.recover<S,char>(src.View));
 
         [MethodImpl(Inline), Op]
         public static unsafe string format(StringAddress src)

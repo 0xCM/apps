@@ -6,6 +6,8 @@ namespace Z0
 {
     using static core;
 
+    using api = StringRefs;
+
     /// <summary>
     /// Defines a reference to an immutable S-sequence
     /// </summary>
@@ -48,7 +50,7 @@ namespace Z0
         }
 
         public string Format()
-            => StringRef.format(this);
+            => api.format(this);
 
 
         public override string ToString()

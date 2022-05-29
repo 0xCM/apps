@@ -1,12 +1,16 @@
-
 //-----------------------------------------------------------------------------
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface INativeCells : IBufferAllocation
+    [Free]
+    public interface INativeFunction
     {
-        uint CellCount {get;}
+        string Name {get;}
+
+        NativeModule Source {get;}
+
+        MemoryAddress Address {get;}
     }
 }
