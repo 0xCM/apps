@@ -11,7 +11,7 @@ namespace Z0.Asm
     /// Defines the state of a <see cref='F'/> join
     /// </summary>
     [ApiComplete]
-    public struct StatusFlags : IEquatable<StatusFlags>
+    public record struct StatusFlags : IEquatable<StatusFlags>
     {
         StatusFlagBits State;
 
@@ -129,9 +129,6 @@ namespace Z0.Asm
         public override int GetHashCode()
             => (int)State;
 
-        public override bool Equals(object src)
-            => src is StaticBuffers x && Equals(x);
-
         [MethodImpl(Inline)]
         public static implicit operator StatusFlags(RFlagBits src)
             => new StatusFlags(src);
@@ -155,14 +152,6 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public static explicit operator uint(StatusFlags src)
             => (uint)src.State;
-
-        [MethodImpl(Inline)]
-        public static bool operator ==(StatusFlags a, StatusFlags b)
-            => a.Equals(b);
-
-        [MethodImpl(Inline)]
-        public static bool operator !=(StatusFlags a, StatusFlags b)
-            => !a.Equals(b);
 
         public static StatusFlags Zero => default;
     }

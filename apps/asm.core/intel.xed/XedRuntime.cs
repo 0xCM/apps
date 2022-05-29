@@ -11,7 +11,7 @@ namespace Z0
     using static XedPatterns;
     using static XedModels;
     using static core;
-    using static XedOperands;
+    using static XedOps;
     using static XedImport;
     using I = XedViewKind;
 
@@ -29,8 +29,6 @@ namespace Z0
 
         public IAllocProvider Alloc => _Alloc;
 
-        public WsProjects Projects => Wf.WsProjects();
-
         public new XedPaths Paths => XedPaths.Service;
 
         public XedDocs Docs => Wf.XedDocs(this);
@@ -39,9 +37,9 @@ namespace Z0
 
         public XedRules Rules => Wf.XedRules(this);
 
-        public XedImport Import => Wf.XedImport(this);
+        public XedOps XedOps => Wf.XedOps(this);
 
-        public AppDb AppDb => Wf.AppDb();
+        public XedImport Import => Wf.XedImport(this);
 
         public new WsCmdRunner CmdRunner => Wf.WsCmdRunner();
 
@@ -54,7 +52,7 @@ namespace Z0
 
         public IMachine Machine()
         {
-            var m =  XedOperands.machine(this);
+            var m =  XedOps.machine(this);
             Machines.TryAdd(m.Id,m);
             return m;
         }
@@ -62,8 +60,6 @@ namespace Z0
         Alloc _Alloc;
 
         XedViews _Views;
-
-        AsmCmdRt CmdRt;
 
         public ref readonly XedViews Views
         {
@@ -116,15 +112,11 @@ namespace Z0
                 CalcTypeTables,
                 CalcCpuIdImports,
                 () => defs = InstDefParser.parse(Paths.DocSource(XedDocKind.EncInstDef)),
-                //() => Views.Store(I.InstDefs, InstDefParser.parse(Paths.DocSource(XedDocKind.EncInstDef))),
                 () => Views.Store(I.AsmBroadcastDefs, Import.CalcBroadcastDefs()),
-                () => Views.Store(I.OpWidths, Import.CalcOpWidths()),
+                () => Views.Store(I.OpWidths, XedOps.Widths),
                 () => Import.CalcInstImports(data => blocks = data),
-                //() => Import.CalcInstImports(data => Views.Store(I.InstImports, data)),
                 () => Import.CalcFormImports(data => forms = data),
-                //() => Import.CalcFormImports(data => Views.Store(I.FormImports, data)),
                 () => XedRules.CalcChipMap(data =>  chips = data)
-                //() => XedRules.CalcChipMap(data =>  Views.Store(I.ChipMap, data))
                 );
 
             Views.Store(I.InstDefs, defs);
@@ -135,24 +127,46 @@ namespace Z0
             var tables = RuleTables.Empty;
             var patterns = sys.empty<InstPattern>();
             exec(PllExec,
-                //() => Views.Store(I.RuleTables, CalcRuleTables()),
                 () => tables = CalcRuleTables(),
                 () => patterns = InstPattern.load(defs),
-                //() => Views.Store(I.InstPattern, InstPattern.load(Views.InstDefs)),
-                () => Views.Store(I.OpWidthLookup, Import.CalcOpWidthLookup(Views.OpWidths))
+                () => Views.Store(I.WidthLookup, XedOps.WidthLookup)
                 );
 
             Views.Store(I.RuleTables, tables);
             Views.Store(I.InstPattern, patterns);
 
+            var opdetail = sys.empty<InstOpDetail>();
+            var instfields = sys.empty<InstFieldRow>();
+            var instoc = sys.empty<InstOpCode>();
             exec(PllExec,
-                () => Views.Store(I.OpCodes, XedOpCodes.poc(patterns)),
-                () => Views.Store(I.InstFields, XedPatterns.fieldrows(patterns))
+                () => instoc = XedOpCodes.poc(patterns),
+                () => instfields =  XedPatterns.fieldrows(patterns),
+                () => opdetail = XedOps.opdetails(patterns)
                 );
 
-            Views.Store(I.CellDatasets, RuleTables.datasets(tables));
-            Views.Store(I.CellTables, CellTables.from(Views.CellDatasets));
-            Views.Store(I.RuleExpr, Rules.CalcRuleExpr(Views.CellTables));
+            Views.Store(I.OpCodes, instoc);
+            Views.Store(I.InstFields, instfields);
+            Views.Store(I.InstOpDetail, opdetail);
+
+            var cd = CellDatasets.Empty;
+            var opSpecs = sys.empty<InstOpSpec>();
+            exec(PllExec,
+                () => opSpecs = XedOps.CalcSpecs(opdetail),
+                () => cd = RuleTables.datasets(tables)
+                );
+            Views.Store(I.CellDatasets, cd);
+            Views.Store(I.InstOpSpecs, opSpecs);
+
+            var ct = CellTables.Empty;
+            exec(PllExec,
+                () => ct = CellTables.from(cd));
+            Views.Store(I.CellTables, ct);
+
+            var rulexpr = sys.empty<RuleExpr>();
+            exec(PllExec,
+                () => rulexpr = Rules.CalcRuleExpr(Views.CellTables));
+            Views.Store(I.RuleExpr, rulexpr);
+
             Started = true;
         }
 

@@ -47,6 +47,11 @@ namespace Z0
 
             CellDatasets()
             {
+                _Tables = sys.empty<CellTable>();
+                _Cells = sys.empty<RuleCell>();
+                _Sigs = sys.empty<RuleSig>();
+                _RawFormat = EmptyString;
+                _TableCells = Pairings.empty<RuleSig,Index<RuleCell>>();
             }
 
             Index<CellTable> _Tables;
@@ -86,6 +91,8 @@ namespace Z0
             [MethodImpl(Inline)]
             public ref readonly Pairings<RuleSig,Index<RuleCell>> TableCells()
                 => ref _TableCells;
+
+            public static CellDatasets Empty => new();
         }
     }
 }

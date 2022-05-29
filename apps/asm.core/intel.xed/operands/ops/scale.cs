@@ -9,7 +9,7 @@ namespace Z0
     using static XedRules;
     using static core;
 
-    partial class XedOperands
+    partial class XedOps
     {
         [MethodImpl(Inline), Op]
         public static bool scale(in PatternOp src, out MemoryScale dst)

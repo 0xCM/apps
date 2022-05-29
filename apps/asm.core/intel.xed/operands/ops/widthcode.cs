@@ -8,7 +8,7 @@ namespace Z0
     using static XedRules;
     using static XedModels;
 
-    partial class XedOperands
+    partial class XedOps
     {
         [MethodImpl(Inline), Op]
         public static bool widthcode(in PatternOp src, out OpWidthCode dst)

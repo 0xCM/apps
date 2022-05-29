@@ -10,7 +10,7 @@ namespace Z0
 
     using K = XedModels.OpKind;
 
-    partial class XedOperands
+    partial class XedOps
     {
         [Op]
         public static OpKind opkind(OpNameKind src)

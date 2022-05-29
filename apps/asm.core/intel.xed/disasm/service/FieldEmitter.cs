@@ -57,7 +57,7 @@ namespace Z0
                         counter++;
                     }
 
-                    XedOperands.render(block.Ops.Map(o => o.Spec), dst);
+                    XedOps.render(block.Ops.Map(o => o.Spec), dst);
                     if(i!=data.LineCount -1)
                         dst.AppendLine();
                 }

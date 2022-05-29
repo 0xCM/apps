@@ -9,7 +9,7 @@ namespace Z0
     using static XedRules;
     using static XedFields;
 
-    partial class XedOperands
+    partial class XedOps
     {
         public static void render(Index<OpSpec> src, ITextEmitter dst)
         {

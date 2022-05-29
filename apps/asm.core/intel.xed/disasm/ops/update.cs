@@ -7,7 +7,7 @@ namespace Z0
     using static core;
     using static XedRules;
     using static XedModels;
-    using static XedOperands;
+    using static XedOps;
     using static XedDisasmModels;
 
     partial class XedDisasm
@@ -15,7 +15,7 @@ namespace Z0
         public static Index<FieldValue> update(in DisasmBlock src, ref OperandState dst)
         {
             var fields = values(src);
-            XedOperands.update(fields, ref dst);
+            XedOps.update(fields, ref dst);
             return fields;
         }
 

@@ -25,13 +25,6 @@ namespace Z0
             => first(cover<Index<T>>(src.Address, 1)).Storage;
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static ref StaticBuffer<T> deposit<T>(T[] src, ref StaticBuffer<T> dst)
-        {
-            dst.Deposit(src);
-            return ref dst;
-        }
-
-        [MethodImpl(Inline), Op, Closures(Closure)]
         public static ref T cell<T>(in StaticBuffer<T> src, uint index, out T value)
         {
             value = seek(src.Content, index);

@@ -4,16 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct MemoryScale : ITextual
+    using api = MemoryScales;
+
+    [DataWidth(num4.Width)]
+    public readonly record struct MemoryScale : IComparable<MemoryScale>
     {
-        [MethodImpl(Inline)]
-        public static MemoryScale from(byte value)
-            => from((ScaleFactor)value);
-
-        [MethodImpl(Inline)]
-        public static MemoryScale from(ScaleFactor factor)
-            => new MemoryScale(factor);
-
         public readonly ScaleFactor Factor;
 
         [MethodImpl(Inline)]
@@ -50,11 +45,28 @@ namespace Z0
             get => (byte) Factor;
         }
 
-       public string Format()
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => (byte)Factor;
+        }
+
+        public override int GetHashCode()
+            => Hash;
+
+        [MethodImpl(Inline)]
+        public bool Equals(MemoryScale src)
+            => Factor == src.Factor;
+
+        public string Format()
             => IsNonZero ? ((byte)Factor).ToString() : EmptyString;
 
-       public override string ToString()
+        public override string ToString()
             => Format();
+
+        [MethodImpl(Inline)]
+        public int CompareTo(MemoryScale src)
+            => ((byte)Factor).CompareTo((byte)src.Factor);
 
         [MethodImpl(Inline)]
         public static MemoryAddress operator *(MemoryScale scale, MemoryAddress address)
@@ -69,7 +81,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator MemoryScale(int src)
-            => from((byte)src);
+            => api.scale((byte)src);
 
         [MethodImpl(Inline)]
         public static implicit operator byte(MemoryScale src)

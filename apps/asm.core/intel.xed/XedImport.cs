@@ -12,10 +12,10 @@ namespace Z0
 
     public partial class XedImport : AppService<XedImport>
     {
-        public static ReadOnlySpan<AsmBroadcast> BroadcastDefs
+        public static ref readonly Index<AsmBroadcast> BroadcastDefs
         {
             [MethodImpl(Inline), Op]
-            get => _BroadcastDefs;
+            get => ref _BroadcastDefs;
         }
 
         XedPaths XedPaths => Wf.XedPaths();
@@ -56,13 +56,10 @@ namespace Z0
                 EmitBroadcastDefs,
                 EmitChips,
                 () => Emit(CalcFieldImports()),
-                () => Emit(CalcPointerWidths()),
+                () => Emit(XedOps.PointerWidthInfo),
                 () => Emit(Xed.Views.OpWidths)
             );
         }
-
-        public Index<PointerWidthInfo> CalcPointerWidths()
-            => Data(nameof(PointerWidthInfo), () => mapi(PointerWidths.Where(x => x.Kind != 0), (i,w) => w.ToRecord((byte)i)));
 
         public void CalcInstImports(Action<InstImportBlocks> dst)
             => BlockImportDatasets.calc(dst);
@@ -143,32 +140,12 @@ namespace Z0
             },PllExec);
         }
 
-        static Index<InstBlockField> _BlockFields;
+        static Index<InstBlockField> _BlockFields = Symbols.index<InstBlockField>().Kinds.ToArray();
 
-        static Symbols<VisibilityKind> Visibilities;
+        static Symbols<VisibilityKind> Visibilities = Symbols.index<VisibilityKind>();
 
-        static Symbols<XedFieldType> FieldTypes;
+        static Symbols<XedFieldType> FieldTypes = Symbols.index<XedFieldType>();
 
-        static Symbols<PointerWidthKind> PointerWidthKinds;
-
-        static Index<PointerWidth> PointerWidths;
-
-        static Index<OpWidthRecord> _OpWidths;
-
-        static Index<AsmBroadcast> _BroadcastDefs;
-
-        static ConstLookup<OpWidthCode,OpWidthRecord> _OpWidthLookup;
-
-        static XedImport()
-        {
-            widths(out _OpWidths);
-            broadcasts(out _BroadcastDefs);
-            lookup(out _OpWidthLookup);
-            _BlockFields = Symbols.index<InstBlockField>().Kinds.ToArray();
-            PointerWidthKinds = Symbols.index<PointerWidthKind>();
-            PointerWidths = map(PointerWidthKinds.View, s => (PointerWidth)s.Kind);
-            Visibilities = Symbols.index<VisibilityKind>();
-            FieldTypes = Symbols.index<XedFieldType>();
-        }
+        static Index<AsmBroadcast> _BroadcastDefs = XedOps.broadcasts(Symbols.kinds<BCastKind>());
     }
 }

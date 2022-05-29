@@ -9,7 +9,7 @@ namespace Z0
     {
         const string scope = "xed.disasm";
 
-        WsProjects Projects => Xed.Projects;
+        WsProjects Projects => Wf.WsProjects();
 
         AppSvcOps AppSvc => Service(Wf.AppSvc);
 

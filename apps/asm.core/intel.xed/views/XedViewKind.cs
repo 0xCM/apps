@@ -41,6 +41,12 @@ namespace Z0
 
         OpWidths,
 
-        OpWidthLookup
+        WidthLookup,
+
+        InstOpSpecs,
+
+        InstOpDetail,
+
+
     }
 }

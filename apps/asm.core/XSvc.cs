@@ -32,6 +32,9 @@ namespace Z0
             public XedRules XedRules(IWfRuntime wf, XedRuntime xed)
                 => Service<XedRules>(wf).With(xed);
 
+            public XedOps XedOps(IWfRuntime wf, XedRuntime xed)
+                => Service<XedOps>(wf).With(xed);
+
             public XedDb XedDb(IWfRuntime wf, XedRuntime xed)
                 => Service<XedDb>(wf).With(xed);
 
@@ -85,6 +88,9 @@ namespace Z0
 
         public static XedRules XedRules(this IWfRuntime wf, XedRuntime xed)
             => Services.XedRules(wf, xed);
+
+        public static XedOps XedOps(this IWfRuntime wf, XedRuntime xed)
+            => Services.XedOps(wf, xed);
 
         public static XedDb XedDb(this IWfRuntime wf, XedRuntime xed)
             => Services.XedDb(wf, xed);

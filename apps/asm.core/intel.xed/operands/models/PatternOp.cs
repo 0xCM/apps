@@ -55,40 +55,40 @@ namespace Z0
             public bool IsNonTerminal
             {
                 [MethodImpl(Inline)]
-                get => XedOperands.nonterm(this, out _);
+                get => XedOps.nonterm(this, out _);
             }
 
             [MethodImpl(Inline)]
             public bool Nonterminal(out Nonterminal dst)
-                => XedOperands.nonterm(this, out dst);
+                => XedOps.nonterm(this, out dst);
 
             [MethodImpl(Inline)]
             public bool RegLiteral(out Register dst)
-                => XedOperands.reglit(this, out dst);
+                => XedOps.reglit(this, out dst);
 
             [MethodImpl(Inline)]
             public bool WidthCode(out OpWidthCode dst)
-                => XedOperands.widthcode(this, out dst);
+                => XedOps.widthcode(this, out dst);
 
             [MethodImpl(Inline)]
             public bool ElementType(out ElementType dst)
-                => XedOperands.etype(this, out dst);
+                => XedOps.etype(this, out dst);
 
             [MethodImpl(Inline)]
             public bool Visibility(out Visibility dst)
-                => XedOperands.visibility(this, out dst);
+                => XedOps.visibility(this, out dst);
 
             [MethodImpl(Inline)]
             public bool Action(out OpAction dst)
-                => XedOperands.action(this, out dst);
+                => XedOps.action(this, out dst);
 
             [MethodImpl(Inline)]
             public bool Scale(out MemoryScale dst)
-                => XedOperands.scale(this, out dst);
+                => XedOps.scale(this, out dst);
 
             [MethodImpl(Inline)]
             public bool Broadcast(out BCastKind dst)
-                => XedOperands.broadcast(this, out dst);
+                => XedOps.broadcast(this, out dst);
 
             public string Format()
                 => XedRender.format(this);

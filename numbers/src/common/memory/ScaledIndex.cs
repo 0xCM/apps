@@ -10,10 +10,6 @@ namespace Z0
     [StructLayout(StructLayout,Pack=1)]
     public readonly struct ScaledIndex
     {
-        [MethodImpl(Inline), Op]
-        public static ScaledIndex define(ushort cell, sbyte dx, uint i)
-            => new ScaledIndex(cell, dx, i);
-
         /// <summary>
         /// The displacement of the index from the source base address
         /// </summary>

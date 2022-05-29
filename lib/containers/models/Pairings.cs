@@ -11,6 +11,9 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
+        public static Pairings<S,T> empty<S,T>()
+            => Pairings<S,T>.Empty;
+
         [MethodImpl(Inline)]
         public static Pairings<A,B> define<A,B>(Paired<A,B>[] src)
             => src;

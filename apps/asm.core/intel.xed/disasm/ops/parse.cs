@@ -88,7 +88,7 @@ namespace Z0
             if(result.Fail)
                 return (false, AppMsg.ParseFailure.Format(nameof(dst.Name), skip(parts,i-1)));
 
-            dst.Kind = XedOperands.opkind(dst.Name);
+            dst.Kind = XedOps.opkind(dst.Name);
 
             result = DataParser.eparse(skip(parts,i++), out dst.Action);
             if(result.Fail)
@@ -98,7 +98,7 @@ namespace Z0
             if(result.Fail)
                 return result;
 
-            var width = XedImport.describe(dst.WidthCode);
+            var width = XedOps.describe(dst.WidthCode);
             dst.BitWidth = width.Width64;
             dst.ElementType = width.ElementType;
             dst.ElementWidth = width.ElementWidth;

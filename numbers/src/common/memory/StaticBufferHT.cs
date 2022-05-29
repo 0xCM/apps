@@ -6,18 +6,13 @@ namespace Z0
 {
     using static core;
 
-    /// <summary>
-    /// Supertype for <see cref='StaticBuffer{T}'/> reifications
-    /// </summary>
-    /// <typeparam name="H">The reifying type</typeparam>
-    /// <typeparam name="T">The buffer cell type</typeparam>
     public abstract class StaticBuffer<H,T> : StaticBuffer<T>
         where H : StaticBuffer<H,T>, new()
     {
         static H Instance;
 
         [FixedAddressValueType]
-        static MutableSeq<T> Buffer;
+        static Index<T> Buffer;
 
         static object locker = new object();
 
@@ -37,9 +32,6 @@ namespace Z0
                 return Instance;
             }
         }
-
-        public override void Deposit(T[] src)
-            => Buffer.Storage = src;
 
         public override uint CellCount
             => Buffer.Count;

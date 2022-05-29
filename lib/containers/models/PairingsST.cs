@@ -61,5 +61,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator Paired<S,T>[](Pairings<S,T> src)
             => src.Storage;
+
+        public static Pairings<S,T> Empty => new Pairings<S,T>(sys.empty<Paired<S,T>>());
     }
 }

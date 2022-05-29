@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
     sealed partial class AppCommands : AppCmdService<AppCommands,CmdShellState>
     {
         protected override void Initialized()

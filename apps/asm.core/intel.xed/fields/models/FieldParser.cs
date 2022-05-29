@@ -12,7 +12,7 @@ namespace Z0
     using K = XedRules.FieldKind;
     using R = XedRules;
 
-    partial class XedOperands
+    partial class XedOps
     {
         public class FieldParser
         {

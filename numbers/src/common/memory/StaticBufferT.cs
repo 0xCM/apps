@@ -5,6 +5,7 @@
 namespace Z0
 {
     using api = StaticBuffers;
+    using static core;
 
     /// <summary>
     /// Supertype for covers with locations that will be pinned for the domain lifetime
@@ -28,11 +29,16 @@ namespace Z0
             get => api.covered(this);
         }
 
-        [MethodImpl(Inline)]
-        public ref T Cell(uint index, out T value)
+        public ref T this[uint index]
         {
-            api.cell(this, index, out value);
-            return ref value;
+            [MethodImpl(Inline)]
+            get => ref seek(Content,index);
+        }
+
+        public ref T this[int index]
+        {
+            [MethodImpl(Inline)]
+            get => ref seek(Content,index);
         }
 
         [MethodImpl(Inline)]
@@ -43,12 +49,13 @@ namespace Z0
         public void Enumerate(Action<T> receiver)
             => api.enumerate(this, receiver);
 
-        protected abstract void Fill(Span<T> dst);
-
-        /// <summary>
-        /// Supplies content for the buffer to cover
-        /// </summary>
-        /// <param name="src"></param>
-        public abstract void Deposit(T[] src);
+        [MethodImpl(Inline)]
+        protected virtual void Fill(Span<T> dst)
+        {
+            var src = Content;
+            var count = min(src.Length, dst.Length);
+            for(var i=0; i<count; i++)
+                seek(dst,i) = skip(src,i);
+        }
     }
 }

@@ -8,7 +8,7 @@ namespace Z0
 
     using static XedRules;
     using static XedModels;
-    using static XedOperands;
+    using static XedOps;
 
     public partial class XedMachines : AppService<XedMachines>
     {
@@ -30,7 +30,7 @@ namespace Z0
             {
                 for(var i=0; i<Capacity; i++)
                 {
-                    var machine = XedOperands.machine(Xed);
+                    var machine = XedOps.machine(Xed);
                     Allocations[machine.Id] = machine;
                 }
                 Allocated = true;
@@ -65,7 +65,7 @@ namespace Z0
                     machine.Reset();
             }
             else
-                machine = XedOperands.machine(Xed);
+                machine = XedOps.machine(Xed);
 
             f(machine);
         }

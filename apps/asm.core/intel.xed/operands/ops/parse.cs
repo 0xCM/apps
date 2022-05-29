@@ -10,7 +10,7 @@ namespace Z0
 
     using K = XedRules.FieldKind;
 
-    partial class XedOperands
+    partial class XedOps
     {
         public static bool parse(FieldKind field, string value, out FieldValue dst)
         {

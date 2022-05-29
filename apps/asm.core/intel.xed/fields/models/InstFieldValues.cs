@@ -7,7 +7,7 @@ namespace Z0
 {
     using static core;
     using static XedModels;
-    using static XedOperands;
+    using static XedOps;
 
     partial class XedRules
     {

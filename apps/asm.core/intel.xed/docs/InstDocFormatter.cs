@@ -97,7 +97,7 @@ namespace Z0
                     else
                         dst.AppendFormat("{0} ", Visibility.Explicit.Code());
 
-                    dst.Append(XedOperands.descriptor(part.Mode, op));
+                    dst.Append(InstRender.descriptor(part.Mode, op));
 
                     if(op.Nonterminal(out var nt))
                     {

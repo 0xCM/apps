@@ -23,7 +23,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public static uint4 read(in Nibbles src, uint index)
         {
-            var cell = ScaledIndex.define(4, -2, index);
+            var cell = MemoryScales.index(4, -2, index);
             ref readonly var c = ref skip(src.Bytes, cell.Offset);
             return cell.Aligned ? api.uint4(c) : api.uint4(srl(c , (byte)cell.CellWidth));
         }
@@ -33,7 +33,7 @@ namespace Z0
         {
             const byte UpperMask = 0xF0;
             const byte LowerMask = 0x0F;
-            var cell = ScaledIndex.define(4, -2, index);
+            var cell = MemoryScales.index(4, -2, index);
             ref var c = ref seek(dst.Bytes, cell.Offset);
             if(cell.Aligned)
                 c = or(and(c, UpperMask), src);

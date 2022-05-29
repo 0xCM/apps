@@ -9,7 +9,7 @@ namespace Z0
     using static XedModels;
     using static XedRules;
 
-    partial class XedOperands
+    partial class XedOps
     {
         public static PatternOpInfo opinfo(MachineMode mode, in PatternOp src)
         {
@@ -26,9 +26,9 @@ namespace Z0
             if(widthcode(src, out wc))
             {
                 dst.WidthCode = wc;
-                var w = XedImport.width(mode,wc);
+                var w = width(mode,wc);
                 dst.BitWidth = w.Bits;
-                var wi = XedImport.describe(wc);
+                var wi = describe(wc);
                 dst.SegType = wi.SegType;
                 dst.ElementType = wi.ElementType;
                 dst.ElementWidth = wi.ElementWidth;

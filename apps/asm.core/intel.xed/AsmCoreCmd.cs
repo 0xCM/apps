@@ -78,7 +78,7 @@ namespace Z0
             => ref Xed.Views.RuleExpr;
 
         protected override AppDb AppDb
-            => Xed.AppDb;
+            => Wf.AppDb();
 
         protected override void Initialized()
         {

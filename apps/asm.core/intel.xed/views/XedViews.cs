@@ -47,6 +47,12 @@ namespace Z0
             DataStores = alloc<object>(32);
         }
 
+        public ref readonly Index<InstOpDetail> InstOpDetails
+        {
+            [MethodImpl(Inline)]
+            get => ref Load<Index<InstOpDetail>>(XedViewKind.InstOpDetail);
+        }
+
         public ref readonly Index<InstPattern> Patterns
         {
             [MethodImpl(Inline)]
@@ -149,10 +155,16 @@ namespace Z0
             get => ref Load<Index<OpWidthRecord>>(XedViewKind.OpWidths);
         }
 
+        public ref readonly Index<InstOpSpec> InstOpSpecs
+        {
+            [MethodImpl(Inline)]
+            get => ref Load<Index<InstOpSpec>>(XedViewKind.InstOpSpecs);
+        }
+
         public ref readonly ConstLookup<OpWidthCode,OpWidthRecord> OpWidthLookup
         {
             [MethodImpl(Inline)]
-            get => ref Load<ConstLookup<OpWidthCode,OpWidthRecord>>(XedViewKind.OpWidthLookup);
+            get => ref Load<ConstLookup<OpWidthCode,OpWidthRecord>>(XedViewKind.WidthLookup);
         }
     }
 }

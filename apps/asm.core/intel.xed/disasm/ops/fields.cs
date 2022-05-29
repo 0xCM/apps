@@ -5,7 +5,7 @@
 namespace Z0
 {
     using static core;
-    using static XedOperands;
+    using static XedOps;
     using static XedDisasmModels;
 
     partial class XedDisasm
@@ -24,7 +24,7 @@ namespace Z0
             dst.Detail = src.DetailRow;
             dst.Summary = lines.Row;
             dst.Selected = dst.Fields.MemberKinds();
-            XedOperands.update(dst.Fields, dst.Selected, ref dst.State);
+            XedOps.update(dst.Fields, dst.Selected, ref dst.State);
             dst.Encoding = XedState.Code.encoding(dst.State, lines.Row.Encoded);
             return ref dst;
         }

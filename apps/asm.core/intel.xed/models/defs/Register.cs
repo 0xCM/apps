@@ -30,7 +30,7 @@ namespace Z0
             }
 
             public string Format()
-                => XedRender.format(this);
+                => Value == 0 ? EmptyString : XedRender.format(this);
 
             public override string ToString()
                 => Format();

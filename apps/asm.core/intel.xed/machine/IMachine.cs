@@ -6,7 +6,7 @@ namespace Z0
 {
     using static XedRules;
 
-    partial class XedOperands
+    partial class XedOps
     {
         public interface IMachine : IDisposable
         {

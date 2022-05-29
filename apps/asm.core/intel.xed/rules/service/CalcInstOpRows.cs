@@ -9,55 +9,43 @@ namespace Z0
 
     partial class XedRules
     {
-        // public Index<Coordinate> CalcPoints()
-        // {
-        //     return Calc();
-        //     Index<Coordinate> Calc()
-        //     {
-        //         ref readonly var src = ref Xed.Views.CellTables;
-        //         var dst = alloc<Coordinate>(src.CellCount);
-        //         XedGrids.points(src,dst);
-        //         return dst;
-        //     }
-        // }
-
-        public Index<InstOperandRow> CalcInstOpRows(Index<InstOpDetail> details)
+        public Index<InstOpRow> CalcInstOpRows(Index<InstOpDetail> src)
         {
             return Data(nameof(CalcInstOpRows),Calc);
 
-            Index<InstOperandRow> Calc()
+            Index<InstOpRow> Calc()
             {
-                var count = details.Count;
-                var rows = alloc<InstOperandRow>(count);
+                var count = src.Count;
+                var rows = alloc<InstOpRow>(count);
                 for(var i=0; i<count; i++)
                 {
-                    ref readonly var src = ref details[i];
+                    ref readonly var detail = ref src[i];
                     ref var dst = ref rows[i];
-                    Require.invariant(src.InstClass.Kind != 0);
-                    dst.PatternId = src.PatternId;
-                    dst.InstClass = classifier(src.InstClass);
-                    dst.OpCode = src.OpCode;
-                    dst.Mode = src.Mode;
-                    dst.Lock = src.Lock;
-                    dst.Mod = src.Mod;
-                    dst.RexW = src.RexW;
-                    dst.OpCount = src.OpCount;
-                    dst.Index = src.Index;
-                    dst.Name = src.Name;
-                    dst.Kind = src.Kind;
-                    dst.Action = src.Action;
-                    dst.WidthCode = src.WidthCode;
-                    dst.EType = src.ElementType;
-                    dst.EWidth = src.ElementWidth;
-                    dst.RegLit = src.RegLit;
-                    dst.Modifier = src.Modifier;
-                    dst.Visibility = src.Visibility;
-                    dst.NonTerminal = src.NonTerm;
-                    dst.BitWidth = src.BitWidth;
-                    dst.GprWidth = src.GrpWidth;
-                    dst.SegInfo = src.SegInfo;
-                    dst.ECount = src.ElementCount;
-                    dst.SourceExpr = src.SourceExpr;
+                    Require.invariant(detail.InstClass.Kind != 0);
+                    dst.Pattern = detail.Pattern;
+                    dst.InstClass = classifier(detail.InstClass);
+                    dst.OpCode = detail.OpCode;
+                    dst.Mode = detail.Mode;
+                    dst.Lock = detail.Lock;
+                    dst.Mod = detail.Mod;
+                    dst.RexW = detail.RexW;
+                    dst.OpCount = detail.OpCount;
+                    dst.Index = detail.Index;
+                    dst.Name = detail.Name;
+                    dst.Kind = detail.Kind;
+                    dst.Action = detail.Action;
+                    dst.WidthCode = detail.WidthCode;
+                    dst.EType = detail.ElementType;
+                    dst.EWidth = detail.ElementWidth;
+                    dst.RegLit = detail.RegLit;
+                    dst.Modifier = detail.Modifier;
+                    dst.Visibility = detail.Visibility;
+                    dst.NonTerminal = detail.Rule;
+                    dst.BitWidth = detail.BitWidth;
+                    dst.GprWidth = detail.GrpWidth;
+                    dst.SegInfo = detail.SegInfo;
+                    dst.ECount = detail.ElementCount;
+                    dst.SourceExpr = detail.SourceExpr;
                 }
                 return rows;
             }

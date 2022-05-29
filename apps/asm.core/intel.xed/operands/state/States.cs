@@ -13,7 +13,7 @@ namespace Z0
     using U3 = System.ReadOnlySpan<uint3>;
     using REGS = System.ReadOnlySpan<XedRegId>;
 
-    partial class XedOperands
+    partial class XedOps
     {
         public readonly struct States
         {

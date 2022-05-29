@@ -14,10 +14,24 @@ namespace Z0
     {
         public readonly struct PatternOpParser
         {
-            public static void parse(uint pattern, string ops, out PatternOps dst)
+            [Parser]
+            public static bool parse(string src, ref PatternOp dst)
             {
-                dst = parse(pattern, ops);
+                dst.SourceExpr = src;
+                var i = text.index(src,Chars.Colon, Chars.Eq);
+                var right = text.right(src,i);
+                if(opexpr(src, out dst.Name, out var expr))
+                {
+                    var kind = XedOps.opkind(dst.Name);
+                    Parse(expr, text.split(right, Chars.Colon).Where(text.nonempty), kind, ref dst);
+                    return true;
+                }
+                else
+                    return false;
             }
+
+            public static void parse(uint pattern, string ops, out PatternOps dst)
+                => dst = parse(pattern, ops);
 
             static PatternOps parse(uint pattern, string ops)
             {
@@ -41,7 +55,7 @@ namespace Z0
                         if(DataParser.eparse(part, out EMX_BROADCAST_KIND bck))
                         {
                             spec.Kind = OpKind.Bcast;
-                            spec.SourceExpr = XedOperands.broadcast((BCastKind)bck).Symbol.Format();
+                            spec.SourceExpr = XedOps.broadcast((BCastKind)bck).Symbol.Format();
                         }
                         else
                             Errors.Throw(AppMsg.ParseFailure.Format(part, nameof(PatternOp)));
@@ -75,21 +89,6 @@ namespace Z0
                 var left = text.left(input, index);
                 expr = text.right(input,index);
                 return XedParsers.parse(left, out name);
-            }
-
-            static bool parse(string src, ref PatternOp dst)
-            {
-                dst.SourceExpr = src;
-                var i = text.index(src,Chars.Colon, Chars.Eq);
-                var right = text.right(src,i);
-                if(opexpr(src, out dst.Name, out var expr))
-                {
-                    var kind = XedOperands.opkind(dst.Name);
-                    Parse(expr, text.split(right, Chars.Colon).Where(text.nonempty), kind, ref dst);
-                    return true;
-                }
-                else
-                    return false;
             }
 
             static void Parse(string expr, string[] props, OpKind opkind, ref PatternOp dst)

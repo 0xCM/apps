@@ -13,7 +13,7 @@ namespace Z0
 
     using M = XedModels;
 
-    partial class XedOperands
+    partial class XedOps
     {
         public readonly struct Edit
         {

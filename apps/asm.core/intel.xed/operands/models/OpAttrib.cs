@@ -14,7 +14,9 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(Width)]
         public readonly record struct OpAttrib : IComparable<OpAttrib>, IEquatable<OpAttrib>
         {
-            public const byte Width = num4.Width + num16.Width;
+            public const byte Width = KindWidth + num16.Width;
+
+            public const byte KindWidth = num4.Width;
 
             public readonly OpAttribKind Class;
 

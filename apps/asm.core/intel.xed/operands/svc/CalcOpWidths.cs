@@ -7,10 +7,11 @@ namespace Z0
 {
     using static core;
     using static XedModels;
+    using static XedRules;
 
-    partial class XedImport
+    partial class XedOps
     {
-        static void widths(out Index<OpWidthRecord> target)
+        static Index<OpWidthRecord> CalcOpWidths()
         {
             var buffer = dict<OpWidthCode,OpWidthRecord>();
             var symbols = Symbols.index<OpWidthCode>();
@@ -91,14 +92,31 @@ namespace Z0
                     break;
                 }
 
-                dst.SegType = BitSegType.define(XedOperands.nclass(dst.Code), dst.Width64, dst.ElementWidth);
+                dst.SegType = BitSegType.define(XedOps.nclass(dst.Code), dst.Width64, dst.ElementWidth);
                 buffer.TryAdd(dst.Code, dst);
             }
 
             if(result.Fail)
                 Errors.Throw(result.Message);
 
-            target = buffer.Values.Array().Sort();
+            return buffer.Values.Array().Sort();
         }
+
+        static bool ParseWidthValue(string src, out ushort bits)
+        {
+            var result = true;
+            bits = 0;
+            var i = text.index(src, "bits");
+            if(i > 0)
+                result = DataParser.parse(text.left(src,i), out bits);
+            else
+            {
+                result = DataParser.parse(src, out ushort bytes);
+                if(result)
+                    bits = (ushort)(bytes*8);
+            }
+            return result;
+        }
+
     }
 }

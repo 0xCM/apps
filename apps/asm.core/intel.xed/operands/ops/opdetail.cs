@@ -9,7 +9,7 @@ namespace Z0
     using static XedModels;
     using static XedRules;
 
-    partial class XedOperands
+    partial class XedOps
     {
         public static Index<InstOpDetail> opdetails(InstPattern src)
         {
@@ -27,7 +27,7 @@ namespace Z0
             var info = opinfo(pattern.Mode,op);
             var wcode = info.WidthCode;
             var dst = InstOpDetail.Empty;
-            dst.PatternId = op.PatternId;
+            dst.Pattern = op.PatternId;
             Require.nonzero(pattern.InstClass.Kind);
             dst.InstClass = pattern.InstClass;
             dst.OpCode = pattern.OpCode;
@@ -50,11 +50,11 @@ namespace Z0
             dst.RegLit = info.RegLit;
             dst.Modifier = info.Modifier;
             dst.Visibility = info.Visibility;
-            dst.NonTerm = info.NonTerminal;
+            dst.Rule = info.NonTerminal;
             dst.BitWidth = info.BitWidth;
             if(wcode !=0)
             {
-                dst.SegInfo =  XedImport.describe(wcode).SegType;
+                dst.SegInfo =  describe(wcode).SegType;
                 dst.ElementCount = dst.SegInfo.CellCount;
             }
             if(info.RegLit.IsNonEmpty && dst.BitWidth == 0)

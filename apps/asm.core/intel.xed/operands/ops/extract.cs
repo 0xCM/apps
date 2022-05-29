@@ -9,7 +9,7 @@ namespace Z0
 
     using K = XedRules.FieldKind;
 
-    partial class XedOperands
+    partial class XedOps
     {
         [Op]
         public static FieldValue extract(in OperandState src, FieldKind kind)

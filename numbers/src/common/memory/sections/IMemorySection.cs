@@ -9,7 +9,7 @@ namespace Z0
     [Free]
     public interface IMemorySection
     {
-        ushort Index {get;}
+        ushort Index { get; }
 
         MemoryAddress Base();
 

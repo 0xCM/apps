@@ -10,7 +10,7 @@ namespace Z0
 
     using K = XedRules.FieldKind;
 
-    partial class XedOperands
+    partial class XedOps
     {
         public static ref OperandState update(in Fields src, ReadOnlySpan<FieldKind> fields, ref OperandState dst)
         {

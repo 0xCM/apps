@@ -23,7 +23,7 @@ namespace Z0
                 var result = a.CompareTo(b);
                 if(result == 0)
                 {
-                    result = x.PatternId.CompareTo(y.PatternId);
+                    result = x.Pattern.CompareTo(y.Pattern);
                     if(result == 0)
                         result = x.Index.CompareTo(y.Index);
                 }

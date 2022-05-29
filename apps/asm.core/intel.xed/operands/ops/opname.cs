@@ -11,7 +11,7 @@ namespace Z0
     using K = XedRules.FieldKind;
     using N = XedModels.OpNameKind;
 
-    partial class XedOperands
+    partial class XedOps
     {
         [Op]
         public static OpName opname(FieldKind src)

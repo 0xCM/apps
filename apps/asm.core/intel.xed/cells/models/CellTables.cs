@@ -31,6 +31,8 @@ namespace Z0
                 _TableCells = src.TableCells();
             }
 
+            public static CellTables Empty => new CellTables(CellDatasets.Empty);
+
             /// <summary>
             /// Specifies the number of defined tables
             /// </summary>

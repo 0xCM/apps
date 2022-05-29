@@ -15,10 +15,12 @@ namespace Z0
 
         XedRuntime Xed;
 
+        AppDb AppDb => Wf.AppDb();
+
         public XedDb With(XedRuntime xed)
         {
             Xed = xed;
-            _Store = MemDb.open(xed.AppDb.Targets("memdb").Path("runtime", FileKind.Bin), new Gb(1));
+            _Store = MemDb.open(AppDb.Targets("memdb").Path("runtime", FileKind.Bin), new Gb(1));
             return this;
         }
 

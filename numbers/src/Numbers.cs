@@ -26,7 +26,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public static ref num4 read(ReadOnlySpan<byte> src, uint index, out num4 dst)
         {
-            var cell = ScaledIndex.define(4, -2, index);
+            var cell = MemoryScales.index(4, -2, index);
             ref readonly var b = ref skip(src, cell.Offset);
             dst = cell.Aligned ? num(n4,b) : num(n4, srl(b , (byte)cell.CellWidth));
             return ref dst;
@@ -37,7 +37,7 @@ namespace Z0
         {
             const byte UpperMask = 0xF0;
             const byte LowerMask = 0x0F;
-            var cell = ScaledIndex.define(4, -2, index);
+            var cell = MemoryScales.index(4, -2, index);
             ref var c = ref seek(dst, cell.Offset);
             if(cell.Aligned)
                 c = or(and(c, UpperMask), src);

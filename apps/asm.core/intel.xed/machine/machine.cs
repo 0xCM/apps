@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedOperands
+    partial class XedOps
     {
         public static IMachine machine(XedRuntime xed)
             => new MachineState(xed);

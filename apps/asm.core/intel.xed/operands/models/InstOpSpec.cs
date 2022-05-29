@@ -9,46 +9,39 @@ namespace Z0
 
     public partial class XedRules
     {
-        [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public record struct OpDescriptor
+        [StructLayout(LayoutKind.Sequential,Pack=1), Record(TableId)]
+        public record struct InstOpSpec : IComparable<InstOpSpec>
         {
-            public static OpDescriptor calc(MachineMode mode, in PatternOp src)
-            {
-                var dst = Empty;
-                dst.GprWidth = GprWidth.Empty;
-                dst.Index = src.Index;
-                dst.Name = src.Name;
-                src.ElementType(out dst.ElementType);
-                src.WidthCode(out dst.Code);
-                var w = XedImport.width(mode, dst.Code);
-                if(w.IsNonEmpty)
-                    dst.BitWidth = w.Bits;
-                if(src.IsReg && src.RegLiteral(out dst.RegLit))
-                    dst.BitWidth = XedOperands.width(dst.RegLit);
-                if(src.Nonterminal(out dst.Rule))
-                    GprWidth.widths(dst.Rule, out dst.GprWidth);
-                var wi = XedImport.describe(dst.Code);
-                if(wi.SegType.CellCount > 1)
-                    dst.Seg = new Segmentation(wi.SegType.DataWidth, wi.SegType.CellWidth, dst.ElementType.Indicator, wi.SegType.CellCount);
-                return dst;
-            }
+            const string TableId = "xed.inst.ops.specs";
 
+            [Render(12)]
+            public uint Pattern;
+
+            [Render(8)]
             public byte Index;
 
+            [Render(14)]
             public OpName Name;
 
+            [Render(12)]
             public ElementType ElementType;
 
-            public OpWidthCode Code;
+            [Render(6)]
+            public OpWidth Width;
 
+            [Render(8)]
             public ushort BitWidth;
 
+            [Render(8)]
             public Register RegLit;
 
+            [Render(32)]
             public Nonterminal Rule;
 
+            [Render(12)]
             public GprWidth GprWidth;
 
+            [Render(12)]
             public Segmentation Seg;
 
             public bool IsReg
@@ -66,7 +59,7 @@ namespace Z0
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
-                get => Code == 0;
+                get => Width.IsEmpty;
             }
 
             public string Format()
@@ -86,15 +79,24 @@ namespace Z0
                 if(GprWidth.IsNonEmpty)
                     bw = GprWidth.Format();
 
-                return string.Format(RenderPattern, Index, Name, bw, Seg, ElementType, XedRender.format(Code), detail);
+                return string.Format(RenderPattern, Index, Name, bw, Seg, ElementType, XedRender.format(Width), detail);
             }
 
             public override string ToString()
                 => Format();
 
+            [MethodImpl(Inline)]
+            public int CompareTo(InstOpSpec src)
+            {
+                var result = Pattern.CompareTo(src.Pattern);
+                if(result == 0)
+                    result = Index.CompareTo(src.Index);
+                return result;
+            }
+
             const string RenderPattern = "{0,-2} {1,-14} {2,-6} {3,-12} {4,-6} {5,-3} {6}";
 
-            public static OpDescriptor Empty => default;
+            public static InstOpSpec Empty => default;
 
             [StructLayout(LayoutKind.Sequential,Pack=1)]
             public readonly record struct Segmentation

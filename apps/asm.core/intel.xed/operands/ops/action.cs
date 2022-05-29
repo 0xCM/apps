@@ -9,7 +9,7 @@ namespace Z0
     using static XedRules;
     using static XedModels;
 
-    partial class XedOperands
+    partial class XedOps
     {
         [MethodImpl(Inline), Op]
         public static bool action(in PatternOp src, out OpAction dst)

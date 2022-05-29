@@ -13,7 +13,7 @@ namespace Z0
     using M = XedModels;
     using R = XedRules;
 
-    partial class XedOperands
+    partial class XedOps
     {
         class MachineState : IMachine
         {

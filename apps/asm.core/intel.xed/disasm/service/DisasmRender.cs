@@ -63,7 +63,7 @@ namespace Z0
                 => string.Format(OpDetailPattern, OpColPatterns.Select(x => string.Format(x, index)));
 
             public static void render(in OpDetails ops, ITextEmitter dst)
-                => XedOperands.render(ops.Map(x => x.Spec), dst);
+                => XedOps.render(ops.Map(x => x.Spec), dst);
         }
     }
 }

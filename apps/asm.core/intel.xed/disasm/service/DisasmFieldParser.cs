@@ -8,7 +8,7 @@ namespace Z0
     using Asm;
 
     using static XedRules;
-    using static XedOperands;
+    using static XedOps;
     using static XedDisasmModels;
     using static core;
 

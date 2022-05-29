@@ -9,12 +9,6 @@ namespace Z0
 
     partial class AsmCoreCmd
     {
-        [CmdOp("xed/emit/opcodes")]
-        Outcome EmitOpCodes(CmdArgs args)
-        {
-            return true;
-        }
-
         [CmdOp("xed/run")]
         Outcome RunXed(CmdArgs args)
         {

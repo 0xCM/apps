@@ -16,11 +16,38 @@ namespace Z0
 
             public const string LabelPattern = "{0,-18}{1}";
 
-            const string InstSep = RP.PageBreak160 + RP.PageBreak20;
-
             public static readonly string FieldsHeader = "Fields".PadRight(18).PadRight(SectionWidth, Chars.Dash);
 
             public static readonly string OpsHeader = "Operands".PadRight(18).PadRight(SectionWidth, Chars.Dash);
+
+            public static string descriptor(MachineMode mode, in PatternOp src)
+            {
+                const string RenderPattern = "{0,-6} {1,-3} {2,-10} {3,-12}";
+                src.ElementType(out var et);
+                src.WidthCode(out var w);
+                var bw = XedOps.width(mode,w).Bits;
+                var wi = XedOps.describe(w);
+                if(XedOps.reglit(src, out Register reg))
+                    bw = XedOps.width(reg);
+
+                var seg = EmptyString;
+                if(wi.SegType.CellCount > 1)
+                {
+                    var indicator = EmptyString;
+                    if(et.Indicator != 0)
+                        indicator = ((char)et.Indicator).ToString();
+                    seg = string.Format("{0}x{1}{2}x{3}n", wi.SegType.DataWidth, wi.SegType.CellWidth, indicator, wi.SegType.CellCount);
+                }
+
+                var _bw = bw.ToString();
+                if(src.Nonterminal(out var nt))
+                {
+                    if(GprWidth.widths(nt, out var gpr))
+                        _bw = gpr.Format();
+                }
+
+                return string.Format(RenderPattern, XedRender.format(w), et, _bw, seg);
+            }
 
             public static byte operands(InstPattern src, Span<string> dst, bool title = true)
             {
@@ -44,7 +71,7 @@ namespace Z0
                             XedRender.format(op.Name),
                             XedRender.format(action),
                             opvis.Code(),
-                            XedOperands.descriptor(src.Mode, op),
+                            descriptor(src.Mode, op),
                             string.Format("{0}::{1}", nt, uri),
                             op.SourceExpr
                             ));
@@ -55,7 +82,7 @@ namespace Z0
                             XedRender.format(op.Name),
                             XedRender.format(action),
                             opvis.Code(),
-                            XedOperands.descriptor(src.Mode, op),
+                            descriptor(src.Mode, op),
                             op.IsReg ? FormatRegLit(op) : EmptyString,
                             op.SourceExpr
                             ));

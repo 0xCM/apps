@@ -10,12 +10,12 @@ namespace Z0
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1), Record(TableName)]
-        public record struct InstOperandRow
+        public record struct InstOpRow
         {
-            public const string TableName = "xed.inst.operands";
+            public const string TableName = "xed.inst.ops";
 
             [Render(12)]
-            public uint PatternId;
+            public uint Pattern;
 
             [Render(18)]
             public InstClass InstClass;
@@ -86,10 +86,7 @@ namespace Z0
             [Render(1)]
             public asci64 SourceExpr;
 
-            //public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,18,28,6,6,6,6,10,10,8,8,8,10,10,10,10,6,6,12,12,8,12,16,1,};
-
-            public static InstOperandRow Empty => default;
-
+            public static InstOpRow Empty => default;
         }
     }
 }

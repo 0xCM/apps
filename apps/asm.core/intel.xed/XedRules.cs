@@ -15,7 +15,6 @@ namespace Z0
 
         const NumericKind Closure = UnsignedInts;
 
-        XedRuntime Xed;
 
         Index<PointerWidth> PointerWidths;
 
@@ -30,6 +29,8 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Xed.PllExec;
         }
+
+        XedRuntime Xed;
 
         public XedRules With(XedRuntime xed)
         {

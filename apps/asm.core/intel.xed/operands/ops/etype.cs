@@ -8,7 +8,7 @@ namespace Z0
     using static XedRules;
     using static XedModels;
 
-    partial class XedOperands
+    partial class XedOps
     {
         [MethodImpl(Inline), Op]
         public static bool etype(in PatternOp src, out XedModels.ElementType dst)

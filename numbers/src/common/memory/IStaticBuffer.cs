@@ -22,7 +22,9 @@ namespace Z0
         /// </summary>
         uint CellCount {get;}
 
-        ref T Cell(uint index, out T value);
+        ref T this[uint index] {get;}
+
+        ref T this[int index] {get;}
 
         void Enumerate(uint i0, uint i1, Action<T> receiver);
 

@@ -46,6 +46,7 @@ namespace Z0
                 () => Emit(mapi(RuleMacros.matches().Values.ToArray().Sort(), (i,m) => m.WithSeq((uint)i))),
                 () => Emit(CalcMacroDefs().View),
                 () => Emit(XedFields.Defs.Positioned),
+                () => AppSvc.TableEmit(Xed.Views.InstOpSpecs, XedPaths.InstTable<InstOpSpec>()),
                 EmitRuleDeps,
                 () => ApiMd.EmitTokens(XedFields.EffectiveFields.create(), XedPaths.Target("xed.fields.symbolic", FS.Csv))
             );
@@ -73,8 +74,8 @@ namespace Z0
         public void EmitPatternRecords(Index<InstPattern> src)
             => AppSvc.TableEmit(CalcPatternRecords(src), XedPaths.InstTable<InstPatternRecord>());
 
-        public void EmitOpDetails(Index<InstPattern> src)
-            => Emit(CalcInstOpDetails(src));
+        public void EmitOpDetails()
+            => Emit(Xed.Views.InstOpDetails);
 
         public Index<InstPattern> EmitPatternData(Index<InstPattern> src)
         {
@@ -84,7 +85,7 @@ namespace Z0
                 () => EmitInstAttribs(src),
                 () => EmitInstFields(src),
                 () => EmitInstGroups(src),
-                () => EmitOpDetails(src),
+                () => EmitOpDetails(),
                 () => EmitOpcodes(src)
                 );
             return src;
@@ -179,8 +180,8 @@ namespace Z0
         public void Emit(ReadOnlySpan<InstOpCode> src)
             => AppSvc.TableEmit(src, XedPaths.InstTable<InstOpCode>());
 
-        public void Emit(ReadOnlySpan<InstOperandRow> src)
-            => AppSvc.TableEmit(src, XedPaths.InstTable<InstOperandRow>());
+        public void Emit(ReadOnlySpan<InstOpRow> src)
+            => AppSvc.TableEmit(src, XedPaths.InstTable<InstOpRow>());
 
         public void Emit(ReadOnlySpan<InstOpClass> src)
             => AppSvc.TableEmit(src, XedPaths.Table<InstOpClass>());

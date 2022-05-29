@@ -13,7 +13,7 @@ namespace Z0
         public record struct InstOpDetail : IComparable<InstOpDetail>
         {
             [Render(12)]
-            public uint PatternId;
+            public uint Pattern;
 
             [Render(18)]
             public InstClass InstClass;
@@ -88,7 +88,7 @@ namespace Z0
             public Visibility Visibility;
 
             [Render(32)]
-            public Nonterminal NonTerm;
+            public Nonterminal Rule;
 
             [Render(1)]
             public asci64 SourceExpr;
@@ -96,7 +96,7 @@ namespace Z0
             public bool IsNonterm
             {
                 [MethodImpl(Inline)]
-                get => NonTerm.IsNonEmpty;
+                get => Rule.IsNonEmpty;
             }
 
             public bool IsRegLit

@@ -9,7 +9,7 @@ namespace Z0
 
     using static core;
     using static XedModels;
-    using static XedOperands;
+    using static XedOps;
     using static XedRules;
     using static XedDisasmModels;
 
@@ -82,7 +82,7 @@ namespace Z0
                     Errors.Throw(result.Message);
 
                 var spec = operand.Spec;
-                var winfo = XedImport.describe(spec.WidthCode);
+                var winfo = XedOps.describe(spec.WidthCode);
                 operand.OpWidth = winfo;
                 operand.OpName = spec.Name;
                 var optxt = EmptyString;
@@ -173,8 +173,8 @@ namespace Z0
             if(state.IMM0)
                 dst.Imm = asm.imm(code, state.POS_IMM, state.IMM0SIGNED, Sizes.native(state.IMM_WIDTH));
 
-            dst.EASZ = Sizes.native(XedOperands.width((EASZ)state.EASZ));
-            dst.EOSZ = Sizes.native(XedOperands.bitwidth((EOSZ)state.EOSZ));
+            dst.EASZ = Sizes.native(XedOps.width((EASZ)state.EASZ));
+            dst.EOSZ = Sizes.native(XedOps.bitwidth((EOSZ)state.EOSZ));
             return dst;
         }
     }

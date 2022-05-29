@@ -7,9 +7,11 @@ namespace Z0.Asm
     [StructLayout(LayoutKind.Sequential,Pack=1), Record(TableId)]
     public struct AsmBroadcast
     {
-        public const byte FieldCount = 3;
+        [MethodImpl(Inline)]
+        public static AsmBroadcast define(byte id, BroadcastClass @class, text15 symbol, byte src, byte dst)
+            => new AsmBroadcast(id,@class,symbol, src, dst);
 
-        public const string TableId = "asm.broadcast.def";
+        const string TableId = "asm.broadcasts";
 
         [Render(8)]
         public byte Id;
@@ -35,7 +37,5 @@ namespace Z0.Asm
             => Format();
 
         public static AsmBroadcast Empty => default;
-
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,8};
     }
 }

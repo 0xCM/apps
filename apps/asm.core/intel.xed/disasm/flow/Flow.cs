@@ -7,7 +7,7 @@ namespace Z0
 {
     using static core;
     using static XedRules;
-    using static XedOperands;
+    using static XedOps;
     using static XedDisasmModels;
 
     partial class XedDisasm
@@ -77,7 +77,7 @@ namespace Z0
                 dst.Computed(seq, ops);
 
                 var state = OperandState.Empty;
-                XedOperands.update(fields, kinds, ref state);
+                XedOps.update(fields, kinds, ref state);
                 dst.Computed(seq, state);
 
                 var encoding = XedState.Code.encoding(state, asmhex);

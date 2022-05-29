@@ -60,7 +60,7 @@ namespace Z0
                 OpNames = spec.Ops.Names;
                 FieldDeps = deps;
                 Lock = InstCells.@lock(fields);
-                OpDetails = XedOperands.opdetails(this);
+                OpDetails = XedOps.opdetails(this);
                 Scalable = OpDetails.Any(x => x.Scalable);
                 Layout = new InstCells(layout.ToArray(), (byte)layout.Length);
                 Expr  = new InstCells(expr.ToArray(), 0);
