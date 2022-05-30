@@ -13,6 +13,8 @@ namespace Z0
 
         const byte FieldCount = ToolProfile.FieldCount;
 
+        IToolWs Tools => Service(Ws.Tools);
+
         public Outcome EmitToolCatalog()
         {
             var subdirs = Tools.Root.SubDirs();

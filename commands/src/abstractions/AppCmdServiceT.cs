@@ -33,6 +33,8 @@ namespace Z0
 
         protected OmniScript OmniScript => Service(() => Z0.OmniScript.create(Wf));
 
+        protected IToolWs Tools => Service(Ws.Tools);
+
         IWorkerLog Witness;
 
         Option<IToolCmdShell> Shell;

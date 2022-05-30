@@ -5,6 +5,22 @@
 namespace Z0
 {
     using static core;
+
+    public enum ApiMdKind : byte
+    {
+        None,
+
+        Catalog,
+
+        Components,
+
+        Parts,
+
+        Tokens,
+
+        ApiTokens,
+    }
+
     public sealed class ApiMd : AppService<ApiMd>
     {
         ApiJit Jit => Wf.Jit();
@@ -44,15 +60,46 @@ namespace Z0
         public Index<IPart> Parts
             => Catalog.Parts;
 
-        public Index<SymInfo> Tokens(Type src)
-            => Symbols.syminfo(src);
+        public Type[] EnumTypes
+            => data("EnumTypes", () => Components
+                .Enums()
+                .Where(x => x.ContainsGenericParameters == false && nonempty(x.Namespace)));
 
-        public Index<SymInfo> EmitTokens(Type src)
-        {
-            var syms = Tokens(src);
-            EmitTokens(src.Name.ToLower(), syms);
-            return syms;
-        }
+        public Index<Type> ApiTableTypes
+            => data(nameof(ApiTableTypes), () => Components.Types().Tagged<RecordAttribute>().Index());
+
+        public Index<TableField> ApiTableFields
+            => data("TableFields", CalcTableFields);
+
+        public Type[] SymTypes
+            => data("SymSources", () => EnumTypes.Tagged<SymSourceAttribute>());
+
+        public Index<SymLiteralRow> SymLits
+            => data(nameof(SymLiteralRow), () => Symbols.literals(ApiRuntimeCatalog.Components));
+
+        Index<SymLiteralRow> CalcSymLits(Assembly[] src)
+            => Symbols.literals(src);
+
+        public ConstLookup<string,Index<Type>> SymGroups
+            => data("SymGroups", CalcSymGroups);
+
+        public Index<IApiHost> ApiHosts
+            => data("ApiHosts", () => ApiRuntimeCatalog.ApiHosts.Index());
+
+        public Index<DataTypeInfo> DataTypes
+            => data("DataTypes", () => Z0.DataTypes.describe(Components));
+
+        public Index<ApiCmdRow> ApiCommands
+            => data("ApiCommands", CalcApiCommands);
+
+        public Index<CompilationLiteral> ApiLiterals
+            => data(nameof(CompilationLiteral), () => Literals.literals(Components));
+
+        public Index<ApiFlowSpec> DataFlows
+            => data("DataFlows", CalcDataFlows);
+
+        public Index<BitMaskInfo> ApiBitMasks
+            => Data(nameof(BitMaskInfo), () => BitMask.masks(typeof(BitMaskLiterals)));
 
         public void EmitDatasets()
         {
@@ -63,13 +110,23 @@ namespace Z0
                 EmitDataTypes,
                 () => EmitComments(),
                 () => Emit(SymLits),
-                EmitParsers2,
+                EmitParsers,
                 EmitApiTables,
                 EmitApiCommands,
                 () => EmitApiTokens(),
                 EmitApiBitMasks
             );
         }
+
+        public Index<SymInfo> EmitTokens(Type src)
+        {
+            var syms = Symbols.syminfo(src);
+            EmitTokens(src.Name.ToLower(), syms);
+            return syms;
+        }
+
+        void EmitTokens(string name, Index<SymInfo> src)
+            => AppSvc.TableEmit(src, ApiTargets().Table<SymInfo>(tokens + "." +  name), TextEncodingKind.Unicode);
 
         void EmitApiCommands()
             => Emit(ApiCommands);
@@ -96,16 +153,6 @@ namespace Z0
             => Emit(ApiTableFields);
 
         void EmitParsers()
-        {
-            var parsers = Parsers.discover(Components);
-            var targets = parsers.Keys;
-            var dst = text.emitter();
-            iter(targets, target => dst.AppendLineFormat("parse:string -> {0}", target.DisplayName()));
-
-            AppSvc.FileEmit(dst.Emit(), targets.Count, AppDb.ApiTargets().Path("parsers", FileKind.List));
-        }
-
-        void EmitParsers2()
         {
             const string RenderPattern = "{0,-8} | {1,-8} | {2}";
             var cols = new string[]{"Seq", "Returns", "Target"};
@@ -178,50 +225,6 @@ namespace Z0
 
             return dst.ToArray();
         }
-
-        void EmitTokens(string name, Index<SymInfo> src)
-            => AppSvc.TableEmit(src, ApiTargets().Table<SymInfo>(tokens + "." +  name), TextEncodingKind.Unicode);
-
-        public Type[] EnumTypes
-            => data("EnumTypes", () => Components
-                .Enums()
-                .Where(x => x.ContainsGenericParameters == false && nonempty(x.Namespace)));
-
-        public Index<Type> ApiTableTypes
-            => data(nameof(ApiTableTypes), () => Components.Types().Tagged<RecordAttribute>().Index());
-
-        public Index<TableField> ApiTableFields
-            => data("TableFields", CalcTableFields);
-
-        public Type[] SymTypes
-            => data("SymSources", () => EnumTypes.Tagged<SymSourceAttribute>());
-
-        public Index<SymLiteralRow> SymLits
-            => data(nameof(SymLiteralRow), () => Symbols.literals(ApiRuntimeCatalog.Components));
-
-        Index<SymLiteralRow> CalcSymLits(Assembly[] src)
-            => Symbols.literals(src);
-
-        public ConstLookup<string,Index<Type>> SymGroups
-            => data("SymGroups", CalcSymGroups);
-
-        public Index<IApiHost> ApiHosts
-            => data("ApiHosts", () => ApiRuntimeCatalog.ApiHosts.Index());
-
-        public Index<DataTypeInfo> DataTypes
-            => data("DataTypes", () => Z0.DataTypes.describe(Components));
-
-        public Index<ApiCmdRow> ApiCommands
-            => data("ApiCommands", CalcApiCommands);
-
-        public Index<CompilationLiteral> ApiLiterals
-            => data(nameof(CompilationLiteral), () => Literals.literals(Components));
-
-        public Index<ApiFlowSpec> DataFlows
-            => data("DataFlows", CalcDataFlows);
-
-        public Index<BitMaskInfo> ApiBitMasks
-            => Data(nameof(BitMaskInfo), () => BitMask.masks(typeof(BitMaskLiterals)));
 
         public Dictionary<FS.FilePath, Dictionary<string,string>> EmitComments()
             => Data(nameof(EmitComments), () => Comments.Collect());
@@ -310,6 +313,9 @@ namespace Z0
                 if(result.Ok)
                     EmitMsil(array(host));
             }
+
+            if(result.Fail)
+                Errors.Throw(result.Message);
         }
 
         Index<ApiFlowSpec> CalcDataFlows()
@@ -418,6 +424,7 @@ namespace Z0
                 EmitApiTokens(skip(names,i), lookup[skip(names,i)]);
             return lookup;
         }
+
 
         public ConstLookup<string,Index<SymInfo>> CollectApiTokens()
         {

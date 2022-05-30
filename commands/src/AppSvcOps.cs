@@ -167,7 +167,5 @@ namespace Z0
         protected void FormatRows<T>(T[] src, ReadOnlySpan<byte> widths, ITextEmitter dst, RecordFormatKind fk, TextEncodingKind encoding = TextEncodingKind.Asci)
             where T : struct
                 => TableEmit(@readonly(src), widths, dst, fk, encoding);
-
-
     }
 }

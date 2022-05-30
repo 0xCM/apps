@@ -13,7 +13,7 @@ namespace Z0
     {
         const string ProjId = "codegen.respack";
 
-        FS.FilePath ProjectPath => CgProject(ProjId);
+        //FS.FilePath ProjectPath => CgProject(ProjId);
 
         FS.FolderPath ProjectDir => CgDir(ProjId);
 

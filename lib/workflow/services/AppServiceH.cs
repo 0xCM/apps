@@ -36,25 +36,6 @@ namespace Z0
 
         static object ServiceLock = new();
 
-        static ConcurrentDictionary<string,object> _Data {get;}
-            = new();
-
-        static object DataLock = new();
-
-        [MethodImpl(Inline)]
-        protected D Data<D>(string key, Func<D> factory)
-        {
-            lock(DataLock)
-                return (D)_Data.GetOrAdd(key, k => factory());
-        }
-
-        [MethodImpl(Inline)]
-        protected void ClearCache()
-        {
-            lock(DataLock)
-                _Data.Clear();
-        }
-
         public T Service<T>(Func<T> factory)
         {
             lock(ServiceLock)
@@ -67,11 +48,44 @@ namespace Z0
                 return (T)ServiceCache.GetOrAdd(typeof(T), key => factory());
         }
 
+        static ConcurrentDictionary<string,object> _ServiceState {get;}
+            = new();
+
         [MethodImpl(Inline)]
-        protected static D data<D>(string key, Func<D> factory)
+        protected static D state<D>(string key, Func<D> factory)
+            => (D)_ServiceState.GetOrAdd(key, k => factory());
+
+        [MethodImpl(Inline)]
+        protected static ref readonly D state<D>(string key, out D dst)
+        {
+            dst = (D)_ServiceState[key];
+            return ref dst;
+        }
+
+        static ConcurrentDictionary<object,object> _Data {get;}
+            = new();
+
+        static object DataLock = new();
+
+        [MethodImpl(Inline)]
+        protected D Data<D>(object key, Func<D> factory)
         {
             lock(DataLock)
                 return (D)_Data.GetOrAdd(key, k => factory());
+        }
+
+        [MethodImpl(Inline)]
+        protected static D data<D>(object key, Func<D> factory)
+        {
+            lock(DataLock)
+                return (D)_Data.GetOrAdd(key, k => factory());
+        }
+
+        [MethodImpl(Inline)]
+        protected void ClearCache()
+        {
+            lock(DataLock)
+                _Data.Clear();
         }
 
         public IWfRuntime Wf {get; private set;}
@@ -89,8 +103,6 @@ namespace Z0
         public IWfEmitters WfEmit => _TableOps;
 
         protected AppSettings AppSettings => Service(Wf.AppSettings);
-
-        protected IToolWs Tools => Service(Ws.Tools);
 
         protected ScriptRunner ScriptRunner => Service(Wf.ScriptRunner);
 
@@ -204,15 +216,6 @@ namespace Z0
         protected virtual void Error<T>(T content)
             => WfMsg.Error(content);
 
-        protected void Write<T>(T content)
-            => WfMsg.Write(content);
-
-        protected void Write<T>(T content, FlairKind flair)
-            => WfMsg.Write(content, flair);
-
-        protected void Write<T>(string name, T value, FlairKind? flair = null)
-            => WfMsg.Write(name, value, flair);
-
         protected WfExecFlow<T> Running<T>(T msg)
             => WfMsg.Running(msg);
 
@@ -224,6 +227,39 @@ namespace Z0
 
         protected ExecToken Ran<T>(WfExecFlow<T> flow, string msg, FlairKind flair = FlairKind.Ran)
             => WfMsg.Ran(flow, msg, flair);
+
+        protected void Write<T>(T content)
+            => WfMsg.Write(content);
+
+        protected void Write<T>(T content, FlairKind flair)
+            => WfMsg.Write(content, flair);
+
+        protected void Write<T>(string name, T value, FlairKind? flair = null)
+            => WfMsg.Write(name, value, flair);
+
+        protected void Write<T>(ReadOnlySpan<T> src, FlairKind? flair = null)
+        {
+            var count = src.Length;
+            for(var i=0; i<count; i++)
+                Write(skip(src,i), flair ?? FlairKind.Data);
+        }
+
+        protected void Write<T>(Span<T> src, FlairKind? flair = null)
+        {
+            var count = src.Length;
+            for(var i=0; i<count; i++)
+                Write(skip(src,i), flair ?? FlairKind.Data);
+        }
+
+        protected void Write<R>(ReadOnlySpan<R> src, ReadOnlySpan<byte> widths)
+            where R : struct
+        {
+            var formatter = Tables.formatter<R>(widths);
+            var count = src.Length;
+            Write(formatter.FormatHeader());
+            for(var i=0; i<count; i++)
+                Write(formatter.Format(skip(src,i)));
+        }
 
         protected WfFileWritten EmittingFile(FS.FilePath dst)
             => WfMsg.EmittingFile(dst);
@@ -305,8 +341,8 @@ namespace Z0
         protected FS.FolderPath CgDir(string id)
             => CgRoot + FS.folder(id);
 
-        protected FS.FilePath CgProject(string id)
-            => CgDir(id) + FS.file(string.Format("z0.{0}",id), FS.CsProj);
+        // protected FS.FilePath CgProject(string id)
+        //     => CgDir(id) + FS.file(string.Format("z0.{0}",id), FS.CsProj);
 
         protected virtual void OnInit()
         {
@@ -329,30 +365,6 @@ namespace Z0
         protected void EmittedFile(WfFileWritten file, Count count, Arrow<FS.FileUri> flow)
             => Wf.EmittedFile(HostType, file, count);
 
-        protected void Write<T>(ReadOnlySpan<T> src, FlairKind? flair = null)
-        {
-            var count = src.Length;
-            for(var i=0; i<count; i++)
-                Write(skip(src,i), flair ?? FlairKind.Data);
-        }
-
-        protected void Write<T>(Span<T> src, FlairKind? flair = null)
-        {
-            var count = src.Length;
-            for(var i=0; i<count; i++)
-                Write(skip(src,i), flair ?? FlairKind.Data);
-        }
-
-        protected void Write<R>(ReadOnlySpan<R> src, ReadOnlySpan<byte> widths)
-            where R : struct
-        {
-            var formatter = Tables.formatter<R>(widths);
-            var count = src.Length;
-            Write(formatter.FormatHeader());
-            for(var i=0; i<count; i++)
-                Write(formatter.Format(skip(src,i)));
-        }
-
         static IApiCatalog _ApiCatalog;
 
         static object _ApiLocker = new object();
@@ -365,20 +377,6 @@ namespace Z0
                     _ApiCatalog = ApiRuntimeLoader.catalog(true);
             }
             return _ApiCatalog;
-        }
-
-        static ConcurrentDictionary<string,object> _ServiceState {get;}
-            = new();
-
-        [MethodImpl(Inline)]
-        protected static D state<D>(string key, Func<D> factory)
-            => (D)_ServiceState.GetOrAdd(key, k => factory());
-
-        [MethodImpl(Inline)]
-        protected static ref readonly D state<D>(string key, out D dst)
-        {
-            dst = (D)_ServiceState[key];
-            return ref dst;
         }
     }
 }

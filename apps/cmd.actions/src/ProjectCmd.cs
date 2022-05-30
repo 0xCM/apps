@@ -14,10 +14,12 @@ namespace Z0
 
         OmniScript OmniScript => Wf.OmniScript();
 
+        IToolWs Tools => Service(Ws.Tools);
+
         public static ProjectCmd inject(ICmdRunner runner, AsmCmdRt runtime, ProjectCmd dst)
             => dst.With(runner).With(runtime);
 
-        AsmObjects AsmObjects => Service(Wf.AsmObjects);
+        AsmObjects AsmObjects => Wf.AsmObjects();
 
         ProjectDataServices ProjectData => Service(() => Wf.ProjectData().With(AsmRt));
 

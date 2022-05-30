@@ -51,40 +51,56 @@ namespace Z0
             var offset = 0u;
             for(var i=0; i<symbols.Count; i++)
             {
-                ref var entry = ref seek(entries,i);
-                ref readonly var symbol = ref symbols[i];
-                var expr = symbol.Expr.Data;
-                var length = @as<uint,L>((uint)expr.Length);
-                entry = new HeapEntry<K,O,L>(symbol.Kind, @as<uint,O>(offset), length);
+                var expr = symbols[i].Expr.Data;
+                var length = (uint)expr.Length;
+                seek(entries,i) = new HeapEntry<K,O,L>(symbols[i].Kind, @as<uint,O>(offset), @as<uint,L>(length));
                 content.Append(expr);
-                offset += (uint)expr.Length;
+                offset += length;
             }
             return new SymHeap<K,O,L>(entries,content.Emit());
         }
 
-        public static SymHeap<K,uint,ushort> symbols<K>(W32 wK, W16 wL)
+        public static SymHeap<K,byte,byte> symbols<K>(W8 wO, W8 wL)
             where K : unmanaged, Enum
-        {
-            var symbols = Symbols.index<K>();
-            var content = text.buffer();
-            var count = symbols.Count;
-            var offsets = alloc<uint>(count);
-            var lengths = alloc<ushort>(count);
-            var entries = alloc<HeapEntry<K,uint,ushort>>(count);
-            var offset = 0u;
-            for(var i=0; i<symbols.Count; i++)
-            {
-                ref var entry = ref seek(entries,i);
-                ref readonly var symbol = ref symbols[i];
-                var expr = symbol.Expr.Data;
-                var length = (ushort)expr.Length;
-                entry = new HeapEntry<K,uint,ushort>(symbol.Kind, offset, length);
-                content.Append(expr);
-                offset += length;
-            }
+                => symbols<K,byte,byte>();
 
-            return new SymHeap<K,uint,ushort>(entries,content.Emit());
-        }
+        public static SymHeap<K,ushort,byte> symbols<K>(W16 wO, W8 wL)
+            where K : unmanaged, Enum
+                => symbols<K,ushort,byte>();
+
+        public static SymHeap<K,ushort,ushort> symbols<K>(W16 wO, W16 wL)
+            where K : unmanaged, Enum
+                => symbols<K,ushort,ushort>();
+
+        public static SymHeap<K,uint,byte> symbols<K>(W32 wO, W8 wL)
+            where K : unmanaged, Enum
+                => symbols<K,uint,byte>();
+
+        public static SymHeap<K,uint,ushort> symbols<K>(W32 wO, W16 wL)
+            where K : unmanaged, Enum
+                => symbols<K,uint,ushort>();
+
+        // {
+        //     var symbols = Symbols.index<K>();
+        //     var content = text.buffer();
+        //     var count = symbols.Count;
+        //     var offsets = alloc<uint>(count);
+        //     var lengths = alloc<ushort>(count);
+        //     var entries = alloc<HeapEntry<K,uint,ushort>>(count);
+        //     var offset = 0u;
+        //     for(var i=0; i<symbols.Count; i++)
+        //     {
+        //         ref var entry = ref seek(entries,i);
+        //         ref readonly var symbol = ref symbols[i];
+        //         var expr = symbol.Expr.Data;
+        //         var length = (ushort)expr.Length;
+        //         entry = new HeapEntry<K,uint,ushort>(symbol.Kind, offset, length);
+        //         content.Append(expr);
+        //         offset += length;
+        //     }
+
+        //     return new SymHeap<K,uint,ushort>(entries,content.Emit());
+        // }
 
         /// <summary>
         /// Creates a <see cref='SymHeap'/> from a specified <see cref='SymLiteralRow'/> sequence
