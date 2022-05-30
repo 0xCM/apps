@@ -73,7 +73,6 @@ namespace Z0
 
             public IntelSdmPaths SdmPaths(IWfRuntime wf)
                 => Service<IntelSdmPaths>(wf);
-
         }
 
         static Svc Services => Svc.Instance;

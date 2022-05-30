@@ -12,6 +12,8 @@
     <ProjectReference Include="$(CodeGenLlvm)" />
     <ProjectReference Include="$(CodeGenIntel)" />
     <ProjectReference Include="$(IntelIntrinsics)" />
+    <ProjectReference Include="$(Cli)" />
+
   </ItemGroup>
 
   <Import Project="../imports.props"/>

@@ -37,7 +37,7 @@ namespace Z0
                 });
 
         public S Service<S>(IWfRuntime wf)
-            where S : IAppService<S>, new()
+            where S : IAppService, new()
                 => (S)Lookup.GetOrAdd(typeof(S), _ => {
                     var service = new S();
                     service.Init(wf);
@@ -45,7 +45,7 @@ namespace Z0
                 });
 
         public S Service<S>(IWfRuntime wf, Func<IWfRuntime,S> factory)
-            where S : IAppService<S>, new()
+            where S : IAppService, new()
                 => (S)Lookup.GetOrAdd(typeof(S), _ => factory(wf));
     }
 }

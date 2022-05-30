@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public sealed partial class CliEmitter : AppService<CliEmitter>
+    public sealed partial class CliEmitter : AppService<CliEmitter>, ICliEmitter
     {
         const string CliScope = "api/cli";
 
@@ -22,7 +22,7 @@ namespace Z0
 
         const string ImageHexScope = CliScope + "/image.hex";
 
-        public void EmitMetadaSets(WorkflowOptions options)
+        public void Emit(CliEmitOptions options)
         {
             if(options.EmitAssemblyRefs)
                 EmitAssemblyRefs();

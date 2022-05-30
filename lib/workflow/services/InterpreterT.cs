@@ -4,12 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
     using System.Diagnostics;
     using System.Collections.Concurrent;
     using System.Threading.Tasks;
 
-    using static Root;
     using static core;
 
     public abstract class Interpreter<H> : AppService<H>, IInterpreter

@@ -4,13 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class ApiCmd
+    public interface ICliEmitter : IAppService
     {
-        [CmdOp("api/emit/cli")]
-        void EmitMetadataCli()
-        {
-            CliEmitter.Emit(CliEmitOptions.@default());
-            ApiMetadata.EmitMsil();
-        }
+        void Emit(CliEmitOptions options);
     }
 }

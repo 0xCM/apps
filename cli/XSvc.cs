@@ -27,7 +27,6 @@ namespace Z0
                 => Service<PdbIndex>(wf);
         }
 
-
         static Svc Services => Svc.Instance;
 
         public static CliSvc CliSvc(this IWfRuntime wf)

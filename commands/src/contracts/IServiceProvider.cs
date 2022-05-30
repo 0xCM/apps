@@ -15,10 +15,10 @@ namespace Z0
         IAppService Service(Type host, IWfRuntime wf);
 
         S Service<S>(IWfRuntime wf)
-            where S : IAppService<S>, new();
+            where S : IAppService, new();
 
         S Service<S>(IWfRuntime wf, Func<IWfRuntime,S> factory)
-            where S : IAppService<S>, new();
+            where S : IAppService, new();
     }
 
     public interface IServiceProvider<T> : IServiceProvider

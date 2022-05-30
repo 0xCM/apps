@@ -4,33 +4,36 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public struct CliEmissionOptions
+    [StructLayout(LayoutKind.Sequential,Pack=1)]
+    public struct CliEmitOptions
     {
-        public bool EmitAssemblyRefs;
+        public bool EmitImageContent;
 
         public bool EmitSectionHeaders;
 
         public bool EmitMsilMetadata;
 
-        public bool EmitCliConstants;
-
         public bool EmitCliStrings;
 
         public bool EmitCliBlobs;
 
-        public bool EmitApiMetadump;
+        public bool EmitAssemblyRefs;
 
-        public bool EmitImageContent;
+        public bool EmitCliConstants;
+
+        public bool EmitApiMetadump;
 
         public bool EmitFieldMetadata;
 
-        public bool EmitCliRowStats;
-
         public bool EmitMethodDefs;
 
-        public static CliEmissionOptions @default()
+        public bool EmitCliRowStats;
+
+        public bool EmitMetaBlocks;
+
+        public static CliEmitOptions @default()
         {
-            var dst = new CliEmissionOptions();
+            var dst = new CliEmitOptions();
             dst.EmitImageContent = true;
             dst.EmitSectionHeaders = true;
             dst.EmitMsilMetadata = true;
@@ -40,8 +43,9 @@ namespace Z0
             dst.EmitFieldMetadata = true;
             dst.EmitApiMetadump = true;
             dst.EmitAssemblyRefs = true;
-            dst.EmitCliRowStats = true;
             dst.EmitMethodDefs = true;
+            dst.EmitCliRowStats = true;
+            dst.EmitMetaBlocks = true;
             return dst;
         }
     }
