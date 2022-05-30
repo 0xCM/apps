@@ -16,7 +16,7 @@ namespace Z0.Asm
         {
             if(AsmSigs.opmask(src, out var op, out var mask))
             {
-                if(Datasets.OpsByExpression.Find(op, out dst))
+                if(_Datasets.OpsByExpression.Find(op, out dst))
                 {
                     dst = dst.WithModifier(modifier(mask));
                     return true;
@@ -28,7 +28,7 @@ namespace Z0.Asm
                 }
             }
             else
-                return Datasets.OpsByExpression.Find(src.Text, out dst);
+                return _Datasets.OpsByExpression.Find(src.Text, out dst);
         }
 
         [MethodImpl(Inline), Op, Closures(Closure)]

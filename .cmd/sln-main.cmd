@@ -14,6 +14,7 @@ dotnet sln %SlnPath% add %TopDir%/expr/z0.expr.csproj
 dotnet sln %SlnPath% add %TopDir%/extract/z0.extract.csproj
 dotnet sln %SlnPath% add %TopDir%/lines/z0.lines.csproj
 dotnet sln %SlnPath% add %TopDir%/numbers/z0.numbers.csproj
+dotnet sln %SlnPath% add %TopDir%/deprecated/z0.deprecated.csproj
 
 dotnet sln %SlnPath% add %AppDir%/apps.core/z0.apps.core.csproj
 dotnet sln %SlnPath% add %AppDir%/asm/z0.asm.csproj

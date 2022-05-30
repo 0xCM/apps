@@ -11,7 +11,7 @@ namespace Z0.Asm
             if(src.IsEmpty)
                 return EmptyString;
 
-            if(Datasets.TokenExpressions.Find(src.Id, out var xpr))
+            if(Datasets.Expressions.Find(src.Id, out var xpr))
                 return xpr;
 
             return RP.Error;

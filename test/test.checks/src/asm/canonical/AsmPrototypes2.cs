@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     public readonly partial struct AsmPrototypes2
     {
         public const MethodImplOptions Inline = MethodImplOptions.AggressiveInlining;

@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public unsafe readonly partial struct ConstBytesReader
     {
         public static ReadOnlySpan<Utf8Point> Utf8Points

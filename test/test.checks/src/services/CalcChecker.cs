@@ -37,6 +37,8 @@ namespace Z0
             RunValidators();
         }
 
+
+
         void LogHeader<N>(MethodBase src, N n)
             where N : unmanaged, ITypeNat
         {

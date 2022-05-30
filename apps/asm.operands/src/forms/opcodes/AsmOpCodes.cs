@@ -13,37 +13,32 @@ namespace Z0.Asm
         {
         }
 
+        public static string expression(AsmOcToken src)
+        {
+            if(src.IsEmpty)
+                return EmptyString;
+
+            if(Datasets.Expressions.Find(src.Id, out var x))
+                return x;
+
+            return RP.Error;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static AsmOcToken specialize(in AsmToken2 src)
+            => new AsmOcToken((AsmOcTokenKind)src.KindIndex, (byte)src.Value);
+
         public Outcome Parse(string src, out AsmOpCode dst)
             => parse(src, out dst);
 
-        public static AsmOcDatasets datasets()
-            => Datasets;
-
-        [MethodImpl(Inline), Op]
-        public ReadOnlySpan<AsmOcTokenKind> TokenKinds()
-            => Datasets.TokenKindSymbols.Kinds;
-
-        public string Expression(AsmOcToken src)
-        {
-            if(Datasets.TokenExpressions.Find(src.Id, out var x))
-            {
-                return x;
-            }
-            else
-                return RP.Error;
-        }
-
         public bool Token(string src, out AsmOcToken dst)
             => Datasets.TokensByExpression.Find(src, out dst);
-
-        public ReadOnlySpan<string> Expressions()
-            => Datasets.TokenExpressions.Values;
 
         readonly static AsmOcDatasets Datasets;
 
         static AsmOpCodes()
         {
-            Datasets = AsmOcDatasets.load();
+            Datasets = AsmOcDatasets.Instance;
         }
    }
 }

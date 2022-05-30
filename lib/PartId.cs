@@ -99,8 +99,8 @@ public enum PartId : byte
     [Symbol("bits")]
     Bits,
 
-    [Symbol("srm.internals")]
-    SrmInternals,
+    [Symbol("deprecated")]
+    Deprecated,
 
     [Symbol("bitspans")]
     BitSpans,

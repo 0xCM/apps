@@ -10,11 +10,11 @@ namespace Z0.Asm
     {
         public static AsmSigOpExpr expression(in AsmSigOp src)
         {
-            if(Datasets.Expressions.Find(src.Token.Id, out var xpr))
+            if(_Datasets.Expressions.Find(src.Token.Id, out var xpr))
             {
                 if(src.Modifier != 0)
                 {
-                    if(Datasets.Modifers.MapKind(src.Modifier, out var mod))
+                    if(_Datasets.Modifers.MapKind(src.Modifier, out var mod))
                         return string.Format("{0} {1}", xpr, mod.Expr);
                     else
                         return RP.Error;
@@ -28,7 +28,7 @@ namespace Z0.Asm
 
         public static AsmSigOpExpr expression(in AsmSigToken src)
         {
-            if(Datasets.Expressions.Find(src.Id, out var x))
+            if(_Datasets.Expressions.Find(src.Id, out var x))
                 return x;
 
             return RP.Error;

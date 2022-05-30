@@ -7,13 +7,19 @@ namespace Z0.Asm
     [ApiHost]
     public partial class AsmSigs
     {
-        static AsmSigDatasets Datasets;
+        static readonly AsmSigDatasets _Datasets;
 
         const NumericKind Closure = UnsignedInts;
 
         static AsmSigs()
         {
-            Datasets = AsmSigDatasets.load();
+            _Datasets = AsmSigDatasets.Instance;
+        }
+
+        public ref readonly AsmSigDatasets Datasets
+        {
+            [MethodImpl(Inline)]
+            get => ref _Datasets;
         }
     }
 }

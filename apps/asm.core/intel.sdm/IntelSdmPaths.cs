@@ -75,12 +75,11 @@ namespace Z0.Asm
             => Sources() + FS.folder("sdm.instructions");
 
         public FS.FilePath Tokens()
-            => ProjectDb.Subdir("sdm") + Tables.filename<AsmToken>();
+            => ProjectDb.Subdir("sdm") + Tables.filename<AsmToken2>();
 
         public FS.FilePath ImportTable<T>()
             where T : struct
                 => Targets() + Tables.filename<T>();
-
 
         static bool IsTocPart(FS.FilePath src)
         {

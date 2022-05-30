@@ -9,21 +9,21 @@ namespace Z0
     partial class Heaps
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Span<T> segment<T>(in Heap<T> src,uint index)
+        public static Span<T> segment<T>(in Heap<T> src, uint index)
         {
-            if(index > src.LastSegment + 1)
+            if(index > src.SegCount - 1)
                 return Span<T>.Empty;
-            var start = src.Offsets[index];
-            if(index < src.LastSegment)
-                return slice(src.Segments.Edit, start, src.Offsets[index + 1] - start);
+            ref readonly var i0 = ref src.Offset(index);
+            if(index < src.SegCount - 1)
+                return slice(src.Cells, i0, src.Offset(index + 1) - i0);
             else
-                return slice(src.Segments.Edit, start);
+                return slice(src.Cells, i0);
         }
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static Span<T> segment<T>(in SpanHeap<T> src, uint index)
         {
-            if(index > src.LastSegment + 1)
+            if(index > src.SegCount - 1)
                 return Span<T>.Empty;
             var start = src.Offsets[index];
             if(index < src.LastSegment)
@@ -52,11 +52,11 @@ namespace Z0
             var _next = @as<uint,K>(_index + 1);
             if(_index > src.LastSegment + 1)
                 return Span<T>.Empty;
-            var start = src.Offsets[index];
+            var start = src.Offset(index);
             if(_index < src.LastSegment)
-                return slice(src.Segments.Edit, start, src.Offsets[_next] - start);
+                return slice(src.Cells, start, src.Offset(_next) - start);
             else
-                return slice(src.Segments.Edit, start);
+                return slice(src.Cells, start);
         }
     }
 }

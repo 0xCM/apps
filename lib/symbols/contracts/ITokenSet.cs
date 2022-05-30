@@ -6,21 +6,21 @@ namespace Z0
 {
     using System;
 
-    public interface ITokenSet
-    {
-        Type[] Types();
+    // public interface ITokenSet
+    // {
+    //     Type[] Types();
 
-        string Name {get;}
+    //     string Name {get;}
 
-        ReadOnlySpan<Token> View {get;}
-    }
+    //     ReadOnlySpan<Token> View {get;}
+    // }
 
-    public interface ITokenSet<K> : ITokenSet
-        where K : unmanaged
-    {
-        new ReadOnlySpan<Token<K>> View {get;}
+    // public interface ITokenSet<K> : ITokenSet
+    //     where K : unmanaged
+    // {
+    //     new ReadOnlySpan<Token<K>> View {get;}
 
-        ReadOnlySpan<Token> ITokenSet.View
-            => View.Select(x => x.Untyped());
-    }
+    //     ReadOnlySpan<Token> ITokenSet.View
+    //         => View.Select(x => x.Untyped());
+    // }
 }

@@ -8,6 +8,10 @@ namespace Z0.Asm
 
     partial class AsmSigs
     {
+        [MethodImpl(Inline), Op]
+        public static AsmSigToken token(AsmSigTokenKind kind, byte value)
+            => new AsmSigToken(kind,value);
+
         public static Index<AsmSigToken> tokenize(in AsmSig src)
         {
             var ops = src.Operands;

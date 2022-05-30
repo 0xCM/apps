@@ -5,23 +5,37 @@
 namespace Z0
 {
     using api = Heaps;
+    using static core;
 
-    public readonly struct Heap<K,T>
+    public class Heap<K,T>
         where K : unmanaged
     {
-        internal readonly Index<T> Segments;
+        readonly Index<T> Data;
 
-        internal readonly Index<K,uint> Offsets;
+        readonly Index<K,uint> Offsets;
 
         internal readonly uint LastSegment;
 
+        public readonly uint SegCount;
+
         [MethodImpl(Inline)]
-        public Heap(Index<T> segs, Index<K,uint> offsets)
+        public Heap(Index<T> src, Index<K,uint> offsets)
         {
-            Segments = segs;
+            Data = src;
             Offsets = offsets;
+            SegCount = (uint)Require.equal(src.Length, offsets.Length);
             LastSegment = (uint)offsets.Length - 1;
         }
+
+        public Span<T> Cells
+        {
+            [MethodImpl(Inline)]
+            get => Data.Edit;
+        }
+
+        [MethodImpl(Inline)]
+        public ref uint Offset(K index)
+            => ref Offsets[index];
 
         [MethodImpl(Inline)]
         public Span<T> Segment(K index)
@@ -31,12 +45,6 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => Segment(index);
-        }
-
-        public uint SegCount
-        {
-            [MethodImpl(Inline)]
-            get => Segments.Count;
         }
     }
 }

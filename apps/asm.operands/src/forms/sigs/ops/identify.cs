@@ -8,11 +8,11 @@ namespace Z0.Asm
     {
         public static string identify(in AsmSigOp src)
         {
-            if(Datasets.Names.Find(src.Id, out var id))
+            if(_Datasets.Names.Find(src.Id, out var id))
             {
                 if(src.Modifier != 0)
                 {
-                    if(Datasets.Modifers.MapKind(src.Modifier, out var mod))
+                    if(_Datasets.Modifers.MapKind(src.Modifier, out var mod))
                         return string.Format("{0}_{1}", id, mod.Kind);
                 }
 

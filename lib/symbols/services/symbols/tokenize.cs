@@ -26,9 +26,5 @@ namespace Z0
             }
             return dst;
         }
-
-        // public static Index<Token<K>> tokenize<K>(Type src)
-        //     where K : unmanaged
-        //         => map(tokenize(src), t => t.WithKind(@as<ulong,K>(t.Value)));
     }
 }

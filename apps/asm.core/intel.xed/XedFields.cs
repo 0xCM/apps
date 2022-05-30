@@ -17,14 +17,14 @@ namespace Z0
         public static FieldRender render()
             => new FieldRender();
 
-        public sealed class EffectiveFields : TokenSet<EffectiveFields>
-        {
-            public override string Name
-                => "xed.field.domains";
+        // public sealed class EffectiveFields : TokenSet<EffectiveFields>
+        // {
+        //     public override string Name
+        //         => "xed.field.domains";
 
-            public override Type[] Types()
-                => EffectiveFieldTypes.Where(t => t.IsEnum);
-        }
+        //     public override Type[] Types()
+        //         => EffectiveFieldTypes.Where(t => t.IsEnum);
+        // }
 
         static FieldDefs _Defs;
 

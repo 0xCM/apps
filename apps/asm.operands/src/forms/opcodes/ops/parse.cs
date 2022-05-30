@@ -27,14 +27,14 @@ namespace Z0.Asm
                 for(var m = 0; m<dotted.Length; m++)
                 {
                     if(m != 0)
-                        tokens.Add(OpCodeText.Dot);
+                        tokens.Add(TokenSymbols.Dot);
 
                     tokens.Add(skip(dotted, m));
                 }
 
                 for(var m = 0; m<spaced.Length; m++)
                 {
-                    tokens.Add(OpCodeText.Sep);
+                    tokens.Add(TokenSymbols.Sep);
                     tokens.Add(skip(spaced,m));
                 }
 
@@ -47,7 +47,7 @@ namespace Z0.Asm
                 for(var m=0; m <comps.Length; m++)
                 {
                     if(m != 0)
-                        tokens.Add(OpCodeText.Sep);
+                        tokens.Add(TokenSymbols.Sep);
 
                     tokens.Add(skip(comps,m));
                 }

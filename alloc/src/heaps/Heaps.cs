@@ -27,6 +27,23 @@ namespace Z0
             => AppSvc.TableEmit(CalcHeapEntries(src), ApiTargets().Table<SymHeapEntry>(), TextEncodingKind.Unicode);
 
 
+        [MethodImpl(Inline)]
+        public static ReadOnlySpan<byte> serialize<K,O,L>(in HeapEntry<K,O,L> src)
+            where K : unmanaged
+            where O : unmanaged
+            where L : unmanaged
+                => bytes(src);
+
+        [MethodImpl(Inline)]
+        public static ref HeapEntry<K,O,L> materialize<K,O,L>(ReadOnlySpan<byte> src, out HeapEntry<K,O,L> dst)
+            where K : unmanaged
+            where O : unmanaged
+            where L : unmanaged
+        {
+            dst = @as<HeapEntry<K,O,L>>(src);
+            return ref dst;
+        }
+
         DbTargets ApiTargets()
             => AppDb.Targets("api");
    }

@@ -47,8 +47,8 @@ namespace Z0
                 () => Emit(CalcMacroDefs().View),
                 () => Emit(XedFields.Defs.Positioned),
                 () => AppSvc.TableEmit(Xed.Views.InstOpSpecs, XedPaths.InstTable<InstOpSpec>()),
-                EmitRuleDeps,
-                () => ApiMd.EmitTokens(XedFields.EffectiveFields.create(), XedPaths.Target("xed.fields.symbolic", FS.Csv))
+                EmitRuleDeps
+                //() => ApiMd.EmitTokens(XedFields.EffectiveFields.create(), XedPaths.Target("xed.fields.symbolic", FS.Csv))
             );
 
             Emit(patterns, rules);

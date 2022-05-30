@@ -114,7 +114,7 @@ namespace Z0.Asm
                 dst.Add(src);
             else
             {
-                if(Datasets.Nonterminals.Find(src.Id, out var y))
+                if(_Datasets.Nonterminals.Find(src.Id, out var y))
                 {
                     if(y.Term1.IsNonEmpty)
                         dst.Add(operand(y.Term1, src.Modifier));

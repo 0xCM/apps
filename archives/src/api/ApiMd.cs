@@ -44,14 +44,14 @@ namespace Z0
         public Index<IPart> Parts
             => Catalog.Parts;
 
-        public Index<SymInfo> CalcTokens(Type src)
+        public Index<SymInfo> Tokens(Type src)
             => Symbols.syminfo(src);
 
         public Index<SymInfo> EmitTokens(Type src)
         {
-            var tokens = CalcTokens(src);
-            EmitTokens(src.Name.ToLower(), tokens);
-            return tokens;
+            var syms = Tokens(src);
+            EmitTokens(src.Name.ToLower(), syms);
+            return syms;
         }
 
         public void EmitDatasets()
@@ -180,7 +180,7 @@ namespace Z0
         }
 
         void EmitTokens(string name, Index<SymInfo> src)
-            => AppSvc.TableEmit(src, ApiTargets().Table<SymInfo>("tokens" + "." +  name), TextEncodingKind.Unicode);
+            => AppSvc.TableEmit(src, ApiTargets().Table<SymInfo>(tokens + "." +  name), TextEncodingKind.Unicode);
 
         public Type[] EnumTypes
             => data("EnumTypes", () => Components
@@ -275,7 +275,6 @@ namespace Z0
             }
             return count;
         }
-
 
         public void Emit(ReadOnlySpan<ApiCmdRow> src)
             => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<ApiCmdRow>());
@@ -483,13 +482,12 @@ namespace Z0
             return records;
         }
 
-
         public Index<ClrEnumRecord> CalcEnumRecords(Assembly src)
             => Data(src.GetSimpleName() + nameof(ClrEnumRecord), () => Enums.records(src));
 
         public Index<SymInfo> LoadTokens(string name)
         {
-            var src = ApiTargets().Table<SymInfo>("tokens" + "." +  name.ToLower());
+            var src = ApiTargets().Table<SymInfo>(tokens + "." +  name.ToLower());
             using var reader = src.TableReader<SymInfo>(SymInfo.parse);
             var header = reader.Header.Split(Chars.Pipe);
             if(header.Length != SymInfo.FieldCount)
@@ -523,16 +521,15 @@ namespace Z0
             return buffer;
         }
 
-        public Index<SymInfo> EmitTokens(ITokenSet src, FS.FilePath dst)
+        public Index<SymInfo> EmitTokens(ITokenGroup src, FS.FilePath dst)
         {
-            var data = Symbols.syminfo(src.Types());
+            var data = Symbols.syminfo(src.TokenTypes);
             AppSvc.TableEmit(data, dst);
             return data;
         }
 
         ConstLookup<string,Index<Type>> CalcSymGroups()
         {
-
             var types = SymTypes.Index();
             var buffer = dict<string,List<Type>>();
             for(var i=0; i<types.Count; i++)
@@ -573,13 +570,13 @@ namespace Z0
             return src;
         }
 
-        void EmitTokens<K>(ITokenSet<K> src)
-            where K : unmanaged
-                => EmitTokenSet(src, ApiTargets(tokens).Table<SymInfo>(src.Name));
+        // void EmitTokens<K>(ITokenSet<K> src)
+        //     where K : unmanaged
+        //         => EmitTokenSet(src, ApiTargets(tokens).Table<SymInfo>(src.Name));
 
-        void EmitTokenSet<K>(ITokenSet<K> src, FS.FilePath dst)
-            where K : unmanaged
-                => AppSvc.TableEmit(Symbols.syminfo<K>(src.Types()), dst);
+        // void EmitTokenSet<K>(ITokenSet<K> src, FS.FilePath dst)
+        //     where K : unmanaged
+        //         => AppSvc.TableEmit(Symbols.syminfo<K>(src.TokenTypes), dst);
 
         void EmitApiTokens(string name, Index<SymInfo> src)
             => AppSvc.TableEmit(src, ApiTargets(tokens).Table<SymInfo>(name));
