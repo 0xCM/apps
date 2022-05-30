@@ -13,8 +13,6 @@ namespace Z0
 
         T Service<T>(Func<T> factory);
 
-        OmniScript OmniScript {get;}
-
         IWfMsg WfMsg {get;}
 
         IWfEmitters WfEmit {get;}

@@ -4,20 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
     [Free]
-    public interface IToolCmd : ITextual
+    public interface IToolCmd
     {
         CmdId CmdId {get;}
 
-        Name CmdName
-            => CmdId;
+        string CmdName {get;}
 
         ToolCmdArgs Args {get;}
-
-        string ITextual.Format()
-            => Cmd.format(this);
     }
 
     [Free]

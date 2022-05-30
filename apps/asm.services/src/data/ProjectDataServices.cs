@@ -18,6 +18,8 @@ namespace Z0
 
         AsmObjects AsmObjects => Service(Wf.AsmObjects);
 
+        OmniScript OmniScript => Service(() => Z0.OmniScript.create(Wf));
+
         AsmCmdRt AsmRt;
 
         public ProjectDataServices With(AsmCmdRt rt)

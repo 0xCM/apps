@@ -4,12 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    public struct ToolCmdArg : IToolCmdArg
+    public class ToolCmdArg : IToolCmdArg
     {
         /// <summary>
         /// The argument's relative position

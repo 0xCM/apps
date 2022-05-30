@@ -4,6 +4,21 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
+    partial struct Cmd
+    {
+        public static string format<K,T>(in ToolCmdArgs<K,T> src)
+            where K : unmanaged
+        {
+            var dst = text.buffer();
+            var view = src.View;
+            var count = view.Length;
+            for(var i=0; i<count; i++)
+                dst.AppendLine(skip(src,i).Format());
+            return dst.Emit();
+        }
+    }
 
     public readonly struct ToolCmdArgs<K,T> : IIndex<ToolCmdArg<K,T>>
         where K : unmanaged

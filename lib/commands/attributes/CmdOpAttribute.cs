@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     [AttributeUsage(AttributeTargets.Method)]
     public class CmdOpAttribute : Attribute
     {

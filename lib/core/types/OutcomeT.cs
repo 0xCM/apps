@@ -4,17 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     using api = Outcomes;
 
     /// <summary>
     /// Describes an operation result
     /// </summary>
-    [DataType("outcome<t:{0}>")]
     public readonly struct Outcome<T> : IOutcome<T>
     {
         public bool Ok {get;}

@@ -87,7 +87,6 @@ namespace Z0
         public Outcome RunToolScript(FS.FilePath src, CmdVars vars, bool quiet, out ReadOnlySpan<ToolCmdFlow> flows)
         {
             flows = default;
-
             var result = Outcome.Success;
             if(!src.Exists)
                 return (false, FS.missing(src));

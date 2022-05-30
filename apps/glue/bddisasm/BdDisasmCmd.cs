@@ -17,5 +17,10 @@ namespace Z0
         public bool EmitDetails;
 
         public FS.FilePath OutputPath;
+
+        public string CmdName
+        {
+            get => nameof(BdDisasmCmd);
+        }
     }
 }

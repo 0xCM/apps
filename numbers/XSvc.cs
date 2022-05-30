@@ -47,10 +47,14 @@ namespace Z0
             public ApiHex ApiHex(IWfRuntime wf)
                 => Service<ApiHex>(wf);
 
-
+            public OmniScript OmniScript(IWfRuntime wf)
+                => Service<OmniScript>(wf);
         }
 
         static Svc Services => Svc.Instance;
+
+        public static OmniScript OmniScript(this IWfRuntime wf)
+            => Services.OmniScript(wf);
 
         public static Parsers Parsers(this IWfRuntime wf)
             => Services.Parsers(wf);
@@ -99,6 +103,5 @@ namespace Z0
 
         public static CheckRunner CheckRunner(this IWfRuntime wf)
             => Services.CheckRunner(wf);
-
     }
 }

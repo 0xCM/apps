@@ -4,18 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct CmdArg<T>
     {
-        public uint Index {get;}
+        public readonly uint Index;
 
-        public Name Name {get;}
+        public readonly Name Name;
 
-        public T Value {get;}
+        public readonly T Value;
 
         [MethodImpl(Inline)]
         public CmdArg(uint index, T value)

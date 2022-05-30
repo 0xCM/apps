@@ -22,14 +22,6 @@ namespace Z0
 
         const string il = nameof(il);
 
-        [CmdOp("api/emit/msil")]
-        void EmitMsil()
-        {
-            AppDb.MsilTargets().Delete();
-            ApiMd.EmitMsil(ApiRuntimeCatalog.ApiHosts, AppDb.MsilTargets(il));
-            AppSvc.TableEmit(Cil.opcodes(), AppDb.Targets("clr").Path("cil.opcodes", FileKind.Csv));
-        }
-
         [CmdOp("api/emit/hex")]
         void EmitApiHex()
         {
@@ -72,7 +64,6 @@ namespace Z0
         {
             ApiMd.EmitDatasets();
             Heaps.Emit(Heaps.symbols(ApiMd.SymLits));
-
         }
 
         [CmdOp("api/parts")]
@@ -80,7 +71,6 @@ namespace Z0
         {
             iter(ApiMd.Parts, part => Write(part.Name));
         }
-
 
         [CmdOp("api/emit/comments")]
         void ApiEmitComments()

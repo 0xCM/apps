@@ -10,6 +10,8 @@ namespace Z0
     {
         WsUnserviced Unserviced;
 
+        OmniScript OmniScript => Wf.OmniScript();
+
         protected override void Initialized()
         {
             Unserviced = WsUnserviced.create(Ws);

@@ -73,6 +73,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.codegen.shell", "codegen
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.deprecated", "deprecated\z0.deprecated.csproj", "{2F01E1ED-CB5C-4C7D-8C01-21BA6BCC4396}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.commands", "commands\z0.commands.csproj", "{4E23C57E-6004-48ED-916E-538F41FDD787}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -210,6 +212,10 @@ Global
 		{2F01E1ED-CB5C-4C7D-8C01-21BA6BCC4396}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F01E1ED-CB5C-4C7D-8C01-21BA6BCC4396}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F01E1ED-CB5C-4C7D-8C01-21BA6BCC4396}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E23C57E-6004-48ED-916E-538F41FDD787}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E23C57E-6004-48ED-916E-538F41FDD787}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E23C57E-6004-48ED-916E-538F41FDD787}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E23C57E-6004-48ED-916E-538F41FDD787}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{14016108-F933-4B28-B41F-20B9E242384D} = {FF8AB773-3001-4A13-8A17-ECC87E262D7B}

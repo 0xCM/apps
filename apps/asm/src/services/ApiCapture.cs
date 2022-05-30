@@ -39,7 +39,7 @@ namespace Z0
         {
             if(args.Count != 0)
             {
-                var spec = text.trim(arg(args,0).Value.Format());
+                var spec = text.trim(AppCmd.arg(args,0).Value.Format());
                 var i = text.index(spec, Chars.FSlash);
                 if(i>0)
                     Run(ApiHostUri.define(ApiParsers.part(text.left(spec,i)), text.right(spec,i)));

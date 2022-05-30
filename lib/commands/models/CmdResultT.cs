@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public struct CmdResult<C> : ICmdResult<C>
         where C : struct, ICmd
     {

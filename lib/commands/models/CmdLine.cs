@@ -4,11 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
+
+    [Free]
+    public interface ICmdLineTool<T,C>
+        where T : new()
+        where C : IToolCmd
+    {
+        CmdLine CmdLine(in C src);
+    }
 
     /// <summary>
     /// Captures the content of a command-line

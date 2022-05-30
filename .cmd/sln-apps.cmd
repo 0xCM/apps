@@ -9,6 +9,8 @@ echo SlnPath:%SlnPath%
 dotnet sln %SlnPath% add %TopDir%/alloc/z0.alloc.csproj
 dotnet sln %SlnPath% add %TopDir%/archives/z0.archives.csproj
 dotnet sln %SlnPath% add %TopDir%/bits/z0.bits.csproj
+dotnet sln %SlnPath% add %TopDir%/commands/z0.commands.csproj
+
 dotnet sln %SlnPath% add %TopDir%/diagnostics/z0.diagnostics.csproj
 dotnet sln %SlnPath% add %TopDir%/expr/z0.expr.csproj
 dotnet sln %SlnPath% add %TopDir%/extract/z0.extract.csproj
@@ -35,4 +37,3 @@ dotnet sln %SlnPath% add %AppDir%/machines.X86/z0.machines.x86.csproj
 
 dotnet sln %SlnPath% add %AppDir%/cmd.shell/z0.cmd.shell.csproj
 dotnet sln %SlnPath% add %AppDir%/xed.shell/z0.xed.shell.csproj
-dotnet sln %SlnPath% add %AppDir%/calc.shell/z0.calc.shell.csproj

@@ -1,2 +1,3 @@
 @echo off
-dotnet build %~dp0..\z0.numbers.csproj -c Release
+call %~dp0config.cmd
+call %BuildRootLibCmd%

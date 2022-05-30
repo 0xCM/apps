@@ -6,7 +6,7 @@ namespace Z0
 {
     partial class AsmCoreCmd
     {
-        [CmdOp("symbolx/check")]
+        [CmdOp("symbols/check")]
         Outcome CheckSymStores(CmdArgs args)
         {
             var store = Heaps.symstore<string>(24);

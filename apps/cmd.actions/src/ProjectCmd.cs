@@ -12,6 +12,8 @@ namespace Z0
 
         AsmCmdRt AsmRt;
 
+        OmniScript OmniScript => Wf.OmniScript();
+
         public static ProjectCmd inject(ICmdRunner runner, AsmCmdRt runtime, ProjectCmd dst)
             => dst.With(runner).With(runtime);
 

@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
-
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public struct ToolCmdArg<T> : IToolCmdArg<T>
     {
@@ -31,6 +25,10 @@ namespace Z0
         public ArgProtocol Protocol {get;}
 
         public bool IsFlag {get;}
+
+        [MethodImpl(Inline)]
+        public ToolCmdArg Untype()
+            => new ToolCmdArg(Name, Value);
 
         [MethodImpl(Inline)]
         public ToolCmdArg(ushort pos, T value, bool flag = false)

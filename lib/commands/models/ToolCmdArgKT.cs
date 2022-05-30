@@ -4,20 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Defines a kinded argument
     /// </summary>
     public struct ToolCmdArg<K,T>
         where K : unmanaged
     {
-        public K Kind {get;}
+        public readonly K Kind;
 
-        public T Value {get;}
+        public readonly T Value;
 
         [MethodImpl(Inline)]
         public ToolCmdArg(K kind, T value)

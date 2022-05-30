@@ -6,7 +6,6 @@ namespace Z0
 {
     partial class ProjectCmd
     {
-
         [CmdOp("tool/config")]
         public Outcome ConfigureTool(CmdArgs args)
         {

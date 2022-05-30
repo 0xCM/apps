@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using SQ = SymbolicQuery;
-
     partial struct Cmd
     {
         [Op, MethodImpl(Inline)]

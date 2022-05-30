@@ -12,7 +12,6 @@ namespace Z0
         void CheckParsers()
         {
             var count = Digital.parse("01001101", out GBlock64<BinaryDigit> dst);
-            //Write(Digital.format(slice(dst.Cells,0,count)));
             CheckDigitParsers();
         }
 

@@ -18,6 +18,8 @@ namespace Z0.llvm
 
         Toolset Toolset;
 
+        OmniScript OmniScript => Wf.OmniScript();
+
         public LlvmToolset()
         {
             Toolset = Toolset.Empty;
@@ -106,7 +108,7 @@ namespace Z0.llvm
                 ref readonly var tool = ref profile.Id;
                 if(profile.HelpCmd.IsEmpty)
                     continue;
-                dst.Add(Cmd.cmdline(tool, string.Format("{0} {1}", profile.Path.Format(PathSeparator.BS), profile.HelpCmd)));
+                dst.Add(ToolCmdLine.define(tool, string.Format("{0} {1}", profile.Path.Format(PathSeparator.BS), profile.HelpCmd)));
             }
             dst.Sort();
             return dst.ToArray();

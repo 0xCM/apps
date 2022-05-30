@@ -12,13 +12,15 @@
     <IntelCore>$(AppsRoot)intel.core/z0.intel.core.csproj</IntelCore>
 
     <Cli>$(TopDir)cli/z0.cli.csproj</Cli>
-    <Alloc>$(MSBuildThisFileDirectory)alloc/z0.alloc.csproj</Alloc>
-    <Archives>$(MSBuildThisFileDirectory)archives/z0.archives.csproj</Archives>
-    <Bits>$(MSBuildThisFileDirectory)bits/z0.bits.csproj</Bits>
-    <Lines>$(MSBuildThisFileDirectory)lines/z0.lines.csproj</Lines>
-    <Numbers>$(MSBuildThisFileDirectory)numbers/z0.numbers.csproj</Numbers>
-    <Expr>$(MSBuildThisFileDirectory)expr/z0.expr.csproj</Expr>
-    <Diagnostics>$(MSBuildThisFileDirectory)diagnostics/z0.diagnostics.csproj</Diagnostics>
+    <Commands>$(TopDir)commands/z0.commands.csproj</Commands>
+
+    <Alloc>$(TopDir)alloc/z0.alloc.csproj</Alloc>
+    <Archives>$(TopDir)archives/z0.archives.csproj</Archives>
+    <Bits>$(TopDir)bits/z0.bits.csproj</Bits>
+    <Lines>$(TopDir)lines/z0.lines.csproj</Lines>
+    <Numbers>$(TopDir)numbers/z0.numbers.csproj</Numbers>
+    <Expr>$(TopDir)expr/z0.expr.csproj</Expr>
+    <Diagnostics>$(TopDir)diagnostics/z0.diagnostics.csproj</Diagnostics>
     <Archives>$(MSBuildThisFileDirectory)archives/z0.archives.csproj</Archives>
     <TestChecks>$(MSBuildThisFileDirectory)test/test.checks/z0.test.checks.csproj</TestChecks>
 

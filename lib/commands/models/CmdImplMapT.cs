@@ -4,13 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection;
-    using System.Runtime.CompilerServices;
-    using System.Collections.Generic;
-
-    using static Root;
-
     public class CmdImplMap<T>
     {
         Dictionary<T,MethodInfo> Data;

@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Defines a tool execution specification
     /// </summary>
@@ -23,6 +18,12 @@ namespace Z0
         {
             CmdId = id;
             Args = args;
+        }
+
+        public string CmdName
+        {
+            [MethodImpl(Inline)]
+            get => CmdId.Format();
         }
 
         public string Format()

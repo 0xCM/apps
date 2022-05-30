@@ -4,13 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct ResultCode
     {
-        public uint Value {get;}
+        public readonly uint Value;
 
         [MethodImpl(Inline)]
         public ResultCode(uint value)

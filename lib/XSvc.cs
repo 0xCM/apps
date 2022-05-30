@@ -18,10 +18,6 @@ namespace Z0
             => Z0.ScriptRunner.create(context.EnvPaths);
 
         [Op]
-        public static OmniScript OmniScript(this IWfRuntime wf)
-            => Z0.OmniScript.create(wf);
-
-        [Op]
         public static AppSettings AppSettings(this IWfRuntime wf)
             => Z0.AppSettings.create(wf);
 

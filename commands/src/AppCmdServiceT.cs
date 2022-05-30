@@ -8,10 +8,30 @@ namespace Z0
 
     using static core;
 
+    public class AppCmd
+    {
+        static MsgPattern EmptyArgList => "No arguments specified";
+
+        static MsgPattern ArgSpecError => "Argument specification error";
+
+        public static CmdArg arg(in CmdArgs src, int index)
+        {
+            if(src.IsEmpty)
+                sys.@throw(EmptyArgList.Format());
+
+            var count = src.Length;
+            if(count < index - 1)
+                sys.@throw(ArgSpecError.Format());
+            return src[(ushort)index];
+        }
+    }
+
     public abstract class AppCmdService<T> : AppService<T>, IAppCmdService, ICmdProvider
         where T : AppCmdService<T>, new()
     {
         public ICmdDispatcher Dispatcher {get; protected set;}
+
+        protected OmniScript OmniScript => Service(() => Z0.OmniScript.create(Wf));
 
         IWorkerLog Witness;
 
@@ -24,12 +44,99 @@ namespace Z0
             PromptTitle = "cmd";
         }
 
+        protected void UpdateToolEnv(out Settings dst)
+        {
+            var path = Tools.Toolbase + FS.file("show-env-config", FS.Cmd);
+            var cmd = Cmd.cmdline(path.Format(PathSeparator.BS));
+            dst = AppSettings.Load(OmniScript.RunCmd(cmd));
+        }
+
+        [CmdOp("env/vars")]
+        protected Outcome ShowEnvVars(CmdArgs args)
+        {
+            var vars = Z0.Env.vars();
+            iter(vars, v => Write(v));
+            return true;
+        }
+
+        [CmdOp("env/tools")]
+        protected Outcome ShowToolEnv(CmdArgs args)
+        {
+            LoadToolEnv(out var settings);
+            iter(settings, s => Write(s));
+            return true;
+        }
+
+        [CmdOp("env/logs")]
+        protected Outcome EnvLogs(CmdArgs args)
+        {
+            var result = Outcome.Success;
+            var ext = FS.ext("env") + FS.Log;
+            var paths = Ws.Tools().AdminFiles(ext);
+            var formatter = Tables.formatter<EnvVarSet>(16);
+            foreach(var path in paths)
+            {
+                result = EnvVarSet.parse(path, out var dst);
+                if(result.Fail)
+                    return result;
+                Write(formatter.Format(dst, RecordFormatKind.KeyValuePairs));
+            }
+
+            return result;
+        }
+
+        protected void DisplayCmdResponse(ReadOnlySpan<TextLine> src)
+        {
+            var count = src.Length;
+            if(count == 0)
+                Warn("No response to parse");
+
+            for(var i=0; i<count; i++)
+            {
+                if(CmdResponse.parse(skip(src,i).Content, out var response))
+                    Write(response);
+            }
+        }
+
+        protected static CmdArg arg(in CmdArgs src, int index)
+            => AppCmd.arg(src,index);
+
+        [CmdOp("tool/script")]
+        protected Outcome ToolScript(CmdArgs args)
+        {
+            var tool = (ToolId)arg(args,0).Value;
+            var script = Tools.Script(tool, arg(args,1).Value);
+            if(!script.Exists)
+                return (false, FS.missing(script));
+            else
+                return OmniScript.Run(script, out var _);
+        }
+
+        [CmdOp("tools/settings")]
+        protected Outcome ShowToolSettings(CmdArgs args)
+        {
+            ToolId tool = arg(args,0).Value;
+            var src = Tools.Logs(tool) + FS.file("config", FS.Log);
+            if(!src.Exists)
+                return (false,FS.missing(src));
+
+            var settings = AppSettings.Load(src);
+            iter(settings, setting => Write(setting));
+            return true;
+        }
+
+        protected void LoadToolEnv(out Settings dst)
+        {
+            var path = Tools.Toolbase + FS.file("env", FS.Settings);
+            dst = AppSettings.Load(path.ReadNumberedLines());
+        }
+
         protected virtual ICmdProvider[] CmdProviders(IWfRuntime wf)
             => array(this);
 
         protected override void OnInit()
         {
-            Dispatcher = CmdActionDispatcher.discover(CmdProviders(Wf), DispatchFallback);
+            Dispatcher = CmdActions.dispatcher(CmdProviders(Wf), DispatchFallback);
             ProjectWs = Ws.Projects();
             Witness = Loggers.worker(controller().Id(), ProjectDb.Home(), typeof(T).Name);
         }
@@ -70,14 +177,6 @@ namespace Z0
             iter(settings, s => Write(s.Format()));
             return result;
         }
-
-        // [CmdOp("tools/profiles")]
-        // protected Outcome ShowToolProfiles(CmdArgs args)
-        // {
-        //     iter(ToolProfiles.Values, profile => Write(string.Format("{0,-12} {1,-32} {2}", profile.Memberhisp, profile.Id, profile.Path)));
-        //     return true;
-        // }
-
 
         [CmdOp("cmd/cd")]
         protected Outcome ChangeDir(CmdArgs args)

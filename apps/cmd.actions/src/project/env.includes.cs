@@ -8,6 +8,13 @@ namespace Z0
 
     partial class ProjectCmd
     {
+        protected void LoadToolEnv(out Settings dst)
+        {
+            var path = Tools.Toolbase + FS.file("env", FS.Settings);
+            dst = AppSettings.Load(path.ReadNumberedLines());
+        }
+
+
         [CmdOp("env/includes")]
         Outcome LoadToolEnv(CmdArgs args)
         {

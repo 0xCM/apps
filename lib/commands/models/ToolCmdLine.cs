@@ -4,19 +4,21 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public struct ToolCmdLine : IComparable<ToolCmdLine>
     {
-        public ToolId Tool {get;}
+        [MethodImpl(Inline), Op]
+        public static ToolCmdLine define(ToolId tool, params string[] src)
+            => new ToolCmdLine(tool, Cmd.cmdline(src));
 
-        public CmdModifier Modifier {get;}
+        [MethodImpl(Inline), Op]
+        public static ToolCmdLine define(ToolId tool, CmdModifier modifier, params string[] src)
+            => new ToolCmdLine(tool, modifier, Cmd.cmdline(src));
 
-        public CmdLine Command {get;}
+        public readonly ToolId Tool;
+
+        public readonly CmdModifier Modifier;
+
+        public readonly CmdLine Command;
 
         [MethodImpl(Inline)]
         public ToolCmdLine(ToolId tool, CmdLine cmd)

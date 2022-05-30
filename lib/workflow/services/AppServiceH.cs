@@ -92,8 +92,6 @@ namespace Z0
 
         protected IToolWs Tools => Service(Ws.Tools);
 
-        public OmniScript OmniScript => Service(Wf.OmniScript);
-
         protected ScriptRunner ScriptRunner => Service(Wf.ScriptRunner);
 
         protected CmdLineRunner CmdRunner => Service(Wf.CmdLineRunner);
@@ -161,9 +159,6 @@ namespace Z0
                 iter(src, path => Write(path.ToUri()));
             return Files();
         }
-
-        protected void RedirectEmissions(string name, FS.FolderPath dst)
-            => Wf.RedirectEmissions(Loggers.emission(name, dst));
 
         protected bool Check<T>(Outcome<T> outcome, out T payload)
         {
@@ -296,19 +291,6 @@ namespace Z0
             return count;
         }
 
-        protected void UpdateToolEnv(out Settings dst)
-        {
-            var path = Tools.Toolbase + FS.file("show-env-config", FS.Cmd);
-            var cmd = Cmd.cmdline(path.Format(PathSeparator.BS));
-            dst = AppSettings.Load(OmniScript.RunCmd(cmd));
-        }
-
-        protected void LoadToolEnv(out Settings dst)
-        {
-            var path = Tools.Toolbase + FS.file("env", FS.Settings);
-            dst = AppSettings.Load(path.ReadNumberedLines());
-        }
-
         protected FS.Files ProjectFiles(IProjectWs ws, Subject? scope)
         {
             if(scope != null)
@@ -317,116 +299,14 @@ namespace Z0
                 return ws.SrcFiles();
         }
 
-        protected static CmdArg arg(in CmdArgs src, int index)
-        {
-            if(src.IsEmpty)
-                sys.@throw(EmptyArgList.Format());
-
-            var count = src.Length;
-            if(count < index - 1)
-                sys.@throw(ArgSpecError.Format());
-            return src[(ushort)index];
-        }
-
-        [CmdOp("env/logs")]
-        protected Outcome EnvLogs(CmdArgs args)
-        {
-            var result = Outcome.Success;
-            var ext = FS.ext("env") + FS.Log;
-            var paths = Ws.Tools().AdminFiles(ext);
-            var formatter = Tables.formatter<EnvVarSet>(16);
-            foreach(var path in paths)
-            {
-                result = EnvVarSet.parse(path, out var dst);
-                if(result.Fail)
-                    return result;
-                Write(formatter.Format(dst, RecordFormatKind.KeyValuePairs));
-            }
-
-            return result;
-        }
-
-        [CmdOp("env/vars")]
-        protected Outcome ShowEnvVars(CmdArgs args)
-        {
-            var vars = Z0.Env.vars();
-            iter(vars, v => Write(v));
-            return true;
-        }
-
-        [CmdOp("env/tools")]
-        protected Outcome ShowToolEnv(CmdArgs args)
-        {
-            LoadToolEnv(out var settings);
-            iter(settings, s => Write(s));
-            return true;
-        }
-
-        [CmdOp("tools/settings")]
-        protected Outcome ShowToolSettings(CmdArgs args)
-        {
-            ToolId tool = arg(args,0).Value;
-            var src = Tools.Logs(tool) + FS.file("config", FS.Log);
-            if(!src.Exists)
-                return (false,FS.missing(src));
-
-            var settings = AppSettings.Load(src);
-            iter(settings, setting => Write(setting));
-            return true;
-        }
-
-        [CmdOp("tool/script")]
-        protected Outcome ToolScript(CmdArgs args)
-        {
-            var tool = (ToolId)arg(args,0).Value;
-            var script = Tools.Script(tool, arg(args,1).Value);
-            if(!script.Exists)
-                return (false, FS.missing(script));
-            else
-                return OmniScript.Run(script, out var _);
-        }
-
         protected FS.FolderPath CgRoot
             => Env.ZDev + FS.folder("codegen");
 
         protected FS.FolderPath CgDir(string id)
             => CgRoot + FS.folder(id);
+
         protected FS.FilePath CgProject(string id)
             => CgDir(id) + FS.file(string.Format("z0.{0}",id), FS.CsProj);
-
-        protected void DisplayCmdResponse(ReadOnlySpan<TextLine> src)
-        {
-            var count = src.Length;
-            if(count == 0)
-                Warn("No response to parse");
-
-            for(var i=0; i<count; i++)
-            {
-                if(CmdResponse.parse(skip(src,i).Content, out var response))
-                    Write(response);
-            }
-        }
-
-        protected Outcome ShowSyms<K>(Symbols<K> src)
-            where K : unmanaged
-        {
-            const string Pattern1 = "{0,-4} {1}";
-            const string Pattern2 = "{0,-4} {1}('{2}')";
-            var count = src.Length;
-            var view = src.View;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var symbol = ref skip(view,i);
-                var key = symbol.Key;
-                var name = symbol.Name;
-                var expr = symbol.Expr.Format();
-                if(name.Equals(expr))
-                    Write(string.Format(Pattern1, key, expr));
-                else
-                    Write(string.Format(Pattern2, key, name, expr));
-            }
-            return true;
-        }
 
         protected virtual void OnInit()
         {
@@ -482,9 +362,7 @@ namespace Z0
             lock(_ApiLocker)
             {
                 if(_ApiCatalog == null)
-                {
                     _ApiCatalog = ApiRuntimeLoader.catalog(true);
-                }
             }
             return _ApiCatalog;
         }
@@ -502,9 +380,5 @@ namespace Z0
             dst = (D)_ServiceState[key];
             return ref dst;
         }
-
-        static MsgPattern EmptyArgList => "No arguments specified";
-
-        static MsgPattern ArgSpecError => "Argument specification error";
     }
 }

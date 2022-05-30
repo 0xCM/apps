@@ -4,16 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    public readonly struct CmdJob : ITextual
+    public readonly struct CmdJob
     {
-        public Name Name {get;}
+        public readonly Name Name;
 
-        public TextBlock Spec {get;}
+        public readonly TextBlock Spec;
 
         [MethodImpl(Inline)]
         public CmdJob(Name name, TextBlock spec)

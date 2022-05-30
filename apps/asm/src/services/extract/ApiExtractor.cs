@@ -124,7 +124,7 @@ namespace Z0
         {
             Channel = receivers;
             PackArchive = ApiPackArchive.create(pack.Root);
-            RedirectEmissions("capture", pack.Root);
+            Wf.RedirectEmissions("capture", pack.Root);
             ClearTargets(pack);
             ResolveParts(pack);
             ExtractParts(pack);

@@ -1,1 +1,3 @@
-dotnet build %~dp0..\z0.asm.core.csproj -c Release
+@echo off
+call %~dp0config.cmd
+call %BuildAppLibCmd%

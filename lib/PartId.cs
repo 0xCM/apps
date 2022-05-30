@@ -186,6 +186,9 @@ public enum PartId : byte
     [Symbol("alloc")]
     Alloc,
 
+    [Symbol("commands")]
+    Commands,
+
     // ~ Generated 100 .. 127
     // ~ -------------------------------------------------------------------------------
 

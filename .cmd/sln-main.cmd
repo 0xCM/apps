@@ -9,6 +9,7 @@ dotnet sln %SlnPath% add %LibDir%/z0.lib.csproj
 dotnet sln %SlnPath% add %TopDir%/alloc/z0.alloc.csproj
 dotnet sln %SlnPath% add %TopDir%/archives/z0.archives.csproj
 dotnet sln %SlnPath% add %TopDir%/bits/z0.bits.csproj
+dotnet sln %SlnPath% add %TopDir%/commands/z0.commands.csproj
 dotnet sln %SlnPath% add %TopDir%/diagnostics/z0.diagnostics.csproj
 dotnet sln %SlnPath% add %TopDir%/expr/z0.expr.csproj
 dotnet sln %SlnPath% add %TopDir%/extract/z0.extract.csproj

@@ -32,6 +32,9 @@ namespace Z0
         public static AsmEtl AsmEtl(this IWfRuntime context)
             => Asm.AsmEtl.create(context);
 
+        public static void RedirectEmissions(this IWfRuntime wf, string name, FS.FolderPath dst)
+            => wf.RedirectEmissions(Loggers.emission(name, dst));
+
         public static ApiExtractor ApiExtractor(this IWfRuntime wf)
             => Services.ApiExtractor(wf);
 

@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct EventId : IWfEventId<EventId>
     {
         [MethodImpl(Inline)]
@@ -21,9 +16,9 @@ namespace Z0
             get => new EventId(EmptyString, Timestamp.Zero);
         }
 
-        public string Identifier {get;}
+        public string Identifier { get; }
 
-        public Timestamp Ts {get;}
+        public Timestamp Ts { get; }
 
         const string PatternBase = "{0} | {1,-18}";
 

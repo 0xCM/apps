@@ -9,6 +9,7 @@ namespace Z0
     {
         public virtual ToolId Id {get;}
 
+        protected OmniScript OmniScript => Service(() => Z0.OmniScript.create(Wf));
 
         protected ToolService(ToolId id)
         {

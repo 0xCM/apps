@@ -9,13 +9,14 @@ namespace Z0
     public abstract class CmdDispatcher<T> : AppService<T>
         where T : CmdDispatcher<T>,new()
     {
+
         public ICmdDispatcher Dispatcher {get; protected set;}
 
         protected abstract ICmdProvider[] CmdProviders(IWfRuntime wf);
 
         protected override void OnInit()
         {
-            Dispatcher = CmdActionDispatcher.discover(CmdProviders(Wf), DispatchFallback);
+            Dispatcher = CmdActions.dispatcher(CmdProviders(Wf), DispatchFallback);
         }
 
         protected virtual Outcome DispatchFallback(string command, CmdArgs args)

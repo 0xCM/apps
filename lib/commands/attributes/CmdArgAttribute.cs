@@ -11,19 +11,15 @@ namespace Z0
     {
         public CmdArgAttribute(string expr, object missing = null)
         {
-            //Position = 0;
             Expression = expr;
             Missing = missing == null ? Option.none<object>() : missing;
         }
 
         public CmdArgAttribute()
         {
-            //Position = 0;
             Expression = string.Empty;
             Missing = Option.none<object>();
         }
-
-        //public int Position {get;}
 
         public Option<object> Missing {get;}
 

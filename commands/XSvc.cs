@@ -4,9 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [CmdProvider]
-    public abstract class AppCmdProvider<T> : AppService<T>, ICmdProvider
-        where T : AppCmdProvider<T>, new()
+    public static class XSvc
     {
+        // sealed class Svc : AppServices<Svc>
+        // {
+        // }
+
+        // static Svc Services => Svc.Instance;
+
+
     }
 }
