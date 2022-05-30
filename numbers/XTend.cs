@@ -75,5 +75,8 @@ namespace Z0
         public static string Delimit<T>(this Index<T> src, string sep, short pad = 0)
             => (src.View).Delimit(sep,pad);
 
+        public static string Format<C>(this C src)
+            where C : struct, ICmd<C>
+                => Cmd.format(src);
     }
 }

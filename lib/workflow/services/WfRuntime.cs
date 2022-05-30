@@ -15,8 +15,6 @@ namespace Z0
 
         public IEventBroker EventBroker {get;}
 
-        public ICmdRouter Router {get;}
-
         public string[] Args {get;}
 
         public IAppPaths AppPaths {get;}
@@ -51,7 +49,6 @@ namespace Z0
             Context = config.Shell;
             Id = config.ControlId;
             Ct = PartToken.create(config.ControlId);
-            //EventSink = Loggers.events(config.LogConfig);
             EventBroker = WfBroker.create(config.LogConfig);
             Host = new WfHost(typeof(WfRuntime), typeof(WfRuntime));
             Polysource = default;
@@ -63,7 +60,6 @@ namespace Z0
             ApiCatalog = config.ApiParts.Catalog;
             Controller = config.Control;
             AppName = config.Shell.AppName;
-            Router = new WfCmdRouter(this);
             Emissions = Loggers.emission(config.LogConfig.LogId, Env);
         }
 

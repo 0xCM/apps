@@ -8,6 +8,8 @@ namespace Z0
 
     public sealed class Reactor : GlobalService<Reactor,int>
     {
+        CmdDispatch Dispatcher;
+
         public static void dispatch(string[] args)
         {
             try
@@ -39,6 +41,7 @@ namespace Z0
         protected override Reactor Init(out int state)
         {
             state = 0;
+            Dispatcher = CmdDispatch.create(Wf,CmdDispatch.reactors(Wf));
             return this;
         }
 
@@ -52,7 +55,7 @@ namespace Z0
             var name =  first(args).Content;
             var path = args.Length >= 2 ? args[1].Content : EmptyString;
             cmd.ScriptPath = FS.path(path);
-            Wf.Execute(cmd);
+            Dispatcher.Run(cmd);
         }
     }
 }

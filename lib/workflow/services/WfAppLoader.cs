@@ -8,14 +8,14 @@ namespace Z0
 
     public readonly struct WfAppLoader
     {
-        [Op]
-        public static Index<ICmdReactor> reactors(IWfRuntime wf)
-        {
-            var types = wf.Components.Types();
-            var reactors = types.Concrete().Tagged<CmdReactorAttribute>().Select(t => (ICmdReactor)Activator.CreateInstance(t));
-            iter(reactors, r => r.Init(wf));
-            return reactors;
-        }
+        // [Op]
+        // public static Index<ICmdReactor> reactors(IWfRuntime wf)
+        // {
+        //     var types = wf.Components.Types();
+        //     var reactors = types.Concrete().Tagged<CmdReactorAttribute>().Select(t => (ICmdReactor)Activator.CreateInstance(t));
+        //     iter(reactors, r => r.Init(wf));
+        //     return reactors;
+        // }
 
         public static IWfRuntime load(string logname = EmptyString, bool libonly = true)
             => create(ApiRuntimeLoader.parts(controller(), libonly), array<string>(), logname);
@@ -40,9 +40,9 @@ namespace Z0
                 term.inform(AppMsg.status(TextProp.define("Parts", text.embrace(text.join(RP.CommaJoin, ctx.PartIdentities)))));
 
             var wf = new WfRuntime(new WfInit(ctx, Loggers.configure(ctx.ControlId, ctx.Paths.Root, logname), ctx.PartIdentities));
-            var react = reactors(wf);
-            if(react.IsNonEmpty)
-                wf.Router.Enlist(react);
+            // var react = reactors(wf);
+            // if(react.IsNonEmpty)
+            //     wf.Router.Enlist(react);
 
             term.inform(AppMsg.status(InitializedRuntime.Format(now(), clock.Elapsed())));
 

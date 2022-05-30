@@ -8,15 +8,15 @@ namespace Z0
     {
         [MethodImpl(Inline)]
         public static LocatedSymbol anonymous(MemoryAddress location)
-            => new LocatedSymbol(SymAddress.define(location), Label.Empty);
+            => new LocatedSymbol(Symbolic.address(location), Label.Empty);
 
         [MethodImpl(Inline)]
         public static LocatedSymbol define(MemoryAddress location, Label name)
-            => new LocatedSymbol(SymAddress.define(location),name);
+            => new LocatedSymbol(Symbolic.address(location),name);
 
         [MethodImpl(Inline)]
         public static LocatedSymbol define(uint selector, MemoryAddress location, Label name)
-            => new LocatedSymbol(SymAddress.define(selector,location), name);
+            => new LocatedSymbol(Symbolic.address(selector,location), name);
 
         [MethodImpl(Inline)]
         public static LocatedSymbol define(SymAddress location, Label name)

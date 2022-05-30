@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    partial class Heaps
+    partial class Symbolic
     {
         [MethodImpl(Inline), Op]
         public static uint charcount(ReadOnlySpan<SymLiteralRow> src)

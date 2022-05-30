@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public sealed class WfSelfHost : WfHost<WfSelfHost>
     {
         protected override void Execute(IWfRuntime shell)

@@ -26,7 +26,6 @@ namespace Z0
         public void Emit(SymHeap src)
             => AppSvc.TableEmit(CalcHeapEntries(src), ApiTargets().Table<SymHeapEntry>(), TextEncodingKind.Unicode);
 
-
         [MethodImpl(Inline)]
         public static ReadOnlySpan<byte> serialize<K,O,L>(in HeapEntry<K,O,L> src)
             where K : unmanaged

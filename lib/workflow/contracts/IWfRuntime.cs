@@ -32,8 +32,6 @@ namespace Z0
 
         IEventBroker EventBroker {get;}
 
-        ICmdRouter Router {get;}
-
         IPolySource Polysource {get;}
 
         WfHost Host {get;}
@@ -51,7 +49,6 @@ namespace Z0
         IWfEmissionLog Emissions {get;}
 
         void RedirectEmissions(IWfEmissionLog dst);
-
         void Disposed()
         {
             if(Verbosity.IsBabble())
@@ -127,11 +124,11 @@ namespace Z0
         WfFileWritten Flow(FS.FilePath dst)
             => new WfFileWritten(this, dst, NextExecToken());
 
-        Task<CmdResult> Dispatch(ICmd cmd)
-            => Task.Factory.StartNew(() => Router.Dispatch(cmd));
+        // Task<CmdResult> Dispatch(ICmd cmd)
+        //     => Task.Factory.StartNew(() => Router.Dispatch(cmd));
 
-        CmdResult Execute(ICmd cmd)
-            => Router.Dispatch(cmd);
+        // CmdResult Execute(ICmd cmd)
+        //     => Router.Dispatch(cmd);
 
         /// <summary>
         /// Provides a <see cref='IWfDb'/> rooted at a shell-configured location

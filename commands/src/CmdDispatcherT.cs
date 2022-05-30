@@ -9,7 +9,6 @@ namespace Z0
     public abstract class CmdDispatcher<T> : AppService<T>
         where T : CmdDispatcher<T>,new()
     {
-
         public ICmdDispatcher Dispatcher {get; protected set;}
 
         protected abstract ICmdProvider[] CmdProviders(IWfRuntime wf);

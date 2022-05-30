@@ -6,14 +6,6 @@ namespace Z0
 {
     public readonly struct SymAddress : IEquatable<SymAddress>, IComparable<SymAddress>, INullity
     {
-        [MethodImpl(Inline)]
-        public static SymAddress define(uint selector, MemoryAddress address)
-            => new SymAddress(selector, address);
-
-        [MethodImpl(Inline)]
-        public static SymAddress define(MemoryAddress address)
-            => new SymAddress(0, address);
-
         public readonly uint Selector;
 
         public readonly MemoryAddress Address;

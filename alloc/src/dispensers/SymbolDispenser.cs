@@ -46,7 +46,7 @@ namespace Z0
         }
 
         public LocatedSymbol DispenseSymbol(MemoryAddress location, string name)
-            => DispenseSymbol(SymAddress.define(location), name);
+            => DispenseSymbol(Symbolic.address(location), name);
 
         public LocatedSymbol DispenseSymbol(SymAddress location, string name)
             => new LocatedSymbol(location, DispenseLabel(name));

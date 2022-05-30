@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial class Heaps
     {
         [MethodImpl(Inline), Op, Closures(Closure)]

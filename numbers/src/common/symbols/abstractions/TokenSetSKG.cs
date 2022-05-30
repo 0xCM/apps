@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     public abstract class TokenSet<S,K,G>
         where K : unmanaged, Enum
         where S : TokenSet<S,K,G>, new()
@@ -15,29 +13,6 @@ namespace Z0
             => new S();
 
         public readonly G Group = new();
-
-        protected TokenSet()
-        {
-            // Kinds = Symbols.index<K>();
-            // KindCount = Kinds.Count;
-            // var types = typeof(G).GetNestedTypes().Enums().Tagged<SymSourceAttribute>();
-
-            // _TypeKinds = types.Select(t => (t, t.Tag<TokenKindAttribute<K>>().Require().Kind)).ToDictionary();
-
-            // _Tokens = alloc<Index<Token>>(Kinds.Count);
-            // for(var i=0u; i<Kinds.Count; i++)
-            //     _Tokens[@as<K>(i)] = sys.empty<Token>();
-
-
-            // var counter = 0u;
-            // for(var i=0; i<types.Length; i++)
-            // {
-            //     var kind = _TypeKinds[skip(types,i)];
-            //     _Tokens[kind] = Symbols.tokenize(skip(types,i));
-            //     counter += _Tokens[kind].Count;
-            // }
-            // TokenCount = counter;
-        }
 
         public uint TokenCount
         {

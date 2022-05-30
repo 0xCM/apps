@@ -14,7 +14,7 @@ namespace Z0
         {
             ObjSymClass @class = row.Code;
             var selector = math.or((ushort)row.OriginId, (uint)(@class.Pack() << 16));
-            return SymAddress.define(selector, row.Offset);
+            return Symbolic.address(selector, row.Offset);
         }
 
         [MethodImpl(Inline), Op]
@@ -23,7 +23,7 @@ namespace Z0
             var lo = (ushort)row.OriginId;
             var section = row.Section > Pow2.T15 ? (ushort) ((ushort.MaxValue - row.Section) + byte.MaxValue) : row.Section;
             var hi = math.or((ushort)(byte)row.SymSize, (ushort)(section<<8));
-            return SymAddress.define(math.or((uint)lo, (uint)hi << 16), row.Value);
+            return Symbolic.address(math.or((uint)lo, (uint)hi << 16), row.Value);
         }
 
         public static LocatedSymbols symbolize(ReadOnlySpan<ObjSymRow> src, SymbolDispenser dispenser)

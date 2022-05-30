@@ -12,9 +12,9 @@ namespace Z0
 
         uint k;
 
-        public ushort Segment {get;}
+        public readonly uint Segment {get;}
 
-        internal SymStore(ushort seg, T[] buffer)
+        internal SymStore(uint seg, T[] buffer)
         {
             Segment = seg;
             Data = buffer;
@@ -43,7 +43,7 @@ namespace Z0
             if(k < Capacity - 1)
             {
                 Data[k] = src;
-                dst = new SymRef(Segment,(ushort)k);
+                dst = new SymRef((ushort)Segment,(ushort)k);
                 k++;
                 return true;
             }

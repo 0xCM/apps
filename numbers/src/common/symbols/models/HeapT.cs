@@ -12,8 +12,6 @@ namespace Z0
 
         readonly Index<uint> Offsets;
 
-        //internal readonly uint LastSegment;
-
         public readonly uint SegCount;
 
         [MethodImpl(Inline)]
@@ -21,7 +19,6 @@ namespace Z0
         {
             Data = src;
             Offsets = offsets;
-            //LastSegment = (uint)offsets.Length - 1;
             SegCount = (uint)Require.equal(src.Length, offsets.Length);
         }
 

@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    partial class Heaps
+    partial class Symbolic
     {
         /// <summary>
         /// Discovers the symbolic literals for parametrically-identified symbol type

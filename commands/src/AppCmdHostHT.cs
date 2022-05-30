@@ -13,10 +13,12 @@ namespace Z0
     {
         static bool CommandsRegistered;
 
+        ICmdRouter Router;
+
         public CmdResult Run(K kind)
         {
             if(Cmd.find(kind, out var cmd))
-                return Wf.Router.Dispatch(cmd.Enclosed);
+                return Router.Dispatch(cmd.Enclosed);
             else
                 return Cmd.fail(cmd.Enclosed);
         }
@@ -31,6 +33,7 @@ namespace Z0
         protected override void Initialized()
         {
             Index = CmdIndex.create();
+            Router = CmdDispatch.create(Wf);
             if(!CommandsRegistered)
             {
                 RegisterCommands(Index);
