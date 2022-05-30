@@ -64,7 +64,7 @@ namespace Z0
             {
                 ref readonly var type = ref types[i];
                 var tag = type.Tag<LiteralProviderAttribute>().Require();
-                seek(dst,i) = new (text.ifempty(tag.Name, type.Name), type, type.Assembly.Id());
+                seek(dst,i) = new (text.ifempty(tag.Group, type.Name), type, type.Assembly.Id());
             }
             return dst;
         }

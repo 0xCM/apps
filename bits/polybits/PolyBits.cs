@@ -140,7 +140,7 @@ namespace Z0
         public void EmitPatterns(Type src)
         {
             var attrib = src.Tag<LiteralProviderAttribute>();
-            var name = attrib ? text.ifempty(attrib.Value.Name, src.Name) : src.Name;
+            var name = attrib ? text.ifempty(attrib.Value.Group, src.Name) : src.Name;
             var patterns = BitPatterns.reflected(src);
             EmitDescriptions(name, patterns);
             EmitRecords(name, patterns);

@@ -10,44 +10,44 @@ namespace Z0
     [AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class)]
     public class LiteralProviderAttribute : Attribute
     {
+        public string Group {get;}
+
+        public uint Kind {get;}
+
         public LiteralProviderAttribute()
         {
-            Name = EmptyString;
+            Group = EmptyString;
             Kind = 0;
         }
 
-        public LiteralProviderAttribute(string name)
+        public LiteralProviderAttribute(string group)
         {
-            Name = name;
+            Group = group;
             Kind = 0;
         }
 
         public LiteralProviderAttribute(ClrLiteralKind kind)
         {
-            Name = EmptyString;
+            Group = EmptyString;
             Kind = (byte)kind;
         }
 
         public LiteralProviderAttribute(ClrEnumKind kind)
         {
-            Name = EmptyString;
+            Group = EmptyString;
             Kind = (uint)kind << 8;
         }
 
-        public LiteralProviderAttribute(string name, ClrLiteralKind kind)
+        public LiteralProviderAttribute(string group, ClrLiteralKind kind)
         {
-            Name = name;
+            Group = group;
             Kind = (byte)kind;
         }
 
-        public LiteralProviderAttribute(string name, ClrEnumKind kind)
+        public LiteralProviderAttribute(string group, ClrEnumKind kind)
         {
-            Name = name;
+            Group = group;
             Kind = (uint)kind << 8;
         }
-
-        public string Name {get;}
-
-        public uint Kind {get;}
     }
 }

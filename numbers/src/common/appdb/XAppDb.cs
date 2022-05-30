@@ -48,14 +48,5 @@ namespace Z0
 
         public static DbSources CpuIdSources(this IAppDb db)
             => db.IntelSources().Scoped("sde.cpuid");
-
-        // public static DbSources IntelNotationDocs(this IAppDb db)
-        //     => db.IntelSources().Scoped("notation");
-
-        // public static DbSources IntelEncodingDocs(this IAppDb db)
-        //     => db.IntelSources().Scoped("encoding");
-
-        // public static DbSources MsSources(this IAppDb db)
-        //     => db.Sources("ms");
     }
 }

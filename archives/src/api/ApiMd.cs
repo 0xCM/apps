@@ -6,23 +6,73 @@ namespace Z0
 {
     using static core;
 
+    using K = ApiMdKind;
+
     public enum ApiMdKind : byte
     {
         None,
 
-        Catalog,
-
         Components,
 
-        Parts,
+        ApiParts,
 
-        Tokens,
+        ApiCommands,
+
+        ApiHosts,
 
         ApiTokens,
+
+        EnumTypes,
+
+        SymSources,
+
+        SymGroups,
+
+        ApiTables,
+
+        ApiTableFields,
+
+        DataTypes,
+
+        BitMasks,
+
+        DataFlows,
     }
 
     public sealed class ApiMd : AppService<ApiMd>
     {
+        const string msil = nameof(msil);
+
+        const string tokens = nameof(tokens);
+
+        public static Index<SymKindRow> symkinds<K>()
+            where K : unmanaged, Enum
+        {
+            var src = Symbols.index<K>();
+            var count = src.Count;
+            var dst = alloc<SymKindRow>(count);
+            symkinds(src, dst);
+            return dst;
+        }
+
+        public static uint symkinds<K>(in Symbols<K> src, Span<SymKindRow> dst)
+            where K : unmanaged
+        {
+            var symbols = src.View;
+            var count = (uint)min(symbols.Length, dst.Length);
+            var type = typeof(K).Name;
+            for(var i=0; i<count; i++)
+            {
+                ref var target = ref seek(dst,i);
+                ref readonly var symbol = ref skip(symbols,i);
+                target.Index = symbol.Key;
+                target.Value = bw64(symbol.Kind);
+                target.Type = type;
+                target.Name = symbol.Name;
+            }
+            return count;
+        }
+
         ApiJit Jit => Wf.Jit();
 
         MsilPipe MsilSvc => Wf.MsilSvc();
@@ -39,14 +89,8 @@ namespace Z0
         DbTargets ApiTargets(string scope)
             => AppDb.ApiTargets(scope);
 
-        ApiMembers HostMembers(IApiHost host)
-            => Jit.JitHost(host);
-
-        const string msil = nameof(msil);
-
-        const string tokens = nameof(tokens);
-
-        DbTargets MsilTargets() => ApiTargets(msil);
+        DbTargets MsilTargets()
+            => ApiTargets(msil);
 
         FS.FilePath MsilPath(ApiHostUri uri)
             => MsilTargets().Path(FS.hostfile(uri, FS.Il));
@@ -55,24 +99,24 @@ namespace Z0
             => ApiRuntimeCatalog;
 
         public Assembly[] Components
-            => Catalog.Components;
+            => data(K.Components,() => Catalog.Components);
 
         public Index<IPart> Parts
-            => Catalog.Parts;
+            => data(K.ApiParts, () => Catalog.Parts);
 
         public Type[] EnumTypes
-            => data("EnumTypes", () => Components
+            => data(K.EnumTypes, () => Components
                 .Enums()
                 .Where(x => x.ContainsGenericParameters == false && nonempty(x.Namespace)));
 
         public Index<Type> ApiTableTypes
-            => data(nameof(ApiTableTypes), () => Components.Types().Tagged<RecordAttribute>().Index());
+            => data(K.ApiTables, () => Components.Types().Tagged<RecordAttribute>().Index());
 
         public Index<TableField> ApiTableFields
-            => data("TableFields", CalcTableFields);
+            => data(K.ApiTableFields, CalcTableFields);
 
-        public Type[] SymTypes
-            => data("SymSources", () => EnumTypes.Tagged<SymSourceAttribute>());
+        public Type[] SymbolSources
+            => data(K.SymSources, () => EnumTypes.Tagged<SymSourceAttribute>());
 
         public Index<SymLiteralRow> SymLits
             => data(nameof(SymLiteralRow), () => Symbols.literals(ApiRuntimeCatalog.Components));
@@ -81,25 +125,31 @@ namespace Z0
             => Symbols.literals(src);
 
         public ConstLookup<string,Index<Type>> SymGroups
-            => data("SymGroups", CalcSymGroups);
+            => data(K.SymGroups, CalcSymGroups);
 
         public Index<IApiHost> ApiHosts
-            => data("ApiHosts", () => ApiRuntimeCatalog.ApiHosts.Index());
+            => data(K.ApiHosts, () => Catalog.ApiHosts.Index());
 
         public Index<DataTypeInfo> DataTypes
-            => data("DataTypes", () => Z0.DataTypes.describe(Components));
+            => data(K.DataTypes, () => Z0.DataTypes.describe(Components));
 
         public Index<ApiCmdRow> ApiCommands
-            => data("ApiCommands", CalcApiCommands);
+            => data(K.ApiCommands, CalcApiCommands);
 
         public Index<CompilationLiteral> ApiLiterals
             => data(nameof(CompilationLiteral), () => Literals.literals(Components));
 
         public Index<ApiFlowSpec> DataFlows
-            => data("DataFlows", CalcDataFlows);
+            => data(K.DataFlows, CalcDataFlows);
 
         public Index<BitMaskInfo> ApiBitMasks
-            => Data(nameof(BitMaskInfo), () => BitMask.masks(typeof(BitMaskLiterals)));
+            => Data(K.BitMasks, () => BitMask.masks(typeof(BitMaskLiterals)));
+
+        public ConstLookup<string,Index<SymInfo>> ApiTokens
+            => data(K.ApiTokens,CalcApiTokens);
+
+        public Index<ClrEnumRecord> EnumRecords(Assembly src)
+            => Data(src.GetSimpleName() + nameof(ClrEnumRecord), () => Enums.records(src));
 
         public void EmitDatasets()
         {
@@ -251,34 +301,6 @@ namespace Z0
             return buffer;
         }
 
-        public static Index<SymKindRow> symkinds<K>()
-            where K : unmanaged, Enum
-        {
-            var src = Symbols.index<K>();
-            var count = src.Count;
-            var dst = alloc<SymKindRow>(count);
-            symkinds(src, dst);
-            return dst;
-        }
-
-        public static uint symkinds<K>(in Symbols<K> src, Span<SymKindRow> dst)
-            where K : unmanaged
-        {
-            var symbols = src.View;
-            var count = (uint)min(symbols.Length, dst.Length);
-            var type = typeof(K).Name;
-            for(var i=0; i<count; i++)
-            {
-                ref var target = ref seek(dst,i);
-                ref readonly var symbol = ref skip(symbols,i);
-                target.Index = symbol.Key;
-                target.Value = bw64(symbol.Kind);
-                target.Type = type;
-                target.Name = symbol.Name;
-            }
-            return count;
-        }
-
         public void Emit(ReadOnlySpan<ApiCmdRow> src)
             => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<ApiCmdRow>());
 
@@ -337,7 +359,7 @@ namespace Z0
 
         Index<ApiCmdRow> CalcApiCommands()
         {
-            var types = Cmd.types(ApiRuntimeCatalog.Components);
+            var types = Cmd.types(Components);
             var buffer = list<ApiCmdRow>();
             foreach(var type in types)
             {
@@ -364,6 +386,9 @@ namespace Z0
         public ConstLookup<ApiHostUri,FS.FilePath> EmitMsil()
             => EmitMsil(ApiHosts);
 
+        ApiMembers JitHost(IApiHost host)
+            => Jit.JitHost(host);
+
         public ConstLookup<ApiHostUri,FS.FilePath> EmitMsil(ReadOnlySpan<IApiHost> hosts, DbTargets dst)
         {
             var buffer = text.buffer();
@@ -372,7 +397,7 @@ namespace Z0
             for(var i=0; i<hosts.Length; i++)
             {
                 ref readonly var host = ref skip(hosts, i);
-                var members = HostMembers(host);
+                var members = JitHost(host);
                 var count = members.Length;
                 if(members.Count == 0)
                     continue;
@@ -398,7 +423,7 @@ namespace Z0
             for(var i=0; i<hosts.Length; i++)
             {
                 ref readonly var host = ref skip(hosts, i);
-                var members = HostMembers(host);
+                var members = JitHost(host);
                 if(members.Count == 0)
                     continue;
 
@@ -417,52 +442,45 @@ namespace Z0
         {
             if(clear)
                 ApiTargets(tokens).Clear();
-
-            var lookup = CollectApiTokens();
+            var lookup = ApiTokens;
             var names = lookup.Keys;
             for(var i=0; i<names.Length; i++)
                 EmitApiTokens(skip(names,i), lookup[skip(names,i)]);
             return lookup;
         }
 
-
-        public ConstLookup<string,Index<SymInfo>> CollectApiTokens()
+        ConstLookup<string,Index<SymInfo>> CalcApiTokens()
         {
-            return Data(nameof(CollectApiTokens), Load);
-
-            ConstLookup<string,Index<SymInfo>> Load()
+            var types = SymbolSources;
+            var groups = dict<string,List<Type>>();
+            var individuals = list<Type>();
+            foreach(var type in types)
             {
-                var types = SymTypes;
-                var groups = dict<string,List<Type>>();
-                var individuals = list<Type>();
-                foreach(var type in types)
+                var tag = type.Tag<SymSourceAttribute>().Require();
+                var name = tag.SymGroup;
+                if(nonempty(name))
                 {
-                    var tag = type.Tag<SymSourceAttribute>().Require();
-                    var name = tag.SymGroup;
-                    if(nonempty(name))
-                    {
-                        if(groups.TryGetValue(name, out var list))
-                            list.Add(type);
-                        else
-                        {
-                            list = new();
-                            list.Add(type);
-                            groups[name] = list;
-                        }
-                    }
+                    if(groups.TryGetValue(name, out var list))
+                        list.Add(type);
                     else
-                        individuals.Add(type);
+                    {
+                        list = new();
+                        list.Add(type);
+                        groups[name] = list;
+                    }
                 }
-
-                var dst = dict<string,Index<SymInfo>>();
-                foreach(var g in groups.Keys)
-                    dst[g] = Symbols.syminfo(groups[g].ViewDeposited());
-
-                foreach(var i in individuals)
-                    dst[i.Name] = Symbols.syminfo(i);
-
-                return dst;
+                else
+                    individuals.Add(type);
             }
+
+            var dst = dict<string,Index<SymInfo>>();
+            foreach(var g in groups.Keys)
+                dst[g] = Symbols.syminfo(groups[g].ViewDeposited());
+
+            foreach(var i in individuals)
+                dst[i.Name] = Symbols.syminfo(i);
+
+            return dst;
         }
 
         public Index<Type> LoadTypes(FS.FilePath src)
@@ -481,16 +499,8 @@ namespace Z0
             return dst;
         }
 
-        public Index<ClrEnumRecord> EmitEnums(Assembly src, FS.FilePath dst)
-        {
-            var records = Enums.records(src);
-            if(records.Length != 0)
-                AppSvc.TableEmit(records, dst);
-            return records;
-        }
-
-        public Index<ClrEnumRecord> CalcEnumRecords(Assembly src)
-            => Data(src.GetSimpleName() + nameof(ClrEnumRecord), () => Enums.records(src));
+        public void Emit(ReadOnlySpan<ClrEnumRecord> src, FS.FilePath dst)
+            => AppSvc.TableEmit(src,dst);
 
         public Index<SymInfo> LoadTokens(string name)
         {
@@ -537,7 +547,7 @@ namespace Z0
 
         ConstLookup<string,Index<Type>> CalcSymGroups()
         {
-            var types = SymTypes.Index();
+            var types = SymbolSources.Index();
             var buffer = dict<string,List<Type>>();
             for(var i=0; i<types.Count; i++)
             {

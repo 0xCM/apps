@@ -20,7 +20,6 @@ namespace Z0
 
         HexEmitter HexEmitter => Wf.HexEmitter();
 
-
         const string il = nameof(il);
 
         [CmdOp("api/emit/hex")]
