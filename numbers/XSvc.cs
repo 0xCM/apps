@@ -46,6 +46,8 @@ namespace Z0
 
             public ApiHex ApiHex(IWfRuntime wf)
                 => Service<ApiHex>(wf);
+
+
         }
 
         static Svc Services => Svc.Instance;
@@ -94,5 +96,9 @@ namespace Z0
 
         public static AppDb AppDb(this IWfRuntime wf)
             => Services.AppDb(wf);
+
+        public static CheckRunner CheckRunner(this IWfRuntime wf)
+            => Services.CheckRunner(wf);
+
     }
 }

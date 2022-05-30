@@ -45,7 +45,7 @@ namespace Z0
                 var extracts = src[host];
                 foreach(var extract in extracts)
                 {
-                    var state = parser.Parse(extract.TargetExtract);
+                    parser.Parse(extract.TargetExtract);
                     dst.Include(new CollectedEncoding(extract.Token, parser.Parsed));
                     counter++;
                 }

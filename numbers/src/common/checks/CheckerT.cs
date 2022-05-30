@@ -7,12 +7,12 @@ namespace Z0
     using static core;
 
     [Checker]
-    public abstract class Checker<T> : AppService<T>, ICheckService
+    public abstract class Checker<T> : AppService<T>, IChecker
         where T : Checker<T>, new()
     {
-        readonly Index<MethodInfo> Methods;
+        readonly ConstLookup<string,MethodInfo> Methods;
 
-        readonly Index<Name> CheckNames;
+        public readonly Index<string> CheckSpecs;
 
         protected IPolySource Random;
 
@@ -22,34 +22,40 @@ namespace Z0
 
         AppSvcOps AppSvc => Wf.AppSvc();
 
+        readonly string SvcName;
+
         protected Checker()
         {
-            Methods = HostType.DeclaredPublicMethods().WithArity(0);
-            CheckNames = Methods.Select(x => (Name)x.DisplayName());
+            SvcName = Checkers.name(typeof(T));
+            var methods = cdict<string,MethodInfo>();
+            Checkers.methods(HostType,methods);
+            Methods = methods;
+            CheckSpecs = Methods.Keys.ToArray();
             Queue = EventQueue.allocate(GetType(), EventRaised);
         }
 
-        string FilePrefix => string.Format("{0}.{1}", typeof(T).Assembly.Id().Format(), typeof(T).Name);
+        FS.FileName FileName(string suffix, FileKind kind)
+            => FS.file(string.Format("{0}.{1}",SvcName, suffix), kind.Ext());
 
         FS.FilePath EventLogPath
-            => AppDb.Logs("checks").Path(FilePrefix + ".logs", FileKind.Log);
+            => AppDb.Logs("checks").Path(FileName("logs", FileKind.Log));
 
         FS.FilePath TablePath<R>()
             where R : struct
-                => AppDb.Logs("checks").Table<R>(FilePrefix);
+                => AppDb.Logs("checks").Table<R>(SvcName);
 
         FS.FilePath TablePath<R>(string label)
             where R : struct
-                => AppDb.Logs("checks").Table<R>(FilePrefix + $".{label}");
-
-        public ReadOnlySpan<Name> Checks
-            => CheckNames;
+                => AppDb.Logs("checks").Table<R>(SvcName + $".{label}");
 
         protected new void Write<X>(X src, FlairKind flair = FlairKind.Data)
             => Raise(EventFactory.data(src, flair));
 
         protected Action<object> Log
             => msg => Write(msg);
+
+        ref readonly Index<string> IChecker.Specs
+            => ref CheckSpecs;
 
         protected void Raise(IWfEvent e)
             => Queue.Deposit(e);
@@ -161,7 +167,7 @@ namespace Z0
         {
             try
             {
-                iter(Methods, Run, pll);
+                iter(Methods.Values, Run, pll);
             }
             catch(Exception e)
             {
@@ -185,11 +191,13 @@ namespace Z0
 
         public void Run(bool pll)
         {
+            var flow = Running($"Running {SvcName} checks");
             EventLogPath.Delete();
             Prepare();
             Execute(pll);
             EmitLog();
             Finish();
+            Ran(flow);
         }
 
         public void Run()

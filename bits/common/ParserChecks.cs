@@ -8,8 +8,6 @@ namespace Z0
 
     public class ParserChecks : Checker<ParserChecks>
     {
-        const uint ElementCount = 512;
-
         public Outcome CheckBitParser()
         {
             var count = 0;
@@ -43,29 +41,7 @@ namespace Z0
             return result;
         }
 
-        public Outcome CheckU8Parser()
-        {
-            var result = Outcome.Success;
-            var src = Random.Array<byte>(ElementCount);
-            var inputs = src.Select(x => x.ToString());
-            var parser = Wf.Parsers().ValueParser<byte>();
-            var count = src.Length;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var input = ref skip(inputs,i);
-                result = parser.Parse(input, out var output);
-                if(result.Fail)
-                    break;
+        Parsers Parsers => Wf.Parsers();
 
-                ref readonly var expect = ref skip(src,i);
-                if(output != expect)
-                {
-                    result = (false, string.Format("{0} != {1}", output, expect));
-                    break;
-                }
-            }
-
-            return result;
-        }
     }
 }

@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using static AsmEncodingRes;
     using static core;
 
     partial class AsmCases

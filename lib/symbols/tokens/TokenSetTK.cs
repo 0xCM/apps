@@ -38,7 +38,15 @@ namespace Z0
             var types = Types();
             var count = types.Length;
             for(var i=0; i<count; i++)
-                _Tokens.AddRange(Symbols.tokenize<K>(skip(types,i)).ToArray());
+            {
+                var tokens = Symbols.tokenize(skip(types,i));
+                for(var j=0; j<tokens.Count; j++)
+                {
+                    ref readonly var token = ref tokens[j];
+                }
+
+                //_Tokens.AddRange(Symbols.tokenize<K>(skip(types,i)));
+            }
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Z0.Asm
     {
         public static string identify(in AsmSigOp src)
         {
-            if(Datasets.TokenIdentifiers.Find(src.Id, out var id))
+            if(Datasets.Names.Find(src.Id, out var id))
             {
                 if(src.Modifier != 0)
                 {

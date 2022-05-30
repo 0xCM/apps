@@ -8,9 +8,6 @@ namespace Z0
     [ApiHost]
     public readonly partial struct CalcChecks
     {
-        [Op]
-        public static CalcChecker checker(IWfRuntime wf)
-            => CalcChecker.create(wf);
 
         public static string apply<K,T>(K k, T x, T y)
             where K : IApiClass

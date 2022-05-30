@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     using K = EncodingPatternKind;
@@ -90,7 +86,6 @@ namespace Z0
             if(State == S.Accepting && Offset < Buffer.Length)
             {
                 seek(Buffer, Offset++) = src;
-
                 if(TryMatch(out Outcome, out Delta))
                 {
                     if(Patterns.IsSuccessPattern(Outcome))
@@ -109,10 +104,9 @@ namespace Z0
             kind = default;
             delta = 0;
 
-            ref readonly var codes = ref first(Patterns.Kinds);
-            for(var i=0; i<Patterns.PatternCount; i++)
+            for(var i=0; i<Patterns.Count; i++)
             {
-                var match = skip(codes,i);
+                ref readonly var match = ref Patterns[i];
                 var pattern = Patterns.Pattern(match);
                 var len = pattern.Length;
                 var matched = Offset > len ? Buffer.Slice(Offset -  1 - len, len).EndsWith(pattern) : false;

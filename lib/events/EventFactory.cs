@@ -168,8 +168,8 @@ namespace Z0
                 => new RunningEvent<T>(host.StepId, data);
 
         [MethodImpl(Inline)]
-        public static RanEvent<T> ran<T>(WfHost host, T data, FlairKind flair = FlairKind.Ran)
-            => new RanEvent<T>(host.StepId, data, flair);
+        public static RanEvent<T> ran<T>(WfHost host, T data)
+            => new RanEvent<T>(host.StepId, data);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static DataEvent<T> data<T>(T data, FlairKind? flair = null)

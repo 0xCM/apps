@@ -7,7 +7,7 @@ namespace Z0.Asm
     partial class IntelSdm
     {
         public void EmitTokens()
-            => Emit(AsmTokens.data());
+            => Emit(AsmTokens.Tokens);
 
         public void Emit(AsmTokens src)
             => AppSvc.TableEmit(src.View, SdmPaths.Tokens());

@@ -25,7 +25,6 @@ namespace Z0
                 result = (eval1 == a1 && eval2 == b1);
 
                 var eq1 = Relations.eq(a1,b1);
-
                 context.Inject((v1,a2), (v2,b2));
                 var eval3 = v1.Eval(context);
                 var eval4 = v2.Eval(context);

@@ -27,6 +27,10 @@ namespace Z0.Asm
         [LiteralProvider]
         public readonly struct OpCodeText
         {
+            public const string W0 = "W0";
+
+            public const string W1 = "W1";
+
             public const string Rex = "REX";
 
             public const string RexR = "REX.R";
@@ -97,6 +101,10 @@ namespace Z0.Asm
 
             public const string cd = "cd";
 
+            public const string cp = "cp";
+
+            public const string co = "co";
+
             public const string ib = "ib";
 
             public const string iw = "iw";
@@ -138,6 +146,17 @@ namespace Z0.Asm
             public const string rd6 = "/6";
 
             public const string rd7 = "/7";
+
+            public const string mmmmm = "mmmmm";
+
+            public const string vvvv = "vvvv";
+
+            public const string pp = "pp";
+
+            public const string gs = "gs";
+
+            public const string fs = "fs";
+
         }
 
         [SymSource(Group), OcTokenKind(TK.Hex16)]
@@ -206,10 +225,10 @@ namespace Z0.Asm
             [Symbol(T.WIG)]
             WIG,
 
-            [Symbol("W0")]
+            [Symbol(T.W0)]
             W0,
 
-            [Symbol("W1")]
+            [Symbol(T.W1)]
             W1,
 
             [Symbol(T.n128)]
@@ -218,13 +237,13 @@ namespace Z0.Asm
             [Symbol(T.n256)]
             W256,
 
-            [Symbol("vvvv", "A register specifier in 1's complement form")]
+            [Symbol(T.vvvv, "A register specifier in 1's complement form")]
             vvvv,
 
-            [Symbol("mmmmm", "In a 3-byte vex prefix, indicates the least 5 bits of the middle byte")]
+            [Symbol(T.mmmmm, "In a 3-byte vex prefix, indicates the least 5 bits of the middle byte")]
             mmmmm,
 
-            [Symbol("pp", "opcode extension providing equivalent functionality of a SIMD prefix")]
+            [Symbol(T.pp, "opcode extension providing equivalent functionality of a SIMD prefix")]
             pp,
 
             [Symbol(T.Vsib)]
@@ -253,10 +272,10 @@ namespace Z0.Asm
             [Symbol(T.cd, "Indicates a 4-byte value follows the opcode to specify a code offset and/or new value for the code segment register")]
             cd,
 
-            [Symbol("cp", "Indicates a 6-byte value follows the opcode to specify a code offset and/or new value for the code segment register")]
+            [Symbol(T.cp, "Indicates a 6-byte value follows the opcode to specify a code offset and/or new value for the code segment register")]
             cp,
 
-            [Symbol("co", "Indicates an 8-byte value follows the opcode to specify a code offset and/or new value for the code segment register")]
+            [Symbol(T.co, "Indicates an 8-byte value follows the opcode to specify a code offset and/or new value for the code segment register")]
             co,
 
             [Symbol("ct", "Indicates a 10-byte value follows the opcode to specify a code offset and/or new value for the code segment register")]
@@ -278,10 +297,10 @@ namespace Z0.Asm
             [Symbol("es", "ES segment override")]
             ES,
 
-            [Symbol("fs", "FS segment override")]
+            [Symbol(T.fs, "FS segment override")]
             FS,
 
-            [Symbol("gs", "GS segment override")]
+            [Symbol(T.gs, "GS segment override")]
             GS,
         }
 
@@ -424,7 +443,6 @@ namespace Z0.Asm
 
             [Symbol(T.Dot)]
             Dot,
-
         }
 
         [SymSource(Group), OcTokenKind(TK.Sep)]
@@ -434,23 +452,24 @@ namespace Z0.Asm
             Sep,
         }
 
-        public enum RepKind : byte
-        {
-            [Symbol(T.F2)]
-            F2,
+        // [SymSource(Group), OcTokenKind(TK.Rep)]
+        // public enum RepKind : byte
+        // {
+        //     [Symbol(T.F2)]
+        //     F2,
 
-            [Symbol(T.F3)]
-            F3,
-        }
+        //     [Symbol(T.F3)]
+        //     F3,
+        // }
 
-        public enum SizeKind : byte
-        {
-            [Symbol(T.x66, "Indicates operand size override")]
-            OPSZ,
+        // [SymSource(Group), OcTokenKind(TK.Size)]
+        // public enum SizeKind : byte
+        // {
+        //     [Symbol(T.x66, "Indicates operand size override")]
+        //     OPSZ,
 
-            [Symbol(T.x67, "Indicates address size override")]
-            ADSZ,
-        }
-
+        //     [Symbol(T.x67, "Indicates address size override")]
+        //     ADSZ,
+        // }
     }
 }

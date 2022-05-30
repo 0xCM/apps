@@ -94,5 +94,15 @@ namespace Z0.Asm
         /// Classifies <see cref='SeparatorToken'/> tokens
         /// </summary>
         Sep,
+
+        /// <summary>
+        /// Classifies <see cref='RepKind'/> tokens
+        /// </summary>
+        Rep,
+
+        /// <summary>
+        /// Classifies <see cref='SizeKind'/> tokens
+        /// </summary>
+        Size,
     }
 }

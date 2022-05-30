@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     public readonly struct Demand
     {
         public static T eq<T>(T a, T b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
@@ -12,7 +14,6 @@ namespace Z0
             if(!a.Equals(b))
                 Fail.eq(a,b,caller,file,line);
             return a;
-
         }
 
         public static T eq<T>(string name, T a, T b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
@@ -74,6 +75,19 @@ namespace Z0
             var result = a.CompareTo(b);
             if(result <= 0)
                 Fail.ngt(name,a,b,caller,file,line);
+            return a;
+        }
+
+        public static ReadOnlySpan<T> eq<T>(ReadOnlySpan<T> a, ReadOnlySpan<T> b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
+            where T : IEquatable<T>
+        {
+            var count = eq(a.Length,b.Length, caller, file, line);
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var left = ref skip(a,i);
+                ref readonly var right = ref skip(b,i);
+                eq(left,right, caller,file, line);
+            }
             return a;
         }
     }

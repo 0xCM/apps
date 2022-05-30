@@ -101,6 +101,5 @@ namespace Z0
         static MsgPattern<FS.FileUri> LoadingSpanAccessors => "Loading respack accessors from {0}";
 
         static MsgPattern<Count,FS.FileUri> LoadedSpanAccessors => "Loaded {0} respack accessors from {1}";
-
     }
 }

@@ -6,8 +6,11 @@ namespace Z0.Asm
 {
     using static core;
 
-    public readonly struct AsmTokens
+    public class AsmTokens : AppService<AsmTokens>
     {
+        public static AsmTokens Tokens
+            => data("AsmTokens",AsmTokens.calc);
+
         public static bool unique(ReadOnlySpan<AsmToken> src, out AsmToken duplicate)
         {
             var dst = hashset<string>();
@@ -29,50 +32,23 @@ namespace Z0.Asm
             return result;
         }
 
-        [MethodImpl(Inline)]
-        public static AsmTokens data()
-            => Instance;
-
         public static bool sig(string expr, out AsmSigToken dst)
-            => data().SigToken(expr, out dst);
+            => Tokens.SigToken(expr, out dst);
 
         public static bool opcode(string expr, out AsmOcToken dst)
-            => data().OpCodeToken(expr, out dst);
+            => Tokens.OpCodeToken(expr, out dst);
 
-        static AsmTokens load()
+        Index<AsmToken> Data;
+
+        Dictionary<string,AsmToken> SigTokens;
+
+        Dictionary<string,AsmToken> OcTokens;
+
+        public AsmTokens()
         {
-            var sigs = AsmSigDatasets.tokens().View;
-            var sigcount = sigs.Length;
-            var opcodes = AsmOcDatasets.tokens().View;
-            var occount = opcodes.Length;
-            var count = sigcount + occount;
-            var buffer = alloc<AsmToken>(count);
-            var j=0u;
-            for(var i=0u; i<occount; i++,j++)
-            {
-                seek(buffer,j) = skip(opcodes,i);
-                seek(buffer,j).Seq = j;
-            }
-
-            for(var i=0u; i<sigcount; i++,j++)
-            {
-                seek(buffer,j) = skip(sigs,i);
-                seek(buffer,j).Seq = j;
-            }
-            return new AsmTokens(buffer);
-        }
-
-        readonly Index<AsmToken> Data;
-
-        readonly Dictionary<string,AsmToken> SigTokens;
-
-        readonly Dictionary<string,AsmToken> OcTokens;
-
-        AsmTokens(Index<AsmToken> src)
-        {
-            Data = src;
-            SigTokens = src.Where(x => x.ClassName == nameof(AsmSigToken)).Select(x => (x.Expression.Format(),x)).ToDictionary();
-            OcTokens = src.Where(x => x.ClassName == nameof(AsmOcToken)).Select(x => (x.Expression.Format(),x)).ToDictionary();
+            Data = sys.empty<AsmToken>();
+            SigTokens = dict<string,AsmToken>();
+            OcTokens = dict<string,AsmToken>();
         }
 
         public ReadOnlySpan<AsmToken> View
@@ -109,11 +85,31 @@ namespace Z0.Asm
             }
         }
 
-        static AsmTokens()
+        static AsmTokens calc()
         {
-            Instance = load();
-        }
+            var sigs = AsmSigDatasets.tokens();
+            var sigcount = sigs.Length;
+            var opcodes = AsmOcDatasets.tokens();
+            var occount = opcodes.Length;
+            var count = sigcount + occount;
+            var buffer = alloc<AsmToken>(count);
+            var j=0u;
+            for(var i=0u; i<occount; i++,j++)
+            {
+                seek(buffer,j) = opcodes[i];
+                seek(buffer,j).Seq = j;
+            }
 
-        static AsmTokens Instance;
+            for(var i=0u; i<sigcount; i++,j++)
+            {
+                seek(buffer,j) = sigs[i];
+                seek(buffer,j).Seq = j;
+            }
+            var dst = new AsmTokens();
+            dst.Data = buffer;
+            dst.SigTokens = sigs.Map(s => (s.Expression.Format(),s)).ToDictionary();
+            dst.OcTokens = opcodes.Map(s => (s.Expression.Format(),s)).ToDictionary();
+            return dst;
+        }
     }
 }

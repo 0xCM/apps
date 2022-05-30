@@ -70,6 +70,10 @@ namespace Z0
 
             public InstBlockImporter BlockImporter(IWfRuntime wf)
                 => Service<InstBlockImporter>(wf);
+
+            public IntelSdmPaths SdmPaths(IWfRuntime wf)
+                => Service<IntelSdmPaths>(wf);
+
         }
 
         static Svc Services => Svc.Instance;
@@ -141,7 +145,7 @@ namespace Z0
             => Asm.ProcessAsmBuffers.create(wf);
 
         public static IntelSdmPaths SdmPaths(this IWfRuntime wf)
-            => Asm.IntelSdmPaths.create(wf);
+            => Services.SdmPaths(wf);
 
         public static NasmCatalog NasmCatalog(this IWfRuntime wf)
             => Asm.NasmCatalog.create(wf);

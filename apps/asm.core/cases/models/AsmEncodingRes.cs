@@ -6,23 +6,6 @@ namespace Z0.Asm
 {
     public readonly struct AsmEncodingRes
     {
-        public static AsmEncodingCase @case(uint seq, AsmMnemonic monic, ResText oc, ResText sig, ResText statement, ResText encoding)
-        {
-            var dst = AsmEncodingCase.Empty;
-            dst.Seq = seq;
-            dst.Mnemonic = monic;
-            AsmParser.parse(oc.Format(), out dst.OpCode);
-            AsmParser.parse(encoding.Format(), out dst.Encoding);
-            AsmParser.parse(sig.Format(), out dst.Sig);
-            dst.Asm = statement.Format();
-            AsmParser.parse(encoding.Format(), out dst.Encoding);
-            return dst;
-        }
-
-        [MethodImpl(Inline), Op]
-        public static AsmEncodingRes resource(AsmMnemonic monic, ResText oc, ResText sig, ResText statement, ResText encoding)
-            => new AsmEncodingRes(monic, oc, sig, statement, encoding);
-
         public readonly AsmMnemonic Mnemonic;
 
         public readonly ResText OpCode;

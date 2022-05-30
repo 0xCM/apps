@@ -4,17 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface ICheckRunner
+    public interface IChecker
     {
         void Run();
 
         void Run(bool pll);
-    }
 
-    public interface ICheckService : ICheckRunner
-    {
-        Identifier Name => GetType().Name;
+        ref readonly Index<string> Specs {get;}
 
-        ReadOnlySpan<Name> Checks {get;}
+        string Name
+            => Checkers.name(GetType());
     }
 }

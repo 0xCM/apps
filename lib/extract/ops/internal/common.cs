@@ -23,6 +23,6 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         internal static ReadOnlySpan<byte> parsed(in EncodingParser parser)
-            => (parser.Offset + parser.Delta - 1) > 0 ? parser.Buffer.Slice(0, parser.Offset + parser.Delta - 1) : Array.Empty<byte>();
+            => (parser.Offset + parser.Delta - 1) > 0 ? parser.Buffer.Slice(0, parser.Offset + parser.Delta - 1) : sys.empty<byte>();
     }
 }

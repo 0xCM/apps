@@ -4,18 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Root;
     using static core;
 
     using System.Reflection;
-
     using Masks = BitMaskLiterals;
 
     using Alg;
 
-    class CalcRunner : Checker<CalcRunner>
+    class CalcChecker : Checker<CalcChecker>
     {
-
         void EventRaised(IWfEvent e)
         {
 
@@ -39,7 +36,6 @@ namespace Z0
         {
             RunValidators();
         }
-
 
         void LogHeader<N>(MethodBase src, N n)
             where N : unmanaged, ITypeNat

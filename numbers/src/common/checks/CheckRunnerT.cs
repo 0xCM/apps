@@ -9,7 +9,7 @@ namespace Z0
     public abstract class CheckRunner<T> : AppCmdService<T,CmdShellState>, ICheckRunner
         where T : CheckRunner<T>, new()
     {
-        ConstLookup<Type,ICheckService> Services;
+        ConstLookup<Type,IChecker> Services;
 
         protected CheckRunner()
         {
@@ -38,8 +38,8 @@ namespace Z0
         {
             var dst = list<string>();
             foreach(var svc in Services.Values)
-                foreach(var c in svc.Checks)
-                    dst.Add(string.Format("{0}/{1}", svc.Name, c));
+                foreach(var c in svc.Specs)
+                    dst.Add(c);
             iter(dst, cmd => Write(cmd));
             return dst.ToArray();
         }

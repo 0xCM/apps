@@ -11,11 +11,11 @@ namespace Z0
     {
         [MethodImpl(Inline), Op]
         static ResText from(string src)
-            => new ResText(new (core.address(src), src.Length));
+            => new ResText(new (address(src), src.Length));
 
         [MethodImpl(Inline), Op]
         static ResText from(ReadOnlySpan<char> src)
-            => new ResText(new (core.address(src), src.Length));
+            => new ResText(new (address(src), src.Length));
 
         static string format(ResText src)
         {

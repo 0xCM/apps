@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static EncodingPatternKind;
     using static EncodingPatternTokens;
 
@@ -15,30 +11,34 @@ namespace Z0
 
     readonly struct EncodingPatterns
     {
+        const byte PatternCount = 7;
+
+        static Index<EncodingPatternKind> _Kinds = new EncodingPatternKind[PatternCount]{
+            EncodingPatternKind.RET_SBB,
+            RET_INTR,
+            EncodingPatternKind.RET_ZED_SBB,
+            RET_Zx3,
+            EncodingPatternKind.INTRx2,
+            EncodingPatternKind.JMP_RAX,
+            Zx7,
+        };
+
         public static EncodingPatterns Default
-            => new EncodingPatterns(0);
+            => new EncodingPatterns();
 
-        readonly EncodingPatternKind[] _Kinds;
+        public byte Count => PatternCount;
 
-        public int PatternCount {get;}
+        public readonly Index<EncodingPatternKind> Kinds;
 
-        public ReadOnlySpan<EncodingPatternKind> Kinds
-            => _Kinds;
-
-        EncodingPatterns(int dummy)
+        public ref readonly EncodingPatternKind this[int i]
         {
-            _Kinds = new EncodingPatternKind[]
-            {
-                EncodingPatternKind.RET_SBB,
-                RET_INTR,
-                EncodingPatternKind.RET_ZED_SBB,
-                RET_Zx3,
-                EncodingPatternKind.INTRx2,
-                EncodingPatternKind.JMP_RAX,
-                Zx7,
-            };
+            [MethodImpl(Inline)]
+            get => ref Kinds[i];
+        }
 
-            PatternCount = _Kinds.Length;
+        public EncodingPatterns()
+        {
+            Kinds = _Kinds;
         }
 
         public ReadOnlySpan<byte> Pattern(EncodingPatternKind code)

@@ -34,9 +34,9 @@ namespace Z0
             Value = value;
         }
 
-
         public Token Untyped()
-            => new Token(Key,Group,Type,Name, Expr, Value);
+            => new Token(Key, Group, Type, Name, Expr, Value);
+
         public string Format()
             => string.Format("{0,-5} | {1,-36} | {2,-64} | {3,-64} | {4}", Key, Type, Name, RP.squote(Expr), Value);
 

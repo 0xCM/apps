@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public abstract class Service<H> : IService
         where H : Service<H>, new()
     {
@@ -70,19 +65,13 @@ namespace Z0
             => Signal.Status(src);
 
         protected WarnEvent<T> Warn<T>(T src)
-        {
-            return Signal.Warn(src);
-        }
+            => Signal.Warn(src);
 
         protected ErrorEvent<T> Error<T>(T src)
-        {
-            return Signal.Error(src);
-        }
+            => Signal.Error(src);
 
-        protected ProcessingFileEvent Processing(FS.FilePath src)
-        {
-            return Signal.Processing(src);
-        }
+        // protected ProcessingFileEvent Processing(FS.FilePath src)
+        //     => Signal.Processing(src);
 
         protected RunningEvent Running()
             => Signal.Running();
@@ -99,8 +88,8 @@ namespace Z0
         protected RanEvent<RunningEvent> Ran(RunningEvent e)
             => Signal.Ran(e);
 
-        protected ProcessedFileEvent Processed(ProcessingFileEvent e)
-            => Signal.Processed(e.SourcePath);
+        // protected ProcessedFileEvent Processed(ProcessingFileEvent e)
+        //     => Signal.Processed(e.SourcePath);
 
         protected EmittingFileEvent Emitting(FS.FilePath src)
             => Signal.EmittingFile(src);

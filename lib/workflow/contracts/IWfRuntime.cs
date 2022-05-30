@@ -86,28 +86,28 @@ namespace Z0
         ExecToken Ran<T>(WfExecFlow<T> src, FlairKind flair)
         {
             var token = Completed(src);
-            WfEvents.signal(this).Ran(src.Data, flair);
+            WfEvents.signal(this).Ran(src.Data);
             return token;
         }
 
         ExecToken Ran<T>(WfHost host, WfExecFlow<T> src, FlairKind flair = FlairKind.Ran)
         {
             var token = Completed(src);
-            WfEvents.signal(this, host).Ran(src.Data, flair);
+            WfEvents.signal(this, host).Ran(src.Data);
             return token;
         }
 
         ExecToken Ran<T,D>(WfExecFlow<T> src, D data, FlairKind flair = FlairKind.Ran)
         {
             var token = Completed(src);
-            WfEvents.signal(this).Ran(data,flair);
+            WfEvents.signal(this).Ran(data);
             return token;
         }
 
         ExecToken Ran<T,D>(WfHost host, WfExecFlow<T> src, D data, FlairKind flair = FlairKind.Ran)
         {
             var token = Completed(src);
-            WfEvents.signal(this, host).Ran(data,flair);
+            WfEvents.signal(this, host).Ran(data);
             return token;
         }
 

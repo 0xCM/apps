@@ -8,15 +8,6 @@ namespace Z0
 
     using static core;
 
-    partial struct Msg
-    {
-        public static MsgPattern<ProjectId> ProjectUndefined
-            => "Project {0} undefined";
-
-        public static MsgPattern<ProjectId> LoadingSources
-            => "Loading {0} sources";
-    }
-
     public abstract class AppCmdService<T> : AppService<T>, IAppCmdService, ICmdProvider
         where T : AppCmdService<T>, new()
     {

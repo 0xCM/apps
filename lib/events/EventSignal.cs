@@ -28,7 +28,7 @@ namespace Z0
 
         public RanEvent<T> Ran<T>(T data, FlairKind flair = FlairKind.Ran)
         {
-            var e = ran(Source, data, flair);
+            var e = ran(Source, data);
             Raise(e);
             return e;
         }

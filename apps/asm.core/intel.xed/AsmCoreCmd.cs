@@ -47,7 +47,7 @@ namespace Z0
 
         X86Dispatcher Jumps => Service(() => X86Dispatcher.create(Wf));
 
-        IntelSdm Sdm => Service(Wf.IntelSdm);
+        IntelSdm Sdm => Wf.IntelSdm();
 
         CheckRunner CheckRunner => Wf.CheckRunner();
 

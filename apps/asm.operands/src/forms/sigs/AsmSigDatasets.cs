@@ -45,13 +45,13 @@ namespace Z0.Asm
 
         public static Index<AsmToken> tokens()
         {
-            var src = typeof(AsmSigTokens).GetNestedTypes().Enums().Tagged<SymSourceAttribute>().SelectMany(x => Symbols.tokenize<AsmSigTokenKind>(x));
-            var sigcount = src.Length;
-            var dst = alloc<AsmToken>(sigcount);
-            for(var i=0u; i<sigcount; i++)
+            var src = typeof(AsmSigTokens).GetNestedTypes().Enums().Tagged<SymSourceAttribute>().SelectMany(x => Symbols.tokenize<AsmSigTokenKind>(x)).Index();
+            var count = src.Length;
+            var dst = alloc<AsmToken>(count);
+            for(var i=0u; i<count; i++)
             {
-                seek(dst,i) = AsmSigs.generalize(skip(src,i));
-                seek(dst,i).Seq = i;
+                seek(dst, i) = AsmSigs.generalize(src[i]);
+                seek(dst, i).Seq = i;
             }
 
             var distinct = AsmTokens.unique(dst, out var dupe);
@@ -273,9 +273,9 @@ namespace Z0.Asm
 
         public Index<AsmSigOp> Tokens {get; private set;}
 
-        public ConstLookup<uint,string> TokenExpressions {get; private set;}
+        public ConstLookup<uint,string> Expressions {get; private set;}
 
-        public ConstLookup<uint,string> TokenIdentifiers {get; private set;}
+        public ConstLookup<uint,string> Names {get; private set;}
 
         public ConstLookup<string,AsmSigOp> OpsByExpression {get; private set;}
 
@@ -285,17 +285,17 @@ namespace Z0.Asm
 
         public ConstLookup<uint,AsmSigNonterminal> Nonterminals {get; private set;}
 
-        public AsmSigTokenKind Kind(Type src)
-            => TypeKinds[src];
+        // public AsmSigTokenKind Kind(Type src)
+        //     => TypeKinds[src];
 
-        public ReadOnlySpan<AsmSigTokenKind> Kinds
-            => TypeKinds.Values;
+        // public ReadOnlySpan<AsmSigTokenKind> Kinds
+        //     => TypeKinds.Values;
 
         AsmSigDatasets()
         {
         }
 
-        static AsmSigDatasets _Instance;
+        static AsmSigDatasets Instance;
 
         static object locker = new object();
 
@@ -303,66 +303,41 @@ namespace Z0.Asm
         {
             lock(locker)
             {
-                if(_Instance == null)
+                if(Instance == null)
                 {
                     var dst = new AsmSigDatasets();
-                    var tokenKinds = Symbols.index<AsmSigTokenKind>();
-                    var sts = AsmSigTokenSet.create();
-                    var typeKinds = sts.TypeKinds();
-                    var types = dst.TypeKinds.Keys;
-                    var count = (uint)sts.View.Length;
+                    var src = AsmSigTokenSet.create();
+                    var types = src.Types();
                     var tokenExpr = dict<uint,string>();
                     var tokenIds = dict<uint,string>();
                     var exprToken = dict<string,AsmSigOp>();
-                    dst.Tokens = alloc<AsmSigOp>(count);
-                    dst.TypeKinds = typeKinds;
-
+                    dst.Tokens = alloc<AsmSigOp>(src.TokenCount);
+                    dst.TypeKinds = src.TypeKinds();
                     var k=0u;
                     for(var i=0; i<types.Length; i++)
                     {
-                        ref readonly var type = ref skip(types,i);
-                        var tk = dst.TypeKinds[type];
-                        var tokens = Symbols.tokenize(type);
+                        var kind = src.Kind(skip(types,i));
+                        var tokens = src.Tokens(skip(types,i));
                         for(var j=0; j<tokens.Count; j++, k++)
                         {
                             ref readonly var token = ref tokens[j];
-                            var sigop = new AsmSigOp(tk, (byte)token.Value);
-                            var xpr = token.Expr.Text;
+                            var sigop = new AsmSigOp(kind, (byte)token.Value);
                             dst.Tokens[k] = sigop;
-                            tokenExpr[sigop.Id] = xpr;
-                            exprToken[xpr] = sigop;
+                            tokenExpr[sigop.Id] = token.Expr.Text;
+                            exprToken[token.Expr.Text] = sigop;
                             if(!tokenIds.TryAdd(sigop.Id, token.Name))
-                                Errors.Throw(string.Format("Duplicate token - {0}:{1}", tk, token.Name));
+                                Errors.Throw(string.Format("Duplicate token - {0}:{1}", kind, token.Name));
                         }
                     }
-                    dst.TokenExpressions = tokenExpr;
+                    dst.Expressions = tokenExpr;
                     dst.OpsByExpression = exprToken;
-                    dst.TokenIdentifiers = tokenIds;
+                    dst.Names = tokenIds;
                     dst.Modifers = Symbols.index<AsmModifierKind>();
                     dst.Nonterminals = nonterminals();
-
-                    // for(var i=0; i<count; i++)
-                    // {
-                    //     ref readonly var token = ref skip(tokens.View,i);
-
-                    //     if(kinds.ExprKind(@class.Kind, out var kind))
-                    //     {
-                    //         var sigtoken = new AsmSigOp(kind, (byte)token.Value);
-                    //         var xpr = token.Expr.Text;
-                    //         dst.Tokens[j++] = sigtoken;
-                    //         tokenExpr[sigtoken.Id] = xpr;
-                    //         exprToken[xpr] = sigtoken;
-                    //         if(!tokenIds.TryAdd(sigtoken.Id, token.Name))
-                    //             Errors.Throw(string.Format("Duplicate token - {0}:{1}", kind, token.Name));
-                    //     }
-                    //     else
-                    //         Errors.Throw(string.Format("Kind for {0} not found", @class.Kind));
-                    // }
-
-                    _Instance = dst;
+                    Instance = dst;
                 }
 
-                return _Instance;
+                return Instance;
             }
         }
     }

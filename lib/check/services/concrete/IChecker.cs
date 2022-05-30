@@ -4,7 +4,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IChecker :
+    // public interface IChecker :
+    //     ICheckError,
+    //     ICheckInvariant,
+    //     ICheckLengths,
+    //     ICheckFiles,
+    //     ICheckNull,
+    //     ICheckSettings,
+    //     ICheckPrimal,
+    //     ICheckSets
+    // {
+
+    // }
+
+    public interface IChecking :
         ICheckError,
         ICheckInvariant,
         ICheckLengths,

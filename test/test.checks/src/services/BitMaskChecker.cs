@@ -254,30 +254,6 @@ namespace Z0
             }
         }
 
-        // [MethodImpl(Inline)]
-        // void CheckHiMask<W,T>(W w, T t, Span<CheckHiMaskResult<T>> logs)
-        //     where T : unmanaged
-        //     where W : unmanaged, ITypeWidth<W>
-        // {
-        //     var mincount = (byte)1;
-        //     var maxcount = (byte)width<T>();
-        //     var cases = Cases(w);
-
-        //     for(var i=0u; i<Reps; i++)
-        //     {
-        //         ref var log = ref seek(logs,i);
-        //         log.Check1 = true;
-        //         log.Count = skip(cases, i);
-        //         log.Mask = BitMasks.hi<T>(log.Count);
-        //         log.PopCount = (byte)gbits.pop(log.Mask);
-        //         log.Check1 = log.PopCount != log.Count;
-        //         log.Check1 = eq(log.Count, gbits.pop(log.Mask));
-        //         log.Lowered = gmath.srl(log.Mask, (byte)(width<T>() -  log.Count));
-        //         log.EffectiveWidth = gbits.effwidth(log.Lowered);
-        //         log.Check3 = log.Count == log.EffectiveWidth;
-        //     }
-        // }
-
         [MethodImpl(Inline)]
         void CheckHiMask<W,T>(CaseProvider<W> src, HiMaskLogs<T> dst)
             where T : unmanaged

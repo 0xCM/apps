@@ -11,7 +11,7 @@ namespace Z0
 
         public const EventKind Kind = EventKind.Ran;
 
-        public static EventLevel Level => FlairKind.Status;
+        public static EventLevel Level => FlairKind.Ran;
 
         public EventId EventId {get;}
 
@@ -22,12 +22,12 @@ namespace Z0
         public FlairKind Flair {get;}
 
         [MethodImpl(Inline)]
-        public RanEvent(WfStepId step, T data, FlairKind flair = FlairKind.Ran)
+        public RanEvent(WfStepId step, T data)
         {
             EventId = EventId.define(EventName, step);
             StepId = step;
             Payload = data;
-            Flair = flair;
+            Flair = FlairKind.Ran;
         }
 
         [MethodImpl(Inline)]
