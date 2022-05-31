@@ -7,7 +7,7 @@ namespace Z0
     using static core;
 
     [ApiHost]
-    public readonly struct FileArchives
+    public class FileArchives
     {
         public static FileDescription describe(FS.FilePath src)
         {

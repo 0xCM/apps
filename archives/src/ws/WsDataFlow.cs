@@ -6,13 +6,6 @@ namespace Z0
 {
     public readonly struct WsDataFlow
     {
-        [MethodImpl(Inline)]
-        public static WsDataFlow from(in ToolCmdFlow src)
-        {
-            var flow = DataFlows.flow(src.TargetName, src.SourcePath.ToUri(), src.TargetPath.ToUri());
-            return new WsDataFlow(DataFlows.identify(flow), flow);
-        }
-
         public readonly FlowId Id;
 
         readonly DataFlow<Actor,FS.FileUri,FS.FileUri> Spec;
@@ -36,7 +29,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        WsDataFlow(FlowId id, DataFlow<Actor,FS.FileUri,FS.FileUri> spec)
+        internal WsDataFlow(FlowId id, DataFlow<Actor,FS.FileUri,FS.FileUri> spec)
         {
             Id = id;
             Spec = spec;

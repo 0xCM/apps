@@ -12,7 +12,7 @@ namespace Z0
         Outcome CheckObjHex(CmdArgs args)
         {
             var project = Project();
-            var context = WsContext.create(project);
+            var context = WsApi.context(project);
             return Coff.CheckObjHex(context);
         }
 

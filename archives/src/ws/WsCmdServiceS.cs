@@ -18,7 +18,7 @@ namespace Z0
             => Service(Wf.AppDb);
 
         protected WsContext Context()
-            => WsContext.create(CmdRunner.Project());
+            => WsApi.context(CmdRunner.Project());
 
         [CmdOp("project")]
         protected void LoadProject(CmdArgs args)

@@ -30,7 +30,7 @@ namespace Z0
 
         public void Collect(IProjectWs project)
         {
-            var context = WsContext.create(project);
+            var context = WsApi.context(project);
             AsmObjects.CollectObjects(context);
             AsmObjects.CollectObjSyms(context);
             AsmObjects.CollectCoffData(context);

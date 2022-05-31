@@ -13,7 +13,7 @@ namespace Z0
         {
             using var dispenser = Alloc.symbols();
             var project = Project();
-            var context = WsContext.create(project);
+            var context = WsApi.context(project);
             var catalog = FileCatalog.load(project);
             var files = catalog.Entries(FileKind.Obj, FileKind.O);
             var count = files.Count;

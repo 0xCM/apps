@@ -6,9 +6,9 @@ namespace Z0
 {
     public readonly struct CmdDescriptor
     {
-        public @string Scope {get;}
+        public readonly @string Scope;
 
-        public @string Name {get;}
+        public readonly @string Name;
 
         public CmdDescriptor(string scope, string name)
         {

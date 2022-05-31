@@ -93,7 +93,6 @@ namespace Z0
 
         public Index<CmdLine> BuildCmdLines(IProjectWs project, string scope, string cmdname)
         {
-            //var files = project.SrcFiles(scope, Flow.SourceKind.Ext(), false);
             var ext = Flow.SourceKind.Ext();
             var files = project.SrcFiles(recurse:false).Where(f => f.Is(ext));
             var buffer = core.bag<CmdLine>();
