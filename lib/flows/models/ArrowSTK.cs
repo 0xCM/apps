@@ -4,31 +4,25 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Defines kinded link
     /// </summary>
-    [DataType("arrow<s:{0},t:{1},k:{2}>")]
     public readonly struct Arrow<S,T,K> : IArrow<S,T,K>
     {
         /// <summary>
         /// The source
         /// </summary>
-        public S Source {get;}
+        public readonly S Source;
 
         /// <summary>
         /// The target
         /// </summary>
-        public T Target {get;}
+        public readonly T Target;
 
         /// <summary>
         /// The kind classifier
         /// </summary>
-        public K Kind {get;}
+        public readonly K Kind;
 
         [MethodImpl(Inline)]
         public Arrow(S src, T dst, K kind)
@@ -43,6 +37,15 @@ namespace Z0
             [MethodImpl(Inline)]
             get => string.Format(RP.Arrow, Source, Target);
         }
+
+        K IArrow<S, T, K>.Kind
+            => Kind;
+
+        S IArrow<S,T>.Source
+            => Source;
+
+        T IArrow<S,T>.Target
+            => Target;
 
         [MethodImpl(Inline)]
         public static implicit operator Arrow<S,T,K>((K k, S s, T t) src)

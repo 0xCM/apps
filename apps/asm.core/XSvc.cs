@@ -73,6 +73,18 @@ namespace Z0
 
             public IntelSdmPaths SdmPaths(IWfRuntime wf)
                 => Service<IntelSdmPaths>(wf);
+
+            public ApiResPackEmitter ResPackEmitter(IWfRuntime wf)
+                => Service<ApiResPackEmitter>(wf);
+
+            public DumpBin DumpBin(IWfRuntime wf)
+                => Service<DumpBin>(wf);
+
+            public AsmDocs AsmDocs(IWfRuntime wf)
+                => Service<AsmDocs>(wf);
+
+            public AsmOpCodes AsmOpCodes(IWfRuntime wf)
+                => Asm.AsmOpCodes.create(wf);
         }
 
         static Svc Services => Svc.Instance;
@@ -126,19 +138,19 @@ namespace Z0
             => Services.CpuId(wf);
 
         public static ApiResPackEmitter ResPackEmitter(this IWfRuntime wf)
-            => Z0.ApiResPackEmitter.create(wf);
+            => Services.ResPackEmitter(wf);
 
         public static AsmCodeGen AsmCodeGen(this IWfRuntime wf)
             => Services.Service<AsmCodeGen>(wf);
 
         public static AsmDocs AsmDocs(this IWfRuntime wf)
-            => Asm.AsmDocs.create(wf);
+            => Services.AsmDocs(wf);
 
         public static DumpBin DumpBin(this IWfRuntime wf)
-            => Z0.DumpBin.create(wf);
+            => Services.DumpBin(wf);
 
-        public static AsmOpCodes AsmOpCodes(this IWfRuntime context)
-            => Asm.AsmOpCodes.create(context);
+        public static AsmOpCodes AsmOpCodes(this IWfRuntime wf)
+            => Services.AsmOpCodes(wf);
 
         public static ProcessAsmBuffers ProcessAsmBuffers(this IWfRuntime wf)
             => Asm.ProcessAsmBuffers.create(wf);

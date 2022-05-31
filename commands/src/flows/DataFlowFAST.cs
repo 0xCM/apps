@@ -39,6 +39,5 @@ namespace Z0
 
         T IArrow<S,T>.Target
             => Target;
-
     }
 }

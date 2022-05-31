@@ -8,32 +8,10 @@ namespace Z0
 
     using static core;
 
-    public class AppCmd
-    {
-        static MsgPattern EmptyArgList => "No arguments specified";
-
-        static MsgPattern ArgSpecError => "Argument specification error";
-
-        public static CmdArg arg(in CmdArgs src, int index)
-        {
-            if(src.IsEmpty)
-                sys.@throw(EmptyArgList.Format());
-
-            var count = src.Length;
-            if(count < index - 1)
-                sys.@throw(ArgSpecError.Format());
-            return src[(ushort)index];
-        }
-    }
-
     public abstract class AppCmdService<T> : AppService<T>, IAppCmdService, ICmdProvider
         where T : AppCmdService<T>, new()
     {
         public ICmdDispatcher Dispatcher {get; protected set;}
-
-        protected OmniScript OmniScript => Service(() => Z0.OmniScript.create(Wf));
-
-        protected IToolWs Tools => Service(Ws.Tools);
 
         IWorkerLog Witness;
 
@@ -44,11 +22,16 @@ namespace Z0
         protected AppCmdService()
         {
             PromptTitle = "cmd";
+            CommonState = new CmdShellState();
         }
+
+        protected OmniScript OmniScript => Wf.OmniScript();
+
+        protected IToolWs ToolWs => Service(Ws.Tools);
 
         protected void UpdateToolEnv(out Settings dst)
         {
-            var path = Tools.Toolbase + FS.file("show-env-config", FS.Cmd);
+            var path = ToolWs.Toolbase + FS.file("show-env-config", FS.Cmd);
             var cmd = Cmd.cmdline(path.Format(PathSeparator.BS));
             dst = AppSettings.Load(OmniScript.RunCmd(cmd));
         }
@@ -107,7 +90,7 @@ namespace Z0
         protected Outcome ToolScript(CmdArgs args)
         {
             var tool = (ToolId)arg(args,0).Value;
-            var script = Tools.Script(tool, arg(args,1).Value);
+            var script = ToolWs.Script(tool, arg(args,1).Value);
             if(!script.Exists)
                 return (false, FS.missing(script));
             else
@@ -118,7 +101,7 @@ namespace Z0
         protected Outcome ShowToolSettings(CmdArgs args)
         {
             ToolId tool = arg(args,0).Value;
-            var src = Tools.Logs(tool) + FS.file("config", FS.Log);
+            var src = ToolWs.Logs(tool) + FS.file("config", FS.Log);
             if(!src.Exists)
                 return (false,FS.missing(src));
 
@@ -129,7 +112,7 @@ namespace Z0
 
         protected void LoadToolEnv(out Settings dst)
         {
-            var path = Tools.Toolbase + FS.file("env", FS.Settings);
+            var path = ToolWs.Toolbase + FS.file("env", FS.Settings);
             dst = AppSettings.Load(path.ReadNumberedLines());
         }
 
@@ -141,6 +124,7 @@ namespace Z0
             Dispatcher = CmdActions.dispatcher(CmdProviders(Wf), DispatchFallback);
             ProjectWs = Ws.Projects();
             Witness = Loggers.worker(controller().Id(), ProjectDb.Home(), typeof(T).Name);
+            CommonState.Init(Wf,Ws);
         }
 
         public T With(IToolCmdShell shell)
@@ -251,7 +235,7 @@ namespace Z0
             var result = Outcome.Success;
 
             var tool = (ToolId)arg(args,0).Value;
-            var docs = Tools.ToolDocs(tool);
+            var docs = ToolWs.ToolDocs(tool);
             var doc = docs + FS.file(tool.Format(),FS.Help);
             if(doc.Exists)
             {
@@ -269,9 +253,9 @@ namespace Z0
             var tool = (ToolId)arg(args,0).Value;
             var path = FS.FilePath.Empty;
             if(args.Length > 1)
-                path = Tools.ToolDocs(tool) + FS.file(arg(args,1));
+                path = ToolWs.ToolDocs(tool) + FS.file(arg(args,1));
             else
-                path = Tools.ToolDocs(tool) + FS.file(tool.Format(), FS.Help);
+                path = ToolWs.ToolDocs(tool) + FS.file(tool.Format(), FS.Help);
 
             if(path.Exists)
             {
@@ -342,7 +326,7 @@ namespace Z0
             return result;
         }
 
-        protected abstract CmdShellState CommonState {get;}
+        protected virtual CmdShellState CommonState {get; private set;}
     }
 
     public abstract class AppCmdService<T,S> : AppCmdService<T>

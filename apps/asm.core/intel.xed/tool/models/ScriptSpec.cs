@@ -5,17 +5,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Record(TableId)]
-    public struct XedCase
+    partial class XedTool
     {
-        public const string TableId = "xed.case";
+        [Record(TableId)]
+        public struct ScriptSpec
+        {
+            public const string TableId = "xed.scripts";
 
-        public string CaseId;
+            public string Name;
 
-        public FS.FilePath InputPath;
+            public FS.FilePath InputPath;
 
-        public FS.FilePath SummaryPath;
+            public FS.FilePath SummaryPath;
 
-        public FS.FilePath DetailPath;
+            public FS.FilePath DetailPath;
+        }
     }
 }

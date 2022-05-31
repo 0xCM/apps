@@ -25,7 +25,7 @@ namespace Z0
                 Require.equal(cells.Length,ToolCmdFlow.FieldCount);
                 var reader = cells.Reader();
                 ref var dst = ref seek(buffer,i++);
-                DataParser.parse(reader.Next(), out dst.Tool).Require();
+                Tools.parse(reader.Next(), out dst.Tool).Require();
                 DataParser.parse(reader.Next(), out dst.SourceName).Require();
                 DataParser.parse(reader.Next(), out dst.TargetName).Require();
                 DataParser.parse(reader.Next(), out dst.SourcePath).Require();

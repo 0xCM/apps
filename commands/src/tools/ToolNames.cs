@@ -30,5 +30,11 @@ namespace Z0
         public const string llvm_as = "llvm-as";
 
         public const string llvm_lld = "llvm-lld";
+
+        public const string xed = "xed";
+
+        public const string bddisasm = "disasmtool";
+
+        public const string msvs = "devenv";
     }
 }

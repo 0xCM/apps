@@ -4,12 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [DataType("arrow<s:{0},t:{1}>")]
     public readonly struct Arrow<S,T> : IArrow<S,T>
     {
-        public S Source {get;}
+        /// <summary>
+        /// The source
+        /// </summary>
+        public readonly S Source;
 
-        public T Target {get;}
+        /// <summary>
+        /// The target
+        /// </summary>
+        public readonly T Target;
 
         [MethodImpl(Inline)]
         public Arrow(S src, T dst)
@@ -23,6 +28,12 @@ namespace Z0
             [MethodImpl(Inline)]
             get => string.Format(RP.Arrow, Source, Target);
         }
+
+        S IArrow<S,T>.Source
+            => Source;
+
+        T IArrow<S,T>.Target
+            => Target;
 
         [MethodImpl(Inline)]
         public string Format()

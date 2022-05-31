@@ -15,6 +15,9 @@ namespace Z0
         public DbTargets Projects()
             => new DbTargets(ProjectRoot,EmptyString);
 
+        public DbTargets Projects(string scope)
+            => new DbTargets(ProjectRoot, scope);
+
         public DbTargets Project(string name)
             => Projects().Targets(name);
 

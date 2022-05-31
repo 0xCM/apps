@@ -6,7 +6,7 @@ namespace Z0
 {
     public readonly struct Tool : ITool
     {
-        public ToolId ToolId {get;}
+        public readonly ToolId ToolId;
 
         [MethodImpl(Inline)]
         public Tool(ToolId id)
@@ -23,9 +23,20 @@ namespace Z0
         public override string ToString()
             => Format();
 
+        ToolId ITool.ToolId
+            => ToolId;
+
         [MethodImpl(Inline)]
         public static implicit operator Tool(ToolId id)
             => new Tool(id);
+
+        [MethodImpl(Inline)]
+        public static implicit operator Actor(Tool tool)
+            => new Actor(tool.Name);
+
+        [MethodImpl(Inline)]
+        public static implicit operator Tool(Actor src)
+            => new Tool(src.Name.Text);
 
         public static Tool Empty => new Tool(ToolId.Empty);
     }

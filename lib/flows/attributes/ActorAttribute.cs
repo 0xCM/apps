@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     [AttributeUsage(validOn: AttributeTargets.Class | AttributeTargets.Struct)]
     public class ActorAttribute : Attribute
     {

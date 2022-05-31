@@ -18,7 +18,7 @@ namespace Z0
 
         AsmObjects AsmObjects => Service(Wf.AsmObjects);
 
-        OmniScript OmniScript => Service(() => Z0.OmniScript.create(Wf));
+        OmniScript OmniScript => Wf.OmniScript();
 
         AsmCmdRt AsmRt;
 

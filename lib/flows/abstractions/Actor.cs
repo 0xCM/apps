@@ -40,12 +40,5 @@ namespace Z0
         public static implicit operator Actor(Identifier name)
             => new Actor(name);
 
-        [MethodImpl(Inline)]
-        public static implicit operator Actor(Tool tool)
-            => new Actor(tool.Name);
-
-        [MethodImpl(Inline)]
-        public static implicit operator Actor(ToolId tool)
-            => new Actor(tool.Format());
     }
 }

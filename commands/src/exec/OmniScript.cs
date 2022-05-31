@@ -101,7 +101,7 @@ namespace Z0
             if(result.Fail)
                 return result;
 
-            flows = ScriptProcess.flow(response);
+            flows = ToolCmdFlow.parse(response);
 
             return result;
         }

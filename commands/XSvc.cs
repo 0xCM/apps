@@ -13,6 +13,9 @@ namespace Z0
 
             public AppSvcOps AppSvc(IWfRuntime wf)
                 => Service<AppSvcOps>(wf);
+
+            public OmniScript OmniScript(IWfRuntime wf)
+                => Service<OmniScript>(wf);
         }
 
         static Svc Services => Svc.Instance;
@@ -22,6 +25,9 @@ namespace Z0
 
         public static AppDb AppDb(this IWfRuntime wf)
             => Services.AppDb(wf);
+
+        public static OmniScript OmniScript(this IWfRuntime wf)
+            => Services.OmniScript(wf);
 
         public static void RedirectEmissions(this IWfRuntime wf, string name, FS.FolderPath dst)
             => wf.RedirectEmissions(Loggers.emission(name, dst));

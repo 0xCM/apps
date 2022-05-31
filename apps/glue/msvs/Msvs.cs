@@ -7,6 +7,10 @@ namespace Z0
     [ApiHost]
     public sealed partial class Msvs : ToolService<Msvs>
     {
+        public Msvs()
+            : base(Tools.msvs)
+        {
 
+        }
     }
 }

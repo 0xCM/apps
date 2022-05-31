@@ -19,8 +19,6 @@ namespace Z0
             : base(wf)
         {
             Nodes = new ConcurrentDictionary<CmdId,ICmdReactor>();
-
-
         }
 
         protected override void OnInit()

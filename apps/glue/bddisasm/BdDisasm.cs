@@ -10,6 +10,12 @@ namespace Z0
     [ApiHost]
     public sealed partial class BdDisasm : ToolService<BdDisasm>
     {
+        public BdDisasm()
+         : base(Tools.bddisasm)
+         {
+
+         }
+
         [Op]
         public static uint render(Bitness src, ref uint i, Span<char> dst)
         {
