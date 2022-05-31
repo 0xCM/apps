@@ -6,12 +6,12 @@
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Include="assets/**/*.*" />
-    <Reference Include="$(ZLibName)" HintPath="$(ZLibPath)"/>
-    <PackageReference Include="QuikGraph.Graphviz" Version="2.3.1" />
-    <ProjectReference Include="$(Commands)" />
+  <Import Project="../imports/common.props"/>
 
+  <ItemGroup>
+    <Reference Include="$(ZLibName)" HintPath="$(ZLibPath)"/>
+    <ProjectReference Include="$(Commands)" />
+    <ProjectReference Include="$(Symbols)" />
   </ItemGroup>
 
 </Project>

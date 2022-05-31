@@ -8,17 +8,11 @@ namespace Z0
     {
         sealed class Svc : AppServices<Svc>
         {
-            public AppDb AppDb(IWfRuntime wf)
-                => Service<AppDb>(wf);
-
             public Parsers Parsers(IWfRuntime wf)
                 => Service<Parsers>(wf);
 
             public ApiResProvider ApiResProvider(IWfRuntime wf)
                 => Service<ApiResProvider>(wf);
-
-            public AppSvcOps AppSvc(IWfRuntime wf)
-                => Service<AppSvcOps>(wf);
 
             public CheckRunner CheckRunner(IWfRuntime wf)
                 => Service<CheckRunner>(wf);
@@ -62,9 +56,6 @@ namespace Z0
         public static ApiResProvider ApiResProvider(this IWfRuntime wf)
             => Services.ApiResProvider(wf);
 
-        public static AppSvcOps AppSvc(this IWfRuntime wf)
-            => Services.AppSvc(wf);
-
         public static MemorySeqChecks MemorySeqChecks(this IWfRuntime wf)
             => Services.MemorySeqChecks(wf);
 
@@ -97,9 +88,6 @@ namespace Z0
 
         public static ApiPackages ApiPackages(this IEnvPaths src)
             => src.PackageRoot();
-
-        public static AppDb AppDb(this IWfRuntime wf)
-            => Services.AppDb(wf);
 
         public static CheckRunner CheckRunner(this IWfRuntime wf)
             => Services.CheckRunner(wf);

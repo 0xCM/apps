@@ -6,12 +6,23 @@ namespace Z0
 {
     public static class XSvc
     {
-        // sealed class Svc : AppServices<Svc>
-        // {
-        // }
+        sealed class Svc : AppServices<Svc>
+        {
+            public AppDb AppDb(IWfRuntime wf)
+                => Service<AppDb>(wf);
 
-        // static Svc Services => Svc.Instance;
+            public AppSvcOps AppSvc(IWfRuntime wf)
+                => Service<AppSvcOps>(wf);
 
 
+        }
+
+        static Svc Services => Svc.Instance;
+
+        public static AppSvcOps AppSvc(this IWfRuntime wf)
+            => Services.AppSvc(wf);
+
+        public static AppDb AppDb(this IWfRuntime wf)
+            => Services.AppDb(wf);
     }
 }
