@@ -28,7 +28,7 @@ namespace Z0
 
         void EmitOpClasses(WsContext context, Index<Document> src)
         {
-            var target = Projects.ProjectData(context.Project, scope) + Tables.filename<InstOpClass>(context.Project.Name.Format());
+            var target = Projects.ProjectData(context.Project, disasm) + Tables.filename<InstOpClass>(context.Project.Name.Format());
             AppSvc.TableEmit(XedDisasm.opclasses(src).View, target);
         }
 

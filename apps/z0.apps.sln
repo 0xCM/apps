@@ -15,8 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.expr", "..\expr\z0.expr.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.extract", "..\extract\z0.extract.csproj", "{CD2CA3C1-5D47-4406-87B7-1110223CAB76}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.lines", "..\lines\z0.lines.csproj", "{FF205616-E1E0-4CB6-A918-1D02644DEB6B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.numbers", "..\numbers\z0.numbers.csproj", "{4A26173D-D0D0-4DE0-85CC-748A414D5504}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.codegen.intel", "..\codegen\codegen.intel\z0.codegen.intel.csproj", "{1B663F9F-8CD7-4D93-986D-F5CE132B8135}"
@@ -90,10 +88,6 @@ Global
 		{CD2CA3C1-5D47-4406-87B7-1110223CAB76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD2CA3C1-5D47-4406-87B7-1110223CAB76}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD2CA3C1-5D47-4406-87B7-1110223CAB76}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FF205616-E1E0-4CB6-A918-1D02644DEB6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FF205616-E1E0-4CB6-A918-1D02644DEB6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FF205616-E1E0-4CB6-A918-1D02644DEB6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FF205616-E1E0-4CB6-A918-1D02644DEB6B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4A26173D-D0D0-4DE0-85CC-748A414D5504}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4A26173D-D0D0-4DE0-85CC-748A414D5504}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A26173D-D0D0-4DE0-85CC-748A414D5504}.Release|Any CPU.ActiveCfg = Release|Any CPU

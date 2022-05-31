@@ -4,9 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
     using static XedOps;
-    using static XedDisasmModels;
 
     partial class XedDisasm
     {
@@ -25,7 +23,7 @@ namespace Z0
             dst.Summary = lines.Row;
             dst.Selected = dst.Fields.MemberKinds();
             XedOps.update(dst.Fields, dst.Selected, ref dst.State);
-            dst.Encoding = XedState.Code.encoding(dst.State, lines.Row.Encoded);
+            dst.Encoding = XedCode.encoding(dst.State, lines.Row.Encoded);
             return ref dst;
         }
     }

@@ -104,7 +104,6 @@ namespace Z0
         public static ListedFiles list(FS.FolderPath src, bool recurse = false)
             => src.Files(recurse).Storage.Mapi((i,x) =>new ListedFile((uint)i, x));
 
-
         [Op]
         public static ListedFiles list(FileArchive src, string pattern, bool recurse)
             => listed(Directory.EnumerateFiles(src.Root.Name, pattern, option(recurse)).Array().Select(x => FS.path(pattern)));

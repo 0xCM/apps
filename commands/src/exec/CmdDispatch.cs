@@ -6,8 +6,49 @@ namespace Z0
 {
     using static core;
 
+    partial class XTend
+    {
+        public static ScriptRunner ScriptRunner(this IEnvPaths paths)
+            => Z0.ScriptRunner.create(paths);
+    }
+
     public class CmdDispatch : ICmdRouter
     {
+        public static void dispatch(Index<IToolResultHandler> handlers, Index<string> args)
+        {
+            try
+            {
+                var count = args.Length;
+                var paths = EnvPaths.create();
+                for(var i=0; i<count; i++)
+                {
+                    var name = FS.file(args[i]);
+                    term.inform(name);
+
+                    if(!name.HasExtension)
+                        name = name.WithExtension(FS.Cmd);
+
+                    var script = paths.ControlScript(name);
+                    if(script.Exists)
+                    {
+                        var runner = paths.ScriptRunner();
+                        var output = runner.RunControlScript(name);
+                        var processor = CmdResultProcessor.create(script, handlers);
+                        term.inform("Response");
+                        iter(output, x => processor.Process(x));
+                    }
+                    else
+                    {
+                        term.error($"The script {script.ToUri()} does not exist");
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                term.error(e);
+            }
+        }
+
         public static CmdDispatch create(IWfRuntime wf)
             => new CmdDispatch(new WfCmdRouter(wf));
 

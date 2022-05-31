@@ -15,11 +15,20 @@ namespace Z0
         public DbTargets Projects()
             => new DbTargets(ProjectRoot,EmptyString);
 
+        public WsDb WsDb(string name)
+            => new WsDb(ProjectDbRoot + FS.folder(name));
+
         public DbTargets Projects(string scope)
             => new DbTargets(ProjectRoot, scope);
 
         public DbTargets Project(string name)
             => Projects().Targets(name);
+
+        public new DbTargets ProjectDb(string name)
+            => new DbTargets(ProjectDbRoot + FS.folder("projects"), name);
+
+        public new DbTargets ProjectDb()
+            => new DbTargets(ProjectDbRoot + FS.folder("projects"));
 
         protected override void Initialized()
         {

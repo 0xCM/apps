@@ -4,16 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct LineCount : IComparable<LineCount>
     {
-        public FS.FilePath Source {get;}
+        public readonly FS.FilePath Source {get;}
 
-        public Count Lines {get;}
+        public readonly Count Lines {get;}
 
         [MethodImpl(Inline)]
         public LineCount(FS.FilePath src, Count lines)

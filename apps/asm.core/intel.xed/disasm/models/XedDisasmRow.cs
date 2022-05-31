@@ -6,11 +6,6 @@ namespace Z0
 {
     using Asm;
 
-    partial class XedDisasmModels
-    {
-
-    }
-
     [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
     public record struct XedDisasmRow : IComparable<XedDisasmRow>
     {

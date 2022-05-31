@@ -7,6 +7,8 @@ namespace Z0
 {
     public static class XAppDb
     {
+        const string xed = "xed";
+
         public static DbTargets Logs(this IAppDb db)
             => db.Targets("logs");
 
@@ -48,5 +50,8 @@ namespace Z0
 
         public static DbSources CpuIdSources(this IAppDb db)
             => db.IntelSources().Scoped("sde.cpuid");
+
+        public static DbTargets ProjectDb(this IAppDb db, IProjectWs project, string scope)
+            => new DbTargets(db.ProjectDb(project.Name),scope);
     }
 }

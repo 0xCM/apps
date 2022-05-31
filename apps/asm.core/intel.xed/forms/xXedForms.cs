@@ -9,7 +9,7 @@ namespace Z0
 
     public partial class XedForms : AppService<XedForms>
     {
-        XedPaths XedPaths => Service(() => XedPaths.Service);
+        XedPaths XedPaths => Wf.XedPaths();
 
         public static ref readonly Index<FormToken> tokens()
             => ref TokenData.TokenIndex;

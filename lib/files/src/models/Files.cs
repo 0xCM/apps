@@ -76,6 +76,17 @@ namespace Z0
                 return buffer.ToArray();
             }
 
+            public string Format()
+            {
+                var dst = text.emitter();
+                for(var i=0; i<Count; i++)
+                    dst.AppendLine(this[i].ToUri());
+                return dst.Emit();
+            }
+
+            public override string ToString()
+                => Format();
+
             public ReadOnlySpan<FilePath> ViewNonEmpty
                 => Data.Storage.Where(x => x.IsNonEmpty);
 

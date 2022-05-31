@@ -16,7 +16,7 @@ namespace Z0
     public class XedViews
     {
         [MethodImpl(Inline)]
-        public ref readonly T Load<T>(XedViewKind index)
+        public ref readonly T Load<T>(XedRecord index)
         {
             // if(!Xed.Running)
             //     Xed.Start();
@@ -25,7 +25,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        internal void Store<T>(XedViewKind kind, T data)
+        internal void Store<T>(XedRecord kind, T data)
         {
             @as<object,T>(DataStores[(byte)kind]) = data;
             AppSvc.Status(FlairKind.StatusData, $"Computed {kind}");
@@ -50,121 +50,121 @@ namespace Z0
         public ref readonly Index<InstOpDetail> InstOpDetails
         {
             [MethodImpl(Inline)]
-            get => ref Load<Index<InstOpDetail>>(XedViewKind.InstOpDetail);
+            get => ref Load<Index<InstOpDetail>>(XedRecord.InstOpDetail);
         }
 
         public ref readonly Index<InstPattern> Patterns
         {
             [MethodImpl(Inline)]
-            get => ref Load<Index<InstPattern>>(XedViewKind.InstPattern);
+            get => ref Load<Index<InstPattern>>(XedRecord.InstPattern);
         }
 
         public ref readonly RuleTables RuleTables
         {
             [MethodImpl(Inline)]
-            get => ref Load<RuleTables>(XedViewKind.RuleTables);
+            get => ref Load<RuleTables>(XedRecord.RuleTables);
         }
 
         public ref readonly Index<InstFieldRow> InstFields
         {
             [MethodImpl(Inline)]
-            get => ref Load<Index<InstFieldRow>>(XedViewKind.InstFields);
+            get => ref Load<Index<InstFieldRow>>(XedRecord.InstFields);
         }
 
         public ref readonly CellTables CellTables
         {
             [MethodImpl(Inline)]
-            get => ref Load<CellTables>(XedViewKind.CellTables);
+            get => ref Load<CellTables>(XedRecord.CellTables);
         }
 
         public ref readonly Index<RuleExpr> RuleExpr
         {
             [MethodImpl(Inline)]
-            get => ref Load<Index<RuleExpr>>(XedViewKind.RuleExpr);
+            get => ref Load<Index<RuleExpr>>(XedRecord.RuleExpr);
         }
 
         public ref readonly CellDatasets CellDatasets
         {
             [MethodImpl(Inline)]
-            get => ref Load<CellDatasets>(XedViewKind.CellDatasets);
+            get => ref Load<CellDatasets>(XedRecord.CellDatasets);
         }
 
         public ref readonly Index<InstDef> InstDefs
         {
             [MethodImpl(Inline)]
-            get => ref Load<Index<InstDef>>(XedViewKind.InstDefs);
+            get => ref Load<Index<InstDef>>(XedRecord.InstDefs);
         }
 
         public ref readonly Index<InstOpCode> OpCodes
         {
             [MethodImpl(Inline)]
-            get => ref Load<Index<InstOpCode>>(XedViewKind.OpCodes);
+            get => ref Load<Index<InstOpCode>>(XedRecord.OpCodes);
         }
 
         public ref readonly Index<IsaImport> IsaImport
         {
             [MethodImpl(Inline)]
-            get => ref Load<Index<IsaImport>>(XedViewKind.IsaImport);
+            get => ref Load<Index<IsaImport>>(XedRecord.IsaImport);
         }
 
         public ref readonly Index<CpuIdImport> CpuIdImport
         {
             [MethodImpl(Inline)]
-            get => ref Load<Index<CpuIdImport>>(XedViewKind.CpuIdImport);
+            get => ref Load<Index<CpuIdImport>>(XedRecord.CpuIdImport);
         }
 
         public ref readonly Index<TypeTable> TypeTables
         {
             [MethodImpl(Inline)]
-            get => ref Load<Index<TypeTable>>(XedViewKind.TypeTables);
+            get => ref Load<Index<TypeTable>>(XedRecord.TypeTables);
         }
 
         public ref readonly Index<TypeTableRow> TypeTableRows
         {
             [MethodImpl(Inline)]
-            get => ref Load<Index<TypeTableRow>>(XedViewKind.TypeTableRows);
+            get => ref Load<Index<TypeTableRow>>(XedRecord.TypeTableRows);
         }
 
         public ref readonly ChipMap ChipMap
         {
             [MethodImpl(Inline)]
-            get => ref Load<ChipMap>(XedViewKind.ChipMap);
+            get => ref Load<ChipMap>(XedRecord.ChipMap);
         }
 
         public ref readonly Index<FormImport> FormImports
         {
             [MethodImpl(Inline)]
-            get => ref Load<Index<FormImport>>(XedViewKind.FormImports);
+            get => ref Load<Index<FormImport>>(XedRecord.FormImports);
         }
 
         public ref readonly InstImportBlocks InstImports
         {
             [MethodImpl(Inline)]
-            get => ref Load<InstImportBlocks>(XedViewKind.InstImports);
+            get => ref Load<InstImportBlocks>(XedRecord.InstImports);
         }
 
         public ref readonly Index<AsmBroadcast> AsmBroadcastDefs
         {
             [MethodImpl(Inline)]
-            get => ref Load<Index<AsmBroadcast>>(XedViewKind.AsmBroadcastDefs);
+            get => ref Load<Index<AsmBroadcast>>(XedRecord.AsmBroadcastDefs);
         }
 
         public ref readonly Index<OpWidthRecord> OpWidths
         {
             [MethodImpl(Inline)]
-            get => ref Load<Index<OpWidthRecord>>(XedViewKind.OpWidths);
+            get => ref Load<Index<OpWidthRecord>>(XedRecord.OpWidths);
         }
 
         public ref readonly Index<InstOpSpec> InstOpSpecs
         {
             [MethodImpl(Inline)]
-            get => ref Load<Index<InstOpSpec>>(XedViewKind.InstOpSpecs);
+            get => ref Load<Index<InstOpSpec>>(XedRecord.InstOpSpecs);
         }
 
         public ref readonly ConstLookup<OpWidthCode,OpWidthRecord> OpWidthLookup
         {
             [MethodImpl(Inline)]
-            get => ref Load<ConstLookup<OpWidthCode,OpWidthRecord>>(XedViewKind.WidthLookup);
+            get => ref Load<ConstLookup<OpWidthCode,OpWidthRecord>>(XedRecord.WidthLookup);
         }
     }
 }

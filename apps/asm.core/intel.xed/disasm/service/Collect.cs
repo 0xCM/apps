@@ -6,13 +6,12 @@
 namespace Z0
 {
     using static core;
-    using static XedDisasmModels;
 
     partial class XedDisasmSvc
     {
         public void Collect(WsContext context)
         {
-            Projects.ProjectData(context.Project, scope).Clear();
+            AppDb.ProjectDb(context.Project, disasm).Clear();
             var docs = CalcDocs(context);
             exec(PllExec,
                 () => EmitConsolidated(context,docs),

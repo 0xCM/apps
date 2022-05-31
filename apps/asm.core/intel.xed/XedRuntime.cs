@@ -5,15 +5,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     using static XedRules;
     using static XedPatterns;
     using static XedModels;
     using static core;
     using static XedOps;
     using static XedImport;
-    using I = XedViewKind;
+
+    using I = XedRecord;
 
     public partial class XedRuntime : AppService<XedRuntime>
     {
@@ -38,6 +37,8 @@ namespace Z0
         public XedRules Rules => Wf.XedRules(this);
 
         public XedOps XedOps => Wf.XedOps(this);
+
+        public XedDisasm XedDisasm => Wf.XedDisasm2(this);
 
         public XedImport Import => Wf.XedImport(this);
 

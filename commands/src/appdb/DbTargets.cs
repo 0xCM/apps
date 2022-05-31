@@ -30,33 +30,38 @@ namespace Z0
             Root = FS.dir(root.Format(PathSeparator.FS).Replace($"/{Scope}", EmptyString));
         }
 
+        public FS.FolderPath Dir()
+            => Scoped();
+
+        FS.FolderPath Scoped()
+            => Root + FS.folder(Scope);
+
         public DbTargets Delete()
         {
-            OutDir().Delete();
+            Scoped().Delete();
             return this;
         }
 
         public DbTargets Clear()
         {
-            OutDir().Clear();
+            Scoped().Clear();
             return this;
         }
+
+        public FS.Files Files()
+            => Scoped().AllFiles;
 
         public DbSources ToSource()
             => new DbSources(Root, Scope);
 
-        [MethodImpl(Inline)]
         public DbTargets Targets(string scope)
-            => new DbTargets(OutDir(), scope);
-
-        FS.FolderPath OutDir()
-            => Root + FS.folder(Scope);
+            => new DbTargets(Scoped(), scope);
 
         public FS.FolderPath Dir(string scope)
             => Root + FS.folder(scope);
 
         public FS.FolderPath OutDir(string scope)
-            => OutDir() + FS.folder(scope);
+            => Scoped() + FS.folder(scope);
 
         public FS.FileName File(string name, FileKind kind)
             => FS.file(name, kind.Ext());
@@ -65,26 +70,32 @@ namespace Z0
             => FS.file(string.Format("{0}.{1}.{2}", Scope, scope, name), kind.Ext());
 
         public FS.FilePath Path(string name, FileKind kind)
-            => OutDir() + File(name, kind);
+            => Scoped() + File(name, kind);
 
         public FS.FilePath MsilPath(ApiHostUri host)
             => Root + FS.hostfile(host, FS.Il);
 
         public FS.FilePath Path(FS.FileName file)
-            => OutDir() + file;
+            => Scoped() + file;
 
         public FS.FilePath Path(string scope, string name, FileKind kind)
             => OutDir(scope) + File(scope, name,kind);
 
         public FS.FilePath Table<T>()
             where T : struct
-                => OutDir() + Tables.filename<T>();
+                => Scoped() + Tables.filename<T>();
 
         public FS.FilePath Table<T>(string prefix)
             where T : struct
-                => OutDir() + Tables.filename<T>(prefix);
+                => Scoped() + Tables.filename<T>(prefix);
 
         public static implicit operator FS.FolderPath(DbTargets src)
-            => src.OutDir();
+            => src.Scoped();
+
+        public string Format()
+            => Dir().Format();
+
+        public override string ToString()
+            => Format();
     }
 }

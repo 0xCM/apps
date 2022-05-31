@@ -10,6 +10,10 @@ namespace Z0
 
          DbTargets Project(string name);
 
+         DbTargets ProjectDb();
+
+         DbTargets ProjectDb(string name);
+
          DbTargets CgTarget(CgTarget dst);
 
          DbTargets Targets();
@@ -17,5 +21,7 @@ namespace Z0
          DbTargets Targets(string scope);
 
          DbSources Sources(string scope);
+
+         WsDb WsDb(string name);
     }
 }

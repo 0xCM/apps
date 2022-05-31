@@ -8,6 +8,7 @@ namespace Z0
 
     partial class AsmCoreCmd
     {
+
         [CmdOp("alloc/check")]
         Outcome CheckAlloc(CmdArgs args)
         {

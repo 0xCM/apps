@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
     public sealed partial class XedTool : ToolService<XedTool>
     {
         const string group = "xedtool";
@@ -17,11 +18,15 @@ namespace Z0
 
         }
 
+        [CmdOp("xed/tools")]
+        void ListDeployed()
+            => iter(Deployment.Files(FS.Exe), file => Write(file.ToUri()));
+
         public ScriptSpec DefineScript(string name, FS.FolderPath dst)
         {
             var @case = new ScriptSpec();
             @case.Name = name;
-            @case.InputPath = input(dst,  binfile(name));
+            @case.InputPath = input(dst, binfile(name));
             @case.SummaryPath = output(dst, ToolFile(name, "summary", FileKind.Log));
             @case.DetailPath =  output(dst, ToolFile(name, "detail", FileKind.Log));
             return @case;

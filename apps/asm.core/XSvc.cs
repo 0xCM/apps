@@ -41,6 +41,9 @@ namespace Z0
             public XedDisasmSvc XedDisasm(IWfRuntime wf, XedRuntime xed)
                 => Service<XedDisasmSvc>(wf).With(xed);
 
+            public XedDisasm XedDisasm2(IWfRuntime wf, XedRuntime xed)
+                => Service<XedDisasm>(wf).With(xed);
+
             public XedDocs XedDocs(IWfRuntime wf, XedRuntime xed)
                 => Service<XedDocs>(wf).With(xed);
 
@@ -85,6 +88,9 @@ namespace Z0
 
             public AsmOpCodes AsmOpCodes(IWfRuntime wf)
                 => Asm.AsmOpCodes.create(wf);
+
+            public X86Dispatcher X86Dispatcher(IWfRuntime wf)
+                => Service<X86Dispatcher>(wf);
         }
 
         static Svc Services => Svc.Instance;
@@ -112,6 +118,9 @@ namespace Z0
 
         public static XedDisasmSvc XedDisasm(this IWfRuntime wf, XedRuntime xed)
             => Services.XedDisasm(wf, xed);
+
+        public static XedDisasm XedDisasm2(this IWfRuntime wf, XedRuntime xed)
+            => Services.XedDisasm2(wf, xed);
 
         public static XedDocs XedDocs(this IWfRuntime wf, XedRuntime xed)
             => Services.XedDocs(wf, xed);
@@ -157,6 +166,9 @@ namespace Z0
 
         public static IntelSdmPaths SdmPaths(this IWfRuntime wf)
             => Services.SdmPaths(wf);
+
+        public static X86Dispatcher X86Dispatcher(this IWfRuntime wf)
+            => Services.X86Dispatcher(wf);
 
         public static NasmCatalog NasmCatalog(this IWfRuntime wf)
             => Asm.NasmCatalog.create(wf);

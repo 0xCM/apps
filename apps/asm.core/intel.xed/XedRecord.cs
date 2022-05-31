@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public enum XedViewKind : byte
+    public enum XedRecord : byte
     {
         InstPattern,
 
@@ -46,7 +46,5 @@ namespace Z0
         InstOpSpecs,
 
         InstOpDetail,
-
-
     }
 }

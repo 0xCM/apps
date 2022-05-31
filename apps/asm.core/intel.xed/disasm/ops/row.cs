@@ -11,14 +11,13 @@ namespace Z0
     using static XedModels;
     using static XedOps;
     using static XedRules;
-    using static XedDisasmModels;
 
     partial class XedDisasm
     {
         static Dictionary<OpNameKind,Operand> ops(in DisasmState state, in AsmHexCode code)
         {
             var dst = dict<OpNameKind,Operand>();
-            var values = XedState.Code.ops(state.RuleState, code);
+            var values = XedCode.ops(state.RuleState, code);
             var count = values.Count;
             for(var i=0; i<count; i++)
             {
@@ -63,7 +62,7 @@ namespace Z0
             var dstate = new DisasmFieldParser().Parse(inst.Props);
             var opsLU = ops(dstate, code);
             ref readonly var state = ref dstate.RuleState;
-            dst.Offsets = XedState.Code.offsets(state);
+            dst.Offsets = XedCode.offsets(state);
             dst.OpCode = state.NOMINAL_OPCODE;
             dst.Ops = new OpDetails(alloc<OpDetail>(src.Block.OpCount));
             var ocpos = state.POS_NOMINAL_OPCODE;

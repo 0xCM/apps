@@ -5,12 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedDisasmModels;
-
-    partial class XedDisasmModels
-    {
-
-    }
+    using static XedDisasm;
 
     public readonly record struct XedDisasmLines : IComparable<XedDisasmLines>
     {

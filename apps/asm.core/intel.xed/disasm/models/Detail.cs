@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedDisasmModels
-    {
-
-    }
-
     partial class XedDisasm
     {
         public class Detail : IComparable<Detail>

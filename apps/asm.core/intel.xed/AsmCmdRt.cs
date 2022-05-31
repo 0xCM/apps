@@ -22,14 +22,6 @@ namespace Z0
             get => CmdSvc;
         }
 
-        public XedDocs XedDocs => Xed.Docs;
-
-        public XedDb XedDb => Xed.XedDb;
-
-        public XedPaths XedPaths => XedPaths.Service;
-
-        public XedRules XedRules => Xed.Rules;
-
         public XedDisasmSvc XedDisasm => Wf.XedDisasm(Xed);
 
         protected override void Disposing()

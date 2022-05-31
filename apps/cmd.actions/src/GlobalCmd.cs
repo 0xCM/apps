@@ -17,47 +17,6 @@ namespace Z0
             return svc;
         }
 
-        public static void dispatch(ReadOnlySpan<string> args)
-        {
-            try
-            {
-                var count = args.Length;
-                var paths = EnvPaths.create();
-                var handlers = paths.ResultHandlers();
-
-                for(var i=0; i<count; i++)
-                {
-                    var name = FS.file(args[i]);
-                    term.inform(name);
-
-                    if(!name.HasExtension)
-                        name = name.WithExtension(FS.Cmd);
-
-                    var script = paths.ControlScript(name);
-                    if(script.Exists)
-                    {
-                        var runner = paths.ScriptRunner();
-                        var output = runner.RunControlScript(name);
-                        var processor = CmdResultProcessor.create(script, handlers);
-                        term.inform("Response");
-                        iter(output, x => processor.Process(x));
-                    }
-                    else
-                    {
-                        term.error($"The script {script.ToUri()} does not exist");
-                    }
-                }
-            }
-            catch(Exception e)
-            {
-                term.error(e);
-            }
-        }
-
-        public GlobalCmd()
-        {
-        }
-
         public void RunCmd(string name)
         {
             var result = Dispatcher.Dispatch(name);
@@ -102,13 +61,6 @@ namespace Z0
 
         protected override ICmdProvider[] CmdProviders(IWfRuntime wf)
             => _Providers;
-
-        // [CmdOp("asm-gen-models")]
-        // protected Outcome GenAsmModels(CmdArgs args)
-        // {
-        //     var dst = Service(Wf.CodeGen).CodeGenDir("asm.models");
-        //     return true;
-        // }
 
         [CmdOp("capture")]
         Outcome CaptureV1(CmdArgs args)

@@ -17,9 +17,14 @@ namespace Z0
             Scope = scope;
         }
 
-        [MethodImpl(Inline)]
         public DbSources Scoped(string scope)
             => new DbSources(Sources(), scope);
+
+        public FS.FolderPath Dir()
+            => Scoped();
+
+        FS.FolderPath Scoped()
+            => Root + FS.folder(Scope);
 
         public FS.FolderPath Sources()
             => Root + FS.folder(Scope);
@@ -58,6 +63,12 @@ namespace Z0
         public FS.FilePath Table<T>()
             where T : struct
                 => Sources() + Tables.filename<T>();
+
+        public string Format()
+            => Dir().Format();
+
+        public override string ToString()
+            => Format();
 
         public static implicit operator FS.FolderPath(DbSources src)
             => src.Sources();

@@ -7,14 +7,11 @@ namespace Z0
 {
     using static core;
     using static XedDisasm;
-    using static XedDisasmModels;
 
     partial class XedDisasmSvc
     {
         public void EmitBreakdowns(WsContext context, Index<Document> docs)
-        {
-            iter(docs, doc => EmitBreakdowns(context, doc), PllExec);
-        }
+            => iter(docs, doc => EmitBreakdowns(context, doc), PllExec);
 
         public void EmitBreakdowns(WsContext context, Document doc)
         {

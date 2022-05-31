@@ -7,7 +7,9 @@ namespace Z0
 {
     public partial class XedDisasmSvc : AppService<XedDisasmSvc>
     {
-        const string scope = "xed.disasm";
+        const string disasm = "xed.disasm";
+
+        AppDb AppDb => Wf.AppDb();
 
         WsProjects Projects => Wf.WsProjects();
 
@@ -20,7 +22,6 @@ namespace Z0
         public XedDisasmSvc With(XedRuntime xed)
         {
             Xed = xed;
-
             return this;
         }
 

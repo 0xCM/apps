@@ -5,11 +5,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     using static XedRules;
     using static XedOps;
-    using static XedDisasmModels;
     using static core;
 
     using K = XedRules.FieldKind;

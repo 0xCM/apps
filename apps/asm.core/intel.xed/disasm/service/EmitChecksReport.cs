@@ -10,7 +10,6 @@ namespace Z0
     using static XedModels;
     using static XedDisasm;
     using static XedOps;
-    using static XedDisasmModels;
 
     partial class XedDisasmSvc
     {
@@ -45,7 +44,7 @@ namespace Z0
                 var cells = XedDisasm.update(lines, ref state);
                 var ocindex = XedOpCodes.index(state);
                 var ockind = XedOpCodes.kind(ocindex);
-                var encoding  = XedState.Code.encoding(state, asmhex);
+                var encoding  = XedCode.encoding(state, asmhex);
                 var ocbyte = View.ocbyte(state);
                 var ochex = XedRender.format(ocbyte);
                 var ocbits = BitRender.format8x4(ocbyte);

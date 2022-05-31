@@ -74,9 +74,6 @@ namespace Z0
         public static ApiCatalogs ApiCatalogs(this IWfRuntime wf)
             => Services.ApiCatalogs(wf);
 
-        public static ScriptRunner ScriptRunner(this IEnvPaths paths)
-            => Z0.ScriptRunner.create(paths);
-
         public static ApiCaptureArchive ApiCaptureArchive(this IWfRuntime wf)
             => Z0.ApiCaptureArchive.create(wf);
 

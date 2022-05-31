@@ -8,7 +8,6 @@ namespace Z0
     using Asm;
 
     using static core;
-    using static XedDisasm;
 
     partial class XedDisasmSvc
     {

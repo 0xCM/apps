@@ -7,12 +7,6 @@ namespace Z0
 {
     using static XedDisasmModels;
 
-
-    partial class XedDisasmModels
-    {
-
-    }
-
     partial class XedDisasm
     {
         public class Document

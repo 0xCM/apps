@@ -8,7 +8,7 @@ namespace Z0
     partial class XedTool
     {
         [StructLayout(LayoutKind.Sequential, Pack=1), Cmd(CmdName)]
-        public struct XedToolCmd : IFileFlowCmd<XedToolCmd>
+        public struct ToolCmd : IFileFlowCmd<ToolCmd>
         {
             const string CmdName = "xedtool.cmd";
 

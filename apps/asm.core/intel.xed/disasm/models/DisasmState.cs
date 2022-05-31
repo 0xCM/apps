@@ -5,11 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     using static XedRules;
-    using static XedDisasmModels;
-
 
     partial class XedDisasm
     {

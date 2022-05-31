@@ -8,7 +8,7 @@ namespace Z0
     using static XedModels;
     using static XedRules;
 
-    partial class XedDisasmModels
+    partial class XedDisasm
     {
         [StructLayout(LayoutKind.Sequential, Pack=1)]
         public record struct OpDetail

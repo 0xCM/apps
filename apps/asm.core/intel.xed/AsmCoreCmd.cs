@@ -29,23 +29,25 @@ namespace Z0
 
         CoffServices Coff => Wf.CoffServices();
 
-        XedDocs XedDocs => CmdRt.XedDocs;
+        XedDocs XedDocs => Xed.Docs;
 
-        XedPaths XedPaths => CmdRt.XedPaths;
+        XedPaths XedPaths => Xed.Paths;
 
-        XedRules Rules => CmdRt.XedRules;
+        XedRules Rules => Xed.Rules;
+
+        XedDisasm Disasm2 => Xed.XedDisasm;
 
         XedDisasmSvc Disasm => CmdRt.XedDisasm;
 
-        XedDb XedDb => CmdRt.XedDb;
+        XedDb XedDb => Xed.XedDb;
 
         CsLang CsLang => Wf.CsLang();
 
-        AsmDocs AsmDocs => Service(Wf.AsmDocs);
+        AsmDocs AsmDocs => Wf.AsmDocs();
 
-        AsmCodeGen AsmCodeGen => Service(Wf.AsmCodeGen);
+        AsmCodeGen AsmCodeGen => Wf.AsmCodeGen();
 
-        X86Dispatcher Jumps => Service(() => X86Dispatcher.create(Wf));
+        X86Dispatcher Jumps => Wf.X86Dispatcher();
 
         IntelSdm Sdm => Wf.IntelSdm();
 

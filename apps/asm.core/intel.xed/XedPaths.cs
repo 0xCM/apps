@@ -9,7 +9,7 @@ namespace Z0
     using static XedRules;
     using static Markdown;
 
-    public class XedPaths //: GlobalService<XedPaths, XedPaths.SvcState>
+    public class XedPaths
     {
         public static XedPaths Service => Instance;
 

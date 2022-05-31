@@ -6,20 +6,11 @@
 namespace Z0
 {
     using static XedRules;
-    using static XedDisasmModels;
-
-    partial class XedDisasmModels
-    {
-
-    }
 
     partial class XedDisasm
     {
         public readonly record struct DataFile : IComparable<DataFile>
         {
-            public static DataFile load(WsContext context, in FileRef src)
-                => datafile(context,src);
-
             public readonly FileRef Origin;
 
             public readonly FileRef Source;
