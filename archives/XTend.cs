@@ -14,6 +14,14 @@ namespace Z0
     {
         const NumericKind Closure = Root.UnsignedInts;
 
+        [Op]
+        public static AsciLineReader AsciLineReader(this FS.FilePath src)
+            => new AsciLineReader(src.AsciReader());
+
+        [Op]
+        public static UnicodeLineReader UnicodeLineReader(this FS.FilePath src)
+            => new UnicodeLineReader(src.UnicodeReader());
+
         public static void AppendLines<T>(this ITextEmitter dst, ReadOnlySpan<T> src)
         {
             for(var i=0; i<src.Length; i++)

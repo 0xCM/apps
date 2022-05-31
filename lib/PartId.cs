@@ -33,6 +33,9 @@ public enum PartId : byte
     [Symbol("apps.core")]
     AppCore,
 
+    [Symbol("symbols")]
+    Symbols,
+
     [Symbol("cmd.actions")]
     CmdActions,
 
@@ -45,14 +48,14 @@ public enum PartId : byte
     [Symbol("test.checks")]
     Checks,
 
-    [Symbol("res")]
-    Res,
+    // [Symbol("res")]
+    // Res,
 
     [Symbol("machines.x86")]
     X86Machine,
 
-    [Symbol("lines")]
-    Lines,
+    [Symbol("assets")]
+    Assets,
 
     [Symbol("numbers")]
     Numbers,

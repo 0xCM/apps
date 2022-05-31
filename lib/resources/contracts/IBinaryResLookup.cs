@@ -4,12 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
     using System.Linq;
     using System.Collections;
-    using System.Collections.Generic;
-
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     public interface IBinaryResLookup : IContentIndex<BinaryRes>
     {

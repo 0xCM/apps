@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Defines the content of a binary resource
     /// </summary>

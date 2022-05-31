@@ -8,6 +8,6 @@ namespace Z0
     [LiteralProvider]
     public readonly struct ApiGranules
     {
-
+        public const string polybits = "polybits";
     }
 }

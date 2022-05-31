@@ -1,6 +1,19 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <PropertyGroup>
+    <ZLib>$(MSBuildThisFileDirectory)lib/z0.lib.csproj</ZLib>
+
+    <Alloc>$(TopDir)alloc/z0.alloc.csproj</Alloc>
+    <Archives>$(TopDir)archives/z0.archives.csproj</Archives>
+    <Assets>$(TopDir)assets/z0.assets.csproj</Assets>
+    <Symbols>$(TopDir)symbols/z0.symbols.csproj</Symbols>
+
+    <Bits>$(TopDir)bits/z0.bits.csproj</Bits>
+    <Cli>$(TopDir)cli/z0.cli.csproj</Cli>
+    <Commands>$(TopDir)commands/z0.commands.csproj</Commands>
+    <Numbers>$(TopDir)numbers/z0.numbers.csproj</Numbers>
+    <Expr>$(TopDir)expr/z0.expr.csproj</Expr>
+    <Diagnostics>$(TopDir)diagnostics/z0.diagnostics.csproj</Diagnostics>
 
     <AppCore>$(AppsRoot)apps.core/z0.apps.core.csproj</AppCore>
     <Asm>$(AppsRoot)asm/z0.asm.csproj</Asm>
@@ -10,46 +23,27 @@
     <AsmServices>$(AppsRoot)asm.services/z0.asm.services.csproj</AsmServices>
     <IntelIntrinsics>$(AppsRoot)intel.intrinsics/z0.intel.intrinsics.csproj</IntelIntrinsics>
     <IntelCore>$(AppsRoot)intel.core/z0.intel.core.csproj</IntelCore>
-
-    <Cli>$(TopDir)cli/z0.cli.csproj</Cli>
-    <Commands>$(TopDir)commands/z0.commands.csproj</Commands>
-
-    <Alloc>$(TopDir)alloc/z0.alloc.csproj</Alloc>
-    <Archives>$(TopDir)archives/z0.archives.csproj</Archives>
-    <Bits>$(TopDir)bits/z0.bits.csproj</Bits>
-    <Lines>$(TopDir)lines/z0.lines.csproj</Lines>
-    <Numbers>$(TopDir)numbers/z0.numbers.csproj</Numbers>
-    <Expr>$(TopDir)expr/z0.expr.csproj</Expr>
-    <Diagnostics>$(TopDir)diagnostics/z0.diagnostics.csproj</Diagnostics>
-    <Archives>$(MSBuildThisFileDirectory)archives/z0.archives.csproj</Archives>
-    <TestChecks>$(MSBuildThisFileDirectory)test/test.checks/z0.test.checks.csproj</TestChecks>
-
     <Capture>$(AppsRoot)capture/z0.capture.csproj</Capture>
     <CpuDsl>$(AppsRoot)cpu.dsl/z0.cpu.dsl.csproj</CpuDsl>
     <Canonical>$(AppsRoot)canonical/z0.canonical.csproj</Canonical>
-
     <Gen>$(AppsRoot)gen/z0.gen.csproj</Gen>
     <Glue>$(AppsRoot)glue/z0.glue.csproj</Glue>
     <CmdActions>$(AppsRoot)cmd.actions/z0.cmd.actions.csproj</CmdActions>
-
     <Machine>$(AppsRoot)machine/z0.machine.csproj</Machine>
     <Machines>$(AppsRoot)machines/z0.machines.csproj</Machines>
     <MachinesX86>$(AppsRoot)machines.X86/z0.machines.X86.csproj</MachinesX86>
-
     <LlvmTools>$(AppsRoot)llvm.tools/z0.llvm.tools.csproj</LlvmTools>
     <LlvmModels>$(AppsRoot)llvm.models/z0.llvm.models.csproj</LlvmModels>
 
-    <Records>$(AppsRoot)records/z0.records.csproj</Records>
-    <TestUnits>$(TestRoot)test.units/z0.test.units.csproj</TestUnits>
-    <ZLib>$(MSBuildThisFileDirectory)lib/z0.lib.csproj</ZLib>
+    <TestChecks>$(TestRoot)test.checks/z0.test.checks.csproj</TestChecks>
     <Checks>$(TestRoot)test.checks/z0.test.checks.csproj</Checks>
+    <TestUnits>$(TestRoot)test.units/z0.test.units.csproj</TestUnits>
     <TestUnits>$(TestRoot)test.units/z0.test.units.csproj</TestUnits>
 
     <CodeGenLlvm>$(CodeGenRoot)codegen.llvm/z0.codegen.llvm.csproj</CodeGenLlvm>
     <CodeGenResPack>$(CodeGenRoot)codegen.respack/z0.codegen.respack.csproj</CodeGenResPack>
     <CodeGenIntel>$(CodeGenRoot)codegen.intel/z0.codegen.intel.csproj</CodeGenIntel>
     <CgCommon>$(CodeGenRoot)codegen.common/z0.codegen.common.csproj</CgCommon>
-
 
   </PropertyGroup>
 

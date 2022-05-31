@@ -8,14 +8,15 @@ dotnet sln %SlnPath% add %LibDir%/z0.lib.csproj
 
 dotnet sln %SlnPath% add %TopDir%/alloc/z0.alloc.csproj
 dotnet sln %SlnPath% add %TopDir%/archives/z0.archives.csproj
+dotnet sln %SlnPath% add %TopDir%/assets/z0.assets.csproj
 dotnet sln %SlnPath% add %TopDir%/bits/z0.bits.csproj
 dotnet sln %SlnPath% add %TopDir%/commands/z0.commands.csproj
+dotnet sln %SlnPath% add %TopDir%/deprecated/z0.deprecated.csproj
 dotnet sln %SlnPath% add %TopDir%/diagnostics/z0.diagnostics.csproj
 dotnet sln %SlnPath% add %TopDir%/expr/z0.expr.csproj
 dotnet sln %SlnPath% add %TopDir%/extract/z0.extract.csproj
-dotnet sln %SlnPath% add %TopDir%/lines/z0.lines.csproj
 dotnet sln %SlnPath% add %TopDir%/numbers/z0.numbers.csproj
-dotnet sln %SlnPath% add %TopDir%/deprecated/z0.deprecated.csproj
+dotnet sln %SlnPath% add %TopDir%/symbols/z0.symbols.csproj
 
 dotnet sln %SlnPath% add %AppDir%/apps.core/z0.apps.core.csproj
 dotnet sln %SlnPath% add %AppDir%/asm/z0.asm.csproj

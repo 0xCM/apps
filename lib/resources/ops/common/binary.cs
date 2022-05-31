@@ -4,12 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Reflection;
     using System.Linq;
-
-    using static Root;
 
     partial struct Resources
     {
