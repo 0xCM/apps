@@ -19,7 +19,7 @@ namespace Z0
         {
             var subdirs = Tools.Root.SubDirs();
             var counter = 0u;
-            var formatter = Tables.formatter<ToolConfig>(16);
+            var formatter = Tables.formatter<ToolConfig>(16,RecordFormatKind.KeyValuePairs);
             var dst = Tools.Inventory();
             var emitting = EmittingFile(dst);
             using var writer = dst.AsciWriter();
@@ -38,7 +38,7 @@ namespace Z0
                             continue;
                         }
 
-                        var settings = formatter.Format(c,RecordFormatKind.KeyValuePairs);
+                        var settings = formatter.Format(c);
                         var title = string.Format("# {0}", c.ToolId);
                         var sep = string.Format("# {0}", RP.PageBreak80);
 

@@ -11,6 +11,18 @@ namespace Z0
 
     partial struct Tables
     {
+        public static ExecToken emit<T>(IWfMsg msg, ReadOnlySpan<T> src, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci, ushort rowpad = 0, RecordFormatKind fk = RecordFormatKind.Tablular, string delimiter = Tables.DefaultDelimiter)
+            where T : struct
+        {
+            var emitting = msg.EmittingTable<T>(dst);
+            var formatter = RecordFormatters.create<T>(rowpad, fk, delimiter);
+            using var writer = dst.Emitter(encoding);
+            writer.WriteLine(formatter.FormatHeader());
+            for(var i=0; i<src.Length; i++)
+                writer.WriteLine(formatter.Format(skip(src,i)));
+            return msg.EmittedTable(emitting, src.Length, dst);
+        }
+
         [Op, Closures(Closure)]
         public static Count emit<T>(ReadOnlySpan<T> src, StreamWriter dst)
             where T : struct
@@ -40,7 +52,7 @@ namespace Z0
         public static void emit<T>(ReadOnlySpan<T> src, Action<string> dst)
             where T : struct
         {
-            var f = formatter<T>(rowspec<T>());
+            var f = formatter<T>(rowspec<T>(DefaultFieldWidth));
             var count = src.Length;
             for(var i=0; i<count; i++)
                 dst(f.Format(skip(src,i)));

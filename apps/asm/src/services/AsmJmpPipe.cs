@@ -10,7 +10,7 @@ namespace Z0.Asm
 
     public sealed class AsmJmpPipe : AppService<AsmJmpPipe>
     {
-        public ReadOnlySpan<AsmJmpRow> EmitRows(ReadOnlySpan<AsmRoutine> src, FS.FilePath dst)
+        public Index<AsmJmpRow> EmitRows(ReadOnlySpan<AsmRoutine> src, FS.FilePath dst)
         {
             var rows = Collect(src);
             Store(rows, dst);
@@ -32,7 +32,7 @@ namespace Z0.Asm
             }
         }
 
-        ReadOnlySpan<AsmJmpRow> Collect(ReadOnlySpan<AsmRoutine> src)
+        Index<AsmJmpRow> Collect(ReadOnlySpan<AsmRoutine> src)
         {
             var dst = list<AsmJmpRow>();
             for(var i=0u; i<src.Length; i++)
@@ -56,7 +56,7 @@ namespace Z0.Asm
                 }
             }
 
-            return dst.ViewDeposited();
+            return dst.ToArray();
         }
 
         [Op]

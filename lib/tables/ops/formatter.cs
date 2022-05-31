@@ -10,17 +10,17 @@ namespace Z0
         /// Creates a <see cref='IRecordFormatter{T}'> instance for a specified record type
         /// </summary>
         /// <typeparam name="T">The record type</typeparam>
-        public static IRecordFormatter<T> formatter<T>()
+        public static IRecordFormatter<T> formatter<T>(ushort rowpad = 0, RecordFormatKind fk = RecordFormatKind.Tablular, string delimiter = DefaultDelimiter)
             where T : struct
-                => RecordFormatter.create<T>();
+                => RecordFormatters.create<T>(rowpad, fk, delimiter);
 
         /// <summary>
         /// Creates a <see cref='IRecordFormatter'> instance for a specified record type
         /// </summary>
         /// <param name="record">The record type</param>
         /// <param name="delimiter">The field delimiter</param>
-        public static IRecordFormatter formatter(Type record, string delimiter = DefaultDelimiter)
-            => RecordFormatter.create(record, delimiter:delimiter);
+        public static IRecordFormatter formatter(Type record, ushort rowpad = 0, RecordFormatKind fk = RecordFormatKind.Tablular, string delimiter = DefaultDelimiter)
+            => RecordFormatters.create(record, rowpad, fk, delimiter);
 
         /// <summary>
         /// Defines a <typeparamref name='T'/> record formatter

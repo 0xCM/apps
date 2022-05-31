@@ -13,7 +13,7 @@ namespace Z0
         [CmdOp("xed/db/check")]
         Outcome CheckXedDb(CmdArgs args)
         {
-            var formatter = RecordFormatter.create(typeof(TypeTableRow));
+            var formatter = RecordFormatters.create(typeof(TypeTableRow));
             var rows = Xed.Views.TypeTables.SelectMany(x => x.Rows).Sort().Resequence();
             AppSvc.TableEmit(rows, XedPaths.DbTable<TypeTableRow>());
             return true;

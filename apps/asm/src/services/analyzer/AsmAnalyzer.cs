@@ -4,73 +4,68 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     using Asm;
 
     public sealed class AsmAnalyzer : AppService<AsmAnalyzer>
     {
-        AsmRowBuilder AsmRows;
+        AsmRowBuilder AsmRows => Wf.AsmRowBuilder();
 
-        AsmCallPipe Calls;
+        AsmCallPipe Calls => Wf.AsmCallPipe();
 
-        AsmJmpPipe Jumps;
+        AsmJmpPipe Jumps => Wf.AsmJmpPipe();
+
+        ProcessAsmSvc ProcessAsm => Wf.ProcessAsmSvc();
+
+        HostAsmEmitter HostAsm => Wf.HostAsmEmitter();
 
         AsmAnalyzerSettings Settings;
 
         public AsmAnalyzer()
         {
-        }
-
-        protected override void OnInit()
-        {
-            AsmRows = Wf.AsmRowBuilder();
-            Calls = Wf.AsmCallPipe();
-            Jumps = Wf.AsmJmpPipe();
             AsmAnalyzerSettings.@default(out Settings);
         }
 
         public void Analyze(ReadOnlySpan<AsmRoutine> src, ApiPackArchive dst)
         {
-            var blocks = CollectBlocks(src);
-            var statements = Wf.ProcessAsmSvc();
-            var asmcsv = Wf.HostAsmEmitter();
+            var blocks = default(Index<ApiCodeBlock>);
+            var process = default(ReadOnlySpan<ProcessAsmRecord>);
+            var jumps = default(Index<AsmJmpRow>);
+            var calls = default(Index<AsmCallRow>);
+            var hostasm = default(Index<HostAsmRecord>);
+            var details = default(Index<AsmDetailRow>);
             if(Settings.EmitCalls)
-                EmitCalls(src, dst);
+                calls = EmitCalls(src, dst);
 
             if(Settings.EmitJumps)
-                EmitJumps(src, dst);
+                jumps = EmitJumps(src, dst);
 
             if(Settings.EmitStatements)
-                asmcsv.EmitHostAsm(src, dst);
+                hostasm = HostAsm.EmitHostAsm(src, dst);
 
             if(Settings.EmitProcessAsm)
-                statements.EmitProcessAsm(src, dst.ProcessAsmPath());
+                process = ProcessAsm.EmitProcessAsm(src, dst.ProcessAsmPath());
 
             if(Settings.EmitAsmDetails)
-                EmitDetails(blocks, dst);
+            {
+                blocks = CollectBlocks(src);
+                details = EmitDetails(blocks, dst);
+            }
         }
 
-        void EmitDetails(ReadOnlySpan<ApiCodeBlock> src, ApiPackArchive dst)
+        Index<AsmDetailRow> EmitDetails(ReadOnlySpan<ApiCodeBlock> src, ApiPackArchive dst)
         {
             var target = dst.DetailTables();
             target.Clear();
-            var rows = AsmRows.Emit(src, target);
+            return AsmRows.Emit(src, target);
         }
 
-        public SortedSpan<ApiCodeBlock> CollectBlocks(ReadOnlySpan<AsmRoutine> src)
-        {
-            var count = src.Length;
-            var flow = Wf.Running(Msg.CollectingBlocks.Format(count));
-            var blocks = AsmRoutines.blocks(src);
-            Wf.Ran(flow, Msg.CollectedBlocks.Format(count));
-            return blocks;
-        }
+        public Index<ApiCodeBlock> CollectBlocks(ReadOnlySpan<AsmRoutine> src)
+            => AsmRoutines.blocks(src);
 
-        void EmitCalls(ReadOnlySpan<AsmRoutine> src, ApiPackArchive dst)
+        Index<AsmCallRow> EmitCalls(ReadOnlySpan<AsmRoutine> src, ApiPackArchive dst)
             => Calls.EmitRows(src, dst.AsmCallsPath());
 
-        void EmitJumps(ReadOnlySpan<AsmRoutine> src, ApiPackArchive dst)
+        Index<AsmJmpRow> EmitJumps(ReadOnlySpan<AsmRoutine> src, ApiPackArchive dst)
             => Jumps.EmitRows(src, dst.JmpTarget());
     }
 }

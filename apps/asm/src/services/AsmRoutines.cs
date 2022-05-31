@@ -18,12 +18,12 @@ namespace Z0.Asm
             return new AsmRoutine(member.OpUri, member.Method.Artifact().DisplaySig.Format(), code, member.TermCode, ApiInstructions.from(code, asm));
         }
 
-        public static SortedSpan<ApiCodeBlock> blocks(ReadOnlySpan<AsmRoutine> src)
+        public static Index<ApiCodeBlock> blocks(ReadOnlySpan<AsmRoutine> src)
         {
             var count = src.Length;
             var dst = alloc<ApiCodeBlock>(count);
             var size = blocks(src, dst);
-            return dst.ToSortedSpan();
+            return dst.Sort();
         }
 
         [Op]

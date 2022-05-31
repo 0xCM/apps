@@ -26,14 +26,9 @@ namespace Z0
         string Format(in T src);
 
         string IRecordFormatter.Format<X>(in X src)
-            => throw new NotSupportedException();
-
-        string Format(in T src, RecordFormatKind kind);
+            => Format(core.@as<X,T>(src));
 
         TableId IRecordFormatter.TableId
             => TableId.identify(typeof(T));
-
-        string FormatKvp(in T src)
-            => Format(src, RecordFormatKind.KeyValuePairs);
     }
 }

@@ -75,13 +75,13 @@ namespace Z0
             var result = Outcome.Success;
             var ext = FS.ext("env") + FS.Log;
             var paths = Ws.Tools().AdminFiles(ext);
-            var formatter = Tables.formatter<EnvVarSet>(16);
+            var formatter = Tables.formatter<EnvVarSet>(16, RecordFormatKind.KeyValuePairs);
             foreach(var path in paths)
             {
                 result = EnvVarSet.parse(path, out var dst);
                 if(result.Fail)
                     return result;
-                Write(formatter.Format(dst, RecordFormatKind.KeyValuePairs));
+                Write(formatter.Format(dst));
             }
 
             return result;

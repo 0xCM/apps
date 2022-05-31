@@ -8,29 +8,29 @@ namespace Z0
 
     partial struct Tables
     {
-        [Op, Closures(Closure)]
-        public static string format<T>(ref RecordFormatter<T> formatter, in T src)
-            where T : struct
-        {
-            adapt(src, ref formatter.Adapter);
-            return format(formatter.FormatSpec, formatter.Adapter.Adapted);
-        }
+        // [Op, Closures(Closure)]
+        // public static string format<T>(ref RecordFormatter<T> formatter, in T src)
+        //     where T : struct
+        // {
+        //     adapt(src, ref formatter.Adapter);
+        //     return format(formatter.FormatSpec, formatter.Adapter.Adapted);
+        // }
 
         [Op, Closures(Closure)]
         public static string format<T>(in T src)
             where T : struct
                 => formatter<T>(DefaultFieldWidth).Format(src);
 
-        [Op, Closures(Closure)]
-        public static string format<T>(ref RecordFormatter<T> formatter, in T src, RecordFormatKind kind)
-            where T : struct
-        {
-            adapt(src, ref formatter.Adapter);
-            if(kind == RecordFormatKind.Tablular)
-                return format(formatter.FormatSpec, formatter.Adapter.Adapted);
-            else
-                return pairs(formatter.FormatSpec, formatter.Adapter);
-        }
+        // [Op, Closures(Closure)]
+        // public static string format<T>(ref RecordFormatter<T> formatter, in T src, RecordFormatKind kind)
+        //     where T : struct
+        // {
+        //     adapt(src, ref formatter.Adapter);
+        //     if(kind == RecordFormatKind.Tablular)
+        //         return format(formatter.FormatSpec, formatter.Adapter.Adapted);
+        //     else
+        //         return pairs(formatter.FormatSpec, formatter.Adapter);
+        // }
 
         [Op, Closures(Closure)]
         public static string format<T>(in RowFormatSpec rowspec, in DynamicRow<T> src)

@@ -18,38 +18,49 @@ namespace Z0
         /// <summary>
         /// A 0-based monotonic value that serves as a surrogate key
         /// </summary>
+        [Render(12)]
         public uint Sequence;
 
         /// <summary>
         /// A 0-based 32-bit offset
         /// </summary>
+        [Render(16)]
         public Address32 GlobalOffset;
 
         /// <summary>
         /// The IP block address
         /// </summary>
+        [Render(16)]
         public MemoryAddress BlockAddress;
 
         /// <summary>
         /// The IP address
         /// </summary>
+        [Render(16)]
         public MemoryAddress IP;
 
         /// <summary>
         /// The block-relative IP offset
         /// </summary>
+        [Render(16)]
         public Address16 BlockOffset;
 
+        [Render(42)]
         public AsmExpr Statement;
 
+        [Render(32)]
         public AsmHexCode Encoded;
 
+        [Render(42)]
 		public AsmSigInfo Sig;
 
+        [Render(32)]
         public AsmOpCodeString OpCode;
 
+        [Render(128)]
         public string Bitstring;
 
+        [Render(80)]
         public OpUri OpUri;
 
         [MethodImpl(Inline)]
@@ -68,5 +79,7 @@ namespace Z0
 
         public static ReadOnlySpan<byte> RenderWidths
             => new byte[FieldCount]{12,16,16,16,16,42,32,42,32,128,80};
+
+        public static ProcessAsmRecord Empty => default;
     }
 }

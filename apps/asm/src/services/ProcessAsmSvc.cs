@@ -18,7 +18,6 @@ namespace Z0.Asm
 
             var total = ApiInstructions.count(src);
             var buffer = span<ProcessAsmRecord>(total);
-            ref var dst = ref first(buffer);
             var counter = 0u;
             var @base = skip(src,0).BaseAddress;
             for(var i=0u; i<kRountines; i++)
@@ -29,7 +28,7 @@ namespace Z0.Asm
                 if(icount == 0)
                     continue;
 
-                var bytes = routine.Code.Data.ToReadOnlySpan();
+                var data = routine.Code.Data.Index();
                 var i0 = first(instructions);
                 var blockBase = i0.IP;
                 var blockOffset = z16;
@@ -40,28 +39,28 @@ namespace Z0.Asm
                     if(!opcode.IsValid)
                         break;
 
-                    var statement = new ProcessAsmRecord();
-                    var size = (ushort)instruction.ByteLength;
-                    var specifier = instruction.Specifier;
+                    var record = new ProcessAsmRecord();
+                    var size = (byte)instruction.ByteLength;
                     var ip = (MemoryAddress)instruction.IP;
-                    statement.Sequence = counter++;
-                    statement.GlobalOffset = (Address32)(ip - @base);
-                    statement.BlockAddress = blockBase;
-                    statement.BlockOffset = blockOffset;
-                    statement.IP = ip;
-                    statement.OpUri = routine.Uri;
-                    statement.Statement = instruction.FormattedInstruction;
-                    AsmSigInfo.parse(instruction.OpCode.InstructionString, out statement.Sig);
-                    statement.Encoded = asm.asmhex(slice(bytes, blockOffset, size));
-                    statement.OpCode = opcode;
-                    statement.Bitstring = asm.bitstring(statement.Encoded);
-                    seek(buffer,counter) = statement;
+                    record.Sequence = counter++;
+                    record.GlobalOffset = (Address32)(ip - @base);
+                    record.BlockAddress = blockBase;
+                    record.BlockOffset = blockOffset;
+                    record.IP = ip;
+                    record.OpUri = routine.Uri;
+                    record.Statement = instruction.FormattedInstruction;
+                    AsmSigInfo.parse(instruction.OpCode.InstructionString, out record.Sig);
+                    record.Encoded = asm.asmhex(slice(data.View, blockOffset, size));
+                    record.OpCode = opcode;
+                    record.Bitstring = asm.bitstring(record.Encoded);
+                    seek(buffer,counter) = record;
 
                     blockOffset += size;
                 }
             }
 
-            return Spans.sorted(@readonly(slice(buffer,1,counter)));
+            var records = slice(buffer,1,counter);
+            return Spans.sorted(@readonly(records));
         }
 
         public uint EmitProcessAsm(SortedReadOnlySpan<ProcessAsmRecord> src, FS.FilePath dst)

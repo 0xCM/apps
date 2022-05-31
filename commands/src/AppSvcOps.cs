@@ -111,11 +111,12 @@ namespace Z0
             return emitted;
         }
 
-        public ExecToken TableEmit<T>(ReadOnlySpan<T> rows, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
+        public ExecToken TableEmit<T>(ReadOnlySpan<T> rows, FS.FilePath dst,
+            TextEncodingKind encoding = TextEncodingKind.Asci, ushort rowpad = 0, RecordFormatKind fk = RecordFormatKind.Tablular)
             where T : struct
         {
             var emitting = EmittingTable<T>(dst);
-            var formatter = RecordFormatter.create(typeof(T));
+            var formatter = RecordFormatters.create(typeof(T), rowpad, fk);
             using var writer = dst.Writer(encoding);
             writer.WriteLine(formatter.FormatHeader());
             for(var i=0; i<rows.Length; i++)
@@ -123,49 +124,51 @@ namespace Z0
             return EmittedTable(emitting, rows.Length, dst);
         }
 
-        public ExecToken TableEmit<T>(Index<T> rows, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
-            where T : struct
-                => TableEmit(rows.View, dst, encoding);
+        public ExecToken TableEmit<T>(Index<T> rows, FS.FilePath dst,
+            TextEncodingKind encoding = TextEncodingKind.Asci, ushort rowpad = 0, RecordFormatKind fk = RecordFormatKind.Tablular)
+                where T : struct
+                    => TableEmit(rows.View, dst, encoding, rowpad, fk);
 
-        public ExecToken TableEmit<T>(T[] rows, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
-            where T : struct
-                => TableEmit(@readonly(rows), dst, encoding);
+        public ExecToken TableEmit<T>(T[] rows, FS.FilePath dst,
+            TextEncodingKind encoding = TextEncodingKind.Asci, ushort rowpad = 0, RecordFormatKind fk = RecordFormatKind.Tablular)
+                where T : struct
+                    => TableEmit(@readonly(rows), dst, encoding, rowpad, fk);
 
-        public ExecToken TableEmit<T>(Span<T> rows, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
-            where T : struct
-                => TableEmit(@readonly(rows), dst, encoding);
+        // public ExecToken TableEmit<T>(Span<T> rows, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci, ushort rowpad = 0, RecordFormatKind fk = RecordFormatKind.Tablular)
+        //     where T : struct
+        //         => TableEmit(@readonly(rows), dst, encoding);
 
-        protected ExecToken TableEmit<T>(T[] src, ReadOnlySpan<byte> widths, FS.FilePath dst, RecordFormatKind fk, TextEncodingKind encoding = TextEncodingKind.Asci)
-            where T : struct
-                => TableEmit(@readonly(src), widths, dst, fk, encoding);
+        // protected ExecToken TableEmit<T>(T[] src, ReadOnlySpan<byte> widths, FS.FilePath dst, RecordFormatKind fk, TextEncodingKind encoding = TextEncodingKind.Asci)
+        //     where T : struct
+        //         => TableEmit(@readonly(src), widths, dst, fk, encoding);
 
-        public ExecToken TableEmit<T>(ReadOnlySpan<T> src, ReadOnlySpan<byte> widths, FS.FilePath dst, RecordFormatKind fk, TextEncodingKind encoding = TextEncodingKind.Asci)
-            where T : struct
-        {
-            var emitting = EmittingTable<T>(dst);
-            using var emitter = dst.AsciEmitter();
-            TableEmit(src,widths, emitter,fk,encoding);
-            return EmittedTable(emitting, src.Length, dst);
-        }
+        // public ExecToken TableEmit<T>(ReadOnlySpan<T> src, ReadOnlySpan<byte> widths, FS.FilePath dst, RecordFormatKind fk, TextEncodingKind encoding = TextEncodingKind.Asci)
+        //     where T : struct
+        // {
+        //     var emitting = EmittingTable<T>(dst);
+        //     using var emitter = dst.AsciEmitter();
+        //     TableEmit(src,widths, emitter,fk,encoding);
+        //     return EmittedTable(emitting, src.Length, dst);
+        // }
 
-        public void TableEmit<T>(ReadOnlySpan<T> src, ReadOnlySpan<byte> widths, ITextEmitter dst, RecordFormatKind fk, TextEncodingKind encoding = TextEncodingKind.Asci)
-            where T : struct
-        {
-            var formatter = Tables.formatter<T>(widths,fk:fk);
-            var buffer = text.buffer();
-            dst.AppendLine(formatter.FormatHeader());
-            for(var i=0; i<src.Length; i++)
-            {
-                ref readonly var row = ref skip(src,i);
-                if(i != src.Length - 1)
-                    dst.AppendLine(formatter.Format(row));
-                else
-                    dst.Append(formatter.Format(row));
-            }
-        }
+        // public void TableEmit<T>(ReadOnlySpan<T> src, ReadOnlySpan<byte> widths, ITextEmitter dst, RecordFormatKind fk, TextEncodingKind encoding = TextEncodingKind.Asci)
+        //     where T : struct
+        // {
+        //     var formatter = Tables.formatter<T>(widths,fk:fk);
+        //     var buffer = text.buffer();
+        //     dst.AppendLine(formatter.FormatHeader());
+        //     for(var i=0; i<src.Length; i++)
+        //     {
+        //         ref readonly var row = ref skip(src,i);
+        //         if(i != src.Length - 1)
+        //             dst.AppendLine(formatter.Format(row));
+        //         else
+        //             dst.Append(formatter.Format(row));
+        //     }
+        // }
 
-        protected void FormatRows<T>(T[] src, ReadOnlySpan<byte> widths, ITextEmitter dst, RecordFormatKind fk, TextEncodingKind encoding = TextEncodingKind.Asci)
-            where T : struct
-                => TableEmit(@readonly(src), widths, dst, fk, encoding);
+        // protected void FormatRows<T>(T[] src, ReadOnlySpan<byte> widths, ITextEmitter dst, RecordFormatKind fk, TextEncodingKind encoding = TextEncodingKind.Asci)
+        //     where T : struct
+        //         => TableEmit(@readonly(src), widths, dst, fk, encoding);
     }
 }

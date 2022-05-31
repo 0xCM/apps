@@ -11,6 +11,9 @@ namespace Z0
     {
         sealed class Svc : AppServices<Svc>
         {
+            public AsmEtl AsmEtl(IWfRuntime wf)
+                => Service<AsmEtl>(wf);
+
             public AsmDecoder AsmDecoder(IWfRuntime wf)
                 => Service<AsmDecoder>(wf);
 
@@ -25,15 +28,27 @@ namespace Z0
 
             public ApiCapture ApiCapture(IWfRuntime wf)
                 => Service<ApiCapture>(wf);
+
+            public AsmCallPipe AsmCallPipe(IWfRuntime wf)
+                => Service<AsmCallPipe>(wf);
+
+            public ProcessAsmSvc ProcessAsm(IWfRuntime wf)
+                => Service<ProcessAsmSvc>(wf);
+
+            public AsmJmpPipe AsmJmpPipe(IWfRuntime wf)
+                => Service<AsmJmpPipe>(wf);
+
+            public AsmRowBuilder AsmRowBuilder(IWfRuntime wf)
+                => Service<AsmRowBuilder>(wf);
+
+            public AsmAnalyzer AsmAnalyzer(IWfRuntime wf)
+                => Service<AsmAnalyzer>(wf);
         }
 
         static Svc Services => Svc.Instance;
 
-        public static AsmEtl AsmEtl(this IWfRuntime context)
-            => Asm.AsmEtl.create(context);
-
-        public static void RedirectEmissions(this IWfRuntime wf, string name, FS.FolderPath dst)
-            => wf.RedirectEmissions(Loggers.emission(name, dst));
+        public static AsmEtl AsmEtl(this IWfRuntime wf)
+            => Services.AsmEtl(wf);
 
         public static ApiExtractor ApiExtractor(this IWfRuntime wf)
             => Services.ApiExtractor(wf);
@@ -42,7 +57,7 @@ namespace Z0
             => Services.ApiExtractWorkflow(wf);
 
         public static AsmRowBuilder AsmRowBuilder(this IWfRuntime wf)
-            => Asm.AsmRowBuilder.create(wf);
+            => Services.AsmRowBuilder(wf);
 
         public static HostAsmEmitter HostAsmEmitter(this IWfRuntime wf)
             => Services.HostAsmEmitter(wf);
@@ -51,18 +66,18 @@ namespace Z0
             => Services.ApiCapture(wf);
 
         public static AsmJmpPipe AsmJmpPipe(this IWfRuntime wf)
-            => Asm.AsmJmpPipe.create(wf);
+            => Services.AsmJmpPipe(wf);
 
         public static AsmDecoder AsmDecoder(this IWfRuntime wf)
             => Services.AsmDecoder(wf);
 
         public static ProcessAsmSvc ProcessAsmSvc(this IWfRuntime wf)
-            => Asm.ProcessAsmSvc.create(wf);
+            => Services.ProcessAsm(wf);
 
         public static AsmCallPipe AsmCallPipe(this IWfRuntime wf)
-            => Asm.AsmCallPipe.create(wf);
+            => Services.AsmCallPipe(wf);
 
         public static AsmAnalyzer AsmAnalyzer(this IWfRuntime wf)
-            => Z0.AsmAnalyzer.create(wf);
+            => Services.AsmAnalyzer(wf);
     }
 }

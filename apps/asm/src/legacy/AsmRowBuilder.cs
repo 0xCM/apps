@@ -30,7 +30,7 @@ namespace Z0.Asm
             Decoder = Wf.AsmDecoder();
         }
 
-        public ReadOnlySpan<AsmDetailRow> Emit(ReadOnlySpan<ApiCodeBlock> src)
+        public Index<AsmDetailRow> Emit(ReadOnlySpan<ApiCodeBlock> src)
             => Emit(src, Db.TableDir<AsmDetailRow>());
 
 
@@ -38,7 +38,7 @@ namespace Z0.Asm
         public static AsmRowSet<T> rowset<T>(T key, AsmDetailRow[] src)
             => new AsmRowSet<T>(key,src);
 
-        public ReadOnlySpan<AsmDetailRow> Emit(ReadOnlySpan<ApiCodeBlock> src, FS.FolderPath dst)
+        public Index<AsmDetailRow> Emit(ReadOnlySpan<ApiCodeBlock> src, FS.FolderPath dst)
         {
             var rows = BuildRows(src);
             var rowsets = rows.GroupBy(x => x.Mnemonic).Select(x => rowset(x.Key, x.Array())).Array().ToReadOnlySpan();
