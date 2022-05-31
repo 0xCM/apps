@@ -7,14 +7,19 @@ namespace Z0
     [StructLayout(StructLayout,Pack=1)]
     public struct MemorySymbol : IComparable<MemorySymbol>, IEquatable<MemorySymbol>
     {
+        [Render(6)]
         public uint Key;
 
+        [Render(12)]
         public Hash32 HashCode;
 
+        [Render(16)]
         public MemoryAddress Address;
 
+        [Render(8)]
         public ByteSize Size;
 
+        [Render(1)]
         public SymExpr Expr;
 
         [MethodImpl(Inline)]

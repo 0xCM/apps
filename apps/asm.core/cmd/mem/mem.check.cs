@@ -10,11 +10,10 @@ namespace Z0
     partial class AsmCoreCmd
     {
         [CmdOp("mem/check")]
-        Outcome CheckMem()
+        void CheckMem()
         {
-            var dst = text.emitter();
-            var result = CheckLookups(dst);
-            return result;
+
+
         }
 
         ApiCode ApiCode => Wf.ApiCode();
@@ -53,9 +52,6 @@ namespace Z0
         public static FS.FilePath csv(FS.FolderPath src, ApiHostUri host)
             => src + host.FileName(FS.PCsv);
 
-        DbSources CaptureSources()
-            => AppDb.ApiTargets("capture").ToSource();
-
 
         void PackHex()
         {
@@ -80,6 +76,22 @@ namespace Z0
             }
         }
 
+        void CheckLookups()
+        {
+            using var members = ApiCode.Load(PartId.AsmCore);
+            for(var i=0; i<members.MemberCount; i++)
+            {
+                ref readonly var member = ref members.Member(i);
+                ref readonly var token = ref members.Token(i);
+                var encoding = members.Encoding(i);
+                ref readonly var entry = ref member.EntryAddress;
+                ref readonly var entryRb = ref member.EntryRebase;
+                ref readonly var target = ref member.TargetAddress;
+                ref readonly var targetRb = ref member.TargetRebase;
+                ref readonly var uri = ref member.Uri;
+            }
+
+        }
         Outcome CheckLookups(ITextEmitter log)
         {
             var capacity = Pow2.T16;
@@ -134,14 +146,11 @@ namespace Z0
         [CmdOp("asm/check/captured")]
         Outcome CheckCaptured2(CmdArgs args)
         {
-            using var symbols = Alloc.dispenser(Alloc.symbols);
-
             var result = Outcome.Success;
             var spec = EmptyString;
             if(args.Count != 0)
                 spec = text.trim(arg(args,0).Value.Format());
-
-            var members = ApiCode.Load(symbols, spec);
+            using var members = ApiCode.Load(spec);
             CheckSize(members);
 
             return result;
@@ -165,15 +174,13 @@ namespace Z0
         [CmdOp("asm/check/capture-spec")]
         Outcome CheckCapturedSpec(CmdArgs args)
         {
-            using var symbols = Alloc.dispenser(Alloc.symbols);
-
             var result = Outcome.Success;
             var spec = EmptyString;
             if(args.Count != 0)
                 spec = text.trim(arg(args,0).Value.Format());
 
             const string RenderPattern = "{0,-8} | {1, -8} | {2,-8} | {3,-5} | {4,-8} | {5,-8} | {6,-32} | {7}";
-            var members = ApiCode.Load(symbols, spec);
+            using var members = ApiCode.Load(spec);
             var count = members.MemberCount;
             var target = MemoryAddress.Zero;
             var size = 0;

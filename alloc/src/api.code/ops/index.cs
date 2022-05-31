@@ -14,9 +14,9 @@ namespace Z0
             var lines = src.ReadLines(true);
             var count = lines.Count - 1;
             dst = alloc<EncodedMember>(count);
-            for(var i=0; i<count; i++)
+            for(var i=0u; i<count; i++)
             {
-                result = parse(lines[i + 1], out dst[i]);
+                result = parse(i + 1, lines[i + 1], out dst[i]);
                 if(result.Fail)
                     break;
             }

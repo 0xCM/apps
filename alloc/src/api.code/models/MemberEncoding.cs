@@ -4,8 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
+
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public readonly struct MemberEncoding
+    public readonly record struct MemberEncoding
     {
         public readonly ApiToken Token;
 
@@ -63,12 +65,21 @@ namespace Z0
             get => core.cover(TargetAddress.Ref<byte>(), _Size);
         }
 
+        public AsmHexCode AsmHex
+        {
+            [MethodImpl(Inline)]
+            get => Data;
+        }
+
+        public string Format()
+            => AsmHex.Format();
+
+        public override string ToString()
+            => Format();
+
         [MethodImpl(Inline)]
         public bool Equals(MemberEncoding src)
             => Token.Equals(src.Token);
-
-        public override bool Equals(object src)
-            => src is MemberEncoding x && Equals(x);
 
         [MethodImpl(Inline)]
         public int CompareTo(MemberEncoding src)

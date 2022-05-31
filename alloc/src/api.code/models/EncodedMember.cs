@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     [Record(TableId), StructLayout(LayoutKind.Sequential, Pack=1)]
     public struct EncodedMember : IComparable<EncodedMember>
     {

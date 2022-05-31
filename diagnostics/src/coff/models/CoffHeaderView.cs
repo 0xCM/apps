@@ -4,11 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
     using System.Reflection.PortableExecutable;
-    using System.Runtime.CompilerServices;
 
-    using static Root;
     using static core;
 
     public struct CoffHeaderView

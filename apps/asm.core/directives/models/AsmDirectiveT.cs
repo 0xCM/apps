@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using static core;
-
     public abstract class AsmDirective<T> : IAsmDirective
         where T : AsmDirective<T>
     {

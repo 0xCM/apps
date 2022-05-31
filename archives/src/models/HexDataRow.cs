@@ -7,22 +7,19 @@ namespace Z0
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct HexDataRow
     {
-        public const string TableId = "hex.dat";
+        const string TableId = "hex.dat";
 
         public MemoryAddress Address;
 
         public BinaryCode Data;
 
-        public static HexDataRow Empty
+        [MethodImpl(Inline)]
+        public HexDataRow(MemoryAddress address, BinaryCode data)
         {
-            [MethodImpl(Inline)]
-            get
-            {
-                var empty = new HexDataRow();
-                empty.Data = BinaryCode.Empty;
-                return empty;
-            }
+            Address = address;
+            Data = data;
         }
-    }
 
+        public static HexDataRow Empty => default;
+    }
 }

@@ -13,7 +13,7 @@ namespace Z0
 
         public static ApiToken token(SymbolDispenser symbols, in MethodEntryPoint entry)
             => new ApiToken(
-                symbols.DispenseSymbol(entry.Location, text.ifempty(entry.Uri.Format(),EmptyString)),
+                symbols.DispenseSymbol(entry.Location, text.ifempty(entry.Uri.Format(), EmptyString)),
                 symbols.DispenseSymbol(entry.Location, entry.Sig.Format())
                 );
     }

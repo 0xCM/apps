@@ -2,12 +2,11 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
-
     using static Pow2x16;
 
-    [SymSource("asm")]
+    [SymSource(CoffObjects.group)]
     public enum CoffSectionFlags : ushort
     {
         [Symbol("")]

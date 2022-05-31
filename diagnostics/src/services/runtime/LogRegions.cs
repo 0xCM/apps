@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
-    using PCK = ProcessContextFlag;
-
     partial class RuntimeServices
     {
         public void LogRegions(Timestamp ts, Index<ProcessMemoryRegion> src)

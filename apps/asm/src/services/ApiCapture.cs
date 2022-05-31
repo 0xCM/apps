@@ -23,6 +23,7 @@ namespace Z0
         public void Run()
         {
             using var symbols = Alloc.dispenser(Alloc.symbols);
+
             iter(ApiMd.Parts, part => Run(symbols,part), true);
         }
 

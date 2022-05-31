@@ -31,7 +31,7 @@ namespace Z0
             var dst = text.buffer();
             dst.Append(format(src.ReturnType));
             dst.Append(Chars.Space);
-            dst.Append(src.MethodName);
+            dst.Append(text.replace(src.MethodName, Chars.Pipe, Chars.Caret));
             dst.Append(Chars.LParen);
             var parameters = src.Args.View;
             var count = parameters.Length;

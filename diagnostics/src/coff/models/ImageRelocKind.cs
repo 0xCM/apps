@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// From winnt.h
     /// </summary>
-    [SymSource("image")]
+    [SymSource(CoffObjects.group)]
     public enum ImageRelocKind : ushort
     {
         [Symbol("IMAGE_REL_AMD64_ABSOLUTE"," Reference is absolute, no relocation is necessary")]

@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static DumpBin.Flag;
-
     partial class DumpBin
     {
         public static CmdScript script<T>(DumpBin tool, string name, CmdId id, Index<T> src, FS.FolderPath outdir)

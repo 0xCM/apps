@@ -50,10 +50,7 @@ namespace Z0
             {
                 ref readonly var file = ref files[i];
 
-
             }
-
-
         }
 
         [CmdOp("project/objects")]

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [SymSource("image")]
+    [SymSource(CoffObjects.group)]
     public enum ImageSymType : ushort
     {
         NULL = 0,

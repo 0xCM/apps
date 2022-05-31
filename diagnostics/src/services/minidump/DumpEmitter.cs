@@ -7,8 +7,6 @@ namespace Z0
     using System.IO;
     using System.Runtime.InteropServices;
 
-    using static MinidumpRecords;
-
     public readonly struct DumpEmitter
     {
         const int ERROR_PARTIAL_COPY = unchecked((int)0x8007012b);

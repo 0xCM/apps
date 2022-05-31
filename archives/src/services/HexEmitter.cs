@@ -15,8 +15,7 @@ namespace Z0
                 return BinaryCode.Empty;
 
             var size = src.TotalSize();
-            var buffer = alloc<byte>(size);
-            var dst = span(buffer);
+            var dst = alloc<byte>(size);
             var offset = 0u;
             for(var i=0; i<count; i++)
             {
@@ -25,7 +24,27 @@ namespace Z0
                     seek(dst,offset++) = skip(data,j);
 
             }
-            return buffer;
+            return dst;
+        }
+
+        [MethodImpl(Inline)]
+        public static uint size(Index<BinaryCode> src)
+            => src.Storage.Select(x => x.Count).Sum();
+
+        public static BinaryCode compact(Index<BinaryCode> src)
+        {
+            var count = src.Count;
+            if(count == 0)
+                return BinaryCode.Empty;
+            var dst = alloc<byte>(size(src));
+            var k = 0u;
+            for(var i=0u; i<count; i++)
+            {
+                var data = src[i].View;
+                for(var j=0u; j<data.Length; j++, k++)
+                    seek(dst, k) = skip(data, j);
+            }
+            return dst;
         }
 
         public ByteSize EmitBasedRows(ReadOnlySpan<byte> src, ushort rowsize, FS.FilePath dst)

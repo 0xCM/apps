@@ -1,71 +1,98 @@
-namespace Windows.Image
+//-----------------------------------------------------------------------------
+// Copyright   :  (c) Microsoft
+// License     :  MIT
+//-----------------------------------------------------------------------------
+namespace Z0
 {
-    using Z0;
-    using System.Runtime.InteropServices;
+    using Windows;
+    using Windows.Image;
 
-    [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public unsafe struct IMAGE_DEBUG_INFORMATION
+    partial class CoffRecords
     {
-        public LIST_ENTRY List;
+        [StructLayout(LayoutKind.Sequential, Pack=1)]
+        public struct IMAGE_DEBUG_DIRECTORY
+        {
+            public uint Characteristics;
 
-        public uint ReservedSize;
+            public uint TimeDateStamp;
 
-        public unsafe void* ReservedMappedBase;
+            public ushort MajorVersion;
 
-        public ushort ReservedMachine;
+            public ushort MinorVersion;
 
-        public ushort ReservedCharacteristics;
+            public IMAGE_DEBUG_TYPE Type;
 
-        public uint ReservedCheckSum;
+            public uint SizeOfData;
 
-        public uint ImageBase;
+            public uint AddressOfRawData;
 
-        public uint SizeOfImage;
+            public uint PointerToRawData;
+        }
 
-        public uint ReservedNumberOfSections;
+        [StructLayout(LayoutKind.Sequential, Pack=1)]
+        public unsafe struct IMAGE_DEBUG_INFORMATION
+        {
+            public LIST_ENTRY List;
 
-        public unsafe ImageSectionHeader* ReservedSections;
+            public uint ReservedSize;
 
-        public uint ReservedExportedNamesSize;
+            public unsafe void* ReservedMappedBase;
 
-        public PSTR ReservedExportedNames;
+            public ushort ReservedMachine;
 
-        public uint ReservedNumberOfFunctionTableEntries;
+            public ushort ReservedCharacteristics;
 
-        public unsafe IMAGE_FUNCTION_ENTRY* ReservedFunctionTableEntries;
+            public uint ReservedCheckSum;
 
-        public uint ReservedLowestFunctionStartingAddress;
+            public uint ImageBase;
 
-        public uint ReservedHighestFunctionEndingAddress;
+            public uint SizeOfImage;
 
-        public uint ReservedNumberOfFpoTableEntries;
+            public uint ReservedNumberOfSections;
 
-        public unsafe FPO_DATA* ReservedFpoTableEntries;
+            public unsafe ImageSectionHeader* ReservedSections;
 
-        public uint SizeOfCoffSymbols;
+            public uint ReservedExportedNamesSize;
 
-        public unsafe COFF_SYMBOLS_HEADER* CoffSymbols;
+            public PSTR ReservedExportedNames;
 
-        public uint ReservedSizeOfCodeViewSymbols;
+            public uint ReservedNumberOfFunctionTableEntries;
 
-        public unsafe void* ReservedCodeViewSymbols;
+            public unsafe IMAGE_FUNCTION_ENTRY* ReservedFunctionTableEntries;
 
-        public PSTR ImageFilePath;
+            public uint ReservedLowestFunctionStartingAddress;
 
-        public PSTR ImageFileName;
+            public uint ReservedHighestFunctionEndingAddress;
 
-        public PSTR ReservedDebugFilePath;
+            public uint ReservedNumberOfFpoTableEntries;
 
-        public uint ReservedTimeDateStamp;
+            public unsafe FPO_DATA* ReservedFpoTableEntries;
 
-        public BOOL ReservedRomImage;
+            public uint SizeOfCoffSymbols;
 
-        public unsafe IMAGE_DEBUG_DIRECTORY* ReservedDebugDirectory;
+            public unsafe COFF_SYMBOLS_HEADER* CoffSymbols;
 
-        public uint ReservedNumberOfDebugDirectories;
+            public uint ReservedSizeOfCodeViewSymbols;
 
-        public uint ReservedOriginalFunctionTableBaseAddress;
+            public unsafe void* ReservedCodeViewSymbols;
 
-        public ulong Reserved;
+            public PSTR ImageFilePath;
+
+            public PSTR ImageFileName;
+
+            public PSTR ReservedDebugFilePath;
+
+            public uint ReservedTimeDateStamp;
+
+            public BOOL ReservedRomImage;
+
+            public unsafe IMAGE_DEBUG_DIRECTORY* ReservedDebugDirectory;
+
+            public uint ReservedNumberOfDebugDirectories;
+
+            public uint ReservedOriginalFunctionTableBaseAddress;
+
+            public ulong Reserved;
+        }
     }
 }

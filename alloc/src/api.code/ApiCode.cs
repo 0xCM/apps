@@ -130,13 +130,25 @@ namespace Z0
             return emitted;
         }
 
-        public EncodedMembers Load(SymbolDispenser symbols)
+        public EncodedMembers Load()
+            => Load(Alloc.dispenser(Alloc.symbols));
+
+        public EncodedMembers Load(string spec)
+            => Load(Alloc.dispenser(Alloc.symbols), spec);
+
+        public EncodedMembers Load(PartId src)
+        {
+            Load(src, out var index, out var code);
+            return members(Alloc.dispenser(Alloc.symbols), index, code);
+        }
+
+        EncodedMembers Load(SymbolDispenser symbols)
         {
             Load(out var index, out var code);
             return members(symbols, index, code);
         }
 
-        public EncodedMembers Load(SymbolDispenser symbols, string spec)
+        EncodedMembers Load(SymbolDispenser symbols, string spec)
         {
             if(text.nonempty(spec))
             {
@@ -150,13 +162,13 @@ namespace Z0
                 return Load(symbols);
         }
 
-        public EncodedMembers Load(SymbolDispenser symbols, ApiHostUri src)
+        EncodedMembers Load(SymbolDispenser symbols, ApiHostUri src)
         {
             Load(src, out var index, out var code);
             return members(symbols, index, code);
         }
 
-        public EncodedMembers Load(SymbolDispenser symbols, PartId src)
+        EncodedMembers Load(SymbolDispenser symbols, PartId src)
         {
             Load(src, out var index, out var code);
             return members(symbols, index, code);
@@ -194,10 +206,34 @@ namespace Z0
             ApiCode.index(Files.Path(FS.Csv), out index).Require();
         }
 
+        Index<EncodedMember> LoadMember(PartId src)
+        {
+            var dst = Index<EncodedMember>.Empty;
+            var result = index(Files.Path(src, FS.Csv), out dst);
+            if(result.Fail)
+            {
+                Write(result.Message,FlairKind.Warning);
+                Errors.Throw($"{src.Format()} member load failure");
+            }
+            return dst;
+        }
+
+        BinaryCode LoadCode(PartId src)
+        {
+            var dst = BinaryCode.Empty;
+            var result = hex(Files.Path(src, FS.Hex), out dst);
+            if(result.Fail)
+            {
+                Error(result.Message);
+                Errors.Throw(result.Message);
+            }
+            return dst;
+        }
+
         void Load(PartId src, out Index<EncodedMember> index, out BinaryCode data)
         {
-            ApiCode.index(Files.Path(src, FS.Csv), out index).Require();
-            hex(Files.Path(src, FS.Hex), out data).Require();
+            index = LoadMember(src);
+            data = LoadCode(src);
         }
 
         void Load(ApiHostUri src, out Index<EncodedMember> index, out BinaryCode data)

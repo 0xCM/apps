@@ -2,12 +2,13 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
     /// <summary>
     /// Classifies ComDat sections
     /// </summary>
     /// <remarks>Adapted from https://github.com/llvm/llvm-project/blob/632ebc4ab4374e53fce1ec870465c587e0a33668/llvm/lib/MC/MCParser/COFFAsmParser.cpp</remarks>
+    [SymSource(CoffObjects.group)]
     public enum CoffComDatKind : byte
     {
         [Symbol("")]

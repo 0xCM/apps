@@ -12,7 +12,6 @@ namespace Z0
     {
         const byte ZeroLimit = 10;
 
-
         public static ReadOnlySpan<byte> parse(in RawMemberCode src, Span<byte> dst)
         {
             if(src.StubCode != src.Stub.Encoding)
@@ -21,14 +20,14 @@ namespace Z0
         }
 
         [Parser]
-        public static Outcome parse(string src, out EncodedMember dst)
+        public static Outcome parse(LineNumber line, string src, out EncodedMember dst)
         {
             const byte FieldCount = EncodedMember.FieldCount;
             dst = default;
             var cells = text.split(src, Chars.Pipe);
             var count = cells.Length;
             if(count != FieldCount)
-                return (false, AppMsg.CsvDataMismatch.Format(FieldCount,count, src));
+                return (false,string.Format("\n{0,-12} \n{1}", line, text.trim(cells).Delimit('\n').Format()));
 
             var result = Outcome.Success;
             var i=0;

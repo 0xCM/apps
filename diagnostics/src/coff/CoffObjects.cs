@@ -6,9 +6,17 @@ namespace Z0
 {
     using static core;
 
+    public partial class CoffRecords
+    {
+
+
+    }
+
     [ApiHost]
     public readonly struct CoffObjects
     {
+        internal const string group = "coff";
+
         [MethodImpl(Inline), Op]
         public static SymAddress address(in ObjSymRow row)
         {
@@ -67,11 +75,11 @@ namespace Z0
             var size = (uint)objsize;
             for(var j=0u; j<size; j++)
             {
-                MemoryAddress curoffset = j;
+                MemoryAddress offset = j;
                 ref readonly var a = ref coff[j];
                 ref readonly var b = ref hex[j];
                 if(a != b)
-                    return (false, string.Format("{0} != {1} at offset {2}", a.FormatHex(), b.FormatHex(), curoffset));
+                    return (false, string.Format("{0} != {1} at offset {2}", a.FormatHex(), b.FormatHex(), offset));
             }
 
             return true;

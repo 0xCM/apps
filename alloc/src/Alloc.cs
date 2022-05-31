@@ -154,8 +154,8 @@ namespace Z0
         public StringRef String(string content)
             => Strings().String(content);
 
-        public LocatedSymbol Symbol(MemoryAddress location, string name)
-            => Symbols().DispenseSymbol(location,name);
+        public LocatedSymbol Symbol(MemoryAddress src, string name)
+            => Symbols().DispenseSymbol(src, name);
 
         public LocatedSymbol Symbol(SymAddress location, string name)
             => Symbols().DispenseSymbol(location,name);
