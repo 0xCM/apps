@@ -51,27 +51,6 @@ namespace Z0
         public static NumericType numeric(PrimalType key, asci64 name, NumWidth width)
             => numeric(key, name, width);
 
-        public static DataTypeInfo describe(Type src)
-        {
-            var dst = DataTypeInfo.Empty;
-            var size = Sizes.measure(src);
-            var width = Sizes.bits(src);
-            dst.Name = src.Name;
-            dst.Part = src.Assembly.PartName();
-            dst.PackedWidth = size.Packed;
-            dst.NativeWidth = size.Native;
-            dst.NativeSize = size.Native/8;
-            return dst;
-        }
-
-        public static Index<DataTypeInfo> describe(Assembly[] src, bool pll = true)
-        {
-            var types = src.Types().Concrete().Where(x => x.IsStruct() || x.IsEnum);
-            var dst = bag<DataTypeInfo>();
-            iter(types, t => dst.Add(describe(t)), pll);
-            return dst.ToArray().Index().Sort().Resequence();
-        }
-
         public static TypeKey NextKey(DataTypeKind kind)
         {
             lock(KeyLocker)
@@ -172,30 +151,6 @@ namespace Z0
         /// <param name="src">The type to test</param>
         public static bool test(Type src)
             => src.Tagged<DataWidthAttribute>();
-
-        public static Index<DataType> discover(Assembly src, bool pll = true)
-        {
-            var dst = bag<DataType>();
-            iter(candidates(src), t => dst.Add(new DataType(t.Name, Sizes.measure(t))),pll);
-            return dst.ToArray().Sort();
-        }
-
-        public static Index<DataType> discover(Assembly[] src, bool pll = true)
-        {
-            var dst = bag<DataType>();
-            iter(src, a =>  iter(candidates(a), t => dst.Add(new DataType(t.Name, Sizes.measure(t))),pll),pll);
-            return dst.Index().Sort();
-        }
-
-        public static Index<DataType> discover(Type[] src, bool pll = true)
-        {
-            var dst = bag<DataType>();
-            iter(src, t => dst.Add(new DataType(t.Name, Sizes.measure(t))),pll);
-            return dst.Index().Sort();
-        }
-
-        static Type[] candidates(Assembly src)
-            => src.Types().Concrete().Where(x => x.IsStruct() || x.IsEnum);
 
         static object KeyLocker = new();
 

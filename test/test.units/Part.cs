@@ -34,3 +34,11 @@ namespace Z0.Parts
         }
     }
 }
+
+namespace Z0
+{
+    public interface IExplicitTest : IUnitTest, IExecutable
+    {
+
+    }
+}

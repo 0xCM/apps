@@ -139,8 +139,5 @@ namespace Z0
         public const NK UInt8x16x32k = Int8x16x32k;
 
         public const NK UInt16x32x64k = Int16x32x64k;
-
-
-
     }
 }

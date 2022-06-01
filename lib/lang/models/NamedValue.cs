@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [DataType("namedvalue")]
     public readonly struct NamedValue
     {
         /// <summary>

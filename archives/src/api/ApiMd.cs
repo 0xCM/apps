@@ -8,42 +8,88 @@ namespace Z0
 
     using K = ApiMdKind;
 
-    public enum ApiMdKind : byte
-    {
-        None,
-
-        Components,
-
-        ApiParts,
-
-        ApiCommands,
-
-        ApiHosts,
-
-        ApiTokens,
-
-        EnumTypes,
-
-        SymSources,
-
-        SymGroups,
-
-        ApiTables,
-
-        ApiTableFields,
-
-        DataTypes,
-
-        BitMasks,
-
-        DataFlows,
-    }
-
     public sealed class ApiMd : AppService<ApiMd>
     {
         const string msil = nameof(msil);
 
         const string tokens = nameof(tokens);
+
+        public static Index<CompilationLiteral> literals(Assembly[] src)
+        {
+            var providers = src.Types().Tagged<LiteralProviderAttribute>()
+                  .Select(x => (Type:x, Attrib:x.Tag<LiteralProviderAttribute>().Require()))
+                  .Select(x => new LiteralProvider(x.Type.Assembly.Id(), x.Type, x.Attrib.Group, x.Type.Name)).Index();
+            var literals = ApiMd.literals(providers);
+            var count = literals.Count;
+            var dst = alloc<CompilationLiteral>(count);
+            for(var i=0u; i<count; i++)
+            {
+                ref var target = ref seek(dst,i);
+                ref readonly var literal = ref literals[i];
+                target.Part = literal.Part;
+                target.Type = literal.Type.Format();
+                target.Group = literal.Group.Format();
+                target.Name = literal.Name.Format();
+                target.Kind = literal.Kind.ToString();
+                target.Value = literal.Value();
+                target.Length = (uint)target.Value.Data.Length;
+            }
+            return dst.Sort();
+        }
+
+        static Index<RuntimeLiteral> literals(Index<LiteralProvider> src)
+        {
+            var providers = src.Select(provider => (Provider: provider, Fields: provider.Type.LiteralFields().Index()));
+            var count = providers.Storage.Select(x => x.Fields.Count).Sum();
+            var dst = alloc<RuntimeLiteral>(count);
+            var k=0u;
+            for(var i=0; i<providers.Count; i++)
+            {
+                ref readonly var provided = ref providers[i];
+                var provider = provided.Provider;
+                var fields = provided.Fields;
+                for(var j=0; j<fields.Count; j++, k++)
+                {
+                    ref readonly var field = ref fields[j];
+                    var datatype = field.FieldType;
+                    var host = field.DeclaringType;
+                    var value = field.GetRawConstantValue();
+                    var lk = ClrLiteralKind.None;
+                    var data = 0ul;
+                    if(datatype.IsEnum)
+                    {
+                        lk = (ClrLiteralKind)Enums.@base(datatype);
+                        data = ClrLiterals.serialize(value,lk);
+                    }
+                    else
+                    {
+                        lk = (ClrLiteralKind)PrimalBits.kind(datatype);
+                        data = ClrLiterals.serialize(value,lk);
+                    }
+                    seek(dst,k) = new (host.Assembly.Id(), provider.Group, ClrLiterals.name(host), ClrLiterals.name(field), data, lk);
+                }
+                // ref readonly var field = ref fields[i];
+                // var datatype = field.FieldType;
+                // var host = field.DeclaringType;
+                // var value = field.GetRawConstantValue();
+                // var lk = ClrLiteralKind.None;
+                // var data = 0ul;
+                // if(datatype.IsEnum)
+                // {
+                //     lk = (ClrLiteralKind)Enums.@base(datatype);
+                //     data = ClrLiterals.serialize(value,lk);
+                // }
+                // else
+                // {
+                //     lk = (ClrLiteralKind)PrimalBits.kind(datatype);
+                //     data = ClrLiterals.serialize(value,lk);
+                // }
+
+                // seek(dst,k) = new (host.Assembly.Id(), ClrLiterals.name(host), ClrLiterals.name(field), data, lk);
+            }
+            return dst;
+
+        }
 
         public static Index<SymKindRow> symkinds<K>()
             where K : unmanaged, Enum
@@ -72,6 +118,54 @@ namespace Z0
             }
             return count;
         }
+
+        static DataTypeInfo dtinfo(Type src)
+        {
+            var dst = DataTypeInfo.Empty;
+            var size = Sizes.measure(src);
+            var width = Sizes.bits(src);
+            dst.Name = src.DisplayName();
+            dst.Component = src.Assembly.Name();
+            dst.Concrete = src.IsConcrete();
+            dst.PackedWidth = size.Packed;
+            dst.NativeWidth = size.Native;
+            dst.NativeSize = size.Native/8;
+            return dst;
+        }
+
+        public static Index<DataTypeInfo> DescribeDataTypes(Assembly[] src, bool pll = true)
+        {
+            var dst = bag<DataTypeInfo>();
+            iter(ClrDataTypes(src), t => dst.Add(dtinfo(t)), pll);
+            return dst.ToArray().Index().Sort();
+        }
+
+        public static Index<DataType> DiscoverDataTypes(Assembly src, bool pll = true)
+        {
+            var dst = bag<DataType>();
+            iter(ClrDataTypes(src), t => dst.Add(new DataType(t.Name, Sizes.measure(t))),pll);
+            return dst.ToArray().Sort();
+        }
+
+        public static Index<DataType> DiscoverDataTypes(Assembly[] src, bool pll = true)
+        {
+            var dst = bag<DataType>();
+            iter(src, a => iter(ClrDataTypes(a), t => dst.Add(new DataType(t.Name, Sizes.measure(t))), pll), pll);
+            return dst.Index().Sort();
+        }
+
+        public static Index<DataType> DiscoverDataTypes(Type[] src, bool pll = true)
+        {
+            var dst = bag<DataType>();
+            iter(src, t => dst.Add(new DataType(t.Name, Sizes.measure(t))),pll);
+            return dst.Index().Sort();
+        }
+
+        static Type[] ClrDataTypes(Assembly src)
+            => src.Types().Public().Where(x => x.IsStruct() || x.IsEnum);
+
+        static Type[] ClrDataTypes(Assembly[] src)
+            => src.SelectMany(ClrDataTypes);
 
         ApiJit Jit => Wf.Jit();
 
@@ -131,13 +225,13 @@ namespace Z0
             => data(K.ApiHosts, () => Catalog.ApiHosts.Index());
 
         public Index<DataTypeInfo> DataTypes
-            => data(K.DataTypes, () => Z0.DataTypes.describe(Components));
+            => data(K.DataTypes, () => DescribeDataTypes(Components));
 
         public Index<ApiCmdRow> ApiCommands
             => data(K.ApiCommands, CalcApiCommands);
 
         public Index<CompilationLiteral> ApiLiterals
-            => data(nameof(CompilationLiteral), () => Literals.literals(Components));
+            => data(nameof(K.ApiLiterals), () => literals(Components));
 
         public Index<ApiFlowSpec> DataFlows
             => data(K.DataFlows, CalcDataFlows);

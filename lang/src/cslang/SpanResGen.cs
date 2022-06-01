@@ -8,6 +8,7 @@ namespace Z0
 
     using static core;
     using static CsPatterns;
+    using static CsLiterals;
     using static CsModels;
 
     public class GSpanRes : AppService<GSpanRes>

@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public struct EnvDirVar : IEnvVar<FS.FolderPath>
     {
         public VarSymbol Name {get;}

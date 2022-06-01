@@ -16,6 +16,9 @@ namespace Z0
         public PartId Part;
 
         [Render(32)]
+        public string Group;
+
+        [Render(32)]
         public string Type;
 
         [Render(32)]
@@ -30,8 +33,6 @@ namespace Z0
         [Render(1)]
         public RuntimeLiteralValue<string> Value;
 
-        public static CompilationLiteral Empty => default;
-
         public int CompareTo(CompilationLiteral src)
         {
             var result = Part.PartName().CompareTo(src.Part.PartName());
@@ -44,5 +45,7 @@ namespace Z0
 
             return result;
         }
+
+        public static CompilationLiteral Empty => default;
     }
 }

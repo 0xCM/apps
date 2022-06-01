@@ -12,27 +12,47 @@ namespace Z0
     {
         public DataTypeAttribute()
         {
+            Group = EmptyString;
             Name = EmptyString;
-            Kind = 0ul;
+            Kind = EmptyString;
         }
 
-        public DataTypeAttribute(string name)
+        public DataTypeAttribute(string group)
         {
-            Name = name;
-            Kind = 0ul;
+            Group = group;
+            Name = group;
+            Kind = group;
+        }
+
+        public DataTypeAttribute(NumericKind closures)
+        {
+            Group = EmptyString;
+            Closures = closures;
+            Kind = EmptyString;
+            Name = EmptyString;
+        }
+
+        public DataTypeAttribute(string group, NumericKind closures)
+        {
+            Group = group;
+            Closures = closures;
+            Name = group;
+            Kind = group;
         }
 
         public DataTypeAttribute(string name, bool @virtual)
         {
             Name = name;
-            Kind = 0ul;
-            Virtual = @virtual;
+            Group = name;
+            Kind = EmptyString;
         }
+
+        public string Group {get;}
+
+        public NumericKind Closures {get;}
 
         public string Name {get;}
 
         public object Kind {get;}
-
-        public bool Virtual {get;}
     }
 }

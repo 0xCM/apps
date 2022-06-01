@@ -15,6 +15,8 @@ namespace Z0
     {
         public readonly PartId Part;
 
+        public readonly StringAddress Group;
+
         public readonly StringAddress Type;
 
         public readonly StringAddress Name;
@@ -24,10 +26,11 @@ namespace Z0
         public readonly ClrLiteralKind Kind;
 
         [MethodImpl(Inline)]
-        public RuntimeLiteral(PartId part, StringAddress source, StringAddress name, ulong content, ClrLiteralKind clr)
+        public RuntimeLiteral(PartId part, StringAddress group, StringAddress type, StringAddress name, ulong content, ClrLiteralKind clr)
         {
             Part = part;
-            Type = source;
+            Group = group;
+            Type = type;
             Name = name;
             Data = content;
             Kind = clr;

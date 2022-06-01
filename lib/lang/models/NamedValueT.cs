@@ -4,15 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Assings a name to a value
     /// </summary>
-    [DataType("namedvalue<v:{0}>")]
     public readonly struct NamedValue<V>
     {
         /// <summary>

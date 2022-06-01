@@ -5,18 +5,18 @@
 namespace Z0
 {
     [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
-    public record struct DataTypeInfo : IComparable<DataTypeInfo>, ISequential<DataTypeInfo>
+    public record struct DataTypeInfo : IComparable<DataTypeInfo>
     {
         const string TableId = "api.datatype";
 
-        [Render(6)]
-        public uint Seq;
+        [Render(32)]
+        public string Component;
 
         [Render(32)]
-        public PartName Part;
+        public string Name;
 
-        [Render(32)]
-        public asci64 Name;
+        [Render(12)]
+        public bool Concrete;
 
         [Render(12)]
         public BitWidth PackedWidth;
@@ -29,16 +29,10 @@ namespace Z0
 
         public int CompareTo(DataTypeInfo src)
         {
-            var result = Part.CompareTo(src.Part);
+            var result = Component.CompareTo(src.Component);
             if(result == 0)
                 result = Name.CompareTo(src.Name);
             return result;
-        }
-
-        uint ISequential.Seq
-        {
-            get => Seq;
-            set => Seq = value;
         }
 
         public static DataTypeInfo Empty => default;

@@ -4,12 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Root;
-
-    using System;
-
     partial class XTend
     {
+        [MethodImpl(Inline)]
+        public static BinaryOp<T> ToBinaryOp<T>(this System.Func<T,T,T> f)
+            => new BinaryOp<T>(f);
+
         public static TypeSpec Spec(this Type src)
             => TypeSyntax.infer(src);
 

@@ -12,10 +12,10 @@ namespace Z0
         protected PartId(PartId id)
             => Id = id;
 
-        public uint Hash
+        public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => hash(Id);
+            get => (uint)Id;
         }
 
         public override int GetHashCode()

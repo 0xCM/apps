@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Expr
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Binds a variable to a value
     /// </summary>

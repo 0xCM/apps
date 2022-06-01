@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    partial class XArray
+    partial class XTend
     {
         /// <summary>
         /// Defines an array-specific select operator

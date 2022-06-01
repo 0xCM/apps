@@ -18,12 +18,4 @@ namespace Z0
         T IValue<T>.Value
             => core.@as<IScalarValue<T>,T>(this);
     }
-
-    [Free]
-    public interface IScalarValue<K,T> : IScalarValue<T>, IValue<T>, IScalarExpr
-        where T : unmanaged
-        where K : unmanaged
-    {
-
-    }
 }

@@ -5,6 +5,7 @@
 namespace Z0
 {
     [ApiHost]
+    [LiteralProvider]
     public readonly partial struct Root
     {
         const NumericKind Closure = Root.UnsignedInts;

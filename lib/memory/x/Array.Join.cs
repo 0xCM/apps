@@ -6,7 +6,7 @@ namespace Z0
 {
     using System.Linq;
 
-    partial class XArray
+    partial class XTend
     {
         /// Sequentially condenses a sequence of arrays into a single array
         /// </summary>

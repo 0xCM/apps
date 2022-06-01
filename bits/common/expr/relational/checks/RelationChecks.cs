@@ -6,6 +6,12 @@ namespace Z0
 {
     partial class Relations
     {
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static ScalarValue<T> scalar<T>(T src, BitWidth content = default)
+            where T : unmanaged, IEquatable<T>
+                => new ScalarValue<T>(src,content);
+
         public class Checks : Checker<Checks>
         {
             Outcome Check()
@@ -14,10 +20,10 @@ namespace Z0
 
                 var v1 = Terms.var("a");
                 var v2 = Terms.var("b");
-                var a1 = expr.scalar((byte)22);
-                var b1 = expr.scalar((byte)12);
-                var a2 = expr.scalar((byte)16);
-                var b2 = expr.scalar((byte)87);
+                var a1 = scalar((byte)22);
+                var b1 = scalar((byte)12);
+                var a2 = scalar((byte)16);
+                var b2 = scalar((byte)87);
                 var context = expr.context();
                 context.Inject((v1,a1), (v2,b1));
                 var eval1 =  v1.Eval<ScalarValue<byte>>(context);

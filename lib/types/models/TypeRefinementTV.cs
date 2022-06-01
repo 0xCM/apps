@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     public abstract class TypeRefinement<T,V> : IType
         where T : IType
     {

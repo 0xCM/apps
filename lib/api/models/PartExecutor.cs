@@ -5,7 +5,7 @@
 namespace Z0
 {
     [PartExecutor]
-    public abstract class PartExecutor<P> : IPartExecutor<P>
+    public abstract class PartExecutor<P> : IExecutor<P>
         where P : PartExecutor<P>, new()
     {
         public PartId PartId {get;}
@@ -21,7 +21,7 @@ namespace Z0
             => Run();
     }
 
-    public abstract class PartExecutor<P,C> : PartExecutor<P>, IPartExecutor<P,C>
+    public abstract class PartExecutor<P,C> : PartExecutor<P>, IExecutor<P,C>
         where P : PartExecutor<P,C>, new()
     {
         public virtual void Run(C context)

@@ -24,13 +24,5 @@ namespace Z0
 
         public static ItemList<Constant<T>> items<T>(string name, T[] src)
             => new (name, src.Mapi((i,x) => new ListItem<Constant<T>>((uint)i,x)));
-
-        static string name<E>(Sym<E> sym, LiteralNameSource src)
-            where E : unmanaged
-            => src switch{
-                LiteralNameSource.Expression => sym.Expr.Text,
-                LiteralNameSource.Identifier => sym.Name,
-                _ => sym.Name
-            };
     }
 }

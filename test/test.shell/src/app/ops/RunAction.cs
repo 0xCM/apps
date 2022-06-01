@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Collections.Generic;
-
     partial class TestApp<A>
     {
         Duration ExecExplicit(IExplicitTest unit, string hostpath, List<TestCaseRecord> results)

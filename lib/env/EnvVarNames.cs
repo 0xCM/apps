@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [NameProvider(NameKind.Env)]
+    [LiteralProvider]
     public readonly partial struct EnvVarNames
     {
         public const string DevRoot = "DevRoot";

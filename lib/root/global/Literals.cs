@@ -58,8 +58,7 @@ namespace Z0
         public const CC Cdecl = CC.Cdecl;
 
         /// <summary>
-        /// Specifies the <see cref='CC.ThisCall'/> calling convention where first argument is <see cref='this'/>
-        /// and is placed in ECX/RCX
+        /// Specifies the <see cref='CC.ThisCall'/> calling convention where first argument is <see cref='this'/> and is placed in ECX/RCX
         /// </summary>
         public const CC ThisCall = CC.ThisCall;
 
