@@ -4,6 +4,7 @@
     <ZLib>$(MSBuildThisFileDirectory)lib/z0.lib.csproj</ZLib>
 
     <Alloc>$(TopDir)alloc/z0.alloc.csproj</Alloc>
+    <ApiCode>$(TopDir)api.code/z0.api.code.csproj</ApiCode>
     <Archives>$(TopDir)archives/z0.archives.csproj</Archives>
     <Assets>$(TopDir)assets/z0.assets.csproj</Assets>
     <Symbols>$(TopDir)symbols/z0.symbols.csproj</Symbols>
