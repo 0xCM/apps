@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.IO;
-
     partial class XTend
     {
     }
@@ -21,9 +19,6 @@ namespace Z0
             public ApiCodeFiles ApiCodeFiles(IWfRuntime wf)
                 => Service<ApiCodeFiles>(wf);
 
-            public ApiHexPacks HexPack(IWfRuntime wf)
-                => Service<ApiHexPacks>(wf);
-
             public ApiCodeExtractor CodeExtractor(IWfRuntime wf)
                 => Service<ApiCodeExtractor>(wf);
 
@@ -32,7 +27,6 @@ namespace Z0
 
             public ApiResProvider ApiResProvider(IWfRuntime wf)
                 => Service<ApiResProvider>(wf);
-
         }
 
         static Svc Services => Svc.Instance;
@@ -42,9 +36,6 @@ namespace Z0
 
         public static ApiCodeFiles ApiCodeFiles(this IWfRuntime wf)
             => Services.ApiCodeFiles(wf);
-
-        public static ApiHexPacks HexPack(this IWfRuntime wf)
-            => Services.HexPack(wf);
 
         public static ApiCodeExtractor CodeExtractor(this IWfRuntime wf)
             => Services.CodeExtractor(wf);

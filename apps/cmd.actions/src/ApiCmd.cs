@@ -18,15 +18,15 @@ namespace Z0
 
         ApiPacks ApiPacks => Service(Wf.ApiPacks);
 
-        ApiHexPacks ApiHexPacks => Service(Wf.HexPack);
-
-        AsmCallPipe AsmCalls => Service(Wf.AsmCallPipe);
+        AsmCallPipe AsmCalls => Wf.AsmCallPipe();
 
         AsmDecoder AsmDecoder => Service(Wf.AsmDecoder);
 
         ApiCatalogs ApiCatalogs => Service(Wf.ApiCatalogs);
 
         CliEmitter CliEmitter => Service(Wf.CliEmitter);
+
+        ApiCode ApiCode => Wf.ApiCode();
 
         Index<ProcessAsmRecord> ProcessAsm() => Data(nameof(ProcessAsm), _LoadProcessAsm);
 

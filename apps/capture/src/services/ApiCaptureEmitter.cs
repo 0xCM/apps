@@ -14,6 +14,8 @@ namespace Z0
 
         ApiHex ApiHex => Service(Wf.ApiHex);
 
+        ApiCode ApiCode => Wf.ApiCode();
+
         HostAsmEmitter HostEmitter => Wf.HostAsmEmitter();
 
         ApiExtractParser ExtractParser;
@@ -73,10 +75,10 @@ namespace Z0
         }
 
         public Index<ApiHexRow> EmitApiHex(ApiHostUri host, Index<ApiMemberCode> src, FS.FilePath dst)
-            => ApiHex.WriteBlocks(host, src.View, dst);
+            => ApiCode.WriteApiHex(host, src.View, dst);
 
         public Index<ApiHexRow> EmitApiHex(ApiHostUri host, Index<ApiMemberCode> src, FS.FolderPath dst)
-            => ApiHex.WriteBlocks(host, src.View, dst);
+            => ApiCode.WriteApiHex(host, src.View, dst);
 
         public Count EmitMsilCode(ApiHostUri host, Index<ApiMemberCode> src, FS.FilePath dst)
         {

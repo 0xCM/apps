@@ -1,11 +1,9 @@
 //-----------------------------------------------------------------------------
-// Copyright   :  (c) Chris Moore, 2020
+// Copyright   :  .NET Foundation
 // License     :  MIT
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.InteropServices;
-
     partial struct MinidumpRecords
     {
         /// <summary>

@@ -6,12 +6,75 @@ namespace Z0
 {
     using System.Linq;
     using System.IO;
+    using System.Diagnostics;
 
     using static core;
+
+    using PCK = ProcessContextFlag;
 
     [ApiHost]
     public readonly struct ImageMemory
     {
+        [MethodImpl(Inline)]
+        public static bit enabled(PCK src, PCK flag)
+            => (src & flag) != 0;
+
+        [MethodImpl(Inline)]
+        public static ProcessContextFlags flags(PCK src)
+        {
+            var options = new ProcessContextFlags();
+            options.EmitSummary = enabled(src,PCK.Summary);
+            options.EmitDetail= enabled(src,PCK.Detail);
+            options.EmitDump= enabled(src,PCK.Dump);
+            options.EmitHashes = enabled(src,PCK.Hashes);
+            return options;
+        }
+
+        public static MemorySymbols SymbolizeDetails(in ProcessContext src)
+        {
+            var details = src.Regions.View;
+            var count = details.Length;
+            var symbols = MemorySymbols.create(count);
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var detail = ref skip(details,i);
+                symbols.Deposit(detail.StartAddress, detail.Size, detail.Identity.Format());
+            }
+            return symbols;
+        }
+
+        public static void EmitHashes(in ProcessContext src, FS.FolderPath dir)
+        {
+            ProcessContextPaths dst = dir;
+            EmitHashes(ImageMemory.SymbolizeSummaries(src).Addresses,
+                dst.ProcessPartitionHashPath(src.ProcessName, src.Timestamp, src.Subject));
+            EmitHashes(ImageMemory.SymbolizeDetails(src).Addresses,
+                dst.MemoryRegionHashPath(src.ProcessName, src.Timestamp, src.Subject));
+        }
+
+        public static MemorySymbols SymbolizeSummaries(in ProcessContext src)
+        {
+            var summaries = src.Partitions.View;
+            var count = summaries.Length;
+            var symbols = MemorySymbols.create(count);
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var summary = ref skip(summaries,i);
+                symbols.Deposit(summary.BaseAddress, summary.Size, summary.ImageName.Format());
+            }
+            return symbols;
+        }
+
+        public static Index<AddressHash> EmitHashes(ReadOnlySpan<MemoryAddress> addresses, FS.FilePath dst)
+        {
+            var count = (uint)addresses.Length;
+            var buffer = alloc<AddressHash>(count);
+            MemorySymbols.hash(addresses,buffer);
+            Tables.emit(@readonly(buffer), dst);
+            return buffer;
+        }
+
+
         public static ProcAddresses addresses(ReadOnlySpan<ProcessMemoryRegion> src)
         {
             var processor = new RegionProcessor();
@@ -47,6 +110,30 @@ namespace Z0
             var state = new ProcessMemoryState();
             fill(src, ref state);
             return new ProcessImageMap(state, images, addresses.Sort(), modules(src));
+        }
+
+        [Op]
+        public static ReadOnlySpan<ProcessModuleAdapter> modules(ProcessAdapter src)
+            => src.Modules.OrderBy(x => x.BaseAddress).Array();
+
+        [Op]
+        public static ReadOnlySpan<ProcessModuleAdapter> modules()
+            => modules((ProcessAdapter)Process.GetCurrentProcess());
+
+        [Op]
+        public static ProcessMemoryMap map(ProcessAdapter src)
+        {
+            var mods = modules(src);
+            var count = mods.Length;
+            var buffer = core.alloc<ModuleMemory>(count);
+            ref var dst = ref first(buffer);
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var mod = ref skip(mods,i);
+                seek(dst,i) = new ModuleMemory(mod.Path.FileName.WithoutExtension.Format(), mod.BaseAddress, mod.ModuleMemorySize);
+            }
+            var main = src.MainModule;
+            return new ProcessMemoryMap(src.ProcessName, (uint)src.Id, main.BaseAddress, main.ModuleMemorySize, buffer);
         }
 
         /// <summary>

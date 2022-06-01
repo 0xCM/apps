@@ -1,17 +1,20 @@
 //-----------------------------------------------------------------------------
-// Copyright   :  (c) Chris Moore, 2020
+// Copyright   :  .NET Foundation
 // License     :  MIT
 //-----------------------------------------------------------------------------
 namespace Z0
 {
     partial struct MinidumpRecords
     {
+        /// <summary>
+        /// #define MINIDUMP_VERSION   (42899)
+        /// </summary>
         [StructLayout(LayoutKind.Sequential)]
-        public struct MINIDUMP_LOCATION_DESCRIPTOR : IRecord<MINIDUMP_LOCATION_DESCRIPTOR>
+        public struct MINIDUMP_VERSION : IRecord<MINIDUMP_VERSION>
         {
-            public uint DataSize;
+            public ushort Value;
 
-            public uint Rva;
+            public ushort Expected => 42899;
         }
     }
 }

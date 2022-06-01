@@ -18,8 +18,6 @@ namespace Z0
 
         AsmDecoder Decoder;
 
-        ApiHexPacks HexPacks;
-
         ApiExtractChannel Channel;
 
         ConcurrentBag<ApiHostDataset> DatasetReceiver;
@@ -50,7 +48,6 @@ namespace Z0
             Parser = ApiExtractParser.create();
             Resolver = Wf.ApiResolver();
             Decoder = Wf.AsmDecoder();
-            HexPacks = Wf.HexPack();
             Channel = new ApiExtractChannel();
             DatasetReceiver = new();
             ApiCatalogs = Wf.ApiCatalogs();
@@ -82,26 +79,10 @@ namespace Z0
         void ExtractParts(IApiPack pack)
             => ExtractParts(ResolvedParts, pack);
 
-        void EmitProcessContext(IApiPack pack)
-        {
-            var flow = Wf.Running("Emitting process context");
-            var ts = pack.Timestamp;
-            if(!ts.IsNonZero)
-                ts = now();
-
-            var dir = pack.Archive().ContextRoot();
-            var process = Process.GetCurrentProcess();
-            var pipe = Wf.RuntimeServices();
-            var procparts = pipe.EmitPartitions(process, ts, dir);
-            var regions = pipe.EmitRegions(process, ts, dir);
-            pipe.EmitDump(process, pack.ProcDumpPath(process, ts));
-            Wf.Ran(flow);
-        }
-
         void EmitContext(IApiPack pack)
         {
             if(pack.ExtractSettings.EmitContext)
-                EmitProcessContext(pack);
+                Wf.RuntimeServices().EmitProcessContext(pack);
         }
 
         void EmitAnalyses(IApiPack pack)

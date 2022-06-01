@@ -10,15 +10,8 @@ namespace Z0
 
     public class CaptureCmd : AppCmdProvider<CaptureCmd>
     {
-        ApiPacks ApiPacks => Service(Wf.ApiPacks);
-
-        ApiHexPacks ApiHexPacks => Wf.HexPack();
-
         AsmCallPipe AsmCalls => Service(Wf.AsmCallPipe);
 
         AsmDecoder AsmDecoder => Service(Wf.AsmDecoder);
-
-
     }
-
 }

@@ -24,6 +24,95 @@ namespace Z0
 
         AppSvcOps AppSvc => Wf.AppSvc();
 
+        public SortedIndex<ApiCodeBlock> LoadBlocks()
+            => blocks(Files.HexFiles());
+
+        public MemoryBlocks LoadMemoryBlocks()
+            => LoadMemoryBlocks(Files.TargetRoot());
+
+        public MemoryBlocks LoadMemoryBlocks(FS.FolderPath root)
+        {
+            var _blocks = LoadMemoryBlocks(root.Files(".parsed", FS.XPack, true));
+            var entries = _blocks.Entries;
+            var count = entries.Length;
+            var buffer = list<MemoryBlock>();
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var entry = ref skip(entries,i);
+                ref readonly var pack = ref entry.Value;
+                var blocks = pack.View;
+                for(var j=0; j<blocks.Length; j++)
+                {
+                    ref readonly var block = ref skip(blocks,j);
+                    buffer.Add(block);
+                }
+            }
+
+            buffer.Sort();
+            return new MemoryBlocks(buffer.ToArray());
+        }
+
+        public ConstLookup<FS.FilePath,MemoryBlocks> LoadMemoryBlocks(FS.Files src)
+        {
+            var flow = Running(string.Format("Loading {0} packs", src.Length));
+            var lookup = new Lookup<FS.FilePath,MemoryBlocks>();
+            var errors = new Lookup<FS.FilePath,Outcome>();
+            iter(src, path => lookup.Include(path, ApiCode.memory(path)), true);
+            var result = lookup.Seal();
+            var count = result.EntryCount;
+            var entries = result.Entries;
+            var counter = 0u;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var entry = ref skip(entries,i);
+                var path = entry.Key;
+                var blocks = entry.Value.View;
+                var blockCount = (uint)blocks.Length;
+                var host = path.FileName.Format().Remove(".extracts.parsed.xpack").Replace(".","/");
+                Write(string.Format("Loaded {0} blocks from {1}", blockCount, path.ToUri()));
+                counter += blockCount;
+            }
+
+            Ran(flow, string.Format("Loaded {0} total blocks", counter));
+
+            return result;
+        }
+
+        [Op]
+        public Index<HexPacked> EmitHexPack(SortedIndex<ApiCodeBlock> src, FS.FilePath? dst = null, bool validate = false)
+        {
+            var _dst = dst ?? Env.Db + FS.folder(EnvFolders.tables) + FS.file("apihex", FS.ext("xpack"));
+            var result = ApiCode.pack(src, validate);
+            var packed = result.View;
+            var emitting = EmittingFile(_dst);
+            using var writer = _dst.Writer();
+            var count = packed.Length;
+            for(var i=0; i<count; i++)
+                writer.WriteLine(skip(packed,i).Format());
+            EmittedFile(emitting, count);
+            return result;
+        }
+
+        [Op]
+        public ByteSize Emit(in MemoryBlock src, FS.FilePath dst)
+        {
+            var flow = EmittingFile(dst);
+            using var writer = dst.Writer();
+            var total = MemoryStore.emit(MemoryStore.pack(src), writer);
+            EmittedFile(flow, (uint)total);
+            return total;
+        }
+
+        [Op]
+        public ByteSize Emit(in MemoryBlocks src, FS.FilePath dst)
+        {
+            var flow = EmittingFile(dst);
+            using var writer = dst.Writer();
+            var total = MemoryStore.emit(src, writer);
+            EmittedFile(flow, (uint)total);
+            return total;
+        }
+
         public Index<MethodEntryPoint> CalcEntryPoints()
             => MethodEntryPoints.create(ApiJit.JitCatalog(ApiMd.Catalog));
 
@@ -271,5 +360,75 @@ namespace Z0
             AppSvc.TableEmit(encoded, csv);
             return encoded;
         }
+
+        [Op]
+        public Index<ApiHexRow> WriteApiHex(ApiHostUri uri, ReadOnlySpan<ApiMemberCode> src, FS.FolderPath dst)
+        {
+            var count = src.Length;
+            if(count != 0)
+            {
+                var buffer = alloc<ApiHexRow>(count);
+                for(var i=0u; i<count; i++)
+                    seek(buffer, i) = apihex(skip(src, i), i);
+
+                var path = Db.ParsedExtractPath(dst, uri);
+                AppSvc.TableEmit(buffer, path);
+                return buffer;
+            }
+            else
+                return array<ApiHexRow>();
+        }
+
+        public Index<ApiHexRow> WriteApiHex(ApiHostUri uri, ReadOnlySpan<ApiMemberCode> src, FS.FilePath dst)
+        {
+            var count = src.Length;
+            if(count != 0)
+            {
+                var buffer = alloc<ApiHexRow>(count);
+                for(var i=0u; i<count; i++)
+                    seek(buffer, i) = apihex(skip(src, i), i);
+
+                AppSvc.TableEmit(buffer, dst);
+                return buffer;
+            }
+            else
+                return array<ApiHexRow>();
+        }
+
+        [Op]
+        public ReadOnlySpan<ApiHexIndexRow> EmitIndex(SortedIndex<ApiCodeBlock> src, FS.FilePath dst)
+            => EmitIndex(Spans.sorted(src.View), dst);
+
+        [Op]
+        ReadOnlySpan<ApiHexIndexRow> EmitIndex(SortedReadOnlySpan<ApiCodeBlock> src, FS.FilePath dst)
+        {
+            var flow = EmittingTable<ApiHexIndexRow>(dst);
+            var blocks = src.View;
+            var count = blocks.Length;
+            var buffer = alloc<ApiHexIndexRow>(count);
+            var target = span(buffer);
+            var parts = PartNames.NameLookup();
+
+            using var writer = dst.Utf8Writer();
+            var formatter = Tables.formatter<ApiHexIndexRow>();
+            writer.WriteLine(formatter.FormatHeader());
+            for(var i=0u; i<count; i++)
+            {
+                ref readonly var block = ref skip(blocks,i);
+                ref var record = ref seek(target, i);
+                record.Seqence = i;
+                record.Address = block.BaseAddress;
+                parts.TryGetValue(block.OpUri.Part, out var name);
+                record.Component = name.IsEmpty ? block.OpUri.Part.Format() : name.Format();
+                record.HostName = block.OpUri.Host.HostName;
+                record.MethodName = block.OpId.Name;
+                record.Uri = block.OpUri;
+                writer.WriteLine(formatter.Format(record));
+            }
+
+            EmittedTable(flow, count);
+            return buffer;
+        }
+
     }
 }

@@ -13,14 +13,12 @@ namespace Z0
     {
         const string ProjId = "codegen.respack";
 
-        //FS.FilePath ProjectPath => CgProject(ProjId);
-
         FS.FolderPath ProjectDir => CgDir(ProjId);
 
         FS.FolderPath SourceDir
             => ProjectDir + FS.folder("src");
 
-        ApiHex ApiHex => Service(Wf.ApiHex);
+        ApiCode ApiCode => Wf.ApiCode();
 
         protected override void OnInit()
         {
@@ -28,7 +26,7 @@ namespace Z0
 
         public ReadOnlySpan<ApiHostRes> Emit(bool build = true)
         {
-            return Emit(ApiHex.ReadBlocks().Storage);
+            return Emit(ApiCode.LoadBlocks().Storage);
         }
 
         void RunScripts()

@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System.Diagnostics;
     using static core;
 
     using PCK = ProcessContextFlag;
@@ -32,75 +33,11 @@ namespace Z0
             ContextPaths = Db.CaptureContextRoot();
         }
 
-        public MemorySymbols SymbolizeDetails(in ProcessContext src)
-        {
-            var details = src.Regions.View;
-            var count = details.Length;
-            var symbols = MemorySymbols.create(count);
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var detail = ref skip(details,i);
-                symbols.Deposit(detail.StartAddress, detail.Size, detail.Identity.Format());
-            }
-            return symbols;
-        }
-
-        public MemorySymbols SymbolizeSummaries(in ProcessContext src)
-        {
-            var summaries = src.Partitions.View;
-            var count = summaries.Length;
-            var symbols = MemorySymbols.create(count);
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var summary = ref skip(summaries,i);
-                symbols.Deposit(summary.BaseAddress, summary.Size, summary.ImageName.Format());
-            }
-            return symbols;
-        }
-
-        public void EmitHashes(in ProcessContext src, FS.FolderPath dst)
-        {
-            ContextPaths = dst;
-            var summaries = SymbolizeSummaries(src);
-            var summarypath = ContextPaths.ProcessPartitionHashPath(src.ProcessName, src.Timestamp, src.Subject);
-            EmitHashes(summaries.Addresses, summarypath);
-
-            var details = SymbolizeDetails(src);
-            var detailpath = ContextPaths.MemoryRegionHashPath(src.ProcessName, src.Timestamp, src.Subject);
-            EmitHashes(details.Addresses, detailpath);
-        }
-
-        public Index<AddressHash> EmitHashes(ReadOnlySpan<MemoryAddress> addresses, FS.FilePath dst)
-        {
-            var flow = Wf.EmittingTable<AddressHash>(dst);
-            var count = (uint)addresses.Length;
-            var buffer = alloc<AddressHash>(count);
-            MemorySymbols.hash(addresses,buffer);
-            Tables.emit(@readonly(buffer), dst);
-            Wf.EmittedTable(flow, count);
-            return buffer;
-        }
-
-        [MethodImpl(Inline)]
-        public static bit enabled(PCK src, PCK flag)
-            => (src & flag) != 0;
-
-        [MethodImpl(Inline)]
-        public static ProcessContextFlags flags(PCK src)
-        {
-            var options = new ProcessContextFlags();
-            options.EmitSummary = enabled(src,PCK.Summary);
-            options.EmitDetail= enabled(src,PCK.Detail);
-            options.EmitDump= enabled(src,PCK.Dump);
-            options.EmitHashes = enabled(src,PCK.Hashes);
-            return options;
-        }
-
         public ProcessContext Emit(FS.FolderPath dst, Timestamp ts, Identifier subject = default, PCK flag = PCK.All)
         {
             ContextPaths = dst;
 
-            var selection = flags(flag);
+            var selection = ImageMemory.flags(flag);
             if(selection.IsEmpty)
             {
                 Wf.Warn("No options have been specified");
@@ -109,7 +46,7 @@ namespace Z0
 
             var flow = Wf.Running(string.Format("Emitting process context with options {0}", flag));
             var context = new ProcessContext();
-            var process = Runtime.CurrentProcess;
+            var process = Process.GetCurrentProcess();
             var name = process.ProcessName;
             subject = text.ifempty(subject,"none");
             context.ProcessId = process.Id;
@@ -134,11 +71,27 @@ namespace Z0
             }
             if(selection.EmitHashes)
             {
-                EmitHashes(context, dst);
+                ContextPaths = dst;
+                ImageMemory.EmitHashes(context, dst);
             }
 
             Wf.Ran(flow,"Emitted process context");
             return context;
+        }
+
+        public void EmitProcessContext(IApiPack pack)
+        {
+            var flow = Wf.Running("Emitting process context");
+            var ts = pack.Timestamp;
+            if(!ts.IsNonZero)
+                ts = now();
+
+            var dir = pack.Archive().ContextRoot();
+            var process = Process.GetCurrentProcess();
+            var procparts = EmitPartitions(process, ts, dir);
+            var regions = EmitRegions(process, ts, dir);
+            EmitDump(process, pack.ProcDumpPath(process, ts));
+            Wf.Ran(flow);
         }
 
         public Count EmitDump(Process process, FS.FilePath dst)

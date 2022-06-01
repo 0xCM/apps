@@ -9,7 +9,7 @@ namespace Z0
         [CmdOp("api/emit/hexpacks")]
         Outcome EmitHexPack(CmdArgs args)
         {
-            ApiHexPacks.Emit(Blocks());
+            ApiCode.EmitHexPack(ApiCode.LoadBlocks());
             return true;
         }
     }

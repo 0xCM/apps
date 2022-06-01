@@ -12,7 +12,7 @@ namespace Z0
 
         ApiResolver Resolver => Wf.ApiResolver();
 
-        ApiHexPacks HexPacks => Wf.HexPack();
+        ApiCode ApiCode => Wf.ApiCode();
 
         ApiHex ApiHex => Service(Wf.ApiHex);
 
@@ -109,8 +109,8 @@ namespace Z0
             }
 
             var blocks = MemoryStore.pack(dst);
-            HexPacks.Emit(blocks, packPath);
-            ApiHex.WriteBlocks(host, src, extractPath);
+            ApiCode.Emit(blocks, packPath);
+            ApiCode.WriteApiHex(host, src, extractPath);
             return count;
         }
 
@@ -120,7 +120,7 @@ namespace Z0
             if(count == 0)
                 return;
 
-            HexPacks.Emit(ApiHexPacks.memory(src), rawPath);
+            ApiCode.Emit(ApiCode.memory(src), rawPath);
         }
     }
 }

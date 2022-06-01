@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-// Copyright   :  (c) Chris Moore, 2020
+// Copyright   :  .NET Foundation
 // License     :  MIT
 //-----------------------------------------------------------------------------
 namespace Z0
@@ -7,11 +7,15 @@ namespace Z0
     partial struct MinidumpRecords
     {
         [StructLayout(LayoutKind.Sequential)]
-        public struct MINIDUMP_DIRECTORY : IRecord<MINIDUMP_DIRECTORY>
+        public struct MINIDUMP_HANDLE_DATA_STREAM : IRecord<MINIDUMP_HANDLE_DATA_STREAM>
         {
-            public MinidumpStreamType StreamType;
+            public uint SizeOfHeader;
 
-            public MINIDUMP_LOCATION_DESCRIPTOR Location;
+            public uint SizeOfDescriptor;
+
+            public uint NumberOfDescriptors;
+
+            public uint Reserved;
         }
     }
 }

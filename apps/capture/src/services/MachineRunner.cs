@@ -12,6 +12,30 @@ namespace Z0
     public class WfMachine : AppService<WfMachine>
     {
         ApiMd ApiMd => Wf.ApiMetadata();
+
+        ApiCode ApiCode => Wf.ApiCode();
+
+        void EmitCode(WorkflowOptions options)
+        {
+            SortedIndex<ApiCodeBlock> sorted = ApiCode.LoadBlocks();
+            var partitioned = ApiCodeBlocks.hosted(sorted.View);
+
+            if(options.EmitAsmStatements)
+                Wf.HostAsmEmitter().EmitHostAsm(partitioned, Db.AsmStatementRoot());
+
+            if(options.EmitAsmRows)
+                Wf.AsmRowBuilder().Emit(sorted.View);
+
+            if(options.EmitHexIndex)
+                ApiCode.EmitIndex(sorted, Db.IndexFile("api.hex.index"));
+
+            if(options.EmitHexPack)
+                ApiCode.EmitHexPack(sorted);
+
+            if(options.EmitResBytes)
+                Wf.ResPackEmitter().Emit(sorted.View);
+
+        }
         public void Run(WorkflowOptions options)
         {
             var parts = Wf.ApiCatalog.PartIdentities;
@@ -19,25 +43,7 @@ namespace Z0
             var flow = Wf.Running(RunningMachine.Format(partCount, parts.Delimit()));
             try
             {
-                var blocks = Wf.ApiHex().ReadBlocks().Storage;
-                var partitioned = ApiCodeBlocks.hosted(@readonly(blocks));
-                var sorted = blocks.ToSortedIndex();
-
-                if(options.EmitAsmStatements)
-                    Wf.HostAsmEmitter().EmitHostAsm(partitioned, Db.AsmStatementRoot());
-
-                if(options.EmitAsmRows)
-                    Wf.AsmRowBuilder().Emit(blocks);
-
-                if(options.EmitHexIndex)
-                    Wf.ApiHex().EmitIndex(sorted, Db.IndexFile("api.hex.index"));
-
-                if(options.EmitHexPack)
-                    Wf.HexPack().Emit(sorted);
-
-                if(options.EmitResBytes)
-                    Wf.ResPackEmitter().Emit(blocks);
-
+                EmitCode(options);
                 var catalogs = Wf.ApiCatalogs();
 
                 if(options.CorrelateMembers)
@@ -48,7 +54,6 @@ namespace Z0
 
                 if(options.EmitSymbolicLiterals)
                     ApiMd.Emit(ApiMd.SymLits);
-                    //Wf.Heaps().EmitSymLits();
 
                 if(options.EmitApiBitMasks)
                     ApiMd.Emit(ApiMd.ApiBitMasks);

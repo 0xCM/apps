@@ -4,8 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly partial struct MinidumpRecords
+    partial class ApiCode
     {
-        const string Docs = "sdk-api-src/content/minidumpapiset/";
+        [MethodImpl(Inline), Op]
+        public static ApiCodeBlock block(in ApiHexRow src)
+            => new ApiCodeBlock(src.Address, src.Uri, src.Data);
     }
 }

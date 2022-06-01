@@ -16,8 +16,6 @@ namespace Z0
 
         ApiMd ApiMd => Wf.ApiMetadata();
 
-        ApiHexPacks HexPacks => Wf.HexPack();
-
         HexEmitter HexEmitter => Wf.HexEmitter();
 
         const string il = nameof(il);
@@ -27,7 +25,7 @@ namespace Z0
         {
             var result = Outcome.Success;
             const uint BufferLength = Pow2.T16;
-            var blocks = HexPacks.LoadBlocks(ApiPacks.HexPackRoot()).View;
+            var blocks = ApiCode.LoadMemoryBlocks(ApiPacks.HexPackRoot()).View;
             var count = blocks.Length;
             var buffer = span<char>(BufferLength);
             var dst = ProjectDb.Api() + FS.file("api", FS.Hex);
@@ -46,7 +44,7 @@ namespace Z0
         [CmdOp("api/emit/hexrows")]
         void EmitApiHexRows()
         {
-            var blocks = HexPacks.LoadBlocks(ApiPacks.HexPackRoot()).View;
+            var blocks = ApiCode.LoadMemoryBlocks(ApiPacks.HexPackRoot()).View;
             var count = blocks.Length;
             var dir = AppDb.ApiTargets("capture.hex").Dir("rows");
             for(var i=0; i<count; i++)

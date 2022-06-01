@@ -14,6 +14,9 @@ namespace Z0
         DbSources Sources()
             => Targets().ToSource();
 
+        public FS.FolderPath TargetRoot()
+            => Targets();
+
         public FS.Files HexFiles()
             => Sources().Files(FileKind.Hex);
 

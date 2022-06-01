@@ -45,7 +45,7 @@ namespace Z0
                     continue;
 
                 var uri = ApiHostUri.define(id, skip(elements,1));
-                hex.Add(new (uri, ApiHexPacks.memory(file)));
+                hex.Add(new (uri, ApiCode.memory(file)));
             }
         }
 
@@ -56,7 +56,7 @@ namespace Z0
         void PackHex(FS.FolderPath src, ApiHostUri host)
         {
             var counter = 0u;
-            var memory = ApiHexPacks.memory(csv(src, host));
+            var memory = ApiCode.memory(csv(src, host));
             var blocks = memory.Sort().View;
             var buffer = span<char>(Pow2.T16);
             var dir = AppDb.ApiTargets("capture.test").Dir(string.Format("{0}.{1}", host.Part.Format(), host.HostName));
@@ -90,7 +90,7 @@ namespace Z0
         Outcome CheckLookups(ITextEmitter log)
         {
             var capacity = Pow2.T16;
-            var blocks = ApiHex.ReadBlocks().View;
+            var blocks = ApiCode.LoadBlocks().View;
             var count = blocks.Length;
             var result = Outcome.Success;
             if(count > capacity)

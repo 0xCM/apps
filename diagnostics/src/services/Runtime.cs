@@ -25,28 +25,28 @@ namespace Z0
             get => Process.GetCurrentProcess();
         }
 
-        [Op]
-        public static ProcessMemoryMap map(ProcessAdapter src)
-        {
-            var mods = modules(src);
-            var count = mods.Length;
-            var buffer = core.alloc<ModuleMemory>(count);
-            ref var dst = ref first(buffer);
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var mod = ref skip(mods,i);
-                seek(dst,i) = new ModuleMemory(mod.Path.FileName.WithoutExtension.Format(), mod.BaseAddress, mod.ModuleMemorySize);
-            }
-            var main = src.MainModule;
-            return new ProcessMemoryMap(src.ProcessName, (uint)src.Id, main.BaseAddress, main.ModuleMemorySize, buffer);
-        }
+        // [Op]
+        // public static ProcessMemoryMap map(ProcessAdapter src)
+        // {
+        //     var mods = modules(src);
+        //     var count = mods.Length;
+        //     var buffer = core.alloc<ModuleMemory>(count);
+        //     ref var dst = ref first(buffer);
+        //     for(var i=0; i<count; i++)
+        //     {
+        //         ref readonly var mod = ref skip(mods,i);
+        //         seek(dst,i) = new ModuleMemory(mod.Path.FileName.WithoutExtension.Format(), mod.BaseAddress, mod.ModuleMemorySize);
+        //     }
+        //     var main = src.MainModule;
+        //     return new ProcessMemoryMap(src.ProcessName, (uint)src.Id, main.BaseAddress, main.ModuleMemorySize, buffer);
+        // }
 
-        [Op]
-        public static ReadOnlySpan<ProcessModuleAdapter> modules(ProcessAdapter src)
-            => src.Modules.OrderBy(x => x.BaseAddress).Array();
+        // [Op]
+        // public static ReadOnlySpan<ProcessModuleAdapter> modules(ProcessAdapter src)
+        //     => src.Modules.OrderBy(x => x.BaseAddress).Array();
 
-        [Op]
-        public static ReadOnlySpan<ProcessModuleAdapter> modules()
-            => modules(CurrentProcess);
+        // [Op]
+        // public static ReadOnlySpan<ProcessModuleAdapter> modules()
+        //     => modules(CurrentProcess);
     }
 }
