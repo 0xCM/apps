@@ -20,7 +20,7 @@ namespace Z0
 
         public ApiCaptureEmitter()
         {
-            ExtractParser = ApiExtracts.parser();
+            ExtractParser = ApiExtractParser.create();
         }
 
         public AsmHostRoutines Emit(ApiHostUri host, Index<ApiMemberExtract> src)

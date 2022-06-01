@@ -4,15 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     using api = Utf16;
 
-    [DataType("utf16")]
     public readonly struct utf16 : IComparable<utf16>, IEquatable<utf16>
     {
         readonly string Data;

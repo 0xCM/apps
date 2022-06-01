@@ -14,20 +14,33 @@ namespace Z0
     public ref struct EncodingParser
     {
         [MethodImpl(Inline), Op]
+        public static bool failed(EncodingParserState state)
+            => state == EncodingParserState.Failed;
+
+        [MethodImpl(Inline), Op]
+        public static ExtractTermCode termcode(EncodingPatternKind src)
+        {
+            if(src != 0)
+                return (ExtractTermCode)src;
+            else
+                return ExtractTermCode.Fail;
+        }
+
+        [MethodImpl(Inline), Op]
         public static EncodingParser create(byte[] buffer)
             => new EncodingParser(EncodingPatterns.Default, buffer);
 
-        internal readonly Span<byte> Buffer;
+        public readonly Span<byte> Buffer;
 
-        internal int Offset;
+        public int Offset;
 
-        internal S State;
+        public S State;
 
         internal K Outcome;
 
-        internal int Delta;
+        public int Delta;
 
-        internal readonly EncodingPatterns Patterns;
+        readonly EncodingPatterns Patterns;
 
         public byte[] Parsed
             => ParsedSlice.ToArray();
@@ -61,7 +74,7 @@ namespace Z0
             return State;
         }
 
-        internal K Result
+        public K Result
         {
             [MethodImpl(Inline)]
             get => Finished() ? Outcome : default;

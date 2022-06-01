@@ -24,7 +24,6 @@ namespace Z0
         {
             var @base = src.BaseAddress;
             var size = Bytes.readz(MaxZeroCount, @base, buffer);
-            //var length = Bytes.read(address, buffer);
             var extracted = sys.array(slice(buffer,0,size));
             return new ApiMemberExtract(src, new ApiExtractBlock(@base, src.OpUri.Format(), extracted));
         }
@@ -33,7 +32,6 @@ namespace Z0
         public static unsafe ApiMemberExtract extract(in ResolvedMethod src, Span<byte> buffer)
         {
             var size = Bytes.readz(MaxZeroCount, src.EntryPoint, buffer);
-            //var size = Bytes.read(src.EntryPoint, buffer);
             var block = new ApiExtractBlock(src.EntryPoint, src.Uri.Format(), slice(buffer,0, size).ToArray());
             return new ApiMemberExtract(src.ToApiMember(), block);
         }

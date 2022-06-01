@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    enum EncodingPatternKind : long
+    public enum EncodingPatternKind : long
     {
         None = 0,
 

@@ -8,7 +8,7 @@ namespace Z0
 
     public class ApiCodeExtractor : AppService<ApiCodeExtractor>
     {
-        ApiExtractParser Parser => ApiExtracts.parser();
+        ApiExtractParser Parser => ApiExtractParser.create();
 
         ApiResolver Resolver => Wf.ApiResolver();
 

@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public readonly struct UnicodeSymbol: INatBytes<UnicodeSymbol,N2>
+    public readonly struct UnicodeSymbol : INatBytes<UnicodeSymbol,N2>
     {
         public readonly ushort Code;
 

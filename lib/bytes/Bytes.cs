@@ -8,225 +8,35 @@ namespace Z0
     using static System.Runtime.Intrinsics.X86.Bmi1.X64;
     using static core;
 
-    [ApiHost]
-    public unsafe readonly struct Bytes
+    [ApiHost, Free]
+    public unsafe partial class Bytes
     {
         const NumericKind Closure = UnsignedInts;
 
-        [MethodImpl(Inline), Op]
-        public static void read4096(byte* pSrc, ref PageBlock dst)
-        {
-            ReadLo(pSrc, ref dst);
-            ReadHi(pSrc, ref dst);
-        }
-
-        [MethodImpl(Inline), Op]
-        static void ReadLo(byte* pSrc, ref PageBlock dst)
-        {
-            var pData = pSrc;
-            var offset = z16;
-            read2048(ref pData, ref dst, ref offset);
-        }
-
-        [MethodImpl(Inline), Op]
-        static void ReadHi(byte* pSrc, ref PageBlock dst)
-        {
-            const ushort Half = Root.PageSize/2;
-            var pData = pSrc + Half;
-            var offset = Half;
-            read2048(ref pData, ref dst, ref offset);
-        }
-
-        [MethodImpl(Inline), Op]
-        public static void read32(ref byte* pSrc, ref PageBlock dst, ref ushort offset)
-        {
-            ref var target = ref u8(dst);
-            cpu.vstore(cpu.vload(w256, pSrc), ref target, (int)offset);
-            pSrc +=32;
-            offset+= 32;
-        }
-
-        [MethodImpl(Inline), Op]
-        public static void read64(ref byte* pSrc, ref PageBlock dst, ref ushort offset)
-        {
-            read32(ref pSrc, ref dst, ref offset);
-            read32(ref pSrc, ref dst, ref offset);
-        }
-
-        [MethodImpl(Inline), Op]
-        public static void read128(ref byte* pSrc, ref PageBlock dst, ref ushort offset)
-        {
-            read64(ref pSrc, ref dst, ref offset);
-            read64(ref pSrc, ref dst, ref offset);
-        }
-
-        [MethodImpl(Inline), Op]
-        public static void read256(ref byte* pSrc, ref PageBlock dst, ref ushort offset)
-        {
-            read128(ref pSrc, ref dst, ref offset);
-            read128(ref pSrc, ref dst, ref offset);
-        }
-
-        [MethodImpl(Inline), Op]
-        public static void read512(ref byte* pSrc, ref PageBlock dst, ref ushort offset)
-        {
-            read256(ref pSrc, ref dst, ref offset);
-            read256(ref pSrc, ref dst, ref offset);
-        }
-
-        [MethodImpl(Inline), Op]
-        public static void read1024(ref byte* pSrc, ref PageBlock dst, ref ushort offset)
-        {
-            read512(ref pSrc, ref dst, ref offset);
-            read512(ref pSrc, ref dst, ref offset);
-        }
-
-        [MethodImpl(Inline), Op]
-        public static void read2048(ref byte* pSrc, ref PageBlock dst, ref ushort offset)
-        {
-            read1024(ref pSrc, ref dst, ref offset);
-            read1024(ref pSrc, ref dst, ref offset);
-        }
-
-        [MethodImpl(Inline), Op]
-        public static unsafe int readz(uint zmax, MemoryAddress src, Span<byte> dst)
-        {
-            var pSrc = src.Pointer<byte>();
-            return readz(zmax, ref pSrc, dst.Length, dst);
-        }
-
-        [MethodImpl(Inline), Op]
-        public static unsafe int readz(uint zmax, ref byte* pSrc, int limit, Span<byte> dst)
-            => readz(zmax, ref pSrc, limit, ref first(dst));
-
-        [MethodImpl(Inline), Op]
-        public static unsafe int readz(uint zmax, ref byte* pSrc, int limit, ref byte dst)
-        {
-            var offset = 0;
-            var count = 0;
-            while(offset<limit && count<zmax)
-            {
-                var value = Unsafe.Read<byte>(pSrc++);
-                seek(dst, offset++) = value;
-                if(value != 0)
-                    count = 0;
-                else
-                    count++;
-            }
-            return offset;
-        }
-
-        // [MethodImpl(Inline), Op]
-        // public static unsafe int read(MemoryAddress src, Span<byte> dst)
-        // {
-        //     var pSrc = src.Pointer<byte>();
-        //     var limit = dst.Length;
-        //     return read(ref pSrc, limit, dst);
-        // }
-
-        // [MethodImpl(Inline), Op]
-        // public static unsafe int read(ref byte* pSrc, int count, Span<byte> dst)
-        //     => read(ref pSrc, count, ref first(dst));
-
-        // [MethodImpl(Inline), Op]
-        // public static unsafe int read(ref byte* pSrc, int limit, ref byte dst)
-        // {
-        //     var offset = 0;
-        //     var count = 0;
-        //     while(offset<limit && count<MaxZeroCount)
-        //     {
-        //         var value = Unsafe.Read<byte>(pSrc++);
-        //         seek(dst, offset++) = value;
-        //         if(value != 0)
-        //             count = 0;
-        //         else
-        //             count++;
-        //     }
-        //     return offset;
-        // }
-
-        [MethodImpl(Inline)]
-        public static ReadOnlySpan<byte> sequential(byte i0, byte i1)
-            => slice(B256x8u,i0, (byte)(i1 - i1 + 1));
-
-        [MethodImpl(Inline)]
-        public static ReadOnlySpan<T> sequential<T>(byte i0, byte i1)
+        /// <summary>
+        /// Returns a readonly reference to an index-identified source byte
+        /// </summary>
+        /// <param name="src">The data source</param>
+        /// <param name="index">The 0-based, byte-relative index</param>
+        /// <typeparam name="T">The data type</typeparam>
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static ref readonly byte view<T>(in T src, byte index)
             where T : unmanaged
-                => recover<T>(slice(B256x8u,i0, (byte)(i1 - i1 + 1)));
-
-
-        public static void RenderByteSpans(uint offset, ITextEmitter dst)
-        {
-            RenderByteSpan<byte>(0,255,offset,dst);
-            RenderByteSpan<ushort>(0,255,offset,dst);
-            RenderByteSpan<uint>(0,255,offset,dst);
-            RenderByteSpan<ulong>(0,255,offset,dst);
-            RenderByteSpan<ushort>(0, 511, offset, dst);
-            Bytes.RenderByteSpan<ushort>(0, Pow2.T11m1, offset, dst);
-        }
-
-        public static uint RenderBytes<T>(T src, ITextEmitter dst)
-            where T : unmanaged
-        {
-            const string Sep = ", ";
-
-            var data = bytes(src);
-            var count = data.Length;
-            for(var i=count-1; i>= 0; i--)
-            {
-                ref readonly var a = ref skip(data,i);
-                if(i!=count-1)
-                    dst.Append(Sep);
-                dst.Append(a.FormatHex());
-            }
-            return (uint)count;
-        }
-
-        public static void RenderByteSpan<T>(string name, T i0, T i1, uint offset, ITextEmitter dst)
-            where T : unmanaged
-        {
-            const string Sep = ", ";
-            const byte Bpl = 16;
-            var bpc = size<T>();
-            var count = gcalc.count(i0,i1);
-            var min = (long)bw64(i0);
-            var cells = count*bpc;
-            var counter = 0u;
-            dst.IndentLineFormat(offset, "public static ReadOnlySpan<byte> {0} => new byte[{1}] {{", name, cells);
-            offset += 4;
-            for(var i=min; i<count; i++)
-            {
-                if(i==0)
-                    dst.Indent(offset, Chars.Space);
-
-                if(i != 0)
-                    dst.Append(Sep);
-
-                if(counter != 0 && counter % Bpl == 0)
-                {
-                    dst.Append(Eol);
-                    dst.Indent(offset, Chars.Space);
-                }
-
-                counter += RenderBytes(@as<long,T>(i),dst);
-            }
-
-            dst.Append(Eol);
-            offset -= 4;
-            dst.IndentLine(offset, "};");
-        }
-
-        public static void RenderByteSpan<T>(T min, T max, uint offset, ITextEmitter dst)
-            where T : unmanaged
-        {
-            var count = gcalc.count(min, max);
-            var name = string.Format("B{0}x{1}u", count,  width<T>());
-            RenderByteSpan<T>(name, min, max, offset, dst);
-            dst.AppendLine();
-        }
+                => ref skip(@as<T,byte>(src), index);
 
         /// <summary>
-        /// Converts an input sequence to a <see cref='uint'/>
+        /// Returns a mutable reference to an index-identified source byte
+        /// </summary>
+        /// <param name="src">The data source</param>
+        /// <param name="index">The 0-based, byte-relative index</param>
+        /// <typeparam name="T">The data type</typeparam>
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static ref byte edit<T>(ref T src, byte index)
+            where T : unmanaged
+                => ref seek(@as<T,byte>(src), index);
+
+        /// <summary>
+        /// Converts an input sequence to a <see cref='ushort'/>
         /// </summary>
         /// <param name="src">The data source</param>
         /// <param name="w">The target width</param>
@@ -401,34 +211,6 @@ namespace Z0
             dst &= (0xFFul << (index*3));
             dst &= (~(ulong)src);
             return ref dst;
-        }
-
-        /// <summary>
-        /// Returns a readonly reference to an index-identified source byte
-        /// </summary>
-        /// <param name="src">The data source</param>
-        /// <param name="index">The 0-based, byte-relative index</param>
-        /// <typeparam name="T">The data type</typeparam>
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static ref readonly byte view<T>(in T src, byte index)
-            where T : unmanaged
-        {
-            ref readonly var data = ref @as<T,byte>(src);
-            return ref skip(data,index);
-        }
-
-        /// <summary>
-        /// Returns a mutable reference to an index-identified source byte
-        /// </summary>
-        /// <param name="src">The data source</param>
-        /// <param name="index">The 0-based, byte-relative index</param>
-        /// <typeparam name="T">The data type</typeparam>
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static ref byte edit<T>(ref T src, byte index)
-            where T : unmanaged
-        {
-            ref var data = ref @as<T,byte>(src);
-            return ref seek(data,index);
         }
 
         /// <summary>
@@ -741,46 +523,6 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static bool eq(byte a, byte b)
             => a == b;
-
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static ReadOnlySpan<T> cells<T>(N2 n)
-            where T : unmanaged
-                => recover<byte,T>(slice(B256x8u,0,2));
-
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static ReadOnlySpan<T> cells<T>(N4 n)
-            where T : unmanaged
-                => recover<byte,T>(slice(B256x8u,0,4));
-
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static ReadOnlySpan<T> cells<T>(N8 n)
-            where T : unmanaged
-                => recover<byte,T>(slice(B256x8u,0,8));
-
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static ReadOnlySpan<T> cells<T>(N16 n)
-            where T : unmanaged
-                => recover<byte,T>(slice(B256x8u,0,16));
-
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static ReadOnlySpan<T> cells<T>(N32 n)
-            where T : unmanaged
-                => recover<byte,T>(slice(B256x8u,0,32));
-
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static ReadOnlySpan<T> cells<T>(N64 n)
-            where T : unmanaged
-                => recover<byte,T>(slice(B256x8u,0,64));
-
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static ReadOnlySpan<T> cells<T>(N128 n)
-            where T : unmanaged
-                => recover<byte,T>(slice(B256x8u,0,128));
-
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static ReadOnlySpan<T> cells<T>(N256 n)
-            where T : unmanaged
-                => recover<byte,T>(B256x8u);
 
         [MethodImpl(Inline)]
         static unsafe byte read8(in byte src)

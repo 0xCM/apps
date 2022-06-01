@@ -4,8 +4,6 @@ namespace Z0
     {
         public static MsgPattern<ToolId> ToolHelpNotFound => "Tool {0} help not found";
 
-        public static MsgPattern<Assembly,utf8> NoMatchingResources => "No {0} resources found that match {1}";
-
         public static MsgPattern<FS.FileUri> EmittingFile => "Emitting {0}";
 
         public static MsgPattern<FS.FileUri> EmittedFile => "Emitted {0}";

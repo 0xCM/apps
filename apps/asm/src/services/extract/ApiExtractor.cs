@@ -47,7 +47,7 @@ namespace Z0
 
         protected override void OnInit()
         {
-            Parser = ApiExtracts.parser();
+            Parser = ApiExtractParser.create();
             Resolver = Wf.ApiResolver();
             Decoder = Wf.AsmDecoder();
             HexPacks = Wf.HexPack();

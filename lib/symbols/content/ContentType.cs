@@ -1,48 +1,44 @@
-//-----------------------------------------------------------------------------
-// Copyright   :  (c) Chris Moore, 2020
-// License     :  MIT
-//-----------------------------------------------------------------------------
-namespace Z0
-{
-    using System.Runtime.CompilerServices;
+// //-----------------------------------------------------------------------------
+// // Copyright   :  (c) Chris Moore, 2020
+// // License     :  MIT
+// //-----------------------------------------------------------------------------
+// namespace Z0
+// {
+//     public readonly struct ContentType
+//     {
+//         public readonly ContentKind Kind;
 
-    using static Root;
+//         public readonly Label Name;
 
-    public readonly struct ContentType
-    {
-        public readonly ContentKind Kind;
+//         [MethodImpl(Inline)]
+//         internal ContentType(ContentKind kind, string name)
+//         {
+//             Kind = kind;
+//             Name = name;
+//         }
 
-        public readonly Label Name;
+//         public bool IsEmpty
+//         {
+//             [MethodImpl(Inline)]
+//             get => Kind == 0;
+//         }
 
-        [MethodImpl(Inline)]
-        internal ContentType(ContentKind kind, string name)
-        {
-            Kind = kind;
-            Name = name;
-        }
+//         public bool IsNonEmpty
+//         {
+//             [MethodImpl(Inline)]
+//             get => Kind != 0 && Name.IsNonEmpty;
+//         }
 
-        public bool IsEmpty
-        {
-            [MethodImpl(Inline)]
-            get => Kind == 0;
-        }
+//         public string Format()
+//             => Name.Format();
 
-        public bool IsNonEmpty
-        {
-            [MethodImpl(Inline)]
-            get => Kind != 0 && Name.IsNonEmpty;
-        }
+//         public override string ToString()
+//             => Format();
 
-        public string Format()
-            => Name.Format();
-
-        public override string ToString()
-            => Format();
-
-        public static ContentType Empty
-        {
-            [MethodImpl(Inline)]
-            get => new ContentType(0, EmptyString);
-        }
-    }
-}
+//         public static ContentType Empty
+//         {
+//             [MethodImpl(Inline)]
+//             get => new ContentType(0, EmptyString);
+//         }
+//     }
+// }

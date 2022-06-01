@@ -12,10 +12,23 @@ namespace Z0
         const NumericKind Closure = UnsignedInts;
 
         [MethodImpl(Inline), Op]
+        public static ref T copy<T>(ReadOnlySpan<byte> src, ref T dst)
+            where T : unmanaged, IStorageBlock
+        {
+            var size = max(src.Length, dst.Size);
+            ref var target = ref u8(dst);
+            if(size == dst.Size)
+                dst = @as<T>(src);
+            else
+                Bytes.copy(slice(src, 0, size), ref target);
+            return ref dst;
+        }
+
+        [MethodImpl(Inline), Op]
         public static ByteBlock16 block(W128 w, ReadOnlySpan<byte> src)
         {
             var dst = ByteBlock16.Empty;
-            copy(src,ref dst);
+            Bytes.copy(src,ref dst);
             return dst;
         }
 
@@ -23,7 +36,7 @@ namespace Z0
         public static ByteBlock32 block(W256 w, ReadOnlySpan<byte> src)
         {
             var dst = ByteBlock32.Empty;
-            copy(src,ref dst);
+            Bytes.copy(src,ref dst);
             return dst;
         }
 
@@ -32,7 +45,7 @@ namespace Z0
         {
             var src = new Seg512(lo,hi);
             var dst = ByteBlocks.alloc(n64);
-            copy(bytes(src), ref dst);
+            Bytes.copy(bytes(src), ref dst);
             return dst;
         }
 

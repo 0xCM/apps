@@ -7,10 +7,23 @@ namespace Z0
     using static core;
     using static ExtractTermCode;
 
+    using TC = ExtractTermCode;
     using EP = EncodingParser;
 
-    partial struct ApiExtracts
+    public readonly struct ApiExtractParser
     {
+        const int DefaultBufferLength = Pow2.T14 + Pow2.T08;
+
+        static byte[] buffer(ByteSize? size = null)
+            => alloc<byte>(size ?? DefaultBufferLength);
+
+        public static ApiExtractParser create()
+            => new ApiExtractParser(buffer());
+
+        [MethodImpl(Inline), Op]
+        public static ApiExtractParser create(byte[] buffer)
+            => new ApiExtractParser(buffer);
+
         [Op]
         static int extractSize(Span<byte> src, int maxcut, byte code)
         {
@@ -54,8 +67,8 @@ namespace Z0
             try
             {
                 var status = parser.Parse(src.Block.Encoded.View);
-                var term = failed(status) ? Fail : termcode(parser.Result);
-                if(term != Fail)
+                var term = EP.failed(status) ? TC.Fail : EP.termcode(parser.Result);
+                if(term != TC.Fail)
                 {
                     var code = locate(src.Block.BaseAddress, parser.Parsed, term == CTC_Zx7 ? Zx7Cut : 0);
                     return new ApiMemberCode(src.Member, new ApiCodeBlock(code.BaseAddress, src.OpUri, code), seq, term);
@@ -76,8 +89,7 @@ namespace Z0
             if(count == 0)
                 return default;
 
-            var buffer = alloc<ApiMemberCode>(count);
-            ref var dst = ref first(buffer);
+            var dst = alloc<ApiMemberCode>(count);
             for(var i=0u; i<count; i++)
             {
                 var outcome = parse(parser, skip(src,i), i);
@@ -86,16 +98,15 @@ namespace Z0
                 else
                     seek(dst, i) = ApiMemberCode.Empty;
             }
-            return buffer;
+            return dst;
         }
-
 
         internal static bool parse(EP parser, in ApiMemberExtract src, out ApiMemberCode dst)
         {
             const int Zx7Cut = 7;
             var status = parser.Parse(src.Block.Encoded);
-            var term = failed(status) ? Fail : termcode(parser.Result);
-            if(term != Fail)
+            var term = EP.failed(status) ? TC.Fail : EP.termcode(parser.Result);
+            if(term != TC.Fail)
             {
                 var code = locate(src.BaseAddress, parser.Parsed, term == CTC_Zx7 ? Zx7Cut : 0);
                 dst = new ApiMemberCode(src.Member, new ApiCodeBlock(src.BaseAddress, src.OpUri, code));
@@ -107,5 +118,23 @@ namespace Z0
                 return false;
             }
         }
+
+        readonly byte[] Buffer;
+
+        [MethodImpl(Inline)]
+        internal ApiExtractParser(byte[] buffer)
+            => Buffer = buffer;
+
+        EP Parser
+        {
+            [MethodImpl(Inline)]
+            get => EncodingParser.create(Buffer.Clear());
+        }
+
+        public Index<ApiMemberCode> ParseMembers(ReadOnlySpan<ApiMemberExtract> src)
+            => parse(Parser,src);
+
+        public bool Parse(in ApiMemberExtract src, out ApiMemberCode code)
+            => parse(Parser, src, out code);
     }
 }
