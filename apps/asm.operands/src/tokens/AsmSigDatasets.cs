@@ -75,7 +75,7 @@ namespace Z0.Asm
         static AsmSigDatasets load()
         {
             var dst = new AsmSigDatasets();
-            var src = AsmSigTokens.create().Set;
+            var src = AsmSigTokens.create();
             var types = src.TokenTypes;
             var tokenExpr = dict<uint,string>();
             var exprToken = dict<string,AsmSigOp>();
@@ -100,9 +100,8 @@ namespace Z0.Asm
                     names[sigop.Id] = token.Name;
                     record.Seq = k;
                     record.Index = j;
-                    record.KindIndex = (uint)kind;
                     record.Group = token.Group;
-                    record.KindName = token.Type.Text;
+                    record.Kind = token.Type.Text;
                     record.Expr = token.Expr;
                     record.Value = token.Value;
                     record.Name = token.Name.Text;

@@ -9,12 +9,14 @@ namespace Z0
 
     partial class AsmCoreCmd
     {
+        // public static Outcome parse(ReadOnlySpan<char> src, out AsmOpCode dst)
+        //     => AsmOpCodes.parse(src, out dst);
+
         [CmdOp("asm/cases/emit")]
         Outcome EmitAsmCases(CmdArgs args)
         {
             var src = AsmCases.mov();
             AppSvc.TableEmit(src, AppDb.ApiTargets().Table<AsmEncodingCase>());
-
             return true;
         }
 
@@ -22,7 +24,7 @@ namespace Z0
         void CheckAsmTokens()
         {
             var group = AsmSigTokens.create();
-            var src = group.Set;
+            var src = group;
             var types = src.TokenTypes;
             for(var i=0; i<types.Length; i++)
             {

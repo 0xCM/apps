@@ -44,9 +44,9 @@ namespace Z0.Asm
             for(var i=0u; i<count; i++)
                 seek(buffer,i).Seq = i;
 
-            Require.invariant(buffer.Select(x => x.Id).Distinct().Length == count);
+            //Require.invariant(buffer.Select(x => x.Id).Distinct().Length == count);
 
-            TableEmit(@readonly(buffer), AsmFormDetail.RenderWidths, SdmPaths.FormDetailPath());
+            AppSvc.TableEmit(buffer, SdmPaths.FormDetailPath());
         }
     }
 }

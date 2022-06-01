@@ -156,7 +156,6 @@ namespace Z0
             dst.WriteLine(buffer.Emit());
         }
 
-
         public static ByteSpanSpec ascirender(uint indent, Identifier name, string data, ITextBuffer dst)
         {
             var payload = text.buffer();

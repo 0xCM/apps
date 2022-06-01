@@ -7,22 +7,19 @@ namespace Z0
     [Record(TableId)]
     public struct AsmToken
     {
-        public const string TableId = "asm.tokens";
+        const string TableId = "sdm.tokens";
 
         [Render(12)]
         public uint Seq;
 
-        [Render(12)]
-        public uint Index;
-
         [Render(16)]
         public string Group;
 
-        [Render(12)]
-        public uint KindIndex;
-
         [Render(24)]
-        public string KindName;
+        public string Kind;
+
+        [Render(12)]
+        public uint Index;
 
         [Render(24)]
         public string Name;

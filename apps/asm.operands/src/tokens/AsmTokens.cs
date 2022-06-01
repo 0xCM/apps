@@ -15,7 +15,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline), Op]
         public static AsmSigToken specialize(in AsmToken src)
-            => new AsmSigToken((AsmSigTokenKind)src.KindIndex, (byte)src.Value);
+            => new AsmSigToken((AsmSigTokenKind)src.Index, (byte)src.Value);
 
         public static bool sig(string expr, out AsmSigToken dst)
             => Tokens.SigToken(expr, out dst);

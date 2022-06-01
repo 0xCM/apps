@@ -16,7 +16,7 @@ namespace Z0.Asm
         {
             var dst = new AsmOcDatasets();
             dst.TokenKinds = Symbols.index<AsmOcTokenKind>();
-            var src = AsmOcTokens.create().Set;
+            var src = AsmOcTokens.create();
             var types = src.TokenTypes;
             var tokenExpr = dict<uint,string>();
             var names = dict<uint,string>();
@@ -40,10 +40,9 @@ namespace Z0.Asm
                     exprToken[token.Expr.Text] = sigop;
                     names[sigop.Id] = token.Name;
                     record.Seq = k;
-                    record.Index = j;
                     record.Group = token.Group;
-                    record.KindIndex = (uint)kind;
-                    record.KindName = token.Type.Text;
+                    record.Index = j;
+                    record.Kind = token.Type.Text;
                     record.Expr = token.Expr;
                     record.Value = token.Value;
                     record.Name = token.Name.Text;

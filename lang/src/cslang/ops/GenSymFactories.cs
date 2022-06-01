@@ -4,13 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Linq;
-    using System.IO;
-
     using static core;
     using static CsPatterns;
 
-    public partial class CsLang
+    partial class CsLang
     {
         public void GenSymFactories(Identifier ns, Identifier name, ReadOnlySpan<Type> enums, FS.FilePath dst)
         {

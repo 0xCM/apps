@@ -10,10 +10,6 @@ namespace Z0
 
     partial class AsmCoreCmd
     {
-        [CmdOp("asm/gen/docs")]
-        void GenAsmDocs()
-            => AsmDocs.Emit();
-
         [CmdOp("asm/check")]
         void RunAsmChecks()
         {
@@ -22,6 +18,32 @@ namespace Z0
             CheckCcv();
         }
 
+        [CmdOp("asm/emit")]
+        void EmitAsmTokens()
+        {
+            //Sdm.EmitTokens();
+            var src = Sdm.LoadOcDetails();
+        }
+
+        void GenHex8()
+        {
+            var dst = text.emitter();
+            var indent = 4u;
+            dst.IndentLineFormat(indent, "[SymSource(\"{0}\")]", "asm.opcodes");
+            dst.IndentLineFormat(indent, "public enum {0} : byte", "Hex8Kind");
+            dst.IndentLine(indent,"{");
+            indent+=4;
+            for(var i=0u; i<256; i++)
+            {
+                dst.IndentLineFormat(indent, "[Symbol(\"{0:X2}\")]", i);
+                dst.IndentLineFormat(indent, "x{0:X2},", i);
+                dst.AppendLine();
+            }
+            indent-=4;
+            dst.IndentLine(indent,"}");
+            Write(dst.Emit());
+
+        }
         void vlut(W128 w)
         {
             // lut := <0,1,2,...,15> ; defines 16 indicies in a table with up to 255 entries
@@ -54,7 +76,6 @@ namespace Z0
             Require.invariant(r2 == Gp64Reg.r8);
             var r3 = Win64Ccv.reg(w64,3);
             Require.invariant(r3 == Gp64Reg.r9);
-
             Write(string.Format("{0} | {1} | {2} | {3}", r0, r1, r2, r3));
         }
     }

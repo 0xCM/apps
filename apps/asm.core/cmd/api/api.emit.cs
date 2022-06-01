@@ -61,6 +61,7 @@ namespace Z0
         void ApiEmit()
         {
             ApiMd.EmitDatasets();
+            AsmDocs.Emit();
             //Heaps.Emit(Heaps.symbols(ApiMd.SymLits));
         }
 

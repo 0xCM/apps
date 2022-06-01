@@ -13,12 +13,9 @@ namespace Z0
         public static CsEmitter emitter()
             => new();
 
-        AppSvcOps AppSvc => Service(Wf.AppSvc);
+        AppSvcOps AppSvc => Wf.AppSvc();
 
         ConstLookup<CgTarget,string> TargetExpressions;
-
-
-
 
         public CsLang()
         {
