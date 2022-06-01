@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    readonly struct EncodingPatternTokens
+    public readonly struct EncodingPatternTokens
     {
         public const byte ZED = 0;
 

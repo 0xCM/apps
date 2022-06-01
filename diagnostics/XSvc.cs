@@ -19,6 +19,9 @@ namespace Z0
 
             public ApiCodeExtractor CodeExtractor(IWfRuntime wf)
                 => Service<ApiCodeExtractor>(wf);
+
+            public ApiResolver ApiResolver(IWfRuntime wf)
+                => Service<ApiResolver>(wf);
         }
 
         static Svc Services => Svc.Instance;
@@ -34,5 +37,10 @@ namespace Z0
 
         public static RuntimeServices RuntimeServices(this IWfRuntime wf)
             => Services.RuntimeServices(wf);
+
+        public static ApiResolver ApiResolver(this IWfRuntime wf)
+            => Services.ApiResolver(wf);
+
+
     }
 }

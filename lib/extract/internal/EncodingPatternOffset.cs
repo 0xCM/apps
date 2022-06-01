@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    enum EncodingPatternOffset : int
+    public enum EncodingPatternOffset : int
     {
         None = 0,
 

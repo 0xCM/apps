@@ -192,6 +192,9 @@ public enum PartId : byte
     [Symbol("commands")]
     Commands,
 
+    [Symbol("api.code")]
+    ApiCode,
+
     // ~ Generated 100 .. 127
     // ~ -------------------------------------------------------------------------------
 

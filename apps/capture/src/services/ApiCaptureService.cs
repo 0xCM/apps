@@ -7,8 +7,6 @@ namespace Z0
     using System;
     using System.Linq;
     using System.IO;
-    using System.Collections.Generic;
-    using System.Reflection;
 
     using Z0.Asm;
 
@@ -20,7 +18,7 @@ namespace Z0
 
         ApiCaptureEmitter Emitter => Service(Wf.CaptureEmitter);
 
-        ApiMemberExtractor Extractor => Service(ApiExtracts.extractor);
+        ApiMemberExtractor Extractor => Service(ApiMemberExtractor.create);
 
         ApiJit Jitter => Service(Wf.ApiJit);
 

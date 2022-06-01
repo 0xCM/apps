@@ -2,9 +2,11 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
+
 namespace Z0
 {
-    partial struct ApiExtracts
+    partial struct Msg
     {
+        const NumericKind Closure = Root.UnsignedInts;
     }
 }

@@ -7,6 +7,8 @@ set SlnPath=%TopDir%/%SlnName%
 dotnet sln %SlnPath% add %LibDir%/z0.lib.csproj
 
 dotnet sln %SlnPath% add %TopDir%/alloc/z0.alloc.csproj
+dotnet sln %SlnPath% add %TopDir%/api.code/z0.api.code.csproj
+
 dotnet sln %SlnPath% add %TopDir%/archives/z0.archives.csproj
 dotnet sln %SlnPath% add %TopDir%/assets/z0.assets.csproj
 dotnet sln %SlnPath% add %TopDir%/bits/z0.bits.csproj

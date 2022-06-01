@@ -75,42 +75,6 @@ namespace Z0
             return dst.ViewDeposited();
         }
 
-        public static string format(in ResolvedMethod src)
-            => src.IsEmpty ? "<empty>"
-            : string.Format("{0}::{1}:{2}:{3}",
-                src.EntryPoint.Format(),
-                src.Component.Format(),
-                src.HostType.Format(),
-                src.Method.DisplaySig()
-            );
-
-        /// <summary>
-        /// Resolves a specified method
-        /// </summary>
-        /// <param name="src">The source method</param>
-        public static ResolvedMethod method(MethodInfo src)
-        {
-            var diviner = MultiDiviner.Service;
-            var host = ApiHostUri.from(src.DeclaringType);
-            var uri = ApiUri.define(ApiUriScheme.Located, host, src.Name, diviner.Identify(src));
-            var resolved = new ResolvedMethod(src, uri, ClrJit.jit(src));
-            return resolved;
-        }
-
-        public static ApiMemberInfo describe(in ResolvedMethod src)
-        {
-            var dst = new ApiMemberInfo();
-            var msil = ClrDynamic.msil(src.EntryPoint, src.Uri, src.Method);
-            dst.EntryPoint = src.EntryPoint;
-            dst.ApiKind = src.Method.ApiClass();
-            dst.CliSig = msil.CliSig;
-            dst.DisplaySig = src.Method.DisplaySig().Format();
-            dst.Token = msil.Token;
-            dst.Uri = src.Uri.Format();
-            dst.MsilCode = msil.CliCode;
-            return dst;
-        }
-
         public Index<ApiMemberInfo> Describe(in ResolvedPart src)
         {
             var buffer = alloc<ApiMemberInfo>(src.MethodCount);

@@ -9,7 +9,7 @@ namespace Z0
 
     using D = EncodingPatternOffset;
 
-    readonly struct EncodingPatterns
+    public readonly struct EncodingPatterns
     {
         const byte PatternCount = 7;
 

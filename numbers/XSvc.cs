@@ -29,9 +29,6 @@ namespace Z0
             public FileSplitter FileSplitter(IWfRuntime wf)
                 => Service<FileSplitter>(wf);
 
-            public ApiResolver ApiResolver(IWfRuntime wf)
-                => Service<ApiResolver>(wf);
-
             public TypeParser TypeParser(IWfRuntime wf)
                 => Service<TypeParser>(wf);
 
@@ -64,9 +61,6 @@ namespace Z0
 
         public static ApiHex ApiHex(this IWfRuntime wf)
             => Services.ApiHex(wf);
-
-        public static ApiResolver ApiResolver(this IWfRuntime wf)
-            => Services.ApiResolver(wf);
 
         public static TypeParser TypeParser(this IWfRuntime wf)
             => Services.TypeParser(wf);

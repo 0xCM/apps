@@ -6,6 +6,29 @@ namespace Z0
 {
     public readonly struct ResolvedMethod : ITextual, IComparable<ResolvedMethod>
     {
+        public static string format(in ResolvedMethod src)
+            => src.IsEmpty ? "<empty>"
+            : string.Format("{0}::{1}:{2}:{3}",
+                src.EntryPoint.Format(),
+                src.Component.Format(),
+                src.HostType.Format(),
+                src.Method.DisplaySig()
+            );
+
+        public static ApiMemberInfo describe(in ResolvedMethod src)
+        {
+            var dst = new ApiMemberInfo();
+            var msil = ClrDynamic.msil(src.EntryPoint, src.Uri, src.Method);
+            dst.EntryPoint = src.EntryPoint;
+            dst.ApiKind = src.Method.ApiClass();
+            dst.CliSig = msil.CliSig;
+            dst.DisplaySig = src.Method.DisplaySig().Format();
+            dst.Token = msil.Token;
+            dst.Uri = src.Uri.Format();
+            dst.MsilCode = msil.CliCode;
+            return dst;
+        }
+
         public readonly OpUri Uri;
 
         public readonly MethodInfo Method;
@@ -56,7 +79,7 @@ namespace Z0
             => new ApiMember(Uri, Method, EntryPoint);
 
         public string Format()
-            => ApiResolver.format(this);
+            => format(this);
 
 
         public override string ToString()
@@ -67,6 +90,6 @@ namespace Z0
             => EntryPoint.CompareTo(src.EntryPoint);
 
         public ApiMemberInfo Describe()
-            => ApiResolver.describe(this);
+            => describe(this);
     }
 }

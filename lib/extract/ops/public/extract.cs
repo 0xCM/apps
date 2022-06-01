@@ -36,10 +36,23 @@ namespace Z0
             return new ApiMemberExtract(src.ToApiMember(), block);
         }
 
+        /// <summary>
+        /// Resolves a specified method
+        /// </summary>
+        /// <param name="src">The source method</param>
+        public static ResolvedMethod resolve(MethodInfo src)
+        {
+            var diviner = MultiDiviner.Service;
+            var host = ApiHostUri.from(src.DeclaringType);
+            var uri = ApiUri.define(ApiUriScheme.Located, host, src.Name, diviner.Identify(src));
+            var resolved = new ResolvedMethod(src, uri, ClrJit.jit(src));
+            return resolved;
+        }
+
         [Op]
         public static ApiExtractBlock extract(MethodInfo src, Span<byte> buffer)
         {
-            var method = ApiResolver.method(src);
+            var method = resolve(src);
             var result = extract2(method.EntryPoint, buffer);
             if(result > 0)
                 return new ApiExtractBlock(method.EntryPoint, method.Uri.Format(), slice(buffer, 0, result));

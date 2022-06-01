@@ -8,11 +8,14 @@ namespace Z0
 
     using K = EncodingPatternKind;
     using S = EncodingParserState;
-    using api = ApiExtracts;
 
     [ApiHost]
     public ref struct EncodingParser
     {
+        [MethodImpl(Inline), Op]
+        internal static ReadOnlySpan<byte> parsed(in EncodingParser parser)
+            => (parser.Offset + parser.Delta - 1) > 0 ? parser.Buffer.Slice(0, parser.Offset + parser.Delta - 1) : sys.empty<byte>();
+
         [MethodImpl(Inline), Op]
         public static bool failed(EncodingParserState state)
             => state == EncodingParserState.Failed;
@@ -46,7 +49,7 @@ namespace Z0
             => ParsedSlice.ToArray();
 
         ReadOnlySpan<byte> ParsedSlice
-            => api.parsed(this);
+            => parsed(this);
 
         internal EncodingParser(EncodingPatterns patterns, byte[] buffer)
         {

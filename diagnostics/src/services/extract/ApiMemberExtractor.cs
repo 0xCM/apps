@@ -11,6 +11,20 @@ namespace Z0
     /// </summary>
     public readonly struct ApiMemberExtractor
     {
+        const int DefaultBufferLength = Pow2.T14 + Pow2.T08;
+
+        [Op]
+        public static byte[] buffer(ByteSize? size = null)
+            => core.alloc<byte>(size ?? DefaultBufferLength);
+
+        [Op]
+        public static ApiMemberExtractor create()
+            => new ApiMemberExtractor(buffer());
+
+        [MethodImpl(Inline), Op]
+        public static ApiMemberExtractor create(byte[] buffer)
+            => new ApiMemberExtractor(buffer);
+
         readonly byte[] _Buffer;
 
         Span<byte> Buffer
