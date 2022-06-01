@@ -22,6 +22,20 @@ namespace Z0
 
         ApiHex ApiHex => Service(() => Z0.ApiHex.create(Wf));
 
+        public static ReadOnlySpan<ApiHexRow> ReadRows(FS.FilePath src)
+        {
+            var data = src.ReadLines().Storage.ToReadOnlySpan();
+            var count = data.Length - 1;
+            var dst = alloc<ApiHexRow>(count);
+            for(var i=0; i<count; i++)
+            {
+                var result = ApiHex.parse(skip(data, i + 1), out seek(dst,i));
+                if(result.Fail)
+                    Errors.Throw(string.Format("{0}:{1}", src.ToUri(), result.Message));
+            }
+            return dst;
+        }
+
         public ApiIndexBuilder()
         {
             CodeAddress = core.dict<MemoryAddress,ApiCodeBlock>();
@@ -43,7 +57,7 @@ namespace Z0
             {
                 ref readonly var path = ref skip(src,i);
                 var inner = Running(Msg.IndexingCodeBlocks.Format(path));
-                var blocks = ApiHex.ReadRows(path);
+                var blocks = ReadRows(path);
                 if(blocks.Length != 0)
                 {
                     Include(blocks);

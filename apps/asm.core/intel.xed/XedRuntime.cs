@@ -42,7 +42,7 @@ namespace Z0
 
         public XedImport Import => Wf.XedImport(this);
 
-        public new WsCmdRunner CmdRunner => Wf.WsCmdRunner();
+        public WsCmdRunner CmdRunner => Wf.WsCmdRunner();
 
         AppSvcOps AppSvc => Wf.AppSvc();
 

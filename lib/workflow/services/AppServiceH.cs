@@ -104,10 +104,6 @@ namespace Z0
 
         protected AppSettings AppSettings => Service(Wf.AppSettings);
 
-        protected ScriptRunner ScriptRunner => Service(Wf.ScriptRunner);
-
-        protected CmdLineRunner CmdRunner => Service(Wf.CmdLineRunner);
-
         public virtual Type ContractType
             => typeof(H);
 

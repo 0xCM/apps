@@ -9,6 +9,20 @@ namespace Z0
     [ApiHost]
     public sealed class AssetServices : AppService<AssetServices>
     {
+
+        public static string bytespan(BinaryResSpec src, int level = 2)
+            => text.concat("public static ReadOnlySpan<byte> ",
+            src.Identifier,
+            Space,
+            " => ",
+            Space,
+            $"new byte[{src.Encoded.Length}]",
+            Chars.LBrace,
+            src.Encoded.Format(HexFormatSpecs.HexArray),
+            Chars.RBrace,
+            Chars.Semicolon
+            );
+
         public AssetServices()
         {
         }

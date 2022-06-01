@@ -10,14 +10,6 @@ namespace Z0
     public static partial class XSvc
     {
         [Op]
-        public static CmdLineRunner CmdLineRunner(this IWfRuntime wf)
-            => Z0.CmdLineRunner.create(wf);
-
-        [Op]
-        public static ScriptRunner ScriptRunner(this IServiceContext context)
-            => Z0.ScriptRunner.create(context.EnvPaths);
-
-        [Op]
         public static AppSettings AppSettings(this IWfRuntime wf)
             => Z0.AppSettings.create(wf);
 
@@ -32,9 +24,5 @@ namespace Z0
         [Op]
         public static ApiQuery ApiQuery(this IWfRuntime wf)
             => Z0.ApiQuery.create(wf);
-
-        [Op]
-        public static ApiPacks ApiPacks(this IWfRuntime wf)
-            => Z0.ApiPacks.create(wf);
     }
 }

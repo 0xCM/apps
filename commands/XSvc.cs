@@ -16,6 +16,13 @@ namespace Z0
 
             public OmniScript OmniScript(IWfRuntime wf)
                 => Service<OmniScript>(wf);
+
+            public CmdLineRunner CmdLineRunner(IWfRuntime wf)
+                => Service<CmdLineRunner>(wf);
+
+            public ScriptRunner ScriptRunner(IWfRuntime wf)
+                => Service<ScriptRunner>(wf);
+
         }
 
         static Svc Services => Svc.Instance;
@@ -32,9 +39,11 @@ namespace Z0
         public static void RedirectEmissions(this IWfRuntime wf, string name, FS.FolderPath dst)
             => wf.RedirectEmissions(Loggers.emission(name, dst));
 
-        [Op]
-        public static ApiIndexBuilder ApiIndexBuilder(this IWfRuntime wf)
-             => Z0.ApiIndexBuilder.create(wf);
+        public static CmdLineRunner CmdLineRunner(this IWfRuntime wf)
+            => Services.CmdLineRunner(wf);
+
+        public static ScriptRunner ScriptRunner(this IWfRuntime wf)
+            => Services.ScriptRunner(wf);
 
     }
 }

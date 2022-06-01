@@ -8,6 +8,12 @@ namespace Z0
 
     public class OmniScript : AppService<OmniScript>
     {
+
+        ScriptRunner ScriptRunner => Wf.ScriptRunner();
+
+
+        CmdLineRunner CmdRunner => Wf.CmdLineRunner();
+
         public Outcome Run(CmdLine cmd, List<string> status = null, List<string> errors = null)
         {
             status = status ?? list<string>();

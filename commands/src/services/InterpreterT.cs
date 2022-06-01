@@ -13,17 +13,8 @@ namespace Z0
     public abstract class Interpreter<H> : AppService<H>, IInterpreter
         where H : Interpreter<H>, new()
     {
-        //public IWfRuntime Wf {get; private set;}
-
         public static H create()
             => new H();
-
-        // public static H create(IWfRuntime wf)
-        // {
-        //     var host = new H();
-        //     host.Init(wf);
-        //     return host;
-        // }
 
         bool _Initialized;
 

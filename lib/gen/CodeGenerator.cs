@@ -120,18 +120,6 @@ namespace Z0
         protected virtual string[] StaticUsings
             => DefaultTypes;
 
-        public static string bytespan(BinaryResSpec src, int level = 2)
-            => text.concat("public static ReadOnlySpan<byte> ",
-            src.Identifier,
-            Space,
-            " => ",
-            Space,
-            $"new byte[{src.Encoded.Length}]",
-            Chars.LBrace,
-            src.Encoded.Format(HexFormatSpecs.HexArray),
-            Chars.RBrace,
-            Chars.Semicolon
-            );
 
 
         public static string FileHeader

@@ -6,15 +6,12 @@ namespace Z0
 {
     using static core;
 
-    partial class XTend
-    {
-        public static ScriptRunner ScriptRunner(this IEnvPaths paths)
-            => Z0.ScriptRunner.create(paths);
-    }
 
-    public class CmdDispatch : ICmdRouter
+    public class CmdDispatch : AppService<CmdDispatch>, ICmdRouter
     {
-        public static void dispatch(Index<IToolResultHandler> handlers, Index<string> args)
+        ScriptRunner ScriptRunner => Wf.ScriptRunner();
+
+        public void Dispatch(Index<IToolResultHandler> handlers, Index<string> args)
         {
             try
             {
@@ -31,8 +28,7 @@ namespace Z0
                     var script = paths.ControlScript(name);
                     if(script.Exists)
                     {
-                        var runner = paths.ScriptRunner();
-                        var output = runner.RunControlScript(name);
+                        var output = ScriptRunner.RunControlScript(name);
                         var processor = CmdResultProcessor.create(script, handlers);
                         term.inform("Response");
                         iter(output, x => processor.Process(x));
@@ -49,8 +45,8 @@ namespace Z0
             }
         }
 
-        public static CmdDispatch create(IWfRuntime wf)
-            => new CmdDispatch(new WfCmdRouter(wf));
+        // public static CmdDispatch create(IWfRuntime wf)
+        //     => new CmdDispatch(new WfCmdRouter(wf));
 
         public static Index<ICmdReactor> reactors(IWfRuntime wf)
         {
@@ -64,15 +60,22 @@ namespace Z0
         {
             var router = new WfCmdRouter(wf);
             router.Enlist(reactors);
-            return new CmdDispatch(router);
+            return create(wf).WithRouter(router);
+
+            //return new CmdDispatch(router);
         }
 
-        readonly ICmdRouter Router;
+        ICmdRouter Router;
 
-        CmdDispatch(ICmdRouter router)
+        CmdDispatch WithRouter(ICmdRouter router)
         {
             Router = router;
+            return this;
         }
+        // // CmdDispatch(ICmdRouter router)
+        // // {
+        // //     Router = router;
+        // // }
 
         public Task<CmdResult> Dispatch<T>(T cmd)
             where T : struct, ICmd

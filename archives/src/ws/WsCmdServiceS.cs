@@ -9,7 +9,7 @@ namespace Z0
     public abstract class WsCmdService<S> : AppCmdService<S,CmdShellState>
         where S : WsCmdService<S>, new()
     {
-        protected abstract new IWsCmdRunner CmdRunner {get;}
+        protected abstract IWsCmdRunner CmdRunner {get;}
 
         protected virtual AppSvcOps AppSvc
             => Service(Wf.AppSvc);

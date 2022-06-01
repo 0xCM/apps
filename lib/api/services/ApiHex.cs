@@ -136,12 +136,6 @@ namespace Z0
 
         // static Fence<char> DataFence = ('<', '>');
 
-        ApiPacks ApiPacks => Service(Wf.ApiPacks);
-
-        IApiPack ApiPack => ApiPacks.Current();
-
-        public FS.FolderPath ParsedExtractRoot()
-            => ApiPack.ParsedExtractRoot();
 
         [Op]
         public Index<ApiCodeBlock> ReadBlocks(FS.FilePath src)
@@ -182,20 +176,20 @@ namespace Z0
         //         return array<ApiHexRow>();
         // }
 
-        [Op]
-        public ReadOnlySpan<ApiHexRow> ReadRows(FS.FilePath src)
-        {
-            var data = src.ReadLines().Storage.ToReadOnlySpan();
-            var count = data.Length - 1;
-            var dst = alloc<ApiHexRow>(count);
-            for(var i=0; i<count; i++)
-            {
-                var result = parse(skip(data, i + 1), out seek(dst,i));
-                if(result.Fail)
-                    Errors.Throw(string.Format("{0}:{1}", src.ToUri(), result.Message));
-            }
-            return dst;
-        }
+        // [Op]
+        // public ReadOnlySpan<ApiHexRow> ReadRows(FS.FilePath src)
+        // {
+        //     var data = src.ReadLines().Storage.ToReadOnlySpan();
+        //     var count = data.Length - 1;
+        //     var dst = alloc<ApiHexRow>(count);
+        //     for(var i=0; i<count; i++)
+        //     {
+        //         var result = parse(skip(data, i + 1), out seek(dst,i));
+        //         if(result.Fail)
+        //             Errors.Throw(string.Format("{0}:{1}", src.ToUri(), result.Message));
+        //     }
+        //     return dst;
+        // }
 
         // [Op]
         // public Count ReadRows(FS.FilePath src, DataList<ApiHexRow> dst)

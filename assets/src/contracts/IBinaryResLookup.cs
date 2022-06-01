@@ -7,9 +7,6 @@ namespace Z0
     using System.Linq;
     using System.Collections;
 
-    public interface IBinaryResLookup : IContentIndex<BinaryRes>
-    {
-    }
 
     /// <summary>
     /// Characterizes a finite container over sequentially-indexed discrete content - an array

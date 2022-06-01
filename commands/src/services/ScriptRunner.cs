@@ -6,17 +6,9 @@ namespace Z0
 {
     using static core;
 
-    public sealed class ScriptRunner
+    public sealed class ScriptRunner : AppService<ScriptRunner>
     {
-        [MethodImpl(Inline)]
-        public static ScriptRunner create(IEnvPaths paths)
-            => new ScriptRunner(paths);
 
-        readonly IEnvPaths Paths;
-
-        [MethodImpl(Inline)]
-        ScriptRunner(IEnvPaths paths)
-            => Paths = paths;
 
         public ReadOnlySpan<TextLine> RunControlScript(FS.FileName name, CmdVars? vars = null)
             => RunScript(Paths.ControlScript(name), new ScriptId(name.Name), vars);

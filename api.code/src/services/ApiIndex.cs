@@ -38,7 +38,7 @@ namespace Z0
                 var key = keylist[i];
                 entires[i] = (key, (left[key], right[key]));
              }
-             return ApiIndex.create(entires);
+             return create(entires);
          }
 
         /// Creates an operation index from a uri bitstream

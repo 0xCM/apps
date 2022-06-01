@@ -20,6 +20,8 @@ namespace Z0
 
         ApiCode ApiCode => Wf.ApiCode();
 
+        ScriptRunner ScriptRunner => Wf.ScriptRunner();
+
         protected override void OnInit()
         {
         }
@@ -97,7 +99,7 @@ namespace Z0
                 ref readonly var res = ref resources[i];
                 if(!members.Contains(res.Identifier))
                 {
-                    EmitMember(writer, bytespan(res));
+                    EmitMember(writer, AssetServices.bytespan(res));
                     members.Add(res.Identifier);
                 }
             }

@@ -4,13 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XTend
-    {
-    }
-
     public static class XSvc
     {
-
         sealed class Svc : AppServices<Svc>
         {
             public ApiCode ApiCode(IWfRuntime wf)
@@ -27,6 +22,16 @@ namespace Z0
 
             public ApiResProvider ApiResProvider(IWfRuntime wf)
                 => Service<ApiResProvider>(wf);
+
+            public ApiPacks ApiPacks(IWfRuntime wf)
+                => Service<ApiPacks>(wf);
+
+            public ApiCatalogs ApiCatalogs(IWfRuntime wf)
+                => Service<ApiCatalogs>(wf);
+
+            public ApiIndexBuilder ApiIndexBuilder(IWfRuntime wf)
+                =>Service<ApiIndexBuilder>(wf);
+
         }
 
         static Svc Services => Svc.Instance;
@@ -45,5 +50,14 @@ namespace Z0
 
         public static ApiResProvider ApiResProvider(this IWfRuntime wf)
             => Services.ApiResProvider(wf);
+
+        public static ApiPacks ApiPacks(this IWfRuntime wf)
+            => Z0.ApiPacks.create(wf);
+
+        public static ApiIndexBuilder ApiIndexBuilder(this IWfRuntime wf)
+             => Services.ApiIndexBuilder(wf);
+
+       public static ApiCatalogs ApiCatalogs(this IWfRuntime wf)
+            => Services.ApiCatalogs(wf);
     }
 }

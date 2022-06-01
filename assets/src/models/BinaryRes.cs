@@ -6,6 +6,10 @@ namespace Z0
 {
     using static Chars;
 
+    public interface IBinaryResLookup : IContentIndex<BinaryRes>
+    {
+    }
+
     /// <summary>
     /// Describes an embedded data resource
     /// </summary>

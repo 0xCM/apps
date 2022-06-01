@@ -19,25 +19,10 @@ namespace Z0
 
         public static MsgPattern<ApiHostUri,Count> CreatedHostCatalog => "Created {0} catalog with {1} members";
 
-        public static MsgPattern<ApiHostUri,FS.FilePath> HostFileMissing => "The {0} file {1} does not exist";
-
-        public static RenderPattern<Count> IndexingPartFiles => "Indexing {0} partfile datasets";
-
-        public static RenderPattern<FS.FilePath> IndexingCodeBlocks => "Indexing code blocks from {0}";
-
-        public static RenderPattern<Count,FS.FilePath> AbsorbedCodeBlocks => "Absorbed {0} code blocks from {1}";
-
-        public static RenderPattern<OpUri> Unbased => "The block {0} has no base addressed";
-
-        public static RenderPattern<OpUri> DuplicateUri => "The uri {0} has been duplicated";
 
         public static string Unparsed<T>(T src) => unparsed<T>().Format(src);
 
         static RenderPattern<T> unparsed<T>() => "Unable to parse {0}";
-
-        public static MsgPattern<Count> CorrelatingParts => "Correlating {0} part catalogs";
-
-        public static MsgPattern<string> CorrelatingOperations => "Correlating {0} operations";
 
         public static MsgPattern<Count> JittingParts => "Jitting {0} parts";
 

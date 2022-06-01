@@ -17,9 +17,6 @@ namespace Z0
             public MemorySeqChecks MemorySeqChecks(IWfRuntime wf)
                 => Service<MemorySeqChecks>(wf);
 
-            public AssetServices Assets(IWfRuntime wf)
-                => Service<AssetServices>(wf);
-
             public CharMapper CharMapper(IWfRuntime wf)
                 => Z0.CharMapper.create(wf);
 
@@ -28,9 +25,6 @@ namespace Z0
 
             public TypeParser TypeParser(IWfRuntime wf)
                 => Service<TypeParser>(wf);
-
-            public ApiCatalogs ApiCatalogs(IWfRuntime wf)
-                => Service<ApiCatalogs>(wf);
 
             public ApiHex ApiHex(IWfRuntime wf)
                 => Service<ApiHex>(wf);
@@ -44,9 +38,6 @@ namespace Z0
         public static MemorySeqChecks MemorySeqChecks(this IWfRuntime wf)
             => Services.MemorySeqChecks(wf);
 
-        public static AssetServices Assets(this IWfRuntime wf)
-            => Services.Assets(wf);
-
         public static CharMapper CharMapper(this IWfRuntime wf)
             => Services.CharMapper(wf);
 
@@ -58,9 +49,6 @@ namespace Z0
 
         public static TypeParser TypeParser(this IWfRuntime wf)
             => Services.TypeParser(wf);
-
-        public static ApiCatalogs ApiCatalogs(this IWfRuntime wf)
-            => Services.ApiCatalogs(wf);
 
         public static ApiCaptureArchive ApiCaptureArchive(this IWfRuntime wf)
             => Z0.ApiCaptureArchive.create(wf);

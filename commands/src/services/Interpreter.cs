@@ -4,10 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
     using System.Diagnostics;
 
-    using static Root;
     using static core;
 
     public class Interpreter : IDisposable

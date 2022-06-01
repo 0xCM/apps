@@ -40,21 +40,6 @@ namespace Z0
             public ApiJit Jit(IWfRuntime wf)
                 => Service<ApiJit>(wf);
 
-            public CsLang CsLang(IWfRuntime wf)
-                => Service<CsLang>(wf);
-
-            public GStringLits GenLiterals(IWfRuntime wf)
-                => Service<GStringLits>(wf);
-
-            public GAsciLookup GenAsciLookups(IWfRuntime wf)
-                => Service<GAsciLookup>(wf);
-
-            public GRecord GenRecords(IWfRuntime wf)
-                => Service<GRecord>(wf);
-
-            public GLiteralProvider GenLitProviders(IWfRuntime wf)
-                => Service<GLiteralProvider>(wf);
-
             public ApiComments ApiComments(IWfRuntime wf)
                 => Service<ApiComments>(wf);
 
@@ -94,20 +79,6 @@ namespace Z0
         public static ApiJit Jit(this IWfRuntime wf)
             => Services.Jit(wf);
 
-        public static CsLang CsLang(this IWfRuntime wf)
-            => Services.CsLang(wf);
-
-        public static GStringLits GenLiterals(this IWfRuntime wf)
-            => Services.GenLiterals(wf);
-
-        public static GAsciLookup GenAsciLookups(this IWfRuntime wf)
-            => Services.GenAsciLookups(wf);
-
-        public static GRecord GenRecords(this IWfRuntime wf)
-            => Services.GenRecords(wf);
-
-        public static GLiteralProvider GenLitProviders(this IWfRuntime wf)
-            => Services.GenLitProviders(wf);
 
         public static ApiComments ApiComments(this IWfRuntime wf)
             => Services.ApiComments(wf);

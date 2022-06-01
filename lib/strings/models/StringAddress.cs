@@ -102,9 +102,6 @@ namespace Z0
         public static explicit operator StringAddress(MemoryAddress src)
             => new StringAddress(src);
 
-        [MethodImpl(Inline)]
-        public static implicit operator StringAddress(ResourceAddress src)
-            => new StringAddress(src.Location);
 
         [MethodImpl(Inline)]
         public static implicit operator StringAddress(string src)
