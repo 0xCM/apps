@@ -82,7 +82,7 @@ namespace Z0
         void EmitContext(IApiPack pack)
         {
             if(pack.ExtractSettings.EmitContext)
-                Wf.RuntimeServices().EmitProcessContext(pack);
+                Wf.Runtime().EmitProcessContext(pack);
         }
 
         void EmitAnalyses(IApiPack pack)

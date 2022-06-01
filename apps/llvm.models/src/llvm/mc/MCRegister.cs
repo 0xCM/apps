@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------------------//
 namespace Z0.llvm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Wrapper class representing physical registers. Should be passed by value.
     /// Register numbers can represent physical registers, virtual registers, and

@@ -67,9 +67,6 @@ namespace Z0
             }
         }
 
-        public void ParseDump()
-            => Wf.DumpParser().ParseDump();
-
         public void ParseDump(FS.FilePath src)
             => Wf.DumpParser().ParseDump(src);
 

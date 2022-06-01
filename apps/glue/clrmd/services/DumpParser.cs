@@ -12,9 +12,7 @@ namespace Z0
 
     public sealed class DumpParser : AppService<DumpParser>
     {
-        DumpArchives DumpArchives => Wf.DumpArchives();
-
-        DumpPaths DumpPaths => DumpArchives.DumpPaths();
+        DumpArchive Archive => Wf.DumpArchive();
 
         AppSvcOps AppSvc => Wf.AppSvc();
 
@@ -23,30 +21,16 @@ namespace Z0
 
         }
 
-        public void ParseDump()
-        {
-            var current = DumpPaths.Current();
-            if(current.IsNonEmpty)
-            {
-                var flow = Running(string.Format("Parsing dump {0}", current.FileName));
-                ParseDump(current);
-                Ran(flow);
-            }
-            else
-                Warn(string.Format("No *.{0} files were found in {1}", FS.Dmp, DumpPaths.InputRoot.Format(PathSeparator.FS)));
-        }
+        void Emit(ProcDumpIdentity id, ReadOnlySpan<DR.ModuleInfo> src)
+            => AppSvc.TableEmit(src, Archive.Table<DR.ModuleInfo>(id));
 
-        void Emit(ProcDumpIdentity id, ReadOnlySpan<DR.ModuleInfo> src, FS.FolderPath dir)
-            => AppSvc.TableEmit(src, Db.Table<DR.ModuleInfo>(dir));
-
-        ExecToken Emit(ProcDumpIdentity id, ReadOnlySpan<DR.MethodTableToken> src, FS.FolderPath dir)
-            => AppSvc.TableEmit(src, Db.Table<DR.MethodTableToken>(dir));
+        ExecToken Emit(ProcDumpIdentity id, ReadOnlySpan<DR.MethodTableToken> src)
+            => AppSvc.TableEmit(src, Archive.Table<DR.MethodTableToken>(id));
 
         void Emit(ProcDumpIdentity id, DP.ModuleProcessPresult src)
         {
-            var dst = DumpPaths.Targets(id);
-            Emit(id, src.Modules, dst);
-            Emit(id, src.MethodTables, dst);
+            Emit(id, src.Modules);
+            Emit(id, src.MethodTables);
         }
 
         public void ParseDump(FS.FilePath src)

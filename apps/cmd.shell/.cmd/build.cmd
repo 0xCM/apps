@@ -1,2 +1,3 @@
 @echo off
-call %ZDev%\.cmd\build-apps.cmd
+call %~dp0config.cmd
+call %BuildProjCmd%

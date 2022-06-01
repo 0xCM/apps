@@ -9,7 +9,7 @@ namespace Z0
         [Record(TableId), StructLayout(LayoutKind.Sequential)]
         public struct MethodTableToken : IComparableRecord<MethodTableToken>
         {
-            const string TableId = "diagnostic.method-table";
+            const string TableId = "clr.md.methods";
 
             [Render(16)]
             public MemoryAddress Table;

@@ -9,19 +9,6 @@ namespace Z0
 
     partial class CheckCmd
     {
-        [CmdOp("memory/emit")]
-        Outcome EmitMemory(CmdArgs args)
-        {
-            var dst = ProjectDb.LogTable<ProcessMemoryRegion>();
-            AppSvc.TableEmit(ImageMemory.regions().View, dst);
-            return true;
-        }
-
-        [CmdOp("memory/dump")]
-        void EmitDump()
-        {
-            Wf.RuntimeServices().EmitContext();
-        }
 
         [CmdOp("native/check")]
         Outcome CheckNativeTypes(CmdArgs args)

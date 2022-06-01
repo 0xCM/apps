@@ -11,7 +11,7 @@ namespace Z0
         [Record(TableId), StructLayout(LayoutKind.Sequential)]
         public struct ModuleInfo : IRecord<ModuleInfo>
         {
-            public const string TableId = "diagnostic.modules";
+            public const string TableId = "clr.md.modules";
 
             public const byte FieldCount = 9;
 

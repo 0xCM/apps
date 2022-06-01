@@ -4,11 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct DbTargets
+    public readonly struct DbTargets : ITargetArchive<DbTargets>
     {
         readonly FS.FolderPath Root;
 
         readonly string Scope;
+
+        FS.FolderPath IRootedArchive.Root
+            => Dir();
 
         public DbTargets(FS.FolderPath root, string scope)
         {

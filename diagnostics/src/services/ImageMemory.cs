@@ -45,7 +45,7 @@ namespace Z0
 
         public static void EmitHashes(in ProcessContext src, FS.FolderPath dir)
         {
-            ProcessContextPaths dst = dir;
+            ProcessTargets dst = dir;
             EmitHashes(ImageMemory.SymbolizeSummaries(src).Addresses,
                 dst.ProcessPartitionHashPath(src.ProcessName, src.Timestamp, src.Subject));
             EmitHashes(ImageMemory.SymbolizeDetails(src).Addresses,

@@ -8,22 +8,19 @@ namespace Z0
 
     public readonly struct DumpPaths
     {
-        public readonly FS.FolderPath InputRoot {get;}
-
-        public readonly FS.FolderPath OutputRoot {get;}
+        public readonly FS.FolderPath Root {get;}
 
         [MethodImpl(Inline)]
         public DumpPaths(FS.FolderPath input, FS.FolderPath output)
         {
-            InputRoot = input;
-            OutputRoot = output;
+            Root = output;
         }
 
         public FS.FolderPath Targets(ProcDumpIdentity id)
-            => OutputRoot + FS.folder(id.Format());
+            => Root + FS.folder(id.Format());
 
         public ReadOnlySpan<FS.FilePath> Files()
-            => InputRoot.Files(FS.Dmp).Sort();
+            => Root.Files(FS.Dmp).Sort();
 
         public FS.FilePath Current()
         {

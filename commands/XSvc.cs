@@ -23,6 +23,8 @@ namespace Z0
             public ScriptRunner ScriptRunner(IWfRuntime wf)
                 => Service<ScriptRunner>(wf);
 
+            public DumpArchive DumpArchive(IWfRuntime wf)
+                => Service<DumpArchive>(wf);
         }
 
         static Svc Services => Svc.Instance;
@@ -45,5 +47,7 @@ namespace Z0
         public static ScriptRunner ScriptRunner(this IWfRuntime wf)
             => Services.ScriptRunner(wf);
 
+        public static DumpArchive DumpArchive(this IWfRuntime wf)
+            => Services.DumpArchive(wf);
     }
 }

@@ -6,7 +6,7 @@ namespace Z0
 {
     using System.Diagnostics;
 
-    partial class RuntimeServices
+    partial class Runtime
     {
         public Index<ProcessPartition> EmitPartitions(Process process, FS.FilePath dst)
         {
@@ -17,14 +17,16 @@ namespace Z0
 
         public Index<ProcessPartition> EmitPartitions(Process process, Timestamp ts)
         {
-            var summaries = ImageMemory.partitions(ImageMemory.locate(process));
+            var memory = ImageMemory.locate(process);
+            var summaries = ImageMemory.partitions(memory);
             var dst = ContextPaths.ProcessPartitionPath(process, ts);
-            EmitPartitions(summaries,dst);
+            EmitPartitions(summaries, dst);
             return summaries;
         }
 
         public Index<ProcessPartition> EmitPartitions(Process process, Timestamp ts, FS.FolderPath dir)
         {
+            var memory = ImageMemory.locate(process);
             var summaries = ImageMemory.partitions(ImageMemory.locate(process));
             var dst = ContextPaths.ProcessPartitionPath(dir, process, ts);
             EmitPartitions(summaries, dst);

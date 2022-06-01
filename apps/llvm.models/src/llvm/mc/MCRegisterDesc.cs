@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------------------//
 namespace Z0.llvm
 {
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
-
     /// <summary>
     /// Defined by a tabegen-produced array when invoked with the --gen-register-info action. Each instance describes a specific register
     /// </summary>

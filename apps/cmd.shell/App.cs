@@ -24,6 +24,7 @@ namespace Z0
                 asmrt.Commands,
                 wf.PbCmd(),
                 wf.XedTool(),
+                wf.DiagnosticCmd(),
                 ApiCmd.create(wf),
                 CheckCmd.create(wf),
                 GenCmd.create(wf),

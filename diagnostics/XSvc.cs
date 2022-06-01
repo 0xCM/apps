@@ -8,26 +8,31 @@ namespace Z0
     {
         sealed class Svc : AppServices<Svc>
         {
-            public DumpArchives DumpArchives(IWfRuntime wf)
-                => Service<DumpArchives>(wf);
+            public SymbolArchive DumpArchives(IWfRuntime wf)
+                => Service<SymbolArchive>(wf);
 
             public ApiSegmentLocator ApiSegments(IWfRuntime wf)
                 => Service<ApiSegmentLocator>(wf);
 
-            public RuntimeServices RuntimeServices(IWfRuntime wf)
-                => Service<RuntimeServices>(wf);
+            public Runtime Runtime(IWfRuntime wf)
+                => Service<Runtime>(wf);
 
+            public DiagnosticCmd DiagnosticCmd(IWfRuntime wf)
+                => Service<DiagnosticCmd>(wf);
         }
 
         static Svc Services => Svc.Instance;
 
-        public static DumpArchives DumpArchives(this IWfRuntime wf)
+        public static SymbolArchive SymbolArchives(this IWfRuntime wf)
             => Services.DumpArchives(wf);
 
         public static ApiSegmentLocator ApiSegments(this IWfRuntime wf)
             => Services.ApiSegments(wf);
 
-        public static RuntimeServices RuntimeServices(this IWfRuntime wf)
-            => Services.RuntimeServices(wf);
+        public static Runtime Runtime(this IWfRuntime wf)
+            => Services.Runtime(wf);
+
+        public static DiagnosticCmd DiagnosticCmd(this IWfRuntime wf)
+            => Services.DiagnosticCmd(wf);
     }
 }

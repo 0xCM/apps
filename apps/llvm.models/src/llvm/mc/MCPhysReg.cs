@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------------------//
 namespace Z0.llvm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// An unsigned integer type large enough to represent all physical registers,
     /// but not necessarily virtual registers.

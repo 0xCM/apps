@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    partial class RuntimeServices
+    partial class Runtime
     {
         public Index<ProcessMemoryRegion> LoadRegions()
         {

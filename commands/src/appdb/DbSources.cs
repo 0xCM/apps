@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct DbSources
+    public readonly struct DbSources : ISourceArchive<DbSources>
     {
         readonly FS.FolderPath Root;
 
@@ -16,6 +16,9 @@ namespace Z0
             Root = root;
             Scope = scope;
         }
+
+        FS.FolderPath IRootedArchive.Root
+            => Dir();
 
         public DbSources Scoped(string scope)
             => new DbSources(Sources(), scope);
