@@ -15,6 +15,7 @@
     <Numbers>$(TopDir)numbers/z0.numbers.csproj</Numbers>
     <Expr>$(TopDir)expr/z0.expr.csproj</Expr>
     <Diagnostics>$(TopDir)diagnostics/z0.diagnostics.csproj</Diagnostics>
+    <Lang>$(TopDir)lang/z0.lang.csproj</Lang>
 
     <AppCore>$(AppsRoot)apps.core/z0.apps.core.csproj</AppCore>
     <Asm>$(AppsRoot)asm/z0.asm.csproj</Asm>

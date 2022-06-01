@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static CsLang;
-
     public static class XSvc
     {
         sealed class Svc : AppServices<Svc>

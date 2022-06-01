@@ -11,6 +11,7 @@
     <ProjectReference Include="$(AsmOperands)" />
     <ProjectReference Include="$(CodeGenIntel)" />
     <ProjectReference Include="$(Diagnostics)" />
+    <ProjectReference Include="$(Lang)" />
 
   </ItemGroup>
 </Project>

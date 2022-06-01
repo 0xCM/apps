@@ -16,6 +16,8 @@ dotnet sln %SlnPath% add %TopDir%/commands/z0.commands.csproj
 dotnet sln %SlnPath% add %TopDir%/deprecated/z0.deprecated.csproj
 dotnet sln %SlnPath% add %TopDir%/diagnostics/z0.diagnostics.csproj
 dotnet sln %SlnPath% add %TopDir%/expr/z0.expr.csproj
+dotnet sln %SlnPath% add %TopDir%/lang/z0.lang.csproj
+
 dotnet sln %SlnPath% add %TopDir%/extract/z0.extract.csproj
 dotnet sln %SlnPath% add %TopDir%/numbers/z0.numbers.csproj
 dotnet sln %SlnPath% add %TopDir%/symbols/z0.symbols.csproj

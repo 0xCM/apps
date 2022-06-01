@@ -126,8 +126,8 @@ public enum PartId : byte
     [Symbol("asm")]
     Asm,
 
-    [Symbol("asm.lang")]
-    AsmLang,
+    [Symbol("lang")]
+    Lang,
 
     [Symbol("asm.core")]
     AsmCore,
