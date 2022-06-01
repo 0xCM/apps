@@ -11,6 +11,15 @@ namespace Z0
 
     partial struct Tables
     {
+        public static void emit<T>(ReadOnlySpan<T> src, ITextEmitter dst, TextEncodingKind encoding = TextEncodingKind.Asci, ushort rowpad = 0, RecordFormatKind fk = RecordFormatKind.Tablular, string delimiter = Tables.DefaultDelimiter)
+            where T : struct
+        {
+            var formatter = RecordFormatters.create<T>(rowpad, fk, delimiter);
+            dst.WriteLine(formatter.FormatHeader());
+            for(var i=0; i<src.Length; i++)
+                dst.WriteLine(formatter.Format(skip(src,i)));
+        }
+
         public static ExecToken emit<T>(IWfMsg msg, ReadOnlySpan<T> src, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci, ushort rowpad = 0, RecordFormatKind fk = RecordFormatKind.Tablular, string delimiter = Tables.DefaultDelimiter)
             where T : struct
         {

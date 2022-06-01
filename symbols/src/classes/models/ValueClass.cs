@@ -8,14 +8,15 @@ namespace Z0
     public readonly record struct ValueClass
     {
         const string TableId = "api.classes";
+
         [Render(8)]
-        public readonly uint Ordinal;
+        public readonly uint Index;
 
         [Render(16)]
-        public readonly Label ClassName;
+        public readonly Label Class;
 
         [Render(16)]
-        public readonly Label Identifier;
+        public readonly Label Name;
 
         [Render(16)]
         public readonly Label Symbol;
@@ -26,9 +27,9 @@ namespace Z0
         [MethodImpl(Inline)]
         public ValueClass(uint ordinal, Label @class, Label name, Label symbol, ulong value)
         {
-            Ordinal = ordinal;
-            ClassName = @class;
-            Identifier = name;
+            Index = ordinal;
+            Class = @class;
+            Name = name;
             Symbol = symbol;
             Value = value;
         }

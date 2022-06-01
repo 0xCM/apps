@@ -84,7 +84,6 @@ namespace Z0
         /// Creates a <see cref='SymHeap'/> from a specified <see cref='SymLiteralRow'/> sequence
         /// </summary>
         /// <param name="src">The data source</param>
-        [Op]
         public static SymHeap symbols(ReadOnlySpan<SymLiteralRow> src)
         {
             var dst = new SymHeap();

@@ -11,6 +11,14 @@ namespace Z0
         where G : TokenGroup<G,K>, new()
         where K : unmanaged, Enum
     {
+        public static G create()
+            => new G();
+
+        public sealed class TokenSet : TokenSet<TokenSet,K,G>
+        {
+
+        }
+
         public abstract string GroupName {get;}
 
         public ConstLookup<Type,K> TypeKinds {get;}
@@ -22,6 +30,8 @@ namespace Z0
         public readonly uint KindCount;
 
         public readonly uint TokenCount;
+
+        public readonly TokenSet Set;
 
         protected TokenGroup()
         {
@@ -41,6 +51,7 @@ namespace Z0
             }
 
             TokenCount = counter;
+            Set = TokenSet.create();
         }
 
         public ReadOnlySpan<Type> TokenTypes

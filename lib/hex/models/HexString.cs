@@ -4,18 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Defines a sequence of hex values
     /// </summary>
-    [DataType("hexstring")]
     public readonly ref struct HexString
     {
-        public ReadOnlySpan<char> Data {get;}
+        public readonly ReadOnlySpan<char> Data;
 
         [MethodImpl(Inline)]
         public HexString(ReadOnlySpan<char> src)

@@ -10,9 +10,9 @@ namespace Z0
         /// <summary>
         /// The state position within a given string
         /// </summary>
-        public uint Key {get;}
+        public readonly uint Key;
 
-        public K Symbol {get;}
+        public readonly K Symbol;
 
         [MethodImpl(Inline)]
         public DfaState(uint key, K b)

@@ -77,10 +77,9 @@ namespace Z0
             var size = count/2;
             var buffer = alloc<byte>(size);
             var input = span(src);
-            ref var output = ref first(buffer);
             for(int i=0, j=0; i<count; i+=2, j++)
             {
-                result = parse(skip(input,i), skip(input, i+1), out seek(output, j));
+                result = parse(skip(input,i), skip(input, i+1), out seek(buffer, j));
                 if(result.Fail)
                 {
                     dst = BinaryCode.Empty;
@@ -152,16 +151,8 @@ namespace Z0
             if(k > 0)
                 input = left(input, k);
 
-            // if(j > 0)
-            //     input = slice(src,j);
-            // if(k >0)
-            //     input = slice(src, 0, k);
-
-            //var input = ClearSpecs(src);
-            var count = input.Length;
-            ref var target = ref first(dst);
             var hi = byte.MaxValue;
-            for(var i=0; i<count; i++)
+            for(var i=0; i<input.Length; i++)
             {
                 ref readonly var c = ref skip(input,i);
                 if(whitespace(c) || fence(c) || separator(c))
@@ -174,7 +165,7 @@ namespace Z0
                     else
                     {
                         var lo = (byte)d;
-                        seek(target, counter++) = Bytes.or(Bytes.sll(hi,4), lo);
+                        seek(dst, counter++) = Bytes.or(Bytes.sll(hi,4), lo);
                         hi = byte.MaxValue;
                     }
                 }
@@ -459,39 +450,6 @@ namespace Z0
                     size++;
             }
             return size;
-        }
-
-        public static Outcome hexarray(string src, out HexArray dst)
-        {
-            dst = HexArray.Empty;
-            var l = text.index(src, Chars.LBracket);
-            var r = text.index(src, Chars.RBracket);
-            var i0 = 0;
-            var i1 = 0;
-            if(l < 0 || r < 0 || r <= l)
-            {
-                i0 = 0;
-                i1 = src.Length - 1;
-            }
-            else
-            {
-                i0 = l + 1;
-                i1 = r - 1;
-            }
-
-            var data =  text.segment(src, i0, i1);
-            var cells = data.SplitClean(Chars.Comma).ToReadOnlySpan();
-            var count = cells.Length;
-            var buffer = alloc<byte>(count);
-            ref var target = ref first(buffer);
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var cell = ref skip(cells,i);
-                if(!HexParser.parse8u(cell, out seek(target,i)))
-                    return (false, cell);
-            }
-            dst = buffer;
-            return true;
         }
 
         [MethodImpl(Inline)]

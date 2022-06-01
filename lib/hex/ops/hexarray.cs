@@ -37,7 +37,5 @@ namespace Z0
             return j;
         }
 
-        public static Outcome hexarray(string src, out HexArray dst)
-            => HexParser.hexarray(src, out dst);
     }
 }

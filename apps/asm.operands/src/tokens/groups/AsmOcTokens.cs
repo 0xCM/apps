@@ -5,15 +5,21 @@
 namespace Z0.Asm
 {
     using TK = AsmOcTokenKind;
-    using T = AsmOcTokens.TokenSymbols;
+    using T = AsmOcTokens.AsmOcSymbols;
     using G = AsmOcTokens;
 
     [ApiHost]
     public class AsmOcTokens : TokenGroup<G,TK>
     {
-        public const string Group = "asm.opcodes";
+        const string Group = "asm.opcodes";
 
-        const NumericKind Closure = UnsignedInts;
+        // public sealed class TokenSet : TokenSet<TokenSet,TK,G>
+        // {
+
+        // }
+
+        // public static TokenSet set()
+        //     => TokenSet.create();
 
         public override string GroupName
             => Group;
@@ -28,7 +34,7 @@ namespace Z0.Asm
         }
 
         [LiteralProvider(Group)]
-        public readonly struct TokenSymbols
+        public readonly struct AsmOcSymbols
         {
             public const string W0 = "W0";
 

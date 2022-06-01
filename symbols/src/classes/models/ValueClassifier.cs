@@ -10,7 +10,7 @@ namespace Z0
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public class ValueClassifier : IClassifier
     {
-        public Label Name {get;}
+        public readonly Label Name;
 
         readonly Index<Label> _ClassNames;
 
@@ -87,5 +87,8 @@ namespace Z0
             [MethodImpl(Inline)]
             get => _Classes.View;
         }
+
+        Label IClassifier.Name
+            => Name;
     }
 }

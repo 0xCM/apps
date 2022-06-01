@@ -8,7 +8,7 @@ namespace Z0
 
     using static core;
 
-    partial class AsmCmdProvider
+    partial class AsmCoreCmd
     {
         [CmdOp("asm/regs/query")]
         Outcome RegQuery(CmdArgs args)

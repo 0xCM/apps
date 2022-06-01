@@ -8,7 +8,7 @@ namespace Z0
 
     using gp32 = Asm.AsmRegTokens.Gp32Reg;
 
-    partial class AsmCmdProvider
+    partial class AsmCoreCmd
     {
         [CmdOp("asm/check/specs")]
         public Outcome CheckAsmSpecs(CmdArgs args)

@@ -80,6 +80,5 @@ namespace Z0.Asm
             => src.Value;
 
         public static AsmOcToken Empty => default;
-
     }
 }

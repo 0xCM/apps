@@ -4,10 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     [ApiHost]
-    public readonly partial struct Grammars
+    public readonly partial struct Alphabets
     {
         const NumericKind Closure = UnsignedInts;
 

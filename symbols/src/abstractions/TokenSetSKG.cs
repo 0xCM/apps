@@ -14,10 +14,19 @@ namespace Z0
 
         public readonly G Group = new();
 
+        public Symbols<K> Kinds
+            => Group.Kinds;
+
         public uint TokenCount
         {
             [MethodImpl(Inline)]
             get => Group.TokenCount;
+        }
+
+        public uint KindCount
+        {
+            [MethodImpl(Inline)]
+            get => Group.KindCount;
         }
 
         public ReadOnlySpan<Type> TokenTypes

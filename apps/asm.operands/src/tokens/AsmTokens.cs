@@ -8,28 +8,13 @@ namespace Z0.Asm
 
     public class AsmTokens : AppService<AsmTokens>
     {
-        public static AsmToken generalize(in Token<AsmSigTokenKind> src)
-        {
-            var dst = new AsmToken();
-            var token = new AsmSigToken(src.Kind, (byte)src.Value);
-            dst.Id = token.Id;
-            dst.ClassName = nameof(AsmSigToken);
-            dst.Value = (byte)src.Value;
-            dst.KindName = src.Kind.ToString();
-            dst.KindValue = (byte)src.Kind;
-            dst.Index = (ushort)src.Key;
-            dst.Name = src.Name;
-            dst.Expr = src.Expr.Text;
-            return dst;
-        }
-
         [MethodImpl(Inline)]
         public static AsmSigToken sig<T>(AsmSigTokenKind kind, T value)
             where T : unmanaged
                 => new AsmSigToken(kind, u8(value));
 
         [MethodImpl(Inline), Op]
-        public static AsmSigToken specialize(in AsmToken2 src)
+        public static AsmSigToken specialize(in AsmToken src)
             => new AsmSigToken((AsmSigTokenKind)src.KindIndex, (byte)src.Value);
 
         public static bool sig(string expr, out AsmSigToken dst)
@@ -41,41 +26,20 @@ namespace Z0.Asm
         public static AsmTokens Tokens
             => data("AsmTokens", AsmTokens.calc);
 
-        public static bool unique(ReadOnlySpan<AsmToken> src, out AsmToken duplicate)
-        {
-            var dst = hashset<string>();
-            var count = src.Length;
-            var result = true;
-            duplicate = AsmToken.Empty;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var token = ref src[i];
-                if(dst.Contains(token.Expr))
-                {
-                    duplicate = token;
-                    result = false;
-                    break;
-                }
-                else
-                    dst.Add(token.Expr);
-            }
-            return result;
-        }
+        Index<AsmToken> Data;
 
-        Index<AsmToken2> Data;
+        Dictionary<string,AsmToken> SigTokens;
 
-        Dictionary<string,AsmToken2> SigTokens;
-
-        Dictionary<string,AsmToken2> OcTokens;
+        Dictionary<string,AsmToken> OcTokens;
 
         public AsmTokens()
         {
-            Data = sys.empty<AsmToken2>();
-            SigTokens = dict<string,AsmToken2>();
-            OcTokens = dict<string,AsmToken2>();
+            Data = sys.empty<AsmToken>();
+            SigTokens = dict<string,AsmToken>();
+            OcTokens = dict<string,AsmToken>();
         }
 
-        public ReadOnlySpan<AsmToken2> View
+        public ReadOnlySpan<AsmToken> View
         {
             [MethodImpl(Inline)]
             get => Data;
@@ -116,7 +80,7 @@ namespace Z0.Asm
             var opcodes = AsmOcDatasets.Instance.Records;
             var occount = opcodes.Length;
             var count = sigcount + occount;
-            var buffer = alloc<AsmToken2>(count);
+            var buffer = alloc<AsmToken>(count);
             var j=0u;
             for(var i=0u; i<occount; i++,j++)
             {

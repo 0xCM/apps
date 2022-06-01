@@ -6,9 +6,8 @@ namespace Z0
 {
     using H = Hex4;
     using K = Hex4Kind;
-    using W = W4;
 
-    [DataWidth(Width,StorageWidth)]
+    [DataWidth(Width)]
     public readonly struct Hex4
     {
         [Parser]

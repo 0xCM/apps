@@ -25,7 +25,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline), Op]
-        public static AsmOcToken specialize(in AsmToken2 src)
+        public static AsmOcToken specialize(in AsmToken src)
             => new AsmOcToken((AsmOcTokenKind)src.KindIndex, (byte)src.Value);
 
         public Outcome Parse(string src, out AsmOpCode dst)

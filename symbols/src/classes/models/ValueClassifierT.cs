@@ -9,7 +9,7 @@ namespace Z0
     /// </summary>
     public class ValueClassifier<T> : IClassifier
     {
-        public Label Name {get;}
+        public readonly Label Name;
 
         internal Index<Label> _Partitions;
 
@@ -70,5 +70,8 @@ namespace Z0
             [MethodImpl(Inline)]
             get => _Classes.View;
         }
+
+        Label IClassifier.Name
+            => Name;
     }
 }

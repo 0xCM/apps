@@ -92,31 +92,31 @@ namespace Z0.Asm
         }
 
         public static bool rex(string src)
-            => text.index(src, TokenSymbols.Rex) >=0;
+            => text.index(src, AsmOcSymbols.Rex) >=0;
 
         public static bool evex(string src)
-            => text.index(src, TokenSymbols.Evex) == 0;
+            => text.index(src, AsmOcSymbols.Evex) == 0;
 
         public static bool vex(string src)
-            => !evex(src) && text.index(src, TokenSymbols.Vex) >= 0;
+            => !evex(src) && text.index(src, AsmOcSymbols.Vex) >= 0;
 
         public static bool rexw(string src)
-            => text.index(src, TokenSymbols.RexW) ==0;
+            => text.index(src, AsmOcSymbols.RexW) ==0;
 
         public static bool np(string src)
-            => text.index(src, TokenSymbols.NP) == 0;
+            => text.index(src, AsmOcSymbols.NP) == 0;
 
         public static bool x66(string src)
-            => text.index(src, TokenSymbols.x66) == 0;
+            => text.index(src, AsmOcSymbols.x66) == 0;
 
         public static bool f2(string src)
-            => text.index(src, TokenSymbols.F2) == 0;
+            => text.index(src, AsmOcSymbols.F2) == 0;
 
         public static bool f3(string src)
-            => text.index(src, TokenSymbols.F3) == 0;
+            => text.index(src, AsmOcSymbols.F3) == 0;
 
         public static bool x0f(string src)
-            => text.index(src, TokenSymbols.x0F) >= 0;
+            => text.index(src, AsmOcSymbols.x0F) >= 0;
 
         public static bool x660f(string src)
             => x66(src) && x0f(src);

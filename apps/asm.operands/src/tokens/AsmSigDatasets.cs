@@ -57,7 +57,7 @@ namespace Z0.Asm
 
         public ConstLookup<uint,AsmSigNonterminal> Nonterminals {get; private set;}
 
-        public Index<AsmToken2> Records {get; private set;}
+        public Index<AsmToken> Records {get; private set;}
 
         AsmSigDatasets()
         {
@@ -75,13 +75,13 @@ namespace Z0.Asm
         static AsmSigDatasets load()
         {
             var dst = new AsmSigDatasets();
-            var src = AsmSigTokenSet.create();
+            var src = AsmSigTokens.create().Set;
             var types = src.TokenTypes;
             var tokenExpr = dict<uint,string>();
             var exprToken = dict<string,AsmSigOp>();
             var names = dict<uint,string>();
             dst.Tokens = alloc<AsmSigOp>(src.TokenCount);
-            dst.Records = alloc<AsmToken2>(src.TokenCount);
+            dst.Records = alloc<AsmToken>(src.TokenCount);
             dst.TypeKinds = src.TypeKinds;
             var k=0u;
             for(var i=0; i<types.Length; i++)

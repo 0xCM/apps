@@ -16,7 +16,7 @@ namespace Z0
         /// <summary>
         /// The name of the alphabet
         /// </summary>
-        public Label Name {get;}
+        public readonly Label Name;
 
         readonly NativeBuffer<K> Buffer;
 
@@ -85,7 +85,7 @@ namespace Z0
         }
 
         public string Format()
-            => Grammars.format(this);
+            => Alphabets.format(this);
 
         public override string ToString()
             => Format();

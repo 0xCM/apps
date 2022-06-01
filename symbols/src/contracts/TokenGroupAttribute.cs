@@ -4,10 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class Heaps
+    public class TokenGroupAttribute : Attribute
     {
-        [MethodImpl(Inline), Op]
-        public static Span<char> expr(SymHeap src, uint index)
-            => core.slice(src.Expr.Edit, src.ExprOffsets[index], src.ExprLengths[index]);
+
     }
 }

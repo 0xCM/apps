@@ -4,25 +4,32 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [StructLayout(LayoutKind.Sequential, Pack=1)]
+    [StructLayout(LayoutKind.Sequential, Pack=1), Record(TableId)]
     public readonly record struct ValueClass<T>
     {
-        public readonly uint Ordinal;
+        const string TableId = "api.classes";
 
-        public readonly Label ClassName;
+        [Render(8)]
+        public readonly uint Index;
 
-        public readonly Label Identifier;
+        [Render(16)]
+        public readonly Label Class;
 
+        [Render(16)]
+        public readonly Label Name;
+
+        [Render(16)]
         public readonly Label Symbol;
 
+        [Render(1)]
         public readonly T Value;
 
         [MethodImpl(Inline)]
         public ValueClass(uint ordinal, Label @class, Label kind, Label symbol, T value)
         {
-            Ordinal = ordinal;
-            ClassName = @class;
-            Identifier = kind;
+            Index = ordinal;
+            Class = @class;
+            Name = kind;
             Symbol = symbol;
             Value = value;
         }

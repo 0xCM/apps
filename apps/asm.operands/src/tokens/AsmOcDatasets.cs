@@ -16,13 +16,13 @@ namespace Z0.Asm
         {
             var dst = new AsmOcDatasets();
             dst.TokenKinds = Symbols.index<AsmOcTokenKind>();
-            var src = AsmOcTokenSet.create();
+            var src = AsmOcTokens.create().Set;
             var types = src.TokenTypes;
             var tokenExpr = dict<uint,string>();
             var names = dict<uint,string>();
             var exprToken = dict<string,AsmOcToken>();
             dst.Tokens = alloc<AsmOcToken>(src.TokenCount);
-            dst.Records = alloc<AsmToken2>(src.TokenCount);
+            dst.Records = alloc<AsmToken>(src.TokenCount);
             dst.TypeKinds = src.TypeKinds;
             var k=0u;
             for(var i=0; i<types.Length; i++)
@@ -63,7 +63,7 @@ namespace Z0.Asm
 
         public Index<AsmOcToken> Tokens {get; private set;}
 
-        public Index<AsmToken2> Records {get; private set;}
+        public Index<AsmToken> Records {get; private set;}
 
         public ConstLookup<Type,K> TypeKinds {get; private set;}
 

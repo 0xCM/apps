@@ -6,6 +6,7 @@ namespace Z0
 {
     partial class Heaps
     {
+        [Op]
         public static SymHeapStats stats(ReadOnlySpan<SymLiteralRow> src)
         {
             var dst = new SymHeapStats();

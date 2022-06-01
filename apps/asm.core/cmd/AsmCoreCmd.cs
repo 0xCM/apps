@@ -53,6 +53,11 @@ namespace Z0
 
         CheckRunner CheckRunner => Wf.CheckRunner();
 
+        AsmRegSets Regs => Service(AsmRegSets.create);
+
+        AsmOpCodes OpCodes => Wf.AsmOpCodes();
+
+
         protected override IWsCmdRunner CmdRunner
             => Xed.CmdRunner;
 

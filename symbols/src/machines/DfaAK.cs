@@ -14,7 +14,7 @@ namespace Z0
 
         readonly Index<DfaState<K>> _Terminals;
 
-        public Alphabet<A> Alphabet {get;}
+        public readonly Alphabet<A> Alphabet;
 
         public ReadOnlySpan<DfaState<K>> States
         {

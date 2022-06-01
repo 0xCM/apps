@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class TokenGroupAttribute : Attribute
-    {
-
-    }
-
     public interface ITokenGroup
     {
         string GroupName {get;}

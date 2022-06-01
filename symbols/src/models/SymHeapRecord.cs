@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Record(TableId), StructLayout(StructLayout,Pack=1)]
-    public struct SymHeapEntry
+    public struct SymHeapRecord
     {
         public const string TableId = "api.symbols.heap";
 

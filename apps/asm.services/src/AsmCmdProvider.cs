@@ -12,10 +12,6 @@ namespace Z0
 
         AsmDocs AsmDocs => Service(Wf.AsmDocs);
 
-        AsmOpCodes OpCodes => Service(Wf.AsmOpCodes);
-
-        CoffServices CoffServices => Service(Wf.CoffServices);
-
         IProjectProvider _ProjectProvider;
 
         public AsmCmdProvider With(IProjectProvider provider)

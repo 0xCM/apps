@@ -17,10 +17,8 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static int index(ReadOnlySpan<char> src, int offset, char match)
         {
-            ref readonly var c = ref first(src);
-            var length = src.Length;
-            for(var i=offset; i<length; i++)
-                if(skip(c, i) == match)
+            for(var i=offset; i<src.Length; i++)
+                if(skip(src, i) == match)
                     return i;
             return NotFound;
         }

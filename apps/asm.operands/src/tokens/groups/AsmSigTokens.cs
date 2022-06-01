@@ -9,10 +9,10 @@ namespace Z0.Asm
 
     public class AsmSigTokens : TokenGroup<G,TK>
     {
+        const string Group = "asm.sigs";
+
         public override string GroupName
             => Group;
-
-        public const string Group = "asm.sigs";
 
         public class TokenKindAttribute : TokenKindAttribute<TK>
         {
