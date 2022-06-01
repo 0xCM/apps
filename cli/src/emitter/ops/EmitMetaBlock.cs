@@ -19,7 +19,7 @@ namespace Z0
             var flow = EmittingFile(dst);
             var segment = Clr.metadata(src);
             using var writer = dst.Writer();
-            var size = MemoryStore.emit(segment, bpl, writer);
+            var size = ApiCode.hexpack(segment, bpl, writer);
             EmittedFile(flow, (uint)size);
             return size;
         }

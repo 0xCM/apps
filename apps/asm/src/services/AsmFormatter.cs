@@ -110,7 +110,7 @@ namespace Z0.Asm
             var i = z8;
             seek(dst, i++) = PageBreak;
             seek(dst, i++) = comment(CommentMarker, $"{src.DisplaySig}::{src.Uri}");
-            seek(dst, i++) = spanres(src.Uri, src.CodeBlock);
+            seek(dst, i++) = bytespan(src.Uri, src.CodeBlock);
             seek(dst, i++) = hexarray(src.CodeBlock);
             seek(dst, i++) = comment(CommentMarker, string.Concat(nameof(CodeBlock.BaseAddress), RP.spaced(Chars.Eq), src.CodeBlock.BaseAddress));
             seek(dst, i++) = comment(CommentMarker, string.Concat(nameof(src.TermCode), RP.spaced(Chars.Eq), src.TermCode.ToString()));
@@ -119,8 +119,8 @@ namespace Z0.Asm
         }
 
         [Op]
-        public static AsmInlineComment spanres(OpUri uri, BinaryCode src)
-            => new AsmInlineComment(AsmCommentMarker.Hash, SpanResFormatter.format(SpanRes.specify(uri, src)));
+        public static AsmInlineComment bytespan(OpUri uri, BinaryCode src)
+            => new AsmInlineComment(AsmCommentMarker.Hash, SpanResFormatter.format(ByteSpans.specify(uri, src)));
 
         [Op]
         public static AsmInlineComment hexarray(BinaryCode src)

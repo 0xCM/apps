@@ -108,9 +108,8 @@ namespace Z0
                 seek(dst, i) = new MemoryBlock(code.Address, code.Size, code.Encoded);
             }
 
-            var blocks = MemoryStore.pack(dst);
-            ApiCode.Emit(blocks, packPath);
-            ApiCode.WriteApiHex(host, src, extractPath);
+            ApiCode.Emit(ApiCode.pack(dst), packPath);
+            ApiCode.EmitApiHex(host, src, extractPath);
             return count;
         }
 

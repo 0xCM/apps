@@ -8,7 +8,6 @@ namespace Z0
 
     partial class ApiCode
     {
-
         static EncodedMembers members(SymbolDispenser symbols, Index<EncodedMember> src, BinaryCode code)
         {
             var dst = new EncodedMembers.EncodingData();

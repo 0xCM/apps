@@ -166,7 +166,7 @@ namespace Z0
             ref var target = ref first(buffer);
             for(var i=0; i<count; i++)
                 seek(target, i) = (byte)skip(src,i);
-            var spec = SpanRes.specify(name, buffer, true);
+            var spec = ByteSpans.specify(name, buffer, true);
             ascirender(indent, spec, dst);
             return spec;
         }
@@ -223,7 +223,7 @@ namespace Z0
             dst.IndentLine(n, Open());
             n+=4;
 
-            var spec = SpanRes.specify<E>(IndexName);
+            var spec = ByteSpans.specify<E>(IndexName);
             symrender(n, spec, dst, false);
             dst.IndentLine(n, Close());
             n-=4;

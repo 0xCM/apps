@@ -96,8 +96,8 @@ namespace Z0
             var count = blocks.Count;
             var buffer = alloc<ByteSpanSpec>(count);
             for(var i=0; i<count; i++)
-                seek(buffer,i) = SpanRes.specify(string.Format("Block{0:X2}", i), @bytes(blocks[i].Data).ToArray());
-            var merge = SpanRes.merge("CharBytes", buffer);
+                seek(buffer,i) = ByteSpans.specify(string.Format("Block{0:X2}", i), @bytes(blocks[i].Data).ToArray());
+            var merge = ByteSpans.merge("CharBytes", buffer);
             var seg = merge.Segment(16,16);
             var chars = recover<char>(seg);
             return merge;

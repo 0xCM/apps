@@ -9,20 +9,6 @@ namespace Z0
     partial class ApiCode
     {
         const int MaxZeroCount = 10;
-
-        /// <summary>
-        /// Resolves a specified method
-        /// </summary>
-        /// <param name="src">The source method</param>
-        public static ResolvedMethod resolve(MethodInfo src)
-        {
-            var diviner = MultiDiviner.Service;
-            var host = ApiHostUri.from(src.DeclaringType);
-            var uri = ApiUri.define(ApiUriScheme.Located, host, src.Name, diviner.Identify(src));
-            var resolved = new ResolvedMethod(src, uri, ClrJit.jit(src));
-            return resolved;
-        }
-
         [Op]
         public static ApiExtractBlock extract(MethodInfo src, Span<byte> buffer)
         {

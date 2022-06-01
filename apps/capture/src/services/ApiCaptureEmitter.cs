@@ -75,10 +75,10 @@ namespace Z0
         }
 
         public Index<ApiHexRow> EmitApiHex(ApiHostUri host, Index<ApiMemberCode> src, FS.FilePath dst)
-            => ApiCode.WriteApiHex(host, src.View, dst);
+            => ApiCode.EmitApiHex(host, src.View, dst);
 
         public Index<ApiHexRow> EmitApiHex(ApiHostUri host, Index<ApiMemberCode> src, FS.FolderPath dst)
-            => ApiCode.WriteApiHex(host, src.View, dst);
+            => ApiCode.EmitApiHex(host, src.View, dst);
 
         public Count EmitMsilCode(ApiHostUri host, Index<ApiMemberCode> src, FS.FilePath dst)
         {

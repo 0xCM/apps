@@ -73,7 +73,7 @@ namespace Z0
 
         void CheckLookups()
         {
-            using var members = ApiCode.Load(PartId.AsmCore);
+            using var members = ApiCode.LoadEncoded(PartId.AsmCore);
             for(var i=0; i<members.MemberCount; i++)
             {
                 ref readonly var member = ref members.Member(i);
@@ -108,7 +108,7 @@ namespace Z0
                 return result;
             }
 
-            var symbols = MemorySymbols.create(capacity);
+            var symbols = MemoryStores.create(capacity);
             for(var i=0; i<count; i++)
             {
                 ref readonly var block = ref skip(blocks,i);
@@ -145,7 +145,7 @@ namespace Z0
             var spec = EmptyString;
             if(args.Count != 0)
                 spec = text.trim(arg(args,0).Value.Format());
-            using var members = ApiCode.Load(spec);
+            using var members = ApiCode.LoadEncoded(spec);
             CheckSize(members);
 
             return result;
@@ -175,7 +175,7 @@ namespace Z0
                 spec = text.trim(arg(args,0).Value.Format());
 
             const string RenderPattern = "{0,-8} | {1, -8} | {2,-8} | {3,-5} | {4,-8} | {5,-8} | {6,-32} | {7}";
-            using var members = ApiCode.Load(spec);
+            using var members = ApiCode.LoadEncoded(spec);
             var count = members.MemberCount;
             var target = MemoryAddress.Zero;
             var size = 0;

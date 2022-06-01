@@ -4,11 +4,61 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System.IO;
+
     using static core;
 
     [ApiHost]
     public sealed class AssetServices : AppService<AssetServices>
     {
+        [Op]
+        public static Outcome<Count> normalize(Asset src, string delimiter, ReadOnlySpan<byte> widths, FS.FilePath dst)
+        {
+            var data = text.utf8(src.Bytes());
+            var result = TextGrids.parse(data, out var doc);
+            if(result.Fail)
+                return result;
+
+            return TextGrids.normalize(data, delimiter, widths, dst);
+        }
+
+        [Op]
+        public static Outcome resource(Asset src, TextDocFormat format, out TextGrid dst)
+        {
+            var content = Resources.utf8(src);
+            using var stream = content.Stream();
+            using var reader = new StreamReader(stream);
+            var result = TextGrids.parse(reader, format);
+            if(result)
+            {
+                dst = result.Value;
+                return true;
+            }
+            else
+            {
+                dst = TextGrid.Empty;
+                return false;
+            }
+        }
+
+        [Op]
+        public static Outcome resource(Asset src, out TextGrid dst)
+        {
+            var content = Resources.utf8(src);
+            using var stream = content.Stream();
+            using var reader = new StreamReader(stream);
+            var result = TextGrids.parse(reader, TextDocFormat.Structured());
+            if(result)
+            {
+                dst = result.Value;
+                return true;
+            }
+            else
+            {
+                dst = TextGrid.Empty;
+                return false;
+            }
+        }
 
         public static string bytespan(BinaryResSpec src, int level = 2)
             => text.concat("public static ReadOnlySpan<byte> ",

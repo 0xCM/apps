@@ -26,7 +26,7 @@ namespace Z0
 
             //var data = recover<RegOp,byte>(regs).ToArray();
             var data = recover<byte>(span(buffer.Emit()));
-            var spec = SpanRes.specify("GpRegNames", data.ToArray());
+            var spec = ByteSpans.specify("GpRegNames", data.ToArray());
             var format = SpanResFormatter.format(spec);
             AppSvc.FileEmit(format, count, AppDb.CgStage().Path("regnames", FileKind.Cs));
 

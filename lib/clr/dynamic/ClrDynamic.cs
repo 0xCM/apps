@@ -13,20 +13,6 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
-        public static Index<ReflectedByteSpan> bytespans(Type[] src)
-        {
-            var props = src.StaticProperties().Where(p => p.GetGetMethod() != null && p.PropertyType == typeof(ReadOnlySpan<byte>)).ToReadOnlySpan();
-            var count = props.Length;
-            var dst = alloc<ReflectedByteSpan>(count);
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var prop = ref skip(props,i);
-                var method = prop.GetGetMethod();
-                seek(dst,i) = new ReflectedByteSpan(method.Artifact(), method.GetMethodBody().GetILAsByteArray());
-            }
-            return dst;
-        }
-
 
         [Op]
         public static ApiMsil msil(MemoryAddress @base, OpUri uri, MethodInfo src)

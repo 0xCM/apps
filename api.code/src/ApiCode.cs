@@ -6,6 +6,30 @@ namespace Z0
 {
     using static core;
 
+    [Record(TableId), StructLayout(LayoutKind.Sequential)]
+    public struct ApiHexIndexRow
+    {
+        const string TableId = "api-hex-index";
+
+        [Render(10)]
+        public uint Seqence;
+
+        [Render(16)]
+        public MemoryAddress Address;
+
+        [Render(20)]
+        public string Component;
+
+        [Render(20)]
+        public string HostName;
+
+        [Render(20)]
+        public string MethodName;
+
+        [Render(120)]
+        public OpUri Uri;
+    }
+
     public partial class ApiCode : AppService<ApiCode>
     {
         const int DefaultBufferLength = Pow2.T14 + Pow2.T08;
@@ -15,8 +39,6 @@ namespace Z0
             => alloc<byte>(size ?? DefaultBufferLength);
 
         ApiJit ApiJit => Service(Wf.ApiJit);
-
-        ApiHex ApiHex => Wf.ApiHex();
 
         ApiMd ApiMd => Wf.ApiMetadata();
 
@@ -30,77 +52,43 @@ namespace Z0
         public MemoryBlocks LoadMemoryBlocks()
             => LoadMemoryBlocks(Files.TargetRoot());
 
-        public MemoryBlocks LoadMemoryBlocks(FS.FolderPath root)
+        [MethodImpl(Inline), Op]
+        public static void charpack(byte src, out char c0, out char c1)
         {
-            var _blocks = LoadMemoryBlocks(root.Files(".parsed", FS.XPack, true));
-            var entries = _blocks.Entries;
-            var count = entries.Length;
-            var buffer = list<MemoryBlock>();
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var entry = ref skip(entries,i);
-                ref readonly var pack = ref entry.Value;
-                var blocks = pack.View;
-                for(var j=0; j<blocks.Length; j++)
-                {
-                    ref readonly var block = ref skip(blocks,j);
-                    buffer.Add(block);
-                }
-            }
-
-            buffer.Sort();
-            return new MemoryBlocks(buffer.ToArray());
-        }
-
-        public ConstLookup<FS.FilePath,MemoryBlocks> LoadMemoryBlocks(FS.Files src)
-        {
-            var flow = Running(string.Format("Loading {0} packs", src.Length));
-            var lookup = new Lookup<FS.FilePath,MemoryBlocks>();
-            var errors = new Lookup<FS.FilePath,Outcome>();
-            iter(src, path => lookup.Include(path, ApiCode.memory(path)), true);
-            var result = lookup.Seal();
-            var count = result.EntryCount;
-            var entries = result.Entries;
-            var counter = 0u;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var entry = ref skip(entries,i);
-                var path = entry.Key;
-                var blocks = entry.Value.View;
-                var blockCount = (uint)blocks.Length;
-                var host = path.FileName.Format().Remove(".extracts.parsed.xpack").Replace(".","/");
-                Write(string.Format("Loaded {0} blocks from {1}", blockCount, path.ToUri()));
-                counter += blockCount;
-            }
-
-            Ran(flow, string.Format("Loaded {0} total blocks", counter));
-
-            return result;
+            c0 = Hex.hexchar(LowerCase, src, 1);
+            c1 = Hex.hexchar(LowerCase, src, 0);
         }
 
         [Op]
-        public Index<HexPacked> EmitHexPack(SortedIndex<ApiCodeBlock> src, FS.FilePath? dst = null, bool validate = false)
+        public static MemoryBlocks pack(Index<MemoryBlock> src)
         {
-            var _dst = dst ?? Env.Db + FS.folder(EnvFolders.tables) + FS.file("apihex", FS.ext("xpack"));
-            var result = ApiCode.pack(src, validate);
-            var packed = result.View;
-            var emitting = EmittingFile(_dst);
-            using var writer = _dst.Writer();
-            var count = packed.Length;
-            for(var i=0; i<count; i++)
-                writer.WriteLine(skip(packed,i).Format());
-            EmittedFile(emitting, count);
-            return result;
+            var count = src.Length;
+            if(count == 0)
+                return MemoryBlocks.Empty;
+            src.Sort();
+            return new MemoryBlocks(src);
         }
 
         [Op]
         public ByteSize Emit(in MemoryBlock src, FS.FilePath dst)
         {
-            var flow = EmittingFile(dst);
             using var writer = dst.Writer();
-            var total = MemoryStore.emit(MemoryStore.pack(src), writer);
-            EmittedFile(flow, (uint)total);
-            return total;
+            return hexpack(src, 0, writer);
+        }
+
+        [MethodImpl(Inline)]
+        public static uint hexarray(W8 w, in MemoryBlock src, Span<char> buffer)
+            => Hex.hexarray(src.View, buffer);
+
+        const string ArrayPackLine = "x{0:x}[{1:D5}:{2:D5}]={3}";
+
+        [Op]
+        public static string hexarray(in MemorySeg src, uint index, Span<char> buffer)
+        {
+            var memory = src.ToSpan();
+            var count = Hex.hexarray(memory.View, buffer);
+            var chars = slice(buffer, 0, count);
+            return string.Format(ArrayPackLine, memory.BaseAddress, index, (uint)memory.Size, text.format(chars));
         }
 
         [Op]
@@ -108,7 +96,7 @@ namespace Z0
         {
             var flow = EmittingFile(dst);
             using var writer = dst.Writer();
-            var total = MemoryStore.emit(src, writer);
+            var total = hexpack(src, writer);
             EmittedFile(flow, (uint)total);
             return total;
         }
@@ -225,50 +213,6 @@ namespace Z0
             return emitted;
         }
 
-        public EncodedMembers Load()
-            => Load(Alloc.dispenser(Alloc.symbols));
-
-        public EncodedMembers Load(string spec)
-            => Load(Alloc.dispenser(Alloc.symbols), spec);
-
-        public EncodedMembers Load(PartId src)
-        {
-            Load(src, out var index, out var code);
-            return members(Alloc.dispenser(Alloc.symbols), index, code);
-        }
-
-        EncodedMembers Load(SymbolDispenser symbols)
-        {
-            Load(out var index, out var code);
-            return members(symbols, index, code);
-        }
-
-        EncodedMembers Load(SymbolDispenser symbols, string spec)
-        {
-            if(text.nonempty(spec))
-            {
-                var i = text.index(spec, Chars.FSlash);
-                if(i>0)
-                    return Load(symbols, ApiHostUri.define(ApiParsers.part(text.left(spec,i)), text.right(spec,i)));
-                else
-                    return Load(symbols, ApiParsers.part(spec));
-            }
-            else
-                return Load(symbols);
-        }
-
-        EncodedMembers Load(SymbolDispenser symbols, ApiHostUri src)
-        {
-            Load(src, out var index, out var code);
-            return members(symbols, index, code);
-        }
-
-        EncodedMembers Load(SymbolDispenser symbols, PartId src)
-        {
-            Load(src, out var index, out var code);
-            return members(symbols, index, code);
-        }
-
         public ByteSize EmitHex(Index<CollectedEncoding> src, FS.FilePath dst)
         {
             var count = src.Count;
@@ -283,7 +227,7 @@ namespace Z0
             var count = collected.Count;
             var buffer = alloc<EncodedMember>(count);
             for(var i=0; i<count; i++)
-                seek(buffer,i) = describe(collected[i]);
+                seek(buffer,i) = member(collected[i]);
             var rebase = min(buffer.Select(x => (ulong)x.EntryAddress).Min(), buffer.Select(x => (ulong)x.TargetAddress).Min());
             for(var i=0; i<count; i++)
             {
@@ -349,7 +293,7 @@ namespace Z0
             EmittedFile(emitting,count);
             var encoded = alloc<EncodedMember>(count);
             for(var i=0; i<count; i++)
-                seek(encoded,i) = describe(collected[i]);
+                seek(encoded,i) = member(collected[i]);
             var rebase = min(encoded.Select(x => (ulong)x.EntryAddress).Min(), encoded.Select(x => (ulong)x.TargetAddress).Min());
             for(var i=0; i<count; i++)
             {
@@ -361,39 +305,6 @@ namespace Z0
             return encoded;
         }
 
-        [Op]
-        public Index<ApiHexRow> WriteApiHex(ApiHostUri uri, ReadOnlySpan<ApiMemberCode> src, FS.FolderPath dst)
-        {
-            var count = src.Length;
-            if(count != 0)
-            {
-                var buffer = alloc<ApiHexRow>(count);
-                for(var i=0u; i<count; i++)
-                    seek(buffer, i) = apihex(skip(src, i), i);
-
-                var path = Db.ParsedExtractPath(dst, uri);
-                AppSvc.TableEmit(buffer, path);
-                return buffer;
-            }
-            else
-                return array<ApiHexRow>();
-        }
-
-        public Index<ApiHexRow> WriteApiHex(ApiHostUri uri, ReadOnlySpan<ApiMemberCode> src, FS.FilePath dst)
-        {
-            var count = src.Length;
-            if(count != 0)
-            {
-                var buffer = alloc<ApiHexRow>(count);
-                for(var i=0u; i<count; i++)
-                    seek(buffer, i) = apihex(skip(src, i), i);
-
-                AppSvc.TableEmit(buffer, dst);
-                return buffer;
-            }
-            else
-                return array<ApiHexRow>();
-        }
 
         [Op]
         public ReadOnlySpan<ApiHexIndexRow> EmitIndex(SortedIndex<ApiCodeBlock> src, FS.FilePath dst)
@@ -429,6 +340,5 @@ namespace Z0
             EmittedTable(flow, count);
             return buffer;
         }
-
     }
 }

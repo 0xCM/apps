@@ -29,16 +29,16 @@ namespace Z0
             var count = blocks.Length;
             var buffer = span<char>(BufferLength);
             var dst = ProjectDb.Api() + FS.file("api", FS.Hex);
-            using var writer = dst.AsciWriter();
-            for(var i=0u; i<count; i++)
-            {
-                buffer.Clear();
-                ref readonly var block = ref skip(blocks,i);
-                var length = Hex.hexarray(block.View, buffer);
-                var content = text.format(slice(buffer,0,length));
-                writer.WriteLine(content);
-            }
-            Write(string.Format("Emitted {0} hex blocks to {1}", count, dst.ToUri()));
+            // using var writer = dst.AsciWriter();
+            // for(var i=0u; i<count; i++)
+            // {
+            //     buffer.Clear();
+            //     ref readonly var block = ref skip(blocks,i);
+            //     var length = Hex.hexarray(block.View, buffer);
+            //     var content = text.format(slice(buffer,0,length));
+            //     writer.WriteLine(content);
+            // }
+            // Write(string.Format("Emitted {0} hex blocks to {1}", count, dst.ToUri()));
         }
 
         [CmdOp("api/emit/hexrows")]

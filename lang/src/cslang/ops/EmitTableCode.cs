@@ -119,9 +119,9 @@ namespace Z0
                 dst.IndentLine(margin, StaticLambdaProp(nameof(MemoryStrings), StringsProp, FactoryCreate));
             dst.AppendLine();
 
-            dst.IndentLine(margin, GSpanRes.format(Z0.SpanRes.bytespan(OffsetsProp, src.Offsets.Storage)));
+            dst.IndentLine(margin, GSpanRes.format(ByteSpans.bytespan(OffsetsProp, src.Offsets.Storage)));
             dst.AppendLine();
-            dst.IndentLine(margin, GSpanRes.format(Z0.SpanRes.charspan(DataProp,  new string(src.Content.Storage))));
+            dst.IndentLine(margin, GSpanRes.format(ByteSpans.charspan(DataProp,  new string(src.Content.Storage))));
             margin-=4;
             dst.IndentLine(margin, Close());
         }

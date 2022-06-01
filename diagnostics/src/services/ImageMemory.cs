@@ -30,11 +30,11 @@ namespace Z0
             return options;
         }
 
-        public static MemorySymbols SymbolizeDetails(in ProcessContext src)
+        public static MemoryStores SymbolizeDetails(in ProcessContext src)
         {
             var details = src.Regions.View;
             var count = details.Length;
-            var symbols = MemorySymbols.create(count);
+            var symbols = MemoryStores.create(count);
             for(var i=0; i<count; i++)
             {
                 ref readonly var detail = ref skip(details,i);
@@ -52,11 +52,11 @@ namespace Z0
                 dst.MemoryRegionHashPath(src.ProcessName, src.Timestamp, src.Subject));
         }
 
-        public static MemorySymbols SymbolizeSummaries(in ProcessContext src)
+        public static MemoryStores SymbolizeSummaries(in ProcessContext src)
         {
             var summaries = src.Partitions.View;
             var count = summaries.Length;
-            var symbols = MemorySymbols.create(count);
+            var symbols = MemoryStores.create(count);
             for(var i=0; i<count; i++)
             {
                 ref readonly var summary = ref skip(summaries,i);
@@ -69,7 +69,7 @@ namespace Z0
         {
             var count = (uint)addresses.Length;
             var buffer = alloc<AddressHash>(count);
-            MemorySymbols.hash(addresses,buffer);
+            MemoryStores.hash(addresses,buffer);
             Tables.emit(@readonly(buffer), dst);
             return buffer;
         }
