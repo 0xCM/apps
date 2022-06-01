@@ -4,9 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    [ApiHost]
-    public readonly partial struct asm
+    public interface IAsmCase : ITextual
     {
-        const NumericKind Closure = UnsignedInts;
+
+    }
+
+    public interface IAsmCaseResult : ITextual
+    {
+
     }
 }

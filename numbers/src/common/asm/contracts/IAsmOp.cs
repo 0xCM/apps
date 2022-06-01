@@ -7,7 +7,7 @@ namespace Z0.Asm
     /// <summary>
     /// Characterizes an asm operand representation
     /// </summary>
-    public interface IAsmOp
+    public interface IAsmOp : ITextual
     {
         AsmOpKind OpKind {get;}
 

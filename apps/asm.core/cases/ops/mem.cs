@@ -10,9 +10,9 @@ namespace Z0.Asm
     partial class AsmCases
     {
         [MethodImpl(Inline)]
-        public static MemOpCase<T> MemOp<T>(T op, string format)
+        public static MemOpCase<T> MemOp<T>(T op, string asm)
             where T : unmanaged, IMemOp<T>
-                => new MemOpCase<T>(op,format);
+                => new MemOpCase<T>(op, asm);
 
         public static Index<MemOpCase> MemOps(uint count)
             => alloc<MemOpCase>(count);
@@ -24,6 +24,7 @@ namespace Z0.Asm
 
         static Result<C> CheckEquality<C,T>(C @case, T expect, T actual)
             where T : IEquatable<T>
+            where C : IAsmCase
         {
             if(!expect.Equals(actual))
                 return new Result<C>(@case, (false, string.Format("Failure: '{0}' != '{1}'", expect, actual)));
@@ -54,7 +55,7 @@ namespace Z0.Asm
             {
                 ref readonly var @case = ref skip(src,i);
                 AsmOperand op = @case.Op;
-                seek(dst,i) = CheckEquality(@case, @case.OpFormat, @case.Op.Format());
+                seek(dst,i) = CheckEquality(@case, @case.Asm, @case.Op.Format());
             }
             return dst;
         }

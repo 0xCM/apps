@@ -6,18 +6,25 @@ namespace Z0.Asm
 {
     partial class AsmCases
     {
-        public readonly struct MemOpCase
+        public readonly struct MemOpCase : IAsmCase
         {
             public readonly MemOp Op;
 
-            public readonly string OpFormat;
+            public readonly string Asm;
 
             [MethodImpl(Inline)]
-            public MemOpCase(MemOp op, string format)
+            public MemOpCase(MemOp op, string asm)
             {
                 Op = op;
-                OpFormat = format;
+                Asm = asm;
             }
+
+            public string Format()
+                => Op.Format();
+
+
+            public override string ToString()
+                => Format();
         }
     }
 }

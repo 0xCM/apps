@@ -6,7 +6,7 @@ namespace Z0.Asm
 {
     partial class AsmCases
     {
-        public struct JmpRel32
+        public struct JmpRel32 : IAsmCase
         {
             public @string Statment;
 
@@ -20,6 +20,10 @@ namespace Z0.Asm
 
             public string Format()
                 => string.Format("{0} jmp near ptr {1:x}h | {2}", Source, (int)Disp, Encoding);
+
+
+            public override string ToString()
+                => Format();
         }
     }
 }

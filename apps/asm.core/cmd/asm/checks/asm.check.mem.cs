@@ -16,8 +16,7 @@ namespace Z0
             for(var i=0; i<results.Count; i++)
             {
                 ref readonly var r = ref results[i];
-                Write(r.Case);
-                Write(r.Outcome);
+                Write(r.Format());
             }
 
             return result;

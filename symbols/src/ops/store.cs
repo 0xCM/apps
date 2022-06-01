@@ -17,6 +17,5 @@ namespace Z0
         [Op, Closures(UInt64k)]
         public static SymStore<T> store<T>(uint capacity)
             => new SymStore<T>((uint)inc(ref SegCount), alloc<T>(capacity));
-
     }
 }

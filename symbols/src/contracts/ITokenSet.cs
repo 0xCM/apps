@@ -2,20 +2,23 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
-    public interface IAsmCheck : ITextual
+    public interface ITokenSet
     {
-        bit Passed {get;}
+
     }
 
-    public interface IAsmCheck<C,S,T> : IAsmCheck
-        where C : struct, IAsmCheck<C,S,T>
+    public interface ITokenSet<K> : ITokenSet
+        where K : unmanaged
     {
-        S Input {get;}
 
-        T Expect {get;}
+    }
 
-        T Actual {get;}
+    public interface ITokenSet<S,K> : ITokenSet<K>
+        where S : ITokenSet<S,K>, new()
+        where K : unmanaged
+    {
+
     }
 }

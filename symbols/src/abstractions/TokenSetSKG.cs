@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public abstract class TokenSet<S,K,G>
+    public abstract class TokenSet<S,K,G> : ITokenSet<S,K>
         where K : unmanaged, Enum
         where S : TokenSet<S,K,G>, new()
         where G : ITokenGroup<G,K>, new()

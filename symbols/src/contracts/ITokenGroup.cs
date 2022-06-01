@@ -19,17 +19,18 @@ namespace Z0
         ReadOnlySpan<Type> TokenTypes {get;}
     }
 
-    public interface ITokenGroup<G> : ITokenGroup
-        where G : ITokenGroup<G>, new()
+    public interface ITokenGroup<K> : ITokenGroup
+        where K : unmanaged
     {
-        Type ITokenGroup.GroupType
-            => typeof(G);
+        Type ITokenGroup.KindType
+            => typeof(K);
     }
 
-    public interface ITokenGroup<G,K> : ITokenGroup<G>
+    public interface ITokenGroup<G,K> : ITokenGroup<K>
         where G : ITokenGroup<G,K>, new()
-        where K : unmanaged, Enum
+        where K : unmanaged
     {
+
         Symbols<K> Kinds {get;}
 
         ConstLookup<Type,K> TypeKinds {get;}
@@ -39,11 +40,11 @@ namespace Z0
         Index<Token> Tokens(Type src)
             => KindedTokens[Kind(src)];
 
+        Type ITokenGroup.GroupType
+            => typeof(G);
+
         K Kind(Type src)
             => TypeKinds[src];
-
-        Type ITokenGroup.KindType
-            => typeof(K);
 
         ReadOnlySpan<Type> ITokenGroup.TokenTypes
             => TypeKinds.Keys;

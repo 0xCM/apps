@@ -8,7 +8,7 @@ namespace Z0
 
     partial struct Resources
     {
-        [MethodImpl(Inline), Op, Closures(UnsignedInts)]
+        [MethodImpl(Inline), Op, Closures(Closure)]
         public unsafe static ResMember member<T>(MemberInfo member, ReadOnlySpan<T> src)
             => new ResMember(member, MemorySegs.define(recover<T,byte>(src)));
 

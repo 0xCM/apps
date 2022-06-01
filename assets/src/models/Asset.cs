@@ -11,11 +11,11 @@ namespace Z0
     /// </summary>
     public readonly struct Asset : IComparable<Asset>, IEquatable<Asset>, IAddressable
     {
-        public Name Name {get;}
+        public readonly Name Name {get;}
 
-        public MemoryAddress Address {get;}
+        public readonly MemoryAddress Address;
 
-        public ByteSize Size {get;}
+        public readonly ByteSize Size;
 
         [MethodImpl(Inline)]
         public Asset(Name name, MemoryAddress address, ByteSize size)
@@ -67,6 +67,9 @@ namespace Z0
 
         public override string ToString()
             => Format();
+
+        MemoryAddress IAddressable.Address
+            => Address;
 
         public static Asset Empty
             => new Asset(Name.Empty, 0, 0);

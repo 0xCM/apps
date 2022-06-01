@@ -26,8 +26,6 @@ namespace Z0
 
         EnumTypes,
 
-        SymSources,
-
         SymGroups,
 
         DataTypes,
@@ -35,5 +33,7 @@ namespace Z0
         BitMasks,
 
         DataFlows,
+
+        Parsers,
     }
 }

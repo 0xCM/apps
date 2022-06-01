@@ -18,52 +18,36 @@ namespace Z0
 
             A_GPR_R = 2,
 
-            [RuleKind(K.EASZ)]
             Ar10 = 3,
 
-            [RuleKind(K.EASZ)]
             Ar11 = 4,
 
-            [RuleKind(K.EASZ)]
             Ar12 = 5,
 
-            [RuleKind(K.EASZ)]
             Ar13 = 6,
 
-            [RuleKind(K.EASZ)]
             Ar14 = 7,
 
-            [RuleKind(K.EASZ)]
             Ar15 = 8,
 
-            [RuleKind(K.EASZ)]
             Ar8 = 9,
 
-            [RuleKind(K.EASZ)]
             Ar9 = 10,
 
-            [RuleKind(K.EASZ)]
             ArAX = 11,
 
-            [RuleKind(K.EASZ)]
             ArBP = 12,
 
-            [RuleKind(K.EASZ)]
             ArBX = 13,
 
-            [RuleKind(K.EASZ)]
             ArCX = 14,
 
-            [RuleKind(K.EASZ)]
             ArDI = 15,
 
-            [RuleKind(K.EASZ)]
             ArDX = 16,
 
-            [RuleKind(K.EASZ)]
             ArSI = 17,
 
-            [RuleKind(K.EASZ)]
             ArSP = 18,
 
             ASZ_NONTERM = 19,

@@ -32,7 +32,6 @@ namespace Z0
             Code.Dispose();
         }
 
-
         public void Clear()
         {
             Code.Clear();

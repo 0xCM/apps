@@ -6,23 +6,29 @@ namespace Z0.Asm
 {
     partial class AsmCases
     {
-        public readonly struct MemOpCase<T>
+        public readonly struct MemOpCase<T> : IAsmCase
             where T : unmanaged, IMemOp<T>
         {
             public readonly T Op;
 
-            public readonly string OpFormat;
+            public readonly string Asm;
 
             [MethodImpl(Inline)]
-            public MemOpCase(T op, string format)
+            public MemOpCase(T op, string asm)
             {
                 Op = op;
-                OpFormat = format;
+                Asm = asm;
             }
+
+            public string Format()
+                => Op.Format();
+
+            public override string ToString()
+                => Format();
 
             [MethodImpl(Inline)]
             public static implicit operator MemOpCase(MemOpCase<T> src)
-                => new MemOpCase(new MemOp(src.Op.Size, src.Op.Address), src.OpFormat);
+                => new MemOpCase(new MemOp(src.Op.Size, src.Op.Address), src.Asm);
         }
     }
 }

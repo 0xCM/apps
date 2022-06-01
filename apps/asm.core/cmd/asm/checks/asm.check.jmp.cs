@@ -13,37 +13,43 @@ namespace Z0
         [CmdOp("asm/check/jmp")]
         void CheckJumps()
         {
-            CheckJcc();
+            var result = CheckJcc();
+            if(result.Fail)
+                Error(result.Message);
             CheckJmp32(n0);
             CheckJmp32(n1);
             CheckJmp32(n2);
         }
 
-        void CheckJcc()
+        Outcome CheckJcc()
         {
             var @case = AsmCaseAssets.create().Branches();
             Utf8.decode(@case.ResBytes, out var doc);
+
             using var dispenser = Alloc.asm();
             var parser = DecodedAsmParser.create(dispenser);
             var result = parser.ParseBlocks(doc);
-            var blocks = parser.Parsed();
-            var view = blocks;
-            var count = view.Length;
-            for(var i=0; i<count; i++)
+            if(result)
             {
-                ref readonly var block = ref skip(view,i);
-                Write(block.Label.Name);
-                var statements = block.Code;
-                var kS = statements.Count;
-                for(var j=0; j<kS; j++)
+                var blocks = parser.Parsed();
+                var view = blocks;
+                var count = view.Length;
+                for(var i=0; i<count; i++)
                 {
-                    ref readonly var statement = ref statements[j];
-                    ref readonly var encoded = ref statement.Encoded;
-                    ref readonly var decoded = ref statement.Decoded;
-                    Write(string.Format("{0,-42} # {1}", decoded, encoded));
+                    ref readonly var block = ref skip(view,i);
+                    Write(block.Label.Name);
+                    var statements = block.Code;
+                    var kS = statements.Count;
+                    for(var j=0; j<kS; j++)
+                    {
+                        ref readonly var statement = ref statements[j];
+                        ref readonly var encoded = ref statement.Encoded;
+                        ref readonly var decoded = ref statement.Decoded;
+                        Write(string.Format("{0,-42} # {1}", decoded, encoded));
+                    }
                 }
             }
-
+            return result;
         }
 
         void CheckJmp32(N1 n)
@@ -70,12 +76,9 @@ namespace Z0
             }
         }
 
-
         void CheckJmp32(N0 n)
         {
             var result = Outcome.Success;
-            //var @case = AsmCaseAssets.create().Switch();
-
             var @base = (MemoryAddress)0x7ffd4512bf30;
             var @return = @base + (MemoryAddress)0x10b7;
             var sz = (byte)5;
@@ -116,7 +119,6 @@ namespace Z0
             if(!actual3.Equals(expect3))
                 Error(string.Format("{0} != {1}", expect3, actual3));
         }
-
 
         void CheckJmp32(N2 n)
         {

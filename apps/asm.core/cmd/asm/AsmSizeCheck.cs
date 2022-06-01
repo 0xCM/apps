@@ -5,7 +5,7 @@
 namespace Z0.Asm
 {
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public struct AsmSizeCheck : IAsmCheck<AsmSizeCheck,NativeSize,BitWidth>
+    public struct AsmSizeCheck
     {
         public NativeSize Input;
 
@@ -28,14 +28,5 @@ namespace Z0.Asm
 
         public override string ToString()
             => Format();
-
-        NativeSize IAsmCheck<AsmSizeCheck, NativeSize, BitWidth>.Input
-            => Input;
-
-        BitWidth IAsmCheck<AsmSizeCheck, NativeSize, BitWidth>.Expect
-            => Expect;
-
-        BitWidth IAsmCheck<AsmSizeCheck, NativeSize, BitWidth>.Actual
-            => Actual;
     }
 }

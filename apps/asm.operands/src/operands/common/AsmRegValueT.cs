@@ -9,9 +9,9 @@ namespace Z0.Asm
     public readonly struct AsmRegValue<T>
         where T : unmanaged
     {
-        public AsmRegName Name {get;}
+        public readonly AsmRegName Name;
 
-        public T Value {get;}
+        public readonly T Value;
 
         [MethodImpl(Inline)]
         public AsmRegValue(AsmRegName name, T value)

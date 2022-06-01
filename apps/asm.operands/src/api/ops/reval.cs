@@ -4,9 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    [ApiHost]
-    public readonly partial struct asm
+    partial struct asm
     {
-        const NumericKind Closure = UnsignedInts;
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static AsmRegValue<T> regval<T>(AsmRegName name, T value)
+            where T : unmanaged
+                => new AsmRegValue<T>(name, value);
     }
 }

@@ -7,17 +7,17 @@ namespace Z0
     /// <summary>
     /// Describes/models a literal text resource
     /// </summary>
-    public struct StringRes : ITextual
+    public readonly struct StringRes
     {
         /// <summary>
         /// The resource identifier
         /// </summary>
-        public FieldInfo Source;
+        public readonly FieldInfo Source;
 
         /// <summary>
         /// The resource address
         /// </summary>
-        public StringAddress Address;
+        public readonly StringAddress Address;
 
         [MethodImpl(Inline)]
         public StringRes(FieldInfo src, StringAddress address)
