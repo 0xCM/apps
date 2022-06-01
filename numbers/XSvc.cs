@@ -11,9 +11,6 @@ namespace Z0
             public Parsers Parsers(IWfRuntime wf)
                 => Service<Parsers>(wf);
 
-            public ApiResProvider ApiResProvider(IWfRuntime wf)
-                => Service<ApiResProvider>(wf);
-
             public CheckRunner CheckRunner(IWfRuntime wf)
                 => Service<CheckRunner>(wf);
 
@@ -43,9 +40,6 @@ namespace Z0
 
         public static Parsers Parsers(this IWfRuntime wf)
             => Services.Parsers(wf);
-
-        public static ApiResProvider ApiResProvider(this IWfRuntime wf)
-            => Services.ApiResProvider(wf);
 
         public static MemorySeqChecks MemorySeqChecks(this IWfRuntime wf)
             => Services.MemorySeqChecks(wf);

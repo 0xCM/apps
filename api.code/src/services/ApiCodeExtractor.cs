@@ -86,7 +86,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 buffer.Clear();
-                dst.Add(ApiExtracts.extract(skip(methods,i), buffer));
+                dst.Add(ApiCode.extract(skip(methods,i), buffer));
                 counter++;
             }
 

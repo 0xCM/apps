@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using api = ApiExtracts;
-
     /// <summary>
     /// Extracts operations from an api host
     /// </summary>
@@ -44,6 +42,6 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public Index<ApiMemberExtract> Extract(ApiMember[] src)
-            => api.extract(src, Buffer);
+            => ApiCode.extract(src, Buffer);
     }
 }

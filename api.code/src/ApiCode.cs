@@ -8,6 +8,12 @@ namespace Z0
 
     public partial class ApiCode : AppService<ApiCode>
     {
+        const int DefaultBufferLength = Pow2.T14 + Pow2.T08;
+
+        [Op]
+        public static byte[] buffer(ByteSize? size = null)
+            => alloc<byte>(size ?? DefaultBufferLength);
+
         ApiJit ApiJit => Service(Wf.ApiJit);
 
         ApiHex ApiHex => Wf.ApiHex();

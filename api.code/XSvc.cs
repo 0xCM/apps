@@ -21,9 +21,17 @@ namespace Z0
             public ApiCodeFiles ApiCodeFiles(IWfRuntime wf)
                 => Service<ApiCodeFiles>(wf);
 
-
             public ApiHexPacks HexPack(IWfRuntime wf)
                 => Service<ApiHexPacks>(wf);
+
+            public ApiCodeExtractor CodeExtractor(IWfRuntime wf)
+                => Service<ApiCodeExtractor>(wf);
+
+            public ApiResolver ApiResolver(IWfRuntime wf)
+                => Service<ApiResolver>(wf);
+
+            public ApiResProvider ApiResProvider(IWfRuntime wf)
+                => Service<ApiResProvider>(wf);
 
         }
 
@@ -37,5 +45,14 @@ namespace Z0
 
         public static ApiHexPacks HexPack(this IWfRuntime wf)
             => Services.HexPack(wf);
+
+        public static ApiCodeExtractor CodeExtractor(this IWfRuntime wf)
+            => Services.CodeExtractor(wf);
+
+        public static ApiResolver ApiResolver(this IWfRuntime wf)
+            => Services.ApiResolver(wf);
+
+        public static ApiResProvider ApiResProvider(this IWfRuntime wf)
+            => Services.ApiResProvider(wf);
     }
 }

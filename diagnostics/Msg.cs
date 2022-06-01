@@ -9,8 +9,5 @@ namespace Z0
     {
         const NumericKind Closure = Root.UnsignedInts;
 
-        public static MsgPattern<ApiHostUri> ExtractingHost => "Extracting {0} members";
-
-        public static MsgPattern<Count,ApiHostUri> ExtractedHost => "Extracted {0} members from {1}";
     }
 }

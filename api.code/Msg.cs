@@ -5,7 +5,7 @@
 
 namespace Z0
 {
-    partial struct Msg
+    struct Msg
     {
         public static MsgPattern<string> ChipCodeNotFound => "Code for chip {0} not found";
 
@@ -27,6 +27,10 @@ namespace Z0
 
         public static MsgPattern<string> NotFound => "'{0}' not found";
 
+
+        public static MsgPattern<ApiHostUri> ExtractingHost => "Extracting {0} members";
+
+        public static MsgPattern<Count,ApiHostUri> ExtractedHost => "Extracted {0} members from {1}";
 
         const NumericKind Closure = Root.UnsignedInts;
     }
