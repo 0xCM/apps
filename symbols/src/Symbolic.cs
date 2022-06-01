@@ -27,6 +27,7 @@ namespace Z0
             seek(found,j++) = store.Find(skip(refs,k++));
             return i;
         }
+
         public static void example()
         {
             var count = 12u;

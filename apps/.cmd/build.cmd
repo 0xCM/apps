@@ -1,2 +1,2 @@
 @echo off
-call %ZDev%\.cmd\build-apps.cmd
+call %ZDev%\.cmd\build.cmd
