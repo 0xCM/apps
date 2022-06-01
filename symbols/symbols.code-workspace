@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "..\\commands"
+		},
+		{
+			"path": "..\\apps\\asm.core"
+		}
+	],
+	"settings": {}
+}

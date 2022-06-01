@@ -97,9 +97,7 @@ namespace Z0
                     {
                         result = DataParser.parse(text.left(content,k), out dst.Address);
                         if(result.Fail)
-                        {
                             break;
-                        }
                         result = DataParser.parse(text.right(content,k), out dst.Data);
                         if(result.Fail)
                         {

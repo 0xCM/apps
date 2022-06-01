@@ -12,7 +12,7 @@ namespace Z0
 
         readonly Index<T> Data;
 
-        internal SortedIndex(T[] src)
+        public SortedIndex(T[] src)
         {
             Array.Sort(src);
             Data = src;

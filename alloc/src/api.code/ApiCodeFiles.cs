@@ -29,6 +29,9 @@ namespace Z0
         public FS.Files AsmFiles(PartId part)
             => Sources().Files(FileKind.Asm).Where(x => x.FileName.StartsWith(part.Format() + "."));
 
+        public ApiPartFiles PartFiles(PartId part)
+            => new ApiPartFiles(part, Sources());
+
         public FS.FilePath AsmPath(ApiHostUri host)
             => Sources().Path(host.FileName(FS.Asm));
 

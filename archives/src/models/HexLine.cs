@@ -4,20 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.IO;
 
-    partial class XTend
-    {
-    }
-
-    public static class XSvc
+    public readonly struct HexlLine<T>
+        where T : unmanaged
     {
 
-        sealed class Svc : AppServices<Svc>
-        {
 
-        }
-
-        static Svc Services => Svc.Instance;
     }
+
 }

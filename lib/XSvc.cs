@@ -26,10 +26,6 @@ namespace Z0
             => Z0.ApiRuntime.create(wf);
 
         [Op]
-        public static ApiIndexBuilder ApiIndexBuilder(this IWfRuntime wf)
-             => Z0.ApiIndexBuilder.create(wf);
-
-        [Op]
         public static ApiJit ApiJit(this IWfRuntime wf)
             => Z0.ApiJit.create(wf);
 

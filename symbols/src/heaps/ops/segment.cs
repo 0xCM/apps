@@ -9,12 +9,38 @@ namespace Z0
     partial class Heaps
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Span<T> segment<T>(in Heap<T> src, uint index)
+        public static Span<T> segment<T>(Heap<T> src, uint index)
         {
-            if(index > src.SegCount - 1)
+            if(index > src.CellCount - 1)
                 return Span<T>.Empty;
             ref readonly var i0 = ref src.Offset(index);
-            if(index < src.SegCount - 1)
+            if(index < src.CellCount - 1)
+                return slice(src.Cells, i0, src.Offset(index + 1) - i0);
+            else
+                return slice(src.Cells, i0);
+        }
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static Span<T> segment<T>(in BinaryHeap src, uint index)
+            where T : unmanaged
+        {
+            if(index > src.CellCount - 1)
+                return Span<T>.Empty;
+            ref readonly var i0 = ref src.Offset(index);
+            if(index < src.CellCount - 1)
+                return slice(src.Cells<T>(), i0, src.Offset(index + 1) - i0);
+            else
+                return slice(src.Cells<T>(), i0);
+        }
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static Span<T> segment<T>(in BinaryHeap<T> src, uint index)
+            where T : unmanaged
+        {
+            if(index > src.CellCount - 1)
+                return Span<T>.Empty;
+            ref readonly var i0 = ref src.Offset(index);
+            if(index < src.CellCount - 1)
                 return slice(src.Cells, i0, src.Offset(index + 1) - i0);
             else
                 return slice(src.Cells, i0);

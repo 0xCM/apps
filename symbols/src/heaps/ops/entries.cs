@@ -29,12 +29,5 @@ namespace Z0
             }
             return entries;
         }
-
-        [MethodImpl(Inline)]
-        public static HeapEntry<K,A,T> entry<K,A,T>(K key, A offset, T length)
-            where K : unmanaged
-            where A : unmanaged
-            where T : unmanaged
-                => new HeapEntry<K,A,T>(key, offset, length);
     }
 }

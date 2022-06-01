@@ -10,7 +10,7 @@ namespace Z0
     partial class AsmCoreCmd
     {
         [CmdOp("symbols/check")]
-        void CheckHeaps()
+        void CheckSymHeaps()
         {
             var src = Heaps.symbols<IFormType>(w32,w8);
             var count = src.EntryCount;
@@ -27,7 +27,7 @@ namespace Z0
                     entry.Offset,
                     entry.Length,
                     remainder,
-                    entry.Key,
+                    entry.Index,
                     text.format(symbol)
                     ));
             }

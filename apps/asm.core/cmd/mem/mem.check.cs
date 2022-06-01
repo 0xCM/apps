@@ -45,7 +45,7 @@ namespace Z0
                     continue;
 
                 var uri = ApiHostUri.define(id, skip(elements,1));
-                hex.Add(new (uri, ApiHex.memory(file)));
+                hex.Add(new (uri, ApiHexPacks.memory(file)));
             }
         }
 
@@ -53,15 +53,10 @@ namespace Z0
             => src + host.FileName(FS.PCsv);
 
 
-        void PackHex()
-        {
-
-        }
-
         void PackHex(FS.FolderPath src, ApiHostUri host)
         {
             var counter = 0u;
-            var memory = ApiHex.memory(csv(src, host));
+            var memory = ApiHexPacks.memory(csv(src, host));
             var blocks = memory.Sort().View;
             var buffer = span<char>(Pow2.T16);
             var dir = AppDb.ApiTargets("capture.test").Dir(string.Format("{0}.{1}", host.Part.Format(), host.HostName));

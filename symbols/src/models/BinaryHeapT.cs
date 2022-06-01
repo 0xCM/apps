@@ -6,16 +6,19 @@ namespace Z0
 {
     using api = Heaps;
 
-    public class Heap<T>
-    {
-        readonly Index<T> Data;
+    using static core;
 
-        readonly Index<uint> Offsets;
+    public readonly ref struct BinaryHeap<T>
+        where T : unmanaged
+    {
+        readonly Span<T> Data;
+
+        readonly Span<uint> Offsets;
 
         public readonly uint CellCount;
 
         [MethodImpl(Inline)]
-        public Heap(Index<T> src, uint[] offsets)
+        public BinaryHeap(Span<T> src, Span<uint> offsets)
         {
             Data = src;
             Offsets = offsets;
@@ -25,12 +28,12 @@ namespace Z0
         public Span<T> Cells
         {
             [MethodImpl(Inline)]
-            get => Data.Edit;
+            get => Data;
         }
 
         [MethodImpl(Inline)]
         public ref uint Offset(uint index)
-            => ref Offsets[index];
+            => ref seek(Offsets, index);
 
         [MethodImpl(Inline)]
         public Span<T> Segment(uint index)
@@ -41,5 +44,13 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Segment(index);
         }
+
+        [MethodImpl(Inline)]
+        public static implicit operator BinaryHeap(BinaryHeap<T> src)
+            => new BinaryHeap(recover<T,byte>(src.Data), src.Offsets);
+
+        [MethodImpl(Inline)]
+        public static implicit operator BinaryHeap<T>(BinaryHeap src)
+            => new BinaryHeap<T>(src.Cells<T>(), src.Offsets);
     }
 }

@@ -10,14 +10,14 @@ namespace Z0
     /// Covers a contiguous <see cref='char'/> sequence
     /// </summary>
     /// <typeparam name="K">The linear index type</typeparam>
-    /// <typeparam name="O">The offset type</typeparam>
+    /// <typeparam name="V">The offset type</typeparam>
     /// <typeparam name="L">The length type</typeparam>
-    public ref struct SymHeap<K,O,L>
+    public ref struct SymHeap<K,V,L>
         where K : unmanaged
-        where O : unmanaged
+        where V : unmanaged
         where L : unmanaged
     {
-        readonly ReadOnlySpan<HeapEntry<K,O,L>> Entries;
+        readonly ReadOnlySpan<HeapEntry<K,V,L>> Entries;
 
         readonly ReadOnlySpan<char> Data;
 
@@ -30,7 +30,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public SymHeap(ReadOnlySpan<HeapEntry<K,O,L>> entries, ReadOnlySpan<char> data)
+        public SymHeap(ReadOnlySpan<HeapEntry<K,V,L>> entries, ReadOnlySpan<char> data)
         {
             Entries = entries;
             Data = data;
@@ -46,15 +46,15 @@ namespace Z0
             => bw32(key);
 
         [MethodImpl(Inline)]
-        public ref readonly HeapEntry<K,O,L> Entry(uint index)
+        public ref readonly HeapEntry<K,V,L> Entry(uint index)
             => ref skip(Entries,index);
 
         [MethodImpl(Inline)]
-        public ref readonly HeapEntry<K,O,L> Entry(K key)
+        public ref readonly HeapEntry<K,V,L> Entry(K key)
             => ref skip(Entries, Index(key));
 
         [MethodImpl(Inline)]
-        public ReadOnlySpan<char> Symbol(in HeapEntry<K,O,L> entry)
+        public ReadOnlySpan<char> Symbol(in HeapEntry<K,V,L> entry)
             => slice(Data,bw32(entry.Offset), bw32(entry.Length));
 
         [MethodImpl(Inline)]

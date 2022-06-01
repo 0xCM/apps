@@ -80,28 +80,6 @@ namespace Z0
             where K : unmanaged, Enum
                 => symbols<K,uint,ushort>();
 
-        // {
-        //     var symbols = Symbols.index<K>();
-        //     var content = text.buffer();
-        //     var count = symbols.Count;
-        //     var offsets = alloc<uint>(count);
-        //     var lengths = alloc<ushort>(count);
-        //     var entries = alloc<HeapEntry<K,uint,ushort>>(count);
-        //     var offset = 0u;
-        //     for(var i=0; i<symbols.Count; i++)
-        //     {
-        //         ref var entry = ref seek(entries,i);
-        //         ref readonly var symbol = ref symbols[i];
-        //         var expr = symbol.Expr.Data;
-        //         var length = (ushort)expr.Length;
-        //         entry = new HeapEntry<K,uint,ushort>(symbol.Kind, offset, length);
-        //         content.Append(expr);
-        //         offset += length;
-        //     }
-
-        //     return new SymHeap<K,uint,ushort>(entries,content.Emit());
-        // }
-
         /// <summary>
         /// Creates a <see cref='SymHeap'/> from a specified <see cref='SymLiteralRow'/> sequence
         /// </summary>

@@ -45,4 +45,17 @@ namespace Z0
             return result;
         }
     }
+
+
+    partial class XTend
+    {
+        public static Index<EncodedMember> EncodedMemberTable(this FS.FilePath src)
+        {
+            ApiCode.index(src, out var dst);
+            return dst;
+        }
+
+        public static Index<string> EncodedMemberAsm(this FS.FilePath src)
+            => src.ReadLines(false);
+    }
 }

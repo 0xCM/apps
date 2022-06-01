@@ -13,13 +13,6 @@ namespace Z0
 
         public BinaryCode Data;
 
-        [MethodImpl(Inline)]
-        public HexDataRow(MemoryAddress address, BinaryCode data)
-        {
-            Address = address;
-            Data = data;
-        }
-
         public static HexDataRow Empty => default;
     }
 }

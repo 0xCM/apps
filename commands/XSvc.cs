@@ -31,5 +31,10 @@ namespace Z0
 
         public static void RedirectEmissions(this IWfRuntime wf, string name, FS.FolderPath dst)
             => wf.RedirectEmissions(Loggers.emission(name, dst));
+
+        [Op]
+        public static ApiIndexBuilder ApiIndexBuilder(this IWfRuntime wf)
+             => Z0.ApiIndexBuilder.create(wf);
+
     }
 }

@@ -4,20 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.IO;
+    using static core;
 
-    partial class XTend
+    partial class Heaps
     {
-    }
-
-    public static class XSvc
-    {
-
-        sealed class Svc : AppServices<Svc>
-        {
-
-        }
-
-        static Svc Services => Svc.Instance;
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static BinaryHeap<T> retype<T>(in BinaryHeap src)
+            where T : unmanaged
+                => src;
     }
 }

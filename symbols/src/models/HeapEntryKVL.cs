@@ -5,27 +5,27 @@
 namespace Z0
 {
     /// <summary>
-    /// Defines a key to access a symbol deposited in a <see cref='SymHeap{K,O,L}'/>
+    /// Defines a key to access a symbol deposited in a <see cref='SymHeap{K,V,L}'/>
     /// </summary>
     /// <typeparam name="K">The linear index type</typeparam>
-    /// <typeparam name="O">The offset type</typeparam>
+    /// <typeparam name="V">The offset type</typeparam>
     /// <typeparam name="L">The length type</typeparam>
     [StructLayout(LayoutKind.Sequential,Pack=1)]
-    public readonly struct HeapEntry<K,O,L>
+    public readonly struct HeapEntry<K,V,L>
         where K : unmanaged
-        where O : unmanaged
+        where V : unmanaged
         where L : unmanaged
     {
-        public readonly K Key;
+        public readonly K Index;
 
-        public readonly O Offset;
+        public readonly V Offset;
 
         public readonly L Length;
 
         [MethodImpl(Inline)]
-        public HeapEntry(K index, O offset, L length)
+        public HeapEntry(K index, V offset, L length)
         {
-            Key = index;
+            Index = index;
             Offset = offset;
             Length = length;
         }

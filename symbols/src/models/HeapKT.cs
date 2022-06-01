@@ -5,7 +5,6 @@
 namespace Z0
 {
     using api = Heaps;
-    using static core;
 
     public class Heap<K,T>
         where K : unmanaged
@@ -16,14 +15,14 @@ namespace Z0
 
         internal readonly uint LastSegment;
 
-        public readonly uint SegCount;
+        public readonly uint CellCount;
 
         [MethodImpl(Inline)]
         public Heap(Index<T> src, Index<K,uint> offsets)
         {
             Data = src;
             Offsets = offsets;
-            SegCount = (uint)Require.equal(src.Length, offsets.Length);
+            CellCount = (uint)Require.equal(src.Length, offsets.Length);
             LastSegment = (uint)offsets.Length - 1;
         }
 
