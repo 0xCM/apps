@@ -11,7 +11,7 @@ namespace Z0.Asm
     {
         public Outcome CheckStringRes()
         {
-            var resources = Resources.strings(typeof(AsciText)).View;
+            var resources = Assets.strings(typeof(AsciText)).View;
             var count = resources.Length;
             return true;
         }

@@ -4,9 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public static partial class XSvc
+    [ApiHost]
+    public readonly partial struct ClrLiterals
     {
+        const BindingFlags BF = ReflectionFlags.BF_All;
 
-
+        const NumericKind Closure = Integers;
     }
 }

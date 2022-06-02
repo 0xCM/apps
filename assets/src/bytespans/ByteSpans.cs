@@ -8,6 +8,26 @@ namespace Z0
 
     public class ByteSpans
     {
+        /// <summary>
+        /// Returns the properties declared by a type that define bytespan resource content
+        /// </summary>
+        /// <typeparam name="T">The defining type</typeparam>
+        public static Index<PropertyInfo> props(Type src)
+            => src.StaticProperties().Where(p => p.PropertyType == typeof(ReadOnlySpan<byte>)).Array();
+
+        public static string bytespan(BinaryResSpec src, int level = 2)
+            => text.concat("public static ReadOnlySpan<byte> ",
+            src.Identifier,
+            Space,
+            " => ",
+            Space,
+            $"new byte[{src.Encoded.Length}]",
+            Chars.LBrace,
+            src.Encoded.Format(HexFormatSpecs.HexArray),
+            Chars.RBrace,
+            Chars.Semicolon
+            );
+
         [MethodImpl(Inline), Op]
         public static ByteSpanSpec specify(Identifier name, BinaryCode data, bool @static = true)
             => new ByteSpanSpec(name, data, @static);
@@ -44,14 +64,10 @@ namespace Z0
         {
             var view = src.View;
             var count = view.Length;
-            var buffer = alloc<ByteSpanSpec>(count);
-            ref var dst = ref first(buffer);
+            var dst = alloc<ByteSpanSpec>(count);
             for(var i=0; i<count; i++)
-            {
-                ref readonly var sym = ref skip(view,i);
-                seek(dst,i) = name(sym);
-            }
-            return buffer;
+                seek(dst,i) = name(skip(view,i));
+            return dst;
         }
 
         [Op]
@@ -87,17 +103,6 @@ namespace Z0
                 => specify(src.Name, text.utf16(src.Name).ToArray());
 
         [Op]
-        public static ApiCodeRes coderes(string id, ReadOnlySpan<CodeBlock> src)
-        {
-            var count = src.Length;
-            var buffer = alloc<BinaryResSpec>(count);
-            var dst = span(buffer);
-            for(var i=0u; i<count; i++)
-                seek(dst,i) = new BinaryResSpec(string.Format("{0}_{1}", id, i), skip(src,i));
-            return new ApiCodeRes(buffer);
-        }
-
-        [Op]
         public static ApiHostRes hostres(ApiHostBlocks src)
         {
             var count = src.Length;
@@ -107,8 +112,7 @@ namespace Z0
             for(var i=0u; i<count; i++)
             {
                 ref readonly var code = ref skip(blocks,i);
-                var name = LegalIdentityBuilder.code(code.Id);
-                seek(dst,i) = new BinaryResSpec(name, code.Encoded);
+                seek(dst,i) = new BinaryResSpec(LegalIdentityBuilder.code(code.Id), code.Encoded);
             }
             return new ApiHostRes(src.Host, buffer);
         }

@@ -10,7 +10,7 @@ namespace Z0
 
     public partial class IntelIntrinsics : AppService<IntelIntrinsics>
     {
-        static internal ref readonly Assets Assets => ref PartAssets;
+        static internal ref readonly PartAssets Assets => ref AssetData;
 
         AppSvcOps AppSvc => Wf.AppSvc();
 

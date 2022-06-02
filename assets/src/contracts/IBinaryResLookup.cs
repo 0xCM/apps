@@ -4,30 +4,29 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Linq;
-    using System.Collections;
+    // using System.Linq;
+    // using System.Collections;
 
+    // /// <summary>
+    // /// Characterizes a finite container over sequentially-indexed discrete content - an array
+    // /// </summary>
+    // /// <typeparam name="T">The element type</typeparam>
+    // [Free]
+    // public interface IContentIndex<T> : IContented<T[]>, IMeasured, IEnumerable<T>
+    // {
+    //     IEnumerator IEnumerable.GetEnumerator()
+    //         => Content.GetEnumerator();
 
-    /// <summary>
-    /// Characterizes a finite container over sequentially-indexed discrete content - an array
-    /// </summary>
-    /// <typeparam name="T">The element type</typeparam>
-    [Free]
-    public interface IContentIndex<T> : IContented<T[]>, IMeasured, IEnumerable<T>
-    {
-        IEnumerator IEnumerable.GetEnumerator()
-            => Content.GetEnumerator();
+    //     IEnumerator<T> IEnumerable<T>.GetEnumerator()
+    //         => Content.ToList().GetEnumerator();
 
-        IEnumerator<T> IEnumerable<T>.GetEnumerator()
-            => Content.ToList().GetEnumerator();
+    //     int IMeasured.Length
+    //         => Content?.Length ?? 0;
 
-        int IMeasured.Length
-            => Content?.Length ?? 0;
+    //     ref T this[int index]
+    //         => ref Content[index];
 
-        ref T this[int index]
-            => ref Content[index];
-
-        ref T Lookup(int index)
-            => ref this[index];
-    }
+    //     ref T Lookup(int index)
+    //         => ref this[index];
+    // }
 }

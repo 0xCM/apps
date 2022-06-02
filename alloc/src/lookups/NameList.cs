@@ -47,6 +47,6 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator NameList((string name, string[] names) src)
-            => Named.list(src.name, src.names);
+            => (src.name, src.names.Select(x => (Name)x));
     }
 }

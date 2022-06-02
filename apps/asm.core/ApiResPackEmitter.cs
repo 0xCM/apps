@@ -99,7 +99,7 @@ namespace Z0
                 ref readonly var res = ref resources[i];
                 if(!members.Contains(res.Identifier))
                 {
-                    EmitMember(writer, AssetServices.bytespan(res));
+                    EmitMember(writer, ByteSpans.bytespan(res));
                     members.Add(res.Identifier);
                 }
             }

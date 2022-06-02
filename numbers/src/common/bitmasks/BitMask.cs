@@ -60,12 +60,12 @@ namespace Z0
                     var nbk = NumericBases.kind(nbi);
 
                     if(nbi != 0)
-                        seek(dst, i) = BitMaskData.describe(Numeric.literal(nbk, src.Name, value, component.Substring(1)));
+                        seek(dst, i) = BitMaskData.describe(ClrLiterals.numeric(nbk, src.Name, value, component.Substring(1)));
                     else
                     {
                         nbi = NumericBases.indicator(component[length - 1]);
                         nbi = nbi != 0 ? nbi : NBI.Base2;
-                        seek(dst, i) = BitMaskData.describe(Numeric.literal(nbk, src.Name, value, component.Substring(0, length - 1)));
+                        seek(dst, i) = BitMaskData.describe(ClrLiterals.numeric(nbk, src.Name, value, component.Substring(0, length - 1)));
                     }
                 }
                 else

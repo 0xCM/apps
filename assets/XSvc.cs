@@ -11,15 +11,14 @@ namespace Z0
 
         sealed class Svc : AppServices<Svc>
         {
-            public AssetServices Assets(IWfRuntime wf)
-                => Service<AssetServices>(wf);
+            public Assets Assets(IWfRuntime wf)
+                => Service<Assets>(wf);
+
         }
 
         static Svc Services => Svc.Instance;
 
-
-        public static AssetServices Assets(this IWfRuntime wf)
+        public static Assets Assets(this IWfRuntime wf)
             => Services.Assets(wf);
-
     }
 }

@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.DynamicModels
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Reflection;
-
     public static class MemberValuePredicate
     {
         public static IMemberValuePredicate Define(IOperator Operator, MemberInfo Member, object Value)

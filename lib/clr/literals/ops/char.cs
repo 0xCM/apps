@@ -4,9 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public static partial class XSvc
+    partial struct ClrLiterals
     {
-
-
+        [MethodImpl(Inline), Op]
+        public static char @char(FieldInfo f)
+            => (char)f.GetRawConstantValue();
     }
 }

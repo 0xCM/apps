@@ -4,42 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection;
-    using System.Runtime.CompilerServices;
-    using System.IO;
-
-    using static Root;
-    using static core;
-
     public readonly struct ComponentAssets : IIndex<Asset>
     {
-        [Op]
-        public static ComponentAssets from(Assembly src)
-            => new ComponentAssets(src, collect(src));
-
-        [Op]
-        static unsafe Index<Asset> collect(Assembly src)
-        {
-            var resnames = @readonly(src.GetManifestResourceNames());
-            var count = resnames.Length;
-            if(count == 0)
-                return array<Asset>();
-
-            var buffer = alloc<Asset>(count);
-            var target = span(buffer);
-            for(var i=0u; i<count; i++)
-            {
-                ref readonly var name = ref skip(resnames, i);
-                var stream = (UnmanagedMemoryStream)src.GetManifestResourceStream(name);
-                seek(target,i) = Resources.descriptor(name, stream.PositionPointer, (uint)stream.Length);
-            }
-            return buffer;
-        }
+        public readonly Assembly Source;
 
         readonly Index<Asset> Data;
-
-        public Assembly Source {get;}
 
         [MethodImpl(Inline)]
         public ComponentAssets(Assembly src, Index<Asset> descriptors)
@@ -48,7 +17,7 @@ namespace Z0
             Source = src;
         }
 
-        public uint ResourceCount
+        public uint Count
         {
             [MethodImpl(Inline)]
             get => Data.Count;

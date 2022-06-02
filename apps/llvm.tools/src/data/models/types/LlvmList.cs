@@ -87,9 +87,7 @@ namespace Z0.llvm
         }
 
         public NameList ToNameList()
-        {
-            return Named.list(Name, this.Map(x => x.Value));
-        }
+            => (Name, this.Map(x => x.Value));
 
         [MethodImpl(Inline)]
         public static implicit operator LlvmList((FS.FilePath path, LlvmListItem[] items) src)

@@ -8,7 +8,7 @@ namespace Z0
     {
         Assembly DataSource {get;}
 
-        ReadOnlySpan<Asset> Descriptors {get;}
+        ReadOnlySpan<Asset> Data {get;}
 
         ref readonly Asset Asset(ResourceName id);
     }

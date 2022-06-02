@@ -13,29 +13,26 @@ namespace Z0
         public Assembly DataSource
             => typeof(T).Assembly;
 
-        ComponentAssets _Descriptors;
+        readonly ComponentAssets Components;
 
         protected Assets()
         {
-            _Descriptors = ComponentAssets.from(DataSource);
+            Components = Assets.descriptors(DataSource);
         }
 
         public ref readonly Asset Asset(ResourceName id)
         {
-            var matches = _Descriptors.Filter(id);
-            if(matches.ResourceCount == 0)
-            {
-                var msg = string.Format("The assembly {0}, loaded from {1}, does not contain a resource with identifier {2}", DataSource.GetSimpleName(), DataSource.Location, id);
-                core.@throw(msg);
-            }
+            var matches = Components.Filter(id);
+            if(matches.Count == 0)
+                Errors.Throw(string.Format("The assembly {0}, loaded from {1}, does not contain a resource with identifier {2}", DataSource.GetSimpleName(), DataSource.Location, id));
 
             return ref matches[0];
         }
 
-        public ReadOnlySpan<Asset> Descriptors
+        public ReadOnlySpan<Asset> Data
         {
             [MethodImpl(Inline)]
-            get => _Descriptors.View;
+            get => Components.View;
         }
     }
 }

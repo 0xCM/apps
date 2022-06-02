@@ -4,26 +4,28 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using api = Resources;
-
+    using System.IO;
     /// <summary>
     /// Describes an embedded resource
     /// </summary>
     public readonly struct Asset : IComparable<Asset>, IEquatable<Asset>, IAddressable
     {
-        public readonly Name Name {get;}
+        public readonly string Name;
 
         public readonly MemoryAddress Address;
 
         public readonly ByteSize Size;
 
         [MethodImpl(Inline)]
-        public Asset(Name name, MemoryAddress address, ByteSize size)
+        public Asset(string name, MemoryAddress address, ByteSize size)
         {
             Name = name;
             Address = address;
             Size = size;
         }
+
+        public FS.FileName FileName
+            => FS.file(Name.ReplaceAny(Path.GetInvalidPathChars(), Chars.Underscore), FS.Txt);
 
         public BitWidth Width
         {
@@ -40,18 +42,18 @@ namespace Z0
         public ReadOnlySpan<byte> ResBytes
         {
             [MethodImpl(Inline)]
-            get => api.view(this);
+            get => Assets.view(this);
         }
 
         public AssetCatalogEntry CatalogEntry
         {
             [MethodImpl(Inline)]
-            get => api.entry(this);
+            get => Assets.entry(this);
         }
 
         [MethodImpl(Inline)]
         public bool NameLike(string match)
-            => Name.Format().Contains(match);
+            => Name.Contains(match);
 
         [MethodImpl(Inline)]
         public int CompareTo(Asset src)
@@ -72,6 +74,6 @@ namespace Z0
             => Address;
 
         public static Asset Empty
-            => new Asset(Name.Empty, 0, 0);
+            => new Asset(EmptyString, 0, 0);
     }
 }

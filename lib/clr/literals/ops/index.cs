@@ -4,9 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public static partial class XSvc
+    partial struct ClrLiterals
     {
-
-
+        [MethodImpl(Inline)]
+        public static EnumValues<E,T> index<E,T>(EnumValue<E,T>[] src)
+            where E : unmanaged, Enum
+            where T : unmanaged
+                => new EnumValues<E,T>(src);
     }
 }
