@@ -9,15 +9,15 @@ namespace Z0
     {
         public readonly struct ChipMap
         {
-            readonly ConstLookup<ChipCode,IsaKinds> Data;
+            readonly ConstLookup<ChipCode,InstIsaKinds> Data;
 
             [MethodImpl(Inline)]
-            public ChipMap(ConstLookup<ChipCode,IsaKinds> src)
+            public ChipMap(ConstLookup<ChipCode,InstIsaKinds> src)
             {
                 Data = src;
             }
 
-            public IsaKinds this[ChipCode code]
+            public InstIsaKinds this[ChipCode code]
             {
                 [MethodImpl(Inline)]
                 get => Data[code];
@@ -28,13 +28,13 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get => Data.Keys;
             }
-            public ReadOnlySpan<IsaKinds> Kinds
+            public ReadOnlySpan<InstIsaKinds> Kinds
             {
                 [MethodImpl(Inline)]
                 get => Data.Values;
             }
 
-            public static ChipMap Empty => new ChipMap(core.dict<ChipCode,IsaKinds>());
+            public static ChipMap Empty => new ChipMap(core.dict<ChipCode,InstIsaKinds>());
         }
     }
 }

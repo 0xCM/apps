@@ -257,6 +257,10 @@ namespace Z0
 
             PPRO,
 
+            PPRO_UD0_LONG,
+
+            PPRO_UD0_SHORT,
+
             PREFETCHW,
 
             PREFETCHWT1,
@@ -309,13 +313,16 @@ namespace Z0
 
             SSE42,
 
-            SSE4A,
+            SSE4a,
 
             SSEMXCSR,
 
             SSE_PREFETCH,
+
             SSSE3,
+
             SSSE3MMX,
+
             SVM,
             TBM,
 

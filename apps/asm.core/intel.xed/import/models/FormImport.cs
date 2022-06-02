@@ -12,7 +12,7 @@ namespace Z0
         [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
         public struct FormImport : IComparable<FormImport>, ISequential<FormImport>
         {
-            public const string TableId = "xed.iform";
+            const string TableId = "xed.iform";
 
             [Render(8)]
             public ushort Seq;
@@ -20,7 +20,7 @@ namespace Z0
             [Render(8)]
             public ushort FormId;
 
-            [Render(60)]
+            [Render(64)]
             public InstForm InstForm;
 
             [Render(20)]
@@ -33,7 +33,7 @@ namespace Z0
             public InstIsaKind IsaKind;
 
             [Render(16)]
-            public ExtensionKind Extension;
+            public Extension Extension;
 
             [Render(1)]
             public InstAttribs Attributes;

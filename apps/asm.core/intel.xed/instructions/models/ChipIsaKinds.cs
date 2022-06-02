@@ -11,10 +11,10 @@ namespace Z0
         {
             public readonly ChipCode Chip;
 
-            public readonly IsaKinds Kinds;
+            public readonly InstIsaKinds Kinds;
 
             [MethodImpl(Inline)]
-            public ChipIsaKinds(ChipCode chip, IsaKinds kinds)
+            public ChipIsaKinds(ChipCode chip, InstIsaKinds kinds)
             {
                 Chip = chip;
                 Kinds = kinds;

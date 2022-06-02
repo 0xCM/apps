@@ -507,6 +507,9 @@ namespace Z0
             return false;
         }
 
+        public static bool parse(string src, out ExtensionKind dst)
+            => ExtensionKinds.Parse(src, out dst);
+
         public static bool parse(string src, out Extension dst)
         {
             dst = default;
@@ -687,9 +690,6 @@ namespace Z0
 
         public static bool parse(string src, out SMODE dst)
             => SModes.Parse(src, out dst);
-
-        public static bool parse(string src, out ExtensionKind dst)
-            => ExtensionKinds.Parse(src, out dst);
 
         public bool Parse(string src, out OpCodeKind dst)
             => OpCodeKinds.Parse(src, out dst);

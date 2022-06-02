@@ -137,7 +137,7 @@ namespace Z0
 
             SSE4,
 
-            SSE4A,
+            SSE4a,
 
             SSSE3,
 

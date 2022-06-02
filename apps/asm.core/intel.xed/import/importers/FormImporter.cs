@@ -21,28 +21,50 @@ namespace Z0
                 var src = CalcFormSources(path);
                 var count = src.Count;
                 var dst = alloc<FormImport>(count);
-                parse(src,dst);
+                parse(src, dst);
                 return dst.Sort().Resequence();
             }
 
             static void parse(ReadOnlySpan<FormSource> src, Span<FormImport> dst)
             {
                 for(var i=z16; i<src.Length; i++)
-                    parse(src[i], i, out seek(dst,i)).Require();
+                {
+                    var result = parse(skip(src,i), i, out seek(dst,i));
+                    if(result.Fail)
+                        term.warn(EventFactory.warn(typeof(XedImport), result.Message).Format());
+                }
             }
 
             static Outcome parse(in FormSource src, ushort seq, out FormImport dst)
             {
                 var result = Outcome.Success;
+                dst = FormImport.Empty;
+
                 result = XedParsers.parse(src.Class, out dst.InstClass);
-                result = DataParser.eparse(src.Extension, out dst.Extension);
-                result = DataParser.eparse(src.Category, out dst.Category);
+                if(result.Fail)
+                    return (false, AppMsg.ParseFailure.Format(nameof(src.Class), src.Class));
+
+                result = XedParsers.parse(src.Extension, out dst.Extension);
+                if(result.Fail)
+                    return (false, AppMsg.ParseFailure.Format(nameof(src.Extension), src.Extension));
+
+                result = XedParsers.parse(src.Category, out dst.Category);
+                if(result.Fail)
+                    return (false, AppMsg.ParseFailure.Format(nameof(src.Category), src.Category));
+
                 result = XedParsers.parse(src.Form, out dst.InstForm);
+                if(result.Fail)
+                    return (false, AppMsg.ParseFailure.Format(nameof(src.Form), src.Form));
+
                 dst.Seq = (ushort)dst.InstForm.Kind;
                 dst.FormId = (ushort)dst.InstForm.Kind;
-                result = DataParser.eparse(src.IsaSet, out dst.IsaKind);
+
+                result = XedParsers.parse(src.IsaSet, out dst.IsaKind);
+                if(result.Fail)
+                    return (false, AppMsg.ParseFailure.Format(nameof(src.IsaSet), src.IsaSet));
+
                 dst.Attributes = XedPatterns.attributes(src.Attributes);
-                return true;
+                return result;
             }
 
             public static ReadOnlySpan<FormImport> LoadImported()
@@ -53,18 +75,18 @@ namespace Z0
                 Index<FormImport> Load()
                 {
                     var src = XedPaths.Service.FormCatalogPath();
-                    var counter = 0u;
+                    var seq = z16;
                     var outcome = Outcome.Success;
                     var dst = list<FormImport>();
                     using var reader = src.AsciReader();
                     reader.ReadLine();
                     while(!reader.EndOfStream)
                     {
-                        var line = reader.ReadLine(counter);
+                        var line = reader.ReadLine(seq);
                         if(line.StartsWith(CommentMarker) || line.IsEmpty)
                             continue;
 
-                        outcome = parse(line.Content, out FormImport row);
+                        outcome = parse(line.Content,  out FormImport row);
                         if(outcome)
                             dst.Add(row);
                         else
@@ -72,7 +94,7 @@ namespace Z0
                             term.warn(outcome.Message.Replace("{", "{{").Replace("}","}}"));
                         }
 
-                        counter++;
+                        seq++;
                     }
                     if(outcome)
                         return dst.ToArray();
@@ -103,15 +125,15 @@ namespace Z0
                 if(result.Fail)
                     return (false, AppMsg.ParseFailure.Format(nameof(dst.InstClass), reader.Prior()));
 
-                result = DataParser.eparse(reader.Next(), out dst.Category);
+                result = XedParsers.parse(reader.Next(), out dst.Category);
                 if(result.Fail)
                     return (false, AppMsg.ParseFailure.Format(nameof(dst.Category), reader.Prior()));
 
-                result = DataParser.eparse(reader.Next(), out dst.IsaKind);
+                result = XedParsers.parse(reader.Next(), out dst.IsaKind);
                 if(result.Fail)
                     return (false, AppMsg.ParseFailure.Format(nameof(dst.IsaKind), reader.Prior()));
 
-                result = DataParser.eparse(reader.Next(), out dst.Extension);
+                result = XedParsers.parse(reader.Next(), out dst.Extension);
                 if(result.Fail)
                     return (false, AppMsg.ParseFailure.Format(nameof(dst.Extension), reader.Prior()));
 

@@ -49,14 +49,14 @@ namespace Z0
                 }
             }
             var codes = Symbols.index<ChipCode>();
-            var buffer = dict<ChipCode,IsaKinds>();
+            var buffer = dict<ChipCode,InstIsaKinds>();
             for(var i=0; i<codes.Count; i++)
             {
                 var code = codes[i].Kind;
                 if(chips.TryGetValue(code, out var entry))
                     buffer[code] = entry.Kinds;
                 else
-                    buffer[code] = XedModels.IsaKinds.Empty;
+                    buffer[code] = XedModels.InstIsaKinds.Empty;
             }
             return new ChipMap(buffer);
         }
