@@ -9,27 +9,28 @@ namespace Z0
 
     partial class XedDisasm
     {
-        sealed class Analyzer : Target
+        public sealed class Analyzer : Target<Analyzer>
         {
             const string PaddedSlots = "{0,-24} | {1}";
 
             readonly ITextEmitter Output;
 
-            readonly IAppService Wf;
+            AppSvcOps AppSvc => Wf.AppSvc();
 
-            WfExecFlow<FileRef> CurrentFlow;
-
-            public Analyzer(IAppService svc)
+            protected override void Initialized()
             {
-                Wf = svc;
                 Running += OnBegin;
                 Ran += OnEnd;
                 OpStateComputed += Handle;
-                Output = text.buffer();
                 ComputingInst += OnBegin;
                 ComputedInst += OnEnd;
                 FieldsComputed += Handle;
                 OpDetailComputed += Handle;
+            }
+
+            public Analyzer()
+            {
+                Output = text.buffer();
             }
 
             void OnBegin(uint seq, in Instruction src)
@@ -79,11 +80,15 @@ namespace Z0
                 Output.Clear();
             }
 
+            FS.FileName TargetFile()
+                => FS.file(string.Format("{0}.{1}", text.left(CurrentFile.Path.FileName.Format(), Chars.Dot), "xed.disasm.flow"), FS.Txt);
+
+            FS.FilePath TargetPath()
+                => Context.Project.Datasets() + FS.folder("xed.disasm") + TargetFile();
+
             void OnEnd(DisasmToken src)
             {
-                var name = text.left(CurrentFile.Path.FileName.Format(),Chars.Dot);
-                var path = Context.Project.Datasets() + FS.folder("xed.disasm") +  FS.file(string.Format("{0}.{1}",name, "xed.disasm.flow"), FS.Txt);
-                Wf.WfEmit.FileEmit(Output.Emit(), 0, path, TextEncodingKind.Asci);
+                AppSvc.FileEmit(Output.Emit(), 0, TargetPath());
             }
         }
     }

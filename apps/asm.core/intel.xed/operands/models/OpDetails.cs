@@ -6,9 +6,8 @@
 namespace Z0
 {
     using static XedModels;
-    using static XedDisasmModels;
 
-    partial class XedDisasm
+    partial class XedRules
     {
         public readonly struct OpDetails : IIndex<OpDetail>
         {

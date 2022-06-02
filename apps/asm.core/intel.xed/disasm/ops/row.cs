@@ -14,25 +14,25 @@ namespace Z0
 
     partial class XedDisasm
     {
-        static Dictionary<OpNameKind,Operand> ops(in DisasmState state, in AsmHexCode code)
+        static Dictionary<OpNameKind,OpData> ops(in DisasmState state, in AsmHexCode code)
         {
-            var dst = dict<OpNameKind,Operand>();
+            var dst = dict<OpNameKind,OpData>();
             var values = XedCode.ops(state.RuleState, code);
             var count = values.Count;
             for(var i=0; i<count; i++)
             {
                 ref readonly var value = ref values[i];
-                dst.TryAdd(value.Name, new Operand(value));
+                dst.TryAdd(value.Name, new OpData(value));
             }
 
             if(state.RELBRVal.IsNonZero)
-                dst[OpNameKind.RELBR] = new Operand(OpNameKind.RELBR, state.RELBRVal);
+                dst[OpNameKind.RELBR] = new OpData(OpNameKind.RELBR, state.RELBRVal);
             if(state.MEM0Val.IsNonEmpty)
-                dst[OpNameKind.MEM0] = new Operand(OpNameKind.MEM0, state.MEM0Val);
+                dst[OpNameKind.MEM0] = new OpData(OpNameKind.MEM0, state.MEM0Val);
             if(state.MEM1Val.IsNonEmpty)
-                dst[OpNameKind.MEM1] = new Operand(OpNameKind.MEM1, state.MEM1Val);
+                dst[OpNameKind.MEM1] = new OpData(OpNameKind.MEM1, state.MEM1Val);
             if(state.AGENVal.IsNonEmpty)
-                dst[OpNameKind.AGEN] = new Operand(OpNameKind.AGEN, state.AGENVal);
+                dst[OpNameKind.AGEN] = new OpData(OpNameKind.AGEN, state.AGENVal);
             return dst;
         }
 

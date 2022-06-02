@@ -4,19 +4,31 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System.IO;
+
+    using static core;
+
     partial class text
     {
-        /// <summary>
-        /// Appends each source items to a target stream, appending an EOL after each
-        /// </summary>
-        /// <param name="src">The data source</param>
-        [Op]
-        public static string lines(params string[] src)
+        [MethodImpl(Inline), Op]
+        public static Index<string> lines(string src, bool keepblank = false, bool trim = true)
         {
-            var dst = buffer();
-            foreach(var item in src)
-                dst.AppendLine(item.Trim());
-            return dst.ToString();
+            var k=0u;
+            var dst = list<string>();
+            using(var reader = new StringReader(src))
+            {
+                var next = reader.ReadLine();
+                while(next != null)
+                {
+                    if(text.blank(next))
+                        if(keepblank)
+                            dst.Add(next);
+                    else
+                        dst.Add(trim ? text.trim(next) : next);
+                    next = reader.ReadLine();
+                }
+            }
+            return dst.ToArray();
         }
     }
 }

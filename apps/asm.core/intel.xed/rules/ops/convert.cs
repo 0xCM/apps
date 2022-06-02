@@ -6,6 +6,7 @@
 namespace Z0
 {
     using Asm;
+    using static core;
 
     using static XedModels;
 
@@ -13,6 +14,7 @@ namespace Z0
 
     partial class XedRules
     {
+
         [Op]
         public static bool convert(XedFlagEffect src, out FlagEffect dst)
         {

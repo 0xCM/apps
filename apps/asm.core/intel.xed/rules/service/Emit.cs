@@ -39,16 +39,17 @@ namespace Z0
         void EmitRuleDeps()
             => Emit(CalcFieldDeps());
 
+
         public void EmitCatalog(Index<InstPattern> patterns, RuleTables rules)
         {
             exec(PllExec,
+                EmitRuleBlocks,
                 () => AppSvc.TableEmit(OpCodeKinds.Instance.Records, XedPaths.Table<OcMapKind>()),
                 () => Emit(mapi(RuleMacros.matches().Values.ToArray().Sort(), (i,m) => m.WithSeq((uint)i))),
                 () => Emit(CalcMacroDefs().View),
                 () => Emit(XedFields.Defs.Positioned),
                 () => AppSvc.TableEmit(Xed.Views.InstOpSpecs, XedPaths.InstTable<InstOpSpec>()),
                 EmitRuleDeps
-                //() => ApiMd.EmitTokens(XedFields.EffectiveFields.create(), XedPaths.Target("xed.fields.symbolic", FS.Csv))
             );
 
             Emit(patterns, rules);

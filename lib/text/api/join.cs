@@ -13,6 +13,10 @@ namespace Z0
             => string.Join(sep, src);
 
         [Op, Closures(Closure)]
+        public static string join<T>(string sep, Index<T> src)
+            => string.Join(sep, src.Storage);
+
+        [Op, Closures(Closure)]
         public static string join<T>(string sep, params T[] src)
             => string.Join(sep, src);
 

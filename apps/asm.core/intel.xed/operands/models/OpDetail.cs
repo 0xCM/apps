@@ -6,9 +6,8 @@
 namespace Z0
 {
     using static XedModels;
-    using static XedRules;
 
-    partial class XedDisasm
+    partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential, Pack=1)]
         public record struct OpDetail
@@ -19,17 +18,11 @@ namespace Z0
 
             public OpName OpName;
 
-            public Operand Def;
+            public OpData Def;
 
             public @string RuleDescription;
 
             public TextBlock DefDescription;
-
-            public OpAction Action
-            {
-                [MethodImpl(Inline)]
-                get => Spec.Action;
-            }
 
             public string Format()
                 => DefDescription;

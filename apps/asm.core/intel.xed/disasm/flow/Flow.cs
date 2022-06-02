@@ -21,22 +21,20 @@ namespace Z0
                 Context = context;
             }
 
-            public void Run(in FileRef src, ITarget dst)
+            public DisasmToken Run(in FileRef src, ITarget dst)
             {
                 var token = dst.Starting(Context,src);
                 if(token.IsNonEmpty)
                 {
                     var doc = detail(Context, src);
                     var lookup = doc.Blocks.Select(x => (x.DetailRow.IP, x)).ToDictionary();
-                    var keys = lookup.Keys.Array().Sort();
-                    var blocks = alloc<DetailBlock>(keys.Length);
-                    for(var i=0u; i<keys.Length; i++)
+                    var keys = lookup.Keys.Array().Sort().Index();
+                    var blocks = alloc<DetailBlock>(keys.Count);
+                    for(var i=0u; i<keys.Count; i++)
                     {
-                        ref readonly var ip = ref skip(keys,i);
-                        var srcBlock = lookup[ip];
-                        ref var detail = ref srcBlock.DetailRow;
-                        detail.Seq = i;
-                        seek(blocks,i) = srcBlock.WithRow(detail);
+                        var block = lookup[keys[i]];
+                        block.DetailRow.Seq = i;
+                        seek(blocks,i) = block.WithRow(block.DetailRow);
                     }
 
                     for(var i=0u; i<blocks.Length; i++)
@@ -44,6 +42,7 @@ namespace Z0
 
                     dst.Finished(token);
                 }
+                return token;
             }
 
             void Step(uint seq, in DetailBlock src, ITarget dst)
@@ -59,8 +58,8 @@ namespace Z0
 
                 dst.Computing(seq, src.Instruction);
 
-                var xdis = asminfo(lines);
-                dst.Computed(seq, xdis);
+                var asminfo = XedDisasm.asminfo(lines);
+                dst.Computed(seq, asminfo);
 
                 var props = InstFieldValues.Empty;
                 XedDisasm.parse(lines, out props);
@@ -72,7 +71,6 @@ namespace Z0
 
                 var kinds = fields.MemberKinds();
                 dst.Computed(seq, kinds);
-
                 dst.Computed(seq, ops);
 
                 var state = OperandState.Empty;

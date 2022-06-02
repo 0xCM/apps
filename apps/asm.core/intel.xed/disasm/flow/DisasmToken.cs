@@ -7,6 +7,9 @@ namespace Z0
 {
     partial class XedDisasm
     {
+        /// <summary>
+        /// Identifies a disassembly workflow
+        /// </summary>
         public readonly record struct DisasmToken
         {
             readonly ulong Data;

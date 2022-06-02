@@ -33,7 +33,7 @@ namespace Z0
         [CmdOp("xed/emit/expr")]
         Outcome EmitRuleExpr(CmdArgs args)
         {
-            Rules.Emit(RuleExpr);
+            Rules.Emit(Xed.Views.RuleExpr);
             return true;
         }
 
@@ -179,21 +179,21 @@ namespace Z0
         Outcome EmitRuleTables(CmdArgs args)
         {
             Write("Emitting rules");
-            Rules.EmitRuleData(RuleTables);
+            Rules.EmitRuleData(Xed.Views.RuleTables);
             return true;
         }
 
         [CmdOp("xed/emit/rules/pages")]
         Outcome EmitTableDefs(CmdArgs args)
         {
-            Rules.EmitRulePages(RuleTables);
+            Rules.EmitRulePages(Xed.Views.RuleTables);
             return true;
         }
 
         [CmdOp("xed/emit/rules/specs")]
         Outcome EmitTableCells(CmdArgs args)
         {
-            Rules.EmitTableSpecs(RuleTables);
+            Rules.EmitTableSpecs(Xed.Views.RuleTables);
             return true;
         }
 

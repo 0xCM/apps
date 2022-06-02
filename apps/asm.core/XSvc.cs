@@ -37,12 +37,6 @@ namespace Z0
             public XedDocs XedDocs(IWfRuntime wf, XedRuntime xed)
                 => Service<XedDocs>(wf).With(xed);
 
-            // public AsmCmdRt AsmCmdRt(IWfRuntime wf, Index<ICmdProvider> providers, bool start = true)
-            //     => Service<AsmCmdRt>(wf, _ => runtime(wf, providers, start));
-
-            // public AsmCmdRt AsmCmdRt(IWfRuntime wf, bool start = true)
-            //     => Service<AsmCmdRt>(wf, _ => runtime(wf, sys.empty<ICmdProvider>(), start));
-
             public CoffServices CoffServices(IWfRuntime wf)
                 => Service<CoffServices>(wf);
 
@@ -81,6 +75,9 @@ namespace Z0
 
             public X86Dispatcher X86Dispatcher(IWfRuntime wf)
                 => Service<X86Dispatcher>(wf);
+
+            public XedDisasm.Analyzer DisasmAnalyzer(IWfRuntime wf)
+                => Z0.XedDisasm.Analyzer.create(wf);
         }
 
         static Svc Services => Svc.Instance;
@@ -120,6 +117,9 @@ namespace Z0
 
         public static AsmObjects AsmObjects(this IWfRuntime wf)
             => Services.AsmObjects(wf);
+
+        public static XedDisasm.Analyzer DisasmAnalyser(this IWfRuntime wf)
+            => Services.DisasmAnalyzer(wf);
 
         public static XedTool XedTool(this IWfRuntime wf)
             => Services.XedTool(wf);

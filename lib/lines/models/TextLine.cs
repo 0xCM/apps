@@ -117,9 +117,6 @@ namespace Z0
         public bool EndsWith(string match)
             => IsNonEmpty && Content.EndsWith(match);
 
-        // public ReadOnlySpan<string> Split(in TextDocFormat spec)
-        //     => IsNonEmpty ? spec.SplitClean ? Content.SplitClean(spec.Delimiter) : Content.Split(spec.Delimiter) : Array.Empty<string>();
-
         public ReadOnlySpan<string> Split(char delimiter, bool clean = true)
         {
             if(string.IsNullOrWhiteSpace(Content))

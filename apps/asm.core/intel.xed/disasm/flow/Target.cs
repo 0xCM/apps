@@ -13,7 +13,8 @@ namespace Z0
 
     partial class XedDisasm
     {
-        class Target : ITarget
+        public class Target<T> : AppService<T>, ITarget
+            where T : Target<T>, new()
         {
             IContextBuffer Buffer;
 
@@ -48,7 +49,7 @@ namespace Z0
 
             protected event DisasmReceiver<Instruction> ComputedInst;
 
-            protected event FileReceiver Running;
+            protected new event FileReceiver Running;
 
             protected event Action<DisasmToken> Ran;
 
@@ -149,7 +150,7 @@ namespace Z0
 
             static void Nothing(DisasmToken src) {}
 
-            static void Nothing<T>(uint seq, in T src) {}
+            static void Nothing<X>(uint seq, in X src) {}
 
             static void Nothing(uint seq, in Fields src) {}
 

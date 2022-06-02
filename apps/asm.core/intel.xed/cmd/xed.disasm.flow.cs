@@ -17,7 +17,7 @@ namespace Z0
             var targets = bag<ITarget>();
             var sources = XedDisasm.sources(context);
             iter(XedDisasm.sources(context), src => {
-                var dst = XedDisasm.analyzer(this);
+                var dst = Wf.DisasmAnalyser();
                 flow.Run(src,dst);
                 targets.Add(dst);
             }, true);

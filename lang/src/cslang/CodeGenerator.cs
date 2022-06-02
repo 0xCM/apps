@@ -120,10 +120,9 @@ namespace Z0
         protected virtual string[] StaticUsings
             => DefaultTypes;
 
-
-
         public static string FileHeader
-            => text.lines(
+            => text.join(
+                Eol,
                 HeaderLine1,
                 HeaderLine2,
                 HeaderLine3,

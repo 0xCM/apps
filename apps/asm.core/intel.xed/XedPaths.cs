@@ -34,24 +34,24 @@ namespace Z0
         public FS.FolderPath Output()
             => State.XedTargets;
 
-        public DbTargets Imports()
-            => new DbTargets(Output(), "imports");
+        public DbTargets Targets()
+            => new DbTargets(State.XedTargets);
 
         public DbTargets Targets(string scope)
-            => new DbTargets(Output(), scope);
+            => new DbTargets(State.XedTargets, scope);
 
-        public DbTargets Targets()
-            => new DbTargets(Output());
+        public DbTargets Imports()
+            => Targets("imports");
 
         public DbTargets RuleTargets()
             => Targets("rules");
 
-        FS.FolderPath RuleOutput()
-            => Output() + FS.folder("rules");
+        public DbTargets Refs()
+            => Targets("refs");
 
         public FS.FilePath Table<T>()
             where T : struct
-                => Output() + Tables.filename<T>();
+                => Targets().Table<T>();
 
         public FS.FilePath Table<T>(string suffix)
             where T : struct
@@ -63,10 +63,10 @@ namespace Z0
 
         public FS.FilePath RuleTable<T>()
             where T : struct
-                => RuleOutput() + Tables.filename<T>();
+                => RuleTargets().Table<T>();
 
         public FS.FilePath FormCatalogPath()
-            => RefTargets() + FS.file(Tables.identify<FormImport>().Format(), FS.Csv);
+            => Imports().Path(FS.file(Tables.identify<FormImport>().Format(), FS.Csv));
 
         static FS.FileName EncInstDef = FS.file("all-enc-instructions", FS.Txt);
 
@@ -79,7 +79,7 @@ namespace Z0
         static FS.FileName EncDecRuleTable = FS.file("all-enc-dec-patterns", FS.Txt);
 
         public FS.FolderPath DbTargets()
-            => Output() + FS.folder("db");
+            => Targets().Targets("db");
 
         public FS.FilePath DbTable<T>()
             where T : struct
@@ -102,19 +102,16 @@ namespace Z0
         }
 
         public FS.FilePath InstDumpSource()
-            => Sources()  +  FS.file("xed-dump",FileKind.Txt.Ext());
+            => Sources() + FS.file("xed-dump",FileKind.Txt.Ext());
 
         public FS.FolderPath DisasmTargets(IProjectWs project)
             => Ws.ProjectData(project, "xed.disasm");
 
-        public FS.FolderPath RefTargets()
-            => Output() + FS.folder("refs");
-
-        public FS.FolderPath RulePages()
-            => RuleOutput() + FS.folder("pages");
+        public DbTargets RulePages()
+            => RuleTargets().Targets("pages");
 
         public FS.FileUri RulePage(RuleSig sig)
-            => RulePages() + FS.file(sig.Format(), FS.Csv);
+            => RulePages().Path(FS.file(sig.Format(), FS.Csv));
 
         public FS.FileUri CheckedRulePage(RuleSig sig)
         {
@@ -149,7 +146,7 @@ namespace Z0
         }
 
         public FS.FilePath RuleSpecs()
-            => RuleOutput() + FS.file("xed.rules.specs", FS.Csv);
+            => RuleTargets().Path(FS.file("xed.rules.specs", FS.Csv));
 
         public FS.FolderPath InstTargets()
             => Output() + FS.folder("instructions");
@@ -184,7 +181,7 @@ namespace Z0
         }
 
         public FS.FilePath RuleTarget(string name, FS.FileExt ext)
-            => RuleOutput() + FS.file("xed.rules." + name, ext);
+            => RuleTargets().Path(FS.file("xed.rules." + name, ext));
 
         public FS.FilePath Target(string name, FS.FileExt ext)
             => Output() + FS.file(name, ext);
@@ -210,7 +207,6 @@ namespace Z0
             else
                 return 0;
         }
-
 
         public FS.FilePath SourcePath(string name, FileKind kind)
             => Sources() + FS.file(name,kind.Ext());

@@ -48,9 +48,6 @@ public enum PartId : byte
     [Symbol("test.checks")]
     Checks,
 
-    // [Symbol("res")]
-    // Res,
-
     [Symbol("machines.x86")]
     X86Machine,
 
@@ -205,10 +202,10 @@ public enum PartId : byte
     CgCommon = 100,
 
     [Symbol("codegen.intel")]
-    CgIntel = CgCommon + 1,
+    CgIntel,
 
     [Symbol("codegen.llvm")]
-    CgLlvm = CgIntel + 1,
+    CgLlvm,
 
     // ~ Shells : 128 ..
     // ~ -------------------------------------------------------------------------------
@@ -217,50 +214,50 @@ public enum PartId : byte
     CgShell = (byte)Pow2.T07,
 
     [Symbol("codegen.test")]
-    CgTest = CgShell + 1,
+    CgTest,
 
     [Symbol("asm.shell")]
-    AsmShell = CgTest + 1,
+    AsmShell,
 
     [Symbol("tools.shell")]
-    ToolShell = AsmShell + 1,
+    ToolShell,
 
     [Symbol("calc.shell")]
-    CalcShell = ToolShell + 1,
+    CalcShell,
 
     [Symbol("asmz")]
-    AsmZ = CalcShell + 1,
+    AsmZ,
 
     [Symbol("run")]
-    Run = AsmZ + 1,
+    Run,
 
     [Symbol("test.runner")]
-    TestRunner = Run + 1,
+    TestRunner,
 
     [Symbol("xed.shell")]
-    XedShell = TestRunner + 1,
+    XedShell,
 
     [Symbol("cmd.shell")]
-    CmdShell = XedShell + 1,
+    CmdShell,
 
     [Symbol("asm.run")]
-    AsmRun = CmdShell + 1,
+    AsmRun,
 
     [Symbol("machines")]
-    Machines = AsmRun + 1,
+    Machines,
 
     [Symbol("llvm.tool")]
-    LlvmTool = Machines + 1,
+    LlvmTool,
 
     [Symbol("cmd")]
-    Cmd = LlvmTool + 1,
+    Cmd,
 
     [Symbol("contral")]
-    Control = Cmd + 1,
+    Control,
 
     [Symbol("machine")]
-    Machine = Control + 1,
+    Machine,
 
     [Symbol("workers")]
-    Workers = Machine + 1,
+    Workers,
 }

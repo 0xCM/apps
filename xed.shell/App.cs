@@ -9,7 +9,7 @@ namespace Z0
     {
         static IAppCmdService commands(IWfRuntime wf)
         {
-            return AsmCoreCmd.runtime(wf,new ICmdProvider[]{
+            return AsmCoreCmd.commands(wf, new ICmdProvider[]{
                 wf.PbCmd(),
                 wf.IntelIntrinsicsCmd(),
                 },

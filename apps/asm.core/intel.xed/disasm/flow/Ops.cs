@@ -5,8 +5,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedRules;
+
     partial class XedDisasm
     {
+        [MethodImpl(Inline), Op]
+        public static IContextBuffer buffer(WsContext context, in FileRef src)
+            => new ContextBuffer(src);
+
         [MethodImpl(Inline)]
         public static IFlow flow(WsContext context)
             => new Flow(context);
@@ -16,5 +22,12 @@ namespace Z0
         [MethodImpl(Inline)]
         public static DisasmToken token()
             => (uint)core.inc(ref DisasmTokens);
+
+        public static Detail detail(WsContext context, in FileRef src)
+            => detail(context, XedDisasm.datafile(context, src));
+
+        public static Detail detail(WsContext context, in DataFile src)
+            => detail(XedDisasm.summary(context,src));
+
     }
 }

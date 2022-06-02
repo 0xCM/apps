@@ -38,7 +38,7 @@ namespace Z0
 
         public XedOps XedOps => Wf.XedOps(this);
 
-        public XedDisasm XedDisasm => Wf.XedDisasm2(this);
+        public XedDisasmSvc Disasm => Wf.XedDisasm(this);
 
         public XedImport Import => Wf.XedImport(this);
 

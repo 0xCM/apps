@@ -6,7 +6,6 @@
 namespace Z0
 {
     using static XedRules;
-    using static XedDisasmModels;
 
     partial class XedDisasm
     {
@@ -17,6 +16,36 @@ namespace Z0
         public delegate void FieldReceiver(uint seq, in Fields src);
 
         public delegate void FileReceiver(WsContext context, in FileRef src);
+
+        public interface IFlow
+        {
+            DisasmToken Run(in FileRef src, ITarget dst);
+        }
+
+        public interface ITarget
+        {
+            DisasmToken Starting(WsContext context, in FileRef src);
+
+            void Finished(DisasmToken token);
+
+            void Computing(uint seq, in Instruction src);
+
+            void Computed(uint seq, in OpDetails src);
+
+            void Computed(uint seq, in OperandState src);
+
+            void Computed(uint seq, in AsmInfo src);
+
+            void Computed(uint seq, in Fields src);
+
+            void Computed(uint seq, ReadOnlySpan<FieldKind> src);
+
+            void Computed(uint seq, in EncodingExtract src);
+
+            void Computed(uint seq, in InstFieldValues src);
+
+            void Computed(uint seq, in Instruction src);
+        }
 
         public interface IContextBuffer
         {

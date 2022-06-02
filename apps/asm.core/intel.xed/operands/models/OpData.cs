@@ -4,26 +4,25 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRules;
     using static XedModels;
 
-    partial class XedDisasm
+    partial class XedRules
     {
-        public readonly record struct Operand
+        public readonly record struct OpData
         {
             public readonly OpName Name;
 
             public readonly object Value;
 
             [MethodImpl(Inline)]
-            public Operand(OpValue value)
+            public OpData(OpValue value)
             {
                 Name = value.Name;
                 Value = value;
             }
 
             [MethodImpl(Inline)]
-            public Operand(OpNameKind name, object value)
+            public OpData(OpNameKind name, object value)
             {
                 Name = name;
                 Value = value;
@@ -36,10 +35,10 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public static explicit operator Disp(Operand src)
+            public static explicit operator Disp(OpData src)
                 => src.Value is OpValue v ? (Disp)v : Disp.Empty;
 
-            public static Operand Empty => new Operand(OpNameKind.None, z8);
+            public static OpData Empty => new OpData(OpNameKind.None, z8);
         }
     }
 }

@@ -27,6 +27,8 @@ namespace Z0
             Xed = XedRuntime.create(wf);
             Providers = providers;
             Instance = create(wf);
+            if(start)
+                Xed.Start();
             return Instance;
         }
 
@@ -37,8 +39,6 @@ namespace Z0
         XedPaths XedPaths => Xed.Paths;
 
         XedRules Rules => Xed.Rules;
-
-        XedDisasm Disasm2 => Xed.XedDisasm;
 
         XedDb XedDb => Xed.XedDb;
 
@@ -72,17 +72,8 @@ namespace Z0
         void ChecksList()
             => CheckRunner.ListChecks();
 
-        ref readonly RuleTables RuleTables
-            => ref Xed.Views.RuleTables;
-
         ref readonly Index<InstPattern> Patterns
             => ref Xed.Views.Patterns;
-
-        ref readonly CellTables CellTables
-            => ref Xed.Views.CellTables;
-
-        ref readonly Index<RuleExpr> RuleExpr
-            => ref Xed.Views.RuleExpr;
 
         protected override AppDb AppDb
             => Wf.AppDb();

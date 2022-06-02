@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedRules;
     partial class XedDisasm
     {
         internal class DisasmRender
