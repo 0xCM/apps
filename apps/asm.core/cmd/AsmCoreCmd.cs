@@ -5,23 +5,26 @@
 namespace Z0
 {
     using Asm;
-
+    using static core;
     using static XedRules;
 
     public partial class AsmCoreCmd : WsCmdService<AsmCoreCmd>
     {
-        static XedRuntime Xed;
+        public static AsmCoreCmd commands(IWfRuntime wf, Index<ICmdProvider> providers, bool start)
+            => Create(wf, providers, start);
 
-        static AsmCmdRt CmdRt;
+        public static AsmCoreCmd commands(IWfRuntime wf, params ICmdProvider[] providers)
+            => Create(wf, providers, false);
+
+        static XedRuntime Xed;
 
         static Index<ICmdProvider> Providers;
 
         static AsmCoreCmd Instance;
 
-        public static AsmCoreCmd create(IWfRuntime wf, AsmCmdRt amsrt, ICmdProvider[] providers)
+        static AsmCoreCmd Create(IWfRuntime wf, Index<ICmdProvider> providers, bool start)
         {
-            CmdRt = amsrt;
-            Xed = amsrt.Xed;
+            Xed = XedRuntime.create(wf);
             Providers = providers;
             Instance = create(wf);
             return Instance;
@@ -36,8 +39,6 @@ namespace Z0
         XedRules Rules => Xed.Rules;
 
         XedDisasm Disasm2 => Xed.XedDisasm;
-
-        XedDisasmSvc Disasm => CmdRt.XedDisasm;
 
         XedDb XedDb => Xed.XedDb;
 
@@ -56,7 +57,6 @@ namespace Z0
         AsmRegSets Regs => Service(AsmRegSets.create);
 
         AsmOpCodes OpCodes => Wf.AsmOpCodes();
-
 
         protected override IWsCmdRunner CmdRunner
             => Xed.CmdRunner;

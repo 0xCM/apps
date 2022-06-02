@@ -12,21 +12,11 @@ namespace Z0
     {
         AppSvcOps AppSvc => Wf.AppSvc();
 
-        XedDisasmSvc XedDisasm => AsmRt.XedDisasm;
-
         WsProjects Projects => Service(Wf.WsProjects);
 
         AsmObjects AsmObjects => Service(Wf.AsmObjects);
 
         OmniScript OmniScript => Wf.OmniScript();
-
-        AsmCmdRt AsmRt;
-
-        public ProjectDataServices With(AsmCmdRt rt)
-        {
-            AsmRt = rt;
-            return this;
-        }
 
         public void Collect(IProjectWs project)
         {
@@ -36,7 +26,7 @@ namespace Z0
             AsmObjects.CollectCoffData(context);
             CollectAsmSyntax(context);
             CollectMcInstructions(context);
-            XedDisasm.Collect(context);
+            //XedDisasm.Collect(context);
         }
 
         public Outcome<Index<ToolCmdFlow>> BuildAsm(IProjectWs project)

@@ -2,12 +2,6 @@
 
   <ItemGroup>
     <Reference Include="$(ZLibName)" HintPath="$(ZLibPath)"/>
-    <!-- <ProjectReference Include="$(Bits)" />
-    <ProjectReference Include="$(Assets)" />
-    <ProjectReference Include="$(Numbers)" />
-    <PackageReference Include="Microsoft.Diagnostics.Tracing.TraceEvent" Version="2.0.44" />
-    <PackageReference Include="System.Runtime.Experimental" Version="6.0.0" />
-    <PackageReference Include="QuikGraph.Graphviz" Version="2.3.1" /> -->
   </ItemGroup>
 
 </Project>

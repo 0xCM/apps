@@ -13,16 +13,6 @@ namespace Z0
     {
         sealed class Svc : AppServices<Svc>
         {
-            static AsmCmdRt runtime(IWfRuntime wf, Index<ICmdProvider> providers, bool start = true)
-            {
-                var runtime = Z0.AsmCmdRt.create(wf);
-                runtime.XedRt = XedRuntime.create(wf);
-                runtime.CmdSvc = AsmCoreCmd.create(wf, runtime, providers);
-                if(start)
-                    runtime.Xed.Start();
-                return runtime;
-            }
-
             public IntelSdm IntelSdm(IWfRuntime wf)
                 => Service<IntelSdm>(wf);
 
@@ -47,11 +37,11 @@ namespace Z0
             public XedDocs XedDocs(IWfRuntime wf, XedRuntime xed)
                 => Service<XedDocs>(wf).With(xed);
 
-            public AsmCmdRt AsmCmdRt(IWfRuntime wf, Index<ICmdProvider> providers, bool start = true)
-                => Service<AsmCmdRt>(wf, _ => runtime(wf, providers, start));
+            // public AsmCmdRt AsmCmdRt(IWfRuntime wf, Index<ICmdProvider> providers, bool start = true)
+            //     => Service<AsmCmdRt>(wf, _ => runtime(wf, providers, start));
 
-            public AsmCmdRt AsmCmdRt(IWfRuntime wf, bool start = true)
-                => Service<AsmCmdRt>(wf, _ => runtime(wf, sys.empty<ICmdProvider>(), start));
+            // public AsmCmdRt AsmCmdRt(IWfRuntime wf, bool start = true)
+            //     => Service<AsmCmdRt>(wf, _ => runtime(wf, sys.empty<ICmdProvider>(), start));
 
             public CoffServices CoffServices(IWfRuntime wf)
                 => Service<CoffServices>(wf);
@@ -94,12 +84,6 @@ namespace Z0
         }
 
         static Svc Services => Svc.Instance;
-
-        public static AsmCmdRt AsmCmdRt(this IWfRuntime wf, Index<ICmdProvider> providers, bool start = true)
-            => Services.AsmCmdRt(wf,providers,start);
-
-        public static AsmCmdRt AsmCmdRt(this IWfRuntime wf, bool start = true)
-            => Services.AsmCmdRt(wf, start);
 
         public static IntelSdm IntelSdm(this IWfRuntime wf)
             => Services.IntelSdm(wf);

@@ -16,6 +16,6 @@
     <ProjectReference Include="$(CodeGenIntel)" />
   </ItemGroup>
 
-  <Import Project="../imports.props"/>
+  <Import Project="$(TopDir)imports/zlib.props"/>
 
 </Project>

@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.intel.core", "..\apps\in
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.intel.intrinsics", "..\apps\intel.intrinsics\z0.intel.intrinsics.csproj", "{83065786-B279-4900-A01A-907D0DD95160}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.intel.xed", "..\intel.xed\z0.intel.xed.csproj", "{A1B28161-C797-4C72-AACE-7AD21D387778}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -96,5 +98,9 @@ Global
 		{83065786-B279-4900-A01A-907D0DD95160}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{83065786-B279-4900-A01A-907D0DD95160}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{83065786-B279-4900-A01A-907D0DD95160}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1B28161-C797-4C72-AACE-7AD21D387778}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1B28161-C797-4C72-AACE-7AD21D387778}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1B28161-C797-4C72-AACE-7AD21D387778}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1B28161-C797-4C72-AACE-7AD21D387778}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

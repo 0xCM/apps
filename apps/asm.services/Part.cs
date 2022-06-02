@@ -35,8 +35,5 @@ namespace Z0
         public static AsmFlowCommands AsmFlowCommands(this IWfRuntime wf)
             => Z0.AsmFlowCommands.create(wf);
 
-        [Op]
-        public static ProjectDataServices ProjectData(this IWfRuntime wf)
-            => Z0.ProjectDataServices.create(wf);
     }
 }

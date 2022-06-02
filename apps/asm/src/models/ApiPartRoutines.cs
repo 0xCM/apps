@@ -4,11 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.CompilerServices;
     using System.Linq;
-
-    using static Root;
 
     /// <summary>
     /// Collects sequences instructions from part-defined api hosts
@@ -84,8 +80,7 @@ namespace Z0.Asm
             => Data.Storage.SelectMany(x => x.Members).SelectMany(x => x.Instructions.Storage).OrderBy(x => x.IP).Array();
 
         public static ApiPartRoutines Empty
-        {
-            get => new ApiPartRoutines(PartId.None, sys.empty<ApiHostRoutines>());
-        }
+            => new ApiPartRoutines(PartId.None, sys.empty<ApiHostRoutines>());
+
     }
 }

@@ -10,18 +10,16 @@ namespace Z0
     {
         ICmdRunner Commands;
 
-        AsmCmdRt AsmRt;
-
         OmniScript OmniScript => Wf.OmniScript();
 
         IToolWs Tools => Service(Ws.Tools);
 
-        public static ProjectCmd inject(ICmdRunner runner, AsmCmdRt runtime, ProjectCmd dst)
-            => dst.With(runner).With(runtime);
+        public static ProjectCmd inject(ICmdRunner runner, ProjectCmd dst)
+            => dst.With(runner);
 
         AsmObjects AsmObjects => Wf.AsmObjects();
 
-        ProjectDataServices ProjectData => Service(() => Wf.ProjectData().With(AsmRt));
+        ProjectDataServices ProjectData => Wf.ProjectData();
 
         WsProjects Projects => Service(Wf.WsProjects);
 
@@ -37,7 +35,6 @@ namespace Z0
 
         public ProjectCmd With(AsmCmdRt rt)
         {
-            AsmRt = rt;
             return this;
         }
 
