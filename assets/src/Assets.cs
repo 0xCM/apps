@@ -249,9 +249,6 @@ namespace Z0
             }
         }
 
-        public Index<ResEmission> Run(EmitResDataCmd cmd)
-            => EmitEmbedded(cmd.Source, cmd.Target, cmd.Match, cmd.ClearTarget);
-
         static Index<DocLibEntry> entries(Assembly src)
         {
             var names = @readonly(src.GetManifestResourceNames());
@@ -263,29 +260,6 @@ namespace Z0
             return buffer;
         }
 
-        public Index<ResEmission> EmitEmbedded(Assembly src, FS.FolderPath root, utf8 match, bool clear)
-        {
-            var flow = Running(string.Format("Emitting resources embedded in {0}", src.GetSimpleName()));
-            var descriptors = match.IsEmpty ? Assets.descriptors(src) : Assets.descriptors(src, match);
-            var count = descriptors.Count;
-
-            if(count == 0)
-                return sys.empty<ResEmission>();
-
-            var buffer = sys.alloc<ResEmission>(count);
-            ref var emission = ref first(buffer);
-
-            if(clear)
-                root.Clear();
-
-            var sources = descriptors.View;
-            for(var i=0; i<count; i++)
-                seek(emission,i) = EmitData(skip(sources,i), root);
-
-            Ran(flow);
-            return buffer;
-        }
-
         public ResEmission EmitData(in Asset src, FS.FolderPath dir)
         {
             var dst = dir + src.FileName;
@@ -293,20 +267,6 @@ namespace Z0
             return flows.arrow(src,dst);
         }
 
-        public void EmitIndex<T>(Assets<T> src, FS.FolderPath dir)
-            where T : Assets<T>, new()
-        {
-            var host = src.DataSource;
-            var descriptors = src.Data;
-            var count = descriptors.Length;
-            var dst = AppDb.ApiTargets("assets").Table<AssetCatalogEntry>(host.GetSimpleName());
-            var flow = EmittingTable<AssetCatalogEntry>(dst);
-            using var writer = dst.Writer(TextEncodingKind.Utf8);
-            var formatter = Tables.formatter<AssetCatalogEntry>();
-            writer.WriteLine(formatter.FormatHeader());
-            for(var i=0; i<count; i++)
-                writer.WriteLine(formatter.Format(skip(descriptors,i).CatalogEntry));
-            EmittedTable(flow,count);
-        }
+
     }
 }

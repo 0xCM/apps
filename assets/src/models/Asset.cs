@@ -25,7 +25,7 @@ namespace Z0
         }
 
         public FS.FileName FileName
-            => FS.file(Name.ReplaceAny(Path.GetInvalidPathChars(), Chars.Underscore), FS.Txt);
+            => FS.file(Name.ReplaceAny(Path.GetInvalidPathChars(), Chars.Underscore));
 
         public BitWidth Width
         {

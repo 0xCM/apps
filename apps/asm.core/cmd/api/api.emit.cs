@@ -56,12 +56,15 @@ namespace Z0
 
         Heaps Heaps => Wf.Heaps();
 
+        Assets Assets => Wf.Assets();
 
         [CmdOp("api/emit")]
         void ApiEmit()
         {
             ApiMd.EmitDatasets();
             AsmDocs.Emit();
+            var emitted = Assets.EmitPartAssets();
+
             //Heaps.Emit(Heaps.symbols(ApiMd.SymLits));
         }
 

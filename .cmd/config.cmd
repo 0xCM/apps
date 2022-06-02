@@ -41,12 +41,14 @@ set ProjectBuildRoot=%BuildBinRoot%\z0.%ProjectId%\%BuildKind%\%FrameworkMoniker
 set ShellBin=%ProjectBuildRoot%\%RuntimeMoniker%
 set LibPath=%ProjectBuildRoot%\%LibName%
 set ShellPath=%ShellBin%\%ShellName%
+set ProjectDir=%TopDir%\%ProjectId%
+set ProjectSlnName=z0.%ProjectId%.sln
+set ProjectSlnPath=%ProjectDir%\%ProjectSlnName%
 
 set ProjectBinLog=%BuildLogs%\z0.%ProjectId%.build.bin
 set ProjectBuildLog=%BuildLogs%\z0.%ProjectId%.build.log
 set ProjectGraphPath=%BuildLogs%\z0.%ProjectId%.dg.json
 set ProjectBuildLogPath="%BuildLogs%\z0.%ProjectId%.log"
-
 set TargetSpec=%SlnRoot%\apps\%ProjectId%\%ProjectFile%
 set BuildAppLibCmd=dotnet build %TargetSpec% %BuildProps% -fl -flp:logfile=%ProjectBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 echo BuildAppLibCmd:%BuildAppLibCmd% > %CmdLog%
