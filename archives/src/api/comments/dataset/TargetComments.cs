@@ -13,12 +13,12 @@ namespace Z0
                 public static TargetComments create(FS.FilePath path, Dictionary<string,ApiComment> src)
                     => new(path,src);
 
-                public readonly FS.FilePath Path;
+                public readonly FS.FilePath SourcePath;
 
                 public TargetComments(FS.FilePath path, Dictionary<string,ApiComment> src)
                     : base(src)
                 {
-                    Path = path;
+                    SourcePath = path;
                 }
             }
         }

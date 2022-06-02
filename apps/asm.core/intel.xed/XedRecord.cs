@@ -46,5 +46,7 @@ namespace Z0
         InstOpSpecs,
 
         InstOpDetail,
+
+        InstSigs,
     }
 }

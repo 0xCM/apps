@@ -133,7 +133,7 @@ namespace Z0
                                 Lookup[kind] = render<int>(x => x.ToString());
                                 break;
                             case CK.InstSeg:
-                                Lookup[kind] = render<InstSeg>(x => XedRender.format((InstSeg)x));
+                                Lookup[kind] = render<InstFieldSeg>(x => XedRender.format((InstFieldSeg)x));
                                 break;
                             case CK.Operator:
                                 Lookup[kind] = render<OperatorKind>(x => x is OperatorKind k ? XedRender.format(k) : XedRender.format((RuleOperator)x));

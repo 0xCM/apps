@@ -13,12 +13,12 @@ namespace Z0
                 public static TargetXml create(FS.FilePath path, Dictionary<string,string> src)
                     => new(path,src);
 
-                public readonly FS.FilePath Path;
+                public readonly FS.FilePath SourcePath;
 
                 public TargetXml(FS.FilePath path, Dictionary<string,string> src)
                     : base(src)
                 {
-                    Path = path;
+                    SourcePath = path;
                 }
             }
         }

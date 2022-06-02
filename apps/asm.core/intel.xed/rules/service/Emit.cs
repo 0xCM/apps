@@ -84,6 +84,7 @@ namespace Z0
                 () => EmitPatternRecords(src),
                 () => EmitFlagEffects(src),
                 () => EmitInstAttribs(src),
+                () => EmitInstSigs(src),
                 () => EmitInstFields(src),
                 () => EmitInstGroups(src),
                 () => EmitOpDetails(),

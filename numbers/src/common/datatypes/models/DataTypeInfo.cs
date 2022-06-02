@@ -10,7 +10,7 @@ namespace Z0
         const string TableId = "api.datatype";
 
         [Render(32)]
-        public string Component;
+        public PartName Part;
 
         [Render(32)]
         public string Name;
@@ -29,7 +29,7 @@ namespace Z0
 
         public int CompareTo(DataTypeInfo src)
         {
-            var result = Component.CompareTo(src.Component);
+            var result = Part.CompareTo(src.Part);
             if(result == 0)
                 result = Name.CompareTo(src.Name);
             return result;

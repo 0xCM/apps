@@ -9,10 +9,10 @@ namespace Z0
     {
         public readonly partial struct CellParser
         {
-            public static Outcome parse(string src, out InstSeg dst)
+            public static Outcome parse(string src, out InstFieldSeg dst)
             {
                 var result = Outcome.Success;
-                dst = InstSeg.Empty;
+                dst = InstFieldSeg.Empty;
                 var i = text.index(src, Chars.LBracket);
                 var j = text.index(src, Chars.RBracket);
                 result = i>0 && j>i;

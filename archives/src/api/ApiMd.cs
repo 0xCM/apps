@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static core;
+    using static ApiComments;
 
     using K = ApiMdKind;
 
@@ -14,53 +15,37 @@ namespace Z0
 
         const string tokens = nameof(tokens);
 
-        static DataTypeInfo dtinfo(Type src)
+        public static Index<DataTypeInfo> DescribeDataTypes(Index<ApiDataType> types)
         {
-            var dst = DataTypeInfo.Empty;
-            var size = Sizes.measure(src);
-            var width = Sizes.bits(src);
-            dst.Name = src.DisplayName();
-            dst.Component = src.Assembly.Name();
-            dst.Concrete = src.IsConcrete();
-            dst.PackedWidth = size.Packed;
-            dst.NativeWidth = size.Native;
-            dst.NativeSize = size.Native/8;
+            var count = types.Count;
+            var dst = alloc<DataTypeInfo>(count);
+            for(var i=0; i<count; i++)
+            {
+                ref var record = ref seek(dst,i);
+                ref readonly var type = ref types[i];
+                record.Part = type.Part;
+                record.Name = type.Name;
+                record.Concrete = type.Definition.IsConcrete();
+                record.NativeSize = type.Size.Native/8;
+                record.NativeWidth = type.Size.Native;
+                record.PackedWidth = type.Size.Packed;
+            }
+
             return dst;
         }
 
-        public static Index<DataTypeInfo> DescribeDataTypes(Assembly[] src, bool pll = true)
+        public static Index<ApiDataType> DiscoverDataTypes(Assembly[] src)
         {
-            var dst = bag<DataTypeInfo>();
-            iter(ClrDataTypes(src), t => dst.Add(dtinfo(t)), pll);
-            return dst.ToArray().Index().Sort();
+            var types = src.Types().Where(t => t.IsEnum || t.IsStruct()).Ignore().Index();
+            var count = types.Count;
+            var dst = alloc<ApiDataType>(count);
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var type = ref types[i];
+                seek(dst,i) = new ApiDataType(type, Sizes.measure(type));
+            }
+            return dst.Sort();
         }
-
-        public static Index<DataType> DiscoverDataTypes(Assembly src, bool pll = true)
-        {
-            var dst = bag<DataType>();
-            iter(ClrDataTypes(src), t => dst.Add(new DataType(t.Name, Sizes.measure(t))),pll);
-            return dst.ToArray().Sort();
-        }
-
-        public static Index<DataType> DiscoverDataTypes(Assembly[] src, bool pll = true)
-        {
-            var dst = bag<DataType>();
-            iter(src, a => iter(ClrDataTypes(a), t => dst.Add(new DataType(t.Name, Sizes.measure(t))), pll), pll);
-            return dst.Index().Sort();
-        }
-
-        public static Index<DataType> DiscoverDataTypes(Type[] src, bool pll = true)
-        {
-            var dst = bag<DataType>();
-            iter(src, t => dst.Add(new DataType(t.Name, Sizes.measure(t))),pll);
-            return dst.Index().Sort();
-        }
-
-        static Type[] ClrDataTypes(Assembly src)
-            => src.Types().Public().Where(x => x.IsStruct() || x.IsEnum);
-
-        static Type[] ClrDataTypes(Assembly[] src)
-            => src.SelectMany(ClrDataTypes);
 
         ApiJit Jit => Wf.Jit();
 
@@ -105,16 +90,16 @@ namespace Z0
             => data(K.ApiTableFields, CalcTableFields);
 
         public Index<SymLiteralRow> SymLits
-            => data(nameof(SymLiteralRow), () => Symbols.literals(ApiRuntimeCatalog.Components));
-
-        // public ConstLookup<string,Index<Type>> SymSouces
-        //     => data(K.SymGroups, CalcSymSources);
+            => data(nameof(SymLiteralRow), () => Symbols.literals(Components));
 
         public Index<IApiHost> ApiHosts
             => data(K.ApiHosts, () => Catalog.ApiHosts.Index());
 
-        public Index<DataTypeInfo> DataTypes
-            => data(K.DataTypes, () => DescribeDataTypes(Components));
+        public Index<ApiDataType> DataTypes
+            => data(K.DataTypes, () => DiscoverDataTypes(Components));
+
+        public Index<DataTypeInfo> DataTypeInfo
+            => data(K.DataTypeRecords, () => DescribeDataTypes(DataTypes));
 
         public Index<ApiCmdRow> ApiCommands
             => data(K.ApiCommands, CalcApiCommands);
@@ -131,6 +116,9 @@ namespace Z0
         public ConstLookup<string,Index<SymInfo>> ApiTokens
             => data(K.ApiTokens, CalcApiTokens);
 
+        public CommentDataset ApiComments
+            => data(K.ApiComments, () => Comments.Calc());
+
         public ApiParserLookup Parsers
             => data(K.Parsers, () => parsers(Components));
 
@@ -142,9 +130,9 @@ namespace Z0
             exec(true,
                 EmitDataFlows,
                 EmitTypeLists,
-                EmitCompilationLits,
+                EmitApiLiterals,
                 EmitDataTypes,
-                () => EmitComments(),
+                EmitComments,
                 () => Emit(SymLits),
                 EmitParsers,
                 EmitApiTables,
@@ -157,7 +145,7 @@ namespace Z0
         void EmitApiCommands()
             => Emit(ApiCommands);
 
-        void EmitCompilationLits()
+        void EmitApiLiterals()
             => Emit(ApiLiterals);
 
         void EmitApiBitMasks()
@@ -173,7 +161,7 @@ namespace Z0
             => Emit(DataFlows);
 
         void EmitDataTypes()
-            => Emit(DataTypes);
+            => Emit(DataTypeInfo);
 
         void EmitApiTables()
             => Emit(ApiTableFields);
@@ -220,8 +208,11 @@ namespace Z0
             return dst.ToArray();
         }
 
-        public Dictionary<FS.FilePath, Dictionary<string,string>> EmitComments()
-            => Data(nameof(EmitComments), () => Comments.Collect());
+
+        public void EmitComments()
+        {
+            Comments.Collect();
+        }
 
         public FS.FilePath EmitTypeList(string name, ReadOnlySpan<Type> src)
         {
@@ -461,31 +452,6 @@ namespace Z0
             AppSvc.TableEmit(buffer,dst);
             return buffer;
         }
-
-        // ConstLookup<string,Index<Type>> CalcSymSources()
-        // {
-        //     var types = SymSourceTypes.Index();
-        //     var buffer = dict<string,List<Type>>();
-        //     for(var i=0; i<types.Count; i++)
-        //     {
-        //         ref readonly var type = ref types[i];
-        //         var tag = type.Tag<SymSourceAttribute>().Require();
-        //         var name = tag.SymGroup;
-        //         if(nonempty(name))
-        //         {
-        //             if(buffer.TryGetValue(name, out var list))
-        //                 list.Add(type);
-        //             else
-        //             {
-        //                 list = new();
-        //                 list.Add(type);
-        //                 buffer[name] = list;
-        //             }
-        //         }
-        //     }
-
-        //     return buffer.Map(x => (x.Key, x.Value.Index())).ToDictionary();
-        // }
 
         static uint FieldCount(Index<Type> tables)
         {

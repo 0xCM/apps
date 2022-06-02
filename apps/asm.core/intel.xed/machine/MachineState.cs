@@ -98,7 +98,7 @@ namespace Z0
                 get => ref Asm.Encoded;
             }
 
-            void Load(in InstSeg src)
+            void Load(in InstFieldSeg src)
             {
 
             }

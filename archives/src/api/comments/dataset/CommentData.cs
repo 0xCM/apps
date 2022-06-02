@@ -8,11 +8,11 @@ namespace Z0
     {
         public partial class CommentDataset
         {
-            public readonly SortedLookup<FS.FilePath,TargetXml> TargetXmlLookup;
+            public readonly SortedLookup<FS.FilePath,TargetXml> XmlLookup;
 
             public readonly SortedLookup<FS.FilePath,TargetComments> TargetCommentLookup;
 
-            public readonly SortedLookup<FS.FilePath,Index<ApiComment>> CsvRowLookup;
+            public readonly SortedLookup<FS.FilePath,Index<ApiComment>> CsvLookup;
 
             public readonly Index<TargetComments> Comments;
 
@@ -29,24 +29,14 @@ namespace Z0
                     FS.Files dlls
                     )
             {
-                TargetXmlLookup = xml.Map(x => (x.Key, TargetXml.create(x.Key, x.Value))).ToDictionary();
+                XmlLookup = xml.Map(x => (x.Key, TargetXml.create(x.Key, x.Value))).ToDictionary();
                 TargetCommentLookup = comments.Map(x => (x.Key, TargetComments.create(x.Key, x.Value))).ToDictionary();
                 Comments = TargetCommentLookup.Values.ToArray();
-                Xml = TargetXmlLookup.Values.ToArray();
+                Xml = XmlLookup.Values.ToArray();
                 XmlSources = xml.Keys.Array().Sort();
-                CsvRowLookup = csvFormat.Map(x => (x.Key, x.Value.Index())).ToDictionary();
+                CsvLookup = csvFormat.Map(x => (x.Key, x.Value.Index())).ToDictionary();
                 Sources = dlls;
             }
-
-            public PartComments FindComments(FS.FolderPath dir, PartId part)
-            {
-                var dst = new PartComments();
-                dst.Part = part;
-                dst.CsvPath = CsvPath(dir,part);
-                dst.XmlPath = XmlPath(dir,part);
-                return dst;
-            }
-
         }
     }
 }

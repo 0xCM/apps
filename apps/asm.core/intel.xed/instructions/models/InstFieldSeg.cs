@@ -8,7 +8,7 @@ namespace Z0
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public readonly struct InstSeg : IEquatable<InstSeg>, IComparable<InstSeg>
+        public readonly struct InstFieldSeg : IEquatable<InstFieldSeg>, IComparable<InstFieldSeg>
         {
             public readonly FieldKind Field;
 
@@ -17,7 +17,7 @@ namespace Z0
             readonly ByteBlock3 Pad;
 
             [MethodImpl(Inline)]
-            internal InstSeg(FieldKind field, BitNumber<byte> src)
+            internal InstFieldSeg(FieldKind field, BitNumber<byte> src)
             {
                 Field = field;
                 Type = InstSegTypes.type(src.Width, src.Value);
@@ -26,7 +26,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            internal InstSeg(FieldKind field, InstSegType type)
+            internal InstFieldSeg(FieldKind field, InstSegType type)
             {
                 Field = field;
                 Type = type;
@@ -61,7 +61,7 @@ namespace Z0
             public BitNumber<byte> ToLiteral()
                 => core.@as<BitNumber<byte>>(Pad.First);
 
-            public int CompareTo(InstSeg src)
+            public int CompareTo(InstFieldSeg src)
             {
                 var result = XedRules.cmp(Field,src.Field);
                 if(result == 0)
@@ -79,14 +79,14 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public bool Equals(InstSeg src)
+            public bool Equals(InstFieldSeg src)
                 => Field == src.Field && Type == src.Type;
 
             public override int GetHashCode()
                 => (int)alg.hash.combine(Type.GetHashCode(),(uint)Field);
 
             public override bool Equals(object src)
-                => src is InstSeg s && Equals(s);
+                => src is InstFieldSeg s && Equals(s);
 
             public string Format()
                 => XedRender.format(this);
@@ -95,22 +95,22 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public static bool operator ==(InstSeg a, InstSeg b)
+            public static bool operator ==(InstFieldSeg a, InstFieldSeg b)
                 => a.Equals(b);
 
             [MethodImpl(Inline)]
-            public static bool operator !=(InstSeg a, InstSeg b)
+            public static bool operator !=(InstFieldSeg a, InstFieldSeg b)
                 => !a.Equals(b);
 
             [MethodImpl(Inline)]
-            public static explicit operator ulong(InstSeg src)
-                => core.@as<InstSeg,ulong>(src);
+            public static explicit operator ulong(InstFieldSeg src)
+                => core.@as<InstFieldSeg,ulong>(src);
 
             [MethodImpl(Inline)]
-            public static explicit operator InstSeg(ulong src)
-                => core.@as<ulong,InstSeg>(src);
+            public static explicit operator InstFieldSeg(ulong src)
+                => core.@as<ulong,InstFieldSeg>(src);
 
-            public static InstSeg Empty => default;
+            public static InstFieldSeg Empty => default;
         }
     }
 }

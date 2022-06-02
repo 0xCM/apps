@@ -20,8 +20,7 @@ namespace Z0
         public static string name(FileKind src)
             => Symbols.index<FileKind>()[src].Name.ToLower();
 
-        [Op]
-        internal static string format(FileKind src)
+        static string format(FileKind src)
             => Symbols.index<FileKind>()[src].Expr.Format();
     }
 
@@ -29,5 +28,14 @@ namespace Z0
     {
         public static FS.FileExt Ext(this FileKind src)
             => FileTypes.ext(src);
+
+        public static FileKind FileKind(this FS.FileExt src)
+            => FileTypes.kind(src);
+
+        public static FileKind FileKind(this FS.FileName src)
+            => FileTypes.kind(src.Ext);
+
+        public static FileKind FileKind(this FS.FilePath src)
+            => FileTypes.kind(src.FileName.Ext);
     }
 }

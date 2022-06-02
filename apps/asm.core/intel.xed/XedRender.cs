@@ -619,7 +619,7 @@ namespace Z0
         public static string format(in RuleKeyword src)
             => src.ToAsci().Format();
 
-        public static string format(InstSeg src)
+        public static string format(InstFieldSeg src)
             => src.IsEmpty
             ? EmptyString
             : string.Format("{0}[{1}]", format(src.Field), src.Type.Format());

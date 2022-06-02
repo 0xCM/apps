@@ -67,7 +67,7 @@ namespace Z0
                 }
                 else if(XedParsers.IsSeg(src))
                 {
-                    result = CellParser.parse(src, out InstSeg x);
+                    result = CellParser.parse(src, out InstFieldSeg x);
                     if(result)
                         dst = x;
                 }

@@ -16,6 +16,8 @@ namespace Z0
     {
         AppDb AppDb => Wf.AppDb();
 
+        AppSvcOps AppSvc => Wf.AppSvc();
+
         public CommentDataset Calc()
         {
             var targets = AppDb.ApiTargets("comments");
@@ -45,7 +47,7 @@ namespace Z0
             {
                 var file = FS.file(string.Format("{0}.{1}", "api.comments", part.FileName.WithoutExtension.Name), FS.Csv);
                 var path = targets.Path(file);
-                var docs = new Dictionary<string, ApiComment>();
+                var docs = dict<string,ApiComment>();
                 comments[part] = docs;
                 csvRowFormat[path] = new();
                 csvRows[path] = new();
@@ -105,7 +107,37 @@ namespace Z0
             //         FileEmit(doc.Format(), k, dst);
             //     }
             // }
+        }
 
+        public static FS.FileName CsvFile(PartId part)
+            => FS.file(string.Format("api.comments.z0", part.Format()), FS.Csv);
+
+        public static FS.FileName XmlFile(PartId part)
+            => FS.file(string.Format("api.comments.z0", part.Format()), FS.Xml);
+
+        public static FS.FilePath CsvPath(FS.FolderPath dir, PartId part)
+            => dir + CsvFile(part);
+
+        public static FS.FilePath XmlPath(FS.FolderPath dir, PartId part)
+            => dir + XmlFile(part);
+
+        public void Emit(CommentDataset src)
+        {
+            var targets = AppDb.ApiTargets("comments");
+            targets.Clear();
+            ref readonly var csv = ref src.CsvLookup;
+            var paths = csv.Keys;
+            for(var i=0; i<paths.Length; i++)
+            {
+                ref readonly var path = ref skip(paths,i);
+                AppSvc.TableEmit(csv[path], path, TextEncodingKind.Utf8);
+            }
+
+            ref readonly var xml = ref src.Xml;
+            for(var i=0; i<xml.Count; i++)
+            {
+
+            }
         }
 
         public Dictionary<FS.FilePath, Dictionary<string,string>> Collect()

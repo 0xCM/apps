@@ -24,7 +24,6 @@ namespace Z0
                 buffer.AppendFormat("{0,-6}", skip(input,i));
             }
 
-            //var data = recover<RegOp,byte>(regs).ToArray();
             var data = recover<byte>(span(buffer.Emit()));
             var spec = ByteSpans.specify("GpRegNames", data.ToArray());
             var format = SpanResFormatter.format(spec);

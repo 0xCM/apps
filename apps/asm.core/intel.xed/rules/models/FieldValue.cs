@@ -53,7 +53,7 @@ namespace Z0
             public FieldValue(FieldKind field, InstSegType type)
             {
                 Field = field;
-                Data = (ulong)new InstSeg(field, type);
+                Data = (ulong)new InstFieldSeg(field, type);
                 CellKind = RuleCellKind.InstSeg;
             }
 
@@ -262,8 +262,8 @@ namespace Z0
                 => (RuleName)Data;
 
             [MethodImpl(Inline)]
-            public InstSeg ToInstSeg()
-                => (InstSeg)Data;
+            public InstFieldSeg ToInstSeg()
+                => (InstFieldSeg)Data;
 
             [MethodImpl(Inline)]
             public static implicit operator EASZ(FieldValue src)

@@ -8,17 +8,6 @@ namespace Z0
     {
         partial class CommentDataset
         {
-            public static FS.FileName CsvFile(PartId part)
-                => FS.file(string.Format("api.comments.z0", part.Format()), FS.Csv);
-
-            public static FS.FileName XmlFile(PartId part)
-                => FS.file(string.Format("api.comments.z0", part.Format()), FS.Xml);
-
-            public static FS.FilePath CsvPath(FS.FolderPath dir, PartId part)
-                => dir + CsvFile(part);
-
-            public static FS.FilePath XmlPath(FS.FolderPath dir, PartId part)
-                => dir + XmlFile(part);
 
             static Dictionary<string,string> TypeNameReplacements;
 
@@ -44,7 +33,6 @@ namespace Z0
                 core.iter(TypeNameReplacements, x => name = name.Replace(x.Key,x.Value));
                 return name;
             }
-
         }
     }
 }

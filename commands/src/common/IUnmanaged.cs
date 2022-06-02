@@ -4,14 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRules;
-
-    partial class AsmCoreCmd
+    public interface IUnmanaged
     {
-        [CmdOp("xed/emit/sigs")]
-        void EmitInstSig()
-        {
-            Xed.Rules.EmitInstSigs(Xed.Views.Patterns);
-        }
+        uint Size {get;}
+    }
+
+    public interface IUnmanaged<T> : IUnmanaged
+        where T : unmanaged, IUnmanaged<T>
+    {
+        uint IUnmanaged.Size
+            => core.size<T>();
     }
 }

@@ -34,7 +34,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public static InstField define(InstSeg src)
+            public static InstField define(InstFieldSeg src)
             {
                 var fk = num(n3, InstFieldKind.InstSeg);
                 var vk = num(n7, src.Field);

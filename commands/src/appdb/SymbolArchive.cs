@@ -16,17 +16,5 @@ namespace Z0
 
         public DbTargets Targets(string scope)
             => new DbTargets(Targets(), scope);
-
-        // public DumpArchive Archive()
-        //     => new DumpArchive(Targets());
-
-        // public DumpArchive Archive(string scope, Timestamp ts)
-        //     => new DumpArchive(Targets(ts.Format()));
-
-        // public DumpArchive Refs()
-        //     => new (Env.CacheRoot + FS.folder(dumps) + FS.folder(images));
-
-        // public DumpArchive DotNet()
-        //     => new (Refs().DumpRoot() + FS.folder(EnvFolders.dotnet));
     }
 }

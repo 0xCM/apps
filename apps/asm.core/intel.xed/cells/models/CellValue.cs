@@ -79,10 +79,10 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public CellValue(InstSeg src)
+            public CellValue(InstFieldSeg src)
             {
                 var data = ByteBlock16.Empty;
-                core.@as<InstSeg>(data.First) = src;
+                core.@as<InstFieldSeg>(data.First) = src;
                 data[FieldIndex] = (byte)src.Field;
                 data[ClassIndex] = (byte)CK.InstSeg;
                 Data = data;
@@ -303,8 +303,8 @@ namespace Z0
                 => RuleKeyword.from(@as<KeywordKind>(Data.First));
 
             [MethodImpl(Inline)]
-            public ref readonly InstSeg AsInstSeg()
-                => ref @as<InstSeg>(Data.First);
+            public ref readonly InstFieldSeg AsInstSeg()
+                => ref @as<InstFieldSeg>(Data.First);
 
             [MethodImpl(Inline)]
             public FieldSeg ToFieldSeg()
@@ -353,7 +353,7 @@ namespace Z0
                 => new CellValue(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator CellValue(InstSeg src)
+            public static implicit operator CellValue(InstFieldSeg src)
                 => new CellValue(src);
 
             [MethodImpl(Inline)]

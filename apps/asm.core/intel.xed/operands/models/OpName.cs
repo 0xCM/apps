@@ -22,8 +22,8 @@ namespace Z0
                 Kind = src;
             }
 
-            public InstSigs.OpIndicator Indicator
-                => InstSigs.indicator(Kind);
+            public InstOpSymbol Indicator
+                => XedSigs.indicator(Kind);
 
             public bool IsEmpty
             {

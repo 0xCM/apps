@@ -16,6 +16,8 @@ namespace Z0
 
         ApiCommands,
 
+        ApiComments,
+
         ApiHosts,
 
         ApiTokens,
@@ -29,6 +31,8 @@ namespace Z0
         SymGroups,
 
         DataTypes,
+
+        DataTypeRecords,
 
         BitMasks,
 

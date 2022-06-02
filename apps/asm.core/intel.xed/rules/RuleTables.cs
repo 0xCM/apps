@@ -187,7 +187,7 @@ namespace Z0
                                 break;
                                 case CK.InstSeg:
                                 {
-                                    result = CellParser.parse(data, out InstSeg value);
+                                    result = CellParser.parse(data, out InstFieldSeg value);
                                     cell = new RuleCell(key, value, size);
                                 }
                                 break;

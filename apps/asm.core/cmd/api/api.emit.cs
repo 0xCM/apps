@@ -63,7 +63,6 @@ namespace Z0
         {
             ApiMd.EmitDatasets();
             AsmDocs.Emit();
-            var emitted = Assets.EmitPartAssets();
 
             //Heaps.Emit(Heaps.symbols(ApiMd.SymLits));
         }
@@ -77,15 +76,15 @@ namespace Z0
         [CmdOp("api/emit/comments")]
         void ApiEmitComments()
         {
-            var ds = ApiComments.Calc();
-            ref readonly var xmlsources = ref ds.XmlSources;
-            iter(xmlsources, path => Write(path.ToUri()));
+            ApiMd.EmitComments();
+            // ref readonly var xmlsources = ref ds.XmlSources;
+            // iter(xmlsources, path => Write(path.ToUri()));
 
-            ref readonly var csvtargets = ref ds.CsvRowLookup;
-            iter(csvtargets.Keys, key => Write(key.ToUri().Format()));
+            // ref readonly var csvtargets = ref ds.CsvRowLookup;
+            // iter(csvtargets.Keys, key => Write(key.ToUri().Format()));
 
-            ref readonly var sources = ref ds.Sources;
-            iter(sources, source => Write(source.ToUri()));
+            // ref readonly var sources = ref ds.Sources;
+            // iter(sources, source => Write(source.ToUri()));
         }
 
         [CmdOp("api/emit/index")]

@@ -42,7 +42,7 @@ namespace Z0
             public CellExpr FieldExpr;
 
             [Render(16)]
-            public InstSeg Seg;
+            public InstFieldSeg Seg;
 
             [Render(22)]
             public Nonterminal Nonterminal;
