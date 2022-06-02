@@ -37,8 +37,11 @@ namespace Z0
             ProjectDbRoot = ProjectRoot + FS.folder("db");
         }
 
-        public DbTargets CgTarget(CgTarget dst)
-            => new DbTargets(Env.DevRoot + FS.folder($"codegen/{Symbols.format(dst)}/src"));
+        public DbTargets CgTargets(CgTarget dst)
+            => new DbTargets(Env.ZDev, $"codegen/{Symbols.format(dst)}/src");
+
+        public DbTargets CgTargets(CgTarget dst, string scope)
+            => CgTargets(dst).Targets(scope);
 
         [MethodImpl(Inline)]
         public DbTargets Targets()

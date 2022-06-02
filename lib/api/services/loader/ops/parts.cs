@@ -8,8 +8,8 @@ namespace Z0
 
     partial struct ApiRuntimeLoader
     {
-        // public static IApiParts parts(bool libonly = true)
-        //     => parts(controller(), Environment.GetCommandLineArgs(), libonly);
+        public static IApiParts parts()
+            => parts(controller(), Environment.GetCommandLineArgs(), true);
 
         public static IApiParts parts(Assembly control, string[] args, bool libonly)
         {

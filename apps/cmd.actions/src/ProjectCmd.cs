@@ -33,11 +33,6 @@ namespace Z0
 
         AppSvcOps AppSvc => Wf.AppSvc();
 
-        public ProjectCmd With(AsmCmdRt rt)
-        {
-            return this;
-        }
-
         public ProjectCmd With(ICmdRunner runner)
         {
             Commands = runner;

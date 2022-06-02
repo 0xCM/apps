@@ -8,33 +8,6 @@ namespace Z0
 
     partial class StringTables
     {
-        public static uint calc<K>(ItemList<K,string> src, out Index<string> strings, out Index<char> content, out Index<uint> offsets)
-            where K : unmanaged
-        {
-            var count = src.Count;
-            strings = StringTables.strings(src);
-            offsets = alloc<uint>(count);
-            content = alloc<char>(text.length(strings.View));
-            var counter = 0u;
-            var j = 0u;
-            for(var i=0u; i<count; i++)
-            {
-                offsets[i] = j;
-                counter += copy(strings[i], ref j, content);
-            }
-            return counter;
-        }
-
-        public static Index<string> strings<K>(ItemList<K,string> src)
-            where K : unmanaged
-        {
-            var count = src.Length;
-            var dst = alloc<string>(count);
-            for(var i=0; i<count; i++)
-                seek(dst, i) = src[i].Value;
-            return dst;
-        }
-
         public static StringTable define<K>(SymTableSpec<K> spec)
             where K : unmanaged
                 => StringTables.define(StringTables.spec(spec), spec.Entries);
@@ -101,7 +74,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        internal static uint copy(ReadOnlySpan<char> src, ref uint i, Span<char> dst)
+        static uint copy(ReadOnlySpan<char> src, ref uint i, Span<char> dst)
         {
             var i0 = i;
             var count = src.Length;

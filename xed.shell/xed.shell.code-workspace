@@ -47,6 +47,10 @@
 		{
 			"path": "../diagnostics"
 		}
+        ,
+		{
+			"path": "../lang"
+		}
 	],
 	"settings": {}
 }

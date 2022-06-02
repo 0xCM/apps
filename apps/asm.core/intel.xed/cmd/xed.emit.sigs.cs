@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRules;
-
     partial class AsmCoreCmd
     {
         [CmdOp("xed/emit/sigs")]

@@ -14,7 +14,7 @@ namespace Z0
 
          DbTargets ProjectDb(string name);
 
-         DbTargets CgTarget(CgTarget dst);
+         DbTargets CgTargets(CgTarget dst);
 
          DbTargets Targets();
 

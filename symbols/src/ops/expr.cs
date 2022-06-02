@@ -2,14 +2,13 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-
 namespace Z0
 {
     using static core;
 
-    public readonly struct SymTables
+    partial class Symbolic
     {
-        public static SymTableSpec<K> expressions<K>(
+        public static SymTableSpec<K> expr<K>(
             string tableNs = null,
             string indexNs = null,
             string tableName = null,
@@ -32,35 +31,12 @@ namespace Z0
             return dst;
         }
 
-        public static SymTableSpec<K> names<K>(
-            string tableNs = null,
-            string indexNs = null,
-            string tableName = null,
-            string indexName = null,
-            bool emitIndex = true,
-            bool parametric = true
-            )
-            where K : unmanaged, Enum
-        {
-            var dst = new SymTableSpec<K>();
-            spec(
-                tableNs: TableNs<K>(tableNs),
-                indexNs: IndexNs<K>(indexNs),
-                tableName: Table<K>(tableName),
-                indexName: Index<K>(indexName),
-                emitIndex: emitIndex,
-                parametric: parametric,
-                entries: SymLists.names(Symbols.index<K>(), Table<K>(tableName)),
-                ref dst);
-            return dst;
-        }
-
         static void spec<K>(string tableNs, string indexNs, string tableName, string indexName, bool emitIndex, bool parametric, ItemList<K,string> entries, ref SymTableSpec<K> dst)
             where K : unmanaged
         {
             dst.Entries = entries;
             var count = dst.Entries.Count;
-            StringTables.calc(entries, out dst.Strings, out dst.Content, out dst.Offsets);
+            calc(entries, out dst.Strings, out dst.Content, out dst.Offsets);
             dst.IndexName = indexName;
             dst.TableName = tableName;
             dst.IndexNs = indexName;
@@ -76,6 +52,33 @@ namespace Z0
                 row.Content = entries[j].Value;
                 row.Table = dst.TableName;
             }
+        }
+
+        static uint calc<K>(ItemList<K,string> src, out Index<string> strings, out Index<char> content, out Index<uint> offsets)
+            where K : unmanaged
+        {
+            var count = src.Count;
+            strings = StringTables.strings(src);
+            offsets = alloc<uint>(count);
+            content = alloc<char>(text.length(strings.View));
+            var counter = 0u;
+            var j = 0u;
+            for(var i=0u; i<count; i++)
+            {
+                offsets[i] = j;
+                counter += copy(strings[i], ref j, content);
+            }
+            return counter;
+        }
+
+        [MethodImpl(Inline), Op]
+        static uint copy(ReadOnlySpan<char> src, ref uint i, Span<char> dst)
+        {
+            var i0 = i;
+            var count = src.Length;
+            for(var j=0; j<count; j++)
+                seek(dst,i++) = skip(src,j);
+            return i - i0;
         }
 
         static string Table<K>(string name = null)

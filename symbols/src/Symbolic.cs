@@ -46,7 +46,6 @@ namespace Z0
             var e3 = store.Find(s3);
             var e4 = store.Find(s4);
             var e5 = store.Find(s5);
-
         }
     }
 }

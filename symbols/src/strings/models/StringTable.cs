@@ -54,6 +54,10 @@ namespace Z0
             get => Entry((int)index);
         }
 
+        [MethodImpl(Inline)]
+        public ReadOnlySpan<char> String(uint index)
+            => this[index];
+
         public uint EntryCount
         {
             [MethodImpl(Inline)]
