@@ -2,11 +2,13 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
+    <DebugSymbols>true</DebugSymbols>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
     <Reference Include="$(ZLibName)" HintPath="$(ZLibPath)"/>
-    <EmbeddedResource Include="assets/**/*.*" />
+    <ProjectReference Include="$(Symbols)" />
   </ItemGroup>
 
 </Project>

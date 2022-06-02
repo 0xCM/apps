@@ -2,20 +2,19 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <AssemblyName>z0.xed.shell</AssemblyName>
+    <AssemblyName>intel</AssemblyName>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
 
   <ItemGroup>
+    <Reference Include="$(ZLibName)" HintPath="$(ZLibPath)"/>
     <ProjectReference Include="$(AsmCore)" />
     <ProjectReference Include="$(TestChecks)" />
     <ProjectReference Include="$(CodeGenLlvm)" />
     <ProjectReference Include="$(CodeGenIntel)" />
     <ProjectReference Include="$(IntelIntrinsics)" />
     <ProjectReference Include="$(Cli)" />
-
   </ItemGroup>
 
-  <Import Project="../imports.props"/>
 
 </Project>

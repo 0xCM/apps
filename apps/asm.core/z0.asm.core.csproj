@@ -12,6 +12,7 @@
     <ProjectReference Include="$(CodeGenIntel)" />
     <ProjectReference Include="$(Diagnostics)" />
     <ProjectReference Include="$(Lang)" />
+    <ProjectReference Include="$(Rules)" />
 
   </ItemGroup>
 </Project>

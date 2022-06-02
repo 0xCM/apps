@@ -32,9 +32,16 @@ mkdir %BuildLogs% 1>nul 2>nul
 set CmdLogs=%BuildLogs%
 mkdir %CmdLogs% 1>nul 2>nul
 
+set ProjectFile=z0.%ProjectId%.csproj
+set ShellName=%ShellId%.exe
+set LibName=z0.%ProjectId%.dll
+
 set CmdLog=%CmdLogs%\z0.cmd.log
 set ProjectBuildRoot=%BuildBinRoot%\z0.%ProjectId%\%BuildKind%\%FrameworkMoniker%
-set ProjectFile=z0.%ProjectId%.csproj
+set ShellBin=%ProjectBuildRoot%\%RuntimeMoniker%
+set LibPath=%ProjectBuildRoot%\%LibName%
+set ShellPath=%ShellBin%\%ShellName%
+
 set ProjectBinLog=%BuildLogs%\z0.%ProjectId%.build.bin
 set ProjectBuildLog=%BuildLogs%\z0.%ProjectId%.build.log
 set ProjectGraphPath=%BuildLogs%\z0.%ProjectId%.dg.json
@@ -82,3 +89,17 @@ set AreaBuildLog=%BuildLogs%\%Area%.main.build.log
 set BuildAreaCmd=dotnet build %AreaSln% %BuildProps% -fl -flp:logfile=%AreaBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 set BuildMainCmd=%BuildAreaCmd%
 echo BuildMainCmd:%BuildMainCmd% >> %CmdLog%
+
+set ShellProject=%SlnRoot%\%ProjectId%\z0.%ProjectId%.csproj
+set ShellBuildLog=%BuildLogs%\z0.%ProjectId%.build.log
+set BuildShellCmd=dotnet build %ShellProject% %BuildProps% -fl -flp:logfile=%ShellBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
+echo BuildShellCmd:%BuildShellCmd% >> %CmdLog%
+
+set DeploySrc=%ShellBin%
+set DeployLog=%EtlLogs%\deploy-%ProjectId%.log
+set DeployDst=%ZBin%
+set DeployCmd=robocopy %DeploySrc% %DeployDst% /log:%DeployLog% /tee /TS /BYTES /V /e
+
+echo DeploySrc:%DeploySrc% > %DeployLog%
+echo DeployDst:%DeployDst% >> %DeployLog%
+echo DeployCmd:%DeployCmd% >> %DeployLog%

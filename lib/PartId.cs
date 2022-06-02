@@ -195,6 +195,9 @@ public enum PartId : byte
     [Symbol("api.code")]
     ApiCode,
 
+    [Symbol("rules")]
+    Rules,
+
     // ~ Generated 100 .. 127
     // ~ -------------------------------------------------------------------------------
 

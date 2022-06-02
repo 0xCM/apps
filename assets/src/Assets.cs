@@ -8,28 +8,17 @@ namespace Z0
     using System.Text;
 
     using static core;
+    using static TaggedLiterals;
 
-    public class Resources
-    {
-        [Op]
-        public static ApiCodeRes code(string id, ReadOnlySpan<CodeBlock> src)
-        {
-            var count = src.Length;
-            var buffer = alloc<BinaryResSpec>(count);
-            var dst = span(buffer);
-            for(var i=0u; i<count; i++)
-                seek(dst,i) = new BinaryResSpec(string.Format("{0}_{1}", id, i), skip(src,i));
-            return new ApiCodeRes(buffer);
-        }
-    }
-
-    public sealed class Assets : AppService<Assets>
+    public sealed partial class Assets : AppService<Assets>
     {
         const NumericKind Closure = UnsignedInts;
 
         AppDb AppDb => Wf.AppDb();
 
         AppSvcOps AppSvc => Wf.AppSvc();
+
+        DbTargets AssetTargets => AppDb.ApiTargets("assets");
 
         [MethodImpl(Inline), Op]
         public static string utf8(in Asset src)
@@ -67,30 +56,6 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ReadOnlySpan<char> view(in StringResRow src)
             => core.view<char>(src.Address, src.Length);
-
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public unsafe static ResMember member<T>(MemberInfo member, ReadOnlySpan<T> src)
-            => new ResMember(member, MemorySegs.define(recover<T,byte>(src)));
-
-        [MethodImpl(Inline), Op]
-        public unsafe static ResMember member(FieldInfo field, uint size)
-            => new ResMember(field, MemorySegs.define(field.FieldHandle.Value, size));
-
-        [MethodImpl(Inline), Op]
-        public unsafe static ResMember member(W8 w, FieldInfo field)
-            => new ResMember(field, MemorySegs.define(field.FieldHandle.Value, 1));
-
-        [MethodImpl(Inline), Op]
-        public unsafe static ResMember member(W16 w, FieldInfo field)
-            => new ResMember(field, MemorySegs.define(field.FieldHandle.Value, 2));
-
-        [MethodImpl(Inline), Op]
-        public unsafe static ResMember member(W32 w, FieldInfo field)
-            => new ResMember(field, MemorySegs.define(field.FieldHandle.Value, 4));
-
-        [MethodImpl(Inline), Op]
-        public unsafe static ResMember member(W64 w, FieldInfo field)
-            => new ResMember(field, MemorySegs.define(field.FieldHandle.Value, 8));
 
         [Op]
         public static Index<StringRes> strings(Type src)
@@ -287,32 +252,6 @@ namespace Z0
         public Index<ResEmission> Run(EmitResDataCmd cmd)
             => EmitEmbedded(cmd.Source, cmd.Target, cmd.Match, cmd.ClearTarget);
 
-        public Index<ResEmission> EmitAssetContent()
-        {
-            var outer = Running("Emitting reference data");
-            var components = ApiRuntimeCatalog.Components;
-            var descriptors = Assets.descriptors(components).SelectMany(x => x.Storage).View;
-            var count = descriptors.Length;
-            var root = ProjectDb.Api() + FS.folder("assets");
-            root.Clear();
-            var emissions = sys.alloc<ResEmission>(count);
-            for(var i=0; i<count; i++)
-            {
-                try
-                {
-                    ref var emission = ref seek(emissions,i);
-                    ref readonly var descriptor = ref skip(descriptors,i);
-                    emission = EmitData(descriptor, root);
-                }
-                catch(Exception e)
-                {
-                    Error(e);
-                }
-            }
-            Ran(outer, string.Format("Emitted <{0}> reference files", count));
-            return emissions;
-        }
-
         static Index<DocLibEntry> entries(Assembly src)
         {
             var names = @readonly(src.GetManifestResourceNames());
@@ -322,25 +261,6 @@ namespace Z0
             for(var i=0; i<count; i++)
                 seek(dst,i) =new DocLibEntry(skip(names,i), Path.GetExtension(skip(names,i)));
             return buffer;
-        }
-
-        public Index<ResEmission> EmitEmbedded()
-        {
-            var running = Running();
-            var src = Assets.descriptors(ApiRuntimeCatalog.Components);
-            var count = src.Length;
-            var buffer = list<ResEmission>();
-            var root = ProjectDb.Api() + FS.folder("assets");
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var assets = ref src[i];
-                for(var j=0u; j<assets.Count; j++)
-                    buffer.Add(EmitData(assets[j], root));
-            }
-
-            Ran(running);
-
-            return buffer.ToArray();
         }
 
         public Index<ResEmission> EmitEmbedded(Assembly src, FS.FolderPath root, utf8 match, bool clear)
