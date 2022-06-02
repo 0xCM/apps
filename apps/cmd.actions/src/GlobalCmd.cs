@@ -4,10 +4,33 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using llvm;
+
     using static core;
 
     public partial class GlobalCmd : AppCmdService<GlobalCmd,CmdShellState>, ICmdRunner
     {
+        public static GlobalCmd service(IWfRuntime wf)
+        {
+            var svc = new GlobalCmd();
+            var asmrt = wf.AsmCmdRt(false);
+            var providers = array<ICmdProvider>(
+                svc,
+                ProjectCmd.inject(svc, asmrt, ProjectCmd.create(wf)),
+                LlvmCmdProvider.create(wf, LlvmCmd.create(wf)),
+                asmrt.Commands,
+                wf.PbCmd(),
+                wf.XedTool(),
+                wf.DiagnosticCmd(),
+                ApiCmd.create(wf),
+                CheckCmd.create(wf),
+                GenCmd.create(wf),
+                AsmCmdProvider.create(wf)
+                );
+
+            return GlobalCmd.init(wf, svc, asmrt, providers);
+        }
+
         static ICmdProvider[] _Providers;
 
         public static GlobalCmd init(IWfRuntime wf, GlobalCmd svc, AsmCmdRt asmrt, ICmdProvider[] providers)

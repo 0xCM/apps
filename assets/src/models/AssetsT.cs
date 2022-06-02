@@ -17,7 +17,7 @@ namespace Z0
 
         protected Assets()
         {
-            Components = Assets.descriptors(DataSource);
+            Components = Assets.assets(DataSource);
         }
 
         public ref readonly Asset Asset(ResourceName id)

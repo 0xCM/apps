@@ -8,14 +8,11 @@ namespace Z0
     {
         AppDb AppDb => Wf.AppDb();
 
-        DbTargets Targets()
+        public DbTargets Targets()
             => AppDb.ApiTargets("capture");
 
         DbSources Sources()
             => Targets().ToSource();
-
-        public FS.FolderPath TargetRoot()
-            => Targets();
 
         public FS.Files HexFiles()
             => Sources().Files(FileKind.Hex);

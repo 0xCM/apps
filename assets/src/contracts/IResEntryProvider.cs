@@ -6,6 +6,6 @@ namespace Z0
 {
     public interface IResEntryProvider
     {
-        Index<DocLibEntry> Entries {get;}
+        Index<ResDocInfo> Entries {get;}
     }
 }

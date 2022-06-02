@@ -11,9 +11,9 @@ namespace Z0
         readonly Index<Asset> Data;
 
         [MethodImpl(Inline)]
-        public ComponentAssets(Assembly src, Index<Asset> descriptors)
+        public ComponentAssets(Assembly src, Index<Asset> data)
         {
-            Data = descriptors;
+            Data = data;
             Source = src;
         }
 

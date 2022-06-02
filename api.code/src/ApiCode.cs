@@ -50,7 +50,7 @@ namespace Z0
             => blocks(Files.HexFiles());
 
         public MemoryBlocks LoadMemoryBlocks()
-            => LoadMemoryBlocks(Files.TargetRoot());
+            => LoadMemoryBlocks(Files.Targets());
 
         [MethodImpl(Inline), Op]
         public static void charpack(byte src, out char c0, out char c1)

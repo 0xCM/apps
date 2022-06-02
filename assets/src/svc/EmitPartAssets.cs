@@ -11,10 +11,7 @@ namespace Z0
         public Index<ResEmission> EmitPartAssets()
         {
             var flow = Running("Emitting part assets");
-            var src = Assets.descriptors(ApiRuntimeCatalog.Components).SelectMany(x => x);
-            var count = src.Length;
-            var root = ProjectDb.Api() + FS.folder("assets");
-            root.Clear();
+            var src = Assets.assets(ApiRuntimeCatalog.Components).SelectMany(x => x);
             var dst = alloc<ResEmission>(src.Count);
             var counter = 0u;
             for(var i=0; i<src.Count; i++, counter++)

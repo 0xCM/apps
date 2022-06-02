@@ -14,7 +14,7 @@ namespace Z0
 
         AsmDecoder AsmDecoder => Service(Wf.AsmDecoder);
 
-        ApiCodeFiles ApiCodeFiles => Wf.ApiCodeFiles();
+        ApiCodeFiles CodeFiles => Wf.ApiCodeFiles();
 
         ApiCode ApiCode => Wf.ApiCode();
 
@@ -22,9 +22,9 @@ namespace Z0
 
         public void Run()
         {
+            CodeFiles.Targets().Delete();
             using var symbols = Alloc.dispenser(Alloc.symbols);
-
-            iter(ApiMd.Parts, part => Run(symbols,part), true);
+            iter(ApiMd.Parts, part => Run(symbols, part), true);
         }
 
         public void Run(PartId id)
@@ -60,16 +60,16 @@ namespace Z0
         void Run(SymbolDispenser symbols, ApiHostUri src)
         {
             var collected = ApiCode.Collect(src);
-            var size = ApiCode.EmitHex(collected, ApiCodeFiles.HexPath(src));
-            var csv = ApiCode.EmitCsv(collected, ApiCodeFiles.CsvPath(src));
+            var size = ApiCode.EmitHex(collected, CodeFiles.HexPath(src));
+            var csv = ApiCode.EmitCsv(collected, CodeFiles.CsvPath(src));
             var asm = EmitAsm(symbols, src, collected);
         }
 
         void Run(SymbolDispenser symbols, IPart src)
         {
             var collected = ApiCode.Collect(symbols,src).Sort();
-            var size = ApiCode.EmitHex(collected, ApiCodeFiles.HexPath(src.Id));
-            var csv = ApiCode.EmitCsv(collected, ApiCodeFiles.CsvPath(src.Id));
+            var size = ApiCode.EmitHex(collected, CodeFiles.HexPath(src.Id));
+            var csv = ApiCode.EmitCsv(collected, CodeFiles.CsvPath(src.Id));
             var asm = EmitAsm(symbols, src.Id, collected);
         }
 
@@ -84,7 +84,7 @@ namespace Z0
                 emitter.AppendLine(routine.AsmRender(routine));
             }
 
-            AppSvc.FileEmit(emitter.Emit(), src.Count, ApiCodeFiles.AsmPath(part));
+            AppSvc.FileEmit(emitter.Emit(), src.Count, CodeFiles.AsmPath(part));
             return dst;
         }
 
@@ -99,7 +99,7 @@ namespace Z0
                 emitter.AppendLine(routine.AsmRender(routine));
             }
 
-            AppSvc.FileEmit(emitter.Emit(), src.Count, ApiCodeFiles.AsmPath(host));
+            AppSvc.FileEmit(emitter.Emit(), src.Count, CodeFiles.AsmPath(host));
             return dst;
         }
     }

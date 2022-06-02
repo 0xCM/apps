@@ -5,7 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="assets/**/*.*" />
+    <ProjectReference Include="$(Bits)" />
+    <ProjectReference Include="$(Assets)" />
+    <ProjectReference Include="$(Numbers)" />
   </ItemGroup>
 
   <Import Project="../imports.props"/>

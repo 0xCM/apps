@@ -4,23 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    public struct DocLibEntry : IRecord<DocLibEntry>
+    public readonly struct ResDocInfo
     {
-        public string Name;
-
-        public string Type;
+        public readonly Label Name;
 
         [MethodImpl(Inline)]
-        public DocLibEntry(string name, string type)
+        public ResDocInfo(Label name)
         {
             Name = name;
-            Type = type;
         }
+
+        public FS.FileExt Type
+            => FS.file(Name.Format()).Ext;
 
         public string Format()
             => string.Format("{0,-16} | {1}", Type, Name);
