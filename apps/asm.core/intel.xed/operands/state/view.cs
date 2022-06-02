@@ -19,7 +19,7 @@ namespace Z0
         {
             [MethodImpl(Inline), Op]
             public static ref readonly InstClass iclass(in OperandState src)
-                => ref @as<IClass,InstClass>(src.ICLASS);
+                => ref @as<InstClassType,InstClass>(src.ICLASS);
 
             [MethodImpl(Inline), Op]
             public static OpCodeIndex ocindex(in OperandState state)

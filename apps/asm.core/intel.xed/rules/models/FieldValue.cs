@@ -106,7 +106,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public FieldValue(FieldKind kind, IClass data)
+            public FieldValue(FieldKind kind, InstClassType data)
             {
                 Field = kind;
                 Data = (ushort)data;
@@ -211,7 +211,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public InstClass ToInstClass()
-                => (IClass)Data;
+                => (InstClassType)Data;
 
             [MethodImpl(Inline)]
             public ChipCode ToChip()
@@ -290,7 +290,7 @@ namespace Z0
                 => src.ToMode();
 
             [MethodImpl(Inline)]
-            public static implicit operator IClass(FieldValue src)
+            public static implicit operator InstClassType(FieldValue src)
                 => src.ToInstClass();
 
             [MethodImpl(Inline)]

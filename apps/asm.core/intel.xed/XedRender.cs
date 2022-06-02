@@ -88,7 +88,7 @@ namespace Z0
 
         static EnumRender<OpVisibility> OpVis = new();
 
-        static EnumRender<IClass> Classes = new();
+        static EnumRender<InstClassType> Classes = new();
 
         static EnumRender<VexLength> VexLengthKinds = new();
 
@@ -327,7 +327,7 @@ namespace Z0
         public static string format(XopMapKind src)
             => src == 0 ? EmptyString : src.ToString();
 
-        public static string format(IClass src)
+        public static string format(InstClassType src)
             => Classes.Format(src);
 
         public static string format(RuleCellKind src)

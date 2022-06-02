@@ -15,10 +15,10 @@ namespace Z0
         public ReadOnlySpan<QueryResult> QueryForms(Index<FormImport> src, string monic, bool emit = true)
         {
             const string RenderPattern = "class:{0,-24} form:{1,-32} category:{2,-16} isa:{3,-16} ext:{4,-16} attribs:{5}";
-            var types = Symbols.index<IFormType>();
+            var types = Symbols.index<InstFormType>();
             var cats = Symbols.index<CategoryKind>();
             var _isa = Symbols.index<InstIsaKind>();
-            var classes = Symbols.index<IClass>();
+            var classes = Symbols.index<InstClassType>();
             var extensions = Symbols.index<ExtensionKind>();
             var count = src.Length;
             var dst = list<QueryResult>();

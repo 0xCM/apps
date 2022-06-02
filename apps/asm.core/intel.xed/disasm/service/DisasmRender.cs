@@ -41,7 +41,7 @@ namespace Z0
 
             public static string format(in DisasmBlock src)
             {
-                var dst = text.buffer();
+                var dst = text.emitter();
                 var count = src.Lines.Count;
                 for(var i=0; i<count; i++)
                 {

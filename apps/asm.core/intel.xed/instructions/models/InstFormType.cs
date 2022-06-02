@@ -8,7 +8,7 @@ namespace Z0
     partial struct XedModels
     {
         [SymSource(xed), DataWidth(num13.Width)]
-        public enum IFormType : ushort
+        public enum InstFormType : ushort
         {
             [Symbol("")]
             INVALID=0,

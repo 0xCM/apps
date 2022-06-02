@@ -10,13 +10,8 @@ namespace Z0
 
     partial class XedDisasm
     {
-        public static Outcome parse(in XedDisasmLines src, out Instruction dst)
-        {
-            ref readonly var block = ref src.Block;
-            var props = block.ParseProps();
-            instruction(src.Row.InstructionId, block.Props.Content, props, out dst);
-            return true;
-        }
+        public static void parse(in XedDisasmLines src, out Instruction dst)
+            => XedPatterns.instruction(src.Row.InstructionId, src.Block.Props.Content, XedDisasm.fields(src.Block), out dst);
 
         public static uint parse(in DisasmBlock src, out InstFieldValues dst)
         {
@@ -46,8 +41,7 @@ namespace Z0
             }
 
             DisasmParse.parse(src, out var _class, out var _form);
-
-            dst = XedDisasm.props(_class, _form, facets);
+            dst = InstFieldValues.define(_class, _form, facets);
 
             return k;
         }

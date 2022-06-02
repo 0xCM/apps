@@ -174,7 +174,7 @@ namespace Z0
                 => src.Reg();
 
             [MethodImpl(Inline)]
-            public static implicit operator IClass(Field src)
+            public static implicit operator InstClassType(Field src)
                 => src.Inst();
 
             [MethodImpl(Inline)]

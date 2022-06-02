@@ -7,15 +7,15 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [DataWidth(Width,16)]
+        [DataWidth(Width)]
         public struct InstForm : IEquatable<InstForm>, IComparable<InstForm>
         {
             public const byte Width = Hex14.Width;
 
-            public readonly IFormType Kind;
+            public readonly InstFormType Kind;
 
             [MethodImpl(Inline)]
-            public InstForm(IFormType src)
+            public InstForm(InstFormType src)
                 => Kind = src;
 
             public bool IsNonEmpty
@@ -52,11 +52,11 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public static implicit operator InstForm(IFormType src)
+            public static implicit operator InstForm(InstFormType src)
                 => new InstForm(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator IFormType(InstForm src)
+            public static implicit operator InstFormType(InstForm src)
                 => src.Kind;
 
             [MethodImpl(Inline)]
@@ -65,7 +65,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static explicit operator InstForm(ushort src)
-                => new InstForm((IFormType)src);
+                => new InstForm((InstFormType)src);
 
             public static InstForm Empty => default;
         }

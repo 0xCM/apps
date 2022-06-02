@@ -4,10 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
     using static XedOps;
+    using static XedRules;
 
     partial class XedDisasm
     {
+        public static InstFieldValues fields(in DisasmBlock src)
+        {
+            parse(src, out InstFieldValues dst);
+            return dst;
+        }
+
         public static DisasmFieldBuffer fields()
             => DisasmFieldBuffer.allocate();
 
@@ -15,7 +23,7 @@ namespace Z0
         {
             dst.Clear();
             ref readonly var lines = ref src.SummaryLines;
-            dst.Props = props(lines.Block);
+            dst.Props = fields(lines.Block);
             FieldParser.parse(dst.Props, dst.Fields, false);
             dst.Asm = asminfo(lines.Block);
             dst.Lines = lines.Block;

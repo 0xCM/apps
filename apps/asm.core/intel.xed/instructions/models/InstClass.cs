@@ -20,9 +20,9 @@ namespace Z0
 
             public const byte Width = num11.Width;
 
-            public readonly IClass Kind;
+            public readonly InstClassType Kind;
 
-            public InstClass(IClass kind)
+            public InstClass(InstClassType kind)
             {
                 Require.nonzero(kind);
                 Kind = kind;
@@ -72,11 +72,11 @@ namespace Z0
                 => o is InstClass c && Equals(c);
 
             [MethodImpl(Inline)]
-            public static implicit operator InstClass(IClass src)
+            public static implicit operator InstClass(InstClassType src)
                 => new InstClass(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator IClass(InstClass src)
+            public static implicit operator InstClassType(InstClass src)
                 => src.Kind;
 
             [MethodImpl(Inline)]
@@ -97,7 +97,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static explicit operator InstClass(ushort src)
-                => new InstClass((IClass)src);
+                => new InstClass((InstClassType)src);
 
            public static InstClass Empty => default;
         }

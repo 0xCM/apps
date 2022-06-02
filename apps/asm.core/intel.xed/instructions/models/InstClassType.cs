@@ -8,7 +8,7 @@ namespace Z0
     partial struct XedModels
     {
         [SymSource(xed), DataWidth(num11.Width)]
-        public enum IClass : ushort
+        public enum InstClassType : ushort
         {
             [Symbol("")]
             INVALID,

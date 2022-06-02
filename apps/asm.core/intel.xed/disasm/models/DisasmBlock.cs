@@ -80,9 +80,6 @@ namespace Z0
             public AsmInfo ParseAsm()
                 => asminfo(this);
 
-            public InstFieldValues ParseProps()
-                => XedDisasm.props(this);
-
             public string Format()
                 => DisasmRender.format(this);
 

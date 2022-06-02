@@ -42,9 +42,7 @@ namespace Z0
             ref readonly var summary = ref src.Row;
             ref readonly var code = ref summary.Encoded;
             var inst = Instruction.Empty;
-            var result = parse(src, out inst);
-            if(result.Fail)
-                Errors.Throw(result.Message);
+            parse(src, out inst);
 
             var dst = DetailBlockRow.Empty;
             dst.Seq = summary.Seq;
@@ -76,7 +74,7 @@ namespace Z0
             for(var k=0; k<lines.OpCount; k++)
             {
                 ref var operand = ref dst.Ops[k];
-                result = parse(skip(lines.Ops, k).Content, out operand.Spec);
+                var result = parse(skip(lines.Ops, k).Content, out operand.Spec);
                 if(result.Fail)
                     Errors.Throw(result.Message);
 

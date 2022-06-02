@@ -13,7 +13,7 @@ namespace Z0
         [CmdOp("xed/gen/check")]
         void GenXedCode()
         {
-            var table = IFormTypeST.Strings.Kinded<IFormType>();
+            var table = IFormTypeST.Strings.Kinded<InstFormType>();
             var count = table.EntryCount;
             for(var i=z16; i<count; i++)
             {
@@ -25,7 +25,7 @@ namespace Z0
                 }
             }
 
-            var spec = SymTables.expressions<IFormType>(
+            var spec = SymTables.expressions<InstFormType>(
                 indexNs:"Z0",
                 tableNs:"Z0.Strings",
                 emitIndex:false,

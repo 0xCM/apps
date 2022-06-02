@@ -15,7 +15,7 @@ namespace Z0
 
         static DetailBlock block(in XedDisasmLines src)
         {
-            parse(src, out Instruction inst).Require();
+            parse(src, out Instruction inst);
             return new DetailBlock(row(src), src, inst);
         }
     }

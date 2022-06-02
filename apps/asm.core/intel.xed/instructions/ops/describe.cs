@@ -10,6 +10,9 @@ namespace Z0
 
     partial class XedPatterns
     {
+        public static void instruction(InstructionId id, string expr, InstFieldValues props, out Instruction dst)
+            => dst = new Instruction(id, expr, props.InstClass, props.InstForm, props);
+
         public static Index<InstPatternRecord> records(Index<InstPattern> src, bool pll = true)
         {
             var count = src.Count;

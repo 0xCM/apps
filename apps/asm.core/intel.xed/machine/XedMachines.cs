@@ -45,7 +45,7 @@ namespace Z0
             Xed = xed;
             Allocate();
             var patterns = xed.Views.Patterns;
-            var selected = patterns.Where(x => x.Classifier == IClass.AND);
+            var selected = patterns.Where(x => x.Classifier == InstClassType.AND);
             return new XedMachine(xed);
         }
 

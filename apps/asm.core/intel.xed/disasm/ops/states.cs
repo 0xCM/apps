@@ -33,7 +33,7 @@ namespace Z0
             var dst = StateRecord.Empty;
             dst.Asm = block.ParseAsm();
             dst.Ops = block.ParseOps();
-            dst.Fields = block.ParseProps().ParseFields(out dst.State);
+            dst.Fields = XedDisasm.fields(block).ParseFields(out dst.State);
             return dst;
         }
     }

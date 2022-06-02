@@ -9,9 +9,7 @@ namespace Z0
 
     partial class XedRules
     {
-        public static void instruction(InstructionId id, string expr, InstFieldValues props, out Instruction dst)
-            => dst = new Instruction(id, expr, props.InstClass, props.InstForm, props);
-
+        [StructLayout(StructLayout,Pack=1)]
         public readonly record struct Instruction
         {
             public readonly InstructionId Id;

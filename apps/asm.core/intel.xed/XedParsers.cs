@@ -45,9 +45,9 @@ namespace Z0
 
         static readonly EnumParser<FpuRegId> FpuRegs = new();
 
-        static readonly EnumParser<IClass> Classes = new();
+        static readonly EnumParser<InstClassType> Classes = new();
 
-        static readonly EnumParser<IFormType> Forms = new();
+        static readonly EnumParser<InstFormType> Forms = new();
 
         static readonly EnumParser<DispWidth> DispWidths = new();
 
@@ -456,12 +456,12 @@ namespace Z0
             }
         }
 
-        public static bool parse(string src, out IClass dst)
+        public static bool parse(string src, out InstClassType dst)
             => Classes.Parse(src, out dst);
 
         public static bool parse(string src, out InstClass dst)
         {
-            if(parse(src, out IClass @class))
+            if(parse(src, out InstClassType @class))
             {
                 dst = @class;
                 return true;
@@ -481,7 +481,7 @@ namespace Z0
                 return true;
             }
 
-            if(Forms.Parse(src, out IFormType type))
+            if(Forms.Parse(src, out InstFormType type))
             {
                 dst = type;
                 return true;

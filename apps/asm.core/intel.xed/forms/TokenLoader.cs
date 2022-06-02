@@ -88,7 +88,7 @@ namespace Z0
                 names[tk] = RepNames;
 
                 tk = TK.InstClass;
-                var @classes = Symbols.index<IClass>().Kinds;
+                var @classes = Symbols.index<InstClassType>().Kinds;
                 tokens(@classes, ref i, index);
                 names[tk] = map(@classes, c => c.ToString()).ToHashSet();
 
@@ -139,7 +139,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            static uint tokens(ReadOnlySpan<IClass> classes, ref uint i, Index<FormToken> dst)
+            static uint tokens(ReadOnlySpan<InstClassType> classes, ref uint i, Index<FormToken> dst)
             {
                 var i0 = i;
                 for(var j=0; j<classes.Length; j++, i++)
@@ -187,7 +187,7 @@ namespace Z0
                 + Gp8RegLitNames.Count + Gp16RegLitNames.Count + Gp32RegLitNames.Count + Gp64RegLitNames.Count + RegIndexNames.Count
                 + IsaKindNames.Count + CpuidNames.Count
                 + NonTermNames.Count + FieldNames.Count + InstCategoryNames.Count + RepNames.Count
-                + (int)Symbols.index<IClass>().Count;
+                + (int)Symbols.index<InstClassType>().Count;
 
 
             const FormTokenKind LastKind = FormTokenKind.Hex16Lit;

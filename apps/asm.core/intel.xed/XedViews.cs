@@ -89,12 +89,6 @@ namespace Z0
             get => ref Load<CellDatasets>(XedRecord.CellDatasets);
         }
 
-        public ref readonly Index<InstDef> InstDefs
-        {
-            [MethodImpl(Inline)]
-            get => ref Load<Index<InstDef>>(XedRecord.InstDefs);
-        }
-
         public ref readonly Index<InstOpCode> OpCodes
         {
             [MethodImpl(Inline)]

@@ -12,7 +12,7 @@ namespace Z0
         [CmdOp("symbols/check")]
         void CheckSymHeaps()
         {
-            var src = Heaps.symbols<IFormType>(w32,w8);
+            var src = Heaps.symbols<InstFormType>(w32,w8);
             var count = src.EntryCount;
             var size = src.Size;
             var remainder = src.Size/2;

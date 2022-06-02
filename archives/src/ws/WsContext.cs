@@ -19,6 +19,12 @@ namespace Z0
             Flows = flows;
         }
 
+        public DbTargets ProjectDatasets()
+            => new DbTargets(Project.Datasets());
+
+        public DbTargets ProjectDatasets(string scope)
+            => new DbTargets(Project.Datasets(scope));
+
         public Index<FileRef> Files(FileKind k)
             => Catalog.Entries(k);
 

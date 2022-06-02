@@ -5,8 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedDisasmModels;
-
     partial class XedDisasm
     {
         public class Document
@@ -25,7 +23,13 @@ namespace Z0
             public ref readonly FileRef Origin
             {
                 [MethodImpl(Inline)]
-                get => ref Summary.Origin;
+                get => ref Detail.Origin;
+            }
+
+            public ref readonly Index<DetailBlock> DetailBlocks
+            {
+                [MethodImpl(Inline)]
+                get => ref Detail.Blocks;
             }
 
             public ref readonly FileRef DataSource

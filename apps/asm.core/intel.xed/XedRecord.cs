@@ -19,8 +19,6 @@ namespace Z0
 
         CellDatasets,
 
-        InstDefs,
-
         OpCodes,
 
         IsaImport,

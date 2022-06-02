@@ -19,7 +19,7 @@ namespace Z0
         {
             [MethodImpl(Inline), Op]
             public static ref InstClass iclass(ref OperandState src)
-                => ref @as<IClass,InstClass>(src.ICLASS);
+                => ref @as<InstClassType,InstClass>(src.ICLASS);
 
             [MethodImpl(Inline), Op]
             public static ref VexLength vl(ref OperandState src)

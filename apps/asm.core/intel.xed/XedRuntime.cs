@@ -120,7 +120,6 @@ namespace Z0
                 () => XedRules.CalcChipMap(data =>  chips = data)
                 );
 
-            Views.Store(I.InstDefs, defs);
             Views.Store(I.InstImports, blocks);
             Views.Store(I.FormImports, forms);
             Views.Store(I.ChipMap, chips);

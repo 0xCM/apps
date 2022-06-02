@@ -9,13 +9,13 @@ namespace Z0
 
     public class XedLimits
     {
-        public const IClass MaxIClassMember = IClass.XTEST;
+        public const InstClassType MaxIClassMember = InstClassType.XTEST;
 
         public Hex12 MaxIClass => (ushort)MaxIClassMember;
 
         public const byte IClassWidth = Hex12.Width;
 
-        public const IFormType MaxIFormMember = IFormType.XTEST;
+        public const InstFormType MaxIFormMember = InstFormType.XTEST;
 
         public Hex14 MaxIForm => (ushort)MaxIFormMember;
 

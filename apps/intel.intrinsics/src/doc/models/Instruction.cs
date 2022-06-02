@@ -17,9 +17,9 @@ namespace Z0
 
             public readonly string form;
 
-            public readonly IFormType xed;
+            public readonly InstFormType xed;
 
-            public Instruction(string name, string form, IFormType xed)
+            public Instruction(string name, string form, InstFormType xed)
             {
                 this.name = name;
                 this.form = form;

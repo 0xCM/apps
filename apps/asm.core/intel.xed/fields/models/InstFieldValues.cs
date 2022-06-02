@@ -13,6 +13,17 @@ namespace Z0
     {
         public class InstFieldValues : Dictionary<string,string>
         {
+            public static InstFieldValues define(InstClass @class, InstForm form, Index<Facet<string>> src)
+            {
+                var dst = dict<string,string>();
+                for(var i=0; i<src.Count; i++)
+                {
+                    ref readonly var kvp = ref src[i];
+                    dst.Add(kvp.Key, kvp.Value);
+                }
+                return new InstFieldValues(@class, form, dst);
+            }
+
             public readonly InstClass InstClass;
 
             public readonly InstForm InstForm;

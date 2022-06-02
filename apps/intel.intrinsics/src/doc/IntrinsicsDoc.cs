@@ -120,7 +120,7 @@ namespace Z0
             => dst.Add(new (
                 name: reader[nameof(Instruction.name)],
                 form: reader[nameof(Instruction.form)],
-                xed: Enums.parse(reader[nameof(Instruction.xed)], default(IFormType)))
+                xed: Enums.parse(reader[nameof(Instruction.xed)], default(InstFormType)))
                 );
 
     }
