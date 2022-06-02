@@ -14,9 +14,9 @@ namespace Z0
         // public static NumericLiteral<T> literal<T>(NumericBaseKind @base, string Name, T data, string Text)
         //     where T : unmanaged
         //         => new NumericLiteral<T>(Name,data, Text, @base);
-        [Op]
-        public static NumericLiteral literal(Base2 @base, string name, object value, string text)
-            => new NumericLiteral(@base, name, value ?? 0u, text ?? EmptyString);
+        // [Op]
+        // public static NumericLiteral literal(Base2 @base, string name, object value, string text)
+        //     => new NumericLiteral(@base, name, value ?? 0u, text ?? EmptyString);
 
         // [MethodImpl(Inline), Op, Closures(Closure)]
         // public static NumericLiteral<T> literal<T>(Base2 @base, string Name, T Value, string text)

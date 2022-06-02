@@ -60,6 +60,5 @@ namespace Z0
         [Op]
         public static Span<ClrFieldAdapter> literals(Type src, Span<ClrFieldAdapter> dst)
             => literals(Clr.adapt(src.GetFields(BF)), dst);
-
     }
 }
