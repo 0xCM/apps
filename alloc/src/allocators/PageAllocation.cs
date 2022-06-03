@@ -8,7 +8,7 @@ namespace Z0
 
     public class PageAllocation : IBufferAllocation
     {
-        public const uint PageSize = PageBlock.PageSize;
+        public const uint PageSize = MemoryPage.PageSize;
 
         public static PageAllocation alloc(uint pages)
             => new PageAllocation(pages);

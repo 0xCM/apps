@@ -10,7 +10,6 @@ namespace Z0
     /// Reserves 2 pages of memory that cover 2^13 = 8,192 bytes
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Size = (int)Size)]
-    [DataWidth(Size*8,Size*8)]
     public struct PageBlock2 : IPageBlock<PageBlock2>
     {
         public const uint Size = PageCount*PageSize;

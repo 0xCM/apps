@@ -6,11 +6,7 @@ namespace Z0
 {
     using static core;
 
-    /// <summary>
-    /// Reserves 1 pages of memory that covers 2^12 = 4096 bytes
-    /// </summary>
-    [StructLayout(LayoutKind.Sequential, Size = (int)Size)]
-    [DataWidth(Size*8,Size*8)]
+    [StructLayout(LayoutKind.Sequential, Size = (int)Size, Pack=1)]
     public struct PageBlock1 : IPageBlock<PageBlock1>
     {
         public const uint Size = PageSize;

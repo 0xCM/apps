@@ -9,7 +9,7 @@ namespace Z0
     using api = PageBlocks;
 
     [ApiComplete]
-    public unsafe struct PageBlock
+    public unsafe struct MemoryPage
     {
         /// <summary>
         /// Windows page size = 4096 bytes
@@ -19,7 +19,7 @@ namespace Z0
         public readonly MemoryRange Range;
 
         [MethodImpl(Inline)]
-        public PageBlock(MemoryRange range)
+        public MemoryPage(MemoryRange range)
         {
             Range = range;
         }
@@ -68,7 +68,6 @@ namespace Z0
         public ref T Cell<T>(uint index)
             where T : unmanaged
                 => ref seek(Storage<T>(), index);
-
 
         [MethodImpl(Inline)]
         public ref T Segment<T>(ByteSize offset)

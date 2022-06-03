@@ -191,8 +191,8 @@ namespace Z0
                 blocksz += (int)(token.TargetAddress - target);
                 target = token.TargetAddress;
                 size = code.Length;
-                var flair = delta >= PageBlock.PageSize ? FlairKind.StatusData : FlairKind.Data;
-                if(delta >= PageBlock.PageSize)
+                var flair = delta >= MemoryPage.PageSize ? FlairKind.StatusData : FlairKind.Data;
+                if(delta >= MemoryPage.PageSize)
                 {
                     flair = FlairKind.StatusData;
                     blocksz = 0;

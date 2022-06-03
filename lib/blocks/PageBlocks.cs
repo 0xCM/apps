@@ -12,14 +12,14 @@ namespace Z0
         /// <summary>
         /// Windows page size = 4096 bytes
         /// </summary>
-        public const uint PageSize = PageBlock.PageSize;
+        public const uint PageSize = MemoryPage.PageSize;
 
         [MethodImpl(Inline), Op]
-        public static PageBlockInfo describe(PageBlock src)
+        public static PageBlockInfo describe(MemoryPage src)
             => new PageBlockInfo(src.Range);
 
         [MethodImpl(Inline)]
-        public static MemoryCells<T> cells<T>(PageBlock src)
+        public static MemoryCells<T> cells<T>(MemoryPage src)
             where T : unmanaged
                 => new MemoryCells<T>(src.Range);
 
@@ -47,7 +47,7 @@ namespace Z0
                 => size<T>()/PageSize;
 
         [MethodImpl(Inline), Op]
-        public static void Read(byte* pSrc, ref PageBlock dst)
+        public static void Read(byte* pSrc, ref MemoryPage dst)
             => Bytes.read4096(pSrc, ref dst);
    }
 }

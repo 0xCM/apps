@@ -8,7 +8,6 @@
     <ProjectReference Include="$(Asm)" />
     <ProjectReference Include="$(AsmPrototypes)" />
     <ProjectReference Include="$(MachinesX86)" />
-    <ProjectReference Include="$(Capture)" />
     <ProjectReference Include="$(LlvmTools)" />
     <ProjectReference Include="$(AsmServices)" />
     <ProjectReference Include="$(IntelIntrinsics)" />

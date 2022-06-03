@@ -11,11 +11,11 @@ namespace Z0
     {
         public static F Instance = new();
 
-        public A Actor {get;}
+        public readonly A Actor;
 
-        public S Source {get;}
+        public readonly S Source;
 
-        public T Target {get;}
+        public readonly T Target;
 
         [MethodImpl(Inline)]
         protected DataFlow(A actor, S src, T dst)

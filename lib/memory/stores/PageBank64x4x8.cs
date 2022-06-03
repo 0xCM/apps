@@ -28,8 +28,8 @@ namespace Z0
             => ref Description;
 
         [MethodImpl(Inline), Op]
-        public PageBlock Block(byte index)
-            => new PageBlock(BlockIndex[index]);
+        public MemoryPage Block(byte index)
+            => new MemoryPage(BlockIndex[index]);
 
         Index<MemoryRange> BlockIndex;
 

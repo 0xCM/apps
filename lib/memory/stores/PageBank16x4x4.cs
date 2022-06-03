@@ -25,24 +25,24 @@ namespace Z0
         public const uint PagesPerBlock = B.PageCount;
 
         [MethodImpl(Inline), Op]
-        public PageBlock Block(byte index)
-            => new PageBlock(BlockIndex[index]);
+        public MemoryPage Block(byte index)
+            => new MemoryPage(BlockIndex[index]);
 
         [MethodImpl(Inline), Op]
-        public PageBlock Block(N0 n)
-            => new PageBlock(BlockIndex[0]);
+        public MemoryPage Block(N0 n)
+            => new MemoryPage(BlockIndex[0]);
 
         [MethodImpl(Inline), Op]
-        public PageBlock Block(N1 n)
-            => new PageBlock(BlockIndex[1]);
+        public MemoryPage Block(N1 n)
+            => new MemoryPage(BlockIndex[1]);
 
         [MethodImpl(Inline), Op]
-        public PageBlock Block(N2 n)
-            => new PageBlock(BlockIndex[2]);
+        public MemoryPage Block(N2 n)
+            => new MemoryPage(BlockIndex[2]);
 
         [MethodImpl(Inline), Op]
-        public PageBlock Block(N3 n)
-            => new PageBlock(BlockIndex[3]);
+        public MemoryPage Block(N3 n)
+            => new MemoryPage(BlockIndex[3]);
 
         [MethodImpl(Inline), Op]
         public ref readonly PageBankInfo Describe()

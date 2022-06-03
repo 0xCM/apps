@@ -13,7 +13,7 @@ namespace Z0
     public class PageAllocation<N> : IBufferAllocation
         where N : unmanaged, ITypeNat
     {
-        public const uint PageSize = PageBlock.PageSize;
+        public const uint PageSize = MemoryPage.PageSize;
 
         public static PageAllocation<N> alloc()
             => new PageAllocation<N>();

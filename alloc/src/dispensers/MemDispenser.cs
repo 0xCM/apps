@@ -8,7 +8,7 @@ namespace Z0
 
     public class MemDispenser : IAllocDispenser
     {
-        const uint Capacity = PageBlock.PageSize*16;
+        const uint Capacity = MemoryPage.PageSize*16;
 
         readonly Dictionary<long,MemAllocator> Allocators;
 

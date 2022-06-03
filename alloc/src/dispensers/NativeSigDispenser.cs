@@ -8,7 +8,7 @@ namespace Z0
 
     public class NativeSigDispenser : Dispenser<NativeSigDispenser>
     {
-        const uint Capacity = PageBlock.PageSize*8;
+        const uint Capacity = MemoryPage.PageSize*8;
 
         readonly MemDispenser Memory;
 

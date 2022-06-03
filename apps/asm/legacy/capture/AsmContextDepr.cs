@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     class AsmContextDepr : IAsmContextDepr
     {
         public IWfRuntime Wf {get;}

@@ -8,7 +8,7 @@ namespace Z0
 
     public class StringDispenser : IAllocDispenser
     {
-        const uint Capacity = PageBlock.PageSize;
+        const uint Capacity = MemoryPage.PageSize;
 
         readonly Dictionary<long,StringAllocator> Allocators;
 
