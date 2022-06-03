@@ -6,7 +6,6 @@ namespace Z0
 {
     partial class MemDb
     {
-        [StructLayout(LayoutKind.Sequential,Pack=1)]
         public record class Entity : IEntity<Entity>
         {
             public readonly uint Key;
@@ -17,6 +16,7 @@ namespace Z0
 
             public readonly Index<ColSpec> Cols;
 
+            [MethodImpl(Inline)]
             public Entity(uint key, asci32 name, ColSpec[] cols, Relation[] rels)
             {
                 Key = key;

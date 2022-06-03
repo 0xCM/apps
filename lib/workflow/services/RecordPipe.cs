@@ -21,7 +21,7 @@ namespace Z0
 
         protected char FieldDelimiter {get;}
 
-        protected ClrRecordFields Fields {get;}
+        protected ClrTableFields Fields {get;}
 
         protected TableId TableId {get;}
 

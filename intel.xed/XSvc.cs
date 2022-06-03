@@ -20,7 +20,7 @@ namespace Z0
         public static XedGenSvc XedGenSvc(this IWfRuntime wf)
             => Services.XedGen(wf);
 
-        public static XedChecks XedChecks(XedRuntime xed)
+        public static XedChecks XedChecks(this XedRuntime xed)
             => Services.XedChecks(xed);
     }
 }

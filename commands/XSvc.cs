@@ -31,8 +31,6 @@ namespace Z0
 
             public CheckRunner CheckRunner(IWfRuntime wf)
                 => Service<CheckRunner>(wf);
-
-
         }
 
         static Svc Services => Svc.Instance;

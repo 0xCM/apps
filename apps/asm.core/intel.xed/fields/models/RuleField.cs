@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-    using static XedFields;
-
     partial class XedRules
     {
         [DataWidth(Width)]

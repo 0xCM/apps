@@ -18,7 +18,7 @@ namespace Z0
 
         static XedRuntime Xed;
 
-        static Index<ICmdProvider> Providers;
+        static new Index<ICmdProvider> Providers;
 
         static AsmCoreCmd Instance;
 

@@ -22,7 +22,7 @@ namespace Z0.llvm.strings
 
         public static MemoryAddress OffsetBase => address(Offsets);
 
-        public static MemoryStrings<X86DstIdxOperandKind> Strings => memory.strings(Offsets,Data);
+        public static MemoryStrings<X86DstIdxOperandKind> Strings => MemoryStrings.create(Offsets,Data);
 
         public static ReadOnlySpan<byte> Offsets => new byte[16]{0x00,0x00,0x00,0x00,0x08,0x00,0x00,0x00,0x10,0x00,0x00,0x00,0x18,0x00,0x00,0x00};
 

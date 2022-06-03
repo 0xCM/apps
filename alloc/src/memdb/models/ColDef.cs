@@ -4,10 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
     partial class MemDb
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public readonly record struct ColDef : IEntity<ColDef>
+        public readonly record struct ColDef : IEntity<ColDef>, IComparable<ColDef>
         {
             public readonly ushort Pos;
 
@@ -22,6 +23,19 @@ namespace Z0
                 ColName = name;
                 RenderWidth = rw;
             }
+
+            public Hash32 Hash
+            {
+                [MethodImpl(Inline)]
+                get => hash(ColName.GetHashCode(),Pos);
+            }
+
+            public override int GetHashCode()
+                => Hash;
+
+            [MethodImpl(Inline)]
+            public bool Equals(ColDef src)
+                => Pos == src.Pos && ColName == src.ColName && RenderWidth == src.RenderWidth;
 
             [MethodImpl(Inline)]
             public int CompareTo(ColDef src)

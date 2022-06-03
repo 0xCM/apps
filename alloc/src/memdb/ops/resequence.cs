@@ -8,18 +8,6 @@ namespace Z0
 
     partial class MemDb
     {
-        public static ClrRecordFields resequence(ClrRecordFields src)
-        {
-            var count = src.Count;
-            var dst = src;
-            for(var i=z16; i<count; i++)
-            {
-                ref readonly var field = ref src[i];
-                dst[i] = new ClrTableField(i, field.Definition);
-            }
-            return dst;
-        }
-
         public static Index<ColDef> resequence(Index<ColDef> left, Index<ColDef> right)
         {
             var count = left.Count + right.Count;

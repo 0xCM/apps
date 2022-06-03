@@ -164,7 +164,6 @@ namespace Z0
                 return cells.Map(cellinfo);
             }
 
-
             public static bool parse(string data, out CellTypeInfo dst)
             {
                 Require.nonempty(data);

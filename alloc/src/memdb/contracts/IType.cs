@@ -15,7 +15,7 @@ namespace Z0
         }
 
         [Free]
-        public interface IType<T> : IType, IEntity<T>
+        public interface IType<T> : IType, IEntity<T>, IComparable<T>, IEquatable<T>
             where T : IType<T>
         {
 

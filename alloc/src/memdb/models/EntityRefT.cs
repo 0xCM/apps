@@ -6,6 +6,7 @@ namespace Z0
 {
     partial class MemDb
     {
+        [StructLayout(LayoutKind.Sequential,Pack=1)]
         public readonly record struct EntityRef<T>: IComparable<EntityRef<T>>
         {
             public readonly uint Key;

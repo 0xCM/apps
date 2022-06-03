@@ -9,7 +9,7 @@ namespace Z0
     partial struct Tables
     {
         /// <summary>
-        /// Discerns a <see cref='ClrRecordFields'/> for a parametrically-identified record type
+        /// Discerns a <see cref='ClrTableFields'/> for a parametrically-identified record type
         /// </summary>
         /// <typeparam name="T">The record type</typeparam>
         [Op, Closures(Closure)]
@@ -18,7 +18,7 @@ namespace Z0
                 => fields(typeof(T));
 
         /// <summary>
-        /// Discerns a <see cref='ClrRecordFields'/> for a specified record type
+        /// Discerns a <see cref='ClrTableFields'/> for a specified record type
         /// </summary>
         /// <param name="src">The record type</typeparam>
         [Op]

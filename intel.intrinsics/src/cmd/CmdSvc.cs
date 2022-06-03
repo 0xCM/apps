@@ -10,7 +10,7 @@ namespace Z0
 
     partial class IntelIntrinsics
     {
-        public class CmdSvc : AppCmdProvider<CmdSvc>
+        public class CmdSvc : AppCmdService<CmdSvc>
         {
             IntelIntrinsics Intrinsics => Wf.IntelIntrinsics();
 

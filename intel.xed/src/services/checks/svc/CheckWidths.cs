@@ -10,7 +10,7 @@ namespace Z0
 
     using L = XedRules.WidthVar.Label;
 
-    partial class AsmCoreCmd
+    partial class XedChecks
     {
         [CmdOp("xed/check/widths")]
         Outcome CheckWidths(CmdArgs args)
@@ -56,5 +56,6 @@ namespace Z0
             }
             return true;
         }
+
     }
 }

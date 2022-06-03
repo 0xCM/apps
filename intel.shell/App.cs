@@ -9,13 +9,14 @@ namespace Z0
     {
         static IAppCmdService commands(IWfRuntime wf)
         {
-            return XedCmd.commands(wf,true);
-            // return AsmCoreCmd.commands(wf, new ICmdProvider[]{
-            //     wf.IntelIntrinsicsCmd(),
-            //     XedCmd.commands(wf,true)
-            //     },
-            //     true
-            // );
+            var xed = XedRuntime.create(wf);
+            var providers = new ICmdProvider[]{
+                wf.IntelIntrinsicsCmd(),
+                xed.XedChecks(),
+            };
+            var cmd  = XedCmd.commands(xed, providers);
+            xed.Start();
+            return cmd;
         }
 
         public static void Main(params string[] args)

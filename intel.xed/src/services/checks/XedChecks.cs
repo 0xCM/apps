@@ -4,9 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public partial class XedChecks : Checker<XedChecks>
+    public partial class XedChecks : CheckRunner<XedChecks>
     {
         XedPaths XedPaths => Wf.XedPaths();
+
+        AppDb AppDb => Wf.AppDb();
 
         XedRuntime Xed;
 

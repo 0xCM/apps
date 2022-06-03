@@ -15,6 +15,24 @@ namespace Z0
         [StructLayout(StructLayout,Pack=1,Size=4),DataWidth(Width)]
         public readonly struct InstField
         {
+            [DataWidth(InstField.KindWidth)]
+            public enum InstFieldKind : byte
+            {
+                None,
+
+                BitLit,
+
+                HexLit,
+
+                InstSeg,
+
+                NeqExpr,
+
+                EqExpr,
+
+                NtCall,
+            }
+
             internal const byte KindWidth = num3.Width;
 
             const byte OperatorWidth = InstOperator.Width;

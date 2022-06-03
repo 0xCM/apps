@@ -4,17 +4,26 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct ClrRecordFields : IIndex<ClrTableField>
+    public readonly struct ClrTableFields : IIndex<ClrTableField>
     {
+        public static ClrTableFields fields(Type a, Type b)
+            => (Tables.fields(a).Index() + Tables.fields(b).Index()).Storage;
+
+        public static ClrTableFields resequence(ClrTableFields src)
+        {
+            var count = src.Count;
+            var dst = src;
+            for(var i=z16; i<count; i++)
+                dst[i] = new ClrTableField(i, src[i].Definition);
+            return dst;
+        }
+
         readonly Index<ClrTableField> Data;
 
         [MethodImpl(Inline)]
-        public ClrRecordFields(ClrTableField[] src)
+        public ClrTableFields(ClrTableField[] src)
             => Data = src;
 
-        [MethodImpl(Inline)]
-        public string FormatFieldValue<T>(int index, T value)
-            => Data[index].Format(value);
 
         public uint Count
         {
@@ -58,12 +67,18 @@ namespace Z0
             get => Data.Storage;
         }
 
+        public ClrTableFields Join(params ClrTableField[] src)
+            => resequence(new ClrTableFields(Data + src.Index()));
 
         [MethodImpl(Inline)]
-        public static implicit operator ClrRecordFields(ClrTableField[] src)
-            => new ClrRecordFields(src);
+        public string FormatFieldValue<T>(int index, T value)
+            => Data[index].Format(value);
 
-        public static ClrRecordFields Empty
-            => new ClrRecordFields(sys.empty<ClrTableField>());
+        [MethodImpl(Inline)]
+        public static implicit operator ClrTableFields(ClrTableField[] src)
+            => new ClrTableFields(src);
+
+        public static ClrTableFields Empty
+            => new ClrTableFields(sys.empty<ClrTableField>());
     }
 }

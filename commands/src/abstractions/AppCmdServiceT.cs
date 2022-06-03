@@ -17,8 +17,6 @@ namespace Z0
 
         Option<IToolCmdShell> Shell;
 
-        protected IProjectSet ProjectWs;
-
         protected AppCmdService()
         {
             PromptTitle = "cmd";
@@ -27,7 +25,29 @@ namespace Z0
 
         protected OmniScript OmniScript => Wf.OmniScript();
 
-        protected IToolWs ToolWs => Service(Ws.Tools);
+        protected IToolWs ToolWs => Ws.Tools();
+
+        protected virtual ICmdProvider[] CmdProviders(IWfRuntime wf)
+            => array(this);
+
+        protected Index<ICmdProvider> Providers;
+
+        public static T create(IWfRuntime wf, Index<ICmdProvider> providers)
+        {
+            var svc = new T();
+            svc.Providers = providers + array((ICmdProvider)svc);
+            svc.Dispatcher = CmdActions.dispatcher(svc.Providers, (cmd,args) => (false, string.Format("Handler for '{0}' not found", cmd)));
+            svc.Init(wf);
+            return svc;
+        }
+
+        protected override void OnInit()
+        {
+            if(Dispatcher == null)
+                Dispatcher = CmdActions.dispatcher(CmdProviders(Wf), DispatchFallback);
+            Witness = Loggers.worker(controller().Id(), ProjectDb.Home(), typeof(T).Name);
+            CommonState.Init(Wf,Ws);
+        }
 
         protected void UpdateToolEnv(out Settings dst)
         {
@@ -116,16 +136,6 @@ namespace Z0
             dst = AppSettings.Load(path.ReadNumberedLines());
         }
 
-        protected virtual ICmdProvider[] CmdProviders(IWfRuntime wf)
-            => array(this);
-
-        protected override void OnInit()
-        {
-            Dispatcher = CmdActions.dispatcher(CmdProviders(Wf), DispatchFallback);
-            ProjectWs = Ws.Projects();
-            Witness = Loggers.worker(controller().Id(), ProjectDb.Home(), typeof(T).Name);
-            CommonState.Init(Wf,Ws);
-        }
 
         public T With(IToolCmdShell shell)
         {
@@ -227,7 +237,6 @@ namespace Z0
             Wf.Row(string.Format("Cpu:{0}", Kernel32.GetCurrentProcessorNumber()));
             return true;
         }
-
 
         [CmdOp("tool/help")]
         protected Outcome ShowToolHelp(CmdArgs args)

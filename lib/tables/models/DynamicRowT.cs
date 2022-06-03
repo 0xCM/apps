@@ -16,7 +16,7 @@ namespace Z0
         /// <summary>
         /// The record fields
         /// </summary>
-        public readonly ClrRecordFields Fields;
+        public readonly ClrTableFields Fields;
 
         /// <summary>
         /// The cell values
@@ -24,7 +24,7 @@ namespace Z0
         public readonly dynamic[] Cells;
 
         [MethodImpl(Inline)]
-        public DynamicRow(ClrRecordFields fields, dynamic[] cells)
+        public DynamicRow(ClrTableFields fields, dynamic[] cells)
         {
             Fields = fields;
             Cells = cells;

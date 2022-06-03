@@ -217,7 +217,6 @@ namespace Z0
                 return i > 0;
             }
 
-
             const string ICLASS = nameof(ICLASS);
 
             const string IFORM = nameof(IFORM);

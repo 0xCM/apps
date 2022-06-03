@@ -17,10 +17,7 @@ namespace Z0
             {
                 var dst = dict<string,string>();
                 for(var i=0; i<src.Count; i++)
-                {
-                    ref readonly var kvp = ref src[i];
-                    dst.Add(kvp.Key, kvp.Value);
-                }
+                    dst.Add(src[i].Key, src[i].Value);
                 return new InstFieldValues(@class, form, dst);
             }
 

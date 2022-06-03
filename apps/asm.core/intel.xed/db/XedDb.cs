@@ -16,7 +16,7 @@ namespace Z0
         public static MemoryFile MemoryFile(FS.FilePath src)
             => _MemoryFiles.GetOrAdd(src, path => path.MemoryMap(true));
 
-        public static FS.FilePath InstDumpSource()
+        static FS.FilePath InstDumpSource()
             => Paths.Sources() + FS.file("xed-dump", FileKind.Txt.Ext());
 
         public static MemoryFile InstDumpFile()

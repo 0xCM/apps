@@ -11,12 +11,10 @@ namespace Z0
 
     public class XedCmd : WsCmdService<XedCmd>
     {
-        public static IAppCmdService commands(IWfRuntime wf, bool start)
+        public static IAppCmdService commands(XedRuntime xed, Index<ICmdProvider> providers)
         {
-            var cmd = create(wf);
-            cmd.Xed = XedRuntime.create(wf);
-            if(start)
-                cmd.Xed.Start();
+            var cmd = create(xed.Wf, providers);
+            cmd.Xed = xed;
             return cmd;
         }
 
@@ -24,6 +22,9 @@ namespace Z0
 
         protected override IWsCmdRunner CmdRunner
             => Xed.CmdRunner;
+
+        IProjectWs Project()
+            => CmdRunner.Project();
 
         XedPaths XedPaths => Wf.XedPaths();
 
@@ -121,7 +122,6 @@ namespace Z0
         void EmitXedCat()
             => Xed.EmitCatalog();
 
-
         void GenRuleNames(FS.FilePath path)
         {
             var assets = AsmCaseAssets.create();
@@ -170,6 +170,5 @@ namespace Z0
             var path = FS.path(@"J:\z0\apps\asm.core\intel.xed\rules\models\RuleName.cs");
             GenRuleNames(path);
         }
-
     }
 }

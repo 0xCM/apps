@@ -12,7 +12,7 @@ namespace Z0
         [Record(TableId)]
         public struct InstFieldRow
         {
-            const string TableId = "xed.inst.patterns.fields";
+            const string TableId = "xed.inst.fields";
 
             [Render(12)]
             public uint PatternId;

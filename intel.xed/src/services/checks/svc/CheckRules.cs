@@ -23,9 +23,8 @@ namespace Z0
             var mb = size/1024;
             var db = Xed.XedDb.Store;
 
-            //var db = MemDb.open(AppDb.Targets("memdb").Path("runtime", FileKind.Bin), new Gb(1));
-            var path = XedDb.InstDumpSource();
-            var data = path.ReadBytes();
+            var src = XedDb.InstDumpFile();
+            var data = src.View();
             var token = db.Store(data);
         }
 
@@ -191,6 +190,5 @@ namespace Z0
                 }
             }
         }
-
     }
 }
