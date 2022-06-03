@@ -34,11 +34,7 @@ namespace Z0
 
         CoffServices Coff => Wf.CoffServices();
 
-        XedDocs XedDocs => Xed.Docs;
-
         XedPaths XedPaths => Xed.Paths;
-
-        XedRules Rules => Xed.Rules;
 
         XedDb XedDb => Xed.XedDb;
 
@@ -52,8 +48,6 @@ namespace Z0
 
         IntelSdm Sdm => Wf.IntelSdm();
 
-        CheckRunner CheckRunner => Wf.CheckRunner();
-
         AsmRegSets Regs => Service(AsmRegSets.create);
 
         AsmOpCodes OpCodes => Wf.AsmOpCodes();
@@ -64,13 +58,13 @@ namespace Z0
         IProjectWs Project()
             => CmdRunner.Project();
 
-        [CmdOp("checks/run")]
-        void ChecksExec()
-            => CheckRunner.Run();
+        // [CmdOp("checks/run")]
+        // void ChecksExec()
+        //     => CheckRunner.Run();
 
-        [CmdOp("checks/list")]
-        void ChecksList()
-            => CheckRunner.ListChecks();
+        // [CmdOp("checks/list")]
+        // void ChecksList()
+        //     => CheckRunner.ListChecks();
 
         ref readonly Index<InstPattern> Patterns
             => ref Xed.Views.Patterns;

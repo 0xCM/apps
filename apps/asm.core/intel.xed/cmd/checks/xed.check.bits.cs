@@ -10,10 +10,7 @@ namespace Z0
     {
         [CmdOp("xed/check/bits")]
         void CheckBitfields()
-        {
-            EmitInstBits();
-        }
-
+            => EmitInstBits();
 
         void EmitInstBits()
         {

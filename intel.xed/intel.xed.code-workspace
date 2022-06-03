@@ -1,0 +1,14 @@
+{
+	"folders": [
+        {
+            "path": "."
+        },
+        {
+            "path": "../apps/asm.core"
+        },
+        {
+            "path": "../intel.shell/"
+        },
+    ],
+	"settings": {}
+}

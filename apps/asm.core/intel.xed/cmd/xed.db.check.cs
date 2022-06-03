@@ -10,52 +10,5 @@ namespace Z0
 
     partial class AsmCoreCmd
     {
-        [CmdOp("xed/db/check")]
-        Outcome CheckXedDb(CmdArgs args)
-        {
-            var rows = Xed.Views.TypeTables.SelectMany(x => x.Rows).Sort().Resequence();
-            AppSvc.TableEmit(rows, XedPaths.DbTable<TypeTableRow>());
-            return true;
-        }
-
-        void CheckMemDb(Dim2<uint> shape)
-        {
-            var r = shape.I;
-            var c = shape.J;
-            var m = (uint)(r*c);
-            var grid = MemDb.grid<byte>(shape);
-            ref readonly var rows = ref grid.Rows;
-            for(var i=0u; i<r; i++)
-            {
-                for(var j=0u; j<c; j++)
-                    rows[i,j] = (byte)math.mod((i*c + j), r) ;
-            }
-
-            var cols = rows.Columns();
-            var rDst = text.emitter();
-            var cDst = text.emitter();
-
-            for(var i=0u; i<r; i++)
-            {
-                for(var j=0u; j<c; j++)
-                {
-                    rDst.AppendFormat("{0:X2} | ", rows[i,j]);
-                    cDst.AppendFormat("{0:X2} | ", cols[i,j]);
-                }
-
-                rDst.AppendLine();
-                cDst.AppendLine();
-            }
-
-            var linear = Points.multilinear(shape);
-            var lDst = text.emitter();
-            Points.render(linear, lDst);
-
-            var scope = "memdb";
-            var suffix = $"{r}x{c}";
-            FileEmit(lDst.Emit(), linear.Count, AppDb.Logs().Targets(scope).Path($"{scope}.linear.{suffix}", FileKind.Csv));
-            FileEmit(rDst.Emit(), m, AppDb.Logs().Targets(scope).Path($"{scope}.rows.{suffix}", FileKind.Txt), TextEncodingKind.Asci);
-            FileEmit(cDst.Emit(), m, AppDb.Logs().Targets(scope).Path($"{scope}.cols.{suffix}", FileKind.Txt), TextEncodingKind.Asci);
-        }
     }
 }

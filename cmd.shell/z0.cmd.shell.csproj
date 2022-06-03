@@ -18,6 +18,6 @@
 
   </ItemGroup>
 
-  <Import Project="$(TopDir)imports/zlib.props"/>
+  <Import Project="$(TopDir)imports/common.libs.props"/>
 
 </Project>

@@ -47,30 +47,25 @@ namespace Z0
             }
 
             public static void calc(Action<InstImportBlocks> dst)
-                => dst(calc(XedPaths.Service.InstDumpSource().MemoryMap(true)));
+                => dst(calc(XedDb.InstDumpFile()));
 
             static InstImportBlocks calc(MemoryFile src)
             {
-                return data(nameof(InstImportBlocks), Calc);
-
-                InstImportBlocks Calc()
-                {
-                    var dst = new InstImportBlocks();
-                    var ds = new BlockImportDatasets();
-                    var lines = AsciLines.lines(src);
-                    CalcBlockLines(lines, ds);
-                    CalcDatasets(lines, ds);
-                    dst.DataSource = src;
-                    dst.BlockLines = ds.BlockLines;
-                    dst.LineMap = ds.MappedForms;
-                    dst.Imports = ds.BlockImports.Index().Sort().Resequence();
-                    dst.Duplicates = calc(dst.Imports, out dst.ImportLookup);
-                    var fds = forms(ds);
-                    dst.FormBlocks = fds.Descriptions;
-                    dst.FormHeaders = fds.Headers;
-                    dst.Forms = fds.Sorted;
-                    return dst;
-                }
+                var dst = new InstImportBlocks();
+                var ds = new BlockImportDatasets();
+                var lines = AsciLines.lines(src);
+                CalcBlockLines(lines, ds);
+                CalcDatasets(lines, ds);
+                dst.DataSource = src;
+                dst.BlockLines = ds.BlockLines;
+                dst.LineMap = ds.MappedForms;
+                dst.Imports = ds.BlockImports.Index().Sort().Resequence();
+                dst.Duplicates = calc(dst.Imports, out dst.ImportLookup);
+                var fds = forms(ds);
+                dst.FormBlocks = fds.Descriptions;
+                dst.FormHeaders = fds.Headers;
+                dst.Forms = fds.Sorted;
+                return dst;
             }
 
             static bool split(string src, out string name, out string value)

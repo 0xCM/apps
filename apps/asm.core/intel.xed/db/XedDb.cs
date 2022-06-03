@@ -9,7 +9,18 @@ namespace Z0
 
     public partial class XedDb : AppService<XedDb>
     {
-        new XedPaths Paths => Xed.Paths;
+        static new XedPaths Paths => XedPaths.Service;
+
+        static ConcurrentDictionary<FS.FilePath,MemoryFile> _MemoryFiles = new();
+
+        public static MemoryFile MemoryFile(FS.FilePath src)
+            => _MemoryFiles.GetOrAdd(src, path => path.MemoryMap(true));
+
+        public static FS.FilePath InstDumpSource()
+            => Paths.Sources() + FS.file("xed-dump", FileKind.Txt.Ext());
+
+        public static MemoryFile InstDumpFile()
+            => MemoryFile(InstDumpSource());
 
         IMemDb _Store;
 

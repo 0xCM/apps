@@ -2,12 +2,13 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <AssemblyName>intel</AssemblyName>
+    <AssemblyName>xed.shell</AssemblyName>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
 
+  <Import Project="$(TopDir)imports/common.libs.props"/>
+
   <ItemGroup>
-    <Reference Include="$(ZLibName)" HintPath="$(ZLibPath)"/>
     <ProjectReference Include="$(AsmCore)" />
     <ProjectReference Include="$(TestChecks)" />
     <ProjectReference Include="$(CodeGenLlvm)" />

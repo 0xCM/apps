@@ -11,9 +11,6 @@ namespace Z0
             public Parsers Parsers(IWfRuntime wf)
                 => Service<Parsers>(wf);
 
-            public CheckRunner CheckRunner(IWfRuntime wf)
-                => Service<CheckRunner>(wf);
-
             public MemorySeqChecks MemorySeqChecks(IWfRuntime wf)
                 => Service<MemorySeqChecks>(wf);
 
@@ -55,8 +52,5 @@ namespace Z0
 
         public static ApiPackages ApiPackages(this IEnvPaths src)
             => src.PackageRoot();
-
-        public static CheckRunner CheckRunner(this IWfRuntime wf)
-            => Services.CheckRunner(wf);
     }
 }

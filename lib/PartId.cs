@@ -192,6 +192,9 @@ public enum PartId : byte
     [Symbol("api.code")]
     ApiCode,
 
+    [Symbol("api.md")]
+    ApiMd,
+
     [Symbol("rules")]
     Rules,
 
@@ -212,6 +215,15 @@ public enum PartId : byte
 
     [Symbol("gen.shell")]
     CgShell = (byte)Pow2.T07,
+
+    [Symbol("intel.shell")]
+    IntelShell,
+
+    [Symbol("xed.shell")]
+    XedShell,
+
+    [Symbol("cmd.shell")]
+    CmdShell,
 
     [Symbol("codegen.test")]
     CgTest,
@@ -234,11 +246,6 @@ public enum PartId : byte
     [Symbol("test.runner")]
     TestRunner,
 
-    [Symbol("xed.shell")]
-    XedShell,
-
-    [Symbol("cmd.shell")]
-    CmdShell,
 
     [Symbol("asm.run")]
     AsmRun,

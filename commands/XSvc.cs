@@ -25,6 +25,14 @@ namespace Z0
 
             public DumpArchive DumpArchive(IWfRuntime wf)
                 => Service<DumpArchive>(wf);
+
+            public WsCmdRunner WsCmdRunner(IWfRuntime wf)
+                => Service<WsCmdRunner>(wf);
+
+            public CheckRunner CheckRunner(IWfRuntime wf)
+                => Service<CheckRunner>(wf);
+
+
         }
 
         static Svc Services => Svc.Instance;
@@ -49,5 +57,12 @@ namespace Z0
 
         public static DumpArchive DumpArchive(this IWfRuntime wf)
             => Services.DumpArchive(wf);
+
+        public static WsCmdRunner WsCmdRunner(this IWfRuntime wf)
+            => Services.WsCmdRunner(wf);
+
+       public static CheckRunner CheckRunner(this IWfRuntime wf)
+            => Services.CheckRunner(wf);
+
     }
 }

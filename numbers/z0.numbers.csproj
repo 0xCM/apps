@@ -7,9 +7,9 @@
   </PropertyGroup>
 
   <Import Project="../imports/common.props"/>
+  <Import Project="$(TopDir)imports/common.libs.props"/>
 
   <ItemGroup>
-    <Reference Include="$(ZLibName)" HintPath="$(ZLibPath)"/>
     <ProjectReference Include="$(Commands)" />
     <ProjectReference Include="$(Symbols)" />
   </ItemGroup>

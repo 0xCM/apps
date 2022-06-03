@@ -6,10 +6,13 @@
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
+  <Import Project="$(TopDir)imports/common.libs.props"/>
+
   <ItemGroup>
-    <Reference Include="$(ZLibName)" HintPath="$(ZLibPath)"/>
     <ProjectReference Include="$(Numbers)" />
     <ProjectReference Include="$(Archives)" />
+    <ProjectReference Include="$(ApiMd)" />
+
   </ItemGroup>
 
 </Project>

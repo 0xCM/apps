@@ -36,6 +36,14 @@ namespace Z0
                     return service;
                 });
 
+        public S Service<S>(Func<S> f)
+            where S : IAppService, new()
+                => (S)Lookup.GetOrAdd(typeof(S), f());
+
+        public S Inject<S>(S svc)
+            where S : IAppService, new()
+                => (S)Lookup.GetOrAdd(typeof(S), svc);
+
         public S Service<S>(IWfRuntime wf)
             where S : IAppService, new()
                 => (S)Lookup.GetOrAdd(typeof(S), _ => {

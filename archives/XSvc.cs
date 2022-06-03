@@ -26,20 +26,6 @@ namespace Z0
             public WsProjects WsProjects(IWfRuntime wf)
                 => Service<WsProjects>(wf);
 
-            public WsCmdRunner WsCmdRunner(IWfRuntime wf)
-                => Service<WsCmdRunner>(wf);
-
-            public ApiMd ApiMetadata(IWfRuntime wf)
-                => Service<ApiMd>(wf);
-
-            public MsilPipe MsilSvc(IWfRuntime wf)
-                => Service<MsilPipe>(wf);
-
-            public ApiJit Jit(IWfRuntime wf)
-                => Service<ApiJit>(wf);
-
-            public ApiComments ApiComments(IWfRuntime wf)
-                => Service<ApiComments>(wf);
 
              public MemoryEmitter MemoryEmitter(IWfRuntime wf)
                 => Service<MemoryEmitter>(wf);
@@ -65,21 +51,6 @@ namespace Z0
         public static WsProjects WsProjects(this IWfRuntime wf)
             => Services.WsProjects(wf);
 
-        public static WsCmdRunner WsCmdRunner(this IWfRuntime wf)
-            => Services.WsCmdRunner(wf);
-
-        public static ApiMd ApiMetadata(this IWfRuntime wf)
-            => Services.ApiMetadata(wf);
-
-        public static MsilPipe MsilSvc(this IWfRuntime wf)
-            => Services.MsilSvc(wf);
-
-        public static ApiJit Jit(this IWfRuntime wf)
-            => Services.Jit(wf);
-
-
-        public static ApiComments ApiComments(this IWfRuntime wf)
-            => Services.ApiComments(wf);
 
         public static MemoryEmitter MemoryEmitter(this IWfRuntime wf)
             => Services.MemoryEmitter(wf);

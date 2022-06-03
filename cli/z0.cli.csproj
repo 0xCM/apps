@@ -6,7 +6,7 @@
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
-  <Import Project="../imports/diagnostics.props"/>
+  <Import Project="$(TopDir)imports/diagnostics.props"/>
 
   <ItemGroup>
     <Reference Include="$(ZLibName)" HintPath="$(ZLibPath)"/>

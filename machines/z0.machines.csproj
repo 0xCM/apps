@@ -8,7 +8,7 @@
     <ProjectReference Include="$(AsmCore)" />
   </ItemGroup>
 
-  <Import Project="../imports/zlib.props"/>
+  <Import Project="$(TopDir)imports/common.libs.props"/>
 
 
 </Project>

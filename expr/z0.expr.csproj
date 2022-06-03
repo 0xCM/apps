@@ -6,9 +6,10 @@
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
+  <Import Project="$(TopDir)imports/common.libs.props"/>
+
   <ItemGroup>
     <EmbeddedResource Include="assets/**/*.*" />
-    <Reference Include="$(ZLibName)" HintPath="$(ZLibPath)"/>
   </ItemGroup>
 
 </Project>

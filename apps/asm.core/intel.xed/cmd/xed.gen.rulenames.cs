@@ -8,8 +8,8 @@ namespace Z0
 
     partial class AsmCoreCmd
     {
-        [CmdOp("xed/gen/rulenames")]
-        Outcome ChecSeq(CmdArgs args)
+
+        void GenRuleNames()
         {
             var assets = AsmCaseAssets.create();
             var header = assets.XedFileHeader().Utf8();
@@ -50,6 +50,12 @@ namespace Z0
             using var writer = path.Utf8Emitter();
             writer.Write(dst.Emit());
 
+
+        }
+
+        [CmdOp("xed/gen/rulenames")]
+        Outcome ChecSeq(CmdArgs args)
+        {
             return true;
         }
     }

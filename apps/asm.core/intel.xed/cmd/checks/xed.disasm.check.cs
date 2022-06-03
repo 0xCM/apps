@@ -6,7 +6,6 @@ namespace Z0
 {
     using static core;
     using static XedDisasm;
-    using static XedDisasmModels;
     using static XedRules;
     using static XedFields;
 
@@ -19,7 +18,6 @@ namespace Z0
             var files = XedDisasm.datafiles(context);
             iter(files, file => Write($"Loaded {file.Source}"));
             iter(files, file => Check(file),true);
-
             return true;
         }
 

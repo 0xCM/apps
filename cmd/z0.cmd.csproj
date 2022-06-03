@@ -6,10 +6,10 @@
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
 
+  <Import Project="$(TopDir)imports/common.libs.props"/>
+
   <ItemGroup>
     <ProjectReference Include="$(CmdActions)" />
   </ItemGroup>
-
-  <Import Project="../imports.props"/>
 
 </Project>

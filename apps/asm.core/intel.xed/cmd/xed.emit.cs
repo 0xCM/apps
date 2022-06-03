@@ -9,41 +9,6 @@ namespace Z0
 
     partial class AsmCoreCmd
     {
-        [CmdOp("xed/run")]
-        Outcome RunXed(CmdArgs args)
-        {
-            Xed.Start();
-            return true;
-        }
-
-        [CmdOp("xed/emit/seq")]
-        Outcome EmitSeq(CmdArgs args)
-        {
-            Rules.EmitSeq();
-            return true;
-        }
-
-        [CmdOp("xed/emit/patterns")]
-        Outcome EmitPatterns(CmdArgs args)
-        {
-            Rules.EmitPatternData(Patterns);
-            return true;
-        }
-
-        [CmdOp("xed/emit/expr")]
-        Outcome EmitRuleExpr(CmdArgs args)
-        {
-            Rules.Emit(Xed.Views.RuleExpr);
-            return true;
-        }
-
-        [CmdOp("xed/db/emit")]
-        Outcome DbEmit(CmdArgs args)
-        {
-            XedDb.EmitArtifacts();
-
-            return true;
-        }
 
         [CmdOp("xed/emit/layouts")]
         Outcome EmitLayouts(CmdArgs args)
@@ -169,61 +134,6 @@ namespace Z0
             return true;
         }
 
-        [CmdOp("xed/emit/rules/cells")]
-        Outcome EmitRuleRecords(CmdArgs args)
-        {
-            return true;
-        }
 
-        [CmdOp("xed/emit/rules/tables")]
-        Outcome EmitRuleTables(CmdArgs args)
-        {
-            Write("Emitting rules");
-            Rules.EmitRuleData(Xed.Views.RuleTables);
-            return true;
-        }
-
-        [CmdOp("xed/emit/rules/pages")]
-        Outcome EmitTableDefs(CmdArgs args)
-        {
-            Rules.EmitRulePages(Xed.Views.RuleTables);
-            return true;
-        }
-
-        [CmdOp("xed/emit/rules/specs")]
-        Outcome EmitTableCells(CmdArgs args)
-        {
-            Rules.EmitTableSpecs(Xed.Views.RuleTables);
-            return true;
-        }
-
-        [CmdOp("xed/emit/docs")]
-        Outcome EmitDocs(CmdArgs args)
-        {
-            XedDocs.Emit();
-            return true;
-        }
-
-        [CmdOp("xed/emit/attribs")]
-        Outcome CheckOps(CmdArgs args)
-        {
-            Rules.EmitInstAttribs(Patterns);
-            return true;
-        }
-
-        [CmdOp("xed/emit/groups")]
-        Outcome EmitInstGroups(CmdArgs args)
-        {
-            var groups = Rules.CalcInstGroups(Patterns);
-            Rules.EmitInstGroups(groups);
-           return true;
-        }
-
-        [CmdOp("xed/emit/catalog")]
-        Outcome EmitXedCat(CmdArgs args)
-        {
-            Xed.EmitCatalog();
-            return true;
-        }
    }
 }
