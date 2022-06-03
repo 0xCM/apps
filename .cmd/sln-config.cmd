@@ -17,7 +17,12 @@ set SlnAsmOperandsCmd=%SlnTool% %SlnPath% add %AppDir%/asm.operands/z0.asm.opera
 set SlnApiMd=%SlnTool% %SlnPath% add %TopDir%/api.md/z0.api.md.csproj
 
 set SlnXedShellCmd=%SlnTool% %SlnPath% add %TopDir%/xed.shell/z0.xed.shell.csproj
+set SlnXedShellRemoveCmd=%SlnTool% %SlnPath% remove %TopDir%/xed.shell/z0.xed.shell.csproj
+
 set SlnCmdShellCmd=%SlnTool% %SlnPath% add %TopDir%/cmd.shell/z0.cmd.shell.csproj
+set SlnCmdShellRemoveCmd=%SlnTool% %SlnPath% remove %TopDir%/cmd.shell/z0.cmd.shell.csproj
+
+
 set SlnIntelShellCmd=%SlnTool% %SlnPath% add %TopDir%/intel.shell/z0.intel.shell.csproj
 
 set SlnIntelCoreCmd=%SlnTool% %SlnPath% add %TopDir%/intel.core/z0.intel.core.csproj
@@ -28,10 +33,13 @@ set SlnCmdActionsCmd=%SlnTool% %SlnPath% add %AppDir%/cmd.actions/z0.cmd.actions
 
 set SlnAsmCmd=%SlnTool% %SlnPath% add %AppDir%/asm/z0.asm.csproj
 set SlnAsmPrototypesCmd=%SlnTool% %SlnPath% add %AppDir%/asm.prototypes/z0.asm.prototypes.csproj
+
 set SlnAsmServicesCmd=%SlnTool% %SlnPath% add %AppDir%/asm.services/z0.asm.services.csproj
 
 set SlnCgIntelCmd=%SlnTool% %SlnPath% add %CgDir%/codegen.intel/z0.codegen.intel.csproj
 set SlnCgCommonCmd=%SlnTool% %SlnPath% add %CgDir%/codegen.common/z0.codegen.common.csproj
 set SlnCgLlvmCmd=%SlnTool% %SlnPath% add %CgDir%/codegen.llvm/z0.codegen.llvm.csproj
+
 set SlnCgShellCmd=%SlnTool% %SlnPath% add %CgDir%/codegen.shell/z0.codegen.shell.csproj
+set SlnCgShellRemoveCmd=%SlnTool% %SlnPath% remove %CgDir%/codegen.shell/z0.codegen.shell.csproj
 

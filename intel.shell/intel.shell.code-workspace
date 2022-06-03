@@ -4,8 +4,57 @@
             "path": "."
         },
         {
-            "path": "..\\intel.xed"
+            "path": "../intel.xed"
         }
+        ,
+		{
+			"path": "../intel.core"
+		},
+        {
+			"path": "../intel.xed"
+		},
+		{
+			"path": "../intel.intrinsics"
+		},
+		{
+			"path": "../apps/asm.core"
+		},
+		{
+			"path": "../apps/asm.operands"
+		},
+		{
+			"path": "../alloc"
+		},
+		{
+			"path": "../api.md"
+		},
+
+        {
+			"path": "../api.code"
+		},
+		{
+			"path": "../archives"
+		},
+		{
+			"path": "../assets"
+		},
+		{
+			"path": "../numbers"
+		},
+		{
+			"path": "../bits"
+		},
+		{
+			"path": "../commands"
+		}
+        ,
+		{
+			"path": "../symbols"
+		}
+        ,
+		{
+			"path": "../diagnostics"
+		}
     ],
 	"settings": {}
 }

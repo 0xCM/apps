@@ -31,6 +31,7 @@ call %SlnApiMd%
 call %SlnCmdShellCmd%
 call %SlnXedShellCmd%
 call %SlnCgShellCmd%
+call %SlnIntelShellCmd%
 
 dotnet sln %SlnPath% add %TopDir%/deprecated/z0.deprecated.csproj
 dotnet sln %SlnPath% add %TopDir%/expr/z0.expr.csproj
