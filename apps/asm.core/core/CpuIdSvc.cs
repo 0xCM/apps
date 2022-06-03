@@ -13,16 +13,6 @@ namespace Z0.Asm
         public void EmitRecords(ReadOnlySpan<CpuIdRow> src, FS.FilePath dst)
             => AppSvc.TableEmit(src,dst);
 
-        // {
-
-        //     var formatter = Tables.formatter<CpuIdRow>();
-        //     using var writer = dst.AsciEmitter();
-        //     var count = (uint)src.Length;
-        //     for(var i=0; i<count; i++)
-        //         writer.WriteLine(formatter.Format(skip(src,i)));
-        //     return count;
-        // }
-
         public void EmitBits(ReadOnlySpan<CpuIdRow> src, FS.FilePath dst)
         {
             //using var writer = dst.AsciWriter();

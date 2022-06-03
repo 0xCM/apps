@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Machines
+namespace Z0
 {
     [ApiHost, StructLayout(LayoutKind.Sequential)]
     public readonly struct CpuPorts

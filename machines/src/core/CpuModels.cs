@@ -6,9 +6,6 @@ namespace Z0
 {
     using static core;
 
-    using Machines;
-
-
     [ApiHost]
     public readonly partial struct CpuModels
     {

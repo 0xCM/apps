@@ -2,15 +2,11 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Machines
+namespace Z0
 {
-    using System;
-    using System.Threading.Tasks;
-
-    using static Root;
     using static core;
 
-    public class MachineRunner : AppCmdService<MachineRunner,CmdShellState>
+    public class Machines : AppCmdService<Machines,CmdShellState>
     {
         IPolyrand Random;
 
@@ -22,7 +18,7 @@ namespace Z0.Machines
 
         bool Verbose;
 
-        public MachineRunner()
+        public Machines()
         {
             Verbose = true;
         }
@@ -35,7 +31,7 @@ namespace Z0.Machines
         protected override void Initialized()
         {
             Random = Rng.@default();
-            Queue = EventQueue.allocate(typeof(MachineRunner), EventRaised);
+            Queue = EventQueue.allocate(typeof(Machines), EventRaised);
             Signal = EventSignals.signal(Queue, GetType());
             Machine = X86Machine.create(Signal);
         }
@@ -53,7 +49,10 @@ namespace Z0.Machines
                 Wf.Raise(e);
         }
 
-        [CmdOp("run")]
+        public IX86Machine RunMachine()
+            => Machine.Run(Verbose);
+
+        [CmdOp("machine/run")]
         Outcome RunMachine(CmdArgs args)
         {
             var dispatcher = Machine.Run(Verbose);
@@ -67,7 +66,7 @@ namespace Z0.Machines
             Write(buffer.Emit());
         }
 
-        [CmdOp("regs/dump")]
+        [CmdOp("machine/regs/dump")]
         Outcome RegDump(CmdArgs args)
         {
             var result = Outcome.Success;
@@ -75,7 +74,7 @@ namespace Z0.Machines
             return result;
         }
 
-        [CmdOp(".dump-bss")]
+        [CmdOp("machine/bss/dump")]
         Outcome TestBss(CmdArgs args)
         {
             var result = Outcome.Success;
@@ -108,8 +107,7 @@ namespace Z0.Machines
             return result;
        }
 
-        [CmdOp(".test-stack")]
-        Outcome TestStack(CmdArgs args)
+        void TestStack()
         {
             var result = Outcome.Success;
             var stack = CpuModels.stack<ulong>(24);
@@ -120,23 +118,26 @@ namespace Z0.Machines
             {
                 Write(cell);
             }
-            return result;
         }
 
 
-        [CmdOp(".test-mm")]
-        Outcome TestMatchMachine(CmdArgs args)
-            => TestMatchMachine();
-
-        Outcome TestMatchMachine()
+        [CmdOp("machine/check")]
+        void CheckMahine()
         {
-            var result = Outcome.Success;
+            TestStack();
+            TestMatchMachine();
+        }
+
+
+        bool TestMatchMachine()
+        {
+            var result = true;
             result &= Match(2, first32u(MatchTarget0), MatchInput);
             result &= Match(2, first32u(MatchTarget1), MatchInput);
             result &= Match(3, first32u(MatchTarget2), MatchInput);
             result &= Match(1, first32u(MatchTarget3), MatchInput);
             result &= Match(3, first32u(MatchTarget4), MatchInput);
-            return result ? (true, "Pass") : (false, "Fail");
+            return result;
         }
 
         Outcome Match(byte n, uint src, ReadOnlySpan<byte> input)

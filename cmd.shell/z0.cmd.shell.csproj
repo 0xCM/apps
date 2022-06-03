@@ -14,6 +14,8 @@
     <ProjectReference Include="$(TestChecks)" />
     <ProjectReference Include="$(CodeGenLlvm)" />
     <ProjectReference Include="$(CodeGenIntel)" />
+    <ProjectReference Include="$(Machines)" />
+
   </ItemGroup>
 
   <Import Project="$(TopDir)imports/zlib.props"/>

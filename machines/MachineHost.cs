@@ -2,17 +2,24 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Machines
+namespace Z0
 {
     using static Root;
     using static core;
 
-    class App : WfApp<App>
+    class MachineHost : AppService<MachineHost>
     {
         // public static void Main(params string[] args)
         //     => run(args, PartId.Cpu, PartId.CalcShell);
 
-        MachineRunner TM;
+        Machines TM;
+
+        public void Run(string[] args)
+        {
+            var count = args.Length;
+            for(var i=0; i<count; i++)
+                Run(skip(args,i));
+        }
 
         protected override void Disposing()
         {
@@ -21,7 +28,7 @@ namespace Z0.Machines
 
         void Run(N22 n)
         {
-            TM = MachineRunner.create(Wf);
+            TM = Machines.create(Wf);
             TM.Run();
         }
 
@@ -39,15 +46,5 @@ namespace Z0.Machines
             }
         }
 
-        protected override void Run()
-        {
-        }
-
-        protected override void Run(string[] args)
-        {
-            var count = args.Length;
-            for(var i=0; i<count; i++)
-                Run(skip(args,i));
-        }
     }
 }

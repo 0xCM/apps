@@ -22,6 +22,7 @@ namespace Z0
                 PolyBits.commands(wf),
                 wf.XedTool(),
                 wf.DiagnosticCmd(),
+                wf.Machines(),
                 ApiCmd.create(wf),
                 CheckCmd.commands(wf),
                 GenCmd.create(wf),

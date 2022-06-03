@@ -14,7 +14,6 @@ call %SlnCommandsCmd%
 call %SlnSymbolsCmd%
 call %SlnNumbersCmd%
 call %SlnDiagnosticsCmd%
-call %SlnXedShellCmd%
 call %SlnAsmOperandsCmd%
 call %SlnAsmCoreCmd%
 call %SlnIntelCoreCmd%
@@ -28,6 +27,9 @@ call %SlnMachinesCmd%
 call %SlnCgIntelCmd%
 call %SlnCgCommonCmd%
 call %SlnCgLlvmCmd%
+
+call %SlnCmdShellCmd%
+call %SlnXedShellCmd%
 call %SlnCgShellCmd%
 
 dotnet sln %SlnPath% add %TopDir%/deprecated/z0.deprecated.csproj

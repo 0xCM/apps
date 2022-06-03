@@ -6,7 +6,7 @@ namespace Z0
 {
     public class RegBank : IDisposable
     {
-        public RegFile File {get;}
+        public readonly RegFile File;
 
         readonly NativeBuffer Buffer;
 
