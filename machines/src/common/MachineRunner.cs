@@ -181,7 +181,7 @@ namespace Z0.Machines
             }
         }
 
-        void or(in PageBlock lhs, in PageBlock rhs, in PageBlock dst)
+        void or(in MemoryPage lhs, in MemoryPage rhs, in MemoryPage dst)
         {
             var size = lhs.Size;
             var w = w128;

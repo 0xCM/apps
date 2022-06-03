@@ -17,6 +17,7 @@
     <Diagnostics>$(TopDir)diagnostics/z0.diagnostics.csproj</Diagnostics>
     <Lang>$(TopDir)lang/z0.lang.csproj</Lang>
     <Rules>$(TopDir)rules/z0.rules.csproj</Rules>
+    <Machines>$(TopDir)machines/z0.machines.csproj</Machines>
 
     <Asm>$(AppsRoot)asm/z0.asm.csproj</Asm>
     <AsmCore>$(AppsRoot)asm.core/z0.asm.core.csproj</AsmCore>
@@ -31,9 +32,6 @@
     <Gen>$(AppsRoot)gen/z0.gen.csproj</Gen>
     <Glue>$(AppsRoot)glue/z0.glue.csproj</Glue>
     <CmdActions>$(AppsRoot)cmd.actions/z0.cmd.actions.csproj</CmdActions>
-    <Machine>$(AppsRoot)machine/z0.machine.csproj</Machine>
-    <Machines>$(AppsRoot)machines/z0.machines.csproj</Machines>
-    <MachinesX86>$(AppsRoot)machines.X86/z0.machines.X86.csproj</MachinesX86>
     <LlvmTools>$(AppsRoot)llvm.tools/z0.llvm.tools.csproj</LlvmTools>
     <LlvmModels>$(AppsRoot)llvm.models/z0.llvm.models.csproj</LlvmModels>
 

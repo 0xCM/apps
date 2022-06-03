@@ -9,6 +9,4 @@
   </ItemGroup>
 
 
-  <Import Project="../imports.props"/>
-
 </Project>

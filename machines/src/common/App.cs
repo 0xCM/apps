@@ -9,8 +9,8 @@ namespace Z0.Machines
 
     class App : WfApp<App>
     {
-        public static void Main(params string[] args)
-            => run(args, PartId.Cpu, PartId.CalcShell);
+        // public static void Main(params string[] args)
+        //     => run(args, PartId.Cpu, PartId.CalcShell);
 
         MachineRunner TM;
 
