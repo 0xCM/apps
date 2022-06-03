@@ -8,11 +8,11 @@ namespace Z0
 
     partial class StringTables
     {
-        public static StringTable define<K>(SymTableSpec<K> spec)
+        public static StringTable create<K>(SymbolStrings<K> src)
             where K : unmanaged
-                => StringTables.define(StringTables.spec(spec), spec.Entries);
+                => create(spec(src), src.Entries);
 
-        public static StringTable define<K>(in StringTableSpec spec, ItemList<K,string> src)
+        public static StringTable create<K>(in StringTableSpec spec, ItemList<K,string> src)
             where K : unmanaged
         {
             var count = src.Length;
@@ -32,15 +32,12 @@ namespace Z0
             return new StringTable(spec, content, offsets, src.Map(x => x.Value), rows(src));
         }
 
-        public static StringTable define(in StringTableSpec spec, ItemList<string> src)
+        public static StringTable create(in StringTableSpec spec, ItemList<string> src)
         {
             var count = src.Length;
             var strings = span<string>(count);
             for(var i=0; i<count; i++)
-            {
-                ref readonly var entry = ref src[i];
-                seek(strings, entry.Key) = entry.Value;
-            }
+                seek(strings, src[i].Key) = src[i].Value;
 
             var offset = 0u;
             var offsets = alloc<uint>(count);
@@ -57,7 +54,7 @@ namespace Z0
                 rows(new ItemList<uint,string>(spec.TableName, src.View.Map(x => new ListItem<uint,string>(x.Key,x.Value)))));
         }
 
-        public static StringTable define(in StringTableSpec syntax, ReadOnlySpan<string> src)
+        public static StringTable create(in StringTableSpec syntax, ReadOnlySpan<string> src)
         {
             var count = src.Length;
             var offset = 0u;

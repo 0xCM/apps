@@ -8,6 +8,7 @@ namespace Z0
     using AK = ClrAccessKind;
     using MK = ClrModifierKind;
     using EK = ClrEnumKind;
+    using IK = ClrIntegerKind;
 
     [ApiHost, LiteralProvider]
     public readonly struct CsKeywords
@@ -84,6 +85,20 @@ namespace Z0
         }
 
         [Op]
+        public static Label keyword(EK src)
+            => src switch {
+                EK.U8 => U8,
+                EK.U16 => U16,
+                EK.U32 => U32,
+                EK.U64 => U64,
+                EK.I8 => I8,
+                EK.I16 => I16,
+                EK.I32 => I32,
+                EK.I64 => I64,
+                _ => EmptyString
+            };
+
+        [Op]
         public static Label keyword(AK kind)
             => kind switch{
                 AK.Public => Public,
@@ -109,16 +124,16 @@ namespace Z0
         }
 
         [Op]
-        public static Label keyword(EK src)
+        public static Label keyword(IK src)
             => src switch {
-                EK.U8 => U8,
-                EK.U16 => U16,
-                EK.U32 => U32,
-                EK.U64 => U64,
-                EK.I8 => I8,
-                EK.I16 => I16,
-                EK.I32 => I32,
-                EK.I64 => I64,
+                IK.U8 => U8,
+                IK.U16 => U16,
+                IK.U32 => U32,
+                IK.U64 => U64,
+                IK.I8 => I8,
+                IK.I16 => I16,
+                IK.I32 => I32,
+                IK.I64 => I64,
                 _ => EmptyString
             };
 

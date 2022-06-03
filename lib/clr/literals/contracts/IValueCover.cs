@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    [Free]
     public interface IValueCover : IExpr
     {
         dynamic Value {get;}
@@ -12,9 +13,10 @@ namespace Z0
             => Value?.ToString() ?? string.Empty;
     }
 
+    [Free]
     public interface IValueCover<T> : IValueCover
     {
-       new T Value {get;}
+        new T Value {get;}
 
         dynamic IValueCover.Value
             => Value;

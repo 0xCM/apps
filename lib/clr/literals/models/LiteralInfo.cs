@@ -11,17 +11,17 @@ namespace Z0
     /// </summary>
     public readonly struct LiteralInfo : ILiteral<LiteralInfo>
     {
-        public string Name {get;}
+        public readonly string Name {get;}
 
-        public object Data {get;}
+        public readonly object Data {get;}
 
-        public string Text {get;}
+        public readonly string Text {get;}
 
-        public TypeCode TypeCode {get;}
+        public readonly TypeCode TypeCode {get;}
 
-        public bool IsEnum {get;}
+        public readonly bool IsEnum {get;}
 
-        public bool Polymorphic {get;}
+        public readonly bool Polymorphic {get;}
 
         [MethodImpl(Inline)]
         public LiteralInfo(string name, object data, string text, TypeCode tc, bool isEnum, bool polymorphic)

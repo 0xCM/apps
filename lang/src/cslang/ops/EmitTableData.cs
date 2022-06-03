@@ -9,7 +9,7 @@ namespace Z0
         void EmitTableData(StringTable src, FS.FilePath dst)
             => AppSvc.TableEmit(src.Rows, dst);
 
-        void EmitTableData<K>(SymTableSpec<K> src, FS.FilePath dst)
+        void EmitTableData<K>(SymbolStrings<K> src, FS.FilePath dst)
             where K : unmanaged
                 => AppSvc.TableEmit(src.Rows, dst);
     }

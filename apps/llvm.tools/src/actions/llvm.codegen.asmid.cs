@@ -17,7 +17,7 @@ namespace Z0.llvm
                 tableName: "AsmIdData",
                 indexName: "AsmId",
                 indexNs: "z0.llvm",
-                @base: ClrEnumKind.U16,
+                indexType: ClrIntegerType.U16,
                 emitIndex:true
                 );
             ItemList<string> items = ("AsmId", asmids.Map(x => new ListItem<string>(x.Key, x.Value.Format())));

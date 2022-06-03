@@ -4,15 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public struct ClrPrimitiveInfo : ITextual
+    public readonly record struct ClrPrimitiveInfo : ITextual
     {
-        public ClrPrimitiveKind Kind {get;}
+        public readonly ClrPrimitiveKind Kind;
 
-        public NativeTypeWidth Width {get;}
+        public readonly NativeTypeWidth Width;
 
-        public PolarityKind Sign {get;}
+        public readonly PolarityKind Sign;
 
-        public PrimalCode TypeCode {get;}
+        public readonly PrimalCode TypeCode;
 
         [MethodImpl(Inline)]
         public ClrPrimitiveInfo(ClrPrimitiveKind kind, NativeTypeWidth width, PolarityKind sign, PrimalCode tc)

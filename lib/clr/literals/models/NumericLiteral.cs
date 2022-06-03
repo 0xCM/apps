@@ -11,13 +11,13 @@ namespace Z0
     /// </summary>
     public readonly struct NumericLiteral : INumericLiteral<NumericLiteral>
     {
-        public NumericBaseKind Base {get;}
+        public readonly NumericBaseKind Base {get;}
 
-        public string Name {get;}
+        public readonly string Name {get;}
 
-        public object Data {get;}
+        public readonly object Data {get;}
 
-        public string Text {get;}
+        public readonly string Text {get;}
 
         [MethodImpl(Inline)]
         internal NumericLiteral(NumericBaseKind @base, string name, object data, string text)

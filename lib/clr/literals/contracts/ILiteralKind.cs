@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    [Free]
     public interface ILiteralKind
     {
         Type LiteralType {get;}

@@ -4,18 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Reflection;
-
-    using static Root;
-
     public readonly struct TaggedMethod<A>
         where A : Attribute
     {
-        public MethodInfo Method {get;}
+        public readonly MethodInfo Method;
 
-        public A Tag {get;}
+        public readonly A Tag;
 
         [MethodImpl(Inline)]
         public TaggedMethod(MethodInfo method, A tag)

@@ -4,8 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
+    [Free]
     public interface IEnumLiteral : ITextual
     {
         /// <summary>
@@ -32,6 +31,7 @@ namespace Z0
     /// <summary>
     /// Characterizes a boxed enum value
     /// </summary>
+    [Free]
     public interface IEnumLiteral<F> : IEnumLiteral, IEquatable<F>
         where F : IEnumLiteral<F>
 
@@ -42,6 +42,7 @@ namespace Z0
     /// <summary>
     /// Characterizes an unboxed enum value
     /// </summary>
+    [Free]
     public interface IEnumLiteral<F,E> : IEnumLiteral<F>
         where E : unmanaged, Enum
         where F : IEnumLiteral<F,E>
@@ -56,6 +57,7 @@ namespace Z0
     /// Characterizes an unboxed enum value, parametric in the enumeration type
     /// and the underlying numeric type refined by the enum
     /// </summary>
+    [Free]
     public interface IEnumLiteral<F,E,V> : IEnumLiteral<F,E>
         where F : IEnumLiteral<F,E,V>
         where E : unmanaged, Enum

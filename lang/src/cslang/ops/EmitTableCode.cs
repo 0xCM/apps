@@ -18,11 +18,11 @@ namespace Z0
             return dst;
         }
 
-        FS.FileUri EmitTableCode<K>(SymTableSpec<K> spec, FS.FilePath dst)
+        FS.FileUri EmitTableCode<K>(SymbolStrings<K> spec, FS.FilePath dst)
             where K : unmanaged
         {
             var emitter = text.emitter();
-            var def = StringTables.define(spec);
+            var def = StringTables.create(spec);
             render(def.Spec, spec.Entries, emitter);
             AppSvc.FileEmit(emitter.Emit(), spec.Entries.Count, dst);
             return dst;
@@ -45,7 +45,7 @@ namespace Z0
             dst.WriteLine();
             dst.WriteLine(string.Format("    using static {0};", "core"));
             dst.WriteLine();
-            render(4, StringTables.define(spec, src), dst);
+            render(4, StringTables.create(spec, src), dst);
             dst.WriteLine(Close());
             return (uint)src.Length;
         }
@@ -59,7 +59,7 @@ namespace Z0
             dst.WriteLine();
             dst.WriteLine(string.Format("    using static {0};", "core"));
             dst.WriteLine();
-            render(4, StringTables.define(spec, src), dst);
+            render(4, StringTables.create(spec, src), dst);
             dst.WriteLine(Close());
             return (uint)src.Length;
         }
@@ -72,7 +72,7 @@ namespace Z0
             dst.WriteLine();
             dst.WriteLine(string.Format("    using static {0};", "core"));
             dst.WriteLine();
-            render(4, StringTables.define(spec, src), dst);
+            render(4, StringTables.create(spec, src), dst);
             dst.WriteLine(Close());
             return (uint)src.Length;
         }
@@ -130,7 +130,7 @@ namespace Z0
         {
             var count = src.EntryCount;
             var syntax = src.Spec;
-            dst.IndentLine(margin, string.Format("public enum {0} : {1}", syntax.IndexName, syntax.BaseType.CsKeyword()));
+            dst.IndentLine(margin, string.Format("public enum {0} : {1}", syntax.IndexName, syntax.IndexType.Keyword));
             dst.IndentLine(margin, Chars.LBrace);
             margin+=4;
             for(var i=0u; i<count; i++)

@@ -50,10 +50,19 @@
         ,
 		{
 			"path": "../symbols"
+		},
+		{
+			"path": "../diagnostics"
+
 		}
         ,
 		{
-			"path": "../diagnostics"
+			"path": "../codegen/codegen.intel"
+
+		}        ,
+		{
+			"path": "../codegen/codegen.shell"
+
 		}
     ],
 	"settings": {}

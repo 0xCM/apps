@@ -6,11 +6,11 @@
     <AssemblyName>zgen</AssemblyName>
   </PropertyGroup>
 
+  <Import Project="$(TopDir)imports/common.libs.props"/>
+
   <ItemGroup>
     <EmbeddedResource Include="assets/**/*.*" />
     <ProjectReference Include="$(Numbers)" />
   </ItemGroup>
-
-  <Import Project="../imports.props"/>
 
 </Project>

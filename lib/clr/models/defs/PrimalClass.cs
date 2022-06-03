@@ -4,17 +4,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct PrimalClass
     {
-        public ClrPrimitiveKind Kind {get;}
+        public readonly ClrPrimitiveKind Kind;
 
         public PrimalClass(ClrPrimitiveKind kind)
         {
             Kind = kind;
+        }
+
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => (uint)Kind;
         }
 
         public string Format()

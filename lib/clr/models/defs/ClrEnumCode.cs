@@ -9,6 +9,7 @@ namespace Z0
     /// <summary>
     /// Defines aliases for the subset of <see cref='TC'> codes that correspond to valid <see cref='Enum'/> base types
     /// </summary>
+    [SymSource("clr"), LiteralAlias(typeof(TC))]
     public enum ClrEnumCode : byte
     {
         None = 0,

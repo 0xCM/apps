@@ -7,6 +7,7 @@ namespace Z0
     /// <summary>
     /// Characterizes a representation of a compile-time literal
     /// </summary>
+    [Free]
     public interface ILiteral : INullity, ITextual
     {
         /// <summary>
@@ -46,6 +47,7 @@ namespace Z0
     /// <summary>
     /// Characterizes compile-time literal representation
     /// </summary>
+    [Free]
     public interface ILiteral<H> : ILiteral, INullary<H>, IEquatable<H>
         where H : struct, ILiteral<H>
     {
@@ -55,6 +57,7 @@ namespace Z0
     /// <summary>
     /// Characterizes compile-time literal representation
     /// </summary>
+    [Free]
     public interface ILiteral<H,L> : ILiteral<H>
         where H : struct, ILiteral<H,L>
     {

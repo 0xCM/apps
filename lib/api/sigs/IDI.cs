@@ -9,6 +9,7 @@ namespace Z0
     /// <summary>
     /// Identity indicators
     /// </summary>
+    [LiteralProvider]
     public static class IDI
     {
         /// <summary>

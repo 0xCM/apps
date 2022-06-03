@@ -4,14 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct GenericState : ITextual
     {
-        public GenericStateKind State {get;}
+        public readonly GenericStateKind State;
 
         [MethodImpl(Inline)]
         public GenericState(byte state)

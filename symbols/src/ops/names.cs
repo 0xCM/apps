@@ -8,7 +8,7 @@ namespace Z0
 
     partial class Symbolic
     {
-        public static SymTableSpec<K> names<K>(
+        public static SymbolStrings<K> names<K>(
             string tableNs = null,
             string indexNs = null,
             string tableName = null,
@@ -18,7 +18,7 @@ namespace Z0
             )
             where K : unmanaged, Enum
         {
-            var dst = new SymTableSpec<K>();
+            var dst = new SymbolStrings<K>();
             spec(
                 tableNs: TableNs<K>(tableNs),
                 indexNs: IndexNs<K>(indexNs),

@@ -6,24 +6,24 @@ namespace Z0
 {
     partial class CsLang
     {
-        public StringTable EmitStringTable<K>(in SymTableSpec<K> spec, CgTarget dst)
+        public StringTable EmitStringTable<K>(SymbolStrings<K> spec, CgTarget dst)
             where K : unmanaged
                 => EmitStringTable(spec,SourceFile(spec.TableName, "stringtables", dst), DataFile(spec.TableName, "stringtables", dst));
 
-        public StringTable EmitStringTable<K>(in SymTableSpec<K> spec, FS.FolderPath dst)
+        public StringTable EmitStringTable<K>(SymbolStrings<K> spec, FS.FolderPath dst)
             where K : unmanaged
                 => EmitStringTable(spec,SourceFile(dst, spec.TableName), DataFile(dst, spec.TableName));
 
-        public StringTable EmitStringTable<K>(in SymTableSpec<K> spec, FS.FilePath code, FS.FilePath data)
+        public StringTable EmitStringTable<K>(SymbolStrings<K> spec, FS.FilePath code, FS.FilePath data)
             where K : unmanaged
         {
-            var def = StringTables.define(spec);
+            var def = StringTables.create(spec);
             EmitTableCode(spec, code);
             EmitTableData(spec, data);
             return def;
         }
 
-        public StringTable EmitStringTable(Identifier tableNs, ClrEnumKind @base, ItemList<string> src, CgTarget dst, bool emitIndex)
+        public StringTable EmitStringTable(Identifier tableNs, ClrIntegerType indexType, ItemList<string> src, CgTarget dst, bool emitIndex)
         {
             var name = src.Name;
             var spec = StringTables.spec(
@@ -31,9 +31,9 @@ namespace Z0
                 tableName: name +"ST",
                 indexNs: tableNs,
                 indexName: name + "Kind",
-                @base: @base,
+                indexType: indexType,
                 emitIndex: emitIndex);
-            var def = StringTables.define(spec, src);
+            var def = StringTables.create(spec, src);
             EmitTableCode(spec, src, dst);
             EmitTableData(def, DataFile(spec.TableName, "stringtables", dst));
             return def;
@@ -46,10 +46,10 @@ namespace Z0
                 tableName: tableName,
                 indexName: indexName,
                 indexNs: tableNs,
-                @base:0,
+                indexType:ClrIntegerType.Empty,
                 emitIndex:emitIndex
                 );
-            var def = StringTables.define(spec, strings);
+            var def = StringTables.create(spec, strings);
             EmitTableCode(spec, strings, dst);
             EmitTableData(def, DataFile(spec.TableName, "stringtables", dst));
             return def;

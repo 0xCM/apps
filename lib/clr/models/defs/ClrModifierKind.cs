@@ -4,10 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     [Flags, SymSource("clr")]
-    public enum ClrModifierKind : uint
+    public enum ClrModifierKind : byte
     {
         None = 0,
 

@@ -8,7 +8,7 @@ namespace Z0
 
     partial class Symbolic
     {
-        public static SymTableSpec<K> expr<K>(
+        public static SymbolStrings<K> expr<K>(
             string tableNs = null,
             string indexNs = null,
             string tableName = null,
@@ -18,7 +18,7 @@ namespace Z0
             )
             where K : unmanaged, Enum
         {
-            var dst = new SymTableSpec<K>();
+            var dst = new SymbolStrings<K>();
             spec(
                 tableNs: TableNs<K>(tableNs),
                 indexNs: IndexNs<K>(indexNs),
@@ -31,17 +31,17 @@ namespace Z0
             return dst;
         }
 
-        static void spec<K>(string tableNs, string indexNs, string tableName, string indexName, bool emitIndex, bool parametric, ItemList<K,string> entries, ref SymTableSpec<K> dst)
+        static void spec<K>(string tableNs, string indexNs, string tableName, string indexName, bool emitIndex, bool parametric, ItemList<K,string> entries, ref SymbolStrings<K> dst)
             where K : unmanaged
         {
             dst.Entries = entries;
             var count = dst.Entries.Count;
-            calc(entries, out dst.Strings, out dst.Content, out dst.Offsets);
+            //calc(entries, out dst.Strings, out dst.Content, out dst.Offsets);
             dst.IndexName = indexName;
             dst.TableName = tableName;
             dst.IndexNs = indexName;
             dst.TableNs = tableNs;
-            dst.IndexKind = Enums.kind<K>();
+            dst.IndexType = Enums.kind<K>();
             dst.Parametric = parametric;
             dst.EmitIndex = emitIndex;
             dst.Rows = alloc<StringTableRow>(count);

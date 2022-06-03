@@ -12,7 +12,7 @@ namespace Z0
 
         public readonly Identifier IndexName;
 
-        public readonly ClrEnumKind BaseType;
+        public readonly ClrIntegerType IndexType;
 
         public readonly Identifier IndexNs;
 
@@ -20,12 +20,12 @@ namespace Z0
 
         public readonly bool EmitIndex;
 
-        public StringTableSpec(Identifier tableNs, Identifier table, Identifier index, Identifier indexNs, ClrEnumKind @base, bool parametric, bool emitIndex)
+        public StringTableSpec(Identifier tableNs, Identifier table, Identifier index, Identifier indexNs, ClrIntegerType indexType, bool parametric, bool emitIndex)
         {
             TableNs = tableNs;
             TableName = table;
             IndexName = index;
-            BaseType = @base;
+            IndexType = indexType;
             IndexNs = indexNs;
             Parametric = parametric;
             EmitIndex = emitIndex;

@@ -14,13 +14,13 @@ namespace Z0
     public readonly struct NumericLiteral<T> : INumericLiteral<NumericLiteral<T>,T>
         where T : unmanaged
     {
-        public string Name {get;}
+        public readonly string Name {get;}
 
-        public T Data {get;}
+        public readonly T Data {get;}
 
-        public string Text {get;}
+        public readonly string Text {get;}
 
-        public NBK Base {get;}
+        public readonly NBK Base {get;}
 
         [MethodImpl(Inline)]
         public NumericLiteral(string name, T data, string text, NBK @base)
