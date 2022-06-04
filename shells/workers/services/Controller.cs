@@ -32,7 +32,7 @@ namespace Z0
             WorkLog = Loggers.worker(App.ControlId, Storage);
             DisplayLog = logger;
             Paths = EnvPaths.create();
-            Monitor = ArchiveMonitor.start(Paths.DbRoot(), OnChange);
+            Monitor = ArchiveMonitor.start(Paths.Env.DevWs, OnChange);
         }
 
         void OnChange(FileChange change)
