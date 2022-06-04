@@ -1,1 +1,0 @@
-dotnet build %~dp0..\z0.asm.services.csproj -c Release

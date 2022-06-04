@@ -16,6 +16,7 @@ set AppDir=%TopDir%/apps
 set TestDir=%TopDir%/test
 set CgDir=%TopDir%/codegen
 set LibDir=%TopDir%/lib
+set LibsRoot=%TopDir%/libs
 
 set BuildRoot=%SlnRoot%\.build
 set BuildBinRoot=%BuildRoot%\bin
@@ -64,6 +65,12 @@ set AreaBuildCmd=dotnet build %AreaSln% %BuildProps% -fl -flp:logfile=%AreaBuild
 set BuildAppsCmd=%AreaBuildCmd%
 echo BuildAppsCmd:%BuildAppsCmd% >> %CmdLog%
 
+set Area=libs
+set AreaProject=%SlnRoot%\%Area%\%ProjectId%\z0.%ProjectId%.csproj
+set AreaBuildLog=%BuildLogs%\z0.%Area%.build.log
+set AreaBuildCmd=dotnet build %AreaProject% %BuildProps% -fl -flp:logfile=%AreaBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
+set BuildLibCmd=%AreaBuildCmd%
+
 set Area=test
 set AreaSln=%SlnRoot%\%Area%\z0.%Area%.sln
 set AreaBuildLog=%BuildLogs%\z0.%Area%.build.log
@@ -75,8 +82,8 @@ set Area=lib
 set AreaProject=%SlnRoot%\%Area%\z0.%Area%.csproj
 set AreaBuildLog=%BuildLogs%\z0.%Area%.build.log
 set AreaBuildCmd=dotnet build %AreaProject% %BuildProps% -fl -flp:logfile=%AreaBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
-set BuildLibCmd=%AreaBuildCmd%
-echo BuildLibCmd:%BuildLibCmd% >> %CmdLog%
+set BuildZlibCmd=%AreaBuildCmd%
+echo BuildZlibCmd:%BuildLibCmd% >> %CmdLog%
 
 set Area=codegen
 set AreaSln=%SlnRoot%\%Area%\z0.%Area%.sln
@@ -96,6 +103,7 @@ set AreaBuildLog=%BuildLogs%\%Area%.main.build.log
 set BuildAreaCmd=dotnet build %AreaSln% %BuildProps% -fl -flp:logfile=%AreaBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 set BuildMainCmd=%BuildAreaCmd%
 echo BuildMainCmd:%BuildMainCmd% >> %CmdLog%
+
 
 set ShellProject=%SlnRoot%\%ProjectId%\z0.%ProjectId%.csproj
 set ShellBuildLog=%BuildLogs%\z0.%ProjectId%.build.log

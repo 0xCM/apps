@@ -19,11 +19,6 @@
     <Rules>$(TopDir)rules/z0.rules.csproj</Rules>
     <Machines>$(TopDir)machines/z0.machines.csproj</Machines>
 
-    <Asm>$(AppsRoot)asm/z0.asm.csproj</Asm>
-    <AsmCore>$(AppsRoot)asm.core/z0.asm.core.csproj</AsmCore>
-    <AsmOperands>$(AppsRoot)asm.operands/z0.asm.operands.csproj</AsmOperands>
-    <AsmPrototypes>$(AppsRoot)asm.prototypes/z0.asm.prototypes.csproj</AsmPrototypes>
-    <AsmServices>$(AppsRoot)asm.services/z0.asm.services.csproj</AsmServices>
     <Capture>$(AppsRoot)capture/z0.capture.csproj</Capture>
     <CpuDsl>$(AppsRoot)cpu.dsl/z0.cpu.dsl.csproj</CpuDsl>
     <Canonical>$(AppsRoot)canonical/z0.canonical.csproj</Canonical>
@@ -48,7 +43,12 @@
     <CodeGenIntel>$(CodeGenRoot)codegen.intel/z0.codegen.intel.csproj</CodeGenIntel>
     <CgCommon>$(CodeGenRoot)codegen.common/z0.codegen.common.csproj</CgCommon>
 
-    <ZLibs>$(TopDir)libs/z0.libs.csproj</ZLibs>
+    <ZLibs>$(LibsRoot)z0.libs.csproj</ZLibs>
+    <Asm>$(LibsRoot)asm/z0.asm.csproj</Asm>
+    <AsmCore>$(LibsRoot)asm.core/z0.asm.core.csproj</AsmCore>
+    <AsmOperands>$(LibsRoot)asm.operands/z0.asm.operands.csproj</AsmOperands>
+    <AsmPrototypes>$(LibsRoot)asm.prototypes/z0.asm.prototypes.csproj</AsmPrototypes>
+    <AsmServices>$(LibsRoot)asm.services/z0.asm.services.csproj</AsmServices>
   </PropertyGroup>
 
 </Project>

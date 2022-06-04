@@ -1,5 +1,4 @@
 @echo off
-call %SlnLibCmd%
 call %SlnDeprecatedCmd%
 call %SlnExprCmd%
 call %SlnLangCmd%

@@ -4,14 +4,14 @@
     <OutputType>Library</OutputType>
   </PropertyGroup>
 
+  <Import Project="$(TopDir)imports/common.libs.props"/>
+
   <ItemGroup>
     <ProjectReference Include="$(AsmCore)" />
     <ProjectReference Include="$(Glue)" />
     <ProjectReference Include="$(Cli)" />
-
     <PackageReference Include="Iced" Version="1.4.0" />
   </ItemGroup>
 
-  <Import Project="../imports.props"/>
 
 </Project>

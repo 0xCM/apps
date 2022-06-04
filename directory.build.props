@@ -6,6 +6,7 @@
     <TopDir>$(MSBuildThisFileDirectory)</TopDir>
     <Src>$(TopDir)</Src>
     <AppsRoot>$(Src)apps/</AppsRoot>
+    <LibsRoot>$(Src)libs/</LibsRoot>
     <CodeGenRoot>$(Src)codegen/</CodeGenRoot>
     <TestRoot>$(Src)test/</TestRoot>
     <BuildRootDir>$(TopDir).build\</BuildRootDir>
