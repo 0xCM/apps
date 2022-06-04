@@ -6,30 +6,6 @@ namespace Z0
 {
     using static core;
 
-    [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct ApiHexIndexRow
-    {
-        const string TableId = "api-hex-index";
-
-        [Render(10)]
-        public uint Seqence;
-
-        [Render(16)]
-        public MemoryAddress Address;
-
-        [Render(20)]
-        public string Component;
-
-        [Render(20)]
-        public string HostName;
-
-        [Render(20)]
-        public string MethodName;
-
-        [Render(120)]
-        public OpUri Uri;
-    }
-
     public partial class ApiCode : AppService<ApiCode>
     {
         const int DefaultBufferLength = Pow2.T14 + Pow2.T08;
@@ -52,43 +28,11 @@ namespace Z0
         public MemoryBlocks LoadMemoryBlocks()
             => LoadMemoryBlocks(Files.Targets());
 
-        [MethodImpl(Inline), Op]
-        public static void charpack(byte src, out char c0, out char c1)
-        {
-            c0 = Hex.hexchar(LowerCase, src, 1);
-            c1 = Hex.hexchar(LowerCase, src, 0);
-        }
-
-        [Op]
-        public static MemoryBlocks pack(Index<MemoryBlock> src)
-        {
-            var count = src.Length;
-            if(count == 0)
-                return MemoryBlocks.Empty;
-            src.Sort();
-            return new MemoryBlocks(src);
-        }
-
         [Op]
         public ByteSize Emit(in MemoryBlock src, FS.FilePath dst)
         {
             using var writer = dst.Writer();
             return hexpack(src, 0, writer);
-        }
-
-        [MethodImpl(Inline)]
-        public static uint hexarray(W8 w, in MemoryBlock src, Span<char> buffer)
-            => Hex.hexarray(src.View, buffer);
-
-        const string ArrayPackLine = "x{0:x}[{1:D5}:{2:D5}]={3}";
-
-        [Op]
-        public static string hexarray(in MemorySeg src, uint index, Span<char> buffer)
-        {
-            var memory = src.ToSpan();
-            var count = Hex.hexarray(memory.View, buffer);
-            var chars = slice(buffer, 0, count);
-            return string.Format(ArrayPackLine, memory.BaseAddress, index, (uint)memory.Size, text.format(chars));
         }
 
         [Op]
@@ -112,10 +56,10 @@ namespace Z0
             return dst;
         }
 
-        public Index<MethodEntryPoint> CalcEntryPoints(PartId id)
+        public Index<MethodEntryPoint> CalcEntryPoints(PartId part)
         {
             var dst = sys.empty<MethodEntryPoint>();
-            if(ApiMd.Catalog.FindPart(id, out var src))
+            if(ApiMd.Catalog.FindPart(part, out var src))
                 dst = MethodEntryPoints.create(ApiJit.JitPart(src));
             return dst;
         }
@@ -124,6 +68,21 @@ namespace Z0
         {
             var collected = Collect(symbols, CalcEntryPoints());
             Emit(collected, Files.Path(FS.Csv), Files.Path(FS.Hex));
+            return collected;
+        }
+
+        public Index<CollectedEncoding> Collect(PartId part, SymbolDispenser symbols, IApiPack dst)
+        {
+            var collected = sys.empty<CollectedEncoding>();
+            if(ApiMd.Catalog.FindPart(part, out var src))
+                collected = Collect(src, symbols, dst);
+            return collected;
+        }
+
+        public Index<CollectedEncoding> Collect(IPart part, SymbolDispenser symbols, IApiPack dst)
+        {
+            var collected = Collect(symbols, part);
+            Emit(part.Id, collected, dst);
             return collected;
         }
 
@@ -212,6 +171,9 @@ namespace Z0
 
             return emitted;
         }
+
+        Index<EncodedMember> Emit(PartId part, Index<CollectedEncoding> src, IApiPack dst)
+            => Emit(src, dst.PartHex(part), dst.PartCsv(part));
 
         public ByteSize EmitHex(Index<CollectedEncoding> src, FS.FilePath dst)
         {
@@ -304,7 +266,6 @@ namespace Z0
             AppSvc.TableEmit(encoded, csv);
             return encoded;
         }
-
 
         [Op]
         public ReadOnlySpan<ApiHexIndexRow> EmitIndex(SortedIndex<ApiCodeBlock> src, FS.FilePath dst)

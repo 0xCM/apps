@@ -21,7 +21,7 @@ namespace Z0
             Index<HostAsmRecord> Load()
             {
                 var pack = ApiPacks.Current();
-                var paths = pack.Archive().HostAsmTables();
+                var paths = pack.Archive().Tables();
                 return AsmTables.LoadHostAsmRows(paths);
             }
             return Data(nameof(HostAsm),Load);

@@ -30,6 +30,8 @@ namespace Z0
             EventChannel.Enlist(this);
         }
 
+        ApiCodeFiles ApiCode => Wf.ApiCodeFiles();
+
         internal void Deposit(PartResolvedEvent e)
             => inc(ref PartResolvedCount);
 
@@ -49,7 +51,7 @@ namespace Z0
         {
             var pdb = false;
             var packs = Wf.ApiPacks();
-            var pack = packs.Create(settings);
+            var pack = ApiCode.Package(settings);
             var collection = Run(pack);
             packs.CreateLink(settings.Timestamp);
             if(pdb)

@@ -23,7 +23,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ExtractTermCode termcode(EncodingPatternKind src)
         {
-            if(src != 0)
+            if (src != 0)
                 return (ExtractTermCode)src;
             else
                 return ExtractTermCode.Fail;
@@ -66,12 +66,12 @@ namespace Z0
         {
             Start();
 
-            var i=0;
+            var i = 0;
 
-            while(i < src.Length && !Finished())
+            while (i < src.Length && !Finished())
                 Parse(src[i++]);
 
-            if(State == S.Accepting)
+            if (State == S.Accepting)
                 State = S.Unmatched;
 
             return State;
@@ -99,12 +99,12 @@ namespace Z0
         [Op]
         S Parse(byte src)
         {
-            if(State == S.Accepting && Offset < Buffer.Length)
+            if (State == S.Accepting && Offset < Buffer.Length)
             {
                 seek(Buffer, Offset++) = src;
-                if(TryMatch(out Outcome, out Delta))
+                if (TryMatch(out Outcome, out Delta))
                 {
-                    if(Patterns.IsSuccessPattern(Outcome))
+                    if (Patterns.IsSuccessPattern(Outcome))
                         State = S.Succeeded;
                     else
                         State = S.Failed;
@@ -120,13 +120,13 @@ namespace Z0
             kind = default;
             delta = 0;
 
-            for(var i=0; i<Patterns.Count; i++)
+            for (var i = 0; i < Patterns.Count; i++)
             {
                 ref readonly var match = ref Patterns[i];
                 var pattern = Patterns.Pattern(match);
                 var len = pattern.Length;
-                var matched = Offset > len ? Buffer.Slice(Offset -  1 - len, len).EndsWith(pattern) : false;
-                if(matched)
+                var matched = Offset > len ? Buffer.Slice(Offset - 1 - len, len).EndsWith(pattern) : false;
+                if (matched)
                 {
                     kind = match;
                     delta = (int)Patterns.MatchOffset(match);

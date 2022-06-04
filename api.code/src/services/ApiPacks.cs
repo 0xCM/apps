@@ -4,41 +4,45 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static EnvFolders;
+
     [ApiHost]
     public sealed class ApiPacks : AppService<ApiPacks>
     {
-        public IApiPack Create(Timestamp ts)
-            => new ApiPack(ApiExtractSettings.init(Db.CapturePackRoot(), ts));
+        ApiCodeFiles ApiFiles => Wf.ApiCodeFiles();
 
         public IApiPack Create(ApiExtractSettings settings)
-            => new ApiPack(settings);
-
-        public IApiPack Create()
-            => Create(core.now());
-
-        public FS.FolderPath PackRoot
-            => Db.CapturePackRoot();
+            => new ApiPack(ApiFiles, settings);
 
         public IApiPack Create(FS.FolderPath root)
-            => new ApiPack(ApiExtractSettings.init(root));
+            => Create(ApiExtractSettings.init(root));
+
+        FS.FolderPath PackRoot
+            => Env.CapturePacks;
 
         public IApiPack Current()
-            => Archives.Last();
+            => Packs().Last;
 
-        public ApiPackArchive Archive()
-            => ApiPackArchive.create(Archives.Last().Root);
 
-        public ApiPackArchive Archive(FS.FolderPath root)
-            => ApiPackArchive.create(root);
-
-        public ApiPackArchives Archives
-            => ApiPackArchives.create(PackRoot);
+        IApiPack Pack(FS.FolderPath dir)
+            => new ApiPack(ApiFiles, ApiExtractSettings.init(dir));
 
         public void CreateLink(Timestamp ts)
         {
-            var outcome = Archives.Link(ts);
+            var outcome = Link(ts);
             if(Check(outcome, out var data))
                 Wf.Status(string.Format("Created symlink {0} -> {1}", data.Source, data.Target));
+        }
+
+        public Outcome<Arrow<FS.FolderPath,FS.FolderPath>> Link(Timestamp ts)
+        {
+            var link = PackRoot + FS.folder(current);
+            var target = PackRoot + FS.folder(ts);
+            var outcome = FS.symlink(link, target, true);
+            if(outcome.Ok)
+                return new Arrow<FS.FolderPath,FS.FolderPath>(link, target);
+            else
+                return outcome;
         }
 
         public Index<IApiPack> Packs()

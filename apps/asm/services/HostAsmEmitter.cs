@@ -88,7 +88,7 @@ namespace Z0.Asm
             return statements;
         }
 
-        public Index<HostAsmRecord> EmitHostAsm(ReadOnlySpan<AsmRoutine> src, ApiPackArchive dst)
+        public Index<HostAsmRecord> EmitHostAsm(ReadOnlySpan<AsmRoutine> src, IApiPackArchive dst)
         {
             var total = ApiInstructions.count(src);
             var running = Running(Msg.CreatingStatements.Format(total));
@@ -98,7 +98,7 @@ namespace Z0.Asm
             for(var i=0; i<count; i++)
                 offset += ApiInstructions.hostasm(skip(src,i), slice(buffer.Edit, offset));
             Ran(running, Msg.CreatedStatements.Format(total));
-            EmitHostAsm(buffer, dst.RootDir());
+            EmitHostAsm(buffer, dst.Targets());
             return buffer;
         }
 

@@ -8,8 +8,23 @@ namespace Z0
     {
         AppDb AppDb => Wf.AppDb();
 
+        public DumpArchive DumpArchive
+            => Wf.DumpArchive();
+
+        public DbTargets Capture()
+            => new DbTargets(Env.CapturePacks, "packs");
+
+        public IApiPack Package(Timestamp ts)
+            => Package(Capture().Dir(ts.Format()));
+
+        public IApiPack Package(ApiExtractSettings settings)
+            => new ApiPack(this, settings);
+
+        public IApiPack Package(FS.FolderPath dst)
+            => Package(ApiExtractSettings.init(dst));
+
         public DbTargets Targets()
-            => AppDb.ApiTargets("capture");
+            => AppDb.ApiTargets("capture/packs");
 
         DbSources Sources()
             => Targets().ToSource();

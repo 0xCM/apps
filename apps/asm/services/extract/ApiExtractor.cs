@@ -24,7 +24,7 @@ namespace Z0
 
         Index<ApiHostDataset> CollectedDatasets;
 
-        ApiPackArchive PackArchive;
+        IApiPackArchive PackArchive;
 
         Index<ResolvedPart> ResolvedParts;
 
@@ -55,8 +55,8 @@ namespace Z0
 
         void ClearTargets(IApiPack pack)
         {
-            PackArchive.HexPackRoot().Clear();
-            PackArchive.AsmCaptureRoot().Clear(true);
+            // PackArchive.HexPackRoot().Clear();
+            // PackArchive.AsmCaptureRoot().Clear(true);
         }
 
         void ResolveParts(ReadOnlySpan<IPart> parts, IApiPack pack)
@@ -98,7 +98,7 @@ namespace Z0
             SortedRoutines.Sort();
         }
 
-        ReadOnlySpan<ApiCatalogEntry> EmitApiCatalog(Timestamp ts)
+        ReadOnlySpan<ApiCatalogEntry> EmitApiCatalog(IApiPack dst)
             => ApiCatalogs.EmitApiCatalog(ApiMembers.create(CollectedDatasets.SelectMany(x => x.Members)), PackArchive.ApiCatalogPath());
 
         internal ResolvedParts Run(ApiExtractChannel receivers, IApiPack pack)
@@ -110,7 +110,7 @@ namespace Z0
             ResolveParts(pack);
             ExtractParts(pack);
             CollectRoutines(pack);
-            EmitApiCatalog(pack.Timestamp);
+            EmitApiCatalog(pack);
             EmitContext(pack);
             EmitAnalyses(pack);
             return new ResolvedParts(ResolvedParts);

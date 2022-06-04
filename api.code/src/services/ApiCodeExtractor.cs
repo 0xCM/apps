@@ -16,16 +16,16 @@ namespace Z0
 
         ApiHex ApiHex => Service(Wf.ApiHex);
 
-        public ApiPartCode ExtractPartCode(IPart src, IApiPack pack)
-            => ExtractPartCode(src, pack, ApiPackArchive.create(pack.Root));
+        // public ApiPartCode ExtractPartCode(IPart src, IApiPack pack)
+        //     => ExtractPartCode(src, pack, ApiPackArchive.create(pack.Root));
 
-        public ApiPartCode ExtractPartCode(IPart src, IApiPack pack, ApiPackArchive dst)
-        {
-            var resolved = Resolver.ResolvePart(src);
-            return new ApiPartCode(resolved, ExtractPartCode(resolved, pack, dst), dst);
-        }
+        // public ApiPartCode ExtractPartCode(IPart src, IApiPack pack, ApiPackArchive dst)
+        // {
+        //     var resolved = Resolver.ResolvePart(src);
+        //     return new ApiPartCode(resolved, ExtractPartCode(resolved, pack, dst), dst);
+        // }
 
-        public ApiHostCode ExtractHostCode(in ResolvedHost src, IApiPack pack, ApiPackArchive dst)
+        public ApiHostCode ExtractHostCode(in ResolvedHost src, IApiPack pack, IApiPackArchive dst)
         {
             var host = src.Host;
             var rawPath = dst.RawHexPath(host);
@@ -33,7 +33,7 @@ namespace Z0
             EmitRawHex(host, raw.View,rawPath);
             var parsed = ParseBlocks(raw.View);
             var packedPath = dst.ParsedHexPath(host);
-            var parsedPath = dst.ParsedExtractPath(pack, host);
+            var parsedPath = dst.ParsedExtractPath(host);
             EmitParsedHex(host, parsed.View, pack, packedPath, parsedPath);
             var result = new ApiHostCode();
             result.Resolved = src;

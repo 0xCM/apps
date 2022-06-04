@@ -25,7 +25,7 @@ namespace Z0
             AsmAnalyzerSettings.@default(out Settings);
         }
 
-        public void Analyze(ReadOnlySpan<AsmRoutine> src, ApiPackArchive dst)
+        public void Analyze(ReadOnlySpan<AsmRoutine> src, IApiPackArchive dst)
         {
             var blocks = default(Index<ApiCodeBlock>);
             var process = default(ReadOnlySpan<ProcessAsmRecord>);
@@ -52,7 +52,7 @@ namespace Z0
             }
         }
 
-        Index<AsmDetailRow> EmitDetails(ReadOnlySpan<ApiCodeBlock> src, ApiPackArchive dst)
+        Index<AsmDetailRow> EmitDetails(ReadOnlySpan<ApiCodeBlock> src, IApiPackArchive dst)
         {
             var target = dst.DetailTables();
             target.Clear();
@@ -62,10 +62,10 @@ namespace Z0
         public Index<ApiCodeBlock> CollectBlocks(ReadOnlySpan<AsmRoutine> src)
             => AsmRoutines.blocks(src);
 
-        Index<AsmCallRow> EmitCalls(ReadOnlySpan<AsmRoutine> src, ApiPackArchive dst)
+        Index<AsmCallRow> EmitCalls(ReadOnlySpan<AsmRoutine> src, IApiPackArchive dst)
             => Calls.EmitRows(src, dst.AsmCallsPath());
 
-        Index<AsmJmpRow> EmitJumps(ReadOnlySpan<AsmRoutine> src, ApiPackArchive dst)
+        Index<AsmJmpRow> EmitJumps(ReadOnlySpan<AsmRoutine> src, IApiPackArchive dst)
             => Jumps.EmitRows(src, dst.JmpTarget());
     }
 }

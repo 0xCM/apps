@@ -102,7 +102,7 @@ namespace Z0.Asm
             {
                 ref readonly var seg = ref skip(src,i);
                 buffer.Clear();
-                writer.WriteLine(ApiCode.hexarray(seg, i, buffer));
+                writer.WriteLine(CsLang.hexarray(seg, i, buffer));
             }
             EmittedFile(flow, count);
         }

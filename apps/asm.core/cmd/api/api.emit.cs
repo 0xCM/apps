@@ -12,7 +12,9 @@ namespace Z0
     {
         ApiComments ApiComments => Wf.ApiComments();
 
-        ApiPackArchive ApiPacks => ApiPackArchive.create(AppDb.ApiTargets("capture"));
+        ApiPackArchive ApiPacks => ApiPackArchive.create(AppDb.ApiTargets("capture/packs"));
+
+        ApiCodeFiles ApiFiles => Wf.ApiCodeFiles();
 
         ApiMd ApiMd => Wf.ApiMetadata();
 

@@ -10,6 +10,23 @@ namespace Z0
 
     partial class ApiCode
     {
+        [MethodImpl(Inline), Op]
+        public static void charpack(byte src, out char c0, out char c1)
+        {
+            c0 = Hex.hexchar(LowerCase, src, 1);
+            c1 = Hex.hexchar(LowerCase, src, 0);
+        }
+
+        [Op]
+        public static MemoryBlocks pack(Index<MemoryBlock> src)
+        {
+            var count = src.Length;
+            if(count == 0)
+                return MemoryBlocks.Empty;
+            src.Sort();
+            return new MemoryBlocks(src);
+        }
+
         [Op]
         public static Index<HexPacked> pack(SortedIndex<ApiCodeBlock> src, bool validate = false)
         {

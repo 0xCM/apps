@@ -22,9 +22,9 @@ namespace Z0
 
         public void Run()
         {
-            CodeFiles.Targets().Delete();
+            var dst = CodeFiles.Package(core.timestamp());
             using var symbols = Alloc.dispenser(Alloc.symbols);
-            iter(ApiMd.Parts, part => Run(symbols, part), true);
+            iter(ApiMd.Parts, part => Run(symbols, part, dst), true);
         }
 
         public void Run(PartId id)
@@ -73,6 +73,14 @@ namespace Z0
             var asm = EmitAsm(symbols, src.Id, collected);
         }
 
+        void Run(SymbolDispenser symbols, IPart part, IApiPack dst)
+        {
+            var collected = ApiCode.Collect(part, symbols, dst).Sort();
+            var size = ApiCode.EmitHex(collected, dst.PartHex(part.Id));
+            var csv = ApiCode.EmitCsv(collected, dst.PartCsv(part.Id));
+            var asm = EmitAsm(symbols, part.Id, collected, dst);
+        }
+
         Index<AsmRoutine> EmitAsm(SymbolDispenser symbols, PartId part, Index<CollectedEncoding> src)
         {
             var dst = alloc<AsmRoutine>(src.Count);
@@ -86,6 +94,21 @@ namespace Z0
 
             AppSvc.FileEmit(emitter.Emit(), src.Count, CodeFiles.AsmPath(part));
             return dst;
+        }
+
+        Index<AsmRoutine> EmitAsm(SymbolDispenser symbols, PartId part, Index<CollectedEncoding> src, IApiPack dst)
+        {
+            var buffer = alloc<AsmRoutine>(src.Count);
+            var emitter = text.emitter();
+            for(var i=0; i<src.Count; i++)
+            {
+                var routine = AsmDecoder.Decode(src[i]);
+                seek(buffer,i) = routine;
+                emitter.AppendLine(routine.AsmRender(routine));
+            }
+
+            AppSvc.FileEmit(emitter.Emit(), src.Count, dst.PartAsm(part));
+            return buffer;
         }
 
         Index<AsmRoutine> EmitAsm(SymbolDispenser symbols, ApiHostUri host, Index<CollectedEncoding> src)

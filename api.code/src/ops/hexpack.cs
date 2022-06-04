@@ -42,11 +42,11 @@ namespace Z0
         }
 
         [Op]
-        public static string hexpack(in MemorySeg src, uint index, Span<char> buffer)
+        public static string hexpack(in MemorySeg src, uint index, Span<char> dst)
         {
             var memspan = src.ToSpan();
-            var count = Hex.charpack(memspan.View, buffer);
-            var chars = slice(buffer, 0, count);
+            var count = Hex.charpack(memspan.View, dst);
+            var chars = slice(dst, 0, count);
             return string.Format(HexLine.HexPackPattern, memspan.BaseAddress, index, (uint)memspan.Size, text.format(chars));
         }
 

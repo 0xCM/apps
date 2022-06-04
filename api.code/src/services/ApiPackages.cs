@@ -4,19 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct ApiPackages : IFileArchive
     {
-        public FS.FolderPath Root {get;}
+        public readonly FS.FolderPath Root;
 
         [MethodImpl(Inline)]
         public ApiPackages(FS.FolderPath root)
         {
             Root = root;
         }
+
+        FS.FolderPath IFileArchive.Root
+            => Root;
 
         public FS.FolderPath ResPackDir()
             => Root + FS.folder("respack");

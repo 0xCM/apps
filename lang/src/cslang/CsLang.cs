@@ -17,6 +17,20 @@ namespace Z0
 
         ConstLookup<CgTarget,string> TargetExpressions;
 
+        const string ArrayPackLine = "x{0:x}[{1:D5}:{2:D5}]={3}";
+
+        [Op]
+        public static string hexarray(in MemorySeg src, uint index, Span<char> dst)
+        {
+            var memory = src.ToSpan();
+            var count = Hex.hexarray(memory.View, dst);
+            return string.Format(ArrayPackLine, memory.BaseAddress, index, (uint)memory.Size, text.format(slice(dst, 0, count)));
+        }
+
+        [MethodImpl(Inline)]
+        public static uint hexarray(W8 w, in MemoryBlock src, Span<char> dst)
+            => Hex.hexarray(src.View, dst);
+
         public CsLang()
         {
             var symbols = Symbols.index<CgTarget>();
