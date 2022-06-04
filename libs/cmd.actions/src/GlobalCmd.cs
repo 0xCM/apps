@@ -10,6 +10,28 @@ namespace Z0
 
     public partial class GlobalCmd : AppCmdService<GlobalCmd,CmdShellState>, ICmdRunner
     {
+        public static GlobalCmd commands(IWfRuntime wf)
+        {
+            var svc = new GlobalCmd();
+            var providers = array<ICmdProvider>(
+                svc,
+                ProjectCmd.inject(svc, ProjectCmd.create(wf)),
+                LlvmCmdProvider.create(wf, LlvmCmd.create(wf)),
+                AsmCoreCmd.commands(wf),
+                PolyBits.commands(wf),
+                wf.XedTool(),
+                wf.DiagnosticCmd(),
+                wf.Machines(),
+                ApiActionCmd.create(wf),
+                CheckCmd.commands(wf),
+                GenCmd.create(wf),
+                AsmCmdProvider.create(wf),
+                XedCmd.commands(XedRuntime.create(wf))
+                );
+
+            return GlobalCmd.init(wf, svc, providers);
+        }
+
         static ICmdProvider[] _Providers;
 
         public static GlobalCmd init(IWfRuntime wf, GlobalCmd svc, ICmdProvider[] providers)

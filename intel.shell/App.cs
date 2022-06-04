@@ -12,12 +12,10 @@ namespace Z0
             var xed = XedRuntime.create(wf);
             var providers = new ICmdProvider[]{
                 wf.IntelIntrinsicsCmd(),
-                //xed.XedChecks(),
                 AsmCoreCmd.commands(wf),
-                //wf.AsmChecks(),
                 wf.ApiCmd(),
             };
-            var cmd  = XedCmd.commands(xed, providers);
+            var cmd = XedCmd.commands(xed, providers);
             xed.Start();
             return cmd;
         }

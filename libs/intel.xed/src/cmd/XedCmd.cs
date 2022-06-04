@@ -9,9 +9,9 @@ namespace Z0
     using static XedRules;
     using static MemDb;
 
-    public class XedCmd : WsCmdService<XedCmd>
+    public class XedCmd : WsCmdService<XedCmd>, ICmdProvider
     {
-        public static IAppCmdService commands(XedRuntime xed, Index<ICmdProvider> providers)
+        public static XedCmd commands(XedRuntime xed, params ICmdProvider[] providers)
         {
             var cmd = create(xed.Wf, providers);
             cmd.Xed = xed;

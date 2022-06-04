@@ -12,7 +12,10 @@
     <ProjectReference Include="$(LlvmTools)" />
     <ProjectReference Include="$(AsmServices)" />
     <ProjectReference Include="$(IntelIntrinsics)" />
+    <ProjectReference Include="$(IntelXed)" />
+
     <ProjectReference Include="$(Diagnostics)" />
+    <ProjectReference Include="$(Machines)" />
   </ItemGroup>
 
 </Project>

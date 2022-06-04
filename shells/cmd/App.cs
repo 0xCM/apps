@@ -2,21 +2,12 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-[assembly: PartId(PartId.Cmd)]
-namespace Z0.Parts
-{
-    using System;
-
-    public sealed class Cmd : Part<Cmd>
-    {
-
-    }
-}
-
 namespace Z0
 {
-    public static partial class XTend
+    [Free]
+    sealed class AppCmdShell : AppCmdShell<AppCmdShell>
     {
-
+        public static void Main(params string[] args)
+            => run(wf => GlobalCmd.commands(wf), args);
     }
 }
