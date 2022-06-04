@@ -1,0 +1,24 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <ZLibVersion>0.0.110</ZLibVersion>
+    <ZLibName>z0.lib</ZLibName>
+    <Version>0.0.111</Version>
+    <TargetFramework>net6.0</TargetFramework>
+    <TieredCompilation>false</TieredCompilation>
+    <TieredCompilationQuickJit>false</TieredCompilationQuickJit>
+    <TieredCompilationQuickJitForLoops>false</TieredCompilationQuickJitForLoops>
+    <Configuration>Release</Configuration>
+    <Deterministic>true</Deterministic>
+    <Optimize>true</Optimize>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>pdbonly</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <IncludeSymbols>true</IncludeSymbols>
+    <EnablePreviewFeatures>true</EnablePreviewFeatures>
+    <LangVersion>preview</LangVersion>
+    <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
+    <NoWarn>SYSLIB0023;CA1416;RS1024;1591;1572;1573;1701;1702;1712;1711;1570;1571;1574;1710;8321;NETSDK1057;0169;0414;0219;649;8632;SYSLIB0001;IDE0060;IDE0059;MSB3026;CS0067;IDE1006</NoWarn>
+  </PropertyGroup>
+
+</Project>
