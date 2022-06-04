@@ -6,8 +6,7 @@
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="$(ZLibs)" />
-  </ItemGroup>
+  <Import Project="$(TopDir)imports/common.libs.props"/>
+  <Import Project="$(TopDir)imports/libs.props"/>
 
 </Project>

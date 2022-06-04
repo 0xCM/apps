@@ -67,7 +67,7 @@ echo BuildAppsCmd:%BuildAppsCmd% >> %CmdLog%
 
 set Area=libs
 set AreaProject=%SlnRoot%\%Area%\%ProjectId%\z0.%ProjectId%.csproj
-set AreaBuildLog=%BuildLogs%\z0.%Area%.build.log
+set AreaBuildLog=%BuildLogs%\z0.%ProjectId%.build.log
 set AreaBuildCmd=dotnet build %AreaProject% %BuildProps% -fl -flp:logfile=%AreaBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 set BuildLibCmd=%AreaBuildCmd%
 

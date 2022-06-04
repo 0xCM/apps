@@ -10,7 +10,6 @@
     <EmbeddedResource Include="assets/**/*.*" />
     <ProjectReference Include="$(Assets)" />
     <ProjectReference Include="$(ApiCode)" />
-
   </ItemGroup>
 
 </Project>

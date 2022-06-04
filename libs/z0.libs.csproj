@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <Import Project="$(TopDir)imports/common.libs.props"/>
-
   <Import Project="$(TopDir)imports/libs.props"/>
 
 </Project>

@@ -1,4 +1,4 @@
 @echo off
 call %~dp0config.cmd
-call %BuildZLibCmd%
+call %~dp0build-zlib.cmd
 call %BuildMainCmd%

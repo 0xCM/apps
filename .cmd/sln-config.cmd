@@ -1,7 +1,7 @@
 @echo off
 set SlnTool=dotnet sln
 set SlnPath=%SlnDir%/%SlnName%
-set SlnLibCmd=%SlnTool% %SlnPath% add %LibDir%/z0.lib.csproj
+set SlnZLibCmd=%SlnTool% %SlnPath% add %LibDir%/z0.lib.csproj
 
 set SlnAllocCmd=%SlnTool% %SlnPath% add %TopDir%/alloc/z0.alloc.csproj
 set SlnApiCodeCmd=%SlnTool% %SlnPath% add %TopDir%/api.code/z0.api.code.csproj
@@ -52,3 +52,6 @@ set SlnAsmCmd=%SlnTool% %SlnPath% add %LibsRoot%/asm/z0.asm.csproj
 set SlnAsmPrototypesCmd=%SlnTool% %SlnPath% add %LibsRoot%/asm.prototypes/z0.asm.prototypes.csproj
 set SlnAsmServicesCmd=%SlnTool% %SlnPath% add %LibsRoot%/asm.services/z0.asm.services.csproj
 
+set SlnTestChecksCmd=%SlnTool% %SlnPath% add %TestDir%/test.checks/z0.test.checks.csproj
+set SlnTestUnitsCmd=%SlnTool% %SlnPath% add %TestDir%/test.units/z0.test.units.csproj
+set SlnTestShellCmd=%SlnTool% %SlnPath% add %TestDir%/test.shell/z0.test.shell.csproj
