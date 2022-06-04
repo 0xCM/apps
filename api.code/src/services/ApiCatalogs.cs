@@ -15,7 +15,7 @@ namespace Z0
 
         ApiRuntime Runtime => Service(Wf.ApiRuntime);
 
-        ApiHex ApiHex => Service(() => ApiHex.create(Wf));
+        ApiHex ApiHex => Wf.ApiHex();
 
         public Index<SymLiteralRow> EmitApiClasses()
             => EmitApiClasses(ProjectDb.Api() +  FS.file("api.classes", FS.Csv));

@@ -8,9 +8,33 @@ namespace Z0
     using static Bytes;
 
     [ApiHost]
-    public readonly partial struct Cli
+    public class Cli : AppService<Cli>
     {
         const NumericKind Closure = UnsignedInts;
+
+        ApiMd ApiMd => Wf.ApiMetadata();
+
+        public ReadOnlySpan<string> ReadUserStrings(PartId part)
+        {
+            var dst =  ReadOnlySpan<string>.Empty;
+            if(Reader(part, out var reader))
+                dst = reader.ReadStrings(CliStringKind.User);
+            return dst;
+        }
+
+        public bool Reader(PartId part, out CliReader dst)
+        {
+            if(ApiMd.Catalog.FindComponent(part, out var component))
+            {
+                dst = CliReader.read(component);
+                return true;
+            }
+            else
+            {
+                dst = default;
+                return false;
+            }
+        }
 
         /// <summary>
         /// Defines a parametric table source over a specified <see cref='Assembly'/>
@@ -205,11 +229,90 @@ namespace Z0
             return length;
         }
 
-    }
 
-    [ApiHost]
-    public static partial class XCmd
-    {
+        public static string heapinfo<T>(T src)
+            where T : ICliHeap
+                => string.Format("{0,-20} | {1} | {2}", src.HeapKind, src.BaseAddress, src.Size);
 
+        public static Index<CliBlobHeap> blobs(ReadOnlySpan<Assembly> src)
+        {
+            var count = src.Length;
+            var buffer = alloc<CliBlobHeap>(count);
+            ref var dst = ref first(buffer);
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var component = ref skip(src,i);
+                var reader = CliReader.read(component);
+                seek(dst,i) = reader.BlobHeap();
+            }
+            return buffer;
+        }
+
+        public static Index<CliGuidHeap> guids(ReadOnlySpan<Assembly> src)
+        {
+            var count = src.Length;
+            var buffer = alloc<CliGuidHeap>(count);
+            ref var dst = ref first(buffer);
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var component = ref skip(src,i);
+                var reader = CliReader.read(component);
+                seek(dst,i) = reader.GuidHeap();
+            }
+            return buffer;
+        }
+
+        public static Index<CliStringHeap> strings(ReadOnlySpan<Assembly> src)
+        {
+            var count = src.Length;
+            var buffer = alloc<CliStringHeap>(count*2);
+            ref var dst = ref first(buffer);
+            var j=0;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var component = ref skip(src,i);
+                var reader = CliReader.read(component);
+                seek(dst,j++) = reader.StringHeap(CliStringKind.System);
+                seek(dst,j++) = reader.StringHeap(CliStringKind.User);
+            }
+            return buffer;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static unsafe uint count(in CliStringHeap src)
+        {
+            var counter = 0u;
+            var pCurrent = src.BaseAddress.Pointer<char>();
+            var pLast = (src.BaseAddress + src.Size).Pointer<char>();
+            while(pCurrent < pLast)
+            {
+                if(*pCurrent++ == Chars.Null)
+                    counter++;
+            }
+            return counter;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static unsafe uint terminators(in CliStringHeap src, Span<uint> dst)
+        {
+            var counter = 0u;
+            var pCurrent = src.BaseAddress.Pointer<char>();
+            var pLast = (src.BaseAddress + src.Size).Pointer<char>();
+            var pos = 0u;
+            while(pCurrent < pLast)
+            {
+                if(*pCurrent++ == Chars.Null)
+                    seek(dst, counter++) = pos*2;
+                pos++;
+            }
+            return counter;
+        }
+
+        public static Index<uint> terminators(in CliStringHeap src)
+        {
+            var dst = alloc<uint>(count(src));
+            terminators(src,dst);
+            return dst;
+        }
     }
 }

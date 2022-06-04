@@ -10,20 +10,7 @@ namespace Z0
     {
         ApiExtractParser Parser => ApiExtractParser.create();
 
-        ApiResolver Resolver => Wf.ApiResolver();
-
         ApiCode ApiCode => Wf.ApiCode();
-
-        ApiHex ApiHex => Service(Wf.ApiHex);
-
-        // public ApiPartCode ExtractPartCode(IPart src, IApiPack pack)
-        //     => ExtractPartCode(src, pack, ApiPackArchive.create(pack.Root));
-
-        // public ApiPartCode ExtractPartCode(IPart src, IApiPack pack, ApiPackArchive dst)
-        // {
-        //     var resolved = Resolver.ResolvePart(src);
-        //     return new ApiPartCode(resolved, ExtractPartCode(resolved, pack, dst), dst);
-        // }
 
         public ApiHostCode ExtractHostCode(in ResolvedHost src, IApiPack pack, IApiPackArchive dst)
         {
@@ -61,17 +48,15 @@ namespace Z0
             return buffer;
         }
 
-        Index<ApiHostCode> ExtractPartCode(ResolvedPart src, IApiPack pack, ApiPackArchive dst)
+        public Index<ApiHostCode> ExtractPartCode(ResolvedPart src, IApiPack pack, IApiPackArchive dst)
         {
             var hosts = src.Hosts.View;
             var count = (uint)hosts.Length;
             if(count == 0)
                 return sys.empty<ApiHostCode>();
             var code = list<ApiHostCode>();
-
             for(var i=0; i<count; i++)
                 code.Add(ExtractHostCode(skip(hosts,i), pack, dst));
-
             return code.ToArray();
         }
 
@@ -108,7 +93,7 @@ namespace Z0
                 seek(dst, i) = new MemoryBlock(code.Address, code.Size, code.Encoded);
             }
 
-            ApiCode.Emit(ApiCode.pack(dst), packPath);
+            ApiCode.Emit(dst.Sort(), packPath);
             ApiCode.EmitApiHex(host, src, extractPath);
             return count;
         }

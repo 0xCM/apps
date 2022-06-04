@@ -8,7 +8,6 @@ namespace Z0
     {
         [CmdOp("api/capture")]
         void Capture(CmdArgs args)
-            => Wf.ApiCapture2().Run(args);
-
+            => Wf.ApiCapture().Run(args);
     }
 }

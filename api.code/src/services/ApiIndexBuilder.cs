@@ -20,8 +20,6 @@ namespace Z0
 
         ApiCodeLookup UriCode;
 
-        ApiHex ApiHex => Service(() => Z0.ApiHex.create(Wf));
-
         public static ReadOnlySpan<ApiHexRow> ReadRows(FS.FilePath src)
         {
             var data = src.ReadLines().Storage.ToReadOnlySpan();

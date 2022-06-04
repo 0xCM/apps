@@ -6,10 +6,115 @@ namespace Z0
 {
     using static core;
 
+    using System.IO;
+
     [ApiHost]
-    public readonly struct PdbServices
+    public class PdbSvc : AppService<PdbSvc>
     {
-        [Op]
+        PdbIndexBuilder PdbIndexBuilder => Wf.PdbIndexBuilder();
+
+        public FS.FilePath IndexApiComponents()
+            => IndexComponents(ApiRuntimeCatalog.Components);
+
+        public FS.FilePath IndexComponents(Assembly[] src)
+            => PdbIndexBuilder.IndexComponents(src);
+
+        public void IndexPdbSymbols(ReadOnlySpan<ResolvedPart> src, FS.FilePath dst)
+        {
+            var count = src.Length;
+            var emitting = Wf.EmittingFile(dst);
+            var counter = 0u;
+            using var writer = dst.Writer();
+            for(var i=0; i<count; i++)
+                counter += IndexPdbMethods(skip(src,i),writer);
+            Wf.EmittedFile(emitting, counter);
+        }
+
+        public uint IndexPdbMethods(in ResolvedPart src, StreamWriter dst)
+        {
+            var hosts = src.Hosts.View;
+            using var symbols = SymbolSource(src.Location);
+            var reader = Wf.PdbReader(symbols);
+            var flow = Running(string.Format("Indexing symbols for {0} from {1}", symbols.PePath, symbols.PdbPath));
+            var counter = 0u;
+            var buffer = list<PdbMethod>();
+            for(var i=0; i<hosts.Length; i++)
+            {
+                ref readonly var host = ref skip(hosts,i);
+                var methods = host.Methods.View;
+                for(var j=0; j<methods.Length; j++)
+                {
+                    ref readonly var method = ref skip(methods,j);
+                    var pdbMethod = reader.Method(method.Method.MetadataToken);
+                    if(pdbMethod)
+                    {
+                        var data = pdbMethod.Payload;
+                        dst.WriteLine(data.Token.Format());
+                        buffer.Add(data);
+                        counter++;
+                    }
+                }
+            }
+            Ran(flow);
+            return counter;
+        }
+
+        public FS.FilePath EmitPdbDocInfo(PartId part)
+        {
+            var components = ApiRuntimeCatalog.Components;
+            var catalog = ApiRuntimeCatalog.PartCatalogs(part).Single();
+            var partMethods = catalog.Methods.View;
+            var assembly = catalog.Component;
+            var module = assembly.ManifestModule;
+            using var source = SymbolSource(FS.path(catalog.ComponentPath));
+            var pePath = source.PePath;
+            var pdbPath = source.PdbPath;
+            var pdbReader = Wf.PdbReader(source);
+            var counter = 0u;
+            var dst = ProjectDb.Subdir("api/pdb") + FS.file(string.Format("{0}.pdbinfo", part.Format(), FS.Csv));
+            using var writer = dst.Writer();
+            var emitting = Wf.EmittingFile(dst);
+            Write("Collecting methods");
+            var pdbMethods = pdbReader.Methods;
+            var methodCount = pdbMethods.Length;
+            for(var i=0; i<methodCount; i++)
+            {
+                ref readonly var pdbMethod = ref skip(pdbMethods,i);
+                var info = pdbMethod.Describe();
+                var docview = info.Documents.View;
+                var doc = docview.Length >=1 ? first(docview).Path : FS.FilePath.Empty;
+                var token = info.Token;
+                var methodBase = Clr.method(module,token);
+                var name = methodBase.Name;
+                var sig = methodBase is MethodInfo method ? method.DisplaySig().Format() : EmptyString;
+
+                writer.WriteLine(string.Format("{0,-12} | {1,-24} | {2,-68} | {3}", token, name, doc.ToUri(), sig));
+                counter++;
+            }
+
+            EmittedFile(emitting, counter);
+            return dst;
+        }
+
+        public PdbSymbolSource SymbolSource(FileModule src)
+        {
+            try
+            {
+                return PdbSymbolSource.create(src.Path, src.Path.ChangeExtension(FS.Pdb));
+            }
+            catch(Exception e)
+            {
+                Wf.Error(e);
+                return PdbSymbolSource.Empty;
+            }
+        }
+
+        public PdbSymbolSource SymbolSource(FS.FilePath module)
+            => PdbSymbolSource.create(module);
+
+        public ModuleArchive Archive()
+            => FileArchives.modules(FS.path(controller().Location).FolderPath);
+
         public static unsafe Outcome srclink(ISymUnmanagedReader5 src, out Span<byte> dst)
         {
             dst = default;

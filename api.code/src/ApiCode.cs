@@ -8,19 +8,24 @@ namespace Z0
 
     public partial class ApiCode : AppService<ApiCode>
     {
-        const int DefaultBufferLength = Pow2.T14 + Pow2.T08;
-
-        [Op]
-        public static byte[] buffer(ByteSize? size = null)
-            => alloc<byte>(size ?? DefaultBufferLength);
-
         ApiJit ApiJit => Service(Wf.ApiJit);
 
         ApiMd ApiMd => Wf.ApiMetadata();
 
+        ApiHex ApiHex => Wf.ApiHex();
+
         new ApiCodeFiles Files => Wf.ApiCodeFiles();
 
         AppSvcOps AppSvc => Wf.AppSvc();
+
+        public Index<ApiHexRow> EmitApiHex(ApiHostUri uri, ReadOnlySpan<ApiMemberCode> src, FS.FolderPath dst)
+            => ApiHex.EmitRows(uri, src, dst);
+
+        public Index<ApiHexRow> EmitApiHex(ApiHostUri uri, ReadOnlySpan<ApiMemberCode> src, FS.FilePath dst)
+            => ApiHex.EmitRows(uri, src, dst);
+
+        public Index<ApiHexPack> EmitHexPack(SortedIndex<ApiCodeBlock> src, FS.FilePath? dst = null, bool validate = false)
+            => ApiHex.EmitPacks(src,dst,validate);
 
         public SortedIndex<ApiCodeBlock> LoadBlocks()
             => blocks(Files.HexFiles());
@@ -28,11 +33,14 @@ namespace Z0
         public MemoryBlocks LoadMemoryBlocks()
             => LoadMemoryBlocks(Files.Targets());
 
+        public MemoryBlocks LoadMemoryBlocks(FS.FolderPath src)
+            => ApiHex.LoadMemoryBlocks(src);
+
         [Op]
         public ByteSize Emit(in MemoryBlock src, FS.FilePath dst)
         {
             using var writer = dst.Writer();
-            return hexpack(src, 0, writer);
+            return ApiHex.pack(src, 0, writer);
         }
 
         [Op]
@@ -40,7 +48,7 @@ namespace Z0
         {
             var flow = EmittingFile(dst);
             using var writer = dst.Writer();
-            var total = hexpack(src, writer);
+            var total = ApiHex.pack(src, writer);
             EmittedFile(flow, (uint)total);
             return total;
         }
@@ -71,14 +79,6 @@ namespace Z0
             return collected;
         }
 
-        public Index<CollectedEncoding> Collect(PartId part, SymbolDispenser symbols, IApiPack dst)
-        {
-            var collected = sys.empty<CollectedEncoding>();
-            if(ApiMd.Catalog.FindPart(part, out var src))
-                collected = Collect(src, symbols, dst);
-            return collected;
-        }
-
         public Index<CollectedEncoding> Collect(IPart part, SymbolDispenser symbols, IApiPack dst)
         {
             var collected = Collect(symbols, part);
@@ -98,6 +98,26 @@ namespace Z0
             else
                 Warn($"{src} has no exposed methods");
             return collected;
+        }
+
+        [Op]
+        public static MemoryBlocks pack(ReadOnlySpan<ApiCodeBlock> src)
+        {
+            var count = src.Length;
+            var buffer = alloc<MemoryBlock>(count);
+            return pack(src, buffer);
+        }
+
+        [Op]
+        public static MemoryBlocks pack(ReadOnlySpan<ApiCodeBlock> src, Index<MemoryBlock> dst)
+        {
+            for(var i=0; i<src.Length; i++)
+            {
+                ref readonly var code = ref skip(src,i);
+                dst[i] = new MemoryBlock(code.BaseAddress, code.Size, code.Data);
+            }
+
+            return new MemoryBlocks(dst.Sort());
         }
 
         public Index<CollectedEncoding> Collect(SymbolDispenser symbols, IPart src)

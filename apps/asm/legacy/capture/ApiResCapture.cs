@@ -18,7 +18,7 @@ namespace Z0.Asm
         {
             Decoder = Wf.AsmDecoder();
             FormatConfig = AsmFormatConfig.@default(out var _);
-            ApiCapture = Wf.ApiCapture();
+            ApiCapture = Wf.ApiCaptureLegacy();
         }
 
         protected override void Disposing()

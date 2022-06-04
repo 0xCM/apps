@@ -62,7 +62,7 @@ namespace Z0
         public static HostAsmEmitter HostAsmEmitter(this IWfRuntime wf)
             => Services.HostAsmEmitter(wf);
 
-        public static ApiCapture ApiCapture2(this IWfRuntime wf)
+        public static ApiCapture ApiCapture(this IWfRuntime wf)
             => Services.ApiCapture(wf);
 
         public static AsmJmpPipe AsmJmpPipe(this IWfRuntime wf)
@@ -80,9 +80,8 @@ namespace Z0
         public static AsmAnalyzer AsmAnalyzer(this IWfRuntime wf)
             => Services.AsmAnalyzer(wf);
 
-
         [Op]
-        public static ApiCaptureService ApiCapture(this IWfRuntime wf)
+        public static ApiCaptureService ApiCaptureLegacy(this IWfRuntime wf)
             => Z0.ApiCaptureService.create(wf);
 
         [Op]

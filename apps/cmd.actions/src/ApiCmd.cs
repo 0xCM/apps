@@ -26,6 +26,8 @@ namespace Z0
 
         ApiCode ApiCode => Wf.ApiCode();
 
+        ApiHex ApiHex => Wf.ApiHex();
+
         Index<ProcessAsmRecord> ProcessAsm() => Data(nameof(ProcessAsm), _LoadProcessAsm);
 
         Index<ProcessAsmRecord> ProcessAsmBuffer() => Data(nameof(ProcessAsmBuffer), () => alloc<ProcessAsmRecord>(ProcessAsm().Count));

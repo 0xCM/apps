@@ -12,7 +12,7 @@ namespace Z0
     {
         AppSvcOps AppSvc => Wf.AppSvc();
 
-        AsmDecoder AsmDecoder => Service(Wf.AsmDecoder);
+        AsmDecoder AsmDecoder => Wf.AsmDecoder();
 
         ApiCodeFiles CodeFiles => Wf.ApiCodeFiles();
 
@@ -76,11 +76,26 @@ namespace Z0
         void Run(SymbolDispenser symbols, IPart part, IApiPack dst)
         {
             var collected = ApiCode.Collect(part, symbols, dst).Sort();
-            var size = ApiCode.EmitHex(collected, dst.PartHex(part.Id));
-            var csv = ApiCode.EmitCsv(collected, dst.PartCsv(part.Id));
-            var asm = EmitAsm(symbols, part.Id, collected, dst);
+            //var size = ApiCode.EmitHex(collected, dst.PartHex(part.Id));
+            //var csv = ApiCode.EmitCsv(collected, dst.PartCsv(part.Id));
+            var asm = EmitAsm(symbols, part.Id, collected, dst.PartAsm(part.Id));
         }
 
+        Index<AsmRoutine> EmitAsm(SymbolDispenser symbols, PartId part, Index<CollectedEncoding> src, FS.FilePath dst)
+        {
+            var buffer = alloc<AsmRoutine>(src.Count);
+            var emitter = text.emitter();
+            for(var i=0; i<src.Count; i++)
+            {
+                var routine = AsmDecoder.Decode(src[i]);
+                seek(buffer,i) = routine;
+                emitter.AppendLine(routine.AsmRender(routine));
+            }
+
+            AppSvc.FileEmit(emitter.Emit(), src.Count, dst);
+            return buffer;
+
+        }
         Index<AsmRoutine> EmitAsm(SymbolDispenser symbols, PartId part, Index<CollectedEncoding> src)
         {
             var dst = alloc<AsmRoutine>(src.Count);
@@ -96,20 +111,20 @@ namespace Z0
             return dst;
         }
 
-        Index<AsmRoutine> EmitAsm(SymbolDispenser symbols, PartId part, Index<CollectedEncoding> src, IApiPack dst)
-        {
-            var buffer = alloc<AsmRoutine>(src.Count);
-            var emitter = text.emitter();
-            for(var i=0; i<src.Count; i++)
-            {
-                var routine = AsmDecoder.Decode(src[i]);
-                seek(buffer,i) = routine;
-                emitter.AppendLine(routine.AsmRender(routine));
-            }
+        // Index<AsmRoutine> EmitAsm(SymbolDispenser symbols, PartId part, Index<CollectedEncoding> src, IApiPack dst)
+        // {
+        //     var buffer = alloc<AsmRoutine>(src.Count);
+        //     var emitter = text.emitter();
+        //     for(var i=0; i<src.Count; i++)
+        //     {
+        //         var routine = AsmDecoder.Decode(src[i]);
+        //         seek(buffer,i) = routine;
+        //         emitter.AppendLine(routine.AsmRender(routine));
+        //     }
 
-            AppSvc.FileEmit(emitter.Emit(), src.Count, dst.PartAsm(part));
-            return buffer;
-        }
+        //     AppSvc.FileEmit(emitter.Emit(), src.Count, dst.PartAsm(part));
+        //     return buffer;
+        // }
 
         Index<AsmRoutine> EmitAsm(SymbolDispenser symbols, ApiHostUri host, Index<CollectedEncoding> src)
         {

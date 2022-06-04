@@ -9,7 +9,7 @@ namespace Z0
 
     using static core;
 
-    [ApiHost]
+    [ApiHost("asset.services")]
     public sealed partial class Assets : AppService<Assets>
     {
         const NumericKind Closure = UnsignedInts;

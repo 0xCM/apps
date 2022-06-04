@@ -10,7 +10,7 @@ namespace Z0
 
     public class ApiCaptureRunner : AppService<ApiCaptureRunner>
     {
-        ApiCaptureService ApiCapture => Service(Wf.ApiCapture);
+        ApiCaptureService ApiCapture => Service(Wf.ApiCaptureLegacy);
 
         ApiImmEmitter ImmEmitter => Service(Wf.ImmEmitter);
 

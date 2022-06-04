@@ -4,13 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial class ApiExtractor
     {
-        ApiHostDataset ExtractHost(in ResolvedHost src, IApiPack pack)
+        ApiHostDataset ExtractHost(in ResolvedHost src, IApiPack dst)
         {
-            var code = CodeExtractor.ExtractHostCode(src, pack, PackArchive);
+            var code = CodeExtractor.ExtractHostCode(src, dst, PackArchive);
             return CreateDataset(code, EmitRoutines(code));
         }
     }

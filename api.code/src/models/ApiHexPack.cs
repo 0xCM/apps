@@ -5,7 +5,7 @@
 namespace Z0
 {
     [StructLayout(LayoutKind.Sequential), Record(TableId)]
-    public struct HexPacked
+    public struct ApiHexPack
     {
         public const string TableId = "hexpack";
 

@@ -13,6 +13,10 @@ namespace Z0
         public static ApiHostBlocks blocks(ApiHostUri host, FS.FilePath src)
             => new ApiHostBlocks(host, blocks(src));
 
+        [MethodImpl(Inline), Op]
+        public static ApiCodeBlock block(in ApiHexRow src)
+            => new ApiCodeBlock(src.Address, src.Uri, src.Data);
+
         public static Index<ApiHostBlocks> blocks(FS.FolderPath src, ReadOnlySpan<ApiHostUri> hosts, bool pll = true)
         {
             var dst = bag<ApiHostBlocks>();
@@ -26,13 +30,13 @@ namespace Z0
         public static SortedIndex<ApiCodeBlock> blocks(FS.Files src, bool pll = true)
         {
             var dst = bag<ApiCodeBlock>();
-            iter(src, file => iter(apihex(file), row => dst.Add(block(row))), pll);
+            iter(src, file => iter(ApiHex.rows(file), row => dst.Add(block(row))), pll);
             return SortedIndex<ApiCodeBlock>.sort(dst.Array());
         }
 
         public static Index<ApiCodeBlock> blocks(FS.FilePath src)
         {
-            var rows = apihex(src);
+            var rows = ApiHex.rows(src);
             var count = rows.Count;
             var dst = alloc<ApiCodeBlock>(count);
             for(var j=0; j<count; j++)

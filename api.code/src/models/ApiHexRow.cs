@@ -5,19 +5,19 @@
 namespace Z0
 {
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct ApiHexRow : IRecord<ApiHexRow>
+    public struct ApiHexRow
     {
-        public const string TableId = "api.hex";
+        const string TableId = "api.hex";
 
         public const byte FieldCount = 7;
 
-        public int Seq;
+        public uint Seq;
 
-        public int SourceSeq;
+        public uint SourceSeq;
 
         public MemoryAddress Address;
 
-        public int Length;
+        public uint CodeSize;
 
         public ExtractTermCode TermCode;
 

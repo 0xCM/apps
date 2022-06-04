@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Diagnostics;
     using Z0.Asm;
 
     using static core;
@@ -12,8 +11,6 @@ namespace Z0
     [ApiHost]
     public partial class ApiExtractor : AppService<ApiExtractor>
     {
-        ApiExtractParser Parser;
-
         ApiResolver Resolver;
 
         AsmDecoder Decoder;
@@ -45,7 +42,6 @@ namespace Z0
 
         protected override void OnInit()
         {
-            Parser = ApiExtractParser.create();
             Resolver = Wf.ApiResolver();
             Decoder = Wf.AsmDecoder();
             Channel = new ApiExtractChannel();
@@ -101,18 +97,18 @@ namespace Z0
         ReadOnlySpan<ApiCatalogEntry> EmitApiCatalog(IApiPack dst)
             => ApiCatalogs.EmitApiCatalog(ApiMembers.create(CollectedDatasets.SelectMany(x => x.Members)), PackArchive.ApiCatalogPath());
 
-        internal ResolvedParts Run(ApiExtractChannel receivers, IApiPack pack)
+        internal ResolvedParts Run(ApiExtractChannel receivers, IApiPack dst)
         {
             Channel = receivers;
-            PackArchive = ApiPackArchive.create(pack.Root);
-            Wf.RedirectEmissions("capture", pack.Root);
-            ClearTargets(pack);
-            ResolveParts(pack);
-            ExtractParts(pack);
-            CollectRoutines(pack);
-            EmitApiCatalog(pack);
-            EmitContext(pack);
-            EmitAnalyses(pack);
+            PackArchive = ApiPackArchive.create(dst.Root);
+            Wf.RedirectEmissions("capture", dst.Root);
+            ClearTargets(dst);
+            ResolveParts(dst);
+            ExtractParts(dst);
+            CollectRoutines(dst);
+            EmitApiCatalog(dst);
+            EmitContext(dst);
+            EmitAnalyses(dst);
             return new ResolvedParts(ResolvedParts);
         }
     }

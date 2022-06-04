@@ -10,29 +10,27 @@ namespace Z0
 
     public partial class AsmObjects : AppService<AsmObjects>
     {
-        AppDb AppDb => Service(Wf.AppDb);
+        AppDb AppDb => Wf.AppDb();
 
-        AppSvcOps AppSvc => Service(Wf.AppSvc);
+        AppSvcOps AppSvc => Wf.AppSvc();
 
-        CoffServices Coff => Service(Wf.CoffServices);
-
-        public Index<AsmCodeMapEntry> MapAsm(IProjectWs ws, Alloc dispenser)
-        {
-            var map = AsmObjects.map(ws, LoadRows(ws), dispenser);
-            AppSvc.TableEmit(map, Paths.CodeMap(ws));
-            return map;
-        }
-
-        public void CollectCoffData(WsContext context)
-        {
-            Coff.Collect(context);
-        }
+        CoffServices Coff => Wf.CoffServices();
 
         public new AsmObjPaths Paths
         {
             [MethodImpl(Inline)]
-            get => AppDb;
+            get => new AsmObjPaths(AppDb);
         }
+
+        public Index<AsmCodeMapEntry> MapAsm(IProjectWs ws, Alloc alloc)
+        {
+            var dst = map(ws, LoadRows(ws), alloc);
+            AppSvc.TableEmit(dst, Paths.CodeMap(ws));
+            return dst;
+        }
+
+        public void CollectCoffData(WsContext context)
+            => Coff.Collect(context);
 
         public Index<ObjSymRow> LoadObjSyms(IProjectWs project)
             => LoadObjSyms(ProjectDb.ProjectTable<ObjSymRow>(project));
@@ -64,6 +62,7 @@ namespace Z0
 
             return dst;
         }
+
         public Index<ObjSymRow> CollectObjSyms(WsContext context)
         {
             var result = Outcome.Success;
@@ -230,7 +229,7 @@ namespace Z0
                 }
             }
 
-            TableEmit(@readonly(buffer), AsmCodeRow.RenderWidths, dst);
+            AppSvc.TableEmit(buffer, dst);
         }
 
         public Index<ObjDumpRow> ConsolidateRows(WsContext context)

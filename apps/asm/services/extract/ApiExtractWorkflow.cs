@@ -55,52 +55,8 @@ namespace Z0
             var collection = Run(pack);
             packs.CreateLink(settings.Timestamp);
             if(pdb)
-                IndexPdbSymbols(collection.View, pack.Root + FS.file("symbols", FS.Log));
+                Wf.PdbSvc().IndexPdbSymbols(collection.View, pack.Root + FS.file("symbols", FS.Log));
             return collection;
-        }
-
-        public ResolvedParts Run(CmdArgs args)
-            => Run(ApiExtractSettings.init(Db.CapturePackRoot(), now()));
-
-        void IndexPdbSymbols(ReadOnlySpan<ResolvedPart> parts, FS.FilePath dst)
-        {
-            var count = parts.Length;
-            var emitting = Wf.EmittingFile(dst);
-            var counter = 0u;
-            using var writer = dst.Writer();
-            for(var i=0; i<count; i++)
-                counter += IndexPdbMethods(skip(parts,i),writer);
-            Wf.EmittedFile(emitting, counter);
-        }
-
-        uint IndexPdbMethods(ResolvedPart src, StreamWriter dst)
-        {
-            var modules = Wf.AppModules();
-            var hosts = src.Hosts.View;
-            using var symbols = modules.SymbolSource(src.Location);
-            var reader = Wf.PdbReader(symbols);
-            var flow = Wf.Running(string.Format("Indexing symbols for {0} from {1}", symbols.PePath, symbols.PdbPath));
-            var counter = 0u;
-            var buffer = list<PdbMethod>();
-            for(var i=0; i<hosts.Length; i++)
-            {
-                ref readonly var host = ref skip(hosts,i);
-                var methods = host.Methods.View;
-                for(var j=0; j<methods.Length; j++)
-                {
-                    ref readonly var method = ref skip(methods,j);
-                    var pdbMethod = reader.Method(method.Method.MetadataToken);
-                    if(pdbMethod)
-                    {
-                        var data = pdbMethod.Payload;
-                        dst.WriteLine(data.Token.Format());
-                        buffer.Add(data);
-                        counter++;
-                    }
-                }
-            }
-            Wf.Ran(flow);
-            return counter;
         }
 
         public ResolvedParts Run(IApiPack dst)

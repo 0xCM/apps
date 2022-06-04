@@ -10,6 +10,15 @@ namespace Z0
 
     partial class AsmCoreCmd
     {
+        AsmObjects AsmObjects => Wf.AsmObjects();
+
+        [CmdOp("project/asm/map")]
+        void MapAsm()
+        {
+            using var alloc = Alloc.create();
+            var entries = AsmObjects.MapAsm(Project(), alloc);
+        }
+
         [CmdOp("asm/gen/regnames")]
         Outcome EmitRegNames(CmdArgs args)
         {

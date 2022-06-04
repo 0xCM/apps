@@ -16,6 +16,7 @@ namespace Z0
     {
         AsmOpCodes OpCodes => Wf.AsmOpCodes();
 
+
         [CmdOp("asm/check/vex")]
         Outcome Vex(CmdArgs args)
         {

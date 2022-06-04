@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
+    using W = ColWidths;
+
     [StructLayout(LayoutKind.Sequential, Pack=1), Record(TableId)]
     public struct AsmCodeRow : IComparable<AsmCodeRow>
     {
@@ -11,28 +13,40 @@ namespace Z0.Asm
 
         public const byte FieldCount = 12;
 
+        [Render(W.Seq)]
         public uint Seq;
 
+        [Render(W.DocSeq)]
         public uint DocSeq;
 
+        [Render(W.OriginId)]
         public Hex32 OriginId;
 
+        [Render(W.OriginName)]
         public Label OriginName;
 
+        [Render(W.EncodingId)]
         public EncodingId EncodingId;
 
+        [Render(W.InstructionId)]
         public InstructionId InstructionId;
 
+        [Render(W.IP)]
         public MemoryAddress IP;
 
+        [Render(W.Size)]
         public byte Size;
 
+        [Render(W.Encoded)]
         public AsmHexRef Encoded;
 
+        [Render(W.AsmExpr)]
         public SourceText Asm;
 
+        [Render(W.BlockName)]
         public Label BlockName;
 
+        [Render(1)]
         public MemoryAddress BlockBase;
 
         public int CompareTo(AsmCodeRow src)
@@ -43,19 +57,19 @@ namespace Z0.Asm
             return result;
         }
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{
-            ColWidths.Seq,
-            ColWidths.DocSeq,
-            ColWidths.OriginId,
-            ColWidths.OriginName,
-            ColWidths.EncodingId,
-            ColWidths.InstructionId,
-            ColWidths.IP,
-            ColWidths.Size,
-            ColWidths.Encoded,
-            ColWidths.AsmExpr,
-            ColWidths.BlockName,
-            1
-            };
+        // public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{
+        //     W.Seq,
+        //     W.DocSeq,
+        //     W.OriginId,
+        //     W.OriginName,
+        //     W.EncodingId,
+        //     W.InstructionId,
+        //     W.IP,
+        //     W.Size,
+        //     W.Encoded,
+        //     W.AsmExpr,
+        //     W.BlockName,
+        //     1
+        //     };
     }
 }

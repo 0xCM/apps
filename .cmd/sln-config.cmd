@@ -2,6 +2,7 @@
 set SlnTool=dotnet sln
 set SlnPath=%SlnDir%/%SlnName%
 set SlnLibCmd=%SlnTool% %SlnPath% add %LibDir%/z0.lib.csproj
+
 set SlnAllocCmd=%SlnTool% %SlnPath% add %TopDir%/alloc/z0.alloc.csproj
 set SlnApiCodeCmd=%SlnTool% %SlnPath% add %TopDir%/api.code/z0.api.code.csproj
 set SlnArchivesCmd=%SlnTool% %SlnPath% add %TopDir%/archives/z0.archives.csproj
@@ -50,3 +51,5 @@ set SlnRulesCmd=%SlnTool% %SlnPath% add %TopDir%/rules/z0.rules.csproj
 
 set SlnGlueCmd=%SlnTool% %SlnPath% add %AppDir%/glue/z0.glue.csproj
 set SlnLlvmToolsCmd=%SlnTool% %SlnPath% add %AppDir%/llvm.tools/z0.llvm.tools.csproj
+
+set SlnLibsCmd=%SlnTool% %SlnPath% add %TopDir%/libs/z0.libs.csproj

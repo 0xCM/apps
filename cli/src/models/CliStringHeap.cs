@@ -8,11 +8,11 @@ namespace Z0
 
     public readonly struct CliStringHeap : ICliHeap<CliStringHeap>
     {
-        public MemoryAddress BaseAddress {get;}
+        public readonly MemoryAddress BaseAddress {get;}
 
-        public ByteSize Size {get;}
+        public readonly ByteSize Size {get;}
 
-        public CliHeapKind HeapKind {get;}
+        public readonly CliHeapKind HeapKind {get;}
 
         [MethodImpl(Inline)]
         public CliStringHeap(MemoryAddress @base, ByteSize size, CliHeapKind kind)
