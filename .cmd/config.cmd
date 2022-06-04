@@ -55,8 +55,8 @@ set BuildAppLibCmd=dotnet build %TargetSpec% %BuildProps% -fl -flp:logfile=%Proj
 echo BuildAppLibCmd:%BuildAppLibCmd% > %CmdLog%
 
 set TargetSpec=%SlnRoot%\%ProjectId%\%ProjectFile%
-set BuildRootLibCmd=dotnet build %TargetSpec% %BuildProps% -fl -flp:logfile=%ProjectBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
-echo BuildRootLibCmd:%BuildRootLibCmd% >> %CmdLog%
+set BuildRootProjectCmd=dotnet build %TargetSpec% %BuildProps% -fl -flp:logfile=%ProjectBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
+echo BuildRootProjectCmd:%BuildRootProjectCmd% >> %CmdLog%
 
 set Area=apps
 set AreaSln=%SlnRoot%\%Area%\z0.%Area%.sln
@@ -104,12 +104,16 @@ set BuildAreaCmd=dotnet build %AreaSln% %BuildProps% -fl -flp:logfile=%AreaBuild
 set BuildMainCmd=%BuildAreaCmd%
 echo BuildMainCmd:%BuildMainCmd% >> %CmdLog%
 
+set Area=shells
+set AreaProject=%SlnRoot%\%Area%\%ProjectId%\z0.%ProjectId%.csproj
+set AreaBuildLog=%BuildLogs%\z0.%ProjectId%.build.log
+set AreaBuildCmd=dotnet build %AreaProject% %BuildProps% -fl -flp:logfile=%AreaBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
+set BuildAreaShellCmd=%AreaBuildCmd%
 
 set ShellProject=%SlnRoot%\%ProjectId%\z0.%ProjectId%.csproj
 set ShellBuildLog=%BuildLogs%\z0.%ProjectId%.build.log
 set BuildShellCmd=dotnet build %ShellProject% %BuildProps% -fl -flp:logfile=%ShellBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 echo BuildShellCmd:%BuildShellCmd% >> %CmdLog%
-
 
 set Area=%ProjectId%
 set AreaSln=%SlnRoot%\%ProjectId%\z0.%Area%.sln

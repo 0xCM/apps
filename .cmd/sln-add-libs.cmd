@@ -6,6 +6,7 @@ call %SlnExtractCmd%
 call %SlnRulesCmd%
 call %SlnGlueCmd%
 call %SlnLlvmToolsCmd%
+call %SlnLlvmModelsCmd%
 call %SlnAllocCmd%
 call %SlnApiCodeCmd%
 call %SlnArchivesCmd%

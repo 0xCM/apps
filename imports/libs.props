@@ -26,14 +26,10 @@
     <ProjectReference Include="$(Numbers)" />
     <ProjectReference Include="$(Rules)" />
     <ProjectReference Include="$(Symbols)" />
-    <ProjectReference Include="$(ZLib)" />
-
     <ProjectReference Include="$(CodeGenCommon)" />
     <ProjectReference Include="$(CodeGenLlvm)" />
     <ProjectReference Include="$(CodeGenIntel)" />
-
     <ProjectReference Include="$(TestChecks)" />
-
   </ItemGroup>
 
 </Project>

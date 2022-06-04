@@ -3,38 +3,36 @@
   <PropertyGroup>
     <ZLib>$(TopDir)lib/z0.lib.csproj</ZLib>
 
-    <Alloc>$(TopDir)alloc/z0.alloc.csproj</Alloc>
-    <ApiCode>$(TopDir)api.code/z0.api.code.csproj</ApiCode>
-    <Archives>$(TopDir)archives/z0.archives.csproj</Archives>
-    <Assets>$(TopDir)assets/z0.assets.csproj</Assets>
-    <Symbols>$(TopDir)symbols/z0.symbols.csproj</Symbols>
-
-    <Bits>$(TopDir)bits/z0.bits.csproj</Bits>
-    <Cli>$(TopDir)cli/z0.cli.csproj</Cli>
-    <Commands>$(TopDir)commands/z0.commands.csproj</Commands>
-    <Numbers>$(TopDir)numbers/z0.numbers.csproj</Numbers>
-    <Expr>$(TopDir)expr/z0.expr.csproj</Expr>
-    <Diagnostics>$(TopDir)diagnostics/z0.diagnostics.csproj</Diagnostics>
-    <Lang>$(TopDir)lang/z0.lang.csproj</Lang>
-    <Rules>$(TopDir)rules/z0.rules.csproj</Rules>
-    <Machines>$(TopDir)machines/z0.machines.csproj</Machines>
-
-    <Capture>$(AppsRoot)capture/z0.capture.csproj</Capture>
-    <CpuDsl>$(AppsRoot)cpu.dsl/z0.cpu.dsl.csproj</CpuDsl>
-    <Canonical>$(AppsRoot)canonical/z0.canonical.csproj</Canonical>
-    <Gen>$(AppsRoot)gen/z0.gen.csproj</Gen>
-    <Glue>$(AppsRoot)glue/z0.glue.csproj</Glue>
-    <CmdActions>$(AppsRoot)cmd.actions/z0.cmd.actions.csproj</CmdActions>
-    <LlvmTools>$(AppsRoot)llvm.tools/z0.llvm.tools.csproj</LlvmTools>
-    <LlvmModels>$(AppsRoot)llvm.models/z0.llvm.models.csproj</LlvmModels>
-    <ApiMd>$(TopDir)api.md/z0.api.md.csproj</ApiMd>
-
-    <IntelIntrinsics>$(TopDir)intel.intrinsics/z0.intel.intrinsics.csproj</IntelIntrinsics>
-    <IntelCore>$(TopDir)intel.core/z0.intel.core.csproj</IntelCore>
-    <IntelXed>$(TopDir)/intel.xed/z0.intel.xed.csproj</IntelXed>
+    <Alloc>$(LibsRoot)alloc/z0.alloc.csproj</Alloc>
+    <ApiCode>$(LibsRoot)api.code/z0.api.code.csproj</ApiCode>
+    <Archives>$(LibsRoot)archives/z0.archives.csproj</Archives>
+    <Assets>$(LibsRoot)assets/z0.assets.csproj</Assets>
+    <Symbols>$(LibsRoot)symbols/z0.symbols.csproj</Symbols>
+    <Asm>$(LibsRoot)asm/z0.asm.csproj</Asm>
+    <AsmCore>$(LibsRoot)asm.core/z0.asm.core.csproj</AsmCore>
+    <AsmOperands>$(LibsRoot)asm.operands/z0.asm.operands.csproj</AsmOperands>
+    <AsmPrototypes>$(LibsRoot)asm.prototypes/z0.asm.prototypes.csproj</AsmPrototypes>
+    <AsmServices>$(LibsRoot)asm.services/z0.asm.services.csproj</AsmServices>
+    <Glue>$(LibsRoot)glue/z0.glue.csproj</Glue>
+    <CmdActions>$(LibsRoot)cmd.actions/z0.cmd.actions.csproj</CmdActions>
+    <LlvmTools>$(LibsRoot)llvm.tools/z0.llvm.tools.csproj</LlvmTools>
+    <LlvmModels>$(LibsRoot)llvm.models/z0.llvm.models.csproj</LlvmModels>
+    <Bits>$(LibsRoot)bits/z0.bits.csproj</Bits>
+    <Cli>$(LibsRoot)cli/z0.cli.csproj</Cli>
+    <Commands>$(LibsRoot)commands/z0.commands.csproj</Commands>
+    <Numbers>$(LibsRoot)numbers/z0.numbers.csproj</Numbers>
+    <Expr>$(LibsRoot)expr/z0.expr.csproj</Expr>
+    <Diagnostics>$(LibsRoot)diagnostics/z0.diagnostics.csproj</Diagnostics>
+    <Lang>$(LibsRoot)lang/z0.lang.csproj</Lang>
+    <Rules>$(LibsRoot)rules/z0.rules.csproj</Rules>
+    <Machines>$(LibsRoot)machines/z0.machines.csproj</Machines>
+    <ApiMd>$(LibsRoot)api.md/z0.api.md.csproj</ApiMd>
+    <IntelIntrinsics>$(LibsRoot)intel.intrinsics/z0.intel.intrinsics.csproj</IntelIntrinsics>
+    <IntelCore>$(LibsRoot)intel.core/z0.intel.core.csproj</IntelCore>
+    <IntelXed>$(LibsRoot)/intel.xed/z0.intel.xed.csproj</IntelXed>
+    <ZLibs>$(LibsRoot)z0.libs.csproj</ZLibs>
 
     <TestChecks>$(TestRoot)test.checks/z0.test.checks.csproj</TestChecks>
-    <Checks>$(TestRoot)test.checks/z0.test.checks.csproj</Checks>
     <TestUnits>$(TestRoot)test.units/z0.test.units.csproj</TestUnits>
     <TestUnits>$(TestRoot)test.units/z0.test.units.csproj</TestUnits>
 
@@ -43,12 +41,7 @@
     <CodeGenIntel>$(CodeGenRoot)codegen.intel/z0.codegen.intel.csproj</CodeGenIntel>
     <CgCommon>$(CodeGenRoot)codegen.common/z0.codegen.common.csproj</CgCommon>
 
-    <ZLibs>$(LibsRoot)z0.libs.csproj</ZLibs>
-    <Asm>$(LibsRoot)asm/z0.asm.csproj</Asm>
-    <AsmCore>$(LibsRoot)asm.core/z0.asm.core.csproj</AsmCore>
-    <AsmOperands>$(LibsRoot)asm.operands/z0.asm.operands.csproj</AsmOperands>
-    <AsmPrototypes>$(LibsRoot)asm.prototypes/z0.asm.prototypes.csproj</AsmPrototypes>
-    <AsmServices>$(LibsRoot)asm.services/z0.asm.services.csproj</AsmServices>
+
   </PropertyGroup>
 
 </Project>

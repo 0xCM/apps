@@ -6,7 +6,7 @@
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
-  <Import Project="../imports/common.props"/>
+  <Import Project="$(TopDir)imports/common.props"/>
   <Import Project="$(TopDir)imports/common.libs.props"/>
 
   <ItemGroup>
