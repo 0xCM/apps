@@ -44,13 +44,13 @@ namespace Z0
         }
 
         public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{
-            ColWidths.Seq,
-            ColWidths.DocSeq,
-            ColWidths.OriginId,
-            ColWidths.OriginName,
-            ColWidths.AsmExpr,
-            ColWidths.AsmSyntax,
-            ColWidths.Encoded,
+            AsmColWidths.Seq,
+            AsmColWidths.DocSeq,
+            AsmColWidths.OriginId,
+            AsmColWidths.OriginName,
+            AsmColWidths.AsmExpr,
+            AsmColWidths.AsmSyntax,
+            AsmColWidths.Encoded,
             1};
 
         public static AsmSyntaxRow Empty => default;

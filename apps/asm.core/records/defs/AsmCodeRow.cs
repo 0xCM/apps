@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using W = ColWidths;
+    using W = AsmColWidths;
 
     [StructLayout(LayoutKind.Sequential, Pack=1), Record(TableId)]
     public struct AsmCodeRow : IComparable<AsmCodeRow>

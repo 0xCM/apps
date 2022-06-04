@@ -11,13 +11,13 @@ namespace Z0
 
         public const byte FieldCount = 8;
 
-        [Render(ColWidths.Seq)]
+        [Render(AsmColWidths.Seq)]
         public uint Seq;
 
-        [Render(ColWidths.DocSeq)]
+        [Render(AsmColWidths.DocSeq)]
         public uint DocSeq;
 
-        [Render(ColWidths.OriginId)]
+        [Render(AsmColWidths.OriginId)]
         public Hex32 OriginId;
 
         [Render(10)]
@@ -26,7 +26,7 @@ namespace Z0
         [Render(6)]
         public ObjSymCode Code;
 
-        [Render(ColWidths.SymbolName)]
+        [Render(AsmColWidths.SymbolName)]
         public ObjSymKind Kind;
 
         [Render(80)]

@@ -6,6 +6,8 @@ namespace Z0
 {
     using Asm;
 
+    using W = AsmColWidths;
+
     [StructLayout(LayoutKind.Sequential), Record(TableId)]
     public struct ObjDumpRow : IComparable<ObjDumpRow>
     {
@@ -13,43 +15,43 @@ namespace Z0
 
         public const string BlockStartMarker = "<blockstart>";
 
-        [Render(ColWidths.Seq)]
+        [Render(W.Seq)]
         public uint Seq;
 
-        [Render(ColWidths.DocSeq)]
+        [Render(W.DocSeq)]
         public uint DocSeq;
 
-        [Render(ColWidths.OriginId)]
+        [Render(W.OriginId)]
         public Hex32 OriginId;
 
-        [Render(ColWidths.EncodingId)]
+        [Render(W.EncodingId)]
         public EncodingId EncodingId;
 
-        [Render(ColWidths.InstructionId)]
+        [Render(W.InstructionId)]
         public InstructionId InstructionId;
 
-        [Render(ColWidths.SectionName)]
+        [Render(W.SectionName)]
         public TextBlock Section;
 
-        [Render(ColWidths.BlockAddress)]
+        [Render(W.BlockAddress)]
         public MemoryAddress BlockAddress;
 
-        [Render(ColWidths.BlockName)]
+        [Render(W.BlockName)]
         public TextBlock BlockName;
 
-        [Render(ColWidths.IP)]
+        [Render(W.IP)]
         public Address32 IP;
 
-        [Render(ColWidths.Size)]
+        [Render(W.Size)]
         public byte Size;
 
-        [Render(ColWidths.Encoded)]
+        [Render(W.Encoded)]
         public AsmHexCode Encoded;
 
-        [Render(ColWidths.AsmExpr)]
+        [Render(W.AsmExpr)]
         public AsmExpr Asm;
 
-        [Render(ColWidths.SyntaxComment)]
+        [Render(W.SyntaxComment)]
         public AsmInlineComment Comment;
 
         [Render(1)]

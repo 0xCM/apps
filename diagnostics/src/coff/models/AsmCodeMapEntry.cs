@@ -4,51 +4,53 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
+    using W = AsmColWidths;
+
     [StructLayout(LayoutKind.Sequential, Pack=1), Record(TableId)]
     public struct AsmCodeMapEntry : IComparable<AsmCodeMapEntry>
     {
         const string TableId = "asm.codemap";
 
-        [Render(ColWidths.Seq)]
+        [Render(W.Seq)]
         public uint Seq;
 
-        [Render(ColWidths.DocSeq)]
+        [Render(W.DocSeq)]
         public uint DocSeq;
 
-        [Render(ColWidths.EncodingId)]
+        [Render(W.EncodingId)]
         public EncodingId EncodingId;
 
-        [Render(ColWidths.OriginId)]
+        [Render(W.OriginId)]
         public Hex32 OriginId;
 
-        [Render(ColWidths.OriginName)]
+        [Render(W.OriginName)]
         public Label OriginName;
 
-        [Render(ColWidths.InstructionId)]
+        [Render(W.InstructionId)]
         public InstructionId InstructionId;
 
-        [Render(ColWidths.IP)]
+        [Render(W.IP)]
         public MemoryAddress IP;
 
-        [Render(ColWidths.Size)]
+        [Render(W.Size)]
         public byte Size;
 
-        [Render(ColWidths.Encoded)]
+        [Render(W.Encoded)]
         public AsmHexRef Encoded;
 
-        [Render(ColWidths.AsmExpr)]
+        [Render(W.AsmExpr)]
         public SourceText Asm;
 
-        [Render(ColWidths.BlockName)]
+        [Render(W.BlockName)]
         public Label BlockName;
 
-        [Render(ColWidths.BlockNumber)]
+        [Render(W.BlockNumber)]
         public uint BlockNumber;
 
-        [Render(ColWidths.BlockAddress)]
+        [Render(W.BlockAddress)]
         public MemoryAddress BlockAddress;
 
-        [Render(ColWidths.BlockSize)]
+        [Render(W.BlockSize)]
         public ByteSize BlockSize;
 
         public int CompareTo(AsmCodeMapEntry src)

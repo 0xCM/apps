@@ -11,22 +11,22 @@ namespace Z0
 
         public const byte FieldCount = 7;
 
-        [Render(ColWidths.Seq)]
+        [Render(AsmColWidths.Seq)]
         public uint Seq;
 
-        [Render(ColWidths.BlockNumber)]
+        [Render(AsmColWidths.BlockNumber)]
         public uint BlockNumber;
 
-        [Render(ColWidths.OriginId)]
+        [Render(AsmColWidths.OriginId)]
         public Hex32 OriginId;
 
-        [Render(ColWidths.BlockName)]
+        [Render(AsmColWidths.BlockName)]
         public Identifier BlockName;
 
-        [Render(ColWidths.BlockAddress)]
+        [Render(AsmColWidths.BlockAddress)]
         public MemoryAddress BlockAddress;
 
-        [Render(ColWidths.BlockSize)]
+        [Render(AsmColWidths.BlockSize)]
         public ByteSize BlockSize;
 
         [Render(1)]

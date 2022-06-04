@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct ColWidths
+    public readonly struct AsmColWidths
     {
         public const byte Seq = 8;
 

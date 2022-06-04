@@ -9,9 +9,10 @@ namespace Z0
     public class CoffServices : AppService<CoffServices>
     {
         const string scope = "obj.hex";
+
         HexDataReader HexReader => Service(Wf.HexDataReader);
 
-        HexDataFormatter Formatter => Service(() => HexDataFormatter.create(0,32,true));
+        AppSvcOps AppSvc => Wf.AppSvc();
 
         WsProjects Projects => Service(Wf.WsProjects);
 
@@ -161,8 +162,7 @@ namespace Z0
         public Index<CoffSection> CollectHeaders(WsContext context)
         {
             var records = CalcObjHeaders(context);
-            var dst = Projects.Table<CoffSection>(context.Project);
-            TableEmit(records.View, CoffSection.RenderWidths, dst);
+            AppSvc.TableEmit(records, Projects.Table<CoffSection>(context.Project));
             return records;
         }
 
@@ -335,7 +335,7 @@ namespace Z0
             var records = buffer.ToArray().Sort();
             for(var i=0u; i<records.Length; i++)
                 seek(records,i).Seq = i;
-            TableEmit(@readonly(records), CoffSymRecord.RenderWidths, Projects.Table<CoffSymRecord>(context.Project));
+            AppSvc.TableEmit(records, Projects.Table<CoffSymRecord>(context.Project));
             return records;
         }
     }

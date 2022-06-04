@@ -6,6 +6,8 @@ namespace Z0
 {
     using static core;
 
+    using W = AsmColWidths;
+
     [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
     public struct CoffSymRecord : IComparable<CoffSymRecord>
     {
@@ -13,24 +15,34 @@ namespace Z0
 
         public const byte FieldCount = 10;
 
+        [Render(W.Seq)]
         public uint Seq;
 
+        [Render(W.DocSeq)]
         public uint Section;
 
+        [Render(W.OriginId)]
         public Hex32 OriginId;
 
+        [Render(W.IP)]
         public Address32 Address;
 
+        [Render(8)]
         public uint SymSize;
 
+        [Render(10)]
         public Hex32 Value;
 
+        [Render(16)]
         public SymStorageClass SymClass;
 
+        [Render(8)]
         public ushort AuxCount;
 
+        [Render(48)]
         public @string Name;
 
+        [Render(1)]
         public FS.FileUri Source;
 
         public AsmRowKey RowKey
@@ -38,6 +50,7 @@ namespace Z0
             [MethodImpl(Inline)]
             get => (Seq,Section,OriginId);
         }
+
         public int CompareTo(CoffSymRecord src)
         {
             var result = Source.Format().CompareTo(src.Source.Format());
@@ -53,18 +66,5 @@ namespace Z0
             }
             return result;
         }
-
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{
-            ColWidths.Seq,
-            ColWidths.DocSeq,
-            ColWidths.OriginId,
-            ColWidths.IP,
-            8,
-            10,
-            16,
-            8,
-            48,
-            1};
-
     }
 }

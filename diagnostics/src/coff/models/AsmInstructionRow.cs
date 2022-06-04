@@ -13,22 +13,22 @@ namespace Z0
 
         public const byte FieldCount = 7;
 
-        [Render(ColWidths.Seq)]
+        [Render(AsmColWidths.Seq)]
         public uint Seq;
 
-        [Render(ColWidths.DocSeq)]
+        [Render(AsmColWidths.DocSeq)]
         public uint DocSeq;
 
-        [Render(ColWidths.OriginId)]
+        [Render(AsmColWidths.OriginId)]
         public Hex32 OriginId;
 
-        [Render(ColWidths.OriginName)]
+        [Render(AsmColWidths.OriginName)]
         public @string OriginName;
 
         [Render(32)]
         public Identifier AsmName;
 
-        [Render(ColWidths.AsmExpr)]
+        [Render(AsmColWidths.AsmExpr)]
         public AsmExpr Asm;
 
         [Render(1)]

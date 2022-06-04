@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using W = AsmColWidths;
+
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct CoffSection : IComparable<CoffSection>
     {
@@ -11,26 +13,37 @@ namespace Z0
 
         public const byte FieldCount = 11;
 
+        [Render(W.Seq)]
         public uint Seq;
 
+        [Render(W.OriginId)]
         public Hex32 OriginId;
 
+        [Render(16)]
         public ushort SectionNumber;
 
+        [Render(16)]
         public @string SectionName;
 
+        [Render(16)]
         public CoffSectionKind SectionKind;
 
+        [Render(16)]
         public ByteSize RawDataSize;
 
+        [Render(16)]
         public Address32 RawDataAddress;
 
+        [Render(16)]
         public uint RelocCount;
 
+        [Render(16)]
         public Address32 RelocAddress;
 
+        [Render(78)]
         public ImageSectionFlags Flags;
 
+        [Render(1)]
         public FS.FileUri Source;
 
         public int CompareTo(CoffSection src)
@@ -44,7 +57,5 @@ namespace Z0
             }
             return result;
         }
-
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,12,16,16,16,16,16,16,16,78,1};
     }
 }
