@@ -57,6 +57,8 @@ namespace Z0
 
         ApiComments Comments => Wf.ApiComments();
 
+        ApiJit ApiJit => Service(Wf.ApiJit);
+
         DbTargets ApiTargets()
             => AppDb.ApiTargets();
 
@@ -141,6 +143,52 @@ namespace Z0
                 EmitApiBitMasks
             );
         }
+
+        [Op]
+        ApiHostCatalog HostCatalog(IApiHost src)
+        {
+            var members = ApiJit.JitHost(src);
+            return members.Length == 0 ? ApiHostCatalog.Empty : new ApiHostCatalog(src, members);
+        }
+
+        Index<ApiHostCatalog> HostCatalogs(IApiPartCatalog src)
+        {
+            var running = AppSvc.Running($"Computing {src.PartId.Format()} members");
+            var catalogs = src.ApiHosts.Map(HostCatalog);
+            AppSvc.Ran(running, $"Computed mebers for {catalogs.Length} {src.PartId.Format()} hosts");
+            return catalogs;
+        }
+
+        ConcurrentDictionary<PartId,Index<ApiHostCatalog>> HostCatalogs()
+        {
+            var dst = cdict<PartId, Index<ApiHostCatalog>>();
+            iter(Catalog.PartCatalogs(), part => dst.TryAdd(part.PartId, HostCatalogs(part)), true);
+            return dst;
+        }
+
+        public Index<ApiRuntimeMember> CalcRuntimeMembers()
+        {
+            var src = HostCatalogs();
+            var dst = bag<ApiRuntimeMember>();
+            iter(src.Values.Array().SelectMany(x => x), catalog => {
+                var members = catalog.Members;
+                for(var i=0; i<members.Count; i++)
+                {
+                    var row = default(ApiRuntimeMember);
+                    ref readonly var member = ref members[i];
+                    row.Part = member.Host.Part;
+                    row.Token = member.Msil.Token;
+                    row.Address = member.BaseAddress;
+                    row.DisplaySig = Clr.display(member.Method.Artifact());
+                    row.Uri = member.OpUri;
+                    dst.Add(row);
+                }
+            },true);
+            return dst.Array().Sort().Resequence();
+        }
+
+        public void EmitIndex(Index<ApiRuntimeMember> src)
+            => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<ApiRuntimeMember>(), TextEncodingKind.Utf8);
 
         void EmitApiCommands()
             => Emit(ApiCommands);

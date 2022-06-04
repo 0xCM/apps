@@ -23,7 +23,7 @@ namespace Z0
                 wf.XedTool(),
                 wf.DiagnosticCmd(),
                 wf.Machines(),
-                ApiCmd.create(wf),
+                ApiActionCmd.create(wf),
                 CheckCmd.commands(wf),
                 GenCmd.create(wf),
                 AsmCmdProvider.create(wf)

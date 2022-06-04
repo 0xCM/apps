@@ -4,13 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class ApiCmd
+    partial class ApiActionCmd
     {
         [CmdOp("api/emit/cli")]
         void EmitMetadataCli()
         {
             CliEmitter.Emit(CliEmitOptions.@default());
-            ApiMetadata.EmitMsil();
+            ApiMd.EmitMsil();
         }
     }
 }

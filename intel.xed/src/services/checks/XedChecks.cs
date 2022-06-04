@@ -8,8 +8,6 @@ namespace Z0
     {
         XedPaths XedPaths => Wf.XedPaths();
 
-        AppDb AppDb => Wf.AppDb();
-
         XedRuntime Xed;
 
         public static XedChecks create(IWfRuntime wf, XedRuntime xed)

@@ -23,11 +23,9 @@ namespace Z0
 
             public ApiJit Jit(IWfRuntime wf)
                 => Service<ApiJit>(wf);
-
         }
 
         static Svc Services => Svc.Instance;
-
 
         public static ApiMd ApiMetadata(this IWfRuntime wf)
             => Services.ApiMetadata(wf);

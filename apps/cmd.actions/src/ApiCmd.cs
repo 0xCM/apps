@@ -8,11 +8,9 @@ namespace Z0
 
     using static core;
 
-    public partial class ApiCmd : AppCmdProvider<ApiCmd>
+    public partial class ApiActionCmd : AppCmdProvider<ApiActionCmd>
     {
-        ApiHex ApiHex => Wf.ApiHex();
-
-        ApiMd ApiMetadata => Wf.ApiMetadata();
+        ApiMd ApiMd => Wf.ApiMetadata();
 
         AsmTables AsmTables => Service(Wf.AsmTables);
 

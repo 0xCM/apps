@@ -16,10 +16,6 @@ namespace Z0
 
             Checks IntrinsicChecks => Wf.Checks();
 
-            AppDb AppDb => Wf.AppDb();
-
-            AppSvcOps AppSvc => Wf.AppSvc();
-
             [CmdOp("intel/int/emit")]
             void ImportIntrinsics()
             {

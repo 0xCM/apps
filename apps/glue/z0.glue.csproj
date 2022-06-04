@@ -4,9 +4,10 @@
     <OutputType>Library</OutputType>
   </PropertyGroup>
 
-  <Import Project="../../imports/code-analysis.props"/>
-  <Import Project="../../imports/omnisharp.props"/>
-  <Import Project="../../imports/diagnostics.props"/>
+  <Import Project="$(TopDir)imports/code-analysis.props"/>
+  <Import Project="$(TopDir)imports/omnisharp.props"/>
+  <Import Project="$(TopDir)imports/diagnostics.props"/>
+  <Import Project="$(TopDir)imports/common.libs.props"/>
 
   <ItemGroup>
       <ProjectReference Include="$(AsmCore)"/>
@@ -14,11 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="$(ZLibName)" HintPath="$(ZLibPath)"/>
-  </ItemGroup>
-
-  <ItemGroup>
-
     <PackageReference Include="Microsoft.DotNet.PlatformAbstractions" Version="3.1.6" />
     <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" />
     <PackageReference Include="NuGet.Packaging.Core" Version="5.9.1" />
@@ -30,11 +26,9 @@
     <PackageReference Include="System.Reflection.Metadata" Version="5.0.0" />
     <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation" Version="4.3.0" />
     <PackageReference Include="YamlDotNet" Version="11.1.1" />
-
     <PackageReference Include="Microsoft.Build.Runtime" Version="16.9.0" />
     <PackageReference Include="MSBuild.StructuredLogger" Version="2.1.404" />
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="3.1.6" />
-
   </ItemGroup>
 
   <ItemGroup>

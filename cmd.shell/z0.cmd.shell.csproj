@@ -7,17 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="$(Bits)" />
-    <ProjectReference Include="$(Assets)" />
-    <ProjectReference Include="$(Numbers)" />
-    <ProjectReference Include="$(CmdActions)" />
-    <ProjectReference Include="$(TestChecks)" />
-    <ProjectReference Include="$(CodeGenLlvm)" />
-    <ProjectReference Include="$(CodeGenIntel)" />
-    <ProjectReference Include="$(Machines)" />
-
+    <ProjectReference Include="$(ZLibs)" />
   </ItemGroup>
-
-  <Import Project="$(TopDir)imports/common.libs.props"/>
 
 </Project>

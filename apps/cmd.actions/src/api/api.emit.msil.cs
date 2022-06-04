@@ -4,10 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class ApiCmd
+    partial class ApiActionCmd
     {
         [CmdOp("api/emit/msil-host")]
         void EmitHostMsil(CmdArgs args)
-            => ApiMetadata.EmitHostMsil(arg(args,0));
+            => ApiMd.EmitHostMsil(arg(args,0));
     }
 }

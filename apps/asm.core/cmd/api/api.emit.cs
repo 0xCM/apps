@@ -54,45 +54,8 @@ namespace Z0
             }
         }
 
-        Heaps Heaps => Wf.Heaps();
-
         Assets Assets => Wf.Assets();
 
-        [CmdOp("api/emit")]
-        void ApiEmit()
-        {
-            ApiMd.EmitDatasets();
-            AsmDocs.Emit();
-
-            //Heaps.Emit(Heaps.symbols(ApiMd.SymLits));
-        }
-
-        [CmdOp("api/parts")]
-        void Parts()
-        {
-            iter(ApiMd.Parts, part => Write(part.Name));
-        }
-
-        [CmdOp("api/emit/comments")]
-        void ApiEmitComments()
-        {
-            ApiMd.EmitComments();
-            // ref readonly var xmlsources = ref ds.XmlSources;
-            // iter(xmlsources, path => Write(path.ToUri()));
-
-            // ref readonly var csvtargets = ref ds.CsvRowLookup;
-            // iter(csvtargets.Keys, key => Write(key.ToUri().Format()));
-
-            // ref readonly var sources = ref ds.Sources;
-            // iter(sources, source => Write(source.ToUri()));
-        }
-
-        [CmdOp("api/emit/index")]
-        void EmitRuntimeMembers()
-        {
-            var service = ApiRuntime.create(Wf);
-            var members = service.EmitRuntimeIndex();
-        }
 
         [CmdOp("api/emit/classes")]
         Outcome EmitApiClasses(CmdArgs args)

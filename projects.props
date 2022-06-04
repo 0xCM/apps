@@ -1,7 +1,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <PropertyGroup>
-    <ZLib>$(MSBuildThisFileDirectory)lib/z0.lib.csproj</ZLib>
+    <ZLib>$(TopDir)lib/z0.lib.csproj</ZLib>
 
     <Alloc>$(TopDir)alloc/z0.alloc.csproj</Alloc>
     <ApiCode>$(TopDir)api.code/z0.api.code.csproj</ApiCode>
@@ -48,6 +48,7 @@
     <CodeGenIntel>$(CodeGenRoot)codegen.intel/z0.codegen.intel.csproj</CodeGenIntel>
     <CgCommon>$(CodeGenRoot)codegen.common/z0.codegen.common.csproj</CgCommon>
 
+    <ZLibs>$(TopDir)libs/z0.libs.csproj</ZLibs>
   </PropertyGroup>
 
 </Project>

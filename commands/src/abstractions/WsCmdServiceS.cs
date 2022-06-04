@@ -11,12 +11,6 @@ namespace Z0
     {
         protected abstract IWsCmdRunner CmdRunner {get;}
 
-        protected virtual AppSvcOps AppSvc
-            => Service(Wf.AppSvc);
-
-        protected virtual AppDb AppDb
-            => Service(Wf.AppDb);
-
         protected CheckRunner CheckRunner
             => Wf.CheckRunner();
 

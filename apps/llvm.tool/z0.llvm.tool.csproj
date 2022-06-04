@@ -6,10 +6,10 @@
     <AssemblyName>llvm</AssemblyName>
   </PropertyGroup>
 
+  <Import Project="$(TopDir)imports/common.libs.props"/>
+
   <ItemGroup>
     <ProjectReference Include="$(LlvmTools)" />
   </ItemGroup>
-
-  <Import Project="../imports.props"/>
 
 </Project>

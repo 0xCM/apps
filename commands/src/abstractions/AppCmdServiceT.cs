@@ -25,6 +25,10 @@ namespace Z0
 
         protected OmniScript OmniScript => Wf.OmniScript();
 
+        protected AppDb AppDb => Wf.AppDb();
+
+        protected AppSvcOps AppSvc => Wf.AppSvc();
+
         protected IToolWs ToolWs => Ws.Tools();
 
         protected virtual ICmdProvider[] CmdProviders(IWfRuntime wf)

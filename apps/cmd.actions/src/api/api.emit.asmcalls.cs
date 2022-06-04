@@ -6,7 +6,7 @@ namespace Z0
 {
     using Asm;
 
-    partial class ApiCmd
+    partial class ApiActionCmd
     {
         [CmdOp("api/emit/asmcalls")]
         protected Outcome EmitCallTable(CmdArgs args)

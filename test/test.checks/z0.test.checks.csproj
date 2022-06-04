@@ -5,13 +5,10 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Reference Include="$(ZLibName)" HintPath="$(ZLibPath)"/>
-    <ProjectReference Include="../../bits/z0.bits.csproj" />
-  </ItemGroup>
+  <Import Project="$(TopDir)imports/common.libs.props"/>
 
   <ItemGroup>
-    <EmbeddedResource Include="assets/**/*.*" />
+    <ProjectReference Include="$(Bits)" />
   </ItemGroup>
 
 </Project>

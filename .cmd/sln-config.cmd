@@ -22,7 +22,6 @@ set SlnXedShellRemoveCmd=%SlnTool% %SlnPath% remove %TopDir%/xed.shell/z0.xed.sh
 set SlnCmdShellCmd=%SlnTool% %SlnPath% add %TopDir%/cmd.shell/z0.cmd.shell.csproj
 set SlnCmdShellRemoveCmd=%SlnTool% %SlnPath% remove %TopDir%/cmd.shell/z0.cmd.shell.csproj
 
-
 set SlnIntelShellCmd=%SlnTool% %SlnPath% add %TopDir%/intel.shell/z0.intel.shell.csproj
 
 set SlnIntelCoreCmd=%SlnTool% %SlnPath% add %TopDir%/intel.core/z0.intel.core.csproj
@@ -43,3 +42,11 @@ set SlnCgLlvmCmd=%SlnTool% %SlnPath% add %CgDir%/codegen.llvm/z0.codegen.llvm.cs
 set SlnCgShellCmd=%SlnTool% %SlnPath% add %CgDir%/codegen.shell/z0.codegen.shell.csproj
 set SlnCgShellRemoveCmd=%SlnTool% %SlnPath% remove %CgDir%/codegen.shell/z0.codegen.shell.csproj
 
+set SlnDeprecatedCmd=%SlnTool% %SlnPath% add %TopDir%/deprecated/z0.deprecated.csproj
+set SlnExprCmd=%SlnTool% %SlnPath% add %TopDir%/expr/z0.expr.csproj
+set SlnLangCmd=%SlnTool% %SlnPath% add %TopDir%/lang/z0.lang.csproj
+set SlnExtractCmd=%SlnTool% %SlnPath% add %TopDir%/extract/z0.extract.csproj
+set SlnRulesCmd=%SlnTool% %SlnPath% add %TopDir%/rules/z0.rules.csproj
+
+set SlnGlueCmd=%SlnTool% %SlnPath% add %AppDir%/glue/z0.glue.csproj
+set SlnLlvmToolsCmd=%SlnTool% %SlnPath% add %AppDir%/llvm.tools/z0.llvm.tools.csproj

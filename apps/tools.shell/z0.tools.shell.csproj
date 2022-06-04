@@ -6,5 +6,5 @@
     <AssemblyName>ztool</AssemblyName>
   </PropertyGroup>
 
-  <Import Project="../imports.props"/>
+  <Import Project="$(TopDir)imports/common.libs.props"/>
 </Project>

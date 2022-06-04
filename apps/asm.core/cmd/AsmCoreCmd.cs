@@ -50,7 +50,6 @@ namespace Z0
 
         AsmRegSets Regs => Service(AsmRegSets.create);
 
-        AsmOpCodes OpCodes => Wf.AsmOpCodes();
 
         protected override IWsCmdRunner CmdRunner
             => Xed.CmdRunner;
@@ -69,8 +68,6 @@ namespace Z0
         ref readonly Index<InstPattern> Patterns
             => ref Xed.Views.Patterns;
 
-        protected override AppDb AppDb
-            => Wf.AppDb();
 
         protected override void Initialized()
         {

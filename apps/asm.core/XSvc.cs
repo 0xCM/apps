@@ -76,6 +76,12 @@ namespace Z0
             public X86Dispatcher X86Dispatcher(IWfRuntime wf)
                 => Service<X86Dispatcher>(wf);
 
+            public ApiCmd ApiCmd(IWfRuntime wf)
+                => Service<ApiCmd>(wf);
+
+            public AsmChecks AsmChecks(IWfRuntime wf)
+                => Service<AsmChecks>(wf);
+
             public XedDisasm.Analyzer DisasmAnalyzer(IWfRuntime wf)
                 => Z0.XedDisasm.Analyzer.create(wf);
         }
@@ -153,6 +159,12 @@ namespace Z0
 
         public static X86Dispatcher X86Dispatcher(this IWfRuntime wf)
             => Services.X86Dispatcher(wf);
+
+        public static ApiCmd ApiCmd(this IWfRuntime wf)
+            => Services.ApiCmd(wf);
+
+        public static AsmChecks AsmChecks(this IWfRuntime wf)
+            => Services.AsmChecks(wf);
 
         public static NasmCatalog NasmCatalog(this IWfRuntime wf)
             => Asm.NasmCatalog.create(wf);

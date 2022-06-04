@@ -5,10 +5,10 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Include="src/asm.cases/assets/**/*.*" />
-  </ItemGroup>
+  <Import Project="$(TopDir)imports/common.libs.props"/>
 
-  <Import Project="../imports.props"/>
+  <ItemGroup>
+    <ProjectReference Include="$(Bits)" />
+  </ItemGroup>
 
 </Project>

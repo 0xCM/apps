@@ -14,8 +14,6 @@ namespace Z0.llvm
 
         LlvmDataEmitter DataEmitter => Service(Wf.LlvmDataEmitter);
 
-        AppSvcOps AppSvc => Service(Wf.AppSvc);
-
         public LlvmQuery Query => DataEmitter.Query;
 
         IProjectWs Data;

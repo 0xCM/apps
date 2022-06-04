@@ -4,12 +4,11 @@
     <OutputType>Library</OutputType>
   </PropertyGroup>
 
+  <Import Project="$(TopDir)imports/common.libs.props"/>
 
   <ItemGroup>
     <EmbeddedResource Include="assets/**/*.*" />
     <ProjectReference Include="$(Assets)" />
   </ItemGroup>
-
-  <Import Project="../imports.props"/>
 
 </Project>

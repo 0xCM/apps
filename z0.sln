@@ -83,6 +83,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.intel.intrinsics", "inte
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.api.md", "api.md\z0.api.md.csproj", "{89D38874-9894-4254-BF66-4CF989BBAEAD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.intel.shell", "intel.shell\z0.intel.shell.csproj", "{51036141-5210-46DC-A8F1-6594EF9AA7E3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -240,6 +242,10 @@ Global
 		{89D38874-9894-4254-BF66-4CF989BBAEAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{89D38874-9894-4254-BF66-4CF989BBAEAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{89D38874-9894-4254-BF66-4CF989BBAEAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51036141-5210-46DC-A8F1-6594EF9AA7E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51036141-5210-46DC-A8F1-6594EF9AA7E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51036141-5210-46DC-A8F1-6594EF9AA7E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51036141-5210-46DC-A8F1-6594EF9AA7E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{FB416FC8-B51F-449D-ACDE-3ECE890F3763} = {D1C7F733-079C-49C2-AD46-99DDEF455E4B}

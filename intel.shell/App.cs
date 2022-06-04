@@ -13,6 +13,8 @@ namespace Z0
             var providers = new ICmdProvider[]{
                 wf.IntelIntrinsicsCmd(),
                 xed.XedChecks(),
+                wf.AsmChecks(),
+                wf.ApiCmd()
             };
             var cmd  = XedCmd.commands(xed, providers);
             xed.Start();

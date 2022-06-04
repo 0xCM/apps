@@ -7,8 +7,6 @@ namespace Z0
     public abstract class ToolService<T> : AppCmdService<T>
         where T : ToolService<T>, new()
     {
-        AppDb AppDb => Wf.AppDb();
-
         public virtual ToolId Id {get;}
 
         protected ToolService(ToolId id)

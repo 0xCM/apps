@@ -6,8 +6,6 @@ namespace Z0
 {
     public class DiagnosticCmd  : AppCmdService<DiagnosticCmd>
     {
-        AppSvcOps AppSvc => Wf.AppSvc();
-
         Runtime RuntimeServices => Wf.Runtime();
 
         ApiCodeFiles ApiFiles => Wf.ApiCodeFiles();
