@@ -5,14 +5,14 @@
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
 
-  <Import Project="../imports.props"/>
+  <Import Project="$(TopDir)imports/common.libs.props"/>
 
   <ItemGroup>
     <ProjectReference Include="../codegen.llvm/z0.codegen.llvm.csproj"/>
     <ProjectReference Include="../codegen.intel/z0.codegen.intel.csproj"/>
     <ProjectReference Include="$(CgCommon)" />
     <ProjectReference Include="$(AsmCore)" />
-
+    <ProjectReference Include="$(AsmOperands)" />
   </ItemGroup>
 
 </Project>

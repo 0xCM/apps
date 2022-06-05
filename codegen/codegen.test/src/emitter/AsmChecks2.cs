@@ -5,55 +5,18 @@
 namespace Z0
 {
     using Asm;
-    //using Asm.Operands;
     using static core;
     using static Asm.AsmEmitter;
     using static Asm.AsmRegOps;
 
-    public class AsmChecks : Checker<AsmChecks>
+    public class AsmChecks2 : Checker<AsmChecks2>
     {
-        public void CheckAsmBytes(bit x)
+        public void CheckAsmBytes()
         {
             var hex = AsmHexCode.Empty;
-            var dst = AsmHexWriter.create(hex.Bytes);
-            var expr = EmptyString;
-            hex.Size = and(al, bl, dst);
-            expr = string.Format("{0} {1}, {2}", "and", al, bl);
-            Write(string.Format("{0} | {1} | {2}", expr, hex.Format(), hex.BitString));
-            dst.Clear();
-
-            hex.Size = and(cl, bl, dst);
-            expr = string.Format("{0} {1}, {2}", "and", cl, bl);
-            Write(string.Format("{0} | {1} | {2}", expr, hex.Format(), hex.BitString));
-            dst.Clear();
-
-            hex.Size = and(dl, bl, dst);
-            expr = string.Format("{0} {1}, {2}", "and", dl, bl);
-            Write(string.Format("{0} | {1} | {2}", expr, hex.Format(), hex.BitString));
-            dst.Clear();
-
-            hex.Size = and(ah, bl, dst);
-            expr = string.Format("{0} {1}, {2}", "and", ah, bl);
-            Write(string.Format("{0} | {1} | {2}", expr, hex.Format(), hex.BitString));
-            dst.Clear();
-
-            hex.Size = and(ch, bl, dst);
-            expr = string.Format("{0} {1}, {2}", "and", ch, bl);
-            Write(string.Format("{0} | {1} | {2}", expr, hex.Format(), hex.BitString));
-            dst.Clear();
-
-            hex.Size = and(dh, bl, dst);
-            expr = string.Format("{0} {1}, {2}", "and", dh, bl);
-            Write(string.Format("{0} | {1} | {2}", expr, hex.Format(), hex.BitString));
-            dst.Clear();
-
-            hex.Size = and(bh, bl, dst);
-            expr = string.Format("{0} {1}, {2}", "and", bh, bl);
-            Write(string.Format("{0} | {1} | {2}", expr, hex.Format(), hex.BitString));
-            dst.Clear();
-
-
-            Write(string.Format("{0} | {1} | {2} | {3}", ah.Index, ch.Index, dh.Index, bh.Index));
+            var log = text.emitter();
+            CheckAsmBytes(log);
+            AppSvc.FileEmit(log.Emit(), AppDb.Logs("codegen.test").Path("asm.checks", FileKind.Csv));
         }
 
         /*
@@ -75,18 +38,69 @@ namespace Z0
         AND16ri8 | 5        | 66 41 83 e7 73        | and r15w, 0x73    | Reg:r15w, Imm:115
         */
 
-        public void CheckAnd()
+        static void write<A,B>(AsmMnemonic inst, A a, B b, in AsmHexCode hex, ITextEmitter log)
+            where A : IRegOp
+            where B : IRegOp
         {
+            const string ExprPattern2 = "{0} {1}, {2}";
+            const string RowPattern = "{0,-16} | {1,-8} | {2,-16} | {3}";
+            var expr = string.Format(ExprPattern2, inst, a, b);
+            log.AppendLineFormat(RowPattern, expr, hex.Size, hex.Format(), hex.BitString);
+
+        }
+        public void CheckAsmBytes(ITextEmitter log)
+        {
+            const string ExprPattern2 = "{0} {1}, {2}";
+            const string RowPattern = "{0,-16} | {1,-8} | {2,-16} | {3}";
+
+            log.AppendLineFormat("{0,-2} | {1,-2} | {2,-2} | {3,-2}", nameof(ah), nameof(ch), nameof(dh), nameof(bh));
+            log.AppendLineFormat("{0,-2} | {1,-2} | {2,-2} | {3,-2}", ah.Index, ch.Index, dh.Index, bh.Index);
+            log.AppendLine();
+            log.AppendLine(RP.PageBreak80);
+
+            log.AppendLineFormat(RowPattern, "Asm", "Size", "Encoded", "Bits");
+
+            var inst = "and";
+            var hex = AsmHexCode.Empty;
+            var dst = AsmHexWriter.create(hex.Bytes);
+            hex.Size = and(al, bl, dst);
+            write(inst, al, bl, hex, log);
+            dst.Clear();
+
+            hex.Size = and(cl, bl, dst);
+            write(inst, cl, bl, hex, log);
+
+            dst.Clear();
+
+            hex.Size = and(dl, bl, dst);
+            write(inst, dl, bl, hex, log);
+
+            dst.Clear();
+
+            hex.Size = and(ah, bl, dst);
+            write(inst, ah, bl, hex, log);
+
+            dst.Clear();
+
+            hex.Size = and(ch, bl, dst);
+            write(inst, ch, bl, hex, log);
+            dst.Clear();
+
+            hex.Size = and(dh, bl, dst);
+            write(inst, dh, bl, hex, log);
+            dst.Clear();
+
+            hex.Size = and(bh, bl, dst);
+            write(inst, bh, bl, hex, log);
+            dst.Clear();
 
             // AND16ri8 | 8ah | 4 | 66 83 e0 73 | and ax, 0x73 | Reg:ax, Imm:115
-            var a0 = and_r16_imm8(AsmRegOps.ax, 0x73);
 
-            Write(string.Format("{0} | {1} | {2}", a0.Id, a0.EncodingSize, a0.Format()));
-            //Write(string.Format("{0} | ", a0.Format()));
-        }
 
-        public void CheckDec()
-        {
+            //  log.AppendLine();
+            // log.AppendLine(RP.PageBreak80);
+            // var a0 = and_r16_imm8(AsmRegOps.ax, 0x73);
+            // log.AppendLineFormat(RowPattern, a0.Id, a0.EncodingSize, a0.Format());
 
         }
 

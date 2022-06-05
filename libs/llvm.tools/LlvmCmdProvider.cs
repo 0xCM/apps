@@ -4,13 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    public partial class LlvmCmdProvider : AppCmdProvider<LlvmCmdProvider>
+    public partial class LlvmCmdProvider : AppCmdService<LlvmCmdProvider>
     {
         LlvmDataImporter Importer => Service(Wf.LlvmDataImporter);
 
         LlvmToolset Toolset => Service(Wf.LLvmToolset);
-
-        AppSvcOps AppSvc => Service(Wf.AppSvc);
 
         new LlvmPaths Paths => Service(Wf.LlvmPaths);
 
@@ -28,8 +26,6 @@ namespace Z0.llvm
 
         LlvmQuery Query => DataEmitter.Query;
 
-        LlvmCmd LlvmCmd;
-
         ToolId SelectedTool;
 
         FS.Files TdFiles()
@@ -38,15 +34,6 @@ namespace Z0.llvm
         public LlvmCmdProvider()
         {
             SelectedTool = ToolId.Empty;
-        }
-
-        public static LlvmCmdProvider create(IWfRuntime wf, LlvmCmd cmd)
-            => create(wf).With(cmd);
-
-        LlvmCmdProvider With(LlvmCmd cmd)
-        {
-            LlvmCmd = cmd;
-            return this;
         }
     }
 }

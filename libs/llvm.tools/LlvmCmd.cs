@@ -6,7 +6,7 @@ namespace Z0.llvm
 {
     using static core;
 
-    public sealed partial class LlvmCmd : AppCmdService<LlvmCmd,CmdShellState>
+    public sealed class LlvmCmd : AppCmdService<LlvmCmd,CmdShellState>
     {
         LlvmPaths LlvmPaths => Service(Wf.LlvmPaths);
 
@@ -18,9 +18,6 @@ namespace Z0.llvm
 
         IProjectWs Data;
 
-        public void EmitInstAlias()
-            => AppSvc.TableEmit(DataProvider.InstAliases(), LlvmPaths.Table<LlvmInstAlias>());
-
         protected override void Initialized()
         {
             Data = Ws.Project(ProjectNames.LlvmData);
@@ -28,8 +25,8 @@ namespace Z0.llvm
             State.Project(Data);
         }
 
-        protected override ICmdProvider[] CmdProviders(IWfRuntime wf)
-            => array<ICmdProvider>(this, this, LlvmCmdProvider.create(wf, this));
+        // protected override ICmdProvider[] CmdProviders(IWfRuntime wf)
+        //     => array<ICmdProvider>(this, this, LlvmCmdProvider.create(wf, this));
 
         Outcome Flow(string query, FS.Files src)
         {

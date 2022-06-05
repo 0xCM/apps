@@ -6,8 +6,10 @@ namespace Z0.llvm
 {
     partial class LlvmCmdProvider
     {
+        LlvmPaths LlvmPaths => Service(Wf.LlvmPaths);
+
         [CmdOp("llvm/emit/inst-alias")]
         void RunInstAliasQuery(CmdArgs args)
-            => LlvmCmd.EmitInstAlias();
+            => AppSvc.TableEmit(DataProvider.InstAliases(), LlvmPaths.Table<LlvmInstAlias>());
     }
 }

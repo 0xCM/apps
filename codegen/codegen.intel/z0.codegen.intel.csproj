@@ -4,10 +4,6 @@
     <OutputType>Library</OutputType>
   </PropertyGroup>
 
-  <Import Project="../imports.props"/>
-
-  <ItemGroup>
-    <EmbeddedResource Include="src/**/*.*" />
-  </ItemGroup>
+  <Import Project="$(TopDir)imports/common.libs.props"/>
 
 </Project>

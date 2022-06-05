@@ -4,9 +4,10 @@
     <OutputType>Library</OutputType>
   </PropertyGroup>
 
+  <Import Project="$(TopDir)imports/common.libs.props"/>
+
   <ItemGroup>
     <EmbeddedResource Include="src/**/*.*" />
-    <Reference Include="$(ZLibName)" HintPath="$(ZLibPath)"/>
   </ItemGroup>
 
 </Project>

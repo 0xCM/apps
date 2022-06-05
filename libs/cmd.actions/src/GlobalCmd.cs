@@ -16,9 +16,10 @@ namespace Z0
             var providers = array<ICmdProvider>(
                 svc,
                 ProjectCmd.inject(svc, ProjectCmd.create(wf)),
-                LlvmCmdProvider.create(wf, LlvmCmd.create(wf)),
+                //LlvmCmdProvider.create(wf, LlvmCmd.create(wf)),
                 AsmCoreCmd.commands(wf),
-                PolyBits.commands(wf),
+                LlvmCmdProvider.create(wf),
+                wf.PolyBits(),
                 wf.XedTool(),
                 wf.DiagnosticCmd(),
                 wf.Machines(),
@@ -26,6 +27,7 @@ namespace Z0
                 CheckCmd.commands(wf),
                 GenCmd.create(wf),
                 AsmCmdProvider.create(wf),
+                wf.ApiCmd(),
                 XedCmd.commands(XedRuntime.create(wf))
                 );
 

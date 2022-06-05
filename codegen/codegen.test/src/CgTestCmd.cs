@@ -14,17 +14,16 @@ namespace Z0
     {
         StringTableChecks LlvmStringTableChecks => Service(() => StringTableChecks.create(Wf));
 
-        AsmChecks AsmChecks => Service(Wf.AsmChecks);
+        AsmChecks2 AsmChecks => Service(() => AsmChecks2.create(Wf));
 
-        [CmdOp("asm/check")]
+        [CmdOp("cg/asm/check")]
         Outcome CheckAsm(CmdArgs args)
         {
             AsmChecks.Run();
             return true;
         }
 
-
-        [CmdOp("asm/check/strings")]
+        [CmdOp("cg/asm/check/strings")]
         Outcome CheckStringTables(CmdArgs args)
         {
             LlvmStringTableChecks.Run();

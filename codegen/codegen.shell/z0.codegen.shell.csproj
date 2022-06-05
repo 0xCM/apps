@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="assets/**/*.*" />
-    <ProjectReference Include="$(Numbers)" />
+    <ProjectReference Include="$(Lang)" />
   </ItemGroup>
 
 </Project>

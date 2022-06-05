@@ -12,25 +12,25 @@ namespace Z0
     {
         ApiMd ApiMd => Wf.ApiMetadata();
 
-        AsmTables AsmTables => Service(Wf.AsmTables);
+        AsmTables AsmTables => Wf.AsmTables();
 
-        ApiPacks ApiPacks => Service(Wf.ApiPacks);
+        ApiPacks ApiPacks => Wf.ApiPacks();
 
         AsmCallPipe AsmCalls => Wf.AsmCallPipe();
 
-        AsmDecoder AsmDecoder => Service(Wf.AsmDecoder);
+        AsmDecoder AsmDecoder => Wf.AsmDecoder();
 
-        ApiCatalogs ApiCatalogs => Service(Wf.ApiCatalogs);
+        ApiCatalogs ApiCatalogs => Wf.ApiCatalogs();
 
-        CliEmitter CliEmitter => Service(Wf.CliEmitter);
+        CliEmitter CliEmitter => Wf.CliEmitter();
 
         ApiCode ApiCode => Wf.ApiCode();
 
-        ApiHex ApiHex => Wf.ApiHex();
+        Index<ProcessAsmRecord> ProcessAsm()
+            => Data(nameof(ProcessAsm), _LoadProcessAsm);
 
-        Index<ProcessAsmRecord> ProcessAsm() => Data(nameof(ProcessAsm), _LoadProcessAsm);
-
-        Index<ProcessAsmRecord> ProcessAsmBuffer() => Data(nameof(ProcessAsmBuffer), () => alloc<ProcessAsmRecord>(ProcessAsm().Count));
+        Index<ProcessAsmRecord> ProcessAsmBuffer()
+            => Data(nameof(ProcessAsmBuffer), () => alloc<ProcessAsmRecord>(ProcessAsm().Count));
 
         ApiResPackEmitter ResPackEmitter => Service(Wf.ResPackEmitter);
 

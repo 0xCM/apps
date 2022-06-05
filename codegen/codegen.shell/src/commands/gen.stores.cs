@@ -10,6 +10,27 @@ namespace Z0
 
     partial class GenCmdProvider
     {
+        CsLang CsLang => Wf.CsLang();
+
+        [CmdOp("gen/enum/cs/keywords")]
+        Outcome CsKeywords(CmdArgs args)
+        {
+            var src = ProjectDb.Source("ms","ms.cs.keywords", FS.List);
+            if(!src.Exists)
+            {
+                Error(FS.missing(src));
+            }
+            else
+            {
+                var items = new ItemList<Constant<string>>("CsKeywordList", mapi(src.ReadLines(), (i,line) => new ListItem<Constant<string>>((uint)i,text.trim(line))));
+                var dst = text.buffer();
+                CsLang.EmitArrayInitializer(items,dst);
+                Write(dst.Emit());
+
+            }
+            return true;
+        }
+
         [CmdOp("gen/stores")]
         Outcome GenStores(CmdArgs args)
         {

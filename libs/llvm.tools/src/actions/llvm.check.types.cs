@@ -4,8 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    partial class LlvmCmd
+    using static core;
+
+    partial class LlvmCmdProvider
     {
+        [CmdOp("llvm/check/types")]
         Outcome Test(CmdArgs args)
         {
             var result = Outcome.Success;
