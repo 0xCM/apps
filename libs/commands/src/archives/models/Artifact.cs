@@ -6,9 +6,9 @@ namespace Z0
 {
     public readonly struct Artifact : IArtifact
     {
-        public string Classifier {get;}
+        public string Classifier { get; }
 
-        public dynamic Location {get;}
+        public dynamic Location { get; }
 
         [MethodImpl(Inline)]
         public Artifact(string @class, dynamic locator)

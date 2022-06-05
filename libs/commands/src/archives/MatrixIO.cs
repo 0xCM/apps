@@ -129,6 +129,5 @@ namespace Z0
             write(src, writer);
             return src;
         }
-
     }
 }

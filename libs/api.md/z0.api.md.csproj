@@ -12,7 +12,6 @@
     <ProjectReference Include="$(Commands)" />
     <ProjectReference Include="$(Symbols)" />
     <ProjectReference Include="$(Numbers)" />
-    <ProjectReference Include="$(Archives)" />
   </ItemGroup>
 
 </Project>

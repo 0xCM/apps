@@ -14,7 +14,6 @@ set SlnLlvmToolsCmd=%SlnTool% %SlnPath% add %LibsRoot%/llvm.tools/z0.llvm.tools.
 set SlnLlvmModelsCmd=%SlnTool% %SlnPath% add %LibsRoot%/llvm.tools/z0.llvm.tools.csproj
 set SlnAllocCmd=%SlnTool% %SlnPath% add %LibsRoot%/alloc/z0.alloc.csproj
 set SlnApiCodeCmd=%SlnTool% %SlnPath% add %LibsRoot%/api.code/z0.api.code.csproj
-set SlnArchivesCmd=%SlnTool% %SlnPath% add %LibsRoot%/archives/z0.archives.csproj
 set SlnAssetsCmd=%SlnTool% %SlnPath% add %LibsRoot%/assets/z0.assets.csproj
 set SlnBitsCmd=%SlnTool% %SlnPath% add %LibsRoot%/bits/z0.bits.csproj
 set SlnCommandsCmd=%SlnTool% %SlnPath% add %LibsRoot%/commands/z0.commands.csproj

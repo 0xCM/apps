@@ -31,9 +31,34 @@ namespace Z0
 
             public CheckRunner CheckRunner(IWfRuntime wf)
                 => Service<CheckRunner>(wf);
+
+            public MemoryEmitter MemoryEmitter(IWfRuntime wf)
+                => Service<MemoryEmitter>(wf);
+
+            public HexCsvReader HexCsvReader(IWfRuntime wf)
+                => Service<HexCsvReader>(wf);
+
+            public HexCsvWriter HexCsvWriter(IWfRuntime wf)
+                => Service<HexCsvWriter>(wf);
+
+            public HexDataReader HexDataReader(IWfRuntime wf)
+                => Service<HexDataReader>(wf);
+
+            public HexEmitter HexEmitter(IWfRuntime wf)
+                => Service<HexEmitter>(wf);
+
+            public Tooling Tooling(IWfRuntime wf)
+                => Service<Tooling>(wf);
+
+            public WsProjects WsProjects(IWfRuntime wf)
+                => Service<WsProjects>(wf);
+
         }
 
         static Svc Services => Svc.Instance;
+
+        public static Tooling Tooling(this IWfRuntime wf)
+            => Services.Tooling(wf);
 
         public static AppSvcOps AppSvc(this IWfRuntime wf)
             => Services.AppSvc(wf);
@@ -43,9 +68,6 @@ namespace Z0
 
         public static OmniScript OmniScript(this IWfRuntime wf)
             => Services.OmniScript(wf);
-
-        public static void RedirectEmissions(this IWfRuntime wf, string name, FS.FolderPath dst)
-            => wf.RedirectEmissions(Loggers.emission(name, dst));
 
         public static CmdLineRunner CmdLineRunner(this IWfRuntime wf)
             => Services.CmdLineRunner(wf);
@@ -62,5 +84,25 @@ namespace Z0
        public static CheckRunner CheckRunner(this IWfRuntime wf)
             => Services.CheckRunner(wf);
 
+       public static MemoryEmitter MemoryEmitter(this IWfRuntime wf)
+            => Services.MemoryEmitter(wf);
+
+        public static HexCsvReader HexCsvReader(this IWfRuntime wf)
+            => Services.HexCsvReader(wf);
+
+        public static HexCsvWriter HexCsvWriter(this IWfRuntime wf)
+            => Services.HexCsvWriter(wf);
+
+        public static HexDataReader HexDataReader(this IWfRuntime wf)
+            => Services.HexDataReader(wf);
+
+        public static HexEmitter HexEmitter(this IWfRuntime wf)
+            => Services.HexEmitter(wf);
+
+        public static WsProjects WsProjects(this IWfRuntime wf)
+            => Services.WsProjects(wf);
+
+        public static void RedirectEmissions(this IWfRuntime wf, string name, FS.FolderPath dst)
+            => wf.RedirectEmissions(Loggers.emission(name, dst));
     }
 }

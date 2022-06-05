@@ -9,7 +9,6 @@ call %SlnLlvmToolsCmd%
 call %SlnLlvmModelsCmd%
 call %SlnAllocCmd%
 call %SlnApiCodeCmd%
-call %SlnArchivesCmd%
 call %SlnAssetsCmd%
 call %SlnBitsCmd%
 call %SlnCommandsCmd%
