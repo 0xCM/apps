@@ -8,19 +8,20 @@ namespace Z0
     {
         sealed class Svc : AppServices<Svc>
         {
-            public ProjectDataServices ProjectData(IWfRuntime wf)
-                => Service<ProjectDataServices>(wf);
-
             public CheckCmd CheckCmd(IWfRuntime wf)
                 => Service<CheckCmd>(wf);
+
+            public ApiCmd ApiCmd(IWfRuntime wf)
+                => Service<ApiCmd>(wf);
+
         }
 
         static Svc Services = Svc.Instance;
 
-        public static ProjectDataServices ProjectData(this IWfRuntime wf)
-            => Services.ProjectData(wf);
-
-        internal static CheckCmd CheckCmd(this IWfRuntime wf)
+        public static CheckCmd CheckCmd(this IWfRuntime wf)
             => Services.CheckCmd(wf);
+
+        public static ApiCmd ApiCmd(this IWfRuntime wf)
+            => Services.ApiCmd(wf);
     }
 }

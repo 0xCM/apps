@@ -18,6 +18,8 @@ namespace Z0
 
         OmniScript OmniScript => Wf.OmniScript();
 
+        XedDisasmSvc XedDisasm => Wf.XedDisasmSvc();
+
         public void Collect(IProjectWs project)
         {
             var context = WsApi.context(project);
@@ -26,7 +28,7 @@ namespace Z0
             AsmObjects.CollectCoffData(context);
             CollectAsmSyntax(context);
             CollectMcInstructions(context);
-            //XedDisasm.Collect(context);
+            XedDisasm.Collect(context);
         }
 
         public Outcome<Index<ToolCmdFlow>> BuildAsm(IProjectWs project)

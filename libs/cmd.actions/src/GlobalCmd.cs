@@ -13,22 +13,20 @@ namespace Z0
         public static GlobalCmd commands(IWfRuntime wf)
         {
             var svc = new GlobalCmd();
+            var xed = XedRuntime.create(wf).Inject();
             var providers = array<ICmdProvider>(
                 svc,
                 ProjectCmd.inject(svc, ProjectCmd.create(wf)),
-                //LlvmCmdProvider.create(wf, LlvmCmd.create(wf)),
                 AsmCoreCmd.commands(wf),
                 LlvmCmdProvider.create(wf),
                 wf.PolyBits(),
                 wf.XedTool(),
                 wf.DiagnosticCmd(),
                 wf.Machines(),
-                ApiActionCmd.create(wf),
-                CheckCmd.commands(wf),
-                GenCmd.create(wf),
-                AsmCmdProvider.create(wf),
                 wf.ApiCmd(),
-                XedCmd.commands(XedRuntime.create(wf))
+                wf.CheckCmd(),
+                wf.AsmCmd(),
+                XedCmd.commands(xed)
                 );
 
             return GlobalCmd.init(wf, svc, providers);
@@ -88,20 +86,6 @@ namespace Z0
         protected override ICmdProvider[] CmdProviders(IWfRuntime wf)
             => _Providers;
 
-        // [CmdOp("capture")]
-        // Outcome CaptureV1(CmdArgs args)
-        // {
-        //     var result = Capture.run();
-        //     return true;
-        // }
-
-        // [CmdOp("capture-v2")]
-        // Outcome CaptureV2(CmdArgs args)
-        // {
-        //    Wf.ApiExtractWorkflow().Run(args);
-        //    return true;
-        // }
-
         [CmdOp("jobs/run")]
         Outcome RunJobs(CmdArgs args)
         {
@@ -121,26 +105,5 @@ namespace Z0
         void DispatchJobs(FS.FilePath src)
             => _dispatchJobs(src);
 
-        [CmdOp(".commands")]
-        Outcome EmitShellCommands(CmdArgs args)
-        {
-            return EmitShellCommands(Dispatcher);
-        }
-
-        Outcome EmitShellCommands(ICmdDispatcher dispatcher)
-        {
-            var dst = ProjectDb.Api() + FS.file($"api.commands.{GetType().Name.ToLower()}", FS.Csv);
-            return EmitCommands(dispatcher, dst);
-        }
-
-        Outcome EmitCommands(ICmdDispatcher dispatcher, FS.FilePath dst)
-        {
-            iter(dispatcher.SupportedActions, cmd => Write(cmd));
-            var emitting = EmittingFile(dst);
-            using var writer = dst.Writer();
-            iter(dispatcher.SupportedActions, cmd => writer.WriteLine(cmd));
-            EmittedFile(emitting, dispatcher.SupportedActions.Length);
-            return true;
-        }
     }
 }

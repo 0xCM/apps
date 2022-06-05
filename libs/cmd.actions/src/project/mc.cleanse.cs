@@ -15,7 +15,7 @@ namespace Z0
             var cmdname = "cleanse";
             var scope = "att/64";
             var project = Project();
-            var cmd = AsmFlowCommands.Select(SToAsm.Instance);
+            var cmd = AsmFlows.Select(SToAsm.Instance);
             cmd.Execute(project, (scope, cmdname));
             return true;
         }
@@ -26,7 +26,7 @@ namespace Z0
             var cmdname = "asm-to-mcasm";
             var scope = "asm";
             var project = Project();
-            var cmd = AsmFlowCommands.Select(AsmToMcAsm.Instance);
+            var cmd = AsmFlows.Select(AsmToMcAsm.Instance);
             cmd.Execute(project, (scope, cmdname));
             return true;
         }

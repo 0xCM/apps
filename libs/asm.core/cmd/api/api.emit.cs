@@ -56,9 +56,6 @@ namespace Z0
             }
         }
 
-        Assets Assets => Wf.Assets();
-
-
         [CmdOp("api/emit/classes")]
         Outcome EmitApiClasses(CmdArgs args)
         {

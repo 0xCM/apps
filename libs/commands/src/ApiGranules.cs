@@ -9,5 +9,7 @@ namespace Z0
     public readonly struct ApiGranules
     {
         public const string polybits = "polybits";
+
+        public const string il = "il";
     }
 }

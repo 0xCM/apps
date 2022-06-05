@@ -1,1 +1,2 @@
-dotnet build %~dp0..\z0.llvm.tools.csproj -c Release
+call %~dp0config.cmd
+call %BuildLibCmd%

@@ -140,12 +140,11 @@ namespace Z0
             dst = AppSettings.Load(path.ReadNumberedLines());
         }
 
-
-        public T With(IToolCmdShell shell)
-        {
-            Shell = Option.some(shell);
-            return (T)this;
-        }
+        // public T With(IToolCmdShell shell)
+        // {
+        //     Shell = Option.some(shell);
+        //     return (T)this;
+        // }
 
         protected void Emitted(FS.FilePath dst)
             => Write(string.Format("Emitted {0}", dst.ToUri()));
@@ -166,6 +165,19 @@ namespace Z0
         {
             base.Disposing();
             Witness?.Dispose();
+        }
+
+        [CmdOp("commands")]
+        protected void EmitCommands()
+            => EmitCommands(AppDb.ApiTargets().Path(FS.file($"{GetType().Name.ToLower()}.commands", FS.Csv)));
+
+        void EmitCommands(FS.FilePath dst)
+        {
+            iter(Dispatcher.SupportedActions, cmd => Write(cmd));
+            var emitting = EmittingFile(dst);
+            using var writer = dst.Writer();
+            iter(Dispatcher.SupportedActions, cmd => writer.WriteLine(cmd));
+            EmittedFile(emitting, Dispatcher.SupportedActions.Length);
         }
 
         [CmdOp(".env")]

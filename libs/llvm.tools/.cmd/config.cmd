@@ -1,4 +1,4 @@
 @echo off
-set ProjectId=cmd.actions
+set ProjectId=llvm.tools
 call %ZDev%\.cmd\config.cmd
 

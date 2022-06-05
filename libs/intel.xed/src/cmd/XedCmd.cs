@@ -6,7 +6,6 @@ namespace Z0
 {
     using static core;
     using static XedDisasm;
-    using static XedRules;
     using static MemDb;
 
     public class XedCmd : WsCmdService<XedCmd>, ICmdProvider

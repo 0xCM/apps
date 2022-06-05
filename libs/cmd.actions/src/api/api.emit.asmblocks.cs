@@ -6,7 +6,7 @@ namespace Z0
 {
     using Asm;
 
-    partial class ApiActionCmd
+    partial class ApiCmd
     {
         [CmdOp("api/emit/asmblocks")]
         Outcome EmitApiAsmBlocks(CmdArgs args)

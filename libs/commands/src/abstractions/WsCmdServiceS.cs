@@ -27,8 +27,8 @@ namespace Z0
         protected void ProjectLoad(string name)
             => Dispatcher.Dispatch("project", new CmdArg[]{new CmdArg(EmptyString, name)});
 
-        public void EmitCommands()
-            => EmitCommands(Dispatcher);
+        // public void EmitCommands()
+        //     => EmitCommands(Dispatcher);
 
         [CmdOp("checks/run")]
         protected void ChecksExec()
@@ -38,12 +38,12 @@ namespace Z0
         protected void ChecksList()
             => CheckRunner.ListChecks();
 
-        [CmdOp(".commands")]
-        protected Outcome EmitShellCommands(CmdArgs args)
-        {
-            EmitCommands();
-            return true;
-        }
+        // [CmdOp(".commands")]
+        // protected Outcome EmitShellCommands(CmdArgs args)
+        // {
+        //     EmitCommands();
+        //     return true;
+        // }
 
         void EmitCommands(ICmdDispatcher dispatcher)
             => EmitCommands(dispatcher, AppDb.Targets("api").Path(FS.file($"api.{GetType().Name.ToLower()}.cmd", FS.Csv)));

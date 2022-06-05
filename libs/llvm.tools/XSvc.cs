@@ -10,30 +10,61 @@ namespace Z0
 
     public static class XSvc
     {
-        [Op]
+
+        sealed class Svc : AppServices<Svc>
+        {
+            public ProjectDataServices ProjectData(IWfRuntime wf)
+                => Service<ProjectDataServices>(wf);
+
+            public AsmFlowCommands AsmFlows(IWfRuntime wf)
+                => Service<AsmFlowCommands>(wf);
+
+            public LlvmDataProvider LlvmDataProvider(IWfRuntime wf)
+                => Service<LlvmDataProvider>(wf);
+
+            public AsmCmdProvider AsmCmd(IWfRuntime wf)
+                => Service<AsmCmdProvider>(wf);
+
+        }
+
+        static Svc Services = Svc.Instance;
+
+        public static XedRuntime Inject(this XedRuntime xed)
+            => Services.Inject(xed);
+
+        public static ProjectDataServices ProjectData(this IWfRuntime wf)
+            => Services.ProjectData(wf);
+
+        public static XedDisasmSvc XedDisasmSvc(this IWfRuntime wf)
+            => Services.Injected<XedRuntime>().Disasm;
+
+        public static AsmFlowCommands AsmFlows(this IWfRuntime wf)
+            => Services.AsmFlows(wf);
+
+        public static LlvmDataProvider LlvmDataProvider(this IWfRuntime wf)
+            => Services.LlvmDataProvider(wf);
+
+        public static AsmCmdProvider AsmCmd(this IWfRuntime wf)
+            => Services.AsmCmd(wf);
+
         public static LlvmDataCalcs LlvmDataCalcs(this IWfRuntime wf)
             => llvm.LlvmDataCalcs.create(wf);
 
-        [Op]
         public static LlvmCmdProvider LlvmCommands(this IWfRuntime wf)
             => llvm.LlvmCmdProvider.create(wf);
-        [Op]
+
         public static LlvmTableLoader LlvmTableLoader(this IWfRuntime wf)
             => llvm.LlvmTableLoader.create(wf);
 
-        [Op]
         public static LlvmObjDumpSvc LlvmObjDump(this IWfRuntime wf)
             => llvm.LlvmObjDumpSvc.create(wf);
 
-        [Op]
         public static LlvmNmSvc LlvmNm(this IWfRuntime wf)
             => llvm.LlvmNmSvc.create(wf);
 
-        [Op]
         public static LlvmConfigSvc LlvmConfig(this IWfRuntime wf)
             => llvm.LlvmConfigSvc.create(wf);
 
-        [Op]
         public static LlvmReadObjSvc LlvmReadObj(this IWfRuntime wf)
             => llvm.LlvmReadObjSvc.create(wf);
 
@@ -65,9 +96,6 @@ namespace Z0
         public static LlvmLlcSvc LlvmLLc(this IWfRuntime wf)
             => llvm.LlvmLlcSvc.create(wf);
 
-        [Op]
-        public static LlvmDataProvider LlvmDataProvider(this IWfRuntime wf)
-            => llvm.LlvmDataProvider.create(wf);
 
         [Op]
         public static LlvmDataEmitter LlvmDataEmitter(this IWfRuntime wf)

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class ApiActionCmd
+    partial class ApiCmd
     {
         [CmdOp("api/emit/metadata")]
         Outcome EmitApiMetadata(CmdArgs args)

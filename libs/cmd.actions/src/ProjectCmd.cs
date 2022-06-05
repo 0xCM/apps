@@ -21,17 +21,15 @@ namespace Z0
 
         ProjectDataServices ProjectData => Wf.ProjectData();
 
-        WsProjects Projects => Service(Wf.WsProjects);
+        WsProjects Projects => Wf.WsProjects();
 
         AsmRegSets Regs => Service(AsmRegSets.create);
 
-        DumpBin DumpBin => Service(Wf.DumpBin);
+        DumpBin DumpBin => Wf.DumpBin();
 
         CoffServices CoffServices => Service(Wf.CoffServices);
 
-        AsmFlowCommands AsmFlowCommands => Service(Wf.AsmFlowCommands);
-
-        AppSvcOps AppSvc => Wf.AppSvc();
+        AsmFlowCommands AsmFlows => Wf.AsmFlows();
 
         public ProjectCmd With(ICmdRunner runner)
         {

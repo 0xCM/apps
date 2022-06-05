@@ -8,6 +8,10 @@ namespace Z0
     public abstract class AppCmdProvider<T> : AppService<T>, ICmdProvider
         where T : AppCmdProvider<T>, new()
     {
+        protected AppSvcOps AppSvc => Wf.AppSvc();
+
+        protected AppDb AppDb => Wf.AppDb();
+
         static MsgPattern EmptyArgList => "No arguments specified";
 
         static MsgPattern ArgSpecError => "Argument specification error";
