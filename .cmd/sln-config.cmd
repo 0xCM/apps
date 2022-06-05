@@ -37,13 +37,13 @@ set SlnTestChecksCmd=%SlnTool% %SlnPath% add %TestDir%/test.checks/z0.test.check
 set SlnTestUnitsCmd=%SlnTool% %SlnPath% add %TestDir%/test.units/z0.test.units.csproj
 set SlnTestShellCmd=%SlnTool% %SlnPath% add %TestDir%/test.shell/z0.test.shell.csproj
 
-set SlnXedShellCmd=%SlnTool% %SlnPath% add %TopDir%/xed.shell/z0.xed.shell.csproj
-set SlnIntelShellCmd=%SlnTool% %SlnPath% add %TopDir%/intel.shell/z0.intel.shell.csproj
 set SlnCgIntelCmd=%SlnTool% %SlnPath% add %CgDir%/codegen.intel/z0.codegen.intel.csproj
 set SlnCgCommonCmd=%SlnTool% %SlnPath% add %CgDir%/codegen.common/z0.codegen.common.csproj
 set SlnCgLlvmCmd=%SlnTool% %SlnPath% add %CgDir%/codegen.llvm/z0.codegen.llvm.csproj
 set SlnCgShellCmd=%SlnTool% %SlnPath% add %CgDir%/codegen.shell/z0.codegen.shell.csproj
 
+set SlnXedShellCmd=%SlnTool% %SlnPath% add %ShellRoot%\xed.shell\z0.xed.shell.csproj
+set SlnIntelShellCmd=%SlnTool% %SlnPath% add %ShellRoot%\intel\z0.intel.csproj
 set SlnAsmShellCmd=%SlnTool% %SlnPath% add %ShellRoot%\asm.shell\z0.asm.shell.csproj
 set SlnCmdShellCmd=%SlnTool% %SlnPath% add %ShellRoot%\cmd\z0.cmd.csproj
 set SlnWorkersCmd=%SlnTool% %SlnPath% add %ShellRoot%\workers\z0.workers.csproj

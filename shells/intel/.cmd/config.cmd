@@ -1,5 +1,5 @@
 @echo off
-set ProjectId=intel.shell
 set ShellId=intel
+set ProjectId=intel
 call %ZDev%\.cmd\config.cmd
 

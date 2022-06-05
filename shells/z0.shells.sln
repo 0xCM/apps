@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.cmd", "cmd\z0.cmd.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.workers", "workers\z0.workers.csproj", "{87B68458-414D-42CC-BCA6-243C167BB8EB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.xed.shell", "xed.shell\z0.xed.shell.csproj", "{0726A5ED-14E1-4EF9-8C4C-4D9B3F2C33BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.intel", "intel\z0.intel.csproj", "{A4B23EE8-16F4-4090-86EE-891593BE4A44}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +34,13 @@ Global
 		{87B68458-414D-42CC-BCA6-243C167BB8EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87B68458-414D-42CC-BCA6-243C167BB8EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87B68458-414D-42CC-BCA6-243C167BB8EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0726A5ED-14E1-4EF9-8C4C-4D9B3F2C33BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0726A5ED-14E1-4EF9-8C4C-4D9B3F2C33BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0726A5ED-14E1-4EF9-8C4C-4D9B3F2C33BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0726A5ED-14E1-4EF9-8C4C-4D9B3F2C33BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4B23EE8-16F4-4090-86EE-891593BE4A44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4B23EE8-16F4-4090-86EE-891593BE4A44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4B23EE8-16F4-4090-86EE-891593BE4A44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4B23EE8-16F4-4090-86EE-891593BE4A44}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
