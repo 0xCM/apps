@@ -100,44 +100,16 @@ namespace Z0
             Require.invariant(length >= width);
             Span<bit> buffer = stackalloc bit[width];
             parse(src, buffer);
-            var bn = generic(n, BitNumbers.scalar<T>(buffer));
+            var bn = generic(n, bit.scalar<T>(buffer));
             dst = bn;
             return bn;
         }
 
-        public static bool parse(string src, out byte n, out byte number)
+        public static bool parse(string src, N8 n, out bits<byte> dst)
         {
-            n = 0;
-            number = 0;
-            if(!parse(src, out uint5 value))
-                return false;
-
-            var len = src.Length - 2;
-            switch(len)
-            {
-                case 1:
-                    number = (uint1)value;
-                    n = (byte)len;
-                break;
-                case 2:
-                    number = (uint2)value;
-                    n = (byte)len;
-                break;
-                case 3:
-                    number = (uint3)(byte)value;
-                    n = (byte)len;
-                break;
-                case 4:
-                    number = (uint4)(byte)value;
-                    n = (byte)len;
-                break;
-                case 5:
-                    number = value;
-                    n = (byte)len;
-                break;
-            }
-
-            return n != 0;
+            var result = BitNumbers.parse(src, n, out var b);
+            dst = b;
+            return result;
         }
 
         [MethodImpl(Inline)]

@@ -11,14 +11,23 @@ namespace Z0
     using K = BitSeq7;
     using T = System.Byte;
     using N = N7;
+    using api = BitNumbers;
 
     /// <summary>
     /// Represents a value in the range [<see cef='MinLiteral'/>, <see cref='MaxValue'/>]
     /// </summary>
-    [DataWidth(Width,8)]
+    [DataWidth(Width)]
     public readonly struct uint7 : IBitNumber<U,W,K,T>
     {
         public const byte BitCount = 7;
+
+        [Parser]
+        public static bool parse(string src, out U dst)
+        {
+            var result = api.parse(src, Width, out var b);
+            dst = b;
+            return result;
+        }
 
         internal readonly T Value;
 

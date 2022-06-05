@@ -5,19 +5,28 @@
 namespace Z0
 {
     using static BitNumbers;
-
+    using static core;
     using U = uint8b;
     using W = W8;
     using K = BitSeq8;
     using T = System.Byte;
     using N = N8;
+    using api = BitNumbers;
 
     /// <summary>
     /// Represents the value of a type-level octet and thus is an integer in the range [0,255]
     /// </summary>
-    [DataWidth(Width,8)]
+    [DataWidth(Width)]
     public readonly struct uint8b : IBitNumber<U,W,K,T>
     {
+        [Parser]
+        public static bool parse(string src, out U dst)
+        {
+            var result = api.parse(src, Width, out var b);
+            dst = b;
+            return result;
+        }
+
         public const byte BitCount = 8;
 
         internal readonly T Value;

@@ -16,9 +16,17 @@ namespace Z0
     /// <summary>
     /// Represents either 0 or 1
     /// </summary>
-    [DataWidth(Width,8)]
+    [DataWidth(1)]
     public readonly struct uint1 : IBitNumber<U,W,K,T>
     {
+        [Parser]
+        public static bool parse(string src, out U dst)
+        {
+            var result = bit.parse(src, out bit b);
+            dst = b;
+            return result;
+        }
+
         internal readonly T Value;
 
         [MethodImpl(Inline)]

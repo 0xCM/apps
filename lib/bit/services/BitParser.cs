@@ -11,7 +11,6 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
-
         public static string cleanse(string src)
             => src.RemoveBlanks().Remove("0b").Remove("_");
 
@@ -26,17 +25,16 @@ namespace Z0
             return count;
         }
 
-        public static Outcome parse<T>(string src, out bits<T> dst)
+        public static bool parse<T>(string src, out bits<T> dst)
             where T : unmanaged
         {
-            var result = Outcome.Success;
+            var result = true;
             var input = text.trim(text.despace(src));
             var content = input;
             if(text.fenced(input, RenderFence.Embraced))
                 result = text.unfence(src, RenderFence.Embraced, out content);
             else if(text.fenced(input, RenderFence.Bracketed))
                 result = text.unfence(src, RenderFence.Bracketed, out content);
-
             var sep = text.contains(src, Chars.Space) ? Chars.Space : Chars.Comma;
             var parts = text.split(content, sep);
             var n = (uint)parts.Length;

@@ -11,13 +11,23 @@ namespace Z0
     using K = BitSeq4;
     using D = System.Byte;
     using N = N4;
+    using U = uint4;
+    using api = BitNumbers;
 
     /// <summary>
     /// Represents a value in the range [<see cef='MinLiteral'/>, <see cref='MaxValue'/>]
     /// </summary>
-    [DataWidth(Width,8)]
+    [DataWidth(Width)]
     public readonly struct uint4 : IBitNumber<T,W,K,D>
     {
+        [Parser]
+        public static bool parse(string src, out U dst)
+        {
+            var result = api.parse(src, Width, out var b);
+            dst = b;
+            return result;
+        }
+
         internal readonly D Value;
 
         [MethodImpl(Inline)]

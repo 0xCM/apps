@@ -4,10 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
+    using static core;
 
     partial struct bit
     {
@@ -107,6 +104,43 @@ namespace Z0
             dst |= ((uint)b5 << 5);
             dst |= ((uint)b6 << 6);
             return (byte)dst;
+        }
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static ref T pack<T>(ReadOnlySpan<bit> src, ref T dst)
+            where T : unmanaged
+        {
+            pack(recover<bit,byte>(src),0u, out dst);
+            return ref dst;
+        }
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static ref T pack<T>(ReadOnlySpan<byte> src, uint offset, out T dst)
+            where T : unmanaged
+        {
+            dst = default;
+            var buffer = bytes(dst);
+            pack(src, offset, ref first(buffer));
+            return ref dst;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static void pack(ReadOnlySpan<byte> src, uint offset, ref byte dst)
+        {
+            const byte M = 8;
+            var count = src.Length;
+            var kIn = (uint)(count - offset);
+            var kOut = kIn/M + (kIn % M == 0 ? 0 : 1);
+            for(int i=0, j=0; j<kOut; i+=M, j++)
+            {
+                ref var b = ref seek(dst, j);
+                for(var k=0; k<M; k++)
+                {
+                    var srcIx = i + k + offset;
+                    if(srcIx < kIn && skip(src, srcIx) != 0)
+                        b |= (byte)(1 << k);
+                }
+            }
         }
     }
 }

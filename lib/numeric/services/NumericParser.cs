@@ -38,7 +38,7 @@ namespace Z0
             }
             else if(IsBinaryLiteral(src))
             {
-                result = BitNumbers.parse(src, out uint8b n);
+                result = uint8b.parse(src, out uint8b n);
                 dst = n;
             }
             else
@@ -61,7 +61,7 @@ namespace Z0
             }
             else if(IsBinaryLiteral(src))
             {
-                result = BitNumbers.parse(src, out uint8b n);
+                result = uint8b.parse(src, out uint8b n);
                 dst = @as<uint8b,T>(n);
             }
             else

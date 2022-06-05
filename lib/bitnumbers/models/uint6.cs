@@ -11,13 +11,23 @@ namespace Z0
     using K = BitSeq6;
     using D = System.Byte;
     using N = N6;
+    using U = uint6;
+    using api = BitNumbers;
 
     /// <summary>
     /// Represents a value in the range [<see cef='MinLiteral'/>, <see cref='MaxValue'/>]
     /// </summary>
-    [DataWidth(Width,8)]
+    [DataWidth(Width)]
     public readonly struct uint6 : IBitNumber<T,W,K,D>
     {
+        [Parser]
+        public static bool parse(string src, out U dst)
+        {
+            var result = api.parse(src, Width, out var b);
+            dst = b;
+            return result;
+        }
+
         internal readonly D Value;
 
         [MethodImpl(Inline)]

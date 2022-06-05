@@ -8,5 +8,8 @@ namespace Z0.llvm
     {
         public Index<InstEntity> Instructions(Index<LlvmEntity> src)
             => (Index<InstEntity>)DataSets.GetOrAdd("Instructions", _ => src.Where(e => e.IsInstruction()).Select(e => e.ToInstruction()));
+
+        public Index<InstEntity> Instructions()
+            => Instructions(Entities());
     }
 }

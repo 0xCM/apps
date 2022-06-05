@@ -147,6 +147,9 @@ namespace Z0.llvm
         public bits<byte> Opcode
             => Parse(nameof(Opcode), out bits<byte> dst);
 
+        public string OpCodeData
+            => this[nameof(Opcode)];
+
         public string OpEnc
             => this[nameof(OpEnc)];
 

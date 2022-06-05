@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     partial class AsmChecks
     {
         [CmdOp("bits/check/vmask")]
@@ -19,6 +21,13 @@ namespace Z0
             var v1bits = v1.ToBitSpan();
             Write(v1bits.Format(options));
             return result;
+        }
+
+
+        [CmdOp("bits/check/parsers")]
+        void CheckBitParsers()
+        {
+
         }
     }
 }

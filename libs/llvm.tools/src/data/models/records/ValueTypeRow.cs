@@ -4,11 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
-    using System.Runtime.InteropServices;
-
     [StructLayout(LayoutKind.Sequential), Record(TableId)]
-    public struct ValueTypeRow : IRecord<ValueTypeRow>
+    public struct ValueTypeRow
     {
         public const string TableId = "llvm.value-type";
 
@@ -19,8 +16,5 @@ namespace Z0.llvm
         public uint Size;
 
         public uint Value;
-
-        public static ReadOnlySpan<byte> RenderWidths
-            => new byte[FieldCount]{16,16,1};
     }
 }
