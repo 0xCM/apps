@@ -142,7 +142,5 @@ namespace Z0
             var segs = grids.gridcells(rows, cols, segwidth);
             return new GridSpec(rows, cols, segwidth, bytes, bits, segs);
         }
-
-
     }
 }

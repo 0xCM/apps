@@ -12,6 +12,13 @@ namespace Z0
 
         FS.FolderPath ProjectDbRoot;
 
+        protected override void Initialized()
+        {
+            WsRoot = Ws.Root;
+            ProjectRoot = WsRoot + FS.folder("projects");
+            ProjectDbRoot = ProjectRoot + FS.folder("db");
+        }
+
         public DbTargets Projects()
             => new DbTargets(ProjectRoot,EmptyString);
 
@@ -29,13 +36,6 @@ namespace Z0
 
         public new DbTargets ProjectDb()
             => new DbTargets(ProjectDbRoot + FS.folder("projects"));
-
-        protected override void Initialized()
-        {
-            WsRoot = Ws.Root;
-            ProjectRoot = WsRoot + FS.folder("projects");
-            ProjectDbRoot = ProjectRoot + FS.folder("db");
-        }
 
         public DbTargets CgTargets(CgTarget dst)
             => new DbTargets(Env.ZDev, $"codegen/{Symbols.format(dst)}/src");
@@ -80,5 +80,11 @@ namespace Z0
 
         public DbTargets XedTargets(IProjectWs ws)
             => DbTargets(ws).Targets("xed.disasm");
+
+        public FileCatalog Files(IProjectWs ws)
+            => FileCatalog.load(ws);
+
+        public FileCatalog Files(ProjectId project)
+            => FileCatalog.load(project);
     }
 }

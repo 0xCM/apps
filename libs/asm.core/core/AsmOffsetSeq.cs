@@ -7,12 +7,11 @@ namespace Z0.Asm
     /// <summary>
     /// Pairs a sequence number with a memory offset
     /// </summary>
-    [DataType("asm.offsetseq")]
     public readonly struct AsmOffsetSeq
     {
-        public uint Seq {get;}
+        public readonly uint Seq;
 
-        public uint Offset {get;}
+        public readonly uint Offset;
 
         [MethodImpl(Inline)]
         public AsmOffsetSeq(uint seq, uint offset)

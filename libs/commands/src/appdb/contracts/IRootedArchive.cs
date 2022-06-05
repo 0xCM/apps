@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public interface IRootedArchive //: ITextual
+    public interface IRootedArchive
     {
         FS.FolderPath Root {get;}
 
@@ -59,8 +59,6 @@ namespace Z0
     public interface ISourceArchive<T> : ISourceArchive
         where T : ISourceArchive<T>
     {
-
-
 
     }
 

@@ -64,6 +64,12 @@ namespace Z0
             AsmCodeGen.Emit();
         }
 
+        [CmdOp("asm/nasm/import")]
+        Outcome EmitNasmCatalog(CmdArgs args)
+        {
+            Wf.NasmCatalog().ImportInstructions();
+            return true;
+        }
 
         // [CmdOp("checks/run")]
         // void ChecksExec()

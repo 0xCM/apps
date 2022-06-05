@@ -41,7 +41,6 @@ namespace Z0
         public static FS.FilePath csv(FS.FolderPath src, ApiHostUri host)
             => src + host.FileName(FS.PCsv);
 
-
         void PackHex(FS.FolderPath src, ApiHostUri host)
         {
             var counter = 0u;

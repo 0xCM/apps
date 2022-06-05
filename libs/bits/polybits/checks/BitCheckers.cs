@@ -17,6 +17,27 @@ namespace Z0
 
         IWfRuntime Wf;
 
+        static Outcome outcome(string @case, string expect, string actual)
+        {
+            var match = actual.Equals(expect);
+            return (match, match ? @case + ": Pass" : @case + string.Format(": Fail {0} != {1}", actual, expect));
+        }
+
+        static Union<T> union<T>(params T[] src)
+            where T : IExpr
+                => new Union<T>(src);
+
+        public Outcome Case1()
+        {
+            const string Case = "Literal Union";
+            const string Expect = "[l0:1 | l1:2 | l2:4]";
+            var l0 = Literals.literal("l0", 1);
+            var l1 = Literals.literal("l1", 2);
+            var l2 = Literals.literal("l2", 4);
+            var u = union(l0,l1,l2);
+            return outcome(Case, u.Format(), Expect);
+        }
+
         public BitCheckers(IWfRuntime wf)
         {
             Wf = wf;

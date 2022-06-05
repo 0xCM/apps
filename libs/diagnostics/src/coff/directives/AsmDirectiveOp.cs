@@ -8,7 +8,7 @@ namespace Z0.Asm
     {
         public static AsmDirectiveOp noprefix => "noprefix";
 
-        public @string Value {get;}
+        public readonly @string Value {get;}
 
         [MethodImpl(Inline)]
         public AsmDirectiveOp(string value)

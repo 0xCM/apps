@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using static core;
-
     partial struct AsmDirectives
     {
         public sealed class SectionDirective : AsmDirective<SectionDirective>

@@ -6,7 +6,7 @@ namespace Z0.Asm
 {
     public readonly struct AsmDirectiveOp<T>
     {
-        public T Value {get;}
+        public readonly T Value {get;}
 
         [MethodImpl(Inline)]
         public AsmDirectiveOp(T value)

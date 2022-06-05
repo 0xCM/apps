@@ -11,10 +11,9 @@ namespace Z0
 
     partial class AsmChecks
     {
-        [CmdOp("asm/check/regstore")]
+        [CmdOp("asm/check/regs")]
         Outcome CheckRegstore(CmdArgs args)
         {
-
             var result = Outcome.Success;
             var grid = RegGrid8x64.Empty;
             var regs = RegStore8x64.Empty;

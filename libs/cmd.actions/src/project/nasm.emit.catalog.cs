@@ -6,11 +6,5 @@ namespace Z0
 {
     partial class ProjectCmd
     {
-        [CmdOp("nasm/emit/catalog")]
-        Outcome EmitNasmCatalog(CmdArgs args)
-        {
-            Service(Wf.NasmCatalog).ImportInstructions();
-            return true;
-        }
     }
 }

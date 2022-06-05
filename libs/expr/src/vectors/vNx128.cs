@@ -5,7 +5,6 @@
 namespace Z0.Expr
 {
     using static core;
-    using static expr;
 
     /// <summary>
     /// Represents a finite sequence of 128-bit values

@@ -6,9 +6,8 @@ namespace Z0
 {
     using static core;
 
-    partial class AsmCoreCmd
+    partial class AsmChecks
     {
-
         [CmdOp("alloc/check")]
         Outcome CheckAlloc(CmdArgs args)
         {

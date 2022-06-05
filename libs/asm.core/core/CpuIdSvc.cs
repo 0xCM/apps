@@ -15,11 +15,9 @@ namespace Z0.Asm
 
         public void EmitBits(ReadOnlySpan<CpuIdRow> src, FS.FilePath dst)
         {
-            //using var writer = dst.AsciWriter();
             var buffer = text.emitter();
             regvals(src, buffer);
             AppSvc.FileEmit(buffer.Emit(), src.Length, dst);
-            //writer.WriteLine(buffer.Emit());
         }
 
         public static Index<CpuIdRow> import(FS.FolderPath srcdir)

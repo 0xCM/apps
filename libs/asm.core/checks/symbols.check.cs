@@ -9,9 +9,10 @@ namespace Z0
 
     partial class AsmCoreCmd
     {
-        [CmdOp("symbols/check")]
-        void CheckSymHeaps()
+        [CmdOp("heaps/check")]
+        void CheckHeaps2()
         {
+
             var src = Heaps.symbols<InstFormType>(w32,w8);
             var count = src.EntryCount;
             var size = src.Size;
@@ -33,8 +34,14 @@ namespace Z0
             }
         }
 
+        void CheckHeaps1()
+        {
+            var src = CodeFiles.PartFiles(PartId.Assets);
+            var hex = src.Hex.ReadLines();
+
+        }
         [CmdOp("assets/check")]
-        void CheckAssets()
+        void CheckAssets2()
         {
             var src = Assets.strings(typeof(AsciText));
             for(var i=0; i<src.Count; i++)

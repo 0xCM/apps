@@ -117,6 +117,8 @@ namespace Z0
 
         const string WarningMarker = "warning:";
 
+        public abstract C BuildCmd(IProjectWs project, string scope, FS.FilePath src);
+
         protected virtual void OnExecStatus(in string msg)
         {
             Write(msg, FlairKind.Status);
@@ -156,12 +158,8 @@ namespace Z0
             Ran(running);
         }
 
-        public abstract C BuildCmd(IProjectWs project, string scope, FS.FilePath src);
-
         protected FS.FilePath GetTargetPath(IProjectWs project, string scope, FS.FilePath src)
-        {
-            return project.Out(scope).Create() + src.FileName.ChangeExtension(Flow.TargetExt);
-        }
+            => project.Out(scope).Create() + src.FileName.ChangeExtension(Flow.TargetExt);
 
         static CmdFlows()
         {

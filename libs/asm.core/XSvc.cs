@@ -75,6 +75,9 @@ namespace Z0
 
             public XedDisasm.Analyzer DisasmAnalyzer(IWfRuntime wf)
                 => Z0.XedDisasm.Analyzer.create(wf);
+
+            public NasmCatalog NasmCatalog(IWfRuntime wf)
+                => Service<NasmCatalog>(wf);
         }
 
         static Svc Services => Svc.Instance;
@@ -149,7 +152,7 @@ namespace Z0
             => Services.AsmChecks(wf);
 
         public static NasmCatalog NasmCatalog(this IWfRuntime wf)
-            => Asm.NasmCatalog.create(wf);
+            => Services.NasmCatalog(wf);
 
         public static StanfordAsmCatalog StanfordCatalog(this IWfRuntime wf)
             => Asm.StanfordAsmCatalog.create(wf);

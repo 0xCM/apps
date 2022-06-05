@@ -8,8 +8,4 @@
 
   <Import Project="$(TopDir)imports/common.libs.props"/>
 
-  <ItemGroup>
-    <EmbeddedResource Include="assets/**/*.*" />
-  </ItemGroup>
-
 </Project>

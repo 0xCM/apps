@@ -6,6 +6,7 @@ namespace Z0
 {
     using static core;
 
+
     public struct Bitset128<T>
         where T : unmanaged
     {

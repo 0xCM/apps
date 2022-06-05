@@ -6,9 +6,9 @@ namespace Z0
 {
     public readonly struct ObjSymClass : IEquatable<ObjSymClass>
     {
-        public ObjSymKind Kind {get;}
+        public readonly ObjSymKind Kind;
 
-        public ObjSymCode Code {get;}
+        public readonly ObjSymCode Code;
 
         [MethodImpl(Inline)]
         public ObjSymClass(ObjSymCode code)

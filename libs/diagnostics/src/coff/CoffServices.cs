@@ -42,8 +42,7 @@ namespace Z0
             var count = files.Count;
             for(var i=0; i<count; i++)
             {
-                ref readonly var file = ref files[i];
-                ref readonly var path = ref file.Path;
+                ref readonly var path = ref files[i].Path;
                 var srcid = text.ifempty(path.SrcId(FileKind.Obj, FileKind.O), path.FileName.WithoutExtension.Format());
                 var dst = outdir + FS.file(srcid, FileKind.HexDat.Ext());
                 var running = Running(string.Format("Emitting {0}", dst));
@@ -63,10 +62,7 @@ namespace Z0
             var count = src.Length;
             var dst = dict<FS.FilePath,Index<HexDataRow>>(count);
             for(var i=0; i<count; i++)
-            {
-                ref readonly var path = ref src[i];
-                dst[path] = HexReader.Read(path);
-            }
+                dst[src[i]] = HexReader.Read(src[i]);
 
             return dst;
         }
@@ -232,10 +228,8 @@ namespace Z0
             var result = Outcome.Success;
             var hexDat = LoadObjHex(context);
             var objDat = LoadObjData(context);
-
             if(hexDat.Count != objDat.Count)
                 result = (false,string.Format("Counts differ"));
-
             return result;
         }
 

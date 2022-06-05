@@ -58,7 +58,7 @@ namespace Z0
         {
             var project = Project();
             var context = WsApi.context(project);
-            var catalog = FileCatalog.load(project);
+            var catalog = context.Catalog;
             var files = catalog.Entries(FileKind.Obj, FileKind.O);
             var count = files.Count;
             var emitter = text.emitter();

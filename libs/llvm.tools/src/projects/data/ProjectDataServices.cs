@@ -4,8 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
     using llvm;
+
+    using static core;
     using static llvm.SubtargetKind;
 
     public partial class ProjectDataServices : AppService<ProjectDataServices>
