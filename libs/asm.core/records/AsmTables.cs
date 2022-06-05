@@ -10,6 +10,8 @@ namespace Z0.Asm
 
     public class AsmTables : AppService<AsmTables>
     {
+        AppSvcOps AppSvc => Wf.AppSvc();
+
         [MethodImpl(Inline)]
         public static CorrelationToken token(uint docid, MemoryAddress ip)
             => math.or(math.sll(docid, 24),  (uint)ip);
@@ -20,108 +22,6 @@ namespace Z0.Asm
 
         public AsmTables()
         {
-        }
-
-        static Outcome row(uint line, string src, out ProcessAsmRecord dst)
-            => row(new TextLine(line, src), out dst);
-
-        static Outcome row(TextLine src, out ProcessAsmRecord dst)
-        {
-            const string ErrorPattern = "Error parsing {0} on line {1}";
-            var parts = src.Split(Chars.Pipe).Map(x => x.Trim());
-            var count = parts.Length;
-            var outcome = Outcome.Success;
-            if(count != ProcessAsmRecord.FieldCount)
-            {
-                dst = default;
-                return (false, AppMsg.CsvDataMismatch.Format(ProcessAsmRecord.FieldCount, count, src.Content));
-            }
-            dst = default;
-            var i=0u;
-
-            outcome += DataParser.parse(skip(parts,i++), out dst.Sequence);
-            if(outcome.Fail)
-                return (false, string.Format(ErrorPattern, nameof(dst.Sequence), src.LineNumber));
-
-            outcome += DataParser.parse(skip(parts,i++), out dst.GlobalOffset);
-            if(outcome.Fail)
-                return (false, string.Format(ErrorPattern, nameof(dst.GlobalOffset), src.LineNumber));
-
-            outcome += DataParser.parse(skip(parts,i++), out dst.BlockAddress);
-            if(outcome.Fail)
-                return (false, string.Format(ErrorPattern, nameof(dst.BlockAddress), src.LineNumber));
-
-            outcome += DataParser.parse(skip(parts,i++), out dst.IP);
-            if(outcome.Fail)
-                return (false, string.Format(ErrorPattern, nameof(dst.IP), src.LineNumber));
-
-            outcome += DataParser.parse(skip(parts,i++), out dst.BlockOffset);
-            if(outcome.Fail)
-                return (false, string.Format(ErrorPattern, nameof(dst.BlockOffset), src.LineNumber));
-
-            dst.Statement = text.trim(skip(parts,i++));
-
-            outcome += AsmHexCode.asmhex(skip(parts,i++), out dst.Encoded);
-            if(outcome.Fail)
-                return (false, string.Format(ErrorPattern, nameof(dst.Encoded), src.LineNumber));
-
-            outcome += AsmSigInfo.parse(skip(parts,i++), out dst.Sig);
-            if(outcome.Fail)
-                return (false, string.Format(ErrorPattern, nameof(dst.Sig), src.LineNumber));
-
-            dst.OpCode = new AsmOpCodeString(skip(parts, i++));
-
-            var bitstring = skip(parts,i++);
-            dst.Bitstring = asm.bitstring(dst.Encoded);
-
-            outcome += DataParser.parse(skip(parts,i++), out dst.OpUri);
-            if(outcome.Fail)
-                return (false, string.Format(ErrorPattern, nameof(dst.OpUri), src.LineNumber));
-
-            return true;
-        }
-
-        public static Outcome<uint> load(FS.FilePath src, Span<ProcessAsmRecord> dst)
-        {
-            var counter = 1u;
-            var i = 0u;
-            var max = dst.Length;
-            using var reader = src.AsciReader();
-            var header = reader.ReadLine();
-            var line = reader.ReadLine();
-            var result = Outcome.Success;
-            while(line != null && result.Ok)
-            {
-                result = row(counter++, line, out seek(dst,i));
-                if(result.Fail)
-                    return result;
-                else
-                    i++;
-
-                line = reader.ReadLine();
-            }
-            return i;
-        }
-
-        static Outcome<uint> rows(FS.FilePath src, Span<HostAsmRecord> dst)
-        {
-            const byte FieldCount = HostAsmRecord.FieldCount;
-
-            var result = TextGrids.load(src, out var doc);
-
-            var counter = 0u;
-            if(doc.Header.Labels.Length != FieldCount)
-                return (false, AppMsg.FieldCountMismatch.Format(FieldCount, doc.Header.Labels.Length));
-
-            var count = (uint)min(doc.RowCount, dst.Length);
-            var rows = doc.RowData.View;
-            for(var i=0; i<count; i++)
-            {
-                result = row(skip(rows, i), out seek(dst, i));
-                if(result.Fail)
-                    return result;
-            }
-            return count;
         }
 
         static Outcome<uint> rows(TextGrid doc, Span<HostAsmRecord> dst)
@@ -136,50 +36,11 @@ namespace Z0.Asm
             var rows = doc.RowData.View;
             for(var i=0; i<count; i++)
             {
-                var result = row(skip(rows, i), out seek(dst, i));
+                var result = HostAsmRecord.parse(skip(rows, i), out seek(dst, i));
                 if(result.Fail)
                     return result;
             }
             return count;
-        }
-
-        static Outcome row(in TextRow src, out HostAsmRecord dst)
-        {
-            const byte FieldCount = HostAsmRecord.FieldCount;
-            var result = Outcome.Success;
-            var count = src.CellCount;
-            var cells = src.Cells;
-            dst = default;
-            if(src.CellCount != FieldCount)
-                return (false, AppMsg.FieldCountMismatch.Format(FieldCount, src.CellCount));
-
-            var i=0;
-            result = DataParser.parse(skip(cells, i++), out dst.BlockAddress);
-            if(result.Fail)
-                return result;
-
-            result = DataParser.parse(skip(cells, i++), out dst.IP);
-            if(result.Fail)
-                return result;
-
-            result = DataParser.parse(skip(cells, i++), out dst.BlockOffset);
-            if(result.Fail)
-                return result;
-
-            AsmExpr.parse(skip(cells,i++), out dst.Expression);
-            dst.Encoded = AsmHexCode.asmhex(skip(cells, i++));
-            result = AsmSigInfo.parse(skip(cells, i++), out dst.Sig);
-            if(result.Fail)
-                return result;
-
-            dst.OpCode = new AsmOpCodeString(skip(cells, i++));
-            dst.Bitstring = asm.bitstring(dst.Encoded);
-
-            result = DataParser.parse(skip(cells, i++), out dst.OpUri);
-            if(result.Fail)
-                return (false, AppMsg.UriParseFailure.Format(skip(cells,i-1)));
-
-            return result;
         }
 
         static Outcome<uint> rows(FS.FilePath src, ConcurrentBag<HostAsmRecord> dst)
@@ -195,7 +56,7 @@ namespace Z0.Asm
             var rows = doc.RowData.View;
             for(var i=0; i<count; i++)
             {
-                result = row(skip(rows,i), out HostAsmRecord statement);
+                result = HostAsmRecord.parse(skip(rows,i), out HostAsmRecord statement);
                 if(result)
                 {
                     dst.Add(statement);
@@ -214,57 +75,6 @@ namespace Z0.Asm
                 results.Add(rows(path, dst));
             }, true);
             return results.ToArray();
-        }
-
-        static Outcome row(TextRow src, out AsmDetailRow dst)
-        {
-            var input = src.Cells;
-            var i = 0;
-            var outcome = Outcome.Empty;
-            dst = default;
-            outcome = DataParser.parse(skip(input, i++), out dst.Sequence);
-            if(!outcome)
-                return outcome;
-
-            outcome = DataParser.parse(skip(input, i++), out dst.BlockAddress);
-            if(!outcome)
-                return outcome;
-
-            outcome = DataParser.parse(skip(input, i++), out dst.IP);
-            if(!outcome)
-                return outcome;
-
-            outcome = DataParser.parse(skip(input, i++), out dst.GlobalOffset);
-            if(!outcome)
-                return outcome;
-
-            outcome = DataParser.parse(skip(input, i++), out dst.LocalOffset);
-            if(!outcome)
-                return outcome;
-
-            dst.Mnemonic = new AsmMnemonic(skip(input, i++));
-            dst.OpCode = new AsmOpCodeString(skip(input,i++));
-
-            outcome = DataParser.parse(skip(input, i++), out dst.Instruction);
-            if(!outcome)
-                return outcome;
-
-            outcome = DataParser.parse(skip(input, i++), out dst.Statement);
-            if(!outcome)
-                return outcome;
-
-            outcome = AsmHexCode.asmhex(skip(input, i++).View, out dst.Encoded);
-            if(!outcome)
-                return outcome;
-
-            outcome = DataParser.parse(skip(input, i++), out dst.CpuId);
-            if(!outcome)
-                return outcome;
-
-            outcome = DataParser.parse(skip(input, i++), out dst.OpCodeId);
-            if(!outcome)
-                return outcome;
-            return true;
         }
 
         public Outcome LoadHostRecords(FS.FilePath src, out HostAsmRecord[] dst)
@@ -324,7 +134,7 @@ namespace Z0.Asm
 
         public void EmitBlocks(ReadOnlySpan<AsmDataBlock> src, FS.FilePath dst)
         {
-            TableEmit(src, AsmDataBlock.RenderWidths, TextEncodingKind.Asci, dst);
+            AppSvc.TableEmit(src, dst);
         }
 
         public Index<HostAsmRecord> LoadHostAsmRows(FS.Files src, bool pll = true, bool sort = true)
@@ -415,7 +225,7 @@ namespace Z0.Asm
                     ref readonly var src = ref skip(rows,j);
                     if(src.CellCount != AsmDetailRow.FieldCount)
                         return (false, string.Format("Found {0} fields in {1} while {2} were expected", kCells, src, AsmDetailRow.FieldCount));
-                    var loaded = row(src, out AsmDetailRow detail);
+                    var loaded = AsmDetailRow.parse(src, out var detail);
                     if(!loaded)
                     {
                         Error(loaded.Message);

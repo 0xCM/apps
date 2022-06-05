@@ -35,7 +35,6 @@ namespace Z0.Asm
             return dst;
         }
 
-
         [MethodImpl(Inline), Op]
         public static uint bitstring(in AsmHexCode src, Span<char> dst)
         {

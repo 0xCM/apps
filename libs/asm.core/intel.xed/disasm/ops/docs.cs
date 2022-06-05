@@ -7,6 +7,7 @@ namespace Z0
 {
     using static core;
 
+    using static XedDisasmModels;
     partial class XedDisasm
     {
         public static Index<Document> docs(WsContext context, bool pll = true)

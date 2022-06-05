@@ -7,9 +7,7 @@ namespace Z0.llvm
     using static core;
     partial class LlvmCmdProvider
     {
-        const string DefFieldQuery = "llvm/defs/fields";
-
-        [CmdOp(DefFieldQuery)]
+        [CmdOp("llvm/defs/fields")]
         Outcome ShowDefFields(CmdArgs args)
         {
             var result = Outcome.Success;
@@ -23,7 +21,7 @@ namespace Z0.llvm
                 if(result.Fail)
                     return result;
 
-                Query.FileEmit(DefFieldQuery, slice(DataProvider.DefFields().View, offset, length));
+                Query.FileEmit("llvm/defs/fields", slice(DataProvider.DefFields().View, offset, length));
             }
             return result;
         }

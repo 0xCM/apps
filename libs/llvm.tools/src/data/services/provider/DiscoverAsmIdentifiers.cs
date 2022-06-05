@@ -18,7 +18,7 @@ namespace Z0.llvm
                 Error("Path not found");
                 return llvm.AsmIdentifiers.Empty;
             }
-            return IdentifierDiscovery.discover<ushort>(src[0],BeginAsmIdMarker).Map(x => new AsmIdentifier(x.Key, x.Value));
+            return LlvmIdentifiers.discover<ushort>(src[0],BeginAsmIdMarker).Map(x => new AsmIdentifier(x.Key, x.Value));
         }
     }
 }

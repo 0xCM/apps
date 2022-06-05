@@ -39,7 +39,7 @@ namespace Z0
         [Render(W.Size)]
         public byte Size;
 
-        [Render(W.Encoded)]
+        [Render(W.EncodedHex)]
         public AsmHexCode Encoded;
 
         [Render(W.AsmExpr)]

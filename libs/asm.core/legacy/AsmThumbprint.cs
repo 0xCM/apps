@@ -17,7 +17,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline),Op]
-        public static AsmThumbprint define(AsmExpr statement, AsmSigInfo sig, AsmOpCodeString opcode, AsmHexCode encoded)
+        public static AsmThumbprint define(AsmExpr statement, AsmSigInfo sig, TextBlock opcode, AsmHexCode encoded)
             => new AsmThumbprint(statement, sig, opcode, encoded);
 
         [MethodImpl(Inline),Op]
@@ -72,7 +72,7 @@ namespace Z0.Asm
                 {
                     if(AsmHexCode.asmhex(B, out var encoded))
                     {
-                        thumbprint = new AsmThumbprint(statement, sig, new AsmOpCodeString(opcode), encoded);
+                        thumbprint = new AsmThumbprint(statement, sig, opcode, encoded);
                         return true;
                     }
                     else
@@ -89,12 +89,12 @@ namespace Z0.Asm
 
         public AsmSigInfo Sig {get;}
 
-        public AsmOpCodeString OpCode {get;}
+        public TextBlock OpCode {get;}
 
         public AsmHexCode Encoded {get;}
 
         [MethodImpl(Inline), Op]
-        public AsmThumbprint(AsmExpr statement, AsmSigInfo sig, AsmOpCodeString opcode, AsmHexCode encoded)
+        public AsmThumbprint(AsmExpr statement, AsmSigInfo sig, TextBlock opcode, AsmHexCode encoded)
         {
             Statement = statement;
             Sig = sig;
@@ -125,7 +125,7 @@ namespace Z0.Asm
         public static AsmThumbprint Empty
         {
             [MethodImpl(Inline)]
-            get => new AsmThumbprint(AsmExpr.Empty, AsmSigInfo.Empty, AsmOpCodeString.Empty, AsmHexCode.Empty);
+            get => new AsmThumbprint(AsmExpr.Empty, AsmSigInfo.Empty, TextBlock.Empty, AsmHexCode.Empty);
         }
 
         [Op]

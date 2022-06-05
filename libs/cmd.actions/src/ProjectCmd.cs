@@ -19,7 +19,7 @@ namespace Z0
 
         AsmObjects AsmObjects => Wf.AsmObjects();
 
-        ProjectDataServices ProjectData => Wf.ProjectData();
+        ProjectSvc ProjectSvc => Wf.ProjectSvc();
 
         WsProjects Projects => Wf.WsProjects();
 
@@ -41,6 +41,7 @@ namespace Z0
         {
 
         }
+
 
         IProjectWs SelectProject(IProjectWs project)
         {

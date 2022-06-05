@@ -6,7 +6,7 @@ namespace Z0.llvm
 {
     using static core;
 
-    public sealed partial class LlvmDataProvider : GlobalService<LlvmDataProvider,LlvmDataProvider.SvcState>
+    public sealed partial class LlvmDataProvider : AppService<LlvmDataProvider>
     {
         public struct SvcState
         {
@@ -19,6 +19,22 @@ namespace Z0.llvm
             public LlvmTableLoader DataLoader;
 
             public LlvmDataCalcs DataCalcs;
+        }
+
+        SvcState State;
+
+        public LlvmDataProvider()
+        {
+            State = new();
+        }
+
+        protected override void Initialized()
+        {
+            State.LlvmPaths = Wf.LlvmPaths();
+            State.DataSets = new();
+            State.Toolset = Wf.LLvmToolset();
+            State.DataLoader = Wf.LlvmTableLoader();
+            State.DataCalcs = Wf.LlvmDataCalcs();
         }
 
         LlvmPaths LlvmPaths
@@ -49,16 +65,6 @@ namespace Z0.llvm
         {
             [MethodImpl(Inline)]
             get => State.Toolset;
-        }
-
-        protected override LlvmDataProvider Init(out SvcState state)
-        {
-            state.LlvmPaths = Wf.LlvmPaths();
-            state.DataSets = new();
-            state.Toolset = Wf.LLvmToolset();
-            state.DataLoader = Wf.LlvmTableLoader();
-            state.DataCalcs = Wf.LlvmDataCalcs();
-            return this;
         }
     }
 }

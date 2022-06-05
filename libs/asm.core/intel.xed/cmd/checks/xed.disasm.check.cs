@@ -8,6 +8,7 @@ namespace Z0
     using static XedDisasm;
     using static XedRules;
     using static XedFields;
+    using static XedDisasmModels;
 
     partial class AsmCoreCmd
     {

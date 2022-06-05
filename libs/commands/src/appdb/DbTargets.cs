@@ -54,6 +54,12 @@ namespace Z0
         public FS.Files Files()
             => Scoped().AllFiles;
 
+        public FS.Files Files(FS.FileExt ext)
+            => Root.Files(ext, true);
+
+        public FS.Files Files(FileKind kind)
+            => Root.Files(kind.Ext(), true);
+
         public DbSources ToSource()
             => new DbSources(Root, Scope);
 
@@ -63,8 +69,8 @@ namespace Z0
         public FS.FolderPath Dir(string scope)
             => Root + FS.folder(scope);
 
-        public FS.FolderPath OutDir(string scope)
-            => Scoped() + FS.folder(scope);
+        // public FS.FolderPath OutDir(string scope)
+        //     => Scoped() + FS.folder(scope);
 
         public FS.FileName File(string name, FileKind kind)
             => FS.file(name, kind.Ext());
@@ -82,7 +88,7 @@ namespace Z0
             => Scoped() + file;
 
         public FS.FilePath Path(string scope, string name, FileKind kind)
-            => OutDir(scope) + File(scope, name,kind);
+            => Targets(scope).Path(File(scope, name,kind));
 
         public FS.FilePath Table<T>()
             where T : struct

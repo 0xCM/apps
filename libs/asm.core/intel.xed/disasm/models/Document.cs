@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedDisasm
+    partial class XedDisasmModels
     {
         public class Document
         {

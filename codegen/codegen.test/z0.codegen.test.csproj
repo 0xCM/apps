@@ -8,11 +8,12 @@
   <Import Project="$(TopDir)imports/common.libs.props"/>
 
   <ItemGroup>
-    <ProjectReference Include="../codegen.llvm/z0.codegen.llvm.csproj"/>
-    <ProjectReference Include="../codegen.intel/z0.codegen.intel.csproj"/>
+    <ProjectReference Include="$(CodeGenLlvm)"/>
+    <ProjectReference Include="$(CodeGenIntel)"/>
     <ProjectReference Include="$(CgCommon)" />
     <ProjectReference Include="$(AsmCore)" />
     <ProjectReference Include="$(AsmOperands)" />
+    <ProjectReference Include="$(Numbers)" />
   </ItemGroup>
 
 </Project>

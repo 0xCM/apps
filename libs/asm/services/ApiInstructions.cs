@@ -51,10 +51,7 @@ namespace Z0.Asm
             for(var i=0; i<count; i++)
             {
                 ref readonly var instruction = ref skip(instructions,i);
-                var opcode = new AsmOpCodeString(instruction.OpCode.ToString());
-                if(!opcode.IsValid)
-                    break;
-
+                var opcode = instruction.OpCode.ToString();
                 var statement = new HostAsmRecord();
                 var size = (ushort)instruction.ByteLength;
                 var specifier = instruction.Specifier;

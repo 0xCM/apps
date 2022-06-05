@@ -6,12 +6,52 @@ namespace Z0
 {
     using Z0.Asm;
 
-    using static Root;
+    using static core;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct HostAsmRecord : IRecord<HostAsmRecord>, IComparable<HostAsmRecord>
+    public struct HostAsmRecord : IComparable<HostAsmRecord>
     {
         public const string TableId = "asm.statements";
+
+        public static Outcome parse(in TextRow src, out HostAsmRecord dst)
+        {
+            const byte FieldCount = HostAsmRecord.FieldCount;
+            var result = Outcome.Success;
+            var count = src.CellCount;
+            var cells = src.Cells;
+            dst = default;
+            if(src.CellCount != FieldCount)
+                return (false, AppMsg.FieldCountMismatch.Format(FieldCount, src.CellCount));
+
+            var i=0;
+            result = DataParser.parse(skip(cells, i++), out dst.BlockAddress);
+            if(result.Fail)
+                return result;
+
+            result = DataParser.parse(skip(cells, i++), out dst.IP);
+            if(result.Fail)
+                return result;
+
+            result = DataParser.parse(skip(cells, i++), out dst.BlockOffset);
+            if(result.Fail)
+                return result;
+
+            AsmExpr.parse(skip(cells,i++), out dst.Expression);
+            dst.Encoded = AsmHexCode.asmhex(skip(cells, i++));
+            result = AsmSigInfo.parse(skip(cells, i++), out dst.Sig);
+            if(result.Fail)
+                return result;
+
+            dst.OpCode = skip(cells, i++);
+            dst.Bitstring = asm.bitstring(dst.Encoded);
+
+            result = DataParser.parse(skip(cells, i++), out dst.OpUri);
+            if(result.Fail)
+                return (false, AppMsg.UriParseFailure.Format(skip(cells,i-1)));
+
+            return result;
+        }
+
 
         public const byte FieldCount = 9;
 
@@ -27,7 +67,7 @@ namespace Z0
 
 		public AsmSigInfo Sig;
 
-        public AsmOpCodeString OpCode;
+        public TextBlock OpCode;
 
         public string Bitstring;
 

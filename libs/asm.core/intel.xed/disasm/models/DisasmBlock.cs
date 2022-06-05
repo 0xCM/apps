@@ -7,8 +7,9 @@ namespace Z0
 {
     using static core;
     using static XedRules;
+    using static XedDisasm;
 
-    partial class XedDisasm
+    partial class XedDisasmModels
     {
         /// <summary>
         /// Represents the content of a verbose xed instruction disassembly

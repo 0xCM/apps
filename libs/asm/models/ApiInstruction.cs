@@ -107,7 +107,7 @@ namespace Z0.Asm
             get => Mnemonic.ToString();
         }
 
-       public AsmOpCodeString OpCode
+       public TextBlock OpCode
        {
             [MethodImpl(Inline)]
             get => AsmForm.OpCode;

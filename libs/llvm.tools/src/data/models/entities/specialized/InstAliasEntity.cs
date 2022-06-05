@@ -22,8 +22,8 @@ namespace Z0.llvm
         public string AsmStringSource
             => Value(nameof(AsmStringSource),() => text.remove(this[nameof(AsmString)].Replace(Chars.Tab, Chars.Space), Chars.Quote));
 
-        public AsmString AsmString
-            => Value(nameof(AsmString), () => llvm.AsmStrings.extract(this));
+        public AsmPattern AsmString
+            => Value(nameof(AsmString), () => llvm.AsmPatterns.extract(this));
 
         public AsmMnemonic Mnemonic
             => AsmString.Mnemonic;

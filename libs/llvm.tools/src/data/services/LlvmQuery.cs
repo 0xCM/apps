@@ -39,6 +39,6 @@ namespace Z0.llvm
 
         public void TableEmit<T>(string name, ReadOnlySpan<T> src)
             where T : struct
-                => AppSvc.TableEmit(src, Paths.Table<T>(name));
+                => AppSvc.TableEmit(src, Paths.Table(name));
     }
 }

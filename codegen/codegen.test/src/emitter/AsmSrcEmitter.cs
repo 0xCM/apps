@@ -19,5 +19,19 @@ namespace Z0.Asm
                 dst[i] = skip(src,i);
             return size;
         }
+
+        public static byte emit<A,B,S>(AsmMnemonic inst, A op1, B op2, ref S dst)
+            where A : IAsmOp
+            where B : IAsmOp
+            where S : unmanaged, ICharBlock<S>
+        {
+            const string ExprPattern = "{0} {1}, {2}";
+            var src = span(string.Format(ExprPattern, inst, op1, op2));
+            var size = (byte)src.Length;
+            var cells = dst.Cells;
+            for(var i=0; i<size; i++)
+                seek(cells,i) = skip(src,i);
+            return size;
+        }
     }
 }

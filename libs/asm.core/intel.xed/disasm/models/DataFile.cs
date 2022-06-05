@@ -6,8 +6,9 @@
 namespace Z0
 {
     using static XedRules;
+    using static XedDisasm;
 
-    partial class XedDisasm
+    partial class XedDisasmModels
     {
         public readonly record struct DataFile : IComparable<DataFile>
         {

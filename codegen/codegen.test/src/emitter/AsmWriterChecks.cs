@@ -11,7 +11,7 @@ namespace Z0
 
     public class AsmWriterChecks : Checker<AsmWriterChecks>
     {
-        public void CheckAsmBytes()
+        void CheckAsmBytes()
         {
             var hex = AsmHexCode.Empty;
             var log = text.emitter();
@@ -99,12 +99,10 @@ namespace Z0
 
             // AND16ri8 | 8ah | 4 | 66 83 e0 73 | and ax, 0x73 | Reg:ax, Imm:115
 
-
-            //  log.AppendLine();
-            // log.AppendLine(RP.PageBreak80);
-            // var a0 = and_r16_imm8(AsmRegOps.ax, 0x73);
-            // log.AppendLineFormat(RowPattern, a0.Id, a0.EncodingSize, a0.Format());
-
+            log.AppendLine();
+            log.AppendLine(RP.PageBreak80);
+            var a0 = And16ri8.and_r16_imm8(AsmRegOps.ax, 0x73);
+            log.AppendLineFormat("{0,-18} | {1,-8} | {2}", a0.Id, a0.EncodingSize, a0.Format());
         }
 
         /*

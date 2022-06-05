@@ -10,7 +10,7 @@ namespace Z0
     using static XedModels;
     using static XedRules;
 
-    partial class XedDisasm
+    partial class XedDisasmModels
     {
         [StructLayout(LayoutKind.Sequential, Pack=1), Record(TableName)]
         public record struct DetailBlockRow : IComparable<DetailBlockRow>
@@ -88,7 +88,7 @@ namespace Z0
                 AsmColWidths.InstructionId,
                 AsmColWidths.IP,
                 AsmColWidths.Mnemonic,
-                AsmColWidths.Encoded,
+                AsmColWidths.EncodedHex,
                 AsmColWidths.Hex8,
                 AsmColWidths.Size,
                 AsmColWidths.RexPrefx,

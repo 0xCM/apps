@@ -8,7 +8,7 @@ namespace Z0.Asm
 
     using C = AsmLineClass;
 
-    class LlvmAsmParser
+    class LlvmAsmParser : IFileParser<LlvmAsmParser,FileRef,McAsmDoc>, IFileParser<McAsmDoc>
     {
         Dictionary<LineNumber,AsmDirective> Directives;
 
@@ -34,9 +34,9 @@ namespace Z0.Asm
 
         FileRef DocSource;
 
-        public McAsmDoc ParseMcAsmDoc(in FileRef fref)
+        public McAsmDoc ParseMcAsmDoc(in FileRef src)
         {
-            DocSource = fref;
+            DocSource = src;
             var result = Outcome.Success;
             var data = FS.readlines(DocSource.Path).View;
             var count = (uint)data.Length;
@@ -56,6 +56,21 @@ namespace Z0.Asm
                 Parse(skip(data,i));
 
             return new McAsmDoc(DocSource, Directives, BlockLabels, SourceLines, Instructions, Encodings, Syntax, DocLines);
+        }
+
+        public Outcome Parse(FileRef src, out McAsmDoc dst)
+        {
+            var result = Outcome.Success;
+            try
+            {
+                dst = ParseMcAsmDoc(src);
+            }
+            catch(Exception e)
+            {
+                result = e;
+                dst = McAsmDoc.Empty;
+            }
+            return result;
         }
 
         AsmBlockLabel Label;

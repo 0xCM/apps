@@ -73,7 +73,6 @@ namespace Z0
         {
             Root.Clear();
         }
-
     }
 
     public interface ITargetArchive<T> : ITargetArchive

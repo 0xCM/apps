@@ -43,6 +43,12 @@ namespace Z0
 
             public AsmAnalyzer AsmAnalyzer(IWfRuntime wf)
                 => Service<AsmAnalyzer>(wf);
+
+            public ImmSpecializer ImmSpecializer(IWfRuntime wf)
+                => Service<ImmSpecializer>(wf);
+
+            public ApiImmEmitter ImmEmitter(IWfRuntime wf)
+                => Service<ApiImmEmitter>(wf);
         }
 
         static Svc Services => Svc.Instance;
@@ -80,33 +86,25 @@ namespace Z0
         public static AsmAnalyzer AsmAnalyzer(this IWfRuntime wf)
             => Services.AsmAnalyzer(wf);
 
-        [Op]
+        public static ImmSpecializer ImmSpecializer(this IWfRuntime wf)
+            => Services.ImmSpecializer(wf);
+
+        public static ApiImmEmitter ImmEmitter(this IWfRuntime wf)
+            => Services.ImmEmitter(wf);
+
         public static ApiCaptureService ApiCaptureLegacy(this IWfRuntime wf)
             => Z0.ApiCaptureService.create(wf);
 
-        [Op]
         public static ApiCaptureRunner CaptureRunner(this IWfRuntime wf)
             => ApiCaptureRunner.create(wf);
 
-        [Op]
-        public static ApiImmEmitter ImmEmitter(this IWfRuntime wf)
-            => ApiImmEmitter.create(wf);
-
-        [Op]
         public static AsmStatementProducer AsmStatementProducer(this IWfRuntime wf)
             => Asm.AsmStatementProducer.create(wf);
 
-        [Op]
         public static ApiCaptureEmitter CaptureEmitter(this IWfRuntime wf)
             => ApiCaptureEmitter.create(wf);
 
-        [Op]
         public static ICaptureCore CaptureCore(this IWfRuntime wf)
             => Asm.CaptureCore.create(wf);
-
-        [Op]
-        public static ImmSpecializer ImmSpecializer(this IWfRuntime wf)
-            => Z0.Asm.ImmSpecializer.create(wf);
-
     }
 }

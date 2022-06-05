@@ -17,6 +17,7 @@ namespace Z0.Asm
                 return src;
         }
 
+        [Render(32)]
         public readonly text31 Name;
 
         [MethodImpl(Inline)]
@@ -108,10 +109,6 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public static bool operator !=(AsmMnemonic a, AsmMnemonic b)
             => !a.Equals(b);
-
-        // [MethodImpl(Inline)]
-        // public static implicit operator AsmCell(AsmMnemonic src)
-        //     => new AsmCell(AsmPartKind.Mnemonic, src.Format());
 
         public static AsmMnemonic Empty
         {

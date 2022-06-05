@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using Asm;
-
     [ApiHost]
     public readonly partial struct AsmSyntaxModel
     {

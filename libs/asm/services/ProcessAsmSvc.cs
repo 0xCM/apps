@@ -10,6 +10,8 @@ namespace Z0.Asm
     {
         AsmDecoder Decoder => Wf.AsmDecoder();
 
+        AppSvcOps AppSvc => Wf.AppSvc();
+
         public SortedReadOnlySpan<ProcessAsmRecord> BuildProcessAsm(ReadOnlySpan<AsmRoutine> src)
         {
             var kRountines = src.Length;
@@ -51,7 +53,7 @@ namespace Z0.Asm
                     record.Statement = instruction.FormattedInstruction;
                     AsmSigInfo.parse(instruction.OpCode.InstructionString, out record.Sig);
                     record.Encoded = asm.asmhex(slice(data.View, blockOffset, size));
-                    record.OpCode = opcode;
+                    record.OpCode = opcode.Format();
                     record.Bitstring = asm.bitstring(record.Encoded);
                     seek(buffer,counter) = record;
 
@@ -63,8 +65,8 @@ namespace Z0.Asm
             return Spans.sorted(@readonly(records));
         }
 
-        public uint EmitProcessAsm(SortedReadOnlySpan<ProcessAsmRecord> src, FS.FilePath dst)
-            => TableEmit(src.View, ProcessAsmRecord.RenderWidths, ProcessAsmRecord.RowPad, TextEncodingKind.Asci, dst);
+        public ExecToken EmitProcessAsm(SortedReadOnlySpan<ProcessAsmRecord> src, FS.FilePath dst)
+            => AppSvc.TableEmit(src.View, dst, rowpad: ProcessAsmRecord.RowPad);
 
         public ReadOnlySpan<ProcessAsmRecord> EmitProcessAsm(ReadOnlySpan<AsmRoutine> src, FS.FilePath dst)
         {
@@ -116,7 +118,7 @@ namespace Z0.Asm
                     statement.Statement = instruction.FormattedInstruction;
                     AsmSigInfo.parse(instruction.OpCode.InstructionString, out statement.Sig);
                     statement.Encoded = asm.asmhex(slice(bytes, blockOffset, size));
-                    statement.OpCode = opcode;
+                    statement.OpCode = opcode.Format();
                     statement.Bitstring = asm.bitstring(statement.Encoded);
                     dst.Add(statement);
 

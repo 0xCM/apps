@@ -29,17 +29,11 @@ namespace Z0.Asm
             => src switch
             {
                 C.SsSegOverride => L.Legacy,
-
                 C.EsSegOverride => L.Legacy,
-
                 C.FsSegOverride => L.Legacy,
-
                 C.GsSegOverride => L.Legacy,
-
                 C.OSZ => L.Legacy,
-
                 C.ASZ => L.Legacy,
-
                 C.BranchTaken => L.Legacy,
 
                 C.BranchNotTaken => L.Legacy,

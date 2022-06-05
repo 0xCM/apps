@@ -6,12 +6,12 @@ namespace Z0.Asm
 {
     public readonly struct AsmFormInfo : ISyntaxPart<AsmFormInfo>
     {
-        public readonly AsmOpCodeString OpCode;
+        public readonly TextBlock OpCode;
 
         public readonly AsmSigInfo Sig;
 
         [MethodImpl(Inline)]
-        public AsmFormInfo(AsmOpCodeString opcode, AsmSigInfo sig)
+        public AsmFormInfo(TextBlock opcode, AsmSigInfo sig)
         {
             OpCode = opcode;
             Sig = sig;
@@ -52,10 +52,10 @@ namespace Z0.Asm
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator AsmFormInfo((AsmOpCodeString oc, AsmSigInfo sig) src)
+        public static implicit operator AsmFormInfo((TextBlock oc, AsmSigInfo sig) src)
             => new AsmFormInfo(src.oc, src.sig);
 
         public static AsmFormInfo Empty
-            => new AsmFormInfo(AsmOpCodeString.Empty, AsmSigInfo.Empty);
+            => new AsmFormInfo(TextBlock.Empty, AsmSigInfo.Empty);
     }
 }

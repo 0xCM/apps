@@ -6,7 +6,7 @@ namespace Z0
 {
     public readonly struct LlvmNames
     {
-        [LiteralProvider("llvm.datasets")]
+        [LiteralProvider("llvm.names")]
         public readonly struct Datasets
         {
             public const string X86 = "X86.records";
@@ -20,18 +20,19 @@ namespace Z0
             public const string X86ClassFields = "X86.records.classes.fields";
         }
 
-        [LiteralProvider("llvm.tables")]
+        [LiteralProvider("llvm.names")]
         public readonly struct TableNames
         {
             public const string OpCodes = "llvm.opcodes";
         }
 
-        [LiteralProvider("llvm.repo")]
+        [LiteralProvider("llvm.names")]
         public readonly struct Repo
         {
             public const string build = nameof(build);
         }
 
+        [LiteralProvider("llvm.names")]
         public readonly struct TableGenHeaders
         {
             public const string X86Registers = nameof(X86Registers);
@@ -39,12 +40,13 @@ namespace Z0
             public const string X86Info = nameof(X86Info);
         }
 
+        [LiteralProvider("llvm.names")]
         public readonly struct ListTypes
         {
             public const string Predicate = nameof(Predicate);
         }
 
-        [LiteralProvider("llvm.entities")]
+        [LiteralProvider("llvm.names")]
         public readonly struct Entities
         {
             public const string InstAlias = nameof(InstAlias);

@@ -7,6 +7,7 @@ namespace Z0
 {
     using static core;
     using static XedRules;
+    using static XedDisasmModels;
 
     partial class XedDisasm
     {
@@ -86,7 +87,7 @@ namespace Z0
             {
                 _Source = src;
                 _FieldKinds = alloc<FieldKind>(Fields.MaxCount);
-                _DataFile = XedDisasm.DataFile.Empty;
+                _DataFile = XedDisasmModels.DataFile.Empty;
                 _Block = DetailBlock.Empty;
                 _Summary = XedDisasmSummary.Empty;
                 _AsmInfo = XedRules.AsmInfo.Empty;

@@ -10,7 +10,7 @@ namespace Z0
     {
         [CmdOp("project/collect")]
         void Collect()
-            => ProjectData.Collect(Project());
+            => ProjectSvc.Collect(Project());
 
         void MergeDirectives(in McAsmDoc src)
         {

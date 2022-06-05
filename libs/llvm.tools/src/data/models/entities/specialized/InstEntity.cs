@@ -30,8 +30,8 @@ namespace Z0.llvm
         public string AsmStringSource
             => Value(nameof(AsmStringSource),() => text.remove(this[nameof(AsmString)].Replace(Chars.Tab, Chars.Space), Chars.Quote));
 
-        public AsmString AsmString
-            => Value(nameof(AsmString), () => llvm.AsmStrings.extract(this));
+        public AsmPattern AsmString
+            => Value(nameof(AsmString), () => llvm.AsmPatterns.extract(this));
 
         public int CodeSize
             => Parse(nameof(CodeSize), out int _);
@@ -169,7 +169,7 @@ namespace Z0.llvm
             => Parse(nameof(TSFlags), out bits<ulong> dst);
 
         public AsmVariationCode VarCode
-            => Value(nameof(VarCode), () => llvm.AsmStrings.varcode(InstName, Mnemonic));
+            => Value(nameof(VarCode), () => llvm.AsmPatterns.varcode(InstName, Mnemonic));
 
         public bits<byte> VectSize
             => Parse(nameof(VectSize), out bits<byte> dst);

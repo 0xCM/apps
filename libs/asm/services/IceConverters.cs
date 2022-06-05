@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     using Iced = Iced.Intel;
     using NI = NumericIndicator;
     using TI = TypeIndicator;
@@ -34,14 +29,13 @@ namespace Z0.Asm
         public static AsmFormInfo formxpr(Iced.Instruction src)
         {
             var ocinfo = Iced.EncoderCodeExtensions.ToOpCode(src.Code);
-            return (
+            return new (
                 ocxpr(ocinfo.ToOpCodeString()),
-                new AsmSigInfo(src.Mnemonic.ToString(),
-                ocinfo.ToInstructionString())
+                new AsmSigInfo(src.Mnemonic.ToString(),ocinfo.ToInstructionString())
                 );
         }
 
-        static AsmOpCodeString ocxpr(string src)
+        static string ocxpr(string src)
             => new (src.Replace("o32 ", EmptyString).Replace("o16 ", EmptyString).Replace("+", " +"));
 
         [MethodImpl(Inline), Op]
@@ -247,7 +241,7 @@ namespace Z0.Asm
                 OpCode = src.OpCode,
                 OperandSize = src.OperandSize,
                 OpCount = src.OpCount,
-                OpCodeString = ocxpr(src.ToOpCodeString()).Format(),
+                OpCodeString = ocxpr(src.ToOpCodeString()),
                 InstructionString = src.ToInstructionString(),
                 Op0Kind = Thaw(src.Op0Kind),
                 Op1Kind = Thaw(src.Op1Kind),

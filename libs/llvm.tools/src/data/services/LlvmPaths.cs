@@ -22,8 +22,8 @@ namespace Z0.llvm
         public FS.FolderPath DataHome()
             => LlvmData.Home();
 
-        public FS.FolderPath Tables()
-            => Db.Subdir("llvm") + FS.folder("tables");
+        public DbTargets Tables()
+            => new DbTargets(Db.Subdir("llvm"),"tables");
 
         public FS.FolderPath RecordImports()
             => Db.Subdir("llvm") + FS.folder("records");
@@ -72,14 +72,10 @@ namespace Z0.llvm
 
         public FS.FilePath Table<T>()
             where T : struct
-                => Db.Subdir("llvm") + FS.folder("tables") + Z0.Tables.filename<T>();
+                => Tables().Path(Z0.Tables.filename<T>());
 
         public FS.FilePath Table(string id)
             => Db.Subdir("llvm") + FS.folder("tables") + FS.file(id, FS.Csv);
-
-        public FS.FilePath Table<T>(string id)
-            where T : struct
-                => Db.Subdir("llvm") + FS.folder("tables") + FS.file(id,FS.Csv);
 
         public FS.Files Lists()
             => Tables().Files(FS.Csv).Where(f => f.FileName.StartsWith("llvm.lists."));

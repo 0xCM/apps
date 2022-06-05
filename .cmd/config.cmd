@@ -93,6 +93,12 @@ set BuildAreaCmd=dotnet build %AreaSln% %BuildProps% -fl -flp:logfile=%AreaBuild
 set BuildCgCmd=%BuildAreaCmd%
 echo BuildCgCmd:%BuildCgCmd% >> %CmdLog%
 
+
+set _AreaProject=%TopDir%\%AreaId%\%ProjectId%\z0.%ProjectId%.csproj
+set _AreaBuildLog=%BuildLogs%\z0.%AreaId%.build.log
+set _AreaBuildCmd=dotnet build %_AreaProject% %BuildProps% -fl -flp:logfile=%_AreaBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
+set _AreaExePath=%BuildBinRoot%\%Area%\z0.%ProjectId%\%BuildKind%\%FrameworkMoniker%\%RuntimeMoniker%\z0.%ProjectId%.exe
+
 set ShellProject=%SlnRoot%\%Area%\%ProjectId%\z0.%ProjectId%.csproj
 set ShellBuildLog=%BuildLogs%\z0.%ProjectId%.build.log
 set BuildCgShellCmd=dotnet build %ShellProject% %BuildProps% -fl -flp:logfile=%ShellBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24

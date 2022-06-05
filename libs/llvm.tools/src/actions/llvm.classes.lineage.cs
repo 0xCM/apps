@@ -8,12 +8,10 @@ namespace Z0.llvm
 
     partial class LlvmCmdProvider
     {
-        const string ClassLineageQuery = "llvm/classes/lineage";
-
         [CmdOp("llvm/emit/lineage")]
         Outcome QueryClassLineage(CmdArgs args)
         {
-            Query.FileEmit(ClassLineageQuery, DataProvider.ClassLineage().Values);
+            Query.FileEmit("llvm/classes/lineage", DataProvider.ClassLineage().Values);
             return true;
         }
 
@@ -47,6 +45,5 @@ namespace Z0.llvm
 
             return result;
         }
-
     }
 }

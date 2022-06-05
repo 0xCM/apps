@@ -21,6 +21,18 @@ namespace Z0
 
         Span<byte> IStorageBlock.Bytes
             => bytes(Cells);
+
+        ref T this[int i]
+        {
+            [MethodImpl(Inline)]
+            get => ref seek(Cells,i);
+        }
+
+        ref T this[uint i]
+        {
+            [MethodImpl(Inline)]
+            get => ref seek(Cells,i);
+        }
     }
 
     public interface ICellBlock<F,T> : ICellBlock<T>

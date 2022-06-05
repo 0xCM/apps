@@ -23,11 +23,19 @@ namespace Z0
             return true;
         }
 
+        [CmdOp("cg/asm/bytes")]
+        Outcome CheckAsmBytes(CmdArgs args)
+        {
+            var dst = text.emitter();
+            AsmChecks.CheckAsmBytes(dst);
+            Write(dst.Emit());
+            return true;
+        }
+
         [CmdOp("cg/asm/check/strings")]
         Outcome CheckStringTables(CmdArgs args)
         {
             LlvmStringTableChecks.Run();
-
             var strings = AsmSigST.Strings;
             var count = AsmSigST.EntryCount;
             for(var i=0; i<count; i++)

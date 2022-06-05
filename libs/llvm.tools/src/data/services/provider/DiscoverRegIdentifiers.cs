@@ -18,7 +18,7 @@ namespace Z0.llvm
                 Error("Path not found");
                 return llvm.RegIdentifiers.Empty;
             }
-            return IdentifierDiscovery.discover<ushort>(src[0],BeginRegsMarker).Map(x => new RegIdentifier(x.Key, x.Value));
+            return LlvmIdentifiers.discover<ushort>(src[0],BeginRegsMarker).Map(x => new RegIdentifier(x.Key, x.Value));
         }
     }
 }

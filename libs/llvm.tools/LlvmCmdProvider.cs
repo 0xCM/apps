@@ -16,11 +16,13 @@ namespace Z0.llvm
 
         LlvmReadObjSvc ReadObj => Service(Wf.LlvmReadObj);
 
-        LlvmDataProvider DataProvider => Service(Wf.LlvmDataProvider);
+        LlvmDataProvider DataProvider => Wf.LlvmDataProvider();
 
-        LlvmDataEmitter DataEmitter => Service(Wf.LlvmDataEmitter);
+        LlvmDataEmitter DataEmitter => Wf.LlvmDataEmitter();
 
         LlvmCodeGen CodeGen => Service(Wf.LlvmCodeGen);
+
+        LlvmDataCalcs Calcs => Wf.LlvmDataCalcs();
 
         LlvmConfigSvc Config => Service(Wf.LlvmConfig);
 

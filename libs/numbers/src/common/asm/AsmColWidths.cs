@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    [LiteralProvider]
     public readonly struct AsmColWidths
     {
         public const byte Seq = 8;
@@ -18,7 +19,9 @@ namespace Z0
 
         public const byte InstructionId = 30;
 
-        public const byte Encoded = 48;
+        public const byte EncodedHex = 48;
+
+        public const byte EncodedBits = 128;
 
         public const byte AsmExpr = 72;
 
@@ -39,6 +42,8 @@ namespace Z0
         public const byte BlockAddress = 12;
 
         public const byte BlockSize = 12;
+
+        public const byte OffsetAddress = 12;
 
         public const byte Hex8 = 8;
 
@@ -67,5 +72,15 @@ namespace Z0
         public const byte SectionName = 12;
 
         public const byte SyntaxComment = 90;
+
+        public const byte InstSig = 64;
+
+        public const byte SymbolicOpCode = 32;
+
+        public const byte FormatPattern = 64;
+
+        public const byte AsmId = 32;
+
+        public const byte Hash = 12;
     }
 }

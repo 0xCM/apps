@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
-
-    using static Root;
-
     public class ToolHelpDoc
     {
         FS.FilePath Source;

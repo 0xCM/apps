@@ -139,9 +139,6 @@ namespace Z0
         public static AsmOpCodes AsmOpCodes(this IWfRuntime wf)
             => Services.AsmOpCodes(wf);
 
-        public static ProcessAsmBuffers ProcessAsmBuffers(this IWfRuntime wf)
-            => Asm.ProcessAsmBuffers.create(wf);
-
         public static IntelSdmPaths SdmPaths(this IWfRuntime wf)
             => Services.SdmPaths(wf);
 

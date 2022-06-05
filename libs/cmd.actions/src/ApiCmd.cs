@@ -44,22 +44,8 @@ namespace Z0
         ApiResPackEmitter ResPackEmitter => Service(Wf.ResPackEmitter);
 
         Index<ProcessAsmRecord> _LoadProcessAsm()
-        {
-            var archive = ApiPacks.Current().Archive();
-            var path = archive.ProcessAsmPath();
-            var count = FS.linecount(path,TextEncodingKind.Asci) - 1;
-            var buffer = alloc<ProcessAsmRecord>(count);
-            var flow = Running(string.Format("Loading process asm from {0}", path.ToUri()));
-            var result = AsmTables.load(path, buffer);
-            if(result.Fail)
-            {
-                Error(result.Message);
-                return Index<ProcessAsmRecord>.Empty;
-            }
-            Ran(flow);
+            => ProcessAsmBuffers.records(ApiPacks.Current());
 
-            return buffer;
-        }
 
         [CmdOp("api/emit")]
         void ApiEmit()

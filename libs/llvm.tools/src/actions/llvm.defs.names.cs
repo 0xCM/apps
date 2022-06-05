@@ -6,12 +6,10 @@ namespace Z0.llvm
 {
     partial class LlvmCmdProvider
     {
-        const string DefNameQuery = "llvm/defs/names";
-
-        [CmdOp(DefNameQuery)]
+        [CmdOp("llvm/defs/names")]
         Outcome DefNames(CmdArgs args)
         {
-            Query.FileEmit(DefNameQuery, DataProvider.DefNames().View);
+            Query.FileEmit("llvm/defs/names", DataProvider.DefNames().View);
             return true;
         }
     }

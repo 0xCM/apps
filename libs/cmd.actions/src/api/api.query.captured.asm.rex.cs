@@ -22,7 +22,7 @@ namespace Z0
             var count = AsmPrefixTests.rex(src, ref i, buffer);
             var filtered = slice(buffer,0,count);
             var dst = ProjectDb.Subdir("api/queries") + FS.file("asm.rex", FS.Csv);
-            TableEmit(@readonly(filtered), Z0.ProcessAsmRecord.RenderWidths, dst);
+            AppSvc.TableEmit(@readonly(filtered), dst);
             return result;
         }
     }

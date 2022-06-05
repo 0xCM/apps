@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
+    using Asm;
+
     public partial class LlvmDataEmitter : AppService<LlvmDataEmitter>
     {
         LlvmPaths LlvmPaths => Service(Wf.LlvmPaths);
@@ -19,6 +21,12 @@ namespace Z0.llvm
         public void Emit(string id, Index<LlvmTestLogEntry> src)
             => AppSvc.TableEmit(src, LlvmPaths.LogTargets().Table<LlvmTestLogEntry>("llvm.tests.logs." + id + ".detail"));
 
+        public void Emit(ReadOnlySpan<LlvmInstDef> src)
+            => AppSvc.TableEmit(src, LlvmPaths.Table<LlvmInstDef>());
+
+        public void Emit(ReadOnlySpan<AsmMnemonicRow> src)
+            => AppSvc.TableEmit(src, LlvmPaths.Table("llvm.asm.mnemonics"));
+
         public void Emit(ReadOnlySpan<LlvmInstPattern> src)
             => AppSvc.TableEmit(src, LlvmPaths.Table<LlvmInstPattern>());
 
@@ -31,6 +39,9 @@ namespace Z0.llvm
             var list = new LlvmList(dst, src.Values.Select(x => new LlvmListItem(x.Id, x.RegName.Format())));
             EmitList(list, dst);
         }
+
+        public void Emit(ReadOnlySpan<AsmPattern> src)
+            => AppSvc.TableEmit(src, LlvmPaths.Table<AsmPattern>());
 
         public void Emit(AsmIdentifiers src)
         {

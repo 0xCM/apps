@@ -10,8 +10,9 @@ namespace Z0
     using static XedRules;
     using static XedModels;
 
-    partial class XedDisasm
+    partial class XedDisasmModels
     {
+
         public class DetailBlock : IComparable<DetailBlock>
         {
             public DetailBlockRow DetailRow;
@@ -146,4 +147,5 @@ namespace Z0
             public static DetailBlock Empty => new DetailBlock(DetailBlockRow.Empty, XedDisasmLines.Empty, Instruction.Empty);
         }
     }
+
 }

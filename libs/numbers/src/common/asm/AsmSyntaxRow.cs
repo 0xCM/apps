@@ -50,7 +50,7 @@ namespace Z0
             AsmColWidths.OriginName,
             AsmColWidths.AsmExpr,
             AsmColWidths.AsmSyntax,
-            AsmColWidths.Encoded,
+            AsmColWidths.EncodedHex,
             1};
 
         public static AsmSyntaxRow Empty => default;

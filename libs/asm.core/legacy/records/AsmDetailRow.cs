@@ -6,9 +6,62 @@ namespace Z0
 {
     using Z0.Asm;
 
+    using static core;
+
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct AsmDetailRow : IRecord<AsmDetailRow>, IComparable<AsmDetailRow>
+    public struct AsmDetailRow : IComparable<AsmDetailRow>
     {
+        public static Outcome parse(TextRow src, out AsmDetailRow dst)
+        {
+            var input = src.Cells;
+            var i = 0;
+            var outcome = Outcome.Empty;
+            dst = default;
+            outcome = DataParser.parse(skip(input, i++), out dst.Sequence);
+            if(!outcome)
+                return outcome;
+
+            outcome = DataParser.parse(skip(input, i++), out dst.BlockAddress);
+            if(!outcome)
+                return outcome;
+
+            outcome = DataParser.parse(skip(input, i++), out dst.IP);
+            if(!outcome)
+                return outcome;
+
+            outcome = DataParser.parse(skip(input, i++), out dst.GlobalOffset);
+            if(!outcome)
+                return outcome;
+
+            outcome = DataParser.parse(skip(input, i++), out dst.LocalOffset);
+            if(!outcome)
+                return outcome;
+
+            dst.Mnemonic = new AsmMnemonic(skip(input, i++));
+            dst.OpCode = skip(input,i++);
+
+            outcome = DataParser.parse(skip(input, i++), out dst.Instruction);
+            if(!outcome)
+                return outcome;
+
+            outcome = DataParser.parse(skip(input, i++), out dst.Statement);
+            if(!outcome)
+                return outcome;
+
+            outcome = AsmHexCode.asmhex(skip(input, i++).View, out dst.Encoded);
+            if(!outcome)
+                return outcome;
+
+            outcome = DataParser.parse(skip(input, i++), out dst.CpuId);
+            if(!outcome)
+                return outcome;
+
+            outcome = DataParser.parse(skip(input, i++), out dst.OpCodeId);
+            if(!outcome)
+                return outcome;
+            return true;
+        }
+
         public const string TableId = "asm.rows";
 
         public const byte FieldCount = 12;
@@ -25,7 +78,7 @@ namespace Z0
 
 		public AsmMnemonic Mnemonic;
 
-		public AsmOpCodeString OpCode;
+		public TextBlock OpCode;
 
         public string Instruction;
 

@@ -1,1 +1,3 @@
-dotnet build %~dp0..\z0.codegen.test.csproj -c release
+@echo off
+call %~dp0config.cmd
+call %_AreaBuildCmd%

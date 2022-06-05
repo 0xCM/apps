@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    partial class ProjectDataServices
+    partial class ProjectSvc
     {
         public Index<McAsmDoc> CollectSyntaxDocs(WsContext context)
         {

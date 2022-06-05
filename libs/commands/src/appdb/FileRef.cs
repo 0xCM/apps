@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Record(TableId), StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public readonly struct FileRef : IComparable<FileRef>
+    public readonly struct FileRef :  IFileRef, IComparable<FileRef>
     {
         const string TableId = "files.index";
 
@@ -65,5 +65,11 @@ namespace Z0
             => Format();
 
         public static FileRef Empty => default;
+
+        FS.FilePath IFile.Path
+            => Path;
+
+        FileKind IFileRef.Kind
+            => Kind;
     }
 }

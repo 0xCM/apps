@@ -9,13 +9,15 @@ namespace Z0.llvm
 
     public class LlvmDataImporter : AppService<LlvmDataImporter>
     {
-        LlvmDataProvider DataProvider => Service(Wf.LlvmDataProvider);
+        LlvmDataProvider DataProvider => Wf.LlvmDataProvider();
 
-        LlvmDataEmitter DataEmitter => Service(Wf.LlvmDataEmitter);
+        LlvmDataEmitter DataEmitter => Wf.LlvmDataEmitter();
 
         LlvmDataCalcs DataCalcs => Service(Wf.LlvmDataCalcs);
 
         LlvmPaths LlvmPaths => Service(Wf.LlvmPaths);
+
+        AppSvcOps AppSvc => Wf.AppSvc();
 
         public bool PllExec
         {
@@ -39,6 +41,7 @@ namespace Z0.llvm
         public void Run()
         {
             var lines = DataProvider.X86RecordLines();
+            LlvmPaths.Tables().Delete();
             Index<DefRelations> defRelations = sys.empty<DefRelations>();
             LineMap<Identifier> defMap = LineMap<Identifier>.Empty;
             LineMap<Identifier> classMap = LineMap<Identifier>.Empty;
@@ -60,11 +63,8 @@ namespace Z0.llvm
             Emit(DataProvider.Entities(defRelations, defFields));
         }
 
-        LineMap<Identifier> EmitClasses(Index<TextLine> lines)
-        {
-            var classes = DataEmitter.EmitClassRelations(lines);
-            return DataEmitter.EmitLineMap(classes.View, lines, Datasets.X86Classes);
-        }
+        LineMap<Identifier> EmitClasses(Index<TextLine> src)
+            => DataEmitter.EmitLineMap(DataEmitter.EmitClassRelations(src).View, src, Datasets.X86Classes);
 
         LineMap<Identifier> EmitDefs(Index<TextLine> lines, out Index<DefRelations> defs)
         {
@@ -72,18 +72,25 @@ namespace Z0.llvm
             return DataEmitter.EmitLineMap(defs.View, lines, Datasets.X86Defs);
         }
 
-        void Emit(Index<LlvmEntity> entities)
+        void Emit(Index<LlvmEntity> src)
         {
             var asmids = DataProvider.DiscoverAsmIdentifiers();
-            var instructions = DataProvider.Instructions(entities);
+            var instructions = DataProvider.Instructions(src);
+            var variations = sys.empty<LlvmAsmVariation>();
             exec(PllExec,
                 () => DataEmitter.Emit(asmids),
-                () => DataEmitter.Emit(DataCalcs.CalcInstDefs(asmids, entities)),
-                () => DataEmitter.Emit(DataCalcs.CalcAsmVariations(asmids, instructions)),
-                () => DataEmitter.EmitChildRelations(entities),
-                () => DataEmitter.Emit(DataCalcs.CalcInstPatterns(asmids, entities)),
+                () => DataEmitter.Emit(DataCalcs.CalcInstDefs(asmids, src)),
+                () => variations = DataCalcs.CalcAsmVariations(asmids, instructions),
+                () => DataEmitter.EmitChildRelations(src),
+                () => DataEmitter.Emit(DataCalcs.CalcInstPatterns(asmids, src)),
                 () => DataEmitter.Emit(DataCalcs.CalcAsmOpCodes(asmids, DataCalcs.CalcOpCodeMap(instructions))),
-                () => DataEmitter.EmitLists(entities)
+                () => DataEmitter.Emit(DataCalcs.CalcAsmStrings(src)),
+                () => DataEmitter.EmitLists(src)
+            );
+
+            exec(PllExec,
+                () => DataEmitter.Emit(DataCalcs.CalcAsmMnemonics(variations)),
+                () => DataEmitter.Emit(variations)
             );
         }
 

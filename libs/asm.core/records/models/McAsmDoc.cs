@@ -27,6 +27,12 @@ namespace Z0
 
         ConstLookup<LineNumber,AsmSourceLine> _DocLines;
 
+        McAsmDoc( )
+        {
+
+
+        }
+
         public McAsmDoc(in FileRef fref,
             ConstLookup<LineNumber,AsmDirective> directives,
             ConstLookup<LineNumber,AsmBlockLabel> labels,
@@ -88,5 +94,7 @@ namespace Z0
             [MethodImpl(Inline)]
             get => _Instructions;
         }
+
+        public static McAsmDoc Empty => new ();
     }
 }

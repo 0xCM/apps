@@ -27,7 +27,6 @@ namespace Z0.Asm
             return dst;
         }
 
-
         ByteBlock8 Data;
 
         public AsmId Id => AsmId.AND16ri8;
@@ -65,7 +64,6 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public AsmHexCode ToAsmHex()
             => Encoded;
-
         public string Format()
             => ToAsmHex().Format();
 
@@ -77,8 +75,8 @@ namespace Z0.Asm
             => (ulong)Data == (ulong)src.Data;
 
         [MethodImpl(Inline)]
-        public static implicit operator AsmEncoding<ByteBlock8>(And16ri8 src)
-            => new AsmEncoding<ByteBlock8>(src.Id, src.Data);
+        public static implicit operator AsmEncoding<AsmId,ByteBlock8>(And16ri8 src)
+            => new AsmEncoding<AsmId,ByteBlock8>(src.Id, src.Data);
 
         [MethodImpl(Inline)]
         public static implicit operator AsmHexCode(And16ri8 src)

@@ -10,11 +10,10 @@ namespace Z0
 
     public static class XSvc
     {
-
         sealed class Svc : AppServices<Svc>
         {
-            public ProjectDataServices ProjectData(IWfRuntime wf)
-                => Service<ProjectDataServices>(wf);
+            public ProjectSvc ProjectSvc(IWfRuntime wf)
+                => Service<ProjectSvc>(wf);
 
             public AsmFlowCommands AsmFlows(IWfRuntime wf)
                 => Service<AsmFlowCommands>(wf);
@@ -25,6 +24,18 @@ namespace Z0
             public AsmCmdProvider AsmCmd(IWfRuntime wf)
                 => Service<AsmCmdProvider>(wf);
 
+            public LlvmDataEmitter LlvmDataEmitter(IWfRuntime wf)
+                => Service<LlvmDataEmitter>(wf);
+
+            public LlvmToolset LLvmToolset(IWfRuntime wf)
+                => Service<LlvmToolset>(wf);
+
+            public LlvmDataCalcs LlvmDataCalcs(IWfRuntime wf)
+                => Service<LlvmDataCalcs>(wf);
+
+            public LlvmTableLoader LlvmTableLoader(IWfRuntime wf)
+                => Service<LlvmTableLoader>(wf);
+
         }
 
         static Svc Services = Svc.Instance;
@@ -32,8 +43,8 @@ namespace Z0
         public static XedRuntime Inject(this XedRuntime xed)
             => Services.Inject(xed);
 
-        public static ProjectDataServices ProjectData(this IWfRuntime wf)
-            => Services.ProjectData(wf);
+        public static ProjectSvc ProjectSvc(this IWfRuntime wf)
+            => Services.ProjectSvc(wf);
 
         public static XedDisasmSvc XedDisasmSvc(this IWfRuntime wf)
             => Services.Injected<XedRuntime>().Disasm;
@@ -47,14 +58,20 @@ namespace Z0
         public static AsmCmdProvider AsmCmd(this IWfRuntime wf)
             => Services.AsmCmd(wf);
 
+        public static LlvmDataEmitter LlvmDataEmitter(this IWfRuntime wf)
+            => Services.LlvmDataEmitter(wf);
+
+        public static LlvmToolset LLvmToolset(this IWfRuntime wf)
+            => Services.LLvmToolset(wf);
+
         public static LlvmDataCalcs LlvmDataCalcs(this IWfRuntime wf)
-            => llvm.LlvmDataCalcs.create(wf);
+            => Services.LlvmDataCalcs(wf);
+
+        public static LlvmTableLoader LlvmTableLoader(this IWfRuntime wf)
+            => Services.LlvmTableLoader(wf);
 
         public static LlvmCmdProvider LlvmCommands(this IWfRuntime wf)
             => llvm.LlvmCmdProvider.create(wf);
-
-        public static LlvmTableLoader LlvmTableLoader(this IWfRuntime wf)
-            => llvm.LlvmTableLoader.create(wf);
 
         public static LlvmObjDumpSvc LlvmObjDump(this IWfRuntime wf)
             => llvm.LlvmObjDumpSvc.create(wf);
@@ -68,44 +85,27 @@ namespace Z0
         public static LlvmReadObjSvc LlvmReadObj(this IWfRuntime wf)
             => llvm.LlvmReadObjSvc.create(wf);
 
-        [Op]
         public static LlvmRepo LlvmRepo(this IWfRuntime wf)
             => llvm.LlvmRepo.create(wf);
 
-        [Op]
         public static LlvmMcSvc LlvmMc(this IWfRuntime wf)
             => llvm.LlvmMcSvc.create(wf);
 
-        [Op]
         public static LlvmDataImporter LlvmDataImporter(this IWfRuntime wf)
             => llvm.LlvmDataImporter.create(wf);
 
-        [Op]
         public static LlvmPaths LlvmPaths(this IWfRuntime context)
             => llvm.LlvmPaths.create(context);
 
-        [Op]
-        public static LlvmToolset LLvmToolset(this IWfRuntime wf)
-            => llvm.LlvmToolset.create(wf);
-
-        [Op]
         public static LlvmCodeGen LlvmCodeGen(this IWfRuntime wf)
             => llvm.LlvmCodeGen.create(wf);
 
-        [Op]
         public static LlvmLlcSvc LlvmLLc(this IWfRuntime wf)
             => llvm.LlvmLlcSvc.create(wf);
 
-
-        [Op]
-        public static LlvmDataEmitter LlvmDataEmitter(this IWfRuntime wf)
-            => llvm.LlvmDataEmitter.create(wf);
-
-        [Op]
         public static LlvmData LlvmData(this IWfRuntime wf)
             => llvm.LlvmData.create(wf);
 
-        [Op]
         public static ClangSvc Clang(this IWfRuntime wf)
             => llvm.ClangSvc.create(wf);
     }

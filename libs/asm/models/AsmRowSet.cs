@@ -4,14 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct AsmRowSet<T>
     {
-        public T Key {get;}
+        public readonly T Key {get;}
 
         readonly Index<AsmDetailRow> Rows;
 

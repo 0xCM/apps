@@ -6,6 +6,7 @@
 namespace Z0
 {
     using static core;
+    using static XedDisasmModels;
 
     partial class XedDisasmSvc
     {

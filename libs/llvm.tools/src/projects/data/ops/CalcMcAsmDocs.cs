@@ -8,7 +8,7 @@ namespace Z0
 
     using static core;
 
-    partial class ProjectDataServices
+    partial class ProjectSvc
     {
         public McAsmDoc CalcMcAsmDoc(in FileRef src)
             => new LlvmAsmParser().ParseMcAsmDoc(src);
