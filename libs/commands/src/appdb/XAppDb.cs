@@ -9,12 +9,6 @@ namespace Z0
     {
         const string xed = "xed";
 
-        public static DbTargets Logs(this IAppDb db)
-            => db.Targets("logs");
-
-        public static DbTargets Logs(this IAppDb db, string scope)
-            => db.Targets($"logs/{scope}");
-
         public static DbTargets CgStage(this IAppDb db)
             => db.Targets("cgstage");
 
@@ -36,9 +30,6 @@ namespace Z0
         public static DbSources LlvmSources(this IAppDb db)
             => db.Sources("llvm");
 
-        public static DbTargets ApiTargets(this IAppDb db)
-            => db.Targets("api");
-
         public static DbTargets ApiTargets(this IAppDb db, string scope)
             => db.Targets($"api/{scope}");
 
@@ -50,8 +41,5 @@ namespace Z0
 
         public static DbSources CpuIdSources(this IAppDb db)
             => db.IntelSources().Scoped("sde.cpuid");
-
-        public static DbTargets ProjectDb(this IAppDb db, IProjectWs project, string scope)
-            => new DbTargets(db.ProjectDb(project.Name),scope);
     }
 }

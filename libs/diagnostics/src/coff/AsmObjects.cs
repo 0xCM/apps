@@ -134,51 +134,7 @@ namespace Z0
             return buffer;
         }
 
-        public void EmitRecoded(WsContext context)
-        {
-            using var alloc = Alloc.create();
-            var code = EmitAsmCode(context, alloc);
-            Paths.RecodedTargets(context.Project).Clear();
-            for(var i=0; i<code.Count; i++)
-                RecodeBlocks(context.Project, code[i]);
-        }
-
-        public ObjDumpBlocks CollectObjects(WsContext context)
-        {
-            var rows = ConsolidateRows(context);
-            var blocks = AsmObjects.blocks(rows);
-            AppSvc.TableEmit(blocks.View, Paths.ObjBlockPath(context.Project));
-            EmitRecoded(context);
-            return new ObjDumpBlocks(blocks,rows);
-        }
-
-        void RecodeBlocks(in IProjectWs ws, in AsmCodeBlocks src)
-        {
-            const string intel_syntax = ".intel_syntax noprefix";
-            var asmpath = Paths.RecodedPath(ws, src.OriginName.Format());
-            var emitting = EmittingFile(asmpath);
-            var counter = 0u;
-            using var writer = asmpath.AsciWriter();
-            writer.WriteLine(intel_syntax);
-            for(var i=0; i<src.Count; i++)
-            {
-                ref readonly var block = ref src[i];
-                var label = new AsmBlockLabel(block.Label.Name.Format());
-                writer.WriteLine();
-                writer.WriteLine(label.Format());
-                counter++;
-                var count = block.Count;
-                for(var j=0; j<count; j++)
-                {
-                    ref readonly var asmcode = ref block[j];
-                    writer.WriteLine(string.Format("    {0,-48} # {1}", asmcode.Asm, asmcode.Encoding.FormatHex(Chars.Space, false)));
-                }
-            }
-
-            EmittedFile(emitting,counter);
-        }
-
-        Index<AsmCodeBlocks> EmitAsmCode(WsContext context, Alloc alloc)
+        public Index<AsmCodeBlocks> EmitAsmCodeTables(WsContext context, Alloc alloc)
         {
             Paths.AsmTargets(context.Project).Clear();
             var files = context.Catalog.Entries(FileKind.ObjAsm);
@@ -194,12 +150,12 @@ namespace Z0
 
                 var blocks = AsmObjects.blocks(context, file, ref seq, rows, alloc);
                 dst.Add(blocks);
-                EmitAsmCode(context, blocks, Paths.AsmCode(context.Project, file.Path.FileName.Format()));
+                EmitAsmCodeTable(context, blocks, Paths.AsmCodeTable(context.Project, file.Path.FileName.Format()));
             }
             return dst.ToArray();
         }
 
-        public void EmitAsmCode(WsContext context, in AsmCodeBlocks src, FS.FilePath dst)
+        public void EmitAsmCodeTable(WsContext context, in AsmCodeBlocks src, FS.FilePath dst)
         {
             var buffer = alloc<AsmCodeRow>(src.LineCount);
             var k=0u;
@@ -231,6 +187,51 @@ namespace Z0
 
             AppSvc.TableEmit(buffer, dst);
         }
+
+        public void EmitRecoded(WsContext context)
+        {
+            using var alloc = Alloc.create();
+            var code = EmitAsmCodeTables(context, alloc);
+            Paths.RecodedTargets(context.Project).Clear();
+            for(var i=0; i<code.Count; i++)
+                RecodeBlocks(context.Project, code[i]);
+        }
+
+        void RecodeBlocks(in IProjectWs ws, in AsmCodeBlocks src)
+        {
+            const string intel_syntax = ".intel_syntax noprefix";
+            var asmpath = Paths.RecodedPath(ws, src.OriginName.Format());
+            var emitting = EmittingFile(asmpath);
+            var counter = 0u;
+            using var writer = asmpath.AsciWriter();
+            writer.WriteLine(intel_syntax);
+            for(var i=0; i<src.Count; i++)
+            {
+                ref readonly var block = ref src[i];
+                var label = new AsmBlockLabel(block.Label.Name.Format());
+                writer.WriteLine();
+                writer.WriteLine(label.Format());
+                counter++;
+                var count = block.Count;
+                for(var j=0; j<count; j++)
+                {
+                    ref readonly var asmcode = ref block[j];
+                    writer.WriteLine(string.Format("    {0,-48} # {1}", asmcode.Asm, asmcode.Encoding.FormatHex(Chars.Space, false)));
+                }
+            }
+
+            EmittedFile(emitting,counter);
+        }
+
+        public ObjDumpBlocks CollectObjects(WsContext context)
+        {
+            var rows = ConsolidateRows(context);
+            var blocks = AsmObjects.blocks(rows);
+            AppSvc.TableEmit(blocks.View, Paths.ObjBlockPath(context.Project));
+            EmitRecoded(context);
+            return new ObjDumpBlocks(blocks,rows);
+        }
+
 
         public Index<ObjDumpRow> ConsolidateRows(WsContext context)
         {

@@ -14,8 +14,8 @@ namespace Z0
             AppDb.ProjectDb(context.Project, disasm).Clear();
             var docs = CalcDocs(context);
             exec(PllExec,
-                () => EmitConsolidated(context,docs),
-                () => EmitBreakdowns(context,docs)
+                () => EmitConsolidated(context, docs),
+                () => EmitBreakdowns(context, docs)
                 );
         }
     }

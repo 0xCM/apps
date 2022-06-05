@@ -53,5 +53,32 @@ namespace Z0
 
         public DbSources Sources(string scope)
             => new DbSources(ProjectDbRoot + FS.folder("sources"), scope);
+
+        public DbTargets Logs()
+            => Targets("logs");
+
+        public DbTargets Logs(string scope)
+            => Targets($"logs/{scope}");
+
+        public DbTargets ApiTargets()
+            => Targets("api");
+
+        public DbTargets ApiTargets(string scope)
+            => Targets($"api/{scope}");
+
+        public new DbTargets ProjectDb(IProjectWs project, string scope)
+            => new DbTargets(ProjectDb(project.Name), scope);
+
+        public DbTargets DbTargets(IProjectWs ws)
+            => Targets($"projects/{ws.Project}");
+
+        public DbTargets AsmTargets(IProjectWs ws)
+            => DbTargets(ws).Targets("asm.code");
+
+        public DbTargets HexTargets(IProjectWs ws)
+            => DbTargets(ws).Targets("obj.hex");
+
+        public DbTargets XedTargets(IProjectWs ws)
+            => DbTargets(ws).Targets("xed.disasm");
     }
 }

@@ -17,16 +17,16 @@ namespace Z0
         }
 
         public DbTargets DbTargets(IProjectWs ws)
-            => AppDb.Targets($"projects/{ws.Project}");
+            => AppDb.DbTargets(ws);
 
         public DbTargets Targets(IProjectWs ws)
             => DbTargets(ws);
 
         public DbTargets AsmTargets(IProjectWs ws)
-            => Targets(ws).Targets("asm.code");
+            => AppDb.AsmTargets(ws);
 
         public DbTargets HexTargets(IProjectWs ws)
-            => Targets(ws).Targets("obj.hex");
+            => AppDb.HexTargets(ws);
 
         public DbTargets RecodedTargets(IProjectWs ws)
             => AppDb.Project(ProjectNames.McRecoded).Targets($"src/{ws.Name}");
@@ -34,8 +34,8 @@ namespace Z0
         public FS.FilePath RecodedPath(IProjectWs ws, string origin)
             => RecodedTargets(ws).Path(FS.file(origin.Remove(string.Format(".{0}", FileKind.ObjAsm.Ext().Format())), FileKind.Asm.Ext()));
 
-        public FS.FilePath AsmCode(IProjectWs ws, string origin)
-            => Targets(ws).Path(FS.file(string.Format("{0}.code", origin), FS.Csv));
+        public FS.FilePath AsmCodeTable(IProjectWs ws, string origin)
+            => AsmTargets(ws).Path(FS.file(string.Format("{0}.code", origin), FS.Csv));
 
         public FS.FilePath CoffSymPath(IProjectWs ws)
             => Targets(ws).Table<CoffSymRecord>(ws.Name);
