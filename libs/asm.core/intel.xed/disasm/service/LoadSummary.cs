@@ -35,12 +35,12 @@ namespace Z0
                 result = DataParser.parse(skip(cells, j++), out dst.DocSeq);
                 result = DataParser.parse(skip(cells, j++), out dst.OriginId);
                 result = DataParser.parse(skip(cells, j++), out dst.OriginName);
-                result = AsmParser.encid(skip(cells, j++), out dst.EncodingId);
-                result = AsmParser.instid(skip(cells, j++), out dst.InstructionId);
+                result = EncodingId.parse(skip(cells, j++), out dst.EncodingId);
+                result = InstructionId.parse(skip(cells, j++), out dst.InstructionId);
                 result = DataParser.parse(skip(cells, j++), out dst.IP);
-                result = AsmParser.asmhex(skip(cells, j++), out dst.Encoded);
+                result = AsmHexCode.asmhex(skip(cells, j++), out dst.Encoded);
                 result = DataParser.parse(skip(cells, j++), out dst.Size);
-                result = AsmParser.expression(skip(cells, j++), out dst.Asm);
+                result = AsmExpr.parse(skip(cells, j++), out dst.Asm);
                 result = DataParser.parse(skip(cells, j++), out dst.Source);
             }
             return buffer;

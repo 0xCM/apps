@@ -114,6 +114,9 @@ public enum PartId : byte
     [Symbol("libm")]
     LibM,
 
+    [Symbol("libs")]
+    Libs,
+
     [Symbol("glue")]
     Glue,
 

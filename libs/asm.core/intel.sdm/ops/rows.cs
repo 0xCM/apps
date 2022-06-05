@@ -16,7 +16,7 @@ namespace Z0.Asm
             var count = (uint)min(src.Length, dst.Length);
             for(var i=0; i<count; i++)
             {
-                result = detail(skip(src,i), out seek(dst, i));
+                result = SdmOpCodeDetail.parse(skip(src,i), out seek(dst, i));
                 if(result.Fail)
                       Errors.Throw(result.Message);
             }

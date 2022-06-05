@@ -98,7 +98,7 @@ namespace Z0
 
                 var ci = text.index(body, Chars.Hash);
                 if (ci > 0)
-                    AsmParser.expression(text.left(body, ci), out record.Asm);
+                    AsmExpr.parse(text.left(body, ci), out record.Asm);
                 else
                     record.Asm = RP.Empty;
 
@@ -106,7 +106,7 @@ namespace Z0
                 if(xi > 0)
                 {
                     var enc = text.right(body,xi + EncodingMarker.Length + 1);
-                    if(AsmParser.asmhex(enc, out var encoding))
+                    if(AsmHexCode.asmhex(enc, out var encoding))
                     {
                         record.Encoded = encoding;
                         ip += encoding.Size;

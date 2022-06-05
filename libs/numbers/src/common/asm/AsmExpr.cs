@@ -4,9 +4,45 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    [DataType("asm.expr")]
+    using static core;
+
     public readonly struct AsmExpr : IEquatable<AsmExpr>, IComparable<AsmExpr>
     {
+        [Parser]
+        public static bool parse(string src, out AsmExpr dst)
+        {
+            var body = src.Trim();
+            var i = text.index(body, Chars.Space);
+            dst = i > 0 ? new AsmExpr(string.Format("{0} {1}", text.left(body,i), text.right(body,i).Trim())) : new AsmExpr(body);
+            return true;
+        }
+
+        public static Outcome parse(ReadOnlySpan<AsciCode> src, out AsmExpr dst)
+        {
+            dst = AsmExpr.Empty;
+            var outcome = Outcome.Success;
+            var i = AsciLines.SkipWhitespace(src);
+            if(i == NotFound)
+                return (false,"Input was empty");
+
+            var remainder = slice(src,i);
+            i = SQ.index(remainder, AsciCode.Space);
+            if(i == NotFound)
+            {
+                var monic = new AsmMnemonic(text.format(remainder).Trim());
+                var operands = Span<char>.Empty;
+                dst = AsmExpr.define(monic, operands);
+            }
+            else
+            {
+                var monic = new AsmMnemonic(text.format(slice(remainder,0, i)).Trim());
+                var operands = text.format(slice(remainder,i)).Trim();
+                dst = AsmExpr.define(monic, operands);
+            }
+
+            return outcome;
+        }
+
         [Op]
         public static AsmExpr define(AsmMnemonic monic, ReadOnlySpan<char> operands)
             => new AsmExpr(string.Format("{0} {1}", monic.Format(MnemonicCase.Lowercase), text.format(operands)));
@@ -31,15 +67,6 @@ namespace Z0.Asm
             [MethodImpl(Inline)]
             get => Content.View;
         }
-
-        // public AsmInlineComment Comment()
-        // {
-        //     var result = AsmParser.comment(Data, out var comment);
-        //     if(result)
-        //         return comment;
-        //     else
-        //         return AsmInlineComment.Empty;
-        // }
 
         public string FormatPadded(int padding = DefaultPadding)
             => string.Format(RP.pad(padding), Content);

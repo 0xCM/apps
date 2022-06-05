@@ -1,5 +1,5 @@
 @echo off
 set ProjectId=cmd
-set Shellid=zcmd
+set ShellId=zcmd
 call %ZDev%\.cmd\config.cmd
 

@@ -104,7 +104,7 @@ namespace Z0.Asm
             switch(LineClass)
             {
                 case C.Label:
-                    if(AsmParser.label(LineContent, out Label))
+                    if(AsmBlockLabel.parse(LineContent, out Label))
                     {
                         LabelSeq++;
                         LabelLine = LineNumber;
@@ -124,7 +124,7 @@ namespace Z0.Asm
                 break;
 
                 case C.AsmSource:
-                    if(AsmParser.comment(LineContent, out var asmcomment))
+                    if(AsmInlineComment.parse(LineContent, out var asmcomment))
                     {
                         var statement = text.left(LineContent, (char)asmcomment.Marker).Trim();
                         if(statement.Length != 0)

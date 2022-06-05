@@ -227,28 +227,28 @@ namespace Z0.Asm
 
         const NumericKind Closure = UnsignedInts;
 
-        [MethodImpl(Inline), Op]
-        public static InstructionId instid(Hex32 docid, MemoryAddress ip, ReadOnlySpan<byte> encoding)
-            => new InstructionId(docid, EncodingId.from(ip, encoding));
-
         [Op]
         public static string bitstring(in AsmHexCode src)
             => asm.bitstring(src);
 
         [MethodImpl(Inline), Op]
-        public static byte encode(RexPrefix a0, Hex8 a1, imm64 a2, Span<byte> buffer)
+        public static void encode(RexPrefix a0, Hex8 a1, imm64 a2, AsmHexWriter dst)
+            => dst.Write(a0,a1,a2);
+
+        [MethodImpl(Inline), Op]
+        public static byte encode(RexPrefix a0, Hex8 a1, imm64 a2, Span<byte> dst)
         {
-            var dst = writer(buffer);
-            return dst.Write(a0,a1,a2);
+            var i = z8;
+            seek(dst,i++) = (byte)a0;
+            seek(dst,i++) = a1;
+            seek64(dst,i) = a2;
+            i+=8;
+            return i;
         }
 
         [MethodImpl(Inline), Op]
-        public static byte encode(Rip a0, Jcc8 a1, AsmHexWriter dst)
+        public static void encode(Rip a0, Jcc8 a1, AsmHexWriter dst)
             => dst.Write(a1.JccCode, AsmRel8.target(a0, a1.Disp));
-
-        [MethodImpl(Inline), Op]
-        static AsmHexWriter writer(Span<byte> buffer)
-            => new AsmHexWriter(buffer);
 
         [MethodImpl(Inline), Op]
         static byte join(Pair<byte> a, Pair<byte> b, Pair<byte> c)

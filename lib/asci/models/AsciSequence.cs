@@ -12,6 +12,14 @@ namespace Z0
     public readonly struct AsciSequence : IAsciSeq
     {
         [MethodImpl(Inline), Op]
+        public static AsciSequence create(uint size)
+            => new AsciSequence(alloc<byte>(size));
+
+        [MethodImpl(Inline), Op]
+        public static AsciSequence create(byte[] src)
+            => new AsciSequence(src);
+
+        [MethodImpl(Inline), Op]
         public static int search(in byte src, int count, byte match)
         {
             for(var i=0u; i<count; i++)
@@ -34,8 +42,8 @@ namespace Z0
         public static int length(ReadOnlySpan<byte> src)
             => foundnot(search(src, 0), src.Length);
 
-        public static string format(in AsciSequence seq)
-            => format(seq.Storage.ToReadOnlySpan());
+        public static string format(in AsciSequence src)
+            => format(src.Storage.ToReadOnlySpan());
 
         public static string format(in ReadOnlySpan<byte> src)
         {
@@ -46,27 +54,40 @@ namespace Z0
             return text.format(dst);
         }
 
+        public static string format(in AsciSequence src, uint length)
+        {
+            var size = min(src.Capacity,length);
+            var data = slice(src.Data.View,0,size);
+            var dst = alloc<char>(size);
+            for(var i=0u; i<size; i++)
+                seek(dst, i) = src[i];
+            return text.format(dst);
+        }
+
+        public static uint render(in AsciSequence src, uint length, Span<char> dst)
+        {
+            var size = min(src.Capacity,length);
+            var data = slice(src.Data.View,0,size);
+            for(var i=0u; i<size; i++)
+                seek(dst, i) = src[i];
+            return size;
+        }
+
         readonly BinaryCode Data;
 
-        public readonly int Length;
+        public readonly uint Capacity;
 
         [MethodImpl(Inline)]
         public AsciSequence(BinaryCode src)
         {
             Data = src;
-            Length = length(src.View);
+            Capacity = src.Size;
         }
 
         public uint Size
         {
             [MethodImpl(Inline)]
             get => Data.Size;
-        }
-
-        public int Capacity
-        {
-            [MethodImpl(Inline)]
-            get => Data.Length;
         }
 
         public byte[] Storage
@@ -93,6 +114,18 @@ namespace Z0
             get => Data.Edit;
         }
 
+        public ref AsciSymbol this[uint index]
+        {
+            [MethodImpl(Inline)]
+            get => ref seek(Symbols,index);
+        }
+
+        public ref AsciSymbol this[int index]
+        {
+            [MethodImpl(Inline)]
+            get => ref seek(Symbols,index);
+        }
+
         public ReadOnlySpan<byte> View
         {
             [MethodImpl(Inline)]
@@ -112,7 +145,10 @@ namespace Z0
         }
 
         int IByteSeq.Length
-            => Length;
+            => (int)Capacity;
+
+        int IByteSeq.Capacity
+            => (int)Capacity;
 
         public string Format()
             => format(this);

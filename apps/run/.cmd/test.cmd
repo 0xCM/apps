@@ -1,1 +1,0 @@
-run emit-api-index

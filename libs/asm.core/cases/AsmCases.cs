@@ -22,11 +22,10 @@ namespace Z0.Asm
             var dst = AsmEncodingCase.Empty;
             dst.Seq = seq;
             dst.Mnemonic = monic;
-            AsmParser.parse(oc.Format(), out dst.OpCode);
-            AsmParser.parse(encoding.Format(), out dst.Encoding);
-            AsmParser.parse(sig.Format(), out dst.Sig);
+            AsmOpCodes.parse(oc.Format(), out dst.OpCode);
+            AsmHexCode.asmhex(encoding.Format(), out dst.Encoding);
+            AsmSigs.parse(sig.Format(), out dst.Sig);
             dst.Asm = statement.Format();
-            AsmParser.parse(encoding.Format(), out dst.Encoding);
             return dst;
         }
     }

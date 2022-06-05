@@ -15,7 +15,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public AsciGrid(AsciSequence src, uint width)
         {
-            RowCount = (uint)src.Length/width;
+            RowCount = src.Capacity/width;
             RowWidth = width;
             Data = src;
         }

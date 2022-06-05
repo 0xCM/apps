@@ -1,5 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
+
   <ItemGroup>
     <ProjectReference Include="$(ApiMd)" />
     <ProjectReference Include="$(ApiCode)" />
@@ -12,7 +13,6 @@
     <ProjectReference Include="$(Assets)" />
     <ProjectReference Include="$(Bits)" />
     <ProjectReference Include="$(Cli)" />
-    <ProjectReference Include="$(CmdActions)" />
     <ProjectReference Include="$(Commands)" />
     <ProjectReference Include="$(Diagnostics)" />
     <ProjectReference Include="$(Expr)" />
@@ -29,7 +29,7 @@
     <ProjectReference Include="$(CodeGenCommon)" />
     <ProjectReference Include="$(CodeGenLlvm)" />
     <ProjectReference Include="$(CodeGenIntel)" />
-    <ProjectReference Include="$(TestChecks)" />
+    <ProjectReference Include="$(CmdActions)" />
   </ItemGroup>
 
 </Project>

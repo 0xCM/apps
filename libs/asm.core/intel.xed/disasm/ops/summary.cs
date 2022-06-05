@@ -41,7 +41,7 @@ namespace Z0
                 if(result.Fail)
                     break;
 
-                record.InstructionId = AsmBytes.instid(record.OriginId, record.IP, record.Encoded.Bytes);
+                record.InstructionId = InstructionId.define(record.OriginId, record.IP, record.Encoded.Bytes);
                 record.EncodingId = record.InstructionId.EncodingId;
                 record.Asm = expr[i];
                 record.Source = src.Path;

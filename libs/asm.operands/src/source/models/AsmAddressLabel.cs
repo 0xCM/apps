@@ -6,6 +6,25 @@ namespace Z0.Asm
 {
     public readonly struct AsmAddressLabel : IAsmSourcePart
     {
+        [Parser]
+        public static bool parse(string src, out AsmAddressLabel dst)
+        {
+            var input = text.trim(src);
+            dst = AsmAddressLabel.Empty;
+            var result = false;
+            if(text.nonempty(input) && text.begins(input, "_@") && text.ends(input, Chars.Colon))
+            {
+                var i = text.index(input, Chars.At);
+                var j = text.index(input, Chars.Colon);
+                if(DataParser.parse(text.inside(input, i, j), out MemoryAddress address))
+                {
+                    dst = address;
+                    result = true;
+                }
+            }
+            return result;
+        }
+
         public readonly MemoryAddress Address;
 
         [MethodImpl(Inline)]

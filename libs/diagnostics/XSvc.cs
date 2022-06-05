@@ -19,6 +19,12 @@ namespace Z0
 
             public DiagnosticCmd DiagnosticCmd(IWfRuntime wf)
                 => Service<DiagnosticCmd>(wf);
+
+            public CoffServices CoffServices(IWfRuntime wf)
+                => Service<CoffServices>(wf);
+
+            public AsmObjects AsmObjects(IWfRuntime wf)
+                => Service<AsmObjects>(wf);
         }
 
         static Svc Services => Svc.Instance;
@@ -34,5 +40,11 @@ namespace Z0
 
         public static DiagnosticCmd DiagnosticCmd(this IWfRuntime wf)
             => Services.DiagnosticCmd(wf);
+
+        public static CoffServices CoffServices(this IWfRuntime wf)
+            => Services.CoffServices(wf);
+
+        public static AsmObjects AsmObjects(this IWfRuntime wf)
+            => Services.AsmObjects(wf);
     }
 }

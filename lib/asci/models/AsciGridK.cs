@@ -27,7 +27,7 @@ namespace Z0
         public uint RowCount
         {
             [MethodImpl(Inline)]
-            get => (uint)(_Data.Length/RowWidth);
+            get => (uint)(_Data.Capacity/RowWidth);
         }
 
         [MethodImpl(Inline)]

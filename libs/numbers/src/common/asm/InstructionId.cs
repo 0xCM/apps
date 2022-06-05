@@ -4,9 +4,35 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly struct InstructionId : IEquatable<InstructionId>
     {
+        public static bool parse(ReadOnlySpan<char> src, out InstructionId dst)
+        {
+            var input = text.trim(src);
+            dst = InstructionId.Empty;
+            if(input.Length != 24)
+                return false;
+            var x0 = slice(input,0,8);
+            var result = DataParser.parse(x0, out Hex32 docid);
+            if(result.Fail)
+                return result;
+
+            var x1 = slice(input,8,16);
+            result = DataParser.parse(x1, out Hex64 encid);
+            if(result.Fail)
+                return result;
+
+            dst = new InstructionId(docid, encid);
+            return true;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static InstructionId define(Hex32 docid, MemoryAddress ip, ReadOnlySpan<byte> encoding)
+            => new InstructionId(docid, EncodingId.from(ip, encoding));
+
         public readonly Hex32 DocId;
 
         public readonly EncodingId EncodingId;

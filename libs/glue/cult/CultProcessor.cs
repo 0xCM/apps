@@ -139,7 +139,7 @@ namespace Z0
 
                 if(record.RecordKind == CultRecordKind.Statement)
                 {
-                    AsmParser.expression(record.Statement, out var expr);
+                    AsmExpr.parse(record.Statement, out var expr);
                     AsmLines.Add(new AsmSourceLine(record.LineNumber, AsmLineClass.AsmSource, EmptyString, expr, asm.comment(record.Comment)));
                 }
                 else if(record.RecordKind == CultRecordKind.Label)

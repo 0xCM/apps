@@ -37,14 +37,8 @@ namespace Z0
             public XedDocs XedDocs(IWfRuntime wf, XedRuntime xed)
                 => Service<XedDocs>(wf).With(xed);
 
-            public CoffServices CoffServices(IWfRuntime wf)
-                => Service<CoffServices>(wf);
-
             public AsmTables AsmTables(IWfRuntime wf)
                 => Service<AsmTables>(wf);
-
-            public AsmObjects AsmObjects(IWfRuntime wf)
-                => Service<AsmObjects>(wf);
 
             public XedTool XedTool(IWfRuntime wf)
                 => Service<XedTool>(wf);
@@ -115,14 +109,8 @@ namespace Z0
         public static InstBlockImporter BlockImporter(this IWfRuntime wf)
             => Services.BlockImporter(wf);
 
-        public static CoffServices CoffServices(this IWfRuntime wf)
-            => Services.CoffServices(wf);
-
         public static AsmTables AsmTables(this IWfRuntime wf)
             => Services.AsmTables(wf);
-
-        public static AsmObjects AsmObjects(this IWfRuntime wf)
-            => Services.AsmObjects(wf);
 
         public static XedDisasm.Analyzer DisasmAnalyser(this IWfRuntime wf)
             => Services.DisasmAnalyzer(wf);

@@ -1,5 +1,4 @@
 @echo off
+call %SlnAsmShellCmd%
 call %SlnCmdShellCmd%
-call %SlnXedShellCmd%
-call %SlnCgShellCmd%
-call %SlnIntelShellCmd%
+call %SlnWorkersCmd%

@@ -8,6 +8,16 @@ namespace Z0
 
     public readonly struct EncodingId : IEquatable<EncodingId>
     {
+        public static Outcome parse(ReadOnlySpan<char> src, out EncodingId dst)
+        {
+            var input = text.trim(src);
+            dst = EncodingId.Empty;
+            var result = DataParser.parse(input, out Hex64 encid);
+            if(result)
+                dst = encid;
+            return result;
+        }
+
         [Op]
         public static EncodingId from(MemoryAddress ip, ReadOnlySpan<byte> encoding)
         {

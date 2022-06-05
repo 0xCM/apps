@@ -8,6 +8,17 @@ namespace Z0.Asm
 
     public readonly struct AsmOcValue : IEquatable<AsmOcValue>, IComparable<AsmOcValue>
     {
+        [Parser]
+        public static Outcome parse(string src, out AsmOcValue dst)
+        {
+            var storage = Cells.alloc(w32);
+            var result = Hex.parse(src, storage.Bytes);
+            dst = AsmOcValue.Empty;
+            if(result)
+                dst = new AsmOcValue(slice(storage.Bytes,0, result.Data));
+            return result;
+        }
+
         public static string format(AsmOcValue src)
         {
             var data = src.Trimmed;

@@ -14,7 +14,7 @@ namespace Z0
     {
         StringTableChecks LlvmStringTableChecks => Service(() => StringTableChecks.create(Wf));
 
-        AsmChecks2 AsmChecks => Service(() => AsmChecks2.create(Wf));
+        AsmWriterChecks AsmChecks => Service(() => AsmWriterChecks.create(Wf));
 
         [CmdOp("cg/asm/check")]
         Outcome CheckAsm(CmdArgs args)

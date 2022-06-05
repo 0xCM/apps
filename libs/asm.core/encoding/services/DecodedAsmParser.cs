@@ -87,7 +87,7 @@ namespace Z0.Asm
                 if(text.begins(content, Chars.Hash))
                     continue;
 
-                if(AsmParser.label(content, out label))
+                if(AsmBlockLabel.parse(content, out label))
                 {
                     if(statemements.Count != 0)
                         Target.Add(new DecodedAsmBlock(label, statemements.ToArray()));

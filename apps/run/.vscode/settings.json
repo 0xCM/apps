@@ -1,9 +1,0 @@
-{
-    "files.associations": {
-        "*.s": "asm",
-        "*.inc": "cpp",
-        "*.cmake.*": "cmake",
-        "*.ksp": "spice",
-        "*.def": "cpp"
-    }
-}

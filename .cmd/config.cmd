@@ -12,11 +12,12 @@ set Archives=%ZArchive%
 set ArchiveRoot=%ZArchive%
 set RepoArchives=%ArchiveRoot%\bin\source
 
-set AppDir=%TopDir%/apps
-set TestDir=%TopDir%/test
-set CgDir=%TopDir%/codegen
-set LibDir=%TopDir%/lib
-set LibsRoot=%TopDir%/libs
+set AppDir=%TopDir%\apps
+set TestDir=%TopDir%\test
+set CgDir=%TopDir%\codegen
+set LibDir=%TopDir%\lib
+set LibsRoot=%TopDir%\libs
+set ShellRoot=%SlnRoot%\shells
 
 set BuildRoot=%SlnRoot%\.build
 set BuildBinRoot=%BuildRoot%\bin
@@ -126,6 +127,7 @@ set DeploySrc=%ShellBin%
 set DeployLog=%EtlLogs%\deploy-%ProjectId%.log
 set DeployDst=%ZBin%
 set DeployCmd=robocopy %DeploySrc% %DeployDst% /log:%DeployLog% /tee /TS /BYTES /V /e
+
 
 echo DeploySrc:%DeploySrc% > %DeployLog%
 echo DeployDst:%DeployDst% >> %DeployLog%

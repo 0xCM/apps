@@ -61,7 +61,7 @@ namespace Z0.Asm
 
             dst.Statement = text.trim(skip(parts,i++));
 
-            outcome += AsmParser.asmhex(skip(parts,i++), out dst.Encoded);
+            outcome += AsmHexCode.asmhex(skip(parts,i++), out dst.Encoded);
             if(outcome.Fail)
                 return (false, string.Format(ErrorPattern, nameof(dst.Encoded), src.LineNumber));
 
@@ -166,8 +166,8 @@ namespace Z0.Asm
             if(result.Fail)
                 return result;
 
-            AsmParser.expression(skip(cells,i++), out dst.Expression);
-            dst.Encoded = AsmParser.asmhex(skip(cells, i++));
+            AsmExpr.parse(skip(cells,i++), out dst.Expression);
+            dst.Encoded = AsmHexCode.asmhex(skip(cells, i++));
             result = AsmSigInfo.parse(skip(cells, i++), out dst.Sig);
             if(result.Fail)
                 return result;
@@ -253,7 +253,7 @@ namespace Z0.Asm
             if(!outcome)
                 return outcome;
 
-            outcome = AsmParser.asmhex(skip(input, i++).View, out dst.Encoded);
+            outcome = AsmHexCode.asmhex(skip(input, i++).View, out dst.Encoded);
             if(!outcome)
                 return outcome;
 
