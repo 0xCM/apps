@@ -2,13 +2,11 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
-    using static Root;
-
-    partial class AsmCmdService
+    partial class AsmChecks
     {
-        [CmdOp(".test-vcpu")]
+        [CmdOp("bits/check/vmask")]
         unsafe Outcome TestVCpu(CmdArgs args)
         {
             var result = Outcome.Success;

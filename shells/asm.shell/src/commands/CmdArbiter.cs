@@ -11,6 +11,15 @@ namespace Z0
 
     public class CmdArbiter : IDisposable
     {
+        public static CmdArbiter start(NativeBuffer buffer)
+        {
+            var arbiter = new CmdArbiter(buffer);
+            arbiter.WorkerThread = new Thread(arbiter.Run);
+            arbiter.ControlThread = new Thread(arbiter.Control);
+            arbiter.Start();
+            return arbiter;
+        }
+
         public class Job
         {
             public static Job create(Action worker, Action finished)
@@ -25,15 +34,6 @@ namespace Z0
                 Worker = worker;
                 Finished = finished;
             }
-        }
-
-        public static CmdArbiter start(NativeBuffer buffer)
-        {
-            var arbiter = new CmdArbiter(buffer);
-            arbiter.WorkerThread = new Thread(arbiter.Run);
-            arbiter.ControlThread = new Thread(arbiter.Control);
-            arbiter.Start();
-            return arbiter;
         }
 
         readonly NativeBuffer ContextBuffer;

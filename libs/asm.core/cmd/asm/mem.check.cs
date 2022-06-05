@@ -7,19 +7,8 @@ namespace Z0
     using Asm;
     using static core;
 
-    partial class AsmCoreCmd
+    partial class AsmChecks
     {
-        [CmdOp("mem/check")]
-        void CheckMem()
-        {
-
-
-        }
-
-        ApiCode ApiCode => Wf.ApiCode();
-
-        ApiHex ApiHex => Service(Wf.ApiHex);
-
         void CheckHex()
         {
             var src = AppDb.ApiTargets().Dir("capture");
@@ -85,8 +74,8 @@ namespace Z0
                 ref readonly var targetRb = ref member.TargetRebase;
                 ref readonly var uri = ref member.Uri;
             }
-
         }
+
         Outcome CheckLookups(ITextEmitter log)
         {
             var capacity = Pow2.T16;

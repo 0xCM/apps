@@ -23,7 +23,6 @@ call %SlnIntelIntrinsicsCmd%
 call %SlnIntelXedCmd%
 call %SlnCmdActionsCmd%
 call %SlnAsmPrototypesCmd%
-call %SlnAsmServicesCmd%
 call %SlnAsmCmd%
 call %SlnMachinesCmd%
 call %SlnCgIntelCmd%

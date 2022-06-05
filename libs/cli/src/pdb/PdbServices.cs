@@ -13,11 +13,15 @@ namespace Z0
     {
         PdbIndexBuilder PdbIndexBuilder => Wf.PdbIndexBuilder();
 
+        ApiMd ApiMd => Wf.ApiMetadata();
+
+        AppDb AppDb => Wf.AppDb();
+
         public FS.FilePath IndexApiComponents()
             => IndexComponents(ApiRuntimeCatalog.Components);
 
         public FS.FilePath IndexComponents(Assembly[] src)
-            => PdbIndexBuilder.IndexComponents(src);
+            => PdbIndexBuilder.IndexComponents(src, new PdbIndex());
 
         public void IndexPdbSymbols(ReadOnlySpan<ResolvedPart> src, FS.FilePath dst)
         {
@@ -69,9 +73,9 @@ namespace Z0
             using var source = SymbolSource(FS.path(catalog.ComponentPath));
             var pePath = source.PePath;
             var pdbPath = source.PdbPath;
-            var pdbReader = Wf.PdbReader(source);
+            using var pdbReader = Wf.PdbReader(source);
             var counter = 0u;
-            var dst = ProjectDb.Subdir("api/pdb") + FS.file(string.Format("{0}.pdbinfo", part.Format(), FS.Csv));
+            var dst = AppDb.ApiTargets("pdb").Path(string.Format("{0}.pdbinfo", part.PartName()), FileKind.Csv);
             using var writer = dst.Writer();
             var emitting = Wf.EmittingFile(dst);
             Write("Collecting methods");

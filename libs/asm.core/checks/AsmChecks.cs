@@ -12,10 +12,15 @@ namespace Z0
     using gp32 = Asm.AsmRegTokens.Gp32Reg;
 
     [ApiHost]
-    public class AsmChecks : CheckRunner<AsmChecks>
+    public partial class AsmChecks : CheckRunner<AsmChecks>
     {
         AsmOpCodes OpCodes => Wf.AsmOpCodes();
 
+        ApiCodeFiles CodeFiles => Wf.ApiCodeFiles();
+
+        X86Dispatcher Jumps => Wf.X86Dispatcher();
+
+        ApiCode ApiCode => Wf.ApiCode();
 
         [CmdOp("asm/check/vex")]
         Outcome Vex(CmdArgs args)

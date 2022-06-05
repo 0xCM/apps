@@ -15,7 +15,7 @@ namespace Z0
 
         protected override void Initialized()
         {
-            AsmCmd = Wf.AsmCmd();
+            AsmCmd = AsmCmdService.create(Wf);
         }
 
         protected override void Disposing()

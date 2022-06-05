@@ -25,6 +25,13 @@ namespace Z0
             return dst;
         }
 
+        public static ConstLookup<Type,IChecker> discover(IWfRuntime wf, Type src)
+        {
+            var dst = cdict<Type,IChecker>();
+            discover(wf, src, dst);
+            return dst;
+        }
+
         public static void discover(IWfRuntime wf, Type src, ConcurrentDictionary<Type,IChecker> dst)
         {
             var factories = src.StaticMethods().Where(x => x.Name == "create");

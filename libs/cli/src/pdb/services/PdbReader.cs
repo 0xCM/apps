@@ -52,7 +52,7 @@ namespace Z0
 
         Index<PdbMethods> _DocumentMethods;
 
-        public PdbSymbolSource Source {get;}
+        public readonly PdbSymbolSource Source;
 
         internal readonly ISymUnmanagedReader5 Provider;
 
@@ -82,9 +82,7 @@ namespace Z0
             get
             {
                 if(_Methods.IsEmpty)
-                {
                     _Methods = _DocumentMethods.SelectMany(x => x.Methods).Select(PdbMethod.adapt);
-                }
                 return _Methods;
             }
         }

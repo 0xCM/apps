@@ -4,18 +4,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public sealed class PdbIndex : GlobalService<PdbIndex,PdbDocuments>
+    public sealed class PdbIndex
     {
-        public uint Include(ReadOnlySpan<PdbDocument> src)
-            => State.Include(src);
+        readonly PdbDocuments Data;
 
-        protected override PdbIndex Init(out PdbDocuments state)
+        public PdbIndex()
         {
-            state = new();
-            return this;
+            Data = new();
         }
 
-        public ReadOnlySpan<PdbDocument> Documents
-            => State.Documents;
+        public uint Include(ReadOnlySpan<PdbDocument> src)
+            => Data.Include(src);
+
+        public ICollection<PdbDocument> Documents
+            => Data.Documents;
     }
 }

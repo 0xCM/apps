@@ -19,7 +19,7 @@ namespace Z0
         protected override void Initialized()
         {
             State.Init(Wf, Ws);
-            Services = Checkers.discover(Wf, ApiRuntimeCatalog.Components);
+            Services = Checkers.discover(Wf, typeof(T));
         }
 
         protected virtual bool Pll {get;}

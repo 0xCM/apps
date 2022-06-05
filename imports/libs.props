@@ -1,24 +1,25 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-
   <ItemGroup>
-    <ProjectReference Include="$(ApiMd)" />
+    <ProjectReference Include="$(Alloc)" />
     <ProjectReference Include="$(ApiCode)" />
+    <ProjectReference Include="$(ApiMd)" />
     <ProjectReference Include="$(Archives)" />
     <ProjectReference Include="$(Asm)" />
     <ProjectReference Include="$(AsmCore)" />
     <ProjectReference Include="$(AsmOperands)" />
     <ProjectReference Include="$(AsmPrototypes)" />
-    <ProjectReference Include="$(AsmServices)" />
     <ProjectReference Include="$(Assets)" />
     <ProjectReference Include="$(Bits)" />
     <ProjectReference Include="$(Cli)" />
+    <ProjectReference Include="$(CmdActions)" />
     <ProjectReference Include="$(Commands)" />
     <ProjectReference Include="$(Diagnostics)" />
     <ProjectReference Include="$(Expr)" />
     <ProjectReference Include="$(Extract)" />
     <ProjectReference Include="$(Glue)" />
     <ProjectReference Include="$(IntelCore)" />
+    <ProjectReference Include="$(IntelIntrinsics)" />
     <ProjectReference Include="$(IntelXed)" />
     <ProjectReference Include="$(Lang)" />
     <ProjectReference Include="$(LlvmTools)" />
@@ -26,10 +27,6 @@
     <ProjectReference Include="$(Numbers)" />
     <ProjectReference Include="$(Rules)" />
     <ProjectReference Include="$(Symbols)" />
-    <ProjectReference Include="$(CodeGenCommon)" />
-    <ProjectReference Include="$(CodeGenLlvm)" />
-    <ProjectReference Include="$(CodeGenIntel)" />
-    <ProjectReference Include="$(CmdActions)" />
   </ItemGroup>
 
 </Project>

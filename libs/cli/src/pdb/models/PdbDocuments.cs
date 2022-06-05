@@ -8,9 +8,9 @@ namespace Z0
 
     public sealed class PdbDocuments
     {
-        Dictionary<string, PdbDocument> _DocIndex;
+        readonly Dictionary<string, PdbDocument> _DocIndex;
 
-        List<PdbDocument> _Documents;
+        readonly List<PdbDocument> _Documents;
 
         public PdbDocuments()
         {
@@ -35,7 +35,7 @@ namespace Z0
             return counter;
         }
 
-        public ReadOnlySpan<PdbDocument> Documents
-            => _Documents.ViewDeposited();
+        public ICollection<PdbDocument> Documents
+            => _DocIndex.Values;
     }
 }

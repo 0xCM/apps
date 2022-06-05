@@ -8,9 +8,7 @@ namespace Z0
 
     public sealed class PdbIndexBuilder : AppService<PdbIndexBuilder>
     {
-        PdbIndex PdbIndex => Service(Wf.PdbIndex);
-
-        public PdbReaderStats IndexComponent(Assembly src)
+        public PdbReaderStats IndexComponent(Assembly src, PdbIndex dst)
         {
             var name = src.GetSimpleName();
             var flow = Running(Msg.ReadingPdb.Format(name));
@@ -22,13 +20,12 @@ namespace Z0
                 stats.Pdb = pdbpath;
                 stats.Assembly = asmpath;
                 var reader = PdbReader.create(Wf, asmpath, pdbpath);
-                var methods = @readonly(src.Methods());
+                var methods = src.Methods().Index();
                 var count = methods.Length;
-                stats.DocCount += PdbIndex.Include(reader.Documents);
+                stats.DocCount += dst.Include(reader.Documents);
                 for(var i=0; i<count; i++)
                 {
-                    ref readonly var method = ref skip(methods,i);
-                    var result = reader.Method(method.MetadataToken);
+                    var result = reader.Method(methods[i].MetadataToken);
                     if(result)
                     {
                         var pdbMethod = result.Payload;
@@ -48,27 +45,27 @@ namespace Z0
             return stats;
         }
 
-        public FS.FilePath IndexComponents(ReadOnlySpan<Assembly> src)
+        public FS.FilePath IndexComponents(ReadOnlySpan<Assembly> src, PdbIndex dst)
         {
             var count = src.Length;
             var flow = Running(Msg.IndexingPdbFiles.Format(count));
             var counter = 0u;
             for(var i=0; i<count; i++)
             {
-                var stats = IndexComponent(skip(src,i));
+                var stats = IndexComponent(skip(src,i), dst);
                 counter += stats.MethodCount;
             }
 
             var db = Ws.Project("db");
-            var dst = db.Subdir("api") + FS.file("pdbdocs", FS.Md);
-            var emitting = EmittingFile(dst);
-            var docs = PdbIndex.Documents;
-            using var writer = dst.Writer();
+            var path = db.Subdir("api") + FS.file("pdbdocs", FS.Md);
+            var emitting = EmittingFile(path);
+            var docs = dst.Documents;
+            using var writer = path.Writer();
             foreach(var doc in docs)
                 writer.WriteLine(string.Format("<{0}>", doc.Path.ToUri()));
-            EmittedFile(emitting, docs.Length);
+            EmittedFile(emitting, docs.Count);
             Ran(flow, Msg.IndexedPdbMethods.Format(counter));
-            return dst;
+            return path;
         }
     }
 }

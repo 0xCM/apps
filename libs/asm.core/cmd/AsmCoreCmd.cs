@@ -44,18 +44,26 @@ namespace Z0
 
         AsmCodeGen AsmCodeGen => Wf.AsmCodeGen();
 
-        X86Dispatcher Jumps => Wf.X86Dispatcher();
-
         IntelSdm Sdm => Wf.IntelSdm();
 
         AsmRegSets Regs => Service(AsmRegSets.create);
 
+        ApiCode ApiCode => Wf.ApiCode();
+
+        ApiCodeFiles CodeFiles => Wf.ApiCodeFiles();
 
         protected override IWsCmdRunner CmdRunner
             => Xed.CmdRunner;
 
         IProjectWs Project()
             => CmdRunner.Project();
+
+        [CmdOp("asm/codegen")]
+        void GenAmsCode()
+        {
+            AsmCodeGen.Emit();
+        }
+
 
         // [CmdOp("checks/run")]
         // void ChecksExec()

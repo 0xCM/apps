@@ -14,12 +14,8 @@ namespace Z0
             public PdbIndexBuilder PdbIndexBuilder(IWfRuntime wf)
                 => Service<PdbIndexBuilder>(wf);
 
-
             public PdbSymbolStore PdbSymbolStore(IWfRuntime wf)
                 => Service<PdbSymbolStore>(wf);
-
-            public PdbIndex PdbIndex(IWfRuntime wf)
-                => Service<PdbIndex>(wf);
 
             public Cli Cli(IWfRuntime wf)
                 => Service<Cli>(wf);
@@ -45,7 +41,5 @@ namespace Z0
         public static PdbReader PdbReader(this IWfRuntime wf, in PdbSymbolSource src)
             => Z0.PdbReader.create(wf,src);
 
-        public static PdbIndex PdbIndex(this IWfRuntime wf)
-            => Services.PdbIndex(wf);
     }
 }

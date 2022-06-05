@@ -9,11 +9,12 @@ namespace Z0
     using static core;
     using static Asm.RegClasses;
 
-    partial class AsmCoreCmd
+    partial class AsmChecks
     {
         [CmdOp("asm/check/regstore")]
         Outcome CheckRegstore(CmdArgs args)
         {
+
             var result = Outcome.Success;
             var grid = RegGrid8x64.Empty;
             var regs = RegStore8x64.Empty;

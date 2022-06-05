@@ -26,6 +26,7 @@ namespace Z0
                 wf.ApiCmd(),
                 wf.CheckCmd(),
                 wf.AsmCmd(),
+                wf.AsmChecks(),
                 XedCmd.commands(xed)
                 );
 

@@ -2,14 +2,12 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
-    using System;
-
     using static core;
-    using static Root;
+    using Asm;
 
-    partial class AsmCmdService
+    partial class AsmChecks
     {
         ReadOnlySpan<byte> Input => new byte[]{0x44, 0x01, 0x58,0x04};
 
@@ -17,7 +15,7 @@ namespace Z0.Asm
 
         const uint InputBitsB = 0b0100_0100_0000_0001_0101_1000_0000_0100;
 
-        [CmdOp("asm/check/bitstrings")]
+        [CmdOp("bits/check/bitstrings")]
         Outcome CheckBitstrings(CmdArgs args)
         {
             CharBlocks.alloc(n128, out var block1);
@@ -35,7 +33,18 @@ namespace Z0.Asm
             var v = vpack.vunpack32x8(0xF0F0F0F0);
             Write(v.FormatBlockedBits(8));
 
+            CheckBitSpans();
+            CheckBitFormatter();
             return true;
+        }
+
+        void CheckBitSpans()
+        {
+            var result = Outcome.Success;
+            var options = BitFormat.Default.WithBlockWidth(8);
+            var v1 = vmask.vmsb<byte>(w128, n8, n7);
+            var b1 = v1.ToBitSpan();
+            Write(b1.Format(options));
         }
 
         void CheckBitFormatter()

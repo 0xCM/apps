@@ -12,7 +12,6 @@
     <AsmCore>$(LibsRoot)asm.core/z0.asm.core.csproj</AsmCore>
     <AsmOperands>$(LibsRoot)asm.operands/z0.asm.operands.csproj</AsmOperands>
     <AsmPrototypes>$(LibsRoot)asm.prototypes/z0.asm.prototypes.csproj</AsmPrototypes>
-    <AsmServices>$(LibsRoot)asm.services/z0.asm.services.csproj</AsmServices>
     <Glue>$(LibsRoot)glue/z0.glue.csproj</Glue>
     <CmdActions>$(LibsRoot)cmd.actions/z0.cmd.actions.csproj</CmdActions>
     <LlvmTools>$(LibsRoot)llvm.tools/z0.llvm.tools.csproj</LlvmTools>

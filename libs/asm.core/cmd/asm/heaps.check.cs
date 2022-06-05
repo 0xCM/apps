@@ -2,12 +2,19 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
+    using Asm;
     using static core;
-    using static Root;
 
-    partial class AsmCmdService
+    partial class AsmChecks
     {
+
+        [CmdOp("heaps/check")]
+        void CheckHeaps()
+        {
+            var src = CodeFiles.PartFiles(PartId.Assets);
+            var hex = src.Hex.ReadLines();
+        }
     }
 }

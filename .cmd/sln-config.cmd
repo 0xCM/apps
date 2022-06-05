@@ -8,7 +8,6 @@ set SlnAsmCoreCmd=%SlnTool% %SlnPath% add %LibsRoot%/asm.core/z0.asm.core.csproj
 set SlnAsmOperandsCmd=%SlnTool% %SlnPath% add %LibsRoot%/asm.operands/z0.asm.operands.csproj
 set SlnAsmCmd=%SlnTool% %SlnPath% add %LibsRoot%/asm/z0.asm.csproj
 set SlnAsmPrototypesCmd=%SlnTool% %SlnPath% add %LibsRoot%/asm.prototypes/z0.asm.prototypes.csproj
-set SlnAsmServicesCmd=%SlnTool% %SlnPath% add %LibsRoot%/asm.services/z0.asm.services.csproj
 set SlnGlueCmd=%SlnTool% %SlnPath% add %LibsRoot%/glue/z0.glue.csproj
 set SlnCmdActionsCmd=%SlnTool% %SlnPath% add %LibsRoot%/cmd.actions/z0.cmd.actions.csproj
 set SlnLlvmToolsCmd=%SlnTool% %SlnPath% add %LibsRoot%/llvm.tools/z0.llvm.tools.csproj
