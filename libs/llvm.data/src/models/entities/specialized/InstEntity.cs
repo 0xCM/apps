@@ -30,7 +30,7 @@ namespace Z0.llvm
         public string AsmStringSource
             => Value(nameof(AsmStringSource),() => text.remove(this[nameof(AsmString)].Replace(Chars.Tab, Chars.Space), Chars.Quote));
 
-        public AsmPattern AsmString
+        public LlvmAsmPattern AsmString
             => Value(nameof(AsmString), () => llvm.AsmPatterns.extract(this));
 
         public int CodeSize

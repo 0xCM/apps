@@ -9,9 +9,7 @@ namespace Z0
     using static core;
 
     partial class ProjectSvc
-    {
-
-        
+    {        
         public Index<AsmSyntaxRow> CollectAsmSyntax(WsContext context)
         {
             var project = context.Project;

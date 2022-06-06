@@ -4,26 +4,21 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct ItemList : IItemList<ListItem>
     {
         readonly Index<ListItem> Data;
 
-        public Identifier Name {get;}
+        public readonly string Name;
 
         [MethodImpl(Inline)]
         public ItemList(ListItem[] src)
         {
-            Name = Identifier.Empty;
+            Name = EmptyString;
             Data = src;
         }
 
         [MethodImpl(Inline)]
-        public ItemList(Identifier name, ListItem[] src)
+        public ItemList(string name, ListItem[] src)
         {
             Name = name;
             Data = src;
@@ -70,13 +65,6 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Data.Count;
         }
-
-        public string Format()
-            => ItemLists.format(this);
-
-
-        public override string ToString()
-            => Format();
 
         [MethodImpl(Inline)]
         public static implicit operator ItemList(ListItem[] src)

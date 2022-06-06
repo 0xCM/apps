@@ -11,7 +11,7 @@ namespace Z0
     using W = AsmColWidths;
 
     [Record(TableId)]
-    public struct AsmPattern : IComparable<AsmPattern>
+    public struct LlvmAsmPattern : IComparable<LlvmAsmPattern>
     {
         public const string TableId = "llvm.asm.strings";
 
@@ -27,7 +27,7 @@ namespace Z0
         [Render(1)]
         public TextBlock SourceData;
 
-        public AsmPattern(Identifier name, AsmMnemonic mnemonic, string pattern, string raw)
+        public LlvmAsmPattern(Identifier name, AsmMnemonic mnemonic, string pattern, string raw)
         {
             InstName = name;
             Mnemonic = mnemonic;
@@ -44,7 +44,7 @@ namespace Z0
         public override int GetHashCode()
             => Hash;
 
-        public int CompareTo(AsmPattern src)
+        public int CompareTo(LlvmAsmPattern src)
         {
             var result = Mnemonic.CompareTo(src.Mnemonic);
             if(result == 0)
@@ -53,6 +53,6 @@ namespace Z0
             return result;
         }
 
-        public static AsmPattern Empty => new AsmPattern(Identifier.Empty, AsmMnemonic.Empty, EmptyString, EmptyString);
+        public static LlvmAsmPattern Empty => new LlvmAsmPattern(Identifier.Empty, AsmMnemonic.Empty, EmptyString, EmptyString);
     }
 }

@@ -54,15 +54,6 @@ namespace Z0
             return result;
         }
 
-        // public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{
-        //     ColWidths.Seq,
-        //     ColWidths.DocSeq,
-        //     ColWidths.OriginId,
-        //     ColWidths.OriginName,
-        //     32,
-        //     ColWidths.AsmExpr,
-        //     1
-        //     };
 
         public static AsmInstructionRow Empty => default;
 

@@ -8,10 +8,10 @@ namespace Z0.llvm
 
     partial class LlvmDataCalcs
     {
-        public Index<AsmPattern> CalcAsmStrings(Index<LlvmEntity> src)
+        public Index<LlvmAsmPattern> CalcAsmStrings(Index<LlvmEntity> src)
         {
             var count = src.Count;
-            var dst = bag<AsmPattern>();
+            var dst = bag<LlvmAsmPattern>();
             iter(src, entity => {
 
                 if(entity.IsInstruction())

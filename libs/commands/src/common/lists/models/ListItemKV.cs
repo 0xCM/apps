@@ -7,9 +7,9 @@ namespace Z0
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly struct ListItem<K,V> : IListItem<K,V>
     {
-        public K Key {get;}
+        public readonly K Key;
 
-        public V Value {get;}
+        public readonly V Value;
 
         [MethodImpl(Inline)]
         public ListItem(K key, V value)
@@ -18,11 +18,11 @@ namespace Z0
             Value = value;
         }
 
-        public string Format()
-            => string.Format(ListItem.RenderPattern, Key, Value);
+        K IListItem<K,V>.Key 
+            => Key;
 
-        public override string ToString()
-            => Format();
+        V IListItem<V>.Value 
+            => Value;
 
         [MethodImpl(Inline)]
         public static implicit operator ListItem<K,V>((K key, V content) src)

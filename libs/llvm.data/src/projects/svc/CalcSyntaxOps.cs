@@ -4,10 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using llvm;
-
     using static core;
-    using static llvm.LlvmSubtarget;
 
     partial class ProjectSvc
     {

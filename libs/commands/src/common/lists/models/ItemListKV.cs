@@ -4,16 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public class ItemList<K,T> : IItemList<ListItem<K,T>>
     {
         readonly Index<ListItem<K,T>> Data;
 
-        public Identifier Name {get;}
+        public readonly string Name;
 
         [MethodImpl(Inline)]
         public ItemList(ListItem<K,T>[] src)
@@ -23,7 +18,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public ItemList(Identifier name, ListItem<K,T>[] src)
+        public ItemList(string name, ListItem<K,T>[] src)
         {
             Name = name;
             Data = src;
@@ -70,12 +65,6 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Data.Count;
         }
-
-        public string Format()
-            => ItemLists.format(this);
-
-        public override string ToString()
-            => Format();
 
         [MethodImpl(Inline)]
         public static implicit operator ItemList<K,T>(ListItem<K,T>[] src)

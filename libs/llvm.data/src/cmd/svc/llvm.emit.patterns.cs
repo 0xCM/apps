@@ -4,12 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using static core;
-
     partial class LlvmCmd
     {
-        [CmdOp("llvm/emit/asmstrings")]
-        void EmitAsmStrings()
-            => DataEmitter.Emit(Calcs.CalcAsmStrings(DataProvider.Entities()));
+        [CmdOp("llvm/emit/patterns")]
+        void EmitInstPatterns()
+            => DataEmitter.Emit(DataProvider.InstPatterns());
     }
 }

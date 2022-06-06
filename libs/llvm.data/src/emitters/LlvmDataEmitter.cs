@@ -40,8 +40,8 @@ namespace Z0.llvm
             EmitList(list, dst);
         }
 
-        public void Emit(ReadOnlySpan<AsmPattern> src)
-            => AppSvc.TableEmit(src, LlvmPaths.Table<AsmPattern>());
+        public void Emit(ReadOnlySpan<LlvmAsmPattern> src)
+            => AppSvc.TableEmit(src, LlvmPaths.Table<LlvmAsmPattern>());
 
         public void Emit(AsmIdentifiers src)
         {

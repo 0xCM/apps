@@ -4,15 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
+    [StructLayout(StructLayout, Pack=1)]
     public readonly struct ListItem<T> : IListItem<T>
     {
-        public uint Key {get;}
+        public readonly uint Key;
 
-        public T Value {get;}
+        public readonly T Value;
 
         [MethodImpl(Inline)]
         public ListItem(uint index, T content)
@@ -21,11 +18,11 @@ namespace Z0
             Value = content;
         }
 
-        public string Format()
-            => string.Format(ListItem.RenderPattern, Key, Value);
+        uint IListItem.Key 
+            => Key;
 
-        public override string ToString()
-            => Format();
+        T IListItem<T>.Value 
+            => Value;
 
         public ListItem Untype()
             => ItemLists.untype(this);

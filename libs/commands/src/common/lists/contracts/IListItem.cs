@@ -4,20 +4,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IListItem : ITextual
+    public interface IListItem
     {
         uint Key {get;}
 
-        TextBlock Value {get;}
+        object Value {get;}
     }
 
     public interface IListItem<T> : IListItem
     {
-
         new T Value {get;}
 
-        TextBlock IListItem.Value
-            => text.trim(Value?.ToString() ?? string.Empty);
+        object IListItem.Value
+            => Value;
     }
 
     public interface IListItem<K,T> : IListItem<T>
@@ -25,6 +24,6 @@ namespace Z0
         new K Key {get;}
 
         uint IListItem.Key
-            => alg.hash.calc(Key.ToString());
+            => core.hash(Key);
     }
 }

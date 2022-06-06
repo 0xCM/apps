@@ -35,6 +35,13 @@ namespace Z0
     [ApiHost]
     public class FileArchives
     {
+        public static ItemList<string> listed(FS.FilePath src, char delimiter = Chars.Comma)
+        {
+            var items = ItemLists.items(src.ReadText().SplitClean(delimiter).Select(x => x.Trim()).Where(text.nonempty).ToReadOnlySpan());
+            var name = src.FileName.WithoutExtension.Format();
+            return new ItemList<string>(items);
+        }
+
         public static FileDescription describe(FS.FilePath src)
         {
             var dst = new FileDescription();

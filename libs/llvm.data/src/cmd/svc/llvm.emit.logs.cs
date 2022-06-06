@@ -28,8 +28,5 @@ namespace Z0.llvm
             var logs = LlvmTests.logs(FS.dir(@"J:\llvm\toolset\logs") + FS.file(id + "-tests-detail", FS.Json));
             AppSvc.TableEmit(logs, Paths.LogTargets().Table<LlvmTestLogEntry>("llvm.tests.logs." + id + ".detail"));
         }
-
-
-
     }
 }

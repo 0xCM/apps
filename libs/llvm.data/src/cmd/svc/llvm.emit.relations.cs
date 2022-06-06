@@ -8,9 +8,7 @@ namespace Z0.llvm
     {
         [CmdOp("llvm/emit/relations")]
         void EmitDefRelations()
-        {
-            var relations = DataProvider.DefDependencies();
-            Query.FileEmit("llvm.defs.relations", relations.View);
-        }
+            => Query.FileEmit("llvm.defs.relations", DataProvider.DefDependencies().View);
+
     }
 }

@@ -20,26 +20,26 @@ namespace Z0.llvm
             return text.nonempty(candidate) ? new AsmVariationCode(candidate) : AsmVariationCode.Empty;
         }
 
-        public static AsmPattern extract(InstAliasEntity src)
+        public static LlvmAsmPattern extract(InstAliasEntity src)
         {
-            var dst = AsmPattern.Empty;
+            var dst = LlvmAsmPattern.Empty;
             var name = src.InstName;
             var data = src.AsmStringSource;
             var input = normalize(data);
-            dst = new AsmPattern(name, mnemonic(input), pattern(input), data);
+            dst = new LlvmAsmPattern(name, mnemonic(input), pattern(input), data);
             return dst;
         }
 
-        public static AsmPattern extract(InstEntity src)
+        public static LlvmAsmPattern extract(InstEntity src)
         {
-            var dst = AsmPattern.Empty;
+            var dst = LlvmAsmPattern.Empty;
             var name = src.InstName;
             if(src.isCodeGenOnly || src.isPseudo)
-                return new AsmPattern(name, AsmMnemonic.Empty, EmptyString, EmptyString);
+                return new LlvmAsmPattern(name, AsmMnemonic.Empty, EmptyString, EmptyString);
 
             var data = src.AsmStringSource;
             var input = normalize(data);
-            dst = new AsmPattern(name, mnemonic(input), pattern(input), data);
+            dst = new LlvmAsmPattern(name, mnemonic(input), pattern(input), data);
             return dst;
         }
 

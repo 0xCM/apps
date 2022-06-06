@@ -8,6 +8,6 @@ namespace Z0.llvm
     {
         [CmdOp("llvm/emit/instdefs")]
         void EmitInst()
-            => DataEmitter.EmitInstDefs();
+            => DataEmitter.Emit(DataProvider.InstDefs());
     }
 }
