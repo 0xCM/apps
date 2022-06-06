@@ -5,6 +5,7 @@ set SlnZLibCmd=%SlnTool% %SlnPath% add %LibDir%/z0.lib.csproj
 
 set SlnLibsCmd=%SlnTool% %SlnPath% add %LibsRoot%/z0.libs.csproj
 set SlnAsmCoreCmd=%SlnTool% %SlnPath% add %LibsRoot%/asm.core/z0.asm.core.csproj
+set SlnAsmModelsCmd=%SlnTool% %SlnPath% add %LibsRoot%/asm.models/z0.asm.models.csproj
 set SlnAsmOperandsCmd=%SlnTool% %SlnPath% add %LibsRoot%/asm.operands/z0.asm.operands.csproj
 set SlnAsmCmd=%SlnTool% %SlnPath% add %LibsRoot%/asm/z0.asm.csproj
 set SlnAsmPrototypesCmd=%SlnTool% %SlnPath% add %LibsRoot%/asm.prototypes/z0.asm.prototypes.csproj

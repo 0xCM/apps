@@ -6,7 +6,10 @@ namespace Z0.Asm
 {
     public readonly struct AsmComment : IAsmSourcePart
     {
-        public TextBlock Content {get;}
+        public static string format(AsmComment src)
+            => src.Content.IsNonEmpty ? string.Format("# {0}", src.Content) : EmptyString;
+
+        public readonly TextBlock Content {get;}
 
         [MethodImpl(Inline)]
         public AsmComment(TextBlock text)
@@ -32,7 +35,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public string Format()
-            => AsmRender.comment(this);
+            => format(this);
 
         public override string ToString()
             => Format();

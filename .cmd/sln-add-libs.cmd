@@ -15,8 +15,11 @@ call %SlnCommandsCmd%
 call %SlnSymbolsCmd%
 call %SlnNumbersCmd%
 call %SlnDiagnosticsCmd%
-call %SlnAsmOperandsCmd%
+
 call %SlnAsmCoreCmd%
+call %SlnAsmModelsCmd%
+call %SlnAsmOperandsCmd%
+
 call %SlnIntelCoreCmd%
 call %SlnIntelIntrinsicsCmd%
 call %SlnIntelXedCmd%

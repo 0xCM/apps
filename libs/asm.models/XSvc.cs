@@ -2,13 +2,16 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-
 namespace Z0
 {
-    struct Msg
+    public static class XSvc
     {
-        const NumericKind Closure = Root.UnsignedInts;
+        sealed class Svc : AppServices<Svc>
+        {
 
+        }
+
+        static Svc Services => Svc.Instance;
 
     }
 }

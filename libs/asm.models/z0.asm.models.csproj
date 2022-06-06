@@ -9,9 +9,7 @@
   <Import Project="$(TopDir)imports/common.libs.props"/>
 
   <ItemGroup>
-    <ProjectReference Include="$(Commands)" />
-    <ProjectReference Include="$(Alloc)" />
-    <ProjectReference Include="$(ApiMd)" />
+    <ProjectReference Include="$(Symbols)" />
   </ItemGroup>
 
 </Project>

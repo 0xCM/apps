@@ -9,6 +9,8 @@
     <Symbols>$(LibsRoot)symbols/z0.symbols.csproj</Symbols>
     <Asm>$(LibsRoot)asm/z0.asm.csproj</Asm>
     <AsmCore>$(LibsRoot)asm.core/z0.asm.core.csproj</AsmCore>
+    <AsmModels>$(LibsRoot)asm.models/z0.asm.models.csproj</AsmModels>
+
     <AsmOperands>$(LibsRoot)asm.operands/z0.asm.operands.csproj</AsmOperands>
     <AsmPrototypes>$(LibsRoot)asm.prototypes/z0.asm.prototypes.csproj</AsmPrototypes>
     <Glue>$(LibsRoot)glue/z0.glue.csproj</Glue>

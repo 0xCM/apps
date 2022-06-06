@@ -132,6 +132,9 @@ public enum PartId : byte
     [Symbol("asm.core")]
     AsmCore,
 
+    [Symbol("asm.models")]
+    AsmModels,
+
     [Symbol("dynamic.linq")]
     DynamicLinq,
 
