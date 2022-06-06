@@ -6,7 +6,6 @@ namespace Z0
 {
     public readonly struct WsDb
     {
-
         readonly FS.FolderPath Root;
 
         [MethodImpl(Inline)]

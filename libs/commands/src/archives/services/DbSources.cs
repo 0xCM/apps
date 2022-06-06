@@ -13,8 +13,23 @@ namespace Z0
         [MethodImpl(Inline)]
         public DbSources(FS.FolderPath root, string scope)
         {
-            Root = root;
-            Scope = scope;
+            if(text.empty(scope))
+            {
+                Scope = root.FolderName.Format();
+                Root = FS.dir(root.Format(PathSeparator.FS).Replace($"/{Scope}", EmptyString));
+            }
+            else
+            {
+                Root = root;
+                Scope = scope;
+            }
+        }
+
+        [MethodImpl(Inline)]
+        public DbSources(FS.FolderPath root)
+        {
+            Scope = root.FolderName.Format();
+            Root = FS.dir(root.Format(PathSeparator.FS).Replace($"/{Scope}", EmptyString));
         }
 
         FS.FolderPath IRootedArchive.Root

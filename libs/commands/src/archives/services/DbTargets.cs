@@ -69,9 +69,6 @@ namespace Z0
         public FS.FolderPath Dir(string scope)
             => Root + FS.folder(scope);
 
-        // public FS.FolderPath OutDir(string scope)
-        //     => Scoped() + FS.folder(scope);
-
         public FS.FileName File(string name, FileKind kind)
             => FS.file(name, kind.Ext());
 

@@ -5,11 +5,11 @@
 namespace Z0
 {
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct HexCsv
+    public struct HexCsvRow
     {
-        public const string TableId = "hex.csv";
+        const string TableId = "hex.csv";
 
-        public const byte RowDataSize = 64;
+        public const byte BPL = 64;
 
         public MemoryAddress Address;
 

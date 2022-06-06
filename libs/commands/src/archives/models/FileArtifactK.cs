@@ -7,23 +7,28 @@ namespace Z0
     public readonly struct FileArtifact<K> : IFileArtifact<FileArtifact<K>,K>
         where K : unmanaged
     {
-        public K Kind {get;}
+        public readonly FS.FileUri Source;
 
-        public FS.FileUri Location {get;}
-
+        public readonly K Kind;
 
         [MethodImpl(Inline)]
         public FileArtifact(K kind, FS.FileUri location)
         {
             Kind = kind;
-            Location = location;
+            Source = location;
         }
 
         public FS.PathPart Name
-            => Location.Format();
+            => Source.Format();
+
+        FS.FileUri IArtifact<K, FS.FileUri>.Location 
+            => Source;
+
+        K IArtifact<K>.Kind 
+            => Kind;
 
         public string Format()
-            => Location.Format();
+            => Source.Format();
 
         public override string ToString()
             => Format();

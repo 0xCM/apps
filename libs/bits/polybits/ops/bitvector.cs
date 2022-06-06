@@ -11,6 +11,16 @@ namespace Z0
         public static Index<BfModel> bitvectors(DbSources sources, string filter)
             => bitvectors(sources.Files(FileKind.Csv).Where(f => f.FileName.StartsWith(filter)));
 
+        struct BvParser : IParser<object>
+        {
+            public static BvParser Service => default;
+
+            public Outcome Parse(string src, out object dst)
+            {
+                dst = src;
+                return true;
+            }
+        }
         public static Index<BfModel> bitvectors(FS.Files src)
         {
             var items = sys.empty<ListItem>();
@@ -20,7 +30,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var source = ref src[i];
-                Tables.list(source, out items).Require();
+                ItemLists.list(source, true, Chars.Pipe, BvParser.Service, out items).Require();
                 seek(bitfields, i) = bitvector(origin(source.ToUri()), source.FileName.WithoutExtension.Format(), items);
             }
 
@@ -37,7 +47,7 @@ namespace Z0
             var count = src.Length;
             var segs = alloc<BfSegModel>(count);
             for(var i=0u; i<count; i++)
-                seek(segs,i) = seg(skip(src,i).Value.Format(), i, i, i >= 64 ? BitMask.one(64,63) : BitMask.one((byte)i,(byte)i));
+                seek(segs,i) = seg(skip(src,i).Value.ToString(), i, i, i >= 64 ? BitMask.one(64,63) : BitMask.one((byte)i,(byte)i));
             return model(origin, name, segs);
         }
     }

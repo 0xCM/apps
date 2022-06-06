@@ -6,35 +6,16 @@ namespace Z0
 {
     using static core;
 
-    /// <summary>
-    /// Defines a file emission payload
-    /// </summary>
-    public readonly struct FileEmission
-    {
-        /// <summary>
-        /// The emission target
-        /// </summary>
-        public FS.FilePath Target {get;}
-
-        public Count Count {get;}
-
-        [MethodImpl(Inline)]
-        public FileEmission(FS.FilePath target, Count count)
-        {
-            Target = target;
-            Count = count;
-        }
-
-        public bool Succeeded
-        {
-            [MethodImpl(Inline)]
-            get => Count >= 0;
-        }
-    }
-
-    [ApiHost]
     public class FileArchives
     {
+        [MethodImpl(Inline)]
+        public static FileArtifact<K> artifact<K>(FS.FilePath src, K kind)
+            where K : unmanaged
+                => new FileArtifact<K>(kind,src);
+                
+        public static Index<FileArtifact<FileKind>> files(FS.FolderPath src, FileKind kind)
+            => src.Files(kind.Ext()).Select(f => artifact(f, kind));
+
         public static ItemList<string> listed(FS.FilePath src, char delimiter = Chars.Comma)
         {
             var items = ItemLists.items(src.ReadText().SplitClean(delimiter).Select(x => x.Trim()).Where(text.nonempty).ToReadOnlySpan());
@@ -113,8 +94,8 @@ namespace Z0
             => listed(Directory.EnumerateFiles(src.Root.Name, pattern, option(recurse)).Array().Select(x => FS.path(pattern)));
 
         [MethodImpl(Inline), Op]
-        public static IFileArchive create(FS.FolderPath root)
-            => new FileArchive(root);
+        public static IRootedArchive create(FS.FolderPath src)
+            => new FileArchive(src);
 
         [MethodImpl(Inline), Op]
         public static IFilteredArchive filtered(FS.FolderPath root, string filter)

@@ -8,9 +8,9 @@ namespace Z0
         where K : unmanaged
         where T : unmanaged
     {
-        public K Kind {get;}
+        public readonly K Kind;
 
-        public T Location {get;}
+        public readonly T Location;
 
         [MethodImpl(Inline)]
         public Artifact(K kind, T locator)
@@ -18,6 +18,12 @@ namespace Z0
             Kind = kind;
             Location = locator;
         }
+
+        T IArtifact<K, T>.Location 
+            => Location;
+
+        K IArtifact<K>.Kind 
+            => Kind;
 
         public string Format()
             => Location.ToString();

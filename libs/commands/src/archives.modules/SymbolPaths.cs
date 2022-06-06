@@ -27,19 +27,13 @@ namespace Z0
         public FS.FolderPath DefaultSymbolCache()
             => SymbolCacheRoot() + FS.folder(@default);
 
-        public FS.FolderPath DotNetSymbolRoot()
-            => SymbolCacheRoot() + FS.folder(dotnet);
+        public DbSources DotNetSymSources()
+            => new DbSources(SymbolCacheRoot(), dotnet);
 
-        public Index<FS.FolderPath> DotNetSymbolDirs()
-            => DotNetSymbolRoot().SubDirs();
+        public DbSources DotNetSymbolSource(string name)
+            => DotNetSymSources().Scoped(name);
 
-        public FS.Files DotNetSymbolFiles(FS.FolderName folder)
-            => DotNetSymbolDir(folder).Files(false);
-
-        public FS.FolderPath DotNetSymbolDir(FS.FolderName folder)
-            => DotNetSymbolRoot() + folder;
-
-        public FS.FolderPath DotNetSymbolDir(byte major, byte minor, byte revision)
-            => DotNetSymbolRoot() + FS.FolderName.version(major, minor, revision);
+        public DbSources DotNetSymbolSource(byte major, byte minor, byte revision)
+            => DotNetSymbolSource(FS.FolderName.version(major, minor, revision).Format());
     }
 }

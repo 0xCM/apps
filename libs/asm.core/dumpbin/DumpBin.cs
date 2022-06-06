@@ -23,8 +23,8 @@ namespace Z0
             var offset = Hex32.Zero;
             var data = BinaryCode.Empty;
             var parsing = false;
-            var records = list<HexCsv>();
-            var formatter = Tables.formatter<HexCsv>(16);
+            var records = list<HexCsvRow>();
+            var formatter = Tables.formatter<HexCsvRow>(16);
             using var reader = src.LineReader(TextEncodingKind.Asci);
             while(reader.Next(out var line))
             {

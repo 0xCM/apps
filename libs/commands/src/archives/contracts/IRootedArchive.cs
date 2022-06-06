@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     public interface IRootedArchive
     {
         FS.FolderPath Root {get;}
@@ -22,6 +20,12 @@ namespace Z0
         /// <param name="kind">The kind</param>
         FS.Files Files(FileKind kind)
             => Root.Files(kind.Ext(), true);
+
+        ListedFiles List()
+            => new ListedFiles(Root.EnumerateFiles(true).Array().Mapi((i,x) => new ListedFile(i,x)));
+
+        Deferred<FS.FilePath> Enumerate()
+            => Root.EnumerateFiles(true);
 
         FS.FileName File(string name, FileKind kind)
             => FS.file(name, kind.Ext());
@@ -42,6 +46,19 @@ namespace Z0
         FS.FilePath Table<T>(string prefix)
             where T : struct
                 => Root + Tables.filename<T>(prefix);
+
+        DbTargets Targets()
+            => new DbTargets(Root);
+
+        DbTargets Targets(string scope)
+            => new DbTargets(Root, scope);
+
+        DbSources Sources()
+            => new DbSources(Root);
+
+        DbSources Sources(string scope)
+            => new DbSources(Root, scope);
+
     }
 
     public interface IRootedArchive<T> : IRootedArchive

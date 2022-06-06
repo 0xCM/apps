@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct FileArchive : IFileArchive
+    public readonly struct FileArchive : IRootedArchive<FileArchive>
     {
         public FS.FolderPath Root {get;}
 
@@ -12,11 +12,17 @@ namespace Z0
         public FileArchive(FS.FolderPath root)
             => Root = root;
 
-        public ListedFiles List()
-            => new ListedFiles(Root.EnumerateFiles(true).Array().Mapi((i,x) => new ListedFile(i,x)));
+        public DbTargets Targets()
+            => new DbTargets(Root);
 
-        public Deferred<FS.FilePath> Enumerate()
-            => Root.EnumerateFiles(true);
+        public DbTargets Targets(string scope)
+            => new DbTargets(Root, scope);
+
+        public DbSources Sources()
+            => new DbSources(Root);
+
+        public DbSources Sources(string scope)
+            => new DbSources(Root, scope);
 
         [MethodImpl(Inline)]
         public static implicit operator FileArchive(FS.FolderPath src)

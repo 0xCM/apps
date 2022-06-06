@@ -13,6 +13,18 @@ namespace Z0
         static string status(MemoryFileInfo file)
             => string.Format("Created memory map: {0} | {1} | {2,-12} | {3}", file.BaseAddress, file.EndAddress, file.Size, file.Path.ToUri());
 
+        public static void emit(MemoryRange src, StreamWriter dst, byte bpl)
+            => HexDataFormatter.create(src.Min, bpl).FormatLines(cover<byte>(src.Min, src.Size), line => dst.WriteLine(line));
+
+        public static void emit(MemoryRange src, FS.FilePath dst, byte bpl)
+        {
+            using var writer = dst.Writer();
+            emit(src, writer, bpl);
+        }
+
+        public static void emit(MemoryAddress @base, ByteSize size, FS.FilePath dst, byte bpl = 40)
+            => emit((@base,  @base + size), dst, bpl);
+
         [Op]
         public unsafe static uint emit(MemorySeg src, uint bpl, FS.FilePath dst)
         {
@@ -56,39 +68,29 @@ namespace Z0
             return size;
         }
 
-        public void DumpImages(FS.FolderPath src, FS.FolderPath dst)
+        public void DumpImages(FS.FolderPath src, FS.FolderPath dst, bool pll = true)
         {
-            using var mapped = MemoryFiles.map(src);
-            var info = mapped.Descriptions;
-            var count = info.Count;
+            var files = src.Files(FS.Dll);
+            iter(files, file => DumpImage(file,dst), pll);                    
+        }
 
-            iter(info, file => Wf.Status(status(file)));
-
-            for(ushort i=0; i<count; i++)
-            {
-                ref readonly var file = ref mapped[i];
-                var target = dst + FS.file(file.Path.FileName.Name, FS.Hex);
-                var flow = Wf.EmittingFile(target);
-                Emit(file.BaseAddress, file.Size, target);
-                Wf.EmittedFile(flow, (uint)file.Size);
-            }
+        public void DumpImage(FS.FilePath src, FS.FolderPath dst)
+        {
+            using var file = MemoryFiles.map(src);
+            var target = dst + FS.file(file.Path.FileName.Name, FS.Hex);
+            var flow = Wf.EmittingFile(target);
+            Emit(file.BaseAddress, file.Size, target);
+            EmittedFile(flow, (uint)file.Size);
         }
 
         public void Emit(MemoryRange src, StreamWriter dst, byte bpl = 40)
-        {
-            var formatter = HexDataFormatter.create(src.Min, bpl);
-            var data = cover<byte>(src.Min, src.Size);
-            formatter.FormatLines(data, line => dst.WriteLine(line));
-        }
+            => emit(src, dst, bpl);
 
         public void Emit(MemoryRange src, FS.FilePath dst, byte bpl = 40)
-        {
-            using var writer = dst.Writer();
-            Emit(src, writer, bpl);
-        }
+            => emit(src, dst, bpl);
 
         public void Emit(MemoryAddress @base, ByteSize size, FS.FilePath dst, byte bpl = 40)
-            => Emit((@base,  @base + size), dst, bpl);
+            => emit((@base,  @base + size), dst, bpl);
 
         public unsafe void EmitPaged(MemoryRange src, StreamWriter dst, byte bpl = 40)
         {
@@ -99,14 +101,14 @@ namespace Z0
             var offset = 0ul;
             var @base = src.Min;
 
-            Wf.Status($"Length = {src.Size} | Pages={pages} | Base={src.Min} | End = {src.Max}");
+            Status($"Length = {src.Size} | Pages={pages} | Base={src.Min} | End = {src.Max}");
 
             var formatter = HexDataFormatter.create(src.Min, bpl);
             dst.WriteLine(text.concat($"Address".PadRight(12), RP.SpacedPipe, "Data"));
             for(var i=0; i<pages; i++)
             {
                 var size = reader.Read((int)offset, PageSize, buffer);
-                Wf.Babble($"Read {size} bytes");
+                Babble($"Read {size} bytes");
                 var content = slice(buffer, size);
                 var lines = formatter.FormatLines(content);
                 var kLines = lines.Length;
@@ -123,7 +125,7 @@ namespace Z0
         public void EmitPaged(MemoryRange src, FS.FilePath dst, byte bpl = 40)
         {
             using var writer = dst.Writer();
-            EmitPaged(src,writer, bpl);
+            EmitPaged(src, writer, bpl);
         }
 
         public void EmitPaged(MemoryAddress @base, ByteSize size, FS.FilePath dst, byte bpl = 40)

@@ -27,6 +27,18 @@ namespace Z0
         public FS.FolderPath DumpRoot()
             => Root;
 
+        public DbTargets DumpTargets()
+            => new DbTargets(Root);
+
+        public DbTargets DumpTargets(string scope)
+            => new DbTargets(Root, scope);
+
+        public DbTargets DotNetTargets()
+            => DumpTargets(dotnet);
+
+        public DbTargets DotNetTargets(byte major, byte minor, byte revision)
+            => DotNetTargets().Targets(FS.FolderName.version(major, minor, revision).Format());
+
         public FS.Files Dumps()
             => DumpRoot().Files(FS.Dmp);
 
@@ -38,8 +50,5 @@ namespace Z0
 
         public FS.FilePath DumpPath(Process process, Timestamp ts)
             => DumpRoot() + DumpFile(process, ts);
-
-        public FS.FolderPath DumpDir(byte major, byte minor, byte revision)
-            => DumpRoot() + FS.FolderName.version(major, minor, revision);
     }
 }

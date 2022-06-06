@@ -23,7 +23,7 @@ namespace Z0
             => ProjectDb.Subdir(ImageHexScope);
 
         FS.FilePath ImageHexPath(string id)
-            => ProjectDb.TablePath<HexCsv>(ImageHexScope, id);
+            => ProjectDb.TablePath<HexCsvRow>(ImageHexScope, id);
 
         public void EmitImageContent()
         {
@@ -34,22 +34,21 @@ namespace Z0
         }
 
         public void LoadImageContent(FS.FilePath src)
-            => HexCsvReader.create(Wf).Load(src);
+            => HexCsv.read(src);
 
         [Op]
-        public MemoryRange EmitImageContent(Assembly src)
+        public MemoryRange EmitImageContent(Assembly src, byte bpl = HexCsvRow.BPL)
         {
-            var rowsize = HexCsv.RowDataSize;
             var dst =  ImageHexPath(src.GetSimpleName());
-            var flow = EmittingTable<HexCsv>(dst);
+            var flow = EmittingTable<HexCsvRow>(dst);
             var @base = ImageMemory.@base(src);
-            var formatter = HexDataFormatter.create(@base, rowsize);
+            var formatter = HexDataFormatter.create(@base, bpl);
             var path = FS.path(src.Location);
             using var stream = path.Utf8Reader();
             using var reader = stream.BinaryReader();
             using var writer = dst.Writer();
             writer.WriteLine(string.Concat($"Address".PadRight(12), RP.SpacedPipe, "Data"));
-            var buffer = alloc<byte>(rowsize);
+            var buffer = alloc<byte>(bpl);
             var k = Read(reader, buffer);
             var offset = MemoryAddress.Zero;
             var lines = 0;
@@ -64,7 +63,7 @@ namespace Z0
                 k = Read(reader, buffer);
             }
 
-            EmittedTable<HexCsv>(flow, lines);
+            EmittedTable(flow, lines);
             return (@base, @base + offset);
         }
 
