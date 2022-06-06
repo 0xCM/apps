@@ -256,9 +256,8 @@ namespace Z0
             return result;
         }
 
-        [Parser]
         public static Outcome parse(string src, out bit dst)
-            => bit.parse(src, out dst);
+            => BitParser.parse(src, out dst);
 
         [Parser]
         public static Outcome numeric<T>(string src, out T dst)

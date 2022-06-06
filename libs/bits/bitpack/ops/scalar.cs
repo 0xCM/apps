@@ -13,7 +13,7 @@ namespace Z0
             var storage = ByteBlock8.Empty;
             var buffer = recover<bit>(storage.Bytes);
             dst = 0;
-            var count = bits.parse(src, buffer);
+            var count = BitParser.parse(src, buffer);
             if(count >= 0)
                 dst = scalar<byte>(buffer);
             return (byte)count;
@@ -24,7 +24,7 @@ namespace Z0
             var storage = ByteBlock16.Empty;
             var buffer = recover<bit>(storage.Bytes);
             dst = 0;
-            var count = bits.parse(src, buffer);
+            var count = BitParser.parse(src, buffer);
             if(count >= 0)
                 dst = scalar<ushort>(buffer);
             return (byte)count;

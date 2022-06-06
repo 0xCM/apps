@@ -105,54 +105,69 @@ namespace Z0
             return bn;
         }
 
-        public static bool parse(string src, N8 n, out bits<byte> dst)
+        public static bits<byte> parse<N>(string data, W8 w, N n = default)
+            where N : unmanaged, ITypeNat
         {
-            var result = BitNumbers.parse(src, n, out var b);
-            dst = b;
-            return result;
+            BitParser.parse(data, n, out bits<byte> dst);
+            //var dst = Z0.bits<byte>.Zero;
+            return dst;
         }
 
-        public static bool parse(string src, N7 n, out bits<byte> dst)
-        {
-            var result = BitNumbers.parse(src, n, out var b);
-            dst = b;
-            return result;
-        }
+        // public static bool parse(string src, N1 n, out bits<byte> dst)
+        // {
+        //     var result = BitNumbers.parse(src, n, out var b);
+        //     dst = b;
+        //     return result;
+        // }
 
-        public static bool parse(string src, N6 n, out bits<byte> dst)
-        {
-            var result = BitNumbers.parse(src, n, out var b);
-            dst = b;
-            return result;
-        }
+        // public static bool parse(string src, N2 n, out bits<byte> dst)
+        // {
+        //     var result = BitNumbers.parse(src, n, out var b);
+        //     dst = b;
+        //     return result;
+        // }
 
-        public static bool parse(string src, N5 n, out bits<byte> dst)
-        {
-            var result = BitNumbers.parse(src, n, out var b);
-            dst = b;
-            return result;
-        }
+        // public static bool parse(string src, N3 n, out bits<byte> dst)
+        // {
+        //     var result = BitNumbers.parse(src, n, out var b);
+        //     dst = b;
+        //     return result;
+        // }
 
-        public static bool parse(string src, N4 n, out bits<byte> dst)
-        {
-            var result = BitNumbers.parse(src, n, out var b);
-            dst = b;
-            return result;
-        }
+        // public static bool parse(string src, N4 n, out bits<byte> dst)
+        // {
+        //     var result = BitNumbers.parse(src, n, out var b);
+        //     dst = b;
+        //     return result;
+        // }
 
-        public static bool parse(string src, N3 n, out bits<byte> dst)
-        {
-            var result = BitNumbers.parse(src, n, out var b);
-            dst = b;
-            return result;
-        }
+        // public static bool parse(string src, N5 n, out bits<byte> dst)
+        // {
+        //     var result = BitNumbers.parse(src, n, out var b);
+        //     dst = b;
+        //     return result;
+        // }
 
-        public static bool parse(string src, N2 n, out bits<byte> dst)
-        {
-            var result = BitNumbers.parse(src, n, out var b);
-            dst = b;
-            return result;
-        }
+        // public static bool parse(string src, N6 n, out bits<byte> dst)
+        // {
+        //     var result = BitNumbers.parse(src, n, out var b);
+        //     dst = b;
+        //     return result;
+        // }
+
+        // public static bool parse(string src, N7 n, out bits<byte> dst)
+        // {
+        //     var result = BitNumbers.parse(src, n, out var b);
+        //     dst = b;
+        //     return result;
+        // }
+
+        // public static bool parse(string src, N8 n, out bits<byte> dst)
+        // {
+        //     var result = BitNumbers.parse(src, n, out var b);
+        //     dst = b;
+        //     return result;
+        // }
 
         [MethodImpl(Inline)]
         public static BitNumber<T> generic<T>(byte n, T src)

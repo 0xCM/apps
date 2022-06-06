@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    public enum SubtargetKind : byte
+    public enum LlvmSubtarget : byte
     {
         Sse,
 

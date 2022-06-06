@@ -8,6 +8,23 @@ namespace Z0
 
     public class Lineage
     {
+
+        public static string parent(Lineage src)
+            => src != null && src.IsNonEmpty ? src.Name : EmptyString;
+
+        public static Index<string> ancestors(Lineage src)
+        {
+            var dst = sys.empty<string>();
+            if(src != null && src.IsNonEmpty)
+            {
+                if(src.HasAncestor)
+                    dst = Arrays.concat(new string[]{src.Name}, src.Ancestors.Storage);
+                else
+                    dst = new string[]{src.Name};
+            }
+            return dst;
+        }
+
         [MethodImpl(Inline)]
         public static Lineage root(string name)
             => new Lineage(name);

@@ -28,3 +28,4 @@ call %SlnCgIntelCmd%
 call %SlnCgCommonCmd%
 call %SlnCgLlvmCmd%
 call %SlnApiMd%
+call %SlnLibsCmd%

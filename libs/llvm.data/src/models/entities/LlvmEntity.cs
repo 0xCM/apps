@@ -5,6 +5,7 @@
 namespace Z0.llvm
 {
     using static LlvmNames;
+    using static core;
 
     public class LlvmEntity : DefFields
     {

@@ -7,11 +7,11 @@ namespace Z0
     using llvm;
 
     using static core;
-    using static llvm.SubtargetKind;
+    using static llvm.LlvmSubtarget;
 
     partial class ProjectSvc
     {
-        public Outcome<Index<ToolCmdFlow>> BuildLlc(IProjectWs project, SubtargetKind subtarget, bool runexe = false)
+        public Outcome<Index<ToolCmdFlow>> BuildLlc(IProjectWs project, LlvmSubtarget subtarget, bool runexe = false)
         {
             var result = Outcome.Success;
             var scriptid = subtarget switch

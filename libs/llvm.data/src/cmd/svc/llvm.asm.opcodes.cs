@@ -18,18 +18,18 @@ namespace Z0.llvm
             var dst = text.emitter();
             dst.AppendLineFormat(RenderPattern, "Seq", "Map", "AsmId", "Bits", "Data");
             var seq=0u;
-            for(var i=0; i<keys.Length; i++)
-            {
-                ref readonly var map = ref skip(keys,i);
-                var mapped = src[map];
-                for(var j=0; j<mapped.Count; j++, seq++)
-                {
-                    ref readonly var inst = ref mapped[j];
-                    var data = text.remove(text.unfence(inst.OpCodeData, RenderFence.Embraced),Chars.Comma, Chars.Space);
-                    BitNumber.parse(data, n8, out bits<byte> bits);
-                    dst.AppendLineFormat(RenderPattern, seq, map, inst.InstName, bits, data);
-                }
-            }
+            // for(var i=0; i<keys.Length; i++)
+            // {
+            //     ref readonly var map = ref skip(keys,i);
+            //     var mapped = src[map];
+            //     for(var j=0; j<mapped.Count; j++, seq++)
+            //     {
+            //         ref readonly var inst = ref mapped[j];
+            //         var data = text.remove(text.unfence(inst.OpCodeData, RenderFence.Embraced),Chars.Comma, Chars.Space);
+            //         BitNumber.parse(data, n8, out bits<byte> bits);
+            //         dst.AppendLineFormat(RenderPattern, seq, map, inst.InstName, bits, data);
+            //     }
+            // }
 
             Query.FileEmit(dst.Emit(), "llvm.asm.opcodes", FS.Csv);
         }

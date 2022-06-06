@@ -10,7 +10,7 @@ namespace Z0.llvm
     {
         readonly List<LlvmEntity> Data;
 
-        public Identifier Name {get;}
+        public readonly @string Name;
 
         [MethodImpl(Inline)]
         public LlvmEntitySet(LlvmEntity[] src)
@@ -20,7 +20,7 @@ namespace Z0.llvm
         }
 
         [MethodImpl(Inline)]
-        public LlvmEntitySet(Identifier name, LlvmEntity[] src)
+        public LlvmEntitySet(@string name, LlvmEntity[] src)
         {
             Name = name;
             Data = new(src);

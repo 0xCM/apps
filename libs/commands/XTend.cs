@@ -5,8 +5,9 @@
 
 namespace Z0
 {
-    using static core;
     using System.IO;
+
+    using static core;
 
     public static partial class XTend
     {

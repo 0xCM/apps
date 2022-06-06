@@ -14,7 +14,7 @@ namespace Z0
             var a0 = "0b10111";
             var a1 = (byte)0b10111;
             Span<bit> a2 = array<bit>(1,1,1,0,1);
-            count = bit.parse(a0, out Span<bit> a3);
+            count = BitParser.parse(a0, out Span<bit> a3);
             if(count < 0)
                 return false;
 

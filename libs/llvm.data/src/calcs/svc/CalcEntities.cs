@@ -10,7 +10,7 @@ namespace Z0.llvm
     {
         public Index<LlvmEntity> CalcEntities(ReadOnlySpan<DefRelations> rel, ReadOnlySpan<RecordField> fields)
         {
-            var relations = rel.Map(x => (x.Name.Content, x)).ToDictionary();
+            var relations = rel.Map(x => (x.Name, x)).ToDictionary();
             var entites = list<LlvmEntity>();
             var current = EmptyString;
             var buffer = list<RecordField>();

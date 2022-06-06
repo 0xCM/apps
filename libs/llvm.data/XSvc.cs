@@ -35,9 +35,6 @@ namespace Z0
             public LlvmTableLoader LlvmTableLoader(IWfRuntime wf)
                 => Service<LlvmTableLoader>(wf);
 
-            public LlvmData LlvmData(IWfRuntime wf)
-                => Service<LlvmData>(wf);
-
             public LlvmCmd LlvmCmd(IWfRuntime wf)
                 => Service<LlvmCmd>(wf);
 
@@ -86,9 +83,6 @@ namespace Z0
 
         public static LlvmTableLoader LlvmTableLoader(this IWfRuntime wf)
             => Services.LlvmTableLoader(wf);
-
-        public static LlvmData LlvmData(this IWfRuntime wf)
-            => Services.LlvmData(wf);
 
         public static LlvmCmd LlvmCmd(this IWfRuntime wf)
             => Services.LlvmCmd(wf);

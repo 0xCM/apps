@@ -25,7 +25,7 @@ namespace Z0.llvm
             => this[nameof(AdSize)];
 
         public bits<byte> AdSizeBits
-            => bits(n2, this[nameof(AdSizeBits)]);
+           => LlvmEntities.bits(this[nameof(AdSizeBits)], w8, n2);
 
         public string AsmStringSource
             => Value(nameof(AsmStringSource),() => text.remove(this[nameof(AsmString)].Replace(Chars.Tab, Chars.Space), Chars.Quote));
@@ -37,10 +37,10 @@ namespace Z0.llvm
             => Parse(nameof(CodeSize), out int _);
 
        public bits<byte> CD8_Form
-            => bits(n3, this[nameof(CD8_Form)]);
+           => LlvmEntities.bits(this[nameof(CD8_Form)], w8, n3);
 
        public bits<byte> CD8_Scale
-            => bits(n7, this[nameof(CD8_Scale)]);
+           => LlvmEntities.bits(this[nameof(CD8_Scale)], w8, n7);
 
         public string Constraints
             => this[nameof(Constraints)];
@@ -55,7 +55,7 @@ namespace Z0.llvm
             => this[nameof(Form)];
 
         public bits<byte> FormBits
-            => bits(n7, this[nameof(FormBits)]);
+           => LlvmEntities.bits(this[nameof(FormBits)], w8, n7);
 
         public string InstName
             => EntityName;
@@ -136,16 +136,16 @@ namespace Z0.llvm
             => this[nameof(OpMap)];
 
         public bits<byte> OpMapBits
-            => bits(n3, this[nameof(OpMapBits)]);
+            => LlvmEntities.bits(this[nameof(OpMapBits)], w8, n3);
 
         public string OpSize
             => this[nameof(OpSize)];
 
         public bits<byte> OpSizeBits
-            => bits(n2, this[nameof(OpSizeBits)]);
+            => LlvmEntities.bits(this[nameof(OpSizeBits)], w8, n2);
 
         public bits<byte> Opcode
-            => bits(n8, this[nameof(Opcode)]);
+            => LlvmEntities.bits(this[nameof(Opcode)], w8, n8);
 
         public string OpCodeData
             => this[nameof(Opcode)];
@@ -154,13 +154,13 @@ namespace Z0.llvm
             => this[nameof(OpEnc)];
 
         public bits<byte> OpEncBits
-            => bits(n2, this[nameof(OpEncBits)]);
+            => LlvmEntities.bits(this[nameof(OpEncBits)], w8, n2);
 
         public string OpPrefix
             => this[nameof(OpPrefix)];
 
         public bits<byte> OpPrefixBits
-            => bits(n3, this[nameof(OpPrefixBits)]);
+            => LlvmEntities.bits(this[nameof(OpPrefixBits)], w8, n3);
 
         public list<string> Predicates
             => Parse(nameof(Predicates), ListTypes.Predicate, out list<string> _);
@@ -168,13 +168,13 @@ namespace Z0.llvm
         public int Size
             => Parse(nameof(Size), out int _);
 
-        public bits<ulong> TSFlags
-            => Parse(nameof(TSFlags), out bits<ulong> dst);
+        public bits<N64,ulong> TSFlags
+            => Parse(nameof(TSFlags), out bits<N64,ulong> dst);
 
         public AsmVariationCode VarCode
             => Value(nameof(VarCode), () => llvm.AsmPatterns.varcode(InstName, Mnemonic));
 
         public bits<byte> VectSize
-            => bits(n7, this[nameof(VectSize)]);
+            => LlvmEntities.bits(this[nameof(VectSize)], w8, n7);
     }
 }

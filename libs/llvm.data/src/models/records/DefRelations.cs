@@ -7,7 +7,7 @@ namespace Z0.llvm
     [Record(TableId)]
     public struct DefRelations : ILineRelations<DefRelations>, IComparable<DefRelations>
     {
-        public const string TableId = "llvm.defs.relations";
+        const string TableId = "llvm.defs.relations";
 
         public const byte FieldCount = 3;
 
@@ -15,7 +15,7 @@ namespace Z0.llvm
         public LineNumber SourceLine;
 
         [Render(64)]
-        public Identifier Name;
+        public @string Name;
 
         [Render(1)]
         public Lineage Ancestors;
@@ -27,25 +27,25 @@ namespace Z0.llvm
             => Name;
 
         [MethodImpl(Inline)]
-        public void Specify(LineNumber line, Identifier name, Lineage ancestors)
+        public void Specify(LineNumber line, @string name, Lineage ancestors)
         {
             SourceLine = line;
             Name = name;
             Ancestors = ancestors ?? Lineage.Empty;
         }
 
-        public string ParentName
-            => LlvmData.parent(this);
+        public @string ParentName
+            => Lineage.parent(Ancestors);
 
-        public ReadOnlySpan<string> AncestorNames
-            => LlvmData.ancestors(this);
+        public Index<string> AncestorNames
+            => Lineage.ancestors(Ancestors);
 
         public static DefRelations Empty
         {
             get
             {
                 var dst = new DefRelations();
-                dst.Specify(LineNumber.Empty, Identifier.Empty, Lineage.Empty);
+                dst.Specify(LineNumber.Empty, @string.Empty, Lineage.Empty);
                 return dst;
             }
         }

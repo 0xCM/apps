@@ -8,34 +8,6 @@ namespace Z0.llvm
     {
         public readonly DefRelations Def;
 
-        protected static bits<byte> bits(N8 n, string src)
-        {
-            var data = text.remove(text.unfence(src, RenderFence.Embraced),Chars.Comma, Chars.Space);
-            BitNumber.parse(data, n, out bits<byte> bits);
-            return bits;
-        }
-
-        protected static bits<byte> bits(N7 n, string src)
-        {
-            var data = text.remove(text.unfence(src, RenderFence.Embraced),Chars.Comma, Chars.Space);
-            BitNumber.parse(data, n, out bits<byte> bits);
-            return bits;
-        }
-
-        protected static bits<byte> bits(N2 n, string src)
-        {
-            var data = text.remove(text.unfence(src, RenderFence.Embraced),Chars.Comma, Chars.Space);
-            BitNumber.parse(data, n, out bits<byte> bits);
-            return bits;
-        }
-
-        protected static bits<byte> bits(N3 n, string src)
-        {
-            var data = text.remove(text.unfence(src, RenderFence.Embraced),Chars.Comma, Chars.Space);
-            BitNumber.parse(data, n, out bits<byte> bits);
-            return bits;
-        }
-
         public DefFields(DefRelations def, RecordField[] fields)
             : base(fields ?? sys.empty<RecordField>())
         {
@@ -74,15 +46,16 @@ namespace Z0.llvm
             return ref dst;
         }
 
-        protected ref bits<T> Parse<T>(string attrib, out bits<T> dst)
+        protected ref bits<N,T> Parse<N,T>(string attrib, out bits<N,T> dst)
             where T : unmanaged
+            where N : unmanaged, ITypeNat
         {
-            bits<T> parse()
+            bits<N,T> parse()
             {
-                if(BitParser.parse(this[attrib], out bits<T> b))
+                if(BitParser.parse(this[attrib], out bits<N,T> b))
                     return b;
                 else
-                    return new bits<T>(0,default(T));
+                    return bits<N,T>.Zero;
             }
 
             dst = Value(attrib, parse);
@@ -120,10 +93,10 @@ namespace Z0.llvm
             return ref dst;
         }
 
-        public Identifier EntityName
+        public @string EntityName
             => Def.Name;
 
-        public Identifier ParentName
+        public @string ParentName
             => Def.ParentName;
 
         public new string this[string name]

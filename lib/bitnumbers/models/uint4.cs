@@ -23,7 +23,7 @@ namespace Z0
         [Parser]
         public static bool parse(string src, out U dst)
         {
-            var result = api.parse(src, Width, out var b);
+            var result = BitParser.parse(src, Width, out byte b);
             dst = b;
             return result;
         }

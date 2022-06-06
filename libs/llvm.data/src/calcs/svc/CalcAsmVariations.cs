@@ -16,7 +16,7 @@ namespace Z0.llvm
             for(var i=0; i<count; i++)
             {
                 ref readonly var inst = ref entities[i];
-                var name = inst.EntityName.Content;
+                var name = inst.EntityName.Value;
                 var asmstr = inst.AsmString;
                 var mnemonic = asmstr.Mnemonic;
                 var id = z16;

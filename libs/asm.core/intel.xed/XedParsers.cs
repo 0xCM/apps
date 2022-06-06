@@ -214,7 +214,7 @@ namespace Z0
         }
 
         public static bool parse(string src, out bit dst)
-            => bit.parse(src, out dst);
+            => BitParser.parse(src, out dst);
 
         public static bool parse(string src, out ChipCode dst)
             => ChipCodes.Parse(src, out dst);
