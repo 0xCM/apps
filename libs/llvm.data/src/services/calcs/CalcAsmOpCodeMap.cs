@@ -8,7 +8,7 @@ namespace Z0.llvm
 
     partial class LlvmDataCalcs
     {
-        public LlvmOpCodeMap CalcOpCodeMap(Index<InstEntity> src)
+        public LlvmAsmOpCodeMap CalcAsmOpCodeMap(Index<InstEntity> src)
         {
             var count = src.Length;
             var dst = dict<Identifier,DataList<InstEntity>>();

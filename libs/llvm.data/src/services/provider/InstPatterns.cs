@@ -6,7 +6,7 @@ namespace Z0.llvm
 {
     partial class LlvmDataProvider
     {
-        public Index<LlvmInstPattern> InstPatterns()
-            => (Index<LlvmInstPattern>)DataSets.GetOrAdd(nameof(InstPatterns), _ => DataLoader.LoadInstPatterns());
+        public Index<LlvmAsmInstPattern> InstPatterns()
+            => (Index<LlvmAsmInstPattern>)DataSets.GetOrAdd(nameof(InstPatterns), _ => DataLoader.LoadInstPatterns());
     }
 }

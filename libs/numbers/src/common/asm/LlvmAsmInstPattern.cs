@@ -9,9 +9,9 @@ namespace Z0
     using W = AsmColWidths;
 
     [Record(TableId)]
-    public struct LlvmInstPattern : IComparable<LlvmInstPattern>
+    public struct LlvmAsmInstPattern : IComparable<LlvmAsmInstPattern>
     {
-        const string TableId = "llvm.inst.pattern";
+        const string TableId = "llvm.asm.inst.pattern";
 
         public const byte FieldCount = 5;
 
@@ -30,7 +30,7 @@ namespace Z0
         [Render(1)]
         public TextBlock SourceData;
 
-        public int CompareTo(LlvmInstPattern src)
+        public int CompareTo(LlvmAsmInstPattern src)
             => AsmId.CompareTo(src.AsmId);
     }
 }

@@ -10,6 +10,6 @@ namespace Z0.llvm
     {
         [CmdOp("llvm/emit/mnemonics")]
         void EmitMnemonics()
-            => DataEmitter.Emit(DataProvider.Mnemonics());
+            => DataEmitter.Emit(DataProvider.AsmMnemonics());
     }
 }

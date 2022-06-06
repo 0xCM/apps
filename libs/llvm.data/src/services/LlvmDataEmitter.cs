@@ -27,8 +27,8 @@ namespace Z0.llvm
         public void Emit(ReadOnlySpan<AsmMnemonicRow> src)
             => AppSvc.TableEmit(src, LlvmPaths.Table("llvm.asm.mnemonics"));
 
-        public void Emit(ReadOnlySpan<LlvmInstPattern> src)
-            => AppSvc.TableEmit(src, LlvmPaths.Table<LlvmInstPattern>());
+        public void Emit(ReadOnlySpan<LlvmAsmInstPattern> src)
+            => AppSvc.TableEmit(src, LlvmPaths.Table<LlvmAsmInstPattern>());
 
         public void Emit(ReadOnlySpan<LlvmAsmVariation> src)
             => AppSvc.TableEmit(src, LlvmPaths.Table<LlvmAsmVariation>());

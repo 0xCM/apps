@@ -6,13 +6,14 @@ namespace Z0.llvm
 {
     using static core;
 
+
     partial class LlvmCmd
     {
         [CmdOp("llvm/asm/opcodes")]
         void QueryOpCodes()
         {
             const string RenderPattern = "{0,-8} | {1,-16} | {2,-32} | {3,-16} | {4}";
-            var src = DataProvider.OpCodeMap();
+            var src = DataProvider.AsmOpCodeMap();
             var keys = src.Keys;
             var dst = text.emitter();
             dst.AppendLineFormat(RenderPattern, "Seq", "Map", "AsmId", "Bits", "Data");

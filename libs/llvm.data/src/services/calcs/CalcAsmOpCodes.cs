@@ -8,7 +8,7 @@ namespace Z0.llvm
 
     partial class LlvmDataCalcs
     {
-        public Index<LlvmAsmOpCode> CalcAsmOpCodes(AsmIdentifiers asmids, LlvmOpCodeMap src)
+        public Index<LlvmAsmOpCode> CalcAsmOpCodes(AsmIdentifiers asmids, LlvmAsmOpCodeMap src)
         {
             var entries = src.Entries;
             var count = entries.Length;

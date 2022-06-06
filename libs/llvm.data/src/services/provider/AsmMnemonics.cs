@@ -4,12 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
+    using Asm;
+
     partial class LlvmDataProvider
     {
-        public LlvmOpCodeMap OpCodeMap(Index<InstEntity> src)
-            => (LlvmOpCodeMap)DataSets.GetOrAdd(nameof(OpCodeMap), _ => DataCalcs.CalcOpCodeMap(src));
-
-        public LlvmOpCodeMap OpCodeMap()
-            => OpCodeMap(Instructions());
+        public Index<AsmMnemonicRow> AsmMnemonics()
+            => (Index<AsmMnemonicRow>)DataSets.GetOrAdd(nameof(AsmMnemonics), _ => DataCalcs.CalcAsmMnemonics(AsmVariations()));
     }
 }

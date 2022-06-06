@@ -83,7 +83,7 @@ namespace Z0.llvm
                 () => variations = DataCalcs.CalcAsmVariations(asmids, instructions),
                 () => DataEmitter.EmitChildRelations(src),
                 () => DataEmitter.Emit(DataCalcs.CalcInstPatterns(asmids, src)),
-                () => DataEmitter.Emit(DataCalcs.CalcAsmOpCodes(asmids, DataCalcs.CalcOpCodeMap(instructions))),
+                () => DataEmitter.Emit(DataProvider.AsmOpCodes(asmids, DataProvider.AsmOpCodeMap(instructions))),
                 () => DataEmitter.Emit(DataCalcs.CalcAsmStrings(src)),
                 () => DataEmitter.EmitLists(src)
             );

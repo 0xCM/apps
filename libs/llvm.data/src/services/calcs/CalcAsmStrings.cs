@@ -10,24 +10,19 @@ namespace Z0.llvm
     {
         public Index<AsmPattern> CalcAsmStrings(Index<LlvmEntity> src)
         {
-            return data(nameof(AsmPattern), Calc);
+            var count = src.Count;
+            var dst = bag<AsmPattern>();
+            iter(src, entity => {
 
-            Index<AsmPattern> Calc()
-            {
-                var count = src.Count;
-                var dst = bag<AsmPattern>();
-                iter(src, entity => {
+                if(entity.IsInstruction())
+                {
+                    var inst = entity.ToInstruction();
+                    if(!inst.isCodeGenOnly && !inst.isPseudo)
+                        dst.Add(inst.AsmString);
+                }
 
-                    if(entity.IsInstruction())
-                    {
-                        var inst = entity.ToInstruction();
-                        if(!inst.isCodeGenOnly && !inst.isPseudo)
-                            dst.Add(inst.AsmString);
-                    }
-
-                }, true);
-                return dst.Array().Sort();
-            }
+            }, true);
+            return dst.Array().Sort();
         }
     }
 }

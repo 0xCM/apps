@@ -10,10 +10,10 @@ namespace Z0.llvm
 
     partial class LlvmDataCalcs
     {
-        public Index<LlvmInstPattern> CalcInstPatterns(AsmIdentifiers asmids, ReadOnlySpan<LlvmEntity> entities)
+        public Index<LlvmAsmInstPattern> CalcInstPatterns(AsmIdentifiers asmids, ReadOnlySpan<LlvmEntity> entities)
         {
             var count = entities.Length;
-            var dst = list<LlvmInstPattern>();
+            var dst = list<LlvmAsmInstPattern>();
 
             for(var i=0; i<count; i++)
             {
@@ -22,7 +22,7 @@ namespace Z0.llvm
                 {
                     var alias = entity.ToInstAlias();
                     var str = alias.AsmString;
-                    var pattern = new LlvmInstPattern();
+                    var pattern = new LlvmAsmInstPattern();
                     pattern.AsmId = asmids.AsmId(str.InstName);
                     pattern.InstName = str.InstName;
                     pattern.Mnemonic = str.Mnemonic;
@@ -38,7 +38,7 @@ namespace Z0.llvm
                     else
                     {
                         var str = inst.AsmString;
-                        var pattern = new LlvmInstPattern();
+                        var pattern = new LlvmAsmInstPattern();
                         pattern.AsmId = asmids.AsmId(str.InstName);
                         pattern.InstName = str.InstName;
                         pattern.Mnemonic = str.Mnemonic;

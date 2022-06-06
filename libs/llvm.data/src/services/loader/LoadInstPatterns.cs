@@ -8,28 +8,28 @@ namespace Z0.llvm
 
     partial class LlvmTableLoader
     {
-        public Index<LlvmInstPattern> LoadInstPatterns()
+        public Index<LlvmAsmInstPattern> LoadInstPatterns()
         {
-            const byte FieldCount = LlvmInstPattern.FieldCount;
-            var src = LlvmPaths.Table<LlvmInstPattern>();
-            var buffer = list<LlvmInstPattern>();
+            const byte FieldCount = LlvmAsmInstPattern.FieldCount;
+            var src = LlvmPaths.Table<LlvmAsmInstPattern>();
+            var buffer = list<LlvmAsmInstPattern>();
             using var reader = src.Utf8LineReader();
             reader.Next(out var header);
             var cols = header.Split(Chars.Pipe);
             if(cols.Length != FieldCount)
             {
                 Error(Tables.FieldCountMismatch.Format(cols.Length, FieldCount));
-                return sys.empty<LlvmInstPattern>();
+                return sys.empty<LlvmAsmInstPattern>();
             }
 
             while(reader.Next(out var line))
             {
-                var row = new LlvmInstPattern();
+                var row = new LlvmAsmInstPattern();
                 cols = line.Split(Chars.Pipe);
                 if(cols.Length != FieldCount)
                 {
                     Error(Tables.FieldCountMismatch.Format(cols.Length, FieldCount));
-                    return sys.empty<LlvmInstPattern>();
+                    return sys.empty<LlvmAsmInstPattern>();
                 }
 
                 var i=0;

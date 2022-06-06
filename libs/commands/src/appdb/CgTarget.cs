@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [SymSource]
     public enum CgTarget : byte
     {
         None,

@@ -4,16 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    public class LlvmOpCodeMap : ConstLookup<Identifier,Index<InstEntity>>
+    public class LlvmAsmOpCodeMap : ConstLookup<Identifier,Index<InstEntity>>
     {
-        public LlvmOpCodeMap(Dictionary<Identifier,Index<InstEntity>> src)
+        public LlvmAsmOpCodeMap(Dictionary<Identifier,Index<InstEntity>> src)
             : base(src)
         {
 
 
         }
 
-        public static implicit operator LlvmOpCodeMap(Dictionary<Identifier,Index<InstEntity>> src)
-            => new LlvmOpCodeMap(src);
+        public static implicit operator LlvmAsmOpCodeMap(Dictionary<Identifier,Index<InstEntity>> src)
+            => new LlvmAsmOpCodeMap(src);
     }
 }
