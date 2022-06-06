@@ -63,8 +63,8 @@ public enum PartId : byte
     [Symbol("llvm.tools")]
     LlvmTools,
 
-    [Symbol("llvm.models")]
-    LlvmModels,
+    [Symbol("llvm.data")]
+    LlvmData,
 
     [Symbol("calc")]
     Calc,

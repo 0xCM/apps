@@ -1,6 +1,6 @@
 @echo off
-call %SlnAsmShellCmd%
+: call %SlnAsmShellCmd%
 call %SlnCmdShellCmd%
-call %SlnWorkersCmd%
-call %SlnXedShellCmd%
-call %SlnIntelShellCmd%
+: call %SlnWorkersCmd%
+: call %SlnXedShellCmd%
+: call %SlnIntelShellCmd%

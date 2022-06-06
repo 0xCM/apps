@@ -25,7 +25,7 @@ namespace Z0.llvm
             => this[nameof(AdSize)];
 
         public bits<byte> AdSizeBits
-            => Parse(nameof(AdSizeBits), out bits<byte> dst);
+            => bits(n2, this[nameof(AdSizeBits)]);
 
         public string AsmStringSource
             => Value(nameof(AsmStringSource),() => text.remove(this[nameof(AsmString)].Replace(Chars.Tab, Chars.Space), Chars.Quote));
@@ -36,11 +36,11 @@ namespace Z0.llvm
         public int CodeSize
             => Parse(nameof(CodeSize), out int _);
 
-       public bits<ulong> CD8_Form
-            => Parse(nameof(CD8_Form), out bits<ulong> dst);
+       public bits<byte> CD8_Form
+            => bits(n3, this[nameof(CD8_Form)]);
 
-       public bits<ulong> CD8_Scale
-            => Parse(nameof(CD8_Scale), out bits<ulong> dst);
+       public bits<byte> CD8_Scale
+            => bits(n7, this[nameof(CD8_Scale)]);
 
         public string Constraints
             => this[nameof(Constraints)];
@@ -55,7 +55,7 @@ namespace Z0.llvm
             => this[nameof(Form)];
 
         public bits<byte> FormBits
-            => Parse(nameof(FormBits), out bits<byte> dst);
+            => bits(n7, this[nameof(FormBits)]);
 
         public string InstName
             => EntityName;
@@ -136,16 +136,16 @@ namespace Z0.llvm
             => this[nameof(OpMap)];
 
         public bits<byte> OpMapBits
-            => Parse(nameof(OpMapBits), out bits<byte> dst);
+            => bits(n3, this[nameof(OpMapBits)]);
 
         public string OpSize
             => this[nameof(OpSize)];
 
         public bits<byte> OpSizeBits
-            => Parse(nameof(OpSizeBits), out bits<byte> dst);
+            => bits(n2, this[nameof(OpSizeBits)]);
 
         public bits<byte> Opcode
-            => Parse(nameof(Opcode), out bits<byte> dst);
+            => bits(n8, this[nameof(Opcode)]);
 
         public string OpCodeData
             => this[nameof(Opcode)];
@@ -154,13 +154,13 @@ namespace Z0.llvm
             => this[nameof(OpEnc)];
 
         public bits<byte> OpEncBits
-            => Parse(nameof(OpEncBits), out bits<byte> dst);
+            => bits(n2, this[nameof(OpEncBits)]);
 
         public string OpPrefix
             => this[nameof(OpPrefix)];
 
         public bits<byte> OpPrefixBits
-            => Parse(nameof(OpPrefixBits), out bits<byte> dst);
+            => bits(n3, this[nameof(OpPrefixBits)]);
 
         public list<string> Predicates
             => Parse(nameof(Predicates), ListTypes.Predicate, out list<string> _);
@@ -175,6 +175,6 @@ namespace Z0.llvm
             => Value(nameof(VarCode), () => llvm.AsmPatterns.varcode(InstName, Mnemonic));
 
         public bits<byte> VectSize
-            => Parse(nameof(VectSize), out bits<byte> dst);
+            => bits(n7, this[nameof(VectSize)]);
     }
 }

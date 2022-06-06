@@ -8,6 +8,34 @@ namespace Z0.llvm
     {
         public readonly DefRelations Def;
 
+        protected static bits<byte> bits(N8 n, string src)
+        {
+            var data = text.remove(text.unfence(src, RenderFence.Embraced),Chars.Comma, Chars.Space);
+            BitNumber.parse(data, n, out bits<byte> bits);
+            return bits;
+        }
+
+        protected static bits<byte> bits(N7 n, string src)
+        {
+            var data = text.remove(text.unfence(src, RenderFence.Embraced),Chars.Comma, Chars.Space);
+            BitNumber.parse(data, n, out bits<byte> bits);
+            return bits;
+        }
+
+        protected static bits<byte> bits(N2 n, string src)
+        {
+            var data = text.remove(text.unfence(src, RenderFence.Embraced),Chars.Comma, Chars.Space);
+            BitNumber.parse(data, n, out bits<byte> bits);
+            return bits;
+        }
+
+        protected static bits<byte> bits(N3 n, string src)
+        {
+            var data = text.remove(text.unfence(src, RenderFence.Embraced),Chars.Comma, Chars.Space);
+            BitNumber.parse(data, n, out bits<byte> bits);
+            return bits;
+        }
+
         public DefFields(DefRelations def, RecordField[] fields)
             : base(fields ?? sys.empty<RecordField>())
         {

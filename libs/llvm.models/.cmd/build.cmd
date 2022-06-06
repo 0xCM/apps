@@ -1,1 +1,0 @@
-dotnet build %~dp0..\z0.llvm.models.csproj -c Release

@@ -14,7 +14,7 @@
     <Glue>$(LibsRoot)glue/z0.glue.csproj</Glue>
     <CmdActions>$(LibsRoot)cmd.actions/z0.cmd.actions.csproj</CmdActions>
     <LlvmTools>$(LibsRoot)llvm.tools/z0.llvm.tools.csproj</LlvmTools>
-    <LlvmModels>$(LibsRoot)llvm.models/z0.llvm.models.csproj</LlvmModels>
+    <LlvmData>$(LibsRoot)llvm.data/z0.llvm.data.csproj</LlvmData>
     <Bits>$(LibsRoot)bits/z0.bits.csproj</Bits>
     <Cli>$(LibsRoot)cli/z0.cli.csproj</Cli>
     <Commands>$(LibsRoot)commands/z0.commands.csproj</Commands>

@@ -9,7 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="$(Asm)" />
     <ProjectReference Include="$(AsmPrototypes)" />
-    <ProjectReference Include="$(LlvmTools)" />
+    <ProjectReference Include="$(LlvmData)" />
     <ProjectReference Include="$(IntelIntrinsics)" />
     <ProjectReference Include="$(IntelXed)" />
     <ProjectReference Include="$(Diagnostics)" />
