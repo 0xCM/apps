@@ -6,6 +6,7 @@ namespace Z0
 {
     using static XedModels;
     using static XedRules;
+    using static MachineModes;
 
     partial class XedMachine
     {
@@ -23,7 +24,7 @@ namespace Z0
 
             InstGroupMember _Membership;
 
-            Addressing _AddressingMode;
+            AddressingKind _AddressingMode;
 
             uint _Id;
 
@@ -37,7 +38,7 @@ namespace Z0
             {
                 _RuleState = XedRules.OperandState.Empty;
                 _Pattern = XedRules.InstPattern.Empty;
-                _Mode = ModeClass.Default;
+                _Mode = MachineModeClass.Default;
                 _Form = InstForm.Empty;
                 _Class = InstClass.Empty;
                 _Membership = InstGroupMember.Empty;
@@ -50,7 +51,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public ref Addressing Addressing()
+            public ref AddressingKind Addressing()
                 => ref _AddressingMode;
 
             [MethodImpl(Inline)]

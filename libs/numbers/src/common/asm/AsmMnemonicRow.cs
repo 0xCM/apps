@@ -5,6 +5,7 @@
 namespace Z0.Asm
 {
     using static core;
+
     using W = AsmColWidths;
 
 
@@ -12,6 +13,7 @@ namespace Z0.Asm
     public readonly record struct AsmMnemonicRow : IComparable<AsmMnemonicRow>
     {
         const string TableId = "asm.mnemonic";
+
         [Render(W.Seq)]
         public readonly ushort Seq;
 

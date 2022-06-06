@@ -28,28 +28,26 @@ namespace Z0
         static EnumRender<BCast32Kind> BCast32 = new();
 
         static EnumRender<BCast64Kind> BCast64 = new();
-
-        static EnumRender<ModeClass> ModeKinds = new();
-
+        
         static EnumRender<ElementSize> ElementSizes = new();
 
         static EnumRender<DispWidth> DispWidthKinds = new();
 
         static EnumRender<VisibilityKind> VisKind = new();
 
-        static EnumRender<VexClass> VexClasses = new();
+        static EnumRender<XedVexClass> VexClasses = new();
 
-        static EnumRender<VexKind> VexKinds = new();
+        static EnumRender<XedVexKind> VexKinds = new();
 
         static EnumRender<VexMapKind> VexMap = new();
 
-        static EnumRender<BaseMapKind> LegacyMap = new();
+        static EnumRender<AsmBaseMapKind> LegacyMap = new();
 
         static EnumRender<EvexMapKind> EvexMap = new();
 
         static EnumRender<InstAttribKind> AttribKinds = new();
 
-        static EnumRender<OpCodeIndex> OcKindIndex = new();
+        static EnumRender<AsmOpCodeIndex> OcKindIndex = new();
 
         static EnumRender<OpKind> RuleOpKinds = new();
 
@@ -91,7 +89,7 @@ namespace Z0
 
         static EnumRender<InstClassType> Classes = new();
 
-        static EnumRender<VexLength> VexLengthKinds = new();
+        static EnumRender<AsmVL> VexLengthKinds = new();
 
         static EnumRender<OSZ> OszKinds = new();
 
@@ -198,38 +196,35 @@ namespace Z0
         public static string format(OpWidth src)
             => src.Code != 0 ?  format(src.Code) : (src.Bits != 0 ? src.Bits.ToString() : EmptyString);
 
-        public static string format(OpCodeIndex src, FormatCode fc = FormatCode.Expr)
-            => format(OcKindIndex, src, fc);
+        public static string format(AsmOpCodeIndex src, _DataFormatCode fc = _DataFormatCode.Expr)
+            => EnumRender.format(OcKindIndex, src, fc);
 
-        public static string format(EASZ src, FormatCode fc = FormatCode.Expr)
-            => fc == FormatCode.BitWidth ? nsize(src) : format(EaszKinds,src,fc);
+        public static string format(EASZ src, _DataFormatCode fc = _DataFormatCode.Expr)
+            => fc == _DataFormatCode.BitWidth ? nsize(src) : EnumRender.format(EaszKinds,src,fc);
 
-        public static string format(EOSZ src, FormatCode fc = FormatCode.Expr)
-            => fc == FormatCode.BitWidth ? nsize(src) : format(EoszKinds,src,fc);
+        public static string format(EOSZ src, _DataFormatCode fc = _DataFormatCode.Expr)
+            => fc == _DataFormatCode.BitWidth ? nsize(src) : EnumRender.format(EoszKinds,src,fc);
 
-        public static string format(ModeClass src, FormatCode fc = FormatCode.Expr)
-            => fc == FormatCode.BitWidth ? nsize((byte)src + 1) : format(ModeKinds,src,fc);
+        public static string format(SMODE src, _DataFormatCode fc = _DataFormatCode.Expr)
+            => fc == _DataFormatCode.BitWidth ? nsize((byte)src + 1) : EnumRender.format(SModes,src,fc);
 
-        public static string format(SMODE src, FormatCode fc = FormatCode.Expr)
-            => fc == FormatCode.BitWidth ? nsize((byte)src + 1) : format(SModes,src,fc);
+        public static string format(XedVexClass src, _DataFormatCode fc = _DataFormatCode.Expr)
+            => EnumRender.format(VexClasses, src, fc);
 
-        public static string format(VexClass src, FormatCode fc = FormatCode.Expr)
-            => format(VexClasses, src, fc);
+        public static string format(HintKind src, _DataFormatCode fc = _DataFormatCode.Expr)
+            => EnumRender.format(HintKinds, src, fc);
 
-        public static string format(HintKind src, FormatCode fc = FormatCode.Expr)
-            => format(HintKinds, src, fc);
+        public static string format(XedVexKind src, _DataFormatCode fc = _DataFormatCode.Expr)
+            => EnumRender.format(VexKinds, src, fc);
 
-        public static string format(VexKind src, FormatCode fc = FormatCode.Expr)
-            => format(VexKinds, src, fc);
+        public static string format(MaskReg src, _DataFormatCode fc = _DataFormatCode.Expr)
+            => EnumRender.format(MaskCodes, src, fc);
 
-        public static string format(MaskReg src, FormatCode fc = FormatCode.Expr)
-            => format(MaskCodes, src, fc);
+        public static string format(XedModels.RepPrefix src, _DataFormatCode fc = _DataFormatCode.Expr)
+            => EnumRender.format(RepPrexixKinds, src, fc);
 
-        public static string format(XedModels.RepPrefix src, FormatCode fc = FormatCode.Expr)
-            => format(RepPrexixKinds, src, fc);
-
-        public static string format(VexLength src, FormatCode fc = FormatCode.Expr)
-            => fc == FormatCode.BitWidth ? XedOps.width(src).ToString() : format(VexLengthKinds,src,fc);
+        public static string format(AsmVL src, _DataFormatCode fc = _DataFormatCode.Expr)
+            => fc == _DataFormatCode.BitWidth ? XedOps.width(src).ToString() : EnumRender.format(VexLengthKinds,src,fc);
 
         public static string format(ASZ src)
             => AszKinds.Format(src);
@@ -237,8 +232,8 @@ namespace Z0
         public static string format(ElementSize src)
             => ElementSizes.Format(src);
 
-        public static string format(OSZ src, FormatCode fc = FormatCode.BitWidth)
-            => fc == FormatCode.BitWidth ? XedOps.width(src).ToString() :format(OszKinds, src, fc);
+        public static string format(OSZ src, _DataFormatCode fc = _DataFormatCode.BitWidth)
+            => fc == _DataFormatCode.BitWidth ? XedOps.width(src).ToString() : EnumRender.format(OszKinds, src, fc);
 
         public static string format(DispWidth src)
             => DispWidthKinds.Format(src);
@@ -255,7 +250,7 @@ namespace Z0
         public static string format(EvexMapKind src)
             => EvexMap.Format(src);
 
-        public static string format(BaseMapKind src)
+        public static string format(AsmBaseMapKind src)
             => LegacyMap.Format(src);
 
         public static string format(RuleTableKind src)
@@ -614,8 +609,8 @@ namespace Z0
         public static string format(OpVisibility src)
             => OpVis.Format(src);
 
-        public static string format(OpCodeKind src)
-            => format(XedOpCodes.index(src));
+        public static string format(XedOpCodeKind src)
+            => format(AsmOpCodeMaps.index(src));
 
         public static string format(in RuleKeyword src)
             => src.ToAsci().Format();
@@ -851,31 +846,6 @@ namespace Z0
                 src.Offsets.HasImm1 ? src.Imm1.Format() : EmptyString
                 );
             return string.Format("{0}{1}{2}",header, RP.Eol, content);
-        }
-
-        static string format<E>(EnumRender<E> render, E src, FormatCode fc)
-            where E : unmanaged, Enum
-        {
-            var dst = EmptyString;
-            switch(fc)
-            {
-                case FormatCode.SInt:
-                    dst = ((int)bw32(src)).ToString();
-                break;
-                case FormatCode.Hex:
-                    dst = bw32(src).FormatHex();
-                break;
-                case FormatCode.UInt:
-                    dst = bw32(src).ToString();
-                break;
-                case FormatCode.Name:
-                    dst = render.Format(src, true);
-                break;
-                default:
-                    dst = render.Format(src);
-                break;
-            }
-            return dst;
         }
 
         static string nsize<T>(T src)

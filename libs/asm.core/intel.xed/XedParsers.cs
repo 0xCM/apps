@@ -65,11 +65,11 @@ namespace Z0
 
         static readonly EnumParser<RuleMacroKind> MacroKinds = new();
 
-        static readonly EnumParser<VexClass> VexClasses = new();
+        static readonly EnumParser<XedVexClass> VexClasses = new();
 
-        static readonly EnumParser<VexKind> VexKinds = new();
+        static readonly EnumParser<XedVexKind> VexKinds = new();
 
-        static readonly EnumParser<OpCodeKind> OpCodeKinds = new();
+        static readonly EnumParser<XedOpCodeKind> OpCodeKinds = new();
 
         static readonly EnumParser<ErrorKind> ErrorKinds = new();
 
@@ -82,8 +82,6 @@ namespace Z0
         static readonly EnumParser<ASZ> AszKinds = new();
 
         static readonly EnumParser<OSZ> OszKinds = new();
-
-        static readonly EnumParser<ModeClass> ModeKinds = new();
 
         static readonly EnumParser<RoundingKind> RoundingKinds = new();
 
@@ -231,7 +229,7 @@ namespace Z0
         public static bool parse(string src, out ErrorKind dst)
             => ErrorKinds.Parse(text.remove(text.trim(src), "XED_ERROR_"), out dst);
 
-        public static bool parse(string src, out VexKind dst)
+        public static bool parse(string src, out XedVexKind dst)
             => VexKinds.Parse(src, out dst);
 
         public static bool parse(string src, out DispWidth dst)
@@ -414,10 +412,7 @@ namespace Z0
             return false;
         }
 
-        public static bool parse(string src, out ModeClass dst)
-            => ModeKinds.Parse(src, out dst);
-
-        public static bool parse(string src, out OpCodeKind dst)
+        public static bool parse(string src, out XedOpCodeKind dst)
             => Instance.Parse(src, out dst);
 
         public static bool parse(string src, out OpModKind dst)
@@ -439,7 +434,7 @@ namespace Z0
         public static bool parse(string src, out CategoryKind dst)
             => CategoryKinds.Parse(src, out dst);
 
-        public static bool parse(string src, out VexClass dst)
+        public static bool parse(string src, out XedVexClass dst)
             => VexClasses.Parse(src, out dst);
 
         public static bool parse(string src, out InstCategory dst)
@@ -691,7 +686,7 @@ namespace Z0
         public static bool parse(string src, out SMODE dst)
             => SModes.Parse(src, out dst);
 
-        public bool Parse(string src, out OpCodeKind dst)
+        public bool Parse(string src, out XedOpCodeKind dst)
             => OpCodeKinds.Parse(src, out dst);
 
         public static bool parse(string src, out BCastKind dst)

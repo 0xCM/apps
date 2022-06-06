@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static XedModels;
+    using static MachineModes;
 
     partial class XedRules
     {
@@ -174,20 +175,20 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public VexClass ToVexClass()
-                => (VexClass)Data;
+            public XedVexClass ToVexClass()
+                => (XedVexClass)Data;
 
             [MethodImpl(Inline)]
-            public VexLength ToVexLength()
-                => (VexLength)Data;
+            public AsmVL ToVexLength()
+                => (AsmVL)Data;
 
             [MethodImpl(Inline)]
-            public VexKind ToVexKind()
-                => (VexKind)Data;
+            public XedVexKind ToVexKind()
+                => (XedVexKind)Data;
 
             [MethodImpl(Inline)]
             public MachineMode ToMode()
-                => (ModeClass)Data;
+                => (MachineModeClass)Data;
 
             [MethodImpl(Inline)]
             public RuleKeyword ToKeyword()
@@ -274,19 +275,19 @@ namespace Z0
                 => src.ToEOSZ();
 
             [MethodImpl(Inline)]
-            public static implicit operator VexClass(FieldValue src)
+            public static implicit operator XedVexClass(FieldValue src)
                 => src.ToVexClass();
 
             [MethodImpl(Inline)]
-            public static implicit operator VexLength(FieldValue src)
+            public static implicit operator AsmVL(FieldValue src)
                 => src.ToVexLength();
 
             [MethodImpl(Inline)]
-            public static implicit operator VexKind(FieldValue src)
+            public static implicit operator XedVexKind(FieldValue src)
                 => src.ToVexKind();
 
             [MethodImpl(Inline)]
-            public static implicit operator ModeClass(FieldValue src)
+            public static implicit operator MachineModeClass(FieldValue src)
                 => src.ToMode();
 
             [MethodImpl(Inline)]

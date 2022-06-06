@@ -89,10 +89,10 @@ namespace Z0
             get => ref Load<CellDatasets>(XedRecord.CellDatasets);
         }
 
-        public ref readonly Index<InstOpCode> OpCodes
+        public ref readonly Index<XedInstOpCode> OpCodes
         {
             [MethodImpl(Inline)]
-            get => ref Load<Index<InstOpCode>>(XedRecord.OpCodes);
+            get => ref Load<Index<XedInstOpCode>>(XedRecord.OpCodes);
         }
 
         public ref readonly Index<IsaImport> IsaImport

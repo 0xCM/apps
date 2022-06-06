@@ -33,11 +33,3 @@ namespace Z0.Parts
         public Asset StanfordAsmCatalog() => Asset("stanford-asm-catalog.csv");
     }
 }
-
-namespace Z0
-{
-    public static partial class XTend
-    {
-
-    }
-}

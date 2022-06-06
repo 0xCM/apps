@@ -79,19 +79,19 @@ namespace Z0
                         break;
 
                         case K.MODE:
-                            r.Functions[kind] = (x => XedRender.format((MachineMode)x));
+                            r.Functions[kind] = (x => MachineModes.format((MachineMode)x));
                         break;
 
                         case K.SMODE:
-                            r.Functions[kind] = (x => XedRender.format((SMODE)x,FormatCode.BitWidth));
+                            r.Functions[kind] = (x => XedRender.format((SMODE)x,_DataFormatCode.BitWidth));
                         break;
 
                         case K.EASZ:
-                            r.Functions[kind] = (x => XedRender.format((EASZ)x, FormatCode.BitWidth));
+                            r.Functions[kind] = (x => XedRender.format((EASZ)x, _DataFormatCode.BitWidth));
                         break;
 
                         case K.EOSZ:
-                            r.Functions[kind] = (x => XedRender.format((EOSZ)x, FormatCode.BitWidth));
+                            r.Functions[kind] = (x => XedRender.format((EOSZ)x, _DataFormatCode.BitWidth));
                         break;
 
                         case K.ESRC:
@@ -107,7 +107,7 @@ namespace Z0
                         break;
 
                         case K.OSZ:
-                            r.Functions[kind] = (x => XedRender.format((OSZ)x, FormatCode.BitWidth));
+                            r.Functions[kind] = (x => XedRender.format((OSZ)x, _DataFormatCode.BitWidth));
                         break;
 
                         case K.MAP:
@@ -164,13 +164,13 @@ namespace Z0
                             r.Functions[kind] = (x => XedRender.format((uint1)x));
                         break;
                         case K.VEXVALID:
-                            r.Functions[kind] = (x => XedRender.format((VexClass)x));
+                            r.Functions[kind] = (x => XedRender.format((XedVexClass)x));
                         break;
                         case K.VEX_PREFIX:
-                            r.Functions[kind] = (x => XedRender.format((VexKind)x));
+                            r.Functions[kind] = (x => XedRender.format((XedVexKind)x));
                         break;
                         case K.VL:
-                            r.Functions[kind] = (x => XedRender.format((VexLength)x, FormatCode.BitWidth));
+                            r.Functions[kind] = (x => XedRender.format((AsmVL)x, _DataFormatCode.BitWidth));
                         break;
 
                         case K.BASE0:

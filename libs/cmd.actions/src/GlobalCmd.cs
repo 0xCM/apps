@@ -4,16 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using llvm;
-
     using static core;
 
-    /*
-        public static XedRuntime Inject(this XedRuntime xed)
-            => Services.Inject(xed);
-
-    */
-    public partial class GlobalCmd : AppCmdService<GlobalCmd,CmdShellState>, ICmdRunner
+    public partial class GlobalCmd : AppCmdService<GlobalCmd,CmdShellState>
     {
         public static GlobalCmd commands(IWfRuntime wf)
         {
@@ -22,7 +15,7 @@ namespace Z0
             var providers = array<ICmdProvider>(
                 runner,
                 wf.ProjectCmd(runner),
-                //ProjectCmd.inject(svc, ProjectCmd.create(wf)),
+                wf.CaptureCmd(),
                 wf.AsmCoreCmd(),
                 wf.LlvmCmd(),
                 wf.PolyBits(),
@@ -41,30 +34,21 @@ namespace Z0
             _Providers = providers;
             runner.Init(wf);
             return runner;
-
-            //return GlobalCmd.init(wf, runner, providers);
         }
 
         static ICmdProvider[] _Providers;
 
-        // public static GlobalCmd init(IWfRuntime wf, GlobalCmd svc, ICmdProvider[] providers)
+        // public void RunCmd(string name)
         // {
-        //     _Providers = providers;
-        //     svc.Init(wf);
-        //     return svc;
+        //     var result = Dispatcher.Dispatch(name);
+        //     if(result.Fail)
+        //         Error(result.Message);
         // }
 
-        public void RunCmd(string name)
-        {
-            var result = Dispatcher.Dispatch(name);
-            if(result.Fail)
-                Error(result.Message);
-        }
-
-        public void RunCmd(string name, CmdArgs args)
-        {
-            Dispatcher.Dispatch(name, args);
-        }
+        // public void RunCmd(string name, CmdArgs args)
+        // {
+        //     Dispatcher.Dispatch(name, args);
+        // }
 
         protected override void Initialized()
         {
@@ -72,29 +56,29 @@ namespace Z0
             RunCmd("project", args);
         }
 
-        public void runJobs(string match)
-        {
-            var paths = ProjectDb.JobSpecs();
-            var count = paths.Length;
-            var counter = 0u;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var path = ref paths[i];
-                if(path.FileName.Format().StartsWith(match))
-                {
-                    var dispatching = Running(string.Format("Dispatching job {0} defined by {1}", counter, path.ToUri()));
-                    _dispatchJobs(path);
-                    Ran(dispatching, string.Format("Dispatched job {0}", counter));
-                    counter++;
-                }
-            }
+        // public void runJobs(string match)
+        // {
+        //     var paths = ProjectDb.JobSpecs();
+        //     var count = paths.Length;
+        //     var counter = 0u;
+        //     for(var i=0; i<count; i++)
+        //     {
+        //         ref readonly var path = ref paths[i];
+        //         if(path.FileName.Format().StartsWith(match))
+        //         {
+        //             var dispatching = Running(string.Format("Dispatching job {0} defined by {1}", counter, path.ToUri()));
+        //             _dispatchJobs(path);
+        //             Ran(dispatching, string.Format("Dispatched job {0}", counter));
+        //             counter++;
+        //         }
+        //     }
 
-            if(counter == 0)
-                Warn(string.Format("No jobs identified by '{0}'", match));
-        }
+        //     if(counter == 0)
+        //         Warn(string.Format("No jobs identified by '{0}'", match));
+        // }
 
-        public void RunJobs(string match)
-            => runJobs(match);
+        // public void RunJobs(string match)
+        //     => runJobs(match);
 
         protected override ICmdProvider[] CmdProviders(IWfRuntime wf)
             => _Providers;
@@ -107,16 +91,15 @@ namespace Z0
             return result;
         }
 
-        public void _dispatchJobs( FS.FilePath src)
-        {
-            var lines = src.ReadNumberedLines(true);
-            var count = lines.Count;
-            for(var i=0; i<count; i++)
-                Dispatch(Cmd.cmdspec(lines[i].Content));
-        }
+        // public void _dispatchJobs( FS.FilePath src)
+        // {
+        //     var lines = src.ReadNumberedLines(true);
+        //     var count = lines.Count;
+        //     for(var i=0; i<count; i++)
+        //         Dispatch(Cmd.cmdspec(lines[i].Content));
+        // }
 
-        void DispatchJobs(FS.FilePath src)
-            => _dispatchJobs(src);
-
+        // void DispatchJobs(FS.FilePath src)
+        //     => _dispatchJobs(src);
     }
 }

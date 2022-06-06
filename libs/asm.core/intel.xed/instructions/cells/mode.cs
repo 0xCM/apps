@@ -6,7 +6,7 @@
 namespace Z0
 {
     using static core;
-    using static XedModels;
+    using static MachineModes;
 
     partial class XedRules
     {
@@ -15,7 +15,7 @@ namespace Z0
             [MethodImpl(Inline), Op]
             public static MachineMode mode(in InstCells src)
             {
-                var result = ModeClass.Default;
+                var result = MachineModeClass.Default;
                 for(var i=0; i<src.Count; i++)
                 {
                     ref readonly var f = ref src[i];

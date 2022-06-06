@@ -12,9 +12,9 @@ namespace Z0
 
     partial class XedRules
     {
-        public static ConcurrentDictionary<OpCodeClass,Index<InstGroupSeq>> CalcInstGroupLookup(Index<InstGroup> src, bool pll)
+        public static ConcurrentDictionary<AsmOpCodeClass,Index<InstGroupSeq>> CalcInstGroupLookup(Index<InstGroup> src, bool pll)
         {
-            var dst = cdict<OpCodeClass,Index<InstGroupSeq>>();
+            var dst = cdict<AsmOpCodeClass,Index<InstGroupSeq>>();
             iter(groupseq(src), kvp => dst.TryAdd(kvp.Key, resequence(kvp.Value)), pll);
             return dst;
         }
@@ -27,7 +27,7 @@ namespace Z0
             return dst;
         }
 
-        static Dictionary<OpCodeClass,Index<InstGroupSeq>> groupseq(Index<InstGroup> src)
+        static Dictionary<AsmOpCodeClass,Index<InstGroupSeq>> groupseq(Index<InstGroup> src)
             => src.SelectMany(x => x.Members.Select(x => x.Seq)).GroupBy(x => x.OpCodeClass).Select(x => (x.Key, x.Index())).ToDictionary();
     }
 }

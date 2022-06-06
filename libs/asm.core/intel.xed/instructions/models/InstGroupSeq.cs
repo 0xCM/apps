@@ -52,7 +52,7 @@ namespace Z0
             [Render(1)]
             public InstForm Form;
 
-            public OpCodeClass OpCodeClass
+            public AsmOpCodeClass OpCodeClass
             {
                 [MethodImpl(Inline)]
                 get => OpCode.Class;

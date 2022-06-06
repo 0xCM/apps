@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
     using static XedRules;
-    using static XedModels;
+    using static MachineModes;
     using static XedDisasmModels;
 
     partial class XedDisasm
@@ -15,7 +15,7 @@ namespace Z0
         {
             var buffer = hashset<InstOpClass>();
             foreach(var (summary,detail) in src)
-                buffer.AddRange(detail.Blocks.Select(x => x.DetailRow).SelectMany(x => x.Ops).Select(x => XedOps.opclass(ModeClass.Mode64, x.Spec)).Distinct());
+                buffer.AddRange(detail.Blocks.Select(x => x.DetailRow).SelectMany(x => x.Ops).Select(x => XedOps.opclass(MachineModeClass.Mode64, x.Spec)).Distinct());
             var dst = buffer.Array();
             return resequence(dst);
         }
@@ -24,7 +24,7 @@ namespace Z0
             => resequence(
                 src.Detail.Blocks.Select(x => x.DetailRow)
                    .SelectMany(x => x.Ops)
-                   .Select(x => XedOps.opclass(ModeClass.Mode64, x.Spec))
+                   .Select(x => XedOps.opclass(MachineModeClass.Mode64, x.Spec))
                    .Distinct());
     }
 }

@@ -39,7 +39,7 @@ namespace Z0
                 emitter.AppendLineFormat(LabelPattern, "Layout", pattern.Layout.Format());
                 emitter.AppendLineFormat(LabelPattern, "Expressions", pattern.Expr.Format());
 
-                emitter.AppendLineFormat(LabelPattern, nameof(pattern.Mode), XedRender.format(pattern.Mode));
+                emitter.AppendLineFormat(LabelPattern, nameof(pattern.Mode), MachineModes.format(pattern.Mode));
                 emitter.AppendLineFormat(LabelPattern, nameof(pattern.OpCode), pattern.OpCode);
                 if(pattern.InstForm.IsNonEmpty)
                     emitter.AppendLineFormat(LabelPattern, nameof(pattern.InstForm), pattern.InstForm);

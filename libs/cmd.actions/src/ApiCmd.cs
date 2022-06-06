@@ -47,7 +47,7 @@ namespace Z0
             => ProcessAsmBuffers.records(ApiPacks.Current());
 
 
-        [CmdOp("api/emit")]
+        [CmdOp("api/etl")]
         void ApiEmit()
         {
             ApiMd.EmitDatasets();

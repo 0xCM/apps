@@ -8,7 +8,7 @@ namespace Z0
 
     using static core;
 
-    public abstract class AppCmdService<T> : AppService<T>, IAppCmdService, ICmdProvider
+    public abstract class AppCmdService<T> : AppService<T>, IAppCmdService, ICmdProvider, ICmdRunner
         where T : AppCmdService<T>, new()
     {
         public ICmdDispatcher Dispatcher {get; protected set;}
@@ -59,6 +59,46 @@ namespace Z0
             var cmd = Cmd.cmdline(path.Format(PathSeparator.BS));
             dst = AppSettings.Load(OmniScript.RunCmd(cmd));
         }
+
+        public void RunCmd(string name)
+        {
+            var result = Dispatcher.Dispatch(name);
+            if(result.Fail)
+                Error(result.Message);
+        }
+
+        public void RunCmd(string name, CmdArgs args)
+            => Dispatcher.Dispatch(name, args);
+
+        public void DispatchJobs(FS.FilePath src)
+        {
+            var lines = src.ReadNumberedLines(true);
+            var count = lines.Count;
+            for(var i=0; i<count; i++)
+                Dispatch(Cmd.cmdspec(lines[i].Content));
+        }
+
+        public virtual void RunJobs(string match)
+        {
+            var paths = ProjectDb.JobSpecs();
+            var count = paths.Length;
+            var counter = 0u;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var path = ref paths[i];
+                if(path.FileName.Format().StartsWith(match))
+                {
+                    var dispatching = Running(string.Format("Dispatching job {0} defined by {1}", counter, path.ToUri()));
+                    DispatchJobs(path);
+                    Ran(dispatching, string.Format("Dispatched job {0}", counter));
+                    counter++;
+                }
+            }
+
+            if(counter == 0)
+                Warn(string.Format("No jobs identified by '{0}'", match));
+        }
+
 
         [CmdOp("env/vars")]
         protected Outcome ShowEnvVars(CmdArgs args)

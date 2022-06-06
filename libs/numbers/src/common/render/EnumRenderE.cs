@@ -5,8 +5,37 @@
 namespace Z0
 {
     using System;
+    using static core;
 
     using M = EnumFormatMode;
+
+    public class EnumRender
+    {
+        public static string format<E>(EnumRender<E> render, E src, _DataFormatCode fc)
+            where E : unmanaged, Enum
+        {
+            var dst = EmptyString;
+            switch(fc)
+            {
+                case _DataFormatCode.SInt:
+                    dst = ((int)bw32(src)).ToString();
+                break;
+                case _DataFormatCode.Hex:
+                    dst = bw32(src).FormatHex();
+                break;
+                case _DataFormatCode.UInt:
+                    dst = bw32(src).ToString();
+                break;
+                case _DataFormatCode.Name:
+                    dst = render.Format(src, true);
+                break;
+                default:
+                    dst = render.Format(src);
+                break;
+            }
+            return dst;
+        }
+    }
 
     public readonly struct EnumRender<E> : IFormatter<E>
         where E : unmanaged, Enum

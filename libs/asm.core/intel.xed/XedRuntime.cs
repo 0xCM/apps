@@ -137,9 +137,9 @@ namespace Z0
 
             var opdetail = sys.empty<InstOpDetail>();
             var instfields = sys.empty<InstFieldRow>();
-            var instoc = sys.empty<InstOpCode>();
+            var instoc = sys.empty<XedInstOpCode>();
             exec(PllExec,
-                () => instoc = XedOpCodes.poc(patterns),
+                () => instoc = poc(patterns),
                 () => instfields =  XedPatterns.fieldrows(patterns),
                 () => opdetail = XedOps.opdetails(patterns)
                 );

@@ -6,14 +6,14 @@
 namespace Z0
 {
     using static XedModels;
-
+    
     partial class XedRules
     {
         public class InstGroupMember : IComparable<InstGroupMember>
         {
             public readonly InstGroupSeq Seq;
 
-            public readonly OpCodeMap Map;
+            public readonly AsmOpCodeMap Map;
 
             public readonly InstPattern Pattern;
 
@@ -21,7 +21,7 @@ namespace Z0
             public InstGroupMember(InstGroupSeq seq, InstPattern pattern)
             {
                 Seq = seq;
-                Map = XedOpCodes.map(seq.OpCode.Kind);
+                Map = AsmOpCodeMaps.map(seq.OpCode.Kind);
                 Pattern = pattern;
             }
 

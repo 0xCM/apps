@@ -10,27 +10,27 @@ namespace Z0
 
     public partial class AsmCoreCmd : WsCmdService<AsmCoreCmd>
     {
-        public static AsmCoreCmd commands(IWfRuntime wf, Index<ICmdProvider> providers, bool start)
-            => Create(wf, providers, start);
+        // public static AsmCoreCmd commands(IWfRuntime wf, Index<ICmdProvider> providers, bool start)
+        //     => Create(wf, providers, start);
 
-        public static AsmCoreCmd commands(IWfRuntime wf, params ICmdProvider[] providers)
-            => Create(wf, providers, false);
+        // public static AsmCoreCmd commands(IWfRuntime wf, params ICmdProvider[] providers)
+        //     => Create(wf, providers, false);
 
         static XedRuntime Xed;
 
-        static new Index<ICmdProvider> Providers;
+        //static new Index<ICmdProvider> Providers;
 
-        static AsmCoreCmd Instance;
+        //static AsmCoreCmd Instance;
 
-        static AsmCoreCmd Create(IWfRuntime wf, Index<ICmdProvider> providers, bool start)
-        {
-            Xed = XedRuntime.create(wf);
-            Providers = providers;
-            Instance = create(wf);
-            if(start)
-                Xed.Start();
-            return Instance;
-        }
+        // static AsmCoreCmd Create(IWfRuntime wf, Index<ICmdProvider> providers, bool start)
+        // {
+        //     Xed = XedRuntime.create(wf);
+        //     Providers = providers;
+        //     Instance = create(wf);
+        //     if(start)
+        //         Xed.Start();
+        //     return Instance;
+        // }
 
         CoffServices Coff => Wf.CoffServices();
 
@@ -39,8 +39,6 @@ namespace Z0
         XedDb XedDb => Xed.XedDb;
 
         CsLang CsLang => Wf.CsLang();
-
-        AsmDocs AsmDocs => Wf.AsmDocs();
 
         AsmCodeGen AsmCodeGen => Wf.AsmCodeGen();
 
@@ -82,13 +80,12 @@ namespace Z0
         ref readonly Index<InstPattern> Patterns
             => ref Xed.Views.Patterns;
 
-
         protected override void Initialized()
         {
             ProjectLoad("canonical");
         }
 
-        protected override ICmdProvider[] CmdProviders(IWfRuntime wf)
-            => Providers + core.array((ICmdProvider)this);
+        // protected override ICmdProvider[] CmdProviders(IWfRuntime wf)
+        //     => Providers + core.array((ICmdProvider)this);
     }
 }

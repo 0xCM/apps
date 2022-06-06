@@ -6,14 +6,15 @@
 namespace Z0
 {
     using static XedModels;
-    using static XedModels.ModeClass;
+    using static MachineModes;
+    using static MachineModes.MachineModeClass;
     using static Asm.AsmPrefixCodes;
     using static Asm.AsmPrefixCodes.VectorWidthCode;
     using static XedModels.EASZ;
     using static XedModels.EOSZ;
     using static XedModels.SMODE;
     using static XedModels.SegPrefixKind;
-    using static XedModels.VexMapKind;
+    using static VexMapKind;
     using static XedModels.BCastKind;
     using static bit;
 
@@ -21,8 +22,8 @@ namespace Z0
     using M = XedRules.RuleMacroKind;
     using P = XedModels.RepPrefix;
     using D = XedModels.SegDefaultKind;
-    using V = XedModels.VexKind;
-    using X = XedModels.XopMapKind;
+    using V = XedVexKind;
+    using X = XopMapKind;
 
     using static core;
 
@@ -34,7 +35,7 @@ namespace Z0
                 => new MacroSpec(name, field, new MacroExpansion(field, OperatorKind.Eq, new FieldValue(field, core.bw64(value))));
 
         [MethodImpl(Inline), Op]
-        static MacroSpec assign(RuleMacroKind name, FieldKind field, ModeClass value)
+        static MacroSpec assign(RuleMacroKind name, FieldKind field, MachineModeClass value)
             => new MacroSpec(name, field, new MacroExpansion(field, OperatorKind.Eq, new FieldValue(field, value)));
 
         [MethodImpl(Inline), Op]
@@ -323,23 +324,23 @@ namespace Z0
 
             [MethodImpl(Inline), Op]
             static MacroSpec VV0()
-                => assign(M.VV0, K.VEXVALID, VexClass.None);
+                => assign(M.VV0, K.VEXVALID, XedVexClass.None);
 
             [MethodImpl(Inline), Op]
             static MacroSpec VV1()
-                => assign(M.VV1, K.VEXVALID, VexClass.VV1);
+                => assign(M.VV1, K.VEXVALID, XedVexClass.VV1);
 
             [MethodImpl(Inline), Op]
             static MacroSpec KVV()
-                => assign(M.KVV, K.VEXVALID, VexClass.KVV);
+                => assign(M.KVV, K.VEXVALID, XedVexClass.KVV);
 
             [MethodImpl(Inline), Op]
             static MacroSpec EVV()
-                => assign(M.EVV, K.VEXVALID, VexClass.EVV);
+                => assign(M.EVV, K.VEXVALID, XedVexClass.EVV);
 
             [MethodImpl(Inline), Op]
             static MacroSpec XOPV()
-                => assign(M.XOPV, K.VEXVALID, VexClass.XOPV);
+                => assign(M.XOPV, K.VEXVALID, XedVexClass.XOPV);
 
             [MethodImpl(Inline), Op]
             static MacroSpec VNP()

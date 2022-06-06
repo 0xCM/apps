@@ -8,7 +8,6 @@ namespace Z0
 
     public class Lineage
     {
-
         public static string parent(Lineage src)
             => src != null && src.IsNonEmpty ? src.Name : EmptyString;
 

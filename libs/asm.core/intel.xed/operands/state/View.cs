@@ -9,6 +9,7 @@ namespace Z0
 
     using static XedModels;
     using static XedRules;
+    using static AsmOpCodeMaps;
     using static core;
 
     using M = XedModels;
@@ -18,12 +19,42 @@ namespace Z0
         public readonly struct View
         {
             [MethodImpl(Inline), Op]
-            public static ref readonly InstClass iclass(in OperandState src)
-                => ref @as<InstClassType,InstClass>(src.ICLASS);
+            public static AsmOpCodeIndex ocindex(in OperandState state)
+            {
+                var dst = AsmOpCodeIndex.Amd3dNow;
+                ref readonly var map = ref state.MAP;
+                ref readonly var vc = ref XedOps.View.vexclass(state);
+                switch(vc)
+                {
+                    case XedVexClass.VV1:
+                        dst = index((VexMapKind)map);
+                        break;
+                    case XedVexClass.EVV:
+                        dst = index((EvexMapKind)map);
+                        break;
+                    case XedVexClass.XOPV:
+                        dst = index((XopMapKind)map);
+                        break;
+                    default:
+                        dst = (AsmOpCodeIndex)map;
+                        break;
+                }
+
+                return dst;
+            }
+
 
             [MethodImpl(Inline), Op]
-            public static OpCodeIndex ocindex(in OperandState state)
-                => XedOpCodes.index(state);
+            public static ref readonly XedVexKind vexkind(in OperandState src)
+                => ref @as<XedVexKind>(src.VEX_PREFIX);
+
+            [MethodImpl(Inline), Op]
+            public static ref readonly XedVexClass vexclass(in OperandState src)
+                => ref @as<XedVexClass>(src.VEXVALID);
+
+            [MethodImpl(Inline), Op]
+            public static ref readonly InstClass iclass(in OperandState src)
+                => ref @as<InstClassType,InstClass>(src.ICLASS);
 
             [MethodImpl(Inline), Op]
             public static ref readonly BCastKind broadcast(in OperandState src)
@@ -34,13 +65,8 @@ namespace Z0
                 => ref @as<Hex8>(src.NOMINAL_OPCODE);
 
             [MethodImpl(Inline), Op]
-            public static ref readonly VexLength vl(in OperandState src)
-                => ref @as<VexLength>(src.VL);
-
-            [MethodImpl(Inline), Op]
-            public static ref readonly VexKind vexkind(in OperandState src)
-                => ref XedOpCodes.vexkind(src);
-
+            public static ref readonly AsmVL vl(in OperandState src)
+                => ref @as<AsmVL>(src.VL);
             [Op]
             public static XedRegs regs(in OperandState src)
             {
@@ -102,11 +128,6 @@ namespace Z0
             [MethodImpl(Inline), Op]
             public static ref readonly EOSZ eosz(in OperandState src)
                 => ref @as<EOSZ>(src.EOSZ);
-
-            [MethodImpl(Inline), Op]
-            public static ref readonly VexClass vexclass(in OperandState src)
-                => ref XedOpCodes.vexclass(src);
-
             [MethodImpl(Inline), Op]
             public static ref readonly MachineMode mode(in OperandState src)
                 => ref @as<MachineMode>(src.MODE);

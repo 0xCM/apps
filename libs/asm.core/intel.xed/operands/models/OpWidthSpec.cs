@@ -6,6 +6,7 @@
 namespace Z0
 {
     using static core;
+    using static MachineModes;
 
     partial struct XedModels
     {
@@ -17,7 +18,7 @@ namespace Z0
                 var w0 = (ushort)gpr[w16].Width;
                 var w1 = (ushort)gpr[w32].Width;
                 var w2 = (ushort)gpr[w64].Width;
-                return new OpWidthSpec(0, ModeClass.Default, gpr, ElementType.Empty, 1);
+                return new OpWidthSpec(0, MachineModeClass.Default, gpr, ElementType.Empty, 1);
             }
 
             public static OpWidthSpecs specs(Index<OpWidthRecord> src)
@@ -28,9 +29,9 @@ namespace Z0
                 for(var i=0; i<src.Count; i++)
                 {
                     ref readonly var info = ref src[i];
-                    seek(dst,k++) = new OpWidthSpec(info.Code, ModeClass.Mode16, info.Name, info.SegType, 1, info.ElementType, info.ElementWidth, info.Width16);
-                    seek(dst,k++) = new OpWidthSpec(info.Code, ModeClass.Mode32, info.Name, info.SegType, 1, info.ElementType, info.ElementWidth, info.Width32);
-                    seek(dst,k++) = new OpWidthSpec(info.Code, ModeClass.Mode64, info.Name, info.SegType, 1, info.ElementType, info.ElementWidth, info.Width64);
+                    seek(dst,k++) = new OpWidthSpec(info.Code, MachineModeClass.Mode16, info.Name, info.SegType, 1, info.ElementType, info.ElementWidth, info.Width16);
+                    seek(dst,k++) = new OpWidthSpec(info.Code, MachineModeClass.Mode32, info.Name, info.SegType, 1, info.ElementType, info.ElementWidth, info.Width32);
+                    seek(dst,k++) = new OpWidthSpec(info.Code, MachineModeClass.Mode64, info.Name, info.SegType, 1, info.ElementType, info.ElementWidth, info.Width64);
                 }
                 return new OpWidthSpecs(dst);
             }

@@ -6,8 +6,5 @@ namespace Z0
 {
     partial class ApiCmd
     {
-        [CmdOp("api/capture")]
-        void Capture(CmdArgs args)
-            => Wf.ApiCapture().Run(args);
     }
 }

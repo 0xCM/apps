@@ -31,13 +31,6 @@ namespace Z0
         public void LoadProject(CmdArgs args)
             => LoadProjectSources(Ws.Project(arg(args,0).Value));
 
-        public void RunCmd(string name)
-        {
-            var result = Dispatcher.Dispatch(name);
-            if(result.Fail)
-                Error(result.Message);
-        }
-
         public FS.Files SourceFiles(IProjectWs ws, Subject? scope)
         {
             if(scope != null)
@@ -63,17 +56,6 @@ namespace Z0
                 RunProjectScript(ws, skip(src,i), script);
 
             return result;
-        }
-
-        public void RunCmd(string name, CmdArgs args)
-            => Dispatcher.Dispatch(name, args);
-
-        public void DispatchJobs(FS.FilePath src)
-        {
-            var lines = src.ReadNumberedLines(true);
-            var count = lines.Count;
-            for(var i=0; i<count; i++)
-                Dispatch(Cmd.cmdspec(lines[i].Content));
         }
 
         public Outcome RunProjectScript(IProjectWs project, FS.FilePath path, ScriptId script)
@@ -138,28 +120,28 @@ namespace Z0
             }
         }
 
-        public void RunJobs(string match)
-        {
-            var paths = ProjectDb.JobSpecs();
-            var count = paths.Length;
-            var counter = 0u;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var path = ref paths[i];
-                if(path.FileName.Format().StartsWith(match))
-                {
-                    var dispatching = Running(string.Format("Dispatching job {0} defined by {1}", counter, path.ToUri()));
-                    DispatchJobs(path);
-                    Ran(dispatching, string.Format("Dispatched job {0}", counter));
-                    counter++;
-                }
-            }
+        // public override void RunJobs(string match)
+        // {
+        //     var paths = ProjectDb.JobSpecs();
+        //     var count = paths.Length;
+        //     var counter = 0u;
+        //     for(var i=0; i<count; i++)
+        //     {
+        //         ref readonly var path = ref paths[i];
+        //         if(path.FileName.Format().StartsWith(match))
+        //         {
+        //             var dispatching = Running(string.Format("Dispatching job {0} defined by {1}", counter, path.ToUri()));
+        //             DispatchJobs(path);
+        //             Ran(dispatching, string.Format("Dispatched job {0}", counter));
+        //             counter++;
+        //         }
+        //     }
 
-            if(counter == 0)
-            {
-                Warn(string.Format("No jobs identified by '{0}'", match));
-            }
-        }
+        //     if(counter == 0)
+        //     {
+        //         Warn(string.Format("No jobs identified by '{0}'", match));
+        //     }
+        // }
 
         bool LoadProjectSources(IProjectWs ws)
         {

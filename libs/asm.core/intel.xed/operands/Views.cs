@@ -42,10 +42,10 @@ namespace Z0
             get => Bytes.sequential<M.ASZ>(0, (byte)MaxASZ);
         }
 
-        public static ReadOnlySpan<M.BaseMapKind> BaseMapKind
+        public static ReadOnlySpan<AsmBaseMapKind> BaseMapKind
         {
             [MethodImpl(Inline), Op]
-            get => Bytes.sequential<M.BaseMapKind>(0, (byte)M.BaseMapKind.Amd3dNow);
+            get => Bytes.sequential<AsmBaseMapKind>(0, (byte)AsmBaseMapKind.Amd3dNow);
         }
 
         public static ReadOnlySpan<M.InstCategory> InstCategory

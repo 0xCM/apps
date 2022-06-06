@@ -43,8 +43,8 @@ namespace Z0
                 ref readonly var asmtxt = ref summary.Asm;
                 ref readonly var ip = ref summary.IP;
                 var cells = XedDisasm.update(lines, ref state);
-                var ocindex = XedOpCodes.index(state);
-                var ockind = XedOpCodes.kind(ocindex);
+                var ocindex = XedOps.View.ocindex(state);
+                var ockind = AsmOpCodeMaps.kind(ocindex);
                 var encoding  = XedCode.encoding(state, asmhex);
                 var ocbyte = View.ocbyte(state);
                 var ochex = XedRender.format(ocbyte);
@@ -97,7 +97,7 @@ namespace Z0
 
                 dst.AppendLineFormat(RenderPattern, nameof(state.EASZ), XedRender.format(View.easz(state)));
                 dst.AppendLineFormat(RenderPattern, nameof(state.EOSZ), XedRender.format(View.eosz(state)));
-                dst.AppendLineFormat(RenderPattern, nameof(state.MODE), XedRender.format(View.mode(state)));
+                dst.AppendLineFormat(RenderPattern, nameof(state.MODE), MachineModes.format(View.mode(state)));
                 dst.AppendLineFormat(RenderPattern, "OpCode", string.Format("{0} [{1}]", ochex, ocbits));
 
                 if(state.SRM != 0)
@@ -204,18 +204,18 @@ namespace Z0
                     }
                 }
 
-                var vc = XedOpCodes.vexclass(state);
+                var vc = XedOps.View.vexclass(state);
                 if(vc != 0)
                 {
-                    var vk = XedOpCodes.vexkind(state);
+                    var vk = XedOps.View.vexkind(state);
                     var vex5 = BitNumbers.join((uint3)state.VEXDEST210, state.VEXDEST4, state.VEXDEST3);
                     var vexBits = string.Format("[{0} {1} {2}]", state.VEXDEST4, state.VEXDEST3, (uint3)state.VEXDEST210);
                     var vexHex = XedRender.format((Hex8)(byte)vex5);
                     dst.AppendLineFormat(RenderPattern, nameof(state.VEXVALID), XedRender.format(vc));
                     dst.AppendLineFormat(RenderPattern, nameof(state.VEX_PREFIX), vk == 0 ? "VNP" : XedRender.format(vk));
-                    if(vc == VexClass.VV1)
+                    if(vc == XedVexClass.VV1)
                         dst.AppendLineFormat(RenderPattern, "Vex", detail.Vex);
-                    else if(vc == VexClass.EVV)
+                    else if(vc == XedVexClass.EVV)
                         dst.AppendLineFormat(RenderPattern, "Evex", detail.Evex);
                     dst.AppendLineFormat(RenderPattern, "VEXDEST", string.Format("{0} {1}", vexHex, vexBits));
                 }

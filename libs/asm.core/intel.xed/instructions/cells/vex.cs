@@ -12,18 +12,18 @@ namespace Z0
     {
         partial struct InstCells
         {
-            public static VexClass vex(in InstCells src)
+            public static XedVexClass vex(in InstCells src)
             {
-                var result = VexClass.None;
+                var result = XedVexClass.None;
                 if(src.Count != 0)
                 {
-                    var k = (VexClass)src.First.AsByte();
+                    var k = (XedVexClass)src.First.AsByte();
                     switch(k)
                     {
-                        case VexClass.VV1:
-                        case VexClass.EVV:
-                        case VexClass.XOPV:
-                        case VexClass.KVV:
+                        case XedVexClass.VV1:
+                        case XedVexClass.EVV:
+                        case XedVexClass.XOPV:
+                        case XedVexClass.KVV:
                             result = k;
                         break;
                     }

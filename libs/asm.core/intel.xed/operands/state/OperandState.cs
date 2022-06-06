@@ -6,7 +6,8 @@
 namespace Z0
 {
     using static XedModels;
-
+    using static MachineModes;
+    
     using K = XedRules.FieldKind;
     using M = XedModels;
 
@@ -177,7 +178,7 @@ namespace Z0
             [RuleField(K.MASK, 1, typeof(bit))]
             public bit MASK;
 
-            [RuleField(K.MODE, 2, typeof(M.ModeClass), "Specifies one of {Mode16,Mode32,Mode64,Not64} if applicable")]
+            [RuleField(K.MODE, 2, typeof(MachineModeClass), "Specifies one of {Mode16,Mode32,Mode64,Not64} if applicable")]
             public byte MODE;
 
             [RuleField(K.SMODE, 2, typeof(M.SMODE), "Specifies one of {SMode16,SMode32,SMode64} if applicable")]
@@ -258,7 +259,7 @@ namespace Z0
             [RuleField(K.POS_DISP, 4, typeof(num4), "Specifies the 0-based index of the encoded DISP field, if applicable")]
             public byte POS_DISP;
 
-            [RuleField(K.MAP, 4, typeof(M.MAP))]
+            [RuleField(K.MAP, 4, typeof(XedMapNumber))]
             public byte MAP;
 
             [RuleField(FieldKind.MAX_BYTES, 4, typeof(num4))]
@@ -330,13 +331,13 @@ namespace Z0
             [RuleField(K.ESRC, 4, typeof(ESRC))]
             public byte ESRC;
 
-            [RuleField(K.VEXVALID, 3, typeof(VexClass), "Specifies one of {VV0,VV1,EVV,XOPV,KVV}, if applicable")]
+            [RuleField(K.VEXVALID, 3, typeof(XedVexClass), "Specifies one of {VV0,VV1,EVV,XOPV,KVV}, if applicable")]
             public byte VEXVALID;
 
-            [RuleField(K.VEX_PREFIX, 2, typeof(VexKind), "Specifies one of {VNP,V66,VF2,VF3}, if applicable")]
+            [RuleField(K.VEX_PREFIX, 2, typeof(XedVexKind), "Specifies one of {VNP,V66,VF2,VF3}, if applicable")]
             public byte VEX_PREFIX;
 
-            [RuleField(K.VL, 3, typeof(VexLength), "Specifies one of {V128,V256,V512}, if applicable")]
+            [RuleField(K.VL, 3, typeof(AsmVL), "Specifies one of {V128,V256,V512}, if applicable")]
             public byte VL;
 
             [RuleField(K.BCAST,5, typeof(M.BCastKind))]

@@ -44,7 +44,7 @@ namespace Z0
         {
             exec(PllExec,
                 EmitRuleBlocks,
-                () => AppSvc.TableEmit(OpCodeKinds.Instance.Records, XedPaths.Table<OcMapKind>()),
+                () => AppSvc.TableEmit(XedOpCodeKinds.Instance.Records, XedPaths.Table<XedMapKind>()),
                 () => Emit(mapi(RuleMacros.matches().Values.ToArray().Sort(), (i,m) => m.WithSeq((uint)i))),
                 () => Emit(CalcMacroDefs().View),
                 () => Emit(XedFields.Defs.Positioned),
@@ -105,7 +105,7 @@ namespace Z0
             );
         }
 
-        void Emit(OpCodeClass @class, ReadOnlySpan<InstGroupSeq> src)
+        void Emit(AsmOpCodeClass @class, ReadOnlySpan<InstGroupSeq> src)
             => TableEmit(src, XedPaths.InstTable<InstGroupSeq>(@class.ToString().ToLower()));
 
         public void EmitSeq()
@@ -179,8 +179,8 @@ namespace Z0
         public void Emit(ReadOnlySpan<MacroDef> src)
             => AppSvc.TableEmit(src, MacroDef.RenderWidths, XedPaths.RuleTable<MacroDef>());
 
-        public void Emit(ReadOnlySpan<InstOpCode> src)
-            => AppSvc.TableEmit(src, XedPaths.InstTable<InstOpCode>());
+        public void Emit(ReadOnlySpan<XedInstOpCode> src)
+            => AppSvc.TableEmit(src, XedPaths.InstTable<XedInstOpCode>());
 
         public void Emit(ReadOnlySpan<InstOpRow> src)
             => AppSvc.TableEmit(src, XedPaths.InstTable<InstOpRow>());

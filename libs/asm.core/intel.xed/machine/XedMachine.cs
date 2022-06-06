@@ -7,6 +7,7 @@ namespace Z0
     using static core;
     using static XedRules;
     using static XedModels;
+    using static MachineModes;
 
     public partial class XedMachine : IDisposable
     {
@@ -82,7 +83,7 @@ namespace Z0
             => ref State().Mode();
 
         [MethodImpl(Inline)]
-        public ref Addressing Addressing()
+        public ref AddressingKind Addressing()
             => ref State().Addressing();
 
         internal XedMachine(XedRuntime xed)

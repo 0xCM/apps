@@ -100,7 +100,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public PatternSort(in InstOpCode src, bool ocfirst = false)
+            public PatternSort(in XedInstOpCode src, bool ocfirst = false)
             {
                 InstClass = src.InstClass;
                 OpCode = src.OpCode;
@@ -117,7 +117,7 @@ namespace Z0
                 var result = 0;
                 if(OpCodeFirst)
                 {
-                    result = XedRules.cmp(OpCode.Kind,src.OpCode.Kind);
+                    result = AsmOpCodeMaps.cmp(OpCode.Kind,src.OpCode.Kind);
                     if(result == 0)
                         result = OpCode.Value.CompareTo(src.OpCode.Value);
                     if(result == 0)

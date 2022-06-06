@@ -8,9 +8,10 @@ namespace Z0
 
     using static XedModels;
     using static XedPatterns;
+    using static MachineModes;
     using static core;
 
-    using C = XedRules.FormatCode;
+    using C = _DataFormatCode;
     using K = XedRules.FieldKind;
     using CK = XedRules.RuleCellKind;
 
@@ -173,7 +174,7 @@ namespace Z0
                     {
                         var x = @as<MaskReg>(data);
                         dst = XedRender.format(x,code);
-                        if(code == FormatCode.Expr)
+                        if(code == _DataFormatCode.Expr)
                             dst = text.embrace(dst);
                     }
                     break;
@@ -191,8 +192,8 @@ namespace Z0
                     break;
                     case K.MODE:
                     {
-                        var x = @as<ModeClass>(data);
-                        dst = XedRender.format(x, code);
+                        var x = @as<MachineModeClass>(data);
+                        dst = MachineModes.format(x, code);
                     }
                     break;
                     case K.SMODE:
@@ -203,13 +204,13 @@ namespace Z0
                     break;
                     case K.VEXVALID:
                     {
-                        var x = @as<VexClass>(data);
+                        var x = @as<XedVexClass>(data);
                         dst = XedRender.format(x, code);
                     }
                     break;
                     case K.VEX_PREFIX:
                     {
-                        var x = @as<VexKind>(data);
+                        var x = @as<XedVexKind>(data);
                         dst = XedRender.format(x, code);
                     }
                     break;
@@ -470,7 +471,7 @@ namespace Z0
                     break;
                     case C.VexClass:
                     {
-                        var x = @as<VexClass>(data);
+                        var x = @as<XedVexClass>(data);
                         dst = XedRender.format(x);
                     }
                     break;
@@ -503,7 +504,7 @@ namespace Z0
                 => src.ToString();
 
             [Op]
-            public static FormatCode fcode(FieldKind src)
+            public static _DataFormatCode fcode(FieldKind src)
             {
                 var dst = C.None;
                 switch(src)

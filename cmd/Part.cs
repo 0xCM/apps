@@ -17,14 +17,13 @@ global using SQ = Z0.SymbolicQuery;
 [assembly: PartId(PartId.Cmd)]
 namespace Z0.Parts
 {
-    using System;
-
     public sealed class Cmd : Part<Cmd>
     {
         [ModuleInitializer]
         internal static void Init()
         {
             AppData.init();
+            NumRender.Service.RegisterFomatters();
         }
 
     }

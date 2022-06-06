@@ -6,11 +6,10 @@ namespace Z0
 {
     using Asm;
 
-
     public class CaptureCmd : AppCmdProvider<CaptureCmd>
     {
-        AsmCallPipe AsmCalls => Service(Wf.AsmCallPipe);
-
-        AsmDecoder AsmDecoder => Service(Wf.AsmDecoder);
+        [CmdOp("api/capture")]
+        void Capture(CmdArgs args)
+            => Wf.ApiCapture().Run(args);
     }
 }

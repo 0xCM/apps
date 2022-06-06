@@ -8,8 +8,6 @@ namespace Z0
 
     using System.Text;
 
-    using static IntelIntrinsics;
-
     partial class IntelIntrinsics
     {
         public class CmdSvc : AppCmdService<CmdSvc>

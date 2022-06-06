@@ -11,8 +11,7 @@ namespace Z0
     {
         protected abstract IWsCmdRunner CmdRunner {get;}
 
-        protected CheckRunner CheckRunner
-            => Wf.CheckRunner();
+        CheckRunner CheckRunner => Wf.CheckRunner();
 
         protected WsContext Context()
             => WsApi.context(CmdRunner.Project());
@@ -21,14 +20,8 @@ namespace Z0
         protected void LoadProject(CmdArgs args)
             => CmdRunner.LoadProject(args);
 
-        protected void RunCmd(string name, CmdArgs args)
-            => Dispatcher.Dispatch(name, args);
-
         protected void ProjectLoad(string name)
             => Dispatcher.Dispatch("project", new CmdArg[]{new CmdArg(EmptyString, name)});
-
-        // public void EmitCommands()
-        //     => EmitCommands(Dispatcher);
 
         [CmdOp("checks/run")]
         protected void ChecksExec()
@@ -38,23 +31,20 @@ namespace Z0
         protected void ChecksList()
             => CheckRunner.ListChecks();
 
-        // [CmdOp(".commands")]
-        // protected Outcome EmitShellCommands(CmdArgs args)
+        // protected void RunCmd(string name, CmdArgs args)
+        //     => Dispatcher.Dispatch(name, args);
+
+
+        // void EmitCommands(ICmdDispatcher dispatcher)
+        //     => EmitCommands(dispatcher, AppDb.Targets("api").Path(FS.file($"api.{GetType().Name.ToLower()}.cmd", FS.Csv)));
+
+        // void EmitCommands(ICmdDispatcher dispatcher, FS.FilePath dst)
         // {
-        //     EmitCommands();
-        //     return true;
+        //     iter(dispatcher.SupportedActions, cmd => Write(cmd));
+        //     var emitting = EmittingFile(dst);
+        //     using var writer = dst.Writer();
+        //     iter(dispatcher.SupportedActions, cmd => writer.WriteLine(cmd));
+        //     EmittedFile(emitting, dispatcher.SupportedActions.Length);
         // }
-
-        void EmitCommands(ICmdDispatcher dispatcher)
-            => EmitCommands(dispatcher, AppDb.Targets("api").Path(FS.file($"api.{GetType().Name.ToLower()}.cmd", FS.Csv)));
-
-        void EmitCommands(ICmdDispatcher dispatcher, FS.FilePath dst)
-        {
-            iter(dispatcher.SupportedActions, cmd => Write(cmd));
-            var emitting = EmittingFile(dst);
-            using var writer = dst.Writer();
-            iter(dispatcher.SupportedActions, cmd => writer.WriteLine(cmd));
-            EmittedFile(emitting, dispatcher.SupportedActions.Length);
-        }
     }
 }

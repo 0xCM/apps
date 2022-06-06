@@ -11,7 +11,6 @@ namespace Z0.llvm
                 => BitNumber.parse(text.remove(text.unfence(src, RenderFence.Embraced),Chars.Comma, Chars.Space), w, n);
         
         public static bit bit(string src)
-            => Z0.bit.parse(src);
-      
+            => Z0.bit.parse(src);     
     }
 }

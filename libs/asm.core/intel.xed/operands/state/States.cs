@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
+    using static MachineModes;
 
     using M = XedModels;
     using B = System.ReadOnlySpan<bit>;
@@ -17,15 +17,15 @@ namespace Z0
     {
         public readonly struct States
         {
-            public const VexClass MaxVexClass = VexClass.VV1;
+            public const XedVexClass MaxVexClass = XedVexClass.VV1;
 
-            public const VexKind MaxVexKind = VexKind.VF3;
+            public const XedVexKind MaxVexKind = XedVexKind.VF3;
 
             public const M.EASZ MaxEASZ = M.EASZ.EASZNot16;
 
             public const M.SMODE MaxSMODE = M.SMODE.SMode64;
 
-            public const M.ModeClass MaxMode = M.ModeClass.Default;
+            public const MachineModeClass MaxMode = MachineModeClass.Default;
 
             public const M.SegPrefixKind MaxSegPrefixKind = M.SegPrefixKind.SS;
 
@@ -37,7 +37,7 @@ namespace Z0
 
             public const M.BCastKind MaxBCastKind = M.BCastKind.BCast_1TO4_16;
 
-            public const M.VexLength MaxVexLength = M.VexLength.VL512;
+            public const AsmVL MaxVexLength = AsmVL.VL512;
 
             public static B DF32
             {
@@ -393,28 +393,22 @@ namespace Z0
                 get => DISP_WIDTH;
             }
 
-            public static ReadOnlySpan<ModeClass> MODE
+            public static ReadOnlySpan<MachineModeClass> MODE
             {
                 [MethodImpl(Inline)]
-                get => Bytes.sequential<ModeClass>(0, (byte)MaxMode);
+                get => Bytes.sequential<MachineModeClass>(0, (byte)MaxMode);
             }
 
-            public static ReadOnlySpan<VexClass> VEXVALID
+            public static ReadOnlySpan<XedVexClass> VEXVALID
             {
                 [MethodImpl(Inline)]
-                get => Bytes.sequential<VexClass>(0, (byte)MaxVexClass);
+                get => Bytes.sequential<XedVexClass>(0, (byte)MaxVexClass);
             }
 
-            public static ReadOnlySpan<VexKind> VEX_PREFIX
+            public static ReadOnlySpan<XedVexKind> VEX_PREFIX
             {
                 [MethodImpl(Inline)]
-                get => Bytes.sequential<VexKind>(0, (byte)MaxVexKind);
-            }
-
-            public static ReadOnlySpan<M.MAP> MAP
-            {
-                [MethodImpl(Inline)]
-                get => new M.MAP[]{M.MAP.MAP0, M.MAP.MAP1, M.MAP.MAP2, M.MAP.MAP3, M.MAP.MAP8, M.MAP.MAP9, M.MAP.MAP10};
+                get => Bytes.sequential<XedVexKind>(0, (byte)MaxVexKind);
             }
 
             public static ReadOnlySpan<M.RoundingKind> ROUNDC
@@ -429,10 +423,10 @@ namespace Z0
                 get => Bytes.sequential<M.LLRC>(0, (byte)MaxLLRC);
             }
 
-            public static ReadOnlySpan<M.VexLength> VL
+            public static ReadOnlySpan<AsmVL> VL
             {
                 [MethodImpl(Inline)]
-                get => Bytes.sequential<M.VexLength>(0, (byte)MaxVexLength);
+                get => Bytes.sequential<AsmVL>(0, (byte)MaxVexLength);
             }
 
             public static ReadOnlySpan<M.BCastKind> BCAST

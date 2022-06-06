@@ -22,12 +22,12 @@ namespace Z0
                 => ref @as<InstClassType,InstClass>(src.ICLASS);
 
             [MethodImpl(Inline), Op]
-            public static ref VexLength vl(ref OperandState src)
-                => ref @as<VexLength>(src.VL);
+            public static ref AsmVL vl(ref OperandState src)
+                => ref @as<AsmVL>(src.VL);
 
             [MethodImpl(Inline), Op]
-            public static ref VexKind vexkind(ref OperandState src)
-                => ref @as<VexKind>(src.VEX_PREFIX);
+            public static ref XedVexKind vexkind(ref OperandState src)
+                => ref @as<XedVexKind>(src.VEX_PREFIX);
 
             [MethodImpl(Inline), Op]
             public static ref RoundingKind rounding(ref OperandState src)
@@ -38,8 +38,8 @@ namespace Z0
                 => ref @as<MachineMode>(src.MODE);
 
             [MethodImpl(Inline), Op]
-            public static ref VexClass vexclass(ref OperandState src)
-                => ref @as<VexClass>(src.VEXVALID);
+            public static ref XedVexClass vexclass(ref OperandState src)
+                => ref @as<XedVexClass>(src.VEXVALID);
 
             [MethodImpl(Inline), Op]
             public static ref bit rexb(ref OperandState src)
@@ -140,8 +140,8 @@ namespace Z0
                 => ref src.NOMINAL_OPCODE;
 
             [MethodImpl(Inline), Op]
-            public static ref MAP ocmap(ref OperandState src)
-                => ref @as<MAP>(src.MAP);
+            public static ref XedMapNumber ocmap(ref OperandState src)
+                => ref @as<XedMapNumber>(src.MAP);
 
             [MethodImpl(Inline), Op]
             public static ref SegDefaultKind segdefault(ref OperandState src)
@@ -166,11 +166,11 @@ namespace Z0
             }
 
             [MethodImpl(Inline), Op]
-            public static ref OperandState set(OpCodeIndex src, ref OperandState dst)
+            public static ref OperandState set(AsmOpCodeIndex src, ref OperandState dst)
             {
-                XedOpCodes.map(src, out var map);
+                AsmOpCodeMaps.map(src, out var map);
                 dst.MAP = (byte)map;
-                dst.VEXVALID = (byte)XedOpCodes.vexclass(src);
+                dst.VEXVALID = (byte)AsmOpCodeMaps.vexclass(src);
                 return ref dst;
             }
         }

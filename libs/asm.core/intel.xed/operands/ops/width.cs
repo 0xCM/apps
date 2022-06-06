@@ -9,7 +9,8 @@ namespace Z0
     using static XedModels;
     using static XedModels.EASZ;
     using static XedModels.EOSZ;
-    using static XedModels.ModeClass;
+    using static MachineModes;
+    using static MachineModes.MachineModeClass;
     using static XedModels.DispWidth;
 
     using EK = XedModels.ElementKind;
@@ -26,11 +27,11 @@ namespace Z0
             {
                 switch(mode.Class)
                 {
-                    case ModeClass.Mode16:
+                    case MachineModeClass.Mode16:
                         dst = new OpWidth(code, info.Width16);
                     break;
-                    case ModeClass.Not64:
-                    case ModeClass.Mode32:
+                    case MachineModeClass.Not64:
+                    case MachineModeClass.Mode32:
                         dst = new OpWidth(code, info.Width32);
                     break;
 
@@ -183,12 +184,12 @@ namespace Z0
             => (ushort)XedRegMap.Service.Map(src).Size.Width;
 
         [Op]
-        public static ushort width(VexLength src)
+        public static ushort width(AsmVL src)
             => src switch
             {
-                VexLength.VL128 => 128,
-                VexLength.VL256 => 256,
-                VexLength.VL512 => 512,
+                AsmVL.VL128 => 128,
+                AsmVL.VL256 => 256,
+                AsmVL.VL512 => 512,
                 _ => 0
             };
 
@@ -229,7 +230,7 @@ namespace Z0
             };
 
         [Op]
-        public static uint width(ModeClass src)
+        public static uint width(MachineModeClass src)
             => src switch
             {
                 Mode16 => 16,

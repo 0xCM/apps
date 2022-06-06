@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using S = RenderStyle;
+
     [StructLayout(StructLayout,Pack=1), Record(TableId)]
     public record struct LlvmAsmOpCode : IComparable<LlvmAsmOpCode>
     {
@@ -21,7 +23,7 @@ namespace Z0
         [Render(8)]
         public asci8 Bits;
 
-        [Render(8)]
+        [Render<S>(8, S.Fixed)]
         public Hex8 Hex;
 
         public int CompareTo(LlvmAsmOpCode src)
