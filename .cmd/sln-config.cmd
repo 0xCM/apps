@@ -43,5 +43,6 @@ set SlnCgShellCmd=%SlnTool% %SlnPath% add %CgDir%/codegen.shell/z0.codegen.shell
 set SlnXedShellCmd=%SlnTool% %SlnPath% add %ShellRoot%\xed.shell\z0.xed.shell.csproj
 set SlnIntelShellCmd=%SlnTool% %SlnPath% add %ShellRoot%\intel\z0.intel.csproj
 set SlnAsmShellCmd=%SlnTool% %SlnPath% add %ShellRoot%\asm.shell\z0.asm.shell.csproj
-set SlnCmdShellCmd=%SlnTool% %SlnPath% add %ShellRoot%\cmd\z0.cmd.csproj
 set SlnWorkersCmd=%SlnTool% %SlnPath% add %ShellRoot%\workers\z0.workers.csproj
+
+set SlnCmdCmd=%SlnTool% %SlnPath% add %TopDir%\cmd\z0.cmd.csproj
