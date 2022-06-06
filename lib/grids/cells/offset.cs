@@ -49,7 +49,7 @@ namespace Z0
         /// <param name="row">The 0-based row index</param>
         /// <param name="col">The 0-based col index</param>
         [MethodImpl(Inline), Op]
-        public static uint offset(GridDim dim, GridPoint point)
+        public static uint offset(GridDim dim, CellIndex point)
             => point.Row*dim.N + point.Col;
 
         /// <summary>

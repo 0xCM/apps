@@ -6,8 +6,7 @@ namespace Z0
 {
     using static core;
 
-    [DataType("binary")]
-    public readonly partial struct BinaryCode : IComparable<BinaryCode>, ITextual
+    public readonly partial struct BinaryCode : IComparable<BinaryCode>, ITextual, IHashed<BinaryCode>
     {
         /// <summary>
         /// The encoded bytes
@@ -114,8 +113,14 @@ namespace Z0
         public string Format(HexFormatOptions config)
             => Data.FormatHex(config);
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => core.hash(View);
+        }
+
         public override int GetHashCode()
-            => View.GetHashCode();
+            => Hash;
 
         public override bool Equals(object src)
             => src is BinaryCode encoded && Equals(encoded);

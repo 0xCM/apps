@@ -28,8 +28,8 @@ namespace Z0.llvm
                     dst.AsmId = asmids.AsmId(name);
                     dst.InstName = name;
                     dst.Map = map.OpMap;
-                    dst.Bits = BitStrings.scalar(map.Opcode.Packed);
-                    dst.Scalar = map.Opcode.Packed;
+                    dst.Bits = BitStrings.scalar(map.Opcode.Packed).Format();
+                    dst.Hex = map.Opcode.Packed;
                 }
             }
 

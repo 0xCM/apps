@@ -6,13 +6,13 @@ namespace Z0
 {
     using static core;
 
-    [StructLayout(LayoutKind.Sequential, Pack=1), DataType("dim<t:{0}>")]
+    [StructLayout(LayoutKind.Sequential, Pack=1), Closures(UnsignedInts)]
     public readonly struct GridDim<T> : IEquatable<GridDim<T>>
         where T : unmanaged
     {
-        public T RowCount {get;}
+        public readonly T RowCount;
 
-        public T ColCount {get;}
+        public readonly T ColCount;
 
         [MethodImpl(Inline)]
         public GridDim(T rows, T cols)

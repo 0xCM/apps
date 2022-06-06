@@ -9,7 +9,7 @@ namespace Z0.Asm
         /// <summary>
         /// The content origin
         /// </summary>
-        public readonly GridPoint<uint> Location;
+        public readonly CellIndex<uint> Location;
 
         public readonly AsmCellKind PartKind;
 
@@ -19,7 +19,7 @@ namespace Z0.Asm
             => PartKind;
 
         [MethodImpl(Inline)]
-        public AsmCell(GridPoint<uint> loc, AsmCellKind kind, T data)
+        public AsmCell(CellIndex<uint> loc, AsmCellKind kind, T data)
         {
             Location = loc;
             Content = data;

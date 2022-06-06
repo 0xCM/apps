@@ -13,7 +13,7 @@ namespace Z0
 
         WsProjects Projects => Wf.WsProjects();
 
-        AppSvcOps AppSvc => Service(Wf.AppSvc);
+        AppSvcOps AppSvc => Wf.AppSvc();
 
         XedPaths XedPaths => Xed.Paths;
 

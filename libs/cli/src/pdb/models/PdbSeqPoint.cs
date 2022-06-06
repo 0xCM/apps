@@ -4,21 +4,22 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct PdbSeqPoint : ITextual
+    [StructLayout(StructLayout,Pack =1)]
+    public readonly struct PdbSeqPoint
     {
         public static PdbSeqPoint adapt(SymUnmanagedSequencePoint src)
             => new PdbSeqPoint((uint)src.Offset,
                 ((uint)src.StartLine, (uint)src.StartColumn),
                 ((uint)src.EndLine, (uint)src.EndColumn));
 
-        public uint Offset {get;}
+        public readonly uint Offset;
 
-        public GridPoint<uint> UpperLeft {get;}
+        public readonly CellIndex<uint> UpperLeft;
 
-        public GridPoint<uint> LowerRight {get;}
+        public readonly CellIndex<uint> LowerRight;
 
         [MethodImpl(Inline)]
-        public PdbSeqPoint(uint offset, GridPoint<uint> x, GridPoint<uint> y)
+        public PdbSeqPoint(uint offset, CellIndex<uint> x, CellIndex<uint> y)
         {
             Offset = offset;
             UpperLeft = x;

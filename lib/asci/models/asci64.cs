@@ -173,15 +173,16 @@ namespace Z0
         public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => Storage.GetHashCode();
+            get => core.hash(Storage);
         }
+
+        public override int GetHashCode()
+            => Hash;
 
         [MethodImpl(Inline)]
         public bool Equals(A src)
             => Storage.Equals(src.Storage);
 
-         public override int GetHashCode()
-            => Hash;
 
         public override bool Equals(object src)
             => src is A j && Equals(j);

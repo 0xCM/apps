@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     public readonly struct CmdId : ITextual, IEquatable<CmdId>, INullity, IHashed
@@ -75,10 +71,10 @@ namespace Z0
             get => sys.nonempty(Data);
         }
 
-        public uint Hash
+        public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => (uint)Data.GetHashCode();
+            get => core.hash(Data);
         }
 
         [MethodImpl(Inline)]

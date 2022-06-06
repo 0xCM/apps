@@ -19,6 +19,16 @@ namespace Z0
         public string Format()
             => Content.Format();
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Content.Hash;
+        }
+
+
+        public override int GetHashCode()
+            => Hash;
+
         public TextBlock Text
         {
             [MethodImpl(Inline)]

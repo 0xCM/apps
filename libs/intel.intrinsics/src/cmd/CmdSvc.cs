@@ -8,6 +8,8 @@ namespace Z0
 
     using System.Text;
 
+    using static IntelIntrinsics;
+
     partial class IntelIntrinsics
     {
         public class CmdSvc : AppCmdService<CmdSvc>
@@ -16,10 +18,10 @@ namespace Z0
 
             Checks IntrinsicChecks => Wf.Checks();
 
-            [CmdOp("intel/int/emit")]
+            [CmdOp("intel/int/etl")]
             void ImportIntrinsics()
             {
-                var intrinsics = Intrinsics.Emit();
+                var intrinsics = Intrinsics.Etl();
                 var types = intrinsics.SelectMany(x => x.parameters).Select(x => x.type.Format().Remove("*").Remove("const").Trim()).Distinct().Sort();
                 iter(types, t => Write(t));
             }

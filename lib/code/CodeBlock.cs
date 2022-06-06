@@ -8,7 +8,7 @@ namespace Z0
     /// Encoded x86 bytes extracted from a memory source with a known (nonzero) location
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public readonly struct CodeBlock
+    public readonly struct CodeBlock : IHashed<CodeBlock>
     {
         /// <summary>
         /// The head of the memory location from which the data originated
@@ -106,8 +106,14 @@ namespace Z0
         public override string ToString()
             => Format();
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Code.Hash;
+        }
+
         public override int GetHashCode()
-            => Code.GetHashCode();
+            => Hash;
 
         public override bool Equals(object src)
             => src is CodeBlock x && Equals(x);

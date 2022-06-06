@@ -23,7 +23,7 @@ namespace Z0
         bool INullity.IsNonEmpty
             => Bytes.Length != 0;
 
-        uint IHashed.Hash
+        Hash32 IHashed.Hash
             => alg.ghash.calc(Bytes);
     }
 

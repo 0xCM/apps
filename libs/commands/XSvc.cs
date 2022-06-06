@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+
     public static class XSvc
     {
         sealed class Svc : AppServices<Svc>
@@ -60,6 +61,7 @@ namespace Z0
         public static Tooling Tooling(this IWfRuntime wf)
             => Services.Tooling(wf);
 
+
         public static AppSvcOps AppSvc(this IWfRuntime wf)
             => Services.AppSvc(wf);
 
@@ -81,10 +83,10 @@ namespace Z0
         public static WsCmdRunner WsCmdRunner(this IWfRuntime wf)
             => Services.WsCmdRunner(wf);
 
-       public static CheckRunner CheckRunner(this IWfRuntime wf)
-            => Services.CheckRunner(wf);
+        public static CheckRunner CheckRunner(this IWfRuntime wf)
+                => Services.CheckRunner(wf);
 
-       public static MemoryEmitter MemoryEmitter(this IWfRuntime wf)
+        public static MemoryEmitter MemoryEmitter(this IWfRuntime wf)
             => Services.MemoryEmitter(wf);
 
         public static HexCsvReader HexCsvReader(this IWfRuntime wf)

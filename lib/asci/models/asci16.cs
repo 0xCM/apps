@@ -156,8 +156,14 @@ namespace Z0
         public Vector256<ushort> DecodedVector()
             => api.decode(Storage);
 
-         public override int GetHashCode()
-            => Storage.GetHashCode();
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => core.hash(Storage);
+        }
+
+        public override int GetHashCode()
+            => Hash;
 
         public override bool Equals(object src)
             => src is A j && Equals(j);

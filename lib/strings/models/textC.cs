@@ -27,7 +27,7 @@ namespace Z0
             get => Block.Capacity;
         }
 
-        public uint Hash
+        public Hash32 Hash
         {
             [MethodImpl(Inline)]
             get => Block.Hash;

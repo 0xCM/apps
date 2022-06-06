@@ -29,6 +29,15 @@ namespace Z0
             get => cover(Address.Pointer<char>(), Length);
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Address.Hash;
+        }
+
+        public override int GetHashCode()
+            => Hash;
+
         public ReadOnlySpan<byte> Bytes
         {
             [MethodImpl(Inline)]

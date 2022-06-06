@@ -9,7 +9,7 @@ namespace Z0
     {
         public T Value {get;}
 
-        public uint Hash {get;}
+        public Hash32 Hash {get;}
 
         [MethodImpl(Inline)]
         public Key(T src)
@@ -26,7 +26,7 @@ namespace Z0
         }
 
         public override int GetHashCode()
-            => (int)Hash;
+            => Hash;
         public string Format()
             => Value.ToString();
 

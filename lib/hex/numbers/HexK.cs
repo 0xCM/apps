@@ -27,7 +27,7 @@ namespace Z0
              get => Value.IsNonZero;
         }
 
-        public uint Hash
+        public Hash32 Hash
         {
              [MethodImpl(Inline)]
              get => Value.Hash;

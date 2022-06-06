@@ -8,17 +8,23 @@ namespace Z0
 
     using static core;
 
+    /*
+        public static XedRuntime Inject(this XedRuntime xed)
+            => Services.Inject(xed);
+
+    */
     public partial class GlobalCmd : AppCmdService<GlobalCmd,CmdShellState>, ICmdRunner
     {
         public static GlobalCmd commands(IWfRuntime wf)
         {
-            var svc = new GlobalCmd();
-            var xed = XedRuntime.create(wf).Inject();
+            var runner = new GlobalCmd();
+            var xed = GlobalSvc.Instance.Inject(wf.XedRuntime());
             var providers = array<ICmdProvider>(
-                svc,
-                ProjectCmd.inject(svc, ProjectCmd.create(wf)),
-                AsmCoreCmd.commands(wf),
-                LlvmCmdProvider.create(wf),
+                runner,
+                wf.ProjectCmd(runner),
+                //ProjectCmd.inject(svc, ProjectCmd.create(wf)),
+                wf.AsmCoreCmd(),
+                wf.LlvmCmd(),
                 wf.PolyBits(),
                 wf.XedTool(),
                 wf.DiagnosticCmd(),
@@ -27,20 +33,26 @@ namespace Z0
                 wf.CheckCmd(),
                 wf.AsmCmd(),
                 wf.AsmChecks(),
-                XedCmd.commands(xed)
+                wf.IntelIntrinsicsCmd(),
+                xed.XedCmd(),
+                xed.XedChecks()
                 );
 
-            return GlobalCmd.init(wf, svc, providers);
+            _Providers = providers;
+            runner.Init(wf);
+            return runner;
+
+            //return GlobalCmd.init(wf, runner, providers);
         }
 
         static ICmdProvider[] _Providers;
 
-        public static GlobalCmd init(IWfRuntime wf, GlobalCmd svc, ICmdProvider[] providers)
-        {
-            _Providers = providers;
-            svc.Init(wf);
-            return svc;
-        }
+        // public static GlobalCmd init(IWfRuntime wf, GlobalCmd svc, ICmdProvider[] providers)
+        // {
+        //     _Providers = providers;
+        //     svc.Init(wf);
+        //     return svc;
+        // }
 
         public void RunCmd(string name)
         {

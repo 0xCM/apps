@@ -18,7 +18,7 @@ namespace Z0.Asm
         }
 
         [Render(32)]
-        public readonly text31 Name;
+        public readonly asci32 Name;
 
         [MethodImpl(Inline)]
         public AsmMnemonic(string src)
@@ -56,11 +56,17 @@ namespace Z0.Asm
             get => Length != 0;
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Name.Hash;
+        }
+
         AsmCellKind IAsmSourcePart.PartKind
             => AsmCellKind.Mnemonic;
 
         public override int GetHashCode()
-            => Content.GetHashCode();
+            => Hash;
 
         [MethodImpl(Inline)]
         public string Format()

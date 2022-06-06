@@ -94,10 +94,10 @@ namespace Z0
         public bool Equals(MemoryAddress src)
             => Location == src.Location;
 
-        public uint Hash
+        public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => (uint)Location;
+            get => hash(Location);
         }
 
         [MethodImpl(Inline)]

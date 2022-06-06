@@ -12,21 +12,18 @@ namespace Z0
         /// <summary>
         /// The hash code as an unsigned 32-bit integer
         /// </summary>
-        uint Hash {get;}
+        Hash32 Hash {get;}
 
         /// <summary>
         /// The hash code that C# knows/loves as an inappropriately-ubiquitous signed 32-bit integer
         /// </summary>
-        int HashCode
+        Hash32 HashCode
             => (int)Hash;
     }
 
     public interface IHashed<F> : IHashed
         where F : IHashed<F>
     {
-        new Hash32 Hash {get;}
 
-        uint IHashed.Hash
-            => Hash;
     }
 }

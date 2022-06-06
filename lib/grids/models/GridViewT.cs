@@ -16,7 +16,7 @@ namespace Z0
     {
         readonly ReadOnlySpan<T> Data;
 
-        public GridDim Dim {get;}
+        public readonly GridDim Dim;
 
         [MethodImpl(Inline)]
         public GridView(GridDim dim, ReadOnlySpan<T> data)
@@ -36,7 +36,7 @@ namespace Z0
             => ref seek(First, api.lineraize(Dim, (row, col)));
 
         [MethodImpl(Inline)]
-        public ref readonly T Cell(GridPoint point)
+        public ref readonly T Cell(CellIndex point)
             => ref seek(First, api.lineraize(Dim, point));
 
         public ref readonly T this[uint row, uint col]

@@ -17,7 +17,7 @@ namespace Z0
         ByteSize ISized.Size
             => 1;
 
-        uint IHashed.Hash
+        Hash32 IHashed.Hash
             => Value;
     }
 

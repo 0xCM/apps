@@ -65,7 +65,7 @@ namespace Z0
                 => Service<AsmDocs>(wf);
 
             public AsmOpCodes AsmOpCodes(IWfRuntime wf)
-                => Asm.AsmOpCodes.create(wf);
+                => Service<AsmOpCodes>(wf);
 
             public X86Dispatcher X86Dispatcher(IWfRuntime wf)
                 => Service<X86Dispatcher>(wf);
@@ -74,16 +74,28 @@ namespace Z0
                 => Service<AsmChecks>(wf);
 
             public XedDisasm.Analyzer DisasmAnalyzer(IWfRuntime wf)
-                => Z0.XedDisasm.Analyzer.create(wf);
+                => Service<XedDisasm.Analyzer>(wf);
 
             public NasmCatalog NasmCatalog(IWfRuntime wf)
                 => Service<NasmCatalog>(wf);
+
+            public AsmCoreCmd AsmCoreCmd(IWfRuntime wf)
+                => Service<AsmCoreCmd>(wf);
+
+            public Nasm Nasm(IWfRuntime wf)
+                => Service<Nasm>(wf);
+
+            public NDisasm NDisasm(IWfRuntime wf)
+                => Service<NDisasm>(wf);
         }
 
         static Svc Services => Svc.Instance;
 
         public static IntelSdm IntelSdm(this IWfRuntime wf)
             => Services.IntelSdm(wf);
+
+        public static XedRuntime XedRuntime(this IWfRuntime wf)
+            => GlobalSvc.Instance.Service<XedRuntime>(wf);
 
         public static XedImport XedImport(this IWfRuntime wf, XedRuntime xed)
             => Services.XedImport(wf, xed);
@@ -99,9 +111,6 @@ namespace Z0
 
         public static XedDisasmSvc XedDisasm(this IWfRuntime wf, XedRuntime xed)
             => Services.XedDisasm(wf, xed);
-
-        public static XedDisasm XedDisasm2(this IWfRuntime wf, XedRuntime xed)
-            => Services.XedDisasm2(wf, xed);
 
         public static XedDocs XedDocs(this IWfRuntime wf, XedRuntime xed)
             => Services.XedDocs(wf, xed);
@@ -151,16 +160,20 @@ namespace Z0
         public static NasmCatalog NasmCatalog(this IWfRuntime wf)
             => Services.NasmCatalog(wf);
 
+        public static AsmCoreCmd AsmCoreCmd(this IWfRuntime wf)
+            => Services.AsmCoreCmd(wf);
+
+        public static Nasm Nasm(this IWfRuntime wf)
+            => Services.Nasm(wf);
+
+        public static NDisasm NDisasm(this IWfRuntime wf)
+            => Services.NDisasm(wf);
+
         public static StanfordAsmCatalog StanfordCatalog(this IWfRuntime wf)
             => Asm.StanfordAsmCatalog.create(wf);
 
         public static StanfordFormPipe AsmFormPipe(this IWfRuntime wf)
             => Asm.StanfordFormPipe.create(wf);
 
-        public static Nasm Nasm(this IWfRuntime wf)
-            => Z0.Nasm.create(wf);
-
-        public static NDisasm NDisasm(this IWfRuntime wf)
-            => Z0.NDisasm.create(wf);
    }
 }

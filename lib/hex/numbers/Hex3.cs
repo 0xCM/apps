@@ -67,14 +67,14 @@ namespace Z0
              get => Value != 0;
         }
 
-        public uint Hash
+        public Hash32 Hash
         {
             [MethodImpl(Inline)]
             get => (uint)Value;
         }
 
         public override int GetHashCode()
-            => (int)Hash;
+            => Hash;
 
         public override bool Equals(object src)
             => src is H c && Equals(c);

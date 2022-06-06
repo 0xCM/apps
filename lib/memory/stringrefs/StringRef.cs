@@ -56,8 +56,14 @@ namespace Z0
             get => Length*size<char>();
         }
 
-        public uint Hash
-            => alg.hash.marvin(Cells);
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => core.hash(Cells);
+        }
+
+        public override int GetHashCode()
+            => Hash;
 
         public ReadOnlySpan<char> Cells
         {

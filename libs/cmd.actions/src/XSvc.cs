@@ -14,6 +14,8 @@ namespace Z0
             public ApiCmd ApiCmd(IWfRuntime wf)
                 => Service<ApiCmd>(wf);
 
+            public ProjectCmd ProjectCmd(IWfRuntime wf, ICmdRunner runner)
+                => Service(() => Z0.ProjectCmd.create(wf).With(runner));
         }
 
         static Svc Services = Svc.Instance;
@@ -23,5 +25,9 @@ namespace Z0
 
         public static ApiCmd ApiCmd(this IWfRuntime wf)
             => Services.ApiCmd(wf);
+
+        public static ProjectCmd ProjectCmd(this IWfRuntime wf, ICmdRunner runner)
+            => Services.ProjectCmd(wf, runner);
+
     }
 }

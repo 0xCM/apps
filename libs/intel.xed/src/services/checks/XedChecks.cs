@@ -10,9 +10,9 @@ namespace Z0
 
         XedRuntime Xed;
 
-        public static XedChecks create(IWfRuntime wf, XedRuntime xed)
+        public static XedChecks commands(XedRuntime xed)
         {
-            var svc = create(wf);
+            var svc = create(xed.Wf);
             svc.Xed = xed;
             return svc;
         }

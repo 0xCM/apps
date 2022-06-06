@@ -8,7 +8,6 @@ namespace Z0
 
     using api = grids;
 
-    [DataType("grid<t:{0}>")]
     public readonly struct Grid<T>
     {
         readonly Index<T> Data;
@@ -45,7 +44,7 @@ namespace Z0
             => ref seek(First, api.lineraize(Dim, (row, col)));
 
         [MethodImpl(Inline)]
-        public ref T Cell(GridPoint point)
+        public ref T Cell(CellIndex point)
             => ref seek(First, api.lineraize(Dim, point));
 
         public ref T this[uint row, uint col]

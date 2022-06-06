@@ -98,11 +98,14 @@ namespace Z0
             get => ref Cell(index);
         }
 
-        public uint Hash
+        public Hash32 Hash
         {
             [MethodImpl(Inline)]
             get => Segment.Hash;
         }
+
+        public override int GetHashCode()
+            => Hash;
 
         public string Format()
             => Segment.Format();
@@ -114,8 +117,6 @@ namespace Z0
         public override bool Equals(object src)
             => src is SegRef<T> r && Equals(r);
 
-        public override int GetHashCode()
-            => (int)Hash;
 
         Span<S> ISegRef<T>.Data<S>()
             => Segment.Data<S>();

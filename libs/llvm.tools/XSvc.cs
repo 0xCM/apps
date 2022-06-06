@@ -12,13 +12,12 @@ namespace Z0
     {
         sealed class Svc : AppServices<Svc>
         {
+            public LlvmConfigSvc LlvmConfig(IWfRuntime wf)
+                => Service<LlvmConfigSvc>(wf);
 
         }
 
         static Svc Services = Svc.Instance;
-
-        public static XedRuntime Inject(this XedRuntime xed)
-            => Services.Inject(xed);
 
 
         public static LlvmObjDumpSvc LlvmObjDump(this IWfRuntime wf)
@@ -28,15 +27,13 @@ namespace Z0
             => llvm.LlvmNmSvc.create(wf);
 
         public static LlvmConfigSvc LlvmConfig(this IWfRuntime wf)
-            => llvm.LlvmConfigSvc.create(wf);
+            => Services.LlvmConfig(wf);
 
         public static LlvmReadObjSvc LlvmReadObj(this IWfRuntime wf)
             => llvm.LlvmReadObjSvc.create(wf);
 
         public static LlvmMcSvc LlvmMc(this IWfRuntime wf)
             => llvm.LlvmMcSvc.create(wf);
-
-
 
         public static LlvmLlcSvc LlvmLLc(this IWfRuntime wf)
             => llvm.LlvmLlcSvc.create(wf);

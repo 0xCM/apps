@@ -9,7 +9,6 @@ namespace Z0
 
     partial class CheckCmd
     {
-
         [CmdOp("native/check")]
         Outcome CheckNativeTypes(CmdArgs args)
         {

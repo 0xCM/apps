@@ -15,8 +15,8 @@ namespace Z0
         BitWidth ISized.Width
             => Bytes.Length*8;
 
-        uint IHashed.Hash
-            => alg.hash.marvin(Bytes);
+        Hash32 IHashed.Hash
+            => core.hash(Bytes);
 
         bool INullity.IsEmpty
             => Bytes.Length == 0;

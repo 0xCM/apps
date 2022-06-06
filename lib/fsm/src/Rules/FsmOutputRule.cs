@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Specifies a state machine rule of the form (input:E, source:S) -> output:O
     /// </summary>
@@ -64,7 +59,6 @@ namespace Z0
 
         IFsmRuleKey<E,S> IFsmRule<E,S>.Key
             => Key;
-
 
         /// <summary>
         /// Constructs an output rule from a (source,target,output) triple

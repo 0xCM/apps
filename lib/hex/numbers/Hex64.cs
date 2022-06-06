@@ -68,11 +68,15 @@ namespace Z0
             get => (uint)(Value >> 32);
         }
 
-        public uint Hash
+        public Hash32 Hash
         {
             [MethodImpl(Inline)]
             get => alg.hash.calc(Value);
         }
+
+        public override int GetHashCode()
+            => Hash;
+
 
         ulong IHexNumber<ulong>.Value
             => Value;
@@ -95,9 +99,6 @@ namespace Z0
 
         public override string ToString()
             => Format();
-
-        public override int GetHashCode()
-            => (int)Hash;
 
         [MethodImpl(Inline)]
         public static H operator+(H x, K y)

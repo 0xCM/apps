@@ -75,11 +75,14 @@ namespace Z0
         public unsafe ref byte Cell(int index)
             => ref Unsafe.AsRef<byte>((void*)(BaseAddress + (uint)index));
 
-        public uint Hash
+        public Hash32 Hash
         {
             [MethodImpl(Inline)]
             get => alg.hash.combine(Address,Size);
         }
+
+        public override int GetHashCode()
+            => Hash;
 
         public ref byte this[int index]
         {
@@ -106,8 +109,6 @@ namespace Z0
         public override bool Equals(object src)
             => src is SegRef r && Equals(r);
 
-        public override int GetHashCode()
-            => (int)Hash;
 
         /// <summary>
         /// Dereferences the reference

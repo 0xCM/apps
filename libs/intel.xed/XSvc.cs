@@ -12,7 +12,10 @@ namespace Z0
                 => Service<XedGenSvc>(wf);
 
             public XedChecks XedChecks(XedRuntime xed)
-                => Services.Service<XedChecks>(xed.Wf, wf => Z0.XedChecks.create(wf, xed));
+                => Services.Service<XedChecks>(xed.Wf, wf => Z0.XedChecks.commands(xed));
+
+            public XedCmd XedCmd(XedRuntime xed)
+                => Services.Service<XedCmd>(xed.Wf, wf => Z0.XedCmd.commands(xed));
         }
 
         static Svc Services => Svc.Instance;
@@ -22,5 +25,8 @@ namespace Z0
 
         public static XedChecks XedChecks(this XedRuntime xed)
             => Services.XedChecks(xed);
+
+        public static XedCmd XedCmd(this XedRuntime xed)
+            => Services.XedCmd(xed);
     }
 }

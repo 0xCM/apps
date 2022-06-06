@@ -7,7 +7,7 @@ namespace Z0
     using static core;
 
     [Free]
-    public interface IByteSeq : INullity, ITextual
+    public interface IByteSeq : INullity, ITextual, IHashed
     {
         /// <summary>
         /// The terms presented as a readonly span
@@ -23,6 +23,9 @@ namespace Z0
         /// Specifies the number of characters that precede a null terminator, if any; otherwise, returns the capacity
         /// </summary>
         int Length {get;}
+
+        Hash32 IHashed.Hash
+            => core.hash(View);
 
         uint Size
             => (uint)Capacity;

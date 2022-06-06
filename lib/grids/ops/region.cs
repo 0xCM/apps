@@ -7,21 +7,13 @@ namespace Z0
     partial struct grids
     {
         [MethodImpl(Inline), Op]
-        public static GridRegion region(GridPoint upper, GridPoint lower)
+        public static GridRegion region(CellIndex upper, CellIndex lower)
             => new GridRegion(upper, lower);
-
-        [MethodImpl(Inline), Op]
-        public static GridRegion<T> region<T>(GridPoint<T> upper, GridPoint<T> lower)
-            where T : unmanaged
-                => new GridRegion<T>(upper, lower);
 
         [MethodImpl(Inline), Op]
         public static GridRegion region(uint upper, uint left, uint lower, uint right)
             => new GridRegion(point(upper,left), point(lower,right));
 
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static GridRegion<T> region<T>(T upper, T left, T lower, T right)
-            where T : unmanaged
-                => new GridRegion<T>(point(upper,left), point(lower,right));
+
     }
 }

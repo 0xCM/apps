@@ -55,8 +55,14 @@ namespace Z0
         public string Format()
             => Text;
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline), Op]
+            get => (byte)Code;
+        }
+
         public override int GetHashCode()
-            => (int)Code;
+            => Hash;
 
         public override bool Equals(object src)
             => src is C c && Equals(c);

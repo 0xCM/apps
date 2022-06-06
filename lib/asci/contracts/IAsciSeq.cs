@@ -5,13 +5,13 @@
 namespace Z0
 {
     [Free]
-    public interface IAsciSeq : IByteSeq
+    public interface IAsciSeq : IByteSeq, IHashed
     {
 
     }
 
     [Free]
-    public interface IAsciSeq<S> : IAsciSeq, IByteSeq<S>, IComparable<S>, IEquatable<S>
+    public interface IAsciSeq<S> : IAsciSeq, IByteSeq<S>, IComparable<S>, IEquatable<S>, IHashed<S>
         where S : struct, IAsciSeq<S>
     {
         S IContented<S>.Content

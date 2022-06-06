@@ -9,7 +9,7 @@ namespace Z0
 
     using static core;
 
-    [DataWidth(Width,StorageWidth)]
+    [DataWidth(Width)]
     public readonly struct Hex12 : IEquatable<Hex12>, IComparable<Hex12>
     {
         [Parser]

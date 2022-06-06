@@ -8,7 +8,8 @@ namespace Z0
     {
         new int Hash {get;}
 
-        uint IHashed.Hash => (uint)Hash;
+        Hash32 IHashed.Hash
+            => Hash;
     }
 
     public interface IFsmRuleKey<E,S> : IFsmRuleKey

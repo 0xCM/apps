@@ -38,8 +38,8 @@ namespace Z0
             public LlvmData LlvmData(IWfRuntime wf)
                 => Service<LlvmData>(wf);
 
-            public LlvmCmdProvider LlvmCommands(IWfRuntime wf)
-                => Service<LlvmCmdProvider>(wf);
+            public LlvmCmd LlvmCmd(IWfRuntime wf)
+                => Service<LlvmCmd>(wf);
 
             public LlvmRepo LlvmRepo(IWfRuntime wf)
                 => Service<LlvmRepo>(wf);
@@ -52,7 +52,6 @@ namespace Z0
 
             public LlvmCodeGen LlvmCodeGen(IWfRuntime wf)
                 => llvm.LlvmCodeGen.create(wf);
-
         }
 
         static Svc Services = Svc.Instance;
@@ -64,7 +63,8 @@ namespace Z0
             => Services.ProjectSvc(wf);
 
         public static XedDisasmSvc XedDisasmSvc(this IWfRuntime wf)
-            => Services.Injected<XedRuntime>().Disasm;
+            => GlobalSvc.Instance.Service<XedRuntime>(wf).Disasm;
+            //Services.Injected<XedRuntime>().Disasm;
 
         public static AsmFlowCommands AsmFlows(this IWfRuntime wf)
             => Services.AsmFlows(wf);
@@ -90,8 +90,8 @@ namespace Z0
         public static LlvmData LlvmData(this IWfRuntime wf)
             => Services.LlvmData(wf);
 
-        public static LlvmCmdProvider LlvmCommands(this IWfRuntime wf)
-            => Services.LlvmCommands(wf);
+        public static LlvmCmd LlvmCmd(this IWfRuntime wf)
+            => Services.LlvmCmd(wf);
 
         public static LlvmRepo LlvmRepo(this IWfRuntime wf)
             => Services.LlvmRepo(wf);

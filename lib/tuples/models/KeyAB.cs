@@ -8,7 +8,7 @@ namespace Z0
     {
         public Paired<A,B> Content {get;}
 
-        public uint Hash {get;}
+        public Hash32 Hash {get;}
 
         [MethodImpl(Inline)]
         public Key(A a, B b)
@@ -25,7 +25,7 @@ namespace Z0
         }
 
         public override int GetHashCode()
-            => (int)Hash;
+            => Hash;
         public string Format()
             => string.Format("<{0},{1}>", Content.Left, Content.Right);
 

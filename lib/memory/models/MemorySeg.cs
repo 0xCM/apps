@@ -128,9 +128,14 @@ namespace Z0
         public ReadOnlySpan<T> Load<T>()
             => api.view<T>(this);
 
-        [MethodImpl(Inline)]
-        public uint Hash()
-            => alg.ghash.calc(Segment);
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => core.hash(Segment);
+        }
+
+        public override int GetHashCode()
+            => Hash;
 
         [MethodImpl(Inline)]
         public bool Equals(MemorySeg src)
@@ -140,8 +145,6 @@ namespace Z0
         public unsafe MemorySpan ToSpan()
             => new MemorySpan(Range, api.edit(BaseAddress, Size));
 
-        uint IHashed.Hash
-            => Hash();
 
         bool IEquatable<MemorySeg>.Equals(MemorySeg src)
             => Equals(src);
@@ -152,8 +155,6 @@ namespace Z0
         public override string ToString()
             => Format();
 
-        public override int GetHashCode()
-            => (int)Hash();
 
         [MethodImpl(Inline)]
         public static implicit operator Vector128<ulong>(in MemorySeg src)

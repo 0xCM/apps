@@ -81,14 +81,14 @@ namespace Z0
         public override bool Equals(object src)
             => src is H x && Equals(x);
 
-        public uint Hash
+        public Hash32 Hash
         {
             [MethodImpl(Inline)]
             get => (uint)Value;
         }
 
         public override int GetHashCode()
-            => (int)Hash;
+            => Hash;
 
         public string Text
         {

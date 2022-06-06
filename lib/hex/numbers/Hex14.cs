@@ -84,7 +84,7 @@ namespace Z0
         }
 
         public override int GetHashCode()
-            => (int)Hash;
+            => Hash;
 
         public override bool Equals(object src)
             => src is H c && Equals(c);

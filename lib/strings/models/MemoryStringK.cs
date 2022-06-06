@@ -42,6 +42,15 @@ namespace Z0
         MemoryAddress IAddressable.Address
             => Address;
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Address.Hash;
+        }
+
+        public override int GetHashCode()
+            => Hash;
+
         public string Format(IStringFormatter formatter)
             => formatter.Format(Bytes);
 

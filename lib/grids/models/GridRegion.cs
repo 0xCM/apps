@@ -4,27 +4,59 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    [DataType("grid.region")]
-    public readonly struct GridRegion
+    /// <summary>
+    /// Identifies a rectangular region within a table
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
+    public readonly record struct GridRegion : IEquatable<GridRegion>, IComparable<GridRegion>, IHashed<GridRegion>
     {
-        public readonly GridPoint UpperLeft;
+        /// <summary>
+        /// The top-left cell
+        /// </summary>
+        public readonly CellIndex Min;
 
-        public readonly GridPoint LowerRight;
+        /// <summary>
+        /// The bottom-right cell
+        /// </summary>
+        public readonly CellIndex Max;
 
         [MethodImpl(Inline)]
-        public GridRegion(GridPoint upper, GridPoint lower)
+        public GridRegion(CellIndex min, CellIndex max)
         {
-            UpperLeft = upper;
-            LowerRight = lower;
+            Min = min;
+            Max = max;
         }
 
+        public string Format()
+            => string.Format("[{0}..{1}]", Min, Max);
+
+        public override string ToString()
+            => Format();
+
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => alg.hash.combine(Min.Hash, Max.Hash);
+        }
+
+        public override int GetHashCode()
+            => Hash;
+
         [MethodImpl(Inline)]
-        public static implicit operator GridRegion((GridPoint upper, GridPoint lower) src)
-            => new GridRegion(src.upper,src.lower);
+        public bool Equals(GridRegion src)
+            => Min == src.Min && Max == src.Max;
+
+        [MethodImpl(Inline)]
+        public int CompareTo(GridRegion src)
+            => Min == src.Min ? Max.CompareTo(src.Max) : Min.CompareTo(src.Min);
+
+        [MethodImpl(Inline)]
+        public static implicit operator GridRegion((CellIndex ul, CellIndex lr) src)
+            => new GridRegion(src.ul, src.lr);
+
+        public static CellIndex Zero => default;
+
+        public static CellIndex Empty
+            => new CellIndex(uint.MaxValue, uint.MaxValue);
     }
 }

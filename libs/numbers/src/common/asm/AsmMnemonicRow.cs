@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
+    using static core;
     using W = AsmColWidths;
+
 
     [StructLayout(StructLayout,Pack=1), Record(TableId)]
     public readonly record struct AsmMnemonicRow : IComparable<AsmMnemonicRow>
@@ -24,7 +26,7 @@ namespace Z0.Asm
         {
             Seq = seq;
             Name = name;
-            Hash = name.GetHashCode();
+            Hash = name.Hash;
         }
 
         public override int GetHashCode()

@@ -96,6 +96,12 @@ namespace Z0
             get => Data.Storage;
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Data.Hash;
+        }
+
         public Span<AsciCode> Codes
         {
             [MethodImpl(Inline)]

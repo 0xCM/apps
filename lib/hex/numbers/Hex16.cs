@@ -68,11 +68,14 @@ namespace Z0
             get => (byte)(Value >> 8);
         }
 
-        public uint Hash
+        public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => Value;
+            get => (uint)Value;
         }
+
+        public override int GetHashCode()
+            => Hash;
 
         ushort IHexNumber<ushort>.Value
             => Value;
@@ -96,8 +99,6 @@ namespace Z0
         public override string ToString()
             => Format();
 
-        public override int GetHashCode()
-            => Value.GetHashCode();
 
         [MethodImpl(Inline)]
         public static H operator+(H x, K y)
