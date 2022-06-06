@@ -91,7 +91,7 @@ namespace Z0
             using var writer = dst.Writer();
             writer.WriteLine(string.Format("public readonly struct {0}", name));
             writer.WriteLine("{");
-            CsLang.StringLiterals().Emit("Data", src, writer);
+            CsLang.StringLits().Emit("Data", src, writer);
             writer.WriteLine("}");
             return result;
         }
@@ -109,7 +109,7 @@ namespace Z0
                 values.Add(i.ToString().PadLeft(n));
 
             var dst = AppDb.CgStage().Path("literals", name, FileKind.Cs);
-            CsLang.StringLiterals().Emit(name,values.ViewDeposited(), dst);
+            CsLang.StringLits().Emit(name,values.ViewDeposited(), dst);
             return result;
         }
     }

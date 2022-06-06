@@ -8,7 +8,7 @@ namespace Z0
 
     partial class AsmCoreCmd
     {
-        [CmdOp("sigs/check")]
+        [CmdOp("asm/sigs/check")]
         Outcome CheckSigs(CmdArgs args)
         {
             using var dispenser = Alloc.create();

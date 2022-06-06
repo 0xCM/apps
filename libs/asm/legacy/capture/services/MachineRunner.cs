@@ -62,7 +62,7 @@ namespace Z0
                     Wf.ApiComments().Collect();
 
                 if(options.ProcessCultFiles)
-                    Wf.CultProcessor().Process();
+                    Wf.CultProcessor().RunEtl();
 
                 var cli = Wf.CliEmitter();
                 if(options.EmitAssemblyRefs)

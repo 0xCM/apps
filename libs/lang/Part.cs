@@ -15,6 +15,10 @@ global using System.Runtime.CompilerServices;
 global using System.Runtime.InteropServices;
 global using System.Threading;
 global using System.Threading.Tasks;
+global using Microsoft.CodeAnalysis;
+global using Microsoft.CodeAnalysis.CSharp;
+global using Microsoft.CodeAnalysis.Emit;
+global using System.Diagnostics;
 
 global using static Z0.Root;
 

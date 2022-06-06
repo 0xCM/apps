@@ -5,7 +5,6 @@
 namespace Z0
 {
     using static core;
-
     using static CsModels;
     using static CsLang;
 

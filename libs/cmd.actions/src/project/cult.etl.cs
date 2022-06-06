@@ -6,8 +6,8 @@ namespace Z0
 {
     partial class ProjectCmd
     {
-        [CmdOp("cult/import")]
-        Outcome ImportCultData(CmdArgs args)
-            => Wf.CultProcessor().Process();
+        [CmdOp("cult/etl")]
+        void ImportCultData()
+            => Wf.CultProcessor().RunEtl();
     }
 }

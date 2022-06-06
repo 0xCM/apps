@@ -8,12 +8,6 @@ namespace Z0
 
     partial class AsmCoreCmd
     {
-        [CmdOp("asm/check/objhex")]
-        Outcome CheckObjHex(CmdArgs args)
-        {
-            var project = Project();
-            var context = WsApi.context(project);
-            return Coff.CheckObjHex(context);
-        }
+
     }
 }

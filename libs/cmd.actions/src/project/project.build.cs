@@ -4,16 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     partial class ProjectCmd
     {
-        Dictionary<string,string> BuildCmdNames {get;}
-            = core.array(("mc.models", "project/build/asm"),
-                        ("clang.models","project/build/c"),
-                        ("llvm.models","project/build/llc"),
-                        ("canonical","project/build/builtins")
-            ).ToDictionary();
-
-
         [CmdOp("project/build")]
         Outcome BuildProject(CmdArgs args)
         {

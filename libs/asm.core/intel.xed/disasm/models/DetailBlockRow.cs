@@ -102,7 +102,7 @@ namespace Z0
                 AsmColWidths.EASZ,
                 AsmColWidths.EOSZ,
                 AsmColWidths.AsmExpr,
-                AsmColWidths.IForm,
+                AsmColWidths.InstForm,
                 AsmColWidths.OriginName,
                 48,
                 1};

@@ -6,16 +6,20 @@ namespace Z0
 {
     using Asm;
 
+    using static core;
+
     public partial class ProjectCmd : AppCmdProvider<ProjectCmd>, IProjectProvider
     {
         ICmdRunner Commands;
 
         OmniScript OmniScript => Wf.OmniScript();
 
-        IToolWs Tools => Service(Ws.Tools);
+        CoffServices Coff => Wf.CoffServices();
 
-        public static ProjectCmd inject(ICmdRunner runner, ProjectCmd dst)
-            => dst.With(runner);
+        IToolWs Tools => Ws.Tools();
+
+        // public static ProjectCmd inject(ICmdRunner runner, ProjectCmd dst)
+        //     => dst.With(runner);
 
         AsmObjects AsmObjects => Wf.AsmObjects();
 
@@ -27,8 +31,6 @@ namespace Z0
 
         DumpBin DumpBin => Wf.DumpBin();
 
-        CoffServices CoffServices => Service(Wf.CoffServices);
-
         AsmFlowCommands AsmFlows => Wf.AsmFlows();
 
         public ProjectCmd With(ICmdRunner runner)
@@ -37,11 +39,18 @@ namespace Z0
             return this;
         }
 
+        Dictionary<string,string> BuildCmdNames {get;}
+            = array(("mc.models", "project/build/asm"),
+                        ("clang.models","project/build/c"),
+                        ("llvm.models","project/build/llc"),
+                        ("canonical","project/build/builtins")
+            ).ToDictionary();
+
+
         protected virtual void ProjectSelected(IProjectWs project)
         {
 
         }
-
 
         IProjectWs SelectProject(IProjectWs project)
         {

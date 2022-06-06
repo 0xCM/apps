@@ -4,12 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
-    partial class ProjectCmd
+    public interface IEtlService : IAppService
     {
-        [CmdOp("project/etl")]
-        void Etl()
-            => ProjectSvc.Etl(Project());
-
+        void RunEtl();
     }
 }

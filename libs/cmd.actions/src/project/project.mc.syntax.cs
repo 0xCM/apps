@@ -14,11 +14,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var syntax = ref src[i];
-                Write(string.Format("{0,-8} | {1,-64} | {2}",
-                    syntax.Row.Seq,
-                    syntax.Row.Asm,
-                    syntax.Ops.Delimit(Chars.Space)
-                    ));
+                Write(string.Format("{0,-8} | {1,-64} | {2}", syntax.Row.Seq, syntax.Row.Asm, syntax.Ops.Delimit(Chars.Space)));
             }
 
             return true;

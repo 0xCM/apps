@@ -62,14 +62,17 @@ namespace Z0
             dst.WriteLine(buffer.Emit());
         }
 
-        public GStringLits StringLiterals()
-            => Service(Wf.GenLiterals);
+        public GStringLits StringLits()
+            => Wf.GenLiterals();
 
         public GAsciLookup AsciLookups()
             => Service(Wf.GenAsciLookups);
 
         public GRecord Records()
-            => Service(Wf.GenRecords);
+            => Wf.GenRecords();
+
+        public GShim Shims()
+            => Wf.GenShims();
 
         public GInterface Interfaces()
             => Service(() => GInterface.create(Wf));
@@ -78,7 +81,7 @@ namespace Z0
             => new GBinaryKind(max);
 
         public GLiteralProvider LiteralProviders()
-            => Service(Wf.GenLitProviders);
+            => Wf.GenLitProviders();
 
         public GHexStrings HexStrings()
             => Service(() => GHexStrings.create(Wf));

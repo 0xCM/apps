@@ -4,27 +4,29 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public struct ToolShimCode
+    partial struct CsModels
     {
-        public FS.FilePath TargetPath;
-
-        [MethodImpl(Inline)]
-        public ToolShimCode(FS.FilePath dst)
+        internal struct ShimCode
         {
-            TargetPath = dst;
-        }
+            public FS.FilePath TargetPath;
 
-        [MethodImpl(Inline)]
-        public string Generate()
-            => CodePattern;
-
-        string Arg0
-        {
             [MethodImpl(Inline)]
-            get => TargetPath.Format(PathSeparator.BS);
-        }
+            public ShimCode(FS.FilePath dst)
+            {
+                TargetPath = dst;
+            }
 
-        string CodePattern => $@"
+            [MethodImpl(Inline)]
+            public string Generate()
+                => CodePattern;
+
+            string Arg0
+            {
+                [MethodImpl(Inline)]
+                get => TargetPath.Format(PathSeparator.BS);
+            }
+
+            string CodePattern => $@"
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -48,5 +50,6 @@ class Program
     }}
 }};
 ";
+        }
     }
 }

@@ -25,7 +25,7 @@ namespace Z0
 
         public const byte AsmExpr = 72;
 
-        public const byte IForm = 62;
+        public const byte InstForm = 62;
 
         public const byte Mnemonic = 18;
 
@@ -82,5 +82,7 @@ namespace Z0
         public const byte AsmId = 32;
 
         public const byte Hash = 12;
+
+        public const byte LineNumber = 12;
     }
 }

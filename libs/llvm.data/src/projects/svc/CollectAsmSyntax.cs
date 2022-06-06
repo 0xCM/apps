@@ -10,6 +10,8 @@ namespace Z0
 
     partial class ProjectSvc
     {
+
+        
         public Index<AsmSyntaxRow> CollectAsmSyntax(WsContext context)
         {
             var project = context.Project;

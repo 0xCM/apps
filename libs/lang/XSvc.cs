@@ -13,7 +13,6 @@ namespace Z0
 
     public static class XSvc
     {
-
         sealed class Svc : AppServices<Svc>
         {
             public CsLang CsLang(IWfRuntime wf)
@@ -31,6 +30,8 @@ namespace Z0
             public GLiteralProvider GenLitProviders(IWfRuntime wf)
                 => Service<GLiteralProvider>(wf);
 
+            public GShim GenShims(IWfRuntime wf)
+                => Service<GShim>(wf);
         }
 
         static Svc Services => Svc.Instance;
@@ -50,5 +51,7 @@ namespace Z0
         public static GLiteralProvider GenLitProviders(this IWfRuntime wf)
             => Services.GenLitProviders(wf);
 
+        public static GShim GenShims(this IWfRuntime wf)
+            => Services.GenShims(wf);       
     }
 }

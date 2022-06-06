@@ -8,9 +8,11 @@ namespace Z0
 
     using static core;
 
-    public class CultProcessor : AppService<CultProcessor>
+    public class CultProcessor : AppService<CultProcessor>, IEtlService
     {
         public uint BatchSize => Pow2.T16;
+
+        AppSvcOps AppSvc => Wf.AppSvc();
 
         DataList<CultSummaryRecord> Summaries;
 
@@ -19,8 +21,6 @@ namespace Z0
         Index<char> HexCharBuffer;
 
         FS.FolderPath DetailRoot;
-
-        FS.FolderPath TargetRoot;
 
         ToolId Tool;
 
@@ -37,34 +37,31 @@ namespace Z0
 
         protected override void OnInit()
         {
-            TargetRoot = ProjectDb.Subdir(Tool);
-            DetailRoot = TargetRoot + FS.folder("details");
+            var targets = ProjectDb.Subdir(Tool);
+            DetailRoot = targets + FS.folder("details");
             InputFile = ProjectDb.Source(Tool.Format(), FS.Asm);
-            SummaryPath = TargetRoot + FS.file(Tool.Format() + ".summary", FS.Csv);
+            SummaryPath = targets + FS.file(Tool.Format() + ".summary", FS.Csv);
         }
 
         FS.FilePath SummaryPath;
 
-        public Outcome<uint> Process()
-        {
-            return Process(InputFile);
-        }
+        public void RunEtl()
+            => RunEtl(InputFile);
 
-        public Outcome<uint> Process(FS.FilePath src)
+        public void RunEtl(FS.FilePath src)
         {
             if(!src.Exists)
             {
-                Wf.Error(FS.Msg.DoesNotExist.Format(src));
-                return 0;
+                AppSvc.Error(FS.Msg.DoesNotExist.Format(src));
+                return;
             }
 
-            // DetailRoot.Clear();
              Summaries.Clear();
              AsmLines.Clear();
 
             var output = span<CultRecord>(BatchSize);
             var input = span<TextLine>(BatchSize);
-            using var reader = src.Utf8Reader();
+            using var reader = src.AsciReader();
             var counter = 0u;
             var current = 0;
             var max = BatchSize - 1;
@@ -73,13 +70,10 @@ namespace Z0
             {
                 var line = reader.ReadLine(++counter);
                 if(current < max)
-                {
                     seek(input, current++) = line;
-                }
                 else
                 {
-                    Process(batch,counter,input,output);
-
+                    Process(batch, counter, input, output);
                     output.Clear();
                     input.Clear();
                     current = 0;
@@ -88,19 +82,18 @@ namespace Z0
             }
 
             if(current != 0)
-                Process(batch,counter,input,output);
-
+                Process(batch, counter, input, output);
 
             EmitSummary();
 
-            return counter;
+            return;
         }
 
         uint Parse(ReadOnlySpan<TextLine> src, Span<CultRecord> dst)
         {
             var count = src.Length;
             var j=0u;
-            for(var i=0; i<count; i++)
+            for(var i=0; i<src.Length; i++)
             {
                 ref readonly var input = ref skip(src,i);
                 if(Parse(input, out var record))
@@ -110,17 +103,7 @@ namespace Z0
         }
 
         void EmitSummary()
-        {
-            var dst = SummaryPath;
-            var flow = Wf.EmittingTable<CultSummaryRecord>(dst);
-            var formatter = Tables.formatter<CultSummaryRecord>(CultSummaryRecord.RenderWidths);
-            using var summary = dst.Writer();
-            summary.WriteLine(formatter.FormatHeader());
-            var summaries = Summaries.Emit();
-            foreach(var s in summaries)
-                summary.WriteLine(formatter.Format(s));
-            Wf.EmittedTable(flow, summaries.Count);
-        }
+            => AppSvc.TableEmit(Summaries.Emit(), SummaryPath);
 
         void Process(uint batch, uint counter, ReadOnlySpan<TextLine> input, Span<CultRecord> output)
         {
@@ -130,30 +113,29 @@ namespace Z0
             Wf.Ran(processing, ProcessedBatch.Format(batch, counter, parsed.Length, BatchSize));
         }
 
-        void Process(ReadOnlySpan<CultRecord> src)
+        void Process(ReadOnlySpan<CultRecord> input)
         {
-            var count = src.Length;
+            var count = input.Length;
             for(var i=0; i<count; i++)
             {
-                ref readonly var record = ref skip(src,i);
-
-                if(record.RecordKind == CultRecordKind.Statement)
+                ref readonly var src = ref skip(input,i);
+                if(src.RecordKind == CultRecordKind.Statement)
                 {
-                    AsmExpr.parse(record.Statement, out var expr);
-                    AsmLines.Add(new AsmSourceLine(record.LineNumber, AsmLineClass.AsmSource, EmptyString, expr, asm.comment(record.Comment)));
+                    AsmExpr.parse(src.Statement, out var expr);
+                    AsmLines.Add(new AsmSourceLine(src.LineNumber, AsmLineClass.AsmSource, EmptyString, expr, asm.comment(src.Comment)));
                 }
-                else if(record.RecordKind == CultRecordKind.Label)
-                    AsmLines.Add(new AsmSourceLine(record.LineNumber, AsmLineClass.Label, record.Label.Format(), EmptyString, asm.comment(record.Comment)));
-                else if(record.RecordKind == CultRecordKind.Summary)
+                else if(src.RecordKind == CultRecordKind.Label)
+                    AsmLines.Add(new AsmSourceLine(src.LineNumber, AsmLineClass.Label, src.Label.Format(), EmptyString, asm.comment(src.Comment)));
+                else if(src.RecordKind == CultRecordKind.Summary)
                 {
-                    var summary = Summarize(record);
+                    var summary = Summarize(src);
                     Summaries.Add(summary);
                     EmitDetails(summary);
                 }
             }
         }
 
-        Outcome Parse(TextLine src, out CultRecord dst)
+        bool Parse(TextLine src, out CultRecord dst)
         {
             var content = src.Content ?? EmptyString;
             var parts = @readonly(content.Split(Chars.Semicolon));
@@ -192,7 +174,7 @@ namespace Z0
             return summary;
         }
 
-        Outcome ParseLabel(TextLine src, string name, out CultRecord dst)
+        bool ParseLabel(TextLine src, string name, out CultRecord dst)
         {
             dst.LineNumber = src.LineNumber;
             dst.Label = name;
@@ -202,7 +184,7 @@ namespace Z0
             return true;
         }
 
-        Outcome ParseStatement(TextLine src, ReadOnlySpan<string> parts, out CultRecord dst)
+        bool ParseStatement(TextLine src, ReadOnlySpan<string> parts, out CultRecord dst)
         {
             var statement = skip(parts,0).Remove(RexRemove);
             var comment = skip(parts,1);
@@ -222,7 +204,7 @@ namespace Z0
             return true;
         }
 
-        Outcome ParseSummary(TextLine src, out CultRecord dst)
+        bool ParseSummary(TextLine src, out CultRecord dst)
         {
             dst.LineNumber = src.LineNumber;
             dst.Statement = TextBlock.Empty;

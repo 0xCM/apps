@@ -9,6 +9,7 @@ namespace Z0.llvm
 
     partial class LlvmCmd
     {
+        
         [CmdOp("llvm/asm/opcodes")]
         void QueryOpCodes()
         {
