@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class ItemList<K,T> : IItemList<ListItem<K,T>>
+    public class ItemList<K,T> : IIndex<ListItem<K,T>>
+        where K : unmanaged
     {
         readonly Index<ListItem<K,T>> Data;
 

@@ -64,12 +64,17 @@ namespace Z0.llvm
         }
 
         LineMap<Identifier> EmitClasses(Index<TextLine> src)
-            => DataEmitter.EmitLineMap(DataEmitter.EmitClassRelations(src).View, src, Datasets.X86Classes);
-
-        LineMap<Identifier> EmitDefs(Index<TextLine> lines, out Index<DefRelations> defs)
         {
-            defs = DataEmitter.EmitDefRelations(lines);
-            return DataEmitter.EmitLineMap(defs.View, lines, Datasets.X86Defs);
+            var relations = DataCalcs.CalcClassRelations(src);
+            DataEmitter.Emit(relations);
+            return DataEmitter.EmitLineMap(relations.View, src, Datasets.X86Classes);
+        }
+          
+        LineMap<Identifier> EmitDefs(Index<TextLine> src, out Index<DefRelations> defs)
+        {
+            defs = DataCalcs.CalcDefRelations(src);
+            DataEmitter.Emit(defs);
+            return DataEmitter.EmitLineMap(defs.View, src, Datasets.X86Defs);
         }
 
         void Emit(Index<LlvmEntity> src)
@@ -79,7 +84,7 @@ namespace Z0.llvm
             var variations = sys.empty<LlvmAsmVariation>();
             exec(PllExec,
                 () => DataEmitter.Emit(asmids),
-                () => DataEmitter.Emit(DataCalcs.CalcInstDefs(asmids, src)),
+                () => DataEmitter.Emit(DataProvider.InstDefs(asmids, src)),
                 () => variations = DataCalcs.CalcAsmVariations(asmids, instructions),
                 () => DataEmitter.EmitChildRelations(src),
                 () => DataEmitter.Emit(DataProvider.InstPatterns(asmids, src)),

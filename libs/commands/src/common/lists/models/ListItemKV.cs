@@ -6,6 +6,7 @@ namespace Z0
 {
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly struct ListItem<K,V> : IListItem<K,V>
+        where K : unmanaged
     {
         public readonly K Key;
 

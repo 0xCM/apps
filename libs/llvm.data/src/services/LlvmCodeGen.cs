@@ -25,12 +25,23 @@ namespace Z0.llvm
             EmitAsmIds();
         }
 
+        static ItemList<string> reduce(ItemList<AsmIdentifier,ushort,asci32> src)
+        {
+            var dst = new ItemList<string>(src.Name, alloc<ListItem<string>>(src.Count));
+            for(var i=0; i<src.Count; i++)
+            {
+                ref readonly var item = ref src[i];
+                dst[i] = new ListItem<string>(item.Id, item.Name.Format());
+            }
+            return dst;
+        }
+
         public void EmitAsmIds()
         {
-            var asmids = DataProvider.AsmIdentifiers().ToItemList();
+            var asmids = reduce(DataProvider.AsmIdentifiers().ToItemList());
             var name = "AsmId";
-            ItemList<string> items = (name, asmids.Map(x => new ListItem<string>(x.Key, x.Value.Format())));
-            CsLang.EmitStringTable(TargetNs, ClrEnumKind.U16, items, CgTarget.Llvm, true);
+            //ItemList<string> items = (name, asmids.Map(x => new ListItem<string>(x.Key, x.Value.Format())));
+            CsLang.EmitStringTable(TargetNs, ClrEnumKind.U16, asmids, CgTarget.Llvm, true);
             var literals = @readonly(map(DataProvider.AsmIdentifiers().Entries,e => Literals.literal(e.Key, e.Value.Id)));
             var buffer = text.buffer();
             var offset = 0u;

@@ -30,15 +30,6 @@ namespace Z0
         public static ItemList<T> list<T>(ListItem<T>[] src)
             => new ItemList<T>(src);
 
-        public static string format(ItemList src, Func<ListItem,string> render)
-        {
-            var count = src.Length;
-            var dst = text.buffer();
-            for(var i=0; i<count; i++)
-                dst.AppendLine(render(src[i]));
-            return dst.Emit();
-        }
-
         public static string format<T>(ItemList<T> src, Func<ListItem<T>,string> render)
         {
             var count = src.Length;
@@ -49,6 +40,7 @@ namespace Z0
         }
 
         public static string format<K,T>(ItemList<K,T> src, Func<ListItem<K,T>,string> render)
+            where K : unmanaged
         {
             var count = src.Length;
             var dst = text.buffer();

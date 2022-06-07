@@ -4,8 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IItemList<T> : IIndex<T>
-        where T : IListItem
+    public interface IItemList<I> : IIndex<I>
+        where I : IListItem
+    {
+
+    }
+
+    public interface IItemList<I,K,T> : IItemList<I>
+        where K : unmanaged
+        where I : IListItem
     {
 
     }

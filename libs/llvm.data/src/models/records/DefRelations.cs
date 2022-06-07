@@ -27,7 +27,7 @@ namespace Z0.llvm
             => Name;
 
         [MethodImpl(Inline)]
-        public void Specify(LineNumber line, @string name, Lineage ancestors)
+        public DefRelations(LineNumber line, @string name, Lineage ancestors)
         {
             SourceLine = line;
             Name = name;
@@ -40,16 +40,6 @@ namespace Z0.llvm
         public Index<string> AncestorNames
             => Lineage.ancestors(Ancestors);
 
-        public static DefRelations Empty
-        {
-            get
-            {
-                var dst = new DefRelations();
-                dst.Specify(LineNumber.Empty, @string.Empty, Lineage.Empty);
-                return dst;
-            }
-        }
-
         public int CompareTo(DefRelations src)
         {
             var i = Name.CompareTo(src.Name);
@@ -58,5 +48,8 @@ namespace Z0.llvm
             else
                 return i;
         }
+
+        public static DefRelations Empty
+            => new DefRelations(LineNumber.Empty, @string.Empty, Lineage.Empty);
     }
 }

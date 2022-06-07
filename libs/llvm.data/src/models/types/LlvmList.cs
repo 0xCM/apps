@@ -10,7 +10,7 @@ namespace Z0.llvm
     {
         readonly Index<LlvmListItem> Data;
 
-        public readonly Identifier Name {get;}
+        public readonly string Name;
 
         [MethodImpl(Inline)]
         public LlvmList(FS.FilePath path, LlvmListItem[] items)
@@ -38,12 +38,6 @@ namespace Z0.llvm
             get => Data.IsNonEmpty;
         }
 
-        public uint ItemCount
-        {
-            [MethodImpl(Inline)]
-            get => Data.Count;
-        }
-
         public LlvmListItem[] Storage
         {
             [MethodImpl(Inline)]
@@ -54,26 +48,6 @@ namespace Z0.llvm
         {
             [MethodImpl(Inline)]
             get => Data;
-        }
-
-        public Index<Identifier> Identifiers()
-        {
-            var items = Items;
-            var count = items.Length;
-            var dst = alloc<Identifier>(count);
-            for(var i=0; i<count; i++)
-                seek(dst,i) = skip(items,i).Value;
-            return dst;
-        }
-
-        public Index<string> Values()
-        {
-            var items = Items;
-            var count = items.Length;
-            var dst = alloc<string>(count);
-            for(var i=0; i<count; i++)
-                seek(dst,i) = skip(items,i).Value;
-            return dst;
         }
 
         public ItemList<string> ToItemList()

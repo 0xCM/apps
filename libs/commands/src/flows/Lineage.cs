@@ -8,6 +8,22 @@ namespace Z0
 
     public class Lineage
     {
+        public static bool parse(string content, out Lineage dst)
+        {
+            var m = SQ.index(content, Chars.FSlash, Chars.FSlash);
+            if(m >= 0)
+            {
+                var chain = text.trim(text.right(content, m + 1)).Split(Chars.Space);
+                if(chain.Length > 0)
+                {
+                    dst = Lineage.path(chain);
+                    return true;
+                }
+            }
+            dst = Lineage.Empty;
+            return false;
+        }
+
         public static string parent(Lineage src)
             => src != null && src.IsNonEmpty ? src.Name : EmptyString;
 

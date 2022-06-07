@@ -20,7 +20,6 @@ namespace Z0.llvm
                 indexType: ClrIntegerType.U16,
                 emitIndex:true
                 );
-            ItemList<string> items = ("AsmId", asmids.Map(x => new ListItem<string>(x.Key, x.Value.Format())));
             var literals = map(DataProvider.AsmIdentifiers().Entries, e => Literals.literal(e.Key, e.Value.Id));
             var dst = text.buffer();
             CsRender.@enum(0u, "AsmId", @readonly(literals), dst);

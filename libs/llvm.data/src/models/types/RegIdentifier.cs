@@ -4,9 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public struct RegIdentifier : IComparable<RegIdentifier>, IEquatable<RegIdentifier>
+    [StructLayout(StructLayout, Pack=1), Record(TableId)]
+    public readonly record struct RegIdentifier : IListItem<RegIdentifier,ushort,asci16>
     {
+        public const string TableId = "llvm.asm.RegId";
+
         /// <summary>
         /// The instruction id, in-synch with tablegen output
         /// </summary>
@@ -15,33 +17,41 @@ namespace Z0.llvm
         /// <summary>
         /// The name of the identified register
         /// </summary>
-        public readonly text15 RegName;
+        public readonly asci16 Name;
 
         [MethodImpl(Inline)]
-        public RegIdentifier(ushort id, text15 name)
+        public RegIdentifier(ushort id, asci16 name)
         {
             Id = id;
-            RegName = name;
+            Name = name;
         }
 
-        public string Format()
-            => string.Format("{0:D5} {1}", Id, RegName);
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Id;
+        }
 
+        ushort IListItem<ushort, asci16>.Key 
+            => Id;
+
+        asci16 IListItem<asci16>.Value 
+            => Name;
+
+        public override int GetHashCode()
+            => Hash;
+
+        public string Format()
+            => string.Format("{0:D5} {1}", Id, Name);
 
         public override string ToString()
             => Format();
 
         public bool Equals(RegIdentifier src)
-            => Id == src.Id && RegName == src.RegName;
+            => Id == src.Id && Name == src.Name;
 
         [MethodImpl(Inline)]
         public int CompareTo(RegIdentifier src)
             => Id.CompareTo(src.Id);
-
-        public override int GetHashCode()
-            => Id;
-
-        public override bool Equals(object src)
-            => src is RegIdentifier x && Equals(x);
     }
 }

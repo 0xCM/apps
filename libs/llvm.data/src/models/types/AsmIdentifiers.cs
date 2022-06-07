@@ -7,7 +7,7 @@ namespace Z0.llvm
     public sealed class AsmIdentifiers : ConstLookup<Identifier,AsmIdentifier>
     {
         public AsmIdentifiers(AsmIdentifier[] src)
-            : base(src.Map(x => ((Identifier)x.Instruction.Format(), x)).ToDictionary())
+            : base(src.Map(x => ((Identifier)x.Name.Format(), x)).ToDictionary())
         {
 
         }
@@ -22,8 +22,11 @@ namespace Z0.llvm
                 return 0xFFFF;
         }
 
-        public ItemList<ushort,text31> ToItemList()
-            => new ItemList<ushort,text31>("AsmId", MapValues(x => new ListItem<ushort,text31>(x.Id, x.Instruction)));
+        public ItemList<AsmIdentifier, ushort,asci32> ToItemList()
+            => new ItemList<AsmIdentifier,ushort,asci32>("AsmId", MapValues(x => new AsmIdentifier(x.Id, x.Name)));
+
+        // public ItemList<ushort,asci32> ToItemList()
+        //     => new ItemList<ushort,asci32>("AsmId", MapValues(x => new ListItem<ushort,asci32>(x.Id, x.Name)));
 
         public static implicit operator AsmIdentifiers(AsmIdentifier[] src)
             => new AsmIdentifiers(src);
