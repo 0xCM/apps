@@ -4,16 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     using api = JsonData;
 
-    public readonly struct Json<T> : ITextual, IJsonSource<Json<T>>
+    public readonly struct Json<T> : IJsonSource<Json<T>>
     {
-        public T[] Content {get;}
+        public readonly T[] Content {get;}
 
         [MethodImpl(Inline)]
         public Json(T[] src)

@@ -1,16 +1,12 @@
 @echo off
 call %~dp0config.cmd
 
-@REM git add -A
-@REM git commit -am "."
-@REM git push
-
-set ArchiveSrc=%TopDir%
-set ArchiveDst=%Archives%\bin\source\z0.zip
+set ArchiveDst=%ZArchive%\bin\source\z0.zip
+set RepoLogs=%ZArchive%\repos
 set ArchiveLog=%RepoLogs%\z0-git-archive.log
 set GitLogPath=%RepoLogs%\z0-git.log
 
-cd %ArchiveSrc%
+cd %ZDev%
 
 git add -A -v >> %GitLogPath%
 git commit -am "." -v >> %GitLogPath%

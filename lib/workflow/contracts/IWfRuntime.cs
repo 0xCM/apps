@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Threading.Tasks;
-
     using static WfEvents;
 
     using Caller = System.Runtime.CompilerServices.CallerMemberNameAttribute;
@@ -28,8 +26,6 @@ namespace Z0
 
         IApiCatalog ApiCatalog {get;}
 
-        IWfContext Context {get;}
-
         IEventBroker EventBroker {get;}
 
         IPolySource Polysource {get;}
@@ -49,6 +45,7 @@ namespace Z0
         IWfEmissionLog Emissions {get;}
 
         void RedirectEmissions(IWfEmissionLog dst);
+
         void Disposed()
         {
             if(Verbosity.IsBabble())
@@ -109,7 +106,7 @@ namespace Z0
         }
 
         Assembly[] Components
-            => Context.ApiParts.Components;
+            => ApiCatalog.Components;
 
         string ITextual.Format()
             => AppName;
@@ -123,12 +120,6 @@ namespace Z0
 
         WfFileWritten Flow(FS.FilePath dst)
             => new WfFileWritten(this, dst, NextExecToken());
-
-        // Task<CmdResult> Dispatch(ICmd cmd)
-        //     => Task.Factory.StartNew(() => Router.Dispatch(cmd));
-
-        // CmdResult Execute(ICmd cmd)
-        //     => Router.Dispatch(cmd);
 
         /// <summary>
         /// Provides a <see cref='IWfDb'/> rooted at a shell-configured location

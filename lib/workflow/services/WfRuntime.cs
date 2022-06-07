@@ -7,8 +7,6 @@ namespace Z0
     [ApiHost]
     public partial class WfRuntime : IWfRuntime
     {
-        public IWfContext Context {get;}
-
         public PartId Id {get;}
 
         public IApiParts ApiParts {get;}
@@ -42,25 +40,24 @@ namespace Z0
         TokenDispenser Tokens;
 
         [MethodImpl(Inline)]
-        public WfRuntime(IWfInit config)
+        public WfRuntime(WfInit init)
         {
-            Tokens = TokenDispenser.create();
-            Env = Z0.Env.load().Data;
-            Context = config.Shell;
-            Id = config.ControlId;
-            Ct = PartToken.create(config.ControlId);
-            EventBroker = WfBroker.create(config.LogConfig);
-            Host = new WfHost(typeof(WfRuntime), typeof(WfRuntime));
+            Tokens = init.Tokens;
+            Env = init.Env;
+            Id = init.ControlId;
+            Ct = init.Ct;
+            EventBroker = init.EventBroker;
+            Host = init.Host;
             Polysource = default;
             Verbosity = LogLevel.Status;
-            AppPaths = config.Shell.Paths;
-            Args = config.Shell.Args;
-            Settings = config.Shell.Settings;
-            ApiParts = config.ApiParts;
-            ApiCatalog = config.ApiParts.Catalog;
-            Controller = config.Control;
-            AppName = config.Shell.AppName;
-            Emissions = Loggers.emission(config.LogConfig.LogId, Env);
+            AppPaths = init.Paths;
+            Args = init.Args;
+            Settings = init.Settings;
+            ApiParts = init.ApiParts;
+            ApiCatalog = init.ApiParts.Catalog;
+            Controller = init.Control;
+            AppName = init.AppName.Format();
+            Emissions = init.EmissionLog;
         }
 
         public IEventSink EventSink
@@ -95,7 +92,6 @@ namespace Z0
         public void Dispose()
         {
             EventBroker.Dispose();
-            //EventSink.Dispose();
             Emissions?.Dispose();
         }
         string ITextual.Format()

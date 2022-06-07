@@ -24,25 +24,27 @@ namespace Z0
         {
             term.inform(InitializingRuntime.Format(now()));
             var clock = Time.counter(true);
-            var verbose = true;
             var control = controller();
-            var ctx = context(control, parts, args);
-            var wf = new WfRuntime(new WfInit(ctx, Loggers.configure(ctx.ControlId, ctx.Paths.Root, logname), ctx.PartIdentities));
+            var id = control.Id();
+            var paths = AppPaths.create();
+            var dst = new WfInit();
+            dst.Env = Env.load().Data;
+            dst.Ct = PartToken.create(id);
+            dst.Tokens = TokenDispenser.create();
+            dst.Settings = JsonSettings.load(paths.Root + FS.folder("settings") + FS.file(id.Format(), FS.JsonConfig));
+            dst.Control = control;
+            dst.ControlId = id;
+            dst.LogConfig = Loggers.configure(id, paths.Root, logname);
+            dst.ApiParts = parts;
+            dst.Args = args;
+            dst.Paths = AppPaths.create();
+            dst.AppName = id.PartName();
+            dst.EventBroker = WfBroker.create(dst.LogConfig);
+            dst.Host = new WfHost(typeof(WfRuntime), typeof(WfRuntime));
+            dst.EmissionLog = Loggers.emission(dst.LogConfig.LogId, dst.Env);
+            var wf = new WfRuntime(dst);
             term.inform(AppMsg.status(InitializedRuntime.Format(now(), clock.Elapsed())));
             return wf;
-        }
-
-        static WfContext context(Assembly control, IApiParts parts, string[] args)
-        {
-            var ctx = new WfContext();
-            ctx.Controller = control;
-            ctx.ApiParts = parts;
-            ctx.Args = args;
-            ctx.ControlId = control.Id();
-            ctx.Paths = AppPaths.create();
-            ctx.Settings = JsonSettings.Load(ctx.Paths.Root + FS.folder("settings") + FS.file(ctx.ControlId.Format(), FS.JsonConfig));
-            ctx.PartIdentities = ctx.ApiParts.Catalog.PartIdentities;
-            return ctx;
         }
 
         static MsgPattern<Timestamp> InitializingRuntime => "Initializing runtime at {0}";

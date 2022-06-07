@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-
-    using api = JsonSettings;
-
     /// <summary>
     /// Characterizes an app settings collection
     /// </summary>
@@ -27,14 +21,5 @@ namespace Z0
         IEnumerator IEnumerable.GetEnumerator()
             => All.GetEnumerator();
 
-        string ITextual.Format()
-            => api.format(this);
-
-        ISettingsAdapter<T> Adapt<T>()
-            where T : ISettingsAdapter<T>, new()
-        {
-            var adapter = new T();
-            return adapter.Adapt(this);
-        }
     }
 }

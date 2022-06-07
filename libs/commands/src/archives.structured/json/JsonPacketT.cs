@@ -4,19 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct JsonPacket<T>
     {
-        public T Content {get;}
+        public readonly T Content {get;}
 
         /// <summary>
         /// The content type identifier
         /// </summary>
-        public string Type {get;}
+        public readonly string Type {get;}
 
         [MethodImpl(Inline)]
         public JsonPacket(T content)

@@ -7,53 +7,35 @@ namespace Z0
     /// <summary>
     /// Captures workflow configuration data
     /// </summary>
-    struct WfInit : IWfInit
+    public class WfInit
     {
-        /// <summary>
-        /// The entry assembly
-        /// </summary>
-        public Assembly Control {get;}
+        public Assembly Control;
 
-        /// <summary>
-        /// The entry assembly identifier
-        /// </summary>
-        public PartId ControlId {get;}
+        public PartId ControlId;
 
-        /// <summary>
-        /// The parts considered by the workflow
-        /// </summary>
-        public PartId[] PartIdentities {get;}
+        public WfLogConfig LogConfig;
 
-        /// <summary>
-        /// The context root
-        /// </summary>
-        public IWfContext Context {get;}
+        public IApiParts ApiParts;
 
-        /// <summary>
-        /// The specified log configuration
-        /// </summary>
-        public WfLogConfig LogConfig {get;}
+        public IJsonSettings Settings;
 
-        /// <summary>
-        /// The input data archive configuration
-        /// </summary>
-        public IApiParts ApiParts {get;}
+        public string[] Args;
 
-        public IApiCatalog ApiGlobal {get;}
+        public IAppPaths Paths;
 
-        [MethodImpl(Inline)]
-        public WfInit(IWfContext ctx, WfLogConfig logConfig, PartId[] parts)
-        {
-            Context = ctx;
-            ApiParts = ctx.ApiParts;
-            Control = ctx.Controller;
-            ApiGlobal = ctx.ApiParts.Catalog;
-            ControlId = ctx.Controller.Id;
-            LogConfig = logConfig;
-            PartIdentities = parts;
-        }
+        public PartName AppName;
 
-        public IWfContext Shell
-            => Context;
+        public EnvData Env;
+
+        public TokenDispenser Tokens;
+
+        public PartToken Ct;
+
+        public IEventBroker EventBroker;
+
+        public WfHost Host;
+
+        public IWfEmissionLog EmissionLog;
+
     }
 }

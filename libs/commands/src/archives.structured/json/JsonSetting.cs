@@ -4,21 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     using api = JsonData;
 
-    public struct JsonSetting<T> : ISetting<T>
+    public struct JsonSetting : ISetting
     {
-        public string Name {get;}
+        public readonly string Name {get;}
 
-        public T Value {get;}
+        public readonly dynamic Value {get;}
 
         [MethodImpl(Inline)]
-        public JsonSetting(string name, T value)
+        public JsonSetting(string name, dynamic value)
         {
             Name = name;
             Value = value;

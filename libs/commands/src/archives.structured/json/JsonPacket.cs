@@ -4,16 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct JsonPacket
     {
-        public dynamic Content {get;}
+        public readonly dynamic Content;
 
-        public string Type {get;}
+        public readonly string Type;
 
         [MethodImpl(Inline)]
         public JsonPacket(dynamic content, string type)
