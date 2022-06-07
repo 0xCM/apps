@@ -6,8 +6,6 @@ set RepoLogs=%ZArchive%\repos
 set ArchiveLog=%RepoLogs%\z0-git-archive.log
 set GitLogPath=%RepoLogs%\z0-git.log
 
-cd %ZDev%
-
 git add -A -v >> %GitLogPath%
 git commit -am "." -v >> %GitLogPath%
 git push -v >> %GitLogPath%
