@@ -1,4 +1,5 @@
 .build/
+.ws/
 .tools/
 lib/bin/
 lib/obj/

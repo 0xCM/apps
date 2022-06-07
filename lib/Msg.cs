@@ -15,11 +15,6 @@ namespace Z0
 
         public static MsgPattern<Count> AccumulatedDescriptors => "Accumulated {0} descriptors";
 
-        public static MsgPattern<FS.FileUri,TextEncodingKind,Count> SplittingFile
-            => "Splitting {0} into {1}-encoded parts with a maximum of {2} lines each";
-
-        public static MsgPattern<Count,FS.FileUri,Count> FinishedFileSplit
-            => "Partitioned {0} lines from {1} into {2} parts";
 
         public static MsgPattern<Fence<char>> OpCodeFenceNotFound => "Op code fence {0} not found";
     }

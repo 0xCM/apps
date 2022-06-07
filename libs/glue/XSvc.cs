@@ -21,7 +21,6 @@ namespace Z0
 
         static Svc Services => Svc.Instance;
 
-
         public static Roslyn Roslyn(this IWfRuntime wf)
             => Z0.Roslyn.create(wf);
 
@@ -40,14 +39,14 @@ namespace Z0
         public static Msvs Msvs(this IWfRuntime wf)
             => Z0.Msvs.create(wf);
 
-        public static Index<IToolResultHandler> ResultHandlers(this IEnvPaths paths)
-        {
-            var buffer = sys.alloc<IToolResultHandler>(2);
-            ref var dst = ref first(buffer);
-            seek(dst,0) = new MsBuildResultHandler(paths);
-            seek(dst,1) = new RobocopyResultHandler(paths);
-            return buffer;
-        }
+        // public static Index<IToolResultHandler> ResultHandlers(this IEnvPaths paths)
+        // {
+        //     var buffer = sys.alloc<IToolResultHandler>(2);
+        //     ref var dst = ref first(buffer);
+        //     seek(dst,0) = new MsBuildResultHandler(paths);
+        //     seek(dst,1) = new RobocopyResultHandler(paths);
+        //     return buffer;
+        // }
 
         public static DumpParser DumpParser(this IWfRuntime wf)
             => Z0.DumpParser.create(wf);
