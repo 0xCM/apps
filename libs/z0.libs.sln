@@ -65,6 +65,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.libs", "z0.libs.csproj",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.asm.models", "asm.models\z0.asm.models.csproj", "{4713A0EB-2FAA-4DB2-98C6-DAFDC4F64C51}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.libs.core", "libs.core\z0.libs.core.csproj", "{6A549154-1E24-4E66-8AB6-DDB6AB5CE160}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -198,5 +200,9 @@ Global
 		{4713A0EB-2FAA-4DB2-98C6-DAFDC4F64C51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4713A0EB-2FAA-4DB2-98C6-DAFDC4F64C51}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4713A0EB-2FAA-4DB2-98C6-DAFDC4F64C51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A549154-1E24-4E66-8AB6-DDB6AB5CE160}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A549154-1E24-4E66-8AB6-DDB6AB5CE160}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A549154-1E24-4E66-8AB6-DDB6AB5CE160}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A549154-1E24-4E66-8AB6-DDB6AB5CE160}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

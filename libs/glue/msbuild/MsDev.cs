@@ -85,7 +85,7 @@ namespace Z0
         }
 
 
-        public static BuildProjectCmd BuildCmd(IEnvPaths src, BuildCmdVars vars)
+        public static BuildProjectCmd BuildCmd(IEnvPaths src, WsVars vars)
         {
             var dst = new BuildProjectCmd();
             dst.Verbosity = BuildLogVerbosity.detailed;
@@ -93,10 +93,79 @@ namespace Z0
             dst.Configuration = "Release";
             dst.Graph = true;
             dst.MaxCpuCount = 6;
-            dst.LogFile = src.LogPath(vars);
-            dst.ProjectPath = src.ProjectPath(vars);
-            dst.SolutionPath = src.SolutionPath(vars);
+            dst.LogFile = BuildPaths.log(src, vars);
+            dst.ProjectPath = BuildPaths.project(src,vars);
+            dst.SolutionPath = BuildPaths.soulution(src,vars);
             return dst;
         }
+
+        public static string identifier(in BuildProjectCmd src)
+            => string.Format("{0}_{1}", BuildProjectCmd.CmdName, src.SolutionPath.IsNonEmpty ? src.SolutionPath.FileName.Format() : src.ProjectPath.FileName.Format());
+
+        public static Outcome<FS.FilePath> save(BuildProjectCmd src, FS.FolderPath dst)
+        {
+            var path = dst + FS.file(identifier(src), FS.Cmd);
+            var result = path.Save(format(src));
+            if(result)
+                return path;
+            else
+                return result;
+        }
+
+        public static string format(in BuildProjectCmd src)
+        {
+            var dst = text.buffer();
+            render(src,dst);
+            return dst.Emit();
+        }
+
+        [Op]
+        static void render(in BuildProjectCmd src, ITextBuffer dst)
+        {
+            const string PropertySpec = "/p:{0}={1}";
+
+            const string Flag = "-{0}";
+
+            const string OptionValue = "-{0}:{1}";
+
+            const string QuotedOptionAssign ="-{0}:{1}=" + RP.QuotedSlot2;
+
+            const string QuotedPropertySpec = "/p:{0}=" + RP.QuotedSlot1;
+
+            dst.Append("dotnet build");
+
+            dst.AppendSpace();
+            dst.Append(src.SolutionPath.Format(PathSeparator.BS));
+
+            dst.AppendSpace();
+            dst.AppendFormat(PropertySpec, nameof(src.Configuration), src.Configuration);
+
+            dst.AppendSpace();
+            dst.AppendFormat(QuotedPropertySpec, nameof(src.Platform), src.Platform);
+
+            if(src.LogFile.IsNonEmpty)
+            {
+                dst.AppendSpace();
+                dst.AppendFormat(Flag, "fl");
+                dst.AppendSpace();
+                dst.AppendFormat(QuotedOptionAssign, "flp", nameof(src.LogFile), src.LogFile.Format(PathSeparator.BS));
+                if(src.Verbosity != 0)
+                    dst.AppendFormat(";{0}={1} ","verbosity", src.Verbosity);
+            }
+
+            if(src.MaxCpuCount != 0)
+            {
+                dst.AppendSpace();
+                dst.AppendFormat(OptionValue, nameof(src.MaxCpuCount), src.MaxCpuCount);
+            }
+
+            if(src.Graph)
+            {
+                dst.AppendSpace();
+                dst.AppendFormat(OptionValue, "graph", src.Graph);
+            }
+        }
+
+
     }
 }

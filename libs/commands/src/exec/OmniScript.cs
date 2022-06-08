@@ -116,7 +116,7 @@ namespace Z0
         {
             var path = Ws.Projects().Script(project, scope, script, FS.Cmd);
             var result = Outcome.Success;
-            var vars = WsVars.create();
+            var vars = WsCmdVars.create();
             vars.SrcId = srcid;
             return RunToolScript(path, vars.ToCmdVars(), quiet, out flows);
         }
@@ -125,7 +125,7 @@ namespace Z0
         {
             var path = Ws.Projects().Script(project, script, FS.Cmd);
             var result = Outcome.Success;
-            var vars = WsVars.create();
+            var vars = WsCmdVars.create();
             vars.SrcId = srcid;
             return RunToolScript(path, vars.ToCmdVars(), quiet, out flows);
         }
@@ -146,7 +146,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var path = ref skip(paths,i);
-                var vars = WsVars.create();
+                var vars = WsCmdVars.create();
                 var id = path.FileName.WithoutExtension.Format();
                 vars.SrcId = id;
                 result = RunToolScript(path, vars.ToCmdVars(), quiet, out var _flows);
@@ -162,7 +162,7 @@ namespace Z0
         public Outcome RunProjectScript(FS.FolderPath root, string src, ScriptId script, bool quiet, out ReadOnlySpan<ToolCmdFlow> flows)
         {
             var result = Outcome.Success;
-            var vars = WsVars.create();
+            var vars = WsCmdVars.create();
             var path = root + FS.folder("scripts") + FS.file(script.Format(), FS.Cmd);
             vars.SrcId = src;
             return RunToolScript(path, vars.ToCmdVars(), quiet, out flows);

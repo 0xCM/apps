@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <ZLib>$(TopDir)lib/z0.lib.csproj</ZLib>
+    <LibsCore>$(LibsRoot)libs.core/z0.libs.core.csproj</LibsCore>
 
     <Alloc>$(LibsRoot)alloc/z0.alloc.csproj</Alloc>
     <ApiCode>$(LibsRoot)api.code/z0.api.code.csproj</ApiCode>

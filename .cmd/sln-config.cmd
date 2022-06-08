@@ -2,7 +2,7 @@
 set SlnTool=dotnet sln
 set SlnPath=%SlnDir%/%SlnName%
 set SlnZLibCmd=%SlnTool% %SlnPath% add %LibDir%/z0.lib.csproj
-
+set SlnLibsCoreCmd==%SlnTool% %SlnPath% add %LibsRoot%/libs.core/z0.libs.core.csproj
 set SlnLibsCmd=%SlnTool% %SlnPath% add %LibsRoot%/z0.libs.csproj
 set SlnAsmCoreCmd=%SlnTool% %SlnPath% add %LibsRoot%/asm.core/z0.asm.core.csproj
 set SlnAsmModelsCmd=%SlnTool% %SlnPath% add %LibsRoot%/asm.models/z0.asm.models.csproj

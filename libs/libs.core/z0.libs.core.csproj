@@ -7,9 +7,6 @@
   </PropertyGroup>
 
   <Import Project="$(TopDir)imports/common.libs.props"/>
-
-  <ItemGroup>
-    <ProjectReference Include="$(LibsCore)" />
-  </ItemGroup>
+  <Import Project="$(TopDir)imports/common.props"/>
 
 </Project>

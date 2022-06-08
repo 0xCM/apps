@@ -6,6 +6,7 @@ namespace Z0
 {
     public readonly struct ModuleArchive : IModuleArchive
     {
+
         public readonly FS.FolderPath Root {get;}
 
         [MethodImpl(Inline)]

@@ -26,11 +26,11 @@ global using CallerName = System.Runtime.CompilerServices.CallerMemberNameAttrib
 global using CallerFile = System.Runtime.CompilerServices.CallerFilePathAttribute;
 global using CallerLine = System.Runtime.CompilerServices.CallerLineNumberAttribute;
 
-[assembly: PartId(PartId.Commands)]
+[assembly: PartId(PartId.LibsRoot)]
 
 namespace Z0.Parts
 {
-    public sealed partial class Commands : Part<Commands>
+    public sealed partial class LibsRoot : Part<LibsRoot>
     {
 
     }
@@ -38,12 +38,4 @@ namespace Z0.Parts
 
 namespace Z0
 {
-    struct Msg
-    {
-        public static MsgPattern<FS.FileUri,TextEncodingKind,Count> SplittingFile
-            => "Splitting {0} into {1}-encoded parts with a maximum of {2} lines each";
-
-        public static MsgPattern<Count,FS.FileUri,Count> FinishedFileSplit
-            => "Partitioned {0} lines from {1} into {2} parts";
-    }
 }

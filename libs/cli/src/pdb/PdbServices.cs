@@ -117,7 +117,7 @@ namespace Z0
             => PdbSymbolSource.create(module);
 
         public ModuleArchive Archive()
-            => FileArchives.modules(FS.path(controller().Location).FolderPath);
+            => ModuleArchives.archive(FS.path(controller().Location).FolderPath);
 
         public static unsafe Outcome srclink(ISymUnmanagedReader5 src, out Span<byte> dst)
         {

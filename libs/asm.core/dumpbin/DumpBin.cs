@@ -99,7 +99,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var path = ref input[i];
-                var vars = WsVars.create();
+                var vars = WsCmdVars.create();
                 vars.DstDir = outdir;
                 vars.SrcDir = path.FolderPath;
                 vars.SrcFile = path.FileName;
@@ -111,7 +111,7 @@ namespace Z0
         public Index<FS.FilePath> EmitScripts(FS.FolderPath src, FS.FolderPath dst)
         {
             var paths = list<FS.FilePath>();
-            var archive = FileArchives.modules(src);
+            var archive = ModuleArchives.archive(src);
             var exe = archive.NativeExe();
             var lib = archive.Lib();
             var dll = archive.NativeDll();

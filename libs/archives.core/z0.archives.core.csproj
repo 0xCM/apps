@@ -8,8 +8,4 @@
 
   <Import Project="$(TopDir)imports/common.libs.props"/>
 
-  <ItemGroup>
-    <ProjectReference Include="$(LibsCore)" />
-  </ItemGroup>
-
 </Project>

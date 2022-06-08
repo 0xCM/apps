@@ -159,14 +159,27 @@ public enum PartId : byte
     [Symbol("cpu.test")]
     CpuTest,
 
-    [Symbol("archives")]
+    [Symbol("archives.core")]
     Archives,
+
+    [Symbol("archives.memory")]
+    MemoryArchives,
+
+    [Symbol("archives.modules")]
+    ModuleArchives,
+
+    [Symbol("archives.services")]
+    ArchiveServices,
+
 
     [Symbol("lib")]
     Lib,
 
     [Symbol("test")]
     LibTest,
+
+    [Symbol("libs.root")]
+    LibsRoot,
 
     [Symbol("expr")]
     Expr,
