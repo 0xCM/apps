@@ -128,7 +128,6 @@ namespace Z0
             TestMatchMachine();
         }
 
-
         bool TestMatchMachine()
         {
             var result = true;
@@ -329,7 +328,7 @@ namespace Z0
             }
         }
 
-        [CmdOp(".run")]
+        [CmdOp("machine/run/cmd")]
         Outcome Run(CmdArgs args)
         {
             if(uint.TryParse(arg(args,0).Value, out var n))

@@ -4,6 +4,7 @@
     <OutputType>Library</OutputType>
   </PropertyGroup>
 
+  <Import Project="$(TopDir)imports/common.props"/>
   <Import Project="$(TopDir)imports/common.libs.props"/>
 
   <ItemGroup>

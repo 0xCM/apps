@@ -38,47 +38,10 @@ namespace Z0
 
         static ICmdProvider[] _Providers;
 
-        // public void RunCmd(string name)
-        // {
-        //     var result = Dispatcher.Dispatch(name);
-        //     if(result.Fail)
-        //         Error(result.Message);
-        // }
-
-        // public void RunCmd(string name, CmdArgs args)
-        // {
-        //     Dispatcher.Dispatch(name, args);
-        // }
-
         protected override void Initialized()
         {
-            var args = new CmdArg[]{new CmdArg(EmptyString, "canonical")};
-            RunCmd("project", args);
+            RunCmd("project", new CmdArg[]{new CmdArg(EmptyString, "canonical")});
         }
-
-        // public void runJobs(string match)
-        // {
-        //     var paths = ProjectDb.JobSpecs();
-        //     var count = paths.Length;
-        //     var counter = 0u;
-        //     for(var i=0; i<count; i++)
-        //     {
-        //         ref readonly var path = ref paths[i];
-        //         if(path.FileName.Format().StartsWith(match))
-        //         {
-        //             var dispatching = Running(string.Format("Dispatching job {0} defined by {1}", counter, path.ToUri()));
-        //             _dispatchJobs(path);
-        //             Ran(dispatching, string.Format("Dispatched job {0}", counter));
-        //             counter++;
-        //         }
-        //     }
-
-        //     if(counter == 0)
-        //         Warn(string.Format("No jobs identified by '{0}'", match));
-        // }
-
-        // public void RunJobs(string match)
-        //     => runJobs(match);
 
         protected override ICmdProvider[] CmdProviders(IWfRuntime wf)
             => _Providers;
@@ -90,16 +53,5 @@ namespace Z0
             RunJobs(arg(args,0));
             return result;
         }
-
-        // public void _dispatchJobs( FS.FilePath src)
-        // {
-        //     var lines = src.ReadNumberedLines(true);
-        //     var count = lines.Count;
-        //     for(var i=0; i<count; i++)
-        //         Dispatch(Cmd.cmdspec(lines[i].Content));
-        // }
-
-        // void DispatchJobs(FS.FilePath src)
-        //     => _dispatchJobs(src);
     }
 }

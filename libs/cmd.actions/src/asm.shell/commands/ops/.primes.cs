@@ -28,7 +28,7 @@ namespace Z0.Asm
             }
 
             var dst = ItemLists.list(buffer.ToArray());
-            Write(dst.Format());
+            iter(dst, item => Write(item.Value));
 
             return result;
         }

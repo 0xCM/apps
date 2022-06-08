@@ -89,7 +89,7 @@ namespace Z0.Asm
                 bits<Cell16> bits = (n, skip(cells,i));
                 var len = BitRender.render(n,bits,buffer);
                 slice(buffer,0,len);
-                Write(string.Format("{0} Value{1} = {2};", bits.TypeName, i, text.format(slice(buffer,0,len))));
+                Write(string.Format("{0} Value{1} = {2};", bits.N, i, text.format(slice(buffer,0,len))));
             }
         }
    }

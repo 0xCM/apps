@@ -13,7 +13,7 @@ namespace Z0
 
         const byte FieldCount = ToolProfile.FieldCount;
 
-        IToolWs Tools => Service(Ws.Tools);
+        public IToolWs Tools => Service(() => ToolWs.create(Wf));
 
         public Outcome EmitToolCatalog()
         {

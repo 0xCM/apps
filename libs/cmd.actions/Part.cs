@@ -9,6 +9,8 @@ global using System.Reflection;
 global using System.Runtime.Intrinsics;
 global using System.Runtime.CompilerServices;
 global using System.Runtime.InteropServices;
+global using System.IO;
+global using System.Diagnostics.Tracing;
 
 global using static Z0.Root;
 

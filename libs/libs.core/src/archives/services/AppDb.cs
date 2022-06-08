@@ -8,8 +8,9 @@ namespace Z0
     {
         public static AppDb Service => GlobalSvc.Instance.AppDb;
 
+
         public ref readonly EnvData Env
-            => ref AppData.Env;
+            => ref AppData.AppEnv;
 
         public DbTargets Targets()
             => AppData.ProjectDb;
@@ -51,6 +52,9 @@ namespace Z0
 
         public DbTargets Logs(string scope)
             => Targets($"logs/{scope}");
+
+        public DbTargets RuntimeLogs()
+            => Logs("runtime");
 
         public DbTargets ApiTargets()
             => AppData.ApiTargets;

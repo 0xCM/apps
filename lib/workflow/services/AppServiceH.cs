@@ -98,7 +98,7 @@ namespace Z0
 
         public EnvData Env => Wf.Env;
 
-        protected IEnvPaths Paths => Wf.EnvPaths;
+        protected IEnvPaths Paths => new EnvPaths(Env);
 
         public IWfEmitters WfEmit => _TableOps;
 

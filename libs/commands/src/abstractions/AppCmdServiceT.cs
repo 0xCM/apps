@@ -29,7 +29,9 @@ namespace Z0
 
         protected AppSvcOps AppSvc => Wf.AppSvc();
 
-        protected IToolWs ToolWs => Ws.Tools();
+        protected IToolWs ToolBase => new ToolWs(AppData.ToolBase);
+
+        protected ref readonly DbSources Control => ref AppData.Control;
 
         protected virtual ICmdProvider[] CmdProviders(IWfRuntime wf)
             => array(this);
@@ -55,7 +57,7 @@ namespace Z0
 
         protected void UpdateToolEnv(out Settings dst)
         {
-            var path = ToolWs.Toolbase + FS.file("show-env-config", FS.Cmd);
+            var path = ToolBase.Toolbase + FS.file("show-env-config", FS.Cmd);
             var cmd = Cmd.cmdline(path.Format(PathSeparator.BS));
             dst = AppSettings.Load(OmniScript.RunCmd(cmd));
         }
@@ -99,12 +101,12 @@ namespace Z0
                 Warn(string.Format("No jobs identified by '{0}'", match));
         }
 
-
         [CmdOp("env/vars")]
         protected Outcome ShowEnvVars(CmdArgs args)
         {
-            var vars = Z0.Env.vars();
-            iter(vars, v => Write(v));
+            var src = EnvVars.records(EnvVars.load());
+            iter(src, v => Write(v.Source.Format()));
+            AppSvc.TableEmit(src, AppDb.RuntimeLogs().Table<EnvVarRecord>());
             return true;
         }
 
@@ -120,8 +122,7 @@ namespace Z0
         protected Outcome EnvLogs(CmdArgs args)
         {
             var result = Outcome.Success;
-            var ext = FS.ext("env") + FS.Log;
-            var paths = Ws.Tools().AdminFiles(ext);
+            var paths = Control.Files(FileKind.Log);
             var formatter = Tables.formatter<EnvVarSet>(16, RecordFormatKind.KeyValuePairs);
             foreach(var path in paths)
             {
@@ -152,7 +153,7 @@ namespace Z0
         protected Outcome ToolScript(CmdArgs args)
         {
             var tool = (ToolId)arg(args,0).Value;
-            var script = ToolWs.Script(tool, arg(args,1).Value);
+            var script = ToolBase.Script(tool, arg(args,1).Value);
             if(!script.Exists)
                 return (false, FS.missing(script));
             else
@@ -163,7 +164,7 @@ namespace Z0
         protected Outcome ShowToolSettings(CmdArgs args)
         {
             ToolId tool = arg(args,0).Value;
-            var src = ToolWs.Logs(tool) + FS.file("config", FS.Log);
+            var src = ToolBase.Logs(tool) + FS.file("config", FS.Log);
             if(!src.Exists)
                 return (false,FS.missing(src));
 
@@ -174,15 +175,9 @@ namespace Z0
 
         protected void LoadToolEnv(out Settings dst)
         {
-            var path = ToolWs.Toolbase + FS.file("env", FS.Settings);
+            var path = ToolBase.Toolbase + FS.file("env", FS.Settings);
             dst = AppSettings.Load(path.ReadNumberedLines());
         }
-
-        // public T With(IToolCmdShell shell)
-        // {
-        //     Shell = Option.some(shell);
-        //     return (T)this;
-        // }
 
         protected void Emitted(FS.FilePath dst)
             => Write(string.Format("Emitted {0}", dst.ToUri()));
@@ -298,7 +293,7 @@ namespace Z0
             var result = Outcome.Success;
 
             var tool = (ToolId)arg(args,0).Value;
-            var docs = ToolWs.ToolDocs(tool);
+            var docs = ToolBase.ToolDocs(tool);
             var doc = docs + FS.file(tool.Format(),FS.Help);
             if(doc.Exists)
             {
@@ -316,9 +311,9 @@ namespace Z0
             var tool = (ToolId)arg(args,0).Value;
             var path = FS.FilePath.Empty;
             if(args.Length > 1)
-                path = ToolWs.ToolDocs(tool) + FS.file(arg(args,1));
+                path = ToolBase.ToolDocs(tool) + FS.file(arg(args,1));
             else
-                path = ToolWs.ToolDocs(tool) + FS.file(tool.Format(), FS.Help);
+                path = ToolBase.ToolDocs(tool) + FS.file(tool.Format(), FS.Help);
 
             if(path.Exists)
             {

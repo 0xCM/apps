@@ -47,9 +47,6 @@ namespace Z0
         public IProjectDb ProjectDb()
             => ProjectDbWs.create(_WsRoot + FS.folder("projects/db"));
 
-        public IToolWs Tools()
-            => ToolWs.create(Projects().Subdir("tools"));
-
         public IWorkspace Tables()
             => TableWs.create(_WsRoot + FS.folder(tables));
 

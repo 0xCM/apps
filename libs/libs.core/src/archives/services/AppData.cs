@@ -6,7 +6,7 @@ namespace Z0
 {
     public class AppData
     {
-        public static ref readonly EnvData Env => ref Instance._EnvData;
+        public static ref readonly EnvData AppEnv => ref Instance._AppEnv;
 
         /// <summary>
         /// $(DvWs)/projects
@@ -56,6 +56,8 @@ namespace Z0
         /// </summary>
         public static ref readonly DbTargets LibProjects => ref Instance._LibProjects;
 
+        public static ref readonly DbSources ToolBase => ref Instance._Toolbase;
+
         public static ref readonly DbTargets ApiTargets => ref Instance._ApiTargets;
 
         [MethodImpl(Inline)]
@@ -66,7 +68,7 @@ namespace Z0
 
         bool _PllExec;
 
-        EnvData _EnvData;
+        EnvData _AppEnv;
 
         DbTargets _ProjectData;
 
@@ -86,6 +88,8 @@ namespace Z0
 
         DbSources _DataSources;
 
+        DbSources _Toolbase;
+
         AppData()
         {
         }
@@ -94,7 +98,7 @@ namespace Z0
         {
             var env = EnvData.load();
             var dst = new AppData();
-            dst._EnvData = env;
+            dst._AppEnv = env;
             dst._PllExec = true;
             dst._Projects = new DbTargets(env.DevWs, "projects");
             dst._ProjectDb = new DbTargets(env.DevWs, "projects/db");
@@ -105,6 +109,7 @@ namespace Z0
             dst._Control = new DbSources(env.Control);
             dst._ControlCmd = new DbSources(env.Control, ".cmd");
             dst._DataSources = new DbSources(env.DevWs, "projects/db/sources");
+            dst._Toolbase = new DbSources(env.Toolbase);
             Instance = dst;
         }
 

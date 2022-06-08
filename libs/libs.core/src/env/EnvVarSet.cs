@@ -4,8 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IEnvProvider
+    public struct EnvVarSet
     {
-        EnvData Env {get;}
+        public string Name;
+
+        public FS.FilePath Source;
+
+        public EnvVars Vars;
     }
 }

@@ -12,40 +12,6 @@ namespace Z0
 
         CmdLineRunner CmdRunner => Wf.CmdLineRunner();
 
-        // public Outcome<Index<ToolCmdFlow>> RunScript(IProjectDb db, IProjectWs project, ScriptId scriptid, bool runexe = true, Action<ToolCmdFlow> receiver = null)
-        // {
-        //     var result = RunProjectScript(project.Project, scriptid, true, out var flows);
-        //     if(result)
-        //     {
-        //         var exeflow = default(ToolCmdFlow?);
-        //         var count = flows.Length;
-        //         if(count != 0)
-        //         {
-        //             var data = alloc<ToolCmdFlow>(count);
-        //             for(var j=0; j<count; j++)
-        //             {
-        //                 ref readonly var flow = ref skip(flows,j);
-        //                 seek(data,j) = flow;
-        //                 Status(flow.Format());
-        //                 receiver?.Invoke(flow);
-        //                 if(flow.TargetPath.FileName.Is(FS.Exe))
-        //                     exeflow = flow;
-        //             }
-
-
-        //             TableEmit(@readonly(data), ToolCmdFlow.RenderWidths, WsApi.flow(project,scriptid));
-
-        //             if(runexe && exeflow != null)
-        //                 RunExe(exeflow.Value);
-
-        //             return (true, data);
-        //         }
-        //         else
-        //             return true;
-        //     }
-        //     else
-        //         return result;
-        // }
 
         public void RunExe(ToolCmdFlow flow)
         {

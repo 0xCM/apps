@@ -6,17 +6,19 @@ namespace Z0
 {
     using static core;
 
-    public struct EnvVarSet
+    public readonly struct EnvVars// : IIndex<EnvVar>
     {
-        public string Name;
+        public static EnvVars load()
+            => new (Z0.Env.vars().ToArray());
 
-        public FS.FilePath Source;
+        public static Index<EnvVarRecord> records(EnvVars src)
+        {
+            var dst = alloc<EnvVarRecord>(src.Count);
+            for(var i=0; i<src.Count; i++)
+                seek(dst,i) = new EnvVarRecord(src[i].Name,src[i].Value);
+            return dst;
+        }
 
-        public EnvVars Vars;
-    }
-
-    public readonly struct EnvVars : IIndex<EnvVar>
-    {
         public static EnvVarSet set(FS.FilePath src)
         {
             var result = Outcome.Success;
@@ -51,6 +53,12 @@ namespace Z0
             Data = src;
         }
 
+        public uint Count
+        {
+            [MethodImpl(Inline)]
+            get => Data.Count;
+        }
+
         public EnvVar[] Storage
         {
             [MethodImpl(Inline)]
@@ -67,6 +75,18 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => Data.View;
+        }
+
+        public ref EnvVar this[uint i]
+        {
+            [MethodImpl(Inline)]
+            get => ref Data[i];
+        }
+
+        public ref EnvVar this[int i]
+        {
+            [MethodImpl(Inline)]
+            get => ref Data[i];
         }
 
         public string Format()

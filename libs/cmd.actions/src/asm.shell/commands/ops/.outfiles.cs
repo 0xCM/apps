@@ -18,11 +18,6 @@ namespace Z0.Asm
             return content;
         }
 
-        public void ProccessCultFiles()
-        {
-            Wf.CultProcessor().Process();
-        }
-
         void JitApiCatalog()
         {
             Wf.ApiJit().JitCatalog();

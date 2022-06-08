@@ -12,11 +12,7 @@ namespace Z0
     {
         ICmdRunner Commands;
 
-        OmniScript OmniScript => Wf.OmniScript();
-
         CoffServices Coff => Wf.CoffServices();
-
-        IToolWs Tools => Ws.Tools();
 
         WsScripts Scripts => Wf.WsScripts();
 

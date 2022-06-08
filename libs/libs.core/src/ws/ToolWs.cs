@@ -4,31 +4,59 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Collections.Generic;
-
-    using static Root;
     using static core;
+
+    using static ApiGranules;
 
     public sealed class ToolWs : Workspace<ToolWs>, IToolWs
     {
         [MethodImpl(Inline)]
-        public static ToolWs create(FS.FolderPath root)
-            => new ToolWs(root);
+        public static ToolWs create(IEnvProvider src)
+            => new ToolWs(src);
+
+        [MethodImpl(Inline)]
+        public static ToolWs create(FS.FolderPath src)
+            => new ToolWs(src);
 
         Dictionary<ToolId,ToolConfig> ConfigLookup;
 
         Index<ToolConfig> Configs;
 
-        internal ToolWs(FS.FolderPath root)
+        public ToolWs(FS.FolderPath root)
             : base(root)
         {
             ConfigLookup = dict<ToolId,ToolConfig>();
             Configs = array<ToolConfig>();
-            Toolbase = Env.load().Toolbase;
 
         }
+
+        public DbSources Logs()
+            => new DbSources(Root, logs);
+
+        ToolWs(IEnvProvider src)
+            : base(src.Env.Toolbase)
+        {
+            ConfigLookup = dict<ToolId,ToolConfig>();
+            Configs = array<ToolConfig>();
+        }
+
+        public ReadOnlySpan<ToolConfig> Configured
+        {
+            [MethodImpl(Inline)]
+            get => Configs;
+        }
+
+        FS.FolderPath IToolWs.Toolbase
+        {
+            [MethodImpl(Inline)]
+            get => Root;
+        }
+
+        public bool Settings(ToolId id, out ToolConfig dst)
+            => ConfigLookup.TryGetValue(id, out dst);
+
+        public void Configure(ToolId id, in ToolConfig src)
+            => ConfigLookup[id] = src;
 
         public IToolWs Configure(ToolConfig[] src)
         {
@@ -37,17 +65,5 @@ namespace Z0
             return this;
         }
 
-        public ReadOnlySpan<ToolConfig> Configured
-        {
-            get => Configs;
-        }
-
-        public FS.FolderPath Toolbase {get;}
-
-        public bool Settings(ToolId id, out ToolConfig dst)
-            => ConfigLookup.TryGetValue(id, out dst);
-
-        public void Configure(ToolId id, in ToolConfig src)
-            => ConfigLookup[id] = src;
     }
 }

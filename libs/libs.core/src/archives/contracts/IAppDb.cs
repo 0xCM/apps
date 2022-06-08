@@ -25,7 +25,7 @@ namespace Z0
          DbTargets Logs(string scope);
 
         EnvData IEnvProvider.Env
-            => AppData.Env;
+            => AppData.AppEnv;
 
     }
 }

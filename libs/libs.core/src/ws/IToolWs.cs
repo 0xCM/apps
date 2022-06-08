@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     using static WsAtoms;
 
     public interface IToolWs : IWorkspace
@@ -18,5 +16,8 @@ namespace Z0
 
         FS.FilePath Inventory()
             => Root + FS.folder(admin) + FS.file(inventory, FS.Txt);
+
+        new DbSources ToolHome(ToolId id)
+            => new DbSources(Toolbase, id.Format());
     }
 }
