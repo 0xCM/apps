@@ -22,7 +22,7 @@ namespace Z0.llvm
         public Outcome Run(FS.FilePath src, FS.FolderPath dst)
         {
             var tool = ToolNames.llvm_objdump;
-            var cmd = Cmd.cmdline(ToolBase.Script(tool, "run").Format(PathSeparator.BS));
+            var cmd = Cmd.cmdline(ToolWs.Script(tool, "run").Format(PathSeparator.BS));
             var vars = WsCmdVars.create();
             vars.DstDir = dst;
             vars.SrcDir = src.FolderPath;

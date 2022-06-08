@@ -15,7 +15,7 @@ namespace Z0
             var files = Project().Files().Where(f => f.Is(FS.Obj) || f.Is(FS.Dll) || f.Is(FS.Lib) || f.Is(FS.Exe)).View;
             var count = files.Length;
             var outdir = Project().OutDir();
-            var script = Tools.Script(ToolNames.llvm_nm, "run");
+            var script = ToolWs.Script(ToolNames.llvm_nm, "run");
             for(var i=0; i<count; i++)
             {
                 var src = skip(files,i);

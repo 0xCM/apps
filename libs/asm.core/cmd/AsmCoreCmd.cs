@@ -30,6 +30,8 @@ namespace Z0
 
         StanfordAsmCatalog StanfordCatalog => Wf.StanfordCatalog();
 
+        Tooling Tooling => Wf.Tooling();
+
         protected override void Initialized()
         {
             ProjectLoad("canonical");
@@ -59,6 +61,11 @@ namespace Z0
 
             return true;
         }
+
+        [CmdOp("env/emit/includes")]
+        void LoadToolEnv()
+            => Tooling.EmitEnvIncldes();
+
 
         [CmdOp("asm/codegen")]
         void GenAmsCode()

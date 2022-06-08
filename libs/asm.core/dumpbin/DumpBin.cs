@@ -12,8 +12,6 @@ namespace Z0
         public Identifier ScriptId(CmdId cmd, FS.FileExt ext)
             => string.Format("{0}.{1}.{2}", Id, ext.Name, CmdSymbols[cmd].Expr);
 
-        Tooling Tooling => Wf.Tooling();
-
         public DumpBinProcessor AsmProcessor()
             => DumpBinProcessor.create(Wf);
 
@@ -95,7 +93,7 @@ namespace Z0
                 return (false, string.Format("{0} not supported", kind));
 
             var outdir = ProjectDb.ProjectData();
-            var cmd = Cmd.cmdline(Tooling.Tools.Script(dumpbin, script).Format(PathSeparator.BS));
+            var cmd = Cmd.cmdline(ToolWs.Script(dumpbin, script).Format(PathSeparator.BS));
             var input = project.Files(ext);
             var count = input.Length;
             for(var i=0; i<count; i++)

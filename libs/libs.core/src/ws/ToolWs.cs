@@ -46,11 +46,8 @@ namespace Z0
             get => Configs;
         }
 
-        FS.FolderPath IToolWs.Toolbase
-        {
-            [MethodImpl(Inline)]
-            get => Root;
-        }
+        public DbSources Toolbase
+            => new DbSources(Root);
 
         public bool Settings(ToolId id, out ToolConfig dst)
             => ConfigLookup.TryGetValue(id, out dst);

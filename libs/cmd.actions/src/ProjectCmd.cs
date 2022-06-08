@@ -28,6 +28,8 @@ namespace Z0
 
         AsmFlowCommands AsmFlows => Wf.AsmFlows();
 
+        Tooling Tooling => Wf.Tooling();
+
         public ProjectCmd With(ICmdRunner runner)
         {
             Commands = runner;

@@ -5,12 +5,16 @@
 
 namespace Z0
 {
-    using System.IO;
-
-    using static core;
-
     public static partial class XTend
     {
+        [Op]
+        public static AsciLineReader AsciLineReader(this FS.FilePath src)
+            => new AsciLineReader(src.AsciReader());
+
+        [Op]
+        public static UnicodeLineReader UnicodeLineReader(this FS.FilePath src)
+            => new UnicodeLineReader(src.UnicodeReader());
+
         public static ByteSize TotalSize(this HexDataRow[] src)
             => src.Select(x => x.Data.Count).Sum();
 
@@ -22,14 +26,6 @@ namespace Z0
 
         public static BinaryCode Compact(this Index<HexDataRow> src)
             => src.Storage.Compact();
-
-        [Op]
-        public static AsciLineReader AsciLineReader(this FS.FilePath src)
-            => new AsciLineReader(src.AsciReader());
-
-        [Op]
-        public static UnicodeLineReader UnicodeLineReader(this FS.FilePath src)
-            => new UnicodeLineReader(src.UnicodeReader());
 
     }
 }

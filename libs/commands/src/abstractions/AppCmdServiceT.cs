@@ -29,7 +29,7 @@ namespace Z0
 
         protected AppSvcOps AppSvc => Wf.AppSvc();
 
-        protected IToolWs ToolBase => new ToolWs(AppData.ToolBase);
+        protected IToolWs ToolWs => new ToolWs(AppData.ToolBase);
 
         protected ref readonly DbSources Control => ref AppData.Control;
 
@@ -57,7 +57,7 @@ namespace Z0
 
         protected void UpdateToolEnv(out Settings dst)
         {
-            var path = ToolBase.Toolbase + FS.file("show-env-config", FS.Cmd);
+            var path = ToolWs.Toolbase.Path(FS.file("show-env-config", FS.Cmd));
             var cmd = Cmd.cmdline(path.Format(PathSeparator.BS));
             dst = AppSettings.Load(OmniScript.RunCmd(cmd));
         }
@@ -153,7 +153,7 @@ namespace Z0
         protected Outcome ToolScript(CmdArgs args)
         {
             var tool = (ToolId)arg(args,0).Value;
-            var script = ToolBase.Script(tool, arg(args,1).Value);
+            var script = ToolWs.Script(tool, arg(args,1).Value);
             if(!script.Exists)
                 return (false, FS.missing(script));
             else
@@ -164,7 +164,7 @@ namespace Z0
         protected Outcome ShowToolSettings(CmdArgs args)
         {
             ToolId tool = arg(args,0).Value;
-            var src = ToolBase.Logs(tool) + FS.file("config", FS.Log);
+            var src = ToolWs.Logs(tool) + FS.file("config", FS.Log);
             if(!src.Exists)
                 return (false,FS.missing(src));
 
@@ -175,7 +175,7 @@ namespace Z0
 
         protected void LoadToolEnv(out Settings dst)
         {
-            var path = ToolBase.Toolbase + FS.file("env", FS.Settings);
+            var path = ToolWs.Toolbase.Path(FS.file("env", FS.Settings));
             dst = AppSettings.Load(path.ReadNumberedLines());
         }
 
@@ -293,7 +293,7 @@ namespace Z0
             var result = Outcome.Success;
 
             var tool = (ToolId)arg(args,0).Value;
-            var docs = ToolBase.ToolDocs(tool);
+            var docs = ToolWs.ToolDocs(tool);
             var doc = docs + FS.file(tool.Format(),FS.Help);
             if(doc.Exists)
             {
@@ -311,9 +311,9 @@ namespace Z0
             var tool = (ToolId)arg(args,0).Value;
             var path = FS.FilePath.Empty;
             if(args.Length > 1)
-                path = ToolBase.ToolDocs(tool) + FS.file(arg(args,1));
+                path = ToolWs.ToolDocs(tool) + FS.file(arg(args,1));
             else
-                path = ToolBase.ToolDocs(tool) + FS.file(tool.Format(), FS.Help);
+                path = ToolWs.ToolDocs(tool) + FS.file(tool.Format(), FS.Help);
 
             if(path.Exists)
             {
