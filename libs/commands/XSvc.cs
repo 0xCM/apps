@@ -8,15 +8,6 @@ namespace Z0
     {
         sealed class Svc : AppServices<Svc>
         {
-            public OmniScript OmniScript(IWfRuntime wf)
-                => Service<OmniScript>(wf);
-
-            public CmdLineRunner CmdLineRunner(IWfRuntime wf)
-                => Service<CmdLineRunner>(wf);
-
-            public ScriptRunner ScriptRunner(IWfRuntime wf)
-                => Service<ScriptRunner>(wf);
-
             public DumpArchive DumpArchive(IWfRuntime wf)
                 => Service<DumpArchive>(wf);
 
@@ -43,22 +34,12 @@ namespace Z0
 
             public WsScripts WsScripts(IWfRuntime wf)
                 => Service<WsScripts>(wf);
-
         }
 
         static Svc AppServices => Svc.Instance;
 
         public static Tooling Tooling(this IWfRuntime wf)
             => AppServices.Tooling(wf);
-
-        public static OmniScript OmniScript(this IWfRuntime wf)
-            => AppServices.OmniScript(wf);
-
-        public static CmdLineRunner CmdLineRunner(this IWfRuntime wf)
-            => AppServices.CmdLineRunner(wf);
-
-        public static ScriptRunner ScriptRunner(this IWfRuntime wf)
-            => AppServices.ScriptRunner(wf);
 
         public static DumpArchive DumpArchive(this IWfRuntime wf)
             => AppServices.DumpArchive(wf);

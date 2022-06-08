@@ -10,7 +10,7 @@ namespace Z0.Asm
     {
         readonly TextDocFormat SourceFormat;
 
-        readonly Index<StokeAsmAssetRow> RowBuffer;
+        readonly Index<StanfordInstruction> RowBuffer;
 
         const uint MaxRowCount = 2500;
 
@@ -19,14 +19,16 @@ namespace Z0.Asm
         public StanfordAsmCatalog()
         {
             SourceFormat = TextDocFormat.Structured(AsmCatDelimiter, false);
-            RowBuffer = alloc<StokeAsmAssetRow>(MaxRowCount);
+            RowBuffer = alloc<StanfordInstruction>(MaxRowCount);
         }
+
+        AppSvcOps AppSvc => Wf.AppSvc();
 
         public uint AssetImportCount {get; private set;}
 
         public ReadOnlySpan<StokeAsmExportRow> ImportExported()
         {
-            var src = Db.Table<StokeAsmAssetRow>(TargetFolder);
+            var src = Db.Table<StanfordInstruction>(TargetFolder);
             var doc = TextGrids.parse(src).Require();
             var data = doc.Rows;
             var count = data.Length;
@@ -34,7 +36,7 @@ namespace Z0.Asm
             for(var i=0; i<count; i++)
             {
                 var export = default(StokeAsmExportRow);
-                var import = default(StokeAsmAssetRow);
+                var import = default(StanfordInstruction);
                 map(skip(data, i), ref import);
                 map(import, ref seek(buffer, i));
             }
@@ -49,9 +51,9 @@ namespace Z0.Asm
         /// <summary>
         /// Retrieves the forms present in the catalog
         /// </summary>
-        public ReadOnlySpan<AsmFormInfo> DeriveFormExprssions()
+        public ReadOnlySpan<AsmFormInfo> DeriveExpressions()
         {
-            var imported = LoadAsset();
+            var imported = LoadSource();
             var count = imported.Length;
             var buffer = span<AsmFormInfo>(count);
             var j=0u;
@@ -73,7 +75,7 @@ namespace Z0.Asm
 
         public ReadOnlySpan<Name> DeriveEncodingKinds()
         {
-            var rows = LoadAsset();
+            var rows = LoadSource();
             var count = rows.Length;
             var dst = hashset<Name>();
             for(var i=0u; i<count; i++)
@@ -81,21 +83,10 @@ namespace Z0.Asm
             return dst.Index().Sort();
         }
 
-        public ReadOnlySpan<StokeAsmAssetRow> LoadAsset()
+        public ReadOnlySpan<StanfordInstruction> LoadSource(FS.FilePath src)
         {
-            if(AssetImportCount != 0)
-                return slice(RowBuffer.View,0, AssetImportCount);
-
-            var descriptor = Parts.AsmCore.Assets.StanfordAsmCatalog();
-            var content = Assets.utf8(descriptor);
-            ByteSize sz = content.Length*2;
-            Wf.Status($"Loaded source catalog data of size {sz} bytes");
-
+            var lines = src.ReadNumberedLines();
             var foundheader = false;
-            var lines = Lines.read(content);
-
-            Wf.Status($"Parsing {lines.Length} source catalog lines");
-
             var count = lines.Length;
             var buffer = RowBuffer.Edit;
             ref var dst = ref first(buffer);
@@ -103,10 +94,10 @@ namespace Z0.Asm
             var failed = false;
             for(var i=0; i<count; i++)
             {
-                ref readonly var line = ref skip(lines,i);
+                ref readonly var line = ref lines[i];
                 if(foundheader)
                 {
-                    var row = default(StokeAsmAssetRow);
+                    var row = default(StanfordInstruction);
                     if(line.IsNonEmpty)
                     {
                         if(parse(j, line, ref row))
@@ -121,10 +112,7 @@ namespace Z0.Asm
                 else
                 {
                     if(line.Content.Equals(SourceHeader))
-                    {
                         foundheader = true;
-                        Wf.Status($"Detected source catalog header with fields: {SourceHeaderFields.FormatList()}");
-                    }
                 }
             }
 
@@ -132,22 +120,33 @@ namespace Z0.Asm
             return slice(buffer, 0, AssetImportCount);
         }
 
-        public ReadOnlySpan<StokeAsmAssetRow> ExportAsset()
+        public ReadOnlySpan<StanfordInstruction> LoadSource()
+            => LoadSource(AppData.DataSources.Sources("asm.stanford").Path("stanford-asm-catalog",FileKind.Csv));
+
+        public ReadOnlySpan<StanfordInstruction> Import()
         {
-            var dst = Db.Table<StokeAsmAssetRow>(TargetFolder);
-            var flow = Wf.EmittingTable<StokeAsmAssetRow>(dst);
-            var imports = LoadAsset();
-            var count = Tables.emit(imports, dst);
-            Wf.EmittedTable(flow, count);
+            var imports = LoadSource();
+            AppSvc.TableEmit(imports, AppData.ProjectDb.Targets("asm.refs").Table<StanfordInstruction>());
             return imports;
         }
 
-        StanfordFormPipe AsmFormPipe => Service(Wf.AsmFormPipe);
+        public void Emit(ReadOnlySpan<AsmFormInfo> src)
+        {
+            var count = src.Length;
+            var buffer = alloc<StanfordFormInfo>(count);
+            for(var i=0u; i<count; i++)
+            {
+                ref var target = ref seek(buffer,i);
+                ref readonly var source = ref skip(src,i);
+                target.Seq =i;
+                target.OpCode = source.OpCode;
+                target.Sig = source.Sig;
+                target.FormExpr = new AsmFormInfo(source.OpCode,source.Sig);
+            }
+            AppSvc.TableEmit(buffer, AppData.ProjectDb.Targets("asm.refs").Table<StanfordFormInfo>());
+        }
 
-        public void EmitForms(ReadOnlySpan<AsmFormInfo> src)
-            => AsmFormPipe.Emit(src, Db.Table<StanfordForm>(TargetFolder));
-
-        Outcome parse(ushort seq, in TextLine src, ref StokeAsmAssetRow dst)
+        Outcome parse(ushort seq, in TextLine src, ref StanfordInstruction dst)
         {
             if(TextGrids.row(src, SourceFormat, out var row))
             {
@@ -179,9 +178,9 @@ namespace Z0.Asm
                 _ => false
             };
 
-        static void map(in StokeAsmAssetRow src, ref StokeAsmExportRow dst)
+        static void map(in StanfordInstruction src, ref StokeAsmExportRow dst)
         {
-            dst.Sequence = src.Sequence;
+            dst.Sequence = src.Seq;
             dst.OpCode = src.OpCode;
             dst.Instruction = src.Instruction;
             dst.Mode64 = mode64(src.Mode64);
@@ -197,14 +196,14 @@ namespace Z0.Asm
             dst.Description = src.Description;
         }
 
-        static void map(in TextRow src, ref StokeAsmAssetRow dst, ushort? seq = null)
+        static void map(in TextRow src, ref StanfordInstruction dst, ushort? seq = null)
         {
             var i = 0;
             var cells = src.Cells;
             if(seq == null)
-                ScalarParser.parse(base10, skip(cells,i++).Text, out dst.Sequence);
+                ScalarParser.parse(base10, skip(cells,i++).Text, out dst.Seq);
             else
-                dst.Sequence = seq.Value;
+                dst.Seq = seq.Value;
             dst.OpCode = skip(cells, i++);
             dst.Instruction = skip(cells, i++);
             dst.EncodingKind = skip(cells, i++);

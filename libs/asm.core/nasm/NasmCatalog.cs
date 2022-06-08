@@ -11,6 +11,8 @@ namespace Z0.Asm
 
     public class NasmCatalog : AppService<NasmCatalog>
     {
+        AppSvcOps AppSvc => Wf.AppSvc();
+
         static bool comment(ReadOnlySpan<char> src)
             =>  src.Length != 0 && first(src) == Chars.Semicolon;
 
@@ -79,30 +81,21 @@ namespace Z0.Asm
             return slice(buffer, 0, j);
         }
 
-        FS.FilePath InstructionImport() => ProjectDb.TablePath<NasmInstruction>("nasm");
-
-        FS.FilePath InstructionSource() => ProjectDb.Subdir("sources") + FS.file("nasm.instructions", FS.Txt);
-
         public ReadOnlySpan<NasmInstruction> ImportInstructions()
-            => ImportInstructions(InstructionSource(),InstructionImport());
+            => ImportInstructions(
+                AppData.DataSources.Path(FS.file("nasm.instructions", FS.Txt)),
+                AppData.ProjectDb.Targets("asm.refs").Table<NasmInstruction>()
+                );
 
-        public ReadOnlySpan<NasmInstruction> ImportInstructions(FS.FilePath src, FS.FilePath dst)
+        ReadOnlySpan<NasmInstruction> ImportInstructions(FS.FilePath src, FS.FilePath dst)
         {
             var instructions = ParseInstructions(src);
-            var count = instructions.Length;
-            if(count != 0)
-            {
-                var flow = EmittingTable<NasmInstruction>(dst);
-                var emitted = Tables.emit(instructions, NasmInstruction.RenderWidths, TextEncodingKind.Unicode, dst);
-                EmittedTable(flow, emitted);
-                return instructions;
-            }
-            else
-                return default;
+            AppSvc.TableEmit(instructions, dst, TextEncodingKind.Unicode);
+            return instructions;
         }
 
         public ReadOnlySpan<NasmInstruction> LoadInstructionImports()
-            => LoadInstructionImports(InstructionImport());
+            => LoadInstructionImports(AppData.ProjectDb.Targets("asm.refs").Table<NasmInstruction>());
 
         public ReadOnlySpan<NasmInstruction> LoadInstructionImports(FS.FilePath src)
         {

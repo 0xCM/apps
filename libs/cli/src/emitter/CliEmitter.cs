@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public sealed partial class CliEmitter : AppService<CliEmitter>, ICliEmitter
+    public sealed partial class CliEmitter : AppService<CliEmitter>
     {
         const string CliScope = "api/cli";
 

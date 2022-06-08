@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static core;
+    using Asm;
 
     public partial class GlobalCmd : AppCmdService<GlobalCmd,CmdShellState>
     {
@@ -27,6 +28,7 @@ namespace Z0
                 wf.AsmCmd(),
                 wf.AsmChecks(),
                 wf.IntelIntrinsicsCmd(),
+                AsmCmdService.create(wf),
                 xed.XedCmd(),
                 xed.XedChecks()
                 );

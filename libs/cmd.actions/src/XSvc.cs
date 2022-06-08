@@ -31,6 +31,7 @@ namespace Z0
 
         public static CaptureCmd CaptureCmd(this IWfRuntime wf)
             => Services.CaptureCmd(wf);
+
         public static ProjectCmd ProjectCmd(this IWfRuntime wf, ICmdRunner runner)
             => Services.ProjectCmd(wf, runner);
 

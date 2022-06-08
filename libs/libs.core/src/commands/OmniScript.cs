@@ -12,7 +12,6 @@ namespace Z0
 
         CmdLineRunner CmdRunner => Wf.CmdLineRunner();
 
-
         public void RunExe(ToolCmdFlow flow)
         {
             var running = Running(string.Format("Executing {0}", flow.TargetPath.ToUri()));

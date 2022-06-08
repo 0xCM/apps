@@ -7,13 +7,6 @@ namespace Z0.Asm
     using static core;
     partial class AsmCmdService
     {
-        [CmdOp(".symstores")]
-        Outcome ReadSymbols(CmdArgs args)
-        {
-            var reader = SOS.SymbolReader.create();
-            reader.ShowSymbolStore(data => Wf.Row(data));
-            return true;
-        }
 
         void GetMethodInfo()
         {

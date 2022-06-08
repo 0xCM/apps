@@ -6,8 +6,6 @@ namespace Z0
 {
     partial class ProjectCmd
     {
-        [CmdOp("cult/etl")]
-        void ImportCultData()
-            => Wf.CultProcessor().RunEtl();
+
     }
 }

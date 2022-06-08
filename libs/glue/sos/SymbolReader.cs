@@ -63,7 +63,7 @@ namespace SOS
 
             public override long Position {get; set;}
 
-            public override long Length { get; }
+            public override long Length {get;}
 
             public override bool CanSeek => true;
 

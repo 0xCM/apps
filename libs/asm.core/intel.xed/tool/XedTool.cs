@@ -6,6 +6,7 @@
 namespace Z0
 {
     using static core;
+
     public sealed partial class XedTool : ToolService<XedTool>
     {
         const string group = "xedtool";
@@ -21,6 +22,20 @@ namespace Z0
         [CmdOp("xed/tools")]
         void ListDeployed()
             => iter(Deployment.Files(FS.Exe), file => Write(file.ToUri()));
+
+
+        [CmdOp("xed/tool/case")]
+        void DefineCaseScript(CmdArgs args)
+            => DefineCaseScript(arg(args,0));
+
+        public string DefineCaseScript(string opcode)
+        {
+            var dir = Db.CaseDir("asm.assembled", opcode);
+            var dst = dir + FS.file(string.Format("{0}.{1}", opcode, Id), FS.Cmd);
+            var @case = DefineScript(opcode.ToString(), dir);
+            var content = CreateScript(@case);
+            return content;
+        }
 
         public ScriptSpec DefineScript(string name, FS.FolderPath dst)
         {

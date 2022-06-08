@@ -12,14 +12,6 @@ namespace Z0.Asm
 
         AsmTables AsmTables => Service(Wf.AsmTables);
 
-        ApiPacks ApiPacks => Service(Wf.ApiPacks);
-
-        ApiCatalogs ApiCatalogs => Service(Wf.ApiCatalogs);
-
-        //AppModules AppModules => Service(Wf.AppModules);
-
-        PdbIndexBuilder PdbIndexBuilder => Service(Wf.PdbIndexBuilder);
-
         IPolyrand Random;
 
         IWorkspace OutWs;
@@ -36,6 +28,9 @@ namespace Z0.Asm
         {
             Write(content, FlairKind.Error);
         }
+
+        FS.FolderPath GetToolOut(ToolId tool)
+            => Ws.Output().Subdir(tool.Format());
 
         FS.FolderPath OutDir(string id)
             => OutWs.Subdir(id);

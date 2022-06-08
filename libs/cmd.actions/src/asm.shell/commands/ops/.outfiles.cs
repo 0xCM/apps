@@ -8,15 +8,6 @@ namespace Z0.Asm
 
     partial class AsmCmdService
     {
-        string CreateXedCase(string opcode)
-        {
-            var tool = Wf.XedTool();
-            var dir = Db.CaseDir("asm.assembled", opcode);
-            var dst = dir + FS.file(string.Format("{0}.{1}", opcode, tool.Id), FS.Cmd);
-            var @case = tool.DefineScript(opcode.ToString(), dir);
-            var content = tool.CreateScript(@case);
-            return content;
-        }
 
         void JitApiCatalog()
         {

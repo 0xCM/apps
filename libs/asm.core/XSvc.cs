@@ -87,6 +87,15 @@ namespace Z0
 
             public NDisasm NDisasm(IWfRuntime wf)
                 => Service<NDisasm>(wf);
+
+            public CultProcessor CultProcessor(IWfRuntime wf)
+                => Service<CultProcessor>(wf);
+
+            public StanfordAsmCatalog StanfordCatalog(IWfRuntime wf)
+                => Service<StanfordAsmCatalog>(wf);
+
+            public BdDisasm BdDisasm(IWfRuntime wf)
+                => Service<BdDisasm>(wf);
         }
 
         static Svc Services => Svc.Instance;
@@ -166,14 +175,16 @@ namespace Z0
         public static Nasm Nasm(this IWfRuntime wf)
             => Services.Nasm(wf);
 
+        public static CultProcessor CultProcessor(this IWfRuntime wf)
+            => Services.CultProcessor(wf);
+
         public static NDisasm NDisasm(this IWfRuntime wf)
             => Services.NDisasm(wf);
 
         public static StanfordAsmCatalog StanfordCatalog(this IWfRuntime wf)
-            => Asm.StanfordAsmCatalog.create(wf);
+            => Services.StanfordCatalog(wf);
 
-        public static StanfordFormPipe AsmFormPipe(this IWfRuntime wf)
-            => Asm.StanfordFormPipe.create(wf);
-
+        public static BdDisasm BdDisasm(this IWfRuntime wf)
+            => Services.BdDisasm(wf);
    }
 }

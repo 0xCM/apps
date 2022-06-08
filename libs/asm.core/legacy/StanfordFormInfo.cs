@@ -7,16 +7,20 @@ namespace Z0
     using Z0.Asm;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct StanfordForm : IRecord<StanfordForm>
+    public struct StanfordFormInfo
     {
-        public const string TableId = "asm.forms";
+        const string TableId = "asm.stanford.forms.info";
 
+        [Render(8)]
         public uint Seq;
 
+        [Render(32)]
         public TextBlock OpCode;
 
+        [Render(32)]
         public AsmSigInfo Sig;
 
+        [Render(1)]
         public AsmFormInfo FormExpr;
     }
 }

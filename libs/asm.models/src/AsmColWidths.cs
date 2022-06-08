@@ -75,7 +75,7 @@ namespace Z0
 
         public const byte InstSig = 64;
 
-        public const byte SymbolicOpCode = 32;
+        public const byte SymbolicOpCode = 48;
 
         public const byte FormatPattern = 64;
 

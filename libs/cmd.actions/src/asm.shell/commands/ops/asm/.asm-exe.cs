@@ -8,6 +8,13 @@ namespace Z0.Asm
 
     partial class AsmCmdService
     {
+        [CmdOp("sos/symbols")]
+        void ReadSymbols()
+        {
+            var reader = SOS.SymbolReader.create();
+            reader.ShowSymbolStore(data => Wf.Row(data));
+        }
+
         [CmdOp(".asm-exe")]
         Outcome AsmExe(CmdArgs args)
         {

@@ -6,6 +6,7 @@ namespace Z0
 {
     public class AppData
     {
+
         public static ref readonly EnvData AppEnv => ref Instance._AppEnv;
 
         /// <summary>
@@ -17,19 +18,6 @@ namespace Z0
         /// $(DvWs)/projects/db
         /// </summary>
         public static ref readonly DbTargets ProjectDb => ref Instance._ProjectDb;
-
-        /// <summary>
-        /// $(DvWs)/projects/db/projects/<paramref name='id'/>
-        /// </summary>
-        /// <param name="id">The project name</param>
-        public static DbTargets ProjectData(ProjectId id)
-            => new DbTargets(ProjectDb.Targets("projects"), id);
-
-        public static DbTargets ProjectTargets(ProjectId id)
-            => ProjectDb.Targets(id);
-
-        public static DbSources ProjectSources(ProjectId id)
-            => DataSources.Sources(id);
 
         /// <summary>
         /// $(DevWs)/projects/db/sources
@@ -59,6 +47,19 @@ namespace Z0
         public static ref readonly DbSources ToolBase => ref Instance._Toolbase;
 
         public static ref readonly DbTargets ApiTargets => ref Instance._ApiTargets;
+
+        /// <summary>
+        /// $(DvWs)/projects/db/projects/<paramref name='id'/>
+        /// </summary>
+        /// <param name="id">The project name</param>
+        public static DbTargets ProjectData(ProjectId id)
+            => new DbTargets(ProjectDb.Targets("projects"), id);
+
+        public static DbTargets ProjectTargets(ProjectId id)
+            => ProjectDb.Targets(id);
+
+        public static DbSources ProjectSources(ProjectId id)
+            => DataSources.Sources(id);
 
         [MethodImpl(Inline)]
         public static AppData get() => Instance;

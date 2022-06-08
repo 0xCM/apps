@@ -8,68 +8,33 @@ namespace Z0.Asm
     using static Msg;
     using static Chars;
 
-    public class StanfordFormPipe : RecordPipe<StanfordFormPipe,StanfordForm>
+    public class StanfordFormPipe : AppService<StanfordFormPipe>
     {
+        AppSvcOps AppSvc => Wf.AppSvc();
+
         public StanfordFormPipe()
         {
 
         }
 
-        public void Emit(ReadOnlySpan<AsmFormInfo> src, FS.FilePath dst)
-        {
-            var count = src.Length;
-            if(count == 0)
-            {
-                Warn("No work to do");
-                return;
-            }
-
-            var flow = EmittingTable<StanfordForm>(dst);
-            using var writer = dst.Writer();
-            writer.WriteLine(FormatHeader());
-            for(ushort i=0; i<count; i++)
-            {
-                var data = NewRecord();
-                writer.WriteLine(Format(Fill(i, skip(src,i), ref data)));
-            }
-            EmittedTable(flow, count);
-        }
-
-        [MethodImpl(Inline)]
-        ref StanfordForm Fill(ushort seq, AsmFormInfo src, ref StanfordForm dst)
-        {
-            dst.Seq = seq;
-            dst.OpCode = src.OpCode;
-            dst.Sig = src.Sig;
-            dst.FormExpr = src;
-            return ref dst;
-        }
-
-        public ReadOnlySpan<StanfordForm> LoadForms(in TextGrid src)
+        public Index<StanfordFormInfo> LoadFormInfo(in TextGrid src)
         {
             var rows = src.Rows;
             var count = rows.Length;
-            var buffer = alloc<StanfordForm>(count);
-            ref var dst = ref first(buffer);
+            var dst = alloc<StanfordFormInfo>(count);
             for(var i=0; i<count; i++)
             {
                 if(i==0)
                     continue;
 
-                ref readonly var _row = ref skip(rows,i);
-                if(_row.CellCount != FieldCount)
-                {
-                    Error(FieldCountMismatch.Format(TableId, _row.CellCount, FieldCount));
-                    return array<StanfordForm>();
-                }
-                row(_row, ref seek(dst,i));
+                row(skip(rows,i), ref seek(dst,i));
             }
-            return buffer;
+            return dst;
         }
 
-        public ReadOnlySpan<StanfordForm> LoadForms(FS.FilePath src)
+        public ReadOnlySpan<StanfordFormInfo> LoadFormInfo(FS.FilePath src)
         {
-            var dst = list<StanfordForm>();
+            var dst = list<StanfordFormInfo>();
             if(src.Exists)
             {
                 var flow = Running($"Loading form records from {src.ToUri()}");
@@ -77,43 +42,19 @@ namespace Z0.Asm
                 if(doc.Failed)
                 {
                     Error(doc.Reason);
-                    return array<StanfordForm>();
+                    return array<StanfordFormInfo>();
                 }
 
-                var forms = LoadForms(doc.Value);
+                var forms = LoadFormInfo(doc.Value);
                 Ran(flow, LoadedForms.Format(forms.Length, src));
                 return forms;
             }
             else
             {
                 Error($"The file <{src.ToUri()}> does not exist");
-                return array<StanfordForm>();
+                return array<StanfordFormInfo>();
             }
         }
-
-        public Outcome ParseRow(TextLine src, out StanfordForm dst)
-        {
-            var parts = Cells(src.Content);
-            var count = parts.Length;
-            if(count == FieldCount)
-            {
-                var i = 0u;
-                DataParser.parse(NextCell(parts, ref i), out dst.Seq);
-                dst.OpCode = NextCell(parts, ref i);
-                AsmSigInfo.parse(NextCell(parts, ref i), out dst.Sig);
-                dst.FormExpr = new AsmFormInfo(dst.OpCode, dst.Sig);
-                return true;
-            }
-            else
-            {
-                dst = default;
-                return (false, FieldCountMismatch.Format(TableId, count, FieldCount));
-            }
-        }
-
-        [MethodImpl(Inline)]
-        ref readonly string NextCell(ReadOnlySpan<string> src, ref uint i)
-            => ref skip(src, i++);
 
         [Parser]
         static Outcome forminfo(string src, out AsmFormInfo dst)
@@ -137,7 +78,7 @@ namespace Z0.Asm
             return true;
         }
 
-        static ref StanfordForm row(in TextRow src, ref StanfordForm dst)
+        static ref StanfordFormInfo row(in TextRow src, ref StanfordFormInfo dst)
         {
             var i = 0;
             DataParser.parse(src[i++], out dst.Seq);
@@ -147,11 +88,10 @@ namespace Z0.Asm
             return ref dst;
         }
 
-
         static Fence<char> SigFence => (LParen, RParen);
 
         static Fence<char> OpCodeFence => (Lt, Gt);
 
-        const string Implication = " => ";
+        //const string Implication = " => ";
     }
 }

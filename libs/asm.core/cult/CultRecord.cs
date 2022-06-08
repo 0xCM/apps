@@ -15,7 +15,7 @@ namespace Z0.Asm
         Summary,
     }
 
-    public struct CultRecord : IRecord<CultRecord>
+    public struct CultRecord
     {
         public uint LineNumber;
 

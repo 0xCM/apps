@@ -7,11 +7,9 @@ namespace Z0.Asm
     using W = AsmColWidths;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct CultSummaryRecord : IRecord<CultSummaryRecord>
+    public struct CultSummaryRecord
     {
         const string TableId = "cult.summary";
-
-        public const byte FieldCount = 6;
 
         [Render(W.LineNumber)]
         public uint LineNumber;
@@ -30,8 +28,5 @@ namespace Z0.Asm
 
         [Render(6)]
         public string Rcp;
-
-        public static ReadOnlySpan<byte> RenderWidths
-            => new byte[FieldCount]{12,46,46,46,6,6};
     }
 }

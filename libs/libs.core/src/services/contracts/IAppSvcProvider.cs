@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     public interface IAppSvcProvider : ISvcProvider
     {
         IAppService Service(Type host, IWfRuntime wf);
