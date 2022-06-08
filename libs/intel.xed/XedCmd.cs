@@ -19,13 +19,13 @@ namespace Z0
 
         XedRuntime Xed;
 
-        protected override IWsCmdRunner CmdRunner
-            => Xed.CmdRunner;
-
-        IProjectWs Project()
-            => CmdRunner.Project();
-
         XedPaths XedPaths => Wf.XedPaths();
+
+        protected override WsContext Context()
+            => WsApi.context(CmdRunner.Project());
+
+        protected override void LoadProject(CmdArgs args)
+            => CmdRunner.LoadProject(args);
 
         [CmdOp("project/xed/etl")]
         void XedCollect()

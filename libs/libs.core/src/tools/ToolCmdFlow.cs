@@ -48,14 +48,19 @@ namespace Z0
 
         public const byte FieldCount = 5;
 
+        [Render(24)]
         public Tool Tool;
 
+        [Render(60)]
         public @string SourceName;
 
+        [Render(60)]
         public @string TargetName;
 
+        [Render(80)]
         public FS.FilePath SourcePath;
 
+        [Render(1)]
         public FS.FilePath TargetPath;
 
         [MethodImpl(Inline)]
@@ -82,7 +87,5 @@ namespace Z0
             [MethodImpl(Inline)]
             get => new ToolCmdFlow(Tool.Empty, FS.FilePath.Empty, FS.FilePath.Empty);
         }
-
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{24,60,60,80,1};
     }
 }

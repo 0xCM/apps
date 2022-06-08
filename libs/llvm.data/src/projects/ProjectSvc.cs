@@ -4,42 +4,49 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using llvm;
+    using static llvm.LlvmSubtarget;
+
     public partial class ProjectSvc : AppService<ProjectSvc>
     {
         AppSvcOps AppSvc => Wf.AppSvc();
 
-        WsProjects Projects => Wf.WsProjects();
+        WsScripts Scripts => Wf.WsScripts();
 
         AsmObjects AsmObjects => Wf.AsmObjects();
-
-        OmniScript OmniScript => Wf.OmniScript();
 
         XedDisasmSvc XedDisasm => Wf.XedDisasmSvc();
 
         CoffServices Coff => Wf.CoffServices();
 
-        public Outcome<Index<ToolCmdFlow>> BuildAsm(IProjectWs project)
-            => RunBuildScripts(project, "build", "asm", false);
+        public FS.Files SynAsmSources(IProjectWs src)
+            => src.OutFiles(FileKind.SynAsm.Ext());
 
-        public Outcome<Index<ToolCmdFlow>> BuildScoped(IProjectWs project, ScriptId script, string scope)
-            => RunBuildScripts(project, script, scope, false);
+        public FS.Files McAsmSources(IProjectWs src)
+            => src.OutFiles(FileKind.McAsm.Ext());
 
-        public Outcome<Index<ToolCmdFlow>> BuildC(IProjectWs project, bool runexe = false)
-            => RunBuildScripts(project, "c-build", "c", runexe);
+        public FS.FilePath AsmSyntaxTable(ProjectId project)
+            => WsApi.table<AsmSyntaxRow>(project);
 
-        public Outcome<Index<ToolCmdFlow>> BuildCpp(IProjectWs project, bool runexe = false)
-            => RunBuildScripts(project, "cpp-build", "cpp", runexe);
+        public FS.FilePath AsmInstructionTable(ProjectId project)
+            => WsApi.table<AsmInstructionRow>(project);
 
-        public FS.Files SynAsmSources(IProjectWs project)
-            => project.OutFiles(FileKind.SynAsm.Ext());
+        public Outcome<Index<ToolCmdFlow>> BuildLlc(IProjectWs project, LlvmSubtarget subtarget, bool runexe = false)
+        {
+            var scriptid = subtarget switch
+            {
+                Sse => "llc-build-sse",
+                Sse2 => "llc-build-sse2",
+                Sse3 => "llc-build-sse3",
+                Sse41 => "llc-build-sse41",
+                Sse42 => "llc-build-sse42",
+                Avx => "llc-build-avx",
+                Avx2 => "llc-build-avx2",
+                Avx512 => "llc-build-avx512",
+                _ => EmptyString
+            };
 
-        public FS.Files McAsmSources(IProjectWs project)
-            => project.OutFiles(FileKind.McAsm.Ext());
-
-        public FS.FilePath AsmSyntaxTable(IProjectWs project)
-            => Projects.Table<AsmSyntaxRow>(project);
-
-        public FS.FilePath AsmInstructionTable(IProjectWs project)
-            => Projects.Table<AsmInstructionRow>(project);
+            return Scripts.RunBuildScripts(project, scriptid, EmptyString, runexe);
+        }
    }
 }

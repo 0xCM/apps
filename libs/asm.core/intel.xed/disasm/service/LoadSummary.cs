@@ -12,10 +12,10 @@ namespace Z0
 
     partial class XedDisasmSvc
     {
-        public Index<XedDisasmRow> LoadSummary(IProjectWs project)
+        public Index<XedDisasmRow> LoadSummary(ProjectId id)
         {
             const byte FieldCount = XedDisasmRow.FieldCount;
-            var src = Projects.Table<XedDisasmRow>(project);
+            var src = WsApi.table<XedDisasmRow>(id);
             var lines = slice(src.ReadNumberedLines().View,1);
             var count = lines.Length;
             var buffer = alloc<XedDisasmRow>(count);

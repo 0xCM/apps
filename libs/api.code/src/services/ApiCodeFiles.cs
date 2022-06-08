@@ -27,7 +27,7 @@ namespace Z0
             => AppDb.ApiTargets("capture/packs");
 
         DbSources Sources()
-            => Targets().ToSource();
+            => Targets().Sources();
 
         public FS.Files HexFiles()
             => Sources().Files(FileKind.Hex);

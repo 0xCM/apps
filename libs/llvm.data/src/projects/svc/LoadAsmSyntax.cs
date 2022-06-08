@@ -11,7 +11,7 @@ namespace Z0
     partial class ProjectSvc
     {
         public Index<AsmSyntaxRow> LoadAsmSyntax(IProjectWs project)
-            => LoadSyntaxRows(AsmSyntaxTable(project));
+            => LoadSyntaxRows(AsmSyntaxTable(project.Project));
 
         Index<AsmSyntaxRow> LoadSyntaxRows(FS.FilePath src)
         {

@@ -29,13 +29,14 @@ namespace Z0
 
         void EmitOpClasses(WsContext context, Index<Document> src)
         {
-            var target = Projects.ProjectData(context.Project, disasm) + Tables.filename<InstOpClass>(context.Project.Name.Format());
+            var target = WsApi.table<InstOpClass>(context.Project.Project, disasm);
+            //var target = Projects.ProjectData(context.Project.Project, disasm) + Tables.filename<InstOpClass>(context.Project.Name.Format());
             AppSvc.TableEmit(XedDisasm.opclasses(src).View, target);
         }
 
         void EmitConsolidated(WsContext context, Index<DetailBlock> src)
         {
-            var target = Projects.Table<DetailBlockRow>(context.Project);
+            var target = WsApi.table<DetailBlockRow>(context.Project.Project);
             var buffer = text.buffer();
             DisasmRender.render(resequence(src), buffer);
             var emitting = EmittingFile(target);
@@ -45,6 +46,6 @@ namespace Z0
         }
 
         void EmitConsolidated(WsContext context, Index<XedDisasmRow> src)
-            => AppSvc.TableEmit(resequence(src), Projects.Table<XedDisasmRow>(context.Project));
+            => AppSvc.TableEmit(resequence(src), WsApi.table<XedDisasmRow>(context.Project.Project));
     }
 }

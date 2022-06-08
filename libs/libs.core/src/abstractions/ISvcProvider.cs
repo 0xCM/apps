@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IServiceProvider
+    public interface ISvcProvider
     {
         Assembly HostComponent {get;}
 
@@ -12,25 +12,22 @@ namespace Z0
 
         ReadOnlySpan<Type> HostTypes {get;}
 
-        IAppService Service(Type host, IWfRuntime wf);
+        IService Service(Type host);
 
-        S Service<S>(IWfRuntime wf)
-            where S : IAppService, new();
-
-        S Service<S>(IWfRuntime wf, Func<IWfRuntime,S> factory)
-            where S : IAppService, new();
+        S Service<S>()
+            where S : IService, new();
     }
 
-    public interface IServiceProvider<T> : IServiceProvider
-        where T : IServiceProvider<T>, new()
+    public interface ISvcProvider<T> : ISvcProvider
+        where T : ISvcProvider<T>, new()
     {
-        Assembly IServiceProvider.HostComponent
+        Assembly ISvcProvider.HostComponent
             => typeof(T).Assembly;
 
-        PartId IServiceProvider.PartId
+        PartId ISvcProvider.PartId
             => HostComponent.Id();
 
-        ReadOnlySpan<Type> IServiceProvider.HostTypes
+        ReadOnlySpan<Type> ISvcProvider.HostTypes
             => typeof(T).DeclaredPublicInstanceMethods().Concrete().Select(x => x.ReturnType);
     }
 }

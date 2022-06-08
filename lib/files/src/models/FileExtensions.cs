@@ -78,6 +78,21 @@ namespace Z0
         public static FileExt Json => ext(json);
 
         /// <summary>
+        /// Defines the composite <see cref='djson'/> <see cref='FileExt'/>
+        /// </summary>
+        public static FileExt JsonDeps => ext(djson);
+
+        /// <summary>
+        /// Defines the composite <see cref='cjson'/> <see cref='FileExt'/>
+        /// </summary>
+        public static FileExt JsonConfig => ext(cjson);
+
+        /// <summary>
+        /// Defines the composite <see cref='sjson'/> <see cref='FileExt'/>
+        /// </summary>
+        public static FileExt JsonSettings => ext(sjson);
+
+        /// <summary>
         /// Defines the <see cref='pdb'/> <see cref='FileExt'/>
         /// </summary>
         public static FileExt Pdb => ext(pdb);
@@ -133,11 +148,6 @@ namespace Z0
         public static FileExt Zip => ext(zip);
 
         /// <summary>
-        /// Defines the composite <see cref='djson'/> <see cref='FileExt'/>
-        /// </summary>
-        public static FileExt JsonDeps => ext(djson);
-
-        /// <summary>
         /// Defines the <see cref='sln'/> <see cref='FileExt'/>
         /// </summary>
         public static FileExt Sln => ext(sln);
@@ -183,11 +193,6 @@ namespace Z0
         /// Defines the <see cref='config'/> <see cref='FileExt'/>
         /// </summary>
         public static FileExt Config => ext(config);
-
-        /// <summary>
-        /// Defines the composite <see cref='cjson'/> <see cref='FileExt'/>
-        /// </summary>
-        public static FileExt JsonConfig => ext(cjson);
 
         /// <summary>
         /// Defines the <see cref='status'/> + <see cref='log'/> <see cref='FileExt'/>

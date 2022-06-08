@@ -88,11 +88,10 @@ namespace Z0
 
         internal XedMachine(XedRuntime xed)
         {
-            var ws = WsUnserviced.create(Xed.Ws);
             Xed = xed;
             Wf = xed.Wf;
             var projects = Projects;
-            Ws = ws.Project(ws.ProjectData(), Identifier);
+            Ws = WsApi.project(AppData.ProjectDb, Identifier);
             RuntimeState = new(NextId());
             RuleTables = Xed.Views.RuleTables;
             _Emitter = Emitter.create(this, StatusWriter);
@@ -116,7 +115,7 @@ namespace Z0
         public void Dispose()
             => _Emitter.Dispose();
 
-        WsProjects Projects => Service(Wf.WsProjects);
+        WsScripts Projects => Service(Wf.WsScripts);
 
         XedRules Rules => Xed.Rules;
     }

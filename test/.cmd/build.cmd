@@ -1,2 +1,2 @@
 call %~dp0config.cmd
-call %BuildProjCmd%
+call %CmdScripts%\build-tests.cmd

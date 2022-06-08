@@ -9,11 +9,14 @@ namespace Z0
 
     using static core;
 
-    /// <summary>
-    /// Defines the canonical <see cref='IJsonSettings'/> reification
-    /// </summary>
     public class JsonSettings : IJsonSettings
     {
+        public static FS.FilePath path(Assembly src)
+            => FS.path(src.Location).FolderPath + FS.file(src.GetSimpleName(),FS.JsonSettings);
+
+        public static IJsonSettings load(Assembly src)
+            => load(path(src));
+
         public static IJsonSettings load(FS.FilePath src)
         {
             var dst = new Dictionary<string,string>();

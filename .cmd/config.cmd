@@ -11,6 +11,7 @@ set SlnRoot=%TopDir%
 set Archives=%ZArchive%
 set ArchiveRoot=%ZArchive%
 set RepoArchives=%ArchiveRoot%\bin\source
+set CmdScripts=%TopDir%\.cmd
 
 set AppDir=%TopDir%\apps
 set TestDir=%TopDir%\test
@@ -70,7 +71,7 @@ set Area=libs
 set AreaProject=%SlnRoot%\%Area%\%ProjectId%\z0.%ProjectId%.csproj
 set AreaBuildLog=%BuildLogs%\z0.%ProjectId%.build.log
 set AreaBuildCmd=dotnet build %AreaProject% %BuildProps% -fl -flp:logfile=%AreaBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
-set BuildLibCmd=%AreaBuildCmd%
+set BuildLibsCmd=%AreaBuildCmd%
 
 set Area=test
 set AreaSln=%SlnRoot%\%Area%\z0.%Area%.sln
@@ -129,8 +130,9 @@ set BuildProjectSlnCmd=%BuildAreaCmd%
 echo BuildProjectSlnCmd:%BuildProjectSlnCmd% >> %CmdLog%
 
 set CmdProject=%SlnRoot%\cmd\z0.cmd.csproj
+set CmdSln=%SlnRoot%\cmd\z0.cmd.sln
 set CmdBuildLog=%BuildLogs%\z0.cmd.build.log
-set BuildCmdCmd=dotnet build %CmdProject% %BuildProps% -fl -flp:logfile=%CmdBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
+set BuildCmdSln=dotnet build %CmdSln% %BuildProps% -fl -flp:logfile=%CmdBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 echo BuildCmdCmd:%BuildCmdCmd% >> %CmdLog%
 
 set DeploySrc=%ShellBin%

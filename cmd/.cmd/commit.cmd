@@ -1,2 +1,3 @@
 @echo off
-call %ZDev%\.cmd\commit.cmd
+call %~dp0config.cmd
+call %CmdScripts%\commit.cmd

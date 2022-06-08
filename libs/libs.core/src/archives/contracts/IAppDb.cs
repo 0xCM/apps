@@ -4,15 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IAppDb : IAppService
+    public interface IAppDb : IService
     {
          DbTargets Projects();
 
-         DbTargets Project(string name);
+         DbTargets Project(ProjectId name);
 
-         DbTargets ProjectDb(string name);
+         DbTargets ProjectData(ProjectId name);
 
-         DbTargets ProjectDb(IProjectWs project, string scope);
+         DbTargets ProjectDb(ProjectId project, string scope);
 
          DbTargets CgTargets(CgTarget dst);
 
@@ -23,5 +23,9 @@ namespace Z0
          DbSources Sources(string scope);
 
          DbTargets Logs(string scope);
+
+        EnvData IEnvProvider.Env
+            => AppData.Env;
+
     }
 }

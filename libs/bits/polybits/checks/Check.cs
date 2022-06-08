@@ -13,6 +13,20 @@ namespace Z0
     {
         ITextEmitter Emitter;
 
+        public void CheckBitParser()
+        {
+            var input = "0110";
+            BitParser.parse(text.slice(input,0,1), 1, out byte b0);
+            Demand.eq(bit.Off, (bit)b0);
+            BitParser.parse(text.slice(input,1,1), 1, out byte b1);
+            Demand.eq(bit.On, (bit)b1);
+            BitParser.parse(text.slice(input,2,1), 1, out byte b2);
+            Demand.eq(bit.On, (bit)b2);
+            BitParser.parse(text.slice(input,3,1), 1, out byte b3);
+            Demand.eq(bit.Off, (bit)b3);
+        }
+
+
         public PbChecks()
         {
             Emitter = text.emitter();

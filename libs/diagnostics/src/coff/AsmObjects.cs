@@ -10,22 +10,20 @@ namespace Z0
 
     public partial class AsmObjects : AppService<AsmObjects>
     {
-        AppDb AppDb => Wf.AppDb();
-
         AppSvcOps AppSvc => Wf.AppSvc();
 
         CoffServices Coff => Wf.CoffServices();
 
-        public new AsmObjPaths Paths
+        public static new AsmObjPaths Paths
         {
             [MethodImpl(Inline)]
-            get => new AsmObjPaths(AppDb);
+            get => new AsmObjPaths(AppDb.Service);
         }
 
         public Index<AsmCodeMapEntry> MapAsm(IProjectWs ws, Alloc alloc)
         {
-            var dst = map(ws, LoadRows(ws), alloc);
-            AppSvc.TableEmit(dst, Paths.CodeMap(ws));
+            var dst = map(ws, LoadRows(ws.Project), alloc);
+            AppSvc.TableEmit(dst, Paths.CodeMap(ws.Project));
             return dst;
         }
 
@@ -95,16 +93,16 @@ namespace Z0
             return rows;
         }
 
-        public CoffSymIndex LoadSymbols(IProjectWs ws)
-            => Coff.LoadSymIndex(ws);
+        public CoffSymIndex LoadSymbols(ProjectId id)
+            => Coff.LoadSymIndex(id);
 
-        public Index<ObjDumpRow> LoadRows(IProjectWs project)
-            => rows(Paths.ObjRowsPath(project));
+        public Index<ObjDumpRow> LoadRows(ProjectId id)
+            => rows(Paths.ObjRowsPath(id));
 
-        public Index<ObjBlock> LoadBlocks(IProjectWs ws)
-            => blocks(Paths.ObjBlockPath(ws));
+        public Index<ObjBlock> LoadBlocks(ProjectId id)
+            => blocks(Paths.ObjBlockPath(id));
 
-        public Index<AsmInstructionRow> LoadInstructions(IProjectWs project)
+        public Index<AsmInstructionRow> LoadInstructions(ProjectId project)
         {
             const byte FieldCount = AsmInstructionRow.FieldCount;
             var src = Paths.InstructionTable(project);
@@ -136,7 +134,7 @@ namespace Z0
 
         public Index<AsmCodeBlocks> EmitAsmCodeTables(WsContext context, Alloc alloc)
         {
-            Paths.AsmTargets(context.Project).Clear();
+            Paths.AsmTargets(context.Project.Project).Clear();
             var files = context.Catalog.Entries(FileKind.ObjAsm);
             var count = files.Count;
             var seq = 0u;
@@ -150,7 +148,7 @@ namespace Z0
 
                 var blocks = AsmObjects.blocks(context, file, ref seq, rows, alloc);
                 dst.Add(blocks);
-                EmitAsmCodeTable(context, blocks, Paths.AsmCodeTable(context.Project, file.Path.FileName.Format()));
+                EmitAsmCodeTable(context, blocks, Paths.AsmCodeTable(context.Project.Project, file.Path.FileName.Format()));
             }
             return dst.ToArray();
         }
@@ -192,7 +190,7 @@ namespace Z0
         {
             using var alloc = Alloc.create();
             var code = EmitAsmCodeTables(context, alloc);
-            Paths.RecodedTargets(context.Project).Clear();
+            Paths.RecodedTargets(context.Project.Project).Clear();
             for(var i=0; i<code.Count; i++)
                 RecodeBlocks(context.Project, code[i]);
         }
@@ -200,7 +198,7 @@ namespace Z0
         void RecodeBlocks(in IProjectWs ws, in AsmCodeBlocks src)
         {
             const string intel_syntax = ".intel_syntax noprefix";
-            var asmpath = Paths.RecodedPath(ws, src.OriginName.Format());
+            var asmpath = Paths.RecodedPath(ws.Project, src.OriginName.Format());
             var emitting = EmittingFile(asmpath);
             var counter = 0u;
             using var writer = asmpath.AsciWriter();
@@ -227,7 +225,7 @@ namespace Z0
         {
             var rows = ConsolidateRows(context);
             var blocks = AsmObjects.blocks(rows);
-            AppSvc.TableEmit(blocks.View, Paths.ObjBlockPath(context.Project));
+            AppSvc.TableEmit(blocks.View, Paths.ObjBlockPath(context.Project.Project));
             EmitRecoded(context);
             return new ObjDumpBlocks(blocks,rows);
         }
@@ -265,7 +263,7 @@ namespace Z0
             for(var i=0u; i<data.Length; i++)
                 seek(data,i).Seq = i;
 
-            AppSvc.TableEmit(data, Paths.ObjRowsPath(project));
+            AppSvc.TableEmit(data, Paths.ObjRowsPath(project.Project));
             return data;
         }
 

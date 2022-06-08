@@ -8,15 +8,13 @@ namespace Z0
 
     public class CoffServices : AppService<CoffServices>
     {
-        const string scope = "obj.hex";
-
         HexDataReader HexReader => Service(Wf.HexDataReader);
 
         AppSvcOps AppSvc => Wf.AppSvc();
 
-        WsProjects Projects => Service(Wf.WsProjects);
-
         Symbols<CoffSectionKind> SectionKinds;
+
+        AsmObjPaths ObjectPaths => AsmObjects.Paths;
 
         public CoffServices()
         {
@@ -34,17 +32,16 @@ namespace Z0
 
         public Outcome CollectObjHex(WsContext context)
         {
-            var outdir = Projects.ProjectData(context.Project, scope);
-            outdir.Clear();
+            var targets = ObjectPaths.HexTargets(context.Project.Project);
+            targets.Clear();
             var result = Outcome.Success;
-            var project = context.Project;
             var files = context.Catalog.Entries(FileKind.Obj, FileKind.O);
             var count = files.Count;
             for(var i=0; i<count; i++)
             {
                 ref readonly var path = ref files[i].Path;
                 var srcid = text.ifempty(path.SrcId(FileKind.Obj, FileKind.O), path.FileName.WithoutExtension.Format());
-                var dst = outdir + FS.file(srcid, FileKind.HexDat.Ext());
+                var dst = targets.Path(FS.file(srcid, FileKind.HexDat.Ext()));
                 var running = Running(string.Format("Emitting {0}", dst));
                 using var writer = dst.AsciWriter();
                 var data = path.ReadBytes();
@@ -58,7 +55,7 @@ namespace Z0
 
         public HexFileData LoadObjHex(WsContext context)
         {
-            var src = Projects.ProjectData(context.Project, scope).Files(FileKind.HexDat.Ext());
+            var src = ObjectPaths.HexTargets(context.Project.Project).Files(FileKind.HexDat.Ext());
             var count = src.Length;
             var dst = dict<FS.FilePath,Index<HexDataRow>>(count);
             for(var i=0; i<count; i++)
@@ -158,16 +155,16 @@ namespace Z0
         public Index<CoffSection> CollectHeaders(WsContext context)
         {
             var records = CalcObjHeaders(context);
-            AppSvc.TableEmit(records, Projects.Table<CoffSection>(context.Project));
+            AppSvc.TableEmit(records, WsApi.table<CoffSection>(context.Project.Project));
             return records;
         }
 
-        public CoffSymIndex LoadSymIndex(IProjectWs project)
+        public CoffSymIndex LoadSymIndex(ProjectId project)
             => new CoffSymIndex(LoadHeaders(project), LoadSymbols(project));
 
-        public Index<CoffSymRecord> LoadSymbols(IProjectWs project)
+        public Index<CoffSymRecord> LoadSymbols(ProjectId project)
         {
-            var src = Projects.Table<CoffSymRecord>(project);
+            var src = WsApi.table<CoffSymRecord>(project);
             var lines = src.ReadLines(true);
             var count = lines.Count - 1;
             Index<CoffSymRecord> dst = alloc<CoffSymRecord>(count);
@@ -192,9 +189,9 @@ namespace Z0
             return dst;
         }
 
-        public Index<CoffSection> LoadHeaders(IProjectWs project)
+        public Index<CoffSection> LoadHeaders(ProjectId project)
         {
-            var src = Projects.Table<CoffSection>(project);
+            var src = WsApi.table<CoffSection>(project);
             var lines = src.ReadLines(true);
             var count = lines.Count - 1;
             var buffer = alloc<CoffSection>(count);
@@ -329,7 +326,7 @@ namespace Z0
             var records = buffer.ToArray().Sort();
             for(var i=0u; i<records.Length; i++)
                 seek(records,i).Seq = i;
-            AppSvc.TableEmit(records, Projects.Table<CoffSymRecord>(context.Project));
+            AppSvc.TableEmit(records, WsApi.table<CoffSymRecord>(context.Project.Project));
             return records;
         }
     }

@@ -9,7 +9,7 @@ namespace Z0
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct AsmInstructionRow : ISequential<AsmInstructionRow>, IComparable<AsmInstructionRow>
     {
-        public const string TableId = "asm.instruction";
+        const string TableId = "asm.instruction";
 
         public const byte FieldCount = 7;
 
@@ -55,12 +55,12 @@ namespace Z0
         }
 
 
-        public static AsmInstructionRow Empty => default;
-
         uint ISequential.Seq
         {
             get => Seq;
             set => Seq = value;
         }
+
+        public static AsmInstructionRow Empty => default;
     }
 }

@@ -125,9 +125,7 @@ namespace Z0
             var formatter = Tables.formatter<EnvVarSet>(16, RecordFormatKind.KeyValuePairs);
             foreach(var path in paths)
             {
-                result = EnvVarSet.parse(path, out var dst);
-                if(result.Fail)
-                    return result;
+                var dst = EnvVars.set(path);
                 Write(formatter.Format(dst));
             }
 

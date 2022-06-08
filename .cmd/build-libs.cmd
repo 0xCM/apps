@@ -1,5 +1,7 @@
 @echo off
 call %~dp0config.cmd
-call %BuildLibCmd%
+call %BuildZLibCmd%
+
 if errorlevel 1 goto:eof
+call %BuildLibsCmd%
 

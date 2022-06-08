@@ -16,46 +16,43 @@ namespace Z0
             AppDb = db;
         }
 
-        public DbTargets DbTargets(IProjectWs ws)
-            => AppDb.DbTargets(ws);
+        public DbTargets DbTargets(ProjectId id)
+            => AppData.ProjectData(id);
 
-        public DbTargets Targets(IProjectWs ws)
-            => DbTargets(ws);
-
-        public DbTargets AsmTargets(IProjectWs ws)
+        public DbTargets AsmTargets(ProjectId ws)
             => AppDb.AsmTargets(ws);
 
-        public DbTargets HexTargets(IProjectWs ws)
+        public DbTargets HexTargets(ProjectId ws)
             => AppDb.HexTargets(ws);
 
-        public DbTargets RecodedTargets(IProjectWs ws)
-            => AppDb.Project(ProjectNames.McRecoded).Targets($"src/{ws.Name}");
+        public DbTargets RecodedTargets(ProjectId id)
+            => AppDb.Project(ProjectNames.McRecoded).Targets($"src/{id}");
 
-        public FS.FilePath RecodedPath(IProjectWs ws, string origin)
+        public FS.FilePath RecodedPath(ProjectId ws, string origin)
             => RecodedTargets(ws).Path(FS.file(origin.Remove(string.Format(".{0}", FileKind.ObjAsm.Ext().Format())), FileKind.Asm.Ext()));
 
-        public FS.FilePath AsmCodeTable(IProjectWs ws, string origin)
+        public FS.FilePath AsmCodeTable(ProjectId ws, string origin)
             => AsmTargets(ws).Path(FS.file(string.Format("{0}.code", origin), FS.Csv));
 
-        public FS.FilePath CoffSymPath(IProjectWs ws)
-            => Targets(ws).Table<CoffSymRecord>(ws.Name);
+        public FS.FilePath CoffSymPath(ProjectId id)
+            => DbTargets(id).Table<CoffSymRecord>(id);
 
-        public FS.FilePath AsmSyntaxTable(IProjectWs ws)
-            => Targets(ws).Table<AsmSyntaxRow>(ws.Name);
+        public FS.FilePath AsmSyntaxTable(ProjectId id)
+            => DbTargets(id).Table<AsmSyntaxRow>(id);
 
-        public FS.FilePath CodeMap(IProjectWs ws)
-            => Targets(ws).Table<AsmCodeMapEntry>(ws.Name);
+        public FS.FilePath CodeMap(ProjectId ws)
+            => DbTargets(ws).Table<AsmCodeMapEntry>(ws);
 
-        public FS.FilePath InstructionTable(IProjectWs ws)
-            => Targets(ws).Table<AsmInstructionRow>(ws.Name);
+        public FS.FilePath InstructionTable(ProjectId id)
+            => DbTargets(id).Table<AsmInstructionRow>(id);
 
-        public FS.FilePath AsmEncodingTable(IProjectWs ws)
-            => Targets(ws).Table<XedDisasmRow>(ws.Name);
+        public FS.FilePath AsmEncodingTable(ProjectId id)
+            => DbTargets(id).Table<XedDisasmRow>(id);
 
-        public FS.FilePath ObjBlockPath(IProjectWs ws)
-            => Targets(ws).Table<ObjBlock>(ws.Name);
+        public FS.FilePath ObjBlockPath(ProjectId ws)
+            => DbTargets(ws).Table<ObjBlock>(ws);
 
-        public FS.FilePath ObjRowsPath(IProjectWs ws)
-            => Targets(ws).Table<ObjDumpRow>(ws.Name);
+        public FS.FilePath ObjRowsPath(ProjectId ws)
+            => DbTargets(ws).Table<ObjDumpRow>(ws);
     }
 }

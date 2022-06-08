@@ -4,12 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     partial class ProjectCmd
     {
         [CmdOp("project/etl")]
         void Etl()
             => ProjectSvc.Etl(Project());
-
     }
 }

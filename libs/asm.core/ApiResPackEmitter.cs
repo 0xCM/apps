@@ -31,11 +31,15 @@ namespace Z0
             return Emit(ApiCode.LoadBlocks().Storage);
         }
 
+        static FS.FileName BuildRespack => FS.file("build-respack", FS.Cmd);
+
+        static FS.FileName PackRespack => FS.file("deploy-respack", FS.Cmd);
+
         void RunScripts()
         {
-            var build = ScriptRunner.RunControlScript(DevScripts.BuildRespack);
+            var build = ScriptRunner.RunControlScript(BuildRespack);
             iter(build, line => Write(line));
-            var pack = ScriptRunner.RunControlScript(DevScripts.PackRespack);
+            var pack = ScriptRunner.RunControlScript(PackRespack);
             iter(pack, line => Write(line));
         }
 

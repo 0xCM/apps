@@ -31,7 +31,7 @@ namespace Z0
             dst.Env = Env.load().Data;
             dst.Ct = PartToken.create(id);
             dst.Tokens = TokenDispenser.create();
-            dst.Settings = JsonSettings.load(paths.Root + FS.folder("settings") + FS.file(id.Format(), FS.JsonConfig));
+            dst.Settings = JsonSettings.load(control);
             dst.Control = control;
             dst.ControlId = id;
             dst.LogConfig = Loggers.configure(id, paths.Root, logname);

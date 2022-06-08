@@ -9,14 +9,14 @@ namespace Z0
         public void t_bitparser_01()
         {
             var input = "0110";
-            bit.parse(text.slice(input,0,1), out var b0);
-            Claim.eq(bit.Off, b0);
-            bit.parse(text.slice(input,1,1), out var b1);
-            Claim.eq(bit.On, b1);
-            bit.parse(text.slice(input,2,1), out var b2);
-            Claim.eq(bit.On, b2);
-            bit.parse(text.slice(input,3,1), out var b3);
-            Claim.eq(bit.Off, b3);
+            BitParser.parse(text.slice(input,0,1), 1, out byte b0);
+            Claim.eq(bit.Off, (bit)b0);
+            BitParser.parse(text.slice(input,1,1), 1, out byte b1);
+            Claim.eq(bit.On, (bit)b1);
+            BitParser.parse(text.slice(input,2,1), 1, out byte b2);
+            Claim.eq(bit.On, (bit)b2);
+            BitParser.parse(text.slice(input,3,1), 1, out byte b3);
+            Claim.eq(bit.Off, (bit)b3);
         }
 
         public void t_bitparser_true_false()

@@ -95,11 +95,6 @@ namespace Z0
         public const string config = nameof(config);
 
         /// <summary>
-        /// Defines the 'config.json' literal
-        /// </summary>
-        public const string cjson = config + sep + json;
-
-        /// <summary>
         /// Defines the 'coff.headers.txt' literal
         /// </summary>
         public const string coffheaders = coff + sep + headers + sep + txt;
@@ -128,11 +123,6 @@ namespace Z0
         /// Defines the 'deps' literal
         /// </summary>
         public const string deps = nameof(deps);
-
-        /// <summary>
-        /// Defines the 'deps.json' literal
-        /// </summary>
-        public const string djson = deps + sep + json;
 
         /// <summary>
         /// Defines the 'dmp' literal
@@ -198,11 +188,6 @@ namespace Z0
         /// Defines the 'il' literal
         /// </summary>
         public const string il = nameof(il);
-
-        /// <summary>
-        /// Defines the 'json' literal
-        /// </summary>
-        public const string json = nameof(json);
 
         /// <summary>
         /// Defines the 'list' literal
@@ -442,6 +427,26 @@ namespace Z0
         /// Defines the 'xarray' literal
         /// </summary>
         public const string xarray = nameof(xarray);
+
+        /// <summary>
+        /// Defines the 'json' literal
+        /// </summary>
+        public const string json = nameof(json);
+
+        /// <summary>
+        /// Defines the 'deps.json' literal
+        /// </summary>
+        public const string djson = deps + sep + json;
+
+        /// <summary>
+        /// Defines the 'config.json' literal
+        /// </summary>
+        public const string cjson = config + sep + json;
+
+        /// <summary>
+        /// Defines the 'settings.json' literal
+        /// </summary>
+        public const string sjson = settings + sep + json;
 
         public const string xed = nameof(xed);
 

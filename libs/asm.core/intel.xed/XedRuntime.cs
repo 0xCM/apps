@@ -42,8 +42,6 @@ namespace Z0
 
         public XedImport Import => Wf.XedImport(this);
 
-        public WsCmdRunner CmdRunner => Wf.WsCmdRunner();
-
         AppSvcOps AppSvc => Wf.AppSvc();
 
         ConcurrentDictionary<uint,IMachine> Machines = new();
@@ -215,7 +213,7 @@ namespace Z0
         {
             src.Sort();
             var formatter = InstPageFormatter.create();
-            Paths.InstPageRoot().Delete();
+            Paths.InstPages().Delete();
             iter(formatter.GroupFormats(src), x => Emit(x), PllExec);
         }
 

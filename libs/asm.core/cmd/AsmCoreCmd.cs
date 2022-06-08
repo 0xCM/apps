@@ -30,9 +30,6 @@ namespace Z0
 
         ApiCodeFiles CodeFiles => Wf.ApiCodeFiles();
 
-        protected override IWsCmdRunner CmdRunner
-            => Xed.CmdRunner;
-
         IProjectWs Project()
             => CmdRunner.Project();
 

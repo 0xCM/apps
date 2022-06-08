@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class ProjectCmd
+    public class GlobalSvc : AppServices<GlobalSvc>
     {
+        public AppDb AppDb => Service<AppDb>();
     }
 }

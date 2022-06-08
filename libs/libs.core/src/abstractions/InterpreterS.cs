@@ -10,11 +10,11 @@ namespace Z0
 
     using static core;
 
-    public abstract class Interpreter<H> : AppService<H>, IInterpreter
-        where H : Interpreter<H>, new()
+    public abstract class Interpreter<S> : AppService<S>, IInterpreter
+        where S : Interpreter<S>, new()
     {
-        public static H create()
-            => new H();
+        public static S create()
+            => new S();
 
         bool _Initialized;
 
@@ -22,7 +22,7 @@ namespace Z0
 
         protected Interpreter()
         {
-            Name = typeof(H).Name;
+            Name = typeof(S).Name;
             Frequency = new TimeSpan(0, 0, 0, 0, 50);
             CommandQueue = new ConcurrentQueue<string>();
             ExecLog = new ConcurrentDictionary<ulong,ExecToken>();

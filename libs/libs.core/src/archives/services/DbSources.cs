@@ -60,8 +60,8 @@ namespace Z0
         public FS.Files Files(FileKind kind)
             => Sources().Files(kind.Ext(), true);
 
-        public FS.FolderPath Sources(string scope)
-            => Sources() + FS.folder(scope);
+        public DbSources Sources(string scope)
+            => new DbSources(Sources(),scope);
 
         public FS.FileName File(string name, FileKind kind)
             => FS.file(name, kind.Ext());
@@ -76,7 +76,7 @@ namespace Z0
             => Sources() + file;
 
         public FS.FilePath Path(string @class, string name, FileKind kind)
-            => Sources(@class) + File(@class, name,kind);
+            => Sources(@class).Path(File(@class, name,kind));
 
         public FS.FilePath Table<T>()
             where T : struct

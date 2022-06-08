@@ -8,6 +8,6 @@ namespace Z0
     {
         [CmdOp("project/build/builtins")]
         Outcome BuildBuiltIns(CmdArgs args)
-            => ProjectSvc.BuildScoped(Project(), "build-builtins", "builtins");
+            => Scripts.BuildScoped(Project(), "build-builtins", "builtins");
     }
 }

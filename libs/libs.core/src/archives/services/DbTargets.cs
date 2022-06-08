@@ -60,8 +60,14 @@ namespace Z0
         public FS.Files Files(FileKind kind)
             => Root.Files(kind.Ext(), true);
 
-        public DbSources ToSource()
+        public DbSources Sources()
             => new DbSources(Root, Scope);
+
+        public DbSources Sources(string scope)
+            => Sources().Sources(scope);
+
+        public DbTargets Targets()
+            => new DbTargets(Root, Scope);
 
         public DbTargets Targets(string scope)
             => new DbTargets(Scoped(), scope);

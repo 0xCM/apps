@@ -9,4 +9,7 @@
   <Import Project="$(TopDir)imports/common.libs.props"/>
   <Import Project="$(TopDir)imports/libs.props"/>
 
+  <ItemGroup>
+    <EmbeddedResource Include="*.settings.json"  CopyToOutputDirectory="Always" />
+  </ItemGroup>
 </Project>

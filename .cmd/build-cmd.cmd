@@ -2,5 +2,8 @@
 set ProjectId=cmd
 set ShellId=zcmd
 call %~dp0config.cmd
+
 call %BuildZLibCmd%
-call %BuildAreaShellCmd%
+if errorlevel 1 goto:eof
+
+call %BuildShellCmd%

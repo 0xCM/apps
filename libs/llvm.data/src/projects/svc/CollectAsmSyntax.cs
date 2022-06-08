@@ -9,12 +9,12 @@ namespace Z0
     using static core;
 
     partial class ProjectSvc
-    {        
+    {
         public Index<AsmSyntaxRow> CollectAsmSyntax(WsContext context)
         {
             var project = context.Project;
             var logs = project.OutFiles(FileTypes.ext(FileKind.SynAsmLog)).View;
-            var dst = AsmSyntaxTable(project);
+            var dst = AsmSyntaxTable(project.Project);
             var count = logs.Length;
             var buffer = list<AsmSyntaxRow>();
             var seq = 0u;

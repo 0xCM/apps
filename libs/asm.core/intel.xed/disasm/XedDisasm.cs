@@ -12,7 +12,7 @@ namespace Z0
 
         AppDb AppDb => Wf.AppDb();
 
-        WsProjects Projects => Wf.WsProjects();
+        WsScripts Projects => Wf.WsScripts();
 
         AppSvcOps AppSvc => Wf.AppSvc();
 

@@ -8,12 +8,6 @@ namespace Z0
     {
         sealed class Svc : AppServices<Svc>
         {
-            public AppDb AppDb(IWfRuntime wf)
-                => Service<AppDb>(wf);
-
-            public AppSvcOps AppSvc(IWfRuntime wf)
-                => Service<AppSvcOps>(wf);
-
             public OmniScript OmniScript(IWfRuntime wf)
                 => Service<OmniScript>(wf);
 
@@ -47,42 +41,36 @@ namespace Z0
             public Tooling Tooling(IWfRuntime wf)
                 => Service<Tooling>(wf);
 
-            public WsProjects WsProjects(IWfRuntime wf)
-                => Service<WsProjects>(wf);
+            public WsScripts WsScripts(IWfRuntime wf)
+                => Service<WsScripts>(wf);
 
         }
 
-        static Svc Services => Svc.Instance;
+        static Svc AppServices => Svc.Instance;
 
         public static Tooling Tooling(this IWfRuntime wf)
-            => Services.Tooling(wf);
-
-        public static AppSvcOps AppSvc(this IWfRuntime wf)
-            => Services.AppSvc(wf);
-
-        public static AppDb AppDb(this IWfRuntime wf)
-            => Services.AppDb(wf);
+            => AppServices.Tooling(wf);
 
         public static OmniScript OmniScript(this IWfRuntime wf)
-            => Services.OmniScript(wf);
+            => AppServices.OmniScript(wf);
 
         public static CmdLineRunner CmdLineRunner(this IWfRuntime wf)
-            => Services.CmdLineRunner(wf);
+            => AppServices.CmdLineRunner(wf);
 
         public static ScriptRunner ScriptRunner(this IWfRuntime wf)
-            => Services.ScriptRunner(wf);
+            => AppServices.ScriptRunner(wf);
 
         public static DumpArchive DumpArchive(this IWfRuntime wf)
-            => Services.DumpArchive(wf);
+            => AppServices.DumpArchive(wf);
 
         public static WsCmdRunner WsCmdRunner(this IWfRuntime wf)
-            => Services.WsCmdRunner(wf);
+            => AppServices.WsCmdRunner(wf);
 
         public static CheckRunner CheckRunner(this IWfRuntime wf)
-                => Services.CheckRunner(wf);
+            => AppServices.CheckRunner(wf);
 
-        public static WsProjects WsProjects(this IWfRuntime wf)
-            => Services.WsProjects(wf);
+        public static WsScripts WsScripts(this IWfRuntime wf)
+            => AppServices.WsScripts(wf);
 
         public static void RedirectEmissions(this IWfRuntime wf, string name, FS.FolderPath dst)
             => wf.RedirectEmissions(Loggers.emission(name, dst));

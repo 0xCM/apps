@@ -11,7 +11,7 @@ namespace Z0
 
         AppDb AppDb => Wf.AppDb();
 
-        WsProjects Projects => Wf.WsProjects();
+        WsScripts Projects => Wf.WsScripts();
 
         AppSvcOps AppSvc => Wf.AppSvc();
 
@@ -30,14 +30,5 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Xed.PllExec;
         }
-
-        FS.FilePath DisasmFieldsPath(WsContext context, in FileRef src)
-            => XedPaths.DisasmTargets(context.Project) + FS.file(string.Format("{0}.fields", src.Path.FileName.WithoutExtension), FS.Txt);
-
-        FS.FilePath DisasmChecksPath(WsContext context, in FileRef src)
-            => XedPaths.DisasmTargets(context.Project) + FS.file(string.Format("{0}.checks", src.Path.FileName.WithoutExtension), FS.Txt);
-
-        FS.FilePath DisasmOpsPath(WsContext context, in FileRef src)
-            => XedPaths.DisasmTargets(context.Project) + FS.file(string.Format("{0}.ops", src.Path.FileName.WithoutExtension.Format()), FS.Txt);
     }
 }

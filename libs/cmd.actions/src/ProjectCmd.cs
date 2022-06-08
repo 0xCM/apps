@@ -18,14 +18,13 @@ namespace Z0
 
         IToolWs Tools => Ws.Tools();
 
-        // public static ProjectCmd inject(ICmdRunner runner, ProjectCmd dst)
-        //     => dst.With(runner);
+        WsScripts Scripts => Wf.WsScripts();
 
         AsmObjects AsmObjects => Wf.AsmObjects();
 
         ProjectSvc ProjectSvc => Wf.ProjectSvc();
 
-        WsProjects Projects => Wf.WsProjects();
+        WsScripts Projects => Wf.WsScripts();
 
         AsmRegSets Regs => Service(AsmRegSets.create);
 

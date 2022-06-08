@@ -8,11 +8,60 @@ namespace Z0
 
     public class OmniScript : AppService<OmniScript>
     {
-
         ScriptRunner ScriptRunner => Wf.ScriptRunner();
 
-
         CmdLineRunner CmdRunner => Wf.CmdLineRunner();
+
+        // public Outcome<Index<ToolCmdFlow>> RunScript(IProjectDb db, IProjectWs project, ScriptId scriptid, bool runexe = true, Action<ToolCmdFlow> receiver = null)
+        // {
+        //     var result = RunProjectScript(project.Project, scriptid, true, out var flows);
+        //     if(result)
+        //     {
+        //         var exeflow = default(ToolCmdFlow?);
+        //         var count = flows.Length;
+        //         if(count != 0)
+        //         {
+        //             var data = alloc<ToolCmdFlow>(count);
+        //             for(var j=0; j<count; j++)
+        //             {
+        //                 ref readonly var flow = ref skip(flows,j);
+        //                 seek(data,j) = flow;
+        //                 Status(flow.Format());
+        //                 receiver?.Invoke(flow);
+        //                 if(flow.TargetPath.FileName.Is(FS.Exe))
+        //                     exeflow = flow;
+        //             }
+
+
+        //             TableEmit(@readonly(data), ToolCmdFlow.RenderWidths, WsApi.flow(project,scriptid));
+
+        //             if(runexe && exeflow != null)
+        //                 RunExe(exeflow.Value);
+
+        //             return (true, data);
+        //         }
+        //         else
+        //             return true;
+        //     }
+        //     else
+        //         return result;
+        // }
+
+        public void RunExe(ToolCmdFlow flow)
+        {
+            var running = Running(string.Format("Executing {0}", flow.TargetPath.ToUri()));
+            var result = Run(flow.TargetPath, CmdVars.Empty, quiet: true, out var response);
+            if (result.Fail)
+                Error(result.Message);
+            else
+            {
+                for (var i=0; i<response.Length; i++)
+                    Write(string.Format("exec >> {0}",skip(response, i).Content), FlairKind.StatusData);
+
+                Ran(running, string.Format("Executed {0}", flow.TargetPath.ToUri()));
+            }
+        }
+
 
         public Outcome Run(CmdLine cmd, List<string> status = null, List<string> errors = null)
         {
@@ -89,6 +138,21 @@ namespace Z0
             else
                 return (false, errors.Delimit(Chars.NL).Format());
        }
+
+        public Outcome<Index<ToolCmdFlow>> RunScript(ProjectId project, ScriptId script, string srcid)
+        {
+            var cmdflows = list<ToolCmdFlow>();
+            var result = RunProjectScript(project, srcid, script, true, out var flows);
+            if(result)
+            {
+                var count = flows.Length;
+                for(var j=0; j<count; j++)
+                    cmdflows.Add(skip(flows,j));
+                return (true, cmdflows.ToArray());
+            }
+
+            return result;
+        }
 
         public Outcome RunToolScript(FS.FilePath src, CmdVars vars, bool quiet, out ReadOnlySpan<ToolCmdFlow> flows)
         {

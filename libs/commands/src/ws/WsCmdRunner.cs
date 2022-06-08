@@ -12,13 +12,6 @@ namespace Z0
 
         public new FileCatalog ProjectFiles {get; private set;}
 
-        WsUnserviced Unserviced;
-
-        protected override void Initialized()
-        {
-            Unserviced = WsUnserviced.create(Ws);
-        }
-
         public void Project(IProjectWs ws)
         {
             _Project = Require.notnull(ws);
@@ -69,79 +62,6 @@ namespace Z0
             }
             return true;
         }
-
-        public Outcome<Index<ToolCmdFlow>> RunScript(IProjectWs project, ScriptId scriptid, bool runexe = true, Action<ToolCmdFlow> receiver = null)
-        {
-            var result = OmniScript.RunProjectScript(project.Project, scriptid, true, out var flows);
-            if(result)
-            {
-                var exeflow = default(ToolCmdFlow?);
-                var count = flows.Length;
-                if(count != 0)
-                {
-                    var data = alloc<ToolCmdFlow>(count);
-                    for(var j=0; j<count; j++)
-                    {
-                        ref readonly var flow = ref skip(flows,j);
-                        seek(data,j) = flow;
-                        Status(flow.Format());
-                        receiver?.Invoke(flow);
-                        if(flow.TargetPath.FileName.Is(FS.Exe))
-                            exeflow = flow;
-                    }
-
-
-                    TableEmit(@readonly(data), ToolCmdFlow.RenderWidths, Unserviced.ScriptFlowPath(project,scriptid));
-
-                    if(runexe && exeflow != null)
-                        RunExe(exeflow.Value);
-
-                    return (true, data);
-                }
-                else
-                    return true;
-            }
-            else
-                return result;
-        }
-
-        void RunExe(ToolCmdFlow flow)
-        {
-            var running = Running(string.Format("Executing {0}", flow.TargetPath.ToUri()));
-            var result = OmniScript.Run(flow.TargetPath, CmdVars.Empty, quiet: true, out var response);
-            if (result.Fail)
-                Error(result.Message);
-            else
-            {
-                for (var i=0; i<response.Length; i++)
-                    Write(string.Format("exec >> {0}",skip(response, i).Content), FlairKind.StatusData);
-
-                Ran(running, string.Format("Executed {0}", flow.TargetPath.ToUri()));
-            }
-        }
-
-        // public override void RunJobs(string match)
-        // {
-        //     var paths = ProjectDb.JobSpecs();
-        //     var count = paths.Length;
-        //     var counter = 0u;
-        //     for(var i=0; i<count; i++)
-        //     {
-        //         ref readonly var path = ref paths[i];
-        //         if(path.FileName.Format().StartsWith(match))
-        //         {
-        //             var dispatching = Running(string.Format("Dispatching job {0} defined by {1}", counter, path.ToUri()));
-        //             DispatchJobs(path);
-        //             Ran(dispatching, string.Format("Dispatched job {0}", counter));
-        //             counter++;
-        //         }
-        //     }
-
-        //     if(counter == 0)
-        //     {
-        //         Warn(string.Format("No jobs identified by '{0}'", match));
-        //     }
-        // }
 
         bool LoadProjectSources(IProjectWs ws)
         {

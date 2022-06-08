@@ -4,49 +4,47 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class AppDb : AppService<AppDb>, IAppDb
+    public class AppDb : IAppDb
     {
-        FS.FolderPath Home;
+        public static AppDb Service => GlobalSvc.Instance.AppDb;
 
-        FS.FolderPath ProjectRoot;
+        public ref readonly EnvData Env
+            => ref AppData.Env;
 
-        FS.FolderPath ProjectDbRoot;
-
-        protected override void Initialized()
-        {
-            Home = Ws.Root;
-            ProjectRoot = Home + FS.folder("projects");
-            ProjectDbRoot = ProjectRoot + FS.folder("db");
-        }
+        public DbTargets Targets()
+            => AppData.ProjectDb;
 
         public DbTargets Projects()
-            => new DbTargets(ProjectRoot,EmptyString);
+            => AppData.Projects;
+
+        public static FS.FilePath table<T>(ProjectId od)
+            where T : struct
+                => AppData.ProjectData(od).Table<T>(od);
+
+        public FS.FilePath Table<T>(ProjectId id)
+            where T : struct
+                => table<T>(id);
 
         public DbTargets Projects(string scope)
-            => new DbTargets(ProjectRoot, scope);
+            => Projects().Targets(scope);
 
-        public DbTargets Project(string name)
-            => Projects().Targets(name);
+        public DbTargets Project(ProjectId od)
+            => Projects().Targets(od);
 
-        public new DbTargets ProjectDb(string name)
-            => new DbTargets(ProjectDbRoot + FS.folder("projects"), name);
+        public DbTargets ProjectData(ProjectId id)
+            => AppData.ProjectData(id);
 
         public DbTargets CgTargets(CgTarget dst)
-            => new DbTargets(Env.ZDev, $"codegen/{Symbols.format(dst)}/src");
+            => AppData.CgProjects.Targets($"codegen/{Symbols.format(dst)}/src");
 
         public DbTargets CgTargets(CgTarget dst, string scope)
             => CgTargets(dst).Targets(scope);
 
-        [MethodImpl(Inline)]
-        public DbTargets Targets()
-            => new DbTargets(ProjectDbRoot, EmptyString);
-
-        [MethodImpl(Inline)]
         public DbTargets Targets(string scope)
-            => new DbTargets(ProjectDbRoot, scope);
+            => Targets().Targets(scope);
 
         public DbSources Sources(string scope)
-            => new DbSources(ProjectDbRoot + FS.folder("sources"), scope);
+            => AppData.ProjectDb.Sources("sources").Sources(scope);
 
         public DbTargets Logs()
             => Targets("logs");
@@ -55,24 +53,27 @@ namespace Z0
             => Targets($"logs/{scope}");
 
         public DbTargets ApiTargets()
-            => Targets("api");
+            => AppData.ApiTargets;
 
         public DbTargets ApiTargets(string scope)
             => Targets($"api/{scope}");
 
-        public new DbTargets ProjectDb(IProjectWs project, string scope)
-            => new DbTargets(ProjectDb(project.Name), scope);
+        public DbTargets ProjectDb(ProjectId project, string scope)
+            => new DbTargets(ProjectData(project), scope);
 
         public DbTargets DbTargets(IProjectWs ws)
             => Targets($"projects/{ws.Project}");
 
-        public DbTargets AsmTargets(IProjectWs ws)
+        public DbTargets DbTargets(ProjectId ws)
+            => Targets($"projects/{ws}");
+
+        public DbTargets AsmTargets(ProjectId ws)
             => DbTargets(ws).Targets("asm.code");
 
-        public DbTargets HexTargets(IProjectWs ws)
+        public DbTargets HexTargets(ProjectId ws)
             => DbTargets(ws).Targets("obj.hex");
 
-        public DbTargets XedTargets(IProjectWs ws)
+        public DbTargets XedTargets(ProjectId ws)
             => DbTargets(ws).Targets("xed.disasm");
 
         public FileCatalog Files(IProjectWs ws)
@@ -80,5 +81,16 @@ namespace Z0
 
         public FileCatalog Files(ProjectId project)
             => FileCatalog.load(project);
+
+        static SortedDictionary<string,FileKind> FileKindLU;
+
+        static Index<FileKind,Sym<FileKind>> _FileKindSyms;
+
+        static AppDb()
+        {
+            var symbols = Symbols.index<FileKind>().View.ToArray();
+            _FileKindSyms = symbols;
+            FileKindLU = symbols.Map(s => ("." + s.Expr.Format().ToLower(), s.Kind)).ToSortedDictionary(TextLengthComparer.create(true));
+        }
     }
 }
