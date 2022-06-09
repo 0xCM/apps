@@ -18,7 +18,7 @@
     <AsmOperands>$(LibsRoot)asm.operands/z0.asm.operands.csproj</AsmOperands>
     <AsmPrototypes>$(LibsRoot)asm.prototypes/z0.asm.prototypes.csproj</AsmPrototypes>
 
-    <Archives>$(LibsRoot)archives.core/z0.archives.core.csproj</Archives>
+    <Archives>$(LibsRoot)archives/z0.archives.csproj</Archives>
 
     <Cli>$(LibsRoot)cli/z0.cli.csproj</Cli>
     <Commands>$(LibsRoot)commands/z0.commands.csproj</Commands>

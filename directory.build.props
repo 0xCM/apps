@@ -3,32 +3,36 @@
   <Import Project="build.props"/>
 
   <PropertyGroup>
+    <SlnRoot>$(MSBuildThisFileDirectory)</SlnRoot>
     <TopDir>$(MSBuildThisFileDirectory)</TopDir>
-    <Src>$(TopDir)</Src>
-    <AppsRoot>$(Src)apps/</AppsRoot>
-    <LibsRoot>$(Src)libs/</LibsRoot>
-    <ImportDefs>$(LibsRoot)imports/</ImportDefs>
+    <Src>$(MSBuildThisFileDirectory)</Src>
+    <AppsRoot>$(SlnRoot)apps/</AppsRoot>
+    <SlnBuild>$(SlnRoot).build\</SlnBuild>
+    <SlnBin>$(SlnBuild)bin\</SlnBin>
+    <AppLibs>$(SlnRoot)libs/</AppLibs>
+    <ImportDefs>$(SlnRoot)imports/</ImportDefs>
+    <LibsRoot>$(SlnRoot)libs/</LibsRoot>
 
-    <CgRoot>$(Src)cg/</CgRoot>
-    <TestRoot>$(Src)test/</TestRoot>
-    <BuildRootDir>$(TopDir).build\</BuildRootDir>
-    <OutputPath>$(BuildRootDir)bin\$(MsBuildProjectName)\$(Configuration)\</OutputPath>
+    <CgRoot>$(SlnRoot)cg/</CgRoot>
+    <TestRoot>$(SlnRoot)test/</TestRoot>
+    <BuildRootDir>$(SlnRoot).build\</BuildRootDir>
+    <OutputPath>$(SlnBuild)bin\$(MsBuildProjectName)\$(Configuration)\</OutputPath>
     <DocumentationFile>$(OutputPath)$(TargetFramework)\$(MsBuildProjectName).xml</DocumentationFile>
-    <IntermediateRoot>$(BuildRootDir)obj\$(MsBuildProjectName)\$(Configuration)\</IntermediateRoot>
+    <IntermediateRoot>$(SlnBuild)obj\$(MsBuildProjectName)\$(Configuration)\</IntermediateRoot>
     <IntermediateBuildDir>$(IntermediateRoot)</IntermediateBuildDir>
     <BaseIntermediateOutputPath>$(IntermediateRoot)</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(IntermediateRoot)</IntermediateOutputPath>
-    <BuildBinRoot>$(BuildRootDir)bin\</BuildBinRoot>
+    <BuildBinRoot>$(SlnBuild)bin\</BuildBinRoot>
   </PropertyGroup>
 
   <PropertyGroup>
-    <ZLibPath>$(BuildBinRoot)z0.lib\$(Configuration)\$(TargetFramework)\z0.lib.dll</ZLibPath>
-    <ChecksPath>$(BuildBinRoot)z0.test.checks\$(Configuration)\$(TargetFramework)\z0.test.checks.dll</ChecksPath>
-    <ZTestPath>$(BuildBinRoot)z0.test.units\$(Configuration)\$(TargetFramework)\z0.test.units.dll</ZTestPath>
-    <CgCommonPath>$(BuildBinRoot)z0.cg.common\$(Configuration)\$(TargetFramework)\z0.cg.common.dll</CgCommonPath>
-    <CgIntelPath>$(BuildBinRoot)z0.cg.intel\$(Configuration)\$(TargetFramework)\z0.cg.intel.dll</CgIntelPath>
-    <CgLlvmPath>$(BuildBinRoot)z0.cg.llvm\$(Configuration)\$(TargetFramework)\z0.cg.llvm.dll</CgLlvmPath>
-    <LiteralsLibPath>$(BuildBinRoot)z0.literals\$(Configuration)\$(TargetFramework)\z0.literals.dll</LiteralsLibPath>
+    <ZLibPath>$(SlnBin)z0.lib\$(Configuration)\$(TargetFramework)\z0.lib.dll</ZLibPath>
+    <ChecksPath>$(SlnBin)z0.test.checks\$(Configuration)\$(TargetFramework)\z0.test.checks.dll</ChecksPath>
+    <ZTestPath>$(SlnBin)z0.test.units\$(Configuration)\$(TargetFramework)\z0.test.units.dll</ZTestPath>
+    <CgCommonPath>$(SlnBin)z0.cg.common\$(Configuration)\$(TargetFramework)\z0.cg.common.dll</CgCommonPath>
+    <CgIntelPath>$(SlnBin)z0.cg.intel\$(Configuration)\$(TargetFramework)\z0.cg.intel.dll</CgIntelPath>
+    <CgLlvmPath>$(SlnBin)z0.cg.llvm\$(Configuration)\$(TargetFramework)\z0.cg.llvm.dll</CgLlvmPath>
+    <LiteralsLibPath>$(SlnBin)z0.literals\$(Configuration)\$(TargetFramework)\z0.literals.dll</LiteralsLibPath>
   </PropertyGroup>
 
   <Import Project="projects.props"/>

@@ -3,7 +3,6 @@
   <PropertyGroup>
     <ZLibVersion>0.0.110</ZLibVersion>
     <ZLibName>z0.lib</ZLibName>
-    <Version>0.0.111</Version>
     <TargetFramework>net6.0</TargetFramework>
     <TieredCompilation>false</TieredCompilation>
     <TieredCompilationQuickJit>false</TieredCompilationQuickJit>
