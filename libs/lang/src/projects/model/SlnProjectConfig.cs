@@ -19,6 +19,5 @@ namespace Z0
 
             public bool Build;
         }
-
     }
 }

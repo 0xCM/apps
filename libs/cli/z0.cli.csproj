@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <Import Project="$(ImportDefs)common.libs.props"/>
-
   <Import Project="$(ImportDefs)diagnostics.props"/>
 
   <ItemGroup>

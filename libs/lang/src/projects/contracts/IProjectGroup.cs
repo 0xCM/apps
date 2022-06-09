@@ -6,15 +6,17 @@ namespace Z0
 {
     partial class MsProjects
     {
-        public interface IProjectElement
+        public interface IProjectGroup
         {
-            Identifier Name {get;}
+            GroupKind GroupKind {get;}
+
+            void Render(uint margin, ITextBuffer dst);
         }
 
-        public interface IProjectElement<F> : IProjectElement
-            where F : struct, IProjectElement<F>
+        public interface IProjectGroup<T> : IProjectGroup
+            where T : IProjectElement
         {
-
+            DataList<T> Members {get;}
         }
     }
 }

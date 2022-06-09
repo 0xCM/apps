@@ -6,15 +6,17 @@ namespace Z0
 {
     partial class MsProjects
     {
-        public interface IProjectElement
+        public struct ShellSpec
         {
-            Identifier Name {get;}
-        }
+            public string ProjectName;
 
-        public interface IProjectElement<F> : IProjectElement
-            where F : struct, IProjectElement<F>
-        {
+            public string AssemblyName;
 
+            public ShellSpec(string proj, string ass)
+            {
+                ProjectName = proj;
+                AssemblyName = ass;
+            }
         }
     }
 }

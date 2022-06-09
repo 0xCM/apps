@@ -6,23 +6,6 @@ namespace Z0
 {
     partial class MsProjects
     {
-        public enum BuildTargetKind : byte
-        {
-            None,
-
-            Exe,
-
-            Library
-        }
-
-        public enum ProjectKind
-        {
-            None,
-
-            Cs
-        }
-
-
         public struct BuildInfo
         {
             public string SlnId;

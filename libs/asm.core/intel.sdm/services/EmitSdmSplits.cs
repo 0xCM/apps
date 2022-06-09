@@ -100,20 +100,6 @@ namespace Z0.Asm
             }
 
             var range = DocSplits.split(src, TextEncodingKind.Unicode, spec, dst);
-            // using var reader = src.Reader(TextEncodingKind.Unicode);
-            // var counter = 1u;
-            // var count = spec.LastLine - spec.FirstLine + 1;
-            // var range = Lines.range(spec.FirstLine, spec.LastLine, alloc<TextLine>(count));
-            // var lines = range.Edit;
-            // var i=0;
-            // var line = reader.ReadLine();
-            // while(line != null && counter++ <= spec.LastLine && i<count)
-            // {
-            //     line = reader.ReadLine();
-            //     if(counter >= spec.FirstLine)
-            //         seek(lines, i++) = Lines.line(counter, line);
-            // }
-
             var path = SdmPaths.Targets() +  FS.file(string.Format("{0}-{1}", spec.DocId, spec.Unit), FS.Txt);
             Emit(range, path);
             dst.Deposit(range);

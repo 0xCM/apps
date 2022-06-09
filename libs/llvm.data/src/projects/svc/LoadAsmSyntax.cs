@@ -17,7 +17,7 @@ namespace Z0
         {
             const byte FieldCount = AsmSyntaxRow.FieldCount;
             using var reader = src.Utf8LineReader();
-            var rowcount = Lines.linecount(src).Lines - 1;
+            var rowcount = Lines.count(src).Lines - 1;
             var counter = 0u;
             var result = Outcome.Success;
             var buffer = alloc<AsmSyntaxRow>(rowcount);

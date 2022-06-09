@@ -5,8 +5,6 @@
 namespace Z0
 {
     using System.Linq;
-    using System.IO;
-    using System.Diagnostics;
 
     using static core;
 

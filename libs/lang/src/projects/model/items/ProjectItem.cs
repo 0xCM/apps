@@ -6,15 +6,16 @@ namespace Z0
 {
     partial class MsProjects
     {
-        public interface IProjectElement
+        public abstract class ProjectItem : IProjectItem
         {
-            Identifier Name {get;}
-        }
+            public Identifier Name {get;}
 
-        public interface IProjectElement<F> : IProjectElement
-            where F : struct, IProjectElement<F>
-        {
+            protected ProjectItem(string name)
+            {
+                Name = name;
+            }
 
+            public abstract string Format();
         }
     }
 }

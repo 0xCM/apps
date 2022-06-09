@@ -73,7 +73,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ItemGroup items<T>(T[] src)
             where T : IProjectItem
-                => new ItemGroup(src.Map(x => new ProjectItem(x)));
+                => new ItemGroup(src.Select(x => x as IProjectItem));
 
         [MethodImpl(Inline), Op]
         public static ItemGroup items(ProjectItem[] src)
@@ -100,11 +100,10 @@ namespace Z0
         [MethodImpl(Inline)]
         public static string format<T>(T src)
             where T : struct, IProjectElement<T>
-                => src.Format();
+                => src.ToString();
 
         public static string format(Property src)
             => string.Format("<{0}>{1}</{0}>", src.Name, src.Value);
-
 
         public static string format<T>(Property<T> src)
             => string.Format("<{0}>{1}</{0}>", src.Name, src.Value);

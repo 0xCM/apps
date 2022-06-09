@@ -8,6 +8,8 @@ namespace Z0
 
     using static core;
 
+    using static MsProjects;
+
     public partial class CsLang : AppService<CsLang>
     {
         public static CsEmitter emitter()
@@ -18,6 +20,12 @@ namespace Z0
         ConstLookup<CgTarget,string> TargetExpressions;
 
         const string ArrayPackLine = "x{0:x}[{1:D5}:{2:D5}]={3}";
+
+        public ShellGen Shells()
+            => Service(() => ShellGen.create(Wf));
+
+        public FS.FolderPath CodeGenDir(string scope)
+            => Env.ZDev + FS.folder("generated/src") + FS.folder(scope);
 
         [Op]
         public static string hexarray(in MemorySeg src, uint index, Span<char> dst)

@@ -53,7 +53,7 @@ namespace Z0.Asm
 
         public static Index<ProcessAsmRecord> records(FS.FilePath src)
         {
-            var count = Lines.linecount(src,TextEncodingKind.Asci) - 1;
+            var count = Lines.count(src,TextEncodingKind.Asci) - 1;
             var dst = alloc<ProcessAsmRecord>(count);
             load(src,dst).Require();
             return dst;
@@ -64,7 +64,7 @@ namespace Z0.Asm
 
         public static ProcessAsmBuffers load(FS.FilePath path)
         {
-            var count = Lines.linecount(path,TextEncodingKind.Asci) - 1;
+            var count = Lines.count(path,TextEncodingKind.Asci) - 1;
             var buffer = alloc<ProcessAsmRecord>(count);
             var result = load(path, buffer);
             var dst = new ProcessAsmBuffers();
