@@ -50,6 +50,7 @@ namespace Z0
         void AppSetings()
         {
             var settings = Wf.Settings;
+            Write(settings.SourcePath.ToUri());
             iter(settings, setting => Write(setting.Format()));
         }
 

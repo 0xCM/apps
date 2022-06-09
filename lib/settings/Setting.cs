@@ -8,9 +8,9 @@ namespace Z0
 
     public readonly struct Setting : ISetting
     {
-        public string Name {get;}
+        public readonly string Name;
 
-        public dynamic Value {get;}
+        public readonly dynamic Value;
 
         [MethodImpl(Inline)]
         public Setting(string name, dynamic value)
@@ -24,6 +24,12 @@ namespace Z0
             [MethodImpl(Inline)]
             get => core.empty(Name) || Value is null;
         }
+
+        dynamic ISetting.Value
+            => Value;
+
+        string ISetting.Name
+            => Name;
 
         public string ValueText
             => Value?.ToString() ?? EmptyString;

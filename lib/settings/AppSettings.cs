@@ -4,11 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     using static core;
-
-    using SQ = SymbolicQuery;
 
     public sealed class AppSettings : AppService<AppSettings>
     {

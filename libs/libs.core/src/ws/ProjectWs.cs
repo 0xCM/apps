@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static WsNames;
+
     public sealed class ProjectWs : Workspace<ProjectWs>, IProjectWs
     {
         [MethodImpl(Inline)]
@@ -30,5 +32,14 @@ namespace Z0
 
         public Identifier Name
             => Project.Id;
+    }
+
+    partial class XTend
+    {
+        public static IProjectSet Projects(this DevWs src)
+            => ProjectSet.create(src.Root + FS.folder(projects));
+
+        public static IProjectWs Project(this DevWs src, ProjectId id)
+            => ProjectWs.create(src.Root + FS.folder(projects), id);
     }
 }

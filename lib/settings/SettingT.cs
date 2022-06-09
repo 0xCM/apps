@@ -12,12 +12,12 @@ namespace Z0
         /// <summary>
         /// The setting name
         /// </summary>
-        public string Name {get;}
+        public readonly string Name;
 
         /// <summary>
         /// The setting value
         /// </summary>
-        public T Value {get;}
+        public readonly T Value;
 
         [MethodImpl(Inline)]
         public Setting(string name, T value)
@@ -32,6 +32,11 @@ namespace Z0
             get => new (Name, Value.ToString());
         }
 
+        T ISetting<T>.Value
+            => Value;
+
+        string ISetting.Name
+            => Name;
         public string Format()
             => string.Format(RP.Setting, Name, Value);
 

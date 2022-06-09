@@ -6,16 +6,12 @@ namespace Z0
 {
     using api = Settings;
 
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
     [Free]
     public interface ISettings : ITextual
     {
-        Identifier Name
-            => GetType().Name;
+        Identifier Name {get;}
 
-        Settings Settings
-            => api.from(this);
+        Settings Settings {get;}
 
         string ITextual.Format()
             => Settings.Format();

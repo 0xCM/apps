@@ -12,8 +12,72 @@ namespace Z0
     using DP = DataParser;
 
     [ApiHost]
-    public readonly struct Settings : IIndex<Setting>, ILookup<string,Setting>
+    public class Settings : IIndex<Setting>, ILookup<string,Setting>
     {
+       [Op]
+        public static Settings parse(ReadOnlySpan<string> src)
+        {
+            var count = src.Length;
+
+            var buffer = alloc<Setting>(count);
+            ref var dst = ref first(buffer);
+            for(var i=0; i<count; i++)
+                seek(dst, i) = parse(skip(src,i));
+            return buffer;
+        }
+
+        public static Setting parse(string src)
+        {
+            var i = text.index(src, Chars.Colon);
+            var setting = Setting.Empty;
+            if(i > 0)
+            {
+                setting = new Setting(text.trim(text.left(src, i)), text.trim(text.right(src, i)));
+            }
+            return setting;
+        }
+
+        [Op]
+        public static Settings parse(ReadOnlySpan<TextLine> src)
+        {
+            var count = src.Length;
+            var buffer = span<Setting>(count);
+            ref var dst = ref first(buffer);
+            var counter = 0u;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var line = ref skip(src,i);
+                var content = line.Content;
+                var j = text.index(content, Chars.Colon);
+                if(j > 0)
+                {
+                    var name = text.left(content, j).Trim();
+                    var value = text.right(content, j).Trim();
+                    seek(dst, counter++) = new Setting(name, value);
+                }
+            }
+            return slice(buffer,0,counter).ToArray();
+        }
+
+
+        public static Settings from<T>(T src)
+        {
+            var _fields = typeof(T).PublicInstanceFields();
+            var _props = typeof(T).PublicInstanceProperties();
+            var _fieldValues = from f in _fields
+                                let value = f.GetValue(src)
+                                where f != null
+                                select new Setting(f.Name, value);
+
+            var _propValues = from f in _props
+                                let value = f.GetValue(src)
+                                where f != null
+                                select new Setting(f.Name, value);
+
+            return _fieldValues.Union(_propValues).Array();
+        }
+
+
         const NumericKind Closure = UnsignedInts;
 
         readonly Index<Setting> Data;
@@ -277,51 +341,6 @@ namespace Z0
             }
         }
 
-        [Op]
-        public static Settings parse(ReadOnlySpan<string> src)
-        {
-            var count = src.Length;
-
-            var buffer = alloc<Setting>(count);
-            ref var dst = ref first(buffer);
-            for(var i=0; i<count; i++)
-                seek(dst, i) = parse(skip(src,i));
-            return buffer;
-        }
-
-        public static Setting parse(string src)
-        {
-            var i = text.index(src, Chars.Colon);
-            var setting = Setting.Empty;
-            if(i > 0)
-            {
-                setting = new Setting(text.trim(text.left(src, i)), text.trim(text.right(src, i)));
-            }
-            return setting;
-        }
-
-        [Op]
-        public static Settings parse(ReadOnlySpan<TextLine> src)
-        {
-            var count = src.Length;
-            var buffer = span<Setting>(count);
-            ref var dst = ref first(buffer);
-            var counter = 0u;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var line = ref skip(src,i);
-                var content = line.Content;
-                var j = text.index(content, Chars.Colon);
-                if(j > 0)
-                {
-                    var name = text.left(content, j).Trim();
-                    var value = text.right(content, j).Trim();
-                    seek(dst, counter++) = new Setting(name, value);
-                }
-            }
-            return slice(buffer,0,counter).ToArray();
-        }
-
         public static string format(Index<Setting> src)
         {
             var dst = text.buffer();
@@ -352,22 +371,6 @@ namespace Z0
         public static string format<K,V>(K key, V value)
             => string.Format(RP.Setting, key, value);
 
-        public static Settings from<T>(T src)
-        {
-            var _fields = typeof(T).PublicInstanceFields();
-            var _props = typeof(T).PublicInstanceProperties();
-            var _fieldValues = from f in _fields
-                                let value = f.GetValue(src)
-                                where f != null
-                                select new Setting(f.Name, value);
-
-            var _propValues = from f in _props
-                                let value = f.GetValue(src)
-                                where f != null
-                                select new Setting(f.Name, value);
-
-            return _fieldValues.Union(_propValues).Array();
-        }
 
         public static Settings Empty => new Settings(sys.empty<Setting>());
     }

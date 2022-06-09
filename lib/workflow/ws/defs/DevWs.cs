@@ -56,11 +56,11 @@ namespace Z0
         public IWorkspace Docs()
             => DocsWs.create(_WsRoot + FS.folder(docs));
 
-        public IProjectWs Project(ProjectId id)
-            => ProjectWs.create(_WsRoot + FS.folder(projects), id);
+        // public IProjectWs Project(ProjectId id)
+        //     => ProjectWs.create(_WsRoot + FS.folder(projects), id);
 
-        public IProjectSet Projects()
-            => ProjectSet.create(_WsRoot + FS.folder(projects));
+        // public IProjectSet Projects()
+        //     => ProjectSet.create(_WsRoot + FS.folder(projects));
 
         public IWorkspace Sources()
             => SourcesWs.create(_WsRoot + FS.folder(sources));

@@ -12,7 +12,7 @@ namespace Z0
     public class JsonSettings : IJsonSettings
     {
         public static FS.FilePath path(Assembly src)
-            => FS.path(src.Location).FolderPath + FS.file(src.GetSimpleName(),FS.JsonSettings);
+            => FS.path(src.Location).FolderPath + FS.file(src.GetSimpleName(), FS.JsonSettings);
 
         public static IJsonSettings load(Assembly src)
             => load(path(src));
@@ -23,7 +23,7 @@ namespace Z0
             if(src.Exists)
             {
                 absorb(src, dst);
-                return new JsonSettings(dst.Map(kvp => (kvp.Key, kvp.Value)));
+                return new JsonSettings(src, dst.Map(kvp => (kvp.Key, kvp.Value)));
             }
             else
             {
@@ -51,11 +51,19 @@ namespace Z0
             }
         }
 
-        public JsonSettings(IEnumerable<(string,string)> pairs)
-            => Pairs = pairs.Select(pair => new KeyValuePair<string, string>(pair.Item1, pair.Item2)).ToArray();
+        public JsonSettings(FS.FilePath src, IEnumerable<(string,string)> pairs)
+        {
+            SourcePath = src;
+            Pairs = pairs.Select(pair => new KeyValuePair<string, string>(pair.Item1, pair.Item2)).ToArray();
+        }
 
-        public JsonSettings(IEnumerable<KeyValuePair<string,string>> pairs)
-            => Pairs = pairs.ToArray();
+        public JsonSettings(FS.FilePath src, IEnumerable<KeyValuePair<string,string>> pairs)
+        {
+            SourcePath = src;
+            Pairs = pairs.ToArray();
+        }
+
+        public FS.FilePath SourcePath {get;}
 
         IEnumerable<KeyValuePair<string,string>> Pairs {get;}
 
@@ -102,6 +110,8 @@ namespace Z0
         }
 
         public static IJsonSettings Empty
-            => new JsonSettings(new KeyValuePair<string,string>[]{});
+            => new JsonSettings(FS.FilePath.Empty, new KeyValuePair<string,string>[]{});
+
+
     }
 }
