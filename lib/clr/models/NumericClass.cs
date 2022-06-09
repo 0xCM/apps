@@ -7,29 +7,6 @@ namespace Z0
     using K = NumericIndicator;
     using C = NumericClass;
 
-    /// <summary>
-    /// Defines character representations of the partitions identified by the NumericClass kind
-    /// </summary>
-    public enum NumericIndicator : byte
-    {
-        None = 0,
-
-        /// <summary>
-        /// i: Indicates a signed integral type
-        /// </summary>
-        Signed = AsciCode.i,
-
-        /// <summary>
-        /// 'f': Indicates a floating-point type
-        /// </summary>
-        Float = AsciCode.f,
-
-        /// <summary>
-        /// 'u': Indicates an unsigned integral type
-        /// </summary>
-        Unsigned =  AsciCode.u,
-    }
-
     public readonly record struct NumericClass : IComparable<C>
     {
         public static bool parse(ReadOnlySpan<char> src, out C dst)

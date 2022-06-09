@@ -8,7 +8,7 @@ namespace Z0
     using static Sign8Kind;
 
     using K = PrimalCode;
-    using I = PrimalBits.SegPos;
+    using I = PrimalData.SegPos;
 
     /// <summary>
     /// Defines a bitfield that identifies and describes system type primitives

@@ -3,7 +3,6 @@
 namespace Msil
 {
     using System.Reflection.Emit;
-    using System.Reflection;
 
     public sealed class InlineFieldInstruction : ILInlineInstruction
     {

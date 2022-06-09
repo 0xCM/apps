@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 namespace Msil
 {
-    using System;
     using System.Text;
 
     public class DefaultMsilFormatProvider : IMsilFormatProvider

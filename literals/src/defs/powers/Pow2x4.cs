@@ -4,9 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    using K = Pow2;
+    using K = Pow2Scalars;
     using NBK = NumericBaseKind;
 
     /// <summary>

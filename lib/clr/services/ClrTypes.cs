@@ -4,19 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-    using static core;
-
     public readonly struct ClrTypes
     {
         public readonly struct Integers : IRuntimeTypeProvider
         {
             public Type[] Types => IntegerTypes;
         }
-
 
         public readonly struct Unsigned : IRuntimeTypeProvider
         {

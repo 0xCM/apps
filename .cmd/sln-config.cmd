@@ -2,6 +2,7 @@
 set SlnTool=dotnet sln
 set SlnPath=%SlnDir%/%SlnName%
 set SlnZLibCmd=%SlnTool% %SlnPath% add %LibDir%/z0.lib.csproj
+set SlnLiteralsCmd=%SlnTool% %SlnPath% add %SlnRoot%/literals/z0.literals.csproj
 set SlnLibsCmd=%SlnTool% %SlnPath% add %LibsRoot%/z0.libs.csproj
 set SlnCmdCmd=%SlnTool% %SlnPath% add %TopDir%/cmd/z0.cmd.csproj
 

@@ -16,7 +16,7 @@ namespace Z0
 
         public LiteralProviderAttribute()
         {
-            Group = EmptyString;
+            Group = "";
             Kind = 0;
         }
 
@@ -28,13 +28,13 @@ namespace Z0
 
         public LiteralProviderAttribute(ClrLiteralKind kind)
         {
-            Group = EmptyString;
+            Group = "";
             Kind = (byte)kind;
         }
 
         public LiteralProviderAttribute(ClrEnumKind kind)
         {
-            Group = EmptyString;
+            Group = "";
             Kind = (uint)kind << 8;
         }
 

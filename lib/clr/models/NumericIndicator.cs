@@ -4,33 +4,26 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    using K = Pow2;
-    using NBK = NumericBaseKind;
-
     /// <summary>
-    /// Defines integers of the form 2^n where n = 0,..,2
+    /// Defines character representations of the partitions identified by the NumericClass kind
     /// </summary>
-    [SymSource("pow2", NBK.Base16), Flags]
-    public enum Pow2x3 : byte
+    public enum NumericIndicator : byte
     {
-        /// <summary>
-        /// 2^0 = 1
-        /// </summary>
-        [Symbol("2^0")]
-        P2ᐞ00 = K.T00,
+        None = 0,
 
         /// <summary>
-        /// 2^1 = 2
+        /// i: Indicates a signed integral type
         /// </summary>
-        [Symbol("2^1")]
-        P2ᐞ01 = K.T01,
+        Signed = AsciCode.i,
 
         /// <summary>
-        /// 2^2 = 4
+        /// 'f': Indicates a floating-point type
         /// </summary>
-        [Symbol("2^2")]
-        P2ᐞ02 = K.T02,
+        Float = AsciCode.f,
+
+        /// <summary>
+        /// 'u': Indicates an unsigned integral type
+        /// </summary>
+        Unsigned =  AsciCode.u,
     }
 }

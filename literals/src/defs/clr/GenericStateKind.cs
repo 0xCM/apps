@@ -14,3 +14,4 @@ namespace Z0
         ClosedGeneric = 2
     }
 }
+

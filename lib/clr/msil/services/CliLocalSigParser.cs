@@ -2,12 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 namespace Z0
 {
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using Z0;
     using Msil;
-
 
     public class CliLocalSigParser : CliSigParser
     {

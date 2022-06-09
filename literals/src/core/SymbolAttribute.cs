@@ -2,8 +2,6 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-using System;
-
 public class SymbolAttribute : Attribute
 {
     object _Symbol {get;}

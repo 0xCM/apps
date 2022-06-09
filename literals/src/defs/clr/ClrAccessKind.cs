@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     [Flags, SymSource("clr")]
     public enum ClrAccessKind : uint
     {

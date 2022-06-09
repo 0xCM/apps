@@ -2,11 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 namespace Msil
 {
-    using System;
-    using System.Reflection;
     using System.Reflection.Emit;
     using System.Diagnostics;
-
 
     public sealed class DynamicScopeTokenResolver : ICilTokenResolver
     {

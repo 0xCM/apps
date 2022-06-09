@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Pow2;
+    using static Pow2Scalars;
 
     /// <summary>
     /// Defines a literal for each value 2^n - 1, where n = 0,..,64

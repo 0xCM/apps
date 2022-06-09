@@ -6,7 +6,7 @@ namespace Z0
     using static Cil;
 
     [Record(TableId), StructLayout(StructLayout,Pack=1)]
-    public struct CilOpCode : IRecord<CilOpCode>
+    public struct CilOpCode
     {
         public const string TableId ="cil.opcodes";
 

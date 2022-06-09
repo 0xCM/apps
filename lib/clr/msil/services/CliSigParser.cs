@@ -2,8 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 namespace Z0
 {
-    using System;
-
     using sig_elem_type = System.Byte;
     using sig_index_type = System.Byte;
     using sig_index = System.Int32;

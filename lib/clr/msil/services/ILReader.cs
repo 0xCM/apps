@@ -2,10 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 namespace Msil
 {
-    using System;
     using System.Collections;
-    using System.Collections.Generic;
-    using System.Reflection;
     using System.Reflection.Emit;
 
     public sealed class ILReader : IEnumerable<ILInlineInstruction>, IEnumerable

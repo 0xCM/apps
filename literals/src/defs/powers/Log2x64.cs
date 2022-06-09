@@ -6,7 +6,6 @@ namespace Z0
 {
     using P = Pow2x64;
 
-
     /// <summary>
     /// Defines log2 literals for each pow^2 defined by <see cref ='P'/> and requires 6 bits of storage
     /// </summary>

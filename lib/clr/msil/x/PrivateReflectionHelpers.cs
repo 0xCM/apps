@@ -1,12 +1,9 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
-
-using System;
-using System.Diagnostics;
-using System.Reflection;
-
 namespace Msil
 {
+    using System.Diagnostics;
+
     internal static class PrivateReflectionHelpers
     {
         public static FieldInfo GetFieldAssert(this Type type, string name)

@@ -1,10 +1,9 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
-using System;
-using System.Reflection.Emit;
-using System.Reflection;
 namespace Msil
 {
+    using System.Reflection.Emit;
+
     public class ILReaderFactory
     {
         public static ILReader Create(object obj)
@@ -34,13 +33,13 @@ namespace Msil
         }
 
         static readonly Type s_dynamicMethodType = Type.GetType("System.Reflection.Emit.DynamicMethod", throwOnError: true);
-        
+
         static readonly Type s_runtimeMethodInfoType = Type.GetType("System.Reflection.RuntimeMethodInfo", throwOnError: true);
-        
+
         static readonly Type s_runtimeConstructorInfoType = Type.GetType("System.Reflection.RuntimeConstructorInfo", throwOnError: true);
 
         static readonly Type s_rtDynamicMethodType = Type.GetType("System.Reflection.Emit.DynamicMethod+RTDynamicMethod", throwOnError: true);
-        
+
         static readonly FieldInfo s_fiOwner = s_rtDynamicMethodType.GetFieldAssert("m_owner");
     }
 }

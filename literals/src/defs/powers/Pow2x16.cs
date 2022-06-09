@@ -4,16 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    using K = Pow2;
+    using K = Pow2Scalars;
     using NBK = NumericBaseKind;
 
     /// <summary>
-    /// Defines integers of the form 2^n where n = 0,..,31
+    /// Defines integers of the form 2^n where n = 0,..,15
     /// </summary>
     [SymSource("pow2", NBK.Base16), Flags]
-    public enum Pow2x32 : uint
+    public enum Pow2x16 : ushort
     {
         /// <summary>
         /// 2^0 = 1
@@ -110,101 +108,5 @@ namespace Z0
         /// </summary>
         [Symbol("2^15")]
         P2ᐞ15 = K.T15,
-
-        /// <summary>
-        /// 2^16 = 65,536
-        /// </summary>
-        [Symbol("2^16")]
-        P2ᐞ16 = K.T16,
-
-        /// <summary>
-        /// 2^17 = 131,072
-        /// </summary>
-        [Symbol("2^17")]
-        P2ᐞ17 = K.T17,
-
-        /// <summary>
-        /// 2^18 = 262,144
-        /// </summary>
-        [Symbol("2^18")]
-        P2ᐞ18 = K.T18,
-
-        /// <summary>
-        /// 2^19 = 524,288
-        /// </summary>
-        [Symbol("2^19")]
-        P2ᐞ19 = K.T19,
-
-        /// <summary>
-        /// 2^20 = 1,048,576
-        /// </summary>
-        [Symbol("2^20")]
-        P2ᐞ20 = K.T20,
-
-        /// <summary>
-        /// 2^21 = 2,097,152
-        /// </summary>
-        [Symbol("2^21")]
-        P2ᐞ21 = K.T21,
-
-        /// <summary>
-        /// 2^22 = 4,194,304
-        /// </summary>
-        [Symbol("2^22")]
-        P2ᐞ22 = K.T22,
-
-        /// <summary>
-        /// 2^23 = 8,388,608
-        /// </summary>
-        [Symbol("2^23")]
-        P2ᐞ23 = K.T23,
-
-        /// <summary>
-        /// 2^24 = 16,777,216
-        /// </summary>
-        [Symbol("2^24")]
-        P2ᐞ24 = K.T24,
-
-        /// <summary>
-        /// 2^25 = 33,554,432
-        /// </summary>
-        [Symbol("2^25")]
-        P2ᐞ25 = K.T25,
-
-        /// <summary>
-        /// 2^26 = 67,108,864 = 0x4000000
-        /// </summary>
-        [Symbol("2^26")]
-        P2ᐞ26 = K.T26,
-
-        /// <summary>
-        /// 2^27 = 134,217,728 = 0x8000000
-        /// </summary>
-        [Symbol("2^27")]
-        P2ᐞ27 = K.T27,
-
-        /// <summary>
-        /// 2^28 = 268,435,456 = 0x10000000
-        /// </summary>
-        [Symbol("2^28")]
-        P2ᐞ28 = K.T28,
-
-        /// <summary>
-        /// 2^29 = 536,870,912 = 0x20000000,
-        /// </summary>
-        [Symbol("2^29")]
-        P2ᐞ29 = K.T29,
-
-        /// <summary>
-        /// 2^30 = 1,073,741,824 = 0x40000000
-        /// </summary>
-        [Symbol("2^30")]
-        P2ᐞ30 = K.T30,
-
-        /// <summary>
-        /// 2^31 = 2,147,483,648 = 0x80000000
-        /// </summary>
-        [Symbol("2^31")]
-        P2ᐞ31 = K.T31,
     }
 }

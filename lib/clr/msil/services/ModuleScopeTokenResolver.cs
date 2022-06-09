@@ -2,9 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 namespace Msil
 {
-    using System;
-    using System.Reflection;
-
     public sealed class ModuleScopeTokenResolver : ICilTokenResolver
     {
         readonly Module _module;

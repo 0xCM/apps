@@ -8,7 +8,7 @@ namespace Z0
 
     using static core;
 
-    unsafe class HexCodeRunner : IDisposable
+    public unsafe class HexCodeRunner : IDisposable
     {
         readonly NativeBuffer CodeBuffer;
 
