@@ -2,25 +2,29 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
     using System.Linq;
 
     using W = W8;
     using I = Imm8;
 
+    using Asm;
+
     /// <summary>
     /// Defines an 8-bit immediate value
     /// </summary>
     public readonly struct Imm8 : IImm<I,byte>
     {
-        public const byte Width = 8;
+        [Op]
+        public static Index<Imm8R> refined(byte[] src, ImmRefinementKind kind)
+            => src.Map(x => new Imm8R(x));
 
         [Op]
         public static Index<Imm8R> refined(ParameterInfo param)
         {
             if(param.IsRefinedImmediate())
-                return param.ParameterType.GetEnumValues().Cast<byte>().Array().ToImm8Values(ImmRefinementKind.Refined);
+                return refined(param.ParameterType.GetEnumValues().Cast<byte>().Array(),ImmRefinementKind.Refined);
             else
                 return sys.empty<Imm8R>();
         }

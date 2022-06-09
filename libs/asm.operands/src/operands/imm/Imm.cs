@@ -4,15 +4,35 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    [DataWidth(PackedWidth,NativeWidth)]
     public readonly struct Imm : IImm<Imm,ulong>
     {
-        public const byte PackedWidth = 72;
+        public static byte width(ImmKind src)
+            => src switch{
+                ImmKind.Imm8u => 8,
+                ImmKind.Imm8i => 8,
+                ImmKind.Imm16u => 16,
+                ImmKind.Imm16i => 16,
+                ImmKind.Imm32u => 32,
+                ImmKind.Imm32i => 32,
+                ImmKind.Imm64u => 64,
+                ImmKind.Imm64i => 64,
+                _ => 0
+            };
 
-        public const byte NativeWidth = 72;
+        public static NativeSizeCode size(ImmKind src)
+            => src switch{
+                ImmKind.Imm8u => NativeSizeCode.W8,
+                ImmKind.Imm8i => NativeSizeCode.W8,
+                ImmKind.Imm16u => NativeSizeCode.W16,
+                ImmKind.Imm16i => NativeSizeCode.W16,
+                ImmKind.Imm32u => NativeSizeCode.W32,
+                ImmKind.Imm32i => NativeSizeCode.W32,
+                ImmKind.Imm64u => NativeSizeCode.W64,
+                ImmKind.Imm64i => NativeSizeCode.W64,
+                _ => 0
+            };
+
 
         [Op]
         public static string format(in Imm src)
@@ -170,13 +190,13 @@ namespace Z0
         public NativeSize Size
         {
             [MethodImpl(Inline)]
-            get => ImmKind.NativeSize();
+            get => size(ImmKind);
         }
 
         public BitWidth Width
         {
             [MethodImpl(Inline)]
-            get => ImmKind.BitWidth();
+            get => width(ImmKind);
         }
 
         public bool Signed

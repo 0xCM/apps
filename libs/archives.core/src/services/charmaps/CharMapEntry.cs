@@ -4,15 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct CharMapEntry
     {
-        public Hex16 Source {get;}
+        public readonly Hex16 Source;
 
-        public char Target {get;}
+        public readonly char Target;
 
         [MethodImpl(Inline)]
         public CharMapEntry(Hex16 src, char dst)

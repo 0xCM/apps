@@ -21,13 +21,13 @@ namespace Z0
 
         }
 
-        void Emit(ProcDumpIdentity id, ReadOnlySpan<DR.ModuleInfo> src)
+        void Emit(ProcDumpName id, ReadOnlySpan<DR.ModuleInfo> src)
             => AppSvc.TableEmit(src, Archive.Table<DR.ModuleInfo>(id));
 
-        ExecToken Emit(ProcDumpIdentity id, ReadOnlySpan<DR.MethodTableToken> src)
+        ExecToken Emit(ProcDumpName id, ReadOnlySpan<DR.MethodTableToken> src)
             => AppSvc.TableEmit(src, Archive.Table<DR.MethodTableToken>(id));
 
-        void Emit(ProcDumpIdentity id, DP.ModuleProcessPresult src)
+        void Emit(ProcDumpName id, DP.ModuleProcessPresult src)
         {
             Emit(id, src.Modules);
             Emit(id, src.MethodTables);
@@ -37,7 +37,7 @@ namespace Z0
         {
             using var dataTarget = DataTarget.LoadDump(src.Name);
             using var runtime = dataTarget.ClrVersions.Single().CreateRuntime();
-            var id = ProcDumpIdentity.from(src);
+            var id = ProcDumpName.from(src);
             if(id.IsNonEmpty)
             {
                 var running = Running(string.Format("Parsing {0}", src.ToUri()));

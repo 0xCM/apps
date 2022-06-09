@@ -12,8 +12,6 @@ namespace Z0.Asm
     /// </summary>
     public readonly struct Imm16u : IImm<I,ushort>
     {
-        public const byte Width = 16;
-
         public ushort Value {get;}
 
         public static W W => default;

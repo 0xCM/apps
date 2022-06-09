@@ -10,12 +10,9 @@ namespace Z0
     /// <summary>
     /// Describes an 8-bit immediate that is potentially refined
     /// </summary>
-    [DataWidth(Width)]
     public readonly struct Imm8R : IImm<Imm8R,byte>
     {
         public const ImmKind Kind = ImmKind.Imm8u;
-
-        public const byte Width = 8;
 
         public byte Value {get;}
 

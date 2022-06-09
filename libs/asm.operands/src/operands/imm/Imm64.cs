@@ -12,7 +12,6 @@ namespace Z0
     /// <summary>
     /// Defines a 64-bit immediate value
     /// </summary>
-    [DataWidth(Width)]
     public readonly struct Imm64 : IImm<Imm64,ulong>
     {
         [Parser]
@@ -38,8 +37,6 @@ namespace Z0
         }
 
         public const ImmKind Kind = ImmKind.Imm64u;
-
-        public const byte Width = 64;
 
         public ulong Value {get;}
 

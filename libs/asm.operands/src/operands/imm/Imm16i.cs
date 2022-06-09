@@ -14,8 +14,6 @@ namespace Z0.Asm
     {
         public const ImmKind Kind = ImmKind.Imm16i;
 
-        public const byte Width = 16;
-
         public short Value {get;}
 
         public static W W => default;

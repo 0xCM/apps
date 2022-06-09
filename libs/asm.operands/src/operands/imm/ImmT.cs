@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Z0.Asm;
-
     using static Numeric;
     using static core;
 

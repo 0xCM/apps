@@ -12,8 +12,6 @@ namespace Z0.Asm
     /// </summary>
     public readonly struct Imm32 : IImm<I,uint>
     {
-        public const byte Width = 32;
-
         public uint Value {get;}
 
         [MethodImpl(Inline)]

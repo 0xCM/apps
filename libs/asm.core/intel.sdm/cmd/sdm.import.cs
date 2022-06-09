@@ -18,13 +18,13 @@ namespace Z0
         Outcome SdmMarkers(CmdArgs args)
         {
             var result = Outcome.Success;
-            var markers = SQ.markers(typeof(BinaryFormatMarkers));
+            var markers = TextMarkers.discover(typeof(BinaryFormatMarkers));
             var lines = Sdm.LoadImportedVolume(VolDigit.V2);
             var count = (uint)lines.Length;
-            var marker = SQ.marker(nameof(SdmEncodingSigs.RexW), SdmEncodingSigs.RexW);
+            var marker = TextMarkers.define(nameof(SdmEncodingSigs.RexW), SdmEncodingSigs.RexW);
             var matches = SdmMarkers(n5, lines, marker);
             DisplayMatches(lines, marker, matches);
-            marker = SQ.marker(nameof(SdmEncodingSigs.ModRm), SdmEncodingSigs.ModRm);
+            marker = TextMarkers.define(nameof(SdmEncodingSigs.ModRm), SdmEncodingSigs.ModRm);
             matches = SdmMarkers(n6, lines, marker);
             DisplayMatches(lines, marker, matches);
             return result;

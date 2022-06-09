@@ -4,10 +4,5 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IEnvWs : IWorkspace
-    {
-        Settings Globals();
 
-        Settings Settings(string id);
-    }
 }

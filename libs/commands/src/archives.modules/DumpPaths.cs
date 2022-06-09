@@ -16,7 +16,7 @@ namespace Z0
             Root = output;
         }
 
-        public FS.FolderPath Targets(ProcDumpIdentity id)
+        public FS.FolderPath Targets(ProcDumpName id)
             => Root + FS.folder(id.Format());
 
         public ReadOnlySpan<FS.FilePath> Files()
