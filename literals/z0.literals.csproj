@@ -6,10 +6,4 @@
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
-  <Import Project="$(ImportDefs)literals.props"/>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Diagnostics.Tracing.TraceEvent" Version="2.0.44" />
-  </ItemGroup>
-
 </Project>

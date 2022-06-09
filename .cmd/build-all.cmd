@@ -4,6 +4,9 @@ set ProjectId=cmd
 set ShellId=zcmd
 call %~dp0config.cmd
 
+call %BuildLiteralsCmd%
+if errorlevel 1 goto:eof
+
 call %BuildZLibCmd%
 if errorlevel 1 goto:eof
 

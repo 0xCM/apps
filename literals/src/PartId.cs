@@ -3,8 +3,6 @@
 // License     :  MIT
 //-----------------------------------------------------------------------------
 
-using Z0;
-
 /// <summary>
 /// Defines identifiers for assemblies that comprise this ... monstrosity?
 /// </summary>
@@ -233,7 +231,7 @@ public enum PartId : byte
     // ~ -------------------------------------------------------------------------------
 
     [Symbol("gen.shell")]
-    CgShell = (byte)Pow2.T07,
+    CgShell = 128,
 
     [Symbol("intel.shell")]
     IntelShell,
@@ -264,7 +262,6 @@ public enum PartId : byte
 
     [Symbol("test.runner")]
     TestRunner,
-
 
     [Symbol("asm.run")]
     AsmRun,

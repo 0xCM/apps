@@ -1,6 +1,9 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <PropertyGroup>
+    <Literals>$(TopDir)/literals/z0.literals.csproj</Literals>
+    <LiteralsLibName>z0.literals</LiteralsLibName>
+
     <ZLib>$(TopDir)lib/z0.lib.csproj</ZLib>
     <LibsCore>$(LibsRoot)libs.core/z0.libs.core.csproj</LibsCore>
     <ZLibs>$(LibsRoot)z0.libs.csproj</ZLibs>

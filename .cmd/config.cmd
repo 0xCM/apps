@@ -8,6 +8,9 @@ set BuildProps=/p:Configuration=%BuildKind% /p:Platform=%BuildPlatform%
 
 set TopDir=%ZDev%
 set SlnRoot=%ZDev%
+set SlnScripts=%SlnRoot%\.cmd
+set SlnOut=%SlnRoot%\.build
+
 set BuildRoot=%SlnRoot%\.build
 
 set Archives=%ZArchive%
@@ -153,10 +156,17 @@ set MainSln=%SlnRoot%\z0.sln
 set MainBuildLog=%BuildLogs%\z0.build.log
 set BuildMainCmd=dotnet build %MainSln% %BuildProps% -fl -flp:logfile=%MainBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 
+set PID=literals
+set ProjectPath=%SlnRoot%\%PID%\z0.%PID%.csproj
+set ProjectLog=%BuildLogs%\z0.%PID%.build.log
+set BuildLiteralsCmd=dotnet build %ProjectPath% %BuildProps% -fl -flp:logfile=%ProjectLog%;verbosity=%BuildVerbosity% -m:24
+
 set DeploySrc=%ShellBin%
+
 set DeployLog=%EtlLogs%\deploy-%ProjectId%.log
 set DeployDst=%ZBin%
 set DeployCmd=robocopy %DeploySrc% %DeployDst% /log:%DeployLog% /tee /TS /BYTES /V /e
+
 
 
 echo DeploySrc:%DeploySrc% > %DeployLog%

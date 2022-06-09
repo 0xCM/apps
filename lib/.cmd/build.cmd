@@ -1,2 +1,3 @@
 @echo off
-dotnet build %~dp0..\z0.lib.csproj -c Release
+call %~dp0config.cmd
+call %SlnScripts%\build-zlib.cmd
