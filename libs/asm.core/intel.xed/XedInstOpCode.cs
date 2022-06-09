@@ -9,7 +9,7 @@ namespace Z0
     using static AsmOpCodeMaps;
     using static XedRules;
 
-    [Record(TableId)]
+    [Record(TableId), StructLayout(StructLayout,Pack=1)]
     public record struct XedInstOpCode : IComparable<XedInstOpCode>
     {
         const string TableId = "xed.inst.opcodes";
@@ -31,7 +31,7 @@ namespace Z0
 
         [Render(16)]
         public AsmOcValue Value;
-        
+
         [Render(6)]
         public MachineMode Mode;
 
@@ -59,5 +59,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public int CompareTo(XedInstOpCode src)
             => XedRules.cmp(this, src);
-    }    
+    }
 }

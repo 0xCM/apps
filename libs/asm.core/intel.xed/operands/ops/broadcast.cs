@@ -5,13 +5,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     using static core;
     using static XedModels;
     using static XedModels.BCastKind;
-    using static Asm.BroadcastClass;
-    using static Asm.AsmBroadcast;
+    using static BroadcastClass;
+    using static AsmBroadcast;
 
     partial class XedOps
     {

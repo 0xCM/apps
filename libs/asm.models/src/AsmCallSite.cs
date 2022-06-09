@@ -2,9 +2,8 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
-    [DataType("asm.callsite")]
     public readonly struct AsmCallSite
     {
         [MethodImpl(Inline), Op]

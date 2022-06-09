@@ -7,6 +7,7 @@ namespace Z0
 {
     using static AsmOpCodeMaps;
 
+    [StructLayout(StructLayout,Pack=1)]
     public readonly record struct AsmOpCodeMap : IComparable<AsmOpCodeMap>
     {
         public readonly XedOpCodeKind Kind;

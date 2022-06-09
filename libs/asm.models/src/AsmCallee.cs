@@ -2,12 +2,11 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
     /// <summary>
     /// Represents the target of an invocation
     /// </summary>
-    [DataType("asm.callee")]
     public struct AsmCallee
     {
         [MethodImpl(Inline), Op]

@@ -6,7 +6,6 @@
 namespace Z0
 {
     using static core;
-    using static XedRules;
 
     public class XedOpCodeKinds
     {
@@ -90,5 +89,4 @@ namespace Z0
             return buffer;
         }
     }
-    
 }
