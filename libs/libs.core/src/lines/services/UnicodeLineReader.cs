@@ -4,9 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.IO;
-
     using static core;
+
+    partial class XTend
+    {
+        [Op]
+        public static UnicodeLineReader UnicodeLineReader(this FS.FilePath src)
+            => new UnicodeLineReader(src.UnicodeReader());
+    }
 
     public ref struct UnicodeLineReader
     {

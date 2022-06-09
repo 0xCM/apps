@@ -58,7 +58,7 @@ namespace Z0
         protected void UpdateToolEnv(out Settings dst)
         {
             var path = ToolWs.Toolbase.Path(FS.file("show-env-config", FS.Cmd));
-            var cmd = Cmd.cmdline(path.Format(PathSeparator.BS));
+            var cmd = AppCmd.cmdline(path.Format(PathSeparator.BS));
             dst = AppSettings.Load(OmniScript.RunCmd(cmd));
         }
 

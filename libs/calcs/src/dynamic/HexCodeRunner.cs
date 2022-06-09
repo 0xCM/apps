@@ -59,9 +59,9 @@ namespace Z0
 
         void Demos(object[] args)
         {
-            DynamicDemos.runA(result => Push(result));
-            DynamicDemos.runB(result => Push(result));
-            DynamicDemos.runC(result => Push(result));
+            AlgDynamic.runA(result => Push(result));
+            AlgDynamic.runB(result => Push(result));
+            AlgDynamic.runC(result => Push(result));
         }
     }
 }

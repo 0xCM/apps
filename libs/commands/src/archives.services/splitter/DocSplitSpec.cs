@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Record(TableId)]
-    public struct DocSplitSpec : IRecord<DocSplitSpec>
+    public struct DocSplitSpec
     {
         public const string TableId = "splits";
 

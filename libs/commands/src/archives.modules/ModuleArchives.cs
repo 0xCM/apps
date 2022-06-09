@@ -13,6 +13,5 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ModuleArchive archive(FS.FolderPath root)
             => new ModuleArchive(root);
-
     }
 }

@@ -5,7 +5,7 @@
 namespace Z0.Asm
 {
     [Record(TableId)]
-    public struct DumpBinDisasm : IRecord<DumpBinDisasm>
+    public struct DumpBinDisasm
     {
         [MethodImpl(Inline), Op]
         public static DumpBinDisasm define(MemoryAddress offset, AsmExpr statement)

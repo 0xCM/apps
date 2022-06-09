@@ -8,10 +8,10 @@ namespace Z0
 
     using static core;
 
-    using C = CalculatorCode;
-    using I = CalcDemo.OpIndex;
+    using C = AlgDynamic.CalcBytes;
+    using I = AlgDynamic.OpIndex;
 
-    public readonly struct DynamicDemos
+    partial class AlgDynamic
     {
         public static void runA(Action<string> emitter)
         {
@@ -47,9 +47,9 @@ namespace Z0
 
         public static void runC(Action<string> emitter)
         {
-            CalcDemo.compute();
+            compute();
             var dst = text.buffer();
-            CalcDemo.run(dst);
+            run(dst);
             emitter(dst.Emit());
         }
 

@@ -6,11 +6,10 @@ namespace Z0
 {
     public readonly struct ModuleArchive : IModuleArchive
     {
-
         public readonly FS.FolderPath Root {get;}
 
         [MethodImpl(Inline)]
-        internal ModuleArchive(FS.FolderPath root)
+        public ModuleArchive(FS.FolderPath root)
             => Root = root;
 
         public Index<ManagedDllFile> ManagedDll()

@@ -4,16 +4,35 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static CalculatorCode;
-    using static ApiClasses;
     using static core;
 
-    using I = CalcDemo.OpIndex;
+    using static AlgDynamic.CalcBytes;
+    using static ApiClasses;
+
+    using I = AlgDynamic.OpIndex;
     using K = ApiClasses;
 
-    [ApiHost]
-    public readonly struct CalcDemo
+    public partial class AlgDynamic
     {
+        public ref struct BinaryOperators<T>
+        {
+            readonly Span<BinaryOp<T>> Operators;
+
+            byte Offset;
+
+            public BinaryOperators(Span<BinaryOp<T>> src)
+            {
+                Operators = src;
+                Offset = 0;
+            }
+
+            public ref BinaryOp<T> this[I index]
+            {
+                [MethodImpl(Inline)]
+                get => ref seek(Operators,(byte)index);
+            }
+        }
+
         public enum OpIndex : byte
         {
             Add = 0,
@@ -177,7 +196,7 @@ namespace Z0
 
         public static byte compute()
         {
-            var ops = DynamicDemos.arithmetic();
+            var ops = arithmetic();
             byte a = 1;
             byte b = 2;
             byte c = 0;
@@ -212,8 +231,8 @@ namespace Z0
             ref readonly var mul = ref slots[OpIndex.Mul];
             ref readonly var div = ref slots[OpIndex.Div];
 
-            var mulCode = CalculatorCode.mul_ᐤ8uㆍ8uᐤ;
-            var divCode = CalculatorCode.div_ᐤ8uㆍ8uᐤ;
+            var mulCode = CalcBytes.mul_ᐤ8uㆍ8uᐤ;
+            var divCode = CalcBytes.div_ᐤ8uㆍ8uᐤ;
             var size = mulCode.Length;
 
             var x = ScalarCast.uint8(4);
@@ -243,8 +262,8 @@ namespace Z0
             ref readonly var mul = ref slots[OpIndex.Mul];
             ref readonly var div = ref slots[OpIndex.Div];
 
-            var mulCode = CalculatorCode.mul_ᐤ8uㆍ8uᐤ;
-            var divCode = CalculatorCode.div_ᐤ8uㆍ8uᐤ;
+            var mulCode = CalcBytes.mul_ᐤ8uㆍ8uᐤ;
+            var divCode = CalcBytes.div_ᐤ8uㆍ8uᐤ;
             var size = mulCode.Length;
 
             var x = ScalarCast.uint8(4);

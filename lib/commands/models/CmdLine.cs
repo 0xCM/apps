@@ -19,6 +19,10 @@ namespace Z0
     /// </summary>
     public readonly struct CmdLine
     {
+        [MethodImpl(Inline), Op]
+        public static CmdLine create(params string[] src)
+            => new CmdLine(src);
+
         readonly Index<string> Data;
 
         [MethodImpl(Inline)]

@@ -20,6 +20,8 @@ namespace Z0.llvm
 
         OmniScript OmniScript => Wf.OmniScript();
 
+        AppSvcOps AppSvc => Wf.AppSvc();
+
         public LlvmToolset()
         {
             Toolset = Toolset.Empty;
@@ -182,7 +184,7 @@ namespace Z0.llvm
             }
             var dst = ToolsetDir + Tables.filename<ToolProfile>();
             var final = profiles.ViewDeposited();
-            TableEmit(final, ToolProfile.RenderWidths, dst);
+            AppSvc.TableEmit(final, dst);
             return result;
         }
 

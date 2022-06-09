@@ -5,15 +5,52 @@
 namespace Z0
 {
     using static core;
+    using static WsAtoms;
 
     [ApiHost]
-    public partial class Tooling : AppService<Tooling>
+    public class Tooling : AppService<Tooling>
     {
         const NumericKind Closure = UnsignedInts;
 
         const byte FieldCount = ToolProfile.FieldCount;
 
         IToolWs ToolWs => new ToolWs(AppData.ToolBase);
+
+        public static IToolWs configure(IToolWs ws)
+        {
+            var subdirs = ws.Root.SubDirs();
+            var counter = 0u;
+            var dst = ws.Inventory();
+            var configs = list<ToolConfig>();
+            foreach(var dir in subdirs)
+            {
+                var configCmd = dir + FS.file(config, FS.Cmd);
+                if(configCmd.Exists)
+                {
+                    var src =  dir + FS.folder(logs) + FS.file(config, FS.Log);
+                    if(src.Exists)
+                    {
+                        var result = parse(src.ReadText(), out ToolConfig c);
+                        if(result)
+                            configs.Add(c);
+                    }
+                }
+            }
+            return ws.Configure(configs.ToArray());
+        }
+
+        [Op]
+        public static Outcome parse(string src, out ToolConfig dst)
+            => ToolConfig.parse(src, out dst);
+
+        [Op]
+        public static ToolCmdSpec spec(FS.FilePath path, params ToolCmdArg[] args)
+        {
+            var dst = new ToolCmdSpec();
+            dst.ToolPath = path;
+            dst.Args = args.Select(x => x.Format());
+            return dst;
+        }
 
         public Settings LoadSettings()
         {
@@ -107,6 +144,39 @@ namespace Z0
                     }
                 }
             }
+        }
+
+        public static async Task<int> start(ToolCmdSpec spec, ToolCmdContext context, Action<string> status, Action<string> error)
+        {
+            var info = new ProcessStartInfo
+            {
+                FileName = spec.ToolPath.Name,
+                Arguments = spec.Args.Format(),
+                RedirectStandardError = true,
+                RedirectStandardOutput = true,
+                RedirectStandardInput = true
+            };
+
+            var process = new Process {StartInfo = info};
+
+            if (!context.WorkingDir.IsNonEmpty)
+                process.StartInfo.WorkingDirectory = context.WorkingDir.Name;
+
+            iter(context.EnvVars.Storage, v => process.StartInfo.Environment.Add(v.Name, v.Value));
+            process.OutputDataReceived += (s,d) => status(d.Data ?? EmptyString);
+            process.ErrorDataReceived += (s,d) => error(d.Data ?? EmptyString);
+            process.Start();
+            process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
+            return await wait(process);
+        }
+
+        static async Task<int> wait(Process process)
+        {
+            return await Task.Run(() => {
+                process.WaitForExit();
+                return Task.FromResult(process.ExitCode);
+            });
         }
 
         public ConstLookup<ToolId,ToolProfile> LoadProfiles(FS.FolderPath dir)

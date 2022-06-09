@@ -4,10 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct Cmd
+    public interface ISettingsAdapter<T>
+        where T : ISettingsAdapter<T>, new()
     {
-        [MethodImpl(Inline), Op]
-        public static ToolHelp help(ToolId tool, string doc, string description, CmdOptionSpec[] options)
-            => new ToolHelp(tool, doc, description, options);
+        T Adapt(IJsonSettings source);
     }
 }

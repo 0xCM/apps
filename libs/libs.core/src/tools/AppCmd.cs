@@ -6,6 +6,10 @@ namespace Z0
 {
     public class AppCmd
     {
+        [MethodImpl(Inline), Op]
+        public static CmdLine cmdline(params string[] src)
+            => new CmdLine(src);
+
         static MsgPattern EmptyArgList => "No arguments specified";
 
         static MsgPattern ArgSpecError => "Argument specification error";

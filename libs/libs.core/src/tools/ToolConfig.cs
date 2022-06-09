@@ -10,7 +10,7 @@ namespace Z0
     /// Defines a configuration for an identified tool
     /// </summary>
     [StructLayout(LayoutKind.Sequential), Record(TableId)]
-    public struct ToolConfig : IRecord<ToolConfig>
+    public struct ToolConfig
     {
         [Op]
         public static Outcome parse(string src, out ToolConfig dst)

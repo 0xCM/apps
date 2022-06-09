@@ -2,15 +2,12 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Alg
+namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using static core;
 
-    [ApiHost("alg.intersections")]
-    public readonly partial struct Intersections
+    [ApiHost]
+    public class Algs
     {
         [Op]
         public static unsafe int intersect(ushort* rcx, int rdx,  ushort* r8, int r9, ushort* dst)

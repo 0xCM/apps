@@ -11,17 +11,10 @@ namespace Z0
     using static Chars;
     using static core;
 
-    public interface ISettingsAdapter<T>
-        where T : ISettingsAdapter<T>, new()
-    {
-        T Adapt(IJsonSettings source);
-    }
-
     [ApiHost]
     public readonly struct JsonData
     {
         const NumericKind Closure = UInt64k;
-
 
         public static ISettingsAdapter<T> Adapt<T>(IJsonSettings src)
             where T : ISettingsAdapter<T>, new()

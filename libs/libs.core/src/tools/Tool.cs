@@ -4,8 +4,38 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     public readonly struct Tool : ITool
     {
+        [MethodImpl(Inline), Op]
+        public static ToolScript script(ToolId tool, ScriptId script, CmdVars vars)
+            => new ToolScript(tool,script,vars);
+
+        [Op, Closures(UInt64k)]
+        public static ToolCmd command<T>(in T spec)
+            where T : struct
+        {
+            var t = typeof(T);
+            var fields = Clr.fields(t);
+            var count = fields.Length;
+            var reflected = alloc<ClrFieldValue>(count);
+            ClrFields.values(spec, fields, reflected);
+            var buffer = alloc<ToolCmdArg>(count);
+            var target = span(buffer);
+            var source = @readonly(reflected);
+            for(var i=0u; i<count; i++)
+            {
+                ref readonly var fv = ref skip(source,i);
+                seek(target,i) = new ToolCmdArg(fv.Field.Name, fv.Value?.ToString() ?? EmptyString);
+            }
+            return new ToolCmd(CmdId.from(t), buffer);
+        }
+
+        [MethodImpl(Inline), Op]
+        public static ToolHelp help(ToolId tool, string doc, string description, CmdOptionSpec[] options)
+            => new ToolHelp(tool, doc, description, options);
+
         public readonly ToolId ToolId;
 
         [MethodImpl(Inline)]

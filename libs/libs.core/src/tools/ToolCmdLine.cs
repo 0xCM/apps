@@ -8,11 +8,11 @@ namespace Z0
     {
         [MethodImpl(Inline), Op]
         public static ToolCmdLine define(ToolId tool, params string[] src)
-            => new ToolCmdLine(tool, Cmd.cmdline(src));
+            => new ToolCmdLine(tool, AppCmd.cmdline(src));
 
         [MethodImpl(Inline), Op]
         public static ToolCmdLine define(ToolId tool, CmdModifier modifier, params string[] src)
-            => new ToolCmdLine(tool, modifier, Cmd.cmdline(src));
+            => new ToolCmdLine(tool, modifier, AppCmd.cmdline(src));
 
         public readonly ToolId Tool;
 

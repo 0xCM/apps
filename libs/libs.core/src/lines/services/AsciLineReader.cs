@@ -4,9 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.IO;
-
     using static core;
+
+    partial class XTend
+    {
+        [Op]
+        public static AsciLineReader AsciLineReader(this FS.FilePath src)
+            => new AsciLineReader(src.AsciReader());
+    }
 
     public ref struct AsciLineReader
     {
