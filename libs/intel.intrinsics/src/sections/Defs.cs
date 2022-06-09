@@ -22,10 +22,10 @@ namespace Z0
 
                 public __m128i<uint> C;
 
-                public imm8 Imm8;
+                public Imm8 Imm8;
 
                 [MethodImpl(Inline)]
-                public mm_ternarylogic_epi32(__m128i<uint> a, __m128i<uint> b, __m128i<uint> c, imm8 imm8)
+                public mm_ternarylogic_epi32(__m128i<uint> a, __m128i<uint> b, __m128i<uint> c, Imm8 imm8)
                 {
                     A = a;
                     B = b;
@@ -96,10 +96,10 @@ namespace Z0
 
                 public readonly __m128i<uint> B;
 
-                public readonly imm8 Imm8;
+                public readonly Imm8 Imm8;
 
                 [MethodImpl(Inline)]
-                public mm_blend_epi32(in __m128i<uint> a, in __m128i<uint> b, imm8 imm8)
+                public mm_blend_epi32(in __m128i<uint> a, in __m128i<uint> b, Imm8 imm8)
                 {
                     A = a;
                     B = b;

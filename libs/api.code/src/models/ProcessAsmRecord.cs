@@ -53,7 +53,7 @@ namespace Z0
 
             dst.Statement = text.trim(skip(parts,i++));
 
-            outcome += AsmHexCode.asmhex(skip(parts,i++), out dst.Encoded);
+            outcome += AsmHexCode.parse(skip(parts,i++), out dst.Encoded);
             if(outcome.Fail)
                 return (false, string.Format(ErrorPattern, nameof(dst.Encoded), src.LineNumber));
 

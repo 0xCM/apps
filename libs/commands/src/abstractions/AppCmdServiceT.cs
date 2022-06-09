@@ -110,6 +110,16 @@ namespace Z0
             return true;
         }
 
+        [CmdOp("env/settings")]
+        protected Outcome ShowEnv(CmdArgs args)
+        {
+            var result = Outcome.Success;
+            var db = EnvWs.create(Wf);
+            var settings = args.Count == 0 ? db.Globals() : db.Settings(arg(args,0));
+            iter(settings, s => Write(s.Format()));
+            return result;
+        }
+
         [CmdOp("env/tools")]
         protected Outcome ShowToolEnv(CmdArgs args)
         {
@@ -213,15 +223,6 @@ namespace Z0
             EmittedFile(emitting, Dispatcher.SupportedActions.Length);
         }
 
-        [CmdOp(".env")]
-        protected Outcome ShowEnv(CmdArgs args)
-        {
-            var result = Outcome.Success;
-            var db = Ws.EnvDb();
-            var settings = args.Count == 0 ? db.Globals() : db.Settings(arg(args,0));
-            iter(settings, s => Write(s.Format()));
-            return result;
-        }
 
         [CmdOp("cmd/cd")]
         protected Outcome ChangeDir(CmdArgs args)

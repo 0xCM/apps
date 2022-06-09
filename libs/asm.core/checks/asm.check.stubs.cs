@@ -8,7 +8,7 @@ namespace Z0
 
     using static core;
 
-    using K = Asm.AsmOcTokenKind;
+    using K = AsmOcTokenKind;
     using P = Pow2x32;
 
     partial class AsmChecks

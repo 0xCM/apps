@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     /// <summary>
     /// Defines a signed 16-bit displacement
     /// </summary>
@@ -39,7 +37,7 @@ namespace Z0
             return result;
         }
 
-        public short Value {get;}
+        public readonly short Value {get;}
 
         public NativeSize Size
             => NativeSizeCode.W16;

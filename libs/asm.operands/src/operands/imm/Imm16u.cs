@@ -5,13 +5,12 @@
 namespace Z0.Asm
 {
     using W = W16;
-    using I = imm16u;
+    using I = Imm16u;
 
     /// <summary>
     /// Defines a 16-bit immediate value
     /// </summary>
-    [DataWidth(Width,Width)]
-    public readonly struct imm16u : IImm<I,ushort>
+    public readonly struct Imm16u : IImm<I,ushort>
     {
         public const byte Width = 16;
 
@@ -20,7 +19,7 @@ namespace Z0.Asm
         public static W W => default;
 
         [MethodImpl(Inline)]
-        public imm16u(ushort src)
+        public Imm16u(ushort src)
             => Value = src;
 
         public AsmOpClass OpClass
@@ -39,15 +38,15 @@ namespace Z0.Asm
             => NativeSizeCode.W16;
 
         public string Format()
-            => AsmRender.imm(this);
+            => Imm.format(this);
 
         public override string ToString()
             => Format();
 
-        public uint Hash
+        public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => alg.hash.calc(Value);
+            get => Value;
         }
 
         public override int GetHashCode()
@@ -105,7 +104,7 @@ namespace Z0.Asm
             => new Imm(src.ImmKind, src.Value);
 
         [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(imm16u src)
+        public static implicit operator AsmOperand(Imm16u src)
             => new AsmOperand(src);
      }
 }

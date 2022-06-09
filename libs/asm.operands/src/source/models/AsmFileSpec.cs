@@ -2,13 +2,37 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
     public readonly struct AsmFileSpec
     {
-        public Identifier Name {get;}
+        [MethodImpl(Inline), Op]
+        public static AsmFileSpec define(Identifier name, params IAsmSourcePart[] parts)
+            => new AsmFileSpec(name, parts);
 
-        public Index<IAsmSourcePart> Parts {get;}
+        public static string format(in AsmFileSpec src)
+        {
+            var dst = text.buffer();
+            var parts = src.Parts;
+            var count = parts.Count;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var part = ref parts[i];
+                dst.AppendLine(part.Format());
+                switch(part.PartKind)
+                {
+                    case AsmCellKind.Block:
+                        dst.AppendLine();
+                    break;
+                }
+
+            }
+            return dst.Emit();
+        }
+
+        public readonly Identifier Name;
+
+        public readonly Index<IAsmSourcePart> Parts;
 
         [MethodImpl(Inline)]
         public AsmFileSpec(Identifier name, IAsmSourcePart[] parts)
@@ -18,7 +42,7 @@ namespace Z0.Asm
         }
 
         public string Format()
-            => AsmRender.file(this);
+            => format(this);
 
         public override string ToString()
             => Format();

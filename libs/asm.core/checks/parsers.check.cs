@@ -30,7 +30,6 @@ namespace Z0
         {
             var parser = DigitParsers.chars(@base);
             var buffer = CharBlocks.alloc(n32);
-
         }
 
         void CheckDigitParser(Base2 @base)

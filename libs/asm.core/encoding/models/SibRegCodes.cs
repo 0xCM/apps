@@ -2,28 +2,26 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
-    using System;
-
     [Record(TableId)]
     public struct SibRegCodes
     {
-        public const string TableId = "sib.regcodes";
+        const string TableId = "sib.regcodes";
 
-        public const byte FieldCount = 5;
-
+        [Render(5)]
         public text7 Base;
 
+        [Render(5)]
         public text7 Index;
 
+        [Render(5)]
         public uint2 Scale;
 
+        [Render(3)]
         public Hex8 Hex;
 
+        [Render(10)]
         public CharBlock10 Bits;
-
-        public static ReadOnlySpan<byte> RenderWidths
-            => new byte[FieldCount]{5,5,5,3,10};
     }
 }

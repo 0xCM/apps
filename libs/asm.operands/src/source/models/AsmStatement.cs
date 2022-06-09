@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
     public readonly struct AsmStatement : ITextual, INullity, IEquatable<AsmStatement>, IComparable<AsmStatement>, IAsmSourcePart
     {
@@ -57,7 +57,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public static implicit operator AsmCell(AsmStatement src)
-            => asm.cell(src.Format(), src.PartKind);
+            => new AsmCell(src.PartKind, src.Format());
 
         public static AsmStatement Empty
         {

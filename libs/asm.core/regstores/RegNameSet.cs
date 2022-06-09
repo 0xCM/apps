@@ -10,7 +10,6 @@ namespace Z0.Asm
 
         readonly Index<AsmRegName> Data;
 
-
         [MethodImpl(Inline)]
         public RegNameSet(text15 name, AsmRegName[] src)
         {

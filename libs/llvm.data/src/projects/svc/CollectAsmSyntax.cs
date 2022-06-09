@@ -106,7 +106,7 @@ namespace Z0
                 if(xi > 0)
                 {
                     var enc = text.right(body,xi + EncodingMarker.Length + 1);
-                    if(AsmHexCode.asmhex(enc, out var encoding))
+                    if(AsmHexCode.parse(enc, out var encoding))
                     {
                         record.Encoded = encoding;
                         ip += encoding.Size;

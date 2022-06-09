@@ -103,7 +103,7 @@ namespace Z0.Asm
         }
 
         public string Format()
-            => IsEmpty ? EmptyString : AsmRender.asmbyte(this);
+            => AsmBytes.format(this);
 
         public override string ToString()
             => Format();
@@ -121,7 +121,7 @@ namespace Z0.Asm
         public static implicit operator byte(Sib src)
             => src.Value();
 
-       [MethodImpl(Inline)]
+        [MethodImpl(Inline)]
         public static explicit operator Sib(byte src)
             => new Sib(src);
 

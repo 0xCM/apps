@@ -4,16 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     using W = W8;
-    using I = imm8R;
+    using I = Imm8R;
 
     /// <summary>
     /// Describes an 8-bit immediate that is potentially refined
     /// </summary>
-    [DataWidth(Width,Width)]
-    public readonly struct imm8R : IImm<imm8R,byte>
+    [DataWidth(Width)]
+    public readonly struct Imm8R : IImm<Imm8R,byte>
     {
         public const ImmKind Kind = ImmKind.Imm8u;
 
@@ -22,7 +20,7 @@ namespace Z0
         public byte Value {get;}
 
         [MethodImpl(Inline)]
-        public imm8R(byte value)
+        public Imm8R(byte value)
             => Value = value;
 
         public ImmKind ImmKind
@@ -37,8 +35,14 @@ namespace Z0
         public override string ToString()
             => Format();
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Value;
+        }
+
         [MethodImpl(Inline)]
-        public static implicit operator byte(imm8R imm8)
+        public static implicit operator byte(Imm8R imm8)
             => imm8.Value;
 
         [MethodImpl(Inline)]

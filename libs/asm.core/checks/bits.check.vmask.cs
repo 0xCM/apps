@@ -22,12 +22,5 @@ namespace Z0
             Write(v1bits.Format(options));
             return result;
         }
-
-
-        [CmdOp("bits/check/parsers")]
-        void CheckBitParsers()
-        {
-
-        }
     }
 }

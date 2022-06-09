@@ -37,7 +37,7 @@ namespace Z0
                 return result;
 
             AsmExpr.parse(skip(cells,i++), out dst.Expression);
-            dst.Encoded = AsmHexCode.asmhex(skip(cells, i++));
+            dst.Encoded = AsmHexCode.parse(skip(cells, i++));
             result = AsmSigInfo.parse(skip(cells, i++), out dst.Sig);
             if(result.Fail)
                 return result;

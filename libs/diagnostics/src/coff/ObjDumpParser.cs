@@ -101,7 +101,7 @@ namespace Z0
                         var y = text.index(asm, Chars.Tab);
                         if(y > 0)
                         {
-                            AsmHexCode.asmhex(text.trim(text.left(asm, y)), out Row.Encoded);
+                            AsmHexCode.parse(text.trim(text.left(asm, y)), out Row.Encoded);
                             Row.Size = Row.Encoded.Size;
                             Row.InstructionId = InstructionId.define(origin.DocId, Row.IP, Row.Encoded.Bytes);
                             Row.EncodingId = Row.InstructionId.EncodingId;

@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public sealed class ProjectDbWs : Workspace<ProjectDbWs>, IProjectDb
     {
         public Settings ProjectSettings => Settings.Empty;

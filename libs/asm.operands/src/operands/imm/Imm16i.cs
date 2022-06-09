@@ -5,13 +5,12 @@
 namespace Z0.Asm
 {
     using W = W16;
-    using I = imm16i;
+    using I = Imm16i;
 
     /// <summary>
     /// Defines a 16-bit immediate value
     /// </summary>
-    [DataWidth(Width,Width)]
-    public readonly struct imm16i : IImm<I,short>
+    public readonly struct Imm16i : IImm<I,short>
     {
         public const ImmKind Kind = ImmKind.Imm16i;
 
@@ -22,7 +21,7 @@ namespace Z0.Asm
         public static W W => default;
 
         [MethodImpl(Inline)]
-        public imm16i(short src)
+        public Imm16i(short src)
             => Value = src;
 
         public AsmOpClass OpClass
@@ -41,7 +40,7 @@ namespace Z0.Asm
             => NativeSizeCode.W16;
 
         public string Format()
-            => AsmRender.imm(this);
+            => Imm.format(this);
 
         public override string ToString()
             => Format();
@@ -111,7 +110,7 @@ namespace Z0.Asm
             => new Imm(src.ImmKind, src.Value);
 
         [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(imm16i src)
+        public static implicit operator AsmOperand(Imm16i src)
             => new AsmOperand(src);
      }
 }

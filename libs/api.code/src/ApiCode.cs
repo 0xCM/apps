@@ -24,8 +24,8 @@ namespace Z0
         public Index<ApiHexRow> EmitApiHex(ApiHostUri uri, ReadOnlySpan<ApiMemberCode> src, FS.FilePath dst)
             => ApiHex.EmitRows(uri, src, dst);
 
-        public Index<ApiHexPack> EmitHexPack(SortedIndex<ApiCodeBlock> src, FS.FilePath? dst = null, bool validate = false)
-            => ApiHex.EmitPacks(src,dst,validate);
+        // public Index<ApiHexPack> EmitHexPack(SortedIndex<ApiCodeBlock> src, FS.FilePath? dst = null, bool validate = false)
+        //     => ApiHex.EmitPacks(src,dst,validate);
 
         public SortedIndex<ApiCodeBlock> LoadBlocks()
             => blocks(Files.HexFiles());

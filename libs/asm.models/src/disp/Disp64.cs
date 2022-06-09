@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     /// <summary>
     /// Defines a signed 64-bit displacement
     /// </summary>
@@ -109,10 +107,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator Disp64(long src)
             => new Disp64((int)src);
-
-        // [MethodImpl(Inline)]
-        // public static implicit operator AsmOperand(Disp64 src)
-        //     => new AsmOperand(src);
 
         public static Disp64 Empty
         {

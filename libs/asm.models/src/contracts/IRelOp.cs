@@ -2,8 +2,9 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
+    [Free]
     public interface IRelOp : IAsmOp, ITextual
     {
         AsmRelKind RelKind {get;}
@@ -11,6 +12,7 @@ namespace Z0.Asm
         uint Value {get;}
     }
 
+    [Free]
     public interface IRelOp<T> : IRelOp
         where T : unmanaged
     {

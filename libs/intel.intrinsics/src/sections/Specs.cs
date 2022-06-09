@@ -57,7 +57,7 @@ namespace Z0
             /// that bit in "imm8" is written to the corresponding bit in "dst".
             /// </summary>
             [MethodImpl(Inline), Op]
-            public static __m128i<uint> mm_ternarylogic_epi32(__m128i<uint> a, __m128i<uint> b, __m128i<uint> c, imm8 imm8)
+            public static __m128i<uint> mm_ternarylogic_epi32(__m128i<uint> a, __m128i<uint> b, __m128i<uint> c, Imm8 imm8)
             {
                 var dst = m128i<uint>();
                 for(byte j=0; j<=3; j++)
@@ -138,7 +138,7 @@ namespace Z0
                 => Specs.mm_blend_epi32(src.A, src.B, src.Imm8);
 
             [MethodImpl(Inline)]
-            public static __m128i<uint> mm_blend_epi32(in __m128i<uint> a, in __m128i<uint> b, imm8 imm8)
+            public static __m128i<uint> mm_blend_epi32(in __m128i<uint> a, in __m128i<uint> b, Imm8 imm8)
             {
                 var dst = m128i<uint>();
                 var i=0;

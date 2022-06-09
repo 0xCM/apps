@@ -6,7 +6,7 @@ namespace Z0
 {
     using Asm;
 
-    using static Asm.AsmRegTokens;
+    using static AsmRegTokens;
 
     partial class AsmCoreCmd
     {
@@ -18,11 +18,19 @@ namespace Z0
             CheckCcv();
         }
 
+
+        public void EmitAsmTokens()
+            => Emit(AsmTokens.Tokens);
+
+        public void Emit(AsmTokens src)
+            => AppSvc.TableEmit(src.View, AppDb.ApiTargets().Table<AsmToken>());
+
         [CmdOp("asm/emit")]
-        void EmitAsmTokens()
+        void TokensEmit()
         {
+            EmitAsmTokens();
             //Sdm.EmitTokens();
-            var src = Sdm.LoadOcDetails();
+            //var src = Sdm.LoadOcDetails();
         }
 
         void GenHex8()

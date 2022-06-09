@@ -39,7 +39,7 @@ namespace Z0
                 result = EncodingId.parse(skip(cells, j++), out dst.EncodingId);
                 result = InstructionId.parse(skip(cells, j++), out dst.InstructionId);
                 result = DataParser.parse(skip(cells, j++), out dst.IP);
-                result = AsmHexCode.asmhex(skip(cells, j++), out dst.Encoded);
+                result = AsmHexCode.parse(skip(cells, j++), out dst.Encoded);
                 result = DataParser.parse(skip(cells, j++), out dst.Size);
                 result = AsmExpr.parse(skip(cells, j++), out dst.Asm);
                 result = DataParser.parse(skip(cells, j++), out dst.Source);

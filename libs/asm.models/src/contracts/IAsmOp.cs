@@ -2,11 +2,12 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
     /// <summary>
     /// Characterizes an asm operand representation
     /// </summary>
+    [Free]
     public interface IAsmOp : ITextual
     {
         AsmOpKind OpKind {get;}
@@ -16,6 +17,7 @@ namespace Z0.Asm
         NativeSize Size {get;}
     }
 
+    [Free]
     public interface IAsmOp<T> : IAsmOp
         where T : unmanaged
     {

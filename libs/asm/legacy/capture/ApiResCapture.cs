@@ -68,7 +68,7 @@ namespace Z0.Asm
                 return Option.none<AsmRoutineCode>();
         }
 
-        static ReadOnlySpan<Arrow<imm64,IceRegister>> moves(in AsmRoutine src, int capacity = 10)
+        static ReadOnlySpan<Arrow<Imm64,IceRegister>> moves(in AsmRoutine src, int capacity = 10)
         {
             var hander = new AsmMovHandler(capacity);
             var fx = src.Instructions.View;

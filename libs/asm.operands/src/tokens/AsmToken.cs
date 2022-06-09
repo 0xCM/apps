@@ -7,7 +7,7 @@ namespace Z0
     [Record(TableId)]
     public struct AsmToken
     {
-        const string TableId = "sdm.tokens";
+        const string TableId = "asm.tokens";
 
         [Render(12)]
         public uint Seq;

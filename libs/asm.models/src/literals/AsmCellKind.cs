@@ -51,5 +51,7 @@ namespace Z0
         Mnemonic = InlineComment*2,
 
         Block = Mnemonic*2,
+
+        OffsetValue = Block*2,
     }
 }

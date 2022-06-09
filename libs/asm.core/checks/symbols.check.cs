@@ -4,15 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     using static XedModels;
 
     partial class AsmCoreCmd
     {
-        [CmdOp("heaps/check")]
+        [CmdOp("mem/check/heaps")]
         void CheckHeaps2()
         {
-
             var src = Heaps.symbols<InstFormType>(w32,w8);
             var count = src.EntryCount;
             var size = src.Size;

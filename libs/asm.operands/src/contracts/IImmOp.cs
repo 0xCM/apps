@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Z0.Asm;
-
     [Free]
     public interface IImmOp : IAsmOp, ITextual
     {

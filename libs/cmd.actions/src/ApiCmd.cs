@@ -87,13 +87,6 @@ namespace Z0
             Heaps.Emit(Heaps.symbols(ApiMd.SymLits));
         }
 
-        [CmdOp("api/emit/hexpacks")]
-        Outcome EmitHexPack(CmdArgs args)
-        {
-            ApiCode.EmitHexPack(ApiCode.LoadBlocks());
-            return true;
-        }
-
         [CmdOp("api/emit/msil-host")]
         void EmitHostMsil(CmdArgs args)
             => ApiMd.EmitHostMsil(arg(args,0));

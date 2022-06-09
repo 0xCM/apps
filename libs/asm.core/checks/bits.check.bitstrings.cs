@@ -5,7 +5,6 @@
 namespace Z0
 {
     using static core;
-    using Asm;
 
     partial class AsmChecks
     {
@@ -15,18 +14,25 @@ namespace Z0
 
         const uint InputBitsB = 0b0100_0100_0000_0001_0101_1000_0000_0100;
 
+        [Op]
+        public static uint bitstring(ReadOnlySpan<byte> src, Span<char> dst)
+        {
+            var i=0u;
+            return BitRender.render8x4(src, ref i, dst);
+        }
+
         [CmdOp("bits/check/bitstrings")]
         Outcome CheckBitstrings(CmdArgs args)
         {
             CharBlocks.alloc(n128, out var block1);
-            var count = AsmRender.bitstring(Input, block1.Data);
+            var count = bitstring(Input, block1.Data);
             var chars = slice(block1.Data,0,count);
             var bits = text.format(chars);
             Write(InputBitsA);
             Write(bits);
 
             CharBlocks.alloc(n128, out var block2);
-            count = AsmRender.bitstring(bytes(InputBitsB), block2.Data);
+            count = bitstring(bytes(InputBitsB), block2.Data);
             bits = text.format(chars);
             Write(bits);
 

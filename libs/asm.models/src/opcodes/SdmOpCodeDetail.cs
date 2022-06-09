@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     using static core;
 
     [StructLayout(LayoutKind.Sequential, Pack=1), Record(TableId)]

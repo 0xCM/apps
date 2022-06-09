@@ -7,16 +7,16 @@ namespace Z0
     using Asm;
 
     using W = W64;
-    using I = imm64;
+    using I = Imm64;
 
     /// <summary>
     /// Defines a 64-bit immediate value
     /// </summary>
-    [DataWidth(Width,Width)]
-    public readonly struct imm64 : IImm<imm64,ulong>
+    [DataWidth(Width)]
+    public readonly struct Imm64 : IImm<Imm64,ulong>
     {
         [Parser]
-        public static Outcome parse(string src, out imm64 dst)
+        public static bool parse(string src, out Imm64 dst)
         {
             var result = Outcome.Success;
             dst = default;
@@ -46,7 +46,7 @@ namespace Z0
         public static W W => default;
 
         [MethodImpl(Inline)]
-        public imm64(ulong src)
+        public Imm64(ulong src)
             => Value = src;
 
         public ImmKind ImmKind
@@ -61,18 +61,18 @@ namespace Z0
         public NativeSize Size
             => NativeSizeCode.W64;
 
-        public uint Hash
+        public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => alg.hash.calc(Value);
+            get => core.hash(Value);
         }
 
 
         public override int GetHashCode()
-            => (int)Hash;
+            => Hash;
 
         public string Format()
-            => AsmRender.imm(this);
+            => Imm.format(this);
 
         public override string ToString()
             => Format();
@@ -141,7 +141,7 @@ namespace Z0
             => new Imm(src.ImmKind, src.Value);
 
         [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(imm64 src)
+        public static implicit operator AsmOperand(Imm64 src)
             => new AsmOperand(src);
    }
 }

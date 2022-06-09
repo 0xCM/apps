@@ -113,7 +113,7 @@ namespace Z0
             => data(K.DataFlows, CalcDataFlows);
 
         public Index<BitMaskInfo> ApiBitMasks
-            => Data(K.BitMasks, () => Assets.masks(typeof(BitMaskLiterals)));
+            => Data(K.BitMasks, () => BitMask.masks(typeof(BitMaskLiterals)));
 
         public ConstLookup<string,Index<SymInfo>> ApiTokens
             => data(K.ApiTokens, CalcApiTokens);

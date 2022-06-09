@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     /// <summary>
     /// Defines an 8, 16, or 32-bit signed displacement
     /// </summary>
@@ -119,9 +117,9 @@ namespace Z0
             return result;
         }
 
-        public long Value {get;}
+        public readonly long Value;
 
-        public NativeSize Size {get;}
+        public readonly NativeSize Size;
 
         [MethodImpl(Inline)]
         public Disp(long value, NativeSize width)
@@ -166,6 +164,12 @@ namespace Z0
 
         public override string ToString()
             => Format();
+
+        NativeSize IDisplacement.Size
+            => Size;
+
+        long IDisplacement.Value
+            => Value;
 
         [MethodImpl(Inline)]
         public static implicit operator Disp((long value, NativeSize width) src)
@@ -230,5 +234,6 @@ namespace Z0
         public static Disp Empty => default;
 
         public static Disp Zero => default;
+
     }
 }

@@ -2,11 +2,27 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
+    using Asm;
+
     [StructLayout(LayoutKind.Sequential,Pack=1)]
     public struct AsmInstruction : IAsmSourcePart
     {
+        public static string format(in AsmInstruction src)
+        {
+            var dst = text.buffer();
+            ref readonly var ops = ref src.Operands;
+            var count = ops.OpCount;
+            dst.Append(src.Mnemonic.Format(MnemonicCase.Lowercase));
+            if(count != 0)
+            {
+                dst.Append(Chars.Space);
+                dst.Append(src.Operands.Format());
+            }
+            return dst.Emit();
+        }
+
         public AsmMnemonic Mnemonic;
 
         public AsmOpCode OpCode;
@@ -19,9 +35,8 @@ namespace Z0.Asm
             OpCode = opcode;
             Operands = ops;
         }
-
         public string Format()
-            => AsmRender.instruction(this);
+            => format(this);
 
         public override string ToString()
             => Format();

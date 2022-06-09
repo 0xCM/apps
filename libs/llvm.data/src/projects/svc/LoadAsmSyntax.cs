@@ -57,7 +57,7 @@ namespace Z0
                     continue;
                 }
 
-                result = AsmHexCode.asmhex(hex, out dst.Encoded);
+                result = AsmHexCode.parse(hex, out dst.Encoded);
                 if(result.Fail)
                 {
                     result = (false, string.Format("Line {0}, field {1}", line.LineNumber, nameof(dst.Encoded)));

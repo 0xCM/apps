@@ -13,6 +13,26 @@ namespace Z0.Asm
     [StructLayout(LayoutKind.Sequential,Pack=1), ApiComplete]
     public struct AsmOperand : IAsmOp
     {
+        [Op]
+        public static string format(in AsmOperand src)
+        {
+            switch(src.OpClass)
+            {
+                case AsmOpClass.Mem:
+                    return src.Mem.Format();
+                case AsmOpClass.Reg:
+                    return src.Reg.Format();
+                case AsmOpClass.Imm:
+                    return src.Imm.Format();
+                case AsmOpClass.Disp:
+                    return src.Disp.Format();
+                case AsmOpClass.RegMask:
+                    return src.RegMask.Format();
+                default:
+                    return EmptyString;
+            }
+        }
+
         public readonly AsmOpClass OpClass;
 
         public readonly AsmOpKind OpKind;
@@ -32,7 +52,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline)]
-        public AsmOperand(imm8 src)
+        public AsmOperand(Imm8 src)
         {
             OpClass = src.OpClass;
             OpKind = src.OpKind;
@@ -42,7 +62,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline)]
-        public AsmOperand(imm16u src)
+        public AsmOperand(Imm16u src)
         {
             OpClass = src.OpClass;
             OpKind = src.OpKind;
@@ -52,7 +72,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline)]
-        public AsmOperand(imm16i src)
+        public AsmOperand(Imm16i src)
         {
             OpClass = src.OpClass;
             OpKind = src.OpKind;
@@ -62,7 +82,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline)]
-        public AsmOperand(imm32 src)
+        public AsmOperand(Imm32 src)
         {
             OpClass = src.OpClass;
             OpKind = src.OpKind;
@@ -72,7 +92,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline)]
-        public AsmOperand(imm64 src)
+        public AsmOperand(Imm64 src)
         {
             OpClass = src.OpClass;
             OpKind = src.OpKind;
@@ -295,99 +315,8 @@ namespace Z0.Asm
             get => ref @as<Disp>(Data);
         }
 
-
-        // public ref readonly r8 Reg8
-        // {
-        //     [MethodImpl(Inline)]
-        //     get => ref @as<r8>(Data);
-        // }
-
-        // public ref readonly r16 Reg16
-        // {
-        //     [MethodImpl(Inline)]
-        //     get => ref @as<r16>(Data);
-        // }
-
-        // public ref readonly r32 Reg32
-        // {
-        //     [MethodImpl(Inline)]
-        //     get => ref @as<r32>(Data);
-        // }
-
-        // public ref readonly r64 Reg64
-        // {
-        //     [MethodImpl(Inline)]
-        //     get => ref @as<r64>(Data);
-        // }
-
-        // public ref readonly m8 Mem8
-        // {
-        //     [MethodImpl(Inline)]
-        //     get => ref @as<m8>(Data);
-        // }
-
-        // public ref readonly m16 Mem16
-        // {
-        //     [MethodImpl(Inline)]
-        //     get => ref @as<m16>(Data);
-        // }
-
-        // public ref readonly m32 Mem32
-        // {
-        //     [MethodImpl(Inline)]
-        //     get => ref @as<m32>(Data);
-        // }
-
-        // public ref readonly m64 Mem64
-        // {
-        //     [MethodImpl(Inline)]
-        //     get  => ref first(recover<m64>(Data));
-        // }
-
-        // public ref readonly m128 Mem128
-        // {
-        //     [MethodImpl(Inline)]
-        //     get  => ref first(recover<m128>(Data));
-        // }
-
-        // public ref readonly m256 Mem256
-        // {
-        //     [MethodImpl(Inline)]
-        //     get  => ref first(recover<m256>(Data));
-        // }
-
-        // public ref readonly m512 Mem512
-        // {
-        //     [MethodImpl(Inline)]
-        //     get  => ref first(recover<m512>(Data));
-        // }
-
-        // public ref readonly imm8 Imm8
-        // {
-        //     [MethodImpl(Inline)]
-        //     get => ref @as<imm8>(Data);
-        // }
-
-        // public ref readonly imm16 Imm16
-        // {
-        //     [MethodImpl(Inline)]
-        //     get => ref @as<imm16>(Data);
-        // }
-
-        // public ref readonly imm32 Imm32
-        // {
-        //     [MethodImpl(Inline)]
-        //     get  => ref first(recover<imm32>(Data));
-        // }
-
-        // public ref readonly imm64 Imm64
-        // {
-        //     [MethodImpl(Inline)]
-        //     get  => ref first(recover<imm64>(Data));
-        // }
-
-        public string Format()
-            => AsmRender.operand(this);
+       public string Format()
+            => format(this);
 
         public override string ToString()
             => Format();

@@ -14,6 +14,21 @@ namespace Z0
 
         public const byte NativeWidth = 72;
 
+        [Op]
+        public static string format(in Imm src)
+            => src.ImmKind switch
+            {
+                ImmKind.Imm8u => HexFormatter.format(src.Size, src.Imm8u, HexPadStyle.Unpadded, prespec:true, @case:UpperCase),
+                ImmKind.Imm8i => HexFormatter.format(src.Size, src.Imm8i, HexPadStyle.Unpadded, prespec:true, @case:UpperCase),
+                ImmKind.Imm16u => HexFormatter.format(src.Size, src.Imm16u, HexPadStyle.Unpadded, prespec:true, @case:UpperCase),
+                ImmKind.Imm16i => HexFormatter.format(src.Size, src.Imm16i, HexPadStyle.Unpadded, prespec:true, @case:UpperCase),
+                ImmKind.Imm32u => HexFormatter.format(src.Size, src.Imm32u, HexPadStyle.Unpadded, prespec:true, @case:UpperCase),
+                ImmKind.Imm32i => HexFormatter.format(src.Size, src.Imm32u, HexPadStyle.Unpadded, prespec:true, @case:UpperCase),
+                ImmKind.Imm64u => HexFormatter.format(src.Size, src.Imm64u, HexPadStyle.Unpadded, prespec:true, @case:UpperCase),
+                ImmKind.Imm64i => HexFormatter.format(src.Size, src.Imm64u, HexPadStyle.Unpadded, prespec:true, @case:UpperCase),
+                _ => HexFormatter.format(src.Size, src.Imm64u, HexPadStyle.Unpadded, prespec:true, @case:UpperCase),
+            };
+
         public static Imm inc(Imm src)
         {
             switch(src.ImmKind)
@@ -234,7 +249,7 @@ namespace Z0
             => (int)alg.hash.calc(Value | ((ulong)(ImmKind) << 56));
 
         public string Format()
-            => AsmRender.imm(this);
+            => format(this);
 
         public override string ToString()
             => Format();

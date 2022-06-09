@@ -2,25 +2,22 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
     using static core;
 
+    using Asm;
+
     public class AsmTokens : AppService<AsmTokens>
     {
-        [MethodImpl(Inline)]
-        public static AsmSigToken sig<T>(AsmSigTokenKind kind, T value)
-            where T : unmanaged
-                => new AsmSigToken(kind, u8(value));
-
         [MethodImpl(Inline), Op]
         public static AsmSigToken specialize(in AsmToken src)
             => new AsmSigToken((AsmSigTokenKind)src.Index, (byte)src.Value);
 
-        public static bool sig(string expr, out AsmSigToken dst)
+        public static bool parse(string expr, out AsmSigToken dst)
             => Tokens.SigToken(expr, out dst);
 
-        public static bool opcode(string expr, out AsmOcToken dst)
+        public static bool parse(string expr, out AsmOcToken dst)
             => Tokens.OpCodeToken(expr, out dst);
 
         public static AsmTokens Tokens

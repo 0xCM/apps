@@ -5,20 +5,19 @@
 namespace Z0.Asm
 {
     using W = W32;
-    using I = imm32;
+    using I = Imm32;
 
     /// <summary>
     /// Defines a 32-bit immediate value
     /// </summary>
-    [DataWidth(Width,Width)]
-    public readonly struct imm32 : IImm<I,uint>
+    public readonly struct Imm32 : IImm<I,uint>
     {
         public const byte Width = 32;
 
         public uint Value {get;}
 
         [MethodImpl(Inline)]
-        public imm32(uint src)
+        public Imm32(uint src)
             => Value = src;
 
         public AsmOpClass OpClass
@@ -37,15 +36,15 @@ namespace Z0.Asm
             => NativeSizeCode.W32;
 
         public string Format()
-            => AsmRender.imm(this);
+             => Imm.format(this);
 
         public override string ToString()
             => Format();
 
-        public uint Hash
+        public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => alg.hash.calc(Value);
+            get => Value;
         }
 
         public override int GetHashCode()
@@ -107,7 +106,7 @@ namespace Z0.Asm
             => new Imm(src.ImmKind, src.Value);
 
         [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(imm32 src)
+        public static implicit operator AsmOperand(Imm32 src)
             => new AsmOperand(src);
 
         public static W W => default;

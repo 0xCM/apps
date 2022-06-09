@@ -8,7 +8,7 @@ namespace Z0
 
     partial class ProjectCmd
     {
-       [CmdOp("project/coff")]
+        [CmdOp("project/coff")]
         Outcome Blah(CmdArgs args)
         {
             var project = Project();

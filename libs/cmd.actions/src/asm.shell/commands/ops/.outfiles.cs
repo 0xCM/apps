@@ -152,38 +152,5 @@ namespace Z0.Asm
             processor.ParseDisassembly(src,dst);
         }
 
-        static void render(EventWrittenEventArgs src, ITextBuffer dst)
-        {
-            dst.AppendLine(src.EventName);
-            dst.AppendLine(RP.PageBreak80);
-            var count = src.Payload.Count;
-            for (int i = 0; i<count; i++)
-            {
-                var name = string.Format("{0,-32}:",src.PayloadNames[i]);
-                var payload = string.Format("{0}",src.Payload[i]);
-                var message = string.Concat(name,payload);
-                dst.AppendLine(message);
-            }
-        }
-
-        static async void emit(EventWrittenEventArgs src, StreamWriter dst)
-        {
-            var buffer = text.buffer();
-            render(src,buffer);
-            await dst.WriteLineAsync(buffer.Emit());
-        }
-
-        void Capture()
-        {
-            using var dst = Db.AppLog("clr-events", FS.Log).Writer();
-            void receive(in EventWrittenEventArgs src)
-            {
-                emit(src,dst);
-            }
-
-            using var listener = ClrEventListener.create(receive);
-            var settings = ApiExtractSettings.init(Db.CapturePackRoot(), now());
-            Wf.ApiExtractWorkflow().Run(settings);
-        }
     }
 }

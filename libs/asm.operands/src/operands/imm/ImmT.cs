@@ -128,7 +128,7 @@ namespace Z0
             => obj is Imm<T> x && Equals(x);
 
         public string Format()
-            => AsmRender.imm(this);
+            => Imm.format(this);
 
         public override string ToString()
             => Format();

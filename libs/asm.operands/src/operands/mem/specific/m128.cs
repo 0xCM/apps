@@ -44,7 +44,7 @@ namespace Z0.Asm.Operands
             => Size;
 
         public string Format()
-            => AsmRender.mem(this);
+            => MemOp.format(this);
 
         public override string ToString()
             => Format();

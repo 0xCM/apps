@@ -10,6 +10,42 @@ namespace Z0
 
     partial class AsmCoreCmd
     {
+        [CmdOp("asm/gen/specs")]
+        Outcome GenInstData(CmdArgs args)
+        {
+            var g = AsmGen.generator();
+            var forms = Sdm.CalcForms();
+            var count = forms.Count;
+            var buffer = text.buffer();
+            var counter = 0u;
+            var mnemonics = hashset("and", "or", "xor");
+            var sources = dict<string,List<IAsmSourcePart>>();
+            iter(mnemonics, name => sources[name] = new());
+            iter(mnemonics, mnemonic => sources[mnemonic].Add(AsmDirectives.define(AsmDirectiveKind.DK_INTEL_SYNTAX, AsmDirectiveOp.noprefix)));
+
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var form = ref forms[i];
+                var mnemonic = form.Mnemonic.Format();
+                if(mnemonics.Contains(mnemonic))
+                {
+                    var specs = g.Concretize(form);
+                    Require.invariant(specs.Count > 0);
+                    sources[mnemonic].Add(asm.comment(string.Format("{0} | {1}", form.Sig, form.OpCode)));
+                    sources[mnemonic].Add(asm.block(asm.label(form.Name.Format()), specs));
+                }
+            }
+
+            foreach(var mnemonic in sources.Keys)
+            {
+                var file = AsmFileSpec.define(mnemonic, sources[mnemonic].ToArray());
+                var dst = file.Path(Ws.Project(ProjectNames.McModels).SrcDir("asm"));
+                EmittedFile(EmittingFile(dst), file.Save(dst));
+            }
+
+            return true;
+        }
+
         /*
         | dec_m16        | dec m16  | FF /1            | Decrement r/m16 by 1.
         | dec_m32        | dec m32  | FF /1            | Decrement r/m32 by 1.
@@ -70,7 +106,7 @@ namespace Z0
 
             foreach(var mnemonic in sources.Keys)
             {
-                var file = asm.file(mnemonic.Format(), sources[mnemonic].ToArray());
+                var file = AsmFileSpec.define(mnemonic.Format(), sources[mnemonic].ToArray());
                 var dst = file.Path(Ws.Project(ProjectNames.McModels).SrcDir("asm"));
                 EmittedFile(EmittingFile(dst), file.Save(dst));
             }

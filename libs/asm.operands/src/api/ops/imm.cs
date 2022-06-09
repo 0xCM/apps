@@ -105,31 +105,31 @@ namespace Z0.Asm
         /// </summary>
         /// <param name="src">The source value</param>
         [MethodImpl(Inline), Op]
-        public static imm8 imm8(byte src)
-            => new imm8(src);
+        public static Imm8 imm8(byte src)
+            => new Imm8(src);
 
         /// <summary>
         /// Defines a 16-bit immediate operand
         /// </summary>
         /// <param name="src">The source value</param>
         [MethodImpl(Inline), Op]
-        public static imm16u imm16(ushort src)
-            => new imm16u(src);
+        public static Imm16u imm16(ushort src)
+            => new Imm16u(src);
 
         /// <summary>
         /// Defines a 32-bit immediate operand
         /// </summary>
         /// <param name="src">The source value</param>
         [MethodImpl(Inline), Op]
-        public static imm32 imm32(uint src)
-            => new imm32(src);
+        public static Imm32 imm32(uint src)
+            => new Imm32(src);
 
         /// <summary>
         /// Defines a 64-bit immediate operand
         /// </summary>
         /// <param name="src">The source value</param>
         [MethodImpl(Inline), Op]
-        public static imm64 imm64(ulong src)
-            => new imm64(src);
+        public static Imm64 imm64(ulong src)
+            => new Imm64(src);
     }
 }

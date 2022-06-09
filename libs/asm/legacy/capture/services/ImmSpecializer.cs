@@ -56,7 +56,7 @@ namespace Z0.Asm
                 return Option.none<AsmRoutine>();
         }
 
-        public AsmRoutine[] UnaryOps(in CaptureExchange exchange, MethodInfo src, OpIdentity id, params imm8R[] imm8r)
+        public AsmRoutine[] UnaryOps(in CaptureExchange exchange, MethodInfo src, OpIdentity id, params Imm8R[] imm8r)
         {
             var count = imm8r.Length;
             var buffer = alloc<AsmRoutine>(count);
@@ -80,7 +80,7 @@ namespace Z0.Asm
                 return Option.none<AsmRoutine>();
         }
 
-        public AsmRoutine[] BinaryOps(in CaptureExchange exchange, MethodInfo src, OpIdentity id, params imm8R[] imm8r)
+        public AsmRoutine[] BinaryOps(in CaptureExchange exchange, MethodInfo src, OpIdentity id, params Imm8R[] imm8r)
         {
             var count = imm8r.Length;
             var buffer = alloc<AsmRoutine>(count);

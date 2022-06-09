@@ -7,27 +7,26 @@ namespace Z0.Asm
     using System.Linq;
 
     using W = W8;
-    using I = imm8;
+    using I = Imm8;
 
     /// <summary>
     /// Defines an 8-bit immediate value
     /// </summary>
-    [DataWidth(Width,Width)]
-    public readonly struct imm8 : IImm<I,byte>
+    public readonly struct Imm8 : IImm<I,byte>
     {
         public const byte Width = 8;
 
         [Op]
-        public static Index<imm8R> refined(ParameterInfo param)
+        public static Index<Imm8R> refined(ParameterInfo param)
         {
             if(param.IsRefinedImmediate())
                 return param.ParameterType.GetEnumValues().Cast<byte>().Array().ToImm8Values(ImmRefinementKind.Refined);
             else
-                return sys.empty<imm8R>();
+                return sys.empty<Imm8R>();
         }
 
         [Parser]
-        public static Outcome parse(string src, out imm8 dst)
+        public static Outcome parse(string src, out Imm8 dst)
         {
             var result = Outcome.Success;
             dst = default;
@@ -51,7 +50,7 @@ namespace Z0.Asm
         public byte Value {get;}
 
         [MethodImpl(Inline)]
-        public imm8(byte src)
+        public Imm8(byte src)
             => Value = src;
 
         public bit this[int i]
@@ -75,14 +74,14 @@ namespace Z0.Asm
         public NativeSize Size
             => NativeSizeCode.W8;
 
-        public uint Hash
+        public Hash32 Hash
         {
             [MethodImpl(Inline)]
             get => Value;
         }
 
         public string Format()
-            => AsmRender.imm(this);
+            => Imm.format(this);
 
         public override string ToString()
             => Format();
@@ -146,7 +145,7 @@ namespace Z0.Asm
             => new Imm(src.ImmKind, src.Value);
 
         [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(imm8 src)
+        public static implicit operator AsmOperand(Imm8 src)
             => new AsmOperand(src);
 
         public static W W => default;

@@ -33,7 +33,7 @@ namespace Z0
             };
 
         [Op]
-        public static Index<imm8R> ToImm8Values(this byte[] src, ImmRefinementKind kind)
-            => src.Map(x => new imm8R(x));
+        public static Index<Imm8R> ToImm8Values(this byte[] src, ImmRefinementKind kind)
+            => src.Map(x => new Imm8R(x));
     }
 }

@@ -16,7 +16,7 @@ namespace Z0
 
     [Free]
     public interface IToken<T> : IToken
-        where T : unmanaged, IEquatable<T>
+        where T : unmanaged
     {
         new T Kind {get;}
 
@@ -32,11 +32,21 @@ namespace Z0
     [Free]
     public interface IToken<K,V> : IToken<V>
         where K : unmanaged
-        where V : unmanaged, IEquatable<V>
+        where V : unmanaged
     {
         new K Kind {get;}
 
         V IToken<V>.Kind
             => @as<K,V>(Kind);
     }
+
+    [Free]
+    public interface IToken<T,K,V> : IEquatable<T>, IToken<K,V>, IComparable<T>, IHashed
+        where K : unmanaged
+        where V : unmanaged
+        where T : unmanaged
+    {
+        uint Id {get;}
+    }
+
 }

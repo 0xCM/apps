@@ -13,14 +13,14 @@ namespace Z0.Asm
     [ApiHost]
     public ref struct AsmMovHandler
     {
-        readonly Span<Arrow<imm64,IceRegister>> Buffer;
+        readonly Span<Arrow<Imm64,IceRegister>> Buffer;
 
         int Index;
 
         [MethodImpl(Inline)]
         public AsmMovHandler(int capacity)
         {
-            Buffer = new Arrow<imm64,IceRegister>[capacity];
+            Buffer = new Arrow<Imm64,IceRegister>[capacity];
             Index = 0;
         }
 
@@ -31,7 +31,7 @@ namespace Z0.Asm
                 Handle(i.Immediate64, i.Op0Register);
         }
 
-        public ReadOnlySpan<Arrow<imm64,IceRegister>> Collected
+        public ReadOnlySpan<Arrow<Imm64,IceRegister>> Collected
         {
             [MethodImpl(Inline)]
             get => slice(Buffer,0, Index);
@@ -44,7 +44,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline), Op]
-        public ref Arrow<imm64,IceRegister> Entry(int index)
+        public ref Arrow<Imm64,IceRegister> Entry(int index)
             => ref seek(Buffer, index);
 
         bool HasCapacity
@@ -54,7 +54,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline), Op]
-        void Handle(imm64 src, IceRegister dst)
+        void Handle(Imm64 src, IceRegister dst)
         {
             if(HasCapacity)
                 Entry(Index++) = flows.arrow(src, dst);

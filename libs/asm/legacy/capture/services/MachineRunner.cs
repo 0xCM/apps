@@ -29,8 +29,8 @@ namespace Z0
             if(options.EmitHexIndex)
                 ApiCode.EmitIndex(sorted, Db.IndexFile("api.hex.index"));
 
-            if(options.EmitHexPack)
-                ApiCode.EmitHexPack(sorted);
+            // if(options.EmitHexPack)
+            //     ApiCode.EmitHexPack(sorted);
 
             if(options.EmitResBytes)
                 Wf.ResPackEmitter().Emit(sorted.View);

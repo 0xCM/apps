@@ -4,9 +4,27 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
+    using static core;
+
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly struct MemOp : IMemOp
     {
+        public static string format<T>(T src)
+            where T : unmanaged, IMemOp
+        {
+            var dst = text.buffer();
+            var ptrKind = (AsmPointerKind)(byte)src.TargetSize;
+            var ptr = string.Format("{0} ptr [", expr(ptrKind));
+            dst.Append(ptr);
+            dst.Append(src.Address.Format());
+            dst.Append(Chars.RBracket);
+            return dst.Emit();
+        }
+
+        static string expr<T>(T src)
+            where T : unmanaged, Enum
+                => Symbols.index<T>()[src].Expr.Format();
+
         public readonly NativeSize TargetSize;
 
         public readonly AsmAddress Address;
@@ -37,7 +55,7 @@ namespace Z0.Asm
         }
 
         public string Format()
-            => AsmRender.mem(this);
+            => format(this);
 
         public override string ToString()
             => Format();

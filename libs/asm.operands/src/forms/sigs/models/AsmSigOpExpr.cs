@@ -2,12 +2,11 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
     /// <summary>
     /// Represents an operand in the context of an instruction signature
     /// </summary>
-    [DataType("asm.sigop.expr")]
     public readonly struct AsmSigOpExpr : IEquatable<AsmSigOpExpr>
     {
         readonly string Content;

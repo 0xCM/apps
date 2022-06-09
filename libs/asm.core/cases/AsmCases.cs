@@ -23,7 +23,7 @@ namespace Z0.Asm
             dst.Seq = seq;
             dst.Mnemonic = monic;
             AsmOpCodes.parse(oc.Format(), out dst.OpCode);
-            AsmHexCode.asmhex(encoding.Format(), out dst.Encoding);
+            AsmHexCode.parse(encoding.Format(), out dst.Encoding);
             AsmSigs.parse(sig.Format(), out dst.Sig);
             dst.Asm = statement.Format();
             return dst;

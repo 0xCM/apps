@@ -180,11 +180,11 @@ namespace Z0
             dst = buffer;
         }
 
-        public static bool parse(string src, out imm8 dst)
-            => imm8.parse(src, out dst);
+        public static bool parse(string src, out Imm8 dst)
+            => Imm8.parse(src, out dst);
 
-        public static bool parse(string src, out imm64 dst)
-            => imm64.parse(src, out dst);
+        public static bool parse(string src, out Imm64 dst)
+            => Imm64.parse(src, out dst);
 
         public static bool IsNonterm(string src)
             => text.trim(text.remove(src,Chars.Colon)).EndsWith("()");

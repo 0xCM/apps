@@ -10,7 +10,7 @@ namespace Z0.Asm
     public struct AsmHexCode : IEquatable<AsmHexCode>, IComparable<AsmHexCode>
     {
         [Op]
-        public static bool asmhex(ReadOnlySpan<char> src, out AsmHexCode dst)
+        public static bool parse(ReadOnlySpan<char> src, out AsmHexCode dst)
         {
             var storage = Cells.alloc(w128);
             var size = Hex.parse(src, storage.Bytes);
@@ -28,10 +28,10 @@ namespace Z0.Asm
         }
 
         [Op]
-        public static AsmHexCode asmhex(string src)
+        public static AsmHexCode parse(string src)
         {
             var dst = AsmHexCode.Empty;
-            asmhex(src.Trim(), out dst);
+            parse(src.Trim(), out dst);
             return dst;
         }
 
@@ -58,11 +58,11 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline), Op]
-        public static AsmHexCode asmhex(ReadOnlySpan<byte> src)
+        public static AsmHexCode load(ReadOnlySpan<byte> src)
         {
             var cell = Cells.alloc(w128);
             var count = (byte)min(src.Length, 15);
-            var dst = bytes(cell);
+            var dst = core.bytes(cell);
             for(var i=0; i<count; i++)
                 seek(dst,i) = skip(src,i);
             BitNumbers.cell8(cell, 15) = count;
@@ -70,17 +70,44 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline), Op]
-        public static AsmHexCode asmhex(ulong src)
+        public static AsmHexCode load(ulong src)
         {
             var size = bits.effsize(src);
-            var data = slice(bytes(src), 0, size);
+            var data = slice(core.bytes(src), 0, size);
             var storage = 0ul;
-            var buffer = bytes(storage);
+            var buffer = core.bytes(storage);
             core.reverse(data, buffer);
             return new AsmHexCode(Cells.cell128(u64(first(buffer)), (ulong)size << 56));
         }
 
-        public const byte SizeIndex = 15;
+        [MethodImpl(Inline), Op]
+        public static Span<byte> encoded(AsmHexCode src)
+            => slice(core.bytes(src.Data), 0, src.Size);
+
+        [MethodImpl(Inline), Op]
+        public static bool eq(AsmHexCode a, AsmHexCode b)
+            => a.Data.Equals(b.Data);
+
+        [MethodImpl(Inline), Op]
+        public static Hash32 hash(AsmHexCode src)
+            => core.hash(encoded(src));
+
+        [Op]
+        public static uint render(AsmHexCode src, ref uint i, Span<char> dst)
+        {
+            var i0 = i;
+            var count = src.Size;
+            var bytes = src.Bytes;
+            for(var j=0; j<count; j++)
+            {
+                Hex.render(LowerCase, (Hex8)skip(bytes, j), ref i, dst);
+                if(j != count - 1)
+                    seek(dst, i++) = Chars.Space;
+            }
+            return i - i0;
+        }
+
+        const byte SizeIndex = 15;
 
         Cell128 Data;
 
@@ -122,22 +149,6 @@ namespace Z0.Asm
             get => ref seek(Bytes, index < 0 ? 0 : (byte)index);
         }
 
-        [MethodImpl(Inline)]
-        public byte ToUInt8()
-            => (byte)Data.Lo;
-
-        [MethodImpl(Inline)]
-        public ushort ToUInt16()
-            => (ushort)Data.Lo;
-
-        [MethodImpl(Inline)]
-        public uint ToUInt32()
-            => (uint)Data.Lo;
-
-        [MethodImpl(Inline)]
-        public uint ToUInt64()
-            => (uint)Data.Lo;
-
         public string BitString
             => bitstring(this);
 
@@ -159,23 +170,23 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public int CompareTo(AsmHexCode src)
-            => cmp(Bytes, src.Bytes);
+            => core.cmp(Bytes, src.Bytes);
 
         [MethodImpl(Inline)]
         public static implicit operator AsmHexCode(BinaryCode src)
-            => asmhex(src.View);
+            => load(src.View);
 
         [MethodImpl(Inline)]
         public static implicit operator AsmHexCode(ReadOnlySpan<byte> src)
-            => asmhex(src);
+            => load(src);
 
         [MethodImpl(Inline)]
         public static implicit operator AsmHexCode(byte[] src)
-            => asmhex(src);
+            => load(src);
 
         [MethodImpl(Inline)]
         public static implicit operator AsmHexCode(string src)
-            => asmhex(src);
+            => parse(src);
 
         [MethodImpl(Inline)]
         public static bool operator ==(AsmHexCode a, AsmHexCode b)
@@ -191,32 +202,5 @@ namespace Z0.Asm
             get => default;
         }
 
-        [MethodImpl(Inline), Op]
-        public static Span<byte> encoded(in AsmHexCode src)
-            => slice(bytes(src.Data), 0, src.Size);
-
-        [Op]
-        public static uint render(in AsmHexCode src, ref uint i, Span<char> dst)
-        {
-            var i0 = i;
-            var count = src.Size;
-            var bytes = src.Bytes;
-            for(var j=0; j<count; j++)
-            {
-                ref readonly var b = ref skip(bytes, j);
-                Hex.render(LowerCase, (Hex8)b, ref i, dst);
-                if(j != count - 1)
-                    seek(dst, i++) = Chars.Space;
-            }
-            return i - i0;
-        }
-
-        [MethodImpl(Inline), Op]
-        public static bool eq(in AsmHexCode a, in AsmHexCode b)
-            => a.Data.Equals(b.Data);
-
-        [MethodImpl(Inline), Op]
-        public static int hash(in AsmHexCode src)
-            => (int)alg.ghash.calc(encoded(src));
     }
 }

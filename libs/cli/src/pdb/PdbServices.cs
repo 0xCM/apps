@@ -13,8 +13,6 @@ namespace Z0
     {
         PdbIndexBuilder PdbIndexBuilder => Wf.PdbIndexBuilder();
 
-        ApiMd ApiMd => Wf.ApiMetadata();
-
         AppDb AppDb => Wf.AppDb();
 
         public FS.FilePath IndexApiComponents()

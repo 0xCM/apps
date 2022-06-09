@@ -50,7 +50,7 @@ namespace Z0.Asm
             => Format();
 
         public string Format()
-            => AsmRender.asmbyte(this);
+            => AsmBytes.format(this);
 
         [MethodImpl(Inline)]
         public static implicit operator RepPrefix(RepPrefixCode src)

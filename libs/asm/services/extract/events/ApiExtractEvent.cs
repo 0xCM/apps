@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Root;
-
     public abstract class ApiExtractEvent<E> : IWfEvent<E>
         where E : ApiExtractEvent<E>, new()
     {

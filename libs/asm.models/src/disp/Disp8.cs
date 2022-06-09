@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     /// <summary>
     /// Defines a signed 8-bit displacement
     /// </summary>
@@ -42,7 +40,7 @@ namespace Z0
         /// <summary>
         /// The base displacement magnitude
         /// </summary>
-        public sbyte Value {get;}
+        public readonly sbyte Value {get;}
 
         [MethodImpl(Inline)]
         public Disp8(sbyte @base)

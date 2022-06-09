@@ -12,8 +12,6 @@ namespace Z0
     {
         MsilPipe IlPipe => Wf.MsilSvc();
 
-        ApiHex ApiHex => Service(Wf.ApiHex);
-
         ApiCode ApiCode => Wf.ApiCode();
 
         HostAsmEmitter HostEmitter => Wf.HostAsmEmitter();

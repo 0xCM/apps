@@ -4,17 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     using static core;
 
     /// <summary>
     /// Defines a parametric displacement that may resolve to an 8-bit, 16-bit or 32-bit signed displacement
     /// </summary>
-    public readonly struct Disp<T> : IDisplacement, IEquatable<Disp<T>>
+    public readonly record struct Disp<T> : IDisplacement
         where T : unmanaged, IDisplacement<T>
     {
-        public T Source {get;}
+        public readonly T Source;
 
         [MethodImpl(Inline)]
         public Disp(T src)
@@ -28,11 +26,14 @@ namespace Z0
             get => int64(Source.Value);
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => u32(Source);
+        }
+
         public NativeSize Size
             => Sizes.native(width<T>());
-
-        // public AsmOpKind OpKind
-        //     => Source.OpKind;
 
         public AsmOpClass OpClass
             => AsmOpClass.Disp;
@@ -52,6 +53,9 @@ namespace Z0
         [MethodImpl(Inline)]
         public bool Equals(Disp<T> src)
             => Value == src.Value;
+
+        public override int GetHashCode()
+            => Hash;
 
         public string Format()
             => Disp.format(this);

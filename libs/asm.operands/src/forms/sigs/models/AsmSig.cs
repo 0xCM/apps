@@ -2,9 +2,11 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
-    using api = AsmSigs;
+    using Asm;
+
+    using api = Asm.AsmSigs;
 
     [StructLayout(LayoutKind.Sequential,Pack=1), DataType("asm.sig")]
     public readonly struct AsmSig : IComparable<AsmSig>

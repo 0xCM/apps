@@ -9,6 +9,10 @@ namespace Z0.Asm
     [ApiHost]
     public class AsmBytes
     {
+        public static string format<T>(T src)
+            where T : unmanaged, IAsmByte
+                => src.IsEmpty ? EmptyString : src.Value().FormatHex(zpad:true, specifier:true, uppercase:true);
+
         [MethodImpl(Inline), Op]
         public static ModRm modrm(byte mod, byte reg, byte rm)
             => new ModRm(join((rm, 0), (reg, 3), (mod, 6)));
@@ -232,11 +236,11 @@ namespace Z0.Asm
             => asm.bitstring(src);
 
         [MethodImpl(Inline), Op]
-        public static void encode(RexPrefix a0, Hex8 a1, imm64 a2, AsmHexWriter dst)
+        public static void encode(RexPrefix a0, Hex8 a1, Imm64 a2, AsmHexWriter dst)
             => dst.Write(a0,a1,a2);
 
         [MethodImpl(Inline), Op]
-        public static byte encode(RexPrefix a0, Hex8 a1, imm64 a2, Span<byte> dst)
+        public static byte encode(RexPrefix a0, Hex8 a1, Imm64 a2, Span<byte> dst)
         {
             var i = z8;
             seek(dst,i++) = (byte)a0;

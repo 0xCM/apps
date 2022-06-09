@@ -41,7 +41,7 @@ namespace Z0.Asm.Operands
             => Address;
 
         public string Format()
-            => AsmRender.mem(this);
+            => MemOp.format(this);
 
         public override string ToString()
             => Format();

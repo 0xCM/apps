@@ -4,15 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    public readonly struct AsmExprOffset
+    public readonly struct AsmExprOffset : IAsmSourcePart
     {
         [MethodImpl(Inline), Op]
         public static AsmExprOffset define(string asm, MemoryAddress offset)
             => new AsmExprOffset(asm, offset);
 
-        public AsmExpr Asm {get;}
+        public readonly AsmExpr Asm;
 
-        public MemoryAddress Offset {get;}
+        public readonly MemoryAddress Offset;
 
         [MethodImpl(Inline)]
         public AsmExprOffset(AsmExpr expr, MemoryAddress offset)
@@ -25,6 +25,12 @@ namespace Z0.Asm
         {
             [MethodImpl(Inline)]
             get => new AsmOffsetLabel((byte)(bits.effsize(Offset)*8), Offset);
+        }
+
+        public AsmCellKind PartKind
+        {
+            [MethodImpl(Inline)]
+            get => AsmCellKind.OffsetValue;
         }
 
         public string Format()

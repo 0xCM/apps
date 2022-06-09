@@ -120,8 +120,8 @@ namespace Z0.Asm
         Type RefinementType(MethodInfo src)
             => src.ImmParameters(ImmRefinementKind.Refined).First().ParameterType;
 
-        Index<imm8R> RefinedValues(MethodInfo src)
-            => imm8.refined(RefiningParameter(src));
+        Index<Imm8R> RefinedValues(MethodInfo src)
+            => Imm8.refined(RefiningParameter(src));
 
         ReadOnlySpan<AsmRoutine> EmitDirectRefinements(in CaptureExchange exchange, IApiHost host, IAsmImmWriter dst)
         {
@@ -187,7 +187,7 @@ namespace Z0.Asm
         IAsmImmWriter Archive(in ApiHostUri host, FS.FolderPath root)
             => Wf.ImmWriter(host, root);
 
-        ReadOnlySpan<AsmRoutine> EmitUnrefined(in CaptureExchange exchange, Index<imm8R> imm8, Index<PartId> parts)
+        ReadOnlySpan<AsmRoutine> EmitUnrefined(in CaptureExchange exchange, Index<Imm8R> imm8, Index<PartId> parts)
         {
             var routines = list<AsmRoutine>();
             routines.AddRange(EmitUnrefinedDirect(exchange, imm8, parts));
@@ -208,7 +208,7 @@ namespace Z0.Asm
             return routines.ViewDeposited();
         }
 
-        Index<AsmRoutine> EmitUnrefinedDirect(in CaptureExchange exchange, Index<imm8R> imm8, Index<PartId> parts)
+        Index<AsmRoutine> EmitUnrefinedDirect(in CaptureExchange exchange, Index<Imm8R> imm8, Index<PartId> parts)
         {
             var routines = list<AsmRoutine>();
             foreach(var host in Hosts(parts))
@@ -220,7 +220,7 @@ namespace Z0.Asm
             return routines.ToArray();
         }
 
-        Index<AsmRoutine> EmitUnrefinedDirect(in CaptureExchange exchange, Index<ApiGroupNG> groups, Index<imm8R> imm8, IAsmImmWriter dst)
+        Index<AsmRoutine> EmitUnrefinedDirect(in CaptureExchange exchange, Index<ApiGroupNG> groups, Index<Imm8R> imm8, IAsmImmWriter dst)
         {
             var routines = list<AsmRoutine>();
             var unary = from g in groups
@@ -239,7 +239,7 @@ namespace Z0.Asm
             return routines.ToArray();
         }
 
-        Index<AsmRoutine> EmitUnrefinedGeneric(in CaptureExchange exchange, Index<imm8R> imm8, Index<PartId> parts)
+        Index<AsmRoutine> EmitUnrefinedGeneric(in CaptureExchange exchange, Index<Imm8R> imm8, Index<PartId> parts)
         {
             var routines = list<AsmRoutine>();
             foreach(var host in Hosts(parts))
@@ -266,7 +266,7 @@ namespace Z0.Asm
             return routines.ToArray();
         }
 
-        Index<AsmRoutine> EmitUnrefinedGeneric(in CaptureExchange exchange, ApiMethodG src, Index<imm8R> imm8, IAsmImmWriter dst)
+        Index<AsmRoutine> EmitUnrefinedGeneric(in CaptureExchange exchange, ApiMethodG src, Index<Imm8R> imm8, IAsmImmWriter dst)
         {
             var routines = list<AsmRoutine>();
             if(src.Method.IsVectorizedUnaryImm(ImmRefinementKind.Unrefined))
@@ -277,7 +277,7 @@ namespace Z0.Asm
             return routines.ToArray();
         }
 
-        Index<AsmRoutine> EmitUnrefinedUnary(in CaptureExchange exchange, OpIdentity gid, Index<ApiMethodNG> methods, Index<imm8R> imm8, IAsmImmWriter dst)
+        Index<AsmRoutine> EmitUnrefinedUnary(in CaptureExchange exchange, OpIdentity gid, Index<ApiMethodNG> methods, Index<Imm8R> imm8, IAsmImmWriter dst)
         {
             var generic = false;
             var routines = list<AsmRoutine>();
@@ -298,7 +298,7 @@ namespace Z0.Asm
             return routines.ToArray();
         }
 
-        Index<AsmRoutine> EmitUnrefinedBinary(in CaptureExchange exchange, OpIdentity gid, Index<ApiMethodNG> methods, Index<imm8R> imm8, IAsmImmWriter dst)
+        Index<AsmRoutine> EmitUnrefinedBinary(in CaptureExchange exchange, OpIdentity gid, Index<ApiMethodNG> methods, Index<Imm8R> imm8, IAsmImmWriter dst)
         {
             var generic = false;
             var routines = core.list<AsmRoutine>();
@@ -319,7 +319,7 @@ namespace Z0.Asm
             return routines.ToArray();
         }
 
-        Index<AsmRoutine> EmitUnary(in CaptureExchange exchange, ApiMethodG src, Index<imm8R> imm8, IAsmImmWriter dst, Type refinement = null)
+        Index<AsmRoutine> EmitUnary(in CaptureExchange exchange, ApiMethodG src, Index<Imm8R> imm8, IAsmImmWriter dst, Type refinement = null)
         {
             var gid = src.Id;
             var uri = src.Host.HostUri;
@@ -342,7 +342,7 @@ namespace Z0.Asm
             return routines.ToArray();
         }
 
-        Index<AsmRoutine> EmitBinary(in CaptureExchange exchange, ApiMethodG src, Index<imm8R> imm8, IAsmImmWriter dst, Type refinement = null)
+        Index<AsmRoutine> EmitBinary(in CaptureExchange exchange, ApiMethodG src, Index<Imm8R> imm8, IAsmImmWriter dst, Type refinement = null)
         {
             var gid = src.Id;
             var host = src.Host.HostUri;

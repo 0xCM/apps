@@ -9,9 +9,6 @@ namespace Z0.Asm
 
     partial class AsmOpCodes
     {
-        public static Outcome parse(ReadOnlySpan<char> src, out AsmOpCode dst)
-            => parse(text.format(src), out dst);
-
         public static Outcome parse(string src, out AsmOpCode dst)
         {
             var result = Outcome.Success;
@@ -56,10 +53,11 @@ namespace Z0.Asm
 
             var count = (byte)min(parts.Length, AsmOpCode.TokenCapacity);
             dst.TokenCount = count;
+            var t = AsmOcToken.Empty;
             for(var i=0; i<count; i++)
             {
                 var expr = skip(parts,i);
-                if(AsmTokens.opcode(expr, out var t))
+                if(AsmTokens.parse(expr, out t))
                     dst[i] = t;
                 else
                 {

@@ -11,6 +11,8 @@ namespace Z0.Asm
     {
         AsmRegSets Regs => Service(AsmRegSets.create);
 
+        AppSvcOps AppSvc => Wf.AppSvc();
+
         public void Emit()
         {
             EmitRexDocs();
@@ -59,10 +61,10 @@ namespace Z0.Asm
         public void EmitSibDocs()
         {
             var rows = AsmBytes.SibRows().View;
-            TableEmit(rows, SibBitfieldRow.RenderWidths, ProjectDb.ApiDoc("asm.docs.sib.bits", FS.Csv));
+            AppSvc.TableEmit(rows, ProjectDb.ApiDoc("asm.docs.sib.bits", FS.Csv));
 
             var codes = AsmBytes.SibRegCodes();
-            TableEmit(codes.View, SibRegCodes.RenderWidths, ProjectDb.ApiDoc("asm.docs.sib.regs", FS.Csv));
+            AppSvc.TableEmit(codes.View, ProjectDb.ApiDoc("asm.docs.sib.regs", FS.Csv));
         }
 
         public void EmitModRmDocs()

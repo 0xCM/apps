@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     /// <summary>
     /// Defines a signed 32-bit displacement
     /// </summary>
@@ -39,7 +37,7 @@ namespace Z0
             return result;
         }
 
-        public int Value {get;}
+        public readonly int Value {get;}
 
         [MethodImpl(Inline)]
         public Disp32(int value)
