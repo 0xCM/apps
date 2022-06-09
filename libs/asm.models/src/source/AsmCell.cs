@@ -2,17 +2,17 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
-    public readonly struct AsmCell : IAsmSourcePart, INullity
+    public readonly record struct AsmCell : IAsmSourcePart, INullity
     {
         [MethodImpl(Inline)]
         public static AsmCell define(string content, AsmCellKind kind)
             => new AsmCell(kind, content);
 
-        public @string Content {get;}
+        public readonly @string Content;
 
-        public AsmCellKind PartKind {get;}
+        public readonly AsmCellKind PartKind;
 
         [MethodImpl(Inline)]
         public AsmCell(AsmCellKind kind, string content)
@@ -20,6 +20,19 @@ namespace Z0.Asm
             Content = content;
             PartKind = kind;
         }
+
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => core.hash(core.hash(Content.Value),(uint)PartKind);
+        }
+
+        public override int GetHashCode()
+            => Hash;
+
+        [MethodImpl(Inline)]
+        public bool Equals(AsmCell src)
+            => Content == src.Content && PartKind == src.PartKind;
 
         public bool IsEmpty
         {
@@ -32,6 +45,9 @@ namespace Z0.Asm
             [MethodImpl(Inline)]
             get => Content.IsNonEmpty;
         }
+
+        AsmCellKind IAsmSourcePart.PartKind
+            => PartKind;
 
         public string Format()
             => Content;

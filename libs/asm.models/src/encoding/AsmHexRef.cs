@@ -34,6 +34,12 @@ namespace Z0
             get => Seg.Edit;
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => hash(View);
+        }
+
         public byte Size
         {
             [MethodImpl(Inline)]
@@ -62,17 +68,6 @@ namespace Z0
 
         public override int GetHashCode()
             => (int)alg.hash.marvin(View);
-
-        // public override bool Equals(object src)
-        //     => src is AsmHexRef x && Equals(x);
-
-        // [MethodImpl(Inline)]
-        // public static bool operator ==(AsmHexRef a, AsmHexRef b)
-        //     => a.Equals(b);
-
-        // [MethodImpl(Inline)]
-        // public static bool operator !=(AsmHexRef a, AsmHexRef b)
-        //     => !a.Equals(b);
 
         [MethodImpl(Inline)]
         public static implicit operator AsmHexRef(MemorySeg src)

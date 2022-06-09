@@ -2,8 +2,10 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
+    using Asm;
+
     public readonly struct AsmMnemonic : IAsmSourcePart, IComparable<AsmMnemonic>
     {
         public static AsmMnemonic parse(string src, out int i)

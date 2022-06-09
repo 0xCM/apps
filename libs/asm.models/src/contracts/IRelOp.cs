@@ -4,15 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    public enum AsmRelKind : byte
-    {
-        Rel8 = 0,
-
-        Rel16 = 1,
-
-        Rel32 = 2,
-    }
-
     public interface IRelOp : IAsmOp, ITextual
     {
         AsmRelKind RelKind {get;}

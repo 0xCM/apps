@@ -1,4 +1,3 @@
 @echo off
 call %~dp0config.cmd
-call %BuildLibsCmd%
-call %BuildRootProjectCmd%
+call %ZDev%\.cmd\build-libs.cmd

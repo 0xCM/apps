@@ -100,7 +100,6 @@ namespace Z0
                 throw no<S>();
         }
 
-
         [MethodImpl(Inline)]
         public static bool contains<T>(in T src, AsciCharSym match)
             where T : IAsciSeq

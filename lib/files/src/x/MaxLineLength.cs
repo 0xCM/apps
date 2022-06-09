@@ -4,9 +4,5 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XFs
-    {
-        public static TextFileStats FileStats(this FS.FilePath src)
-            => FS.stats(src);
-    }
+
 }

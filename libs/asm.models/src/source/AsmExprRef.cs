@@ -4,14 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IAsmInstruction
-    {
+    using static core;
 
-    }
-
-    public interface IAsmInstruction<T> : IAsmInstruction
-        where T : unmanaged, IAsmInstruction<T>
-    {
-
-    }
 }

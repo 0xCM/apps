@@ -4,14 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IAsmInstruction
+    public enum AsmRelKind : byte
     {
+        Rel8 = 0,
 
-    }
+        Rel16 = 1,
 
-    public interface IAsmInstruction<T> : IAsmInstruction
-        where T : unmanaged, IAsmInstruction<T>
-    {
-
+        Rel32 = 2,
     }
 }

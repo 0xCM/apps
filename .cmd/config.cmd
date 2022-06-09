@@ -7,7 +7,9 @@ set BuildVerbosity=normal
 set BuildProps=/p:Configuration=%BuildKind% /p:Platform=%BuildPlatform%
 
 set TopDir=%ZDev%
-set SlnRoot=%TopDir%
+set SlnRoot=%ZDev%
+set BuildRoot=%SlnRoot%\.build
+
 set Archives=%ZArchive%
 set ArchiveRoot=%ZArchive%
 set RepoArchives=%ArchiveRoot%\bin\source
@@ -15,12 +17,11 @@ set CmdScripts=%TopDir%\.cmd
 
 set AppDir=%TopDir%\apps
 set TestDir=%TopDir%\test
-set CgDir=%TopDir%\codegen
+set CgDir=%TopDir%\cg
 set LibDir=%TopDir%\lib
 set LibsRoot=%TopDir%\libs
 set ShellRoot=%SlnRoot%\shells
 
-set BuildRoot=%SlnRoot%\.build
 set BuildBinRoot=%BuildRoot%\bin
 
 set RepoLogs=%Archives%\repos
@@ -67,11 +68,7 @@ set AreaBuildCmd=dotnet build %AreaSln% %BuildProps% -fl -flp:logfile=%AreaBuild
 set BuildAppsCmd=%AreaBuildCmd%
 echo BuildAppsCmd:%BuildAppsCmd% >> %CmdLog%
 
-set Area=libs
-set AreaProject=%SlnRoot%\%Area%\%ProjectId%\z0.%ProjectId%.csproj
-set AreaBuildLog=%BuildLogs%\z0.%ProjectId%.build.log
-set AreaBuildCmd=dotnet build %AreaProject% %BuildProps% -fl -flp:logfile=%AreaBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
-set BuildLibsCmd=%AreaBuildCmd%
+set BuildLibsCmd=dotnet build %SlnRoot%\libs\z0.libs.csproj %BuildProps% -fl -flp:logfile=%BuildLogs%\z0.libs.build.log;verbosity=%BuildVerbosity% -graph:true -m:24
 
 set Area=test
 set AreaSln=%SlnRoot%\%Area%\z0.%Area%.sln
@@ -87,12 +84,29 @@ set AreaBuildCmd=dotnet build %AreaProject% %BuildProps% -fl -flp:logfile=%AreaB
 set BuildZlibCmd=%AreaBuildCmd%
 echo BuildZlibCmd:%BuildLibCmd% >> %CmdLog%
 
-set Area=codegen
-set AreaSln=%SlnRoot%\%Area%\z0.%Area%.sln
-set AreaBuildLog=%BuildLogs%\z0.%Area%.build.log
-set BuildAreaCmd=dotnet build %AreaSln% %BuildProps% -fl -flp:logfile=%AreaBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
-set BuildCgCmd=%BuildAreaCmd%
-echo BuildCgCmd:%BuildCgCmd% >> %CmdLog%
+set CgId=cg.intel
+set CgProject=%SlnRoot%\cg\%CgId%\z0.%CgId%.csproj
+set CgBuildLog=%BuildLogs%\z0.%CgId%.build.log
+set BuildCgIntelCmd=dotnet build %CgProject% %BuildProps% -fl -flp:logfile=%CgBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
+
+set CgId=cg.shell
+set CgProject=%SlnRoot%\cg\%CgId%\z0.%CgId%.csproj
+set CgBuildLog=%BuildLogs%\z0.%CgId%.build.log
+set BuildCgShell=dotnet build %CgProject% %BuildProps% -fl -flp:logfile=%CgBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
+
+set CgId=cg.common
+set CgProject=%SlnRoot%\cg\%CgId%\z0.%CgId%.csproj
+set CgBuildLog=%BuildLogs%\z0.%CgId%.build.log
+set BuildCgCommonCmd=dotnet build %CgProject% %BuildProps% -fl -flp:logfile=%CgBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
+
+set CgId=cg.llvm
+set CgProject=%SlnRoot%\cg\%CgId%\z0.%CgId%.csproj
+set CgBuildLog=%BuildLogs%\z0.%CgId%.build.log
+set BuildCgLlvmCmd=dotnet build %CgProject% %BuildProps% -fl -flp:logfile=%CgBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
+
+set CgProject=%SlnRoot%\cg\z0.cg.csproj
+set CgBuildLog=%BuildLogs%\z0.cg.build.log
+set BuildCgCmd=dotnet build %CgProject% %BuildProps% -fl -flp:logfile=%CgBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 
 set _AreaProject=%TopDir%\%AreaId%\%ProjectId%\z0.%ProjectId%.csproj
 set _AreaBuildLog=%BuildLogs%\z0.%AreaId%.build.log

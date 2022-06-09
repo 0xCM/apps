@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public readonly struct AsmOcValue : IEquatable<AsmOcValue>, IComparable<AsmOcValue>
+    public readonly record struct AsmOcValue : IComparable<AsmOcValue>
     {
         [Parser]
         public static Outcome parse(string src, out AsmOcValue dst)
@@ -129,6 +129,12 @@ namespace Z0
         public ReadOnlySpan<byte> ToSpan()
             => slice(Data.Bytes, 0, Z0.Storage.trim(Data).TrimmedSize);
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => (uint)this;
+        }
+
         public byte TrimmedSize
         {
             [MethodImpl(Inline)]
@@ -160,15 +166,12 @@ namespace Z0
         public bool Equals(AsmOcValue src)
             => Data == src.Data;
 
-        public override bool Equals(object src)
-            => src is AsmOcValue x && Equals(x);
-
         [MethodImpl(Inline)]
         public int CompareTo(AsmOcValue src)
             => ((uint)Data).CompareTo((uint)src.Data);
 
         public override int GetHashCode()
-            => (int)((uint)Data);
+            => Hash;
 
         [MethodImpl(Inline)]
         public static implicit operator Hex32(AsmOcValue src)
@@ -193,14 +196,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator AsmOcValue(ByteBlock4 src)
             => new AsmOcValue(src);
-
-        [MethodImpl(Inline)]
-        public static bool operator ==(AsmOcValue a, AsmOcValue b)
-            => a.Equals(b);
-
-        [MethodImpl(Inline)]
-        public static bool operator !=(AsmOcValue a, AsmOcValue b)
-            => !a.Equals(b);
 
         public static AsmOcValue Empty => default;
     }

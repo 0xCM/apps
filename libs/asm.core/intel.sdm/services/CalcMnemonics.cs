@@ -9,6 +9,6 @@ namespace Z0.Asm
     partial class IntelSdm
     {
         public Index<AsmMnemonic> CalcMnemonics()
-            => map(LoadSigs().Select(x => x.Mnemonic.Format(Asm.MnemonicCase.Lowercase)).Distinct(), x => (AsmMnemonic)x);
+            => map(LoadSigs().Select(x => x.Mnemonic.Format(MnemonicCase.Lowercase)).Distinct(), x => (AsmMnemonic)x);
     }
 }

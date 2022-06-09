@@ -11,8 +11,6 @@
   <ItemGroup>
     <ProjectReference Include="$(AsmCore)" />
     <ProjectReference Include="$(TestChecks)" />
-    <ProjectReference Include="$(CodeGenLlvm)" />
-    <ProjectReference Include="$(CodeGenIntel)" />
     <ProjectReference Include="$(IntelIntrinsics)" />
     <ProjectReference Include="$(Cli)" />
   </ItemGroup>

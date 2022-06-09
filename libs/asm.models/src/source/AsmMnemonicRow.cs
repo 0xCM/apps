@@ -4,10 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using static core;
-
     using W = AsmColWidths;
-
 
     [StructLayout(StructLayout,Pack=1), Record(TableId)]
     public readonly record struct AsmMnemonicRow : IComparable<AsmMnemonicRow>

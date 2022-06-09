@@ -20,11 +20,11 @@ namespace Z0
             get => new AsmObjPaths(AppDb.Service);
         }
 
-        public Index<AsmCodeMapEntry> MapAsm(IProjectWs ws, Alloc alloc)
+        public AsmCodeMap MapAsm(IProjectWs ws, Alloc alloc)
         {
             var dst = map(ws, LoadRows(ws.Project), alloc);
             AppSvc.TableEmit(dst, Paths.CodeMap(ws.Project));
-            return dst;
+            return new AsmCodeMap(dst);
         }
 
         public void CollectCoffData(WsContext context)

@@ -1,3 +1,4 @@
 {
-    "DbRoot":"y:/data"
+    "DbRoot":"y:/data",
+    "DataSources":"y:/data/sources"
 }

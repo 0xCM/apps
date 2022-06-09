@@ -34,10 +34,10 @@ namespace Z0.Asm
         public override string ToString()
             => Format();
 
-        public uint Hash
+        public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => alg.hash.calc(Value);
+            get => Value;
         }
 
         public override int GetHashCode()

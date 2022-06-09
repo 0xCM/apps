@@ -7,7 +7,10 @@
   </PropertyGroup>
 
   <Import Project="$(TopDir)imports/common.libs.props"/>
-  <Import Project="$(TopDir)imports/libs.props"/>
+
+  <ItemGroup>
+    <ProjectReference Include="$(ZLibs)" />
+  </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="*.settings.json"  CopyToOutputDirectory="Always" />

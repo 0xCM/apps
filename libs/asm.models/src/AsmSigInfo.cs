@@ -38,6 +38,7 @@ namespace Z0.Asm
 
         public readonly TextBlock Content;
 
+        [MethodImpl(Inline)]
         public AsmSigInfo(AsmMnemonic mnemonic, TextBlock content)
         {
             Mnemonic = mnemonic;
@@ -62,9 +63,14 @@ namespace Z0.Asm
             get => Content.IsNonEmpty;
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => core.hash(Content);
+        }
 
         public override int GetHashCode()
-            => Content.GetHashCode();
+            => Hash;
 
         [MethodImpl(Inline)]
         public string Format()

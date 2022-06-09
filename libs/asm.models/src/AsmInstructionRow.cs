@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct AsmInstructionRow : ISequential<AsmInstructionRow>, IComparable<AsmInstructionRow>

@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct AsmRowKey : IComparable<AsmRowKey>, IEquatable<AsmRowKey>
+    [StructLayout(StructLayout,Pack=1)]
+    public readonly record struct AsmRowKey : IComparable<AsmRowKey>
     {
         public readonly uint Seq;
 
@@ -20,6 +21,12 @@ namespace Z0
             DocSeq = docseq;
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => alg.hash.combine(Seq,DocSeq);
+        }
+
         public string Format()
             => string.Format("{0:x6}:{1:x4}:{2:x8}", Seq, DocSeq, (uint)OriginId);
 
@@ -28,13 +35,10 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public bool Equals(AsmRowKey src)
-            => Seq == src.Seq && DocSeq == src.DocSeq;
-
-        public override bool Equals(object src)
-            => src is AsmRowKey x && Equals(x);
+            => Seq == src.Seq && DocSeq == src.DocSeq && OriginId == src.OriginId;
 
         public override int GetHashCode()
-            => (int)alg.hash.combine(Seq,DocSeq);
+            => Hash;
 
         [MethodImpl(Inline)]
         public int CompareTo(AsmRowKey src)
@@ -43,13 +47,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator AsmRowKey((uint seq, uint docseq, Hex32 origin) src)
             => new AsmRowKey(src.seq, src.docseq, src.origin);
-
-        [MethodImpl(Inline)]
-        public static bool operator ==(AsmRowKey a, AsmRowKey b)
-            => a.Equals(b);
-
-        [MethodImpl(Inline)]
-        public static bool operator !=(AsmRowKey a, AsmRowKey b)
-            => !a.Equals(b);
     }
 }

@@ -4,14 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     [Free]
-    public interface IDisplacement// : IAsmOp
+    public interface IDisplacement
     {
-        // AsmOpClass IAsmOp.OpClass
-        //     => AsmOpClass.Disp;
-
         NativeSize Size {get;}
 
         long Value {get;}

@@ -12,7 +12,6 @@
     <ProjectReference Include="$(Assets)" />
     <ProjectReference Include="$(Numbers)" />
     <ProjectReference Include="$(AsmOperands)" />
-    <ProjectReference Include="$(CodeGenIntel)" />
     <ProjectReference Include="$(Diagnostics)" />
     <ProjectReference Include="$(Lang)" />
     <ProjectReference Include="$(Rules)" />

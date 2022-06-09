@@ -19,8 +19,17 @@ namespace Z0.Asm
         public Rel16(ushort src)
             => Value = src;
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Value;
+        }
+
         public AsmOpKind OpKind
-            => AsmOpKind.Rel16;
+        {
+            [MethodImpl(Inline)]
+            get => AsmOpKind.Rel16;
+        }
 
         public AsmOpClass OpClass
             => AsmOpClass.Rel;
@@ -37,14 +46,8 @@ namespace Z0.Asm
         ushort IRelOp<ushort>.Value
             => Value;
 
-        public uint Hash
-        {
-            [MethodImpl(Inline)]
-            get => alg.hash.calc(Value);
-        }
-
         public override int GetHashCode()
-            => (int)Hash;
+            => Hash;
 
         [MethodImpl(Inline)]
         public int CompareTo(T src)

@@ -1,1 +1,0 @@
-dotnet build %~dp0..\z0.codegen.common.csproj -c Release

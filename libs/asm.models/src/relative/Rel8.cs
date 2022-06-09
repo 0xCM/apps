@@ -37,11 +37,12 @@ namespace Z0.Asm
         byte IRelOp<byte>.Value
             => Value;
 
-        public uint Hash
+        public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => alg.hash.calc(Value);
+            get => Value;
         }
+
 
         public override int GetHashCode()
             => (int)Hash;

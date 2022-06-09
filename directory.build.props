@@ -7,7 +7,7 @@
     <Src>$(TopDir)</Src>
     <AppsRoot>$(Src)apps/</AppsRoot>
     <LibsRoot>$(Src)libs/</LibsRoot>
-    <CodeGenRoot>$(Src)codegen/</CodeGenRoot>
+    <CgRoot>$(Src)cg/</CgRoot>
     <TestRoot>$(Src)test/</TestRoot>
     <BuildRootDir>$(TopDir).build\</BuildRootDir>
     <OutputPath>$(BuildRootDir)bin\$(MsBuildProjectName)\$(Configuration)\</OutputPath>
@@ -16,9 +16,16 @@
     <IntermediateBuildDir>$(IntermediateRoot)</IntermediateBuildDir>
     <BaseIntermediateOutputPath>$(IntermediateRoot)</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(IntermediateRoot)</IntermediateOutputPath>
-    <ZLibPath>J:\z0\.build\bin\z0.lib\Release\$(TargetFramework)\z0.lib.dll</ZLibPath>
-    <ChecksPath>J:\z0\.build\bin\z0.test.checks\release\$(TargetFramework)\z0.test.checks.dll</ChecksPath>
-    <ZTestPath>J:\z0\.build\bin\z0.test.units\Release\$(TargetFramework)\z0.test.units.dll</ZTestPath>
+    <BuildBinRoot>$(BuildRootDir)bin\</BuildBinRoot>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <ZLibPath>$(BuildBinRoot)z0.lib\$(Configuration)\$(TargetFramework)\z0.lib.dll</ZLibPath>
+    <ChecksPath>$(BuildBinRoot)z0.test.checks\$(Configuration)\$(TargetFramework)\z0.test.checks.dll</ChecksPath>
+    <ZTestPath>$(BuildBinRoot)z0.test.units\$(Configuration)\$(TargetFramework)\z0.test.units.dll</ZTestPath>
+    <CgCommonPath>$(BuildBinRoot)z0.codegen.common\$(Configuration)\$(TargetFramework)\z0.codegen.common.dll</CgCommonPath>
+    <CgIntelPath>$(BuildBinRoot)z0.codegen.intel\$(Configuration)\$(TargetFramework)\z0.codegen.intel.dll</CgIntelPath>
+    <CgLlvmPath>$(BuildBinRoot)z0.codegen.llvm\$(Configuration)\$(TargetFramework)\z0.codegen.llvm.dll</CgLlvmPath>
   </PropertyGroup>
 
   <Import Project="projects.props"/>

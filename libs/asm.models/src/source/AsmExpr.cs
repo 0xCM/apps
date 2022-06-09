@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
     using static core;
 
@@ -47,7 +47,7 @@ namespace Z0.Asm
         public static AsmExpr define(AsmMnemonic monic, ReadOnlySpan<char> operands)
             => new AsmExpr(string.Format("{0} {1}", monic.Format(MnemonicCase.Lowercase), text.format(operands)));
 
-        public TextBlock Content {get;}
+        public readonly TextBlock Content;
 
         const sbyte DefaultPadding = -46;
 
