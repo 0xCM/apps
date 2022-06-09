@@ -6,7 +6,7 @@
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
 
-  <Import Project="$(TopDir)imports/common.libs.props"/>
+  <Import Project="$(ImportDefs)common.libs.props"/>
 
   <ItemGroup>
     <ProjectReference Include="$(AsmCore)" />

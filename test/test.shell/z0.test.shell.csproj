@@ -6,7 +6,7 @@
     <AssemblyName>ztest</AssemblyName>
   </PropertyGroup>
 
-  <Import Project="$(TopDir)imports/common.libs.props"/>
+  <Import Project="$(ImportDefs)common.libs.props"/>
 
   <ItemGroup>
     <ProjectReference Include="$(TestUnits)" />

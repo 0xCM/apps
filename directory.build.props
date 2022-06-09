@@ -7,6 +7,8 @@
     <Src>$(TopDir)</Src>
     <AppsRoot>$(Src)apps/</AppsRoot>
     <LibsRoot>$(Src)libs/</LibsRoot>
+    <ImportDefs>$(LibsRoot)imports/</ImportDefs>
+
     <CgRoot>$(Src)cg/</CgRoot>
     <TestRoot>$(Src)test/</TestRoot>
     <BuildRootDir>$(TopDir).build\</BuildRootDir>

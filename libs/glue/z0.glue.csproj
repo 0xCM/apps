@@ -4,12 +4,12 @@
     <OutputType>Library</OutputType>
   </PropertyGroup>
 
-  <Import Project="$(TopDir)imports/code-analysis.props"/>
-  <Import Project="$(TopDir)imports/omnisharp.props"/>
-  <Import Project="$(TopDir)imports/diagnostics.props"/>
-  <Import Project="$(TopDir)imports/common.libs.props"/>
-  <Import Project="$(TopDir)imports/nuget.props"/>
-  <Import Project="$(TopDir)imports/ms.build.props"/>
+  <Import Project="$(ImportDefs)code-analysis.props"/>
+  <Import Project="$(ImportDefs)omnisharp.props"/>
+  <Import Project="$(ImportDefs)diagnostics.props"/>
+  <Import Project="$(ImportDefs)common.libs.props"/>
+  <Import Project="$(ImportDefs)nuget.props"/>
+  <Import Project="$(ImportDefs)ms.build.props"/>
 
   <ItemGroup>
       <ProjectReference Include="$(AsmCore)"/>

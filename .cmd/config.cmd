@@ -12,7 +12,7 @@ set BuildRoot=%SlnRoot%\.build
 
 set Archives=%ZArchive%
 set ArchiveRoot=%ZArchive%
-set RepoArchives=%ArchiveRoot%\bin\source
+set RepoArchives=K:\z0\archives\repos
 set CmdScripts=%TopDir%\.cmd
 
 set AppDir=%TopDir%\apps

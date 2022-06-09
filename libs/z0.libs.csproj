@@ -6,8 +6,8 @@
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
-  <Import Project="$(TopDir)imports/common.libs.props"/>
-  <Import Project="$(TopDir)imports/libs.props"/>
+  <Import Project="$(ImportDefs)common.libs.props"/>
+  <Import Project="$(ImportDefs)libs.props"/>
 
   <ItemGroup>
     <Compile Remove="$(MSBuildThisFileDirectory)\**"/>

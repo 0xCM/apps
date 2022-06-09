@@ -5,7 +5,7 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
-  <Import Project="$(TopDir)imports/common.libs.props"/>
+  <Import Project="$(ImportDefs)common.libs.props"/>
 
   <ItemGroup>
     <ProjectReference Include="$(Bits)" />

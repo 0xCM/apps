@@ -5,8 +5,8 @@
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
 
-  <Import Project="$(TopDir)imports/common.libs.props"/>
-  <Import Project="$(TopDir)imports/libs.props"/>
-  <Import Project="$(TopDir)imports/microsoft.extensions.props"/>
+  <Import Project="$(ImportDefs)common.libs.props"/>
+  <Import Project="$(ImportDefs)libs.props"/>
+  <Import Project="$(ImportDefs)microsoft.extensions.props"/>
 
 </Project>
