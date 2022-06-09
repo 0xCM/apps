@@ -4,6 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    public interface ITextual
+    {
+        string Format();
+
+        string ToString()
+            => Format();
+    }
+
     public interface IPartId : ITextual
     {
         /// <summary>

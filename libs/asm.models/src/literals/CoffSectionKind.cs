@@ -8,7 +8,7 @@ namespace Z0
     /// http://www.hexacorn.com/blog/2016/12/15/pe-section-names-re-visited
     /// https://github.com/llvm/llvm-project/blob/632ebc4ab4374e53fce1ec870465c587e0a33668/llvm/lib/MC/MCParser/COFFAsmParser.cpp
     /// </summary>
-    [SymSource("cofff")]
+    [SymSource("coff")]
     public enum CoffSectionKind : byte
     {
         Unknown = 0,

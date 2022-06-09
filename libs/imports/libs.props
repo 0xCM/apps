@@ -11,6 +11,7 @@
     <ProjectReference Include="$(AsmPrototypes)" />
     <ProjectReference Include="$(Assets)" />
     <ProjectReference Include="$(Bits)" />
+    <ProjectReference Include="$(Calcs)" />
     <ProjectReference Include="$(Cli)" />
     <ProjectReference Include="$(CmdActions)" />
     <ProjectReference Include="$(Commands)" />

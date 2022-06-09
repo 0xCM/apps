@@ -35,7 +35,3 @@ namespace Z0.Parts
 
     }
 }
-
-namespace Z0
-{
-}

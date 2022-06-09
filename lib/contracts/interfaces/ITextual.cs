@@ -6,13 +6,6 @@ namespace Z0
 {
     using System;
 
-    public interface ITextual
-    {
-        string Format();
-
-        string ToString()
-            => Format();
-    }
 
     public interface ILexical : ITextual
     {

@@ -7,30 +7,30 @@ namespace Z0.Asm
     using static core;
 
     [ApiHost]
-    public readonly partial struct AsmDirectives
+    public readonly struct AsmDirectives
     {
         [MethodImpl(Inline), Op]
-        public static SectionDirective section(text15 name, CoffSectionFlags flags, CoffComDatKind comdat, AsmDirectiveOp data)
-            => new SectionDirective(name, flags, comdat, data);
+        public static AsmSectionDirective section(text15 name, CoffSectionFlags flags, CoffComDatKind comdat, AsmDirectiveOp data)
+            => new AsmSectionDirective(name, flags, comdat, data);
 
         [MethodImpl(Inline), Op]
-        public static SectionDirective section(text15 name, CoffSectionFlags flags, CoffComDatKind comdat, string data)
-            => new SectionDirective(name,flags,comdat, operand(data));
+        public static AsmSectionDirective section(text15 name, CoffSectionFlags flags, CoffComDatKind comdat, string data)
+            => new AsmSectionDirective(name,flags,comdat, operand(data));
 
         [MethodImpl(Inline), Op]
-        public static SectionDirective section(text15 name, CoffSectionFlags flags, CoffComDatKind comdat, AsmLabel label)
-            => new SectionDirective(name, flags,comdat, label.Name.Format());
+        public static AsmSectionDirective section(text15 name, CoffSectionFlags flags, CoffComDatKind comdat, AsmLabel label)
+            => new AsmSectionDirective(name, flags,comdat, label.Name.Format());
 
         [Op]
-        public static SectionDirective section(CoffSectionKind kind, CoffSectionFlags flags, CoffComDatKind comdat, AsmDirectiveOp data)
+        public static AsmSectionDirective section(CoffSectionKind kind, CoffSectionFlags flags, CoffComDatKind comdat, AsmDirectiveOp data)
             => section(format(kind), flags, comdat, data);
 
         [Op]
-        public static SectionDirective section(CoffSectionKind kind, CoffSectionFlags flags, CoffComDatKind comdat, string data)
+        public static AsmSectionDirective section(CoffSectionKind kind, CoffSectionFlags flags, CoffComDatKind comdat, string data)
             => section(format(kind), flags, comdat, data);
 
         [Op]
-        public static SectionDirective section(CoffSectionKind kind, CoffSectionFlags flags, CoffComDatKind comdat, AsmLabel data)
+        public static AsmSectionDirective section(CoffSectionKind kind, CoffSectionFlags flags, CoffComDatKind comdat, AsmLabel data)
             => section(format(kind), flags, comdat, data);
 
 

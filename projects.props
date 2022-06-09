@@ -15,18 +15,20 @@
     <Asm>$(LibsRoot)asm/z0.asm.csproj</Asm>
     <AsmCore>$(LibsRoot)asm.core/z0.asm.core.csproj</AsmCore>
     <AsmModels>$(LibsRoot)asm.models/z0.asm.models.csproj</AsmModels>
-    <Archives>$(LibsRoot)archives.core/z0.archives.core.csproj</Archives>
-
-
     <AsmOperands>$(LibsRoot)asm.operands/z0.asm.operands.csproj</AsmOperands>
     <AsmPrototypes>$(LibsRoot)asm.prototypes/z0.asm.prototypes.csproj</AsmPrototypes>
+
+    <Archives>$(LibsRoot)archives.core/z0.archives.core.csproj</Archives>
+
+    <Cli>$(LibsRoot)cli/z0.cli.csproj</Cli>
+    <Commands>$(LibsRoot)commands/z0.commands.csproj</Commands>
+    <Calcs>$(LibsRoot)calcs/z0.calcs.csproj</Calcs>
+
     <Glue>$(LibsRoot)glue/z0.glue.csproj</Glue>
     <CmdActions>$(LibsRoot)cmd.actions/z0.cmd.actions.csproj</CmdActions>
     <LlvmTools>$(LibsRoot)llvm.tools/z0.llvm.tools.csproj</LlvmTools>
     <LlvmData>$(LibsRoot)llvm.data/z0.llvm.data.csproj</LlvmData>
     <Bits>$(LibsRoot)bits/z0.bits.csproj</Bits>
-    <Cli>$(LibsRoot)cli/z0.cli.csproj</Cli>
-    <Commands>$(LibsRoot)commands/z0.commands.csproj</Commands>
     <Numbers>$(LibsRoot)numbers/z0.numbers.csproj</Numbers>
     <Expr>$(LibsRoot)expr/z0.expr.csproj</Expr>
     <Diagnostics>$(LibsRoot)diagnostics/z0.diagnostics.csproj</Diagnostics>

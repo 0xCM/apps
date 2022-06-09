@@ -8,13 +8,5 @@
 
   <Import Project="$(ImportDefs)common.libs.props"/>
 
-  <ItemGroup>
-    <EmbeddedResource Include="assets/**/*.*" />
-    <ProjectReference Include="$(Numbers)" />
-    <ProjectReference Include="$(Expr)" />
-    <ProjectReference Include="$(Alloc)" />
-    <ProjectReference Include="$(Calcs)" />
-
-  </ItemGroup>
 
 </Project>

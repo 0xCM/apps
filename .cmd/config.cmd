@@ -80,12 +80,17 @@ set AreaBuildCmd=dotnet build %AreaSln% %BuildProps% -fl -flp:logfile=%AreaBuild
 set BuildTestsCmd=%AreaBuildCmd%
 echo BuildTestsCmd:%BuildTestsCmd% >> %CmdLog%
 
-set Area=lib
-set AreaProject=%SlnRoot%\%Area%\z0.%Area%.csproj
-set AreaBuildLog=%BuildLogs%\z0.%Area%.build.log
-set AreaBuildCmd=dotnet build %AreaProject% %BuildProps% -fl -flp:logfile=%AreaBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
-set BuildZlibCmd=%AreaBuildCmd%
+set ZLibProject=%SlnRoot%\lib\z0.lib.csproj
+set ZLibBuildLog=%BuildLogs%\z0.lib.build.log
+set BuildZlibCmd=dotnet build %ZLibProject% %BuildProps% -fl -flp:logfile=%ZLibBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 echo BuildZlibCmd:%BuildLibCmd% >> %CmdLog%
+
+set Area=libs
+set AreaProject=%SlnRoot%\%Area%\%ProjectId%\z0.%ProjectId%.csproj
+set AreaBuildLog=%BuildLogs%\z0.%ProjectId%.build.log
+set AreaBuildCmd=dotnet build %AreaProject% %BuildProps% -fl -flp:logfile=%AreaBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
+set BuildLibCmd=%AreaBuildCmd%
+echo BuildLibCmd:%BuildLibCmd% >> %CmdLog%
 
 set CgId=cg.intel
 set CgProject=%SlnRoot%\cg\%CgId%\z0.%CgId%.csproj

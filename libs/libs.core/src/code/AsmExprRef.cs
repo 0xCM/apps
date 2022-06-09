@@ -6,12 +6,12 @@ namespace Z0
 {
     using static core;
 
-    public readonly record struct AsmHexRef
+    public readonly record struct AsmExprRef
     {
         readonly MemorySeg Seg;
 
         [MethodImpl(Inline)]
-        public AsmHexRef(MemorySeg seg)
+        public AsmExprRef(MemorySeg seg)
         {
             Seg = seg;
         }
@@ -53,7 +53,7 @@ namespace Z0
             => Format();
 
         [MethodImpl(Inline)]
-        public bool Equals(AsmHexRef src)
+        public bool Equals(AsmExprRef src)
         {
             var size = src.Size;
             if(size != Size)
@@ -69,8 +69,5 @@ namespace Z0
         public override int GetHashCode()
             => Hash;
 
-        [MethodImpl(Inline)]
-        public static implicit operator AsmHexRef(MemorySeg src)
-            => new AsmHexRef(src);
     }
 }

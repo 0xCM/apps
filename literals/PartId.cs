@@ -64,8 +64,8 @@ public enum PartId : byte
     [Symbol("llvm.data")]
     LlvmData,
 
-    [Symbol("calc")]
-    Calc,
+    [Symbol("calcs")]
+    Calcs,
 
     [Symbol("resources")]
     Resources,
@@ -169,6 +169,8 @@ public enum PartId : byte
     [Symbol("archives.services")]
     ArchiveServices,
 
+    [Symbol("literals")]
+    Literals,
 
     [Symbol("lib")]
     Lib,

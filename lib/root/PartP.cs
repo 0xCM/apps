@@ -29,7 +29,7 @@ namespace Z0
         public virtual IExecutor Executor
             => new PartExecutor();
 
-        public Hash32 Hash
+        public uint Hash
         {
             [MethodImpl(Inline)]
             get => (uint)Id;
