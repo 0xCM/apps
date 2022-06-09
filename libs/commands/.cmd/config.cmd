@@ -1,4 +1,3 @@
 @echo off
 set ProjectId=commands
-call %ZDev%\.cmd\config.cmd
-
+call %~dp0..\..\..\.cmd\config.cmd

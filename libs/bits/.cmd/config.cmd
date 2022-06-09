@@ -1,4 +1,4 @@
 @echo off
-set ProjectId=calcs
+set ProjectId=bits
 call %~dp0..\..\..\.cmd\config.cmd
 

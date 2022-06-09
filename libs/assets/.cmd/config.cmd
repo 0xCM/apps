@@ -1,4 +1,4 @@
 @echo off
 set ProjectId=assets
-call %ZDev%\.cmd\config.cmd
+call %~dp0..\..\..\.cmd\config.cmd
 

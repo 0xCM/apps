@@ -1,4 +1,3 @@
 @echo off
 set ProjectId=intel.xed
-call %ZDev%\.cmd\config.cmd
-
+call %~dp0..\..\..\.cmd\config.cmd

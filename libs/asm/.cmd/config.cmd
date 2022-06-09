@@ -1,4 +1,4 @@
 @echo off
 set ProjectId=asm
-call %ZDev%\.cmd\config.cmd
+call %~dp0..\..\..\.cmd\config.cmd
 

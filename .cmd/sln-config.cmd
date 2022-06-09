@@ -4,7 +4,7 @@ set SlnPath=%SlnDir%/%SlnName%
 set SlnZLibCmd=%SlnTool% %SlnPath% add %LibDir%/z0.lib.csproj
 set SlnLiteralsCmd=%SlnTool% %SlnPath% add %SlnRoot%/literals/z0.literals.csproj
 set SlnLibsCmd=%SlnTool% %SlnPath% add %LibsRoot%/z0.libs.csproj
-set SlnCmdCmd=%SlnTool% %SlnPath% add %TopDir%/cmd/z0.cmd.csproj
+set SlnCmdCmd=%SlnTool% %SlnPath% add %SlnRoot%/cmd/z0.cmd.csproj
 
 set SlnLibsCoreCmd==%SlnTool% %SlnPath% add %LibsRoot%/libs.core/z0.libs.core.csproj
 

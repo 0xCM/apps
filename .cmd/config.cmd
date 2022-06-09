@@ -6,38 +6,32 @@ set RuntimeMoniker=win-x64
 set BuildVerbosity=normal
 set BuildProps=/p:Configuration=%BuildKind% /p:Platform=%BuildPlatform%
 
-set TopDir=%ZDev%
-set SlnRoot=%ZDev%
+set SlnRoot=j:\z0
 set SlnScripts=%SlnRoot%\.cmd
 set SlnOut=%SlnRoot%\.build
-
 set BuildRoot=%SlnRoot%\.build
 
-set Archives=%ZArchive%
-set ArchiveRoot=%ZArchive%
-set RepoArchives=K:\z0\archives\repos
-set CmdScripts=%TopDir%\.cmd
+set Archives=Y:\archives
+set RepoArchives=%Archives%\repos
+set RepoLogs=%RepoArchives%\repos
+set RepoArchive=%RepoArchives%\z0.archive.zip
 
-set AppDir=%TopDir%\apps
-set TestDir=%TopDir%\test
-set CgDir=%TopDir%\cg
-set LibDir=%TopDir%\lib
-set LibsRoot=%TopDir%\libs
+mkdir %RepoArchives% 1>nul 2>nul
+
+set CmdScripts=%SlnRoot%\.cmd
+
+set AppDir=%SlnRoot%\apps
+set TestDir=%SlnRoot%\test
+set CgDir=%SlnRoot%\cg
+set LibDir=%SlnRoot%\lib
+set LibsRoot=%SlnRoot%\libs
 set ShellRoot=%SlnRoot%\shells
 
 set BuildBinRoot=%BuildRoot%\bin
 
-set RepoLogs=%Archives%\repos
-mkdir %RepoLogs% 1>nul 2>nul
-
-set EtlLogs=%Archives%\etl
-mkdir %EtlLogs% 1>nul 2>nul
-
 set BuildLogs=%BuildRoot%\logs
-mkdir %BuildLogs% 1>nul 2>nul
-
 set CmdLogs=%BuildLogs%
-mkdir %CmdLogs% 1>nul 2>nul
+mkdir %BuildLogs% 1>nul 2>nul
 
 set ProjectFile=z0.%ProjectId%.csproj
 set ShellName=%ShellId%.exe
@@ -48,7 +42,7 @@ set ProjectBuildRoot=%BuildBinRoot%\z0.%ProjectId%\%BuildKind%\%FrameworkMoniker
 set ShellBin=%ProjectBuildRoot%\%RuntimeMoniker%
 set LibPath=%ProjectBuildRoot%\%LibName%
 set ShellPath=%ShellBin%\%ShellName%
-set ProjectDir=%TopDir%\%ProjectId%
+set ProjectDir=%SlnRoot%\%ProjectId%
 set ProjectSlnName=z0.%ProjectId%.sln
 set ProjectSlnPath=%ProjectDir%\%ProjectSlnName%
 
@@ -58,18 +52,15 @@ set ProjectGraphPath=%BuildLogs%\z0.%ProjectId%.dg.json
 set ProjectBuildLogPath="%BuildLogs%\z0.%ProjectId%.log"
 set TargetSpec=%SlnRoot%\apps\%ProjectId%\%ProjectFile%
 set BuildAppLibCmd=dotnet build %TargetSpec% %BuildProps% -fl -flp:logfile=%ProjectBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
-echo BuildAppLibCmd:%BuildAppLibCmd% > %CmdLog%
 
 set TargetSpec=%SlnRoot%\%ProjectId%\%ProjectFile%
 set BuildRootProjectCmd=dotnet build %TargetSpec% %BuildProps% -fl -flp:logfile=%ProjectBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
-echo BuildRootProjectCmd:%BuildRootProjectCmd% >> %CmdLog%
 
 set Area=apps
 set AreaSln=%SlnRoot%\%Area%\z0.%Area%.sln
 set AreaBuildLog=%BuildLogs%\z0.%Area%.build.log
 set AreaBuildCmd=dotnet build %AreaSln% %BuildProps% -fl -flp:logfile=%AreaBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 set BuildAppsCmd=%AreaBuildCmd%
-echo BuildAppsCmd:%BuildAppsCmd% >> %CmdLog%
 
 set BuildLibsCmd=dotnet build %SlnRoot%\libs\z0.libs.csproj %BuildProps% -fl -flp:logfile=%BuildLogs%\z0.libs.build.log;verbosity=%BuildVerbosity% -graph:true -m:24
 
@@ -78,19 +69,16 @@ set AreaSln=%SlnRoot%\%Area%\z0.%Area%.sln
 set AreaBuildLog=%BuildLogs%\z0.%Area%.build.log
 set AreaBuildCmd=dotnet build %AreaSln% %BuildProps% -fl -flp:logfile=%AreaBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 set BuildTestsCmd=%AreaBuildCmd%
-echo BuildTestsCmd:%BuildTestsCmd% >> %CmdLog%
 
 set ZLibProject=%SlnRoot%\lib\z0.lib.csproj
 set ZLibBuildLog=%BuildLogs%\z0.lib.build.log
 set BuildZlibCmd=dotnet build %ZLibProject% %BuildProps% -fl -flp:logfile=%ZLibBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
-echo BuildZlibCmd:%BuildLibCmd% >> %CmdLog%
 
 set Area=libs
 set AreaProject=%SlnRoot%\%Area%\%ProjectId%\z0.%ProjectId%.csproj
 set AreaBuildLog=%BuildLogs%\z0.%ProjectId%.build.log
 set AreaBuildCmd=dotnet build %AreaProject% %BuildProps% -fl -flp:logfile=%AreaBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 set BuildLibCmd=%AreaBuildCmd%
-echo BuildLibCmd:%BuildLibCmd% >> %CmdLog%
 
 set CgId=cg.intel
 set CgProject=%SlnRoot%\cg\%CgId%\z0.%CgId%.csproj
@@ -116,7 +104,7 @@ set CgProject=%SlnRoot%\cg\z0.cg.csproj
 set CgBuildLog=%BuildLogs%\z0.cg.build.log
 set BuildCgCmd=dotnet build %CgProject% %BuildProps% -fl -flp:logfile=%CgBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 
-set _AreaProject=%TopDir%\%AreaId%\%ProjectId%\z0.%ProjectId%.csproj
+set _AreaProject=%SlnRoot%\%AreaId%\%ProjectId%\z0.%ProjectId%.csproj
 set _AreaBuildLog=%BuildLogs%\z0.%AreaId%.build.log
 set _AreaBuildCmd=dotnet build %_AreaProject% %BuildProps% -fl -flp:logfile=%_AreaBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 set _AreaExePath=%BuildBinRoot%\%Area%\z0.%ProjectId%\%BuildKind%\%FrameworkMoniker%\%RuntimeMoniker%\z0.%ProjectId%.exe
@@ -131,7 +119,6 @@ set AreaSln=%SlnRoot%\%Area%.sln
 set AreaBuildLog=%BuildLogs%\%Area%.main.build.log
 set BuildAreaCmd=dotnet build %AreaSln% %BuildProps% -fl -flp:logfile=%AreaBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 set BuildMainCmd=%BuildAreaCmd%
-echo BuildMainCmd:%BuildMainCmd% >> %CmdLog%
 
 set Area=shells
 set AreaProject=%SlnRoot%\%Area%\%ProjectId%\z0.%ProjectId%.csproj
@@ -166,14 +153,8 @@ set ProjectPath=%SlnRoot%\%PID%\z0.%PID%.csproj
 set ProjectLog=%BuildLogs%\z0.%PID%.build.log
 set BuildLiteralsCmd=dotnet build %ProjectPath% %BuildProps% -fl -flp:logfile=%ProjectLog%;verbosity=%BuildVerbosity% -m:24
 
-set DeploySrc=%ShellBin%
+: set DeploySrc=%ShellBin%
+: set DeployLog=%EtlLogs%\deploy-%ProjectId%.log
+: set DeployDst=%ZBin%
+: set DeployCmd=robocopy %DeploySrc% %DeployDst% /log:%DeployLog% /tee /TS /BYTES /V /e
 
-set DeployLog=%EtlLogs%\deploy-%ProjectId%.log
-set DeployDst=%ZBin%
-set DeployCmd=robocopy %DeploySrc% %DeployDst% /log:%DeployLog% /tee /TS /BYTES /V /e
-
-
-
-echo DeploySrc:%DeploySrc% > %DeployLog%
-echo DeployDst:%DeployDst% >> %DeployLog%
-echo DeployCmd:%DeployCmd% >> %DeployLog%

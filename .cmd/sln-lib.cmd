@@ -6,4 +6,4 @@ set SlnName=z0.%Area%.sln
 set SlnPath=%SlnRoot%/%SlnName%
 echo SlnPath:%SlnPath%
 
-dotnet sln %SlnPath% add %TopDir%/%Area%/z0.%Area%.csproj
+dotnet sln %SlnPath% add %SlnRoot%/%Area%/z0.%Area%.csproj

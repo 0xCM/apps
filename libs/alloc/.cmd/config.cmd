@@ -1,4 +1,4 @@
 @echo off
 set ProjectId=alloc
-call %ZDev%\.cmd\config.cmd
+call %~dp0..\..\..\.cmd\config.cmd
 
