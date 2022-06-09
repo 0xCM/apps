@@ -8,7 +8,7 @@ namespace Z0
     /// Classifies ComDat sections
     /// </summary>
     /// <remarks>Adapted from https://github.com/llvm/llvm-project/blob/632ebc4ab4374e53fce1ec870465c587e0a33668/llvm/lib/MC/MCParser/COFFAsmParser.cpp</remarks>
-    [SymSource(CoffObjects.group)]
+    [SymSource("coff")]
     public enum CoffComDatKind : byte
     {
         [Symbol("")]

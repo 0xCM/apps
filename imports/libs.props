@@ -4,6 +4,7 @@
     <ProjectReference Include="$(Alloc)" />
     <ProjectReference Include="$(ApiCode)" />
     <ProjectReference Include="$(ApiMd)" />
+    <ProjectReference Include="$(Archives)" />
     <ProjectReference Include="$(Asm)" />
     <ProjectReference Include="$(AsmCore)" />
     <ProjectReference Include="$(AsmOperands)" />
@@ -27,6 +28,7 @@
     <ProjectReference Include="$(Numbers)" />
     <ProjectReference Include="$(Rules)" />
     <ProjectReference Include="$(Symbols)" />
+
   </ItemGroup>
 
 </Project>

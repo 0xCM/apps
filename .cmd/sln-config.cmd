@@ -2,8 +2,11 @@
 set SlnTool=dotnet sln
 set SlnPath=%SlnDir%/%SlnName%
 set SlnZLibCmd=%SlnTool% %SlnPath% add %LibDir%/z0.lib.csproj
-set SlnLibsCoreCmd==%SlnTool% %SlnPath% add %LibsRoot%/libs.core/z0.libs.core.csproj
 set SlnLibsCmd=%SlnTool% %SlnPath% add %LibsRoot%/z0.libs.csproj
+set SlnCmdCmd=%SlnTool% %SlnPath% add %TopDir%/cmd/z0.cmd.csproj
+
+set SlnLibsCoreCmd==%SlnTool% %SlnPath% add %LibsRoot%/libs.core/z0.libs.core.csproj
+
 set SlnAsmCoreCmd=%SlnTool% %SlnPath% add %LibsRoot%/asm.core/z0.asm.core.csproj
 set SlnAsmModelsCmd=%SlnTool% %SlnPath% add %LibsRoot%/asm.models/z0.asm.models.csproj
 set SlnAsmOperandsCmd=%SlnTool% %SlnPath% add %LibsRoot%/asm.operands/z0.asm.operands.csproj
@@ -46,4 +49,3 @@ set SlnIntelShellCmd=%SlnTool% %SlnPath% add %ShellRoot%\intel\z0.intel.csproj
 set SlnAsmShellCmd=%SlnTool% %SlnPath% add %ShellRoot%\asm.shell\z0.asm.shell.csproj
 set SlnWorkersCmd=%SlnTool% %SlnPath% add %ShellRoot%\workers\z0.workers.csproj
 
-set SlnCmdCmd=%SlnTool% %SlnPath% add %TopDir%\cmd\z0.cmd.csproj

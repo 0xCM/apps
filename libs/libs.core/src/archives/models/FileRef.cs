@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+
     [Record(TableId), StructLayout(LayoutKind.Sequential, Pack = 1)]
     public readonly struct FileRef :  IFileRef, IComparable<FileRef>
     {

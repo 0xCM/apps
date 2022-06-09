@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.IO;
-
     public struct LineReaderState
     {
         public readonly StreamReader Source;

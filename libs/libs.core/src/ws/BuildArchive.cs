@@ -4,16 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct BuildArchive : IWsBuildArchive
+    public readonly struct WsBuildArchive : IWsBuildArchive
     {
-        public FS.FolderPath Root {get;}
+        public readonly FS.FolderPath Root {get;}
 
-        public ProjectId Project {get;}
+        public readonly ProjectId Project {get;}
 
-        public EnvData Env {get;}
+        public readonly EnvData Env {get;}
 
         [MethodImpl(Inline)]
-        public BuildArchive(EnvData env, WsVars vars)
+        public WsBuildArchive(EnvData env, WsVars vars)
         {
             Env =env;
             Project = vars.Project;

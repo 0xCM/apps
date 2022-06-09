@@ -6,7 +6,7 @@ namespace Z0
 {
     public class BuildArchives : AppService<BuildArchives>
     {
-        public BuildArchive Create(WsVars vars)
-            => new BuildArchive(Env,vars);
+        public WsBuildArchive Create(WsVars vars)
+            => new WsBuildArchive(Env,vars);
     }
 }

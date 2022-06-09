@@ -98,9 +98,6 @@ namespace Z0
         public static Outcome parse(string src, out Hash64 dst)
             => Hash64.parse(src, out dst);
 
-        public static Outcome parse<T>(string src, out LineInterval<Identifier> dst)
-            => LineInterval.parse(src, out dst);
-
         public static Outcome parse(string src, out SymKey dst)
             => SymKey.parse(src, out dst);
 
@@ -112,9 +109,6 @@ namespace Z0
 
         public static Outcome parse(string src, out LineNumber dst)
             => LineNumber.parse(src, out dst);
-
-        public static Outcome parse(string src, out LineOffset dst)
-            => LineOffset.parse(src, out dst);
 
         public static Outcome parse(string src, out MemoryAddress dst)
             => AddressParser.parse(src, out dst);

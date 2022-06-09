@@ -6,7 +6,7 @@ namespace Z0
 {
     using static Pow2x16;
 
-    [SymSource(CoffObjects.group)]
+    [SymSource("coff")]
     public enum CoffSectionFlags : ushort
     {
         [Symbol("")]

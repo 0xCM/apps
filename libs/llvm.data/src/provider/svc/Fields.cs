@@ -15,7 +15,7 @@ namespace Z0.llvm
             {
                 var running = Running("Loading " + dsid);
                 var src = LlvmPaths.Table(dsid);
-                var count = FS.linecount(src);
+                var count = Lines.linecount(src);
                 var result = Outcome.Success;
                 var dst = alloc<RecordField>(count.Lines);
                 var counter = 0u;

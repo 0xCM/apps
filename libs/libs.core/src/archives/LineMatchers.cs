@@ -8,7 +8,7 @@ namespace Z0
 
     public readonly struct LineMatchers
     {
-       [Op]
+        [Op]
         public static bool next(ref LineReaderState state, out AsciLine<byte> dst)
         {
             dst = AsciLine<byte>.Empty;
@@ -196,7 +196,7 @@ namespace Z0
                         break;
                         case 2:
                             if(SQ.match(c, c2))
-                                signal(SQ.matched(marker, new LineOffset(line.LineNumber,(j-level))));
+                                signal(TextMatch.matched(marker, new LineOffset(line.LineNumber,(j-level))));
                             level = 0;
                         break;
                         default:
@@ -206,8 +206,6 @@ namespace Z0
                 }
             }
         }
-
-
 
         [Op]
         public static int match(N4 n, ReadOnlySpan<char> src, ReadOnlySpan<char> target)
@@ -282,7 +280,7 @@ namespace Z0
                         break;
                         case 3:
                             if(SQ.match(c, c3))
-                                signal(SQ.matched(marker, new LineOffset(line.LineNumber,(j-level))));
+                                signal(TextMatch.matched(marker, new LineOffset(line.LineNumber,(j-level))));
                             level = 0;
                         break;
                         default:
@@ -377,7 +375,7 @@ namespace Z0
                         break;
                         case 4:
                             if(SQ.match(c, c4))
-                                signal(SQ.matched(marker, new LineOffset(line.LineNumber,(j-4))));
+                                signal(TextMatch.matched(marker, new LineOffset(line.LineNumber,(j-4))));
                             level = 0;
                             break;
                         default:
@@ -432,7 +430,7 @@ namespace Z0
                         break;
                         case 5:
                             if(SQ.match(c, c5))
-                                signal(SQ.matched(marker, new LineOffset(line.LineNumber,(j-level))));
+                                signal(TextMatch.matched(marker, new LineOffset(line.LineNumber,(j-level))));
                             level = 0;
                             break;
                         default:

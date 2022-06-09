@@ -18,7 +18,7 @@ namespace Z0.llvm
         }
 
         static bool parse(string src, out LineInterval<string> dst)
-            => LineInterval.parse(src, new NameParser(), out dst);
+            => Lines.parse(src, new NameParser(), out dst);
 
         public LineMap<string> LoadLineMap(FS.FilePath src)
         {

@@ -9,4 +9,8 @@
   <Import Project="$(TopDir)imports/common.libs.props"/>
   <Import Project="$(TopDir)imports/common.props"/>
 
+  <ItemGroup>
+    <ProjectReference Include="$(Archives)" />
+  </ItemGroup>
+
 </Project>

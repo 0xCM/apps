@@ -149,6 +149,10 @@ set CmdBuildLog=%BuildLogs%\z0.cmd.build.log
 set BuildCmdSln=dotnet build %CmdSln% %BuildProps% -fl -flp:logfile=%CmdBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 echo BuildCmdCmd:%BuildCmdCmd% >> %CmdLog%
 
+set MainSln=%SlnRoot%\z0.sln
+set MainBuildLog=%BuildLogs%\z0.build.log
+set BuildMainCmd=dotnet build %MainSln% %BuildProps% -fl -flp:logfile=%MainBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
+
 set DeploySrc=%ShellBin%
 set DeployLog=%EtlLogs%\deploy-%ProjectId%.log
 set DeployDst=%ZBin%

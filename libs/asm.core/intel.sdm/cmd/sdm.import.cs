@@ -40,13 +40,7 @@ namespace Z0
         ReadOnlySpan<TextMatch> SdmMarkers(N5 n, ReadOnlySpan<UnicodeLine> src, TextMarker marker)
         {
             var matches = list<TextMatch>();
-
-            void OnMatch(TextMatch match)
-            {
-                matches.Add(match);
-            }
-
-            LineMatchers.match(n, src, marker, OnMatch);
+            LineMatchers.match(n, src, marker, m => matches.Add(m));
             return matches.ViewDeposited();
         }
 

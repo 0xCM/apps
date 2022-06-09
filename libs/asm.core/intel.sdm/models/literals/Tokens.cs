@@ -97,6 +97,5 @@ namespace Z0.Asm
 
             V4 = 4
         }
-
     }
 }

@@ -4,17 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct TextMatch
+    partial struct Lines
     {
-        public TextMarker Marker {get;}
-
-        public LineOffset Match {get;}
 
         [MethodImpl(Inline)]
-        public TextMatch(TextMarker marker, LineOffset match)
-        {
-            Marker = marker;
-            Match = match;
-        }
+        public static LineMap<T> map<T>(LineInterval<T>[] src)
+            => src;
     }
 }

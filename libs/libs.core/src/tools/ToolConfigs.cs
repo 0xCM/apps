@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public class ToolConfigs
     {
         public static ToolConfigs create(ToolConfig[] src)

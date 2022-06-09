@@ -8,31 +8,6 @@ namespace Z0
     {
         public const string RenderPattern = "{0}:{1:D3}";
 
-        [Parser]
-        public static Outcome parse(string src, out LineOffset dst)
-        {
-            var result = Outcome.Success;
-            dst = Empty;
-            var i = text.index(src,Chars.Colon);
-            if(i>=0)
-            {
-                var left = text.left(src,i);
-                var right = text.right(src,i);
-                result = LineNumber.parse(left, out var line);
-                if(result)
-                {
-                    result = DataParser.parse(right, out uint offset);
-                    if(result)
-                        dst = new LineOffset(line,offset);
-                }
-            }
-            else
-            {
-                result = LineNumber.parse(src, out var line);
-            }
-            return result;
-        }
-
         public LineNumber Line {get;}
 
         public uint Offset {get;}

@@ -76,7 +76,7 @@ namespace Z0
                 Fence<char> Brackets = (Chars.LBracket, Chars.RBracket);
                 var locator = text.left(a,m).Trim();
                 locator = text.slice(locator,0, locator.Length - 1);
-                FS.point(locator, out var point);
+                Lines.parse(locator, out FilePoint point);
                 var srcpath = point.Path;
                 var syntax = text.right(a, m + EntryMarker.Length);
                 syntax = text.unfence(syntax, Brackets, out var semantic) ? RP.parenthetical(semantic) : syntax;

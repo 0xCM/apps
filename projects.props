@@ -12,6 +12,8 @@
     <Asm>$(LibsRoot)asm/z0.asm.csproj</Asm>
     <AsmCore>$(LibsRoot)asm.core/z0.asm.core.csproj</AsmCore>
     <AsmModels>$(LibsRoot)asm.models/z0.asm.models.csproj</AsmModels>
+    <Archives>$(LibsRoot)archives.core/z0.archives.core.csproj</Archives>
+
 
     <AsmOperands>$(LibsRoot)asm.operands/z0.asm.operands.csproj</AsmOperands>
     <AsmPrototypes>$(LibsRoot)asm.prototypes/z0.asm.prototypes.csproj</AsmPrototypes>

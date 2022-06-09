@@ -4,18 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Free]
-    public interface IDataEmitter
+    partial struct FS
     {
-        object Emit();
-    }
-
-    [Free]
-    public interface IDataEmitter<T> : IDataEmitter
-    {
-        new T Emit();
-
-        object IDataEmitter.Emit()
-            => Emit();
     }
 }

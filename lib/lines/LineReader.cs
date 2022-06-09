@@ -8,8 +8,43 @@ namespace Z0
 
     using static core;
 
+    partial class XTend
+    {
+        [Op]
+        public static LineReader Utf8LineReader(this FS.FilePath src)
+            => new LineReader(src.Utf8Reader());
+
+        [MethodImpl(Inline), Op]
+        public static LineReader ToLineReader(this StreamReader src)
+            => new LineReader(src);
+
+        [Op]
+        public static LineReader LineReader(this FS.FilePath src, TextEncodingKind encoding)
+            => src.Reader(encoding).ToLineReader();
+    }
+
     public struct LineReader : IDisposable
     {
+        [Op]
+        public static Outcome number(ReadOnlySpan<char> src, out uint j, out LineNumber dst)
+        {
+            j = 0;
+            dst = default;
+            var i = text.index(src,Chars.Colon);
+            if(i == NotFound)
+                return false;
+
+            if(uint.TryParse(slice(src,0, i), out var n))
+            {
+                j = (uint)(i + 1);
+                dst = n;
+                return true;
+            }
+
+            return false;
+        }
+
+
         readonly StreamReader Source;
 
         uint Consumed;
@@ -36,8 +71,8 @@ namespace Z0
             Consumed++;
 
             var data = span(line);
-            if(Lines.number(data, out var length, out var number))
-                dst = new TextLine(number, line.Substring((int)length));
+            if(number(data, out var length, out var n))
+                dst = new TextLine(n, line.Substring((int)length));
             else
                 dst = new TextLine(Consumed, line);
 
