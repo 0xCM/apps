@@ -7,16 +7,21 @@ namespace Z0
     /// <summary>
     /// Defines a value-parametric application setting
     /// </summary>
+    [Record(TableId)]
     public readonly struct Setting<T> : ISetting<T>
     {
+        const string TableId = "settings";
+
         /// <summary>
         /// The setting name
         /// </summary>
+        [Render(32)]
         public readonly string Name;
 
         /// <summary>
         /// The setting value
         /// </summary>
+        [Render(1)]
         public readonly T Value;
 
         [MethodImpl(Inline)]

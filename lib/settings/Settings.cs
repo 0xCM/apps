@@ -14,7 +14,54 @@ namespace Z0
     [ApiHost]
     public class Settings : IIndex<Setting>, ILookup<string,Setting>
     {
-       [Op]
+        public static Index<Setting> load(FS.FilePath src)
+        {
+            var formatter = Tables.formatter<Setting>();
+            var data = src.ReadLines(true);
+            var dst = alloc<Setting>(data.Length - 1);
+            for(var i=1; i<data.Length; i++)
+            {
+                ref readonly var line = ref data[i];
+                var parts = text.split(line,Chars.Pipe);
+                Require.equal(parts.Length,2);
+                seek(dst,i-1)= new Setting(skip(parts,0), skip(parts,1));
+            }
+            return dst;
+        }
+
+        public static Index<Setting<T>> load<T>(FS.FilePath src, Func<string,T> parser)
+        {
+            var formatter = Tables.formatter<Setting<T>>();
+            var data = src.ReadLines(true);
+            var dst = alloc<Setting<T>>(data.Length - 1);
+            for(var i=1; i<data.Length; i++)
+            {
+                ref readonly var line = ref data[i];
+                var parts = text.split(line,Chars.Pipe);
+                Require.equal(parts.Length,2);
+                seek(dst,i-1)= new Setting<T>(skip(parts,0), parser(skip(parts,1)));
+            }
+            return dst;
+        }
+
+        public static void store(ReadOnlySpan<Setting> src, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
+        {
+            var emitter = text.emitter();
+            Tables.emit(src,emitter);
+            using var writer = dst.Writer(encoding);
+            writer.Write(emitter.Emit());
+        }
+
+
+        public static void store<T>(ReadOnlySpan<Setting<T>> src, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
+        {
+            var emitter = text.emitter();
+            Tables.emit(src,emitter);
+            using var writer = dst.Writer(encoding);
+            writer.Write(emitter.Emit());
+        }
+
+        [Op]
         public static Settings parse(ReadOnlySpan<string> src)
         {
             var count = src.Length;

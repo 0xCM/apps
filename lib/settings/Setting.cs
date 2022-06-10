@@ -6,10 +6,15 @@ namespace Z0
 {
     using api = Settings;
 
+    [Record(TableId)]
     public readonly struct Setting : ISetting
     {
+        const string TableId = "settings";
+
+        [Render(32)]
         public readonly string Name;
 
+        [Render(1)]
         public readonly dynamic Value;
 
         [MethodImpl(Inline)]
