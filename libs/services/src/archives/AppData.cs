@@ -20,6 +20,8 @@ namespace Z0
         /// </summary>
         public static ref readonly Settings GlobalSettings => ref Instance._GlobalSettings;
 
+        public static ref readonly StorePaths StorePaths => ref Instance._StorePaths;
+
         [MethodImpl(Inline)]
         public static AppData get() => Instance;
 
@@ -35,6 +37,8 @@ namespace Z0
         DbSources _Toolbase;
 
         Settings _GlobalSettings;
+
+        StorePaths _StorePaths;
 
         static Settings settings(FS.FilePath src)
         {
@@ -60,18 +64,12 @@ namespace Z0
             var env = EnvData.load();
             var dst = new AppData();
             var path = FS.path(control.Location).FolderPath + FS.file(string.Format("{0}.settings", control.GetSimpleName()), FS.Csv);
-            dst._GlobalSettings = settings(path);
+            var _settings = settings(path);
+            dst._GlobalSettings = _settings;
+            dst._StorePaths = Z0.StorePaths.load(_settings);
             dst._AppEnv = env;
             dst._PllExec = true;
-            //dst._Projects = new DbTargets(env.DevWs, "projects");
-            //dst._Targets = new DbTargets(env.DevWs, "projects/db");
-            //dst._ProjectData = new DbTargets(env.DevWs, "projects/db/projects");
             dst._CgProjects = new DbTargets(env.ZDev,"codegen");
-            //dst._LibProjects = new DbTargets(env.ZDev, "libs");
-            //dst._ApiTargets = dst._Targets.Targets("api");
-            //dst._Control = new DbSources(env.Control);
-            //dst._ControlCmd = new DbSources(env.Control, ".cmd");
-            //dst._Sources = new DbSources(env.DevWs, "projects/db/sources");
             dst._Toolbase = new DbSources(env.Toolbase);
             Instance = dst;
         }

@@ -10,20 +10,16 @@ namespace Z0
 
          DbTargets ProjectData(ProjectId name);
 
-         DbTargets ProjectDb(ProjectId project, string scope);
-
          DbTargets CgTargets(CgTarget dst);
 
-         ref readonly DbTargets Targets();
+         DbTargets Targets();
 
          DbTargets Targets(string scope);
 
-         ref readonly DbSources Sources();
+         DbSources Sources();
 
          DbSources Sources(string scope);
 
          DbTargets Logs(string scope);
-
-         ref readonly DbSources Control();
     }
 }

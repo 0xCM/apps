@@ -7,9 +7,9 @@ namespace Z0
     using llvm;
     using static llvm.LlvmSubtarget;
 
-    public partial class ProjectSvc : AppService<ProjectSvc>
+    public partial class ProjectSvc : AppCmdService<ProjectSvc>
     {
-        AppSvcOps AppSvc => Wf.AppSvc();
+        //AppSvcOps AppSvc => Wf.AppSvc();
 
         WsScripts Scripts => Wf.WsScripts();
 

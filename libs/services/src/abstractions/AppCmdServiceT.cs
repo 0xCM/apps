@@ -62,11 +62,17 @@ namespace Z0
             CommonState.Init(Wf,Ws);
         }
 
-        [CmdOp("settings")]
+        [CmdOp("settings/paths")]
         protected void AppSetings()
         {
-            var settings = AppData.GlobalSettings;
-            Write(settings.Format());
+            var paths = AppData.StorePaths;
+            var names = paths.StoreNames;
+            for(var i=0; i<names.Length; i++)
+            {
+                ref readonly var name = ref skip(names,i);
+                var path = paths.Path(name);
+                Write(string.Format("{0}:{1}", name, path));
+            }
         }
 
         [CmdOp("commands")]

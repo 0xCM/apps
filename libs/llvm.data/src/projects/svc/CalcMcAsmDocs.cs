@@ -13,9 +13,9 @@ namespace Z0
         public McAsmDoc CalcMcAsmDoc(in FileRef src)
             => new LlvmAsmParser().ParseMcAsmDoc(src);
 
-        public Index<McAsmDoc> CalcMcAsmDocs(IProjectWs project)
+        public Index<McAsmDoc> CalcMcAsmDocs(IProjectWs src)
         {
-            var files = FileCatalog.load(project).Entries(FileKind.McAsm);
+            var files = FileCatalog.load(src).Entries(FileKind.McAsm);
             var count = files.Count;
             var dst = alloc<McAsmDoc>(count);
             for(var i=0; i<count; i++)

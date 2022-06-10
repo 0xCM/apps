@@ -2,13 +2,14 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
+    using Asm;
     using static core;
 
     using C = AsmLineClass;
 
-    class LlvmAsmParser : IFileParser<LlvmAsmParser,FileRef,McAsmDoc>, IFileParser<McAsmDoc>
+    public class LlvmAsmParser : IFileParser<LlvmAsmParser,FileRef,McAsmDoc>, IFileParser<McAsmDoc>
     {
         Dictionary<LineNumber,AsmDirective> Directives;
 

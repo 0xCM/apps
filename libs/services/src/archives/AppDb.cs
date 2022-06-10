@@ -4,22 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using S = StoreNames;
+
     public class AppDb : IAppDb
     {
-        readonly DbPaths Paths;
-
-        readonly DbTargets _Targets;
-
-        readonly DbSources _Sources;
-
-        readonly DbSources _Control;
+        StorePaths StorePaths;
 
         public AppDb()
         {
-            Paths = DbPaths.load();
-            _Targets = new DbTargets(Paths.Targets);
-            _Sources = new DbSources(Paths.Sources);
-            _Control = new DbSources(Paths.Control);
+            StorePaths = AppData.StorePaths;
         }
 
         public ref readonly EnvData Env
@@ -28,14 +21,14 @@ namespace Z0
         EnvData IEnvProvider.Env
             => AppData.AppEnv;
 
-        public ref readonly DbTargets Targets()
-            => ref _Targets;
+        public DbTargets Targets()
+            => new DbTargets(StorePaths.Path(S.Targets).Location);
 
-        public ref readonly DbSources Sources()
-            => ref _Sources;
+        public DbSources Sources()
+            => new DbSources(StorePaths.Path(S.Sources).Location);
 
-        public ref readonly DbSources Control()
-            => ref _Control;
+        public DbSources Control()
+            => new DbSources(StorePaths.Path(S.Control).Location);
 
         public DbSources Sources(string scope)
             => Sources().Sources(scope);

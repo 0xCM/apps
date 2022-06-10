@@ -8,44 +8,29 @@ namespace Z0
     {
         readonly FS.FolderPath Root;
 
-        readonly string Scope;
-
         [MethodImpl(Inline)]
         public DbSources(FS.FolderPath root, string scope)
         {
-            if(text.empty(scope))
-            {
-                Scope = root.FolderName.Format();
-                Root = FS.dir(root.Format(PathSeparator.FS).Replace($"/{Scope}", EmptyString));
-            }
-            else
-            {
-                Root = root;
-                Scope = scope;
-            }
+            Root = root + FS.folder(scope);
         }
 
         [MethodImpl(Inline)]
         public DbSources(FS.FolderPath root)
         {
-            Scope = root.FolderName.Format();
-            Root = FS.dir(root.Format(PathSeparator.FS).Replace($"/{Scope}", EmptyString));
+            Root = root;
         }
 
         FS.FolderPath IRootedArchive.Root
-            => Dir();
+            => Root;
 
         public DbSources Scoped(string scope)
             => new DbSources(Sources(), scope);
 
         public FS.FolderPath Dir()
-            => Scoped();
-
-        FS.FolderPath Scoped()
-            => Root + FS.folder(Scope);
+            => Root;
 
         public FS.FolderPath Sources()
-            => Root + FS.folder(Scope);
+            => Root;
 
         /// <summary>
         /// Returns all files provided by the source
@@ -90,5 +75,7 @@ namespace Z0
 
         public static implicit operator FS.FolderPath(DbSources src)
             => src.Sources();
+
+        public static DbSources Empty => new DbSources(FS.FolderPath.Empty);
     }
 }

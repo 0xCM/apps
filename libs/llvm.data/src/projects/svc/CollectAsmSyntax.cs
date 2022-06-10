@@ -19,11 +19,11 @@ namespace Z0
             var buffer = list<AsmSyntaxRow>();
             var seq = 0u;
             for(var i=0; i<count; i++)
-                CalcAsmSyntaxRows(context, context.Ref(skip(logs,i)), buffer);
+                ParseAsmSyntaxRows(context, context.Ref(skip(logs,i)), buffer);
             var rows = buffer.ToArray().Sort();
             for(var i=0u; i<rows.Length; i++)
                 seek(rows,i).Seq = i;
-            TableEmit(@readonly(rows), AsmSyntaxRow.RenderWidths, dst);
+            AppSvc.TableEmit(@readonly(rows), dst);
             return rows;
         }
 
@@ -52,7 +52,7 @@ namespace Z0
                 return text.trim(text.despace(src));
         }
 
-        void CalcAsmSyntaxRows(WsContext context, in FileRef src, List<AsmSyntaxRow> dst)
+        void ParseAsmSyntaxRows(WsContext context, in FileRef src, List<AsmSyntaxRow> dst)
         {
             const string EntryMarker = "note: parsed instruction:";
             const string EncodingMarker = "# encoding:";
