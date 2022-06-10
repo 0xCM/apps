@@ -33,15 +33,12 @@ namespace Z0
             Ran(flow);
         }
 
-        public void LoadImageContent(FS.FilePath src)
-            => HexCsv.read(src);
-
         [Op]
         public MemoryRange EmitImageContent(Assembly src, byte bpl = HexCsvRow.BPL)
         {
             var dst =  ImageHexPath(src.GetSimpleName());
             var flow = EmittingTable<HexCsvRow>(dst);
-            var @base = ImageMemory.@base(src);
+            var @base = ProcessMemory.@base(src);
             var formatter = HexDataFormatter.create(@base, bpl);
             var path = FS.path(src.Location);
             using var stream = path.Utf8Reader();

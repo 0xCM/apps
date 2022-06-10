@@ -51,7 +51,7 @@ namespace Z0
         {
             ContextPaths = dst;
 
-            var selection = ImageMemory.flags(flag);
+            var selection = ProcessMemory.flags(flag);
             if(selection.IsEmpty)
             {
                 Wf.Warn("No options have been specified");
@@ -85,7 +85,7 @@ namespace Z0
             if(selection.EmitHashes)
             {
                 ContextPaths = dst;
-                ImageMemory.EmitHashes(context, dst);
+                ProcessMemory.EmitHashes(context, dst);
             }
 
             Wf.Ran(flow,"Emitted process context");

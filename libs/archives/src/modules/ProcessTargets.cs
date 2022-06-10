@@ -14,7 +14,6 @@ namespace Z0
             Root = root;
         }
 
-
         [MethodImpl(Inline)]
         public static implicit operator ProcessTargets(FS.FolderPath root)
             => new ProcessTargets(root);

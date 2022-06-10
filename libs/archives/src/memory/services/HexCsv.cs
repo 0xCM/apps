@@ -10,7 +10,6 @@ namespace Z0
 
     public class HexCsv : AppService<HexCsv>
     {
-
         public HexCsv()
         {
         }

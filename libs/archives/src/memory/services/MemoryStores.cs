@@ -10,6 +10,32 @@ namespace Z0
     [ApiHost]
     public class MemoryStores
     {
+        public static MemoryStores load(in ProcessContext src)
+        {
+            var details = src.Regions.View;
+            var count = details.Length;
+            var symbols = MemoryStores.create(count);
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var detail = ref skip(details,i);
+                symbols.Deposit(detail.StartAddress, detail.Size, detail.Identity.Format());
+            }
+            return symbols;
+        }
+
+        public static MemoryStores summarize(in ProcessContext src)
+        {
+            var summaries = src.Partitions.View;
+            var count = summaries.Length;
+            var symbols = MemoryStores.create(count);
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var summary = ref skip(summaries,i);
+                symbols.Deposit(summary.BaseAddress, summary.Size, summary.ImageName.Format());
+            }
+            return symbols;
+        }
+
         public static bool perfect(ReadOnlySpan<MemorySymbol> src, out Index<HashEntry<MemorySymbol>> dst)
         {
             var codes = src.Select(x => x.HashCode);
@@ -28,7 +54,6 @@ namespace Z0
             var distinct = dst.ToHashSet();
             return distinct.Count == count;
         }
-
 
         [MethodImpl(Inline), Op]
         public static ReadOnlySpan<byte> load(ReadOnlySpan<MemorySeg> src, MemorySlot n)

@@ -7,9 +7,7 @@ namespace Z0
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct MethodSegment : IRecord<MethodSegment>
     {
-        public const string TableId = "method.segments";
-
-        public const byte FieldCount = 8;
+        const string TableId = "method.segments";
 
         [Render(16)]
         public uint MethodIndex;
@@ -34,8 +32,5 @@ namespace Z0
 
         [Render(1)]
         public utf8 Uri;
-
-        public static ReadOnlySpan<byte> RenderWidths
-            => new byte[FieldCount]{16,16,16,16,16,16,16,80};
     }
 }

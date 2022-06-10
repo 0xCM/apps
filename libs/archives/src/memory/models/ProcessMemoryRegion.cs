@@ -7,7 +7,7 @@ namespace Z0
     using Windows;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct ProcessMemoryRegion : IComparableRecord<ProcessMemoryRegion>
+    public struct ProcessMemoryRegion : IComparable<ProcessMemoryRegion>
     {
         public const string TableId = "image.memory.regions";
 

@@ -7,7 +7,7 @@ namespace Z0
     using System.Diagnostics;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct ProcessMemoryState : IRecord<ProcessMemoryState>
+    public struct ProcessMemoryState
     {
         public const string TableId = "image.process.state";
 

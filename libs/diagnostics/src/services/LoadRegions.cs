@@ -51,7 +51,7 @@ namespace Z0
                 if(line.IsEmpty)
                     continue;
 
-                var result = ImageMemory.parse(line.Content, out seek(dst,i));
+                var result = ProcessMemory.parse(line.Content, out seek(dst,i));
                 if(!result)
                     return result;
 

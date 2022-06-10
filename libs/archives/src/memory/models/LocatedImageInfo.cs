@@ -8,9 +8,9 @@ namespace Z0
     /// Describes a PE image from the perspective of process entry point
     /// </summary>
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct LocatedImageInfo : IRecord<LocatedImageInfo>
+    public struct LocatedImageInfo
     {
-        public const string TableId = "image.located";
+        const string TableId = "image.located";
 
         /// <summary>
         /// The image source path

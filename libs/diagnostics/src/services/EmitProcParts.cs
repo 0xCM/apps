@@ -10,15 +10,15 @@ namespace Z0
     {
         public Index<ProcessPartition> EmitPartitions(Process process, FS.FilePath dst)
         {
-            var summaries = ImageMemory.partitions(ImageMemory.locate(process));
+            var summaries = ProcessMemory.partitions(ProcessMemory.locate(process));
             EmitPartitions(summaries, dst);
             return summaries;
         }
 
         public Index<ProcessPartition> EmitPartitions(Process process, Timestamp ts)
         {
-            var memory = ImageMemory.locate(process);
-            var summaries = ImageMemory.partitions(memory);
+            var memory = ProcessMemory.locate(process);
+            var summaries = ProcessMemory.partitions(memory);
             var dst = ContextPaths.ProcessPartitionPath(process, ts);
             EmitPartitions(summaries, dst);
             return summaries;
@@ -26,8 +26,8 @@ namespace Z0
 
         public Index<ProcessPartition> EmitPartitions(Process process, Timestamp ts, FS.FolderPath dir)
         {
-            var memory = ImageMemory.locate(process);
-            var summaries = ImageMemory.partitions(ImageMemory.locate(process));
+            var memory = ProcessMemory.locate(process);
+            var summaries = ProcessMemory.partitions(ProcessMemory.locate(process));
             var dst = ContextPaths.ProcessPartitionPath(dir, process, ts);
             EmitPartitions(summaries, dst);
             return summaries;

@@ -8,9 +8,6 @@ namespace Z0
     {
         sealed class Svc : AppServices<Svc>
         {
-            public DumpArchive DumpArchive(IWfRuntime wf)
-                => Service<DumpArchive>(wf);
-
             public WsCmdRunner WsCmdRunner(IWfRuntime wf)
                 => Service<WsCmdRunner>(wf);
 
@@ -34,10 +31,6 @@ namespace Z0
         }
 
         static Svc AppServices => Svc.Instance;
-
-
-        public static DumpArchive DumpArchive(this IWfRuntime wf)
-            => AppServices.DumpArchive(wf);
 
         public static WsCmdRunner WsCmdRunner(this IWfRuntime wf)
             => AppServices.WsCmdRunner(wf);
