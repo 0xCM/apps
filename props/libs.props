@@ -15,15 +15,18 @@
     <ProjectReference Include="$(Cli)" />
     <ProjectReference Include="$(CmdActions)" />
     <ProjectReference Include="$(Commands)" />
+    <ProjectReference Include="$(Containers)" />
+
     <ProjectReference Include="$(Diagnostics)" />
+
     <ProjectReference Include="$(Expr)" />
     <ProjectReference Include="$(Extract)" />
+
     <ProjectReference Include="$(Glue)" />
     <ProjectReference Include="$(IntelCore)" />
     <ProjectReference Include="$(IntelIntrinsics)" />
     <ProjectReference Include="$(IntelXed)" />
     <ProjectReference Include="$(Lang)" />
-    <ProjectReference Include="$(LibsCore)" />
     <ProjectReference Include="$(LlvmTools)" />
     <ProjectReference Include="$(LlvmData)" />
     <ProjectReference Include="$(Machines)" />

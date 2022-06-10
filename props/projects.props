@@ -5,7 +5,6 @@
     <LiteralsLibName>z0.literals</LiteralsLibName>
 
     <ZLib>$(TopDir)lib/z0.lib.csproj</ZLib>
-    <LibsCore>$(LibsRoot)libs.core/z0.libs.core.csproj</LibsCore>
     <ZLibs>$(LibsRoot)z0.libs.csproj</ZLibs>
 
     <Services>$(LibsRoot)services/z0.services.csproj</Services>
@@ -26,6 +25,7 @@
     <Cli>$(LibsRoot)cli/z0.cli.csproj</Cli>
     <Commands>$(LibsRoot)commands/z0.commands.csproj</Commands>
     <Calcs>$(LibsRoot)calcs/z0.calcs.csproj</Calcs>
+    <Containers>$(LibsRoot)containers/z0.containers.csproj</Containers>
 
     <Glue>$(LibsRoot)glue/z0.glue.csproj</Glue>
     <CmdActions>$(LibsRoot)cmd.actions/z0.cmd.actions.csproj</CmdActions>

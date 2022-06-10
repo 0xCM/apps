@@ -60,12 +60,6 @@ namespace Z0
             where T : struct
                 => Mp().RecordParser<T>();
 
-        public SeqParser<T> SeqParser<T>(IParser<T> terms, string delimiter)
-            => new SeqParser<T>(terms, delimiter);
-
-        public SeqParser<T> SeqParser<T>(string delimiter)
-            => Mp().SeqParser<T>(delimiter);
-
         public IParser ValueParser(Type t)
             => Mp().ValueParser(t);
 
@@ -90,8 +84,8 @@ namespace Z0
         public Outcome Parse<T>(string src, out T dst)
             => Mp().Parse(src, out dst);
 
-        public Outcome Parse<T>(string sep, string src, out T[] dst)
-            => Mp().Parse<T>(sep, src, out dst);
+        // public Outcome Parse<T>(string sep, string src, out T[] dst)
+        //     => Mp().Parse<T>(sep, src, out dst);
 
 
         public static ConcurrentDictionary<Type,IParser> discover(Assembly[] src)

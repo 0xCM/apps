@@ -10,8 +10,6 @@
 
   <ItemGroup>
     <ProjectReference Include="$(Services)" />
-    <ProjectReference Include="$(LibsCore)" />
-
   </ItemGroup>
 
 </Project>

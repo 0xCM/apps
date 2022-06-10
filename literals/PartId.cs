@@ -217,6 +217,9 @@ public enum PartId : byte
     [Symbol("rules")]
     Rules,
 
+    [Symbol("containers")]
+    Containers,
+
     // ~ Generated 100 .. 127
     // ~ -------------------------------------------------------------------------------
 

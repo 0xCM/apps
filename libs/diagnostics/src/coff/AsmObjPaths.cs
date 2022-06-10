@@ -26,7 +26,7 @@ namespace Z0
             => AppDb.HexTargets(ws);
 
         public DbTargets RecodedTargets(ProjectId id)
-            => AppDb.ProjectTargets(ProjectNames.McRecoded).Targets($"src/{id}");
+            => AppDb.ProjectTargets("mc.recoded").Targets($"src/{id}");
 
         public FS.FilePath RecodedPath(ProjectId ws, string origin)
             => RecodedTargets(ws).Path(FS.file(origin.Remove(string.Format(".{0}", FileKind.ObjAsm.Ext().Format())), FileKind.Asm.Ext()));

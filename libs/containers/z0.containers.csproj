@@ -7,11 +7,9 @@
   </PropertyGroup>
 
   <Import Project="$(ImportDefs)common.libs.props"/>
+  <Import Project="$(ImportDefs)common.props"/>
 
   <ItemGroup>
-    <ProjectReference Include="$(Services)" />
-    <ProjectReference Include="$(Archives)" />
-    <ProjectReference Include="$(Expr)" />
 
   </ItemGroup>
 
