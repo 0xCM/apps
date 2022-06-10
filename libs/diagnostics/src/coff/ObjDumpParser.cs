@@ -122,7 +122,7 @@ namespace Z0
                             var statement = text.trim(text.right(asm, y)).Replace(Chars.Tab, Chars.Space);
                             Row.Asm = statement;
 
-                            term.babble(string.Format("{0,-48} | {1}", statement, hex));
+                            //term.babble(string.Format("{0,-48} | {1}", statement, Row.Encoded.Format()));
 
                             if(AsmInlineComment.parse(statement, out Row.Comment))
                             {

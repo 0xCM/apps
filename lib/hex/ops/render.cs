@@ -460,6 +460,25 @@ namespace Z0
         public static uint render(LowerCased @case, ulong src, uint offset, Span<char> dst)
             => deposit(first(LowerHexDigits), src, offset, dst);
 
+        [MethodImpl(Inline), Op]
+        public static uint render(LowerCased @case, ReadOnlySpan<byte> src, Span<char> dst)
+        {
+            var j = 0u;
+            var count = src.Length;
+            var max = dst.Length;
+
+            for(var i=0; i<count && j<max; i++)
+            {
+                ref readonly var b = ref skip(src,i);
+                seek(dst,j++) = hexchar(@case, b, 1);
+                seek(dst,j++) = hexchar(@case, b, 0);
+                if(i != count-1)
+                    seek(dst,j++) = Chars.Space;
+            }
+
+            return j;
+        }
+
         [MethodImpl(Inline)]
         static uint deposit(in byte codes, byte src, uint offset, Span<char> dst)
         {

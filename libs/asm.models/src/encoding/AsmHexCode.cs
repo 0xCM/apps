@@ -9,25 +9,31 @@ namespace Z0.Asm
     [ApiHost]
     public record struct AsmHexCode : IEquatable<AsmHexCode>, IComparable<AsmHexCode>
     {
-        [Op]
         public static bool parse(ReadOnlySpan<char> src, out AsmHexCode dst)
         {
-            var buffer = Cells.alloc(w128);
-            var result = Hex.parse(src, buffer.Bytes);
-            dst = AsmHexCode.Empty;
-            if(result.Fail)
-                return result;
-
-            var size = result.Data;
-            if(size == 0 || size > 15)
-                result = false;
-            else
+            Outcome<uint> result = Outcome.Success;
+            var buffer = ByteBlock16.Empty;
+            result = Hex.parse(src, buffer.Bytes);
+            if(result)
             {
-                dst = new AsmHexCode(buffer);
-                dst.Cell(15) = (byte)size;
-                result = true;
+                var size = Demand.lteq((byte)result.Data,(byte)15);
+                var data = slice(buffer.Bytes,0,size);
+                buffer[15] = size;
+                dst = new AsmHexCode(@as<ByteBlock16,Cell128>(buffer));
             }
+            else
+                dst = Empty;
             return result;
+        }
+
+        public static byte render(in AsmHexCode src, Span<char> dst)
+            => (byte)Hex.render(LowerCase, src.Bytes, dst);
+
+        public static string format(in AsmHexCode src)
+        {
+            Span<char> dst = stackalloc char[64];
+            var count = render(src,dst);
+            return text.format(slice(dst,0, count));
         }
 
         [Op]
@@ -171,7 +177,7 @@ namespace Z0.Asm
             => eq(this, src);
 
         public string Format()
-            => Data.FormatHexData(Size);
+            => format(this);
 
         public override string ToString()
             => Format();

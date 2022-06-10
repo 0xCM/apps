@@ -23,12 +23,8 @@ global using CallerLine = System.Runtime.CompilerServices.CallerLineNumberAttrib
 
 namespace Z0.Parts
 {
-    public sealed class XedShell : Part<XedShell>
+    public sealed class IntelShell : Part<IntelShell>
     {
-        [ModuleInitializer]
-        internal static void Init()
-        {
-            NumRender.Service.RegisterFomatters();
-        }
+
     }
 }

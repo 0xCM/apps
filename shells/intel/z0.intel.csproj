@@ -9,9 +9,8 @@
   <Import Project="$(ImportDefs)common.libs.props"/>
 
   <ItemGroup>
-    <ProjectReference Include="$(IntelIntrinsics)" />
-    <ProjectReference Include="$(IntelXed)" />
-    <ProjectReference Include="$(IntelCore)" />
+    <ProjectReference Include="$(AsmModels)" />
+    <ProjectReference Include="$(Services)" />
   </ItemGroup>
 
 </Project>
