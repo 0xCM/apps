@@ -9,50 +9,6 @@ namespace Z0
     public readonly struct flows
     {
         const NumericKind Closure = UnsignedInts;
-
-        /// <summary>
-        /// Defines an edge from a specified source to specified target
-        /// </summary>
-        /// <param name="source">The source value</param>
-        /// <param name="target">The target value</param>
-        /// <typeparam name="S">The source type</typeparam>
-        /// <typeparam name="T">The target type</typeparam>
-        [MethodImpl(Inline)]
-        public static Arrow<S,T> arrow<S,T>(S src, T dst)
-            => new Arrow<S,T>(src, dst);
-
-        [MethodImpl(Inline)]
-        public static Arrow<K,V> arrow<K,V>(in Facet<K,V> src)
-            => arrow(src.Key,src.Value);
-
-        [MethodImpl(Inline)]
-        public static Arrow<S,T,K> arrow<S,T,K>(S src, T dst, K kind)
-            where K : unmanaged
-                => new Arrow<S,T,K>(src, dst, kind);
-
-        /// <summary>
-        /// Connects a source vertex to a target vertex
-        /// </summary>
-        /// <param name="src">The source vertex</param>
-        /// <param name="dst">The target vertex</param>
-        /// <typeparam name="V">The vertex index type</typeparam>
-        /// <typeparam name="T">The vertex payload type</typeparam>
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Arrow<Node<T>> connect<T>(in Node<T> src, in Node<T> dst)
-            => new Arrow<Node<T>>(src, dst);
-
-        /// <summary>
-        /// Connects a source vertex to a target vertex
-        /// </summary>
-        /// <param name="src">The source vertex</param>
-        /// <param name="dst">The target vertex</param>
-        /// <typeparam name="V">The vertex index type</typeparam>
-        /// <typeparam name="T">The vertex payload type</typeparam>
-        [MethodImpl(Inline)]
-        public static Arrow<V> connect<V,T>(in Node<V,T> src, in Node<V,T> dst)
-            where V : unmanaged
-                => new Arrow<V>(src.Index, dst.Index);
-
         /// <summary>
         /// Creates a <see cref='NativeFlow{S,T}'/> from a specified source to a specified target;
         /// </summary>

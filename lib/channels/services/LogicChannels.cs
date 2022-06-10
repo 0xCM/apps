@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Flows
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct LogicChannels
     {
         public readonly struct Not<T> : IChannel1x1<Not<T>,T>

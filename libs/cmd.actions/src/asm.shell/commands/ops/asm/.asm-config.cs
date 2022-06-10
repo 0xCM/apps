@@ -22,7 +22,7 @@ namespace Z0.Asm
             for(var i=0; i<count; i++)
             {
                 ref readonly var facet = ref src[i];
-                seek(dst,i) = Cmd.var(facet.Name, facet.Value);
+                seek(dst,i) = CmdScripts.var(facet.Name, facet.Value);
             }
 
             iter(vars, v => Write(v.Name,

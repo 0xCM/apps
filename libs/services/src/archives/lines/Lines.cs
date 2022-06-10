@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
-    using System.IO;
-
     [ApiHost]
     public readonly partial struct Lines
     {
@@ -28,7 +24,5 @@ namespace Z0
         const NumericKind Closure = UnsignedInts;
 
         static MsgPattern<Count,LineNumber,string> BadLineNumber => "BadLineNumber(counter{0} != line{1}, content{2})";
-
-
     }
 }

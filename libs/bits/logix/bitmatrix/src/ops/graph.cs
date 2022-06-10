@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Collections.Generic;
-
-    using static Root;
     using static core;
 
     partial class BitMatrix
@@ -85,7 +80,7 @@ namespace Z0
             for(var row=0; row<n; row++)
             for(var col=0; col<n; col++)
                 if(src[row,col])
-                    edges.Add(flows.connect(nodes[row], nodes[col]));
+                    edges.Add(Graphs.connect(nodes[row], nodes[col]));
             return Graphs.graph(nodes, edges.ToArray());
         }
     }

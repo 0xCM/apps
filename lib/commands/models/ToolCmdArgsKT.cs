@@ -6,10 +6,10 @@ namespace Z0
 {
     using static core;
 
-    partial struct Cmd
+    public readonly struct ToolCmdArgs<K,T> : IIndex<ToolCmdArg<K,T>>
+        where K : unmanaged
     {
-        public static string format<K,T>(in ToolCmdArgs<K,T> src)
-            where K : unmanaged
+        public static string format(in ToolCmdArgs<K,T> src)
         {
             var dst = text.buffer();
             var view = src.View;
@@ -18,11 +18,7 @@ namespace Z0
                 dst.AppendLine(skip(src,i).Format());
             return dst.Emit();
         }
-    }
 
-    public readonly struct ToolCmdArgs<K,T> : IIndex<ToolCmdArg<K,T>>
-        where K : unmanaged
-    {
         readonly Index<ToolCmdArg<K,T>> Data;
 
         [MethodImpl(Inline)]
@@ -48,7 +44,7 @@ namespace Z0
         }
 
         public string Format()
-            => Cmd.format(this);
+            => format(this);
 
         public override string ToString()
             => Format();

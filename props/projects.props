@@ -28,6 +28,9 @@
     <Containers>$(LibsRoot)containers/z0.containers.csproj</Containers>
 
     <Glue>$(LibsRoot)glue/z0.glue.csproj</Glue>
+
+    <Graphs>$(LibsRoot)graphs/z0.graphs.csproj</Graphs>
+
     <CmdActions>$(LibsRoot)cmd.actions/z0.cmd.actions.csproj</CmdActions>
     <LlvmTools>$(LibsRoot)llvm.tools/z0.llvm.tools.csproj</LlvmTools>
     <LlvmData>$(LibsRoot)llvm.data/z0.llvm.data.csproj</LlvmData>

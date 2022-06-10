@@ -8,6 +8,29 @@ namespace Z0
 
     public readonly struct CmdArgs : IIndex<CmdArg>
     {
+        const NumericKind Closure = UnsignedInts;
+
+        [MethodImpl(Inline), Op]
+        public static CmdArgDef<T> def<T>(string name, T value, ArgPrefix prefix)
+            => new CmdArgDef<T>(name, value, prefix);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static CmdArgDef<T> def<T>(ushort pos, T value, ArgPrefix prefix)
+            => new CmdArgDef<T>(pos, value.ToString(), value, prefix);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static CmdArgDef<T> def<T>(ushort pos, string name, T value, ArgPrefix prefix)
+            => new CmdArgDef<T>(pos, name, value, prefix);
+
+        public static CmdArgs args(ReadOnlySpan<string> src)
+        {
+            var dst = alloc<CmdArg>(src.Length);
+            for(ushort i=0; i<src.Length; i++)
+                seek(dst,i) = new CmdArg(skip(src,i));
+            return dst;
+        }
+
+
         readonly Index<CmdArg> Data;
 
         [MethodImpl(Inline)]

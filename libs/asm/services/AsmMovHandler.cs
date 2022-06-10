@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     [ApiHost]
@@ -57,7 +53,7 @@ namespace Z0.Asm
         void Handle(Imm64 src, IceRegister dst)
         {
             if(HasCapacity)
-                Entry(Index++) = flows.arrow(src, dst);
+                Entry(Index++) = (src, dst);
         }
     }
 }

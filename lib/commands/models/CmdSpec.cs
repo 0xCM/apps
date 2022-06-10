@@ -4,14 +4,28 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     public readonly struct CmdSpec
     {
+        [Op, MethodImpl(Inline)]
+        public static CmdSpec from(string name, CmdArgs args)
+            => new CmdSpec(name, args);
+
+        [Op]
+        public static CmdSpec from(ReadOnlySpan<char> src)
+        {
+            var i = SQ.index(src, Chars.Space);
+            if(i < 0)
+                return new CmdSpec(text.format(src), CmdArgs.Empty);
+            else
+            {
+                var name = text.format(text.left(src,i));
+                var _args = text.format(text.right(src,i)).Split(Chars.Space);
+                return new CmdSpec(name, CmdArgs.args(_args));
+            }
+        }
+
         public string Name {get;}
 
         public CmdArgs Args {get;}

@@ -250,7 +250,7 @@ namespace Z0
             var lines = src.ReadNumberedLines(true);
             var count = lines.Count;
             for(var i=0; i<count; i++)
-                Dispatch(Cmd.cmdspec(lines[i].Content));
+                Dispatch(CmdSpec.from(lines[i].Content));
         }
 
         public virtual void RunJobs(string match)
@@ -339,7 +339,7 @@ namespace Z0
         CmdSpec Next()
         {
             var input = term.prompt(Prompt());
-            return Cmd.cmdspec(input);
+            return CmdSpec.from(input);
         }
 
         public virtual void Run()

@@ -6,6 +6,26 @@ namespace Z0
 {
     public readonly struct ToolCmdArgs : IIndex<ToolCmdArg>
     {
+        const NumericKind Closure = UnsignedInts;
+
+        [Op]
+        public static bool arg(ToolCmdArgs src, string name, out ToolCmdArg dst)
+        {
+            var count = src.Count;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var arg = ref src[i];
+                if(string.Equals(arg.Name, name, NoCase))
+                {
+                    dst=arg;
+                    return true;
+                }
+            }
+            dst = ToolCmdArg.Empty;
+            return false;
+        }
+
+
         readonly Index<ToolCmdArg> Data;
 
         [MethodImpl(Inline)]

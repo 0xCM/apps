@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Flows
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct NativeFlow<K,S,T> : INativeFlow<K,S,T>
         where K : unmanaged
         where S : INativeChannel

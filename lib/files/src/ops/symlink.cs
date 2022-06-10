@@ -4,10 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
     using Windows;
-
-    using static Root;
 
     partial struct FS
     {

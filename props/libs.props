@@ -10,7 +10,9 @@
     <ProjectReference Include="$(AsmOperands)" />
     <ProjectReference Include="$(AsmPrototypes)" />
     <ProjectReference Include="$(Assets)" />
+
     <ProjectReference Include="$(Bits)" />
+
     <ProjectReference Include="$(Calcs)" />
     <ProjectReference Include="$(Cli)" />
     <ProjectReference Include="$(CmdActions)" />
@@ -23,12 +25,16 @@
     <ProjectReference Include="$(Extract)" />
 
     <ProjectReference Include="$(Glue)" />
+    <ProjectReference Include="$(Graphs)" />
+
     <ProjectReference Include="$(IntelCore)" />
     <ProjectReference Include="$(IntelIntrinsics)" />
     <ProjectReference Include="$(IntelXed)" />
+
     <ProjectReference Include="$(Lang)" />
     <ProjectReference Include="$(LlvmTools)" />
     <ProjectReference Include="$(LlvmData)" />
+
     <ProjectReference Include="$(Machines)" />
     <ProjectReference Include="$(Numbers)" />
     <ProjectReference Include="$(Rules)" />

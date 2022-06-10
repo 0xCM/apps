@@ -8,10 +8,6 @@ namespace Z0
 
     public readonly struct Tool : ITool
     {
-        [MethodImpl(Inline), Op]
-        public static ToolScript script(ToolId tool, ScriptId script, CmdVars vars)
-            => new ToolScript(tool,script,vars);
-
         [Op, Closures(UInt64k)]
         public static ToolCmd command<T>(in T spec)
             where T : struct

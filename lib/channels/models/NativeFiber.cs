@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Flows
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public struct NativeFiber : INativeFiber
     {
         /// <summary>

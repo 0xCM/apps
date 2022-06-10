@@ -154,6 +154,9 @@ public enum PartId : byte
     [Symbol("bits.test")]
     BitsTest,
 
+    [Symbol("graphs")]
+    Graphs,
+
     [Symbol("cpu.test")]
     CpuTest,
 

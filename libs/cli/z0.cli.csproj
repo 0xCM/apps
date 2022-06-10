@@ -10,7 +10,6 @@
   <Import Project="$(ImportDefs)diagnostics.props"/>
 
   <ItemGroup>
-    <Reference Include="$(ZLibName)" HintPath="$(ZLibPath)"/>
     <ProjectReference Include="$(Diagnostics)"/>
   </ItemGroup>
 
