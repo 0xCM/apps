@@ -6,11 +6,17 @@ namespace Z0
 {
     using static WsNames;
 
-    public sealed class ProjectWs : Workspace<ProjectWs>, IProjectWs
+    public sealed class ProjectWs : Workspace<ProjectWs>, IProjectWs, IProjectProvider
     {
         [MethodImpl(Inline)]
         public static IProjectWs create(FS.FolderPath home, ProjectId id)
             => new ProjectWs(home,id);
+
+        public static IProjectProvider provider(FS.FolderPath home, ProjectId id)
+            => new ProjectWs(home,id);
+
+        IProjectWs IProjectProvider.Project()
+            => this;
 
         public ProjectId Project {get;}
 

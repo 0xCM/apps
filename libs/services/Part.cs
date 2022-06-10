@@ -35,3 +35,13 @@ namespace Z0.Parts
 
     }
 }
+
+namespace Z0
+{
+    struct Msg
+    {
+        public static MsgPattern<ProjectId> ProjectUndefined
+            => "Project {0} undefined";
+
+    }
+}

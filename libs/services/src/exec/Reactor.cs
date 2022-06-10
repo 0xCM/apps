@@ -37,7 +37,6 @@ namespace Z0
             }
         }
 
-
         protected override Reactor Init(out int state)
         {
             state = 0;

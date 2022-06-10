@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public partial class CheckCmd : AppCmdProvider<CheckCmd>
+    public partial class CheckCmd : AppCmdService<CheckCmd>
     {
     }
 }

@@ -9,7 +9,7 @@ namespace Z0
     using static core;
     using static ApiGranules;
 
-    public partial class ApiCmd : AppCmdProvider<ApiCmd>
+    public partial class ApiCmd : AppCmdService<ApiCmd>
     {
         ApiMd ApiMd => Wf.ApiMetadata();
 

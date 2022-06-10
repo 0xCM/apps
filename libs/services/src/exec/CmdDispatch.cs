@@ -6,7 +6,6 @@ namespace Z0
 {
     using static core;
 
-
     public class CmdDispatch : AppService<CmdDispatch>, ICmdRouter
     {
         ScriptRunner ScriptRunner => Wf.ScriptRunner();
@@ -45,9 +44,6 @@ namespace Z0
             }
         }
 
-        // public static CmdDispatch create(IWfRuntime wf)
-        //     => new CmdDispatch(new WfCmdRouter(wf));
-
         public static Index<ICmdReactor> reactors(IWfRuntime wf)
         {
             var types = wf.Components.Types();
@@ -61,8 +57,6 @@ namespace Z0
             var router = new WfCmdRouter(wf);
             router.Enlist(reactors);
             return create(wf).WithRouter(router);
-
-            //return new CmdDispatch(router);
         }
 
         ICmdRouter Router;
@@ -72,10 +66,6 @@ namespace Z0
             Router = router;
             return this;
         }
-        // // CmdDispatch(ICmdRouter router)
-        // // {
-        // //     Router = router;
-        // // }
 
         public Task<CmdResult> Dispatch<T>(T cmd)
             where T : struct, ICmd

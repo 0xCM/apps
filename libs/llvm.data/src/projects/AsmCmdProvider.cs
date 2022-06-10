@@ -4,11 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public sealed partial class AsmCmdProvider : AppCmdProvider<AsmCmdProvider>, IProjectProvider
+    public sealed partial class AsmCmdProvider : AppCmdService<AsmCmdProvider>
     {
-        IProjectProvider _ProjectProvider;
+        // IProjectProvider _ProjectProvider;
 
-        public IProjectWs Project()
-            => _ProjectProvider.Project();
+        // protected override void Initialized()
+        // {
+        //     _ProjectProvider = ProjectWs.provider(AppDb.Targets(), "canonical");
+        // }
+
+        // public IProjectWs Project()
+        //     => _ProjectProvider.Project();
     }
 }

@@ -8,6 +8,7 @@ namespace Z0
 
     using static core;
 
+    [CmdProvider]
     public abstract class AppCmdService<T> : AppService<T>, IAppCmdService, ICmdProvider, ICmdRunner
         where T : AppCmdService<T>, new()
     {
@@ -17,10 +18,18 @@ namespace Z0
 
         Option<IToolCmdShell> Shell;
 
+        protected ICmdRunner Commands;
+
         protected AppCmdService()
         {
             PromptTitle = "cmd";
             CommonState = new CmdShellState();
+        }
+
+        public T With(ICmdRunner runner)
+        {
+            Commands = runner;
+            return (T)this;
         }
 
         protected OmniScript OmniScript => Wf.OmniScript();
@@ -116,6 +125,24 @@ namespace Z0
             else
                 return OmniScript.Run(script, out var _);
         }
+
+        [CmdOp("tool/config")]
+        protected Outcome ConfigureTool(CmdArgs args)
+        {
+            var result = Outcome.Success;
+            ToolId tool = arg(args,0).Value;
+            var script = ToolWs.ConfigScript(tool);
+            result = OmniScript.Run(script, out var _);
+            var logpath = ToolWs.ConfigLog(tool);
+            using var reader = logpath.AsciLineReader();
+            while(reader.Next(out var line))
+            {
+                Write(line.Format());
+            }
+
+            return result;
+        }
+
 
         [CmdOp("tool/help")]
         protected Outcome ShowToolHelp(CmdArgs args)

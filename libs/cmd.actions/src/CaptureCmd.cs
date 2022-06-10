@@ -4,9 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
-    public class CaptureCmd : AppCmdProvider<CaptureCmd>
+    public class CaptureCmd : AppCmdService<CaptureCmd>
     {
         [CmdOp("api/capture")]
         void Capture(CmdArgs args)

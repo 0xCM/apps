@@ -1,4 +1,10 @@
-| Name    | Value             |
-| Targets | z:/data           |
-| Sources | y:/data/sources   |
-| Control | c:/dev/ws/control |
+| Name        | Value                    |
+| Targets     | z:/data                  |
+| Sources     | y:/data/sources          |
+| Control     | c:/dev/ws/control        |
+| ProjectData | z:/data/projects         |
+| Projects    | c:/dev/ws/projects       |
+| ZDev        | j:/z0                    |
+| Toolbase    | c:/dev/ws/projects/tools |
+| LlvmRoot    | j:/llvm                  |
+| XedRoot     | j:/source/xed            |
