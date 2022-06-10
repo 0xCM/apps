@@ -46,14 +46,6 @@ namespace Z0
         Index<ProcessAsmRecord> _LoadProcessAsm()
             => ProcessAsmBuffers.records(ApiPacks.Current());
 
-        [CmdOp("app/settings")]
-        void AppSetings()
-        {
-            var settings = Wf.Settings;
-            Write(settings.SourcePath.ToUri());
-            iter(settings, setting => Write(setting.Format()));
-        }
-
         [CmdOp("api/etl")]
         void ApiEmit()
         {

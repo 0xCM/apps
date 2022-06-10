@@ -13,12 +13,12 @@ namespace Z0.Asm
         {
             var result = Outcome.Success;
             var a = "A:603";
-            DataParser.setting(a, out Setting<ushort> _a);
+            Settings.parse(a, out Setting<ushort> _a);
             Write(_a);
 
 
             var b = "B:true";
-            DataParser.setting(b, out Setting<bool> _b);
+            Settings.parse(b, out Setting<bool> _b);
 
             Write(_b);
 

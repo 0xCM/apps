@@ -55,6 +55,181 @@ namespace Z0
             CommonState.Init(Wf,Ws);
         }
 
+        [CmdOp("settings")]
+        protected void AppSetings()
+        {
+            var settings = AppData.Settings;
+            Write(settings.Format());
+        }
+
+        [CmdOp("commands")]
+        protected void EmitCommands()
+            => EmitCommands(AppDb.ApiTargets().Path(FS.file($"{GetType().Name.ToLower()}.commands", FS.Csv)));
+
+        [CmdOp("env/vars")]
+        protected Outcome ShowEnvVars(CmdArgs args)
+        {
+            var src = EnvVars.records(EnvVars.load());
+            iter(src, v => Write(v.Source.Format()));
+            AppSvc.TableEmit(src, AppDb.RuntimeLogs().Table<EnvVarRecord>());
+            return true;
+        }
+
+        [CmdOp("env/settings")]
+        protected Outcome ShowEnv(CmdArgs args)
+        {
+            var result = Outcome.Success;
+            var db = EnvWs.create(Wf);
+            var settings = args.Count == 0 ? db.Globals() : db.Settings(arg(args,0));
+            iter(settings, s => Write(s.Format()));
+            return result;
+        }
+
+        [CmdOp("env/tools")]
+        protected Outcome ShowToolEnv(CmdArgs args)
+        {
+            LoadToolEnv(out var settings);
+            iter(settings, s => Write(s));
+            return true;
+        }
+
+        [CmdOp("env/logs")]
+        protected Outcome EnvLogs(CmdArgs args)
+        {
+            var result = Outcome.Success;
+            var paths = Control.Files(FileKind.Log);
+            var formatter = Tables.formatter<EnvVarSet>(16, RecordFormatKind.KeyValuePairs);
+            foreach(var path in paths)
+            {
+                var dst = EnvVars.set(path);
+                Write(formatter.Format(dst));
+            }
+
+            return result;
+        }
+
+        [CmdOp("tool/script")]
+        protected Outcome ToolScript(CmdArgs args)
+        {
+            var tool = (ToolId)arg(args,0).Value;
+            var script = ToolWs.Script(tool, arg(args,1).Value);
+            if(!script.Exists)
+                return (false, FS.missing(script));
+            else
+                return OmniScript.Run(script, out var _);
+        }
+
+        [CmdOp("tool/help")]
+        protected Outcome ShowToolHelp(CmdArgs args)
+        {
+            var result = Outcome.Success;
+
+            var tool = (ToolId)arg(args,0).Value;
+            var docs = ToolWs.ToolDocs(tool);
+            var doc = docs + FS.file(tool.Format(),FS.Help);
+            if(doc.Exists)
+            {
+                using var reader = doc.Utf8LineReader();
+                while(reader.Next(out var line))
+                    Write(line.Content);
+            }
+
+            return result;
+        }
+
+        [CmdOp("tools/settings")]
+        protected Outcome ShowToolSettings(CmdArgs args)
+        {
+            ToolId tool = arg(args,0).Value;
+            var src = ToolWs.Logs(tool) + FS.file("config", FS.Log);
+            if(!src.Exists)
+                return (false,FS.missing(src));
+
+            var settings = AppSettings.Load(src);
+            iter(settings, setting => Write(setting));
+            return true;
+        }
+
+        [CmdOp("tools/docs")]
+        protected Outcome ToolDocs(CmdArgs args)
+        {
+            var tool = (ToolId)arg(args,0).Value;
+            var path = FS.FilePath.Empty;
+            if(args.Length > 1)
+                path = ToolWs.ToolDocs(tool) + FS.file(arg(args,1));
+            else
+                path = ToolWs.ToolDocs(tool) + FS.file(tool.Format(), FS.Help);
+
+            if(path.Exists)
+            {
+                Write(path.ReadText());
+                return true;
+            }
+            else
+                return (false, FS.missing(path));
+        }
+
+        [CmdOp("cmd/cd")]
+        protected Outcome ChangeDir(CmdArgs args)
+        {
+            var result = Outcome.Success;
+            if(args.Count == 0)
+            {
+                Write(CommonState.CurrentDir());
+                return result;
+            }
+
+            var dst = FS.dir(arg(args,0).Value);
+            if(!dst.Exists)
+                return (false, FS.missing(dst));
+            Write(CommonState.CurrentDir(dst));
+            return result;
+        }
+
+        [CmdOp("cmd/dir")]
+        protected Outcome Dir(CmdArgs args)
+        {
+            var result = Outcome.Success;
+
+            var spec = string.Empty;
+            if(args.Length == 0)
+                spec = string.Format("dir {0} /s/b", CommonState.CurrentDir().Format(PathSeparator.BS));
+            else
+                spec = string.Format("dir {0}\\{1} /s/b", CommonState.CurrentDir().Format(PathSeparator.BS), FS.dir(arg(args,0)).Format(PathSeparator.BS));
+
+            Write(spec);
+
+            result = OmniScript.Run(spec, out var response);
+            if(result.Fail)
+                return result;
+
+            var count = response.Length;
+            var paths = alloc<FS.FilePath>(count);
+            for(var i=0; i<count; i++)
+                seek(paths,i) = FS.path(skip(response,i).Content);
+
+            return result;
+        }
+
+        [CmdOp("api/parts")]
+        protected Outcome ApiParts(CmdArgs args)
+        {
+            var result = Outcome.Success;
+            var parts = ApiRuntimeCatalog.PartIdentities;
+            var desc = string.Format("Parts:[{0}]", parts.Map(p => p.Format()).Delimit());
+            Write(desc);
+            return result;
+        }
+
+        [CmdOp("runtime/cpucore")]
+        protected Outcome ShowCurrentCore(CmdArgs args)
+        {
+            Wf.Row(string.Format("Cpu:{0}", Kernel32.GetCurrentProcessorNumber()));
+            return true;
+        }
+
+
+
         protected void UpdateToolEnv(out Settings dst)
         {
             var path = ToolWs.Toolbase.Path(FS.file("show-env-config", FS.Cmd));
@@ -101,47 +276,24 @@ namespace Z0
                 Warn(string.Format("No jobs identified by '{0}'", match));
         }
 
-        [CmdOp("env/vars")]
-        protected Outcome ShowEnvVars(CmdArgs args)
+
+        protected void LoadToolEnv(out Settings dst)
         {
-            var src = EnvVars.records(EnvVars.load());
-            iter(src, v => Write(v.Source.Format()));
-            AppSvc.TableEmit(src, AppDb.RuntimeLogs().Table<EnvVarRecord>());
-            return true;
+            var path = ToolWs.Toolbase.Path(FS.file("env", FS.Settings));
+            dst = AppSettings.Load(path.ReadNumberedLines());
         }
 
-        [CmdOp("env/settings")]
-        protected Outcome ShowEnv(CmdArgs args)
+        void EmitCommands(FS.FilePath dst)
         {
-            var result = Outcome.Success;
-            var db = EnvWs.create(Wf);
-            var settings = args.Count == 0 ? db.Globals() : db.Settings(arg(args,0));
-            iter(settings, s => Write(s.Format()));
-            return result;
+            iter(Dispatcher.SupportedActions, cmd => Write(cmd));
+            var emitting = EmittingFile(dst);
+            using var writer = dst.Writer();
+            iter(Dispatcher.SupportedActions, cmd => writer.WriteLine(cmd));
+            EmittedFile(emitting, Dispatcher.SupportedActions.Length);
         }
 
-        [CmdOp("env/tools")]
-        protected Outcome ShowToolEnv(CmdArgs args)
-        {
-            LoadToolEnv(out var settings);
-            iter(settings, s => Write(s));
-            return true;
-        }
-
-        [CmdOp("env/logs")]
-        protected Outcome EnvLogs(CmdArgs args)
-        {
-            var result = Outcome.Success;
-            var paths = Control.Files(FileKind.Log);
-            var formatter = Tables.formatter<EnvVarSet>(16, RecordFormatKind.KeyValuePairs);
-            foreach(var path in paths)
-            {
-                var dst = EnvVars.set(path);
-                Write(formatter.Format(dst));
-            }
-
-            return result;
-        }
+        protected void Emitted(FS.FilePath dst)
+            => Write(string.Format("Emitted {0}", dst.ToUri()));
 
         protected void DisplayCmdResponse(ReadOnlySpan<TextLine> src)
         {
@@ -158,39 +310,6 @@ namespace Z0
 
         protected static CmdArg arg(in CmdArgs src, int index)
             => AppCmd.arg(src,index);
-
-        [CmdOp("tool/script")]
-        protected Outcome ToolScript(CmdArgs args)
-        {
-            var tool = (ToolId)arg(args,0).Value;
-            var script = ToolWs.Script(tool, arg(args,1).Value);
-            if(!script.Exists)
-                return (false, FS.missing(script));
-            else
-                return OmniScript.Run(script, out var _);
-        }
-
-        [CmdOp("tools/settings")]
-        protected Outcome ShowToolSettings(CmdArgs args)
-        {
-            ToolId tool = arg(args,0).Value;
-            var src = ToolWs.Logs(tool) + FS.file("config", FS.Log);
-            if(!src.Exists)
-                return (false,FS.missing(src));
-
-            var settings = AppSettings.Load(src);
-            iter(settings, setting => Write(setting));
-            return true;
-        }
-
-        protected void LoadToolEnv(out Settings dst)
-        {
-            var path = ToolWs.Toolbase.Path(FS.file("env", FS.Settings));
-            dst = AppSettings.Load(path.ReadNumberedLines());
-        }
-
-        protected void Emitted(FS.FilePath dst)
-            => Write(string.Format("Emitted {0}", dst.ToUri()));
 
         Outcome SelectTool(ToolId tool)
         {
@@ -210,120 +329,6 @@ namespace Z0
             Witness?.Dispose();
         }
 
-        [CmdOp("commands")]
-        protected void EmitCommands()
-            => EmitCommands(AppDb.ApiTargets().Path(FS.file($"{GetType().Name.ToLower()}.commands", FS.Csv)));
-
-        void EmitCommands(FS.FilePath dst)
-        {
-            iter(Dispatcher.SupportedActions, cmd => Write(cmd));
-            var emitting = EmittingFile(dst);
-            using var writer = dst.Writer();
-            iter(Dispatcher.SupportedActions, cmd => writer.WriteLine(cmd));
-            EmittedFile(emitting, Dispatcher.SupportedActions.Length);
-        }
-
-
-        [CmdOp("cmd/cd")]
-        protected Outcome ChangeDir(CmdArgs args)
-        {
-            var result = Outcome.Success;
-            if(args.Count == 0)
-            {
-                Write(CommonState.CurrentDir());
-                return result;
-            }
-
-            var dst = FS.dir(arg(args,0).Value);
-            if(!dst.Exists)
-                return (false, FS.missing(dst));
-            Write(CommonState.CurrentDir(dst));
-            return result;
-        }
-
-        /// <summary>
-        /// Loads files from a directory into the context
-        /// </summary>
-        /// <param name="args">The directory specifier, if any</param>
-        [CmdOp("cmd/dir")]
-        protected Outcome Dir(CmdArgs args)
-        {
-            var result = Outcome.Success;
-
-            var spec = string.Empty;
-            if(args.Length == 0)
-                spec = string.Format("dir {0} /s/b", CommonState.CurrentDir().Format(PathSeparator.BS));
-            else
-                spec = string.Format("dir {0}\\{1} /s/b", CommonState.CurrentDir().Format(PathSeparator.BS), FS.dir(arg(args,0)).Format(PathSeparator.BS));
-
-            Write(spec);
-
-            result = OmniScript.Run(spec, out var response);
-            if(result.Fail)
-                return result;
-
-            var count = response.Length;
-            var paths = alloc<FS.FilePath>(count);
-            for(var i=0; i<count; i++)
-                seek(paths,i) = FS.path(skip(response,i).Content);
-
-            //Files(paths);
-            return result;
-        }
-
-        [CmdOp("api/catalog")]
-        protected Outcome ApiCatalog(CmdArgs args)
-        {
-            var result = Outcome.Success;
-            var parts = ApiRuntimeCatalog.PartIdentities;
-            var desc = string.Format("Parts:[{0}]", parts.Map(p => p.Format()).Delimit());
-            Write(desc);
-            return result;
-        }
-
-        [CmdOp(".cpucore")]
-        protected Outcome ShowCurrentCore(CmdArgs args)
-        {
-            Wf.Row(string.Format("Cpu:{0}", Kernel32.GetCurrentProcessorNumber()));
-            return true;
-        }
-
-        [CmdOp("tool/help")]
-        protected Outcome ShowToolHelp(CmdArgs args)
-        {
-            var result = Outcome.Success;
-
-            var tool = (ToolId)arg(args,0).Value;
-            var docs = ToolWs.ToolDocs(tool);
-            var doc = docs + FS.file(tool.Format(),FS.Help);
-            if(doc.Exists)
-            {
-                using var reader = doc.Utf8LineReader();
-                while(reader.Next(out var line))
-                    Write(line.Content);
-            }
-
-            return result;
-        }
-
-        [CmdOp("tools/docs")]
-        protected Outcome ToolDocs(CmdArgs args)
-        {
-            var tool = (ToolId)arg(args,0).Value;
-            var path = FS.FilePath.Empty;
-            if(args.Length > 1)
-                path = ToolWs.ToolDocs(tool) + FS.file(arg(args,1));
-            else
-                path = ToolWs.ToolDocs(tool) + FS.file(tool.Format(), FS.Help);
-
-            if(path.Exists)
-            {
-                Write(path.ReadText());
-                return true;
-            }
-            else
-                return (false, FS.missing(path));
-        }
 
         protected virtual string PromptTitle {get;}
 

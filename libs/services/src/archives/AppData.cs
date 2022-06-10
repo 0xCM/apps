@@ -48,6 +48,11 @@ namespace Z0
         public static ref readonly DbTargets ApiTargets => ref Instance._ApiTargets;
 
         /// <summary>
+        /// Settings read from a file collocated with the entry assembly
+        /// </summary>
+        public static ref readonly Settings Settings => ref Instance._Settings;
+
+        /// <summary>
         /// $(DvWs)/projects/db/projects/<paramref name='id'/>
         /// </summary>
         /// <param name="id">The project name</param>
@@ -90,14 +95,34 @@ namespace Z0
 
         DbSources _Toolbase;
 
+        FS.FilePath _SettingsPath;
+
+        Settings _Settings;
+
+        static Settings settings(FS.FilePath src)
+        {
+            var dst = Settings.Empty;
+            try
+            {
+                dst = Z0.Settings.load(src);
+            }
+            catch(Exception e)
+            {
+                term.error(e);
+            }
+            return dst;
+        }
+
         AppData()
         {
         }
 
         static AppData()
         {
+            var control = Assembly.GetEntryAssembly();
             var env = EnvData.load();
             var dst = new AppData();
+            dst._SettingsPath = FS.path(control.Location).FolderPath + FS.file(string.Format("{0}.settings", control.GetSimpleName()), FS.Csv);
             dst._AppEnv = env;
             dst._PllExec = true;
             dst._Projects = new DbTargets(env.DevWs, "projects");
@@ -110,9 +135,12 @@ namespace Z0
             dst._ControlCmd = new DbSources(env.Control, ".cmd");
             dst._DataSources = new DbSources(env.DevWs, "projects/db/sources");
             dst._Toolbase = new DbSources(env.Toolbase);
+            dst._Settings = settings(dst._SettingsPath);
             Instance = dst;
         }
 
         static AppData Instance;
     }
+
+
 }
