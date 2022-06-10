@@ -8,6 +8,8 @@ namespace Z0
 
     public class WsApi : AppService<WsApi>
     {
+        static AppDb AppDb => GlobalSvc.Instance.AppDb;
+
         public static IProjectWs project(FS.FolderPath root, ProjectId id)
             => ProjectWs.create(root, id);
 
@@ -21,10 +23,10 @@ namespace Z0
             => data(id).Path(FS.file(string.Format("{0}.build.flows", id), FS.Csv));
 
         public static DbTargets data(ProjectId id)
-            => AppData.ProjectData(id);
+            => AppDb.ProjectData(id);
 
         public static DbTargets data(ProjectId id, string scope)
-            => AppData.ProjectData(id).Targets(scope);
+            => AppDb.ProjectData(id).Targets(scope);
 
         public static FS.FilePath table<T>(ProjectId project)
             where T : struct

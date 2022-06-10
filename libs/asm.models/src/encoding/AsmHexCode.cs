@@ -7,24 +7,27 @@ namespace Z0.Asm
     using static core;
 
     [ApiHost]
-    public struct AsmHexCode : IEquatable<AsmHexCode>, IComparable<AsmHexCode>
+    public record struct AsmHexCode : IEquatable<AsmHexCode>, IComparable<AsmHexCode>
     {
         [Op]
         public static bool parse(ReadOnlySpan<char> src, out AsmHexCode dst)
         {
-            var storage = Cells.alloc(w128);
-            var size = Hex.parse(src, storage.Bytes);
+            var buffer = Cells.alloc(w128);
+            var result = Hex.parse(src, buffer.Bytes);
+            dst = AsmHexCode.Empty;
+            if(result.Fail)
+                return result;
+
+            var size = result.Data;
             if(size == 0 || size > 15)
-            {
-                dst = AsmHexCode.Empty;
-                return false;
-            }
+                result = false;
             else
             {
-                dst = new AsmHexCode(storage);
+                dst = new AsmHexCode(buffer);
                 dst.Cell(15) = (byte)size;
-                return true;
+                result = true;
             }
+            return result;
         }
 
         [Op]
@@ -113,7 +116,9 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public AsmHexCode(Cell128 data)
-            => Data = data;
+        {
+            Data = data;
+        }
 
         public ref byte Size
         {
@@ -149,18 +154,21 @@ namespace Z0.Asm
             get => ref seek(Bytes, index < 0 ? 0 : (byte)index);
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => hash(this);
+        }
+
         public string BitString
             => bitstring(this);
 
         public override int GetHashCode()
-            => hash(this);
+            => Hash;
 
         [MethodImpl(Inline)]
         public bool Equals(AsmHexCode src)
             => eq(this, src);
-
-        public override bool Equals(object src)
-            => src is AsmHexCode x && Equals(x);
 
         public string Format()
             => Data.FormatHexData(Size);
@@ -188,19 +196,10 @@ namespace Z0.Asm
         public static implicit operator AsmHexCode(string src)
             => parse(src);
 
-        [MethodImpl(Inline)]
-        public static bool operator ==(AsmHexCode a, AsmHexCode b)
-            => a.Equals(b);
-
-        [MethodImpl(Inline)]
-        public static bool operator !=(AsmHexCode a, AsmHexCode b)
-            => !a.Equals(b);
-
         public static AsmHexCode Empty
         {
             [MethodImpl(Inline)]
             get => default;
         }
-
     }
 }

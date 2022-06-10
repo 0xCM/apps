@@ -1,3 +1,4 @@
-Name | Value
-DbRoot | y:/data
-SourceArchive | y:/data/sources
+| Name    | Value             |
+| Targets | z:/data           |
+| Sources | y:/data/sources   |
+| Control | c:/dev/ws/control |

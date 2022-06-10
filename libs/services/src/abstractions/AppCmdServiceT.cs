@@ -31,8 +31,6 @@ namespace Z0
 
         protected IToolWs ToolWs => new ToolWs(AppData.ToolBase);
 
-        protected ref readonly DbSources Control => ref AppData.Control;
-
         protected virtual ICmdProvider[] CmdProviders(IWfRuntime wf)
             => array(this);
 
@@ -58,7 +56,7 @@ namespace Z0
         [CmdOp("settings")]
         protected void AppSetings()
         {
-            var settings = AppData.Settings;
+            var settings = AppData.GlobalSettings;
             Write(settings.Format());
         }
 
@@ -97,7 +95,7 @@ namespace Z0
         protected Outcome EnvLogs(CmdArgs args)
         {
             var result = Outcome.Success;
-            var paths = Control.Files(FileKind.Log);
+            var paths = AppDb.Control().Files(FileKind.Log);
             var formatter = Tables.formatter<EnvVarSet>(16, RecordFormatKind.KeyValuePairs);
             foreach(var path in paths)
             {

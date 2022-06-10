@@ -29,17 +29,12 @@ namespace Z0
             public HexEmitter HexEmitter(IWfRuntime wf)
                 => Service<HexEmitter>(wf);
 
-            public Tooling Tooling(IWfRuntime wf)
-                => Service<Tooling>(wf);
-
             public WsScripts WsScripts(IWfRuntime wf)
                 => Service<WsScripts>(wf);
         }
 
         static Svc AppServices => Svc.Instance;
 
-        public static Tooling Tooling(this IWfRuntime wf)
-            => AppServices.Tooling(wf);
 
         public static DumpArchive DumpArchive(this IWfRuntime wf)
             => AppServices.DumpArchive(wf);

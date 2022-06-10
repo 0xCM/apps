@@ -1,4 +1,3 @@
 @echo off
-set ProjId=test.runner
-set AppName=ztest
+set ProjId=test.shell
 call %~dp0..\..\.cmd\config.cmd

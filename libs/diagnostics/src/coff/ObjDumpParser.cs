@@ -101,13 +101,29 @@ namespace Z0
                         var y = text.index(asm, Chars.Tab);
                         if(y > 0)
                         {
-                            AsmHexCode.parse(text.trim(text.left(asm, y)), out Row.Encoded);
+                            var hex = text.trim(text.left(asm, y));
+                            result = AsmHexCode.parse(hex, out Row.Encoded);
+                            if(result.Fail)
+                            {
+                                result = (false, AppMsg.ParseFailure.Format(nameof(AsmHexCode), hex));
+                                break;
+                            }
+
+                            if(Row.Encoded.IsEmpty)
+                            {
+                                result = (false, AppMsg.ParseFailure.Format(nameof(AsmHexCode), hex));
+                                break;
+                            }
+
                             Row.Size = Row.Encoded.Size;
                             Row.InstructionId = InstructionId.define(origin.DocId, Row.IP, Row.Encoded.Bytes);
                             Row.EncodingId = Row.InstructionId.EncodingId;
                             Row.OriginId = origin.DocId;
                             var statement = text.trim(text.right(asm, y)).Replace(Chars.Tab, Chars.Space);
                             Row.Asm = statement;
+
+                            term.babble(string.Format("{0,-48} | {1}", statement, hex));
+
                             if(AsmInlineComment.parse(statement, out Row.Comment))
                             {
                                 var m = text.index(statement, Chars.Hash);

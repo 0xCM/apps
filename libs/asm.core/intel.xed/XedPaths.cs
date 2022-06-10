@@ -13,6 +13,8 @@ namespace Z0
     {
         public static XedPaths Service => Instance;
 
+        static AppDb AppDb => GlobalSvc.Instance.AppDb;
+
         public readonly struct SvcState
         {
             public readonly FS.FolderPath XedSources;
@@ -27,6 +29,7 @@ namespace Z0
         }
 
         readonly SvcState State;
+
 
         public FS.FolderPath Sources()
             => State.XedSources;
@@ -242,7 +245,7 @@ namespace Z0
 
         XedPaths()
         {
-            State = new (AppData.ProjectSources("intel/xed.primary"), AppData.ProjectTargets("xed"));
+            State = new (AppDb.ProjectSources("intel/xed.primary"), AppDb.ProjectTargets("xed"));
         }
 
         static XedPaths Instance = new();

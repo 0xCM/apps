@@ -9,6 +9,7 @@
     <ZLibs>$(LibsRoot)z0.libs.csproj</ZLibs>
 
     <Services>$(LibsRoot)services/z0.services.csproj</Services>
+    <Tools>$(LibsRoot)tools/z0.tools.csproj</Tools>
 
     <Alloc>$(LibsRoot)alloc/z0.alloc.csproj</Alloc>
     <ApiCode>$(LibsRoot)api.code/z0.api.code.csproj</ApiCode>

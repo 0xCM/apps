@@ -6,9 +6,7 @@ namespace Z0
 {
     public interface IAppDb : IService
     {
-         DbTargets Projects();
-
-         DbTargets Project(ProjectId name);
+         DbTargets ProjectTargets(ProjectId name);
 
          DbTargets ProjectData(ProjectId name);
 
@@ -16,12 +14,16 @@ namespace Z0
 
          DbTargets CgTargets(CgTarget dst);
 
-         DbTargets Targets();
+         ref readonly DbTargets Targets();
 
          DbTargets Targets(string scope);
+
+         ref readonly DbSources Sources();
 
          DbSources Sources(string scope);
 
          DbTargets Logs(string scope);
+
+         ref readonly DbSources Control();
     }
 }

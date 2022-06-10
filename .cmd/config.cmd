@@ -68,6 +68,7 @@ set AreaSln=%SlnRoot%\%Area%\z0.%Area%.sln
 set AreaBuildLog=%BuildLogs%\z0.%Area%.build.log
 set AreaBuildCmd=dotnet build %AreaSln% %BuildProps% -fl -flp:logfile=%AreaBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 set BuildTestsCmd=%AreaBuildCmd%
+set ztest=%BuildBinRoot%\z0.test.shell\%BuildKind%\%FrameworkMoniker%\%RuntimeMoniker%\ztest.exe
 
 set ZLibProject=%SlnRoot%\lib\z0.lib.csproj
 set ZLibBuildLog=%BuildLogs%\z0.lib.build.log

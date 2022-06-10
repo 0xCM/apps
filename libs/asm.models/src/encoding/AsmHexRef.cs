@@ -14,6 +14,7 @@ namespace Z0
         public AsmHexRef(MemorySeg seg)
         {
             Seg = seg;
+            Require.invariant(seg.IsNonEmpty);
         }
 
         public MemoryAddress BaseAddress

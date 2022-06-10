@@ -35,6 +35,8 @@ namespace Z0
             _ClassGroupLookup = groups.ClassGroups();
         }
 
+        static AppDb AppDb => GlobalSvc.Instance.AppDb;
+
         public InstGroupMember PatternGroup(ushort id)
             => _GroupMemberLookup.Find(id, out var dst) ? dst : InstGroupMember.Empty;
 
@@ -91,7 +93,7 @@ namespace Z0
             Xed = xed;
             Wf = xed.Wf;
             var projects = Projects;
-            Ws = WsApi.project(AppData.ProjectDb, Identifier);
+            Ws = WsApi.project(AppDb.Targets(), Identifier);
             RuntimeState = new(NextId());
             RuleTables = Xed.Views.RuleTables;
             _Emitter = Emitter.create(this, StatusWriter);

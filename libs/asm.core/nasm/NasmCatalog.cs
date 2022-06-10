@@ -13,6 +13,9 @@ namespace Z0.Asm
     {
         AppSvcOps AppSvc => Wf.AppSvc();
 
+
+        static AppDb AppDb => GlobalSvc.Instance.AppDb;
+
         static bool comment(ReadOnlySpan<char> src)
             =>  src.Length != 0 && first(src) == Chars.Semicolon;
 
@@ -83,8 +86,8 @@ namespace Z0.Asm
 
         public ReadOnlySpan<NasmInstruction> ImportInstructions()
             => ImportInstructions(
-                AppData.DataSources.Path(FS.file("nasm.instructions", FS.Txt)),
-                AppData.ProjectDb.Targets("asm.refs").Table<NasmInstruction>()
+                AppDb.Sources().Path(FS.file("nasm.instructions", FS.Txt)),
+                AppDb.Targets().Targets("asm.refs").Table<NasmInstruction>()
                 );
 
         ReadOnlySpan<NasmInstruction> ImportInstructions(FS.FilePath src, FS.FilePath dst)
@@ -95,7 +98,7 @@ namespace Z0.Asm
         }
 
         public ReadOnlySpan<NasmInstruction> LoadInstructionImports()
-            => LoadInstructionImports(AppData.ProjectDb.Targets("asm.refs").Table<NasmInstruction>());
+            => LoadInstructionImports(AppDb.Targets().Targets("asm.refs").Table<NasmInstruction>());
 
         public ReadOnlySpan<NasmInstruction> LoadInstructionImports(FS.FilePath src)
         {

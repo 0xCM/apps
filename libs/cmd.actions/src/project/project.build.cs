@@ -13,13 +13,9 @@ namespace Z0
         {
             var project = Project();
             if(BuildCmdNames.TryGetValue(project.Name, out var name))
-            {
                 Commands.RunCmd(name);
-            }
             else
-            {
                 Warn(string.Format("No build job found for {0}", project.Name));
-            }
 
             return true;
         }

@@ -22,15 +22,7 @@ namespace Z0
 
         }
 
-        internal sealed class SvcCache : Services<SvcCache>
-        {
-            public AppDb AppDb()
-                => Service<AppDb>();
-        }
-
         static AppSvcCache AppServices => AppSvcCache.Instance;
-
-        static SvcCache Services => SvcCache.Instance;
 
         public static ScriptRunner ScriptRunner(this IWfRuntime wf)
             => AppServices.ScriptRunner(wf);

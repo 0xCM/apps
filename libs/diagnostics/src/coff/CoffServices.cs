@@ -44,7 +44,6 @@ namespace Z0
                 var dst = targets.Path(FS.file(srcid, FileKind.HexDat.Ext()));
                 var running = Running(string.Format("Emitting {0}", dst));
                 using var writer = dst.AsciWriter();
-                var data = path.ReadBytes();
                 var obj = CoffObjects.load(path);
                 writer.WriteLine(obj.Format());
                 Ran(running, string.Format("objhex:{0} -> {1}", path.ToUri(), dst.ToUri()));
@@ -225,8 +224,15 @@ namespace Z0
             var result = Outcome.Success;
             var hexDat = LoadObjHex(context);
             var objDat = LoadObjData(context);
-            if(hexDat.Count != objDat.Count)
-                result = (false,string.Format("Counts differ"));
+            var count = Require.equal(hexDat.Count, objDat.Count);
+            var hexPaths = hexDat.Paths.Array().Index().Sort();
+            var objPaths = objDat.Paths.Array().Index().Sort();
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var hexpath = ref hexPaths[i];
+                ref readonly var objpath = ref objPaths[i];
+            }
+
             return result;
         }
 

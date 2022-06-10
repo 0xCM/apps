@@ -11,7 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="$(Services)" />
     <ProjectReference Include="$(Archives)" />
-    <ProjectReference Include="$(Tools)" />
+
   </ItemGroup>
 
 </Project>
