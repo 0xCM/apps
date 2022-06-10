@@ -1,16 +1,18 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-  <Import Project="build.props"/>
+  <Import Project="props/build.props"/>
 
   <PropertyGroup>
     <SlnRoot>$(MSBuildThisFileDirectory)</SlnRoot>
     <TopDir>$(MSBuildThisFileDirectory)</TopDir>
     <Src>$(MSBuildThisFileDirectory)</Src>
-    <AppsRoot>$(SlnRoot)apps/</AppsRoot>
+    <SlnProps>$(SlnRoot)props/</SlnProps>
+    <ImportDefs>$(SlnProps)</ImportDefs>
     <SlnBuild>$(SlnRoot).build\</SlnBuild>
     <SlnBin>$(SlnBuild)bin\</SlnBin>
+
+    <AppsRoot>$(SlnRoot)apps/</AppsRoot>
     <AppLibs>$(SlnRoot)libs/</AppLibs>
-    <ImportDefs>$(SlnRoot)imports/</ImportDefs>
     <LibsRoot>$(SlnRoot)libs/</LibsRoot>
 
     <CgRoot>$(SlnRoot)cg/</CgRoot>
@@ -35,6 +37,6 @@
     <LiteralsLibPath>$(SlnBin)z0.literals\$(Configuration)\$(TargetFramework)\z0.literals.dll</LiteralsLibPath>
   </PropertyGroup>
 
-  <Import Project="projects.props"/>
+  <Import Project="props/projects.props"/>
 
 </Project>

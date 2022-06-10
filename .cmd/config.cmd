@@ -6,17 +6,16 @@ set RuntimeMoniker=win-x64
 set BuildVerbosity=normal
 set BuildProps=/p:Configuration=%BuildKind% /p:Platform=%BuildPlatform%
 
+set Control=c:\dev\ws\control
+set ControlScripts=%Control%\.cmd
 set SlnRoot=j:\z0
+
+call %ControlScripts%\config-archives.cmd
+
+set RepoArchive=%RepoArchives%\z0.archive.zip
 set SlnScripts=%SlnRoot%\.cmd
 set SlnOut=%SlnRoot%\.build
 set BuildRoot=%SlnRoot%\.build
-
-set Archives=Y:\archives
-set RepoArchives=%Archives%\repos
-set RepoLogs=%RepoArchives%\repos
-set RepoArchive=%RepoArchives%\z0.archive.zip
-
-mkdir %RepoArchives% 1>nul 2>nul
 
 set CmdScripts=%SlnRoot%\.cmd
 
