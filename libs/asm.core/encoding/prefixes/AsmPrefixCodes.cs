@@ -2,10 +2,12 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
+    using Asm;
+
     using static Hex8Kind;
-    using static NumericBaseKind;
+    using NBK = NumericBaseKind;
 
     [ApiHost]
     public class AsmPrefixCodes
@@ -227,7 +229,7 @@ namespace Z0.Asm
         /// <summary>
         /// Defines the lock prefix code
         /// </summary>
-        [SymSource(Group, Base16)]
+        [SymSource(Group, NBK.Base16)]
         public enum LockPrefixCode : byte
         {
             None = 0,
@@ -236,7 +238,7 @@ namespace Z0.Asm
             LOCK = 0xF0,
         }
 
-        [SymSource(Group, Base16)]
+        [SymSource(Group, NBK.Base16)]
         public enum BranchHintCode : byte
         {
             /// <summary>
@@ -252,7 +254,7 @@ namespace Z0.Asm
             BNT = 0x3e,
         }
 
-        [SymSource(Group, Base16)]
+        [SymSource(Group, NBK.Base16)]
         public enum SizeOverrideCode : byte
         {
             None = 0,
@@ -281,7 +283,7 @@ namespace Z0.Asm
         /// <summary>
         /// Defines the mandatory prefix codes as specified by Intel Vol II, 2.1.2
         /// </summary>
-        [SymSource(Group, Base16)]
+        [SymSource(Group, NBK.Base16)]
         public enum MandatoryPrefixCode : byte
         {
             [Symbol("66")]
@@ -294,7 +296,7 @@ namespace Z0.Asm
             F3 = 0xF3,
         }
 
-        [SymSource(Group, Base16)]
+        [SymSource(Group, NBK.Base16)]
         public enum BndPrefixCode : byte
         {
             [Symbol("BND")]
@@ -304,7 +306,7 @@ namespace Z0.Asm
         /// <summary>
         /// The segment override codes as specified by Intel Vol II, 2.1.1
         /// </summary>
-        [SymSource(Group, Base16)]
+        [SymSource(Group, NBK.Base16)]
         public enum SegOverrideCode : byte
         {
             [Symbol("cs", "CS segment override")]
@@ -329,7 +331,7 @@ namespace Z0.Asm
         /// <summary>
         /// Classfies vex prefix codes
         /// </summary>
-        [SymSource(Group, Base16)]
+        [SymSource(Group, NBK.Base16)]
         public enum VexPrefixKind : byte
         {
             [Symbol("C4", "The leading byte of a 3-byte vex prefix sequence")]
@@ -343,7 +345,7 @@ namespace Z0.Asm
         /// [0100 0001] | W:0 | R:0 | X:0 | B:1
         /// </summary>
         [Flags]
-        [SymSource(Group, Base16)]
+        [SymSource(Group, NBK.Base16)]
         public enum RexPrefixCode : byte
         {
             /// <summary>
@@ -380,7 +382,7 @@ namespace Z0.Asm
             W = 0x48,
         }
 
-        [SymSource(Group, Base16)]
+        [SymSource(Group, NBK.Base16)]
         public enum RepPrefixCode : byte
         {
             [Symbol("F2")]

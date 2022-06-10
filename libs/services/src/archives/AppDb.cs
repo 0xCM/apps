@@ -80,11 +80,11 @@ namespace Z0
         public DbTargets XedTargets(ProjectId ws)
             => DbTargets(ws).Targets("xed.disasm");
 
-        public FileCatalog Files(IProjectWs ws)
-            => FileCatalog.load(ws);
+        // public FileCatalog Files(IProjectWs ws)
+        //     => FileCatalog.load(ws);
 
-        public FileCatalog Files(ProjectId project)
-            => FileCatalog.load(project);
+        // public FileCatalog Files(ProjectId project)
+        //     => FileCatalog.load(project);
 
         static SortedDictionary<string,FileKind> FileKindLU;
 

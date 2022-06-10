@@ -166,8 +166,8 @@ public enum PartId : byte
     [Symbol("archives.modules")]
     ModuleArchives,
 
-    [Symbol("archives.services")]
-    ArchiveServices,
+    [Symbol("services")]
+    Services,
 
     [Symbol("literals")]
     Literals,

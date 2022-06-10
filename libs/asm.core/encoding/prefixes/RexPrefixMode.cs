@@ -2,10 +2,10 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
     [SymSource("asm")]
-    public enum RexMode : byte
+    public enum RexPrefixMode : byte
     {
         [Symbol("00")]
         R00 = 0,

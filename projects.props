@@ -8,6 +8,8 @@
     <LibsCore>$(LibsRoot)libs.core/z0.libs.core.csproj</LibsCore>
     <ZLibs>$(LibsRoot)z0.libs.csproj</ZLibs>
 
+    <Services>$(LibsRoot)services/z0.services.csproj</Services>
+
     <Alloc>$(LibsRoot)alloc/z0.alloc.csproj</Alloc>
     <ApiCode>$(LibsRoot)api.code/z0.api.code.csproj</ApiCode>
     <Assets>$(LibsRoot)assets/z0.assets.csproj</Assets>

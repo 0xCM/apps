@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-
     using F = AsmPrefixCodes.VsibField;
 
     /// <summary>

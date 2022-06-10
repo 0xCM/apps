@@ -8,8 +8,8 @@ namespace Z0
     using static XedModels;
     using static MachineModes;
     using static MachineModes.MachineModeClass;
-    using static Asm.AsmPrefixCodes;
-    using static Asm.AsmPrefixCodes.VectorWidthCode;
+    using static AsmPrefixCodes;
+    using static AsmPrefixCodes.VectorWidthCode;
     using static XedModels.EASZ;
     using static XedModels.EOSZ;
     using static XedModels.SMODE;

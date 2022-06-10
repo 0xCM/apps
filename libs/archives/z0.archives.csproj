@@ -8,4 +8,10 @@
 
   <Import Project="$(ImportDefs)common.libs.props"/>
 
+  <ItemGroup>
+    <ProjectReference Include="$(Services)" />
+    <ProjectReference Include="$(LibsCore)" />
+
+  </ItemGroup>
+
 </Project>

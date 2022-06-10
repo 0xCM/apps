@@ -5,6 +5,12 @@
 		},
 		{
 			"path": "..\\libs"
+		},
+		{
+			"path": "..\\literals"
+		},
+		{
+			"path": "..\\imports"
 		}
 	],
 	"settings": {}

@@ -1,3 +1,3 @@
 @echo off
-set ProjectId=archives
+set ProjectId=services
 call %~dp0..\..\..\.cmd\config.cmd

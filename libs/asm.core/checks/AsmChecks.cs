@@ -7,7 +7,7 @@ namespace Z0
     using static core;
 
     using Asm;
-    using static Asm.AsmPrefixCodes;
+    using static AsmPrefixCodes;
 
     using gp32 = AsmRegTokens.Gp32Reg;
 
