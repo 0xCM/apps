@@ -4,56 +4,55 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    using NBK = NumericBaseKind;
-
-    using S = Perm8Sym;
-
-    /// <summary>
-    /// Defines canonical literals for representing terms of permutations on 8 symbols
-    /// </summary>
-    [SymSource("perms")]
-    public enum Perm8L : uint
+    [SymSource(perms, Base2),Flags]
+    public enum Perm8Sym : byte
     {
         /// <summary>
         /// Identifies the first permutation symbol
         /// </summary>
-        A = S.A,
+        [Symbol("000")]
+        A = 0b000,
 
         /// <summary>
         /// Identifies the second permutation symbol
         /// </summary>
-        B = S.B,
+        [Symbol("001")]
+        B = 0b001,
 
         /// <summary>
         /// Identifies the third permutation symbol
         /// </summary>
-        C = S.C,
+        [Symbol("010")]
+        C = 0b010,
 
         /// <summary>
         /// Identifies the fourth permutation symbol
         /// </summary>
-        D = S.D,
+        [Symbol("011")]
+        D = 0b011,
 
         /// <summary>
         /// Identifies the fifth permutation symbol
         /// </summary>
-        E = S.E,
+        [Symbol("100")]
+        E = 0b100,
 
         /// <summary>
         /// Identifies the sixth permutation symbol
         /// </summary>
-        F = S.F,
+        [Symbol("101")]
+        F = 0b101,
 
         /// <summary>
         /// Identifies the seventh permutation symbol
         /// </summary>
-        G = S.G,
+        [Symbol("110")]
+        G = 0b110,
 
         /// <summary>
         /// Identifies the eighth permutation symbol
         /// </summary>
-        H = S.H,
+        [Symbol("111")]
+        H = 0b111,
     }
 }

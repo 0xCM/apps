@@ -10,12 +10,12 @@ namespace Z0
 
     partial class ApiQuery
     {
-        [Op]
-        public static Index<SymLiteralRow> ClassLiterals()
-            => Symbols.literals(Parts.Lib.Assembly.Enums().Tagged<ApiClassAttribute>());
+        // [Op]
+        // public static Index<SymLiteralRow> ClassLiterals()
+        //     => SymLiterals.literals(Parts.Lib.Assembly.Enums().Tagged<ApiClassAttribute>());
 
-        public static Index<ApiClassifier> Classifiers()
-            => ClassLiterals().GroupBy(x => x.Type).Select(x => new ApiClassifier(x.Key, x.ToArray())).Array();
+        // public static Index<ApiClassifier> Classifiers()
+        //     => ClassLiterals().GroupBy(x => x.Type).Select(x => new ApiClassifier(x.Key, x.ToArray())).Array();
 
         [Op]
         public static Index<IApiClass> kinds()

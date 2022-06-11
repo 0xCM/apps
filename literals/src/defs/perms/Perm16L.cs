@@ -4,14 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    using NBK = NumericBaseKind;
-
     /// <summary>
     /// Defines canonical literals for representing terms of permutations on 16 symbols
     /// </summary>
-    [SymSource("perms")]
+    [SymSource(perms)]
     public enum Perm16L : ulong
     {
         X0 = 0b0000,

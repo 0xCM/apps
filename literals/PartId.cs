@@ -2,10 +2,13 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
+using Z0;
 
 /// <summary>
 /// Defines identifiers for assemblies that comprise this ... monstrosity?
 /// </summary>
+
+[SymSource("parts")]
 public enum PartId : byte
 {
     None = 0,

@@ -14,7 +14,7 @@ namespace Z0
         /// <typeparam name="E">The symbol type</typeparam>
         public static SymHeap symbols<E>()
             where E : unmanaged, Enum
-                => symbols(Symbolic.symlits<E>());
+                => symbols(Symbolic.literals<E>());
 
         /// <summary>
         /// Reconstitutes a <see cref='SymHeap{K,O,L}'/> indexed by <typeparamref name='K'> values with <typeparamref name='O'>-measured offsets and <typeparamref name='L'>-measured lengths

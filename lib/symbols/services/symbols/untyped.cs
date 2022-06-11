@@ -21,26 +21,5 @@ namespace Z0
             var index = (ISymIndex)factory.Invoke(null, core.array<object>());
             return index.Untyped();
         }
-
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        static SymLiteralRow untype<E>(in SymLiteral<E> src)
-            where E : unmanaged
-        {
-            var dst = new SymLiteralRow();
-            dst.Component = src.Component.SimpleName;
-            dst.Type = src.Type;
-            dst.Group = src.Group;
-            dst.Size = src.Size;
-            dst.Index = src.Index;
-            dst.Name = src.Name;
-            dst.Symbol = src.Symbol;
-            dst.DataType = src.DataType;
-            dst.Value = src.Value;
-            dst.Base = NumericBaseKind.Base10;
-            dst.Description = src.Description;
-            dst.Hidden = src.Hidden;
-            dst.Identity = src.Identity;
-            return dst;
-        }
    }
 }

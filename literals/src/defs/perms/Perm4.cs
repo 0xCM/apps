@@ -4,14 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    using NBK = NumericBaseKind;
-
     /// <summary>
     /// Identifies 4-element permutations
     /// </summary>
-    [SymSource("perms", NBK.Base2)]
+    [SymSource(perms, Base2)]
     public enum Perm4L : byte
     {
         /// <summary>

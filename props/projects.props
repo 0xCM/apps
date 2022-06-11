@@ -1,20 +1,12 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <PropertyGroup>
-    <Literals>$(TopDir)/literals/z0.literals.csproj</Literals>
-    <LiteralsLibName>z0.literals</LiteralsLibName>
-
-    <ZLib>$(TopDir)lib/z0.lib.csproj</ZLib>
-    <ZLibs>$(LibsRoot)z0.libs.csproj</ZLibs>
-
-    <Services>$(LibsRoot)services/z0.services.csproj</Services>
-    <Tools>$(LibsRoot)tools/z0.tools.csproj</Tools>
-
     <Alloc>$(LibsRoot)alloc/z0.alloc.csproj</Alloc>
     <ApiCode>$(LibsRoot)api.code/z0.api.code.csproj</ApiCode>
     <Assets>$(LibsRoot)assets/z0.assets.csproj</Assets>
-    <Symbols>$(LibsRoot)symbols/z0.symbols.csproj</Symbols>
+
     <Asm>$(LibsRoot)asm/z0.asm.csproj</Asm>
+    <ApiMd>$(LibsRoot)api.md/z0.api.md.csproj</ApiMd>
     <AsmCore>$(LibsRoot)asm.core/z0.asm.core.csproj</AsmCore>
     <AsmModels>$(LibsRoot)asm.models/z0.asm.models.csproj</AsmModels>
     <AsmOperands>$(LibsRoot)asm.operands/z0.asm.operands.csproj</AsmOperands>
@@ -34,23 +26,26 @@
 
     <Expr>$(LibsRoot)expr/z0.expr.csproj</Expr>
 
-
     <Glue>$(LibsRoot)glue/z0.glue.csproj</Glue>
     <Graphs>$(LibsRoot)graphs/z0.graphs.csproj</Graphs>
 
+    <IntelIntrinsics>$(LibsRoot)intel.intrinsics/z0.intel.intrinsics.csproj</IntelIntrinsics>
+    <IntelCore>$(LibsRoot)intel.core/z0.intel.core.csproj</IntelCore>
+    <IntelXed>$(LibsRoot)/intel.xed/z0.intel.xed.csproj</IntelXed>
+
     <LlvmTools>$(LibsRoot)llvm.tools/z0.llvm.tools.csproj</LlvmTools>
     <LlvmData>$(LibsRoot)llvm.data/z0.llvm.data.csproj</LlvmData>
+    <Lang>$(LibsRoot)lang/z0.lang.csproj</Lang>
 
     <Memory>$(LibsRoot)memory/z0.memory.csproj</Memory>
     <Numbers>$(LibsRoot)numbers/z0.numbers.csproj</Numbers>
 
-    <Lang>$(LibsRoot)lang/z0.lang.csproj</Lang>
     <Rules>$(LibsRoot)rules/z0.rules.csproj</Rules>
     <Machines>$(LibsRoot)machines/z0.machines.csproj</Machines>
-    <ApiMd>$(LibsRoot)api.md/z0.api.md.csproj</ApiMd>
-    <IntelIntrinsics>$(LibsRoot)intel.intrinsics/z0.intel.intrinsics.csproj</IntelIntrinsics>
-    <IntelCore>$(LibsRoot)intel.core/z0.intel.core.csproj</IntelCore>
-    <IntelXed>$(LibsRoot)/intel.xed/z0.intel.xed.csproj</IntelXed>
+
+    <Services>$(LibsRoot)services/z0.services.csproj</Services>
+    <Tools>$(LibsRoot)tools/z0.tools.csproj</Tools>
+    <Symbols>$(LibsRoot)symbols/z0.symbols.csproj</Symbols>
 
     <TestChecks>$(TestRoot)test.checks/z0.test.checks.csproj</TestChecks>
     <TestUnits>$(TestRoot)test.units/z0.test.units.csproj</TestUnits>
@@ -61,6 +56,13 @@
     <CgIntel>$(CgRoot)cg.intel/z0.cg.intel.csproj</CgIntel>
     <CgShell>$(CgRoot)cg.shell/z0.cg.shell.csproj</CgShell>
     <CgTest>$(CgRoot)cg.shell/z0.cg.shell.csproj</CgTest>
+
+    <ZLib>$(TopDir)lib/z0.lib.csproj</ZLib>
+    <ZLibs>$(LibsRoot)z0.libs.csproj</ZLibs>
+
+    <Literals>$(TopDir)/literals/z0.literals.csproj</Literals>
+    <LiteralsLibName>z0.literals</LiteralsLibName>
+
 
   </PropertyGroup>
 

@@ -7,6 +7,8 @@ namespace Z0
     [LiteralProvider]
     public class LiteralGroups
     {
+        const string sep = ".";
+
         public const string digits = nameof(digits);
 
         public const string clr = nameof(clr);
@@ -18,6 +20,14 @@ namespace Z0
         public const string chars = nameof(chars);
 
         public const string numeric = nameof(numeric);
+
+        public const string bitmasks = nameof(bitmasks);
+
+        public const string perms =  nameof(perms);
+
+        public const string blends = nameof(blends);
+
+        public const string arrangements = nameof(arrangements);
 
     }
 }

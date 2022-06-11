@@ -9,7 +9,7 @@ namespace Z0
     /// <summary>
     /// Defines literals that define symbol arrangements that may or may not be permutations
     /// </summary>
-    [SymSource("bitmasks")]
+    [SymSource(arrangements)]
     public enum Arrange4L : byte
     {
         ABCD = A | (B << 2) | (C << 4) | (D << 6),

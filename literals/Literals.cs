@@ -20,4 +20,14 @@ global using CallerLine = System.Runtime.CompilerServices.CallerLineNumberAttrib
 
 global using static Z0.LiteralGroups;
 global using static Z0.NumericBaseKind;
+global using static Root;
+
+global using NBK = Z0.NumericBaseKind;
+
 [assembly: PartId(PartId.Literals)]
+
+class Root
+{
+    public const string EmptyString = "";
+
+}

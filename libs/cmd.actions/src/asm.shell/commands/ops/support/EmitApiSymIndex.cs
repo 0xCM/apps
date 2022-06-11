@@ -9,7 +9,7 @@ namespace Z0.Asm
     partial class AsmCmdService
     {
         Index<SymLiteralRow> SymLiterals()
-            => Symbols.literals(ApiRuntimeCatalog.Components.Storage.Enums());
+            => Symbolic.literals(ApiRuntimeCatalog.Components.Storage.Enums());
 
         [CmdOp(".emit-sym-index")]
         Outcome EmitApiSymIndex(CmdArgs args)

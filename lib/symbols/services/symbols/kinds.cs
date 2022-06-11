@@ -22,6 +22,5 @@ namespace Z0
         public static ReadOnlySpan<K> kinds<K>()
             where K : unmanaged, Enum
                 => index<K>().Kinds;
-
     }
 }

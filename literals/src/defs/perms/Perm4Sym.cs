@@ -4,11 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    using NBK = NumericBaseKind;
-
-    [SymSource("perms", NBK.Base2)]
+    [SymSource(perms, Base2)]
     public enum Perm4Sym : byte
     {
         /// <summary>

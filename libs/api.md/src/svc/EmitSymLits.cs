@@ -20,7 +20,7 @@ namespace Z0
             where E : unmanaged, Enum
         {
             var flow = EmittingTable<SymLiteralRow>(dst);
-            var rows = Symbols.literals<E>();
+            var rows = Symbolic.literals<E>();
             var count = rows.Length;
             var formatter = Tables.formatter<SymLiteralRow>();
             using var writer = dst.Writer(TextEncodingKind.Unicode);
@@ -33,7 +33,7 @@ namespace Z0
 
         Index<SymLiteralRow> EmitSymLits(Assembly[] src, FS.FilePath dst)
         {
-            var data = Symbols.literals(src);
+            var data = Symbolic.literals(src);
             TableEmit(data, dst, TextEncodingKind.Unicode);
             return data;
         }

@@ -10,7 +10,7 @@ namespace Z0
     /// Defines a symbolized literal
     /// </summary>
     [Record(TableId), StructLayout(StructLayout)]
-    public struct SymLiteralRow : IRecord<SymLiteralRow>
+    public struct SymLiteralRow
     {
         const string TableId = "symbolic.literals";
 

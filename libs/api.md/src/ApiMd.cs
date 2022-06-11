@@ -90,7 +90,7 @@ namespace Z0
             => data(K.ApiTableFields, CalcTableFields);
 
         public Index<SymLiteralRow> SymLits
-            => data(nameof(SymLiteralRow), () => Symbols.literals(Components));
+            => data(nameof(SymLiteralRow), () => Symbolic.literals(Components));
 
         public Index<IApiHost> ApiHosts
             => data(K.ApiHosts, () => Catalog.ApiHosts.Index());

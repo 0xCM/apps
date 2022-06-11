@@ -20,9 +20,17 @@ namespace Z0
         public Index<SymLiteralRow> EmitApiClasses()
             => EmitApiClasses(ProjectDb.Api() +  FS.file("api.classes", FS.Csv));
 
+        [Op]
+        static Index<SymLiteralRow> ClassLiterals()
+            => Symbolic.literals(Parts.Lib.Assembly.Enums().Tagged<ApiClassAttribute>());
+
+        static Index<ApiClassifier> Classifiers()
+            => ClassLiterals().GroupBy(x => x.Type).Select(x => new ApiClassifier(x.Key, x.ToArray())).Array();
+
+
         public Index<SymLiteralRow> EmitApiClasses(FS.FilePath dst)
         {
-            var literals = Query.ApiClassLiterals();
+            var literals = ClassLiterals();
             TableEmit(literals.View, dst);
             return literals;
         }

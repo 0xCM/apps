@@ -4,11 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System.Linq;
+
     using static core;
 
     [ApiHost]
     public partial class Symbolic
     {
+        const NumericKind Closure = UnsignedInts;
+
         [Op]
         public static uint example(SymStore<string> store, Span<SymRef> refs, Span<string> found)
         {
