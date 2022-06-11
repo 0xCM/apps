@@ -163,8 +163,8 @@ public enum PartId : byte
     [Symbol("archives.core")]
     Archives,
 
-    [Symbol("archives.memory")]
-    MemoryArchives,
+    [Symbol("memory")]
+    Memory,
 
     [Symbol("archives.modules")]
     ModuleArchives,

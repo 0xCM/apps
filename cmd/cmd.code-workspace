@@ -11,6 +11,9 @@
 		},
 		{
 			"path": "..\\props"
+		},
+		{
+			"path": "..\\test\\test.checks"
 		}
 	],
 	"settings": {}

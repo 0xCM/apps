@@ -22,22 +22,28 @@
 
     <Archives>$(LibsRoot)archives/z0.archives.csproj</Archives>
 
+    <Bits>$(LibsRoot)bits/z0.bits.csproj</Bits>
+
     <Cli>$(LibsRoot)cli/z0.cli.csproj</Cli>
     <Commands>$(LibsRoot)commands/z0.commands.csproj</Commands>
     <Calcs>$(LibsRoot)calcs/z0.calcs.csproj</Calcs>
     <Containers>$(LibsRoot)containers/z0.containers.csproj</Containers>
+    <CmdActions>$(LibsRoot)cmd.actions/z0.cmd.actions.csproj</CmdActions>
+
+    <Diagnostics>$(LibsRoot)diagnostics/z0.diagnostics.csproj</Diagnostics>
+
+    <Expr>$(LibsRoot)expr/z0.expr.csproj</Expr>
+
 
     <Glue>$(LibsRoot)glue/z0.glue.csproj</Glue>
-
     <Graphs>$(LibsRoot)graphs/z0.graphs.csproj</Graphs>
 
-    <CmdActions>$(LibsRoot)cmd.actions/z0.cmd.actions.csproj</CmdActions>
     <LlvmTools>$(LibsRoot)llvm.tools/z0.llvm.tools.csproj</LlvmTools>
     <LlvmData>$(LibsRoot)llvm.data/z0.llvm.data.csproj</LlvmData>
-    <Bits>$(LibsRoot)bits/z0.bits.csproj</Bits>
+
+    <Memory>$(LibsRoot)memory/z0.memory.csproj</Memory>
     <Numbers>$(LibsRoot)numbers/z0.numbers.csproj</Numbers>
-    <Expr>$(LibsRoot)expr/z0.expr.csproj</Expr>
-    <Diagnostics>$(LibsRoot)diagnostics/z0.diagnostics.csproj</Diagnostics>
+
     <Lang>$(LibsRoot)lang/z0.lang.csproj</Lang>
     <Rules>$(LibsRoot)rules/z0.rules.csproj</Rules>
     <Machines>$(LibsRoot)machines/z0.machines.csproj</Machines>

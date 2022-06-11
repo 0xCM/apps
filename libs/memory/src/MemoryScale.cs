@@ -6,7 +6,7 @@ namespace Z0
 {
     using api = MemoryScales;
 
-    [DataWidth(num4.Width)]
+    [DataWidth(4)]
     public readonly record struct MemoryScale : IComparable<MemoryScale>
     {
         public readonly ScaleFactor Factor;

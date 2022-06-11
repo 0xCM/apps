@@ -13,6 +13,7 @@
     <ProjectReference Include="$(Commands)" />
     <ProjectReference Include="$(Symbols)" />
     <ProjectReference Include="$(Containers)" />
+    <ProjectReference Include="$(Memory)" />
   </ItemGroup>
 
 </Project>

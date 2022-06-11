@@ -11,9 +11,6 @@ namespace Z0
             public Parsers Parsers(IWfRuntime wf)
                 => Service<Parsers>(wf);
 
-            public MemorySeqChecks MemorySeqChecks(IWfRuntime wf)
-                => Service<MemorySeqChecks>(wf);
-
             public CharMapper CharMapper(IWfRuntime wf)
                 => Z0.CharMapper.create(wf);
 
@@ -28,9 +25,6 @@ namespace Z0
 
         public static Parsers Parsers(this IWfRuntime wf)
             => Services.Parsers(wf);
-
-        public static MemorySeqChecks MemorySeqChecks(this IWfRuntime wf)
-            => Services.MemorySeqChecks(wf);
 
         public static CharMapper CharMapper(this IWfRuntime wf)
             => Services.CharMapper(wf);

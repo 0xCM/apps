@@ -51,8 +51,6 @@ namespace Z0
 
         const NumericKind Closure = UInt64k;
 
-        public static MemorySeqChecks checks(IWfRuntime wf)
-            => wf.MemorySeqChecks();
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static bool next<T>(ref SeqReader<T> src, out T dst)
