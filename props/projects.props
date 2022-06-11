@@ -26,6 +26,8 @@
 
     <Expr>$(LibsRoot)expr/z0.expr.csproj</Expr>
 
+    <Flows>$(LibsRoot)flows/z0.flows.csproj</Flows>
+
     <Glue>$(LibsRoot)glue/z0.glue.csproj</Glue>
     <Graphs>$(LibsRoot)graphs/z0.graphs.csproj</Graphs>
 

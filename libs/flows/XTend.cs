@@ -2,13 +2,10 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
+
 namespace Z0
 {
-    public static class XSvc
+    public static partial class XTend
     {
-        sealed class Svc : AppServices<Svc>
-        {
-        }
-
     }
 }

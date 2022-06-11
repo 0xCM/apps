@@ -16,13 +16,14 @@
     <ProjectReference Include="$(Calcs)" />
     <ProjectReference Include="$(Cli)" />
     <ProjectReference Include="$(CmdActions)" />
-    <ProjectReference Include="$(Commands)" />
     <ProjectReference Include="$(Containers)" />
 
     <ProjectReference Include="$(Diagnostics)" />
 
     <ProjectReference Include="$(Expr)" />
     <ProjectReference Include="$(Extract)" />
+
+    <ProjectReference Include="$(Flows)" />
 
     <ProjectReference Include="$(Glue)" />
     <ProjectReference Include="$(Graphs)" />

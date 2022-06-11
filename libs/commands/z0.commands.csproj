@@ -12,6 +12,7 @@
     <ProjectReference Include="$(Services)" />
     <ProjectReference Include="$(Archives)" />
     <ProjectReference Include="$(Tools)" />
+    <ProjectReference Include="$(Flows)" />
   </ItemGroup>
 
 </Project>

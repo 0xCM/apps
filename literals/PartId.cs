@@ -91,8 +91,8 @@ public enum PartId : byte
     [Symbol("gen")]
     Gen,
 
-    [Symbol("agents")]
-    Agents,
+    [Symbol("flows")]
+    Flows,
 
     [Symbol("test.units")]
     TestUnits,
