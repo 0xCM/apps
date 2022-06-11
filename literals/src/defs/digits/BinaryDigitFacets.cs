@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [LiteralProvider(digits)]
+    [LiteralProvider(binary_digits)]
     public readonly struct BinaryDigitFacets
     {
         public const BinaryDigitCode MinCode = BinaryDigitCode.b0;

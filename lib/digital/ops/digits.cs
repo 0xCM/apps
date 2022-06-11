@@ -66,7 +66,6 @@ namespace Z0
                 seek(dst,i) = skip(src,i);
         }
 
-
         [MethodImpl(Inline), Op]
         public static void digits(ReadOnlySpan<BDS> src, Span<BDV> dst)
         {

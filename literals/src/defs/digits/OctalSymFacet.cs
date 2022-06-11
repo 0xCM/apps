@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    [SymSource(octal_digits, Base8)]
     public enum OctalSymFacet : ushort
     {
         First = OctalDigitSym.o0,

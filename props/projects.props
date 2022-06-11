@@ -38,10 +38,12 @@
     <Lang>$(LibsRoot)lang/z0.lang.csproj</Lang>
 
     <Memory>$(LibsRoot)memory/z0.memory.csproj</Memory>
+    <Machines>$(LibsRoot)machines/z0.machines.csproj</Machines>
+
     <Numbers>$(LibsRoot)numbers/z0.numbers.csproj</Numbers>
 
     <Rules>$(LibsRoot)rules/z0.rules.csproj</Rules>
-    <Machines>$(LibsRoot)machines/z0.machines.csproj</Machines>
+    <Render>$(LibsRoot)render/z0.render.csproj</Render>
 
     <Services>$(LibsRoot)services/z0.services.csproj</Services>
     <Tools>$(LibsRoot)tools/z0.tools.csproj</Tools>

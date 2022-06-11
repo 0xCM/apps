@@ -9,7 +9,7 @@ namespace Z0
     /// <summary>
     /// Defines the symbols that represent the base-10 digits
     /// </summary>
-    [SymSource(digits)]
+    [SymSource(decimal_digits, Base10)]
     public enum DecimalDigitCode : byte
     {
         None = 0,

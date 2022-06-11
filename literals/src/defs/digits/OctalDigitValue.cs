@@ -7,6 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines literals corresponding to base-8 digits
     /// </summary>
+    [SymSource(octal_digits, Base8)]
     public enum OctalDigitValue : byte
     {
         /// <summary>

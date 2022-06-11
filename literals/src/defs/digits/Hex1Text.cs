@@ -6,7 +6,7 @@ namespace Z0
 {
     using K = Hex1Kind;
 
-    [LiteralProvider(digits)]
+    [LiteralProvider(hex_digits)]
     public readonly struct Hex1Text
     {
         public const string x00 = nameof(K.x00);

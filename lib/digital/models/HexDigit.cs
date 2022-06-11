@@ -4,26 +4,59 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly record struct HexDigit
-    {
-        readonly byte Storage;
+    using S = HexDigitSym;
+    using C = HexDigitCode;
+    using V = HexDigitValue;
+    using D = HexDigit;
+    using A = AsciCode;
+    using T = System.Byte;
+    using B = Base16;
 
-        public HexDigitValue Value
+    [DataWidth(4)]
+    public readonly record struct HexDigit : IDigit<D,B,S,C,V>
+    {
+        readonly T Storage;
+
+        [MethodImpl(Inline)]
+        public HexDigit(V src)
+        {
+            Storage = (T)((uint)src | (1 << 4));
+        }
+
+        [MethodImpl(Inline)]
+        public HexDigit(V src, bit upper)
+        {
+            Storage = (T)((uint)src | ((uint)upper << 4));
+        }
+
+        public V Value
         {
             [MethodImpl(Inline)]
-            get => (HexDigitValue)(Storage & 0xF);
+            get => (V)(Storage & 0xF);
         }
 
-        [MethodImpl(Inline)]
-        public HexDigit(HexDigitValue src)
+        public S Symbol
         {
-            Storage = (byte)((uint)src | (1 << 4));
+            [MethodImpl(Inline)]
+            get => Digital.symbol(Case,Value);
         }
 
-        [MethodImpl(Inline)]
-        public HexDigit(HexDigitValue src, bit upper)
+        public C Code
         {
-            Storage = (byte)((uint)src | ((uint)upper << 4));
+            [MethodImpl(Inline)]
+            get => (C)Symbol;
+        }
+
+        public char Char
+        {
+            [MethodImpl(Inline)]
+            get => (char)Symbol;
+        }
+
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => (uint)Value;
         }
 
         public bool IsUpper
@@ -44,23 +77,6 @@ namespace Z0
             get => IsUpper ? LetterCaseKind.Upper : LetterCaseKind.Lower;
         }
 
-        public HexDigitSym Symbol
-        {
-            [MethodImpl(Inline)]
-            get => Digital.symbol(Case,Value);
-        }
-
-        public char Char
-        {
-            [MethodImpl(Inline)]
-            get => (char)Symbol;
-        }
-
-        public Hash32 Hash
-        {
-            [MethodImpl(Inline)]
-            get => (uint)Value;
-        }
 
         public override int GetHashCode()
             => Hash;
@@ -73,19 +89,23 @@ namespace Z0
             => Format();
 
         [MethodImpl(Inline)]
-        public bool Equals(HexDigit src)
+        public bool Equals(D src)
             => Value == src.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator HexDigit(HexDigitValue src)
-            => new HexDigit(src);
+        public int CompareTo(D src)
+            => Storage.CompareTo(src.Storage);
 
         [MethodImpl(Inline)]
-        public static implicit operator HexDigitValue(HexDigit src)
+        public static implicit operator D(HexDigitValue src)
+            => new D(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator V(D src)
             => src.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator byte(HexDigit src)
-            => (byte)src.Value;
+        public static implicit operator T(D src)
+            => (T)src.Value;
     }
 }

@@ -9,7 +9,7 @@ namespace Z0
     /// <summary>
     /// Defines identifiers for the ASCI codes that correspond to the uppercase hex digits
     /// </summary>
-    [SymSource(digits)]
+    [SymSource(hex_digits, Base16)]
     public enum HexUpperCode : byte
     {
         /// <summary>

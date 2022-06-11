@@ -6,6 +6,7 @@ namespace Z0
 {
     using S = OctalDigitSym;
 
+    [SymSource(octal_digits, Base8)]
     public enum OctalDigitCode : byte
     {
         /// <summary>

@@ -11,6 +11,22 @@ namespace Z0
 
         public const string digits = nameof(digits);
 
+        public const string @decimal = nameof(@decimal);
+
+        public const string decimal_digits = @decimal + sep + digits;
+
+        public const string hex = nameof(hex);
+
+        public const string hex_digits = digits + sep + hex;
+
+        public const string binary = nameof(binary);
+
+        public const string binary_digits = digits + sep + binary;
+
+        public const string octal = nameof(octal);
+
+        public const string octal_digits =  octal + sep + digits;
+
         public const string api = nameof(api);
 
         public const string clr = nameof(clr);

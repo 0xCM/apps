@@ -145,6 +145,10 @@ public enum PartId : byte
     [Symbol("evaluate")]
     Evaluate,
 
+    [Symbol("render")]
+    Render,
+
+
     [Symbol("capture.checks")]
     CaptureChecks,
 

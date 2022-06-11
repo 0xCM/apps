@@ -4,26 +4,41 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly record struct DecimalDigit
+    using S = DecimalDigitSym;
+    using C = DecimalDigitCode;
+    using V = DecimalDigitValue;
+    using D = DecimalDigit;
+    using A = AsciCode;
+    using T = System.Byte;
+    using B = Base10;
+
+    [DataWidth(4)]
+    public readonly record struct DecimalDigit : IDigit<D,B,S,C,V>
     {
-        public readonly DecimalDigitValue Value;
+        readonly T Storage;
 
         [MethodImpl(Inline)]
-        public DecimalDigit(DecimalDigitValue src)
+        public DecimalDigit(V src)
         {
-            Value = src;
+            Storage = (T)src;
         }
 
-        public DecimalDigitCode Code
+        public readonly V Value
         {
             [MethodImpl(Inline)]
-            get => Digital.code(Value);
+            get => (V)Storage;
         }
 
-        public DecimalDigitSym Symbol
+        public S Symbol
         {
             [MethodImpl(Inline)]
             get => Digital.symbol(Value);
+        }
+
+        public C Code
+        {
+            [MethodImpl(Inline)]
+            get => Digital.code(Value);
         }
 
         public char Char
@@ -35,15 +50,19 @@ namespace Z0
         public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => (uint)Value;
+            get => Storage;
         }
+
+        [MethodImpl(Inline)]
+        public int CompareTo(D src)
+            => Storage.CompareTo(src.Storage);
 
 
         public override int GetHashCode()
             => Hash;
 
         [MethodImpl(Inline)]
-        public bool Equals(DecimalDigit src)
+        public bool Equals(D src)
             => Value == src.Value;
 
         public string Format()
@@ -54,15 +73,15 @@ namespace Z0
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator byte(DecimalDigit src)
+        public static implicit operator byte(D src)
             => (byte)src.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator DecimalDigit(DecimalDigitValue src)
-            => new DecimalDigit(src);
+        public static implicit operator D(V src)
+            => new D(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator DecimalDigitValue(DecimalDigit src)
+        public static implicit operator V(D src)
             => src.Value;
     }
 }

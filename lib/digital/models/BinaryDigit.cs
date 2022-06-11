@@ -4,65 +4,84 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using S = BinaryDigitSym;
+    using C = BinaryDigitCode;
     using V = BinaryDigitValue;
+    using D = BinaryDigit;
+    using A = AsciCode;
+    using T = bit;
+    using B = Base2;
 
     /// <summary>
     /// Represents a binary digit
     /// </summary>
-    public readonly struct BinaryDigit
+    [DataWidth(1)]
+    public readonly record struct BinaryDigit : IDigit<D,B,S,C,V>
     {
         const string D0 = "0";
 
         const string D1 = "1";
 
-        public readonly BinaryDigitValue Value;
+        readonly T Storage;
 
         [MethodImpl(Inline)]
-        public BinaryDigit(BinaryDigitValue value)
+        public BinaryDigit(V value)
         {
-            Value = value;
+            Storage = (bit)value;
         }
 
         [MethodImpl(Inline)]
-        public BinaryDigit(BinaryDigitCode src)
+        public BinaryDigit(C src)
         {
-            Value = src == BinaryDigitCode.b1 ? V.b1 : V.b0;
+            Storage = src == C.b1 ? T.On : T.Off;
         }
 
         [MethodImpl(Inline)]
-        public BinaryDigit(BinaryDigitSym src)
+        public BinaryDigit(S src)
         {
-            Value = src == BinaryDigitSym.b1 ? V.b1 : V.b0;
+            Storage = src == S.b1 ? T.On : T.Off;
         }
 
         [MethodImpl(Inline)]
         public BinaryDigit(char src)
         {
-            Value = (BinaryDigitSym)src == BinaryDigitSym.b1 ? V.b1 : V.b0;
+            Storage = (S)src == S.b1 ? T.On : T.Off;
         }
 
         [MethodImpl(Inline)]
-        public BinaryDigit(AsciCode src)
+        public BinaryDigit(A src)
         {
-            Value = (BinaryDigitSym)src == BinaryDigitSym.b1 ? V.b1 : V.b0;
+            Storage = (S)src == S.b1 ? V.b1 : V.b0;
         }
 
         [MethodImpl(Inline)]
-        public BinaryDigit(bit src)
+        public BinaryDigit(T src)
         {
-            Value = (V)(byte)src;
+            Storage = src;
         }
 
-        public BinaryDigitSym Symbol
+        public readonly V Value
         {
             [MethodImpl(Inline)]
-            get => Value == 0 ? BinaryDigitSym.b0 : BinaryDigitSym.b1;
+            get => (V)Storage;
         }
 
-        public BinaryDigitCode Code
+        public S Symbol
         {
             [MethodImpl(Inline)]
-            get => (BinaryDigitCode)Symbol;
+            get => Storage ? S.b1 : S.b0;
+        }
+
+        public C Code
+        {
+            [MethodImpl(Inline)]
+            get => (C)Symbol;
+        }
+
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => (uint)Storage;
         }
 
         public char Char
@@ -71,73 +90,84 @@ namespace Z0
             get => (char)Symbol;
         }
 
-        public bit Bit
+        public T Bit
         {
             [MethodImpl(Inline)]
-            get => Value == BinaryDigitValue.b1;
+            get => Storage;
         }
 
         [MethodImpl(Inline)]
-        public BinaryDigit Inc()
-            => Bit ? new BinaryDigit(bit.Off) : new BinaryDigit(bit.On);
+        public D Inc()
+            => Storage ? new D(T.Off) : new D(T.On);
 
         [MethodImpl(Inline)]
-        public BinaryDigit Dec()
-            => Bit ? new BinaryDigit(bit.Off) : new BinaryDigit(bit.On);
+        public D Dec()
+            => Storage ? new D(T.Off) : new D(T.On);
 
         [MethodImpl(Inline)]
-        public BinaryDigit Not()
-            => !Bit;
+        public D Not()
+            => !Storage;
 
         [MethodImpl(Inline)]
         public string Format()
-            => Value == BinaryDigitValue.b1 ? D1 : D0;
+            => Storage ? D1 : D0;
 
         public override string ToString()
             => Format();
 
+        public override int GetHashCode()
+            => Hash;
+
         [MethodImpl(Inline)]
-        public static implicit operator BinaryDigit(BinaryDigitCode src)
+        public bool Equals(D src)
+            => Value == src.Value;
+
+        [MethodImpl(Inline)]
+        public int CompareTo(D src)
+            => Storage.CompareTo(src.Storage);
+
+        [MethodImpl(Inline)]
+        public static implicit operator D(C src)
             => new BinaryDigit(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator BinaryDigit(BinaryDigitSym src)
-            => new BinaryDigit(src);
+        public static implicit operator D(S src)
+            => new D(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator BinaryDigit(char src)
-            => new BinaryDigit(src);
+        public static implicit operator D(char src)
+            => new D(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator BinaryDigit(AsciCode src)
-            => new BinaryDigit(src);
+        public static implicit operator D(A src)
+            => new D(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator BinaryDigitCode(BinaryDigit src)
+        public static implicit operator C(D src)
             => src.Code;
 
         [MethodImpl(Inline)]
-        public static implicit operator BinaryDigitValue(BinaryDigit src)
+        public static implicit operator V(D src)
             => src.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator BinaryDigit(BinaryDigitValue src)
-            => new BinaryDigit(src);
+        public static implicit operator D(V src)
+            => new D(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator BinaryDigit(bit src)
-            => new BinaryDigit(src);
+        public static implicit operator D(T src)
+            => new D(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator bit(BinaryDigit src)
+        public static implicit operator T(D src)
             => src.Bit;
 
         [MethodImpl(Inline)]
-        public static implicit operator char(BinaryDigit src)
+        public static implicit operator char(D src)
             => src.Char;
 
         [MethodImpl(Inline)]
-        public static explicit operator byte(BinaryDigit src)
+        public static explicit operator byte(D src)
             => (byte)src.Value;
     }
 }
