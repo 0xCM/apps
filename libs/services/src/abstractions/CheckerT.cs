@@ -18,8 +18,6 @@ namespace Z0
 
         readonly EventQueue Queue;
 
-        protected IAppDb AppDb => Wf.AppDb();
-
         protected AppSvcOps AppSvc => Wf.AppSvc();
 
         readonly string SvcName;

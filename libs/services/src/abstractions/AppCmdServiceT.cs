@@ -34,8 +34,6 @@ namespace Z0
 
         protected OmniScript OmniScript => Wf.OmniScript();
 
-        protected AppDb AppDb => Wf.AppDb();
-
         protected AppSvcOps AppSvc => Wf.AppSvc();
 
         protected IToolWs ToolWs => new ToolWs(AppData.ToolBase);

@@ -51,8 +51,6 @@ namespace Z0
 
         MsilPipe MsilSvc => Wf.MsilSvc();
 
-        AppDb AppDb => Wf.AppDb();
-
         AppSvcOps AppSvc => Wf.AppSvc();
 
         ApiComments Comments => Wf.ApiComments();

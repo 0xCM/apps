@@ -8,29 +8,6 @@ namespace Z0
 
     public partial class MemDb : IMemDb
     {
-        public static IMemDb open(FS.FilePath store)
-            => open(store,0);
-
-        public static IMemDb open(FS.FilePath store, ByteSize capacity)
-            => Opened.GetOrAdd(store, s =>  new MemDb(s, capacity));
-
-        public static IMemDb open(FS.FilePath store, Gb capacity)
-            => Opened.GetOrAdd(store, s =>  new MemDb(s, capacity.Size));
-
-        public static IMemDb open(FS.FilePath store, Mb capacity)
-            => Opened.GetOrAdd(store, s =>  new MemDb(s, capacity.Size));
-
-        [MethodImpl(Inline)]
-        public static uint NextSeq(ObjectKind kind)
-            => inc(ref ObjSeqSource[kind]);
-
-        [MethodImpl(Inline)]
-        static AllocToken token(MemoryAddress @base, uint offset, uint size)
-            => new AllocToken(@base,offset, size);
-
-        public static Index<MemoryFileInfo> Allocated()
-            => Opened.Values.Map(x => x.Description);
-
         readonly MemoryFile DbMap;
 
         public readonly MemoryFileInfo Description;
@@ -87,6 +64,17 @@ namespace Z0
 
         MemoryFileInfo IMemDb.Description
             => Description;
+
+        [MethodImpl(Inline)]
+        public static uint NextSeq(ObjectKind kind)
+            => inc(ref ObjSeqSource[kind]);
+
+        [MethodImpl(Inline)]
+        static AllocToken token(MemoryAddress @base, uint offset, uint size)
+            => new AllocToken(@base,offset, size);
+
+        public static Index<MemoryFileInfo> Allocated()
+            => Opened.Values.Map(x => x.Description);
 
         static readonly ConcurrentDictionary<FS.FilePath,MemDb> Opened = new();
 
