@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using Microsoft.CodeAnalysis;
-
-    using static Root;
     using static core;
 
     public sealed class CaSymbolIndex : CaSymbols<CaSymbolIndex,ISymbol>, ICaSymbols<ISymbol>

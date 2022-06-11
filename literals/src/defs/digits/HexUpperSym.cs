@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines the symbols that represent the uppercase base-16 digits
     /// </summary>
-    [SymSource("digits")]
+    [SymSource(digits)]
     public enum HexUpperSym : ushort
     {
         None = 0,

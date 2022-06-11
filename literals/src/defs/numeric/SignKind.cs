@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Classifies the sign aspect of an integral value
     /// </summary>
-    [SymSource("api.kinds")]
+    [SymSource(numeric)]
     public enum SignKind : sbyte
     {
         /// <summary>

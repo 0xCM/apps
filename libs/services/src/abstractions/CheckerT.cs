@@ -7,7 +7,7 @@ namespace Z0
     using static core;
 
     [Checker]
-    public abstract class Checker<T> : AppService<T>, IChecker
+    public abstract class Checker<T> : WfSvc<T>, IChecker
         where T : Checker<T>, new()
     {
         readonly ConstLookup<string,MethodInfo> Methods;

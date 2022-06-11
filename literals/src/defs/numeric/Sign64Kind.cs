@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Classifies the sign aspect of a 64-bit value
     /// </summary>
-    [SymSource("api.kinds")]
+    [SymSource(numeric)]
     public enum Sign64Kind : ulong
     {
         Unsigned = 0,

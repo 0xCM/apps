@@ -7,6 +7,7 @@ namespace Z0
     using C = AsciCode;
     using S = AsciLetterSym;
 
+    [LiteralProvider(chars)]
     public readonly struct AsciCodeFacets
     {
         /// <summary>

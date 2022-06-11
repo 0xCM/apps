@@ -24,11 +24,6 @@ namespace Z0.Asm
             State.Init(Wf, Ws);
         }
 
-        protected override void Error<T>(T content)
-        {
-            Write(content, FlairKind.Error);
-        }
-
         FS.FolderPath GetToolOut(ToolId tool)
             => Ws.Output().Subdir(tool.Format());
 

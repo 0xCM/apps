@@ -32,9 +32,16 @@ namespace Z0
             buffer[15] = size;
             var dst = new AsmHexCode(@as<ByteBlock16,Cell128>(buffer));
 
-
         }
 
+        ModuleArchives Archives => Wf.ModuleArchives();
+
+        [CmdOp("api/mods")]
+        void Modules()
+        {
+            var src = Archives.PartArchive();
+            iter(src.ManagedDll(), dll => Write(dll.Format()));
+        }
 
     }
 }

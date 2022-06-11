@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines classifiers that correspond to the basic CLR types
     /// </summary>
-    [Flags, SymSource("clr")]
+    [Flags, SymSource(clr)]
     public enum ClrTypeKind : uint
     {
         None = 0,

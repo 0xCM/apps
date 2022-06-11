@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    partial class AsciLines
+    partial class Lines
     {
         [MethodImpl(Inline), Op]
         public static bool empty(ReadOnlySpan<char> src, uint offset)

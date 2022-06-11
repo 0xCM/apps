@@ -6,6 +6,8 @@ namespace Z0
 {
     using static core;
 
+    using api = Lines;
+
     public ref struct AsciLine
     {
         /// <summary>
@@ -87,12 +89,13 @@ namespace Z0
         }
 
         public string Format()
-        {
-            Span<char> buffer = stackalloc char[RenderLength];
-            var i=0u;
-            AsciLines.render(this, ref i, buffer);
-            return text.format(buffer);
-        }
+            => api.format(this);
+        // {
+        //     Span<char> buffer = stackalloc char[RenderLength];
+        //     var i=0u;
+        //     AsciLines.render(this, ref i, buffer);
+        //     return text.format(buffer);
+        // }
 
         public static AsciLine Empty
         {

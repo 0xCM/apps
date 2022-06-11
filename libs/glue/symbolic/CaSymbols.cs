@@ -4,13 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using Microsoft.CodeAnalysis;
     using OmniSharp.Roslyn.CSharp.Services.Documentation;
     using OmniSharp.Models.TypeLookup;
 
-    using static Root;
     using static CaSymbolModels;
     using static XmlParts;
     using static core;

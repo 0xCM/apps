@@ -4,13 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Collections.Immutable;
-    using System.Globalization;
-    using System.Threading;
-    using Microsoft.CodeAnalysis;
-
-    using static Root;
-
     using api = CaSymbols;
 
     partial struct CaSymbolModels

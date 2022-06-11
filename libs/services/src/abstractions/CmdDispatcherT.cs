@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public abstract class CmdDispatcher<T> : AppService<T>
+    public abstract class CmdDispatcher<T> : WfSvc<T>
         where T : CmdDispatcher<T>,new()
     {
         public ICmdDispatcher Dispatcher {get; protected set;}

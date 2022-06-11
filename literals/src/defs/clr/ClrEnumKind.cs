@@ -10,7 +10,7 @@ namespace Z0
     /// Restricts the numeric kind classifier to reflect the numeric kinds
     /// that an Enum type may refine
     /// </summary>
-    [SymSource("clr"), LiteralAlias(typeof(P))]
+    [SymSource(clr), LiteralAlias(typeof(P))]
     public enum ClrEnumKind : byte
     {
         None = 0,

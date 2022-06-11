@@ -8,7 +8,7 @@ namespace Z0
     /// Defines logic symbols as described by https://en.wikipedia.org/wiki/List_of_logic_symbols and
     /// https://de.wikipedia.org/wiki/Logikgatter#Typen_von_Logikgattern_und_Symbolik
     /// </summary>
-    [SymSource]
+    [SymSource(chars)]
     public enum LogicSym : ushort
     {
         [Symbol("∨", "or,inclusive disjunction")]

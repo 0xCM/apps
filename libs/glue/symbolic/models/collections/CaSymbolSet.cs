@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using Microsoft.CodeAnalysis;
-
     using static CaSymbolModels;
 
     public ref struct CaSymbolSet

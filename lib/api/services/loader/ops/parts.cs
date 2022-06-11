@@ -83,7 +83,6 @@ namespace Z0
                 var id = symbol.Kind;
                 var name = "z0." + symbol.Expr.Format();
                 dst.Add((id, dir + FS.file(name, FS.Dll)));
-
                 dst.Add((id, dir + FS.file(name, FS.Exe)));
             }
             return dst.ViewDeposited();

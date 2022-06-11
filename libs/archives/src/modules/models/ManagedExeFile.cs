@@ -26,6 +26,12 @@ namespace Z0
             Name = name;
         }
 
+        public FS.FileName FileName
+        {
+            [MethodImpl(Inline)]
+            get => Path.FileName;
+        }
+
         public FS.FileExt DefaultExt
             =>  FS.Exe;
 

@@ -6,9 +6,6 @@ namespace Z0
 {
     public class TextTemplateVar : ITextVar
     {
-        public static TextTemplateVar define(string name)
-            => new TextTemplateVar(name);
-
         public static VarKind Kind = new VarKind();
 
         public sealed class VarKind : TextVarExpr<VarKind>

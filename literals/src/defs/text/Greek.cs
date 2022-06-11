@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [LiteralProvider]
+    [LiteralProvider(chars)]
     public class Greek
     {
         public const char alpha = 'α';

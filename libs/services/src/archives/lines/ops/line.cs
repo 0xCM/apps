@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct Lines
+    partial class Lines
     {
         [MethodImpl(Inline), Op]
         public static TextLine line(uint number, string content)

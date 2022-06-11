@@ -6,7 +6,7 @@ namespace Z0
 {
     using C = AsciCode;
 
-    [CodeProvider]
+    [SymSource(chars)]
     public enum AsciWhitespaceCode : byte
     {
         Space = C.Space,

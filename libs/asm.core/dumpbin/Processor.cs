@@ -80,7 +80,7 @@ namespace Z0
                     ref readonly var a1 = ref skip(src, pos + 1);
                     if(SQ.eol(a0,a1))
                     {
-                        var line = AsciLines.line(src, offset, length + 1);
+                        var line = Lines.asci(src, offset, length + 1);
                         number++;
                         if(!SQ.contains(line.Codes, C.Colon) || number < 4)
                         {

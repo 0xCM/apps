@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [LiteralProvider]
+    [LiteralProvider(digits)]
     public readonly struct DecimalDigitFacets
     {
         public const DecimalDigitCode MinCode = DecimalDigitCode.d0;

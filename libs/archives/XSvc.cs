@@ -11,10 +11,15 @@ namespace Z0
             public DumpArchive DumpArchive(IWfRuntime wf)
                 => Service<DumpArchive>(wf);
 
+            public ModuleArchives ModuleArchives(IWfRuntime wf)
+                => Service<ModuleArchives>(wf);
+
         }
 
         static Svc AppServices => Svc.Instance;
 
+        public static ModuleArchives ModuleArchives(this IWfRuntime wf)
+            => AppServices.ModuleArchives(wf);
 
         public static DumpArchive DumpArchive(this IWfRuntime wf)
             => AppServices.DumpArchive(wf);

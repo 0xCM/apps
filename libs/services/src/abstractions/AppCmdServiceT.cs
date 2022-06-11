@@ -9,7 +9,7 @@ namespace Z0
     using static core;
 
     [CmdProvider]
-    public abstract class AppCmdService<T> : AppService<T>, IAppCmdService, ICmdProvider, ICmdRunner
+    public abstract class AppCmdService<T> : WfSvc<T>, IAppCmdService, ICmdProvider, ICmdRunner
         where T : AppCmdService<T>, new()
     {
         public ICmdDispatcher Dispatcher {get; protected set;}
@@ -242,24 +242,12 @@ namespace Z0
             return result;
         }
 
-        [CmdOp("api/parts")]
-        protected Outcome ApiParts(CmdArgs args)
-        {
-            var result = Outcome.Success;
-            var parts = ApiRuntimeCatalog.PartIdentities;
-            var desc = string.Format("Parts:[{0}]", parts.Map(p => p.Format()).Delimit());
-            Write(desc);
-            return result;
-        }
-
         [CmdOp("runtime/cpucore")]
         protected Outcome ShowCurrentCore(CmdArgs args)
         {
             Wf.Row(string.Format("Cpu:{0}", Kernel32.GetCurrentProcessorNumber()));
             return true;
         }
-
-
 
         protected void UpdateToolEnv(out Settings dst)
         {

@@ -8,7 +8,7 @@ namespace Z0
 
     using static core;
 
-    partial struct Lines
+    partial class Lines
     {
         [Op]
         public static ReadOnlySpan<TextLine> read(string src, bool keepblank = false, bool trim = true)

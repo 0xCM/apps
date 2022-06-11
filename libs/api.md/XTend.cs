@@ -12,7 +12,5 @@ namespace Z0
 
         public static IRuntimeArchive RuntimeArchive(this Assembly src)
             => ApiMd.runtime(src);
-
-
     }
 }

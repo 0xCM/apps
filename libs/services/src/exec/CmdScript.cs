@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct CmdScript : ITextual
+    public readonly struct CmdScript
     {
         [MethodImpl(Inline), Op]
         public static CmdScriptExpr expr(CmdScriptPattern pattern)
@@ -55,13 +55,14 @@ namespace Z0
         public override string ToString()
             => Format();
 
+        public CmdLine ToCmdLine()
+            => new CmdLine(Format());
+
         public static CmdScript Empty
         {
             [MethodImpl(Inline)]
             get => new CmdScript(CmdScriptExpr.Empty);
         }
 
-        public CmdLine ToCmdLine()
-            => new CmdLine(Format());
     }
 }

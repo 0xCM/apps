@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines symbols corresponding to the letters a,...z
     /// </summary>
-    [SymSource("asci")]
+    [SymSource(chars)]
     public enum AsciLetterLoSym : ushort
     {
         /// <summary>

@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Classifies the sign aspect of an 8-bit value
     /// </summary>
-    [SymSource("api.kinds")]
+    [SymSource(numeric)]
     public enum Sign8Kind : byte
     {
         /// <summary>

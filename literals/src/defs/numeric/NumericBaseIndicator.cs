@@ -8,7 +8,7 @@ namespace Z0
     /// Defines common numeric base indicators that prefix or suffix a numeric literal
     /// to designate the literal's numeric base
     /// </summary>
-    [SymSource("numeric")]
+    [SymSource(numeric)]
     public enum NumericBaseIndicator : ushort
     {
         None = 0,

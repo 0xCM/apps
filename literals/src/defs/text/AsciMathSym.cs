@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [SymSource("asci")]
+    [SymSource(chars)]
     public enum AsciMathSym : ushort
     {
         /// <summary>

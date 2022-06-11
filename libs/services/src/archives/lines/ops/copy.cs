@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct Lines
+    partial class Lines
     {
         public static Outcome<uint> copy(FS.FilePath src, FS.FilePath dst, Pair<TextEncodingKind> encoding)
         {

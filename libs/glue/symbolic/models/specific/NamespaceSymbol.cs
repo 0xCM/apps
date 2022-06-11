@@ -4,16 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.Immutable;
-    using System.Globalization;
-    using System.Runtime.CompilerServices;
-    using System.Threading;
-    using Microsoft.CodeAnalysis;
-
-    using static Root;
-    using static core;
+   using static core;
 
     using api = CaSymbols;
 

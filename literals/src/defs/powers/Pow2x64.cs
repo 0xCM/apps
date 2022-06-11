@@ -6,7 +6,7 @@ namespace Z0
     /// <summary>
     /// Defines primal-representable powers of 2 and integers of the form 2^n - 1 where n = 0,..,64
     /// </summary>
-    [SymSource("pow2", NBK.Base16), Flags]
+    [SymSource(pow2, NBK.Base16), Flags]
     public enum Pow2x64 : ulong
     {
         /// <summary>
@@ -204,36 +204,43 @@ namespace Z0
         /// <summary>
         /// 2^32 = 4,294,967,296 = 0x100000000
         /// </summary>
+        [Symbol("2^32")]
         P2ᐞ32 = 2*(long)P2ᐞ31,
 
         /// <summary>
         /// 2^33
         /// </summary>
+        [Symbol("2^33")]
         P2ᐞ33 = 2*P2ᐞ32,
 
         /// <summary>
         /// 2^34
         /// </summary>
+        [Symbol("2^34")]
         P2ᐞ34 = 2*P2ᐞ33,
 
         /// <summary>
         /// 2^35
         /// </summary>
+        [Symbol("2^35")]
         P2ᐞ35 = 2*P2ᐞ34,
 
         /// <summary>
         /// 2^36
         /// </summary>
+        [Symbol("2^36")]
         P2ᐞ36 = 2*P2ᐞ35,
 
         /// <summary>
         /// 2^37
         /// </summary>
+        [Symbol("2^37")]
         P2ᐞ37 = 2*P2ᐞ36,
 
         /// <summary>
         /// 2^38
         /// </summary>
+        [Symbol("2^38")]
         P2ᐞ38 = 2*P2ᐞ37,
 
         /// <summary>

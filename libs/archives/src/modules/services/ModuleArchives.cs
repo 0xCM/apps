@@ -6,6 +6,9 @@ namespace Z0
 {
     public class ModuleArchives : AppService<ModuleArchives>
     {
+        public IModuleArchive PartArchive()
+            => new ModuleArchive(FS.path(Assembly.GetEntryAssembly().Location).FolderPath);
+
         /// <summary>
         /// Creates an archive over both managed and unmanaged modules
         /// </summary>

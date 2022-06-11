@@ -2,6 +2,7 @@ namespace Z0
 {
     using P = Pow2x64;
 
+    [LiteralProvider(pow2)]
     public class Pow2Scalars
     {
         /// <summary>

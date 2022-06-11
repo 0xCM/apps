@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="$(AsmModels)" />
+    <ProjectReference Include="$(Archives)" />
     <ProjectReference Include="$(Services)" />
   </ItemGroup>
 

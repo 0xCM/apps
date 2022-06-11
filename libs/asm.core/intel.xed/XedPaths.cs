@@ -30,7 +30,6 @@ namespace Z0
 
         readonly SvcState State;
 
-
         public FS.FolderPath Sources()
             => State.XedSources;
 

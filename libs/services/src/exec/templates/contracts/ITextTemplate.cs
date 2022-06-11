@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface ITextTemplate : ITextual, INullity
+    public interface ITextTemplate : INullity
     {
         TextBlock Pattern {get;}
 

@@ -6,7 +6,7 @@ namespace Z0
 {
      using static core;
 
-    partial struct Lines
+    partial class Lines
     {
         /// <summary>
         /// Calculates the length of each line in the source

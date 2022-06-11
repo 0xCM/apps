@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines symbols that aren't symbols
     /// </summary>
-    [SymSource]
+    [SymSource(chars)]
     public enum SymNotKind : ushort
     {
         /// <summary>

@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines asci string literals
     /// </summary>
-    [LiteralProvider]
+    [LiteralProvider(chars)]
     public readonly struct AsciText
     {
         public const string D0 = "0";

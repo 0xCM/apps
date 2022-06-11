@@ -16,7 +16,7 @@ namespace Z0
     /// <remarks>
     /// [Sign8Kind:7 | PrimalKindId:3..6 | Log2x8:0..2]
     /// <remarks>
-    [SymSource("clr")]
+    [SymSource(clr)]
     public enum ClrPrimitiveKind : byte
     {
         None = 0,

@@ -4,60 +4,30 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     using static core;
     using static ApiGranules;
 
-    public partial class ApiCmd : AppCmdService<ApiCmd>
+    public class ApiCmd : AppCmdService<ApiCmd>
     {
         ApiMd ApiMd => Wf.ApiMetadata();
 
-        AsmTables AsmTables => Wf.AsmTables();
-
-        ApiPacks ApiPacks => Wf.ApiPacks();
-
-        AsmCallPipe AsmCalls => Wf.AsmCallPipe();
-
-        AsmDecoder AsmDecoder => Wf.AsmDecoder();
-
-        ApiCatalogs ApiCatalogs => Wf.ApiCatalogs();
-
         CliEmitter CliEmitter => Wf.CliEmitter();
-
-        ApiCode ApiCode => Wf.ApiCode();
-
-        AsmDocs AsmDocs => Wf.AsmDocs();
 
         Heaps Heaps => Wf.Heaps();
 
         PdbIndexBuilder PdbIndexBuilder => Service(Wf.PdbIndexBuilder);
 
-        Index<ProcessAsmRecord> ProcessAsm()
-            => Data(nameof(ProcessAsm), _LoadProcessAsm);
-
-        Index<ProcessAsmRecord> ProcessAsmBuffer()
-            => Data(nameof(ProcessAsmBuffer), () => alloc<ProcessAsmRecord>(ProcessAsm().Count));
-
         PdbSvc PdbSvc => Wf.PdbSvc();
-
-        ApiResPackEmitter ResPackEmitter => Service(Wf.ResPackEmitter);
-
-        Index<ProcessAsmRecord> _LoadProcessAsm()
-            => ProcessAsmBuffers.records(ApiPacks.Current());
 
         [CmdOp("api/etl")]
         void ApiEmit()
         {
             ApiMd.EmitDatasets();
-            AsmDocs.Emit();
         }
 
-        [CmdOp("api/emit/pdb-info")]
+        [CmdOp("api/emit/pdb/info")]
         void EmitApiPdbInfo()
-        {
-            PdbSvc.EmitPdbDocInfo(PartId.AsmOperands);
-        }
+            => PdbSvc.EmitPdbDocInfo(PartId.AsmOperands);
 
         [CmdOp("api/emit/cli")]
         void EmitMetadataCli()
@@ -66,7 +36,7 @@ namespace Z0
             ApiMd.EmitMsil();
         }
 
-        [CmdOp("api/pdb/index")]
+        [CmdOp("api/emit/pdb/index")]
         void IndexApiPdbFiles()
         {
             var dst = new PdbIndex();
@@ -75,9 +45,7 @@ namespace Z0
 
         [CmdOp("api/emit/heaps")]
         void ApiEmitHeaps()
-        {
-            Heaps.Emit(Heaps.symbols(ApiMd.SymLits));
-        }
+            => Heaps.Emit(Heaps.symbols(ApiMd.SymLits));
 
         [CmdOp("api/emit/msil-host")]
         void EmitHostMsil(CmdArgs args)
@@ -93,25 +61,21 @@ namespace Z0
 
         [CmdOp("api/emit/index")]
         void EmitRuntimeMembers()
-        {
-            var service = ApiRuntime.create(Wf);
-            var members = ApiMd.CalcRuntimeMembers();
-            ApiMd.EmitIndex(members);
-        }
+            => ApiMd.EmitIndex(ApiMd.CalcRuntimeMembers());
 
         [CmdOp("api/parts")]
         void Parts()
-        {
-            iter(ApiMd.Parts, part => Write(part.Name));
-        }
+            => iter(ApiMd.Parts, part => Write(part.Name));
+
+        [CmdOp("api/components")]
+        void Components()
+            => iter(ApiMd.Components, part => Write(part.GetSimpleName()));
 
         [CmdOp("api/emit/comments")]
         void ApiEmitComments()
-        {
-            ApiMd.EmitComments();
-        }
+            => ApiMd.EmitComments();
 
-        [CmdOp("api/pdb/methods/symbols")]
+        [CmdOp("api/emit/pdb/methsyms")]
         void CollectComponentSymbols()
         {
             var components = ApiRuntimeCatalog.Components;
@@ -137,7 +101,7 @@ namespace Z0
             EmittedFile(emitting, count);
         }
 
-        [CmdOp("api/pdb/types/symbols")]
+        [CmdOp("api/emit/pdb/typesyms")]
         void CollectTypeSymbols()
         {
             var components = ApiRuntimeCatalog.Components;
@@ -161,7 +125,6 @@ namespace Z0
                     writer.WriteLine(item.Format());
                 }
             }
-
         }
     }
 }

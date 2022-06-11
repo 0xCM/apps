@@ -15,6 +15,12 @@ namespace Z0
         public NativeExeFile(FS.FilePath path)
             => Path = path;
 
+        public FS.FileName FileName
+        {
+            [MethodImpl(Inline)]
+            get => Path.FileName;
+        }
+
         public FileModuleKind ModuleKind
             => FileModuleKind.NativeExe;
 

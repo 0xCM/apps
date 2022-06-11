@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines identifiers for primal numeric types
     /// </summary>
-    [SymSource("api.kinds")]
+    [SymSource(numeric)]
     public enum ScalarKind : uint
     {
         None = 0,

@@ -5,13 +5,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection;
-    using System.Collections.Generic;
     using System.Globalization;
     using System.Threading;
     using System.Xml.Linq;
-    using Microsoft.CodeAnalysis;
 
     public class XmlDocProvider : DocumentationProvider
     {

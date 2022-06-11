@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Microsoft.CodeAnalysis;
-
     using static core;
     using static Delegates;
     using static CaSymbolModels;

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [SymSource("digits")]
+    [SymSource(digits)]
     public enum AsciDigitSym : ushort
     {
         /// <summary>

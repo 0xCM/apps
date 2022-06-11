@@ -20,6 +20,12 @@ namespace Z0
         public NativeDllFile(FS.FilePath path)
             => Path = path;
 
+        public FS.FileName FileName
+        {
+            [MethodImpl(Inline)]
+            get => Path.FileName;
+        }
+
         public FS.FileExt DefaultExt
             => FS.Dll;
 

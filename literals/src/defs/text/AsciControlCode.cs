@@ -9,7 +9,7 @@ namespace Z0
     /// <summary>
     /// Defines asci control codes
     /// </summary>
-    [CodeProvider(typeof(S))]
+    [SymSource(chars)]
     public enum AsciControlCode : byte
     {
         /// <summary>

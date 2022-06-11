@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Classifies the sign aspect of a 32-bit value
     /// </summary>
-    [SymSource("api.kinds")]
+    [SymSource(numeric)]
     public enum Sign32Kind : uint
     {
         /// <summary>

@@ -6,9 +6,8 @@ namespace Z0
 {
     using static core;
 
-    partial struct Lines
+    partial class Lines
     {
-
         [Parser]
         public static Outcome parse(string src, out FilePoint dst)
         {
@@ -122,7 +121,5 @@ namespace Z0
             }
             return result;
         }
-
-
     }
 }

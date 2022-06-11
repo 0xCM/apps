@@ -8,7 +8,7 @@ namespace Z0
 
     using SQ = SymbolicQuery;
 
-    partial struct Lines
+    partial class Lines
     {
         [Op]
         public static LineCount count(FS.FilePath src)

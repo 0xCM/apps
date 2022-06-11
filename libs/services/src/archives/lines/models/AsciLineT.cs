@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using api = Lines;
+
     public readonly ref struct AsciLine<T>
         where T : unmanaged
     {
@@ -46,7 +48,7 @@ namespace Z0
         }
 
         public string Format()
-            => AsciLines.format(this);
+            => api.format(this);
 
         public override string ToString()
             => Format();

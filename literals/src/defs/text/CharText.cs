@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines an arbitrary collection of text literals
     /// </summary>
-    [LiteralProvider]
+    [LiteralProvider(chars)]
     public readonly struct CharText
     {
         /// <summary>

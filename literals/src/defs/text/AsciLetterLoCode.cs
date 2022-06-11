@@ -9,7 +9,7 @@ namespace Z0
     /// <summary>
     /// Defines asci codes corresponding to the letters a,...z
     /// </summary>
-    [CodeProvider]
+    [SymSource(chars)]
     public enum AsciLetterLoCode : byte
     {
         /// <summary>

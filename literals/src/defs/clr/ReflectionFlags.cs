@@ -9,7 +9,7 @@ namespace Z0
     /// <summary>
     /// Defines useful collection of reflection binding flags
     /// </summary>
-    [LiteralProvider]
+    [LiteralProvider(clr)]
     public static class ReflectionFlags
     {
         /// <summary>

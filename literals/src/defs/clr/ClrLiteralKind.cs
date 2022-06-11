@@ -9,7 +9,7 @@ namespace Z0
     /// <summary>
     /// Defines a <see cref='P'/> subset that corresponds to primal types that can be used as compile-time literals
     /// </summary>
-    [SymSource("clr"), LiteralAlias(typeof(P))]
+    [SymSource(clr), LiteralAlias(typeof(P))]
     public enum ClrLiteralKind : byte
     {
         None = 0,

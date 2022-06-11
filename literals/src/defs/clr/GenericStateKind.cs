@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [SymSource("clr")]
+    [SymSource(clr)]
     public enum GenericStateKind : byte
     {
         Nongeneric = 0,

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [SymSource("clr")]
+    [SymSource(clr)]
     public enum AssemblyNameKind : byte
     {
         Full = 0,

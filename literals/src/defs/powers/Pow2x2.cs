@@ -10,7 +10,7 @@ namespace Z0
     /// <summary>
     /// Defines integers of the form 2^n where n = 0,1
     /// </summary>
-    [Flags, SymSource("pow2", NBK.Base16)]
+    [Flags, SymSource(pow2, NBK.Base16)]
     public enum Pow2x2 : byte
     {
         /// <summary>

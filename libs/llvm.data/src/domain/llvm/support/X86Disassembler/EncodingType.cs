@@ -6,7 +6,7 @@ namespace Z0.llvm
 {
     partial struct X86Disassembler
     {
-        [SymSource("llvm.mc")]
+        [SymSource(group)]
         public enum EncodingType : byte
         {
             [Symbol("")]

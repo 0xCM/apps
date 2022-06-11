@@ -10,7 +10,7 @@ namespace Z0
     /// <summary>
     /// Defines 1
     /// </summary>
-    [SymSource("pow2", NBK.Base16), Flags]
+    [SymSource(pow2, NBK.Base16), Flags]
     public enum Pow2x1 : byte
     {
         /// <summary>

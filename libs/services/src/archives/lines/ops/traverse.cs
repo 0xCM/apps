@@ -6,7 +6,7 @@ namespace Z0
 {
     using System.IO;
 
-    partial struct Lines
+    partial class Lines
     {
         [Op]
         public static Count traverse(string src, Action<TextLine> receiver, bool keepblank = false, bool trim = true)

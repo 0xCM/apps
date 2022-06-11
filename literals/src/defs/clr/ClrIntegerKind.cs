@@ -9,7 +9,7 @@ namespace Z0
     /// <summary>
     /// Defines a <see cref='P'/> subset that corresponds to integers
     /// </summary>
-    [SymSource("clr"), LiteralAlias(typeof(P))]
+    [SymSource(clr), LiteralAlias(typeof(P))]
     public enum ClrIntegerKind : byte
     {
         None = 0,

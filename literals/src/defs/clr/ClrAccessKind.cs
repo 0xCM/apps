@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Flags, SymSource("clr")]
+    [Flags, SymSource(clr)]
     public enum ClrAccessKind : uint
     {
         None = 0,

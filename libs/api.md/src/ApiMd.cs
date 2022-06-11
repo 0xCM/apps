@@ -9,7 +9,7 @@ namespace Z0
 
     using K = ApiMdKind;
 
-    public sealed partial class ApiMd : AppService<ApiMd>
+    public sealed partial class ApiMd : WfSvc<ApiMd>
     {
         const string msil = nameof(msil);
 
@@ -75,7 +75,7 @@ namespace Z0
             => ApiRuntimeCatalog;
 
         public Assembly[] Components
-            => data(K.Components,() => Catalog.Components);
+            => data(K.Components,() => Modules.PartArchive().ManagedDll().Where(x => x.FileName.StartsWith("z0")).Select(x => x.Load()));
 
         public Index<IPart> Parts
             => data(K.ApiParts, () => Catalog.Parts);
@@ -83,7 +83,7 @@ namespace Z0
         public Type[] EnumTypes
             => data(K.EnumTypes, () => Components
                 .Enums()
-                .Where(x => x.ContainsGenericParameters == false && nonempty(x.Namespace)));
+                .Where(x => x.ContainsGenericParameters == false));
 
         public Index<Type> ApiTableTypes
             => data(K.ApiTables, () => Components.Types().Tagged<RecordAttribute>().Index());
@@ -153,9 +153,9 @@ namespace Z0
 
         Index<ApiHostCatalog> HostCatalogs(IApiPartCatalog src)
         {
-            var running = AppSvc.Running($"Computing {src.PartId.Format()} members");
+            var running = Running($"Computing {src.PartId.Format()} members");
             var catalogs = src.ApiHosts.Map(HostCatalog);
-            AppSvc.Ran(running, $"Computed mebers for {catalogs.Length} {src.PartId.Format()} hosts");
+            Ran(running, $"Computed mebers for {catalogs.Length} {src.PartId.Format()} hosts");
             return catalogs;
         }
 
@@ -188,7 +188,7 @@ namespace Z0
         }
 
         public void EmitIndex(Index<ApiRuntimeMember> src)
-            => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<ApiRuntimeMember>(), TextEncodingKind.Utf8);
+            => TableEmit(src, AppDb.ApiTargets().Table<ApiRuntimeMember>(), TextEncodingKind.Utf8);
 
         void EmitApiCommands()
             => Emit(ApiCommands);
@@ -228,7 +228,7 @@ namespace Z0
                     parser.ResultType.DisplayName(),
                     parser.TargetType.DisplayName()
                     ));
-            AppSvc.FileEmit(emitter.Emit(), parsers.Count, AppDb.ApiTargets().Path("api.parsers", FileKind.Csv));
+            FileEmit(emitter.Emit(), parsers.Count, AppDb.ApiTargets().Path("api.parsers", FileKind.Csv));
         }
 
         public Index<SymLiteralRow> LoadSymLits(FS.FilePath src)
@@ -412,8 +412,11 @@ namespace Z0
             return emitted;
         }
 
+        ModuleArchives Modules => Wf.ModuleArchives();
+
         ConstLookup<string,Index<SymInfo>> CalcApiTokens()
         {
+            //var types = Modules.PartArchive().ManagedDll().Where(x => x.FileName.StartsWith("z0")).Select(x => x.Load()).Storage.Enums().Where(e => e.Tagged<SymSourceAttribute>());
             var types = EnumTypes.Tagged<SymSourceAttribute>();
             var groups = dict<string,List<Type>>();
             var individuals = list<Type>();

@@ -51,7 +51,7 @@ namespace Z0
         [Render(64)]
         public Identifier Name;
 
-        [Render(16)]
+        [Render(24)]
         public SymVal Value;
 
         [Render(64)]

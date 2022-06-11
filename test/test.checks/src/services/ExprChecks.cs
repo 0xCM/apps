@@ -17,9 +17,9 @@ namespace Z0
         [Op]
         public void CheckTextExpr()
         {
-            var dst = TextTemplateVar.define("dst");
-            var src1 = TextTemplateVar.define("src1");
-            var src2 = TextTemplateVar.define("src2");
+            var dst = new TextTemplateVar("dst");
+            var src1 = new TextTemplateVar("src1");
+            var src2 = new TextTemplateVar("src2");
             var body = string.Format("{0}, {1}, {2}", dst, src1, src2);
             var x = TextTemplateExpr.init(body);
             var vars = x.Vars;

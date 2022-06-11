@@ -18,4 +18,6 @@ global using CallerName = System.Runtime.CompilerServices.CallerMemberNameAttrib
 global using CallerFile = System.Runtime.CompilerServices.CallerFilePathAttribute;
 global using CallerLine = System.Runtime.CompilerServices.CallerLineNumberAttribute;
 
+global using static Z0.LiteralGroups;
+global using static Z0.NumericBaseKind;
 [assembly: PartId(PartId.Literals)]

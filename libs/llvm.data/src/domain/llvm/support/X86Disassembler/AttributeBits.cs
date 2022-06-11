@@ -14,7 +14,7 @@ namespace Z0.llvm
         /// processed correctly.  Most of these indicate the presence of particular
         /// prefixes, but ATTR_64BIT is simply an attribute of the decoding context.
         /// </summary>
-        [SymSource("llvm.mc")]
+        [SymSource(group)]
         public enum AttributeBits : ushort
         {
             ATTR_NONE = 0x00,

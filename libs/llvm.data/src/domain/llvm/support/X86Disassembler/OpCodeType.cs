@@ -12,7 +12,7 @@ namespace Z0.llvm
         /// <remarks>
         /// This defines the same constants as a TD-defined Map enum specified in X86InstrFormats.td
         /// </remarks>
-        [SymSource("llvm.mc")]
+        [SymSource(group)]
         public enum OpCodeType : byte
         {
             ONEBYTE = 0,

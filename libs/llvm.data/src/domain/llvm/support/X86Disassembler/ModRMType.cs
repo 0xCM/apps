@@ -6,7 +6,9 @@ namespace Z0.llvm
 {
     partial struct X86Disassembler
     {
-        [SymSource("llvm.mc")]
+        const string group = "llvm.mc";
+
+        [SymSource(group)]
         public enum ModRMType : byte
         {
             [Symbol("","No matter what the value of the ModR/M byte is, the decoded instruction is the same.")]

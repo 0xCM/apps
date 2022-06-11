@@ -26,14 +26,26 @@ namespace Z0
             Name = name;
         }
 
+        public FS.FileName FileName
+        {
+            [MethodImpl(Inline)]
+            get => Path.FileName;
+        }
+
         public FS.FileExt DefaultExt
-            =>  FS.Dll;
+            => FS.Dll;
 
         public FileModuleKind ModuleKind
             => FileModuleKind.ManagedDll;
 
         public Assembly Load()
             => Assembly.LoadFrom(Path.Name);
+
+        public string Format()
+            => Path.ToUri().Format();
+
+        public override string ToString()
+            => Format();
 
         [MethodImpl(Inline)]
         public static implicit operator FileModule(ManagedDllFile src)

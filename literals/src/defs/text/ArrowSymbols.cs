@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [SymSource]
+    [SymSource(chars)]
     public enum ArrowSymbols : ushort
     {
         /// <summary>

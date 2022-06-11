@@ -34,7 +34,7 @@ namespace Z0
         Index<SymLiteralRow> EmitSymLits(Assembly[] src, FS.FilePath dst)
         {
             var data = Symbols.literals(src);
-            AppSvc.TableEmit(data, dst, TextEncodingKind.Unicode);
+            TableEmit(data, dst, TextEncodingKind.Unicode);
             return data;
         }
     }

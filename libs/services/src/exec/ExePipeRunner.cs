@@ -33,7 +33,6 @@ namespace Z0
                         return 1;
                     case "--pauseForDebugger":
                         {
-
                             while (!Debugger.IsAttached)
                             {
                                 Thread.Sleep(500);

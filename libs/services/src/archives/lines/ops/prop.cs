@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    partial struct Lines
+    partial class Lines
     {
         public static string prop(ReadOnlySpan<TextLine> src, string name)
         {

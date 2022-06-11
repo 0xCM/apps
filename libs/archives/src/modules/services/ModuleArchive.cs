@@ -10,7 +10,9 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public ModuleArchive(FS.FolderPath root)
-            => Root = root;
+        {
+            Root = root;
+        }
 
         public Index<ManagedDllFile> ManagedDll()
             => ManagedDllFiles().Array();

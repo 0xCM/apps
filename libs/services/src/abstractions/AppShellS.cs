@@ -15,5 +15,11 @@ namespace Z0
             using var app = shell(args);
             app.Run();
         }
+
+        protected static void run(Func<IWfRuntime> f)
+        {
+            using var app = create(f());
+            app.Run();
+        }
     }
 }

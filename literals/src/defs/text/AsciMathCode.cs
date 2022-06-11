@@ -6,6 +6,7 @@ namespace Z0
 {
     using S = AsciMathSym;
 
+    [SymSource(chars)]
     public enum AsciMathCode : byte
     {
         /// <summary>

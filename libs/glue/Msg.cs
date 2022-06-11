@@ -9,32 +9,5 @@ namespace Z0
     [ApiComplete]
     readonly partial struct Msg
     {
-        public static MsgPattern<Fence<char>,string> FenceNotFound => "The signature fence {0} for the source expression {1} is not present";
-
-        public static MsgPattern<AsmMnemonic> MonicCodeParseFailed => "Attempt to parse mnemonic code for {0} failed";
-
-        public static MsgPattern<string> CouldNotParseSigExpr => "Could not created a signature expression from {0}";
-
-        public static MsgPattern<Count,Count> UnexpectedFieldCount => "{0} fields were expected and yet {1} were found";
-
-        public static MsgPattern<FS.FileUri> CouldNotParseDocument => "Could not parse {0}";
-
-        public static MsgPattern<TextRow,string> CouldNotParseStatementRow => "Could not parse statement from {0}: {1}";
-
-        public static MsgPattern<Fence<char>> OpCodeFenceNotFound => "Op code fence {0} not found";
-
-        public static MsgPattern<Count,Count> CollectedThumbprints => "Collected {0} distinct thumbprints from {1} statements";
-
-        public static MsgPattern<FS.FileUri> CreatingPdbReader => "Creating pdb reader for {0}";
-
-        public static MsgPattern<FS.FileUri> CreatedPdbReader => "Created pdb reader for {0}";
-
-        public static MsgPattern<string> ReadingPdb => "Reading {0} pdb";
-
-        public static MsgPattern<string> PdbNotFound => "Pdb for {0} not found";
-
-        public static MsgPattern<Count> IndexingPdbFiles => "Indexing component pdb files from {0} components";
-
-        public static MsgPattern<Count> IndexedPdbMethods => "Indexed {0} pdb methods";
     }
 }

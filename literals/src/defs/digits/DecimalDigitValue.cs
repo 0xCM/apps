@@ -7,6 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines literals that correspond to base-10 digits
     /// </summary>
+    [SymSource(digits)]
     public enum DecimalDigitValue : byte
     {
         /// <summary>

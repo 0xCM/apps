@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct Lines
+    partial class Lines
     {
         [MethodImpl(Inline)]
         public static LineMap<T> map<T>(LineInterval<T>[] src)

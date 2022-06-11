@@ -53,7 +53,7 @@ namespace Z0
             {
                 var dst = new InstImportBlocks();
                 var ds = new BlockImportDatasets();
-                var lines = AsciLines.lines(src);
+                var lines = Lines.lines(src);
                 CalcBlockLines(lines, ds);
                 CalcDatasets(lines, ds);
                 dst.DataSource = src;

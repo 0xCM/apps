@@ -9,7 +9,7 @@ namespace Z0
     /// <summary>
     /// Artifact classifiers that align with literals defined by <see cref='AttributeTargets'/>
     /// </summary>
-    [Flags, SymSource("clr")]
+    [Flags, SymSource(clr)]
     public enum ClrArtifactKind : uint
     {
         None = 0,

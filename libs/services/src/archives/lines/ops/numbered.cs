@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    partial struct Lines
+    partial class Lines
     {
         [MethodImpl(Inline), Op]
         public static bool numbered(ReadOnlySpan<char> src)

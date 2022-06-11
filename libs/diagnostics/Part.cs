@@ -16,6 +16,11 @@ global using System.Runtime.InteropServices;
 global using System.Threading;
 global using System.Threading.Tasks;
 global using System.IO;
+global using Microsoft.CodeAnalysis;
+global using Microsoft.CodeAnalysis.CSharp;
+global using Microsoft.CodeAnalysis.Emit;
+global using System.Collections.Immutable;
+global using System.Globalization;
 
 global using static Z0.Root;
 

@@ -10,7 +10,7 @@ namespace Z0
     /// <summary>
     /// Defines integers of the form 2^n where n = 0,..,31
     /// </summary>
-    [SymSource("pow2", NBK.Base16), Flags]
+    [SymSource(pow2, NBK.Base16), Flags]
     public enum Pow2x32 : uint
     {
         /// <summary>

@@ -5,7 +5,7 @@
 namespace Z0
 {
     [ApiHost]
-    public readonly partial struct Lines
+    public partial class Lines
     {
         [MethodImpl(Inline)]
         public static LineSegment segment(LineNumber src, ushort min, ushort max)
