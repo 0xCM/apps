@@ -11,6 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="$(Services)" />
     <ProjectReference Include="$(Containers)" />
+    <ProjectReference Include="$(Memory)" />
   </ItemGroup>
 
 </Project>
