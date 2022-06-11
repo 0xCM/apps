@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     public readonly struct AsmObjPaths
     {
         readonly AppDb AppDb;
@@ -19,12 +17,6 @@ namespace Z0
         public DbTargets DbTargets(ProjectId id)
             => AppDb.ProjectData(id);
 
-        public DbTargets AsmTargets(ProjectId ws)
-            => AppDb.AsmTargets(ws);
-
-        public DbTargets HexTargets(ProjectId ws)
-            => AppDb.HexTargets(ws);
-
         public DbTargets RecodedTargets(ProjectId id)
             => AppDb.ProjectTargets("mc.recoded").Targets($"src/{id}");
 
@@ -32,7 +24,7 @@ namespace Z0
             => RecodedTargets(ws).Path(FS.file(origin.Remove(string.Format(".{0}", FileKind.ObjAsm.Ext().Format())), FileKind.Asm.Ext()));
 
         public FS.FilePath AsmCodeTable(ProjectId ws, string origin)
-            => AsmTargets(ws).Path(FS.file(string.Format("{0}.code", origin), FS.Csv));
+            => AppDb.AsmTargets(ws).Path(FS.file(string.Format("{0}.code", origin), FS.Csv));
 
         public FS.FilePath CoffSymPath(ProjectId id)
             => DbTargets(id).Table<CoffSymRecord>(id);

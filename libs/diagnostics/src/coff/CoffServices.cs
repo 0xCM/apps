@@ -6,11 +6,9 @@ namespace Z0
 {
     using static core;
 
-    public class CoffServices : AppService<CoffServices>
+    public class CoffServices : WfSvc<CoffServices>
     {
         HexDataReader HexReader => Service(Wf.HexDataReader);
-
-        AppSvcOps AppSvc => Wf.AppSvc();
 
         Symbols<CoffSectionKind> SectionKinds;
 
@@ -32,7 +30,7 @@ namespace Z0
 
         public Outcome CollectObjHex(WsContext context)
         {
-            var targets = ObjectPaths.HexTargets(context.Project.Project);
+            var targets = AppDb.HexTargets(context.Project.Project);
             targets.Clear();
             var result = Outcome.Success;
             var files = context.Catalog.Entries(FileKind.Obj, FileKind.O);
@@ -54,7 +52,7 @@ namespace Z0
 
         public HexFileData LoadObjHex(WsContext context)
         {
-            var src = ObjectPaths.HexTargets(context.Project.Project).Files(FileKind.HexDat.Ext());
+            var src = AppDb.HexTargets(context.Project.Project).Files(FileKind.HexDat.Ext());
             var count = src.Length;
             var dst = dict<FS.FilePath,Index<HexDataRow>>(count);
             for(var i=0; i<count; i++)
@@ -154,7 +152,7 @@ namespace Z0
         public Index<CoffSection> CollectHeaders(WsContext context)
         {
             var records = CalcObjHeaders(context);
-            AppSvc.TableEmit(records, WsApi.table<CoffSection>(context.Project.Project));
+            TableEmit(records, WsApi.table<CoffSection>(context.Project.Project));
             return records;
         }
 
@@ -332,7 +330,7 @@ namespace Z0
             var records = buffer.ToArray().Sort();
             for(var i=0u; i<records.Length; i++)
                 seek(records,i).Seq = i;
-            AppSvc.TableEmit(records, WsApi.table<CoffSymRecord>(context.Project.Project));
+            TableEmit(records, WsApi.table<CoffSymRecord>(context.Project.Project));
             return records;
         }
     }

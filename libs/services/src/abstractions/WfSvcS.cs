@@ -10,7 +10,9 @@ namespace Z0
     public abstract class WfSvc<S> : AppService<S>
         where S : WfSvc<S>, new()
     {
-        public new void Babble<T>(T content)
+        protected AppDb AppDb => GlobalSvc.Instance.AppDb;
+
+        protected new void Babble<T>(T content)
             => WfMsg.Babble(content);
 
         protected new void Babble(string pattern, params object[] args)
@@ -19,16 +21,16 @@ namespace Z0
         protected new void Status<T>(T content, FlairKind flair = FlairKind.Status)
             => WfMsg.Status(content, flair);
 
-        public new void Status(ReadOnlySpan<char> src, FlairKind flair = FlairKind.Status)
+        protected new void Status(ReadOnlySpan<char> src, FlairKind flair = FlairKind.Status)
             => WfMsg.Status(src, flair);
 
         public new void Status(FlairKind flair, string pattern, params object[] args)
             => WfMsg.Status(pattern, flair, args);
 
-        public new void Status(string pattern, params object[] args)
+        protected new void Status(string pattern, params object[] args)
             => WfMsg.Status(pattern, args);
 
-        public new void Warn<T>(T content)
+        protected new void Warn<T>(T content)
             => WfMsg.Warn(content);
 
         public new void Warn(string pattern, params object[] args)

@@ -15,4 +15,28 @@ namespace Z0
 
         public static HexDataRow Empty => default;
     }
+
+    [StructLayout(LayoutKind.Sequential,Pack=16)]
+    public struct HexDat<W,T>
+        where T : unmanaged, IStorageBlock
+        where W : unmanaged, ITypeWidth
+    {
+        public readonly MemoryAddress Address;
+
+        public readonly T Data;
+
+        public HexDat(MemoryAddress address, T data)
+        {
+            Address = address;
+            Data = data;
+        }
+    }
+
+    public class HexDat
+    {
+        public static HexDat<W8,S> row<S>(W8 w, MemoryAddress address, S src)
+            where S : unmanaged, IStorageBlock
+                => new HexDat<W8,S>(address, src);
+
+    }
 }

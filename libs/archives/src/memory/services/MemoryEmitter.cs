@@ -10,9 +10,6 @@ namespace Z0
 
     public sealed class MemoryEmitter : AppService<MemoryEmitter>, IMemoryEmitter
     {
-        static string status(MemoryFileInfo file)
-            => string.Format("Created memory map: {0} | {1} | {2,-12} | {3}", file.BaseAddress, file.EndAddress, file.Size, file.Path.ToUri());
-
         public static void emit(MemoryRange src, StreamWriter dst, byte bpl)
             => HexDataFormatter.create(src.Min, bpl).FormatLines(cover<byte>(src.Min, src.Size), line => dst.WriteLine(line));
 
@@ -71,7 +68,7 @@ namespace Z0
         public void DumpImages(FS.FolderPath src, FS.FolderPath dst, bool pll = true)
         {
             var files = src.Files(FS.Dll);
-            iter(files, file => DumpImage(file,dst), pll);                    
+            iter(files, file => DumpImage(file,dst), pll);
         }
 
         public void DumpImage(FS.FilePath src, FS.FolderPath dst)

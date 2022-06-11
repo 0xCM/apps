@@ -8,7 +8,7 @@ namespace Z0
 
     using static core;
 
-    public partial class AsmObjects : AppService<AsmObjects>
+    public partial class AsmObjects : WfSvc<AsmObjects>
     {
         AppSvcOps AppSvc => Wf.AppSvc();
 
@@ -20,11 +20,11 @@ namespace Z0
             get => new AsmObjPaths(GlobalSvc.Instance.AppDb);
         }
 
-        public AsmCodeMap MapAsm(IProjectWs ws, Alloc alloc)
+        public AsmCodeMap MapAsm(IProjectWs ws, Alloc dst)
         {
-            var dst = map(ws, LoadRows(ws.Project), alloc);
-            AppSvc.TableEmit(dst, Paths.CodeMap(ws.Project));
-            return new AsmCodeMap(dst);
+            var entries = map(ws, LoadRows(ws.Project), dst);
+            TableEmit(entries, Paths.CodeMap(ws.Project));
+            return new AsmCodeMap(entries);
         }
 
         public void CollectCoffData(WsContext context)
@@ -89,7 +89,7 @@ namespace Z0
             }
 
             var rows = buffer.ToArray();
-            AppSvc.TableEmit(rows, ProjectDb.ProjectTable<ObjSymRow>(project));
+            TableEmit(rows, ProjectDb.ProjectTable<ObjSymRow>(project));
             return rows;
         }
 
@@ -134,7 +134,7 @@ namespace Z0
 
         public Index<AsmCodeBlocks> EmitAsmCodeTables(WsContext context, Alloc alloc)
         {
-            Paths.AsmTargets(context.Project.Project).Clear();
+            AppDb.AsmTargets(context.Project.Project).Clear();
             var files = context.Catalog.Entries(FileKind.ObjAsm);
             var count = files.Count;
             var seq = 0u;
@@ -183,7 +183,7 @@ namespace Z0
                 }
             }
 
-            AppSvc.TableEmit(buffer, dst);
+            TableEmit(buffer, dst);
         }
 
         public void EmitRecoded(WsContext context)
@@ -225,7 +225,7 @@ namespace Z0
         {
             var rows = ConsolidateRows(context);
             var blocks = AsmObjects.blocks(rows);
-            AppSvc.TableEmit(blocks.View, Paths.ObjBlockPath(context.Project.Project));
+            TableEmit(blocks.View, Paths.ObjBlockPath(context.Project.Project));
             EmitRecoded(context);
             return new ObjDumpBlocks(blocks,rows);
         }
@@ -263,7 +263,7 @@ namespace Z0
             for(var i=0u; i<data.Length; i++)
                 seek(data,i).Seq = i;
 
-            AppSvc.TableEmit(data, Paths.ObjRowsPath(project.Project));
+            TableEmit(data, Paths.ObjRowsPath(project.Project));
             return data;
         }
 
