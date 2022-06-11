@@ -8,7 +8,7 @@ namespace Z0.Asm
 
     public class DecodedAsmParser
     {
-        public static DecodedAsmParser create(AsmCodeDispenser dispenser)
+        public static DecodedAsmParser create(CompositeDispenser dispenser)
             => new DecodedAsmParser(dispenser);
 
         List<DecodedAsmBlock> Target;
@@ -17,9 +17,9 @@ namespace Z0.Asm
 
         AsmAddressLabel BlockBase;
 
-        AsmCodeDispenser Dispenser;
+        CompositeDispenser Dispenser;
 
-        DecodedAsmParser(AsmCodeDispenser dispenser)
+        DecodedAsmParser(CompositeDispenser dispenser)
         {
             Dispenser = dispenser;
         }

@@ -6,23 +6,17 @@ namespace Z0
 {
     using static core;
 
-    public partial class CoffRecords
-    {
-
-
-    }
-
     [ApiHost]
     public readonly struct CoffObjects
     {
         internal const string group = "coff";
 
         [MethodImpl(Inline), Op]
-        public static SymAddress address(in ObjSymRow row)
+        public static SymAddress address(in ObjSymRow src)
         {
-            ObjSymClass @class = row.Code;
-            var selector = math.or((ushort)row.OriginId, (uint)(@class.Pack() << 16));
-            return Symbolic.address(selector, row.Offset);
+            ObjSymClass @class = src.Code;
+            var selector = math.or((ushort)src.OriginId, (uint)(@class.Pack() << 16));
+            return SymAddress.define(selector, src.Offset);
         }
 
         [MethodImpl(Inline), Op]
@@ -31,7 +25,7 @@ namespace Z0
             var lo = (ushort)row.OriginId;
             var section = row.Section > Pow2.T15 ? (ushort) ((ushort.MaxValue - row.Section) + byte.MaxValue) : row.Section;
             var hi = math.or((ushort)(byte)row.SymSize, (ushort)(section<<8));
-            return Symbolic.address(math.or((uint)lo, (uint)hi << 16), row.Value);
+            return SymAddress.define(math.or((uint)lo, (uint)hi << 16), row.Value);
         }
 
         public static LocatedSymbols symbolize(ReadOnlySpan<ObjSymRow> src, SymbolDispenser dispenser)
@@ -45,10 +39,8 @@ namespace Z0
                     continue;
 
                 var location = address(row);
-                if(!dst.TryAdd(location, dispenser.DispenseSymbol(location, row.Name)))
-                {
+                if(!dst.TryAdd(location, dispenser.Symbol(location, row.Name)))
                     Errors.Throw(string.Format("The address {0} is duplicated at sequence {1} for symbol '{2}'", location, row.Seq, row.Name));
-                }
             }
             return dst;
         }

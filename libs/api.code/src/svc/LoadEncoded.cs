@@ -7,15 +7,15 @@ namespace Z0
     partial class ApiCode
     {
         public EncodedMembers LoadEncoded()
-            => LoadEncoded(Alloc.dispenser(Alloc.symbols));
+            => LoadEncoded(Dispense.dispenser(Dispense.symbols));
 
         public EncodedMembers LoadEncoded(string spec)
-            => LoadEncoded(Alloc.dispenser(Alloc.symbols), spec);
+            => LoadEncoded(Dispense.dispenser(Dispense.symbols), spec);
 
         public EncodedMembers LoadEncoded(PartId src)
         {
             Load(src, out var index, out var code);
-            return members(Alloc.dispenser(Alloc.symbols), index, code);
+            return members(Dispense.dispenser(Dispense.symbols), index, code);
         }
 
         EncodedMembers LoadEncoded(SymbolDispenser symbols)

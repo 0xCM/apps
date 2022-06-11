@@ -23,7 +23,7 @@ namespace Z0
         public void Run()
         {
             var dst = CodeFiles.Package(core.timestamp());
-            using var symbols = Alloc.dispenser(Alloc.symbols);
+            using var symbols = Dispense.dispenser(Dispense.symbols);
             iter(ApiMd.Parts, part => Run(symbols, part, dst), true);
         }
 
@@ -31,7 +31,7 @@ namespace Z0
         {
             if(ApiRuntimeCatalog.FindPart(id, out var src))
             {
-                using var symbols = Alloc.dispenser(Alloc.symbols);
+                using var symbols = Dispense.dispenser(Dispense.symbols);
                 Run(symbols, src);
             }
         }
@@ -53,7 +53,7 @@ namespace Z0
 
         public void Run(ApiHostUri src)
         {
-            using var symbols = Alloc.dispenser(Alloc.symbols);
+            using var symbols = Dispense.dispenser(Dispense.symbols);
             Run(symbols, src);
         }
 

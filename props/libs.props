@@ -38,6 +38,8 @@
     <ProjectReference Include="$(Machines)" />
     <ProjectReference Include="$(Memory)" />
 
+    <ProjectReference Include="$(Native)" />
+
     <ProjectReference Include="$(Numbers)" />
 
     <ProjectReference Include="$(Rules)" />

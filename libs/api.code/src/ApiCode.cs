@@ -140,7 +140,7 @@ namespace Z0
 
         public Index<CollectedEncoding> Collect()
         {
-            using var symbols = Alloc.symbols();
+            using var symbols = Dispense.symbols();
             var collected = Collect(symbols, CalcEntryPoints());
             Emit(collected, Files.Path(FS.Csv), Files.Path(FS.Hex));
             return collected;
@@ -165,13 +165,13 @@ namespace Z0
 
         public Index<CollectedEncoding> Collect(ApiHostUri src)
         {
-            using var symbols = Alloc.symbols();
+            using var symbols = Dispense.symbols();
             return Collect(symbols, src);
         }
 
         public Index<CollectedEncoding> Collect(PartId src)
         {
-            using var symbols = Alloc.symbols();
+            using var symbols = Dispense.symbols();
             return Collect(symbols, src);
         }
 

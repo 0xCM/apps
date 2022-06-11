@@ -11,10 +11,23 @@ namespace Z0
 
     partial class AsmObjects
     {
+        public static AsmCode code(CompositeDispenser dispenser, in AsmEncodingInfo src)
+        {
+            ref readonly var code = ref src.Encoded;
+            var size = code.Size;
+            var hex = dispenser.Reserve(size);
+            var hexsrc = code.View;
+            var hexdst = hex.Edit;
+            for(var j=0; j<size; j++)
+                seek(hexdst,j) = skip(hexsrc,j);
+            return new AsmCode(EncodingId.from(src.IP, code), src.Seq, src.DocSeq, src.OriginId, dispenser.Source(src.Asm.Format()), src.IP, hex);
+        }
+
         static AsmCodeBlocks blocks(WsContext context, in FileRef file, ref uint seq, Index<ObjDumpRow> src, Alloc dispenser)
         {
             var blocks = src.GroupBy(x => x.BlockAddress).Array();
             var blockbuffer = alloc<AsmCodeBlock>(blocks.Length);
+            var composite = dispenser.Composite();
             for(var i=0; i<blocks.Length; i++)
             {
                 ref readonly var block = ref skip(blocks,i);
@@ -35,12 +48,12 @@ namespace Z0
                     encoding.Encoded = row.Encoded.Bytes;
                     encoding.Size = row.Size;
                     encoding.Asm = row.Asm.Content;
-                    seek(codebuffer,k) = dispenser.AsmCode(encoding);
+                    seek(codebuffer,k) = code(composite,encoding);
                 }
-                seek(blockbuffer,i) = new AsmCodeBlock(dispenser.Symbol(blockaddress,blockname), codebuffer);
+                seek(blockbuffer,i) = new AsmCodeBlock(composite.Symbol(blockaddress,blockname), codebuffer);
             }
             var origin = context.Root(file);
-            return new AsmCodeBlocks(dispenser.Label(origin.DocName), origin.DocId, blockbuffer);
+            return new AsmCodeBlocks(composite.Label(origin.DocName), origin.DocId, blockbuffer);
         }
 
         static Index<AsmCodeBlocks> blocks(IProjectWs project, Index<ObjDumpRow> src, Alloc dispenser)
@@ -48,6 +61,7 @@ namespace Z0
             var collected = dict<uint, AsmCodeBlocks>();
             var groups = src.GroupBy(x => x.OriginId).Array();
             var buffer = alloc<AsmCodeBlocks>(groups.Length);
+            var composite = dispenser.Composite();
             for(var i=0; i<groups.Length; i++)
             {
                 ref readonly var group = ref skip(groups,i);
@@ -79,14 +93,14 @@ namespace Z0
                         encoding.InstructionId = row.InstructionId;
                         encoding.Size = row.Size;
                         encoding.Asm = row.Asm.Content;
-                        seek(codebuffer,k) = dispenser.AsmCode(encoding);
+                        seek(codebuffer,k) = code(composite,encoding);
                     }
 
-                    seek(blockbuffer,j) = new AsmCodeBlock(dispenser.Symbol(blockaddress, blockname), codebuffer);
+                    seek(blockbuffer,j) = new AsmCodeBlock(composite.Symbol(blockaddress, blockname), codebuffer);
                 }
 
                 var origin = FileCatalog.load(project).Entry(group.Key);
-                seek(buffer,i) = new AsmCodeBlocks(dispenser.Label(origin.DocName), origin.DocId, blockbuffer);
+                seek(buffer,i) = new AsmCodeBlocks(composite.Label(origin.DocName), origin.DocId, blockbuffer);
             }
             return buffer;
         }

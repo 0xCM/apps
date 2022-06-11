@@ -64,7 +64,7 @@ namespace Z0
             R16 = (ushort*)R64;
             R8 = (byte*)R64;
             Stack = CpuModels.stack<ulong>(64);
-            Ram = Alloc.pages(256);
+            Ram = Dispense.pages(256);
             CodeBase = Ram.Page().BaseAddress;
             *CodeBase.Pointer<ulong>() = 0xCC;
             rip() = CodeBase;

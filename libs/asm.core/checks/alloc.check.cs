@@ -35,7 +35,7 @@ namespace Z0
             var inputlen = Pow2.T04;
             var totallen = count*inputlen;
             var size = totallen*core.size<char>();
-            using var dispenser = Alloc.strings(size);
+            using var dispenser = Dispense.strings(size);
             var strings = core.alloc<StringRef>(count);
             for(var i=0; i<count; i++)
             {
@@ -62,7 +62,7 @@ namespace Z0
             for(uint i=0; i<count; i++)
                 seek(src,i) = BitRender.format8((byte)i);
 
-            using var allocation = Alloc.labels(src);
+            using var allocation = LabelAllocation.alloc(src);
             var labels = allocation.Allocated;
             if(labels.Length != count)
                 result = (false, string.Format("{0} != {1}", labels.Length, count));

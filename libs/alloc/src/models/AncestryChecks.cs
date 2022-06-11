@@ -13,7 +13,7 @@ namespace Z0
             const string Case2 = "n -> o -> p -> q -> r -> s -> t";
             const string Case3 = "u -> v -> w -> x -> y -> z";
 
-            using var dispenser = Alloc.labels();
+            using var dispenser = Dispense.labels();
             var ancestors = Ancestors.create(dispenser);
 
             ancestors.Parse(Case0, out var @case0);

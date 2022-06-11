@@ -26,7 +26,7 @@ namespace Z0
             get => AppData.get().PllExec();
         }
 
-        public IAllocProvider Alloc => _Alloc;
+        public IStringAllocProvider Alloc => _Alloc;
 
         public new XedPaths Paths => XedPaths.Service;
 

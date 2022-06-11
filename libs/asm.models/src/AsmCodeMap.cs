@@ -52,7 +52,7 @@ namespace Z0
             => ref this[index].Asm;
 
         [MethodImpl(Inline)]
-        public ref readonly AsmHexRef Encoded(int index)
+        public ref readonly HexRef Encoded(int index)
             => ref this[index].Encoded;
 
         [MethodImpl(Inline)]

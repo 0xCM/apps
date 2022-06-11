@@ -9,7 +9,6 @@
   <Import Project="$(ImportDefs)common.libs.props"/>
 
   <ItemGroup>
-    <ProjectReference Include="$(Numbers)" />
     <ProjectReference Include="$(AsmModels)" />
   </ItemGroup>
 

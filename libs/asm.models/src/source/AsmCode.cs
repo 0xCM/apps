@@ -19,10 +19,10 @@ namespace Z0
 
         public readonly MemoryAddress IP;
 
-        public readonly AsmHexRef Encoded;
+        public readonly HexRef Encoded;
 
         [MethodImpl(Inline)]
-        public AsmCode(EncodingId id, uint seq, uint docseq, Hex32 origin, SourceText asm, MemoryAddress ip, AsmHexRef code)
+        public AsmCode(EncodingId id, uint seq, uint docseq, Hex32 origin, SourceText asm, MemoryAddress ip, HexRef code)
         {
             Seq = seq;
             DocSeq = docseq;

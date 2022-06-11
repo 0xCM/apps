@@ -38,9 +38,9 @@ namespace Z0
             return this;
         }
 
-        [MethodImpl(Inline)]
-        Label Label(string src)
-            => Xed.Alloc.Label(src);
+        // [MethodImpl(Inline)]
+        // Label Label(string src)
+        //     => Xed.Alloc.Label(src);
 
         [MethodImpl(Inline)]
         StringRef String(string src)

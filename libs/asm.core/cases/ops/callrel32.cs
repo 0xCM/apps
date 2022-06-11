@@ -11,7 +11,7 @@ namespace Z0.Asm
         [Op]
         public static Index<CallRel32> callrel32()
         {
-            var block = CaseSymbols.DispenseSymbol(0x7ffe6818a0e0ul, "callrel32");
+            var block = CaseSymbols.Symbol(0x7ffe6818a0e0ul, "callrel32");
             var cases = alloc<CallRel32>(4);
             var buffer = span(cases);
             var index = 0u;

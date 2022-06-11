@@ -40,6 +40,8 @@
     <Memory>$(LibsRoot)memory/z0.memory.csproj</Memory>
     <Machines>$(LibsRoot)machines/z0.machines.csproj</Machines>
 
+    <Native>$(LibsRoot)native/z0.native.csproj</Native>
+
     <Numbers>$(LibsRoot)numbers/z0.numbers.csproj</Numbers>
 
     <Rules>$(LibsRoot)rules/z0.rules.csproj</Rules>

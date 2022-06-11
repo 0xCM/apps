@@ -148,6 +148,8 @@ public enum PartId : byte
     [Symbol("render")]
     Render,
 
+    [Symbol("native")]
+    Native,
 
     [Symbol("capture.checks")]
     CaptureChecks,

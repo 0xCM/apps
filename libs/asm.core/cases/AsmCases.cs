@@ -13,7 +13,7 @@ namespace Z0.Asm
 
         static AsmCases()
         {
-            CaseSymbols = Alloc.symbols();
+            CaseSymbols = Dispense.symbols();
         }
 
         [Op]

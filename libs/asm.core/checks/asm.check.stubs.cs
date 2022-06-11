@@ -143,7 +143,7 @@ namespace Z0
         {
             void Api()
             {
-                using var symbols = Alloc.symbols();
+                using var symbols = Dispense.symbols();
                 //var stubs = CodeCollector.LoadCaptured(symbols, ApiHostUri.from(typeof(cpu)));
                 // foreach(var stub in stubs)
                 // {
@@ -153,7 +153,7 @@ namespace Z0
 
             void Search()
             {
-                using var symbols = Alloc.symbols();
+                using var symbols = Dispense.symbols();
                 var host = typeof(Calc64);
                 var contract = typeof(ICalc64);
                 //var stubs = CodeCollector.CollectLive(symbols,host);
