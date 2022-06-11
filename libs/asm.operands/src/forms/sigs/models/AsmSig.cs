@@ -6,6 +6,8 @@ namespace Z0
 {
     using Asm;
 
+    using static core;
+
     using api = Asm.AsmSigs;
 
     [StructLayout(LayoutKind.Sequential,Pack=1), DataType("asm.sig")]

@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [LiteralProvider]
+    [LiteralProvider(api)]
     public readonly struct ApiGranules
     {
         public const string polybits = "polybits";
@@ -61,7 +61,6 @@ namespace Z0
         public const string jobs = "jobs";
 
         public const string capture = "capture";
-
 
         public const string refs = "refs";
 

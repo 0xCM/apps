@@ -11,6 +11,8 @@ namespace Z0
 
         public const string digits = nameof(digits);
 
+        public const string api = nameof(api);
+
         public const string clr = nameof(clr);
 
         public const string files = nameof(files);
