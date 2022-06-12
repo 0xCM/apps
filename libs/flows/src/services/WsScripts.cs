@@ -89,7 +89,7 @@ namespace Z0
             if(cmdflows.Count != 0)
             {
                 Index<ToolCmdFlow> records = cmdflows.ToArray();
-                AppSvc.TableEmit(records.View, WsApi.flow(project.Project));
+                AppSvc.TableEmit(records.View, CmdFlows.flow(project.Project));
                 result = (true,records);
             }
 

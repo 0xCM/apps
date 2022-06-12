@@ -4,10 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class ProjectCmd
+    public interface INamedEdge : IEdge, INamed
     {
-        [CmdOp("project/check/objhex")]
-        Outcome CheckObjHex(CmdArgs args)
-            => Coff.CheckObjHex(CmdFlows.context(Project()));
+
+    }
+
+    public interface INamedEdge<V> : INamedEdge, IEdge<V>
+    {
+
     }
 }

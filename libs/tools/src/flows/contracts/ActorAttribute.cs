@@ -4,10 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class ProjectCmd
+    [AttributeUsage(validOn: AttributeTargets.Class | AttributeTargets.Struct)]
+    public class ActorAttribute : Attribute
     {
-        [CmdOp("project/check/objhex")]
-        Outcome CheckObjHex(CmdArgs args)
-            => Coff.CheckObjHex(CmdFlows.context(Project()));
+
     }
 }

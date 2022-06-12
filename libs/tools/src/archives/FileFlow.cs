@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct WsDataFlow
+    public readonly struct FileFlow
     {
         public readonly FlowId Id;
 
@@ -29,7 +29,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        internal WsDataFlow(FlowId id, DataFlow<Actor,FS.FileUri,FS.FileUri> spec)
+        public FileFlow(FlowId id, DataFlow<Actor,FS.FileUri,FS.FileUri> spec)
         {
             Id = id;
             Spec = spec;

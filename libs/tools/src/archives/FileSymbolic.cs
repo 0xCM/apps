@@ -4,17 +4,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IDataNode<K,D>
-    {
-        K Id {get;}
+    using Windows;
 
-        D Def {get;}
+    public abstract class ArchiveLink<S,T>
+        where S : IRootedArchive
+        where T : IRootedArchive
+    {
+
     }
 
-    public class CmdFlows
+    public class FileSymbolic : AppService<FileSymbolic>
     {
-        [MethodImpl(Inline)]
-        public static CmdFlow<T> flow<T>(IActor actor, T src, T dst)
-            => new CmdFlow<T>(actor,src,dst);
+
+
     }
+
 }

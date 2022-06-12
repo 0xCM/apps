@@ -10,7 +10,7 @@ namespace Z0
         {
             var dst = dir + src.FileName;
             AppSvc.FileEmit(utf8(src), dst, TextEncodingKind.Utf8);
-            return DataFlows.flow(src,dst);
+            return Graphs.connect(src,dst);
         }
     }
 }

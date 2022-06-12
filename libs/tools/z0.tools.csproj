@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="$(Graphs)" />
+    <ProjectReference Include="$(Containers)" />
   </ItemGroup>
 
 </Project>

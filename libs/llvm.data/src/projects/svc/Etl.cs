@@ -8,7 +8,7 @@ namespace Z0
     {
         public void Etl(IProjectWs project)
         {
-            var context = WsApi.context(project);
+            var context = CmdFlows.context(project);
             AsmObjects.CollectObjects(context);
             AsmObjects.CollectObjSyms(context);
             AsmObjects.CollectCoffData(context);

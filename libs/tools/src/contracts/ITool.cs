@@ -4,10 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class ProjectCmd
+    [Free]
+    public interface ITool : IActor
     {
-        [CmdOp("project/check/objhex")]
-        Outcome CheckObjHex(CmdArgs args)
-            => Coff.CheckObjHex(CmdFlows.context(Project()));
+        ToolId ToolId {get;}
     }
+
 }

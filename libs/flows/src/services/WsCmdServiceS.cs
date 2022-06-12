@@ -12,7 +12,7 @@ namespace Z0
         protected CheckRunner CheckRunner => Wf.CheckRunner();
 
         protected virtual WsContext Context()
-            => WsApi.context(CmdRunner.Project());
+            => CmdFlows.context(CmdRunner.Project());
 
         [CmdOp("project")]
         protected virtual void LoadProject(CmdArgs args)

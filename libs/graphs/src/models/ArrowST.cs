@@ -4,18 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
-    public class DataFlowAttribute : Attribute
-    {
-
-    }
-
-   [AttributeUsage(validOn: AttributeTargets.Class | AttributeTargets.Struct)]
-    public class ActorAttribute : Attribute
-    {
-
-    }
-
     public readonly struct Arrow<S,T> : IArrow<S,T>
     {
         /// <summary>
@@ -61,47 +49,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator (S src, T dst)(Arrow<S,T> a)
             => (a.Source, a.Target);
-    }
-
-    [Free]
-    public interface IFlowType : IArrow
-    {
-        IActor Actor {get;}
-    }
-
-    public interface IFlow : IDataFlow
-    {
-        IFlowType FlowType {get;}
-
-        IActor IDataFlow.Actor
-            => FlowType.Actor;
-    }
-
-    public interface IFlow<S,T> : IFlow, IDataFlow<S,T>
-    {
-
-
-    }
-
-    [DataFlow]
-    public abstract class Flow<S,T> : IDataFlow<S,T>
-    {
-        public IFlowType FlowType {get;}
-
-        public S Source {get;}
-
-        public T Target {get;}
-
-        public IActor Actor => FlowType.Actor;
-
-        public string Descriptor
-            => FlowType.Format();
-
-        protected Flow(IFlowType flow, S src, T dst)
-        {
-            FlowType = flow;
-            Source =src;
-            Target = dst;
-        }
     }
 }

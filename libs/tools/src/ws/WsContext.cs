@@ -12,7 +12,7 @@ namespace Z0
 
         public readonly WsDataFlows Flows;
 
-        internal WsContext(IProjectWs project, WsDataFlows flows)
+        public WsContext(IProjectWs project, WsDataFlows flows)
         {
             Project = project;
             Catalog = flows.Catalog;

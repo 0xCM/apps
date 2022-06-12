@@ -3,20 +3,7 @@
 // See the LICENSE file in the project root for more information.
 namespace Windows
 {
-    using System;
-    using System.Runtime.InteropServices;
     using System.IO;
-
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
-    [Flags]
-    public enum SymLinkKind : uint
-    {
-        File = 0,
-
-        Directory = 1
-
-    }
 
     partial struct Kernel32
     {

@@ -5,15 +5,16 @@
 namespace Z0
 {
     [Free]
-    public interface ITool : IActor
+    public interface INamedVertex : IVertex, INamed
     {
-        ToolId ToolId {get;}
+
     }
 
     [Free]
-    public interface ITool<T> : ITool, IActor<T>
-        where T : ITool<T>, new()
-    {
+    public interface INamedVertex<V> : INamedVertex, IVertex<V>
+        where V : IEquatable<V>
 
+    {
     }
+
 }

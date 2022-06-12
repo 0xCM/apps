@@ -5,12 +5,8 @@
 namespace Z0
 {
     [Free]
-    public interface IVertex : IExpr
+    public interface IFlowType : IArrow
     {
-        object Value {get;}
-
-        DataList<Vertex> Targets {get;}
+        IActor Actor {get;}
     }
-
-
 }

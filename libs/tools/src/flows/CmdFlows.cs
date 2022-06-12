@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public class WsApi : AppService<WsApi>
+    public class CmdFlows : AppService<CmdFlows>
     {
         static AppDb AppDb => GlobalSvc.Instance.AppDb;
 
@@ -14,19 +14,53 @@ namespace Z0
             => ProjectWs.create(root, id);
 
         public static WsContext context(IProjectWs project)
-            => new WsContext(project, flows(project.Project));
+            => new WsContext(project, CmdFlows.flows(project.Project));
 
-        public static FS.FilePath flow(ProjectId project, ScriptId script)
-            => data(project).Path(Tables.filename<ToolCmdFlow>(script));
+        public static FileFlow flow(in ToolCmdFlow src)
+        {
+            var flow = CmdFlows.flow(src.TargetName, src.SourcePath.ToUri(), src.TargetPath.ToUri());
+            return new FileFlow(identify(flow), flow);
+        }
 
-        public static FS.FilePath flow(ProjectId id)
-            => data(id).Path(FS.file(string.Format("{0}.build.flows", id), FS.Csv));
+        [MethodImpl(Inline)]
+        public static DataFlow<Actor,S,T> flow<S,T>(Identifier actor, S src, T dst)
+            => new DataFlow<Actor,S,T>(actor,src,dst);
+
+        [MethodImpl(Inline)]
+        public static FlowId identify<A,S,T>(in DataFlow<A,S,T> src)
+            where A : IActor
+            where S : ITextual
+            where T : ITextual
+        {
+            var a = alg.hash.marvin(src.Actor.Name.Format());
+            var s = alg.hash.marvin(src.Source.Format());
+            var t = alg.hash.marvin(src.Target.Format());
+            return new FlowId(a,s,t);
+        }
+
+        [MethodImpl(Inline)]
+        public static Arrow<S,T> flow<S,T>(S src, T dst)
+            => new Arrow<S,T>(src, dst);
+
+        [MethodImpl(Inline)]
+        public static Arrow<S,T,K> flow<S,T,K>(S src, T dst, K kind)
+            where K : unmanaged
+                => new Arrow<S,T,K>(src, dst, kind);
+
+
+        [MethodImpl(Inline)]
+        public static CmdFlow<T> flow<T>(IActor actor, T src, T dst)
+            => new CmdFlow<T>(actor,src,dst);
+
 
         public static DbTargets data(ProjectId id)
             => AppDb.ProjectData(id);
 
         public static DbTargets data(ProjectId id, string scope)
             => AppDb.ProjectData(id).Targets(scope);
+
+        public static FS.FilePath flow(ProjectId id)
+            => data(id).Path(FS.file(string.Format("{0}.build.flows", id), FS.Csv));
 
         public static FS.FilePath table<T>(ProjectId project)
             where T : struct
@@ -38,12 +72,6 @@ namespace Z0
 
         public static FS.FilePath path(ProjectId project, string suffix, FileKind kind)
             => data(project).Path(FS.file(string.Format("{0}.{1}", project, suffix), kind.Ext()));
-
-        public static WsDataFlow flow(in ToolCmdFlow src)
-        {
-            var flow = DataFlows.flow(src.TargetName, src.SourcePath.ToUri(), src.TargetPath.ToUri());
-            return new WsDataFlow(DataFlows.identify(flow), flow);
-        }
 
         public static WsDataFlows flows(ProjectId id)
         {

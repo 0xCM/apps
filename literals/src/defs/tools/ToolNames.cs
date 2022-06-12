@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [LiteralProvider]
+    [LiteralProvider("tools")]
     public readonly struct ToolNames
     {
         public const string clang = "clang";

@@ -93,7 +93,7 @@ namespace Z0
             Xed = xed;
             Wf = xed.Wf;
             var projects = Projects;
-            Ws = WsApi.project(AppDb.Targets(), Identifier);
+            Ws = CmdFlows.project(AppDb.Targets(), Identifier);
             RuntimeState = new(NextId());
             RuleTables = Xed.Views.RuleTables;
             _Emitter = Emitter.create(this, StatusWriter);

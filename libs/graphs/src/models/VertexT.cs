@@ -5,42 +5,6 @@
 namespace Z0
 {
 
-    public interface INamedEdge : IEdge, INamed
-    {
-
-    }
-
-    public interface INamedEdge<V> : INamedEdge, IEdge<V>
-    {
-
-    }
-    [Free]
-    public interface INamedVertex : IVertex, INamed
-    {
-
-    }
-
-    [Free]
-    public interface INamedVertex<V> : INamedVertex, IVertex<V>
-        where V : IEquatable<V>
-
-    {
-    }
-    [Free]
-    public interface IVertex<V> : IVertex
-        where V : IEquatable<V>
-    {
-        new V Value {get;}
-
-        new DataList<Vertex<V>> Targets {get;}
-
-        object IVertex.Value
-            => Value;
-
-        DataList<Vertex> IVertex.Targets
-            => new DataList<Vertex>(Targets.Map(x => (Vertex)x));
-    }
-
     public class Vertex<T> : IVertex<T>
         where T : IEquatable<T>
     {

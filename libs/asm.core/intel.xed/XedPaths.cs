@@ -113,7 +113,7 @@ namespace Z0
         }
 
         public FS.FolderPath DisasmTargets(IProjectWs project)
-            => WsApi.data(project.Project, "xed.disasm");
+            => CmdFlows.data(project.Project, "xed.disasm");
 
         public FS.FilePath DisasmFieldsPath(IProjectWs project, in FileRef src)
             => DisasmTargets(project) + FS.file(string.Format("{0}.fields", src.Path.FileName.WithoutExtension), FS.Txt);

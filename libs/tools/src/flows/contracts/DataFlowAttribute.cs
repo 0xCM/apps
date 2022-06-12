@@ -4,10 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class ProjectCmd
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
+    public class DataFlowAttribute : Attribute
     {
-        [CmdOp("project/check/objhex")]
-        Outcome CheckObjHex(CmdArgs args)
-            => Coff.CheckObjHex(CmdFlows.context(Project()));
+
     }
 }

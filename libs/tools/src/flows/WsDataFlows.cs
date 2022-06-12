@@ -8,15 +8,26 @@ namespace Z0
 
     public class WsDataFlows
     {
+        static AppDb AppDb => GlobalSvc.Instance.AppDb;
+
+        public static DbTargets data(ProjectId id)
+            => AppDb.ProjectData(id);
+
+        public static DbTargets data(ProjectId id, string scope)
+            => AppDb.ProjectData(id).Targets(scope);
+
+        public static FS.FilePath flow(ProjectId project, ScriptId script)
+            => data(project).Path(Tables.filename<ToolCmdFlow>(script));
+
         ConstLookup<FS.FileUri,List<FS.FileUri>> Lookup;
 
         ConstLookup<FS.FileUri,FS.FileUri> Ancestors;
 
-        Index<WsDataFlow> Data;
+        Index<FileFlow> Data;
 
         public readonly FileCatalog Catalog;
 
-        public ref readonly Index<WsDataFlow> Completed
+        public ref readonly Index<FileFlow> Completed
         {
             [MethodImpl(Inline)]
             get => ref Data;
@@ -123,18 +134,18 @@ namespace Z0
             }
         }
 
-        internal WsDataFlows(FileCatalog files, ReadOnlySpan<ToolCmdFlow> src)
+        public WsDataFlows(FileCatalog files, ReadOnlySpan<ToolCmdFlow> src)
         {
             Catalog = files;
             var count = src.Length;
-            var flows = alloc<WsDataFlow>(count);
+            var flows = alloc<FileFlow>(count);
             var lookup = dict<FS.FileUri,List<FS.FileUri>>();
             var lineage = dict<FS.FileUri,FS.FileUri>();
 
             for(var i=0; i<count; i++)
             {
                 ref var dst = ref seek(flows,i);
-                dst = WsApi.flow(skip(src,i));
+                dst = CmdFlows.flow(skip(src,i));
                 if(lookup.TryGetValue(dst.Source, out var targets))
                 {
                     targets.Add(dst.Target);

@@ -10,7 +10,7 @@ namespace Z0
     {
         public void GenProjectObjects(IProjectWs project)
         {
-            var context = WsApi.context(project);
+            var context = CmdFlows.context(project);
             var catalog = context.Catalog;
             var files = catalog.Entries(FileKind.Obj, FileKind.O);
             var count = files.Count;
