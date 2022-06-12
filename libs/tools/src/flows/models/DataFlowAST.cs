@@ -4,12 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [DataFlow]
-    public abstract class DataFlow<F,A,S,T> : IDataFlow<A,S,T>
-        where A : IActor
-        where F : DataFlow<F,A,S,T>, new()
+    public class DataFlow<A,S,T> : IDataFlow<A,S,T>
     {
-        public static F Instance = new();
+        public readonly FlowId Id;
 
         public readonly A Actor;
 
@@ -18,14 +15,15 @@ namespace Z0
         public readonly T Target;
 
         [MethodImpl(Inline)]
-        protected DataFlow(A actor, S src, T dst)
+        public DataFlow(A actor, S src, T dst)
         {
+            Id = CmdFlows.identify(actor,src,dst);
             Actor = actor;
             Source = src;
             Target = dst;
         }
 
-        public virtual string Format()
+        public string Format()
             => string.Format("{0}:{1} -> {2}", Actor, Source, Target);
 
         public override string ToString()
@@ -39,5 +37,8 @@ namespace Z0
 
         T IArrow<S,T>.Target
             => Target;
+
+        IActor IDataFlow.Actor
+            => new Actor(Actor.ToString());
     }
 }

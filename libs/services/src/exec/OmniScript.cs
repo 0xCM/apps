@@ -12,7 +12,7 @@ namespace Z0
 
         CmdLineRunner CmdRunner => Wf.CmdLineRunner();
 
-        public void RunExe(ToolCmdFlow flow)
+        public void RunExe(CmdFlow flow)
         {
             var running = Running(string.Format("Executing {0}", flow.TargetPath.ToUri()));
             var result = Run(flow.TargetPath, CmdVars.Empty, quiet: true, out var response);
@@ -104,9 +104,9 @@ namespace Z0
                 return (false, errors.Delimit(Chars.NL).Format());
        }
 
-        public Outcome<Index<ToolCmdFlow>> RunScript(ProjectId project, ScriptId script, string srcid)
+        public Outcome<Index<CmdFlow>> RunScript(ProjectId project, ScriptId script, string srcid)
         {
-            var cmdflows = list<ToolCmdFlow>();
+            var cmdflows = list<CmdFlow>();
             var result = RunProjectScript(project, srcid, script, true, out var flows);
             if(result)
             {
@@ -119,7 +119,7 @@ namespace Z0
             return result;
         }
 
-        public Outcome RunToolScript(FS.FilePath src, CmdVars vars, bool quiet, out ReadOnlySpan<ToolCmdFlow> flows)
+        public Outcome RunToolScript(FS.FilePath src, CmdVars vars, bool quiet, out ReadOnlySpan<CmdFlow> flows)
         {
             flows = default;
             var result = Outcome.Success;
@@ -136,12 +136,12 @@ namespace Z0
             if(result.Fail)
                 return result;
 
-            flows = ToolCmdFlow.parse(response);
+            flows = CmdFlow.parse(response);
 
             return result;
         }
 
-        public Outcome RunProjectScript(ProjectId project, string srcid, Subject scope, ScriptId script, bool quiet, out ReadOnlySpan<ToolCmdFlow> flows)
+        public Outcome RunProjectScript(ProjectId project, string srcid, Subject scope, ScriptId script, bool quiet, out ReadOnlySpan<CmdFlow> flows)
         {
             var path = Ws.Projects().Script(project, scope, script, FS.Cmd);
             var result = Outcome.Success;
@@ -150,7 +150,7 @@ namespace Z0
             return RunToolScript(path, vars.ToCmdVars(), quiet, out flows);
         }
 
-        public Outcome RunProjectScript(ProjectId project, string srcid, ScriptId script, bool quiet, out ReadOnlySpan<ToolCmdFlow> flows)
+        public Outcome RunProjectScript(ProjectId project, string srcid, ScriptId script, bool quiet, out ReadOnlySpan<CmdFlow> flows)
         {
             var path = Ws.Projects().Script(project, script, FS.Cmd);
             var result = Outcome.Success;
@@ -159,17 +159,17 @@ namespace Z0
             return RunToolScript(path, vars.ToCmdVars(), quiet, out flows);
         }
 
-        public Outcome RunProjectScript(ProjectId project, ScriptId script, bool quiet, out ReadOnlySpan<ToolCmdFlow> flows)
+        public Outcome RunProjectScript(ProjectId project, ScriptId script, bool quiet, out ReadOnlySpan<CmdFlow> flows)
         {
             var path = Ws.Projects().Script(project, script, FS.Cmd);
             var result = Outcome.Success;
             return RunToolScript(path, CmdVars.Empty, quiet, out flows);
         }
 
-        public Outcome RunProjectScripts(ProjectId project, string match, ScriptId script, bool quiet, out ReadOnlySpan<ToolCmdFlow> flows)
+        public Outcome RunProjectScripts(ProjectId project, string match, ScriptId script, bool quiet, out ReadOnlySpan<CmdFlow> flows)
         {
             var result = Outcome.Success;
-            var buffer = list<ToolCmdFlow>();
+            var buffer = list<CmdFlow>();
             var paths = @readonly(Ws.Projects().Scripts(project).Files(FS.Cmd).Where(x => x.Format().StartsWith(match)));
             var count = paths.Length;
             for(var i=0; i<count; i++)
@@ -188,7 +188,7 @@ namespace Z0
             return result;
         }
 
-        public Outcome RunProjectScript(FS.FolderPath root, string src, ScriptId script, bool quiet, out ReadOnlySpan<ToolCmdFlow> flows)
+        public Outcome RunProjectScript(FS.FolderPath root, string src, ScriptId script, bool quiet, out ReadOnlySpan<CmdFlow> flows)
         {
             var result = Outcome.Success;
             var vars = WsCmdVars.create();
@@ -294,7 +294,7 @@ namespace Z0
         public Outcome RunProjectScript(ProjectId project, string src, Subject scope, ScriptId script, bool quiet)
             => RunProjectScript(project, src, scope, script, quiet, out _);
 
-        public Outcome RunProjectScript(ProjectId project, string src, Subject scope, ScriptId script, out ReadOnlySpan<ToolCmdFlow> flows)
+        public Outcome RunProjectScript(ProjectId project, string src, Subject scope, ScriptId script, out ReadOnlySpan<CmdFlow> flows)
             => RunProjectScript(project, src, scope, script, true, out flows);
 
         void ReceiveCmdStatusQuiet(in string src)

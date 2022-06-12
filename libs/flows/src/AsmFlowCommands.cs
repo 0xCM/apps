@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static FileFlowTypes;
+    using static WsFileFlows;
 
     public class AsmFlowCommands : AppService<AsmFlowCommands>
     {

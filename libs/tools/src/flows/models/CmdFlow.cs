@@ -7,13 +7,13 @@ namespace Z0
     using static core;
 
     [Record(TableId)]
-    public struct ToolCmdFlow
+    public struct CmdFlow
     {
-        public static ReadOnlySpan<ToolCmdFlow> parse(ReadOnlySpan<TextLine> src)
+        public static ReadOnlySpan<CmdFlow> parse(ReadOnlySpan<TextLine> src)
         {
             var count = src.Length;
             var counter = 0u;
-            var dst = span<ToolCmdFlow>(count);
+            var dst = span<CmdFlow>(count);
             for(var i=0; i<count; i++)
             {
                 ref readonly var line = ref skip(src,i);
@@ -36,7 +36,7 @@ namespace Z0
                         var a = text.left(flow,j).Trim();
                         var b = text.right(flow,j+2).Trim();
                         if(nonempty(a) && nonempty(b))
-                            seek(dst,counter++) = new ToolCmdFlow(tool, FS.path(a), FS.path(b));
+                            seek(dst,counter++) = new CmdFlow(tool, FS.path(a), FS.path(b));
                     }
                 }
             }
@@ -64,7 +64,7 @@ namespace Z0
         public FS.FilePath TargetPath;
 
         [MethodImpl(Inline)]
-        public ToolCmdFlow(Tool tool, FS.FilePath src, FS.FilePath dst)
+        public CmdFlow(Tool tool, FS.FilePath src, FS.FilePath dst)
         {
             Tool = tool;
             SourceName = src.FileName.Format();
@@ -79,13 +79,10 @@ namespace Z0
         public override string ToString()
             => Format();
 
-        public static implicit operator CmdFlow<FS.FilePath>(ToolCmdFlow src)
-            => new CmdFlow<FS.FilePath>(src.Tool, src.SourcePath, src.TargetPath);
-
-        public static ToolCmdFlow Empty
+        public static CmdFlow Empty
         {
             [MethodImpl(Inline)]
-            get => new ToolCmdFlow(Tool.Empty, FS.FilePath.Empty, FS.FilePath.Empty);
+            get => new CmdFlow(Tool.Empty, FS.FilePath.Empty, FS.FilePath.Empty);
         }
     }
 }

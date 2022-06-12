@@ -5,7 +5,7 @@
 namespace Z0
 {
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public readonly struct FlowId : IEquatable<FlowId>
+    public readonly record struct FlowId : IEquatable<FlowId>, IHashed<FlowId>, IComparable<FlowId>
     {
         public readonly Hex32 ActorId;
 
@@ -13,26 +13,39 @@ namespace Z0
 
         public readonly Hex32 TargetId;
 
-        readonly Hex32 HashCode;
+        public readonly Hash32 Hash;
 
         [MethodImpl(Inline)]
-        public FlowId(Hex32 actor, Hex32 src, Hex32 dst)
+        public FlowId(uint actor, uint src, uint dst)
         {
             ActorId = actor;
             SourceId = src;
             TargetId = dst;
-            HashCode = alg.hash.combine(actor, src, dst);
+            Hash = alg.hash.combine(actor, src, dst);
         }
 
+        [MethodImpl(Inline)]
+        public int CompareTo(FlowId src)
+        {
+            var result = ActorId.CompareTo(src.ActorId);
+            if(result == 0)
+            {
+                result = SourceId.CompareTo(src.SourceId);
+                if(result == 0)
+                    result = TargetId.CompareTo(src.TargetId);
+            }
+            return result;
+        }
+
+        Hash32 IHashed.Hash
+            => Hash;
+
         public override int GetHashCode()
-            => (int)HashCode;
+            => Hash;
 
         [MethodImpl(Inline)]
         public bool Equals(FlowId src)
             => ActorId == src.ActorId && SourceId == src.SourceId && TargetId == src.TargetId;
-
-        public override bool Equals(object src)
-            => src is FlowId x && Equals(x);
 
         public string Format()
             => string.Format("{0:x8}{1:x8}{2:x8}", (uint)ActorId, (uint)SourceId, (uint)TargetId);

@@ -68,6 +68,5 @@ namespace Z0
 
         public static RecordSet<T> Empty
             => new RecordSet<T>(core.array<T>());
-
     }
 }

@@ -31,7 +31,7 @@ namespace Z0
         public FS.FilePath AsmInstructionTable(ProjectId project)
             => CmdFlows.table<AsmInstructionRow>(project);
 
-        public Outcome<Index<ToolCmdFlow>> BuildLlc(IProjectWs project, LlvmSubtarget subtarget, bool runexe = false)
+        public Outcome<Index<CmdFlow>> BuildLlc(IProjectWs project, LlvmSubtarget subtarget, bool runexe = false)
         {
             var scriptid = subtarget switch
             {

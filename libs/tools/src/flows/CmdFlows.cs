@@ -13,45 +13,28 @@ namespace Z0
         public static IProjectWs project(FS.FolderPath root, ProjectId id)
             => ProjectWs.create(root, id);
 
+        [MethodImpl(Inline)]
+        public static Relation<K,S,T> relation<K,S,T>(K kind, S src, T dst)
+            where K : unmanaged
+            where S : unmanaged
+            where T : unmanaged
+                => new Relation<K,S,T>(kind, src, dst);
+
+        [MethodImpl(Inline)]
         public static WsContext context(IProjectWs project)
             => new WsContext(project, CmdFlows.flows(project.Project));
 
-        public static FileFlow flow(in ToolCmdFlow src)
-        {
-            var flow = CmdFlows.flow(src.TargetName, src.SourcePath.ToUri(), src.TargetPath.ToUri());
-            return new FileFlow(identify(flow), flow);
-        }
+        [MethodImpl(Inline)]
+        public static FileFlow flow(in CmdFlow src)
+            => new FileFlow(CmdFlows.flow(src.Tool, src.SourcePath.ToUri(), src.TargetPath.ToUri()));
 
         [MethodImpl(Inline)]
-        public static DataFlow<Actor,S,T> flow<S,T>(Identifier actor, S src, T dst)
-            => new DataFlow<Actor,S,T>(actor,src,dst);
+        public static DataFlow<Actor,S,T> flow<S,T>(Tool tool, S src, T dst)
+            => new DataFlow<Actor,S,T>(tool,src,dst);
 
         [MethodImpl(Inline)]
-        public static FlowId identify<A,S,T>(in DataFlow<A,S,T> src)
-            where A : IActor
-            where S : ITextual
-            where T : ITextual
-        {
-            var a = alg.hash.marvin(src.Actor.Name.Format());
-            var s = alg.hash.marvin(src.Source.Format());
-            var t = alg.hash.marvin(src.Target.Format());
-            return new FlowId(a,s,t);
-        }
-
-        [MethodImpl(Inline)]
-        public static Arrow<S,T> flow<S,T>(S src, T dst)
-            => new Arrow<S,T>(src, dst);
-
-        [MethodImpl(Inline)]
-        public static Arrow<S,T,K> flow<S,T,K>(S src, T dst, K kind)
-            where K : unmanaged
-                => new Arrow<S,T,K>(src, dst, kind);
-
-
-        [MethodImpl(Inline)]
-        public static CmdFlow<T> flow<T>(IActor actor, T src, T dst)
-            => new CmdFlow<T>(actor,src,dst);
-
+        public static FlowId identify<A,S,T>(A actor, S src, T dst)
+            => new FlowId(hash(actor), hash(src), hash(dst));
 
         public static DbTargets data(ProjectId id)
             => AppDb.ProjectData(id);
@@ -70,21 +53,18 @@ namespace Z0
             where T : struct
                 => data(project,scope).Path(FS.file(string.Format("{0}.{1}", project, TableId.identify<T>()),FS.Csv));
 
-        public static FS.FilePath path(ProjectId project, string suffix, FileKind kind)
-            => data(project).Path(FS.file(string.Format("{0}.{1}", project, suffix), kind.Ext()));
-
         public static WsDataFlows flows(ProjectId id)
         {
             var path = flow(id);
             var lines = path.ReadLines(TextEncodingKind.Asci,true);
-            var buffer = alloc<ToolCmdFlow>(lines.Length - 1);
+            var buffer = alloc<CmdFlow>(lines.Length - 1);
             var src = lines.Reader();
             src.Next(out _);
             var i = 0u;
             while(src.Next(out var line))
             {
                 var cells = text.trim(text.split(line,Chars.Pipe));
-                Require.equal(cells.Length,ToolCmdFlow.FieldCount);
+                Require.equal(cells.Length,CmdFlow.FieldCount);
                 var reader = cells.Reader();
                 ref var dst = ref seek(buffer,i++);
                 Tools.parse(reader.Next(), out dst.Tool).Require();

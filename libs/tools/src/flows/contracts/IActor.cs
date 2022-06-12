@@ -14,11 +14,4 @@ namespace Z0
     {
 
     }
-
-    public interface IActor<A,K> : IActor<A>
-        where A : IActor<A,K>
-    {
-        ReadOnlySpan<K> Capabilities {get;}
-    }
-
 }

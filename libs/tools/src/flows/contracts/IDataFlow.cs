@@ -8,7 +8,6 @@ namespace Z0
     public interface IDataFlow : IArrow
     {
         IActor Actor {get;}
-
     }
 
     /// <summary>
@@ -25,11 +24,7 @@ namespace Z0
 
     [Free]
     public interface IDataFlow<A,S,T> : IDataFlow<S,T>
-        where A : IActor
     {
         new A Actor {get;}
-
-        IActor IDataFlow.Actor
-            => Actor;
     }
 }

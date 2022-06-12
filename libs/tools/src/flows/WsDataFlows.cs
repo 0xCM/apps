@@ -17,7 +17,7 @@ namespace Z0
             => AppDb.ProjectData(id).Targets(scope);
 
         public static FS.FilePath flow(ProjectId project, ScriptId script)
-            => data(project).Path(Tables.filename<ToolCmdFlow>(script));
+            => data(project).Path(Tables.filename<CmdFlow>(script));
 
         ConstLookup<FS.FileUri,List<FS.FileUri>> Lookup;
 
@@ -134,7 +134,7 @@ namespace Z0
             }
         }
 
-        public WsDataFlows(FileCatalog files, ReadOnlySpan<ToolCmdFlow> src)
+        public WsDataFlows(FileCatalog files, ReadOnlySpan<CmdFlow> src)
         {
             Catalog = files;
             var count = src.Length;

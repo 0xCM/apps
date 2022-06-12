@@ -23,22 +23,22 @@ namespace Z0
                 return src.SrcFiles();
         }
 
-        public Outcome<Index<ToolCmdFlow>> BuildAsm(IProjectWs src)
+        public Outcome<Index<CmdFlow>> BuildAsm(IProjectWs src)
             => RunBuildScripts(src, "build", "asm", false);
 
-        public Outcome<Index<ToolCmdFlow>> BuildScoped(IProjectWs src, ScriptId script, string scope)
+        public Outcome<Index<CmdFlow>> BuildScoped(IProjectWs src, ScriptId script, string scope)
             => RunBuildScripts(src, script, scope, false);
 
-        public Outcome<Index<ToolCmdFlow>> BuildC(IProjectWs src, bool runexe = false)
+        public Outcome<Index<CmdFlow>> BuildC(IProjectWs src, bool runexe = false)
             => RunBuildScripts(src, "c-build", "c", runexe);
 
-        public Outcome<Index<ToolCmdFlow>> BuildCpp(IProjectWs src, bool runexe = false)
+        public Outcome<Index<CmdFlow>> BuildCpp(IProjectWs src, bool runexe = false)
             => RunBuildScripts(src, "cpp-build", "cpp", runexe);
 
-        public Outcome<Index<ToolCmdFlow>> RunBuildScripts(IProjectWs project, ScriptId scriptid, Subject? scope, bool runexe)
+        public Outcome<Index<CmdFlow>> RunBuildScripts(IProjectWs project, ScriptId scriptid, Subject? scope, bool runexe)
             => RunBuildScripts(project, scriptid, scope, flow => HandleBuildResponse(flow, runexe));
 
-        void RunExe(ToolCmdFlow flow)
+        void RunExe(CmdFlow flow)
         {
             var running = Running(string.Format("Executing {0}", flow.TargetPath.ToUri()));
             var result = OmniScript.Run(flow.TargetPath, CmdVars.Empty, quiet: true, out var response);
@@ -53,16 +53,16 @@ namespace Z0
             }
         }
 
-        void HandleBuildResponse(ToolCmdFlow flow, bool runexe)
+        void HandleBuildResponse(CmdFlow flow, bool runexe)
         {
             if(flow.TargetPath.FileName.Is(FS.Exe) && runexe)
                 RunExe(flow);
         }
 
-        public Outcome<Index<ToolCmdFlow>> RunBuildScripts(IProjectWs project, ScriptId scriptid, Subject? scope, Action<ToolCmdFlow> receiver)
+        public Outcome<Index<CmdFlow>> RunBuildScripts(IProjectWs project, ScriptId scriptid, Subject? scope, Action<CmdFlow> receiver)
         {
-            var result = Outcome<Index<ToolCmdFlow>>.Success;
-            var cmdflows = list<ToolCmdFlow>();
+            var result = Outcome<Index<CmdFlow>>.Success;
+            var cmdflows = list<CmdFlow>();
             if(nonempty(scriptid))
             {
                 var files = SourceFiles(project, scope);
@@ -88,7 +88,7 @@ namespace Z0
 
             if(cmdflows.Count != 0)
             {
-                Index<ToolCmdFlow> records = cmdflows.ToArray();
+                Index<CmdFlow> records = cmdflows.ToArray();
                 AppSvc.TableEmit(records.View, CmdFlows.flow(project.Project));
                 result = (true,records);
             }

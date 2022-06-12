@@ -5,7 +5,7 @@
 namespace Z0
 {
     using static core;
-    using static FileFlowTypes;
+    using static WsFileFlows;
 
     partial class ProjectCmd
     {

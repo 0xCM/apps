@@ -6,14 +6,33 @@ namespace Z0
 {
     public interface IRelation
     {
-        Name Source {get;}
+        dynamic Kind {get;}
 
-        Name Target {get;}
+        dynamic Source {get;}
+
+        dynamic Target {get;}
     }
 
-    public interface IRelation<K> : IRelation
+    public interface IRelation<K,S,T> : IRelation
         where K : unmanaged
+        where S : unmanaged
+        where T : unmanaged
     {
-        K Kind {get;}
+        new K Kind {get;}
+
+
+        new S Source {get;}
+
+        new T Target {get;}
+
+        dynamic IRelation.Kind
+            => Kind;
+
+        dynamic IRelation.Source
+            => Source;
+
+        dynamic IRelation.Target
+            => Target;
+
     }
 }

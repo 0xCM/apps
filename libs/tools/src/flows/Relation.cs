@@ -4,28 +4,30 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [StructLayout(LayoutKind.Sequential, Pack =1)]
-    public readonly struct Relation : IRelation
+    public class Relation
     {
-        public Name Source {get;}
+        public readonly dynamic Kind;
 
-        public Name Target {get;}
+        public readonly dynamic Source;
+
+        public readonly dynamic Target;
 
         [MethodImpl(Inline)]
-        public Relation(Name src, Name dst)
+        public Relation(dynamic kind, dynamic src, dynamic dst)
         {
+            Kind = kind;
             Source = src;
             Target = dst;
         }
 
-        public uint Hash
+        public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => alg.hash.combine(Source.Hash, Target.Hash);
+            get => alg.hash.combine(hash(Kind), hash(Source), hash(Target));
         }
 
         public string Format()
-            => string.Format("{0} -> {1}", Source, Target);
+            => string.Format("{0}:{1} -> {2}", Source, Target);
 
         public override string ToString()
             => Format();

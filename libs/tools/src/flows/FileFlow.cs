@@ -4,9 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Free]
-    public interface ITool : IActor
+    public sealed class FileFlow : DataFlow<Actor,FS.FileUri,FS.FileUri>
     {
-        ToolId ToolId {get;}
+        [MethodImpl(Inline)]
+        public FileFlow(DataFlow<Actor,FS.FileUri,FS.FileUri> spec)
+            : base(spec.Actor, spec.Source, spec.Target)
+        {
+
+        }
     }
 }

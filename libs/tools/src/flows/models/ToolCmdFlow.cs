@@ -4,9 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Free]
-    public interface ITool : IActor
+    using static core;
+
+    public class ToolCmdFlow<S,T> : DataFlow<Tool,S,T>
     {
-        ToolId ToolId {get;}
+        public ToolCmdFlow(Tool tool, S src, T dst)
+            : base(tool, src, dst)
+        {
+
+        }
+
     }
 }
