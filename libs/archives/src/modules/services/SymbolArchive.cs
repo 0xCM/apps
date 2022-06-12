@@ -8,19 +8,19 @@ namespace Z0
 
     public class SymbolArchive : AppService<SymbolArchive>
     {
-        public DbSources Sources()
+        public ISourceArchive Sources()
             => new DbSources(Env.CacheRoot, symbols);
 
-        public DbSources Sources(string scope)
+        public ISourceArchive Sources(string scope)
             => new DbSources(Sources(), scope);
-        
-        public DbSources DotNet()
+
+        public ISourceArchive DotNet()
             => Sources(dotnet);
 
-        public DbSources DotNet(string name)
-            => DotNet().Scoped(name);
+        public ISourceArchive DotNet(string name)
+            => DotNet().Sources(name);
 
-        public DbSources DotNet(byte major, byte minor, byte revision)
-            => DotNet(FS.FolderName.version(major, minor, revision).Format());
+        public FS.FolderPath DotNet(byte major, byte minor, byte revision)
+            => DotNet(FS.FolderName.version(major, minor, revision).Format()).Root;
     }
 }

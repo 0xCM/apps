@@ -11,6 +11,9 @@ namespace Z0
         DumpArchive Dumps => Wf.DumpArchive();
 
         public void DumpImageHex(byte major = 6, byte minor = 0, byte revision = 203)
-            => MemoryEmitter.create(Wf).DumpImages(Symbols.DotNet(major, minor, revision), Dumps.DotNetTargets(major,minor,revision));
+            => MemoryEmitter.create(Wf).DumpImages(
+                Symbols.DotNet(major, minor, revision),
+                Dumps.DotNetTargets(major,minor,revision)
+                );
     }
 }

@@ -60,10 +60,10 @@ namespace Z0
             CommonState.Init(Wf,Ws);
         }
 
-        [CmdOp("settings/paths")]
+        [CmdOp("ws/archives")]
         protected void AppSetings()
         {
-            var paths = AppData.StorePaths;
+            var paths = AppData.WsPaths;
             var names = paths.StoreNames;
             for(var i=0; i<names.Length; i++)
             {

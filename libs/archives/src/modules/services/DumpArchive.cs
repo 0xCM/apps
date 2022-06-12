@@ -27,17 +27,17 @@ namespace Z0
         public FS.FolderPath DumpRoot()
             => Root;
 
-        public DbTargets DumpTargets()
+        public ITargetArchive DumpTargets()
             => new DbTargets(Root);
 
-        public DbTargets DumpTargets(string scope)
+        public ITargetArchive DumpTargets(string scope)
             => new DbTargets(Root, scope);
 
-        public DbTargets DotNetTargets()
+        public ITargetArchive DotNetTargets()
             => DumpTargets(dotnet);
 
-        public DbTargets DotNetTargets(byte major, byte minor, byte revision)
-            => DotNetTargets().Targets(FS.FolderName.version(major, minor, revision).Format());
+        public FS.FolderPath DotNetTargets(byte major, byte minor, byte revision)
+            => DotNetTargets().Targets(FS.FolderName.version(major, minor, revision).Format()).Root;
 
         public FS.Files Dumps()
             => DumpRoot().Files(FS.Dmp);

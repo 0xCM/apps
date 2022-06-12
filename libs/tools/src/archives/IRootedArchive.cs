@@ -8,56 +8,97 @@ namespace Z0
     {
         FS.FolderPath Root {get;}
 
-        /// <summary>
-        /// Returns all files provided by the source
-        /// </summary>
+        DbFiles DbFiles => Root;
+
+        ISourceArchive Sources()
+            => DbFiles.Sources();
+
+        ISourceArchive Sources(string scope)
+            => DbFiles.Sources(scope);
+
+        ITargetArchive Targets()
+            => new DbTargets(Root);
+
+        ITargetArchive Targets(string scope)
+            => DbFiles.Targets(scope);
+
+        ITargetArchive ProjectData(ProjectId id)
+            => DbFiles.ProjectData(id);
+
+        FS.FilePath Table<T>(ProjectId id)
+            where T : struct
+                => DbFiles.Table<T>(id);
+
         FS.Files Files()
-            => Root.Files(true);
+            => DbFiles.Files(true);
 
-        /// <summary>
-        /// Returns all source-provided files of specified kind
-        /// </summary>
-        /// <param name="kind">The kind</param>
         FS.Files Files(FileKind kind)
-            => Root.Files(kind.Ext(), true);
-
-        ListedFiles List()
-            => new ListedFiles(Root.EnumerateFiles(true).Array().Mapi((i,x) => new ListedFile(i,x)));
-
-        Deferred<FS.FilePath> Enumerate()
-            => Root.EnumerateFiles(true);
+            => DbFiles.Files(kind, true);
 
         FS.FileName File(string name, FileKind kind)
-            => FS.file(name, kind.Ext());
+            => DbFiles.File(name, kind);
 
         FS.FileName File(string @class, string name, FileKind kind)
-            => FS.file(string.Format("{0}.{1}", @class, name), kind.Ext());
+            => DbFiles.File(@class, name, kind);
 
         FS.FilePath Path(string name, FileKind kind)
-            => Root + File(name, kind);
+            => DbFiles.Path(name,kind);
 
         FS.FilePath Path(FS.FileName file)
-            => Root + file;
+            => DbFiles.Path(file);
+
+        FS.FilePath Path(string @class, string name, FileKind kind)
+            => DbFiles.Path(@class, name, kind);
 
         FS.FilePath Table<T>()
             where T : struct
-                => Root + Tables.filename<T>();
+                => DbFiles.Table<T>();
 
-        FS.FilePath Table<T>(string prefix)
-            where T : struct
-                => Root + Tables.filename<T>(prefix);
+        string Format()
+            => DbFiles.Format();
 
-        DbTargets Targets()
-            => new DbTargets(Root);
+        // /// <summary>
+        // /// Returns all files provided by the source
+        // /// </summary>
+        // FS.Files Files()
+        //     => Root.Files(true);
 
-        DbTargets Targets(string scope)
-            => new DbTargets(Root, scope);
+        // /// <summary>
+        // /// Returns all source-provided files of specified kind
+        // /// </summary>
+        // /// <param name="kind">The kind</param>
+        // FS.Files Files(FileKind kind)
+        //     => Root.Files(kind.Ext(), true);
 
-        DbSources Sources()
-            => new DbSources(Root);
+        // ListedFiles List()
+        //     => new ListedFiles(Root.EnumerateFiles(true).Array().Mapi((i,x) => new ListedFile(i,x)));
 
-        DbSources Sources(string scope)
-            => new DbSources(Root, scope);
+        // Deferred<FS.FilePath> Enumerate()
+        //     => Root.EnumerateFiles(true);
+
+        // FS.FileName File(string name, FileKind kind)
+        //     => FS.file(name, kind.Ext());
+
+        // FS.FileName File(string @class, string name, FileKind kind)
+        //     => FS.file(string.Format("{0}.{1}", @class, name), kind.Ext());
+
+        // FS.FilePath Path(string name, FileKind kind)
+        //     => Root + File(name, kind);
+
+        // FS.FilePath Path(FS.FileName file)
+        //     => Root + file;
+
+
+        // FS.FilePath Table<T>(string prefix)
+        //     where T : struct
+        //         => Root + Tables.filename<T>(prefix);
+
+
+        // DbSources Sources()
+        //     => new DbSources(Root);
+
+        // DbSources Sources(string scope)
+        //     => new DbSources(Root, scope);
     }
 
     public interface IRootedArchive<T> : IRootedArchive

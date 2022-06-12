@@ -8,19 +8,13 @@ namespace Z0
     {
         public static ref readonly EnvData AppEnv => ref Instance._AppEnv;
 
-        /// <summary>
-        /// $(ZDev)/codegen
-        /// </summary>
-        public static ref readonly DbTargets CgProjects => ref Instance._CgProjects;
+        public static ref readonly ITargetArchive CgProjects => ref Instance._CgProjects;
 
-        public static ref readonly DbSources ToolBase => ref Instance._Toolbase;
+        public static ref readonly ISourceArchive ToolBase => ref Instance._Toolbase;
 
-        /// <summary>
-        /// Settings read from a file collocated with the entry assembly
-        /// </summary>
         public static ref readonly Settings GlobalSettings => ref Instance._GlobalSettings;
 
-        public static ref readonly StorePaths StorePaths => ref Instance._StorePaths;
+        public static ref readonly WsArchives WsPaths => ref Instance._WsPaths;
 
         [MethodImpl(Inline)]
         public static AppData get() => Instance;
@@ -32,13 +26,13 @@ namespace Z0
 
         EnvData _AppEnv;
 
-        DbTargets _CgProjects;
+        ITargetArchive _CgProjects;
 
-        DbSources _Toolbase;
+        ISourceArchive _Toolbase;
 
         Settings _GlobalSettings;
 
-        StorePaths _StorePaths;
+        WsArchives _WsPaths;
 
         static Settings settings(FS.FilePath src)
         {
@@ -66,7 +60,7 @@ namespace Z0
             var path = FS.path(control.Location).FolderPath + FS.file(string.Format("{0}.settings", control.GetSimpleName()), FS.Csv);
             var _settings = settings(path);
             dst._GlobalSettings = _settings;
-            dst._StorePaths = Z0.StorePaths.load(_settings);
+            dst._WsPaths = Z0.WsArchives.load(_settings);
             dst._AppEnv = env;
             dst._PllExec = true;
             dst._CgProjects = new DbTargets(env.ZDev,"codegen");

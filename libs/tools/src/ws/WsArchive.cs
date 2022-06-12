@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public struct StorePath
+    public struct WsArchive : ISourceArchive<WsArchive>
     {
         [Render(32)]
         public string Name;
@@ -13,10 +13,16 @@ namespace Z0
         public FS.FolderPath Location;
 
         [MethodImpl(Inline)]
-        public StorePath(string name, FS.FolderPath dst)
+        public WsArchive(string name, FS.FolderPath dst)
         {
             Name = name;
             Location = dst;
+        }
+
+        public FS.FolderPath Root
+        {
+            [MethodImpl(Inline)]
+            get => Location;
         }
 
         public bool IsEmpty
@@ -37,6 +43,8 @@ namespace Z0
         public override string ToString()
             => Format();
 
-        public static StorePath Empty => new StorePath(EmptyString, FS.FolderPath.Empty);
+        public static WsArchive Empty => new WsArchive(EmptyString, FS.FolderPath.Empty);
+
+
     }
 }

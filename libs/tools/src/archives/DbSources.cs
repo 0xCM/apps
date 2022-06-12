@@ -6,75 +6,71 @@ namespace Z0
 {
     public readonly struct DbSources : ISourceArchive<DbSources>
     {
-        readonly FS.FolderPath Root;
+        public readonly DbFiles DbFiles {get;}
 
         [MethodImpl(Inline)]
         public DbSources(FS.FolderPath root, string scope)
         {
-            Root = root + FS.folder(scope);
+            DbFiles = root + FS.folder(scope);
         }
 
         [MethodImpl(Inline)]
         public DbSources(FS.FolderPath root)
         {
-            Root = root;
+            DbFiles = root;
         }
 
-        FS.FolderPath IRootedArchive.Root
-            => Root;
+        [MethodImpl(Inline)]
+        public DbSources(IRootedArchive root, string scope)
+        {
+            DbFiles = new DbFiles(root.Root + FS.folder(scope));
+        }
 
-        public DbSources Scoped(string scope)
-            => new DbSources(Sources(), scope);
+        [MethodImpl(Inline)]
+        public DbSources(IRootedArchive root)
+        {
+            DbFiles = new DbFiles(root.Root);
+        }
 
-        public FS.FolderPath Dir()
-            => Root;
+        public FS.FolderPath Root
+            => DbFiles;
 
-        public FS.FolderPath Sources()
-            => Root;
+        // public DbSources Sources(string scope)
+        //     => DbFiles.Sources(scope);
 
-        /// <summary>
-        /// Returns all files provided by the source
-        /// </summary>
-        public FS.Files Files()
-            => Sources().Files(true);
+        // public FS.Files Files()
+        //     => DbFiles.Files(true);
 
-        /// <summary>
-        /// Returns all source-provided files of specified kind
-        /// </summary>
-        /// <param name="kind">The kind</param>
-        public FS.Files Files(FileKind kind)
-            => Sources().Files(kind.Ext(), true);
+        // public FS.Files Files(FileKind kind)
+        //     => DbFiles.Files(kind, true);
 
-        public DbSources Sources(string scope)
-            => new DbSources(Sources(),scope);
+        // public FS.FileName File(string name, FileKind kind)
+        //     => DbFiles.File(name, kind);
 
-        public FS.FileName File(string name, FileKind kind)
-            => FS.file(name, kind.Ext());
+        // public FS.FileName File(string @class, string name, FileKind kind)
+        //     => DbFiles.File(@class, name, kind);
 
-        public FS.FileName File(string @class, string name, FileKind kind)
-            => FS.file(string.Format("{0}.{1}", @class, name), kind.Ext());
+        // public FS.FilePath Path(string name, FileKind kind)
+        //     => DbFiles.Path(name,kind);
 
-        public FS.FilePath Path(string name, FileKind kind)
-            => Sources() + File(name, kind);
+        // public FS.FilePath Path(FS.FileName file)
+        //     => DbFiles.Path(file);
 
-        public FS.FilePath Path(FS.FileName file)
-            => Sources() + file;
+        // public FS.FilePath Path(string @class, string name, FileKind kind)
+        //     => DbFiles.Path(@class, name, kind);
 
-        public FS.FilePath Path(string @class, string name, FileKind kind)
-            => Sources(@class).Path(File(@class, name,kind));
-
-        public FS.FilePath Table<T>()
-            where T : struct
-                => Sources() + Tables.filename<T>();
+        // public FS.FilePath Table<T>()
+        //     where T : struct
+        //         => DbFiles.Table<T>();
 
         public string Format()
-            => Dir().Format();
+            => DbFiles.Format();
 
         public override string ToString()
             => Format();
 
         public static implicit operator FS.FolderPath(DbSources src)
-            => src.Sources();
+            => src.DbFiles;
 
         public static DbSources Empty => new DbSources(FS.FolderPath.Empty);
     }

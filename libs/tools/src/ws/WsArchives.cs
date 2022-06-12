@@ -6,32 +6,32 @@ namespace Z0
 {
     using static core;
 
-    public class StorePaths
+    public class WsArchives
     {
-        public static StorePaths load(Settings src)
+        public static WsArchives load(Settings src)
         {
             var count = src.Count;
-            var dst = alloc<StorePath>(count);
+            var dst = alloc<WsArchive>(count);
             for(var i=0; i<src.Count; i++)
             {
                 ref readonly var setting = ref src[i];
-                seek(dst,i) = new StorePath(text.trim(setting.Name), FS.dir(setting.ValueText));
+                seek(dst,i) = new WsArchive(text.trim(setting.Name), FS.dir(setting.ValueText));
             }
-            return new StorePaths(dst);
+            return new WsArchives(dst);
         }
 
-        public StorePath Path(string name)
+        public WsArchive Path(string name)
         {
-            var dst = StorePath.Empty;
+            var dst = WsArchive.Empty;
             Lookup.Find(name, out dst);
             return dst;
         }
 
-        readonly Index<StorePath> Data;
+        readonly Index<WsArchive> Data;
 
-        readonly ConstLookup<string, StorePath> Lookup;
+        readonly ConstLookup<string, WsArchive> Lookup;
 
-        StorePaths(StorePath[] src)
+        WsArchives(WsArchive[] src)
         {
             Data = src;
             Lookup = src.Select(x => (x.Name,x)).ToDictionary();

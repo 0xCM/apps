@@ -1,12 +1,13 @@
 | Name        | Value                    |
-| Targets     | z:/data                  |
-| Sources     | y:/data/sources          |
+| Capture     | z:/capture
+| CodGen      | j:/z0/cg
 | Control     | c:/dev/ws/control        |
+| Deployments | c:/tools/z
+| Dev         | j:/z0                    |
+| LlvmRoot    | j:/llvm                  |
 | ProjectData | z:/data/projects         |
 | Projects    | c:/dev/ws/projects       |
-| Dev         | j:/z0                    |
+| Sources     | y:/data/sources          |
+| Targets     | z:/data                  |
 | Toolbase    | c:/dev/ws/projects/tools |
-| LlvmRoot    | j:/llvm                  |
 | XedRoot     | j:/source/xed            |
-| Capture     | z:/capture
-| Deployments | c:/tools/z

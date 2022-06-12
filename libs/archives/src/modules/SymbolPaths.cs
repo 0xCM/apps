@@ -31,7 +31,7 @@ namespace Z0
             => new DbSources(SymbolCacheRoot(), dotnet);
 
         public DbSources DotNetSymbolSource(string name)
-            => DotNetSymSources().Scoped(name);
+            => DotNetSymSources().Sources(name);
 
         public DbSources DotNetSymbolSource(byte major, byte minor, byte revision)
             => DotNetSymbolSource(FS.FolderName.version(major, minor, revision).Format());
