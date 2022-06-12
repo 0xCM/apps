@@ -20,6 +20,7 @@ namespace Z0
             public OmniScript OmniScript(IWfRuntime wf)
                 => Service<OmniScript>(wf);
 
+
         }
 
         static AppSvcCache AppServices => AppSvcCache.Instance;
@@ -38,5 +39,7 @@ namespace Z0
 
         public static AppDb AppDb(this IWfRuntime wf)
             => GlobalSvc.Instance.AppDb;
+
+
     }
 }

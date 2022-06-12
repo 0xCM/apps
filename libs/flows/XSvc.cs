@@ -29,6 +29,8 @@ namespace Z0
             public WsScripts WsScripts(IWfRuntime wf)
                 => Service<WsScripts>(wf);
 
+            public Tooling Tooling(IWfRuntime wf)
+                => Service<Tooling>(wf);
         }
 
         static Svc AppServices => Svc.Instance;
@@ -45,5 +47,8 @@ namespace Z0
 
         public static void RedirectEmissions(this IWfRuntime wf, string name, FS.FolderPath dst)
             => wf.RedirectEmissions(Loggers.emission(name, dst));
+
+        public static Tooling Tooling(this IWfRuntime wf)
+            => AppServices.Tooling(wf);
     }
 }
