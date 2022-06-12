@@ -2,11 +2,11 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
     using static core;
 
-    public class AsmFormDescriptors : SortedLookup<string,AsmFormDescriptor>
+    public class SdmFormDescriptors : SortedLookup<string,SdmFormDescriptor>
     {
         public const string FormKindName = "AsmFormKind";
 
@@ -49,14 +49,14 @@ namespace Z0.Asm
             return dst;
         }
 
-        public AsmFormDescriptors(Dictionary<string,AsmFormDescriptor> src)
+        public SdmFormDescriptors(Dictionary<string,SdmFormDescriptor> src)
             : base(src)
         {
 
 
         }
 
-        public static implicit operator AsmFormDescriptors(Dictionary<string,AsmFormDescriptor> src)
-            => new AsmFormDescriptors(src);
+        public static implicit operator SdmFormDescriptors(Dictionary<string,SdmFormDescriptor> src)
+            => new SdmFormDescriptors(src);
     }
 }

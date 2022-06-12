@@ -14,7 +14,7 @@ namespace Z0
     [ApiHost]
     public partial class AsmChecks : CheckRunner<AsmChecks>
     {
-        AsmOpCodes OpCodes => Wf.AsmOpCodes();
+        SdmOpCodes OpCodes => Wf.AsmOpCodes();
 
         ApiCodeFiles CodeFiles => Wf.ApiCodeFiles();
 
@@ -313,8 +313,8 @@ namespace Z0
         void CheckAsmTokens()
         {
             AsmSigs.parse("adc r16, r16", out var sig);
-            AsmOpCodes.parse("11 /r", out var oc1);
-            AsmOpCodes.parse("13 /r", out var oc2);
+            SdmOpCodes.parse("11 /r", out var oc1);
+            SdmOpCodes.parse("13 /r", out var oc2);
             var count = min(oc1.TokenCount, oc2.TokenCount);
             var token = AsmOcToken.Empty;
             for(var i=0; i<count; i++)
@@ -331,7 +331,7 @@ namespace Z0
                 }
             }
 
-            if(AsmOpCodes.diff(oc1, oc2, out token))
+            if(SdmOpCodes.diff(oc1, oc2, out token))
                 Write(token.Format());
 
 

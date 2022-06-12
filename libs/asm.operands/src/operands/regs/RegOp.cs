@@ -6,6 +6,8 @@ namespace Z0.Asm
 {
     using api = AsmRegs;
 
+    using static AsmRegBits;
+
     /// <summary>
     /// Specifies a register operand
     /// </summary>
@@ -42,19 +44,19 @@ namespace Z0.Asm
         public NativeSize Size
         {
             [MethodImpl(Inline)]
-            get => api.width(this);
+            get => width(this);
         }
 
         public RegClassCode RegClassCode
         {
             [MethodImpl(Inline)]
-            get => api.@class(this);
+            get => @class(this);
         }
 
         public RegIndexCode Index
         {
             [MethodImpl(Inline)]
-            get => api.index(this);
+            get => index(this);
         }
 
         public RegKind RegKind

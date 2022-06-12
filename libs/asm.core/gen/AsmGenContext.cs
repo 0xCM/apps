@@ -18,14 +18,14 @@ namespace Z0.Asm
 
         ImmOpRange ImmOps;
 
-        public AsmForm Form {get;}
+        public SdmForm Form {get;}
 
         public AsmGenContext()
         {
 
         }
 
-        AsmGenContext(AsmForm form, RegOpRange regs, ImmOpRange imm)
+        AsmGenContext(SdmForm form, RegOpRange regs, ImmOpRange imm)
         {
             Form = form;
             RegOps = regs;

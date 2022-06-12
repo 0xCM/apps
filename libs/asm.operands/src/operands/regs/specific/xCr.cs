@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm.Operands
 {
+    using static AsmRegBits;
+
     using I = RegIndexCode;
     using G = xCr;
     using K = AsmRegTokens.XControlReg;
@@ -52,7 +54,7 @@ namespace Z0.Asm.Operands
 
         [MethodImpl(Inline)]
         public static implicit operator RegOp(G src)
-            => api.reg(src.Size, src.RegClassCode, src.Index);
+            => reg(src.Size, src.RegClassCode, src.Index);
 
         [MethodImpl(Inline)]
         public static implicit operator AsmOperand(G src)
@@ -88,7 +90,6 @@ namespace Z0.Asm.Operands
 
         [MethodImpl(Inline)]
         public static implicit operator G(RegKind src)
-            => new G(AsmRegs.index(src));
-
+            => new G(index(src));
     }
 }

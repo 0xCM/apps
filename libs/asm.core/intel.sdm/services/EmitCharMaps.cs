@@ -9,7 +9,7 @@ namespace Z0.Asm
         public Outcome EmitCharMaps()
         {
             var map = CharMaps.create(TextEncodings.Unicode, TextEncodings.Asci);
-            CharMapper.Emit(map, SdmPaths.CharMapPath());
+            CharMapper.Emit(map, SdmPaths.CharMapTarget());
             CharMapper.LogUnmapped(map, SdmPaths.SdmSrcPath(), SdmPaths.UnmappedCharLog());
             return true;
         }

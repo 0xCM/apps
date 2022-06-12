@@ -11,7 +11,7 @@ namespace Z0.Asm
     {
         public ReadOnlySpan<UnicodeLine> LoadImportedVolume(VolDigit digit)
         {
-            var path = SdmPaths.SdmDstPath((byte)digit);
+            var path = SdmPaths.SdmDstVol((byte)digit);
             if(!path.Exists)
             {
                 Error(FS.missing(path));

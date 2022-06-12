@@ -9,6 +9,7 @@ namespace Z0.Asm
     using static core;
     using static RegFacets;
     using static RegClassCode;
+    using static AsmRegBits;
 
     using SZ = NativeSizeCode;
 
@@ -152,7 +153,7 @@ namespace Z0.Asm
                 var count = Gp8HiRegCount;
                 var buffer = alloc<RegOp>(count);
                 for(byte i=0,j=4; i<count; i++,j++)
-                    seek(buffer,i) = AsmRegs.reg(Gp8RegSize, GP8HI, (RegIndexCode)j);
+                    seek(buffer,i) = reg(Gp8RegSize, GP8HI, (RegIndexCode)j);
                 return buffer;
             }
         }
@@ -166,7 +167,7 @@ namespace Z0.Asm
                 var count = Gp8LoRegCount;
                 var buffer = alloc<RegOp>(count);
                 for(var i=0; i<count; i++)
-                    seek(buffer,i) = AsmRegs.reg(Gp8RegSize, GP, (RegIndexCode)i);
+                    seek(buffer,i) = reg(Gp8RegSize, GP, (RegIndexCode)i);
                 return buffer;
             }
         }
@@ -180,9 +181,9 @@ namespace Z0.Asm
                 var count = Gp8RegCount;
                 var buffer = alloc<RegOp>(count);
                 for(var i=0; i<16; i++)
-                    seek(buffer,i) = AsmRegs.reg(Gp8RegSize, GpRegClass, (RegIndexCode)i);
+                    seek(buffer,i) = reg(Gp8RegSize, GpRegClass, (RegIndexCode)i);
                 for(byte i=16,j=4; i<20; i++,j++)
-                    seek(buffer,i) = AsmRegs.reg(Gp8RegSize, GP8HI, (RegIndexCode)j);
+                    seek(buffer,i) = reg(Gp8RegSize, GP8HI, (RegIndexCode)j);
                 return buffer;
             }
         }
@@ -196,7 +197,7 @@ namespace Z0.Asm
                 const byte Count = Gp16RegCount;
                 var buffer = alloc<RegOp>(Count);
                 for(var i=0; i<Count; i++)
-                    seek(buffer,i) = AsmRegs.reg(Gp16RegSize, GpRegClass, (RegIndexCode)i);
+                    seek(buffer,i) = reg(Gp16RegSize, GpRegClass, (RegIndexCode)i);
                 return buffer;
             }
         }
@@ -210,7 +211,7 @@ namespace Z0.Asm
                 const byte Count = Gp32RegCount;
                 var buffer = alloc<RegOp>(Count);
                 for(var i=0; i<Count; i++)
-                    seek(buffer,i) = AsmRegs.reg(Gp32RegSize, GpRegClass, (RegIndexCode)i);
+                    seek(buffer,i) = reg(Gp32RegSize, GpRegClass, (RegIndexCode)i);
                 return buffer;
             }
         }
@@ -224,7 +225,7 @@ namespace Z0.Asm
                 const byte Count = Gp64RegCount;
                 var buffer = alloc<RegOp>(Count);
                 for(var i=0; i<Count; i++)
-                    seek(buffer,i) = AsmRegs.reg(Gp64RegSize, GpRegClass, (RegIndexCode)i);
+                    seek(buffer,i) = reg(Gp64RegSize, GpRegClass, (RegIndexCode)i);
                 return buffer;
             }
         }
@@ -280,7 +281,7 @@ namespace Z0.Asm
                 const byte Count = MaskRegCount;
                 var dst = alloc<RegOp>(Count);
                 for(var i=0; i<Count; i++)
-                    seek(dst,i) = AsmRegs.reg(MaskRegSize, MaskRegClass, (RegIndexCode)i);
+                    seek(dst,i) = reg(MaskRegSize, MaskRegClass, (RegIndexCode)i);
                 return dst;
             }
         }
@@ -294,7 +295,7 @@ namespace Z0.Asm
                 const byte Count = CrRegCount;
                 var dst = alloc<RegOp>(Count);
                 for(var i=0; i<Count; i++)
-                    seek(dst,i) = AsmRegs.reg(CrRegSize, CrRegClass, (RegIndexCode)i);
+                    seek(dst,i) = reg(CrRegSize, CrRegClass, (RegIndexCode)i);
                 return dst;
             }
         }
@@ -308,7 +309,7 @@ namespace Z0.Asm
                 const byte Count = DbRegCount;
                 var dst = alloc<RegOp>(Count);
                 for(var i=0; i<Count; i++)
-                    seek(dst,i) = AsmRegs.reg(DbRegSize, DbRegClass, (RegIndexCode)i);
+                    seek(dst,i) = reg(DbRegSize, DbRegClass, (RegIndexCode)i);
                 return dst;
             }
         }
@@ -322,7 +323,7 @@ namespace Z0.Asm
                 const byte Count = MmxRegCount;
                 var dst = alloc<RegOp>(Count);
                 for(var i=0; i<Count; i++)
-                    seek(dst,i) = AsmRegs.reg(MmxRegSize, MmxRegClass, (RegIndexCode)i);
+                    seek(dst,i) = reg(MmxRegSize, MmxRegClass, (RegIndexCode)i);
                 return dst;
             }
         }
@@ -336,7 +337,7 @@ namespace Z0.Asm
                 const byte Count = TmmRegCount;
                 var dst = alloc<RegOp>(Count);
                 for(var i=0; i<Count; i++)
-                    seek(dst,i) = AsmRegs.reg(MmxRegSize, TmmRegClass, (RegIndexCode)i);
+                    seek(dst,i) = reg(MmxRegSize, TmmRegClass, (RegIndexCode)i);
                 return dst;
             }
         }
@@ -350,7 +351,7 @@ namespace Z0.Asm
                 const byte Count = BndRegCount;
                 var dst = alloc<RegOp>(Count);
                 for(var i=0; i<Count; i++)
-                    seek(dst,i) = AsmRegs.reg(BndRegSize, RegClassCode.BND, (RegIndexCode)i);
+                    seek(dst,i) = reg(BndRegSize, RegClassCode.BND, (RegIndexCode)i);
                 return dst;
             }
         }
@@ -363,7 +364,7 @@ namespace Z0.Asm
                 const byte Count = SegRegCount;
                 var dst = alloc<RegOp>(Count);
                 for(var i=0; i<Count; i++)
-                    seek(dst,i) = AsmRegs.reg(SZ.W16, RegClassCode.SEG, (RegIndexCode)i);
+                    seek(dst,i) = reg(SZ.W16, RegClassCode.SEG, (RegIndexCode)i);
                 return dst;
             }
         }
@@ -376,7 +377,7 @@ namespace Z0.Asm
                 const byte Count = FpuRegCount;
                 var dst = alloc<RegOp>(Count);
                 for(var i=0; i<Count; i++)
-                    seek(dst,i) = AsmRegs.reg(FpuRegSize, FpuRegClass, (RegIndexCode)i);
+                    seek(dst,i) = reg(FpuRegSize, FpuRegClass, (RegIndexCode)i);
                 return dst;
             }
         }
@@ -430,7 +431,7 @@ namespace Z0.Asm
         {
             var dst = alloc<RegOp>(count);
             for(var i=0; i<count; i++)
-                seek(dst,i) = AsmRegs.reg(size, @class, (RegIndexCode)i);
+                seek(dst,i) = reg(size, @class, (RegIndexCode)i);
             return dst;
         }
 

@@ -8,11 +8,7 @@ namespace Z0.Asm
     {
         [MethodImpl(Inline), Op]
         public static RegOp reg(NativeSizeCode width, RegClassCode @class, RegIndex r)
-            => AsmRegs.reg(width, @class,r);
-
-        [MethodImpl(Inline), Op]
-        public static RegOp reg(RegKind kind)
-            => AsmRegs.reg(kind);
+            => AsmRegBits.reg(width, @class,r);
 
         [MethodImpl(Inline), Op]
         public static RegMask regmask(RegOp target, RegIndex mask, RegMaskKind kind)

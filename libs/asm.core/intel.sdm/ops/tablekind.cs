@@ -10,16 +10,5 @@ namespace Z0.Asm
 
     partial struct SdmOps
     {
-        [Op]
-        public static K tablekind(string name)
-            => name switch {
-                "OpCodes" => K.OpCodes,
-                "Encoding" => K.EncodingRule,
-                "BinaryFormat" => K.BinaryFormat,
-                "Intrinsics" => K.Intrinsics,
-                "Notes" => K.Intrinsics,
-                _ => parse(name, out TableNumber dst)
-                    ? K.Numbered : K.None
-            };
     }
 }

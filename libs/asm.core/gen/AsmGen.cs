@@ -37,7 +37,7 @@ namespace Z0.Asm
         Span<AsmOperand> OpBuffer()
             => _OpsBuffer.Clear();
 
-        public Index<AsmInstruction> Concretize(in AsmForm form)
+        public Index<AsmInstruction> Concretize(in SdmForm form)
         {
             var dst = list<AsmInstruction>();
             ref readonly var sigops = ref form.Sig.Operands;

@@ -10,7 +10,7 @@ namespace Z0.Asm
     {
         public Outcome EmitSdmSplits()
         {
-            var specs = LoadSplitSpecs(SdmPaths.SplitSpecs());
+            var specs = LoadSplitSpecs(SdmPaths.SplitConfig());
             var buffer = new PllBag<LineRange>();
             iter(specs, spec => Split(spec, buffer));
             return true;
@@ -92,7 +92,7 @@ namespace Z0.Asm
 
         void Split(in DocSplitSpec spec, IReceiver<LineRange> dst)
         {
-            var src = SdmPaths.Sources() + FS.file(spec.DocId, FS.Txt);
+            var src = SdmPaths.Sources().Path(FS.file(spec.DocId, FS.Txt));
             if(!src.Exists)
             {
                 Error(FS.missing(src));
@@ -100,8 +100,7 @@ namespace Z0.Asm
             }
 
             var range = DocSplits.split(src, TextEncodingKind.Unicode, spec, dst);
-            var path = SdmPaths.Targets() +  FS.file(string.Format("{0}-{1}", spec.DocId, spec.Unit), FS.Txt);
-            Emit(range, path);
+            Emit(range, SdmPaths.Targets().Path(FS.file(string.Format("{0}-{1}", spec.DocId, spec.Unit), FS.Txt)));
             dst.Deposit(range);
         }
 

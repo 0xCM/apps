@@ -2,15 +2,17 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
+    using Asm;
+    using static Asm.SdmModels;
     using static core;
 
-    partial class AsmSigs
+    partial class AsmCoreCmd
     {
-        // [MethodImpl(Inline), Op]
-        // public static AsmSigToken specialize(in AsmToken src)
-        //     => new AsmSigToken((AsmSigTokenKind)src.KindValue, src.Value);
+        [CmdOp("sdm/etl")]
+        Outcome SdmImport(CmdArgs args)
+            => Sdm.Etl();
 
     }
 }

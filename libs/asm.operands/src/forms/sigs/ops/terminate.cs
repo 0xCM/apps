@@ -10,16 +10,16 @@ namespace Z0.Asm
 
     partial class AsmSigs
     {
-        public static Index<AsmForm> terminate(in AsmForm src)
+        public static Index<SdmForm> terminate(in SdmForm src)
         {
             var sigs = list<AsmSig>();
             terminate(src.Sig, sigs);
             iter(sigs, s => Require.invariant(terminal(s)));
 
             var count = sigs.Count;
-            var dst = alloc<AsmForm>(count);
+            var dst = alloc<SdmForm>(count);
             for(var i=0; i<count; i++)
-                seek(dst,i) = AsmForm.define(src.Name, sigs[i], src.OpCode);
+                seek(dst,i) = SdmForm.define(src.Name, sigs[i], src.OpCode);
             return dst;
         }
 

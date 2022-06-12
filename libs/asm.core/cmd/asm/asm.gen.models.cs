@@ -64,7 +64,7 @@ namespace Z0
         Outcome GenAsmCode(CmdArgs args)
         {
             var forms = Sdm.CalcForms().View;
-            var buffer = dict<AsmMnemonic,List<AsmForm>>();
+            var buffer = dict<AsmMnemonic,List<SdmForm>>();
             for(var i=0; i<forms.Length; i++)
             {
                 ref readonly var form = ref skip(forms,i);
@@ -80,7 +80,7 @@ namespace Z0
 
             }
 
-            var lookup = buffer.Keys.Map(x => (x,  (Index<AsmForm>)buffer[x].ToArray().Sort())).ToConstLookup();
+            var lookup = buffer.Keys.Map(x => (x,  (Index<SdmForm>)buffer[x].ToArray().Sort())).ToConstLookup();
             var mnemonics = array<AsmMnemonic>("dec");
             var sources = dict<AsmMnemonic,List<IAsmSourcePart>>();
             var g = AsmGen.generator();

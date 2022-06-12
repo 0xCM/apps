@@ -8,29 +8,26 @@ namespace Z0.Asm
 
     partial struct SdmOps
     {
-        public static Index<AsmForm> forms(ReadOnlySpan<SdmOpCodeDetail> src)
+        public static Index<SdmForm> forms(ReadOnlySpan<SdmOpCodeDetail> src)
         {
             var count = src.Length;
-            var dst = alloc<AsmForm>(count);
+            var dst = alloc<SdmForm>(count);
             for(var i=0; i<count; i++)
-            {
-                ref readonly var detail = ref skip(src,i);
-                seek(dst,i) = form(detail);
-            }
+                seek(dst,i) = form(skip(src,i));
             return dst;
         }
 
-        public static AsmForm form(in SdmOpCodeDetail src)
+        public static SdmForm form(in SdmOpCodeDetail src)
         {
-            var result = AsmSigs.parse(src.AsmSig, out var sig);
+            var result = AsmSigs.parse(src.AsmSig, out AsmSig sig);
             if(result.Fail)
                 Errors.Throw(result.Message);
 
-            result = AsmOpCodes.parse(src.OpCodeExpr, out var opcode);
+            result = SdmOpCodes.parse(src.OpCodeExpr, out SdmOpCode opcode);
             if(result.Fail)
                 Errors.Throw(result.Message);
 
-            return AsmForm.define(sig,opcode);
+            return SdmForm.define(sig,opcode);
         }
     }
 }

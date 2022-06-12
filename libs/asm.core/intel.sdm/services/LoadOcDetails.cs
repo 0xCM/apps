@@ -8,6 +8,55 @@ namespace Z0.Asm
 
     partial class IntelSdm
     {
+
+        public static Outcome parse(TextLine src, out SdmOpCodeDetail dst)
+        {
+            var result = Outcome.Success;
+            var cells = src.Split(Chars.Pipe);
+            var count = cells.Length;
+            dst = default;
+            if(count != SdmOpCodeDetail.FieldCount)
+                return (false, Tables.FieldCountMismatch.Format(SdmOpCodeDetail.FieldCount, count));
+
+            var i=0;
+
+            result = DataParser.parse(skip(cells,i++), out dst.OpCodeKey);
+            if(result.Fail)
+                return (false, AppMsg.ParseFailure.Format(nameof(dst.OpCodeKey), skip(cells,i-1)));
+
+            dst.Mnemonic = skip(cells, i++).ToUpperInvariant();
+            DataParser.block(skip(cells,i++).Trim(), out dst.OpCodeExpr);
+            AsmOcValue.parse(skip(cells,i++), out dst.OpCodeValue);
+
+            ref readonly var sigsrc = ref skip(cells,i++);
+            if(sigsrc.Length == 0)
+                dst.AsmSig = EmptyString;
+            else
+                dst.AsmSig = sigsrc;
+            DataParser.block(skip(cells, i++), out dst.EncXRef);
+            DataParser.block(skip(cells, i++), out dst.Mode64);
+            DataParser.block(skip(cells, i++), out dst.Mode32);
+            DataParser.block(skip(cells, i++), out dst.Mode64x32);
+            DataParser.block(skip(cells, i++), out dst.CpuIdExpr);
+            DataParser.block(skip(cells, i++), out dst.Description);
+            return result;
+        }
+
+        [Op]
+        public static uint rows(ReadOnlySpan<TextLine> src, Span<SdmOpCodeDetail> dst)
+        {
+            var counter = 0u;
+            var result = Outcome.Success;
+            var count = (uint)min(src.Length, dst.Length);
+            for(var i=0; i<count; i++)
+            {
+                result = parse(skip(src,i), out seek(dst, i));
+                if(result.Fail)
+                      Errors.Throw(result.Message);
+            }
+            return count;
+        }
+
         public Index<SdmOpCodeDetail> LoadOcDetails()
         {
             return Data(nameof(LoadOcDetails), Load);
@@ -15,11 +64,11 @@ namespace Z0.Asm
             Index<SdmOpCodeDetail> Load()
             {
                 var dst = sys.empty<SdmOpCodeDetail>();
-                var src = SdmPaths.ImportTable<SdmOpCodeDetail>();
-                var lines = SdmPaths.ImportTable<SdmOpCodeDetail>().ReadNumberedLines();
+                var src = SdmPaths.SdmTable<SdmOpCodeDetail>();
+                var lines = SdmPaths.SdmTable<SdmOpCodeDetail>().ReadNumberedLines();
                 var count = lines.Count -1;
                 dst = alloc<SdmOpCodeDetail>(count);
-                SdmOps.rows(slice(lines.View,1), dst);
+                rows(slice(lines.View,1), dst);
                 return dst;
             }
         }

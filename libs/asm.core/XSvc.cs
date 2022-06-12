@@ -64,8 +64,8 @@ namespace Z0
             public AsmDocs AsmDocs(IWfRuntime wf)
                 => Service<AsmDocs>(wf);
 
-            public AsmOpCodes AsmOpCodes(IWfRuntime wf)
-                => Service<AsmOpCodes>(wf);
+            public SdmOpCodes AsmOpCodes(IWfRuntime wf)
+                => Service<SdmOpCodes>(wf);
 
             public X86Dispatcher X86Dispatcher(IWfRuntime wf)
                 => Service<X86Dispatcher>(wf);
@@ -154,7 +154,7 @@ namespace Z0
         public static DumpBin DumpBin(this IWfRuntime wf)
             => Services.DumpBin(wf);
 
-        public static AsmOpCodes AsmOpCodes(this IWfRuntime wf)
+        public static SdmOpCodes AsmOpCodes(this IWfRuntime wf)
             => Services.AsmOpCodes(wf);
 
         public static IntelSdmPaths SdmPaths(this IWfRuntime wf)

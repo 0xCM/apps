@@ -90,7 +90,7 @@ namespace Z0.Asm
                 ref readonly var b = ref src[i];
                 ref readonly var token = ref tokens[b.Token];
                 uint2 value = (byte)token.Kind;
-                var reg = AsmRegs.reg(b.RegSize, b.Hi ? RegClassCode.GP8HI : RegClassCode.GP, b.Reg.Code);
+                var reg = AsmRegBits.reg(b.RegSize, b.Hi ? RegClassCode.GP8HI : RegClassCode.GP, b.Reg.Code);
                 var fmt = string.Format("{0,-5} | {1,-5} | {2,-5} | {3,-5} | {4}", i, reg.Name, b.Reg.Code, b.Reg, value, token.Expr);
             }
         }

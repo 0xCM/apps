@@ -5,11 +5,11 @@
 namespace Z0.Asm
 {
     [ApiHost]
-    public partial class AsmOpCodes : AppService<AsmOpCodes>
+    public partial class SdmOpCodes : AppService<SdmOpCodes>
     {
         const NumericKind Closure = UnsignedInts;
 
-        public AsmOpCodes()
+        public SdmOpCodes()
         {
         }
 
@@ -28,7 +28,7 @@ namespace Z0.Asm
         public static AsmOcToken specialize(in AsmToken src)
             => new AsmOcToken((AsmOcTokenKind)src.Index, (byte)src.Value);
 
-        public Outcome Parse(string src, out AsmOpCode dst)
+        public Outcome Parse(string src, out SdmOpCode dst)
             => parse(src, out dst);
 
         public bool Token(string src, out AsmOcToken dst)
@@ -36,7 +36,7 @@ namespace Z0.Asm
 
         readonly static AsmOcDatasets Datasets;
 
-        static AsmOpCodes()
+        static SdmOpCodes()
         {
             Datasets = AsmOcDatasets.Instance;
         }

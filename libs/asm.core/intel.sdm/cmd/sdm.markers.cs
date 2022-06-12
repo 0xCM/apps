@@ -4,16 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
     using static Asm.SdmModels;
     using static core;
 
     partial class AsmCoreCmd
     {
-        [CmdOp("sdm/import")]
-        Outcome SdmImport(CmdArgs args)
-            => Sdm.Import();
-
         [CmdOp("sdm/markers")]
         Outcome SdmMarkers(CmdArgs args)
         {

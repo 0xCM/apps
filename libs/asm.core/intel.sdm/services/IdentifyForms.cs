@@ -8,24 +8,24 @@ namespace Z0.Asm
 
     partial class IntelSdm
     {
-        AsmFormDescriptors IdentifyForms(ReadOnlySpan<AsmFormDescriptor> forms)
+        SdmFormDescriptors IdentifyForms(ReadOnlySpan<SdmFormDescriptor> forms)
         {
             var count = forms.Length;
-            var lookup = dict<string,AsmFormDescriptor>();
+            var lookup = dict<string,SdmFormDescriptor>();
             for(var i=0u; i<count; i++)
             {
                 ref readonly var form = ref skip(forms,i);
                 var sig = form.Sig;
                 var opcode = form.OpCode;
                 var name = AsmSigs.identify(sig);
-                var rex = AsmOpCodes.rex(opcode);
-                var vex = AsmOpCodes.vex(opcode);
-                var evex = AsmOpCodes.evex(opcode);
+                var rex = SdmOpCodes.rex(opcode);
+                var vex = SdmOpCodes.vex(opcode);
+                var evex = SdmOpCodes.evex(opcode);
                 if(lookup.TryGetValue(name, out var prior))
                 {
-                    if(rex && AsmOpCodes.rex(prior.OpCode))
+                    if(rex && SdmOpCodes.rex(prior.OpCode))
                     {
-                        if(AsmOpCodes.diff(prior.OpCode, opcode, out var token))
+                        if(SdmOpCodes.diff(prior.OpCode, opcode, out var token))
                         {
                             if(token.Kind == AsmOcTokenKind.Hex8)
                                 name = string.Format("{0}_x{1}", name, token);
@@ -42,7 +42,7 @@ namespace Z0.Asm
                         name = string.Format("{0}_{1}", name, "evex");
                     else
                     {
-                        if(AsmOpCodes.diff(prior.OpCode, opcode, out var token))
+                        if(SdmOpCodes.diff(prior.OpCode, opcode, out var token))
                         {
                             if(token.Kind == AsmOcTokenKind.Hex8)
                                 name = string.Format("{0}_x{1}", name, token);

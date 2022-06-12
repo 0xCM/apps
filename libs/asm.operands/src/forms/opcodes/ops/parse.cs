@@ -7,12 +7,12 @@ namespace Z0.Asm
     using static core;
     using static AsmOcTokens;
 
-    partial class AsmOpCodes
+    partial class SdmOpCodes
     {
-        public static Outcome parse(string src, out AsmOpCode dst)
+        public static Outcome parse(string src, out SdmOpCode dst)
         {
             var result = Outcome.Success;
-            dst = AsmOpCode.Empty;
+            dst = SdmOpCode.Empty;
             var parts = sys.empty<string>();
             var input = text.trim(text.despace(src));
             if(evex(input) || vex(input))
@@ -51,7 +51,7 @@ namespace Z0.Asm
                 parts = tokens.ToArray();
             }
 
-            var count = (byte)min(parts.Length, AsmOpCode.TokenCapacity);
+            var count = (byte)min(parts.Length, SdmOpCode.TokenCapacity);
             dst.TokenCount = count;
             var t = AsmOcToken.Empty;
             for(var i=0; i<count; i++)

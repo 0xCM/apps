@@ -22,7 +22,7 @@ namespace Z0.Asm
             var dst = AsmEncodingCase.Empty;
             dst.Seq = seq;
             dst.Mnemonic = monic;
-            AsmOpCodes.parse(oc.Format(), out dst.OpCode);
+            SdmOpCodes.parse(oc.Format(), out dst.OpCode);
             AsmHexCode.parse(encoding.Format(), out dst.Encoding);
             AsmSigs.parse(sig.Format(), out dst.Sig);
             dst.Asm = statement.Format();

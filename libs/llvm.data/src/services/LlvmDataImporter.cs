@@ -17,8 +17,6 @@ namespace Z0.llvm
 
         LlvmPaths LlvmPaths => Service(Wf.LlvmPaths);
 
-        AppSvcOps AppSvc => Wf.AppSvc();
-
         public bool PllExec
         {
             [MethodImpl(Inline)]
@@ -69,7 +67,7 @@ namespace Z0.llvm
             DataEmitter.Emit(relations);
             return DataEmitter.EmitLineMap(relations.View, src, Datasets.X86Classes);
         }
-          
+
         LineMap<Identifier> EmitDefs(Index<TextLine> src, out Index<DefRelations> defs)
         {
             defs = DataCalcs.CalcDefRelations(src);

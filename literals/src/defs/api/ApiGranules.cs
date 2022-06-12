@@ -12,17 +12,25 @@ namespace Z0
 
         public const string dot = ".";
 
+        public const string dash = "-";
+
         public const string sep = "/";
 
         public const string ws = dot + "ws";
 
+        public const string x32 = nameof(x32);
+
+        public const string x64 = nameof(x64);
+
         public const string wslogs = ws + sep + logs;
 
-        public const string asm = "asm";
+        public const string asm = nameof(asm);
 
-        public const string release = "release";
+        public const string release = nameof(release);
 
-        public const string win64 = "win-x64";
+        public const string win = nameof(win);
+
+        public const string win64 = win + dash + x64;
 
         public const string net6 = "net6.0";
 
@@ -30,13 +38,17 @@ namespace Z0
 
         public const string @default = "default";
 
-        public const string objhex = "obj.hex";
+        public const string objhex = obj + dot + hex;
 
-        public const string asmcsv = "asm.csv";
+        public const string csv = nameof(csv);
 
-        public const string xeddisasm = "xed.disasm";
+        public const string asmcsv = asm + dot + csv;
 
-        public const string asmsrc = "asm.src";
+        public const string disasm = nameof(disasm);
+
+        public const string xeddisasm = xed + dot + disasm;
+
+        public const string asmsrc = asm + dot + src;
 
         public const string projects = nameof(projects);
 
@@ -107,6 +119,8 @@ namespace Z0
         public const string hex = nameof(hex);
 
         public const string extracts = nameof(extracts);
+
+        public const string xed = nameof(xed);
 
         public const string output = nameof(output);
 
@@ -179,5 +193,9 @@ namespace Z0
         public const string bitfields = nameof(bitfields);
 
         public const string common = nameof(common);
+
+        public const string sdm = nameof(sdm);
+
+        public const string intel = nameof(intel);
     }
 }

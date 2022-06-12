@@ -21,13 +21,13 @@ namespace Z0.Asm
         }
 
         TextMap SigNormalRules
-            => Data(nameof(SigNormalRules), () => Rules.textmap(SdmPaths.SigNormalRules()));
+            => Data(nameof(SigNormalRules), () => Rules.textmap(SdmPaths.SigNormalConfig()));
 
         TextReplace OcFixupRules
-            => Data(nameof(OcFixupRules), () => Rules.replace(SdmPaths.OcFixupRules()));
+            => Data(nameof(OcFixupRules), () => Rules.replace(SdmPaths.OcFixupConfig()));
 
         TextReplace SigFixupRules
-            => Data(nameof(SigFixupRules), () => Rules.replace(SdmPaths.SigFixupRules()));
+            => Data(nameof(SigFixupRules), () => Rules.replace(SdmPaths.SigFixupConfig()));
 
         void Clear()
         {
@@ -35,7 +35,7 @@ namespace Z0.Asm
             ClearCache();
         }
 
-        public Outcome Import()
+        public Outcome Etl()
         {
             var result = Outcome.Success;
 
@@ -78,7 +78,7 @@ namespace Z0.Asm
                 EmitTokens();
                 var details = CalcOcDetails();
                 Emit(details);
-                EmitSigOps(EmitForms(details));
+                //EmitSigOps(EmitForms(details));
 
             }
             catch(Exception e)

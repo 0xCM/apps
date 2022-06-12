@@ -2,24 +2,26 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
     using static core;
 
-    public struct AsmOpCode : IEquatable<AsmOpCode>
+    using Asm;
+
+    public struct SdmOpCode : IEquatable<SdmOpCode>
     {
         public const byte TokenCapacity = 31;
 
         Cell512 Data;
 
         [MethodImpl(Inline)]
-        public AsmOpCode(Cell512 data)
+        public SdmOpCode(Cell512 data)
         {
             Data = data;
         }
 
         [MethodImpl(Inline)]
-        public AsmOpCode(ReadOnlySpan<AsmOcToken> tokens)
+        public SdmOpCode(ReadOnlySpan<AsmOcToken> tokens)
         {
             Data = first(recover<AsmOcToken,Cell512>(tokens));
             var _tokens = Buffer();
@@ -117,29 +119,29 @@ namespace Z0.Asm
             => Data.GetHashCode();
 
         [MethodImpl(Inline)]
-        public bool Equals(AsmOpCode src)
+        public bool Equals(SdmOpCode src)
             => Data.Equals(src.Data);
 
         public override bool Equals(object src)
-            => src is AsmOpCode x && Equals(x);
+            => src is SdmOpCode x && Equals(x);
 
         public override int GetHashCode()
             => (int)Hash;
 
         public string Format()
-            => AsmOpCodes.format(this);
+            => SdmOpCodes.format(this);
 
         public override string ToString()
             => Format();
 
         [MethodImpl(Inline)]
-        public static bool operator ==(AsmOpCode a, AsmOpCode b)
+        public static bool operator ==(SdmOpCode a, SdmOpCode b)
             => a.Equals(b);
 
         [MethodImpl(Inline)]
-        public static bool operator !=(AsmOpCode a, AsmOpCode b)
+        public static bool operator !=(SdmOpCode a, SdmOpCode b)
             => !a.Equals(b);
 
-        public static AsmOpCode Empty => new AsmOpCode(sys.empty<AsmOcToken>());
+        public static SdmOpCode Empty => new SdmOpCode(sys.empty<AsmOcToken>());
     }
 }

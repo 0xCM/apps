@@ -60,7 +60,7 @@ namespace Z0
         {
             if(OcTokens.TryGetValue(expr, out var opcode))
             {
-                dst = AsmOpCodes.specialize(opcode);
+                dst = SdmOpCodes.specialize(opcode);
                 return true;
             }
             else

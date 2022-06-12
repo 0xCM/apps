@@ -2,22 +2,24 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
+    using Asm;
+
     using static core;
 
-    public readonly struct AsmFormDescriptor
+    public readonly struct SdmFormDescriptor
     {
-        public static Index<AsmFormDescriptor> unmodify(ReadOnlySpan<AsmFormDescriptor> src)
+        public static Index<SdmFormDescriptor> unmodify(ReadOnlySpan<SdmFormDescriptor> src)
         {
             var count = src.Length;
-            var buffer = alloc<AsmFormDescriptor>(count);
+            var buffer = alloc<SdmFormDescriptor>(count);
             for(var i=0; i<count; i++)
             {
                 ref readonly var form = ref skip(src,i);
                 ref var dst = ref seek(buffer,i);
                 if(AsmSigs.modified(form.Sig))
-                    dst = new AsmFormDescriptor(AsmForm.define(AsmSigs.unmodify(form.Sig), form.OpCode), form.OcDetail);
+                    dst = new SdmFormDescriptor(SdmForm.define(AsmSigs.unmodify(form.Sig), form.OpCode), form.OcDetail);
                 else
                     dst = form;
             }
@@ -36,7 +38,7 @@ namespace Z0.Asm
 
         public readonly Hex32 Id;
 
-        public readonly AsmForm Form;
+        public readonly SdmForm Form;
 
         internal readonly SdmOpCodeDetail OcDetail;
 
@@ -45,7 +47,7 @@ namespace Z0.Asm
         public readonly TextBlock Description;
 
         [MethodImpl(Inline)]
-        public AsmFormDescriptor(AsmForm form, SdmOpCodeDetail oc)
+        public SdmFormDescriptor(SdmForm form, SdmOpCodeDetail oc)
         {
             Id = form.Id;
             Form = form;
@@ -66,7 +68,7 @@ namespace Z0.Asm
             get => Form.Sig;
         }
 
-        public AsmOpCode OpCode
+        public SdmOpCode OpCode
         {
             [MethodImpl(Inline)]
             get => Form.OpCode;
@@ -79,7 +81,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline)]
-        public AsmFormDescriptor WithName(in text47 name)
-            => new AsmFormDescriptor(Form.WithName(name), OcDetail);
+        public SdmFormDescriptor WithName(in text47 name)
+            => new SdmFormDescriptor(Form.WithName(name), OcDetail);
     }
 }

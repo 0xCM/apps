@@ -2,25 +2,25 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
     [StructLayout(LayoutKind.Sequential)]
-    public readonly struct AsmForm : IComparable<AsmForm>
+    public readonly struct SdmForm : IComparable<SdmForm>
     {
-        public static AsmForm define(in AsmSig sig, in AsmOpCode opcode)
-            => new AsmForm(text47.Empty,sig, opcode);
+        public static SdmForm define(in AsmSig sig, in SdmOpCode opcode)
+            => new SdmForm(text47.Empty,sig, opcode);
 
-        public static AsmForm define(in text47 name, in AsmSig sig, in AsmOpCode opcode)
-            => new AsmForm(name, sig, opcode);
+        public static SdmForm define(in text47 name, in AsmSig sig, in SdmOpCode opcode)
+            => new SdmForm(name, sig, opcode);
 
         public readonly text47 Name;
 
         public readonly AsmSig Sig;
 
-        public readonly AsmOpCode OpCode;
+        public readonly SdmOpCode OpCode;
 
         [MethodImpl(Inline)]
-        public AsmForm(text47 name, AsmSig sig, AsmOpCode oc)
+        public SdmForm(text47 name, AsmSig sig, SdmOpCode oc)
         {
             Name = name;
             Sig = sig;
@@ -31,7 +31,7 @@ namespace Z0.Asm
             => alg.hash.calc(Format());
 
         [MethodImpl(Inline)]
-        public AsmForm WithName(in text47 name)
+        public SdmForm WithName(in text47 name)
             => define(name, Sig, OpCode);
 
         public AsmMnemonic Mnemonic
@@ -52,7 +52,7 @@ namespace Z0.Asm
             get => Sig.Operands;
         }
 
-        public int CompareTo(AsmForm src)
+        public int CompareTo(SdmForm src)
         {
             var result = Sig.CompareTo(src.Sig);
             if(result == 0)
@@ -66,6 +66,6 @@ namespace Z0.Asm
         public override string ToString()
             => Format();
 
-        public static AsmForm Empty => default;
+        public static SdmForm Empty => default;
     }
 }

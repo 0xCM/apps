@@ -8,20 +8,20 @@ namespace Z0.Asm
 
     partial class IntelSdm
     {
-        AsmFormDescriptors EmitForms(Index<SdmOpCodeDetail> src)
+        SdmFormDescriptors EmitForms(Index<SdmOpCodeDetail> src)
         {
             var forms = CalcFormsDescriptors(src);
             EmitForms(forms);
             return forms;
         }
 
-        void EmitForms(AsmFormDescriptors src)
+        void EmitForms(SdmFormDescriptors src)
         {
             var path = SdmPaths.FormDetailPath();
-            var lookup = dict<Identifier,AsmFormDetail>();
+            var lookup = dict<Identifier,SdmFormDetail>();
             var keys = src.Keys;
             var count = keys.Length;
-            var buffer = alloc<AsmFormDetail>(count);
+            var buffer = alloc<SdmFormDetail>(count);
 
             for(var i=0u; i<count; i++)
             {
@@ -35,9 +35,9 @@ namespace Z0.Asm
                 dst.OpCode = form.OpCode;
                 dst.Mode64 = ((form.Mode & AsmBitModeKind.Mode64) != 0);
                 dst.Mode32 = ((form.Mode & AsmBitModeKind.Mode32) != 0);
-                dst.IsRex = AsmOpCodes.rex(form.OpCode);
-                dst.IsVex = AsmOpCodes.vex(form.OpCode);
-                dst.IsEvex = AsmOpCodes.evex(form.OpCode);
+                dst.IsRex = SdmOpCodes.rex(form.OpCode);
+                dst.IsVex = SdmOpCodes.vex(form.OpCode);
+                dst.IsEvex = SdmOpCodes.evex(form.OpCode);
                 dst.Description = form.Description;
             }
             buffer.Sort();

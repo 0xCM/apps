@@ -9,6 +9,7 @@ namespace Z0.Asm
     using static RegClassCode;
     using static RegIndexCode;
     using static RegFacets;
+    using static AsmRegBits;
 
     [ApiHost]
     public readonly struct AsmRegData
@@ -20,7 +21,7 @@ namespace Z0.Asm
             var count = regcount(@class);
             var counter = 0u;
             for(var i=0; i<count; i++)
-                seek(r,counter++) = AsmRegs.reg((NativeSizeCode)w, @class, (RegIndexCode)i);
+                seek(r,counter++) = reg((NativeSizeCode)w, @class, (RegIndexCode)i);
             return counter;
         }
 

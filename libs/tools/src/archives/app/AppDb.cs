@@ -22,6 +22,14 @@ namespace Z0
         public IDbTargets DbTargets()
             => new DbTargets(Archives.Path(S.DbTargets).Location);
 
+        public FS.FilePath DbTable<T>(string scope)
+            where T : struct
+                => DbTargets(scope).Table<T>();
+
+        public FS.FilePath DbTable<T>(string scope, string prefix)
+            where T : struct
+                => DbTargets(scope).Table<T>(prefix);
+
         public IDbSources DbSources()
             => new DbSources(Archives.Path(S.DbSources).Location);
 
@@ -31,6 +39,9 @@ namespace Z0
         public IDbSources Control()
             => new DbSources(Archives.Path(S.Control).Location);
 
+        public IDbSources EnvConfig()
+            => new DbSources(Archives.Path(S.EnvConfig).Location);
+
         public IDbTargets ProjectEtl(ProjectId project)
             => new DbTargets(Archives.Path(S.ProjectEtl).Location, project.Format());
 
@@ -38,11 +49,21 @@ namespace Z0
             where T : struct
                 => ProjectEtl(project).Table<T>(project);
 
+        public FS.FilePath DbSource<T>(string scope)
+            where T : struct
+                => DbSources(scope).Table<T>();
+
         public IDbSources DbSources(string scope)
             => DbSources().Sources(scope);
 
         public IDbTargets DbTargets(string scope)
             => DbTargets().Targets(scope);
+
+        public FS.FilePath DbSource(string name, FileKind kind)
+            => DbSources().Path(name, kind);
+
+        public FS.FilePath DbDource(string scope, string name, FileKind kind)
+            => DbSources(scope).Path(name, kind);
 
         public IDbTargets Logs()
             => DbTargets("logs");

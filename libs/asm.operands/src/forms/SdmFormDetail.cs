@@ -4,10 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
-    public struct AsmFormDetail : IComparable<AsmFormDetail>
+    public struct SdmFormDetail : IComparable<SdmFormDetail>
     {
         const string TableId = "sdm.forms.detail";
 
@@ -26,7 +24,7 @@ namespace Z0
         public AsmSig Sig;
 
         [Render(42)]
-        public AsmOpCode OpCode;
+        public SdmOpCode OpCode;
 
         [Render(8)]
         public bit Mode64;
@@ -46,9 +44,7 @@ namespace Z0
         [Render(1)]
         public TextBlock Description;
 
-        //public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,12,38,48,42,8,8,8,8,8,1};
-
-        public int CompareTo(AsmFormDetail src)
+        public int CompareTo(SdmFormDetail src)
         {
             var result = Sig.Format().CompareTo(src.Sig.Format());
             if(result == 0)

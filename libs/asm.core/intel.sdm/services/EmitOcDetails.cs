@@ -23,7 +23,7 @@ namespace Z0.Asm
         public void Emit(Index<SdmOpCodeDetail> src)
         {
             CheckModes(src);
-            AppSvc.TableEmit(src, SdmPaths.ImportTable<SdmOpCodeDetail>(), TextEncodingKind.Unicode);
+            AppSvc.TableEmit(src, SdmPaths.SdmTable<SdmOpCodeDetail>(), TextEncodingKind.Unicode);
         }
     }
 }

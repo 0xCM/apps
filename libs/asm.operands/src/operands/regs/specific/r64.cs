@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm.Operands
 {
+    using static AsmRegBits;
+
     using I = RegIndexCode;
     using G = r64;
     using K = AsmRegTokens.Gp64Reg;
@@ -20,7 +22,6 @@ namespace Z0.Asm.Operands
         {
             Index = index;
         }
-
 
         [MethodImpl(Inline)]
         public O Untyped()
@@ -44,7 +45,6 @@ namespace Z0.Asm.Operands
             get => RegClassCode.GP;
         }
 
-
         public RegClass RegClass
         {
             [MethodImpl(Inline)]
@@ -59,7 +59,7 @@ namespace Z0.Asm.Operands
 
         [MethodImpl(Inline)]
         public static implicit operator RegOp(G src)
-            => api.reg(src.Size, src.RegClassCode, src.Index);
+            => reg(src.Size, src.RegClassCode, src.Index);
 
         [MethodImpl(Inline)]
         public static implicit operator O(G src)
@@ -95,7 +95,7 @@ namespace Z0.Asm.Operands
 
         [MethodImpl(Inline)]
         public static implicit operator G(RegKind src)
-            => new G(AsmRegs.index(src));
+            => new G(index(src));
 
         [MethodImpl(Inline)]
         public static G operator ++(G src)
@@ -131,7 +131,6 @@ namespace Z0.Asm.Operands
         [MethodImpl(Inline)]
         public static implicit operator RegOp(rax src)
             => (G)src;
-
     }
 
     public struct rcx : IRegOp64<rcx>

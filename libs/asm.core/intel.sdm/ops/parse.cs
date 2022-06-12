@@ -11,6 +11,30 @@ namespace Z0.Asm
 
     partial struct SdmOps
     {
+        /// <summary>
+        /// Tests whether the specified input sequence is of the form ' .' or '. '
+        /// </summary>
+        /// <param name="c0">The first character in the placeholder sequence</param>
+        /// <param name="c1">The second character in the placeholder sequence</param>
+        [MethodImpl(Inline), Op]
+        public static bool placeholder(char c0, char c1)
+            => (c0 == Placeholder.Space && c1 == Placeholder.Dot)
+            || (c0 == Placeholder.Dot && c1 == Placeholder.Space);
+
+        /// <summary>
+        /// Finds the beginning of the toc entry placeholders
+        /// </summary>
+        /// <param name="src">The data source</param>
+        public static int placeholder(string src)
+        {
+            var i = text.index(src," . . . .");
+            var j = text.index(src,". . . . ");
+            if(i != NotFound && j != NotFound)
+                return min(i,j);
+            else
+                return NotFound;
+        }
+
         public static Outcome parse(string src, out TocTitle dst)
         {
             dst = TocTitle.Empty;
@@ -41,7 +65,7 @@ namespace Z0.Asm
 
             var a = text.left(src,i);
             var b = text.right(src,i);
-            if(SP.uint8(base10, a, out var cn) && SP.uint16(base10, b, out var pn))
+            if(ScalarParser.uint8(base10, a, out var cn) && ScalarParser.uint16(base10, b, out var pn))
             {
                 dst = page(chapter(cn), pn);
                 return true;
@@ -145,6 +169,15 @@ namespace Z0.Asm
             }
 
             return result;
+        }
+
+        static int index(ReadOnlySpan<char> src, string marker)
+        {
+            var index = src.IndexOf(marker);
+            if(index > ContentMarkers.TableNumber.Length)
+                return NotFound;
+            else
+                return index;
         }
 
         public static Outcome parse(string src, out TableNumber dst)

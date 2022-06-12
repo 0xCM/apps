@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    partial class AsmOpCodes
+    partial class SdmOpCodes
     {
         public static string format(AsmOcToken src)
         {
@@ -17,7 +17,7 @@ namespace Z0.Asm
             return RP.Error;
         }
 
-        public static string format(in AsmOpCode src)
+        public static string format(in SdmOpCode src)
         {
             if(src.IsEmpty)
                 return EmptyString;

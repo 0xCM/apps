@@ -19,7 +19,7 @@ namespace Z0
             {
                 ref readonly var detail = ref src[i];
                 ref readonly var input = ref detail.OpCodeExpr;
-                AsmOpCodes.parse(detail.OpCodeExpr, out var opcode).Require();
+                SdmOpCodes.parse(detail.OpCodeExpr, out var opcode).Require();
                 result = CheckEquality(input, opcode);
                 if(result.Fail)
                 {
@@ -33,7 +33,7 @@ namespace Z0
             return result;
         }
 
-        static bool CheckEquality(in CharBlock36 input, in AsmOpCode parsed)
+        static bool CheckEquality(in CharBlock36 input, in SdmOpCode parsed)
             => input.Format().Trim().Equals(parsed.Format());
 
         [CmdOp("sdm/check/sigs")]
@@ -75,7 +75,7 @@ namespace Z0
             {
                 ref readonly var form = ref forms[i];
                 ref readonly var opcode = ref form.OpCode;
-                if(AsmOpCodes.imm(opcode, out var token))
+                if(SdmOpCodes.imm(opcode, out var token))
                     Write(string.Format("{0} | {1}", token, form));
             }
 

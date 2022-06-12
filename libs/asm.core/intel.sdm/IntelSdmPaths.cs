@@ -5,81 +5,76 @@
 namespace Z0.Asm
 {
     using static SdmModels;
+    using static ApiGranules;
 
-    public class IntelSdmPaths : AppService<IntelSdmPaths>
+    public class IntelSdmPaths : WfSvc<IntelSdmPaths>
     {
-        protected IProjectWs Project()
-            => Ws.Project("db/sources/intel");
+        public IDbTargets Targets()
+            => AppDb.DbTargets(sdm);
 
-        public FS.FolderPath Targets()
-            => ProjectDb.Subdir("sdm");
+        public FS.FilePath SdmTable<T>()
+            where T : struct
+                => AppDb.DbTable<T>(sdm);
 
-        public FS.FolderPath Logs()
-            => ProjectDb.Subdir("logs") + FS.folder("sdm");
+        public IDbTargets Logs()
+            => AppDb.Logs(sdm);
 
-        public FS.FolderPath Settings()
-            => ProjectDb.Settings();
+        public IDbSources Settings()
+            => AppDb.EnvConfig();
 
-        public FS.FilePath SigFixupRules()
-            => ProjectDb.Settings("asm.sigs.fixups", FS.ext("map"));
+        public FS.FilePath SigFixupConfig()
+            => AppDb.EnvConfig().Path("asm.sigs.fixups", FileKind.Map);
 
-        public FS.FilePath SigNormalRules()
-            => ProjectDb.Settings("asm.sigs.normalize", FS.ext("map"));
+        public FS.FilePath SigNormalConfig()
+            => AppDb.EnvConfig().Path("asm.sigs.normalize", FileKind.Map);
 
-        public FS.FilePath OcFixupRules()
-            => ProjectDb.Settings("asm.opcodes.fixups", FS.ext("map"));
+        public FS.FilePath OcFixupConfig()
+            => AppDb.EnvConfig().Path("asm.opcodes.fixups", FileKind.Map);
 
-        public FS.FolderPath Sources()
-            => Project().Home();
+        public FS.FilePath SplitConfig()
+            => Settings().Path(FS.file("sdm.splits", FS.Csv));
 
-        public FS.FolderPath Sources(string name)
-            => Sources() + FS.folder(name);
+        public IDbSources Sources()
+            => AppDb.DbSources(intel);
 
-        public FS.FilePath SdmSrcPath(byte vol)
-            => Sources() + SdmSrcFile(vol);
+        public IDbSources Sources(string scope)
+            => Sources().Sources(scope);
 
-        public FS.FilePath SdmDstPath(byte vol)
-            => Targets() + FS.file(string.Format("intel-sdm-vol{0}-{1}", vol, "lined"), FS.Txt);
+        public FS.FilePath SdmSrcVol(byte vol)
+            => Sources().Path(FS.file(string.Format("intel-sdm-vol{0}", vol), FS.Txt));
+
+        public FS.FilePath SdmDstVol(byte vol)
+            => Targets().Path(FS.file(string.Format("intel-sdm-vol{0}-{1}", vol, "lined"), FS.Txt));
 
         public FS.FilePath TocImportDoc()
-            => Targets() + FS.file("sdm.toc", FS.Txt);
+            => Targets().Path(FS.file("sdm.toc", FS.Txt));
 
         public FS.FilePath ProcessLog(string name)
-            => Logs() + FS.file(name, FS.Log);
+            => Logs().Path(name,FileKind.Log);
 
         public SortedSpan<FS.FilePath> TocPaths()
-            => Targets().AllFiles.Where(f => IsTocPart(f)).Array().ToSortedSpan();
+            => Targets().Files().Where(f => IsTocPart(f)).Array().ToSortedSpan();
 
         public FS.FilePath TocImportTable()
-            => Targets() + FS.file(TableId.identify<TocEntry>().Format(), FS.Csv);
+            => AppDb.DbTable<TocEntry>(sdm);
 
         public FS.FilePath FormDetailPath()
-            => ProjectDb.Subdir("sdm") + Tables.filename<AsmFormDetail>();
+            => AppDb.DbTable<SdmFormDetail>(sdm);
 
-        public FS.FilePath CharMapPath()
-            => Settings() + FS.file("sdm.charmap", FS.Config);
+        public FS.FilePath CharMapTarget()
+            => Targets().Path(FS.file("sdm.charmap", FS.Config));
 
         public FS.FilePath UnmappedCharLog()
-            => Logs() + FS.file("sdm.unmapped", FS.Log);
-
-        public FS.FilePath SplitSpecs()
-            => Settings() + FS.file("sdm.splits", FS.Csv);
-
-        public FS.FileName SdmSrcFile(byte vol)
-            => FS.file(string.Format("intel-sdm-vol{0}", vol), FS.Txt);
+            => Logs().Path("sdm.unmapped", FileKind.Log);
 
         public FS.FilePath SdmSrcPath()
-            => Sources() + FS.file("intel-sdm", FS.Txt);
+            => Sources().Path(FS.file("intel-sdm", FS.Txt));
 
-        public FS.FolderPath CsvSources()
-            => Sources() + FS.folder("sdm.instructions");
+        public IDbSources CsvSources()
+            => Sources().Sources("sdm.instructions");
 
         public FS.FilePath Tokens()
-            => ProjectDb.Subdir("sdm") + Tables.filename<AsmToken>();
-
-        public FS.FilePath ImportTable<T>()
-            where T : struct
-                => Targets() + Tables.filename<T>();
+            => AppDb.DbTable<AsmToken>("sdm");
 
         static bool IsTocPart(FS.FilePath src)
         {

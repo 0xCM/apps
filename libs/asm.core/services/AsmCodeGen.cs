@@ -47,7 +47,7 @@ namespace Z0.Asm
             CsRender.@enum(margin, src, dst);
             margin -=4;
             dst.Indent(margin, Chars.RBrace);
-            CsLang.EmitFile(dst.Emit(), AsmFormDescriptors.FormKindName, CgTarget.Intel);
+            CsLang.EmitFile(dst.Emit(), SdmFormDescriptors.FormKindName, CgTarget.Intel);
         }
 
         public void GenSigStrings()
@@ -64,7 +64,7 @@ namespace Z0.Asm
                     seek(sigs,i) = forms[keys[i-1]].Sig.Format();
             }
 
-            CsLang.EmitStringTable(TargetNamespace, AsmSigTableName, AsmFormDescriptors.FormKindName, sigs, CgTarget.Intel, false);
+            CsLang.EmitStringTable(TargetNamespace, AsmSigTableName, SdmFormDescriptors.FormKindName, sigs, CgTarget.Intel, false);
         }
     }
 }

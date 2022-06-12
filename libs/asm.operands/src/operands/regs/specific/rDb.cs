@@ -4,13 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm.Operands
 {
+    using static AsmRegBits;
+
     using I = RegIndexCode;
     using G = rDb;
     using K = AsmRegTokens.DebugReg;
     using O = AsmOperand;
-    using C = RegClassCode;
     using api = AsmRegs;
-
     public readonly struct rDb : IRegOp64<rDb>
     {
         public RegIndexCode Index {get;}
@@ -20,7 +20,6 @@ namespace Z0.Asm.Operands
         {
             Index = index;
         }
-
 
         [MethodImpl(Inline)]
         public AsmOperand Untyped()
@@ -52,7 +51,7 @@ namespace Z0.Asm.Operands
 
         [MethodImpl(Inline)]
         public static implicit operator RegOp(G src)
-            => api.reg(src.Size, src.RegClassCode, src.Index);
+            => reg(src.Size, src.RegClassCode, src.Index);
 
         [MethodImpl(Inline)]
         public static implicit operator AsmOperand(G src)
@@ -84,7 +83,7 @@ namespace Z0.Asm.Operands
 
         [MethodImpl(Inline)]
         public static implicit operator G(RegKind src)
-            => new G(AsmRegs.index(src));
+            => new G(index(src));
 
         [MethodImpl(Inline)]
         public static G operator ++(G src)

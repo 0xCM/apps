@@ -25,11 +25,11 @@ namespace Z0
 
         public AsmMnemonic Mnemonic;
 
-        public AsmOpCode OpCode;
+        public SdmOpCode OpCode;
 
         public AsmOperands Operands;
 
-        public AsmInstruction(AsmMnemonic mnemonic, AsmOpCode opcode, AsmOperands ops)
+        public AsmInstruction(AsmMnemonic mnemonic, SdmOpCode opcode, AsmOperands ops)
         {
             Mnemonic = mnemonic;
             OpCode = opcode;

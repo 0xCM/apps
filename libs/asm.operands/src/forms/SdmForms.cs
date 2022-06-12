@@ -2,20 +2,20 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
     using static core;
 
-    public readonly struct AsmForms
+    public readonly struct SdmForms
     {
-        readonly SortedLookup<string,AsmForm> Data;
+        readonly SortedLookup<string,SdmForm> Data;
 
-        public AsmForms(AsmForm[] src)
+        public SdmForms(SdmForm[] src)
         {
             Data = map(src, form => (form.Name.Format(), form)).ToDictionary();
         }
 
-        public ReadOnlySpan<AsmForm> View
+        public ReadOnlySpan<SdmForm> View
         {
             [MethodImpl(Inline)]
             get => Data.Values;
@@ -33,24 +33,24 @@ namespace Z0.Asm
             get => Data.EntryCount;
         }
 
-        public ref readonly AsmForm this[uint index]
+        public ref readonly SdmForm this[uint index]
         {
             [MethodImpl(Inline)]
             get => ref skip(View,index);
         }
 
-        public ref readonly AsmForm this[int index]
+        public ref readonly SdmForm this[int index]
         {
             [MethodImpl(Inline)]
             get => ref skip(View,index);
         }
 
         [MethodImpl(Inline)]
-        public bool Find(string name, out AsmForm form)
+        public bool Find(string name, out SdmForm form)
             => Data.Find(name, out form);
 
         [MethodImpl(Inline)]
-        public static implicit operator AsmForms(AsmForm[] src)
-            => new AsmForms(src);
+        public static implicit operator SdmForms(SdmForm[] src)
+            => new SdmForms(src);
     }
 }

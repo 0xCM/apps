@@ -8,6 +8,27 @@ namespace Z0.Asm
 
     partial class IntelSdm
     {
+        public static AsmSigExpr sig(in SdmOpCodeDetail src)
+        {
+            var dst = AsmSigExpr.Empty;
+            var sig = src.AsmSig.Format().Trim();
+            var mnemonic = src.Mnemonic;
+            var j = text.index(sig, Chars.Space);
+            if(j > 0)
+            {
+                var operands = text.right(sig, j);
+                if(text.contains(sig,Chars.Comma))
+                    dst = AsmSigs.expression(mnemonic, text.trim(text.split(operands, Chars.Comma)));
+                else
+                    dst = AsmSigs.expression(mnemonic, operands);
+            }
+            else
+            {
+                dst = AsmSigs.expression(mnemonic);
+            }
+            return dst;
+        }
+
         public Index<AsmSigExpr> LoadSigs()
         {
             return Data(nameof(LoadSigs), Load);
@@ -21,7 +42,7 @@ namespace Z0.Asm
             var count = src.Length;
             var buffer = alloc<AsmSigExpr>(count);
             for(var i=0; i<count; i++)
-                seek(buffer,i) = SdmOps.sig(skip(src,i));
+                seek(buffer,i) = sig(skip(src,i));
             return buffer;
         }
     }

@@ -19,6 +19,8 @@ namespace Z0
 
         public const string Control = nameof(Control);
 
+        public const string EnvConfig = nameof(EnvConfig);
+
         // public const string CodeGen = nameof(CodeGen);
 
         // public const string Dev = nameof(Dev);

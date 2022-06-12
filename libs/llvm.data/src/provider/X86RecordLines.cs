@@ -18,7 +18,6 @@ namespace Z0.llvm
             var lines = reader.ReadAll().ToArray().Index();
             return (Index<TextLine>)DataSets.GetOrAdd(id + "lines", _ => lines);
         }
-            //=> SelectRecordLines(Datasets.X86);
 
         public ReadOnlySpan<TextLine> X86RecordLines(ClosedInterval<uint> range)
             => slice(X86RecordLines().View, range.Min - 1, range.Max - range.Min + 1);

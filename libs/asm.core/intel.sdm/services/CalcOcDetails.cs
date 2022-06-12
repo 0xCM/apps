@@ -12,6 +12,30 @@ namespace Z0.Asm
         public Index<SdmOpCodeDetail> CalcOcDetails()
             => CalcOcDetails(SdmPaths.Sources("sdm.instructions").Files(FS.Csv).ToReadOnlySpan());
 
+        static Index<SdmOpCodeDetail> deduplicate(ReadOnlySpan<SdmOpCodeDetail> src)
+        {
+            var count = src.Length;
+            var outgoing = span<SdmOpCodeDetail>(count);
+            var j = 0u;
+            var logicalKeys = hashset<string>();
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var input = ref skip(src,i);
+                var logicalKey = input.AsmSig.Format() + input.OpCodeExpr.Format();
+                if(logicalKeys.Contains(logicalKey))
+                    continue;
+                else
+                    logicalKeys.Add(logicalKey);
+
+                seek(outgoing, j) = input;
+                seek(outgoing, j).OpCodeKey = j;
+                j++;
+
+            }
+            return slice(outgoing, 0, j).ToArray();
+        }
+
+
         Index<SdmOpCodeDetail> CalcOcDetails(ReadOnlySpan<FS.FilePath> src)
         {
             var result = Outcome.Success;
@@ -36,7 +60,7 @@ namespace Z0.Asm
                 }
             }
 
-            return SdmOps.deduplicate(slice(buffer,0,counter).ToArray().Sort());
+            return deduplicate(slice(buffer,0,counter).ToArray().Sort());
         }
 
         string NormalizeSig(string src)
@@ -89,13 +113,13 @@ namespace Z0.Asm
                     {
                         case "Opcode":
                         var octext = text.despace(ocfixups.Apply(text.trim(content)));
-                        var oc = AsmOpCode.Empty;
+                        var oc = SdmOpCode.Empty;
                         target.OpCodeExpr = octext;
                         if(empty(octext))
                             valid = false;
                         else
                         {
-                            AsmOpCodes.parse(octext, out oc).Require();
+                            SdmOpCodes.parse(octext, out oc).Require();
                             target.OpCodeValue = oc.OcValue();
                         }
                         break;
