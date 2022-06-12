@@ -96,7 +96,7 @@ namespace Z0
             var bf = dataset(n);
             var formatter = Tables.formatter<BfSegModel>();
             var segs = PolyBits.segs(bf);
-            AppSvc.TableEmit(segs, AppDb.Targets("pb").Table<BfSegModel>($"{bf.Name}"));
+            AppSvc.TableEmit(segs, AppDb.DbTargets("pb").Table<BfSegModel>($"{bf.Name}"));
             var intervals = bf.Intervals;
 
 

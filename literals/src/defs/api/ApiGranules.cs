@@ -14,23 +14,11 @@ namespace Z0
 
         public const string sep = "/";
 
-        public const string cmd = dot + "cmd";
-
-        public const string build = dot + "build";
-
         public const string ws = dot + "ws";
 
-        public const string logs = "logs";
-
-        public const string wslogs = ws + "/" + logs;
-
-        public const string il = "il";
+        public const string wslogs = ws + sep + logs;
 
         public const string asm = "asm";
-
-        public const string bin = "bin";
-
-        public const string builds = "builds";
 
         public const string release = "release";
 
@@ -38,126 +26,158 @@ namespace Z0
 
         public const string net6 = "net6.0";
 
-        public const string cil = "cil";
-
-        public const string docs = "docs";
-
-        public const string lists = "lists";
-
-        public const string tables = "tables";
-
-        public const string sources = "sources";
-
-        public const string targets = "targets";
-
-        public const string stage = "stage";
-
-        public const string tools = "tools";
-
-        public const string tooling = "tooling";
-
-        public const string help = "help";
-
-        public const string jobs = "jobs";
-
-        public const string capture = "capture";
-
-        public const string refs = "refs";
-
-        public const string refdata = "refdata";
-
-        public const string reports = "reports";
-
-        public const string events = "events";
-
-        public const string etl = "etl";
-
-        public const string queue = "queue";
-
-        public const string parsed = "parsed";
-
-        public const string hex = "hex";
-
-        public const string extracts = "extracts";
-
-        public const string output = "output";
-
-        public const string dotout = ".out";
-
-        public const string input = "input";
-
         public const string qualified = "{0}.{1}";
-
-        public const string notebooks = "notebooks";
-
-        public const string indices = "indices";
-
-        public const string imm = "imm";
-
-        public const string tmp = "tmp";
-
-        public const string data = "data";
-
-        public const string dumps = "dumps";
-
-        public const string context = "context";
-
-        public const string source = "source";
-
-        public const string src = "src";
-
-        public const string commands = "commands";
-
-        public const string apps = "apps";
-
-        public const string tests = "tests";
-
-        public const string settings = "settings";
-
-        public const string z0 = "z0";
-
-        public const string cases = "cases";
-
-        public const string catalogs = "catalogs";
-
-        public const string dotnet = "dotnet";
-
-        public const string symbols = "symbols";
 
         public const string @default = "default";
 
-        public const string images = "images";
+        public const string objhex = "obj.hex";
 
-        public const string steps = "steps";
+        public const string asmcsv = "asm.csv";
 
-        public const string show = "show";
+        public const string xeddisasm = "xed.disasm";
 
-        public const string external = "external";
+        public const string asmsrc = "asm.src";
 
-        public const string manuals = "manuals";
+        public const string projects = nameof(projects);
 
-        public const string current = "current";
+        public const string gen = nameof(gen);
 
-        public const string codegen = "codegen";
+        public const string control = nameof(control);
 
-        public const string labs = "labs";
+        public const string imports = nameof(imports);
 
-        public const string models = "models";
+        public const string api = nameof(api);
 
-        public const string obj = "obj";
+        public const string bin = nameof(bin);
 
-        public const string exe = "exe";
+        public const string cmd = nameof(cmd);
 
-        public const string cpp = "cpp";
+        public const string builds = nameof(builds);
 
-        public const string scripts = "scripts";
+        public const string build = nameof(build);
 
-        public const string datasets = "datasets";
+        public const string cil = nameof(cil);
 
-        public const string imported = "imported";
+        public const string cildata = nameof(cil) + dot + data;
 
-        public const string bitfields = "bitfields";
+        public const string dotbuild = dot + build;
 
-        public const string common = "common";
+        public const string dotcmd = dot + cmd;
+
+        public const string docs = nameof(docs);
+
+        public const string lists = nameof(lists);
+
+        public const string tables = nameof(tables);
+
+        public const string sources = nameof(sources);
+
+        public const string targets = nameof(targets);
+
+        public const string stage = nameof(stage);
+
+        public const string tools = nameof(tools);
+
+        public const string tooling = nameof(tooling);
+
+        public const string help = nameof(help);
+
+        public const string jobs = nameof(jobs);
+
+        public const string capture = nameof(capture);
+
+        public const string logs = nameof(logs);
+
+        public const string refs = nameof(refs);
+
+        public const string refdata = nameof(refdata);
+
+        public const string reports = nameof(reports);
+
+        public const string events = nameof(events);
+
+        public const string etl = nameof(etl);
+
+        public const string queue = nameof(queue);
+
+        public const string parsed = nameof(parsed);
+
+        public const string il = nameof(il);
+
+        public const string hex = nameof(hex);
+
+        public const string extracts = nameof(extracts);
+
+        public const string output = nameof(output);
+
+        public const string dotout = dot + "out";
+
+        public const string input = nameof(input);
+
+        public const string imm = nameof(imm);
+
+        public const string tmp = nameof(tmp);
+
+        public const string data = nameof(data);
+
+        public const string dumps = nameof(dumps);
+
+        public const string context = nameof(context);
+
+        public const string source = nameof(source);
+
+        public const string src = nameof(src);
+
+        public const string commands = nameof(commands);
+
+        public const string apps = nameof(apps);
+
+        public const string tests = nameof(tests);
+
+        public const string settings = nameof(settings);
+
+        public const string z0 = nameof(z0);
+
+        public const string cases = nameof(cases);
+
+        public const string catalogs = nameof(catalogs);
+
+        public const string dotnet = nameof(dotnet);
+
+        public const string symbols = nameof(symbols);
+
+        public const string images = nameof(images);
+
+        public const string steps = nameof(steps);
+
+        public const string show = nameof(show);
+
+        public const string external = nameof(external);
+
+        public const string manuals = nameof(manuals);
+
+        public const string current = nameof(current);
+
+        public const string codegen = nameof(codegen);
+
+        public const string labs = nameof(labs);
+
+        public const string models = nameof(models);
+
+        public const string obj = nameof(obj);
+
+        public const string exe = nameof(exe);
+
+        public const string cpp = nameof(cpp);
+
+        public const string scripts = nameof(scripts);
+
+        public const string datasets = nameof(datasets);
+
+        public const string imported = nameof(imported);
+
+        public const string bitfields = nameof(bitfields);
+
+        public const string common = nameof(common);
     }
 }

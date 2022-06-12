@@ -93,7 +93,7 @@ namespace Z0
                 return (false, string.Format("{0} not supported", kind));
 
             var outdir = ProjectDb.ProjectData();
-            var cmd = CmdLine.create(ToolWs.Script(dumpbin, script).Format(PathSeparator.BS));
+            var cmd = CmdScript.cmdline(ToolWs.Script(dumpbin, script).Format(PathSeparator.BS));
             var input = project.Files(ext);
             var count = input.Length;
             for(var i=0; i<count; i++)

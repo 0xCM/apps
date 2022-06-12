@@ -13,7 +13,7 @@ namespace Z0
         {
             //AppDb.ProjectDb(context.Project.Project, disasm).Clear();
             var project = context.Project.Project;
-            AppDb.XedTargets(project).Clear();
+            AppDb.XedDisasm(project).Clear();
 
             var docs = CalcDocs(context);
             exec(PllExec,

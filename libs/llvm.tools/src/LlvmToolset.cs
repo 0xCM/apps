@@ -110,7 +110,7 @@ namespace Z0.llvm
                 ref readonly var tool = ref profile.Id;
                 if(profile.HelpCmd.IsEmpty)
                     continue;
-                dst.Add(CmdLine.create(tool, string.Format("{0} {1}", profile.Path.Format(PathSeparator.BS), profile.HelpCmd)));
+                dst.Add(CmdScript.cmdline(tool, string.Format("{0} {1}", profile.Path.Format(PathSeparator.BS), profile.HelpCmd)));
             }
             dst.Sort();
             return dst.ToArray();

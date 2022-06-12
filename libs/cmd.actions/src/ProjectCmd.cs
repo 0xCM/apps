@@ -27,11 +27,11 @@ namespace Z0
         AsmFlowCommands AsmFlows => Wf.AsmFlows();
 
         Dictionary<string,string> BuildCmdNames {get;}
-            = array(("mc.models", "project/build/asm"),
+            = new (string project, string cmd)[]{
+                        ("mc.models", "project/build/asm"),
                         ("clang.models","project/build/c"),
                         ("llvm.models","project/build/llc"),
                         ("canonical","project/build/builtins")
-            ).ToDictionary();
-
+            }.ToDictionary();
    }
 }

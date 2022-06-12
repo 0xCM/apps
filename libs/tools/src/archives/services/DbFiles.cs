@@ -117,11 +117,11 @@ namespace Z0
             return dst;
         }
 
-        static FS.FolderPath targets(FS.FolderPath root, ProjectId id)
-            => root + FS.folder("projects") + FS.folder(id.Format());
+        public IDbSources ProjectSources(ProjectId id)
+            => new DbSources(Root, id.Format());
 
         public IDbTargets ProjectData(ProjectId id)
-            => new DbTargets(targets(Root,id));
+            => new DbTargets(FS.dir($"{Root}/projects"), id.Format());
 
         public IDbTargets Targets()
             => new DbTargets(Root);
@@ -171,7 +171,7 @@ namespace Z0
 
         public FS.FilePath Table<T>(ProjectId id)
             where T : struct
-                => targets(Root, id) + Tables.filename<T>(id.Format());
+                => Root + Tables.filename<T>(id.Format());
 
         public FS.FilePath Table<T>(string prefix)
             where T : struct

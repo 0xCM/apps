@@ -12,7 +12,7 @@ namespace Z0
 
         Symbols<CoffSectionKind> SectionKinds;
 
-        AsmObjPaths ObjectPaths => AsmObjects.Paths;
+        AsmObjPaths ObjectPaths => AsmObjects.ObjPaths;
 
         public CoffServices()
         {
@@ -30,7 +30,7 @@ namespace Z0
 
         public Outcome CollectObjHex(WsContext context)
         {
-            var targets = AppDb.HexTargets(context.Project.Project);
+            var targets = AppDb.ObjHex(context.Project.Project);
             targets.Clear();
             var result = Outcome.Success;
             var files = context.Catalog.Entries(FileKind.Obj, FileKind.O);
@@ -52,7 +52,7 @@ namespace Z0
 
         public HexFileData LoadObjHex(WsContext context)
         {
-            var src = AppDb.HexTargets(context.Project.Project).Files(FileKind.HexDat);
+            var src = AppDb.ObjHex(context.Project.Project).Files(FileKind.HexDat);
             var count = src.Length;
             var dst = dict<FS.FilePath,Index<HexDataRow>>(count);
             for(var i=0; i<count; i++)

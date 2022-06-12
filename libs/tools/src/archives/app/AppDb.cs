@@ -5,6 +5,7 @@
 namespace Z0
 {
     using S = ArchiveNames;
+    using T = ApiGranules;
 
     public class AppDb : IAppDb
     {
@@ -15,84 +16,63 @@ namespace Z0
             Archives = AppData.WsPaths;
         }
 
-        public ref readonly EnvData Env
-            => ref AppData.AppEnv;
-
         EnvData IEnvProvider.Env
             => AppData.AppEnv;
 
-        public IDbTargets Targets()
-            => new DbTargets(Archives.Path(S.Targets).Location);
+        public IDbTargets DbTargets()
+            => new DbTargets(Archives.Path(S.DbTargets).Location);
 
-        public IDbSources Sources()
-            => new DbSources(Archives.Path(S.Sources).Location);
+        public IDbSources DbSources()
+            => new DbSources(Archives.Path(S.DbSources).Location);
+
+        public IDbSources ProjectSrc()
+            => new DbSources(Archives.Path(S.ProjectSrc).Location);
 
         public IDbSources Control()
             => new DbSources(Archives.Path(S.Control).Location);
 
-        public IDbSources Sources(string scope)
-            => Sources().Sources(scope);
+        public IDbTargets ProjectEtl(ProjectId project)
+            => new DbTargets(Archives.Path(S.ProjectEtl).Location, project.Format());
 
-        public FS.FilePath Table<T>(ProjectId id)
+        public FS.FilePath EtlTable<T>(ProjectId project)
             where T : struct
-                => ProjectData(id).Table<T>(id);
+                => ProjectEtl(project).Table<T>(project);
 
-        public IDbTargets Projects(string scope)
-            => Targets().Targets(scope);
+        public IDbSources DbSources(string scope)
+            => DbSources().Sources(scope);
 
-        public IDbTargets ProjectTargets(ProjectId id)
-            => Targets().Targets(id);
-
-        public IDbTargets ProjectData(ProjectId id)
-            => new DbTargets(Targets().Targets("projects"), id);
-
-        public IDbTargets CodeGen()
-            => new DbTargets(Archives.Path(S.CodeGen).Location);
-
-        public IDbTargets CgTargets(CgTarget dst)
-            => AppData.CgProjects.Targets($"codegen/{Symbols.format(dst)}/src");
-
-        public IDbTargets CgTargets(CgTarget dst, string scope)
-            => CgTargets(dst).Targets(scope);
-
-        public IDbSources ProjectSources(ProjectId id)
-            => Sources().Sources(id);
-
-        public IDbTargets Targets(string scope)
-            => Targets().Targets(scope);
+        public IDbTargets DbTargets(string scope)
+            => DbTargets().Targets(scope);
 
         public IDbTargets Logs()
-            => Targets("logs");
+            => DbTargets("logs");
 
         public IDbTargets Logs(string scope)
-            => Targets($"logs/{scope}");
+            => DbTargets($"logs/{scope}");
 
         public IDbTargets RuntimeLogs()
             => Logs("runtime");
 
         public IDbTargets ApiTargets()
-            => Targets().Targets("api");
+            => DbTargets().Targets("api");
 
         public IDbTargets ApiTargets(string scope)
-            => Targets($"api/{scope}");
+            => DbTargets($"api/{scope}");
 
-        public IDbTargets ProjectDb(ProjectId project, string scope)
-            => new DbTargets(ProjectData(project), scope);
+        public IDbTargets EtlTargets(ProjectId id, string scope)
+            => ProjectEtl(id).Targets(scope);
 
-        public IDbTargets DbTargets(IProjectWs ws)
-            => Targets($"projects/{ws.Project}");
+        public IDbTargets AsmCsv(ProjectId id)
+            => EtlTargets(id, T.asmcsv);
 
-        public IDbTargets DbTargets(ProjectId ws)
-            => Targets($"projects/{ws}");
+        public IDbTargets ObjHex(ProjectId id)
+            => EtlTargets(id, T.objhex);
 
-        public IDbTargets AsmTargets(ProjectId ws)
-            => DbTargets(ws).Targets("asm.code");
+        public IDbTargets XedDisasm(ProjectId id)
+            => EtlTargets(id, T.xeddisasm);
 
-        public IDbTargets HexTargets(ProjectId ws)
-            => DbTargets(ws).Targets("obj.hex");
-
-        public IDbTargets XedTargets(ProjectId ws)
-            => DbTargets(ws).Targets("xed.disasm");
+        public IDbTargets AsmSrc(ProjectId id)
+            => EtlTargets(id, T.asmsrc);
 
         static SortedDictionary<string,FileKind> FileKindLU;
 

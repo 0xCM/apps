@@ -7,31 +7,29 @@ namespace Z0
 {
     public static class XAppDb
     {
-        const string xed = "xed";
-
         public static IDbTargets CgStage(this IAppDb db)
-            => db.Targets("cgstage");
+            => db.DbTargets("cgstage");
 
         public static IDbTargets CgStage(this IAppDb db, string scope)
-            => db.Targets($"cgstage/{scope}");
+            => db.DbTargets($"cgstage/{scope}");
 
         public static IDbSources IntelSources(this IAppDb db)
-            => db.Sources("intel");
+            => db.DbSources("intel");
 
         public static IDbTargets IntelTargets(this IAppDb db)
-            => db.Targets("intel");
+            => db.DbTargets("intel");
 
         public static IDbTargets SdeTargets(this IAppDb db)
-            => db.Targets().Targets("sde");
+            => db.DbTargets().Targets("sde");
 
         public static IDbTargets LlvmTargets(this IAppDb db)
-            => db.Targets("llvm");
+            => db.DbTargets("llvm");
 
         public static IDbSources LlvmSources(this IAppDb db)
-            => db.Sources("llvm");
+            => db.DbSources("llvm");
 
         public static IDbTargets ApiTargets(this IAppDb db, string scope)
-            => db.Targets($"api/{scope}");
+            => db.DbTargets($"api/{scope}");
 
         public static IDbTargets MsilTargets(this IAppDb db)
             => db.ApiTargets("msil");

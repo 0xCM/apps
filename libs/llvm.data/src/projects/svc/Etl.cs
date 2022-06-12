@@ -10,7 +10,8 @@ namespace Z0
         {
             var context = CmdFlows.context(project);
             AsmObjects.CollectObjects(context);
-            AsmObjects.CollectObjSyms(context);
+            AsmObjects.Emit(context, AsmObjects.CalcObjSyms(context));
+            //AsmObjects.CollectObjSyms(context);
             AsmObjects.CollectCoffData(context);
             CollectAsmSyntax(context);
             CollectMcInstructions(context);

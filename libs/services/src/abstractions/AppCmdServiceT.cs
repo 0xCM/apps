@@ -250,7 +250,7 @@ namespace Z0
         protected void UpdateToolEnv(out Settings dst)
         {
             var path = ToolWs.Toolbase.Path(FS.file("show-env-config", FS.Cmd));
-            var cmd = CmdLine.create(path.Format(PathSeparator.BS));
+            var cmd = CmdScript.cmdline(path.Format(PathSeparator.BS));
             dst = AppSettings.Load(OmniScript.RunCmd(cmd));
         }
 
@@ -326,7 +326,7 @@ namespace Z0
         }
 
         protected static CmdArg arg(in CmdArgs src, int index)
-            => CmdLine.arg(src,index);
+            => CmdScript.arg(src,index);
 
         Outcome SelectTool(ToolId tool)
         {

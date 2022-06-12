@@ -63,10 +63,6 @@ namespace Z0.Asm
         public static implicit operator AsmCodeBlock[](AsmCodeBlocks src)
             => src.Data;
 
-        // [MethodImpl(Inline)]
-        // public static implicit operator AsmCodeBlocks(AsmCodeBlock[] src)
-        //     => new AsmCodeBlocks(src);
-
         public static AsmCodeBlocks Empty => new AsmCodeBlocks(Label.Empty, 0, sys.empty<AsmCodeBlock>());
     }
 }

@@ -56,7 +56,7 @@ namespace Z0
         {
             AppDb.MsilTargets().Delete();
             ApiMd.EmitMsil(ApiMd.ApiHosts, AppDb.MsilTargets(il));
-            AppSvc.TableEmit(Cil.opcodes(), AppDb.Targets("clr").Path("cil.opcodes", FileKind.Csv));
+            AppSvc.TableEmit(Cil.opcodes(), AppDb.DbTargets("clr").Path("cil.opcodes", FileKind.Csv));
         }
 
         [CmdOp("api/emit/index")]

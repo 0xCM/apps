@@ -32,7 +32,7 @@ namespace Z0
             {
                 var asset = Assets.Algorithms();
                 Utf8.decode(asset.ResBytes, out var doc);
-                AppSvc.FileEmit(doc, AppDb.Targets("intrinsics").Path(algs,FileKind.Txt), TextEncodingKind.Utf8);
+                AppSvc.FileEmit(doc, AppDb.DbTargets("intrinsics").Path(algs,FileKind.Txt), TextEncodingKind.Utf8);
             }
 
             [CmdOp("intel/int/check")]

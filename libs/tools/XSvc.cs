@@ -19,6 +19,16 @@ namespace Z0
 
             public HexEmitter HexEmitter(IWfRuntime wf)
                 => Service<HexEmitter>(wf);
+
+            public ScriptRunner ScriptRunner(IWfRuntime wf)
+                => Service<ScriptRunner>(wf);
+
+            public CmdLineRunner CmdLineRunner(IWfRuntime wf)
+                => Service<CmdLineRunner>(wf);
+
+            public OmniScript OmniScript(IWfRuntime wf)
+                => Service<OmniScript>(wf);
+
         }
 
         static Svc Services => Svc.Instance;
@@ -35,5 +45,16 @@ namespace Z0
         public static HexEmitter HexEmitter(this IWfRuntime wf)
             => Services.HexEmitter(wf);
 
+        public static AppDb AppDb(this IWfRuntime wf)
+            => GlobalSvc.Instance.AppDb;
+
+        public static ScriptRunner ScriptRunner(this IWfRuntime wf)
+            => Services.ScriptRunner(wf);
+
+        public static CmdLineRunner CmdLineRunner(this IWfRuntime wf)
+            => Services.CmdLineRunner(wf);
+
+        public static OmniScript OmniScript(this IWfRuntime wf)
+            => Services.OmniScript(wf);
     }
 }

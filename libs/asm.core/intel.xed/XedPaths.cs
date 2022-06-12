@@ -113,7 +113,7 @@ namespace Z0
         }
 
         public IDbTargets DisasmTargets(IProjectWs project)
-            => CmdFlows.data(project.Project, "xed.disasm");
+            => CmdFlows.etl(project.Project, "xed.disasm");
 
         public FS.FilePath DisasmFieldsPath(IProjectWs project, in FileRef src)
             => DisasmTargets(project).Path(FS.file(string.Format("{0}.fields", src.Path.FileName.WithoutExtension), FS.Txt));
@@ -244,7 +244,7 @@ namespace Z0
 
         XedPaths()
         {
-            State = new (AppDb.ProjectSources("intel/xed.primary").Root, AppDb.ProjectTargets("xed").Root);
+            State = new (AppDb.DbSources("intel/xed.primary").Root, AppDb.DbTargets("xed").Root);
         }
 
         static XedPaths Instance = new();

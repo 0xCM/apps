@@ -36,22 +36,22 @@ namespace Z0
         public static FlowId identify<A,S,T>(A actor, S src, T dst)
             => new FlowId(hash(actor), hash(src), hash(dst));
 
-        public static IDbTargets data(ProjectId id)
-            => AppDb.ProjectData(id);
+        public static IDbTargets etl(ProjectId id)
+            => AppDb.ProjectEtl(id);
 
-        public static IDbTargets data(ProjectId id, string scope)
-            => AppDb.ProjectData(id).Targets(scope);
+        public static IDbTargets etl(ProjectId id, string scope)
+            => AppDb.ProjectEtl(id).Targets(scope);
 
         public static FS.FilePath flow(ProjectId id)
-            => data(id).Path(FS.file(string.Format("{0}.build.flows", id), FS.Csv));
+            => etl(id).Path(FS.file(string.Format("{0}.build.flows", id), FS.Csv));
 
         public static FS.FilePath table<T>(ProjectId project)
             where T : struct
-                => data(project).Path(FS.file(string.Format("{0}.{1}", project, TableId.identify<T>()),FS.Csv));
+                => etl(project).Path(FS.file(string.Format("{0}.{1}", project, TableId.identify<T>()),FS.Csv));
 
         public static FS.FilePath table<T>(ProjectId project, string scope)
             where T : struct
-                => data(project,scope).Path(FS.file(string.Format("{0}.{1}", project, TableId.identify<T>()),FS.Csv));
+                => etl(project,scope).Path(FS.file(string.Format("{0}.{1}", project, TableId.identify<T>()),FS.Csv));
 
         public static WsDataFlows flows(ProjectId id)
         {

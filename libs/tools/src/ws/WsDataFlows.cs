@@ -10,14 +10,8 @@ namespace Z0
     {
         static AppDb AppDb => GlobalSvc.Instance.AppDb;
 
-        public static IDbTargets data(ProjectId id)
-            => AppDb.ProjectData(id);
-
-        public static IDbTargets data(ProjectId id, string scope)
-            => AppDb.ProjectData(id).Targets(scope);
-
-        public static FS.FilePath flow(ProjectId project, ScriptId script)
-            => data(project).Path(Tables.filename<CmdFlow>(script));
+        public static IDbTargets etl(ProjectId id)
+            => AppDb.ProjectEtl(id);
 
         ConstLookup<FS.FileUri,List<FS.FileUri>> Lookup;
 

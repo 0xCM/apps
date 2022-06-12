@@ -4,9 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public abstract class AppCmd<C>
-        where C : AppCmd<C>
+    public readonly struct ProjectEtlNames
     {
+        public const string objhex = "obj.hex";
 
+        public const string asmcsv = "asm.csv";
+
+        public const string xeddisasm = "xed.disasm";
+
+        public const string asmsrc = "asm.src";
     }
 }

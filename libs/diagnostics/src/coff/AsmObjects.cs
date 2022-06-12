@@ -10,11 +10,9 @@ namespace Z0
 
     public partial class AsmObjects : WfSvc<AsmObjects>
     {
-        AppSvcOps AppSvc => Wf.AppSvc();
-
         CoffServices Coff => Wf.CoffServices();
 
-        public static new AsmObjPaths Paths
+        public static AsmObjPaths ObjPaths
         {
             [MethodImpl(Inline)]
             get => new AsmObjPaths(GlobalSvc.Instance.AppDb);
@@ -23,7 +21,7 @@ namespace Z0
         public AsmCodeMap MapAsm(IProjectWs ws, Alloc dst)
         {
             var entries = map(ws, LoadRows(ws.Project), dst);
-            TableEmit(entries, Paths.CodeMap(ws.Project));
+            TableEmit(entries, AppDb.EtlTable<AsmCodeMapEntry>(ws.Project));
             return new AsmCodeMap(entries);
         }
 
@@ -31,7 +29,7 @@ namespace Z0
             => Coff.Collect(context);
 
         public Index<ObjSymRow> LoadObjSyms(IProjectWs project)
-            => LoadObjSyms(ProjectDb.ProjectTable<ObjSymRow>(project));
+            => LoadObjSyms(AppDb.ProjectEtl(project.Project).Table<ObjSymRow>());
 
         public Index<ObjSymRow> LoadObjSyms(FS.FilePath src)
         {
@@ -61,7 +59,7 @@ namespace Z0
             return dst;
         }
 
-        public Index<ObjSymRow> CollectObjSyms(WsContext context)
+        public Index<ObjSymRow> CalcObjSyms(WsContext context)
         {
             var result = Outcome.Success;
             var project = context.Project;
@@ -88,24 +86,25 @@ namespace Z0
                 }
             }
 
-            var rows = buffer.ToArray();
-            TableEmit(rows, ProjectDb.ProjectTable<ObjSymRow>(project));
-            return rows;
+            return buffer.ToArray();
         }
+
+        public void Emit(WsContext context, ReadOnlySpan<ObjSymRow> src)
+            => TableEmit(src, ProjectDb.ProjectTable<ObjSymRow>(context.Project));
 
         public CoffSymIndex LoadSymbols(ProjectId id)
             => Coff.LoadSymIndex(id);
 
         public Index<ObjDumpRow> LoadRows(ProjectId id)
-            => rows(Paths.ObjRowsPath(id));
+            => rows(AppDb.EtlTable<ObjDumpRow>(id));
 
         public Index<ObjBlock> LoadBlocks(ProjectId id)
-            => blocks(Paths.ObjBlockPath(id));
+            => blocks(AppDb.EtlTable<ObjBlock>(id));
 
         public Index<AsmInstructionRow> LoadInstructions(ProjectId project)
         {
             const byte FieldCount = AsmInstructionRow.FieldCount;
-            var src = Paths.InstructionTable(project);
+            var src = AppDb.EtlTable<AsmInstructionRow>(project);
             var lines = slice(src.ReadNumberedLines().View,1);
             var count = lines.Length;
             var buffer = alloc<AsmInstructionRow>(count);
@@ -132,9 +131,25 @@ namespace Z0
             return buffer;
         }
 
+        public Index<ObjDumpRow> CalcObjRows(WsContext context)
+        {
+            var files = context.Catalog.Entries(FileKind.ObjAsm);
+            var count = files.Count;
+            var seq = 0u;
+            var dst = list<ObjDumpRow>();
+            var parser = new ObjDumpParser();
+            for(var i=0; i<count; i++)
+            {
+                var result = parser.Parse(context, files[i], dst);
+                if(result.Fail)
+                     Errors.Throw(result.Message);
+            }
+            return dst.ToArray();
+        }
+
         public Index<AsmCodeBlocks> EmitAsmCodeTables(WsContext context, Alloc alloc)
         {
-            AppDb.AsmTargets(context.Project.Project).Clear();
+            AppDb.AsmCsv(context.Project.Project).Clear();
             var files = context.Catalog.Entries(FileKind.ObjAsm);
             var count = files.Count;
             var seq = 0u;
@@ -148,7 +163,7 @@ namespace Z0
 
                 var blocks = AsmObjects.blocks(context, file, ref seq, rows, alloc);
                 dst.Add(blocks);
-                EmitAsmCodeTable(context, blocks, Paths.AsmCodeTable(context.Project.Project, file.Path.FileName.Format()));
+                EmitAsmCodeTable(context, blocks, ObjPaths.AsmCodePath(context.Project.Project, file.Path.FileName.Format()));
             }
             return dst.ToArray();
         }
@@ -190,7 +205,7 @@ namespace Z0
         {
             using var alloc = Alloc.create();
             var code = EmitAsmCodeTables(context, alloc);
-            Paths.RecodedTargets(context.Project.Project).Clear();
+            AppDb.AsmSrc(context.Project.Project).Clear();
             for(var i=0; i<code.Count; i++)
                 RecodeBlocks(context.Project, code[i]);
         }
@@ -198,7 +213,7 @@ namespace Z0
         void RecodeBlocks(in IProjectWs ws, in AsmCodeBlocks src)
         {
             const string intel_syntax = ".intel_syntax noprefix";
-            var asmpath = Paths.RecodedPath(ws.Project, src.OriginName.Format());
+            var asmpath = ObjPaths.RecodedPath(ws.Project, src.OriginName.Format());
             var emitting = EmittingFile(asmpath);
             var counter = 0u;
             using var writer = asmpath.AsciWriter();
@@ -225,7 +240,7 @@ namespace Z0
         {
             var rows = ConsolidateRows(context);
             var blocks = AsmObjects.blocks(rows);
-            TableEmit(blocks.View, Paths.ObjBlockPath(context.Project.Project));
+            TableEmit(blocks.View, AppDb.EtlTable<ObjBlock>(context.Project.Project));
             EmitRecoded(context);
             return new ObjDumpBlocks(blocks,rows);
         }
@@ -263,7 +278,7 @@ namespace Z0
             for(var i=0u; i<data.Length; i++)
                 seek(data,i).Seq = i;
 
-            TableEmit(data, Paths.ObjRowsPath(project.Project));
+            TableEmit(data, AppDb.EtlTable<ObjDumpRow>(project.Project));
             return data;
         }
 

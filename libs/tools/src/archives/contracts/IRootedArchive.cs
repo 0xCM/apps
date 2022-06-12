@@ -22,9 +22,6 @@ namespace Z0
         IDbTargets Targets(string scope)
             => DbFiles.Targets(scope);
 
-        IDbTargets ProjectData(ProjectId id)
-            => DbFiles.ProjectData(id);
-
         FS.FilePath Table<T>()
             where T : struct
                 => DbFiles.Table<T>();

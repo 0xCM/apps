@@ -6,6 +6,33 @@ namespace Z0
 {
     public readonly struct CmdScript
     {
+        public static CmdArg arg(in CmdArgs src, int index)
+        {
+            if(src.IsEmpty)
+                sys.@throw(EmptyArgList.Format());
+
+            var count = src.Length;
+            if(count < index - 1)
+                sys.@throw(ArgSpecError.Format());
+            return src[(ushort)index];
+        }
+
+        static MsgPattern EmptyArgList => "No arguments specified";
+
+        static MsgPattern ArgSpecError => "Argument specification error";
+
+        [MethodImpl(Inline), Op]
+        public static CmdLine cmdline(params string[] src)
+            => new CmdLine(src);
+
+        [MethodImpl(Inline), Op]
+        public static ToolCmdLine cmdline(ToolId tool, params string[] src)
+            => new ToolCmdLine(tool, cmdline(src));
+
+        [MethodImpl(Inline), Op]
+        public static ToolCmdLine cmdline(ToolId tool, CmdModifier modifier, params string[] src)
+            => new ToolCmdLine(tool, modifier, cmdline(src));
+
         [MethodImpl(Inline), Op]
         public static CmdScriptExpr expr(CmdScriptPattern src)
             => new CmdScriptExpr(src);

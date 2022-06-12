@@ -8,8 +8,6 @@ namespace Z0
     {
         public static ref readonly EnvData AppEnv => ref Instance._AppEnv;
 
-        public static ref readonly IDbTargets CgProjects => ref Instance._CgProjects;
-
         public static ref readonly IDbSources ToolBase => ref Instance._Toolbase;
 
         public static ref readonly Settings GlobalSettings => ref Instance._GlobalSettings;
@@ -25,8 +23,6 @@ namespace Z0
         bool _PllExec;
 
         EnvData _AppEnv;
-
-        IDbTargets _CgProjects;
 
         IDbSources _Toolbase;
 
@@ -57,17 +53,21 @@ namespace Z0
             var control = Assembly.GetEntryAssembly();
             var env = EnvData.load();
             var dst = new AppData();
-            var path = FS.path(control.Location).FolderPath + FS.file(string.Format("{0}.settings", control.GetSimpleName()), FS.Csv);
-            var _settings = settings(path);
+            var _settings = settings(control.SettingsPath(FileKind.Csv));
             dst._GlobalSettings = _settings;
-            dst._WsPaths = Z0.WsArchives.load(_settings);
+            dst._WsPaths = WsArchives.load(_settings);
             dst._AppEnv = env;
             dst._PllExec = true;
-            dst._CgProjects = new DbTargets(env.ZDev,"codegen");
             dst._Toolbase = new DbSources(env.Toolbase);
             Instance = dst;
         }
 
         static AppData Instance;
+    }
+
+    partial class XTend
+    {
+        public static FS.FilePath SettingsPath(this Assembly src, FileKind kind)
+            => FS.path(src.Location).FolderPath + FS.file(string.Format("{0}.settings", src.GetSimpleName()), kind.Ext());
     }
 }
