@@ -6,14 +6,6 @@ namespace Z0
 {
     public struct ToolCmdLine : IComparable<ToolCmdLine>
     {
-        [MethodImpl(Inline), Op]
-        public static ToolCmdLine define(ToolId tool, params string[] src)
-            => new ToolCmdLine(tool, AppCmd.cmdline(src));
-
-        [MethodImpl(Inline), Op]
-        public static ToolCmdLine define(ToolId tool, CmdModifier modifier, params string[] src)
-            => new ToolCmdLine(tool, modifier, AppCmd.cmdline(src));
-
         public readonly ToolId Tool;
 
         public readonly CmdModifier Modifier;

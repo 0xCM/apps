@@ -6,14 +6,6 @@ namespace Z0
 {
     public readonly struct CmdScriptExpr
     {
-        [MethodImpl(Inline), Op]
-        public static CmdScriptExpr create(CmdScriptPattern pattern)
-            => new CmdScriptExpr(pattern);
-
-        [MethodImpl(Inline), Op]
-        public static CmdScriptExpr create(CmdScriptPattern pattern, CmdVars vars)
-            => new CmdScriptExpr(pattern, vars);
-
         public readonly CmdScriptPattern Pattern;
 
         public readonly CmdVars Variables;
@@ -22,14 +14,14 @@ namespace Z0
         public CmdScriptExpr(string pattern)
         {
             Pattern = pattern;
-            Variables = Cmd.vars();
+            Variables = CmdVars.create();
         }
 
         [MethodImpl(Inline)]
         public CmdScriptExpr(CmdScriptPattern pattern)
         {
             Pattern = pattern;
-            Variables = Cmd.vars();
+            Variables = CmdVars.create();
         }
 
         [MethodImpl(Inline)]

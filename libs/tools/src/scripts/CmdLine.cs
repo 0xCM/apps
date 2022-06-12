@@ -12,6 +12,29 @@ namespace Z0
     public readonly struct CmdLine
     {
         [MethodImpl(Inline), Op]
+        public static ToolCmdLine create(ToolId tool, params string[] src)
+            => new ToolCmdLine(tool, CmdLine.create(src));
+
+        [MethodImpl(Inline), Op]
+        public static ToolCmdLine create(ToolId tool, CmdModifier modifier, params string[] src)
+            => new ToolCmdLine(tool, modifier, CmdLine.create(src));
+
+        public static CmdArg arg(in CmdArgs src, int index)
+        {
+            if(src.IsEmpty)
+                sys.@throw(EmptyArgList.Format());
+
+            var count = src.Length;
+            if(count < index - 1)
+                sys.@throw(ArgSpecError.Format());
+            return src[(ushort)index];
+        }
+
+        static MsgPattern EmptyArgList => "No arguments specified";
+
+        static MsgPattern ArgSpecError => "Argument specification error";
+
+        [MethodImpl(Inline), Op]
         public static CmdLine create(params string[] src)
             => new CmdLine(src);
 

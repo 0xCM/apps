@@ -20,7 +20,7 @@ namespace Z0
             {
                 var src = skip(files,i);
                 var dst = outdir + src.FileName.WithExtension(FS.Sym);
-                var vars = Cmd.vars(
+                var vars = CmdVars.load(
                     ("SrcPath", src.Format(PathSeparator.BS)),
                     ("DstPath", dst.Format(PathSeparator.BS))
                     );

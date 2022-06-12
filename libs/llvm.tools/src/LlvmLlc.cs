@@ -34,7 +34,7 @@ namespace Z0.llvm
                 var script = project.Script(string.Format("llc-build-{0}", iset));
                 if(script.Exists)
                 {
-                    var vars = Cmd.vars(("SrcId",id));
+                    var vars = CmdVars.load(("SrcId",id));
                     result = OmniScript.Run(script, vars, false, out var response);
                     if(result.Fail)
                         break;

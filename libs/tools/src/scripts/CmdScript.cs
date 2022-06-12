@@ -7,12 +7,12 @@ namespace Z0
     public readonly struct CmdScript
     {
         [MethodImpl(Inline), Op]
-        public static CmdScriptExpr expr(CmdScriptPattern pattern)
-            => new CmdScriptExpr(pattern);
+        public static CmdScriptExpr expr(CmdScriptPattern src)
+            => new CmdScriptExpr(src);
 
         [MethodImpl(Inline), Op]
-        public static CmdScriptExpr expr(CmdScriptPattern pattern, CmdVars vars)
-            => new CmdScriptExpr(pattern, vars);
+        public static CmdScriptExpr expr(CmdScriptPattern src, CmdVars vars)
+            => new CmdScriptExpr(src, vars);
 
         /// <summary>
         /// Creates a <see cref='ToolCmdArgs'/> collection from an array

@@ -4,8 +4,30 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct CmdVars : IIndex<CmdVar>
+    using static core;
+
+    public class CmdVars : IIndex<CmdVar>
     {
+        [Op]
+        public static CmdVars create()
+            => new CmdVar[255];
+
+        [Op]
+        public static CmdVars create(ushort count)
+            => new CmdVar[count];
+
+        public static CmdVars load(params Pair<string>[] src)
+        {
+            var dst = new CmdVar[src.Length];
+            for(var i=0; i<src.Length; i++)
+                seek(dst,i) = skip(src,i);
+            return dst;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static CmdVars load(CmdVar[] src)
+            => src;
+
         readonly Index<CmdVar> Data;
 
         [MethodImpl(Inline)]
@@ -17,6 +39,7 @@ namespace Z0
 
         public uint NonEmptyCount()
             => Data.Where(x => x.IsNonEmpty).Count;
+
         public uint Count
         {
             [MethodImpl(Inline)]
@@ -29,13 +52,13 @@ namespace Z0
             get => Data.Length;
         }
 
-        public ref CmdVar this[long index]
+        public ref CmdVar this[int index]
         {
             [MethodImpl(Inline)]
             get => ref Data[index];
         }
 
-        public ref CmdVar this[ulong index]
+        public ref CmdVar this[uint index]
         {
             [MethodImpl(Inline)]
             get => ref Data[index];

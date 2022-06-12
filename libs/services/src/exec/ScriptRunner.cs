@@ -116,7 +116,7 @@ namespace Z0
             using var writer = Paths.CmdLog(script).Writer();
             try
             {
-                var process = vars != null ? ScriptProcess.create(cmd, vars.Value) : ScriptProcess.create(cmd);
+                var process = vars != null ? ScriptProcess.create(cmd, vars) : ScriptProcess.create(cmd);
                 process.Wait();
                 var lines =  Lines.read(process.Output);
                 iter(lines, line => writer.WriteLine(line));

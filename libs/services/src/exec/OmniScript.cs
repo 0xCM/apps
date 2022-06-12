@@ -127,7 +127,7 @@ namespace Z0
                 return (false, FS.missing(src));
 
             result = ScriptRunner.RunCmd(
-                AppCmd.cmdline(src.Format(PathSeparator.BS)),
+                CmdLine.create(src.Format(PathSeparator.BS)),
                 vars,
                 quiet ? ReceiveCmdStatusQuiet : ReceiveCmdStatus, ReceiveCmdError,
                 out var response
@@ -199,7 +199,7 @@ namespace Z0
 
         public Outcome Run(FS.FilePath src, CmdVars vars, bool quiet, out ReadOnlySpan<TextLine> response)
             => ScriptRunner.RunCmd(
-                AppCmd.cmdline(src.Format(PathSeparator.BS)),
+                CmdLine.create(src.Format(PathSeparator.BS)),
                 vars,
                 quiet ? ReceiveCmdStatusQuiet : ReceiveCmdStatus, ReceiveCmdError,
                 out response
@@ -225,10 +225,10 @@ namespace Z0
             => CmdRunner.Run(WinCmd.cmd(content), ReceiveCmdStatusQuiet, ReceiveCmdError, out response);
 
         public Outcome Run(FS.FilePath src, CmdVars vars, out ReadOnlySpan<TextLine> response)
-            => ScriptRunner.RunCmd(AppCmd.cmdline(src.Format(PathSeparator.BS)), vars, ReceiveCmdStatusQuiet, ReceiveCmdError, out response);
+            => ScriptRunner.RunCmd(CmdLine.create(src.Format(PathSeparator.BS)), vars, ReceiveCmdStatusQuiet, ReceiveCmdError, out response);
 
         public Outcome Run(FS.FilePath src, out ReadOnlySpan<TextLine> response)
-            => ScriptRunner.RunCmd(AppCmd.cmdline(src.Format(PathSeparator.BS)), CmdVars.Empty, ReceiveCmdStatusQuiet, ReceiveCmdError, out response);
+            => ScriptRunner.RunCmd(CmdLine.create(src.Format(PathSeparator.BS)), CmdVars.Empty, ReceiveCmdStatusQuiet, ReceiveCmdError, out response);
 
         public Outcome Run(CmdLine cmd, CmdVars vars, out ReadOnlySpan<TextLine> response)
             => ScriptRunner.RunCmd(cmd, vars, ReceiveCmdStatusQuiet, ReceiveCmdError, out response);

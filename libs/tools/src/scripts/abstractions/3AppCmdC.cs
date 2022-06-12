@@ -4,9 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
-    partial struct Cmd
+    public abstract class AppCmd<C>
+        where C : AppCmd<C>
     {
 
     }

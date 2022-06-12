@@ -39,7 +39,7 @@ namespace Z0
             }
 
             static CmdVars vars(FS.FolderPath SrcDir, FS.FileName SrcFile, FS.FolderPath DstDir)
-                => Cmd.vars(
+                => CmdVars.load(
                     ("SrcDir", SrcDir.Format(PathSeparator.BS)),
                     ("SrcFile", SrcFile.Format()),
                     ("DstDir", DstDir.Format(PathSeparator.BS))

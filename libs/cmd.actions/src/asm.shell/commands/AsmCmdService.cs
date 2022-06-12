@@ -38,10 +38,10 @@ namespace Z0.Asm
             const string ScriptId = "build-exe";
             var result = Outcome.Success;
             var script = (AsmWs as IWorkspace).Script(ScriptId);
-            var vars = Cmd.vars(
+            var vars = CmdVars.load(
                 ("SrcId", id)
                 );
-            var cmd = AppCmd.cmdline(script.Format(PathSeparator.BS));
+            var cmd = CmdLine.create(script.Format(PathSeparator.BS));
             return OmniScript.Run(cmd, vars, out var response);
         }
     }

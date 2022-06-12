@@ -35,7 +35,7 @@ namespace Z0
             => new ScriptProcess(cmd);
 
         [Op]
-        public static ScriptProcess create(CmdLine cmd, CmdVars vars)
+        public static ScriptProcess create(CmdLine cmd, CmdVars? vars)
         {
             var options = new ScriptProcessOptions();
             include(vars, options);
@@ -43,7 +43,7 @@ namespace Z0
         }
 
         [Op]
-        public static ScriptProcess create(CmdLine cmd, CmdVars vars, Receiver<string> status, Receiver<string> error)
+        public static ScriptProcess create(CmdLine cmd, CmdVars? vars, Receiver<string> status, Receiver<string> error)
         {
             var options = new ScriptProcessOptions();
 
@@ -80,23 +80,21 @@ namespace Z0
         public static ref CmdExecStatus status(ScriptProcess process, ref CmdExecStatus dst)
             => ref process.Status(ref dst);
 
-        static void include(CmdVars src, ScriptProcessOptions dst)
+        static void include(CmdVars? src, ScriptProcessOptions dst)
         {
-            var count = src.Count;
-            for(var i=0; i<count; i++)
+            if(src != null)
             {
-                ref readonly var v = ref src[i];
-                if(v.IsNonEmpty && v.Name.IsNonEmpty)
+                var count = src.Count;
+                for(var i=0; i<count; i++)
                 {
-                    dst.AddEnvironmentVariable(v.Name,v.Value);
+                    ref readonly var v = ref src[i];
+                    if(v.IsNonEmpty && v.Name.IsNonEmpty)
+                    {
+                        dst.AddEnvironmentVariable(v.Name,v.Value);
+                    }
                 }
             }
 
-            // foreach(var v in src)
-            // {
-            //     if(v.IsNonEmpty)
-            //         dst.AddEnvironmentVariable(v.Name,v.Value);
-            // }
         }
         readonly CmdLine _commandLine;
 
