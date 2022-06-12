@@ -20,7 +20,7 @@ namespace Z0.llvm
 
         public void Run()
         {
-            LlvmPaths.CodeGen().Clear(true);
+            LlvmPaths.CodeGen().Clear();
             EmitStringTables();
             EmitAsmIds();
         }
@@ -52,7 +52,7 @@ namespace Z0.llvm
             offset-=4;
             buffer.IndentLine(offset, Chars.RBrace);
 
-            var dst = LlvmPaths.CodeGen() + FS.file(name, FS.Cs);
+            var dst = LlvmPaths.CodeGen().Path(FS.file(name, FS.Cs));
             using var writer = dst.Utf8Writer();
             writer.WriteLine(buffer.Emit());
         }

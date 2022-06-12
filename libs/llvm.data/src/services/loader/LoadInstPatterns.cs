@@ -11,7 +11,7 @@ namespace Z0.llvm
         public Index<LlvmAsmInstPattern> LoadInstPatterns()
         {
             const byte FieldCount = LlvmAsmInstPattern.FieldCount;
-            var src = LlvmPaths.Table<LlvmAsmInstPattern>();
+            var src = LlvmPaths.DbTable<LlvmAsmInstPattern>();
             var buffer = list<LlvmAsmInstPattern>();
             using var reader = src.Utf8LineReader();
             reader.Next(out var header);

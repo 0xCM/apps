@@ -11,7 +11,7 @@ namespace Z0.llvm
         public Index<DefRelations> LoadDefRelations()
         {
             var running = Running(nameof(LoadDefRelations));
-            var src = LlvmPaths.Table<DefRelations>();
+            var src = LlvmPaths.DbTable<DefRelations>();
             var dst = list<DefRelations>();
             var rows = src.ReadLines();
             var count = rows.Length;

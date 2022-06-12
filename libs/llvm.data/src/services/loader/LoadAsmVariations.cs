@@ -14,7 +14,7 @@ namespace Z0.llvm
         {
             const char Delimiter = Chars.Pipe;
             const byte FieldCount = LlvmAsmVariation.FieldCount;
-            var src = LlvmPaths.Table<LlvmAsmVariation>();
+            var src = LlvmPaths.DbTable<LlvmAsmVariation>();
             var lines = src.ReadLines();
             var records = Index<LlvmAsmVariation>.Empty;
             if(lines.Length < 1)

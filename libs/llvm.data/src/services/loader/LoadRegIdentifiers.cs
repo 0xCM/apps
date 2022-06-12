@@ -11,7 +11,7 @@ namespace Z0.llvm
         public RegIdentifiers LoadRegIdentifiers()
         {
             const string TableId = "llvm.asm.RegId";
-            var items = LoadList(LlvmPaths.Table(TableId));
+            var items = LoadList(LlvmPaths.DbTable(TableId));
             var dst = list<RegIdentifier>();
             foreach(var id in items)
                 dst.Add(new RegIdentifier((ushort)id.Key, id.Value.Trim()));

@@ -15,7 +15,7 @@ namespace Z0.llvm
         {
             const byte FieldCount = LlvmInstDef.FieldCount;
             const char Delimiter = Chars.Pipe;
-            var src = LlvmPaths.Table<LlvmInstDef>();
+            var src = LlvmPaths.DbTable<LlvmInstDef>();
             var lines = src.ReadLines();
             var records = Index<LlvmInstDef>.Empty;
             if(lines.Length < 1)

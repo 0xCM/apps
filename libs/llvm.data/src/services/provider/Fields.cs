@@ -14,7 +14,7 @@ namespace Z0.llvm
             Index<RecordField> Load(string dsid)
             {
                 var running = Running("Loading " + dsid);
-                var src = LlvmPaths.Table(dsid);
+                var src = LlvmPaths.DbTable(dsid);
                 var count = Lines.count(src);
                 var result = Outcome.Success;
                 var dst = alloc<RecordField>(count.Lines);

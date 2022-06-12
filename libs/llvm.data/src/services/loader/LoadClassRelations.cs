@@ -11,7 +11,7 @@ namespace Z0.llvm
         public Index<ClassRelations> LoadClassRelations()
         {
             var running = Running(nameof(LoadClassRelations));
-            var src = LlvmPaths.Table<ClassRelations>();
+            var src = LlvmPaths.DbTable<ClassRelations>();
             var dst = list<ClassRelations>();
             var rows = src.ReadLines();
             var count = rows.Length;

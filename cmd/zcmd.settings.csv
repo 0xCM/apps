@@ -7,7 +7,7 @@
 | CodGen         | j:/z0/cg                 |
 | Control        | c:/dev/ws/control        |
 | Deployments    | c:/tools/z               |
-| Dev            | j:/z0                    |
+| Dev            | z:/dev                   |
 | LlvmRoot       | j:/llvm                  |
 | Toolbase       | c:/dev/ws/projects/tools |
 | XedRoot        | j:/source/xed            |

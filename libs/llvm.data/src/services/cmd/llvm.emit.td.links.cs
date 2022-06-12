@@ -18,12 +18,12 @@ namespace Z0.llvm
             {
                 ref readonly var srcpath = ref skip(sources,i);
                 var relative = srcpath.Relative(Paths.LlvmRoot);
-                var linkpath = view + relative;
+                var linkpath = view.Root + relative;
                 var link = FS.symlink(linkpath, srcpath, true);
                 link.OnFailure(Error).OnSuccess(Write);
             }
 
-            var dst = Paths.File("tablegen-defs", FS.Md);
+            var dst = Paths.File("tablegen-defs", FileKind.Md);
             using var writer = dst.AsciWriter();
             iter(TdFiles(), f => writer.WriteLine(f.ToUri().MarkdownBullet()));
         }

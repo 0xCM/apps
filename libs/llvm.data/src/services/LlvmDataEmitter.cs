@@ -8,36 +8,36 @@ namespace Z0.llvm
 
     public class LlvmDataEmitter : WfSvc<LlvmDataEmitter>
     {
-        LlvmPaths LlvmPaths => Service(Wf.LlvmPaths);
+        const string tables = "llvm/tables";
 
-        LlvmDataProvider DataProvider => Service(Wf.LlvmDataProvider);
+        LlvmPaths LlvmPaths => Wf.LlvmPaths();
 
-        LlvmDataCalcs DataCalcs => Service(Wf.LlvmDataCalcs);
+        LlvmDataProvider DataProvider => Wf.LlvmDataProvider();
 
-        AppSvcOps AppSvc => Service(Wf.AppSvc);
+        LlvmDataCalcs DataCalcs => Wf.LlvmDataCalcs();
 
         public LlvmQuery Query => Service(() => LlvmQuery.create(Wf));
 
         public void Emit(Index<ClassRelations> src)
-            => TableEmit(src, LlvmPaths.Table<ClassRelations>());
+            => TableEmit(src, LlvmPaths.DbTable<ClassRelations>());
 
         public void Emit(Index<DefRelations> src)
-            => TableEmit(src, LlvmPaths.Table<DefRelations>());
+            => TableEmit(src, LlvmPaths.DbTable<DefRelations>());
 
         public void Emit(string id, Index<LlvmTestLogEntry> src)
             => TableEmit(src, LlvmPaths.LogTargets().Table<LlvmTestLogEntry>("llvm.tests.logs." + id + ".detail"));
 
         public void Emit(ReadOnlySpan<LlvmInstDef> src)
-            => TableEmit(src, LlvmPaths.Table<LlvmInstDef>());
+            => TableEmit(src, LlvmPaths.DbTable<LlvmInstDef>());
 
         public void Emit(ReadOnlySpan<AsmMnemonicRow> src)
-            => TableEmit(src, LlvmPaths.Table("llvm.asm.mnemonics"));
+            => TableEmit(src, LlvmPaths.DbTable("llvm.asm.mnemonics"));
 
         public void Emit(ReadOnlySpan<LlvmAsmInstPattern> src)
-            => TableEmit(src, LlvmPaths.Table<LlvmAsmInstPattern>());
+            => TableEmit(src, LlvmPaths.DbTable<LlvmAsmInstPattern>());
 
         public void Emit(ReadOnlySpan<LlvmAsmVariation> src)
-            => AppSvc.TableEmit(src, LlvmPaths.Table<LlvmAsmVariation>());
+            => TableEmit(src, LlvmPaths.DbTable<LlvmAsmVariation>());
 
         public FS.FilePath EmitList(LlvmList src)
         {
@@ -51,7 +51,7 @@ namespace Z0.llvm
 
         public void Emit(RegIdentifiers src)
         {
-            var dst = LlvmPaths.Table(RegIdentifier.TableId);
+            var dst = LlvmPaths.DbTable(RegIdentifier.TableId);
             var list = new LlvmList(dst, src.Values.Select(x => new LlvmListItem(x.Id, x.Name.Format())));
             EmitList(list, dst);
         }
@@ -59,12 +59,12 @@ namespace Z0.llvm
         public void Emit(AsmIdentifiers src)
         {
             var items = src.Values.Select(x => new LlvmListItem(x.Id, x.Name.Format()));
-            var dst = LlvmPaths.Table(AsmIdentifier.TableId);
+            var dst = LlvmPaths.DbTable(AsmIdentifier.TableId);
             EmitList(new LlvmList(dst, items), dst);
         }
 
         public void Emit(ReadOnlySpan<LlvmAsmOpCode> src)
-            => TableEmit(src, LlvmPaths.Table<LlvmAsmOpCode>());
+            => TableEmit(src, LlvmPaths.DbTable<LlvmAsmOpCode>());
 
         public Index<LlvmList> EmitLists(Index<LlvmEntity> entities)
         {
@@ -81,7 +81,7 @@ namespace Z0.llvm
         }
 
         public void EmitChildRelations(ReadOnlySpan<LlvmEntity> src)
-            => TableEmit(DataCalcs.CalcChildRelations(src), LlvmPaths.Table<ChildRelation>());
+            => TableEmit(DataCalcs.CalcChildRelations(src), LlvmPaths.DbTable<ChildRelation>());
 
         public Index<RecordField> EmitDefFields(Index<RecordField> src)
             => EmitFields(src, LlvmNames.Datasets.X86DefFields);
@@ -91,7 +91,7 @@ namespace Z0.llvm
 
         Index<RecordField> EmitFields(Index<RecordField> src, string id)
         {
-            TableEmit<RecordField>(src, RecordField.RenderWidths, LlvmPaths.Table(id));
+            TableEmit<RecordField>(src, RecordField.RenderWidths, LlvmPaths.DbTable(id));
             return src;
         }
 

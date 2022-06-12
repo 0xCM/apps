@@ -14,7 +14,7 @@ namespace Z0.llvm
             var id = Datasets.X86;
             var lookup = DefLineLookup();
             var count = lookup.LineCount;
-            using var reader = LlvmPaths.DataSourcePath("records", id).LineReader(TextEncodingKind.Asci);
+            using var reader = LlvmPaths.DevSource("records", id).LineReader(TextEncodingKind.Asci);
             var lines = reader.ReadAll().ToArray().Index();
             return (Index<TextLine>)DataSets.GetOrAdd(id + "lines", _ => lines);
         }

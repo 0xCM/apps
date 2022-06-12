@@ -4,95 +4,99 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    public class LlvmPaths : AppService<LlvmPaths>
+    public class LlvmPaths : WfSvc<LlvmPaths>
     {
-        IProjectWs LlvmData;
+        const string tables = "llvm/tables";
 
-        new IProjectDb Db;
+        const string records = "llvm/records";
 
-        protected override void OnInit()
-        {
-            LlvmData = Ws.Project("llvm.data");
-            Db = Ws.ProjectDb();
-        }
+        const string tools = "llvm/tools";
+
+        const string logs = "llvm/logs";
+
+        const string queries = "llvm/queries";
+
+        const string files = "llvm/files";
+
+        const string project = "llvm.data";
 
         public IDbTargets LogTargets()
-            => new DbTargets(Db.Subdir("llvm"), "logs");
+            => AppDb.DbTargets(logs);
 
-        public FS.FolderPath DataHome()
-            => LlvmData.Home();
+        public FS.FilePath DbTable<T>()
+            where T : struct
+                => Tables().Table<T>();
+
+        public FS.FilePath DbTable(string id)
+            => Tables().Path(FS.file(id, FS.Csv));
+
+        public IDbSources Dev()
+            => AppDb.Dev().Sources(project);
 
         public IDbTargets Tables()
-            => new DbTargets(Db.Subdir("llvm"),"tables");
+            => AppDb.DbTargets(tables);
 
-        public FS.FolderPath RecordImports()
-            => Db.Subdir("llvm") + FS.folder("records");
+        public IDbTargets RecordImports()
+            => AppDb.DbTargets(records);
 
-        public FS.FolderPath ToolImports()
-            => Db.Subdir("llvm") + FS.folder("tools");
+        public IDbTargets ToolImports()
+            => AppDb.DbTargets(tools);
 
-        public FS.FolderPath Queries()
-            => Db.Subdir("llvm") + FS.folder("queries");
+        public IDbTargets QueryOut()
+            => AppDb.DbTargets(queries);
 
-        public FS.FilePath Query(FS.FileName file)
-            => Db.Subdir("llvm") + FS.folder("queries") + file;
+        public FS.FilePath QueryOut(FS.FileName file)
+            => QueryOut().Path(file);
 
         public FS.FilePath ImportMap(string id)
-            => RecordImports() + FS.file(id, FS.ext("map"));
+            => RecordImports().Path(id, FileKind.Map);
 
-        public FS.FolderPath ToolSourceDocs()
-            => DataSourceDir("tools");
+        public IDbSources DevSources()
+            => Dev().Sources("sources");
 
-        public FS.FolderPath Sources()
-            => DataHome() + FS.folder("sources");
+        public IDbSources DevSources(string scope)
+            => DevSources().Sources(scope);
 
-        public FS.FolderPath Views()
-            => DataHome() + FS.folder("views");
-
-        public FS.FolderPath Settings()
-            => DataHome() + FS.folder("settings");
-
-        public FS.FilePath Settings(string name, FS.FileExt ext)
-            => Settings() + FS.file(name,ext);
+        public FS.FilePath DevSource(string scope, string name)
+            => DevSources(scope).Path(name, FileKind.Txt);
 
         public FS.Files TableGenHeaders()
-            => DataSourceDir("headers").Files(FS.H);
+            => DevSources("headers").Files(FS.H);
 
-        public FS.FolderPath View(string id)
-            => Views() + FS.folder(id);
+        public IDbSources DevViews()
+            => Dev().Sources("views");
 
-        public FS.FolderPath LlvmSourceView()
-            => View("llvm");
+        public IDbSources DevViews(string scope)
+            => DevViews().Sources(scope);
+
+        public IDbSources DevSettings()
+            => Dev().Sources("settings");
+
+        public FS.FilePath DevSettings(string name, FS.FileExt ext)
+            => DevSettings().Path(FS.file(name,ext));
+
+        public IDbSources LlvmSourceView()
+            => DevViews("llvm");
 
         public FS.FolderPath LlvmRoot
             => Env.LlvmRoot;
 
-        public FS.FilePath File(string id, FS.FileExt ext)
-            => Db.Subdir("llvm") + FS.folder("files") + FS.file(id,ext);
+        public IDbTargets FileTargets()
+            => AppDb.DbTargets(files);
 
-        public FS.FilePath Table<T>()
-            where T : struct
-                => Tables().Path(Z0.Tables.filename<T>());
-
-        public FS.FilePath Table(string id)
-            => Db.Subdir("llvm") + FS.folder("tables") + FS.file(id, FS.Csv);
+        public FS.FilePath File(string id, FileKind kind)
+            => FileTargets().Path(id,kind);
 
         public FS.Files Lists()
             => Tables().Files(FileKind.Csv).Where(f => f.FileName.StartsWith("llvm.lists."));
-
-        public FS.FolderPath DataSourceDir(string scope)
-            => Sources() + FS.folder(scope);
-
-        public FS.FilePath DataSourcePath(string scope, string name)
-            => DataSourceDir(scope) + FS.file(name, FS.Txt);
 
         public Index<string> ListNames()
             => Lists().Map(x => x.FileName.WithoutExtension.Format().Remove("llvm.lists."));
 
         public FS.FilePath ListImportPath(string id)
-            => Table(string.Format("llvm.lists.{0}", id));
+            => DbTable(string.Format("llvm.lists.{0}", id));
 
-        public FS.FolderPath CodeGen()
-            => Env.ZDev + FS.folder("codegen/codegen.llvm/src");
+        public IDbTargets CodeGen()
+            => AppDb.CodeGen().Targets("codegen.llvm/src");
     }
 }

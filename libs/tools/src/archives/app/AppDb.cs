@@ -26,18 +26,17 @@ namespace Z0
             where T : struct
                 => DbTargets(scope).Table<T>();
 
-        public FS.FilePath DbTable<T>(string scope, string prefix)
-            where T : struct
-                => DbTargets(scope).Table<T>(prefix);
-
         public IDbSources DbSources()
             => new DbSources(Archives.Path(S.DbSources).Location);
 
-        public IDbSources ProjectSrc()
-            => new DbSources(Archives.Path(S.ProjectSrc).Location);
-
         public IDbSources Control()
             => new DbSources(Archives.Path(S.Control).Location);
+
+        public IDbSources Dev()
+            => new DbSources(Archives.Path(S.Dev).Location);
+
+        public IDbTargets CodeGen()
+            => new DbTargets(Archives.Path(S.CodeGen).Location);
 
         public IDbSources EnvConfig()
             => new DbSources(Archives.Path(S.EnvConfig).Location);
@@ -48,10 +47,6 @@ namespace Z0
         public FS.FilePath EtlTable<T>(ProjectId project)
             where T : struct
                 => ProjectEtl(project).Table<T>(project);
-
-        public FS.FilePath DbSource<T>(string scope)
-            where T : struct
-                => DbSources(scope).Table<T>();
 
         public IDbSources DbSources(string scope)
             => DbSources().Sources(scope);

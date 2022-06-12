@@ -45,6 +45,7 @@ namespace Z0.llvm
             LineMap<Identifier> classMap = LineMap<Identifier>.Empty;
             Index<RecordField> classFields = sys.empty<RecordField>();
             Index<RecordField> defFields = sys.empty<RecordField>();
+
             exec(PllExec,
                 () => ImportToolHelp(),
                 ImportTestLogs,
@@ -105,7 +106,7 @@ namespace Z0.llvm
             {
                 ref readonly var doc = ref docs[i];
                 var content = doc.Content;
-                var dst = imports + FS.file(doc.Tool.Format(),FS.Help);
+                var dst = imports.Path(FS.file(doc.Tool.Format(),FS.Help));
                 var emitting = EmittingFile(dst);
                 using var writer = dst.Writer();
                 writer.Write(content);
