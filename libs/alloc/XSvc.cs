@@ -8,14 +8,10 @@ namespace Z0
     {
         sealed class Svc : AppServices<Svc>
         {
-            public Heaps Heaps(IWfRuntime wf)
-                => Service<Heaps>(wf);
 
         }
 
         static Svc Services => Svc.Instance;
 
-        public static Heaps Heaps(this IWfRuntime wf)
-            => Services.Heaps(wf);
     }
 }
