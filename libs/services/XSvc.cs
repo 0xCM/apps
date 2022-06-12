@@ -19,8 +19,6 @@ namespace Z0
 
             public OmniScript OmniScript(IWfRuntime wf)
                 => Service<OmniScript>(wf);
-
-
         }
 
         static AppSvcCache AppServices => AppSvcCache.Instance;

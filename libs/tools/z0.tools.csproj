@@ -9,6 +9,7 @@
   <Import Project="$(ImportDefs)common.libs.props"/>
 
   <ItemGroup>
+    <ProjectReference Include="$(Graphs)" />
   </ItemGroup>
 
 </Project>

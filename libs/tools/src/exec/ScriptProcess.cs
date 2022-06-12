@@ -19,8 +19,85 @@ namespace Z0
     /// of System.Diagnostics.Process, and knows how to capture output and otherwise
     /// makes calling commands very easy.
     /// </summary>
-    public sealed partial class ScriptProcess : IScriptProcess
+    public sealed class ScriptProcess : IScriptProcess
     {
+        /// <summary>
+        /// Creates a command process
+        /// </summary>
+        /// <param variable="commandLine">The command line to run as a subprocess</param>
+        /// <param variable="options">Options for the process</param>
+        [MethodImpl(Inline), Op]
+        public static ScriptProcess create(CmdLine command, ScriptProcessOptions config)
+            => new ScriptProcess(command, config);
+
+        [MethodImpl(Inline), Op]
+        public static ScriptProcess create(CmdLine cmd)
+            => new ScriptProcess(cmd);
+
+        [Op]
+        public static ScriptProcess create(CmdLine cmd, CmdVars vars)
+        {
+            var options = new ScriptProcessOptions();
+            include(vars, options);
+            return new ScriptProcess(cmd, options);
+        }
+
+        [Op]
+        public static ScriptProcess create(CmdLine cmd, CmdVars vars, Receiver<string> status, Receiver<string> error)
+        {
+            var options = new ScriptProcessOptions();
+
+            include(vars, options);
+            options.WithReceivers(status, error);
+            return new ScriptProcess(cmd, options);
+        }
+
+        [Op]
+        public static ScriptProcess create(CmdLine cmd, Receiver<string> status, Receiver<string> error)
+        {
+            var options = new ScriptProcessOptions();
+            options.WithReceivers(status, error);
+            return new ScriptProcess(cmd, options);
+        }
+
+        [MethodImpl(Inline), Op]
+        public static ScriptProcess create(CmdLine cmd, TextWriter dst)
+            => new ScriptProcess(cmd, new ScriptProcessOptions(dst));
+
+        [MethodImpl(Inline), Op]
+        public static ScriptProcess create(CmdLine cmd, TextWriter dst, Receiver<string> status, Receiver<string> error)
+        {
+            var options = new ScriptProcessOptions(dst);
+            options.WithReceivers(status, error);
+            return new ScriptProcess(cmd, options);
+        }
+
+        [MethodImpl(Inline), Op]
+        public static CmdExecStatus status(ScriptProcess process)
+            => process.Status();
+
+        [MethodImpl(Inline), Op]
+        public static ref CmdExecStatus status(ScriptProcess process, ref CmdExecStatus dst)
+            => ref process.Status(ref dst);
+
+        static void include(CmdVars src, ScriptProcessOptions dst)
+        {
+            var count = src.Count;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var v = ref src[i];
+                if(v.IsNonEmpty && v.Name.IsNonEmpty)
+                {
+                    dst.AddEnvironmentVariable(v.Name,v.Value);
+                }
+            }
+
+            // foreach(var v in src)
+            // {
+            //     if(v.IsNonEmpty)
+            //         dst.AddEnvironmentVariable(v.Name,v.Value);
+            // }
+        }
         readonly CmdLine _commandLine;
 
         readonly StringBuilder _output;

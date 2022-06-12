@@ -41,7 +41,7 @@ namespace Z0
 
         [Op]
         public static Outcome parse(string src, out ToolConfig dst)
-            => ToolConfig.parse(src, out dst);
+            => ToolConfigs.parse(src, out dst);
 
         [Op]
         public static ToolCmdSpec spec(FS.FilePath path, params ToolCmdArg[] args)
