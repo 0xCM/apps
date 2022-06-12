@@ -31,7 +31,7 @@ namespace Z0
             => blocks(Files.HexFiles());
 
         public MemoryBlocks LoadMemoryBlocks()
-            => LoadMemoryBlocks(Files.Targets());
+            => LoadMemoryBlocks(Files.Targets().Root);
 
         public MemoryBlocks LoadMemoryBlocks(FS.FolderPath src)
             => ApiHex.LoadMemoryBlocks(src);

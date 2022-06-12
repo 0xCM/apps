@@ -6,10 +6,16 @@ namespace Z0
 {
     using static core;
 
-    using static ApiGranules;
+    using static WsAtoms;
 
-    public sealed class ToolWs : Workspace<ToolWs>, IToolWs
+    public sealed class ToolWs : Workspace<ToolWs>, IWorkspace
     {
+        public FS.FolderPath ToolHome(ToolId id)
+            => Root + FS.folder(id.Format());
+
+        public FS.FilePath ConfigScript(ToolId id)
+            => ToolHome(id) + FS.file("config", FS.Cmd);
+
         [MethodImpl(Inline)]
         public static ToolWs create(IEnvProvider src)
             => new ToolWs(src);
@@ -27,11 +33,32 @@ namespace Z0
         {
             ConfigLookup = dict<ToolId,ToolConfig>();
             Configs = array<ToolConfig>();
+        }
 
+        public FS.FolderPath ToolDocs(ToolId id)
+            => ToolHome(id) + FS.folder(docs);
+
+        public FS.FolderPath Logs(ToolId id)
+            => ToolHome(id) + FS.folder(logs);
+
+        public FS.FolderPath Scripts(ToolId id)
+            => ToolHome(id) + FS.folder(scripts);
+
+        public FS.FilePath Script(ToolId tool, string id)
+            => Scripts(tool) + FS.file(id,FS.Cmd);
+
+        public FS.FilePath ConfigLog(ToolId id)
+            => Logs(id) + FS.file(config, FS.Log);
+
+        public ToolWs(IRootedArchive root)
+            : base(root.Root)
+        {
+            ConfigLookup = dict<ToolId,ToolConfig>();
+            Configs = array<ToolConfig>();
         }
 
         public DbSources Logs()
-            => new DbSources(Root, logs);
+            => new DbSources(Root, ApiGranules.logs);
 
         ToolWs(IEnvProvider src)
             : base(src.Env.Toolbase)
@@ -40,13 +67,18 @@ namespace Z0
             Configs = array<ToolConfig>();
         }
 
+        public FS.FilePath Inventory()
+            => Root + FS.folder(admin) + FS.file(inventory, FS.Txt);
+
+        // public new DbSources ToolHome(ToolId id)
+        //     => new DbSources(Toolbase, id.Format());
         public ReadOnlySpan<ToolConfig> Configured
         {
             [MethodImpl(Inline)]
             get => Configs;
         }
 
-        public DbSources Toolbase
+        public IDbSources Toolbase
             => new DbSources(Root);
 
         public bool Settings(ToolId id, out ToolConfig dst)
@@ -55,12 +87,11 @@ namespace Z0
         public void Configure(ToolId id, in ToolConfig src)
             => ConfigLookup[id] = src;
 
-        public IToolWs Configure(ToolConfig[] src)
+        public ToolWs Configure(ToolConfig[] src)
         {
             Configs = src;
             ConfigLookup = src.Select(x => (x.ToolId, x)).ToDictionary();
             return this;
         }
-
     }
 }

@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial struct FS
     {
         /// <summary>
@@ -52,6 +47,10 @@ namespace Z0
             public string Format(PathSeparator sep)
                 => FS.normalize(Format(), sep);
 
+            public override string ToString()
+                => Format();
+
+
             [MethodImpl(Inline)]
             public PathPart[] Split(char delimiter)
                 => TextData.SplitClean(delimiter).Select(from);
@@ -74,9 +73,6 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get => new PathPart(EmptyString);
             }
-
-            public override string ToString()
-                => Format();
 
             [MethodImpl(Inline)]
             public PathPart Replace(char src, char dst)

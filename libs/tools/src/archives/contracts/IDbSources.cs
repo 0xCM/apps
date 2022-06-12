@@ -4,10 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IFilteredArchive
+    public interface IDbSources : IRootedArchive
     {
-        Index<FS.FolderPath> Directories();
 
-        Deferred<FS.FilePath> Files();
     }
 }

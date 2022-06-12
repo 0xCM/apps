@@ -12,7 +12,7 @@ namespace Z0
     {
         ApiComments ApiComments => Wf.ApiComments();
 
-        ApiPackArchive ApiPacks => ApiPackArchive.create(AppDb.ApiTargets("capture/packs"));
+        ApiPackArchive ApiPacks => ApiPackArchive.create(AppDb.ApiTargets("capture/packs").Root);
 
         ApiCodeFiles ApiFiles => Wf.ApiCodeFiles();
 
@@ -28,7 +28,7 @@ namespace Z0
         {
             var blocks = ApiCode.LoadMemoryBlocks(ApiPacks.HexPackRoot()).View;
             var count = blocks.Length;
-            var dir = AppDb.ApiTargets("capture.hex").Dir("rows");
+            var dir = AppDb.ApiTargets("capture.hex").Targets("rows").Root;
             for(var i=0; i<count; i++)
             {
                 ref readonly var block = ref skip(blocks,i);

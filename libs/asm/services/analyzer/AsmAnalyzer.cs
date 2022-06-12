@@ -56,7 +56,7 @@ namespace Z0
         {
             var target = dst.DetailTables();
             target.Clear();
-            return AsmRows.Emit(src, target);
+            return AsmRows.Emit(src, target.Root);
         }
 
         public Index<ApiCodeBlock> CollectBlocks(ReadOnlySpan<AsmRoutine> src)

@@ -36,10 +36,10 @@ namespace Z0
         public static FlowId identify<A,S,T>(A actor, S src, T dst)
             => new FlowId(hash(actor), hash(src), hash(dst));
 
-        public static DbTargets data(ProjectId id)
+        public static IDbTargets data(ProjectId id)
             => AppDb.ProjectData(id);
 
-        public static DbTargets data(ProjectId id, string scope)
+        public static IDbTargets data(ProjectId id, string scope)
             => AppDb.ProjectData(id).Targets(scope);
 
         public static FS.FilePath flow(ProjectId id)

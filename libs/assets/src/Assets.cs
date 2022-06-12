@@ -18,7 +18,7 @@ namespace Z0
 
         AppSvcOps AppSvc => Wf.AppSvc();
 
-        DbTargets AssetTargets => AppDb.ApiTargets("assets");
+        IDbTargets AssetTargets => AppDb.ApiTargets("assets");
 
         [MethodImpl(Inline), Op]
         public static string utf8(in Asset src)

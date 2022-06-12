@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct ScriptArchive : IRootedArchive<ScriptArchive>
+    public readonly struct ScriptArchive : IRootedArchive
     {
         public readonly FS.FolderPath Root {get;}
 

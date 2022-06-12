@@ -19,10 +19,10 @@ namespace Z0
             Flows = flows;
         }
 
-        public DbTargets ProjectDatasets()
+        public IDbTargets ProjectDatasets()
             => new DbTargets(Project.Datasets());
 
-        public DbTargets ProjectDatasets(string scope)
+        public IDbTargets ProjectDatasets(string scope)
             => new DbTargets(Project.Datasets(scope));
 
         public Index<FileRef> Files(FileKind k)

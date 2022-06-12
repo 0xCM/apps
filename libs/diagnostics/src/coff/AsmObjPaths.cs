@@ -14,10 +14,10 @@ namespace Z0
             AppDb = db;
         }
 
-        public DbTargets DbTargets(ProjectId id)
+        public IDbTargets DbTargets(ProjectId id)
             => AppDb.ProjectData(id);
 
-        public DbTargets RecodedTargets(ProjectId id)
+        public IDbTargets RecodedTargets(ProjectId id)
             => AppDb.ProjectTargets("mc.recoded").Targets($"src/{id}");
 
         public FS.FilePath RecodedPath(ProjectId ws, string origin)

@@ -251,15 +251,15 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static FolderPath operator +(FolderPath a, FolderName b)
-                => new FolderPath(string.Format(FolderJoinPattern, a.Name, b.Name));
+                => new FolderPath(string.Format(FolderJoinPattern, a.Name.Format(), b.Name.Format()));
 
             [MethodImpl(Inline)]
             public static FilePath operator +(FolderPath a, FileName b)
-                => new FilePath(string.Format(FileJoinPattern, a.Name, b.Name));
+                => new FilePath(string.Format(FileJoinPattern, a.Name.Format(), b.Name.Format()));
 
             [MethodImpl(Inline)]
             public static FilePath operator +(FolderPath a, RelativeFilePath b)
-                => new FilePath(string.Format(FileJoinPattern, a.Name, b.Name));
+                => new FilePath(string.Format(FileJoinPattern, a.Name.Format(), b.Name.Format()));
         }
     }
 }

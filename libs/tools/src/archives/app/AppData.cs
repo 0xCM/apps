@@ -8,9 +8,9 @@ namespace Z0
     {
         public static ref readonly EnvData AppEnv => ref Instance._AppEnv;
 
-        public static ref readonly ITargetArchive CgProjects => ref Instance._CgProjects;
+        public static ref readonly IDbTargets CgProjects => ref Instance._CgProjects;
 
-        public static ref readonly ISourceArchive ToolBase => ref Instance._Toolbase;
+        public static ref readonly IDbSources ToolBase => ref Instance._Toolbase;
 
         public static ref readonly Settings GlobalSettings => ref Instance._GlobalSettings;
 
@@ -26,9 +26,9 @@ namespace Z0
 
         EnvData _AppEnv;
 
-        ITargetArchive _CgProjects;
+        IDbTargets _CgProjects;
 
-        ISourceArchive _Toolbase;
+        IDbSources _Toolbase;
 
         Settings _GlobalSettings;
 

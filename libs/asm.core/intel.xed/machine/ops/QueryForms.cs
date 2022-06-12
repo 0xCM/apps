@@ -45,7 +45,7 @@ namespace Z0
                 }
             }
 
-            var path = XedPaths.Service.DbTargets() + FS.file(monic, FS.Csv);
+            var path = XedPaths.Service.DbTargets().Path(FS.file(monic, FS.Csv));
             var records = dst.ViewDeposited();
             if(emit)
                 TableEmit(records, path);

@@ -11,11 +11,11 @@ namespace Z0
         public DumpArchive DumpArchive
             => Wf.DumpArchive();
 
-        public DbTargets Capture()
+        public IDbTargets Capture()
             => new DbTargets(Env.CapturePacks, "packs");
 
         public IApiPack Package(Timestamp ts)
-            => Package(Capture().Dir(ts.Format()));
+            => Package(Capture().Targets(ts.Format()).Root);
 
         public IApiPack Package(ApiExtractSettings settings)
             => new ApiPack(this, settings);
@@ -23,10 +23,10 @@ namespace Z0
         public IApiPack Package(FS.FolderPath dst)
             => Package(ApiExtractSettings.init(dst));
 
-        public DbTargets Targets()
+        public IDbTargets Targets()
             => AppDb.ApiTargets("capture/packs");
 
-        DbSources Sources()
+        IDbSources Sources()
             => Targets().Sources();
 
         public FS.Files HexFiles()
@@ -45,7 +45,7 @@ namespace Z0
             => Sources().Files(FileKind.Asm).Where(x => x.FileName.StartsWith(part.Format() + "."));
 
         public ApiPartFiles PartFiles(PartId part)
-            => new ApiPartFiles(part, Sources());
+            => new ApiPartFiles(part, Sources().Root);
 
         public FS.FilePath AsmPath(ApiHostUri host)
             => Sources().Path(host.FileName(FS.Asm));

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface ITargetArchive : IRootedArchive
+    public interface IDbTargets : IRootedArchive
     {
         void Delete()
         {
@@ -17,8 +17,8 @@ namespace Z0
         }
     }
 
-    public interface ITargetArchive<T> : ITargetArchive
-        where T : ITargetArchive<T>
+    public interface IDbTargets<T> : IDbTargets
+        where T : IDbTargets<T>
     {
         new T Delete()
         {
@@ -32,10 +32,10 @@ namespace Z0
             return (T)this;
         }
 
-        void ITargetArchive.Clear()
+        void IDbTargets.Clear()
             => Clear();
 
-        void ITargetArchive.Delete()
+        void IDbTargets.Delete()
             => Delete();
     }
 }

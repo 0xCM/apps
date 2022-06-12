@@ -11,8 +11,8 @@ namespace Z0
     {
         void CheckHex()
         {
-            var src = AppDb.ApiTargets().Dir("capture");
-            CheckPackedHex(src);
+            var src = AppDb.ApiTargets().Targets("capture");
+            CheckPackedHex(src.Root);
         }
 
         void CheckPackedHex(FS.FolderPath src)
@@ -47,7 +47,7 @@ namespace Z0
             var memory = ApiHex.memory(csv(src, host));
             var blocks = memory.Sort().View;
             var buffer = span<char>(Pow2.T16);
-            var dir = AppDb.ApiTargets("capture.test").Dir(string.Format("{0}.{1}", host.Part.Format(), host.HostName));
+            var dir = AppDb.ApiTargets("capture.test").Targets(string.Format("{0}.{1}", host.Part.Format(), host.HostName)).Root;
             var count = blocks.Length;
             for(var i=0; i<count; i++)
             {

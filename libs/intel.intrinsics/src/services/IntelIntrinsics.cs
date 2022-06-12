@@ -16,10 +16,10 @@ namespace Z0
 
         AppDb AppDb => Wf.AppDb();
 
-        DbSources Sources()
+        IDbSources Sources()
             => AppDb.Sources("intel");
 
-        DbTargets Targets()
+        IDbTargets Targets()
             => AppDb.Targets("intrinsics");
 
         FS.FilePath XmlSource()

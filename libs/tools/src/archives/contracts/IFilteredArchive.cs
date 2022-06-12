@@ -4,14 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface ISourceArchive : IRootedArchive
+    public interface IFilteredArchive
     {
-
-    }
-
-    public interface ISourceArchive<T> : ISourceArchive
-        where T : ISourceArchive<T>
-    {
-
+        Deferred<FS.FilePath> Files();
     }
 }

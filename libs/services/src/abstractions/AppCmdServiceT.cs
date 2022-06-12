@@ -36,7 +36,7 @@ namespace Z0
 
         protected AppSvcOps AppSvc => Wf.AppSvc();
 
-        protected IToolWs ToolWs => new ToolWs(AppData.ToolBase);
+        protected ToolWs ToolWs => new ToolWs(AppData.ToolBase);
 
         protected virtual ICmdProvider[] CmdProviders(IWfRuntime wf)
             => array(this);

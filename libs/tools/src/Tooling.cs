@@ -14,7 +14,7 @@ namespace Z0
 
         const byte FieldCount = ToolProfile.FieldCount;
 
-        IToolWs ToolWs => new ToolWs(AppData.ToolBase);
+        ToolWs ToolWs => new ToolWs(AppData.ToolBase);
 
         public static IToolWs configure(IToolWs ws)
         {

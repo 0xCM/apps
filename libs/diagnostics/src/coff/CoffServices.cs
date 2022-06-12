@@ -52,7 +52,7 @@ namespace Z0
 
         public HexFileData LoadObjHex(WsContext context)
         {
-            var src = AppDb.HexTargets(context.Project.Project).Files(FileKind.HexDat.Ext());
+            var src = AppDb.HexTargets(context.Project.Project).Files(FileKind.HexDat);
             var count = src.Length;
             var dst = dict<FS.FilePath,Index<HexDataRow>>(count);
             for(var i=0; i<count; i++)

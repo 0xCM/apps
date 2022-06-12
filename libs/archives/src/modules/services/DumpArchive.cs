@@ -8,7 +8,7 @@ namespace Z0
 
     using static EnvFolders;
 
-    public class DumpArchive : AppService<DumpArchive>, ITargetArchive<DumpArchive>
+    public class DumpArchive : AppService<DumpArchive>, IDbTargets<DumpArchive>
     {
         public FS.FolderPath Root => FS.dir("j:/") + FS.folder(dumps);
 
@@ -27,13 +27,13 @@ namespace Z0
         public FS.FolderPath DumpRoot()
             => Root;
 
-        public ITargetArchive DumpTargets()
+        public IDbTargets DumpTargets()
             => new DbTargets(Root);
 
-        public ITargetArchive DumpTargets(string scope)
+        public IDbTargets DumpTargets(string scope)
             => new DbTargets(Root, scope);
 
-        public ITargetArchive DotNetTargets()
+        public IDbTargets DotNetTargets()
             => DumpTargets(dotnet);
 
         public FS.FolderPath DotNetTargets(byte major, byte minor, byte revision)

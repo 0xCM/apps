@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public struct WsArchive : ISourceArchive<WsArchive>
+    public struct WsArchive : IDbSources
     {
         [Render(32)]
         public string Name;

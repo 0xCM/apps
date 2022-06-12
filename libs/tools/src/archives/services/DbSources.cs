@@ -4,43 +4,46 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct DbTargets : ITargetArchive<DbTargets>
+    public readonly struct DbSources : IDbSources
     {
         public readonly DbFiles DbFiles {get;}
 
         [MethodImpl(Inline)]
-        public DbTargets(IRootedArchive src, string scope)
-        {
-            DbFiles = new DbFiles(src.Root + FS.folder(scope));
-        }
-
-        [MethodImpl(Inline)]
-        public DbTargets(FS.FolderPath root, string scope)
+        public DbSources(FS.FolderPath root, string scope)
         {
             DbFiles = root + FS.folder(scope);
         }
 
         [MethodImpl(Inline)]
-        public DbTargets(FS.FolderPath root)
+        public DbSources(FS.FolderPath root)
         {
             DbFiles = root;
         }
 
         [MethodImpl(Inline)]
-        public DbTargets(IRootedArchive src)
+        public DbSources(IRootedArchive root, string scope)
         {
-            DbFiles = new DbFiles(src.Root);
+            DbFiles = new DbFiles(root.Root + FS.folder(scope));
+        }
+
+        [MethodImpl(Inline)]
+        public DbSources(IRootedArchive root)
+        {
+            DbFiles = new DbFiles(root.Root);
         }
 
         public FS.FolderPath Root
             => DbFiles;
 
         public string Format()
-            => Root.Format();
+            => DbFiles.Format();
 
         public override string ToString()
             => Format();
 
-        public static DbTargets Empty => new DbTargets(FS.FolderPath.Empty);
+        public static implicit operator FS.FolderPath(DbSources src)
+            => src.DbFiles;
+
+        public static DbSources Empty => new DbSources(FS.FolderPath.Empty);
     }
 }

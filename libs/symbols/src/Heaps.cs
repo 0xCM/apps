@@ -75,7 +75,7 @@ namespace Z0
             return ref dst;
         }
 
-        DbTargets ApiTargets()
+        IDbTargets ApiTargets()
             => AppDb.Targets("api");
    }
 }

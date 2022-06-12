@@ -16,13 +16,13 @@ namespace Z0.llvm
             Db = Ws.ProjectDb();
         }
 
-        public DbTargets LogTargets()
+        public IDbTargets LogTargets()
             => new DbTargets(Db.Subdir("llvm"), "logs");
 
         public FS.FolderPath DataHome()
             => LlvmData.Home();
 
-        public DbTargets Tables()
+        public IDbTargets Tables()
             => new DbTargets(Db.Subdir("llvm"),"tables");
 
         public FS.FolderPath RecordImports()
@@ -78,7 +78,7 @@ namespace Z0.llvm
             => Db.Subdir("llvm") + FS.folder("tables") + FS.file(id, FS.Csv);
 
         public FS.Files Lists()
-            => Tables().Files(FS.Csv).Where(f => f.FileName.StartsWith("llvm.lists."));
+            => Tables().Files(FileKind.Csv).Where(f => f.FileName.StartsWith("llvm.lists."));
 
         public FS.FolderPath DataSourceDir(string scope)
             => Sources() + FS.folder(scope);

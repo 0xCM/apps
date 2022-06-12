@@ -24,9 +24,9 @@ namespace Z0
 
         AppDb AppDb => Wf.AppDb();
 
-        DbTargets Targets() => XedPaths.Imports();
+        IDbTargets Targets() => XedPaths.Imports();
 
-        DbTargets Targets(string scope) => Targets().Targets(scope);
+        IDbTargets Targets(string scope) => Targets().Targets(scope);
 
         InstBlockImporter BlockImporter => Wf.BlockImporter();
 

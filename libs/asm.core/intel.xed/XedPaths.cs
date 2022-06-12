@@ -36,31 +36,31 @@ namespace Z0
         public FS.FolderPath Output()
             => State.XedTargets;
 
-        public DbTargets Targets()
+        public IDbTargets Targets()
             => new DbTargets(State.XedTargets);
 
-        public DbTargets Targets(string scope)
+        public IDbTargets Targets(string scope)
             => new DbTargets(State.XedTargets, scope);
 
-        public FS.FolderPath DbTargets()
+        public IDbTargets DbTargets()
             => Targets().Targets("db");
 
-        public DbTargets Imports()
+        public IDbTargets Imports()
             => Targets("imports");
 
-        public DbTargets RuleTargets()
+        public IDbTargets RuleTargets()
             => Targets("rules");
 
-        public DbTargets Refs()
+        public IDbTargets Refs()
             => Targets("refs");
 
-        public DbTargets InstTargets()
+        public IDbTargets InstTargets()
             => Targets("instructions");
 
-        public DbTargets InstPages()
+        public IDbTargets InstPages()
             => InstTargets().Targets("pages");
 
-        public DbTargets RulePages()
+        public IDbTargets RulePages()
             => RuleTargets().Targets("pages");
 
         public FS.FilePath Table<T>()
@@ -94,10 +94,10 @@ namespace Z0
 
         public FS.FilePath DbTable<T>()
             where T : struct
-                 => DbTargets() + Tables.filename<T>("xed.db");
+                 => DbTargets().Root + Tables.filename<T>("xed.db");
 
         public FS.FilePath DbTarget(string name, FileKind kind)
-            => DbTargets() + FS.file(string.Format("xed.db.{0}",name), kind.Ext());
+            => DbTargets().Root + FS.file(string.Format("xed.db.{0}",name), kind.Ext());
 
         public AbsoluteLink MarkdownLink(RuleSig sig)
             => Markdown.link(string.Format("{0}::{1}()", sig.TableKind, sig.TableName), RulePage(sig));
@@ -112,17 +112,17 @@ namespace Z0
             };
         }
 
-        public FS.FolderPath DisasmTargets(IProjectWs project)
+        public IDbTargets DisasmTargets(IProjectWs project)
             => CmdFlows.data(project.Project, "xed.disasm");
 
         public FS.FilePath DisasmFieldsPath(IProjectWs project, in FileRef src)
-            => DisasmTargets(project) + FS.file(string.Format("{0}.fields", src.Path.FileName.WithoutExtension), FS.Txt);
+            => DisasmTargets(project).Path(FS.file(string.Format("{0}.fields", src.Path.FileName.WithoutExtension), FS.Txt));
 
         public FS.FilePath DisasmChecksPath(IProjectWs project, in FileRef src)
-            => DisasmTargets(project) + FS.file(string.Format("{0}.checks", src.Path.FileName.WithoutExtension), FS.Txt);
+            => DisasmTargets(project).Path(FS.file(string.Format("{0}.checks", src.Path.FileName.WithoutExtension), FS.Txt));
 
         public FS.FilePath DisasmOpsPath(IProjectWs project, in FileRef src)
-            => DisasmTargets(project) + FS.file(string.Format("{0}.ops", src.Path.FileName.WithoutExtension.Format()), FS.Txt);
+            => DisasmTargets(project).Path(FS.file(string.Format("{0}.ops", src.Path.FileName.WithoutExtension.Format()), FS.Txt));
 
         public FS.FileUri RulePage(RuleSig sig)
             => RulePages().Path(FS.file(sig.Format(), FS.Csv));
@@ -244,7 +244,7 @@ namespace Z0
 
         XedPaths()
         {
-            State = new (AppDb.ProjectSources("intel/xed.primary"), AppDb.ProjectTargets("xed"));
+            State = new (AppDb.ProjectSources("intel/xed.primary").Root, AppDb.ProjectTargets("xed").Root);
         }
 
         static XedPaths Instance = new();

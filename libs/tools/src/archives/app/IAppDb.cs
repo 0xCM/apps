@@ -6,20 +6,20 @@ namespace Z0
 {
     public interface IAppDb : IService
     {
-         ITargetArchive ProjectTargets(ProjectId name);
+         IDbTargets ProjectTargets(ProjectId name);
 
-         ITargetArchive ProjectData(ProjectId name);
+         IDbTargets ProjectData(ProjectId name);
 
-         ITargetArchive CgTargets(CgTarget dst);
+         IDbTargets CgTargets(CgTarget dst);
 
-         ITargetArchive Targets();
+         IDbTargets Targets();
 
-         ITargetArchive Targets(string scope);
+         IDbTargets Targets(string scope);
 
-         ISourceArchive Sources();
+         IDbSources Sources();
 
-         ISourceArchive Sources(string scope);
+         IDbSources Sources(string scope);
 
-         ITargetArchive Logs(string scope);
+         IDbTargets Logs(string scope);
     }
 }

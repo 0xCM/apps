@@ -99,10 +99,10 @@ namespace Z0
             if(!ts.IsNonZero)
                 ts = now();
 
-            var dir = pack.Archive().ContextRoot();
+            var dst = pack.Archive().ContextRoot();
             var process = Process.GetCurrentProcess();
-            var procparts = EmitPartitions(process, ts, dir);
-            var regions = EmitRegions(process, ts, dir);
+            var procparts = EmitPartitions(process, ts, dst.Root);
+            var regions = EmitRegions(process, ts, dst.Root);
             EmitDump(process, pack.ProcDumpPath(process, ts));
             Wf.Ran(flow);
         }

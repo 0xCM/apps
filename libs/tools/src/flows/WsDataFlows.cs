@@ -10,10 +10,10 @@ namespace Z0
     {
         static AppDb AppDb => GlobalSvc.Instance.AppDb;
 
-        public static DbTargets data(ProjectId id)
+        public static IDbTargets data(ProjectId id)
             => AppDb.ProjectData(id);
 
-        public static DbTargets data(ProjectId id, string scope)
+        public static IDbTargets data(ProjectId id, string scope)
             => AppDb.ProjectData(id).Targets(scope);
 
         public static FS.FilePath flow(ProjectId project, ScriptId script)

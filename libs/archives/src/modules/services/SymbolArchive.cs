@@ -8,16 +8,16 @@ namespace Z0
 
     public class SymbolArchive : AppService<SymbolArchive>
     {
-        public ISourceArchive Sources()
+        public IDbSources Sources()
             => new DbSources(Env.CacheRoot, symbols);
 
-        public ISourceArchive Sources(string scope)
+        public IDbSources Sources(string scope)
             => new DbSources(Sources(), scope);
 
-        public ISourceArchive DotNet()
+        public IDbSources DotNet()
             => Sources(dotnet);
 
-        public ISourceArchive DotNet(string name)
+        public IDbSources DotNet(string name)
             => DotNet().Sources(name);
 
         public FS.FolderPath DotNet(byte major, byte minor, byte revision)

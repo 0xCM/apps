@@ -57,13 +57,13 @@ namespace Z0
 
         ApiJit ApiJit => Service(Wf.ApiJit);
 
-        DbTargets ApiTargets()
+        IDbTargets ApiTargets()
             => AppDb.ApiTargets();
 
-        DbTargets ApiTargets(string scope)
+        IDbTargets ApiTargets(string scope)
             => AppDb.ApiTargets(scope);
 
-        DbTargets MsilTargets()
+        IDbTargets MsilTargets()
             => ApiTargets(msil);
 
         FS.FilePath MsilPath(ApiHostUri uri)
@@ -361,7 +361,7 @@ namespace Z0
         ApiMembers JitHost(IApiHost host)
             => Jit.JitHost(host);
 
-        public ConstLookup<ApiHostUri,FS.FilePath> EmitMsil(ReadOnlySpan<IApiHost> hosts, DbTargets dst)
+        public ConstLookup<ApiHostUri,FS.FilePath> EmitMsil(ReadOnlySpan<IApiHost> hosts, IDbTargets dst)
         {
             var buffer = text.buffer();
             var k = 0u;

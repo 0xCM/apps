@@ -15,7 +15,7 @@ namespace Z0
         {
             var result = Outcome.Success;
             var src = CpuId.Import(
-                AppDb.CpuIdSources(),
+                AppDb.CpuIdSources().Root,
                 AppDb.SdeTargets().Path("sde.cpuid.records", FileKind.Csv),
                 AppDb.SdeTargets().Path("sde.cpuid.bits", FileKind.Csv)
                 );

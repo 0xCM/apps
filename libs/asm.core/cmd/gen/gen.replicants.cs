@@ -13,7 +13,7 @@ namespace Z0
             var src = AppDb.ApiTargets().Path(Name, FileKind.List);
             var types = ApiMd.LoadTypes(src);
             var name = "EnumDefs";
-            CsLang.EmitReplicants(CsLang.replicant(AppDb.CgStage(name), out var spec), types, AppDb.CgStage(name));
+            CsLang.EmitReplicants(CsLang.replicant(AppDb.CgStage(name).Root, out var spec), types, AppDb.CgStage(name).Root);
             return true;
         }
     }

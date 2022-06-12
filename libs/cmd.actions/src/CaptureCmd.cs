@@ -38,7 +38,7 @@ namespace Z0
             {
                 var pack = ApiPacks.Current();
                 var paths = pack.Archive().Tables();
-                return AsmTables.LoadHostAsmRows(paths);
+                return AsmTables.LoadHostAsmRows(paths.Root);
             }
             return Data(nameof(HostAsm),Load);
         }

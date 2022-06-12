@@ -21,77 +21,77 @@ namespace Z0
         EnvData IEnvProvider.Env
             => AppData.AppEnv;
 
-        public ITargetArchive Targets()
+        public IDbTargets Targets()
             => new DbTargets(Archives.Path(S.Targets).Location);
 
-        public ISourceArchive Sources()
+        public IDbSources Sources()
             => new DbSources(Archives.Path(S.Sources).Location);
 
-        public ISourceArchive Control()
+        public IDbSources Control()
             => new DbSources(Archives.Path(S.Control).Location);
 
-        public ISourceArchive Sources(string scope)
+        public IDbSources Sources(string scope)
             => Sources().Sources(scope);
 
         public FS.FilePath Table<T>(ProjectId id)
             where T : struct
                 => ProjectData(id).Table<T>(id);
 
-        public ITargetArchive Projects(string scope)
+        public IDbTargets Projects(string scope)
             => Targets().Targets(scope);
 
-        public ITargetArchive ProjectTargets(ProjectId id)
+        public IDbTargets ProjectTargets(ProjectId id)
             => Targets().Targets(id);
 
-        public ITargetArchive ProjectData(ProjectId id)
+        public IDbTargets ProjectData(ProjectId id)
             => new DbTargets(Targets().Targets("projects"), id);
 
-        public ITargetArchive CodeGen()
+        public IDbTargets CodeGen()
             => new DbTargets(Archives.Path(S.CodeGen).Location);
 
-        public ITargetArchive CgTargets(CgTarget dst)
+        public IDbTargets CgTargets(CgTarget dst)
             => AppData.CgProjects.Targets($"codegen/{Symbols.format(dst)}/src");
 
-        public ITargetArchive CgTargets(CgTarget dst, string scope)
+        public IDbTargets CgTargets(CgTarget dst, string scope)
             => CgTargets(dst).Targets(scope);
 
-        public ISourceArchive ProjectSources(ProjectId id)
+        public IDbSources ProjectSources(ProjectId id)
             => Sources().Sources(id);
 
-        public ITargetArchive Targets(string scope)
+        public IDbTargets Targets(string scope)
             => Targets().Targets(scope);
 
-        public ITargetArchive Logs()
+        public IDbTargets Logs()
             => Targets("logs");
 
-        public ITargetArchive Logs(string scope)
+        public IDbTargets Logs(string scope)
             => Targets($"logs/{scope}");
 
-        public ITargetArchive RuntimeLogs()
+        public IDbTargets RuntimeLogs()
             => Logs("runtime");
 
-        public ITargetArchive ApiTargets()
+        public IDbTargets ApiTargets()
             => Targets().Targets("api");
 
-        public ITargetArchive ApiTargets(string scope)
+        public IDbTargets ApiTargets(string scope)
             => Targets($"api/{scope}");
 
-        public ITargetArchive ProjectDb(ProjectId project, string scope)
+        public IDbTargets ProjectDb(ProjectId project, string scope)
             => new DbTargets(ProjectData(project), scope);
 
-        public ITargetArchive DbTargets(IProjectWs ws)
+        public IDbTargets DbTargets(IProjectWs ws)
             => Targets($"projects/{ws.Project}");
 
-        public ITargetArchive DbTargets(ProjectId ws)
+        public IDbTargets DbTargets(ProjectId ws)
             => Targets($"projects/{ws}");
 
-        public ITargetArchive AsmTargets(ProjectId ws)
+        public IDbTargets AsmTargets(ProjectId ws)
             => DbTargets(ws).Targets("asm.code");
 
-        public ITargetArchive HexTargets(ProjectId ws)
+        public IDbTargets HexTargets(ProjectId ws)
             => DbTargets(ws).Targets("obj.hex");
 
-        public ITargetArchive XedTargets(ProjectId ws)
+        public IDbTargets XedTargets(ProjectId ws)
             => DbTargets(ws).Targets("xed.disasm");
 
         static SortedDictionary<string,FileKind> FileKindLU;

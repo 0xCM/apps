@@ -8,13 +8,13 @@ namespace Z0
 
     public interface IApiPackArchive : IFileArchive
     {
-        DbTargets Targets()
+        IDbTargets Targets()
             => new DbTargets(Root);
 
-        DbTargets Tables()
+        IDbTargets Tables()
             => Targets();
 
-        DbTargets Targets(string scope)
+        IDbTargets Targets(string scope)
             => Targets().Targets(scope);
 
         FS.FilePath PartCsv(PartId part)
@@ -35,7 +35,7 @@ namespace Z0
         FS.FilePath HostHex(ApiHostUri host)
             => Targets().Path(host.FileName(FS.Hex));
 
-        FS.FolderPath ContextRoot()
+        IDbTargets ContextRoot()
             => Targets(context);
 
         FS.FilePath ProcessAsmPath()
@@ -47,8 +47,8 @@ namespace Z0
         FS.FilePath JmpTarget()
             => Tables().Path(FS.file("asm.jumps", FS.Csv));
 
-        FS.FolderPath DetailTables()
-            => Tables().Dir("asm.details");
+        IDbTargets DetailTables()
+            => Tables().Targets("asm.details");
 
         FS.FilePath ApiCatalogPath()
             => Tables().Path(FS.file(Z0.Tables.identify<ApiCatalogEntry>().Format(), FS.Csv));
