@@ -8,19 +8,19 @@ namespace Z0
 
     public readonly struct WfAppLoader
     {
-        public static IWfRuntime load(string logname = EmptyString, bool libonly = true)
-            => create(ApiRuntimeLoader.parts(controller(), libonly), array<string>(), logname);
+        // public static IWfRuntime load(string logname = EmptyString, bool libonly = true)
+        //     => WfAppLoader.create(ApiRuntimeLoader.parts(controller(), libonly), array<string>(), logname);
 
-        public static IWfRuntime load(string[] args, string logname = EmptyString, bool libonly = true)
-            => create(ApiRuntimeLoader.parts(controller(), args, libonly), args, logname);
+        // public static IWfRuntime load(string[] args, string logname = EmptyString, bool libonly = true)
+        //     => WfAppLoader.create(ApiRuntimeLoader.parts(controller(), args, libonly), args, logname);
 
-        public static IWfRuntime load(PartId[] parts, string[] args, string logname = EmptyString)
-            => create(ApiRuntimeLoader.parts(parts, true), args, logname);
+        // public static IWfRuntime load(PartId[] parts, string[] args, string logname = EmptyString)
+        //     => WfAppLoader.create(ApiRuntimeLoader.parts(parts, true), args, logname);
 
-        public static IWfRuntime load(IApiParts parts, string[] args, string logname = EmptyString)
-            => create(parts, args, logname);
+        // public static IWfRuntime load(IApiParts parts, string[] args, string logname = EmptyString)
+        //     => WfAppLoader.create(parts, args, logname);
 
-        static IWfRuntime create(IApiParts parts, string[] args, string logname = EmptyString)
+        internal static IWfRuntime create(IApiParts parts, string[] args, string logname = EmptyString)
         {
             term.inform(InitializingRuntime.Format(now()));
             var clock = Time.counter(true);

@@ -9,7 +9,7 @@ namespace Z0
     {
         public static void run(string[] args, params PartId[] parts)
         {
-            using var wf = WfAppLoader.load(parts, args);
+            using var wf = ApiRuntime.create(parts, args);
             using var app = new A();
             app.Init(wf);
             var name = typeof(A).Name;

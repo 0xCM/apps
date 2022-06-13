@@ -164,14 +164,14 @@ namespace Z0
         public ResolvedPart ResolvePart(PartId id)
         {
             if(Wf.ApiCatalog.FindPart(id, out var part))
-                return ResolvePart(part, out _);
+                return ResolvePart(part.Owner, out _);
             else
                 return ResolvedPart.Empty;
         }
 
         public uint ResolvePart(IPart src, List<ResolvedPart> dst)
         {
-            dst.Add(ResolvePart(src, out var counter));
+            dst.Add(ResolvePart(src.Owner, out var counter));
             return counter;
         }
 
@@ -190,7 +190,7 @@ namespace Z0
         }
 
         public ResolvedPart ResolvePart(IPart src)
-            => ResolvePart(src, out var counter);
+            => ResolvePart(src.Owner, out var counter);
 
         public ReadOnlySpan<ResolvedPart> ResolveCatalog(IApiCatalog src)
         {
@@ -214,15 +214,14 @@ namespace Z0
             return buffer;
         }
 
-        public ResolvedPart ResolvePart(IPart src, out uint counter)
+        public ResolvedPart ResolvePart(Assembly src, out uint counter)
         {
             counter = 0u;
-
-            var location = FS.path(src.Owner.Location);
+            var location = FS.path(src.Location);
+            var id = src.Id();
             var catalog = ApiRuntimeLoader.catalog(src);
-            var flow = Wf.Running(string.Format("Resolving part {0}", src.Id));
+            var flow = Wf.Running(string.Format("Resolving part {0}", id));
             var hosts = list<ResolvedHost>();
-
             foreach(var host in catalog.ApiTypes)
             {
                 var methods = list<ResolvedMethod>();
@@ -249,10 +248,51 @@ namespace Z0
                 }
             }
 
-            var result = new ResolvedPart(src.Id, location, hosts.ToArray());
-            Wf.Ran(flow, string.Format("Resolved {0} members from {1}", counter, src.Id));
+            var result = new ResolvedPart(id, location, hosts.ToArray());
+            Wf.Ran(flow, string.Format("Resolved {0} members from {1}", counter, id));
             return result;
+
         }
+
+        // public ResolvedPart ResolvePart(IPart src, out uint counter)
+        // {
+        //     counter = 0u;
+
+        //     var location = FS.path(src.Owner.Location);
+        //     var catalog = ApiRuntimeLoader.catalog(src.Owner);
+        //     var flow = Wf.Running(string.Format("Resolving part {0}", src.Id));
+        //     var hosts = list<ResolvedHost>();
+
+        //     foreach(var host in catalog.ApiTypes)
+        //     {
+        //         var methods = list<ResolvedMethod>();
+        //         var count = ResolveComplete(host, methods);
+        //         if(count != 0)
+        //         {
+        //             var resolved = methods.ToArray().Sort();
+        //             var @base = first(resolved).EntryPoint;
+        //             hosts.Add(new ResolvedHost(host, @base, resolved));
+        //             counter += (uint)resolved.Length;
+        //         }
+        //     }
+
+        //     foreach(var host in catalog.ApiHosts)
+        //     {
+        //         var methods = list<ResolvedMethod>();
+        //         var count = ResolveHost(host, methods);
+        //         if(count != 0)
+        //         {
+        //             var resolved = methods.ToArray().Sort();
+        //             var @base = first(resolved).EntryPoint;
+        //             hosts.Add(new ResolvedHost(host.HostUri, @base, resolved));
+        //             counter += (uint)resolved.Length;
+        //         }
+        //     }
+
+        //     var result = new ResolvedPart(src.Id, location, hosts.ToArray());
+        //     Wf.Ran(flow, string.Format("Resolved {0} members from {1}", counter, src.Id));
+        //     return result;
+        // }
 
         public uint ResolveHost(IApiHost src, List<ResolvedMethod> dst)
         {

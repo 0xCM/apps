@@ -15,7 +15,7 @@ namespace Z0
             => IntelCommands.create(wf);
 
         public static void Main(params string[] args)
-            => run(commands,args);
+            => run(commands, args);
     }
 
 

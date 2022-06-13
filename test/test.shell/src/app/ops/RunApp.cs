@@ -41,7 +41,7 @@ namespace Z0
         public static void Run(params string[] args)
         {
             var app = new A();
-            app.InjectShell(WfAppLoader.load(args));
+            app.InjectShell(ApiRuntime.create(args));
             app.SetMode(InDiagnosticMode);
             app.RunTests();
         }
@@ -54,7 +54,7 @@ namespace Z0
         public static void Run(Index<PartId> parts, params string[] units)
         {
             var app = new A();
-            var shell = WfAppLoader.load(parts, array<string>());
+            var shell = ApiRuntime.create(parts, array<string>());
             app.InjectShell(shell);
             app.SetMode(InDiagnosticMode);
             app.RunTests(units);

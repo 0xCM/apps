@@ -24,7 +24,7 @@ namespace Z0
             Next = msg => {};
             Random = random;
             MessageQueue = queue;
-            ApiParts = ApiRuntimeLoader.parts();
+            ApiParts = ApiRuntime.parts();
         }
     }
 }

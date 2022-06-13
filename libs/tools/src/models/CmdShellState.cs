@@ -119,7 +119,7 @@ namespace Z0
         public ReadOnlySpan<Assembly> ApiComponents(bool justParts, bool libonly)
         {
             if(_ApiComponents.IsEmpty)
-                _ApiComponents = ApiRuntimeLoader.assemblies(justParts, libonly);
+                _ApiComponents = ApiRuntime.assemblies(justParts,libonly);
             return _ApiComponents;
         }
     }

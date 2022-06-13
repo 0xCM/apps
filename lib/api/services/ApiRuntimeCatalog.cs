@@ -67,7 +67,7 @@ namespace Z0
                 {
                     if(_TableDefs.IsEmpty)
                     {
-                        _TableDefs = Tables.definitions(Components);;
+                        _TableDefs = Tables.defs(Components);;
                     }
                 }
                 return _TableDefs;

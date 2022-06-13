@@ -9,7 +9,7 @@ namespace Z0
     partial struct Tables
     {
         [Op]
-        public static TableDef definition(Type src)
+        public static TableDef def(Type src)
         {
             var fields = @readonly(src.DeclaredInstanceFields());
             var count = fields.Length;
@@ -24,5 +24,9 @@ namespace Z0
 
             return new TableDef(TableId.identify(src), src.Name, specs);
         }
+
+        public static TableDef def<T>()
+            where T : struct
+                => def(typeof(T));
     }
 }

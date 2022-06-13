@@ -129,6 +129,9 @@ namespace Z0
                 => TableEmit(src, ApiTargets(tokens).Table<SymInfo>(name), TextEncodingKind.Unicode);
         }
 
+        public ApiHostCatalog HostCatalog(Type src)
+            => HostCatalog(ApiRuntimeLoader.apihost(src));
+
         Index<ComponentAssets> CalcApiAssets()
             => Assets.extract(Components);
 
@@ -182,8 +185,8 @@ namespace Z0
             where T : IAssets
                 => TableEmit(src.Data, AppDb.ApiTargets("assets").Table<AssetCatalogEntry>(src.DataSource.GetSimpleName()), TextEncodingKind.Unicode);
 
-        [Op]
-        ApiHostCatalog HostCatalog(IApiHost src)
+
+        public ApiHostCatalog HostCatalog(IApiHost src)
         {
             var members = ApiJit.JitHost(src);
             return members.Length == 0 ? ApiHostCatalog.Empty : new ApiHostCatalog(src, members);

@@ -27,7 +27,7 @@ namespace Z0
         public static void Main(params string[] args)
         {
             var parts = array(PartId.TestUnits, PartId.Lib);
-            using var wf = WfAppLoader.load(parts, args, "test.runner.commands");
+            using var wf = ApiRuntime.create(parts, args, "test.runner.commands");
             using var shell = create(wf);
             shell.Run();
         }

@@ -1,7 +1,3 @@
-//-----------------------------------------------------------------------------
-// Copyright   :  (c) Chris Moore, 2020
-// License     :  MIT
-//-----------------------------------------------------------------------------
 global using System;
 global using System.Collections.Generic;
 global using System.Collections.Concurrent;
@@ -19,17 +15,19 @@ global using CallerName = System.Runtime.CompilerServices.CallerMemberNameAttrib
 global using CallerFile = System.Runtime.CompilerServices.CallerFilePathAttribute;
 global using CallerLine = System.Runtime.CompilerServices.CallerLineNumberAttribute;
 
-[assembly: PartId(PartId.XedShell)]
-
-namespace Z0.Parts
+//-----------------------------------------------------------------------------
+// Copyright   :  (c) Chris Moore, 2020
+// License     :  MIT
+//-----------------------------------------------------------------------------
+namespace Z0
 {
-    public sealed class XedShell : Part<XedShell>
+    [Free]
+    sealed class App : AppCmdShell<App>
     {
-        [ModuleInitializer]
-        internal static void Init()
-        {
-            NumRender.Service.RegisterFomatters();
-            AppData.init();
-        }
+        static IAppCmdService commands(IWfRuntime wf)
+            => AppCmd.create(wf);
+
+        public static void Main(params string[] args)
+            => run(commands, args);
     }
 }

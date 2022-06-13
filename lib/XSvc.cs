@@ -14,10 +14,6 @@ namespace Z0
             => Z0.AppSettings.create(wf);
 
         [Op]
-        public static ApiRuntime ApiRuntime(this IWfRuntime wf)
-            => Z0.ApiRuntime.create(wf);
-
-        [Op]
         public static ApiJit ApiJit(this IWfRuntime wf)
             => Z0.ApiJit.create(wf);
 

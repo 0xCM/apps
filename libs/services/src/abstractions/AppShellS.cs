@@ -8,7 +8,7 @@ namespace Z0
         where S : AppShell<S>, new()
     {
         protected static S shell(params string[] args)
-            => create(WfAppLoader.load());
+            => create(ApiRuntime.create());
 
         protected static void run(params string[] args)
         {

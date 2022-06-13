@@ -45,6 +45,8 @@ set ProjectDir=%SlnRoot%\%ProjectId%
 set ProjectSlnName=z0.%ProjectId%.sln
 set ProjectSlnPath=%ProjectDir%\%ProjectSlnName%
 
+set CleanProjectCmd=rmdir %ProjectBuildRoot% /s/q
+
 set ProjectBinLog=%BuildLogs%\z0.%ProjectId%.build.bin
 set ProjectBuildLog=%BuildLogs%\z0.%ProjectId%.build.log
 set ProjectGraphPath=%BuildLogs%\z0.%ProjectId%.dg.json
@@ -69,6 +71,7 @@ set AreaBuildLog=%BuildLogs%\z0.%Area%.build.log
 set AreaBuildCmd=dotnet build %AreaSln% %BuildProps% -fl -flp:logfile=%AreaBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 set BuildTestsCmd=%AreaBuildCmd%
 set ztest=%BuildBinRoot%\z0.test.shell\%BuildKind%\%FrameworkMoniker%\%RuntimeMoniker%\ztest.exe
+
 
 set ZLibProject=%SlnRoot%\lib\z0.lib.csproj
 set ZLibBuildLog=%BuildLogs%\z0.lib.build.log
@@ -124,6 +127,10 @@ set AreaProject=%SlnRoot%\%Area%\%ProjectId%\z0.%ProjectId%.csproj
 set AreaBuildLog=%BuildLogs%\z0.%ProjectId%.build.log
 set AreaBuildCmd=dotnet build %AreaProject% %BuildProps% -fl -flp:logfile=%AreaBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 set BuildAreaShellCmd=%AreaBuildCmd%
+
+set BuildShellDllCmd=%AreaBuildCmd%
+set DllShellPath=%BuildBinRoot%\z0.%ProjectId%\%BuildKind%\%FrameworkMoniker%\z0.%ProjectId%.exe
+
 set ShellExePath=%BuildBinRoot%\z0.%ProjectId%\%BuildKind%\%FrameworkMoniker%\%RuntimeMoniker%\%ShellName%
 
 set ShellProject=%SlnRoot%\%ProjectId%\z0.%ProjectId%.csproj

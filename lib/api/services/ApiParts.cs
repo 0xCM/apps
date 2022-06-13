@@ -9,27 +9,24 @@ namespace Z0
         /// <summary>
         /// The root of the archive one which the api module set is predicated
         /// </summary>
-        public FS.FolderPath Source {get;}
+        public FS.FolderPath Home {get;}
 
         public FolderFiles ManagedSources {get;}
 
         public IApiCatalog Catalog {get;}
 
-        public Index<Assembly> Components
-            => Catalog.Components;
-
-        internal ApiParts(Assembly control, PartId[] parts, bool libonly)
+        internal ApiParts(Assembly control, FS.FolderPath home, FolderFiles ma,  PartId[] parts)
         {
-            Source = ApiRuntimeLoader.path(control).FolderPath;
-            ManagedSources = ApiRuntimeLoader.managed(Source, libonly);
-            Catalog = ApiRuntimeLoader.catalog(Source, parts, libonly);
+            Home = home;
+            ManagedSources = ma;
+            Catalog = ApiRuntimeLoader.catalog(home, parts, true);
         }
 
-        internal ApiParts(Assembly control, FS.FolderPath source, bool libonly)
+        internal ApiParts(Assembly control, FS.FolderPath home, FolderFiles ma, IApiCatalog catalog)
         {
-            Source = source;
-            ManagedSources = ApiRuntimeLoader.managed(Source, libonly);
-            Catalog = ApiRuntimeLoader.catalog(ManagedSources);
+            Home = home;
+            ManagedSources = ma;
+            Catalog = catalog;
         }
     }
 }

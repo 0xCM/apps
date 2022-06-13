@@ -11,9 +11,7 @@ namespace Z0
     [ApiHost]
     public class ApiCatalogs : AppService<ApiCatalogs>
     {
-        ApiQuery Query => Service(Wf.ApiQuery);
-
-        ApiRuntime Runtime => Service(Wf.ApiRuntime);
+        ApiMd ApiMd => Wf.ApiMetadata();
 
         ApiHex ApiHex => Wf.ApiHex();
 
@@ -141,7 +139,7 @@ namespace Z0
                     {
                         var blocks = ApiHex.ReadBlocks(hexpath);
                         Require.invariant(ApiRuntimeCatalog.FindHost(srcHost.HostUri, out var host));
-                        var catalog = Runtime.HostCatalog(host);
+                        var catalog = ApiMd.HostCatalog(host);
                         Correlate(catalog, blocks, dst, records);
                     }
                 }

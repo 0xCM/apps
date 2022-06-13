@@ -54,7 +54,7 @@ namespace Z0
         {
             var flow = Wf.Running(Msg.JittingPart.Format(src.Id));
             var buffer = list<ApiMember>();
-            var catalog = ApiRuntimeLoader.catalog(src);
+            var catalog = ApiRuntimeLoader.catalog(src.Owner);
             var types = catalog.ApiTypes;
             var hosts = catalog.ApiHosts;
 

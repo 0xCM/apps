@@ -6,6 +6,7 @@ namespace Z0
 {
     using static core;
 
+
     partial struct ApiRuntimeLoader
     {
         public static IApiCatalog catalog(bool libonly)
@@ -13,7 +14,7 @@ namespace Z0
 
         public static IApiCatalog catalog(FS.FolderPath dir, bool libonly)
         {
-            var candidates = assemblies(dir, true, libonly).Where(x => x.Id() != 0);
+            var candidates = ApiRuntime.assemblies(dir, true, libonly).Where(x => x.Id() != 0);
             var count = candidates.Length;
             var parts = list<IPart>();
             for(var i=0; i<count; i++)
@@ -37,42 +38,63 @@ namespace Z0
         public static IApiCatalog catalog(Index<IPart> parts)
             => catalog(parts.Storage);
 
-        /// <summary>
-        /// Defines a <see cref='ApiPartCatalog'/> for a specified part
-        /// </summary>
-        /// <param name="src">The source assembly</param>
-        [Op]
-        public static ApiPartCatalog catalog(IPart src)
-            => catalog(src.Owner);
-
-        /// <summary>
-        /// Defines a <see cref='ApiPartCatalog'/> over a specified assembly
-        /// </summary>
-        /// <param name="src">The source assembly</param>
-        [Op]
         public static ApiPartCatalog catalog(Assembly src)
             => new ApiPartCatalog(src.Id(), src, complete(src), apihosts(src), SvcHostTypes(src));
 
-        [Op]
-        public static IApiCatalog catalog(IPart[] parts)
+        public static IApiCatalog catalog(IPart[] src)
         {
-            var catalogs = parts.Select(x => catalog(x)).Where(c => c.IsIdentified);
-            var dst = new ApiRuntimeCatalog(parts,
-                parts.Select(p => p.Owner),
+            var catalogs = src.Select(x => catalog(x.Owner)).Where(c => c.IsIdentified);
+            var dst = new ApiRuntimeCatalog(src,
+                src.Select(p => p.Owner),
                 catalogs,
                 catalogs.SelectMany(c => c.ApiHosts.Storage).Where(h => nonempty(h.HostUri.HostName)),
-                parts.Select(p => p.Id),
+                src.Select(p => p.Id),
                 catalogs.SelectMany(x => x.Methods)
                 );
             return dst;
         }
 
-        /// <summary>
-        /// Searches an assembly for types tagged with the <see cref="FunctionalServiceAttribute"/>
-        /// </summary>
-        /// <param name="src">The assembly to search</param>
-        [Op]
         static Type[] SvcHostTypes(Assembly src)
             => src.GetTypes().Where(t => t.Tagged<FunctionalServiceAttribute>());
+
+        static IPart[] FindParts(PartLoadContext context)
+            => from component in context.Assemblies.Array().Where(x => x.Id() != 0)
+                let part = TryLoadPart(component)
+                where part.IsSome()
+                select part.Value;
+
+        static IPart[] LoadParts(FS.FolderPath dir, ReadOnlySpan<PartId> parts, bool libonly)
+        {
+            var count = parts.Length;
+            var dst = list<IPart>();
+            var set = hashset<PartId>();
+            iter(parts, p => set.Add(p));
+            var candidates = PartPaths(dir);
+            foreach(var (id,path) in candidates)
+            {
+                if(libonly && id >= FirstShell)
+                    continue;
+
+                if(set.Contains(id))
+                    part(path).OnSome(part => dst.Add(part));
+            }
+            return dst.ToArray();
+        }
+
+        static ReadOnlySpan<Paired<PartId,FS.FilePath>> PartPaths(FS.FolderPath dir)
+        {
+            var dst = list<Paired<PartId,FS.FilePath>>();
+            var symbols = Symbols.index<PartId>().View;
+            var count = symbols.Length;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var symbol = ref skip(symbols,i);
+                var id = symbol.Kind;
+                var name = "z0." + symbol.Expr.Format();
+                dst.Add((id, dir + FS.file(name, FS.Dll)));
+                dst.Add((id, dir + FS.file(name, FS.Exe)));
+            }
+            return dst.ViewDeposited();
+        }
     }
 }

@@ -32,6 +32,7 @@ namespace Z0
 
         void ExecuteHost(BufferTokens buffers, ApiHostUri uri)
         {
+            var md = Wf.ApiMetadata();
             var src = Wf.Db().ParsedExtractPath(uri);
             if(!src.Exists)
                 return;
@@ -40,11 +41,9 @@ namespace Z0
             if(!Wf.ApiCatalog.FindHost(uri, out var host))
                 return;
 
-
-            var catalog = Wf.ApiRuntime().HostCatalog(host);
+            var catalog = md.HostCatalog(host);
             if(catalog.IsEmpty)
                 return;
-
 
             var hex = ApiHex.create(Wf);
             var members = Wf.ApiIndexBuilder().CreateMemberIndex(catalog);

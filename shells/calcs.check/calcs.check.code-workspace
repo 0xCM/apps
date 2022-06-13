@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "..\\..\\libs\\calcs"
+		}
+	],
+	"settings": {
+
+        "omnisharp.defaultLaunchSolution": "z0.calcs.check.csproj"
+
+    }
+}

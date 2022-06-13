@@ -9,17 +9,17 @@ namespace Z0
     partial struct Tables
     {
         [Op]
-        public static Index<TableDef> definitions(ReadOnlySpan<Type> src)
+        public static Index<TableDef> defs(ReadOnlySpan<Type> src)
         {
             var count = src.Length;
             var dst = alloc<TableDef>(count);
             for(var i=0; i<count; i++)
-                seek(dst,i) = definition(skip(src,i));
+                seek(dst,i) = def(skip(src,i));
             return dst;
         }
 
         [Op]
-        public static Index<TableDef> definitions(params Assembly[] src)
-            => definitions(src.Types().Tagged<RecordAttribute>());
+        public static Index<TableDef> defs(params Assembly[] src)
+            => defs(src.Types().Tagged<RecordAttribute>());
     }
 }
