@@ -7,15 +7,70 @@ namespace Z0
     using static core;
 
     [ApiHost("asset.services")]
-    public sealed class Assets : AppService<Assets>
+    public sealed class Assets : WfSvc<Assets>
     {
         const NumericKind Closure = UnsignedInts;
 
-        AppDb AppDb => Wf.AppDb();
-
-        AppSvcOps AppSvc => Wf.AppSvc();
-
         IDbTargets AssetTargets => AppDb.ApiTargets("assets");
+
+        [MethodImpl(Inline), Op]
+        public static ComponentAssets extract(Assembly src, string match)
+            => new ComponentAssets(src, gather(src, match));
+
+        [MethodImpl(Inline), Op]
+        public static ComponentAssets extract(Assembly src)
+            => new ComponentAssets(src, collect(src));
+
+        [MethodImpl(Inline), Op]
+        public static Index<ComponentAssets> extract(ReadOnlySpan<Assembly> src)
+        {
+            var dst = list<ComponentAssets>();
+            iter(src, component => dst.Add(extract(component)));
+            return dst.ToArray();
+        }
+
+        public Index<ResEmission> ResEmit()
+        {
+            var src = Assets.extract(ApiRuntimeCatalog.Components).SelectMany(x => x);
+            var dst = alloc<ResEmission>(src.Count);
+            var counter = 0u;
+            for(var i=0; i<src.Count; i++, counter++)
+                @try(() => seek(dst,i) = ResEmit(src[i], AssetTargets.Root), e => Error(e));
+            return dst;
+        }
+
+        public ResEmission ResEmit(Asset src, FS.FolderPath dir)
+        {
+            var dst = dir + src.FileName;
+            FileEmit(utf8(src), dst, TextEncodingKind.Utf8);
+            return Graphs.connect(src,dst);
+        }
+
+        public Index<ResEmission> ResEmit(Assembly src, FS.FolderPath root, utf8 match, bool clear)
+        {
+            var flow = Running(string.Format("Emitting resources embedded in {0}", src.GetSimpleName()));
+            var descriptors = match.IsEmpty ? Assets.extract(src) : Assets.extract(src, match);
+            var count = descriptors.Count;
+
+            if(count == 0)
+                return sys.empty<ResEmission>();
+
+            var buffer = alloc<ResEmission>(count);
+            ref var emission = ref first(buffer);
+
+            if(clear)
+                root.Clear();
+
+            var sources = descriptors.View;
+            for(var i=0; i<count; i++)
+                seek(emission,i) = ResEmit(skip(sources,i), root);
+
+            Ran(flow);
+            return buffer;
+        }
+
+        public Index<ResEmission> Exec(EmitResDataCmd cmd)
+            => ResEmit(cmd.Source, cmd.Target, cmd.Match, cmd.ClearTarget);
 
         [Op]
         public static ApiCodeRes code(string id, ReadOnlySpan<CodeBlock> src)
@@ -95,21 +150,6 @@ namespace Z0
         public static Asset asset(string name, MemoryAddress address, ByteSize size)
             => new Asset(name, address, size);
 
-        [MethodImpl(Inline), Op]
-        public static Index<ComponentAssets> assets(ReadOnlySpan<Assembly> src)
-        {
-            var dst = list<ComponentAssets>();
-            iter(src, component => dst.Add(assets(component)));
-            return dst.ToArray();
-        }
-
-        [MethodImpl(Inline), Op]
-        public static ComponentAssets assets(Assembly src, string match)
-            => new ComponentAssets(src, collect(src, match));
-
-        [MethodImpl(Inline), Op]
-        public static ComponentAssets assets(Assembly src)
-            => new ComponentAssets(src, collect(src));
 
         [Op]
         public static Index<ResDocInfo> docs(Assembly src)
@@ -153,7 +193,7 @@ namespace Z0
             => src.GetManifestResourceNames();
 
         [Op]
-        public static unsafe Index<Asset> collect(Assembly src, string match = null)
+        static unsafe Index<Asset> gather(Assembly src, string match)
         {
             require(src != null, () => "Argument NULL");
             var resnames = @readonly(names(src, match));
@@ -258,49 +298,6 @@ namespace Z0
             EmittedTable(flow,count);
         }
 
-        public ResEmission EmitData(in Asset src, FS.FolderPath dir)
-        {
-            var dst = dir + src.FileName;
-            AppSvc.FileEmit(utf8(src), dst, TextEncodingKind.Utf8);
-            return Graphs.connect(src,dst);
-        }
 
-        public Index<ResEmission> Run(EmitResDataCmd cmd)
-            => EmitEmbedded(cmd.Source, cmd.Target, cmd.Match, cmd.ClearTarget);
-
-        public Index<ResEmission> EmitEmbedded(Assembly src, FS.FolderPath root, utf8 match, bool clear)
-        {
-            var flow = Running(string.Format("Emitting resources embedded in {0}", src.GetSimpleName()));
-            var descriptors = match.IsEmpty ? Assets.assets(src) : Assets.assets(src, match);
-            var count = descriptors.Count;
-
-            if(count == 0)
-                return sys.empty<ResEmission>();
-
-            var buffer = sys.alloc<ResEmission>(count);
-            ref var emission = ref first(buffer);
-
-            if(clear)
-                root.Clear();
-
-            var sources = descriptors.View;
-            for(var i=0; i<count; i++)
-                seek(emission,i) = EmitData(skip(sources,i), root);
-
-            Ran(flow);
-            return buffer;
-        }
-
-        public Index<ResEmission> EmitPartAssets()
-        {
-            var flow = Running("Emitting part assets");
-            var src = Assets.assets(ApiRuntimeCatalog.Components).SelectMany(x => x);
-            var dst = alloc<ResEmission>(src.Count);
-            var counter = 0u;
-            for(var i=0; i<src.Count; i++, counter++)
-                @try(() => seek(dst,i) = EmitData(src[i], AssetTargets.Root), e => Error(e));
-            Ran(flow, string.Format("Emitted <{0}> assets", counter));
-            return dst;
-        }
     }
 }

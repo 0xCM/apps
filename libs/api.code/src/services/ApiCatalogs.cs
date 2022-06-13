@@ -22,7 +22,7 @@ namespace Z0
 
         [Op]
         static Index<SymLiteralRow> ClassLiterals()
-            => Symbolic.literals(Parts.Lib.Assembly.Enums().Tagged<ApiClassAttribute>());
+            => Symbolic.symlits(Parts.Lib.Assembly.Enums().Tagged<ApiClassAttribute>());
 
         static Index<ApiClassifier> Classifiers()
             => ClassLiterals().GroupBy(x => x.Type).Select(x => new ApiClassifier(x.Key, x.ToArray())).Array();

@@ -73,10 +73,10 @@ namespace Z0
         {
             Span<char> dst = stackalloc char[(int)src.Address.Length];
             var i=0u;
-            var count = src.Render(ref i, dst);
+            //var count = src.Render(ref i, dst);
+            var count = render(restext(src.Address.Cells), ref i, dst);
             return text.format(slice(dst,0,count));
         }
-
 
         [MethodImpl(Inline)]
         public static uint render(in ResText src, ref uint i, Span<char> dst)

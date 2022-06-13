@@ -4,14 +4,47 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Linq;
-
     using static core;
 
     [ApiHost]
     public partial class Symbolic
     {
         const NumericKind Closure = UnsignedInts;
+
+        public static Index<RuntimeLiteral> runtimelits(Index<LiteralProvider> src)
+        {
+            var providers = src.Select(provider => (Provider: provider, Fields: provider.Type.LiteralFields().Index()));
+            var count = providers.Storage.Select(x => x.Fields.Count).Sum();
+            var dst = alloc<RuntimeLiteral>(count);
+            var k=0u;
+            for(var i=0; i<providers.Count; i++)
+            {
+                ref readonly var provided = ref providers[i];
+                var provider = provided.Provider;
+                var fields = provided.Fields;
+                for(var j=0; j<fields.Count; j++, k++)
+                {
+                    ref readonly var field = ref fields[j];
+                    var datatype = field.FieldType;
+                    var host = field.DeclaringType;
+                    var value = field.GetRawConstantValue();
+                    var lk = ClrLiteralKind.None;
+                    var data = 0ul;
+                    if(datatype.IsEnum)
+                    {
+                        lk = (ClrLiteralKind)Enums.@base(datatype);
+                        data = ClrLiterals.serialize(value,lk);
+                    }
+                    else
+                    {
+                        lk = (ClrLiteralKind)PrimalBits.kind(datatype);
+                        data = ClrLiterals.serialize(value,lk);
+                    }
+                    seek(dst,k) = new (host.Assembly.Id(), provider.Group, ClrLiterals.name(host), ClrLiterals.name(field), data, lk);
+                }
+            }
+            return dst;
+        }
 
         [Op]
         public static uint example(SymStore<string> store, Span<SymRef> refs, Span<string> found)

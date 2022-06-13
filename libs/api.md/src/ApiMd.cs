@@ -6,47 +6,12 @@ namespace Z0
 {
     using static core;
     using static ApiComments;
+    using static ApiGranules;
 
     using K = ApiMdKind;
 
-    public sealed partial class ApiMd : WfSvc<ApiMd>
+    public sealed class ApiMd : WfSvc<ApiMd>
     {
-        const string msil = nameof(msil);
-
-        const string tokens = nameof(tokens);
-
-        public static Index<DataTypeInfo> DescribeDataTypes(Index<ApiDataType> types)
-        {
-            var count = types.Count;
-            var dst = alloc<DataTypeInfo>(count);
-            for(var i=0; i<count; i++)
-            {
-                ref var record = ref seek(dst,i);
-                ref readonly var type = ref types[i];
-                record.Part = type.Part;
-                record.Name = type.Name;
-                record.Concrete = type.Definition.IsConcrete();
-                record.NativeSize = type.Size.Native/8;
-                record.NativeWidth = type.Size.Native;
-                record.PackedWidth = type.Size.Packed;
-            }
-
-            return dst;
-        }
-
-        public static Index<ApiDataType> DiscoverDataTypes(Assembly[] src)
-        {
-            var types = src.Types().Where(t => t.IsEnum || t.IsStruct()).Ignore().Index();
-            var count = types.Count;
-            var dst = alloc<ApiDataType>(count);
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var type = ref types[i];
-                seek(dst,i) = new ApiDataType(type, Sizes.measure(type));
-            }
-            return dst.Sort();
-        }
-
         ApiJit Jit => Wf.Jit();
 
         MsilPipe MsilSvc => Wf.MsilSvc();
@@ -62,6 +27,9 @@ namespace Z0
 
         IDbTargets ApiTargets(string scope)
             => AppDb.ApiTargets(scope);
+
+        IDbTargets AssetTargets
+            => AppDb.ApiTargets("assets");
 
         IDbTargets MsilTargets()
             => ApiTargets(msil);
@@ -90,22 +58,22 @@ namespace Z0
             => data(K.ApiTableFields, CalcTableFields);
 
         public Index<SymLiteralRow> SymLits
-            => data(nameof(SymLiteralRow), () => Symbolic.literals(Components));
+            => data(nameof(SymLiteralRow), () => Symbolic.symlits(Components));
 
         public Index<IApiHost> ApiHosts
             => data(K.ApiHosts, () => Catalog.ApiHosts.Index());
 
         public Index<ApiDataType> DataTypes
-            => data(K.DataTypes, () => DiscoverDataTypes(Components));
+            => data(K.DataTypes, () => Z0.DataTypes.discover(Components));
 
         public Index<DataTypeInfo> DataTypeInfo
-            => data(K.DataTypeRecords, () => DescribeDataTypes(DataTypes));
+            => data(K.DataTypeRecords, () => Z0.DataTypes.describe(DataTypes));
 
         public Index<ApiCmdRow> ApiCommands
             => data(K.ApiCommands, CalcApiCommands);
 
-        public Index<CompilationLiteral> ApiLiterals
-            => data(nameof(K.ApiLiterals), () => literals(Components));
+        public Index<ApiLiteral> ApiLiterals
+            => data(nameof(K.ApiLiterals), () => Symbolic.apilits(Components));
 
         public Index<ApiFlowSpec> DataFlows
             => data(K.DataFlows, CalcDataFlows);
@@ -120,7 +88,7 @@ namespace Z0
             => data(K.ApiComments, () => Comments.Calc());
 
         public ApiParserLookup Parsers
-            => data(K.Parsers, () => parsers(Components));
+            => data(K.Parsers, () => Z0.Parsers.contracted(Components));
 
         public Index<ClrEnumRecord> EnumRecords(Assembly src)
             => Data(src.GetSimpleName() + nameof(ClrEnumRecord), () => Enums.records(src));
@@ -133,6 +101,7 @@ namespace Z0
                 EmitApiLiterals,
                 EmitDataTypes,
                 EmitComments,
+                ResEmit,
                 () => Emit(SymLits),
                 EmitParsers,
                 EmitApiTables,
@@ -141,6 +110,77 @@ namespace Z0
                 EmitApiBitMasks
             );
         }
+
+        public Index<SymInfo> EmitApiTokens(Type src)
+        {
+            var syms = Symbols.syminfo(src);
+            var name = src.Name.ToLower();
+            var dst = ApiTargets().Table<SymInfo>(tokens + "." +  name);
+            TableEmit(syms, dst, TextEncodingKind.Unicode);
+            return syms;
+        }
+
+        public ConstLookup<string,Index<SymInfo>> EmitApiTokens()
+        {
+            ApiTargets(tokens).Clear();
+            var lookup = ApiTokens;
+            var names = lookup.Keys;
+            for(var i=0; i<names.Length; i++)
+                EmitApiTokens(skip(names,i), lookup[skip(names,i)]);
+            return lookup;
+        }
+
+        public Index<SymInfo> EmitApiTokens(ITokenGroup src, FS.FilePath dst)
+        {
+            var data = Symbols.syminfo(src.TokenTypes);
+            TableEmit(data, dst, TextEncodingKind.Unicode);
+            return data;
+        }
+
+        void EmitApiTokens(string name, Index<SymInfo> src)
+            => TableEmit(src, ApiTargets(tokens).Table<SymInfo>(name), TextEncodingKind.Unicode);
+
+        public void ResEmit()
+        {
+            var src = Assets.extract(Components).SelectMany(x => x);
+            var dst = alloc<ResEmission>(src.Count);
+            var counter = 0u;
+            for(var i=0; i<src.Count; i++, counter++)
+                @try(() => seek(dst,i) = ResEmit(src[i], AssetTargets.Root), e => Error(e));
+        }
+
+        public ResEmission ResEmit(Asset src, FS.FolderPath dir)
+        {
+            var dst = dir + src.FileName;
+            FileEmit(Assets.utf8(src), dst, TextEncodingKind.Utf8);
+            return Graphs.connect(src,dst);
+        }
+
+        public Index<ResEmission> ResEmit(Assembly src, FS.FolderPath root, utf8 match, bool clear)
+        {
+            var flow = Running(string.Format("Emitting resources embedded in {0}", src.GetSimpleName()));
+            var descriptors = match.IsEmpty ? Assets.extract(src) : Assets.extract(src, match);
+            var count = descriptors.Count;
+
+            if(count == 0)
+                return sys.empty<ResEmission>();
+
+            var buffer = alloc<ResEmission>(count);
+            ref var emission = ref first(buffer);
+
+            if(clear)
+                root.Clear();
+
+            var sources = descriptors.View;
+            for(var i=0; i<count; i++)
+                seek(emission,i) = ResEmit(skip(sources,i), root);
+
+            Ran(flow);
+            return buffer;
+        }
+
+        public Index<ResEmission> Exec(EmitResDataCmd cmd)
+            => ResEmit(cmd.Source, cmd.Target, cmd.Match, cmd.ClearTarget);
 
         [Op]
         ApiHostCatalog HostCatalog(IApiHost src)
@@ -266,36 +306,36 @@ namespace Z0
             var dst = text.emitter();
             for(var i=0; i<src.Length; i++)
                 dst.AppendLine(skip(src,i).AssemblyQualifiedName);
-            AppSvc.FileEmit(dst.Emit(), src.Length, path);
+            FileEmit(dst.Emit(), src.Length, path);
             return path;
         }
 
         public void Emit(ReadOnlySpan<SymKindRow> src)
-            => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<SymKindRow>());
+            => TableEmit(src, AppDb.ApiTargets().Table<SymKindRow>());
 
         public void Emit(ReadOnlySpan<ApiCmdRow> src)
-            => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<ApiCmdRow>());
+            => TableEmit(src, AppDb.ApiTargets().Table<ApiCmdRow>());
 
         public void Emit(ReadOnlySpan<TableField> src)
-            => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<TableField>());
+            => TableEmit(src, AppDb.ApiTargets().Table<TableField>());
 
         public void Emit(ReadOnlySpan<SymLiteralRow> src)
-            => AppSvc.TableEmit(src, AppDb.ApiTargets().Path("api.symbols", FileKind.Csv), TextEncodingKind.Unicode);
+            => TableEmit(src, AppDb.ApiTargets().Path("api.symbols", FileKind.Csv), TextEncodingKind.Unicode);
 
-        public void Emit(ReadOnlySpan<CompilationLiteral> src)
-            => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<CompilationLiteral>(), TextEncodingKind.Unicode);
+        public void Emit(ReadOnlySpan<ApiLiteral> src)
+            => TableEmit(src, AppDb.ApiTargets().Table<ApiLiteral>(), TextEncodingKind.Unicode);
 
         public void Emit(ReadOnlySpan<DataTypeInfo> src)
-            => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<DataTypeInfo>());
+            => TableEmit(src, AppDb.ApiTargets().Table<DataTypeInfo>());
 
         public void Emit(ReadOnlySpan<ApiFlowSpec> src)
-            => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<ApiFlowSpec>());
+            => TableEmit(src, AppDb.ApiTargets().Table<ApiFlowSpec>());
 
         public void Emit(ReadOnlySpan<ClrEnumRecord> src)
-            => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<ClrEnumRecord>(), TextEncodingKind.Unicode);
+            => TableEmit(src, AppDb.ApiTargets().Table<ClrEnumRecord>(), TextEncodingKind.Unicode);
 
         public void Emit(Index<BitMaskInfo> src)
-            => AppSvc.TableEmit(src, ProjectDb.ApiTablePath<BitMaskInfo>());
+            => TableEmit(src, ProjectDb.ApiTablePath<BitMaskInfo>());
 
         public void EmitHostMsil(string hostid)
         {
@@ -381,7 +421,7 @@ namespace Z0
                 }
 
                 var path = dst.Path(FS.hostfile(host.HostUri, FS.Il));
-                AppSvc.FileEmit(buffer.Emit(), members.Count, path, TextEncodingKind.Unicode);
+                FileEmit(buffer.Emit(), members.Count, path, TextEncodingKind.Unicode);
                 emitted[host.HostUri] = path;
             }
             return emitted;
@@ -403,7 +443,7 @@ namespace Z0
                     MsilSvc.RenderCode(members[j].Msil, buffer);
 
                 var path = MsilPath(host.HostUri);
-                AppSvc.FileEmit(buffer.Emit(), members.Count, path, TextEncodingKind.Unicode);
+                FileEmit(buffer.Emit(), members.Count, path, TextEncodingKind.Unicode);
                 emitted[host.HostUri] = path;
             }
 
@@ -414,7 +454,6 @@ namespace Z0
 
         ConstLookup<string,Index<SymInfo>> CalcApiTokens()
         {
-            //var types = Modules.PartArchive().ManagedDll().Where(x => x.FileName.StartsWith("z0")).Select(x => x.Load()).Storage.Enums().Where(e => e.Tagged<SymSourceAttribute>());
             var types = EnumTypes.Tagged<SymSourceAttribute>();
             var groups = dict<string,List<Type>>();
             var individuals = list<Type>();
@@ -491,6 +530,38 @@ namespace Z0
             return dst.ToArray();
         }
 
+        public Index<SymLiteralRow> EmitSymLits()
+            => EmitSymLits(ApiTargets().Table<SymLiteralRow>());
+
+        public Index<SymLiteralRow> EmitSymLits<E>()
+            where E : unmanaged, Enum
+                => EmitSymLits<E>(ApiTargets().Table<SymLiteralRow>(typeof(E).FullName));
+
+        Index<SymLiteralRow> EmitSymLits(FS.FilePath dst)
+            => EmitSymLits(Components, dst);
+
+        Index<SymLiteralRow> EmitSymLits<E>(FS.FilePath dst)
+            where E : unmanaged, Enum
+        {
+            var flow = EmittingTable<SymLiteralRow>(dst);
+            var rows = Symbolic.symlits<E>();
+            var count = rows.Length;
+            var formatter = Tables.formatter<SymLiteralRow>();
+            using var writer = dst.Writer(TextEncodingKind.Unicode);
+            writer.WriteLine(formatter.FormatHeader());
+            for(var i=0; i<count; i++)
+                writer.WriteLine(formatter.Format(rows[i]));
+            EmittedTable<SymLiteralRow>(flow, count);
+            return rows;
+        }
+
+        Index<SymLiteralRow> EmitSymLits(Assembly[] src, FS.FilePath dst)
+        {
+            var data = Symbolic.symlits(src);
+            TableEmit(data, dst, TextEncodingKind.Unicode);
+            return data;
+        }
+
         public Index<SymDetailRow> EmitDetails<E>(Symbols<E> src, FS.FilePath dst)
             where E : unmanaged, Enum
         {
@@ -498,7 +569,7 @@ namespace Z0
             var buffer = alloc<SymDetailRow>(count);
             for(var i=0; i<count; i++)
                 Symbols.detail(src[i], (ushort)count, out seek(buffer,i));
-            AppSvc.TableEmit(buffer,dst);
+            TableEmit(buffer,dst);
             return buffer;
         }
 

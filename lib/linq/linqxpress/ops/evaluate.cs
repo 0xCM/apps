@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
     using System.Linq;
     using System.Linq.Expressions;
 
@@ -14,7 +13,7 @@ namespace Z0
         {
             var name = fx.AccessedMember().MapValueOrElse(x => x.Name, () => "?");
             var value = fx.Compile().Invoke();
-            return (name, value);
+            return new NamedValue<T>(name, value);
         }
 
         [Op]

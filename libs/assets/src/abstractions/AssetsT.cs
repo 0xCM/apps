@@ -17,14 +17,14 @@ namespace Z0
 
         protected Assets()
         {
-            Components = Assets.assets(DataSource);
+            Components = Assets.extract(DataSource);
         }
 
-        public ref readonly Asset Asset(ResourceName id)
+        public ref readonly Asset Asset(string name)
         {
-            var matches = Components.Filter(id);
+            var matches = Components.Filter(name);
             if(matches.Count == 0)
-                Errors.Throw(string.Format("The assembly {0}, loaded from {1}, does not contain a resource with identifier {2}", DataSource.GetSimpleName(), DataSource.Location, id));
+                Errors.Throw(string.Format("The assembly {0}, loaded from {1}, does not contain a resource with identifier {2}", DataSource.GetSimpleName(), DataSource.Location, name));
 
             return ref matches[0];
         }

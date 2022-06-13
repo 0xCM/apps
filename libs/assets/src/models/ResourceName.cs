@@ -1,30 +1,30 @@
-//-----------------------------------------------------------------------------
-// Copyright   :  (c) Chris Moore, 2020
-// License     :  MIT
-//-----------------------------------------------------------------------------
-namespace Z0
-{
-    public readonly struct ResourceName : ITextual
-    {
-        readonly string Value;
+// //-----------------------------------------------------------------------------
+// // Copyright   :  (c) Chris Moore, 2020
+// // License     :  MIT
+// //-----------------------------------------------------------------------------
+// namespace Z0
+// {
+//     public readonly struct ResourceName
+//     {
+//         readonly string Value;
 
-        [MethodImpl(Inline)]
-        public ResourceName(string src)
-            => Value = src;
+//         [MethodImpl(Inline)]
+//         public ResourceName(string src)
+//             => Value = src;
 
-        [MethodImpl(Inline)]
-        public string Format()
-            => Value;
+//         [MethodImpl(Inline)]
+//         public string Format()
+//             => Value;
 
-        public override string ToString()
-            => Format();
+//         public override string ToString()
+//             => Format();
 
-        [MethodImpl(Inline)]
-        public static implicit operator ResourceName(string src)
-            => new ResourceName(src);
+//         [MethodImpl(Inline)]
+//         public static implicit operator ResourceName(string src)
+//             => new ResourceName(src);
 
-        [MethodImpl(Inline)]
-        public static implicit operator string(ResourceName src)
-            => src.Value ?? EmptyString;
-    }
-}
+//         [MethodImpl(Inline)]
+//         public static implicit operator string(ResourceName src)
+//             => src.Value ?? EmptyString;
+//     }
+// }

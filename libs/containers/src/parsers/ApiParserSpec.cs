@@ -34,9 +34,4 @@ namespace Z0
             return result;
         }
     }
-
-    public class ApiParserLookup : ConcurrentDictionary<Type,ApiParser>
-    {
-
-    }
 }

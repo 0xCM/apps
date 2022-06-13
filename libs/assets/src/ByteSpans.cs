@@ -6,6 +6,7 @@ namespace Z0
 {
     using static core;
 
+    [ApiHost]
     public class ByteSpans
     {
         /// <summary>

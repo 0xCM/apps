@@ -7,6 +7,8 @@
     <PackageReference Include="Microsoft.DiaSymReader.PortablePdb" Version="1.5.0" />
     <PackageReference Include="Microsoft.Diagnostics.Runtime" Version="2.0.227301" />
     <PackageReference Include="Microsoft.Diagnostics.Runtime.Utilities" Version="2.0.227301" />
+    <PackageReference Include="Microsoft.Diagnostics.Tracing.TraceEvent" Version="2.0.44" />
+
   </ItemGroup>
 
 </Project>

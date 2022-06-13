@@ -7,7 +7,7 @@ namespace Z0
     public readonly ref struct SymSpanSpec<T>
         where T : unmanaged
     {
-        public readonly Identifier Name {get;}
+        public readonly string Name;
 
         public readonly ReadOnlySpan<Sym<T>> Data;
 

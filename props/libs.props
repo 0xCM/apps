@@ -1,6 +1,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <ItemGroup>
+
     <ProjectReference Include="$(Alloc)" />
     <ProjectReference Include="$(ApiCode)" />
     <ProjectReference Include="$(ApiMd)" />

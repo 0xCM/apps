@@ -6,7 +6,7 @@ namespace Z0
 {
     using api = TextAssets;
 
-    public unsafe readonly struct ResText
+    public readonly record struct ResText
     {
         public readonly MemoryString Address;
 
@@ -16,9 +16,18 @@ namespace Z0
             Address = src;
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Address.Hash;
+        }
+
+        public override int GetHashCode()
+            => Hash;
+
         [MethodImpl(Inline)]
-        public uint Render(ref uint i, Span<char> dst)
-            => api.render(Address.Cells, ref i, dst);
+        public bool Equals(ResText src)
+            => Address.Equals(src.Address);
 
         public string Format()
             => api.format(this);

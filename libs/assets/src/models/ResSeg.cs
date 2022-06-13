@@ -4,18 +4,31 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct ResSeg
+    public readonly record struct ResSeg
     {
-        public readonly Identifier Name;
+        public readonly string Name;
 
         public readonly MemorySeg Segment;
 
         [MethodImpl(Inline)]
-        public ResSeg(Identifier name, in MemorySeg segment)
+        public ResSeg(string name, in MemorySeg segment)
         {
             Name = name;
             Segment = segment;
         }
+
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Segment.Hash;
+        }
+
+        public override int GetHashCode()
+            => Hash;
+
+        [MethodImpl(Inline)]
+        public bool Equals(ResSeg src)
+            => Name == src.Name && Segment.Equals(src.Segment);
 
         [MethodImpl(Inline)]
         public string Format()

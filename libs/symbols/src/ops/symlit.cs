@@ -4,11 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
     partial class Symbolic
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static ref SymLiteral<E> literal<E>(in Sym<E> src, out SymLiteral<E> dst)
+        public static ref SymLiteral<E> symlit<E>(in Sym<E> src, out SymLiteral<E> dst)
             where E : unmanaged
         {
             var type = typeof(E);

@@ -4,12 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IAssets
+    public class ApiParserLookup : ConcurrentDictionary<Type,ApiParser>
     {
-        Assembly DataSource {get;}
 
-        ReadOnlySpan<Asset> Data {get;}
-
-        ref readonly Asset Asset(string id);
     }
 }

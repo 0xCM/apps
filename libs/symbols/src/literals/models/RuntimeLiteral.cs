@@ -5,7 +5,7 @@
 namespace Z0
 {
     /// <summary>
-    /// Specifies the content of a <see cref='CompilationLiteral'/> at runtime
+    /// Specifies the content of a <see cref='ApiLiteral'/> at runtime
     /// </summary>
     /// <remarks>
     /// The <see cref='decimal'/> type is not supported; the <see cref='string'/> type is supported via addressing

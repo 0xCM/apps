@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    partial class ApiMd
+    public partial class Symbolic
     {
         public static Index<SymKindRow> symkinds<K>()
             where K : unmanaged, Enum

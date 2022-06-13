@@ -5,9 +5,10 @@
 namespace Z0
 {
     using static core;
+
     partial class Symbolic
     {
-        public static Index<SymLiteralRow> literals<E>()
+        public static Index<SymLiteralRow> symlits<E>()
             where E : unmanaged, Enum
         {
             var symbols = Symbols.index<E>().View;
@@ -17,7 +18,7 @@ namespace Z0
         }
 
         [Op]
-        public static Index<SymLiteralRow> literals(Type src)
+        public static Index<SymLiteralRow> symlits(Type src)
         {
             var fields = @readonly(src.LiteralFields());
             var dst = alloc<SymLiteralRow>(fields.Length);
@@ -26,18 +27,18 @@ namespace Z0
         }
 
         [Op]
-        public static Index<SymLiteralRow> literals(Index<Type> src)
+        public static Index<SymLiteralRow> symlits(Index<Type> src)
         {
             var dst = list<SymLiteralRow>();
             var kTypes = src.Count;
             for(var i=0; i<kTypes; i++)
-                dst.AddRange(literals(src[i]));
+                dst.AddRange(symlits(src[i]));
             return dst.Array();
         }
 
         [Op]
-        public static Index<SymLiteralRow> literals(Index<Assembly> src)
-            => literals(Enums.types(src).Ignore().OrderBy(src => src.Name));
+        public static Index<SymLiteralRow> symlits(Index<Assembly> src)
+            => symlits(Enums.types(src).Ignore().OrderBy(src => src.Name));
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         static void fill<E>(ReadOnlySpan<Sym<E>> src, Span<SymLiteralRow> dst)
@@ -45,7 +46,7 @@ namespace Z0
         {
             var count = src.Length;
             for(var i=0; i<count; i++)
-                seek(dst, i) = untype(literal(skip(src,i), out _));
+                seek(dst, i) = untype(symlit(skip(src,i), out _));
         }
 
         [MethodImpl(Inline), Op, Closures(Closure)]
