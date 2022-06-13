@@ -5,17 +5,25 @@
 namespace Z0
 {
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct AssetCatalogEntry
+    public struct AssetCatalogEntry : IComparable<AssetCatalogEntry>, ISequential<AssetCatalogEntry>
     {
-        const string TableId = "assets.catalog";
+        const string TableId = "api.assets";
+
+        [Render(8)]
+        public uint Seq;
 
         [Render(16)]
         public MemoryAddress BaseAddress;
 
-        [Render(8)]
+        [Render(12)]
         public ByteSize Size;
 
         [Render(1)]
-        public StringAddress Name;
+        public ResourceName Name;
+
+        uint ISequential.Seq { get => Seq; set => Seq = value;}
+
+        public int CompareTo(AssetCatalogEntry src)
+            => Name.CompareTo(src.Name);
     }
 }

@@ -20,6 +20,8 @@ namespace Z0
 
         ApiHosts,
 
+        ApiAssets,
+
         ApiTokens,
 
         ApiTables,

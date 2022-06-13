@@ -5,21 +5,77 @@
 namespace Z0
 {
     using static core;
+    using static ApiGranules;
 
     [ApiHost("asset.services")]
     public sealed class Assets : WfSvc<Assets>
     {
         const NumericKind Closure = UnsignedInts;
 
-        IDbTargets AssetTargets => AppDb.ApiTargets("assets");
+        [MethodImpl(Inline), Op]
+        public static Index<ResourceName> ManifestNames(Assembly src)
+        {
+            var names = src.GetManifestResourceNames();
+            var dst = alloc<ResourceName>(names.Length);
+            for(var i=0; i<names.Length; i++)
+                seek(dst,i) = new ResourceName(skip(names,i));
+            return dst;
+        }
+
+        public static AssetCatalog catalog(Index<Asset> src)
+        {
+            var count = src.Length;
+            var dst = new AssetCatalog(alloc<AssetCatalogEntry>(count));
+            for(var i=0; i<count; i++)
+                dst[i] = entry(src[i]);
+            return dst;
+        }
 
         [MethodImpl(Inline), Op]
-        public static ComponentAssets extract(Assembly src, string match)
-            => new ComponentAssets(src, gather(src, match));
+        public static AssetCatalogEntry entry(in Asset src)
+        {
+            AssetCatalogEntry dst = new();
+            dst.BaseAddress = src.Address;
+            dst.Name = src.Name.ManifestName;
+            dst.Size = src.Size;
+            return dst;
+        }
+
+        public static AssetName name(Assembly src, string resname)
+        {
+            var manifest = resname;
+            var @short = manifest;
+            var m0 = src.GetSimpleName() + ".";
+            if(text.index(manifest, m0) >= 0)
+                @short = text.remove(@short, m0);
+
+            var m1 = "assets" + ".";
+            if(text.index(@short,m1) >= 0)
+                @short = text.remove(@short, m1);
+
+            return new AssetName(manifest,@short);
+        }
 
         [MethodImpl(Inline), Op]
-        public static ComponentAssets extract(Assembly src)
-            => new ComponentAssets(src, collect(src));
+        public static Asset asset(Assembly source, string manifest, MemoryAddress address, ByteSize size)
+            => new Asset(name(source, manifest), address, size);
+
+        [MethodImpl(Inline), Op]
+        public static unsafe ComponentAssets extract(Assembly src)
+        {
+            var names = src.GetManifestResourceNames().Index();
+            var srcname = src.GetSimpleName();
+            var count = names.Count;
+            var buffer = alloc<Asset>(count);
+            var dst = new ComponentAssets(src, buffer);
+            for(var i=0u; i<count; i++)
+            {
+                var stream = (UnmanagedMemoryStream)src.GetManifestResourceStream(names[i]);
+                var manifest = new ResourceName(names[i]);
+                dst[i] = Assets.asset(src, names[i], stream.PositionPointer, (uint)stream.Length);
+            }
+            return dst;
+        }
 
         [MethodImpl(Inline), Op]
         public static Index<ComponentAssets> extract(ReadOnlySpan<Assembly> src)
@@ -28,49 +84,6 @@ namespace Z0
             iter(src, component => dst.Add(extract(component)));
             return dst.ToArray();
         }
-
-        public Index<ResEmission> ResEmit()
-        {
-            var src = Assets.extract(ApiRuntimeCatalog.Components).SelectMany(x => x);
-            var dst = alloc<ResEmission>(src.Count);
-            var counter = 0u;
-            for(var i=0; i<src.Count; i++, counter++)
-                @try(() => seek(dst,i) = ResEmit(src[i], AssetTargets.Root), e => Error(e));
-            return dst;
-        }
-
-        public ResEmission ResEmit(Asset src, FS.FolderPath dir)
-        {
-            var dst = dir + src.FileName;
-            FileEmit(utf8(src), dst, TextEncodingKind.Utf8);
-            return Graphs.connect(src,dst);
-        }
-
-        public Index<ResEmission> ResEmit(Assembly src, FS.FolderPath root, utf8 match, bool clear)
-        {
-            var flow = Running(string.Format("Emitting resources embedded in {0}", src.GetSimpleName()));
-            var descriptors = match.IsEmpty ? Assets.extract(src) : Assets.extract(src, match);
-            var count = descriptors.Count;
-
-            if(count == 0)
-                return sys.empty<ResEmission>();
-
-            var buffer = alloc<ResEmission>(count);
-            ref var emission = ref first(buffer);
-
-            if(clear)
-                root.Clear();
-
-            var sources = descriptors.View;
-            for(var i=0; i<count; i++)
-                seek(emission,i) = ResEmit(skip(sources,i), root);
-
-            Ran(flow);
-            return buffer;
-        }
-
-        public Index<ResEmission> Exec(EmitResDataCmd cmd)
-            => ResEmit(cmd.Source, cmd.Target, cmd.Match, cmd.ClearTarget);
 
         [Op]
         public static ApiCodeRes code(string id, ReadOnlySpan<CodeBlock> src)
@@ -140,17 +153,6 @@ namespace Z0
         public unsafe static ResMember member(W64 w, FieldInfo field)
             => new ResMember(field, MemorySegs.define(field.FieldHandle.Value, 8));
 
-        /// <summary>
-        /// Defines a <see cref='Asset'/>
-        /// </summary>
-        /// <param name="name">The resource name</param>
-        /// <param name="address">The memory location at which the resource content begins</param>
-        /// <param name="size">The size of the resource, in bytes</param>
-        [MethodImpl(Inline), Op]
-        public static Asset asset(string name, MemoryAddress address, ByteSize size)
-            => new Asset(name, address, size);
-
-
         [Op]
         public static Index<ResDocInfo> docs(Assembly src)
         {
@@ -174,67 +176,10 @@ namespace Z0
         public static BinaryAsset binary(Assembly owner, string id, ByteSize size, MemoryAddress address)
             => new BinaryAsset(owner, id, size, address);
 
-        [MethodImpl(Inline), Op]
-        public static AssetCatalogEntry entry(in Asset src)
-        {
-            AssetCatalogEntry dst = new();
-            dst.BaseAddress = src.Address;
-            dst.Name = src.Name;
-            dst.Size = src.Size;
-            return dst;
-        }
-
-        [Op]
-        public static string[] names(Assembly src, string match)
-            => core.nonempty(match) ? src.ManifestResourceNames().Where(n => n.Contains(match)) : src.ManifestResourceNames();
-
-        [MethodImpl(Inline), Op]
-        public static Index<string> names(Assembly src)
-            => src.GetManifestResourceNames();
-
-        [Op]
-        static unsafe Index<Asset> gather(Assembly src, string match)
-        {
-            require(src != null, () => "Argument NULL");
-            var resnames = @readonly(names(src, match));
-            var count = resnames.Length;
-            if(count == 0)
-                return sys.empty<Asset>();
-
-            var buffer = alloc<Asset>(count);
-            var target = span(buffer);
-            for(var i=0u; i<count; i++)
-            {
-                ref readonly var name = ref skip(resnames, i);
-                var stream = (UnmanagedMemoryStream)src.GetManifestResourceStream(name);
-                seek(target,i) = asset(name, stream.PositionPointer, (uint)stream.Length);
-            }
-            return buffer;
-        }
-
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static unsafe ReadOnlySpan<T> extract<T>(in ResMember member, uint i0, uint i1)
             where T : unmanaged
                 => section(member.Address.Pointer<T>(), i0, i1);
-
-        [Op]
-        static unsafe Index<Asset> collect(Assembly src)
-        {
-            var resnames = @readonly(src.GetManifestResourceNames());
-            var count = resnames.Length;
-            if(count == 0)
-                return array<Asset>();
-
-            var buffer = alloc<Asset>(count);
-            var target = span(buffer);
-            for(var i=0u; i<count; i++)
-            {
-                ref readonly var name = ref skip(resnames, i);
-                var stream = (UnmanagedMemoryStream)src.GetManifestResourceStream(name);
-                seek(target,i) = Assets.asset(name, stream.PositionPointer, (uint)stream.Length);
-            }
-            return buffer;
-        }
 
         public static Outcome<Count> structured(Asset src, string delimiter, ReadOnlySpan<byte> widths, FS.FilePath dst)
         {
@@ -281,23 +226,5 @@ namespace Z0
                 return false;
             }
         }
-
-
-        public void EmitAssetIndex<T>(Assets<T> src, FS.FolderPath dir)
-            where T : Assets<T>, new()
-        {
-            var descriptors = src.Data;
-            var count = descriptors.Length;
-            var dst = AppDb.ApiTargets("assets").Table<AssetCatalogEntry>(src.DataSource.GetSimpleName());
-            var flow = EmittingTable<AssetCatalogEntry>(dst);
-            using var writer = dst.Writer(TextEncodingKind.Utf8);
-            var formatter = Tables.formatter<AssetCatalogEntry>();
-            writer.WriteLine(formatter.FormatHeader());
-            for(var i=0; i<count; i++)
-                writer.WriteLine(formatter.Format(skip(descriptors,i).CatalogEntry));
-            EmittedTable(flow,count);
-        }
-
-
     }
 }

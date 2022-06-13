@@ -6,9 +6,9 @@ namespace Z0
 {
     public interface IAppDb : IService
     {
-        IDbTargets ProjectEtl(ProjectId name);
+        IDbTargets DbProjects(ProjectId name);
 
-        FS.FilePath EtlTable<T>(ProjectId project)
+        FS.FilePath ProjectTable<T>(ProjectId project)
             where T : struct;
 
         IDbTargets EtlTargets(ProjectId id, string scope);

@@ -34,7 +34,13 @@ namespace Z0
             get => Data.View;
         }
 
-        public ref readonly Asset this[uint index]
+        public ref Asset this[uint index]
+        {
+            [MethodImpl(Inline)]
+            get => ref Data[index];
+        }
+
+        public ref Asset this[int index]
         {
             [MethodImpl(Inline)]
             get => ref Data[index];

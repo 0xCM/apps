@@ -21,7 +21,7 @@ namespace Z0
         public AsmCodeMap MapAsm(IProjectWs ws, Alloc dst)
         {
             var entries = map(ws, LoadRows(ws.Project), dst);
-            TableEmit(entries, AppDb.EtlTable<AsmCodeMapEntry>(ws.Project));
+            TableEmit(entries, AppDb.ProjectTable<AsmCodeMapEntry>(ws.Project));
             return new AsmCodeMap(entries);
         }
 
@@ -29,7 +29,7 @@ namespace Z0
             => Coff.Collect(context);
 
         public Index<ObjSymRow> LoadObjSyms(IProjectWs project)
-            => LoadObjSyms(AppDb.ProjectEtl(project.Project).Table<ObjSymRow>());
+            => LoadObjSyms(AppDb.DbProjects(project.Project).Table<ObjSymRow>());
 
         public Index<ObjSymRow> LoadObjSyms(FS.FilePath src)
         {
@@ -96,15 +96,15 @@ namespace Z0
             => Coff.LoadSymIndex(id);
 
         public Index<ObjDumpRow> LoadRows(ProjectId id)
-            => rows(AppDb.EtlTable<ObjDumpRow>(id));
+            => rows(AppDb.ProjectTable<ObjDumpRow>(id));
 
         public Index<ObjBlock> LoadBlocks(ProjectId id)
-            => blocks(AppDb.EtlTable<ObjBlock>(id));
+            => blocks(AppDb.ProjectTable<ObjBlock>(id));
 
         public Index<AsmInstructionRow> LoadInstructions(ProjectId project)
         {
             const byte FieldCount = AsmInstructionRow.FieldCount;
-            var src = AppDb.EtlTable<AsmInstructionRow>(project);
+            var src = AppDb.ProjectTable<AsmInstructionRow>(project);
             var lines = slice(src.ReadNumberedLines().View,1);
             var count = lines.Length;
             var buffer = alloc<AsmInstructionRow>(count);
@@ -240,7 +240,7 @@ namespace Z0
         {
             var rows = ConsolidateRows(context);
             var blocks = AsmObjects.blocks(rows);
-            TableEmit(blocks.View, AppDb.EtlTable<ObjBlock>(context.Project.Project));
+            TableEmit(blocks.View, AppDb.ProjectTable<ObjBlock>(context.Project.Project));
             EmitRecoded(context);
             return new ObjDumpBlocks(blocks,rows);
         }
@@ -278,7 +278,7 @@ namespace Z0
             for(var i=0u; i<data.Length; i++)
                 seek(data,i).Seq = i;
 
-            TableEmit(data, AppDb.EtlTable<ObjDumpRow>(project.Project));
+            TableEmit(data, AppDb.ProjectTable<ObjDumpRow>(project.Project));
             return data;
         }
 

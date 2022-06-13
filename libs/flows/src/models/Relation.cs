@@ -23,7 +23,7 @@ namespace Z0
         public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => alg.hash.combine(hash(Kind), hash(Source), hash(Target));
+            get => alg.hash.combine(core.hash(Kind), core.hash(Source), core.hash(Target));
         }
 
         public string Format()

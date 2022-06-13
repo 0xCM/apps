@@ -4,19 +4,21 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using api = Assets;
+
     /// <summary>
     /// Describes an embedded resource
     /// </summary>
     public readonly record struct Asset : IComparable<Asset>, IAddressable, IHashed<Asset>
     {
-        public readonly string Name;
+        public readonly AssetName Name;
 
         public readonly MemoryAddress Address;
 
         public readonly ByteSize Size;
 
         [MethodImpl(Inline)]
-        public Asset(string name, MemoryAddress address, ByteSize size)
+        public Asset(AssetName name, MemoryAddress address, ByteSize size)
         {
             Name = name;
             Address = address;
@@ -31,9 +33,6 @@ namespace Z0
 
         public override int GetHashCode()
             => Hash;
-
-        public FS.FileName FileName
-            => FS.file(Name.ReplaceAny(Path.GetInvalidPathChars(), Chars.Underscore));
 
         public BitWidth Width
         {
@@ -50,14 +49,14 @@ namespace Z0
         public ReadOnlySpan<byte> ResBytes
         {
             [MethodImpl(Inline)]
-            get => Assets.view(this);
+            get => api.view(this);
         }
 
-        public AssetCatalogEntry CatalogEntry
-        {
-            [MethodImpl(Inline)]
-            get => Assets.entry(this);
-        }
+        // public AssetCatalogEntry CatalogEntry
+        // {
+        //     [MethodImpl(Inline)]
+        //     get => api.entry(this);
+        // }
 
         [MethodImpl(Inline)]
         public bool NameLike(string match)
@@ -71,7 +70,6 @@ namespace Z0
         public bool Equals(Asset src)
             => Address.Equals(src.Address);
 
-
         [MethodImpl(Inline)]
         public string Format()
             => string.Format(RP.PSx3, Address, Size, Name);
@@ -83,6 +81,6 @@ namespace Z0
             => Address;
 
         public static Asset Empty
-            => new Asset(EmptyString, 0, 0);
+            => new Asset(AssetName.Empty, 0, 0);
     }
 }

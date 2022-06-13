@@ -332,6 +332,14 @@ namespace Z0
 
         public const string samples = nameof(samples);
 
+        public const string unicode = nameof(unicode);
+
+        public const string UTF8 = nameof(UTF8);
+
+        public const string UTF16 = nameof(UTF16);
+
+        public const string ASCII = nameof(ASCII);
+
         public const string net60 = net + Dot + d6 + Dot + d0;
 
         public const string net50 = net + Dot + d5 + Dot + d0;

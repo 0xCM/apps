@@ -4,10 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct Root
+    [SymSource(chars)]
+    public enum TextEncodingKind : byte
     {
-        [Op]
-        public static string name(Assembly src)
-            => src.GetName().Name;
+        None,
+
+        Asci,
+
+        Utf8,
+
+        Unicode,
+
+        Utf32,
     }
 }

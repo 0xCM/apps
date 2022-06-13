@@ -41,12 +41,12 @@ namespace Z0
         public IDbSources EnvConfig()
             => new DbSources(Archives.Path(S.EnvConfig).Location);
 
-        public IDbTargets ProjectEtl(ProjectId project)
-            => new DbTargets(Archives.Path(S.ProjectEtl).Location, project.Format());
+        public IDbTargets DbProjects(ProjectId project)
+            => new DbTargets(Archives.Path(S.DbProjects).Location, project.Format());
 
-        public FS.FilePath EtlTable<T>(ProjectId project)
+        public FS.FilePath ProjectTable<T>(ProjectId project)
             where T : struct
-                => ProjectEtl(project).Table<T>(project);
+                => DbProjects(project).Table<T>(project);
 
         public IDbSources DbSources(string scope)
             => DbSources().Sources(scope);
@@ -76,7 +76,7 @@ namespace Z0
             => DbTargets($"api/{scope}");
 
         public IDbTargets EtlTargets(ProjectId id, string scope)
-            => ProjectEtl(id).Targets(scope);
+            => DbProjects(id).Targets(scope);
 
         public IDbTargets AsmCsv(ProjectId id)
             => EtlTargets(id, T.asmcsv);

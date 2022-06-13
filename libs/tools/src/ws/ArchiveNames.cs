@@ -11,7 +11,7 @@ namespace Z0
 
         public const string DbTargets = nameof(DbTargets);
 
-        public const string ProjectEtl = nameof(ProjectEtl);
+        public const string DbProjects = nameof(DbProjects);
 
         public const string Capture = nameof(Capture);
 
@@ -22,6 +22,5 @@ namespace Z0
         public const string CodeGen = nameof(CodeGen);
 
         public const string Dev = nameof(Dev);
-
     }
 }

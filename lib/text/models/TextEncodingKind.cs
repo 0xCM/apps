@@ -4,30 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public enum TextEncodingKind : byte
-    {
-        None,
-
-        Asci,
-
-        Utf8,
-
-        Unicode,
-
-        Utf32,
-    }
-
-    public interface ITextEncodingKind
-    {
-        TextEncodingKind Kind {get;}
-    }
-
-    public interface ITextEncodingKind<T> : ITextEncodingKind
-        where T : unmanaged, ITextEncodingKind<T>
-    {
-
-    }
-
     public readonly struct TextEncodingKind<T> : ITextEncodingKind<T>
         where T : unmanaged, ITextEncodingKind<T>
     {

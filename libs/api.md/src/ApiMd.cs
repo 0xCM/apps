@@ -20,6 +20,8 @@ namespace Z0
 
         ApiComments Comments => Wf.ApiComments();
 
+        ModuleArchives Modules => Wf.ModuleArchives();
+
         ApiJit ApiJit => Service(Wf.ApiJit);
 
         IDbTargets ApiTargets()
@@ -63,6 +65,9 @@ namespace Z0
         public Index<IApiHost> ApiHosts
             => data(K.ApiHosts, () => Catalog.ApiHosts.Index());
 
+        public Index<ComponentAssets> ApiAssets
+            => data(K.ApiAssets, () => CalcApiAssets());
+
         public Index<ApiDataType> DataTypes
             => data(K.DataTypes, () => Z0.DataTypes.discover(Components));
 
@@ -100,8 +105,8 @@ namespace Z0
                 EmitTypeLists,
                 EmitApiLiterals,
                 EmitDataTypes,
-                EmitComments,
-                ResEmit,
+                () => EmitComments(),
+                () => EmitAssets(),
                 () => Emit(SymLits),
                 EmitParsers,
                 EmitApiTables,
@@ -109,15 +114,6 @@ namespace Z0
                 () => EmitApiTokens(),
                 EmitApiBitMasks
             );
-        }
-
-        public Index<SymInfo> EmitApiTokens(Type src)
-        {
-            var syms = Symbols.syminfo(src);
-            var name = src.Name.ToLower();
-            var dst = ApiTargets().Table<SymInfo>(tokens + "." +  name);
-            TableEmit(syms, dst, TextEncodingKind.Unicode);
-            return syms;
         }
 
         public ConstLookup<string,Index<SymInfo>> EmitApiTokens()
@@ -128,59 +124,63 @@ namespace Z0
             for(var i=0; i<names.Length; i++)
                 EmitApiTokens(skip(names,i), lookup[skip(names,i)]);
             return lookup;
+
+            void EmitApiTokens(string name, Index<SymInfo> src)
+                => TableEmit(src, ApiTargets(tokens).Table<SymInfo>(name), TextEncodingKind.Unicode);
         }
 
-        public Index<SymInfo> EmitApiTokens(ITokenGroup src, FS.FilePath dst)
+        Index<ComponentAssets> CalcApiAssets()
+            => Assets.extract(Components);
+
+        AssetCatalog EmitAssets()
         {
-            var data = Symbols.syminfo(src.TokenTypes);
-            TableEmit(data, dst, TextEncodingKind.Unicode);
-            return data;
+            AssetTargets.Delete();
+            var catalog = Emit(ApiAssets);
+            Emit(catalog);
+            // var entries = list<AssetCatalogEntry>();
+            // iter(Components, x => Emit(Assets.extract(x), entries), true);
+            // var catalog = new AssetCatalog(entries.ToArray().Sort().Resequence());
+            // Emit(catalog);
+            return catalog;
         }
 
-        void EmitApiTokens(string name, Index<SymInfo> src)
-            => TableEmit(src, ApiTargets(tokens).Table<SymInfo>(name), TextEncodingKind.Unicode);
-
-        public void ResEmit()
+        public AssetCatalog Emit(Index<ComponentAssets> src)
         {
-            var src = Assets.extract(Components).SelectMany(x => x);
-            var dst = alloc<ResEmission>(src.Count);
             var counter = 0u;
-            for(var i=0; i<src.Count; i++, counter++)
-                @try(() => seek(dst,i) = ResEmit(src[i], AssetTargets.Root), e => Error(e));
+            for(var i=0; i<src.Count; i++)
+            {
+                ref readonly var assets = ref src[i];
+                var count = assets.Count;
+                var targets = AssetTargets.Targets(assets.Source.GetSimpleName());
+                for(var j=0; j<count; j++)
+                {
+                    ref readonly var asset = ref assets[j];
+                    FileEmit(Assets.utf8(asset), targets.Path(asset.Name.ShortFileName), TextEncodingKind.Utf8);
+                    counter++;
+                }
+            }
+
+            return new AssetCatalog(src.SelectMany(x => x).Select(e => Assets.entry(e)));
         }
 
-        public ResEmission ResEmit(Asset src, FS.FolderPath dir)
+        public void Emit(ComponentAssets src, List<AssetCatalogEntry> entries)
         {
-            var dst = dir + src.FileName;
-            FileEmit(Assets.utf8(src), dst, TextEncodingKind.Utf8);
-            return Graphs.connect(src,dst);
-        }
-
-        public Index<ResEmission> ResEmit(Assembly src, FS.FolderPath root, utf8 match, bool clear)
-        {
-            var flow = Running(string.Format("Emitting resources embedded in {0}", src.GetSimpleName()));
-            var descriptors = match.IsEmpty ? Assets.extract(src) : Assets.extract(src, match);
-            var count = descriptors.Count;
-
-            if(count == 0)
-                return sys.empty<ResEmission>();
-
-            var buffer = alloc<ResEmission>(count);
-            ref var emission = ref first(buffer);
-
-            if(clear)
-                root.Clear();
-
-            var sources = descriptors.View;
+            var count = src.Count;
+            var targets = AssetTargets.Targets(src.Source.GetSimpleName());
             for(var i=0; i<count; i++)
-                seek(emission,i) = ResEmit(skip(sources,i), root);
-
-            Ran(flow);
-            return buffer;
+            {
+                ref readonly var asset = ref src[i];
+                FileEmit(Assets.utf8(asset), targets.Path(asset.Name.ShortFileName), TextEncodingKind.Utf8);
+                entries.Add(Assets.entry(asset));
+            }
         }
 
-        public Index<ResEmission> Exec(EmitResDataCmd cmd)
-            => ResEmit(cmd.Source, cmd.Target, cmd.Match, cmd.ClearTarget);
+        public void Emit(AssetCatalog src)
+            => TableEmit(src.Entries, AppDb.ApiTargets().Table<AssetCatalogEntry>());
+
+        public void EmitAssetCatalog<T>(T src)
+            where T : IAssets
+                => TableEmit(src.Data, AppDb.ApiTargets("assets").Table<AssetCatalogEntry>(src.DataSource.GetSimpleName()), TextEncodingKind.Unicode);
 
         [Op]
         ApiHostCatalog HostCatalog(IApiHost src)
@@ -267,31 +267,6 @@ namespace Z0
                     parser.TargetType.DisplayName()
                     ));
             FileEmit(emitter.Emit(), parsers.Count, AppDb.ApiTargets().Path("api.parsers", FileKind.Csv));
-        }
-
-        public Index<SymLiteralRow> LoadSymLits(FS.FilePath src)
-        {
-            using var reader = src.TableReader<SymLiteralRow>(SymLiteralRow.parse);
-            var header = reader.Header.Split(Chars.Tab);
-            if(header.Length != SymLiteralRow.FieldCount)
-            {
-                Error(AppMsg.FieldCountMismatch.Format(SymLiteralRow.FieldCount, header.Length));
-                return Index<SymLiteralRow>.Empty;
-            }
-
-            var dst = list<SymLiteralRow>();
-            while(!reader.Complete)
-            {
-                var outcome = reader.ReadRow(out var row);
-                if(!outcome)
-                {
-                    Error(outcome.Message);
-                    break;
-                }
-                dst.Add(row);
-            }
-
-            return dst.ToArray();
         }
 
 
@@ -449,8 +424,6 @@ namespace Z0
 
             return emitted;
         }
-
-        ModuleArchives Modules => Wf.ModuleArchives();
 
         ConstLookup<string,Index<SymInfo>> CalcApiTokens()
         {
@@ -614,5 +587,49 @@ namespace Z0
             }
             return buffer;
         }
+
+        public Index<SymLiteralRow> LoadSymLits(FS.FilePath src)
+        {
+            using var reader = src.TableReader<SymLiteralRow>(SymLiteralRow.parse);
+            var header = reader.Header.Split(Chars.Tab);
+            if(header.Length != SymLiteralRow.FieldCount)
+            {
+                Error(AppMsg.FieldCountMismatch.Format(SymLiteralRow.FieldCount, header.Length));
+                return Index<SymLiteralRow>.Empty;
+            }
+
+            var dst = list<SymLiteralRow>();
+            while(!reader.Complete)
+            {
+                var outcome = reader.ReadRow(out var row);
+                if(!outcome)
+                {
+                    Error(outcome.Message);
+                    break;
+                }
+                dst.Add(row);
+            }
+
+            return dst.ToArray();
+        }
+
+        public Index<SymInfo> EmitApiTokens(Type src)
+        {
+            var syms = Symbols.syminfo(src);
+            var name = src.Name.ToLower();
+            var dst = ApiTargets().Table<SymInfo>(tokens + "." +  name);
+            TableEmit(syms, dst, TextEncodingKind.Unicode);
+            return syms;
+        }
+
+
+        public Index<SymInfo> EmitApiTokens(ITokenGroup src, FS.FilePath dst)
+        {
+            var data = Symbols.syminfo(src.TokenTypes);
+            TableEmit(data, dst, TextEncodingKind.Unicode);
+            return data;
+        }
+
+
     }
 }

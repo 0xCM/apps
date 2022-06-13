@@ -37,10 +37,10 @@ namespace Z0
             => new FlowId(hash(actor), hash(src), hash(dst));
 
         public static IDbTargets etl(ProjectId id)
-            => AppDb.ProjectEtl(id);
+            => AppDb.DbProjects(id);
 
         public static IDbTargets etl(ProjectId id, string scope)
-            => AppDb.ProjectEtl(id).Targets(scope);
+            => AppDb.DbProjects(id).Targets(scope);
 
         public static FS.FilePath flow(ProjectId id)
             => etl(id).Path(FS.file(string.Format("{0}.build.flows", id), FS.Csv));

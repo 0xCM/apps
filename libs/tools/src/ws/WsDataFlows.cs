@@ -10,9 +10,6 @@ namespace Z0
     {
         static AppDb AppDb => GlobalSvc.Instance.AppDb;
 
-        public static IDbTargets etl(ProjectId id)
-            => AppDb.ProjectEtl(id);
-
         ConstLookup<FS.FileUri,List<FS.FileUri>> Lookup;
 
         ConstLookup<FS.FileUri,FS.FileUri> Ancestors;

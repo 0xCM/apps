@@ -1,30 +1,38 @@
-// //-----------------------------------------------------------------------------
-// // Copyright   :  (c) Chris Moore, 2020
-// // License     :  MIT
-// //-----------------------------------------------------------------------------
-// namespace Z0
-// {
-//     public readonly struct ResourceName
-//     {
-//         readonly string Value;
+//-----------------------------------------------------------------------------
+// Copyright   :  (c) Chris Moore, 2020
+// License     :  MIT
+//-----------------------------------------------------------------------------
+namespace Z0
+{
+    public readonly record struct ResourceName : IComparable<ResourceName>
+    {
+        readonly string Data;
 
-//         [MethodImpl(Inline)]
-//         public ResourceName(string src)
-//             => Value = src;
+        [MethodImpl(Inline)]
+        public ResourceName(string src)
+            => Data = src;
 
-//         [MethodImpl(Inline)]
-//         public string Format()
-//             => Value;
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => core.hash(Data);
+        }
 
-//         public override string ToString()
-//             => Format();
+        public bool Equals(ResourceName src)
+            => Data == src.Data;
 
-//         [MethodImpl(Inline)]
-//         public static implicit operator ResourceName(string src)
-//             => new ResourceName(src);
+        public override int GetHashCode()
+            => Hash;
 
-//         [MethodImpl(Inline)]
-//         public static implicit operator string(ResourceName src)
-//             => src.Value ?? EmptyString;
-//     }
-// }
+        [MethodImpl(Inline)]
+        public string Format()
+            => Data;
+
+        public override string ToString()
+            => Format();
+
+        [MethodImpl(Inline)]
+        public int CompareTo(ResourceName src)
+            => Data.CompareTo(src.Data);
+    }
+}

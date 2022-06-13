@@ -43,7 +43,7 @@ namespace Z0
         /// The part name, equivalent to the simple assembly name
         /// </summary>
         string Name
-            => Root.name(Owner);
+            => Owner.GetName().Name;
 
         /// <summary>
         /// The part identifier, known from the assembly
