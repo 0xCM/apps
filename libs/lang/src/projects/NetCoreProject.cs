@@ -12,9 +12,9 @@ namespace Z0
 
             public string AssemblyName {get;}
 
-            DataList<PropertyGroup> PropertyGroups {get;}
+            List<PropertyGroup> PropertyGroups {get;}
 
-            DataList<ItemGroup> ItemGroups {get;}
+            List<ItemGroup> ItemGroups {get;}
 
             public NetCoreProject(string project, string ass)
             {

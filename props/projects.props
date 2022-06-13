@@ -25,6 +25,7 @@
     <Diagnostics>$(LibsRoot)diagnostics/z0.diagnostics.csproj</Diagnostics>
 
     <Expr>$(LibsRoot)expr/z0.expr.csproj</Expr>
+    <EMath>$(LibsRoot)emath/z0.emath.csproj</EMath>
 
     <Flows>$(LibsRoot)flows/z0.flows.csproj</Flows>
 

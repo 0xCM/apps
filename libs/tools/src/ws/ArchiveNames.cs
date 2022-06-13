@@ -13,8 +13,6 @@ namespace Z0
 
         public const string ProjectEtl = nameof(ProjectEtl);
 
-        public const string ProjectSrc = nameof(ProjectSrc);
-
         public const string Capture = nameof(Capture);
 
         public const string Control = nameof(Control);
@@ -25,12 +23,5 @@ namespace Z0
 
         public const string Dev = nameof(Dev);
 
-        // public const string Deployments = nameof(Deployments);
-
-        // public const string LlvmRoot = nameof(LlvmRoot);
-
-        // public const string Toolbase = nameof(Toolbase);
-
-        // public const string XedRoot = nameof(XedRoot);
     }
 }

@@ -7,7 +7,6 @@ namespace Z0
 
     partial struct FS
     {
-        [DataWidth(16,16)]
         public readonly struct Drive : IFsEntry<Drive>
         {
             public readonly DriveLetter Name;

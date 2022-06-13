@@ -7,7 +7,7 @@ namespace Z0
     [LiteralProvider]
     public readonly struct FileKindNames
     {
-        const string sep = ".";
+        const string Dot = ".";
 
         /// <summary>
         /// Defines the 'alg' literal
@@ -22,12 +22,12 @@ namespace Z0
         /// <summary>
         /// Defines the 'syn.asm' literal
         /// </summary>
-        public const string synasm = syn + sep + asm;
+        public const string synasm = syn + Dot + asm;
 
         /// <summary>
         /// Defines the 'syn.asm.log' literal
         /// </summary>
-        public const string synasmlog = syn + sep + asm + sep + log;
+        public const string synasmlog = syn + Dot + asm + Dot + log;
 
         /// <summary>
         /// Defines the 'bat' literal
@@ -97,7 +97,7 @@ namespace Z0
         /// <summary>
         /// Defines the 'coff.headers.txt' literal
         /// </summary>
-        public const string coffheaders = coff + sep + headers + sep + txt;
+        public const string coffheaders = coff + Dot + headers + Dot + txt;
 
         /// <summary>
         /// Defines the 'cpp' literal
@@ -167,7 +167,7 @@ namespace Z0
         /// <summary>
         /// Defines the 'hex.dat' literal
         /// </summary>
-        public const string hexdat = hex + sep + dat;
+        public const string hexdat = hex + Dot + dat;
 
         /// <summary>
         /// Defines the 'i' literal
@@ -212,7 +212,7 @@ namespace Z0
         /// <summary>
         /// Defines the 'mc.asm' literal
         /// </summary>
-        public const string mcasm = mc + sep + asm;
+        public const string mcasm = mc + Dot + asm;
 
         /// <summary>
         /// Defines the 'syn' literal
@@ -227,7 +227,7 @@ namespace Z0
         /// <summary>
         /// Defines the 'encoding.asm' literal
         /// </summary>
-        public const string encasm = enc + sep + asm;
+        public const string encasm = enc + Dot + asm;
 
         /// <summary>
         /// Defines the 'mlir' literal
@@ -247,12 +247,12 @@ namespace Z0
         /// <summary>
         /// Defines the 'll.asm' literal
         /// </summary>
-        public const string llasm = ll + sep + asm;
+        public const string llasm = ll + Dot + asm;
 
         /// <summary>
         /// Defines the 'll.bc' literal
         /// </summary>
-        public const string llbc = ll + sep + bc;
+        public const string llbc = ll + Dot + bc;
 
         /// <summary>
         /// Defines the 'md' literal
@@ -287,22 +287,22 @@ namespace Z0
         /// <summary>
         /// Defines the 'ops.asm' literal
         /// </summary>
-        public const string opsasm = ops + sep + asm;
+        public const string opsasm = ops + Dot + asm;
 
         /// <summary>
         /// Defines the 'obj.asm' literal
         /// </summary>
-        public const string objasm = obj + sep + asm;
+        public const string objasm = obj + Dot + asm;
 
         /// <summary>
         /// Defines the 'obj.yaml' literal
         /// </summary>
-        public const string objyaml = obj + sep + yaml;
+        public const string objyaml = obj + Dot + yaml;
 
         /// <summary>
         /// Defines the 'obj.hex' literal
         /// </summary>
-        public const string objhex = obj + sep + hex;
+        public const string objhex = obj + Dot + hex;
 
         /// <summary>
         /// Defines the 'status' literal
@@ -376,17 +376,17 @@ namespace Z0
 
         /// il.csv
         /// </summary>
-        public const string ildata = il + sep + csv;
+        public const string ildata = il + Dot + csv;
 
         /// <summary>
         /// Defines the 'x.csv' literal
         /// </summary>
-        public const string xcsv = CharText.x + sep + csv;
+        public const string xcsv = CharText.x + Dot + csv;
 
         /// <summary>
         /// Defines the 'p.csv' literal
         /// </summary>
-        public const string pcsv = CharText.p + sep + csv;
+        public const string pcsv = CharText.p + Dot + csv;
 
         /// <summary>
         /// Defines the 'tok' literal
@@ -401,7 +401,7 @@ namespace Z0
         /// <summary>
         /// Defines the 'yaml.tok' literal
         /// </summary>
-        public const string yamltok = yaml + sep + tok;
+        public const string yamltok = yaml + Dot + tok;
 
         /// <summary>
         /// Defines the 'bv' literal
@@ -436,33 +436,33 @@ namespace Z0
         /// <summary>
         /// Defines the 'deps.json' literal
         /// </summary>
-        public const string djson = deps + sep + json;
+        public const string djson = deps + Dot + json;
 
         /// <summary>
         /// Defines the 'config.json' literal
         /// </summary>
-        public const string cjson = config + sep + json;
+        public const string cjson = config + Dot + json;
 
         /// <summary>
         /// Defines the 'settings.json' literal
         /// </summary>
-        public const string sjson = settings + sep + json;
+        public const string sjson = settings + Dot + json;
 
         public const string xed = nameof(xed);
 
         public const string disasm = nameof(disasm);
 
-        public const string xeddisasm = xed + sep + disasm;
+        public const string xeddisasm = xed + Dot + disasm;
 
         /// <summary>
         /// Defines the 'xed.disasm.txt' literal
         /// </summary>
-        public const string xeddisasm_raw = xeddisasm + sep + txt;
+        public const string xeddisasm_raw = xeddisasm + Dot + txt;
 
-        public const string xeddisasm_summary = xeddisasm + sep + "summary" + sep + csv;
+        public const string xeddisasm_summary = xeddisasm + Dot + "summary" + Dot + csv;
 
-        public const string xeddisasm_semantic = xeddisasm + sep + "semantic" + sep + txt;
+        public const string xeddisasm_semantic = xeddisasm + Dot + "semantic" + Dot + txt;
 
-        public const string xeddisasm_detail = xeddisasm + sep + "detail";
+        public const string xeddisasm_detail = xeddisasm + Dot + "detail";
     }
 }

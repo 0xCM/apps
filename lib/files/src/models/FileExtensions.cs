@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static FileKindNames;
+    using static ApiGranules;
 
-    using N = FileKindNames;
+    using N = ApiGranules;
 
     partial struct FS
     {
@@ -197,7 +197,7 @@ namespace Z0
         /// <summary>
         /// Defines the <see cref='status'/> + <see cref='log'/> <see cref='FileExt'/>
         /// </summary>
-        public static FileExt StatusLog => ext(status) + Log;
+        public static FileExt StatusLog => ext("status") + Log;
 
         /// <summary>
         /// Defines the <see cref='error'/> + <see cref='log'/> <see cref='FileExt'/>
@@ -212,7 +212,7 @@ namespace Z0
         /// <summary>
         /// Defines the <see cref='dot'/> <see cref='FileExt'/>
         /// </summary>
-        public static FileExt Dot => ext(dot);
+        public static FileExt Dot => ext("dot");
 
         /// <summary>
         /// Defines the <see cref='md'/> <see cref='FileExt'/>

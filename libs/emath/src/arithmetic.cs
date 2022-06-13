@@ -4,15 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     partial struct emath
     {
-
         [MethodImpl(Inline)]
         public static @enum<E,T> add<E,T>(@enum<E,T> a, @enum<E,T> b)
             where E : unmanaged

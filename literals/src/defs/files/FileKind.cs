@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static FileKindNames;
+    using static ApiGranules;
 
-    [SymSource("files")]
+    [SymSource(api)]
     public enum FileKind : uint
     {
         None = 0,
@@ -86,6 +86,9 @@ namespace Z0
         [Symbol(ildata, "MSIL organized in tabular format")]
         IlData,
 
+        [Symbol(idx)]
+        Idx,
+
         [Symbol(json, "Json data")]
         Json,
 
@@ -107,7 +110,7 @@ namespace Z0
         [Symbol(log,"Text-formatted log data")]
         Log,
 
-        [Symbol("map","A configuration file that correlates line-ranges and records/entities")]
+        [Symbol(map,"A configuration file that correlates line-ranges and records/entities")]
         Map,
 
         [Symbol(mcasm, "An asm file produced by the llvm-mc tool")]

@@ -25,6 +25,8 @@ namespace Z0
 
         public const string cpp = nameof(cpp);
 
+        public const string cs = nameof(cs);
+
         public const string control = nameof(control);
 
         public const string config = nameof(config);

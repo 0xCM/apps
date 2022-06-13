@@ -2,7 +2,6 @@
 | DbSources      | y:/data/sources          |
 | DbTargets      | z:/data                  |
 | ProjectEtl     | z:/data/projects         |
-| ProjectSrc     | c:/dev/ws/projects       |
 | Capture        | z:/capture               |
 | CodGen         | j:/z0/cg                 |
 | Control        | c:/dev/ws/control        |

@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 using Z0;
 
-/// <summary>
-/// Defines identifiers for assemblies that comprise this ... monstrosity?
-/// </summary>
-
 [SymSource("parts")]
 public enum PartId : byte
 {
@@ -231,6 +227,9 @@ public enum PartId : byte
 
     [Symbol("containers")]
     Containers,
+
+    [Symbol("emath")]
+    EMath,
 
     // ~ Generated 100 .. 127
     // ~ -------------------------------------------------------------------------------

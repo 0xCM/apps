@@ -11,5 +11,6 @@
     <ProjectReference Include="$(Assets)" />
     <ProjectReference Include="$(Numbers)" />
     <ProjectReference Include="$(AsmModels)" />
+    <ProjectReference Include="$(EMath)" />
   </ItemGroup>
 </Project>
