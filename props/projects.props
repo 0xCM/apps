@@ -52,6 +52,7 @@
 
     <Services>$(LibsRoot)services/z0.services.csproj</Services>
     <Tools>$(LibsRoot)tools/z0.tools.csproj</Tools>
+    <Templates>$(LibsRoot)templates/z0.templates.csproj</Templates>
     <Symbols>$(LibsRoot)symbols/z0.symbols.csproj</Symbols>
 
     <TestChecks>$(TestRoot)test.checks/z0.test.checks.csproj</TestChecks>

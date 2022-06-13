@@ -49,6 +49,8 @@
 
     <ProjectReference Include="$(Symbols)" />
     <ProjectReference Include="$(Services)" />
+
+    <ProjectReference Include="$(Templates)" />
     <ProjectReference Include="$(Tools)" />
 
   </ItemGroup>

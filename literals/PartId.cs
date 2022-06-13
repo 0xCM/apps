@@ -231,6 +231,9 @@ public enum PartId : byte
     [Symbol("emath")]
     EMath,
 
+    [Symbol("templates")]
+    Templates,
+
     // ~ Generated 100 .. 127
     // ~ -------------------------------------------------------------------------------
 

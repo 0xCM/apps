@@ -9,10 +9,6 @@
   <Import Project="$(ImportDefs)common.libs.props"/>
 
   <ItemGroup>
-    <ProjectReference Include="$(Graphs)" />
-    <ProjectReference Include="$(Containers)" />
-    <ProjectReference Include="$(Memory)" />
-    <ProjectReference Include="$(Templates)" />
+    <EmbeddedResource Include="assets/**/*.*" />
   </ItemGroup>
-
 </Project>
