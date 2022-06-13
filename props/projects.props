@@ -19,6 +19,8 @@
     <Cli>$(LibsRoot)cli/z0.cli.csproj</Cli>
     <Commands>$(LibsRoot)commands/z0.commands.csproj</Commands>
     <Calcs>$(LibsRoot)calcs/z0.calcs.csproj</Calcs>
+    <Circuits>$(LibsRoot)circuits/z0.circuits.csproj</Circuits>
+
     <Containers>$(LibsRoot)containers/z0.containers.csproj</Containers>
     <CmdActions>$(LibsRoot)cmd.actions/z0.cmd.actions.csproj</CmdActions>
 
@@ -70,7 +72,6 @@
 
     <Literals>$(TopDir)/literals/z0.literals.csproj</Literals>
     <LiteralsLibName>z0.literals</LiteralsLibName>
-
 
   </PropertyGroup>
 

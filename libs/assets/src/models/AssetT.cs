@@ -9,9 +9,9 @@ namespace Z0
     /// <summary>
     /// Identifies a resource of parametric type along with a reference to the memory segment it occupies
     /// </summary>
-    public readonly struct Asset<T> : IComparable<Asset<T>>, IEquatable<Asset<T>>, IAddressable
+    public readonly record struct Asset<T> : IComparable<Asset<T>>, IAddressable
     {
-        public readonly Identifier Name;
+        public readonly string Name;
 
         public readonly MemorySeg Segment;
 
@@ -51,6 +51,15 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Size.Bits;
         }
+
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Address.Hash;
+        }
+
+        public override int GetHashCode()
+            => Hash;
 
         [MethodImpl(Inline)]
         public int CompareTo(Asset<T> src)

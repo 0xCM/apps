@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Record(TableId)]
-    public struct StringResRow : IRecord<StringResRow>
+    public struct StringResRow
     {
         public const string TableId = "stringres";
 

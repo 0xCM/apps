@@ -8,7 +8,7 @@ namespace Z0
     {
         public void create()
         {
-            var circuit = LegacyCircuits.half<byte>();
+            var circuit = Gated.half<byte>();
             BitVector8 a = 0b11010110;
             BitVector8 b = 0b10101001;
             (BitVector8 s, BitVector8 c) = circuit.Invoke(a, b);

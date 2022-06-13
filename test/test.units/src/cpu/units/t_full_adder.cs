@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static LegacyCircuits;
-
     public class t_full_adder : UnitTest<t_full_adder>
     {
         bit on => bit.On;

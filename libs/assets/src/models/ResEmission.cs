@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines a link between an identified resource and an emission target
     /// </summary>
-    public readonly struct ResEmission
+    public readonly struct ResEmission : IFlow<Asset,FS.FilePath>
     {
         public readonly Asset Source;
 
@@ -19,6 +19,12 @@ namespace Z0
             Source = src;
             Target = dst;
         }
+
+        Asset IArrow<Asset, FS.FilePath>.Source
+            => Source;
+
+        FS.FilePath IArrow<Asset, FS.FilePath>.Target
+            => Target;
 
         [MethodImpl(Inline)]
         public static implicit operator ResEmission(Arrow<Asset,FS.FilePath> link)

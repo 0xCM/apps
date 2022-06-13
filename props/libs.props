@@ -17,6 +17,7 @@
     <ProjectReference Include="$(Cli)" />
     <ProjectReference Include="$(CmdActions)" />
     <ProjectReference Include="$(Containers)" />
+    <ProjectReference Include="$(Circuits)" />
 
     <ProjectReference Include="$(Diagnostics)" />
 

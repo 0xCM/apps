@@ -351,7 +351,7 @@ namespace Z0
 
         public Outcome CheckStringRes()
         {
-            var resources = Assets.strings(typeof(AsciText)).View;
+            var resources = TextAssets.strings(typeof(AsciText)).View;
             var count = resources.Length;
             return true;
         }

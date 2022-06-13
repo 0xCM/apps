@@ -66,6 +66,9 @@ public enum PartId : byte
     [Symbol("calcs")]
     Calcs,
 
+    [Symbol("circuits")]
+    Circuits,
+
     [Symbol("resources")]
     Resources,
 

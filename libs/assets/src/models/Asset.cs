@@ -4,11 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.IO;
     /// <summary>
     /// Describes an embedded resource
     /// </summary>
-    public readonly struct Asset : IComparable<Asset>, IEquatable<Asset>, IAddressable
+    public readonly record struct Asset : IComparable<Asset>, IAddressable, IHashed<Asset>
     {
         public readonly string Name;
 
@@ -23,6 +22,15 @@ namespace Z0
             Address = address;
             Size = size;
         }
+
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Address.Hash;
+        }
+
+        public override int GetHashCode()
+            => Hash;
 
         public FS.FileName FileName
             => FS.file(Name.ReplaceAny(Path.GetInvalidPathChars(), Chars.Underscore));
@@ -62,6 +70,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public bool Equals(Asset src)
             => Address.Equals(src.Address);
+
 
         [MethodImpl(Inline)]
         public string Format()

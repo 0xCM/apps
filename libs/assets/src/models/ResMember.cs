@@ -7,11 +7,11 @@ namespace Z0
     /// <summary>
     /// Describes a member that defines a resource
     /// </summary>
-    public readonly struct ResMember : ITextual
+    public readonly struct ResMember
     {
-        public MemberInfo Member {get;}
+        public readonly MemberInfo Member;
 
-        public MemorySeg Segment {get;}
+        public readonly MemorySeg Segment;
 
         [MethodImpl(Inline)]
         public ResMember(MemberInfo member, MemorySeg seg)

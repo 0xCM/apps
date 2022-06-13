@@ -11,9 +11,9 @@ namespace Z0
     /// </summary>
     public readonly struct ApiHostRes
     {
-        public ApiHostUri Host {get;}
+        public readonly ApiHostUri Host;
 
-        public Index<BinaryResSpec> Data {get;}
+        public readonly Index<BinaryResSpec> Data;
 
         [MethodImpl(Inline)]
         public ApiHostRes(ApiHostUri host, BinaryResSpec[] src)

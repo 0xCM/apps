@@ -41,7 +41,7 @@ namespace Z0
         [CmdOp("assets/check")]
         void CheckAssets2()
         {
-            var src = Assets.strings(typeof(AsciText));
+            var src = TextAssets.strings(typeof(AsciText));
             for(var i=0; i<src.Count; i++)
             {
                 ref readonly var res = ref src[i];

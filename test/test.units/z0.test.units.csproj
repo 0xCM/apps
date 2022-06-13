@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="$(Bits)" />
+    <ProjectReference Include="$(Circuits)" />
   </ItemGroup>
 
 </Project>
