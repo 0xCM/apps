@@ -21,6 +21,7 @@
     <ProjectReference Include="$(Circuits)" />
 
     <ProjectReference Include="$(Diagnostics)" />
+    <ProjectReference Include="$(Db)" />
 
     <ProjectReference Include="$(Expr)" />
     <ProjectReference Include="$(Extract)" />

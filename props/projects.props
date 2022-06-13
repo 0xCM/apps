@@ -24,6 +24,7 @@
     <Containers>$(LibsRoot)containers/z0.containers.csproj</Containers>
     <CmdActions>$(LibsRoot)cmd.actions/z0.cmd.actions.csproj</CmdActions>
 
+    <Db>$(LibsRoot)db/z0.db.csproj</Db>
     <Diagnostics>$(LibsRoot)diagnostics/z0.diagnostics.csproj</Diagnostics>
 
     <Expr>$(LibsRoot)expr/z0.expr.csproj</Expr>

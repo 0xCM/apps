@@ -174,8 +174,8 @@ public enum PartId : byte
     [Symbol("memory")]
     Memory,
 
-    [Symbol("archives.modules")]
-    ModuleArchives,
+    [Symbol("db")]
+    Db,
 
     [Symbol("services")]
     Services,

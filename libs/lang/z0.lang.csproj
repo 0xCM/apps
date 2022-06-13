@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <Import Project="$(ImportDefs)common.libs.props"/>
-  <Import Project="$(ImportDefs)code-analysis.props"/>
-  <Import Project="$(ImportDefs)ms.build.props"/>
+  <Import Project="$(ImportDefs)microsoft.codeanalysis.props"/>
+  <Import Project="$(ImportDefs)microsoft.build.props"/>
 
   <ItemGroup>
     <ProjectReference Include="$(Symbols)" />

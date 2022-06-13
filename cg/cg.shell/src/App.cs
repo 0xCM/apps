@@ -27,7 +27,7 @@ namespace Z0
 
         public static void Main(params string[] args)
         {
-            using var wf = WfAppLoader.load();
+            using var wf = ApiRuntime.create();
             using var shell = create(wf);
             shell.Run();
         }

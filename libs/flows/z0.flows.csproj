@@ -11,6 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="$(Templates)" />
     <ProjectReference Include="$(Containers)" />
+    <ProjectReference Include="$(Db)" />
   </ItemGroup>
 
 </Project>
