@@ -4,14 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IFlow
-    {
-        string Format();
-    }
+    using static core;
 
-    public interface IFlow<S,T> : IFlow, IArrow<S,T>
+    public class ToolCmdFlow<S,T> : DataFlow<Tool,S,T>
     {
-        string IFlow.Format()
-            => $"{Source} -> {Target}";
+        public ToolCmdFlow(Tool tool, S src, T dst)
+            : base(tool, src, dst)
+        {
+
+        }
     }
 }

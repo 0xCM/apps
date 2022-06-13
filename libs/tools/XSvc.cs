@@ -29,6 +29,8 @@ namespace Z0
             public OmniScript OmniScript(IWfRuntime wf)
                 => Service<OmniScript>(wf);
 
+            public Tooling Tooling(IWfRuntime wf)
+                => Service<Tooling>(wf);
         }
 
         static Svc Services => Svc.Instance;

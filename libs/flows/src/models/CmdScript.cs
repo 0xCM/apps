@@ -26,14 +26,6 @@ namespace Z0
             => new CmdLine(src);
 
         [MethodImpl(Inline), Op]
-        public static ToolCmdLine cmdline(ToolId tool, params string[] src)
-            => new ToolCmdLine(tool, cmdline(src));
-
-        [MethodImpl(Inline), Op]
-        public static ToolCmdLine cmdline(ToolId tool, CmdModifier modifier, params string[] src)
-            => new ToolCmdLine(tool, modifier, cmdline(src));
-
-        [MethodImpl(Inline), Op]
         public static CmdScriptExpr expr(CmdScriptPattern src)
             => new CmdScriptExpr(src);
 

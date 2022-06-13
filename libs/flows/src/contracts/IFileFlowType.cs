@@ -17,7 +17,7 @@ namespace Z0
             => TargetKind.Ext();
 
         string ITextual.Format()
-            => FileFlowType.format(this);
+            => Flows.format(this);
     }
 
     public interface IFileFlowType<F> : IFileFlowType

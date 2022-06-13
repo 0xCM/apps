@@ -13,6 +13,7 @@
     <ProjectReference Include="$(Containers)" />
     <ProjectReference Include="$(Memory)" />
     <ProjectReference Include="$(Templates)" />
+    <ProjectReference Include="$(Flows)" />
   </ItemGroup>
 
 </Project>

@@ -17,7 +17,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public DataFlow(A actor, S src, T dst)
         {
-            Id = CmdFlows.identify(actor,src,dst);
+            Id = Flows.identify(actor,src,dst);
             Actor = actor;
             Source = src;
             Target = dst;

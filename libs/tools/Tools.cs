@@ -9,6 +9,18 @@ namespace Z0
 
     public readonly struct Tools
     {
+        [MethodImpl(Inline), Op]
+        public static ToolCmdLine cmdline(ToolId tool, params string[] src)
+            => new ToolCmdLine(tool, CmdScript.cmdline(src));
+
+        [MethodImpl(Inline), Op]
+        public static ToolCmdLine cmdline(ToolId tool, CmdModifier modifier, params string[] src)
+            => new ToolCmdLine(tool, modifier, CmdScript.cmdline(src));
+
+        [MethodImpl(Inline), Op]
+        public static ToolScript script(ToolId tool, ScriptId script, CmdVars vars)
+            => new ToolScript(tool,script,vars);
+
         public static Tool tool(ToolId id)
             => id;
 
@@ -35,8 +47,6 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ToolHelp help(ToolId tool, string doc, string description, CmdOptionSpec[] options)
             => new ToolHelp(tool, doc, description, options);
-
-
 
         [Parser]
         public static Outcome parse(string src, out Tool dst)

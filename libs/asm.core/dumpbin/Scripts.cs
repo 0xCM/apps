@@ -14,28 +14,28 @@ namespace Z0
             {
                 const string ScriptId = "dump-obj";
                 var result = Outcome.Success;
-                return CmdScripts.script(dumpbin, ScriptId, vars(SrcDir,SrcFile,DstDir));
+                return Tools.script(dumpbin, ScriptId, vars(SrcDir,SrcFile,DstDir));
             }
 
             public static ToolScript DumpDll(FS.FolderPath SrcDir, FS.FileName SrcFile, FS.FolderPath DstDir)
             {
                 const string ScriptId = "dump-dll";
                 var result = Outcome.Success;
-                return CmdScripts.script(dumpbin, ScriptId, vars(SrcDir,SrcFile,DstDir));
+                return Tools.script(dumpbin, ScriptId, vars(SrcDir,SrcFile,DstDir));
             }
 
             public static ToolScript DumpExe(FS.FolderPath SrcDir, FS.FileName SrcFile, FS.FolderPath DstDir)
             {
                 const string ScriptId = "dump-exe";
                 var result = Outcome.Success;
-                return CmdScripts.script(dumpbin, ScriptId, vars(SrcDir,SrcFile,DstDir));
+                return Tools.script(dumpbin, ScriptId, vars(SrcDir,SrcFile,DstDir));
             }
 
             public static ToolScript DumpLib(FS.FolderPath SrcDir, FS.FileName SrcFile, FS.FolderPath DstDir)
             {
                 const string ScriptId = "dump-lib";
                 var result = Outcome.Success;
-                return CmdScripts.script(dumpbin, ScriptId, vars(SrcDir,SrcFile,DstDir));
+                return Tools.script(dumpbin, ScriptId, vars(SrcDir,SrcFile,DstDir));
             }
 
             static CmdVars vars(FS.FolderPath SrcDir, FS.FileName SrcFile, FS.FolderPath DstDir)

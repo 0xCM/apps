@@ -4,9 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    // public class Flows
-    // {
-    //     public static string format<S,T>(IFlow<S,T> flow)
-    //         => $"{flow.Source} -> {flow.Target}";
-    // }
+    using api = Flows;
+
+    public interface IFlow
+    {
+        string Format();
+    }
+
+    public interface IFlow<S,T> : IFlow, IArrow<S,T>
+    {
+        string IFlow.Format()
+            => api.format(this);
+    }
 }

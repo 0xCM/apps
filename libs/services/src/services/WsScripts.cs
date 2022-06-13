@@ -6,11 +6,9 @@ namespace Z0
 {
     using static core;
 
-    public class WsScripts : AppService<WsScripts>
+    public class WsScripts : WfSvc<WsScripts>
     {
         OmniScript OmniScript => Wf.OmniScript();
-
-        AppSvcOps AppSvc => Wf.AppSvc();
 
         public FS.FolderPath CleanOutDir(IProjectWs project)
             => project.OutDir().Clear(true);
@@ -89,7 +87,7 @@ namespace Z0
             if(cmdflows.Count != 0)
             {
                 Index<CmdFlow> records = cmdflows.ToArray();
-                AppSvc.TableEmit(records.View, CmdFlows.flow(project.Project));
+                TableEmit(records.View, CmdFlows.flow(project.Project));
                 result = (true,records);
             }
 

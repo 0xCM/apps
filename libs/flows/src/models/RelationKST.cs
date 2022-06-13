@@ -25,7 +25,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public Relation(K kind, S src, T dst)
         {
-            Id = CmdFlows.identify(kind,src,dst);
+            Id = Flows.identify(kind,src,dst);
             Kind = kind;
             Source = src;
             Target = dst;

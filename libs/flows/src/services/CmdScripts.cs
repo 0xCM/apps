@@ -10,10 +10,6 @@ namespace Z0
         const NumericKind Closure = UnsignedInts;
 
         [MethodImpl(Inline), Op]
-        public static ToolScript script(ToolId tool, ScriptId script, CmdVars vars)
-            => new ToolScript(tool,script,vars);
-
-        [MethodImpl(Inline), Op]
         public static CmdVar var(string name, string value)
             => new CmdVar(name, value);
 
