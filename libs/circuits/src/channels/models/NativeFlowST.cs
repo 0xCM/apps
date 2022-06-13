@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using api = NativeFlows;
+
     public readonly struct NativeFlow<S,T> : INativeFlow<S,T>
         where S : INativeChannel
         where T : INativeChannel
@@ -20,14 +22,14 @@ namespace Z0
         }
 
         public string Format()
-            => Flows.format(this);
+            => api.format(this);
 
 
         public override string ToString()
             => Format();
 
         public string IdentityText
-            => Flows.syntax(this);
+            => api.syntax(this);
 
         [MethodImpl(Inline)]
         public static implicit operator NativeFlow<S,T>((S src, T dst) x)

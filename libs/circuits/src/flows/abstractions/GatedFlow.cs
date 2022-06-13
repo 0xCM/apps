@@ -10,5 +10,4 @@ namespace Z0
     {
         public abstract FlowGateKind Kind {get;}
     }
-
 }

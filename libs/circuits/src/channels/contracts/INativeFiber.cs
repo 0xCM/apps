@@ -38,6 +38,6 @@ namespace Z0
         new T Source {get;}
 
         INativeChannel INativeFiber.Source
-            => Flows.channel(Source.CellCount, Source.CellWidth, Source.Mask);
+            => NativeChannels.channel(Source.CellCount, Source.CellWidth, Source.Mask);
     }
 }

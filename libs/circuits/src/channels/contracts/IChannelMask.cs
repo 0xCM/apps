@@ -4,9 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     [Free]
-    public interface IChannelMask : ITextual
+    public interface IChannelMask
     {
         ChannelMaskKind Kind {get;}
 

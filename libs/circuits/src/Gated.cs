@@ -13,6 +13,14 @@ namespace Z0
         const NumericKind Closure = UnsignedInts;
 
         [MethodImpl(Inline), Op]
+        public static FlowGateInfo gate(FlowGateKind kind, byte width, byte ins, byte outs)
+            => new FlowGateInfo(kind, width, ins, outs);
+
+        [MethodImpl(Inline), Op]
+        public static FlowWire wire(byte width)
+            => new FlowWire(width);
+
+        [MethodImpl(Inline), Op]
         public static AndGate and()
             => default(AndGate);
 

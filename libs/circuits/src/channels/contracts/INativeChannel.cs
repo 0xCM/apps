@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Free]
-    public interface INativeChannel : ITextual
+    public interface INativeChannel
     {
         /// <summary>
         /// The number of cells carried by the channel

@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using api = NativeFlows;
+
     public readonly struct NativeChannel<W> : INativeChannel<W>
         where W : unmanaged, ITypeWidth
     {
@@ -34,7 +36,7 @@ namespace Z0
         }
 
         public string Format()
-            => Flows.format(this);
+            => api.format(this);
 
 
         public override string ToString()
@@ -42,6 +44,6 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator NativeChannel(NativeChannel<W> src)
-            => Flows.channel(src.CellCount, src.CellWidth, src.Mask);
+            => api.channel(src.CellCount, src.CellWidth, src.Mask);
     }
 }

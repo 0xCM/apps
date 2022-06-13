@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct ActionName : IComparable<ActionName>, IEquatable<ActionName>, ITextual, INullity
+    public readonly struct ActionName : IComparable<ActionName>, IEquatable<ActionName>, INullity
     {
         readonly @string Data;
 

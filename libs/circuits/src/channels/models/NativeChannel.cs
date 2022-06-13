@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using api = NativeFlows;
+
     public readonly struct NativeChannel : INativeChannel
     {
         /// <summary>
@@ -36,7 +38,7 @@ namespace Z0
         }
 
         public string Format()
-            => Flows.format(this);
+            => api.format(this);
 
 
         public override string ToString()

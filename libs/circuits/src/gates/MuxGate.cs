@@ -6,7 +6,6 @@ namespace Z0
 {
     partial class Gated
     {
-
         public readonly struct MuxGate<T> : ITernaryGate<T>, ITernaryGate<Vector128<T>>, ITernaryGate<Vector256<T>>, ITernaryGate<Vector512<T>>
             where T : unmanaged
         {

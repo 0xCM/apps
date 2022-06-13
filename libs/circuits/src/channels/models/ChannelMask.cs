@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using api = NativeFlows;
+
     public readonly struct ChannelMask : IChannelMask<ChannelMask>
     {
         public ulong Value {get;}
@@ -30,7 +32,7 @@ namespace Z0
         }
 
         public string Format()
-            => Flows.format(this);
+            => api.format(this);
 
 
         public override string ToString()

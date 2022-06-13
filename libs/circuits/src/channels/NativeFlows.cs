@@ -5,7 +5,7 @@
 namespace Z0
 {
     [ApiHost]
-    public readonly struct Flows
+    public class NativeFlows
     {
         const NumericKind Closure = UnsignedInts;
 
@@ -17,13 +17,13 @@ namespace Z0
         /// <typeparam name="S">The source type</typeparam>
         /// <typeparam name="T">The target type</typeparam>
         [MethodImpl(Inline)]
-        public static NativeFlow<S,T> native<S,T>(in S src, in T dst)
+        public static NativeFlow<S,T> flow<S,T>(in S src, in T dst)
             where S : INativeChannel
             where T : INativeChannel
                 => new NativeFlow<S,T>(src,dst);
 
         [MethodImpl(Inline)]
-        public static NativeFlow<K,S,T> native<K,S,T>(K kind, in S src, in T dst)
+        public static NativeFlow<K,S,T> flow<K,S,T>(K kind, in S src, in T dst)
             where K : unmanaged
             where S : INativeChannel
             where T : INativeChannel

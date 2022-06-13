@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Free]
-    public interface ITransformer<S,T>
+    [ApiHost]
+    public class Flows
     {
-        T Map(in S src);
+        const NumericKind Closure = UnsignedInts;
     }
 }

@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using api = NativeFlows;
+
     public readonly struct NativeFlow<K,S,T> : INativeFlow<K,S,T>
         where K : unmanaged
         where S : INativeChannel
@@ -24,10 +26,10 @@ namespace Z0
         }
 
         public string Format()
-            => Flows.format(this);
+            => api.format(this);
 
         public string Syntax
-            => Flows.syntax(this);
+            => api.syntax(this);
 
 
         public override string ToString()
