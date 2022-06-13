@@ -8,11 +8,9 @@ namespace Z0
     {
         public static ref readonly EnvData AppEnv => ref Instance._AppEnv;
 
-        public static ref readonly IDbSources ToolBase => ref Instance._Toolbase;
+        public static ref readonly Settings Settings => ref Instance._Settings;
 
-        public static ref readonly Settings GlobalSettings => ref Instance._GlobalSettings;
-
-        public static ref readonly WsArchives WsPaths => ref Instance._WsPaths;
+        public static ref readonly AppDb AppDb => ref Instance._AppDb;
 
         [MethodImpl(Inline)]
         public static AppData get() => Instance;
@@ -24,12 +22,9 @@ namespace Z0
 
         EnvData _AppEnv;
 
-        IDbSources _Toolbase;
+        Settings _Settings;
 
-        Settings _GlobalSettings;
-
-        WsArchives _WsPaths;
-
+        AppDb _AppDb;
         static Settings settings(FS.FilePath src)
         {
             var dst = Settings.Empty;
@@ -53,12 +48,11 @@ namespace Z0
             var control = Assembly.GetEntryAssembly();
             var env = EnvData.load();
             var dst = new AppData();
-            var _settings = settings(control.SettingsPath(FileKind.Csv));
-            dst._GlobalSettings = _settings;
-            dst._WsPaths = WsArchives.load(_settings);
+            var settings = AppData.settings(control.SettingsPath(FileKind.Csv));
+            dst._Settings = settings;
             dst._AppEnv = env;
             dst._PllExec = true;
-            dst._Toolbase = new DbSources(env.Toolbase);
+            dst._AppDb = new AppDb(WsArchives.load(settings));
             Instance = dst;
         }
 

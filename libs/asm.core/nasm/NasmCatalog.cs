@@ -13,8 +13,7 @@ namespace Z0.Asm
     {
         AppSvcOps AppSvc => Wf.AppSvc();
 
-
-        static AppDb AppDb => GlobalSvc.Instance.AppDb;
+        static AppDb AppDb => AppData.AppDb;
 
         static bool comment(ReadOnlySpan<char> src)
             =>  src.Length != 0 && first(src) == Chars.Semicolon;

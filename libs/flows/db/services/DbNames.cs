@@ -5,7 +5,7 @@
 namespace Z0
 {
     [LiteralProvider]
-    public readonly struct ArchiveNames
+    public readonly struct DbNames
     {
         public const string DbSources = nameof(DbSources);
 
@@ -13,7 +13,7 @@ namespace Z0
 
         public const string DbProjects = nameof(DbProjects);
 
-        public const string Capture = nameof(Capture);
+        public const string DbCapture = nameof(DbCapture);
 
         public const string Control = nameof(Control);
 
@@ -22,5 +22,7 @@ namespace Z0
         public const string CodeGen = nameof(CodeGen);
 
         public const string Dev = nameof(Dev);
+
+        public const string Toolbase = nameof(Toolbase);
     }
 }

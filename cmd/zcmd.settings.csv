@@ -2,7 +2,7 @@
 | DbSources   | y:/db.sources            |
 | DbTargets   | z:/db.targets            |
 | DbProjects  | z:/db.projects           |
-| Capture     | z:/capture               |
+| DbCapture   | z:/db.capture            |
 | CodGen      | j:/z0/cg                 |
 | Control     | c:/dev/ws/control        |
 | Deployments | c:/tools/z               |

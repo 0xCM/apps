@@ -14,10 +14,12 @@ namespace Z0
         Outcome LoadCpuidRows(CmdArgs args)
         {
             var result = Outcome.Success;
+            var sources = AppDb.DbSources("intel").Sources("sde.cpuid");
+            var targets = AppDb.DbTargets("sde");
             var src = CpuId.Import(
-                AppDb.CpuIdSources().Root,
-                AppDb.SdeTargets().Path("sde.cpuid.records", FileKind.Csv),
-                AppDb.SdeTargets().Path("sde.cpuid.bits", FileKind.Csv)
+                sources.Root,
+                targets.Path("sde.cpuid.records", FileKind.Csv),
+                targets.Path("sde.cpuid.bits", FileKind.Csv)
                 );
 
             return result;

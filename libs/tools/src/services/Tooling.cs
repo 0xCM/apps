@@ -12,9 +12,11 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
+        AppDb AppDb => Wf.AppDb();
+
         const byte FieldCount = ToolProfile.FieldCount;
 
-        ToolWs ToolWs => new ToolWs(AppData.ToolBase);
+        ToolWs ToolWs => new ToolWs(AppDb.Toolbase());
 
         public static IToolWs configure(IToolWs ws)
         {

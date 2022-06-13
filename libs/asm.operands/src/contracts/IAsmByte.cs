@@ -15,9 +15,6 @@ namespace Z0
     public interface IAsmByte<T> : IAsmByte, IEquatable<T>, IComparable<T>
         where T : unmanaged, IAsmByte<T>
     {
-        // string ITextual.Format()
-        //     => AsmRender.asmbyte((T)this);
-
         bool IEquatable<T>.Equals(T other)
             => Value() == other.Value();
 

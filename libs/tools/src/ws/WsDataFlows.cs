@@ -8,15 +8,13 @@ namespace Z0
 
     public class WsDataFlows
     {
-        static AppDb AppDb => GlobalSvc.Instance.AppDb;
-
         ConstLookup<FS.FileUri,List<FS.FileUri>> Lookup;
 
         ConstLookup<FS.FileUri,FS.FileUri> Ancestors;
 
         Index<FileFlow> Data;
 
-        public readonly FileCatalog Catalog;
+        public readonly WsCatalog Catalog;
 
         public ref readonly Index<FileFlow> Completed
         {
@@ -125,7 +123,7 @@ namespace Z0
             }
         }
 
-        public WsDataFlows(FileCatalog files, ReadOnlySpan<CmdFlow> src)
+        public WsDataFlows(WsCatalog files, ReadOnlySpan<CmdFlow> src)
         {
             Catalog = files;
             var count = src.Length;

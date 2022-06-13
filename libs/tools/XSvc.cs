@@ -48,7 +48,7 @@ namespace Z0
             => Services.HexEmitter(wf);
 
         public static AppDb AppDb(this IWfRuntime wf)
-            => GlobalSvc.Instance.AppDb;
+            => AppData.AppDb;
 
         public static ScriptRunner ScriptRunner(this IWfRuntime wf)
             => Services.ScriptRunner(wf);

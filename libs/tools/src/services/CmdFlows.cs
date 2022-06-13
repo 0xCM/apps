@@ -8,7 +8,7 @@ namespace Z0
 
     public class CmdFlows : AppService<CmdFlows>
     {
-        static AppDb AppDb => GlobalSvc.Instance.AppDb;
+        static AppDb AppDb => AppData.AppDb;
 
         public static IProjectWs project(FS.FolderPath root, ProjectId id)
             => ProjectWs.create(root, id);
@@ -73,7 +73,7 @@ namespace Z0
                 DataParser.parse(reader.Next(), out dst.SourcePath).Require();
                 DataParser.parse(reader.Next(), out dst.TargetPath).Require();
             }
-            return new(FileCatalog.load(id), buffer);
+            return new(WsCatalog.load(id), buffer);
         }
     }
 }

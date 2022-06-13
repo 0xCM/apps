@@ -36,7 +36,7 @@ namespace Z0
 
         protected AppSvcOps AppSvc => Wf.AppSvc();
 
-        protected ToolWs ToolWs => new ToolWs(AppData.ToolBase);
+        protected ToolWs ToolWs => new ToolWs(AppDb.Toolbase());
 
         protected virtual ICmdProvider[] CmdProviders(IWfRuntime wf)
             => array(this);
@@ -60,17 +60,10 @@ namespace Z0
             CommonState.Init(Wf,Ws);
         }
 
-        [CmdOp("ws/archives")]
+        [CmdOp("app/settings")]
         protected void AppSetings()
         {
-            var paths = AppData.WsPaths;
-            var names = paths.StoreNames;
-            for(var i=0; i<names.Length; i++)
-            {
-                ref readonly var name = ref skip(names,i);
-                var path = paths.Path(name);
-                Write(string.Format("{0}:{1}", name, path));
-            }
+
         }
 
         [CmdOp("commands")]
@@ -292,7 +285,6 @@ namespace Z0
             if(counter == 0)
                 Warn(string.Format("No jobs identified by '{0}'", match));
         }
-
 
         protected void LoadToolEnv(out Settings dst)
         {

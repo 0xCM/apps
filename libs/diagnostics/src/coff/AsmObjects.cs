@@ -15,7 +15,7 @@ namespace Z0
         public static AsmObjPaths ObjPaths
         {
             [MethodImpl(Inline)]
-            get => new AsmObjPaths(GlobalSvc.Instance.AppDb);
+            get => new AsmObjPaths(AppData.AppDb);
         }
 
         public AsmCodeMap MapAsm(IProjectWs ws, Alloc dst)

@@ -6,16 +6,16 @@ namespace Z0
 {
     using static core;
 
-    public class FileCatalog
+    public class WsCatalog
     {
-        public static FileCatalog load(IProjectWs src)
+        public static WsCatalog load(IProjectWs src)
         {
-            var dst = new FileCatalog();
+            var dst = new WsCatalog();
             dst.Include(Require.notnull(src));
             return dst;
         }
 
-        public static FileCatalog load(ProjectId project)
+        public static WsCatalog load(ProjectId project)
             => load(DevWs.create(Env.load().DevWs).Project(project));
 
         readonly PllMap<uint,FileRef> IdMap;
@@ -32,13 +32,13 @@ namespace Z0
             {
                 ref readonly var path = ref skip(src,i);
                 var hash = alg.hash.marvin(path.ToUri().Format());
-                var file = new FileRef(i, hash, Match(path), path);
+                var file = new FileRef(i, hash, FileKinder.kind(path), path);
                 IdMap.Include(PathMap.Include(file, _ => file.DocId), file);
                 PathRefs.Include(path, file);
             }
         }
 
-        FileCatalog()
+        WsCatalog()
         {
             IdMap = new();
             PathMap = new();
@@ -80,31 +80,5 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Entry(docid);
         }
-
-        static FileKind Match(FS.FilePath src)
-        {
-            var name = src.FileName.Format().ToLower();
-            var kind = FileKind.None;
-            foreach(var expr in FileKindMatch)
-            {
-                if(name.EndsWith(expr.Key))
-                {
-                    kind = expr.Value;
-                    break;
-                }
-            }
-            return kind;
-        }
-
-        static Index<FileKind> _FileKinds;
-
-        static FileCatalog()
-        {
-            var symbols = Symbols.index<FileKind>();
-            _FileKinds = symbols.Kinds.ToArray();
-            FileKindMatch = symbols.View.Map(s => ("." + s.Expr.Format().ToLower(), s.Kind)).ToSortedDictionary(TextLengthComparer.create(true));
-        }
-
-        static SortedDictionary<string,FileKind> FileKindMatch;
     }
 }

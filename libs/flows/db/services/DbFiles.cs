@@ -19,12 +19,6 @@ namespace Z0
         public FS.FileName File(string @class, string name, FileKind kind)
             => FS.file(string.Format("{0}.{1}", @class, name), kind.Ext());
 
-        public static CmdResult<ListFilesCmd,FS.Files> exec(ListFilesCmd cmd)
-        {
-            var _list = DbFiles.search(cmd.SourceDir, cmd.Extensions, cmd.EmissionLimit);
-            var outcome = DbFiles.emit(_list, cmd.FileUriMode, cmd.TargetPath);
-            return outcome ? Cmd.ok(cmd,_list) : Cmd.fail(cmd, outcome.Message);
-        }
 
         [Op]
         public static Outcome<FileEmission> emit(FS.Files src, bool uri, FS.FilePath dst)
@@ -49,6 +43,13 @@ namespace Z0
             {
                 return e;
             }
+        }
+
+        public static CmdResult<ListFilesCmd,FS.Files> exec(ListFilesCmd cmd)
+        {
+            var _list = DbFiles.search(cmd.SourceDir, cmd.Extensions, cmd.EmissionLimit);
+            var outcome = DbFiles.emit(_list, cmd.FileUriMode, cmd.TargetPath);
+            return outcome ? Cmd.ok(cmd,_list) : Cmd.fail(cmd, outcome.Message);
         }
 
         [MethodImpl(Inline), Op]

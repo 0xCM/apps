@@ -6,6 +6,6 @@ namespace Z0
 {
     public class GlobalSvc : AppServices<GlobalSvc>
     {
-        public AppDb AppDb => Service<AppDb>();
+
     }
 }

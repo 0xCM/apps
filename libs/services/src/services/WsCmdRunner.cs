@@ -10,12 +10,12 @@ namespace Z0
     {
         IProjectWs _Project;
 
-        public new FileCatalog ProjectFiles {get; private set;}
+        public new WsCatalog ProjectFiles {get; private set;}
 
         public void Project(IProjectWs ws)
         {
             _Project = Require.notnull(ws);
-            ProjectFiles = FileCatalog.load(ws);
+            ProjectFiles = WsCatalog.load(ws);
         }
 
         public IProjectWs Project()

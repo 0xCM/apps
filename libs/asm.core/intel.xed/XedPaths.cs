@@ -13,7 +13,7 @@ namespace Z0
     {
         public static XedPaths Service => Instance;
 
-        static AppDb AppDb => GlobalSvc.Instance.AppDb;
+        static AppDb AppDb => AppData.AppDb;
 
         public readonly struct SvcState
         {

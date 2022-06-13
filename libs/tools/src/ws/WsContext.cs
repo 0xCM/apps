@@ -8,7 +8,7 @@ namespace Z0
     {
         public readonly IProjectWs Project;
 
-        public readonly FileCatalog Catalog;
+        public readonly WsCatalog Catalog;
 
         public readonly WsDataFlows Flows;
 

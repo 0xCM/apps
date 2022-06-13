@@ -99,7 +99,7 @@ namespace Z0
                     seek(blockbuffer,j) = new AsmCodeBlock(composite.Symbol(blockaddress, blockname), codebuffer);
                 }
 
-                var origin = FileCatalog.load(project).Entry(group.Key);
+                var origin = WsCatalog.load(project).Entry(group.Key);
                 seek(buffer,i) = new AsmCodeBlocks(composite.Label(origin.DocName), origin.DocId, blockbuffer);
             }
             return buffer;

@@ -12,7 +12,7 @@ namespace Z0
         Outcome McAsmDocs(CmdArgs args)
         {
             var project = Project();
-            var catalog = FileCatalog.load(project);
+            var catalog = WsCatalog.load(project);
             var files = catalog.Entries(FileKind.McAsm);
             var docs = ProjectSvc.CalcMcAsmDocs(project);
             var count = docs.Count;

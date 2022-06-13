@@ -6,10 +6,8 @@ namespace Z0.Asm
 {
     using static core;
 
-    public sealed partial class StanfordAsmCatalog : AppService<StanfordAsmCatalog>
+    public sealed partial class StanfordAsmCatalog : WfSvc<StanfordAsmCatalog>
     {
-        static AppDb AppDb => GlobalSvc.Instance.AppDb;
-
         readonly TextDocFormat SourceFormat;
 
         readonly Index<StanfordInstruction> RowBuffer;
@@ -23,8 +21,6 @@ namespace Z0.Asm
             SourceFormat = TextDocFormat.Structured(AsmCatDelimiter, false);
             RowBuffer = alloc<StanfordInstruction>(MaxRowCount);
         }
-
-        AppSvcOps AppSvc => Wf.AppSvc();
 
         public uint AssetImportCount {get; private set;}
 
@@ -128,7 +124,7 @@ namespace Z0.Asm
         public ReadOnlySpan<StanfordInstruction> Import()
         {
             var imports = LoadSource();
-            AppSvc.TableEmit(imports, AppDb.DbTargets().Targets("asm.refs").Table<StanfordInstruction>());
+            TableEmit(imports, AppDb.DbTargets().Targets("asm.refs").Table<StanfordInstruction>());
             return imports;
         }
 
@@ -145,7 +141,7 @@ namespace Z0.Asm
                 target.Sig = source.Sig;
                 target.FormExpr = new AsmFormInfo(source.OpCode,source.Sig);
             }
-            AppSvc.TableEmit(buffer, AppDb.DbTargets().Targets("asm.refs").Table<StanfordFormInfo>());
+            TableEmit(buffer, AppDb.DbTargets().Targets("asm.refs").Table<StanfordFormInfo>());
         }
 
         Outcome parse(ushort seq, in TextLine src, ref StanfordInstruction dst)

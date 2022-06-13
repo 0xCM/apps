@@ -4,16 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using S = ArchiveNames;
+    using S = DbNames;
     using T = ApiGranules;
 
     public class AppDb : IAppDb
     {
         WsArchives Archives;
 
-        public AppDb()
+        internal AppDb(WsArchives archives)
         {
-            Archives = AppData.WsPaths;
+            Archives = archives;
         }
 
         EnvData IEnvProvider.Env
@@ -29,14 +29,26 @@ namespace Z0
         public IDbSources DbSources()
             => new DbSources(Archives.Path(S.DbSources).Location);
 
+        public IDbTargets CgStage()
+            => DbTargets("cgstage");
+
+        public IDbTargets CgStage(string scope)
+            => DbTargets("cgstage").Targets(scope);
+
         public IDbSources Control()
             => new DbSources(Archives.Path(S.Control).Location);
+
+        public IDbSources Toolbase()
+            => new DbSources(Archives.Path(S.Toolbase).Location);
 
         public IDbSources Dev()
             => new DbSources(Archives.Path(S.Dev).Location);
 
         public IDbTargets CodeGen()
             => new DbTargets(Archives.Path(S.CodeGen).Location);
+
+        public IDbTargets Capture()
+            => new DbTargets(Archives.Path(S.DbCapture).Location);
 
         public IDbSources EnvConfig()
             => new DbSources(Archives.Path(S.EnvConfig).Location);

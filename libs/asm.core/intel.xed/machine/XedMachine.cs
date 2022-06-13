@@ -35,7 +35,7 @@ namespace Z0
             _ClassGroupLookup = groups.ClassGroups();
         }
 
-        static AppDb AppDb => GlobalSvc.Instance.AppDb;
+        static AppDb AppDb => AppData.AppDb;
 
         public InstGroupMember PatternGroup(ushort id)
             => _GroupMemberLookup.Find(id, out var dst) ? dst : InstGroupMember.Empty;

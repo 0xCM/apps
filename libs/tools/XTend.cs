@@ -5,7 +5,6 @@
 
 namespace Z0
 {
-
     public static partial class XTend
     {
 
