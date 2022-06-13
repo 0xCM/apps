@@ -6,7 +6,7 @@ namespace Z0
 {
      using static Rules;
 
-   public interface IListProduction<S> : IProduction<S,SeqExpr>
+    public interface IListProduction<S> : IProduction<S,SeqExpr>
         where S : IRuleExpr
     {
 

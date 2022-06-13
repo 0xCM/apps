@@ -4,22 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial struct Rules
     {
-    public class Productions<S,T> : ConstLookup<S,Index<T>>
-    {
-        public Productions(Dictionary<S,Index<T>> src)
-            : base(src)
+        public class Productions<S,T> : ConstLookup<S,Index<T>>
         {
+            public Productions(Dictionary<S,Index<T>> src)
+                : base(src)
+            {
 
+            }
+
+            public static implicit operator Productions<S,T>(Dictionary<S,Index<T>> src)
+                => new Productions<S,T>(src);
         }
-
-        public static implicit operator Productions<S,T>(Dictionary<S,Index<T>> src)
-            => new Productions<S,T>(src);
     }
-    }
-
-
 }

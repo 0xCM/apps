@@ -8,8 +8,7 @@ namespace Z0
 
     using static core;
 
-    [ApiHost]
-    public class ApiCatalogs : AppService<ApiCatalogs>
+    public class ApiCatalogs : WfSvc<ApiCatalogs>
     {
         ApiMd ApiMd => Wf.ApiMetadata();
 
@@ -18,25 +17,20 @@ namespace Z0
         public Index<SymLiteralRow> EmitApiClasses()
             => EmitApiClasses(ProjectDb.Api() +  FS.file("api.classes", FS.Csv));
 
-        [Op]
         static Index<SymLiteralRow> ClassLiterals()
             => Symbolic.symlits(Parts.Lib.Assembly.Enums().Tagged<ApiClassAttribute>());
-
-        static Index<ApiClassifier> Classifiers()
-            => ClassLiterals().GroupBy(x => x.Type).Select(x => new ApiClassifier(x.Key, x.ToArray())).Array();
-
 
         public Index<SymLiteralRow> EmitApiClasses(FS.FilePath dst)
         {
             var literals = ClassLiterals();
-            TableEmit(literals.View, dst);
+            TableEmit(literals, dst);
             return literals;
         }
 
         public Index<ApiCatalogEntry> EmitApiCatalog(ApiMembers src, FS.FilePath dst)
         {
             var records = rebase(src.BaseAddress, src.View);
-            TableEmit(records.View, dst);
+            TableEmit(records, dst);
             return records;
         }
 
@@ -48,7 +42,7 @@ namespace Z0
             var line = reader.ReadLine();
             while(line != null)
             {
-                var outcome = parse(line, out var row);
+                var outcome = parse(line, out ApiCatalogEntry row);
                 if(outcome)
                     rows.Add(row);
                 else
@@ -60,6 +54,9 @@ namespace Z0
             }
             return rows.ToArray();
         }
+
+        public ReadOnlySpan<ApiCatalogEntry> LoadApiCatalog()
+            => LoadApiCatalog(Db.CaptureContextRoot());
 
         public Index<ApiCatalogEntry> LoadApiCatalog(FS.FolderPath dir)
         {
@@ -77,18 +74,13 @@ namespace Z0
             return rows;
         }
 
-        public ReadOnlySpan<ApiCatalogEntry> LoadApiCatalog()
-            => LoadApiCatalog(Db.CaptureContextRoot());
-
-        [Op]
-        public static Index<ApiCatalogEntry> rebase(MemoryAddress @base, ReadOnlySpan<ApiMember> members)
+        public static Index<ApiCatalogEntry> rebase(MemoryAddress @base, ReadOnlySpan<ApiMember> src)
         {
-            var dst = alloc<ApiCatalogEntry>(members.Length);
-            rebase(@base, members, dst);
+            var dst = alloc<ApiCatalogEntry>(src.Length);
+            rebase(@base, src, dst);
             return dst;
         }
 
-        [Op]
         public static uint rebase(MemoryAddress @base, ReadOnlySpan<ApiMember> members, Span<ApiCatalogEntry> dst)
         {
             var count = members.Length;
@@ -123,36 +115,30 @@ namespace Z0
         {
             var flow = Running(Msg.CorrelatingParts.Format(src.Length));
             var count = src.Length;
-            var dst = list<ApiMemberCode>();
+            var code = list<ApiMemberCode>();
             var records = list<ApiCorrelationEntry>();
             for(var i=0; i<count; i++)
             {
                 var part = skip(src,i);
                 var inner = Running(Msg.CorrelatingOperations.Format(part.PartId.Format()));
                 var hosts = part.ApiHosts.View;
-                var kHost = hosts.Length;
-                for(var j=0; j<kHost; j++)
+                for(var j=0; j<hosts.Length; j++)
                 {
                     ref readonly var srcHost = ref skip(hosts,j);
                     var hexpath = Db.ParsedExtractPath(srcHost.HostUri);
                     if(hexpath.Exists)
                     {
-                        var blocks = ApiHex.ReadBlocks(hexpath);
                         Require.invariant(ApiRuntimeCatalog.FindHost(srcHost.HostUri, out var host));
-                        var catalog = ApiMd.HostCatalog(host);
-                        Correlate(catalog, blocks, dst, records);
+                        Correlate(ApiMd.HostCatalog(host), ApiHex.ReadBlocks(hexpath), code, records);
                     }
                 }
                 Ran(inner);
             }
 
-            var emitting = EmittingTable<ApiCorrelationEntry>(path);
-            var output = @readonly(records.OrderBy(x => x.RuntimeAddress).Array());
-            Tables.emit(output, path);
-            EmittedTable(emitting, output.Length);
+            TableEmit(records.OrderBy(x => x.RuntimeAddress).Array(), path);
 
             Ran(flow);
-            return dst.ToArray();
+            return code.ToArray();
         }
 
         int Correlate(ApiHostCatalog src, Index<ApiCodeBlock> blocks, List<ApiMemberCode> dst, List<ApiCorrelationEntry> entries)

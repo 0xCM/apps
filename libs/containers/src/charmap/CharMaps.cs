@@ -152,7 +152,7 @@ namespace Z0
         /// <param name="map">The source map</param>
         /// <param name="dst">The target file</param>
         /// <typeparam name="T">The map cell type</typeparam>
-        public static ushort emit<T>(in CharMap<T> map, StreamWriter writer)
+        public static ushort emit<T>(in CharMap<T> map, StreamWriter dst)
             where T : unmanaged
         {
             var src = map.View;
@@ -165,9 +165,9 @@ namespace Z0
                 {
                     // Symbolize whitespace characters via their identifiers
                     if(SymbolicQuery.whitespace(c))
-                        writer.WriteLine(string.Format("{0}:({1})", (Hex16)i, ((AsciCode)c)));
+                        dst.WriteLine(string.Format("{0}:({1})", (Hex16)i, ((AsciCode)c)));
                     else
-                        writer.WriteLine(format(entry((Hex16)i,c)));
+                        dst.WriteLine(format(entry((Hex16)i,c)));
                     counter++;
                 }
             }

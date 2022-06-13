@@ -6,7 +6,6 @@ namespace Z0
 {
     partial struct Rules
     {
-
         public class ChoiceRule<T> : RuleExpr<ChoiceRule<T>,Index<T>>, IChoiceRule
             where T : IRuleExpr
         {

@@ -14,7 +14,7 @@ namespace Z0
             using var reader = src.Reader(encoding);
             var counter = 1u;
             var count = spec.LastLine - spec.FirstLine + 1;
-            var range = Lines.range(spec.FirstLine, spec.LastLine, alloc<TextLine>(count));
+            var range = new LineRange(spec.FirstLine, spec.LastLine, alloc<TextLine>(count));
             var lines = range.Edit;
             var i=0;
             var line = reader.ReadLine();
@@ -22,7 +22,7 @@ namespace Z0
             {
                 line = reader.ReadLine();
                 if(counter >= spec.FirstLine)
-                    seek(lines, i++) = Lines.line(counter, line);
+                    seek(lines, i++) = new TextLine(counter, line);
             }
 
             dst.Deposit(range);

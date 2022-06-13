@@ -4,14 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
-    partial struct Rules
+    public readonly struct CharMapEntry<T>
+        where T : unmanaged
     {
+        public readonly Hex16 Source;
+
+        public readonly T Target;
+
         [MethodImpl(Inline)]
-        public static BranchRule<K,T> branch<K,T>(Label name, Literal<K>[] choices, T[] targets)
-            where K : unmanaged
-            where T : IExpr
-                => new BranchRule<K,T>(name, choices, targets);
+        public CharMapEntry(Hex16 src, T dst)
+        {
+            Source = src;
+            Target = dst;
+        }
     }
 }

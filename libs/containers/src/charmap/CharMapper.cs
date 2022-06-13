@@ -6,8 +6,7 @@ namespace Z0
 {
     using static core;
 
-    [ApiHost]
-    public sealed class CharMapper : Service<CharMapper>
+    public sealed class CharMapper : AppService<CharMapper>
     {
         public SortedReadOnlySpan<Paired<Hex16,char>> Unmapped(FS.FilePath src, in CharMap<char> map)
             => Unmapped(src, TextEncodings.Asci);
@@ -39,10 +38,10 @@ namespace Z0
 
         public void Emit(in CharMap<char> src, FS.FilePath dst)
         {
-            var emitting = Emitting(dst);
+            var emitting = EmittingFile(dst);
             using var writer = dst.Writer();
             var mapcount = CharMaps.emit(src, writer);
-            Emitted(emitting, mapcount);
+            EmittedFile(emitting,mapcount);
         }
     }
 }

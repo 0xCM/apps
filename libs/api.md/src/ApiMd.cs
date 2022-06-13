@@ -178,11 +178,6 @@ namespace Z0
         public void Emit(AssetCatalog src)
             => TableEmit(src.Entries, AppDb.ApiTargets().Table<AssetCatalogEntry>());
 
-        public void EmitAssetCatalog<T>(T src)
-            where T : IAssets
-                => TableEmit(src.Data, AppDb.ApiTargets("assets").Table<AssetCatalogEntry>(src.DataSource.GetSimpleName()), TextEncodingKind.Unicode);
-
-
         public ApiHostCatalog HostCatalog(IApiHost src)
         {
             var members = ApiJit.JitHost(src);
@@ -629,7 +624,5 @@ namespace Z0
             TableEmit(data, dst, TextEncodingKind.Unicode);
             return data;
         }
-
-
     }
 }

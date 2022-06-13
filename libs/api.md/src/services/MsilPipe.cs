@@ -174,7 +174,7 @@ namespace Z0
                 ref var target = ref first(buffer);
                 var flow = Wf.EmittingTable<MsilCapture>(dst);
                 var view = src.View;
-                var formatter = Tables.formatter<MsilCapture>(MsilCapture.RenderWidths);
+                var formatter = Tables.formatter<MsilCapture>();
                 using var writer = dst.Writer();
                 writer.WriteLine(formatter.FormatHeader());
                 for(var i=0u; i<count; i++)

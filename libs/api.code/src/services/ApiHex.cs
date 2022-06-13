@@ -7,10 +7,8 @@ namespace Z0
     using static core;
 
     [ApiHost]
-    public partial class ApiHex : AppService<ApiHex>
+    public partial class ApiHex : WfSvc<ApiHex>
     {
-        AppSvcOps AppSvc => Wf.AppSvc();
-
         [MethodImpl(Inline), Op]
         public static ApiHexRow row(in ApiMemberCode src, uint seq)
         {
@@ -79,7 +77,7 @@ namespace Z0
                     seek(buffer, i) = ApiHex.row(skip(src, i), i);
 
                 var path = Db.ParsedExtractPath(dst, uri);
-                AppSvc.TableEmit(buffer, path);
+                TableEmit(buffer, path);
                 return buffer;
             }
             else
@@ -95,7 +93,7 @@ namespace Z0
                 for(var i=0u; i<count; i++)
                     seek(buffer, i) = ApiHex.row(skip(src, i), i);
 
-                AppSvc.TableEmit(buffer, dst);
+                TableEmit(buffer, dst);
                 return buffer;
             }
             else

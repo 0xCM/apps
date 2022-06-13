@@ -6,11 +6,11 @@ namespace Z0
 {
     public readonly struct FileSplitInfo
     {
-        public FileSplitSpec Spec {get;}
+        public readonly FileSplitSpec Spec;
 
-        public FS.Files TargetFiles {get;}
+        public readonly FS.Files TargetFiles;
 
-        public Count TotalLineCount {get;}
+        public readonly Count TotalLineCount;
 
         [MethodImpl(Inline)]
         public FileSplitInfo(FileSplitSpec spec, FS.Files dst, Count total)

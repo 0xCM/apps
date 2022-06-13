@@ -6,27 +6,25 @@ namespace Z0
 {
     partial struct Rules
     {
-    public class Replacements<T>
-    {
-        Index<ReplaceRule<T>> Data {get;}
-
-        [MethodImpl(Inline)]
-        public Replacements(ReplaceRule<T>[] src)
+        public class Replacements<T>
         {
-            Data=src;
-        }
+            Index<ReplaceRule<T>> Data {get;}
 
-        public ReadOnlySpan<ReplaceRule<T>> View
-        {
             [MethodImpl(Inline)]
-            get => Data.Edit;
+            public Replacements(ReplaceRule<T>[] src)
+            {
+                Data=src;
+            }
+
+            public ReadOnlySpan<ReplaceRule<T>> View
+            {
+                [MethodImpl(Inline)]
+                get => Data.Edit;
+            }
+
+            [MethodImpl(Inline)]
+            public static implicit operator Replacements<T>(ReplaceRule<T>[] src)
+                => new Replacements<T>(src);
         }
-
-        [MethodImpl(Inline)]
-        public static implicit operator Replacements<T>(ReplaceRule<T>[] src)
-            => new Replacements<T>(src);
     }
-    }
-
-
 }

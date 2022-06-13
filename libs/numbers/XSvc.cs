@@ -12,7 +12,7 @@ namespace Z0
                 => Service<Parsers>(wf);
 
             public CharMapper CharMapper(IWfRuntime wf)
-                => Z0.CharMapper.create(wf);
+                => Service<CharMapper>(wf);
 
             public FileSplitter FileSplitter(IWfRuntime wf)
                 => Service<FileSplitter>(wf);

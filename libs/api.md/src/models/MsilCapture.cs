@@ -5,21 +5,22 @@
 namespace Z0
 {
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct MsilCapture : IRecord<MsilCapture>
+    public struct MsilCapture
     {
         public const string TableId = "cil.data";
 
         public const byte FieldCount = 4;
 
+        [Render(16)]
         public CliToken Token;
 
+        [Render(16)]
         public MemoryAddress BaseAddress;
 
+        [Render(80)]
         public OpUri Uri;
 
+        [Render(1)]
         public BinaryCode Encoded;
-
-        public static ReadOnlySpan<byte> RenderWidths
-            => new byte[FieldCount]{16,16,80,20};
     }
 }
