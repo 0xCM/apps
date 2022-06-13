@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static core;
+
     partial class MemDb
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]

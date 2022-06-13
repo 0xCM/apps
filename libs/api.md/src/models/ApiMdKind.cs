@@ -30,11 +30,7 @@ namespace Z0
 
         EnumTypes,
 
-        SymGroups,
-
-        DataTypes,
-
-        DataTypeRecords,
+        ApiType,
 
         BitMasks,
 

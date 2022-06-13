@@ -5,33 +5,31 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using TK = XedTypes.TypeKind;
-
     partial class XedGrids
     {
         public enum ColKind : byte
         {
             None = 0,
 
-            Keyword = TK.Keyword,
+            Keyword,
 
-            Field = TK.Field,
+            Field,
 
-            FieldSeg = TK.FieldSeg,
+            FieldSeg,
 
-            Rule = TK.Rule,
+            Rule,
 
-            Operator = TK.Operator,
+            Operator,
 
-            BitLiteral = TK.BitLiteral,
+            BitLiteral,
 
-            HexLiteral = TK.HexLiteral,
+            HexLiteral,
 
-            Expr = TK.Expression,
+            Expr,
 
-            SegVal = TK.SegVal,
+            SegVal,
 
-            SegVar = TK.SegVar,
+            SegVar,
 
             RuleExpr
         }

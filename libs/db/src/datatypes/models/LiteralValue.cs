@@ -5,23 +5,21 @@
 namespace Z0
 {
     [StructLayout(StructLayout,Pack=1)]
-    public readonly struct LiteralValue<T>
-        where T : unmanaged
+    public readonly struct LiteralValue
     {
         public readonly TypeKey Type;
 
-        public readonly T Value;
+        public readonly ulong Value;
 
         [MethodImpl(Inline)]
-        public LiteralValue(TypeKey type, T value)
+        public LiteralValue(TypeKey type, ulong value)
         {
             Type = type;
             Value = value;
         }
 
         [MethodImpl(Inline)]
-        public static implicit operator LiteralValue(LiteralValue<T> src)
-            => new LiteralValue(src.Type, core.bw64(src.Value));
+        public static implicit operator LiteralValue<ulong>(LiteralValue src)
+            => new LiteralValue<ulong>(src.Type, src.Value);
     }
-
 }

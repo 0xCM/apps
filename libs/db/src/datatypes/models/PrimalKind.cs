@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Classifies type-system primitives
     /// </summary>
-    [SymSource("xed"), DataWidth(num3.Width)]
+    [SymSource("api"), DataWidth(3)]
     public enum PrimalKind : byte
     {
         /// <summary>

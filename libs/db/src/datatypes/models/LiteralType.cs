@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using P = PrimalType.Intrinsic;
-
     using static DataTypes;
+
+    using P = PrimalType.Intrinsic;
 
     /// <summary>
     /// Defines a type that can produce anonymous or named <see cref='PrimalType'/> values

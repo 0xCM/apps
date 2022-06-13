@@ -4,8 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using P = PrimalType.Intrinsic;
     using static DataTypes;
+
+    using P = PrimalType.Intrinsic;
 
     /// <summary>
     /// Defines either an intrinsic numeric type or a refinement of such

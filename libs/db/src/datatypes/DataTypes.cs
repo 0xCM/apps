@@ -9,38 +9,6 @@ namespace Z0
     [ApiHost]
     public class DataTypes
     {
-        public static Index<DataTypeInfo> describe(Index<ApiDataType> types)
-        {
-            var count = types.Count;
-            var dst = alloc<DataTypeInfo>(count);
-            for(var i=0; i<count; i++)
-            {
-                ref var record = ref seek(dst,i);
-                ref readonly var type = ref types[i];
-                record.Part = type.Part;
-                record.Name = type.Name;
-                record.Concrete = type.Definition.IsConcrete();
-                record.NativeSize = type.Size.Native/8;
-                record.NativeWidth = type.Size.Native;
-                record.PackedWidth = type.Size.Packed;
-            }
-
-            return dst;
-        }
-
-        public static Index<ApiDataType> discover(Assembly[] src)
-        {
-            var types = src.Types().Where(t => t.IsEnum || t.IsStruct()).Ignore().Index();
-            var count = types.Count;
-            var dst = alloc<ApiDataType>(count);
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var type = ref types[i];
-                seek(dst,i) = new ApiDataType(type, Sizes.measure(type));
-            }
-            return dst.Sort();
-        }
-
         [MethodImpl(Inline), Op]
         public static PrimalType primitive(PrimalKind kind, asci64 name, AlignedWidth width)
             => new PrimalType(kind, name,width);
@@ -172,17 +140,6 @@ namespace Z0
                 NumericKind.I64 => PrimalKind.U64,
                 _ => PrimalKind.None
             };
-
-        [MethodImpl(Inline)]
-        public static DataType define(asci32 name, DataSize size)
-            => new DataType(name,size);
-
-        /// <summary>
-        /// Determines whether the source type defines a <see cref='DataType'/>
-        /// </summary>
-        /// <param name="src">The type to test</param>
-        public static bool test(Type src)
-            => src.Tagged<DataWidthAttribute>();
 
         static object KeyLocker = new();
 

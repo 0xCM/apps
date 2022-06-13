@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
-    public record struct DataTypeInfo : IComparable<DataTypeInfo>
+    public record struct ApiTypeInfo : IComparable<ApiTypeInfo>
     {
         const string TableId = "api.datatype";
 
@@ -27,7 +27,7 @@ namespace Z0
         [Render(12)]
         public ByteSize NativeSize;
 
-        public int CompareTo(DataTypeInfo src)
+        public int CompareTo(ApiTypeInfo src)
         {
             var result = Part.CompareTo(src.Part);
             if(result == 0)
@@ -35,6 +35,6 @@ namespace Z0
             return result;
         }
 
-        public static DataTypeInfo Empty => default;
+        public static ApiTypeInfo Empty => default;
     }
 }

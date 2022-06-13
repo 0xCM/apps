@@ -68,11 +68,8 @@ namespace Z0
         public Index<ComponentAssets> ApiAssets
             => data(K.ApiAssets, () => CalcApiAssets());
 
-        public Index<ApiDataType> DataTypes
-            => data(K.DataTypes, () => Z0.DataTypes.discover(Components));
-
-        public Index<DataTypeInfo> DataTypeInfo
-            => data(K.DataTypeRecords, () => Z0.DataTypes.describe(DataTypes));
+        public Index<ApiTypeInfo> ApiTypes
+            => data(K.ApiType, () => ApiDataTypes.describe(ApiDataTypes.discover(Components)));
 
         public Index<ApiCmdRow> ApiCommands
             => data(K.ApiCommands, CalcApiCommands);
@@ -250,7 +247,7 @@ namespace Z0
             => Emit(DataFlows);
 
         void EmitDataTypes()
-            => Emit(DataTypeInfo);
+            => Emit(ApiTypes);
 
         void EmitApiTables()
             => Emit(ApiTableFields);
@@ -303,8 +300,8 @@ namespace Z0
         public void Emit(ReadOnlySpan<ApiLiteral> src)
             => TableEmit(src, AppDb.ApiTargets().Table<ApiLiteral>(), TextEncodingKind.Unicode);
 
-        public void Emit(ReadOnlySpan<DataTypeInfo> src)
-            => TableEmit(src, AppDb.ApiTargets().Table<DataTypeInfo>());
+        public void Emit(ReadOnlySpan<ApiTypeInfo> src)
+            => TableEmit(src, AppDb.ApiTargets().Table<ApiTypeInfo>());
 
         public void Emit(ReadOnlySpan<ApiFlowSpec> src)
             => TableEmit(src, AppDb.ApiTargets().Table<ApiFlowSpec>());

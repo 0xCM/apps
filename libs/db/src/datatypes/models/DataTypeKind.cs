@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [DataWidth(num5.Width)]
+    [DataWidth(5)]
     public enum DataTypeKind : byte
     {
         None,
