@@ -195,6 +195,9 @@ public enum PartId : byte
     [Symbol("expr")]
     Expr,
 
+    [Symbol("fsm")]
+    Fsm,
+
     [Symbol("extract")]
     Extract,
 

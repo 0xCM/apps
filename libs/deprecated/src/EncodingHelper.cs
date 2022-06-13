@@ -5,7 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Buffers;
     using System.Reflection.Metadata;
 
     partial class SRM

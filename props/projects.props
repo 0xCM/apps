@@ -29,6 +29,7 @@
     <Expr>$(LibsRoot)expr/z0.expr.csproj</Expr>
     <EMath>$(LibsRoot)emath/z0.emath.csproj</EMath>
 
+    <Fsm>$(LibsRoot)fsm/z0.fsm.csproj</Fsm>
     <Flows>$(LibsRoot)flows/z0.flows.csproj</Flows>
 
     <Glue>$(LibsRoot)glue/z0.glue.csproj</Glue>

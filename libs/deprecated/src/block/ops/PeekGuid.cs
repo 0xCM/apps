@@ -5,11 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial class SRM
     {
         unsafe partial struct MemoryBlock
@@ -17,8 +12,6 @@ namespace Z0
             [MethodImpl(Inline), Op]
             public Guid PeekGuid(int offset)
             {
-                //Available(offset, sizeof(Guid));
-
                 byte* ptr = Pointer + offset;
                 if (BitConverter.IsLittleEndian)
                     return *(Guid*)ptr;

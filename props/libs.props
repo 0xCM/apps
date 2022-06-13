@@ -27,6 +27,7 @@
     <ProjectReference Include="$(EMath)" />
 
     <ProjectReference Include="$(Flows)" />
+    <ProjectReference Include="$(Fsm)" />
 
     <ProjectReference Include="$(Glue)" />
     <ProjectReference Include="$(Graphs)" />

@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Diagnostics;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     [ApiHost]
@@ -240,9 +235,7 @@ namespace Z0
         public static unsafe int GetUTF8ByteCount(string str)
         {
             fixed (char* ptr = str)
-            {
                 return GetUTF8ByteCount(ptr, str.Length);
-            }
         }
 
         [Op]
