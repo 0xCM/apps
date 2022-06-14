@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     [Event(Kind)]
     public readonly struct DisposedEvent : ITerminalEvent<DisposedEvent>
     {
@@ -21,12 +16,15 @@ namespace Z0
         public FlairKind Flair => FlairKind.Disposed;
 
         [MethodImpl(Inline)]
-        public DisposedEvent(WfStepId step, PartToken ct)
+        public DisposedEvent(Type host)
         {
-            EventId = (EventName, step, ct);
+            EventId = EventId.define(host, Kind);
         }
 
         public string Format()
             => EventId.Format();
+
+        public override string ToString()
+            => Format();
     }
 }

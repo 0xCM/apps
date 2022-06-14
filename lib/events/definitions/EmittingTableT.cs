@@ -21,6 +21,13 @@ namespace Z0
         public TableId Table => TableId.identify<T>();
 
         [MethodImpl(Inline)]
+        public EmittingTableEvent(Type host, FS.FilePath dst)
+        {
+            EventId = EventId.define(host, Kind);
+            Target = dst;
+        }
+
+        [MethodImpl(Inline)]
         public EmittingTableEvent(WfStepId step, FS.FilePath target)
         {
             EventId = EventId.define(EventName, step);

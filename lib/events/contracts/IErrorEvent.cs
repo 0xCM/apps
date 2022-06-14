@@ -4,16 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public enum MsgLevel : byte
+    [Free]
+    public interface IErrorEvent : ILevelEvent
     {
-        None = 0,
-
-        Babble = 1,
-
-        Status = 4,
-
-        Warning = 8,
-
-        Error = 16,
+        bool IAppEvent.IsError
+            => true;
     }
 }

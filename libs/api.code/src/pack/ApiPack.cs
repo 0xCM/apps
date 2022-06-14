@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Diagnostics;
-
     public readonly struct ApiPack : IApiPack
     {
         public readonly ApiExtractSettings ExtractSettings;

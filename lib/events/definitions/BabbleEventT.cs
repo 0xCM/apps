@@ -20,14 +20,18 @@ namespace Z0
         public FlairKind Flair => FlairKind.Babble;
 
         [MethodImpl(Inline)]
-        public BabbleEvent(WfStepId step, T data, PartToken ct)
+        public BabbleEvent(Type host, T msg)
         {
-            EventId = (EventName, step, ct);
-            Payload = data;
+            EventId = EventId.define(host, Kind);
+            Payload = msg;
         }
 
         [MethodImpl(Inline)]
         public string Format()
-            => RP.format(EventId, Payload);
+            => string.Format(RP.PSx2, EventId, Payload);
+
+        public override string ToString()
+            => Format();
+
     }
 }

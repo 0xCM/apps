@@ -10,13 +10,11 @@ namespace Z0
         public static EventId define(string name, WfStepId step)
             => new EventId(name, step, PartToken.Default);
 
-        public static EventId Empty
-        {
-            [MethodImpl(Inline)]
-            get => new EventId(EmptyString, Timestamp.Zero);
-        }
+        [MethodImpl(Inline)]
+        public static EventId define(Type host, EventKind kind)
+            => new EventId(host, kind);
 
-        public string Identifier { get; }
+        public string Identifier {get;}
 
         public Timestamp Ts { get; }
 
@@ -44,6 +42,21 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
+        EventId(Type host, EventKind kind)
+        {
+            Ts = Timestamp.now();
+            Identifier = string.Format("{0} | {1,-18} | {2,-24} | {3}", Ts, host.Assembly.Id().Format(), kind, host.Name);
+        }
+
+        [MethodImpl(Inline)]
+        EventId(string name, WfStepId step, PartToken ct, Timestamp? ts = null)
+        {
+            Ts = ts ?? Timestamp.now();
+            Identifier = string.Format(PatternBase + " | {2,-24}", Ts, name, step);
+        }
+
+
+        [MethodImpl(Inline)]
         EventId(string name, string label, WfStepId step, PartToken ct, Timestamp? ts = null)
         {
             Ts = ts ?? Timestamp.now();
@@ -62,13 +75,6 @@ namespace Z0
         {
             Ts = ts ?? Timestamp.now();
             Identifier = string.Format(PatternBase + " | {2}", Ts, name, cmd);
-        }
-
-        [MethodImpl(Inline)]
-        EventId(string name, WfStepId step, PartToken ct, Timestamp? ts = null)
-        {
-            Ts = ts ?? Timestamp.now();
-            Identifier = string.Format(PatternBase + " | {2,-24}", Ts, name, step);
         }
 
         [MethodImpl(Inline)]
@@ -173,5 +179,11 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator EventId(Type row)
             => new EventId(row);
+
+        public static EventId Empty
+        {
+            [MethodImpl(Inline)]
+            get => new EventId(EmptyString, Timestamp.Zero);
+        }
     }
 }

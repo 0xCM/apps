@@ -18,24 +18,19 @@ namespace Z0
         public FlairKind Flair => FlairKind.Ran;
 
         [MethodImpl(Inline)]
-        public EmittedFileEvent(WfStepId step, FS.FilePath path, Count count)
+        public EmittedFileEvent(Type host, FS.FilePath dst, Count count = default)
         {
-            EventId = EventId.define(EventName, step);
+            EventId = EventId.define(host, Kind);
             LineCount = count;
-            Path = path;
-        }
-
-        [MethodImpl(Inline)]
-        public EmittedFileEvent(WfStepId step, FS.FilePath path)
-        {
-            EventId = EventId.define(EventName, step);
-            LineCount = 0;
-            Path = path;
+            Path = dst;
         }
 
         public string Format()
             => LineCount != 0
             ? RP.format(EventId, AppMsg.EmittedFileLines.Capture(LineCount,Path))
             : RP.format(EventId, AppMsg.EmittedFile.Capture(Path));
+
+        public override string ToString()
+            => Format();
     }
 }

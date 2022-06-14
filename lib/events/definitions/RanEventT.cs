@@ -13,25 +13,32 @@ namespace Z0
 
         public static EventLevel Level => FlairKind.Ran;
 
+        public FlairKind Flair => FlairKind.Ran;
+
         public EventId EventId {get;}
 
-        public WfStepId StepId {get;}
-
-        public EventPayload<T> Payload {get;}
-
-        public FlairKind Flair {get;}
+        public Type Host {get;}
 
         [MethodImpl(Inline)]
-        public RanEvent(WfStepId step, T data)
+        public RanEvent(Type host, T msg)
         {
-            EventId = EventId.define(EventName, step);
-            StepId = step;
-            Payload = data;
-            Flair = FlairKind.Ran;
+            EventId = EventId.define(host, Kind);
+            Host = host;
+        }
+
+        [MethodImpl(Inline)]
+        public RanEvent(RunningEvent<T> e)
+        {
+            EventId = e.EventId;
+            Host = e.Host;
         }
 
         [MethodImpl(Inline)]
         public string Format()
-            => RP.format(EventId, Payload);
+            => EventId.Format();
+
+
+        public override string ToString()
+            => Format();
     }
 }

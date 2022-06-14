@@ -41,5 +41,9 @@ namespace Z0
         [MethodImpl(Inline)]
         public string Format()
             => Payload.Format();
+
+        public override string ToString()
+            => Format();
+
     }
 }

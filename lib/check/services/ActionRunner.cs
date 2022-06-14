@@ -21,7 +21,7 @@ namespace Z0
             }
             catch(Exception e)
             {
-                Error(e);
+                Error(GetType(), e);
             }
         }
 

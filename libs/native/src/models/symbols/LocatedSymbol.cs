@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct LocatedSymbol : IEquatable<LocatedSymbol>, IComparable<LocatedSymbol>
+    [StructLayout(LayoutKind.Sequential,Pack=1)]
+    public readonly record struct LocatedSymbol : IComparable<LocatedSymbol>
     {
         [MethodImpl(Inline)]
         public static LocatedSymbol anonymous(MemoryAddress location)
@@ -48,11 +49,14 @@ namespace Z0
         public override string ToString()
             => Format();
 
-        public override int GetHashCode()
-            => (int)alg.hash.combine(Location.Hash, (uint)Name.Address);
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Location.Hash | Name.Hash;
+        }
 
-        public override bool Equals(object src)
-            => src is LocatedSymbol x && Equals(x);
+        public override int GetHashCode()
+            => Hash;
 
         [MethodImpl(Inline)]
         public static implicit operator LocatedSymbol(MemoryAddress src)

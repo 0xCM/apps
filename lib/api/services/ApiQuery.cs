@@ -54,6 +54,10 @@ namespace Z0
         // }
 
         [Op]
+        public static MethodInfo[] complete(Type src, HashSet<string> exclusions)
+            => src.DeclaredMethods().Unignored().NonGeneric().Exclude(exclusions);
+
+        [Op]
         public static MethodInfo[] methods(in ApiCompleteType src, HashSet<string> exclusions)
             => src.HostType.DeclaredMethods().Unignored().NonGeneric().Exclude(exclusions);
 

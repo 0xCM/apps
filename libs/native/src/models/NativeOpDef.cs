@@ -6,6 +6,7 @@ namespace Z0
 {
     using static NativeOpMods;
 
+    [StructLayout(LayoutKind.Sequential,Pack=1)]
     public readonly struct NativeOpDef
     {
         public readonly string Name;

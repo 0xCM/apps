@@ -11,7 +11,7 @@ namespace Z0
 
         public LogLevel EventLevel => LogLevel.Warning;
 
-        public const EventKind Kind = EventKind.Warn;
+        public const EventKind Kind = EventKind.Warning;
 
         public EventId EventId {get;}
 
@@ -22,14 +22,16 @@ namespace Z0
         public FlairKind Flair => FlairKind.Warning;
 
         [MethodImpl(Inline)]
-        public WarnEvent(WfStepId step, T content)
+        public WarnEvent(Type host, T msg)
         {
-            EventId = EventId.define(EventName, step);
-            Payload = content;
-            StepId = step;
+            EventId = EventId.define(host, Kind);
+            Payload = msg;
+            StepId = host;
         }
-
         public string Format()
-            => RP.format(EventId, StepId, Payload);
+            => string.Format(RP.PSx2, EventId, Payload);
+
+        public override string ToString()
+            => Format();
     }
 }

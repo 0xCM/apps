@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-    using System;
-
-    using static Root;
-
     [Event(Kind)]
     public readonly struct EmittingTableEvent : IInitialEvent<EmittingTableEvent>
     {
@@ -25,14 +20,13 @@ namespace Z0
         public FlairKind Flair => FlairKind.Running;
 
         [MethodImpl(Inline)]
-        public EmittingTableEvent(WfStepId step, Type type, FS.FilePath target)
+        public EmittingTableEvent(Type host, Type table, FS.FilePath target)
         {
-            EventId = EventId.define(EventName, step);
-            TableId = Z0.TableId.identify(type);
+            EventId = EventId.define(host, Kind);
+            TableId = Tables.identify(table);
             Target = target;
         }
 
-        [MethodImpl(Inline)]
         public string Format()
             => RP.format(EventId, AppMsg.EmittingTable.Capture(TableId, Target));
 

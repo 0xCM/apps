@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct SymAddress : IEquatable<SymAddress>, IComparable<SymAddress>, INullity
+    [StructLayout(LayoutKind.Sequential,Pack=1)]
+    public readonly record struct SymAddress : IComparable<SymAddress>, INullity
     {
         [MethodImpl(Inline), Op]
         public static SymAddress define(uint selector, MemoryAddress address)
@@ -45,15 +46,14 @@ namespace Z0
             get => Selector != 0;
         }
 
-        public uint Hash
+        public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => alg.hash.combine(Selector, (uint)Address);
+            get => (Hash32)Selector | Address.Hash;
         }
 
-
         public override int GetHashCode()
-            => (int)Hash;
+            => Hash;
 
         public string Format()
             => HasSelector ? string.Format("{0:x8}:{1:x6}h", Selector, (ulong)Address) : Address.Format();
@@ -73,18 +73,6 @@ namespace Z0
                 result = Address.CompareTo(src.Address);
             return result;
         }
-
-        public override bool Equals(object src)
-            => src is SymAddress x && Equals(x);
-
-
-        [MethodImpl(Inline)]
-        public static bool operator == (SymAddress a, SymAddress b)
-            => a.Equals(b);
-
-        [MethodImpl(Inline)]
-        public static bool operator != (SymAddress a, SymAddress b)
-            => !a.Equals(b);
 
         [MethodImpl(Inline)]
         public static implicit operator SymAddress((uint sel, MemoryAddress address) src)

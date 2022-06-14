@@ -26,94 +26,67 @@ namespace Z0
             return e.EventId;
         }
 
-        public RanEvent<T> Ran<T>(T data, FlairKind flair = FlairKind.Ran)
-        {
-            var e = ran(Source, data);
-            Raise(e);
-            return e;
-        }
-
-        public RanCmdEvent Ran(CmdResult cmd)
-        {
-            var e = new RanCmdEvent(cmd);
-            Raise(e);
-            return e;
-        }
-
         public RunningEvent Running()
         {
-            var e = running(Source);
-            Raise(e);
-            return e;
-        }
-
-        public RunningEvent Running(WfHost host)
-        {
-            var e = running(host);
-            Raise(e);
-            return e;
-        }
-
-        public RunningEvent<T> Running<T>(WfHost host, T data)
-        {
-            var e = running(host, data);
+            var e = running(Source.Type);
             Raise(e);
             return e;
         }
 
         public RunningEvent<T> Running<T>(T data)
         {
-            var e = running(Source, data);
+            var e = running(Source.Type, data);
             Raise(e);
             return e;
         }
 
-        public RunningEvent<T> Running<T>(string operation, T data)
+        public RanEvent<T> Ran<T>(T msg, FlairKind flair = FlairKind.Ran)
         {
-            var e = running(Source, data);
+            var e = ran(Source.Type, msg);
             Raise(e);
             return e;
         }
 
-        public ProcessingFileEvent Processing(FS.FilePath src)
+        public RanEvent<T> Ran<T>(RunningEvent<T> prior)
         {
-            var e = processingFile(Source,src);
-             Raise(e);
-             return e;
-        }
-
-        public ProcessedFileEvent Processed(FS.FilePath src)
-        {
-            var e = processedFile(Source,src);
-             Raise(e);
-             return e;
+            var e = ran(prior);
+            Raise(e);
+            return e;
         }
 
         public CreatingEvent<T> Creating<T>(T data)
         {
-            var e = creating(Source, data);
+            var e = creating(Source.Type, data);
             Raise(e);
             return e;
         }
 
         public CreatedEvent<T> Created<T>(T data)
         {
-            var e = created(Source, data);
+            var e = created(Source.Type, data);
             Raise(e);
             return e;
         }
 
-        public EmittingTableEvent EmittingTable(Type type, FS.FilePath dst)
+        public CreatedEvent<T> Created<T>(CreatingEvent<T> prior)
         {
-            var e = emittingTable(Source, type, dst);
-            Raise(e);
-            return e;
+            var ev = created(prior);
+            Raise(ev);
+            return ev;
+        }
+
+
+        public EmittingTableEvent EmittingTable(Type table, FS.FilePath dst)
+        {
+            var ev = emittingTable(Source.Type, table, dst);
+            Raise(ev);
+            return ev;
         }
 
         public EmittingTableEvent<T> EmittingTable<T>(FS.FilePath dst)
             where T : struct
         {
-            var e = emittingTable<T>(Source, dst);
+            var e = emittingTable<T>(Source.Type, dst);
             Raise(e);
             return e;
         }
@@ -121,142 +94,73 @@ namespace Z0
         public EmittedTableEvent<T> EmittedTable<T>(Count count, FS.FilePath dst)
             where T : struct
         {
-            var e = emittedTable<T>(Source, count, dst);
+            var e = emittedTable<T>(Source.Type, count, dst);
             Raise(e);
             return e;
         }
 
-        public EmittedTableEvent<T> EmittedTable<T>(FS.FilePath dst)
-            where T : struct
+        public EmittedTableEvent EmittedTable(Type table, Count count, FS.FilePath dst)
         {
-            var e = emittedTable<T>(Source, dst);
-            Raise(e);
-            return e;
-        }
-
-        public EmittedTableEvent EmittedTable(Type type, Count count, FS.FilePath dst)
-        {
-            var e = emittedTable(Source, TableId.identify(type), count, dst);
+            var e = emittedTable(Source.Type, TableId.identify(table), count, dst);
             Raise(e);
             return e;
         }
 
         public EmittedTableEvent EmittedTable(Type type, FS.FilePath dst)
         {
-            var e = emittedTable(Source, TableId.identify(type), dst);
+            var e = emittedTable(Source.Type, TableId.identify(type), dst);
             Raise(e);
             return e;
         }
 
         public EmittingFileEvent EmittingFile(FS.FilePath dst)
         {
-            var e = emittingFile(Source, dst);
-            Raise(e);
-            return e;
-        }
-
-        public EmittedFileEvent EmittedFile(FS.FilePath dst)
-        {
-            var e = emittedFile(Source, dst);
-            Raise(e);
-            return e;
-        }
-
-        public EmittedFileEvent EmittedFile(Count count, FS.FilePath dst)
-        {
-            var e = emittedFile(Source, dst, count);
-            Raise(e);
-            return e;
-        }
-
-        public EmittingFileEvent<T> EmittingFile<T>(T payload, FS.FilePath dst)
-        {
-            var e = emittingFile<T>(Source, payload, dst);
-            Raise(e);
-            return e;
-        }
-
-        public EmittedFileEvent<T> EmittedFile<T>(T payload, Count count, FS.FilePath dst)
-        {
-            var e = emittedFile(Source, payload, count, dst);
-            Raise(e);
-            return e;
-        }
-
-        public EmittedFileEvent<T> EmittedFile<T>(T payload, FS.FilePath dst)
-        {
-            var e = emittedFile(Source, payload, dst);
-            Raise(e);
-            return e;
-        }
-
-        public StatusEvent<T> Status<T>(WfStepId step, T data, FlairKind flair = FlairKind.Status)
-        {
-            var e = status(step, data, flair);
-            Raise(e);
-            return e;
-        }
-
-        public StatusEvent<T> Status<T>(T data, FlairKind flair = FlairKind.Status)
-        {
-            var e = status(Source, data, flair);
-            Raise(e);
-            return e;
-        }
-
-        public BabbleEvent<T> Babble<T>(WfStepId step, T data)
-        {
-            var e = babble(step, data);
-            Raise(e);
-            return e;
-        }
-
-        public BabbleEvent<T> Babble<T>(T data)
-        {
-            var e = babble(Source, data);
-            Raise(e);
-            return e;
-        }
-
-        public ErrorEvent<T> Error<T>(T body)
-        {
-            var e = error(Source.Identifier, body);
-            Raise(e);
-            return e;
-        }
-
-        public ErrorEvent<T> Error<T>(WfStepId step, T body, EventOrigin source)
-        {
-            var e = error(step, body, source);
-            Raise(e);
-            return e;
-        }
-
-        public ErrorEvent<Exception> Error(WfStepId step, Exception e, EventOrigin source)
-        {
-            var ev = error(step, e, source);
+            var ev = emittingFile(Source.Type, dst);
             Raise(ev);
             return ev;
         }
 
-        public void Error(Exception e, EventOrigin source)
+        public EmittedFileEvent EmittedFile(Count count, FS.FilePath dst)
         {
-            var ev = error(Source, e, source);
+            var ev = emittedFile(Source.Type, dst, count);
             Raise(ev);
+            return ev;
         }
 
-        public ErrorEvent<T> Error<T>(T body, EventOrigin source)
-            => Error(Source, body, source);
-
-        public WarnEvent<T> Warn<T>(WfStepId step, T content)
+        public StatusEvent<T> Status<T>(T data, FlairKind flair = FlairKind.Status)
         {
-            var e = warn(step, content);
-            Raise(e);
-            return e;
+            var ev = status(Source.Type, data, flair);
+            Raise(ev);
+            return ev;
         }
 
-        public WarnEvent<T> Warn<T>(T content)
-            => Warn(Source, content);
+        public BabbleEvent<T> Babble<T>(T data)
+        {
+            var ev = babble(Source.Type, data);
+            Raise(ev);
+            return ev;
+        }
+
+        public ErrorEvent<string> Error(Exception e, EventOrigin origin)
+        {
+            var ev = error(Source.Type, e, origin);
+            Raise(ev);
+            return ev;
+        }
+
+        public ErrorEvent<T> Error<T>(T msg, EventOrigin origin)
+        {
+            var ev = error(Source.Type, msg, origin);
+            Raise(ev);
+            return ev;
+        }
+
+        public WarnEvent<T> Warn<T>(T msg)
+        {
+            var ev = warn(Source.Type, msg);
+            Raise(ev);
+            return ev;
+        }
 
         public DataEvent<T> Data<T>(T data, FlairKind? flair = null)
         {

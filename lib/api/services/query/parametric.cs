@@ -6,21 +6,24 @@ namespace Z0
 {
     using System;
     using System.Linq;
-    using System.Collections.Generic;
-    using System.Reflection;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
 
     partial class ApiQuery
     {
         [Op]
+        public static MethodInfo[] generic(Type host)
+            => host.DeclaredMethods().OpenGeneric(1).Where(IsGeneric);
+
+        [Op]
+        public static MethodInfo[] nongeneric(Type host)
+            => host.DeclaredMethods().NonGeneric().Where(IsNonGeneric);
+
+        [Op]
         public static MethodInfo[] generic(IApiHost host)
-            => host.HostType.DeclaredMethods().OpenGeneric(1).Where(IsGeneric);
+            => generic(host.HostType);
 
         [Op]
         public static MethodInfo[] nongeneric(IApiHost host)
-            => host.HostType.DeclaredMethods().NonGeneric().Where(IsNonGeneric);
+            => nongeneric(host.HostType);
 
         [Op]
         static bool IsGeneric(MethodInfo src)

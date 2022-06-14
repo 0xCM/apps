@@ -67,11 +67,8 @@ namespace Z0
         protected WarnEvent<T> Warn<T>(T src)
             => Signal.Warn(src);
 
-        protected ErrorEvent<T> Error<T>(T src)
-            => Signal.Error(src);
-
-        // protected ProcessingFileEvent Processing(FS.FilePath src)
-        //     => Signal.Processing(src);
+        protected ErrorEvent<string> Error(Type source, Exception e, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
+            => Signal.Error(e, EventFactory.originate(source.Name, caller, file, line));
 
         protected RunningEvent Running()
             => Signal.Running();
@@ -87,9 +84,6 @@ namespace Z0
 
         protected RanEvent<RunningEvent> Ran(RunningEvent e)
             => Signal.Ran(e);
-
-        // protected ProcessedFileEvent Processed(ProcessingFileEvent e)
-        //     => Signal.Processed(e.SourcePath);
 
         protected EmittingFileEvent Emitting(FS.FilePath src)
             => Signal.EmittingFile(src);

@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     [Event(Kind)]
     public readonly struct CreatedEvent<T> : ITerminalEvent<CreatedEvent<T>>
     {
@@ -18,18 +13,24 @@ namespace Z0
 
         public EventId EventId {get;}
 
-        public EventPayload<T> Content {get;}
-
         public FlairKind Flair  => FlairKind.Created;
 
         [MethodImpl(Inline)]
-        public CreatedEvent(WfStepId step, T content, PartToken ct)
+        public CreatedEvent(Type host, T msg)
         {
-            EventId = (EventName, step, ct);
-            Content = content;
+            EventId = EventId.define(host, Kind);
+        }
+
+        [MethodImpl(Inline)]
+        public CreatedEvent(CreatingEvent<T> prior)
+        {
+            EventId = prior.EventId;
         }
 
         public string Format()
-            => RP.format(EventId, Content);
+            => EventId.Format();
+
+        public override string ToString()
+            => Format();
     }
 }

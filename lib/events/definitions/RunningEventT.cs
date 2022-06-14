@@ -15,17 +15,20 @@ namespace Z0
 
         public EventId EventId {get;}
 
-        public WfStepId StepId {get;}
+        public WfStepId StepId => default;
 
         public EventPayload<T> Payload {get;}
+
         public FlairKind Flair => FlairKind.Running;
 
+        public Type Host {get;}
+
         [MethodImpl(Inline)]
-        public RunningEvent(WfStepId step, T data)
+        public RunningEvent(Type host, T msg)
         {
-            EventId = EventId.define(EventName, step);
-            StepId = step;
-            Payload = data;
+            EventId = EventId.define(host, Kind);
+            Host = host;
+            Payload = msg;
         }
 
         [MethodImpl(Inline)]

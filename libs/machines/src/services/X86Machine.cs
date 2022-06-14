@@ -94,7 +94,7 @@ namespace Z0
                 counter++;
                 ticks += t;
                 if(Verbose)
-                    Signal.Babble(host,string.Format("{0:D4}:{1:D12}", counter, ticks));
+                    Signal.Babble(string.Format("{0:D4}:{1:D12}", counter, ticks));
             }
 
             var spinner = new Spinner(TimeSpan.FromSeconds(1), Receiver);

@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     [Event(Kind)]
     public readonly struct Disposed<T> : IWfEvent<Disposed<T>,T>
     {
@@ -23,14 +18,17 @@ namespace Z0
         public FlairKind Flair => FlairKind.Disposed;
 
         [MethodImpl(Inline)]
-        public Disposed(WfStepId step, T content, PartToken ct)
+        public Disposed(Type host, T msg)
         {
-            EventId = (EventName, step, ct);
-            Payload = content;
+            EventId = EventId.define(host, Kind);
+            Payload = msg;
         }
 
         [MethodImpl(Inline)]
         public string Format()
-            => RP.format(EventId, Payload);
+            => string.Format(RP.PSx2, EventId, Payload);
+
+        public override string ToString()
+            => Format();
     }
 }

@@ -20,15 +20,19 @@ namespace Z0
         public FlairKind Flair {get;}
 
         [MethodImpl(Inline)]
-        public StatusEvent(WfStepId step, T data, FlairKind flair)
+        public StatusEvent(Type host, T msg, FlairKind flair)
         {
+            EventId = EventId.define(host, Kind);
+            Payload = msg;
             Flair = flair;
-            EventId = EventId.define(EventName, step);
-            Payload = data;
         }
 
         [MethodImpl(Inline)]
         public string Format()
             => string.Format(RP.PSx2, EventId, Payload);
+
+        public override string ToString()
+            => Format();
+
     }
 }

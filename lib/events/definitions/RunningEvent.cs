@@ -18,13 +18,17 @@ namespace Z0
         public EventId EventId {get;}
 
         [MethodImpl(Inline)]
-        public RunningEvent(WfStepId step, PartToken ct)
+        public RunningEvent(Type host)
         {
-            EventId = EventId.define(EventName, step);
+            EventId = EventId.define(EventName, host);
         }
 
         [MethodImpl(Inline)]
         public string Format()
             => EventId.Format();
+
+        public override string ToString()
+            => Format();
+
     }
 }

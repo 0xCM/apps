@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct ApiToken
+    [StructLayout(LayoutKind.Sequential,Pack=1)]
+    public readonly record struct ApiToken
     {
         readonly LocatedSymbol Entry;
 
@@ -26,13 +27,13 @@ namespace Z0
         public uint EntryId
         {
             [MethodImpl(Inline)]
-            get => alg.hash.combine(Entry.Location.Hash, (uint)Entry.Name.Address);
+            get => Entry.Location.Hash | Entry.Name.Address.Hash;
         }
 
         public uint TargetId
         {
             [MethodImpl(Inline)]
-            get => alg.hash.combine(Target.Location.Hash, (uint)Target.Name.Address);
+            get => Target.Location.Hash | Target.Name.Address.Hash;
         }
 
         public MemoryAddress EntryAddress
@@ -78,6 +79,15 @@ namespace Z0
 
         public bool Equals(ApiToken src)
             => Entry.Equals(src.Entry) && Target.Equals(src.Target);
+
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => EntryAddress.Hash | TargetAddress.Hash;
+        }
+
+        public override int GetHashCode()
+            => Hash;
 
         public static ApiToken Empty => default;
     }

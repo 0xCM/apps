@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public enum EventKind : uint
+    public enum EventKind : byte
     {
         None = 0,
 
@@ -12,7 +12,7 @@ namespace Z0
 
         Status = MsgLevel.Status,
 
-        Warn = MsgLevel.Warn,
+        Warning = MsgLevel.Warning,
 
         Error = MsgLevel.Error,
 

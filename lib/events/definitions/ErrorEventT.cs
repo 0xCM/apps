@@ -17,63 +17,74 @@ namespace Z0
 
         public Option<Exception> Exception {get;}
 
-        public EventOrigin Source {get;}
+        public EventOrigin Origin {get;}
 
         public EventPayload<T> Payload {get;}
 
         public FlairKind Flair => FlairKind.Error;
 
-        public string Summary {get;}
-
         [MethodImpl(Inline)]
-        public ErrorEvent(CmdId cmd, T data, EventOrigin source)
+        public ErrorEvent(CmdId cmd, T msg, EventOrigin source)
         {
             EventId = (Kind, cmd, PartToken.Default);
             Exception = Option.none<Exception>();
-            Payload = data;
-            Source = source;
-            Summary = Payload.Format();
+            Payload = msg;
+            Origin = source;
         }
 
         [MethodImpl(Inline)]
-        public ErrorEvent(Exception error, T data, EventOrigin source)
+        public ErrorEvent(Exception error, T msg, EventOrigin source)
         {
             EventId = (EventName, PartToken.Default);
             Exception = error;
-            Payload = data;
-            Source = source;
-            Summary = Exception ? Exception.Value.ToString() : Payload.Format();
+            Payload = msg;
+            Origin = source;
         }
 
         [MethodImpl(Inline)]
-        public ErrorEvent(string label, T data,  EventOrigin source)
+        public ErrorEvent(Type host, T msg, EventOrigin source)
+        {
+            EventId = EventId.define(host, Kind);
+            Exception = Option.none<Exception>();
+            Payload = msg;
+            Origin = source;
+        }
+
+        [MethodImpl(Inline)]
+        public ErrorEvent(Type host, Exception error, T msg, EventOrigin source)
+        {
+            EventId = EventId.define(host, Kind);
+            Exception = error;
+            Payload = msg;
+            Origin = source;
+        }
+
+        [MethodImpl(Inline)]
+        public ErrorEvent(string label, T msg,  EventOrigin source)
         {
             EventId = (EventName, label, PartToken.Default);
             Exception = Option.none<Exception>();
-            Payload = data;
-            Source = source;
-            Summary = Payload.Format();
+            Payload = msg;
+            Origin = source;
         }
 
         [MethodImpl(Inline)]
-        public ErrorEvent(WfStepId step, T data, EventOrigin source)
+        public ErrorEvent(WfStepId step, T msg, EventOrigin source)
         {
             EventId = (EventName, step, PartToken.Default);
             Exception = Option.none<Exception>();
-            Payload = data;
-            Source = source;
-            Summary = Payload.Format();
+            Payload = msg;
+            Origin = source;
         }
 
         public string Format()
         {
-            var buffer = text.buffer();
-
-            if(this is ErrorEvent<Exception> e)
-                 format(e, buffer);
+            var dst = text.emitter();
+            if(Exception.IsSome())
+                format(Exception.Value, this, dst);
             else
-                buffer.Append(RP.format(RP.PSx3, EventId, Source, Summary));
-            return buffer.Emit();
+                dst.AppendFormat(RP.format(EventId, Payload, Origin));
+            return dst.Emit();
 
         }
 
@@ -81,23 +92,23 @@ namespace Z0
             => Format();
 
         [Op]
-        public static void format(ErrorEvent<Exception> error, ITextBuffer dst)
+        static void format(Exception e0, ErrorEvent<T> error, ITextEmitter dst)
         {
             const string ErrorTrace = "{0} | {1} | {2} | Outer | {3} | {4} | {5}";
             const string InnerTrace = "{0} | {1} | {2} | Inner | {3} | {4} | {5} | {6}";
 
             var exception = error.Payload;
             var eType = exception.GetType();
-            var outer = string.Format(ErrorTrace, error.EventId, error.Summary, error.Source, eType.Name, exception.Data.Message, exception.Data.StackTrace);
+            var outer = string.Format(ErrorTrace, error.EventId, error.Payload, error.Origin, eType.Name, e0.Message, e0.StackTrace);
             dst.AppendLine(outer);
 
             int level = 0;
 
-            var e = exception.Data.InnerException;
-            while (e != null)
+            var e1 = e0.InnerException;
+            while (e1 != null)
             {
-                dst.AppendLine(string.Format(InnerTrace, error.EventId, error.Summary, error.Source, level, eType.Name, e.Message, e.StackTrace));
-                e = e.InnerException;
+                dst.AppendLine(string.Format(InnerTrace, error.EventId, error.Payload, error.Origin, level, eType.Name, e1.Message, e1.StackTrace));
+                e1 = e1.InnerException;
                 level += 1;
             }
         }

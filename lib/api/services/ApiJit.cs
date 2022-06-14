@@ -9,10 +9,8 @@ namespace Z0
 
     using static core;
 
-    [ApiHost]
     public sealed class ApiJit : AppService<ApiJit>
     {
-        [Op]
         public ApiMembers JitCatalog()
             => JitCatalog(Wf.ApiParts.Catalog);
 
@@ -32,10 +30,56 @@ namespace Z0
             return members;
         }
 
+        public static ApiMembers jit(IApiCatalog src, Action<IWfEvent> log, bool pll)
+        {
+            var dst = bag<ApiMembers>();
+            iter(src.PartCatalogs(), catalog => dst.Add(jit(catalog,log)), pll);
+            return ApiMembers.create(Process.GetCurrentProcess().MainModule.BaseAddress, dst.SelectMany(x => x).Array());
+        }
+
+        public static ApiMembers jit(ReadOnlySpan<Assembly> src, Action<IWfEvent> log, bool pll)
+        {
+            var @base = Process.GetCurrentProcess().MainModule.BaseAddress;
+            var dst = bag<ApiMembers>();
+            iter(src, part => dst.Add(jit(part,log)), pll);
+            return ApiMembers.create(@base, dst.SelectMany(x => x).Array());
+        }
+
+        public static ApiMembers jit(IApiPartCatalog src, Action<IWfEvent> log)
+        {
+            var dst = list<ApiMember>();
+            iter(src.ApiTypes.Select(h => h.HostType), t => dst.AddRange(complete(t,log)));
+            iter(src.ApiHosts.Select(h => h.HostType), t => dst.AddRange(jit(t, log)));
+            return ApiMembers.create(dst.ToArray());
+        }
+
+        public static ApiMembers jit(Assembly src, Action<IWfEvent> log)
+            => jit(ApiRuntimeLoader.catalog(src), log);
+
+        public static Index<ApiMember> complete(Type src, Action<IWfEvent> log)
+            => Members(ApiQuery.complete(src, CommonExclusions).Select(m => new JittedMethod(src.ApiHostUri(), m, ClrJit.jit(m))));
+
+        public static ApiMembers jit(IApiHost src, Action<IWfEvent> log)
+        {
+            var direct = JitDirect(src);
+            var generic = JitGeneric(src, log);
+            return ApiMembers.create(direct.Concat(generic).Array());
+        }
+
+        public static ApiMembers jit(Type src, Action<IWfEvent> log)
+        {
+            var direct = JitDirect(src);
+            var generic = JitGeneric(src, log);
+            return ApiMembers.create(direct.Concat(generic).Array());
+        }
+
+        public static Index<ApiMember> jit(ApiCompleteType src, Action<IWfEvent> log)
+            => Members(ApiQuery.complete(src.HostType, CommonExclusions).Select(m => new JittedMethod(src.HostUri, m, ClrJit.jit(m))));
+
         public ApiMembers JitHost(IApiHost src)
         {
             var direct = JitDirect(src);
-            var generic = JitGeneric(src);
+            var generic = JitGeneric(src, EventLog);
             return ApiMembers.create(direct.Concat(generic).Array());
         }
 
@@ -43,10 +87,9 @@ namespace Z0
         {
             var dst = list<ApiMember>();
             var count = src.Count;
-            var exclusions = CommonExclusions;
             ref var lead = ref src.First;
             for(var i=0u; i<count; i++)
-                dst.AddRange(Jit(skip(lead,i), exclusions));
+                dst.AddRange(jit(skip(lead,i), EventLog));
             return ApiMembers.create(dst.ToArray());
         }
 
@@ -59,7 +102,7 @@ namespace Z0
             var hosts = catalog.ApiHosts;
 
             foreach(var t in types)
-                buffer.AddRange(Jit(t));
+                buffer.AddRange(jit(t, EventLog));
 
             foreach(var h in hosts)
                 buffer.AddRange(JitHost(h));
@@ -71,64 +114,54 @@ namespace Z0
         }
 
         public Index<ApiMember> Jit(ApiCompleteType src)
-            => Jit(src, CommonExclusions);
+            => jit(src, EventLog);
 
-        [Op]
-        ApiMember[] Jit(ApiCompleteType src, HashSet<string> exclusions)
-            => Members(ApiQuery.methods(src,exclusions).Select(m => new JittedMethod(src.HostUri, m, ClrJit.jit(m))));
-
-        [Op]
-        ApiMember[] Members(JittedMethod[] located)
+        public IDictionary<MethodInfo,Type> ClosureProviders(IEnumerable<Type> src)
         {
-            var count = located.Length;
-            var dst = sys.alloc<ApiMember>(count);
-            for(var i=0; i<count; i++)
-            {
-                var member = located[i];
-                var method = member.Method;
-                var id = Diviner.Identify(method);
-                var uri = ApiUri.define(ApiUriScheme.Located, member.Host, method.Name, id);
-                dst[i] = new ApiMember(uri, method, member.Location);
-            }
-
-            return dst;
+            var query = from t in src
+                        from m in t.DeclaredStaticMethods()
+                        let tag = m.Tag<ClosureProviderAttribute>()
+                        where tag.IsSome()
+                        select (m, tag.Value.ProviderType);
+            return query.ToDictionary();
         }
 
-        IMultiDiviner Diviner
-            => MultiDiviner.Service;
+        static ApiMember[] JitDirect(IApiHost src)
+            => JitDirect(src.HostType);
 
-        [Op]
-        ApiMember[] JitDirect(IApiHost src)
+        static ApiMember[] JitDirect(Type src)
         {
-            var methods = ApiQuery.nongeneric(src).Select(m => new JittedMethod(src.HostUri, m));
+            var uri = src.ApiHostUri();
+            var methods = ApiQuery.nongeneric(src).Select(m => new JittedMethod(uri,  m));
             var count = methods.Length;
             var buffer = alloc<ApiMember>(count);
-            ref var dst = ref first(buffer);
+            var diviner = MultiDiviner.Service;
             for(var i=0; i<count; i++)
             {
                 var m = methods[i];
-                var id = Diviner.Identify(m.Method);
-                var uri = ApiUri.define(ApiUriScheme.Located, src.HostUri, m.Method.Name, id);
-                seek(dst,i) = new ApiMember(uri, m.Method, ClrJit.jit(m.Method));
+                seek(buffer,i) = new ApiMember(ApiUri.define(ApiUriScheme.Located, uri, m.Method.Name, diviner.Identify(m.Method)), m.Method, ClrJit.jit(m.Method));
 
             }
             return buffer;
         }
 
-        [Op]
-        ApiMember[] JitGeneric(IApiHost src)
+        static ApiMember[] JitGeneric(Type src, Action<IWfEvent> log)
         {
-            var generic = ApiQuery.generic(src).Select(m => new JittedMethod(src.HostUri, m)).ToReadOnlySpan();
+            var uri = src.ApiHostUri();
+            var generic = ApiQuery.generic(src).Select(m => new JittedMethod(uri, m)).ToReadOnlySpan();
             var gCount = generic.Length;
             var buffer = list<ApiMember>();
             for(var i=0; i<gCount; i++)
-                buffer.AddRange(JitGeneric(skip(generic,i)));
+                buffer.AddRange(JitGeneric(skip(generic,i),log));
             return buffer.ToArray();
         }
 
-        [Op]
-        ApiMember[] JitGeneric(JittedMethod src)
+        static ApiMember[] JitGeneric(IApiHost src, Action<IWfEvent> log)
+            => JitGeneric(src.HostType, log);
+
+        static ApiMember[] JitGeneric(JittedMethod src, Action<IWfEvent> log)
         {
+            var diviner = MultiDiviner.Service;
             var method = src.Method;
             var types = @readonly(ApiIdentityKinds.NumericClosureTypes(method));
             var count = types.Length;
@@ -141,7 +174,7 @@ namespace Z0
                     ref readonly var t = ref skip(types, i);
                     var constructed = src.Method.MakeGenericMethod(t);
                     var address = ClrJit.jit(constructed);
-                    var id = Diviner.Identify(constructed);
+                    var id = diviner.Identify(constructed);
                     var uri = ApiUri.define(ApiUriScheme.Located, src.Host, method.Name, id);
                     seek(dst,i) = new ApiMember(uri, constructed, address);
                 }
@@ -149,27 +182,34 @@ namespace Z0
             catch(ArgumentException e)
             {
                 var msg = string.Format("{0}: Closure creation failed for {1}/{2}", e.GetType().Name, method.DeclaringType.DisplayName(), method.DisplayName());
-                Wf.Warn(msg);
+                log(warn(msg));
                 return sys.empty<ApiMember>();
             }
             catch(Exception e)
             {
-                Wf.Warn(e.ToString());
+                log(warn(e.ToString()));
             }
             return buffer;
         }
 
-        public IDictionary<MethodInfo,Type> ClosureProviders(IEnumerable<Type> src)
+        static Index<ApiMember> Members(JittedMethod[] src)
         {
-            var query = from t in src
-                        from m in t.DeclaredStaticMethods()
-                        let tag = m.Tag<ClosureProviderAttribute>()
-                        where tag.IsSome()
-                        select (m, tag.Value.ProviderType);
-            return query.ToDictionary();
+            var count = src.Length;
+            var dst = sys.alloc<ApiMember>(count);
+            var diviner = MultiDiviner.Service;
+            for(var i=0; i<count; i++)
+            {
+                var member = src[i];
+                var method = member.Method;
+                var id = diviner.Identify(method);
+                var uri = ApiUri.define(ApiUriScheme.Located, member.Host, method.Name, id);
+                dst[i] = new ApiMember(uri, method, member.Location);
+            }
+
+            return dst;
         }
 
         static HashSet<string> CommonExclusions
-            => core.hashset(core.array("ToString","GetHashCode", "Equals", "ToString"));
+            = core.hashset(core.array("ToString","GetHashCode", "Equals", "ToString"));
     }
 }

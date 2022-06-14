@@ -4,15 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Defines and index over <see cref='ApiMember'/> values
     /// </summary>
-    public readonly struct ApiMembers : IIndex<ApiMember>
+    public class ApiMembers : IIndex<ApiMember>
     {
         public static ApiMembers create(Index<ApiMember> src)
         {
@@ -25,18 +20,28 @@ namespace Z0
                 return Empty;
         }
 
+        public static ApiMembers create(MemoryAddress @base, Index<ApiMember> src)
+        {
+            if(src.Length != 0)
+                return new ApiMembers(@base, src.Sort());
+            else
+                return Empty;
+        }
+
+        public readonly MemoryAddress BaseAddress;
+
         readonly Index<ApiMember> Data;
 
-        public MemoryAddress BaseAddress {get;}
 
         [MethodImpl(Inline)]
         ApiMembers(MemoryAddress @base, Index<ApiMember> src)
         {
-            Data = src;
             BaseAddress = @base;
+
+            Data = src;
         }
 
-        public Count Count
+        public uint Count
         {
             [MethodImpl(Inline)]
             get => Data.Count;
@@ -47,6 +52,7 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Data.Length;
         }
+
         public ReadOnlySpan<ApiMember> View
         {
             [MethodImpl(Inline)]

@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     [Event(Kind)]
     public readonly struct ProcessedFileEvent : ITerminalEvent<ProcessedFileEvent>
     {
@@ -23,14 +18,17 @@ namespace Z0
         public FlairKind Flair => FlairKind.Processed;
 
         [MethodImpl(Inline)]
-        public ProcessedFileEvent(WfStepId step, FS.FilePath src, PartToken ct)
+        public ProcessedFileEvent(Type host, FS.FilePath src)
         {
-            EventId = (Kind, step, ct);
+            EventId = EventId.define(host, Kind);
             SourcePath = src;
         }
 
         [MethodImpl(Inline)]
         public string Format()
             => string.Format(RP.PSx2, EventId, SourcePath.ToUri());
+
+        public override string ToString()
+            => Format();
     }
 }

@@ -13,6 +13,6 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         internal static EventSignal signal(IWfRuntime wf, WfHost host)
-            => EventSignals.signal(wf.EventSink, host);
+            => EventSignals.signal(wf.EventSink, wf.Host);
     }
 }

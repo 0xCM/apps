@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     [Event(Kind)]
     public readonly struct EmittingFileEvent : IInitialEvent<EmittingFileEvent>
     {
@@ -23,13 +18,19 @@ namespace Z0
         public FlairKind Flair => FlairKind.Running;
 
         [MethodImpl(Inline)]
+        public EmittingFileEvent(Type host, FS.FilePath dst)
+        {
+            EventId = EventId.define(host, Kind);
+            Target = dst;
+        }
+
+        [MethodImpl(Inline)]
         public EmittingFileEvent(WfStepId step, FS.FilePath target)
         {
             EventId = EventId.define(EventName, step);
             Target = target;
         }
 
-        [MethodImpl(Inline)]
         public string Format()
             => RP.format(EventId, AppMsg.EmittingFile.Capture(Target));
     }

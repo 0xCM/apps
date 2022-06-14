@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     [Event(Kind)]
     public class EmittedTableEvent<T> : ITerminalEvent<EmittedTableEvent<T>>
         where  T : struct
@@ -30,6 +26,14 @@ namespace Z0
             EventId = EventId.Empty;
             RowCount = 0;
             Target = FS.FilePath.Empty;
+        }
+
+        [MethodImpl(Inline)]
+        public EmittedTableEvent(Type host, Count count, FS.FilePath target)
+        {
+            EventId = EventId.define(host, Kind);
+            RowCount = count;
+            Target = target;
         }
 
         [MethodImpl(Inline)]

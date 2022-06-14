@@ -58,7 +58,7 @@ namespace Z0
                 }
                 else
                 {
-                    Wf.Error(EventFactory.missing(cmd.CmdId, EventFactory.originate(nameof(WfCmdRouter))));
+                    Wf.Error(AppMsg.NotFound.Format(cmd.CmdId));
                     return Cmd.fail(cmd);
                 }
             }

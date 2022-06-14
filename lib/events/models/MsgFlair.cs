@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     public enum MsgFlair : byte
     {
         None = LogLevel.None,

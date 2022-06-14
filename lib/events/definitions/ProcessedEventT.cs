@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     [Event(Kind)]
     public class ProcessedEvent<T> : ITerminalEvent<ProcessedEvent<T>>
     {
@@ -19,6 +14,8 @@ namespace Z0
         public EventId EventId {get;}
 
         public EventPayload<T> Payload {get;}
+
+        public FlairKind Flair => FlairKind.Processed;
 
         public ProcessedEvent()
         {
@@ -34,10 +31,11 @@ namespace Z0
             Payload = payload;
         }
 
-        public FlairKind Flair => FlairKind.Processed;
-
         [MethodImpl (Inline)]
         public string Format()
-            => RP.format(EventId, Payload);
+            => string.Format(RP.PSx2, EventId, Payload);
+
+        public override string ToString()
+            => Format();
     }
 }
