@@ -63,7 +63,7 @@ namespace Z0
                 seek(src,i) = BitRender.format8((byte)i);
 
             using var allocation = LabelAllocation.alloc(src);
-            var labels = allocation.Allocated;
+            var labels = allocation.Cells;
             if(labels.Length != count)
                 result = (false, string.Format("{0} != {1}", labels.Length, count));
             else

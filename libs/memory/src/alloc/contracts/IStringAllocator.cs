@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    [Free]
     public interface IStringAllocator<T> : IBufferAllocator<string,T>
         where T : IMemoryString
     {

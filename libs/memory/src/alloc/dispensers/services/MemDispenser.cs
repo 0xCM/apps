@@ -44,10 +44,5 @@ namespace Z0
             return dst;
         }
 
-        // static long Seq;
-
-        // [MethodImpl(Inline)]
-        // static uint next()
-        //     => (uint)inc(ref Seq);
     }
 }

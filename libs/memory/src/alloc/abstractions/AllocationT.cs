@@ -4,35 +4,27 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     /// <summary>
     /// Abstraction for a container that owns a sequence of <typeparamref name='T'/> allocations
     /// </summary>
     /// <typeparam name="T">The allocated content</typeparam>
-    public abstract class Allocation<T> : IBufferAllocation<T>, IAllocation<T>
+    public abstract class Allocation<T> : IAllocation<T>
         where T : unmanaged
     {
-        IBufferAllocator Allocator;
-
-        protected Allocation(IBufferAllocator allocator, T[] allocated)
+        protected Allocation()
         {
-            Allocator = allocator;
-            Data = allocated;
-            BaseAddress = allocator.BaseAddress;
-            Size = allocator.Size;
+
         }
 
-        public virtual void Dispose()
-        {
-            Allocator.Dispose();
-        }
+        protected abstract void Dispose();
 
-        public MemoryAddress BaseAddress {get;}
+        public abstract MemoryAddress BaseAddress {get;}
 
-        public ByteSize Size {get;}
+        protected abstract Span<T> Data {get;}
 
-        protected Index<T> Data;
-
-        public ReadOnlySpan<T> Allocated
+        public ReadOnlySpan<T> Cells
         {
             [MethodImpl(Inline)]
             get => Data;
@@ -41,19 +33,27 @@ namespace Z0
         public uint Count
         {
             [MethodImpl(Inline)]
-            get => Data.Count;
+            get => (uint)Data.Length;
         }
 
         public ref readonly T this[uint i]
         {
             [MethodImpl(Inline)]
-            get => ref Data[i];
+            get => ref skip(Data,i);
         }
 
         public ref readonly T this[int i]
         {
             [MethodImpl(Inline)]
-            get => ref Data[i];
+            get => ref skip(Data,i);
+        }
+
+        public virtual ByteSize Size => Data.Length*core.size<T>();
+
+
+        void IDisposable.Dispose()
+        {
+            Dispose();
         }
     }
 }

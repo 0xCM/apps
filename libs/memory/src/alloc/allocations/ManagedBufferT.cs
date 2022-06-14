@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public readonly struct ManagedBuffer<T> :  IBufferAllocation
+    public class ManagedBuffer<T> :  Allocation<T>
         where T : unmanaged
     {
         readonly GCHandle _Handle;
@@ -20,7 +20,7 @@ namespace Z0
             _Size = size;
         }
 
-        public MemoryAddress BaseAddress
+        public override MemoryAddress BaseAddress
         {
             [MethodImpl(Inline)]
             get => _Handle.AddrOfPinnedObject();
@@ -32,19 +32,13 @@ namespace Z0
             get => ref @ref<T>(BaseAddress);
         }
 
-        public Span<T> Edit
+        protected override Span<T> Data
         {
             [MethodImpl(Inline)]
             get => cover<T>(BaseAddress, _Size);
         }
 
-        public ReadOnlySpan<T> View
-        {
-            [MethodImpl(Inline)]
-            get => cover<T>(BaseAddress, _Size);
-        }
-
-        public ByteSize Size
+        public override ByteSize Size
         {
             [MethodImpl(Inline)]
             get => _Size;
@@ -56,14 +50,8 @@ namespace Z0
             get => _Size;
         }
 
-        public uint Count
-        {
-            [MethodImpl(Inline)]
-            get => Size/size<T>();
-        }
 
-
-        public void Dispose()
+        protected override void Dispose()
         {
             _Handle.Free();
         }

@@ -8,6 +8,25 @@ namespace Z0
 
     public class Alloc : IDisposable
     {
+        enum AllocationKind : byte
+        {
+            Label,
+
+            String,
+
+            Memory,
+
+            Page,
+
+            Source,
+
+            Symbol,
+
+            NativeSig,
+
+            Composite,
+        }
+
         public static Alloc create()
             => new Alloc();
 

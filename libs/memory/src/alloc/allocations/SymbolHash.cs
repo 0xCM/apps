@@ -6,10 +6,10 @@ namespace Z0
 {
     using static core;
 
-    public class SymTable : IBufferAllocation
+    public class SymbolHash : Allocation<SymHash>, ISymbolHash
     {
-        public static SymTable create(ByteSize capacity)
-            => new SymTable(1024, capacity);
+        public static SymbolHash alloc(uint count, byte symlength)
+            => new SymbolHash(count, symlength*count);
 
         StringBuffer _Strings;
 
@@ -19,7 +19,7 @@ namespace Z0
 
         uint SymIndex;
 
-        internal SymTable(uint count, ByteSize capacity)
+        internal SymbolHash(uint count, ByteSize capacity)
         {
             _Symbols = alloc<SymHash>(count);
             _Strings = StringBuffers.buffer(capacity/2);
@@ -27,8 +27,7 @@ namespace Z0
             SymIndex = 0;
         }
 
-
-        public void Dispose()
+        protected override void Dispose()
         {
             _Strings.Dispose();
         }
@@ -43,7 +42,7 @@ namespace Z0
         bool Contains(MemoryAddress src)
             => src >= _Strings.BaseAddress && src <= _Strings.BaseAddress + _Strings.Size;
 
-        public bool Deposit(string src)
+        public bool HashSymbol(string src)
         {
             if(!Contains(@address(src)) && SymIndex < _Symbols.Length - 1)
             {
@@ -63,16 +62,16 @@ namespace Z0
             return false;
         }
 
-        public ReadOnlySpan<SymHash> Symbols
+        protected override Span<SymHash> Data
         {
             [MethodImpl(Inline)]
-            get => slice(_Symbols.View, 0, SymIndex);
+            get => slice(_Symbols.Edit, 0, SymIndex);
         }
 
-        public MemoryAddress BaseAddress
+        public override MemoryAddress BaseAddress
             => _Strings.BaseAddress;
 
-        ByteSize IBufferAllocation.Size
+        public override ByteSize Size
             => _Strings.Size;
     }
 }

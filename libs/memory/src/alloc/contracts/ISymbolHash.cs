@@ -1,25 +1,13 @@
+
 //-----------------------------------------------------------------------------
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public enum AllocationKind : byte
+    [Free]
+    public interface ISymbolHash : IAllocation<SymHash>
     {
-        Label,
-
-        String,
-
-        Memory,
-
-        Page,
-
-        Source,
-
-        Symbol,
-
-        NativeSig,
-
-        Composite,
+        bool HashSymbol(string src);
     }
 }

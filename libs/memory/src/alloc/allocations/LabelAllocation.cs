@@ -24,9 +24,37 @@ namespace Z0
             return new LabelAllocation(alloc, labels);
         }
 
+        readonly Index<Label> Storage;
+
+        readonly IBufferAllocator Allocator;
+
         public LabelAllocation(IBufferAllocator allocator, Label[] labels)
-            : base(allocator, labels)
         {
+            Storage = labels;
+            Allocator = allocator;
+        }
+
+        public override ByteSize Size
+        {
+            [MethodImpl(Inline)]
+            get => Allocator.Size;
+        }
+
+        public override MemoryAddress BaseAddress
+        {
+            [MethodImpl(Inline)]
+            get => Allocator.BaseAddress;
+        }
+
+        protected override Span<Label> Data
+        {
+            [MethodImpl(Inline)]
+            get => Storage;
+        }
+
+        protected override void Dispose()
+        {
+            Allocator.Dispose();
         }
     }
 }

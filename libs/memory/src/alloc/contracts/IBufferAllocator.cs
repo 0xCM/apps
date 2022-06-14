@@ -5,8 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
+    [Free]
     public interface IBufferAllocator : IDisposable
     {
         MemoryAddress BaseAddress {get;}
@@ -14,6 +13,7 @@ namespace Z0
         ByteSize Size {get;}
     }
 
+    [Free]
     public interface IBufferAllocator<S,T> : IBufferAllocator
     {
         bool Alloc(S src, out T dst);

@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public unsafe class PageAllocator : IBufferAllocation
+    public unsafe class PageAllocator : Allocation<MemoryAddress>, IPageAllocator
     {
         public static PageAllocator alloc(uint count)
             => new PageAllocator(count);
@@ -15,15 +15,15 @@ namespace Z0
 
         Index<int> Allocations;
 
-        public uint PageCapacity {get;}
+        public uint PageCount {get;}
 
-        public MemoryAddress BaseAddress
+        public override MemoryAddress BaseAddress
         {
             [MethodImpl(Inline)]
             get => Memory.BaseAddress;
         }
 
-        public ByteSize Size
+        public override ByteSize Size
         {
             [MethodImpl(Inline)]
             get => Memory.Size;
@@ -37,10 +37,10 @@ namespace Z0
 
         PageAllocator(uint pages)
         {
-            PageCapacity = pages;
-            Memory = PageAllocation.alloc(PageCapacity);
-            Allocations = alloc<int>(PageCapacity);
-            for(var i=0; i<PageCapacity; i++)
+            PageCount = pages;
+            Memory = PageAllocation.alloc(PageCount);
+            Allocations = alloc<int>(PageCount);
+            for(var i=0; i<PageCount; i++)
                 Allocations[i] = -1;
         }
 
@@ -51,7 +51,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public MemoryAddress Alloc()
         {
-            for(var i=0u; i<PageCapacity; i++)
+            for(var i=0u; i<PageCount; i++)
             {
                 if(Allocations[i] < 0)
                 {
@@ -62,9 +62,15 @@ namespace Z0
             return MemoryAddress.Zero;
         }
 
+        protected override Span<MemoryAddress> Data
+        {
+            [MethodImpl(Inline)]
+            get => cover<MemoryAddress>(BaseAddress, PageCount);
+        }
+
         public void Free(MemoryAddress src)
         {
-            for(var i=0u; i<PageCapacity; i++)
+            for(var i=0u; i<PageCount; i++)
             {
                 ref readonly var index = ref Allocations[i];
                 if(Allocations[i] > 0 && PageAddress(i) == src)
@@ -72,9 +78,9 @@ namespace Z0
             }
         }
 
-        public void Dispose()
+        protected override void Dispose()
         {
-            Memory.Dispose();
+            (Memory as IDisposable).Dispose();
         }
     }
 }

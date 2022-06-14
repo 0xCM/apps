@@ -25,9 +25,37 @@ namespace Z0
             return new StringAllocation(allocator, dst);
         }
 
+        readonly Index<StringRef> Storage;
+
+        readonly IBufferAllocator Allocator;
+
         public StringAllocation(IBufferAllocator allocator, StringRef[] allocated)
-            : base(allocator, allocated)
         {
+            Allocator = allocator;
+            Storage = allocated;
+        }
+
+        public override MemoryAddress BaseAddress
+        {
+            [MethodImpl(Inline)]
+            get => Allocator.BaseAddress;
+        }
+
+        protected override Span<StringRef> Data
+        {
+            [MethodImpl(Inline)]
+            get => Storage;
+        }
+
+        public override ByteSize Size
+        {
+            [MethodImpl(Inline)]
+            get => Allocator.Size;
+        }
+
+        protected override void Dispose()
+        {
+            Allocator.Dispose();
         }
     }
 }

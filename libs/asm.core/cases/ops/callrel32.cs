@@ -9,9 +9,9 @@ namespace Z0.Asm
     partial class AsmCases
     {
         [Op]
-        public static Index<CallRel32> callrel32()
+        public static Index<CallRel32> callrel32(ISymbolDispenser symbols)
         {
-            var block = CaseSymbols.Symbol(0x7ffe6818a0e0ul, "callrel32");
+            var block = symbols.Symbol(0x7ffe6818a0e0ul, "callrel32");
             var cases = alloc<CallRel32>(4);
             var buffer = span(cases);
             var index = 0u;

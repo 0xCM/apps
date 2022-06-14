@@ -25,9 +25,32 @@ namespace Z0
             return new SourceAllocation(alloc, dst);
         }
 
+        readonly Index<SourceText> Storage;
+
+        readonly IBufferAllocator Allocator;
+
         public SourceAllocation(IBufferAllocator allocator, SourceText[] allocated)
-            : base(allocator, allocated)
         {
+            Storage = allocated;
+            Allocator = allocator;
         }
+
+         public override MemoryAddress BaseAddress
+        {
+            [MethodImpl(Inline)]
+            get => Allocator.BaseAddress;
+        }
+
+        protected override Span<SourceText> Data
+        {
+            [MethodImpl(Inline)]
+            get => Storage;
+        }
+
+        protected override void Dispose()
+        {
+            Allocator.Dispose();
+        }
+
     }
 }

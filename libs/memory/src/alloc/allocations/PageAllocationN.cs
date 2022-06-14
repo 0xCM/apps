@@ -9,14 +9,14 @@ namespace Z0
     /// <summary>
     /// Owns <typeparamref name='N'/> page allocations
     /// </summary>
-    /// <typeparam name="N"></typeparam>
+    /// <typeparam name="N">The page allocation count</typeparam>
     public class PageAllocation<N> : IBufferAllocation
         where N : unmanaged, ITypeNat
     {
-        public const uint PageSize = MemoryPage.PageSize;
-
         public static PageAllocation<N> alloc()
             => new PageAllocation<N>();
+
+        public const uint PageSize = MemoryPage.PageSize;
 
         readonly NativeBuffer Buffer;
 
@@ -52,6 +52,12 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => Buffer.Width;
+        }
+
+        public ReadOnlySpan<MemorySeg> Allocated
+        {
+            [MethodImpl(Inline)]
+            get => cover<MemorySeg>(BaseAddress, PageCount);
         }
 
         [MethodImpl(Inline)]

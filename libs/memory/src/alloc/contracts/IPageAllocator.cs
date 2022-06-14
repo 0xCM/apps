@@ -4,9 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IBufferAllocation<T> : IAllocation<T>
-        where T : unmanaged
+    [Free]
+    public interface IPageAllocator : IBufferAllocator
     {
-        ReadOnlySpan<T> Allocated {get;}
+        uint PageCount {get;}
+
+        MemoryAddress Alloc();
     }
 }

@@ -4,14 +4,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Free]
-    public interface IAllocation<T> : IBufferAllocation, ICellular<T>
-        where T : unmanaged
-    {
-        new ByteSize Size
-            => core.size<T>();
+    using static core;
 
-        ByteSize IBufferAllocation.Size
-            => core.size<T>();
+    public class HashedSymbols : Dispenser<HashedSymbols>
+    {
+
+        internal HashedSymbols(bool owns)
+            : base(owns)
+        {
+
+        }
+
+        protected override void Dispose()
+        {
+
+        }
     }
 }

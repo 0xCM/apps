@@ -17,8 +17,7 @@ namespace Z0
 
         void IDisposable.Dispose()
         {
-            (Data.Symbols as IDisposable).Dispose();
-            Data.CodeBuffer.Dispose();
+            Data.Dispose();
         }
 
         [MethodImpl(Inline), Op]
@@ -26,7 +25,7 @@ namespace Z0
         {
             var offset = Data.Offsets[i];
             var size =  Data.Members[i].CodeSize;
-            return slice(Data.CodeBuffer.View, offset, size);
+            return slice(Data.CodeBuffer.Cells, offset, size);
         }
 
         public ByteSize CodeSize
@@ -79,17 +78,23 @@ namespace Z0
             get => Data.Tokens.Count;
         }
 
-        internal class EncodingData
+        internal class EncodingData : IDisposable
         {
             internal ICompositeDispenser Symbols;
 
-            internal Index<EncodedMember> Members;
+            internal IAllocation<byte> CodeBuffer;
 
-            internal ManagedBuffer CodeBuffer;
+            internal Index<EncodedMember> Members;
 
             internal Index<uint> Offsets;
 
             internal Index<ApiToken> Tokens;
+
+            public void Dispose()
+            {
+                Symbols.Dispose();
+                CodeBuffer.Dispose();
+            }
         }
     }
 }

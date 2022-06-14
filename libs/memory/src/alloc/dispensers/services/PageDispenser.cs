@@ -8,7 +8,7 @@ namespace Z0
 
     public class PageDispenser : Dispenser<PageDispenser>, IPageDispenser
     {
-        readonly Dictionary<long,PageAllocator> Allocators;
+        readonly Dictionary<long,IPageAllocator> Allocators;
 
         object locker;
 
@@ -40,14 +40,7 @@ namespace Z0
             return new MemorySeg(address, PageSize);
         }
 
-        // static long Seq;
-
-        // [MethodImpl(Inline)]
-        // static uint next()
-        //     => (uint)inc(ref Seq);
-
         protected override void Dispose()
             => core.iter(Allocators.Values, a => a.Dispose());
     }
-
 }

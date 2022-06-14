@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public class PageAllocation : IBufferAllocation
+    public class PageAllocation : Allocation<MemorySeg>
     {
         public const uint PageSize = MemoryPage.PageSize;
 
@@ -24,18 +24,18 @@ namespace Z0
         }
 
 
-        public void Dispose()
+        protected override void Dispose()
         {
             Buffer.Dispose();
         }
 
-        public MemoryAddress BaseAddress
+        public override MemoryAddress BaseAddress
         {
             [MethodImpl(Inline)]
             get => Buffer.BaseAddress;
         }
 
-        public ByteSize Size
+        public override ByteSize Size
         {
             [MethodImpl(Inline)]
             get => Buffer.Size;
@@ -45,6 +45,12 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => Buffer.Width;
+        }
+
+        protected override Span<MemorySeg> Data
+        {
+            [MethodImpl(Inline)]
+            get => cover<MemorySeg>(BaseAddress, PageCount);
         }
 
         [MethodImpl(Inline)]

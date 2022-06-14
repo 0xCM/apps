@@ -27,7 +27,6 @@ namespace Z0
                 ApiUri.parse(info.Uri, out var uri).Require();
                 var e = new MethodEntryPoint(info.EntryAddress, Require.notnull(uri), info.Sig);
                 seek(tokens,i) = token(symbols, e, info.TargetAddress);
-                //var segment = slice(code.View, offset, size);
                 offset += size;
             }
 

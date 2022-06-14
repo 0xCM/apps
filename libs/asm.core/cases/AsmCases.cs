@@ -7,15 +7,8 @@ namespace Z0.Asm
     using static core;
 
     [ApiHost]
-    public partial class AsmCases : AppService<AsmCases>
+    public partial class AsmCases
     {
-        static SymbolDispenser CaseSymbols;
-
-        static AsmCases()
-        {
-            CaseSymbols = Dispense.symbols();
-        }
-
         [Op]
         public static AsmEncodingCase @case(uint seq, AsmMnemonic monic, ResText oc, ResText sig, ResText statement, ResText encoding)
         {

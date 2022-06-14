@@ -1,7 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <PropertyGroup>
-    <Alloc>$(LibsRoot)alloc/z0.alloc.csproj</Alloc>
     <ApiCode>$(LibsRoot)api.code/z0.api.code.csproj</ApiCode>
     <Assets>$(LibsRoot)assets/z0.assets.csproj</Assets>
 
