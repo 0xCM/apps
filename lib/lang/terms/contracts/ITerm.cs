@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
     /// <summary>
     /// The idea is to loosely follow https://en.wikipedia.org/wiki/Term_(logic)
     /// </summary>

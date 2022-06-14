@@ -20,6 +20,9 @@ namespace Z0
         public static IWfRuntime create(PartId[] ids, string[] args)
             => WfAppLoader.create(parts(controller(), ids, true), args, EmptyString);
 
+        public static IWfRuntime create(PartId[] ids, string[] args, string log)
+            => WfAppLoader.create(parts(controller(), ids, true), args, log);
+
         public static IWfRuntime create(IApiParts parts, string[] args)
         {
             term.inform(InitializingRuntime.Format(now()));

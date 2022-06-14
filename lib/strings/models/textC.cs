@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct text<C> : IComparable<text<C>>, IEquatable<text<C>>, IHashed, ITextual
+    public readonly struct text<C> : IString<text<C>,char>
         where C : unmanaged, ICharBlock<C>
     {
         readonly C Block;
@@ -39,7 +39,7 @@ namespace Z0
             get => Block.Data;
         }
 
-        public Span<char> Cells
+        public ReadOnlySpan<char> Cells
         {
             [MethodImpl(Inline)]
             get => Block.Data;

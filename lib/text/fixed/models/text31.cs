@@ -8,8 +8,7 @@ namespace Z0
 
     using api = FixedChars;
 
-    [DataWidth(Size*8,Size*8)]
-    public struct text31 : ISizedString<text31>
+    public struct text31 : ISizedString<text31,byte>
     {
         public const byte MaxLength = 31;
 
@@ -30,7 +29,7 @@ namespace Z0
 
             ulong D;
 
-            public Span<byte> Bytes
+            public Span<byte> Data
             {
                 [MethodImpl(Inline)]
                 get => bytes(this);
@@ -44,7 +43,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public ref byte Cell(byte i)
-                => ref seek(Bytes,i);
+                => ref seek(Data,i);
 
             public bool IsEmpty
             {
@@ -69,10 +68,16 @@ namespace Z0
             Storage = data;
         }
 
-        public Span<byte> Bytes
+        public Span<byte> Data
         {
             [MethodImpl(Inline)]
             get => slice(bytes(Storage),0, MaxLength);
+        }
+
+        public ReadOnlySpan<byte> Cells
+        {
+            [MethodImpl(Inline)]
+            get => Data;
         }
 
         public uint Length

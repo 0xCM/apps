@@ -10,9 +10,9 @@
 
   <ItemGroup>
     <ProjectReference Include="$(Symbols)" />
-    <ProjectReference Include="$(Numbers)" />
     <ProjectReference Include="$(Calcs)" />
     <ProjectReference Include="$(Flows)" />
+    <ProjectReference Include="$(Archives)" />
   </ItemGroup>
 
 </Project>

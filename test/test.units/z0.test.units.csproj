@@ -10,6 +10,7 @@
   <ItemGroup>
     <ProjectReference Include="$(Bits)" />
     <ProjectReference Include="$(Circuits)" />
+    <ProjectReference Include="$(Archives)" />
   </ItemGroup>
 
 </Project>

@@ -17,6 +17,10 @@ namespace Z0
             => (char)src;
 
         [MethodImpl(Inline), Op]
+        public static char decode(AsciSymbol src)
+            => src;
+
+        [MethodImpl(Inline), Op]
         public static uint decode(ReadOnlySpan<AsciCode> src, Span<char> dst)
         {
             var count = (uint)src.Length;
@@ -24,6 +28,16 @@ namespace Z0
                 seek(dst,i) = decode(skip(src,i));
             return count;
         }
+
+        [MethodImpl(Inline), Op]
+        public static uint decode(ReadOnlySpan<AsciSymbol> src, Span<char> dst)
+        {
+            var count = (uint)src.Length;
+            for(var i=0; i<count; i++)
+                seek(dst,i) = decode(skip(src,i));
+            return count;
+        }
+
 
         [MethodImpl(Inline), Op]
         public static uint decode(ReadOnlySpan<byte> src, Span<char> dst)

@@ -267,6 +267,13 @@ namespace Z0
             return new string(dst);
         }
 
+        [Op]
+        public static string format(ReadOnlySpan<AsciSymbol> src)
+        {
+            var dst = span<char>(src.Length);
+            AsciSymbols.decode(src, dst);
+            return new string(dst);
+        }
 
         [MethodImpl(Inline), Op]
         public static ushort pack(char c0, char c1)

@@ -12,6 +12,7 @@
     <ProjectReference Include="$(Memory)" />
     <ProjectReference Include="$(Expr)" />
     <ProjectReference Include="$(Fsm)" />
+    <ProjectReference Include="$(AsmModels)" />
   </ItemGroup>
 
 </Project>

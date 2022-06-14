@@ -4,20 +4,25 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public unsafe readonly struct Label : IMemoryString<char>, IComparable<Label>, IEquatable<Label>
+    public unsafe readonly record struct Label : IMemoryString<Label,char>
     {
-        readonly ulong Storage;
+        readonly ulong Data;
+
+        public Label()
+        {
+            Data = 0;
+        }
 
         [MethodImpl(Inline)]
         public Label(MemoryAddress @base, byte length)
         {
-            Storage = (ulong)@base | ((ulong)length << 56);
+            Data = (ulong)@base | ((ulong)length << 56);
         }
 
         public int Length
         {
             [MethodImpl(Inline)]
-            get => (byte)(Storage >> 56);
+            get => (byte)(Data >> 56);
         }
 
         public ByteSize Size
@@ -29,13 +34,7 @@ namespace Z0
         public MemoryAddress Address
         {
             [MethodImpl(Inline)]
-            get => (MemoryAddress)(Storage & 0x00FFFFFF_FFFFFFFFul);
-        }
-
-        public ReadOnlySpan<byte> Bytes
-        {
-            [MethodImpl(Inline)]
-            get => core.cover(Address.Pointer<byte>(), Size);
+            get => (MemoryAddress)(Data & 0x00FFFFFF_FFFFFFFFul);
         }
 
         public ReadOnlySpan<char> Cells
@@ -44,22 +43,22 @@ namespace Z0
             get => core.cover(Address.Pointer<char>(), Length);
         }
 
-        public uint Hash
+        public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => alg.ghash.calc(Cells);
+            get => core.hash(Cells);
         }
 
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => Storage == 0;
+            get => Data == 0;
         }
 
         public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
-            get => Storage != 0;
+            get => Data != 0;
         }
 
         public bool Equals(Label src)
@@ -77,19 +76,10 @@ namespace Z0
         public override int GetHashCode()
             => (int)Hash;
 
-        public override bool Equals(object src)
-            => src is Label l && Equals(l);
-
-        public static Label Empty => default;
-
         [MethodImpl(Inline), Op]
         public static implicit operator Label(string src)
             => strings.label(src);
 
-        public static bool operator==(Label a, Label b)
-            => a.Equals(b);
-
-        public static bool operator!=(Label a, Label b)
-            => !a.Equals(b);
+        public static Label Empty => default;
     }
 }

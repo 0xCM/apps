@@ -35,7 +35,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static uint lines<K,B>(string src, Span<text<K,B>> dst, bool keepblank = false, bool trim = true)
             where B : unmanaged, IStorageBlock<B>
-            where K : unmanaged
+            where K : unmanaged, IEquatable<K>, IComparable<K>
         {
             var k=0u;
             var capacity = (uint)dst.Length;
@@ -76,7 +76,6 @@ namespace Z0
             return k;
         }
 
-
         public static ReadOnlySpan<string> lines(MemoryFile src)
         {
             using var reader = new StreamReader(src.Stream, leaveOpen:true);
@@ -112,6 +111,5 @@ namespace Z0
             }
             return lines.ViewDeposited();
         }
-
     }
 }

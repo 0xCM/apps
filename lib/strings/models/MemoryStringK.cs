@@ -7,7 +7,7 @@ namespace Z0
     using static core;
 
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public readonly struct MemoryString<K> : IMemoryString<char>
+    public readonly record struct MemoryString<K> : IMemoryString<MemoryString<K>, char>
         where K : unmanaged
     {
         public readonly K Kind;
@@ -59,5 +59,12 @@ namespace Z0
 
         public override string ToString()
             => Format();
+
+        public bool Equals(MemoryString<K> src)
+            => Bytes.SequenceEqual(src.Bytes);
+
+        public int CompareTo(MemoryString<K> src)
+            => Cells.CompareTo(src.Cells, StringComparison.InvariantCulture);
+
     }
 }

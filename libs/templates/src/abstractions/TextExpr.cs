@@ -6,6 +6,9 @@ namespace Z0
 {
     using static core;
 
+    /// <summary>
+    /// Defines the root <see cref='ITextExpr'/> abstraction
+    /// </summary>
     public abstract class TextExpr : ITextExpr
     {
         protected Dictionary<string,ITextVar> VarLookup;
@@ -61,6 +64,10 @@ namespace Z0
                 return 0;
         }
 
+        /// <summary>
+        /// Formats a specified <see cref='ITextVar'/> variable
+        /// </summary>
+        /// <param name="src">The variable to parse</param>
         public static string FormatVariable(ITextVar src)
         {
             var kind = src.VarExpr;
@@ -119,6 +126,12 @@ namespace Z0
             return result;
         }
 
+        /// <summary>
+        /// Parses a sequence of fixed variables using a caller-supplied parser
+        /// </summary>
+        /// <param name="src">The input text</param>
+        /// <param name="kind">The variable kind instance</param>
+        /// <param name="vf">The variable parser</param>
         public static Dictionary<string,ITextVar> ParseFencedVars(ReadOnlySpan<char> src, ITextVarExpr kind, Func<string,ITextVar> vf)
         {
             var count = src.Length;
@@ -145,7 +158,7 @@ namespace Z0
                 {
                     if(nonempty(name) && c == RD)
                     {
-                        dst.TryAdd(name,vf(name));
+                        dst.TryAdd(name, vf(name));
                         name = EmptyString;
                         parsing = false;
                     }
@@ -157,7 +170,7 @@ namespace Z0
             }
 
             if(nonempty(name))
-                dst.TryAdd(name,vf(name));
+                dst.TryAdd(name, vf(name));
             return dst;
         }
 

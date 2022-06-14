@@ -18,8 +18,6 @@ namespace Z0
 
         readonly EventQueue Queue;
 
-        protected AppSvcOps AppSvc => Wf.AppSvc();
-
         readonly string SvcName;
 
         protected Checker()
@@ -65,11 +63,11 @@ namespace Z0
 
         protected void TableEmit<R>(string label, ReadOnlySpan<R> src)
             where R : struct
-                => AppSvc.TableEmit(src, TablePath<R>(label));
+                => TableEmit(src, TablePath<R>(label));
 
         protected void TableEmit<R>(ReadOnlySpan<R> src)
             where R : struct
-                => AppSvc.TableEmit(src, TablePath<R>());
+                => TableEmit(src, TablePath<R>());
 
         protected override sealed void Disposing()
         {
@@ -184,7 +182,7 @@ namespace Z0
             }
 
             if(counter != 0)
-                AppSvc.FileEmit(emitter.Emit(), counter, EventLogPath);
+                FileEmit(emitter.Emit(), counter, EventLogPath);
         }
 
         public void Run(bool pll)

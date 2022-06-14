@@ -10,8 +10,6 @@ namespace Z0
     {
         ApiJit ApiJit => Service(Wf.ApiJit);
 
-        ApiMd ApiMd => Wf.ApiMetadata();
-
         ApiHex ApiHex => Wf.ApiHex();
 
         new ApiCodeFiles Files => Wf.ApiCodeFiles();
@@ -23,9 +21,6 @@ namespace Z0
 
         public Index<ApiHexRow> EmitApiHex(ApiHostUri uri, ReadOnlySpan<ApiMemberCode> src, FS.FilePath dst)
             => ApiHex.EmitRows(uri, src, dst);
-
-        // public Index<ApiHexPack> EmitHexPack(SortedIndex<ApiCodeBlock> src, FS.FilePath? dst = null, bool validate = false)
-        //     => ApiHex.EmitPacks(src,dst,validate);
 
         public SortedIndex<ApiCodeBlock> LoadBlocks()
             => blocks(Files.HexFiles());
@@ -54,12 +49,12 @@ namespace Z0
         }
 
         public Index<MethodEntryPoint> CalcEntryPoints()
-            => MethodEntryPoints.create(ApiJit.JitCatalog(ApiMd.Catalog));
+            => MethodEntryPoints.create(ApiJit.JitCatalog(ApiRuntimeCatalog));
 
         public Index<MethodEntryPoint> CalcEntryPoints(ApiHostUri src)
         {
             var dst = sys.empty<MethodEntryPoint>();
-            if(ApiMd.Catalog.FindHost(src, out var host))
+            if(ApiRuntimeCatalog.FindHost(src, out var host))
                dst = MethodEntryPoints.create(ApiJit.JitHost(host));
             return dst;
         }
@@ -67,7 +62,7 @@ namespace Z0
         public Index<MethodEntryPoint> CalcEntryPoints(PartId part)
         {
             var dst = sys.empty<MethodEntryPoint>();
-            if(ApiMd.Catalog.FindPart(part, out var src))
+            if(ApiRuntimeCatalog.FindPart(part, out var src))
                 dst = MethodEntryPoints.create(ApiJit.JitPart(src));
             return dst;
         }

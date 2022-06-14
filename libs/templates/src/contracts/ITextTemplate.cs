@@ -4,6 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    /// <summary>
+    /// Characterizes a pararametric text block bound to an arbitrary number of variables
+    /// </summary>
     public interface ITextTemplate : INullity
     {
         TextBlock Pattern {get;}

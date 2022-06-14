@@ -6,18 +6,12 @@ namespace Z0
 {
     public interface ILocatedSource : ISourceCode, IMemoryString
     {
-        ReadOnlySpan<byte> IMemoryString.Bytes
-            => Data;
+
     }
 
-    public interface ILocatedSource<T> : ILocatedSource, ISourceCode<T>, IMemoryString<T>
-        where T : unmanaged, IEquatable<T>
-    {
-    }
-
-    public interface ILocatedSource<H,T> : ISourceCode<H,T>, ILocatedSource<T>
-        where T : unmanaged, IEquatable<T>
-        where H : ISourceCode<H,T>
+    public interface ILocatedSource<F,T> : ISourceCode<F,T>, ILocatedSource, IMemoryString<F,T>
+        where F : ILocatedSource<F,T>, new()
+        where T : unmanaged, IComparable<T>, IEquatable<T>
     {
 
     }

@@ -87,7 +87,7 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static bool eq(text31 a, text31 b)
-            => cpu.vtestc(cpu.veq(cpu.vload(w256, a.Storage.Bytes),cpu.vload(w256, b.Storage.Bytes)));
+            => cpu.vtestc(cpu.veq(cpu.vload(w256, a.Storage.Data),cpu.vload(w256, b.Storage.Data)));
 
         [MethodImpl(Inline), Op]
         public static bool eq(text47 a, text47 b)
@@ -188,7 +188,7 @@ namespace Z0
             const byte Max = text31.MaxLength;
             var length = (byte)min(available(src), Max);
             var storage = text31.StorageType.Empty;
-            var dst = storage.Bytes;
+            var dst = storage.Data;
             pack(src, length, dst);
             seek(dst,Max) = length;
             return new text31(storage);
@@ -200,7 +200,7 @@ namespace Z0
             const byte Max = text31.MaxLength;
             var length = (byte)min(available(src), Max);
             var storage = text31.StorageType.Empty;
-            var dst = storage.Bytes;
+            var dst = storage.Data;
             for(var i=0; i<length; i++)
                 seek(dst,i) = skip(src,i);
             seek(dst,Max) = length;
@@ -212,7 +212,7 @@ namespace Z0
         {
             Span<char> dst = stackalloc char[text31.MaxLength];
             var count = src.Length;
-            var data = src.Bytes;
+            var data = src.Cells;
             for(var i=0; i<count; i++)
                 seek(dst,i) = (char)skip(data,i);
             return text.format(slice(dst,0,count));

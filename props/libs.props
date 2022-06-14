@@ -2,7 +2,6 @@
 
   <ItemGroup>
 
-    <ProjectReference Include="$(Alloc)" />
     <ProjectReference Include="$(ApiCode)" />
     <ProjectReference Include="$(ApiMd)" />
     <ProjectReference Include="$(Archives)" />

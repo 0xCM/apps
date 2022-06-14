@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Free]
-    public interface ISizedString : ISized, ITextual, INullity
+    public interface ISizedString : IString
     {
         uint CharCapacity {get;}
 
@@ -20,8 +20,9 @@ namespace Z0
     }
 
     [Free]
-    public interface ISizedString<T> : ISizedString, IComparable<T>, IEquatable<T>
-        where T : struct, ISizedString<T>
+    public interface ISizedString<F,T> : ISizedString, IString<F,T>
+        where T : unmanaged, IEquatable<T>, IComparable<T>
+        where F : unmanaged, ISizedString<F,T>
     {
 
     }

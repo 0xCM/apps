@@ -11,7 +11,7 @@ namespace Z0
     /// <summary>
     /// Defines a reference to an immutable character sequence
     /// </summary>
-    public unsafe readonly struct StringRef : IMemoryString<char>, IComparable<StringRef>, IEquatable<StringRef>
+    public unsafe readonly struct StringRef : IMemoryString<StringRef,char>
     {
         const NumericKind Closure = UnsignedInts;
 

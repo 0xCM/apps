@@ -7,13 +7,9 @@ namespace Z0
     using static core;
 
     [Free, ApiHost]
-    public partial class Heaps : AppService<Heaps>
+    public partial class Heaps : WfSvc<Heaps>
     {
         const NumericKind Closure = UnsignedInts;
-
-        AppDb AppDb => Service(Wf.AppDb);
-
-        AppSvcOps AppSvc => Service(Wf.AppSvc);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static Heap<T> create<T>(T[] src, uint[] offsets)
@@ -53,10 +49,10 @@ namespace Z0
             => Data(Heaps.id(src),() => Heaps.records(src));
 
         public void Emit(SymHeap src, FS.FilePath dst)
-            => AppSvc.TableEmit(CalcHeapEntries(src), dst);
+            => TableEmit(CalcHeapEntries(src), dst);
 
         public void Emit(SymHeap src)
-            => AppSvc.TableEmit(CalcHeapEntries(src), ApiTargets().Table<SymHeapRecord>(), TextEncodingKind.Unicode);
+            => TableEmit(CalcHeapEntries(src), ApiTargets().Table<SymHeapRecord>(), TextEncodingKind.Unicode);
 
         [MethodImpl(Inline)]
         public static ReadOnlySpan<byte> serialize<K,O,L>(in HeapEntry<K,O,L> src)

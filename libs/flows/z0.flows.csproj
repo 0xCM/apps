@@ -12,6 +12,7 @@
     <ProjectReference Include="$(Templates)" />
     <ProjectReference Include="$(Containers)" />
     <ProjectReference Include="$(Db)" />
+    <ProjectReference Include="$(Native)" />
   </ItemGroup>
 
 </Project>

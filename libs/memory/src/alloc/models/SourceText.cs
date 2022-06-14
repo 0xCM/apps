@@ -37,7 +37,13 @@ namespace Z0
             get => cover(Address.Pointer<char>(), Length);
         }
 
-        public uint Hash
+        public uint Count
+        {
+            [MethodImpl(Inline)]
+            get => (uint)Cells.Length;
+        }
+
+        public Hash32 Hash
         {
             [MethodImpl(Inline)]
             get => alg.ghash.calc(Cells);

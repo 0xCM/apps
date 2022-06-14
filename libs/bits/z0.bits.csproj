@@ -11,7 +11,6 @@
   <ItemGroup>
     <EmbeddedResource Include="assets/**/*.*" />
     <ProjectReference Include="$(Numbers)" />
-    <ProjectReference Include="$(Alloc)" />
     <ProjectReference Include="$(Calcs)" />
 
   </ItemGroup>

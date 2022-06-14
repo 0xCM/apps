@@ -8,39 +8,49 @@ namespace Z0
 
     using T = @string;
 
-    [DataType("string")]
-    public readonly struct @string : IString<string>, IComparable<T>, IEquatable<T>
+    public readonly struct @string : IString<@string,char>, IExpr
     {
-        readonly string Storage;
+        readonly string Data;
+
+        public @string()
+        {
+            Data = EmptyString;
+        }
 
         [MethodImpl(Inline)]
         public @string(string src)
         {
-            Storage = src ?? EmptyString;
+            Data = src ?? EmptyString;
         }
 
         public string Value
         {
             [MethodImpl(Inline)]
-            get => Storage ?? EmptyString;
+            get => Data ?? EmptyString;
         }
 
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => empty(Storage);
+            get => empty(Data);
         }
 
         public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
-            get => nonempty(Storage);
+            get => nonempty(Data);
         }
 
-        public ReadOnlySpan<char> Data
+        public ReadOnlySpan<char> Cells
         {
             [MethodImpl(Inline)]
             get => Value;
+        }
+
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => hash(Cells);
         }
 
         public int Length
@@ -64,7 +74,7 @@ namespace Z0
             => Value.CompareTo(src.Value);
 
         public override int GetHashCode()
-            => Value.GetHashCode();
+            => Hash;
 
         public override bool Equals(object src)
             => src is T x && Equals(x);
@@ -79,7 +89,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator ReadOnlySpan<char>(T src)
-            => src.Data;
+            => src.Cells;
 
         public static bool operator ==(T a, T b)
             => a.Equals(b);
@@ -103,10 +113,7 @@ namespace Z0
         public static bool operator >=(T a, T b)
             => a.CompareTo(b) >= 0;
 
-        public static T Empty
-        {
-            [MethodImpl(Inline)]
-            get => new T(EmptyString);
-        }
+        public static T Empty => new();
+
     }
 }

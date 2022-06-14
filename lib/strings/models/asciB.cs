@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public readonly record struct asci<B> : IComparable<asci<B>>
+    public readonly record struct asci<B> : IString<asci<B>,AsciSymbol>
         where B : unmanaged, IStorageBlock<B>
     {
         public static asci<B> load(ReadOnlySpan<byte> src)
@@ -42,7 +42,7 @@ namespace Z0
             get => Data.Size/8;
         }
 
-        public Span<AsciSymbol> Symbols
+        public ReadOnlySpan<AsciSymbol> Cells
         {
             [MethodImpl(Inline)]
             get => recover<AsciSymbol>(Data.Bytes);
@@ -67,7 +67,7 @@ namespace Z0
         }
 
         public ReadOnlySpan<char> String
-            => Asci.format(Codes);
+            => Asci.format(Cells);
 
         public int CompareTo(asci<B> src)
             => Format().CompareTo(src.Format());

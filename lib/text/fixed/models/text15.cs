@@ -9,8 +9,7 @@ namespace Z0
     using FC = FixedChars;
     using api = FixedChars;
 
-    [DataWidth(Size*8,Size*8)]
-    public struct text15 : ISizedString<text15>
+    public struct text15 : ISizedString<text15,byte>
     {
         public const byte MaxLength = 15;
 
@@ -82,6 +81,12 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => slice(bytes(Storage),0, MaxLength);
+        }
+
+        public ReadOnlySpan<byte> Cells
+        {
+            [MethodImpl(Inline)]
+            get => Bytes;
         }
 
         public char this[byte index]

@@ -20,19 +20,19 @@ namespace Z0
     /// Characterizes a reified type that  exhibits a notion of length
     /// </summary>
     [Free]
-    public interface IMeasured<M> : IMeasured, ICounted<M>
-        where M : unmanaged
+    public interface IMeasured<T> : IMeasured, ICounted<T>
+        where T : unmanaged
     {
         int IMeasured.Length
-            => Unsafe.As<M,int>(ref Unsafe.AsRef(Length));
+            => Unsafe.As<T,int>(ref Unsafe.AsRef(Length));
 
         uint ICounted.Count
-            => Unsafe.As<M,uint>(ref Unsafe.AsRef(Length));
+            => Unsafe.As<T,uint>(ref Unsafe.AsRef(Length));
 
-        new M Length
+        new T Length
             => Count;
 
-        M ICounted<M>.Count
+        T ICounted<T>.Count
             => Length;
     }
 }

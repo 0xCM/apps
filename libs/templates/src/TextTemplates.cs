@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     public partial class TextTemplates
     {
         public static TextTemplate template(string pattern, object[] parameters)
@@ -94,5 +92,21 @@ namespace Z0
             t.Param7 = p7;
             return t;
         }
+
+        public static TextTemplate<T0,T1,T2,T3,T4,T5,T6,T7,T8> template<T0,T1,T2,T3,T4,T5,T6,T7,T8>(string pattern, T0 p0, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6, T7 p7, T8 p8)
+        {
+            var t = new TextTemplate<T0,T1,T2,T3,T4,T5,T6,T7,T8>(pattern);
+            t.Param0 = p0;
+            t.Param1 = p1;
+            t.Param2 = p2;
+            t.Param3 = p3;
+            t.Param4 = p4;
+            t.Param5 = p5;
+            t.Param6 = p6;
+            t.Param7 = p7;
+            t.Param8 = p8;
+            return t;
+        }
+
     }
 }

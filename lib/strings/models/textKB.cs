@@ -6,9 +6,9 @@ namespace Z0
 {
     using static core;
 
-    public readonly record struct text<K,B> : IComparable<text<K,B>>
+    public readonly record struct text<K,B> : IString<text<K,B>,K>
         where B : unmanaged, IStorageBlock<B>
-        where K : unmanaged
+        where K : unmanaged, IEquatable<K>, IComparable<K>
     {
         public static text<K,B> load(ReadOnlySpan<char> src)
         {
@@ -41,7 +41,7 @@ namespace Z0
             get => Data.Size/CharSize;
         }
 
-        public Span<K> Cells
+        public ReadOnlySpan<K> Cells
         {
             [MethodImpl(Inline)]
             get => recover<K>(Data.Bytes);

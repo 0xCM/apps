@@ -7,7 +7,7 @@ namespace Z0
     using static core;
 
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public readonly struct MemoryString : IMemoryString<char>
+    public readonly record struct MemoryString : IMemoryString<MemoryString,char>
     {
         public readonly MemoryAddress Address;
 
@@ -29,6 +29,12 @@ namespace Z0
             get => cover(Address.Pointer<char>(), Length);
         }
 
+        public ReadOnlySpan<byte> Bytes
+        {
+            [MethodImpl(Inline)]
+            get => cover<byte>(Address, Size);
+        }
+
         public Hash32 Hash
         {
             [MethodImpl(Inline)]
@@ -38,11 +44,8 @@ namespace Z0
         public override int GetHashCode()
             => Hash;
 
-        public ReadOnlySpan<byte> Bytes
-        {
-            [MethodImpl(Inline)]
-            get => cover<byte>(Address, Size);
-        }
+        public bool Equals(MemoryString src)
+            => Address == src.Address && Size == src.Size;
 
         MemoryAddress IAddressable.Address
             => Address;
@@ -55,5 +58,9 @@ namespace Z0
 
         public override string ToString()
             => Format();
+
+        public int CompareTo(MemoryString src)
+            => Cells.CompareTo(src.Cells, StringComparison.InvariantCulture);
+
     }
 }

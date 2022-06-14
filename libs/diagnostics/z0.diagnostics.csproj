@@ -10,7 +10,6 @@
   <Import Project="$(ImportDefs)microsoft.codeanalysis.props"/>
 
   <ItemGroup>
-    <ProjectReference Include="$(Alloc)" />
     <ProjectReference Include="$(ApiCode)" />
   </ItemGroup>
 

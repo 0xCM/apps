@@ -4,6 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+
+    /// <summary>
+    /// Defines a <see cref='ITextVar'/> that has a prefixed identifier
+    /// </summary>
     public class PrefixedTextVar : ITextVar
     {
         public string Value;
