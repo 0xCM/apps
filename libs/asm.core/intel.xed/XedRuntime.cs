@@ -26,7 +26,7 @@ namespace Z0
             get => AppData.get().PllExec();
         }
 
-        public IStringAllocProvider Alloc => _Alloc;
+        public ref readonly Alloc Alloc => ref _Alloc;
 
         public new XedPaths Paths => XedPaths.Service;
 
@@ -97,7 +97,7 @@ namespace Z0
 
         void CalcTypeTables()
         {
-            Views.Store(I.TypeTables, MemDb.typetables(Alloc, typeof(XedDb).Assembly,"xed"));
+            Views.Store(I.TypeTables, MemDb.typetables(typeof(XedDb).Assembly,"xed", Alloc.Composite()));
             Views.Store(I.TypeTableRows, MemDb.rows(Views.TypeTables));
         }
 

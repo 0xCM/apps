@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public class Alloc : IDisposable, IStringAllocProvider
+    public class Alloc : IDisposable
     {
         public static Alloc create()
             => new Alloc();
@@ -19,13 +19,13 @@ namespace Z0
         public LabelDispenser Labels()
             => (LabelDispenser)Data.GetOrAdd(AllocationKind.Label, k => Dispense.labels());
 
-        public MemDispenser Mem()
-            => (MemDispenser)Data.GetOrAdd(AllocationKind.Memory, k => Dispense.mem());
+        public MemoryDispenser Memory()
+            => (MemoryDispenser)Data.GetOrAdd(AllocationKind.Memory, k => Dispense.memory());
 
         public PageDispenser Pages()
             => (PageDispenser)Data.GetOrAdd(AllocationKind.Page, k => Dispense.pages());
 
-        public SourceDispenser Sources()
+        public SourceDispenser Source()
             => (SourceDispenser)Data.GetOrAdd(AllocationKind.Source, k => Dispense.source());
 
         public StringDispenser Strings()
@@ -35,10 +35,10 @@ namespace Z0
             => (SymbolDispenser)Data.GetOrAdd(AllocationKind.Symbol, k => Dispense.symbols());
 
         public CompositeDispenser Composite()
-            => (CompositeDispenser)Data.GetOrAdd(AllocationKind.Composite, k => new CompositeDispenser(Symbols(), Sources(), Mem(), Labels()));
+            => (CompositeDispenser)Data.GetOrAdd(AllocationKind.Composite, k => Dispense.composite(Memory(), Strings(), Labels(), Symbols(), Source()));
 
         public NativeSigDispenser Sigs()
-            =>(NativeSigDispenser)Data.GetOrAdd(AllocationKind.NativeSig, k => new NativeSigDispenser(Mem(), Strings(), Labels()));
+            => (NativeSigDispenser)Data.GetOrAdd(AllocationKind.NativeSig, k => Dispense.sigs(Memory(), Strings(), Labels()));
 
         public Alloc()
         {

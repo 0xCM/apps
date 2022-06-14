@@ -6,7 +6,7 @@ namespace Z0
 {
     partial struct core
     {
-        [MethodImpl(Inline), Op, Closures(Closure)]
+        [MethodImpl(Inline)]
         public static Index<T> resequence<T>(Index<T> src)
             where T : ISequential<T>
         {
@@ -15,7 +15,7 @@ namespace Z0
             return src;
         }
 
-        [MethodImpl(Inline), Op, Closures(Closure)]
+        [MethodImpl(Inline)]
         public static T[] resequence<T>(T[] src)
             where T : ISequential<T>
         {
@@ -24,7 +24,7 @@ namespace Z0
             return src;
         }
 
-        [MethodImpl(Inline), Op, Closures(Closure)]
+        [MethodImpl(Inline)]
         public static Span<T> resequence<T>(Span<T> src)
             where T : ISequential<T>
         {

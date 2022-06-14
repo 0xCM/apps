@@ -26,7 +26,7 @@ global using CallerName = System.Runtime.CompilerServices.CallerMemberNameAttrib
 global using CallerFile = System.Runtime.CompilerServices.CallerFilePathAttribute;
 global using CallerLine = System.Runtime.CompilerServices.CallerLineNumberAttribute;
 
-[assembly: PartId(PartId.EMath)]
+[assembly: PartId(PartId.Fsm)]
 
 namespace Z0.Parts
 {

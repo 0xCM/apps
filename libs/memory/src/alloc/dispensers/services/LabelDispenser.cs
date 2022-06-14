@@ -6,28 +6,23 @@ namespace Z0
 {
     using static core;
 
-    public class LabelDispenser : IAllocDispenser
+    public class LabelDispenser : Dispenser<LabelDispenser>, ILabelDispenser
     {
         const uint Capacity = MemoryPage.PageSize;
 
         readonly Dictionary<long,LabelAllocator> Allocators;
 
-        object locker;
-
-        public LabelDispenser(uint capacity = Capacity)
+        internal LabelDispenser(uint capacity = Capacity)
+            : base(true)
         {
             Allocators = new();
-            locker = new();
             Allocators[Seq] = LabelAllocator.alloc(Capacity);
         }
-
-        public AllocationKind Kind
-            => AllocationKind.Label;
 
         public Label Label(string content)
         {
             var label = Z0.Label.Empty;
-            lock(locker)
+            lock(Locker)
             {
                 var alloc = Allocators[Seq];
                 if(!alloc.Alloc(content, out label))
@@ -40,14 +35,9 @@ namespace Z0
             return label;
         }
 
-
-        void IDisposable.Dispose()
-            => core.iter(Allocators.Values, a => a.Dispose());
-
-        static long Seq;
-
-        [MethodImpl(Inline)]
-        static uint next()
-            => (uint)inc(ref Seq);
+        protected override void Dispose()
+        {
+            iter(Allocators.Values, a => a.Dispose());
+        }
     }
 }

@@ -5,10 +5,8 @@
 namespace Z0
 {
     [Free]
-    public interface IStringAllocProvider
+    public interface ILabelDispenser : IAllocDispenser<Label>
     {
-        Label Label(string src);
-
-        StringRef String(string src);
+        Label Label(string content);
     }
 }

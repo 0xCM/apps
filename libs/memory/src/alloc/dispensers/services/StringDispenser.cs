@@ -6,34 +6,28 @@ namespace Z0
 {
     using static core;
 
-    public class StringDispenser : IAllocDispenser
+    public class StringDispenser : Dispenser<StringDispenser>, IStringDispenser
     {
         const uint Capacity = MemoryPage.PageSize;
 
         readonly Dictionary<long,StringAllocator> Allocators;
 
-        object locker;
-
-        public StringDispenser(uint capacity = Capacity)
+        internal StringDispenser(uint capacity = Capacity)
+            : base(true)
         {
             Allocators = new();
-            locker = new();
             Allocators[Seq] = StringAllocator.alloc(Capacity);
         }
 
-        void IDisposable.Dispose()
+        protected override void Dispose()
         {
-            core.iter(Allocators.Values, a => a.Dispose());
+            iter(Allocators.Values, a => a.Dispose());
         }
-
-
-        public AllocationKind Kind
-            => AllocationKind.String;
 
         public StringRef String(string content)
         {
             var dst = StringRef.Empty;
-            lock(locker)
+            lock(Locker)
             {
                 var alloc = Allocators[Seq];
                 if(!alloc.Alloc(content, out dst))
@@ -45,12 +39,5 @@ namespace Z0
             }
             return dst;
         }
-
-
-        static long Seq;
-
-        [MethodImpl(Inline)]
-        static uint next()
-            => (uint)inc(ref Seq);
    }
 }

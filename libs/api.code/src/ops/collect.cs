@@ -10,7 +10,7 @@ namespace Z0
 
     partial class ApiCode
     {
-        static Index<RawMemberCode> collect(SymbolDispenser symbols, ReadOnlySpan<MethodEntryPoint> entries)
+        static Index<RawMemberCode> collect(ICompositeDispenser symbols, ReadOnlySpan<MethodEntryPoint> entries)
         {
             var count = entries.Length;
             var code = alloc<RawMemberCode>(count);
@@ -24,7 +24,7 @@ namespace Z0
             return code;
         }
 
-        static void collect(SymbolDispenser symbols, MethodEntryPoint entry, out RawMemberCode dst)
+        static void collect(ICompositeDispenser symbols, MethodEntryPoint entry, out RawMemberCode dst)
         {
             dst = new RawMemberCode();
             dst.Entry = entry.Location;

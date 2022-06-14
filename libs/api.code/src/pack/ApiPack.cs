@@ -25,7 +25,7 @@ namespace Z0
         ApiExtractSettings IApiPack.ExtractSettings
             => ExtractSettings;
 
-        FS.FolderPath IFileArchive.Root
+        FS.FolderPath IRootedArchive.Root
             => ExtractSettings.ExtractRoot;
 
         Outcome<Timestamp> ParseTimestamp()

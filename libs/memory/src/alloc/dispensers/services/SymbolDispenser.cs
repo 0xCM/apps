@@ -6,33 +6,28 @@ namespace Z0
 {
     using static core;
 
-    public class SymbolDispenser : IAllocDispenser
+    public class SymbolDispenser : Dispenser<SymbolDispenser>, ISymbolDispenser
     {
         const uint Capacity = MemoryPage.PageSize;
 
         readonly Dictionary<long,LabelAllocator> Allocators;
 
-        object locker;
-
         public SymbolDispenser(uint capacity = Capacity)
+            : base(true)
         {
             Allocators = new();
-            locker = new();
             Allocators[Seq] = LabelAllocator.alloc(Capacity);
         }
 
-        void IDisposable.Dispose()
+        protected override void Dispose()
         {
-            core.iter(Allocators.Values, a => a.Dispose());
+            iter(Allocators.Values, a => a.Dispose());
         }
-
-        public AllocationKind Kind
-            => AllocationKind.Symbol;
 
         Label DispenseLabel(string content)
         {
             var label = Label.Empty;
-            lock(locker)
+            lock(Locker)
             {
                 var allocator = Allocators[Seq];
                 if(!allocator.Alloc(content, out label))
@@ -50,11 +45,5 @@ namespace Z0
 
         public LocatedSymbol Symbol(SymAddress location, string name)
             => new LocatedSymbol(location, DispenseLabel(name));
-
-        static long Seq;
-
-        [MethodImpl(Inline)]
-        static uint next()
-            => (uint)inc(ref Seq);
     }
 }

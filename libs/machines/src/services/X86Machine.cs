@@ -117,7 +117,7 @@ namespace Z0
         public void Dispose()
         {
             Regs.Dispose();
-            Ram.Dispose();
+            (Ram as IDisposable).Dispose();
         }
 
         [MethodImpl(Inline), Op]

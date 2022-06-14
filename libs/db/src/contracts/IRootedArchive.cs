@@ -13,6 +13,9 @@ namespace Z0
         IDbSources Sources()
             => DbFiles.Sources();
 
+        IDbTargets Targets()
+            => DbFiles.Targets();
+
         IDbSources Sources(string scope)
             => DbFiles.Sources(scope);
 

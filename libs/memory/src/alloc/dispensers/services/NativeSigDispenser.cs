@@ -6,47 +6,39 @@ namespace Z0
 {
     using static core;
 
-    public class NativeSigDispenser : Dispenser<NativeSigDispenser>
+    public class NativeSigDispenser : Dispenser<NativeSigDispenser>, ISigDispenser
     {
-        const uint Capacity = MemoryPage.PageSize*8;
-
-        readonly MemDispenser Memory;
+        readonly MemoryDispenser Memory;
 
         readonly StringDispenser Strings;
 
         readonly LabelDispenser Labels;
 
-        readonly ConcurrentDictionary<Hex64,NativeSig> Sigs;
+        readonly ConcurrentDictionary<Hex64,NativeSig> Dispensed;
 
-        object locker;
-
-        bool OwnsDispensers;
-
-        static long Id;
-
-        [MethodImpl(Inline)]
-        static uint NextId()
-            => (uint)inc(ref Id);
-
-        public NativeSigDispenser(MemDispenser mem, StringDispenser strings, LabelDispenser labels)
-            : base(AllocationKind.NativeSig)
+        internal NativeSigDispenser(MemoryDispenser mem, StringDispenser strings, LabelDispenser labels)
+            : base(false)
         {
-            locker = new();
             Memory = mem;
             Strings = strings;
             Labels = labels;
-            Sigs = new();
-            OwnsDispensers = false;
+            Dispensed = new();
         }
 
-        public override void Dispose()
+        public NativeSigDispenser()
+            : base(true)
         {
-            if(OwnsDispensers)
-            {
-                (Memory as IDisposable).Dispose();
-                (Strings as IDisposable).Dispose();
-                (Labels as IDisposable).Dispose();
-            }
+            Memory = Dispense.memory();
+            Strings = Dispense.strings();
+            Labels = Dispense.labels();
+            Dispensed = new();
+        }
+
+        protected override void Dispose()
+        {
+            (Memory as IDisposable).Dispose();
+            (Strings as IDisposable).Dispose();
+            (Labels as IDisposable).Dispose();
         }
 
         [MethodImpl(Inline)]
@@ -55,10 +47,10 @@ namespace Z0
 
         public NativeSig Sig(string scope, string opname, NativeType ret, params NativeOpDef[] opspecs)
         {
-            var id = NextId();
+            var id = next();
             var count = (byte)opspecs.Length;
             var size = size<byte>() + size<StringRef>() + (count + 1)*NativeOp.StorageSize;
-            var data = Memory.DispenseMemory(size);
+            var data = Memory.Memory(size);
             var dst = new NativeSig(id, data);
             dst.Scope = Strings.String(scope);
             dst.Name = Strings.String(opname);

@@ -7,24 +7,24 @@ namespace Z0
     partial class ApiCode
     {
         public EncodedMembers LoadEncoded()
-            => LoadEncoded(Dispense.dispenser(Dispense.symbols));
+            => LoadEncoded(Dispense.composite());
 
         public EncodedMembers LoadEncoded(string spec)
-            => LoadEncoded(Dispense.dispenser(Dispense.symbols), spec);
+            => LoadEncoded(Dispense.composite(), spec);
 
         public EncodedMembers LoadEncoded(PartId src)
         {
             Load(src, out var index, out var code);
-            return members(Dispense.dispenser(Dispense.symbols), index, code);
+            return members(Dispense.composite(), index, code);
         }
 
-        EncodedMembers LoadEncoded(SymbolDispenser symbols)
+        EncodedMembers LoadEncoded(ICompositeDispenser symbols)
         {
             Load(out var index, out var code);
             return members(symbols, index, code);
         }
 
-        EncodedMembers LoadEncoded(SymbolDispenser symbols, string spec)
+        EncodedMembers LoadEncoded(ICompositeDispenser symbols, string spec)
         {
             if(text.nonempty(spec))
             {
@@ -38,13 +38,13 @@ namespace Z0
                 return LoadEncoded(symbols);
         }
 
-        EncodedMembers LoadEncoded(SymbolDispenser symbols, ApiHostUri src)
+        EncodedMembers LoadEncoded(ICompositeDispenser symbols, ApiHostUri src)
         {
             Load(src, out var index, out var code);
             return members(symbols, index, code);
         }
 
-        EncodedMembers LoadEncoded(SymbolDispenser symbols, PartId src)
+        EncodedMembers LoadEncoded(ICompositeDispenser symbols, PartId src)
         {
             Load(src, out var index, out var code);
             return members(symbols, index, code);

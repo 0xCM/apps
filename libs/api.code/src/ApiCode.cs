@@ -25,8 +25,8 @@ namespace Z0
         public SortedIndex<ApiCodeBlock> LoadBlocks()
             => blocks(Files.HexFiles());
 
-        public MemoryBlocks LoadMemoryBlocks()
-            => LoadMemoryBlocks(Files.Targets().Root);
+        // public MemoryBlocks LoadMemoryBlocks()
+        //     => LoadMemoryBlocks(Files.MemoryBlocks().Root);
 
         public MemoryBlocks LoadMemoryBlocks(FS.FolderPath src)
             => ApiHex.LoadMemoryBlocks(src);
@@ -67,21 +67,21 @@ namespace Z0
             return dst;
         }
 
-        public Index<CollectedEncoding> Collect(SymbolDispenser symbols)
+        public Index<CollectedEncoding> Collect(ICompositeDispenser dst)
         {
-            var collected = Collect(symbols, CalcEntryPoints());
+            var collected = Collect(dst, CalcEntryPoints());
             Emit(collected, Files.Path(FS.Csv), Files.Path(FS.Hex));
             return collected;
         }
 
-        public Index<CollectedEncoding> Collect(IPart part, SymbolDispenser symbols, IApiPack dst)
+        public Index<CollectedEncoding> Collect(IPart part, ICompositeDispenser symbols, IApiPack dst)
         {
             var collected = Collect(symbols, part);
             Emit(part.Id, collected, dst);
             return collected;
         }
 
-        public Index<CollectedEncoding> Collect(SymbolDispenser symbols, ApiHostUri src)
+        public Index<CollectedEncoding> Collect(ICompositeDispenser symbols, ApiHostUri src)
         {
             var entries = CalcEntryPoints(src);
             var collected = sys.empty<CollectedEncoding>();
@@ -115,10 +115,10 @@ namespace Z0
             return new MemoryBlocks(dst.Sort());
         }
 
-        public Index<CollectedEncoding> Collect(SymbolDispenser symbols, IPart src)
+        public Index<CollectedEncoding> Collect(ICompositeDispenser symbols, IPart src)
             => Collect(symbols, MethodEntryPoints.create(ApiJit.JitPart(src)));
 
-        public Index<CollectedEncoding> Collect(SymbolDispenser symbols, PartId src)
+        public Index<CollectedEncoding> Collect(ICompositeDispenser symbols, PartId src)
         {
             var entries = CalcEntryPoints(src);
             var collected = sys.empty<CollectedEncoding>();
@@ -135,13 +135,13 @@ namespace Z0
 
         public Index<CollectedEncoding> Collect()
         {
-            using var symbols = Dispense.symbols();
+            using var symbols = Dispense.composite();
             var collected = Collect(symbols, CalcEntryPoints());
             Emit(collected, Files.Path(FS.Csv), Files.Path(FS.Hex));
             return collected;
         }
 
-        public Index<CollectedEncoding> Collect(SymbolDispenser symbols, string spec)
+        public Index<CollectedEncoding> Collect(ICompositeDispenser symbols, string spec)
         {
             var emitted = Index<CollectedEncoding>.Empty;
             if(text.nonempty(spec))
@@ -160,13 +160,13 @@ namespace Z0
 
         public Index<CollectedEncoding> Collect(ApiHostUri src)
         {
-            using var symbols = Dispense.symbols();
+            using var symbols = Dispense.composite();
             return Collect(symbols, src);
         }
 
         public Index<CollectedEncoding> Collect(PartId src)
         {
-            using var symbols = Dispense.symbols();
+            using var symbols = Dispense.composite();
             return Collect(symbols, src);
         }
 
@@ -188,7 +188,7 @@ namespace Z0
         }
 
         Index<EncodedMember> Emit(PartId part, Index<CollectedEncoding> src, IApiPack dst)
-            => Emit(src, dst.PartHex(part), dst.PartCsv(part));
+            => Emit(src, dst.HexPath(part), dst.CsvPath(part));
 
         public ByteSize EmitHex(Index<CollectedEncoding> src, FS.FilePath dst)
         {
@@ -258,7 +258,7 @@ namespace Z0
             ApiCode.index(Files.CsvPath(src), out index).Require();
         }
 
-        Index<CollectedEncoding> Collect(SymbolDispenser symbols, ReadOnlySpan<MethodEntryPoint> src)
+        Index<CollectedEncoding> Collect(ICompositeDispenser symbols, ReadOnlySpan<MethodEntryPoint> src)
             => divine(collect(symbols, src), x => Write(x.Format(), x.Flair));
 
         Index<EncodedMember> Emit(Index<CollectedEncoding> src, FS.FilePath hex, FS.FilePath csv)

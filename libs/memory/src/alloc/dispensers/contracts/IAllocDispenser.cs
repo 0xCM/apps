@@ -4,8 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    [Free]
     public interface IAllocDispenser : IDisposable
     {
-        AllocationKind Kind {get;}
+
+    }
+
+    [Free]
+    public interface IAllocDispenser<T> : IAllocDispenser
+    {
+
     }
 }

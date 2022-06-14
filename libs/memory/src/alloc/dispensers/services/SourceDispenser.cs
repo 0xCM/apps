@@ -6,33 +6,28 @@ namespace Z0
 {
     using static core;
 
-    public class SourceDispenser : IAllocDispenser
+    public class SourceDispenser : Dispenser<SourceDispenser>, ISourceDispenser
     {
         const uint Capacity = MemoryPage.PageSize*8;
 
         readonly Dictionary<long,SourceAllocator> Allocators;
 
-        object locker;
-
-        public SourceDispenser(uint capacity = Capacity)
+        internal SourceDispenser(uint capacity = Capacity)
+            : base(true)
         {
-            locker = new();
             Allocators = new();
             Allocators[Seq] = SourceAllocator.alloc(Capacity);
         }
 
-        public void Dispose()
+        protected override void Dispose()
         {
-            core.iter(Allocators.Values, a => a.Dispose());
+            iter(Allocators.Values, a => a.Dispose());
         }
 
-        public AllocationKind Kind
-            => AllocationKind.Source;
-
-        public SourceText Store(string src)
+        public SourceText Source(string src)
         {
             var dst = SourceText.Empty;
-            lock(locker)
+            lock(Locker)
             {
                 var alloc = Allocators[Seq];
                 if(!alloc.Alloc(src, out dst))
@@ -45,17 +40,11 @@ namespace Z0
             return dst;
         }
 
-        public SourceText Store(ReadOnlySpan<string> src)
+        public SourceText Source(ReadOnlySpan<string> src)
         {
             var dst = text.buffer();
             iter(src, x => dst.AppendLine(x));
-            return Store(dst.Emit());
+            return Source(dst.Emit());
         }
-
-        static long Seq;
-
-        [MethodImpl(Inline)]
-        static uint next()
-            => (uint)inc(ref Seq);
    }
 }

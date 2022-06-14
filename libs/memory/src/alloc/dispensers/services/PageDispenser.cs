@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public class PageDispenser : IAllocDispenser
+    public class PageDispenser : Dispenser<PageDispenser>, IPageDispenser
     {
         readonly Dictionary<long,PageAllocator> Allocators;
 
@@ -16,15 +16,13 @@ namespace Z0
 
         static ByteSize PageSize => PageBlocks.PageSize;
 
-        public PageDispenser(uint capacity = Capacity)
+        internal PageDispenser(uint capacity = Capacity)
+            : base(true)
         {
             Allocators = new();
             locker = new();
             Allocators[Seq] = PageAllocator.alloc(Capacity);
         }
-
-        public AllocationKind Kind
-            => AllocationKind.Page;
 
         public MemorySeg Page()
         {
@@ -42,13 +40,13 @@ namespace Z0
             return new MemorySeg(address, PageSize);
         }
 
-        static long Seq;
+        // static long Seq;
 
-        [MethodImpl(Inline)]
-        static uint next()
-            => (uint)inc(ref Seq);
+        // [MethodImpl(Inline)]
+        // static uint next()
+        //     => (uint)inc(ref Seq);
 
-        public void Dispose()
+        protected override void Dispose()
             => core.iter(Allocators.Values, a => a.Dispose());
     }
 

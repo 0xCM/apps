@@ -81,7 +81,7 @@ namespace Z0
 
         internal class EncodingData
         {
-            internal SymbolDispenser Symbols;
+            internal ICompositeDispenser Symbols;
 
             internal Index<EncodedMember> Members;
 

@@ -4,24 +4,34 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System;
     using static core;
 
     public abstract class Dispenser<T> : IAllocDispenser
         where T : Dispenser<T>
     {
-        public AllocationKind Kind {get;}
-
         protected static long Seq;
 
         [MethodImpl(Inline)]
         protected static uint next()
             => (uint)inc(ref Seq);
 
-        public abstract void Dispose();
+        protected object Locker;
 
-        protected Dispenser(AllocationKind kind)
+        protected abstract void Dispose();
+
+        protected bool OwnsResource {get;}
+
+        protected Dispenser(bool owns)
         {
-            Kind = kind;
+            Locker = new();
+            OwnsResource =owns;
+        }
+
+        void IDisposable.Dispose()
+        {
+            if(OwnsResource)
+                Dispose();
         }
     }
 }
