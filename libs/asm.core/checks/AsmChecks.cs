@@ -131,6 +131,7 @@ namespace Z0
 
         void CheckJmp32(N1 n)
         {
+            var w = w8;
             var result = Outcome.Success;
             var cases = AsmCases.jmp32();
             var count = cases.Count;
@@ -207,7 +208,7 @@ namespace Z0
             const ulong Target = 0x7fff92427890ul;
             const ulong Source = Base + Offset;
 
-            Rip rip = Rip.define(Source,InstSize);
+            var rip = AsmRel.rip(Source,InstSize);
 
             Hex.hexbytes(Encoding, out var enc1);
             var dx = AsmRel32.disp(enc1);
@@ -365,7 +366,7 @@ namespace Z0
                 const ushort Offset = 0x25;
                 const uint Disp = 0xfc632176;
                 const ulong IP = Base + Offset;
-                Rip rip = Rip.define(IP, 5);
+                var rip = AsmRel.rip(IP, 5);
                 var call = CallRel32.define(rip, (Disp32)Disp);
                 Write(call.Format());
             }

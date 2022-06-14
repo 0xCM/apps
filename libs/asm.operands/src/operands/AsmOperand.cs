@@ -184,8 +184,8 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public AsmOperand(Disp8 src)
         {
-            OpClass = src.OpClass;
-            OpKind = src.OpKind;
+            OpClass = AsmOpClass.Disp;
+            OpKind = AsmOpKind.Disp8;
             Size = src.Size;
             _Data = B.Empty;
             @as<B,Disp>(_Data) = src;
@@ -194,8 +194,8 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public AsmOperand(Disp16 src)
         {
-            OpClass = src.OpClass;
-            OpKind = src.OpKind;
+            OpClass = AsmOpClass.Disp;
+            OpKind = AsmOpKind.Disp16;
             Size = src.Size;
             _Data = B.Empty;
             @as<B,Disp>(_Data) = src;
@@ -204,8 +204,8 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public AsmOperand(Disp32 src)
         {
-            OpClass = src.OpClass;
-            OpKind = src.OpKind;
+            OpClass = AsmOpClass.Disp;
+            OpKind = AsmOpKind.Disp32;
             Size = src.Size;
             _Data = B.Empty;
             @as<B,Disp>(_Data) = src;
@@ -214,8 +214,8 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public AsmOperand(Disp64 src)
         {
-            OpClass = src.OpClass;
-            OpKind = src.OpKind;
+            OpClass = AsmOpClass.Disp;
+            OpKind = AsmOpKind.Disp64;
             Size = src.Size;
             _Data = B.Empty;
             @as<B,Disp>(_Data) = src;
@@ -224,8 +224,8 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public AsmOperand(Rel8 src)
         {
-            OpClass = src.OpClass;
-            OpKind = src.OpKind;
+            OpClass = AsmOpClass.Rel;
+            OpKind = AsmOpKind.Rel8;
             Size = src.Size;
             _Data = B.Empty;
             @as<B,Rel>(_Data) = src;
@@ -234,8 +234,8 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public AsmOperand(Rel16 src)
         {
-            OpClass = src.OpClass;
-            OpKind = src.OpKind;
+            OpClass = AsmOpClass.Rel;
+            OpKind = AsmOpKind.Rel16;
             Size = src.Size;
             _Data = B.Empty;
             @as<B,Rel>(_Data) = src;
@@ -244,8 +244,8 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public AsmOperand(Rel32 src)
         {
-            OpClass = src.OpClass;
-            OpKind = src.OpKind;
+            OpClass = AsmOpClass.Rel;
+            OpKind = AsmOpKind.Rel32;
             Size = src.Size;
             _Data = B.Empty;
             @as<B,Rel>(_Data) = src;

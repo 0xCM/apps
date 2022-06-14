@@ -4,9 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class AsmModels : WfSvc<AsmModels>
+    public class AsmModels : AppService<AsmModels>
     {
-
         static EnumRender<AsmSigTokenKind> SigTokenRender = new();
 
         static EnumParser<AsmSigTokenKind> SigTokenParser = new();

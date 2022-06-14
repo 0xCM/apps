@@ -6,10 +6,6 @@ namespace Z0.Asm
 {
     public readonly struct Rip
     {
-        [MethodImpl(Inline)]
-        public static Rip define(MemoryAddress callsite, byte instsize)
-            => new Rip(callsite, instsize);
-
         public readonly MemoryAddress Address;
 
         [MethodImpl(Inline)]

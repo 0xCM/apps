@@ -6,6 +6,11 @@ namespace Z0
 {
     using static core;
 
+    public readonly struct HexLine
+    {
+        public const string HexPackPattern = "x{0:x}[{1:D5}:{2:D5}]=<{3}>";
+    }
+
     [ApiHost]
     public partial class ApiHex : WfSvc<ApiHex>
     {

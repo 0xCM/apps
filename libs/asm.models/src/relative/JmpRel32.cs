@@ -10,18 +10,6 @@ namespace Z0.Asm
     public readonly struct JmpRel32 : IAsmRelInst<Disp32>
     {
         [MethodImpl(Inline), Op]
-        public static JmpRel32 define(Rip src, MemoryAddress dst)
-            => new JmpRel32(src, dst);
-
-        [MethodImpl(Inline), Op]
-        public static JmpRel32 define(LocatedSymbol src, LocatedSymbol dst)
-            => new JmpRel32(src, dst);
-
-        [MethodImpl(Inline), Op]
-        public static JmpRel32 define(Rip rip, Disp32 disp)
-            => new JmpRel32(rip.Address, AsmRel32.target(rip, disp));
-
-        [MethodImpl(Inline), Op]
         public static bool test(ReadOnlySpan<byte> encoding)
             => encoding.Length >= InstSize && core.first(encoding) == OpCode;
 

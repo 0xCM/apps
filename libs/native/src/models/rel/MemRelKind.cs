@@ -4,14 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public static class XSvc
+    public enum MemRelKind : byte
     {
-        // sealed class Svc : AppServices<Svc>
-        // {
+        Rel8 = 0,
 
-        // }
+        Rel16 = 1,
 
-        // static Svc Services => Svc.Instance;
-
+        Rel32 = 2,
     }
 }

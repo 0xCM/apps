@@ -25,9 +25,6 @@ namespace Z0
         public SortedIndex<ApiCodeBlock> LoadBlocks()
             => blocks(Files.HexFiles());
 
-        // public MemoryBlocks LoadMemoryBlocks()
-        //     => LoadMemoryBlocks(Files.MemoryBlocks().Root);
-
         public MemoryBlocks LoadMemoryBlocks(FS.FolderPath src)
             => ApiHex.LoadMemoryBlocks(src);
 

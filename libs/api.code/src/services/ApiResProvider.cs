@@ -32,7 +32,7 @@ namespace Z0
                   .Select(p => p.GetGetMethod(true))
                   .Where(m  => m != null)
                   .Concrete()
-                  .Select(x => new SpanResAccessor(x, ResKind(x.ReturnType)));
+                  .Select(x => new SpanResAccessor(MethodEntryPoints.create(x), ResKind(x.ReturnType)));
 
         /// <summary>
         /// Queries the source types for ByteSpan property getters
