@@ -33,16 +33,22 @@ namespace Z0
             => Wf.Warn(HostType, string.Format(pattern,args));
 
         void Error<T>(T content)
-            => Wf.Error(HostType,  core.require(content));
+            => Wf.Error(HostType, core.require(content));
 
         void Write<T>(T content)
-            => Wf.Row(content, null);
+            => Wf.Row(HostType, content, null);
 
         void Write<T>(T content, FlairKind flair)
-            => Wf.Row(content, flair);
+            => Wf.Row(HostType, content, flair);
 
         void Write<T>(string name, T value, FlairKind? flair = null)
-            => Wf.Row(RP.attrib(name, value), flair);
+            => Wf.Row(HostType, RP.attrib(name, value), flair);
+
+        WfExecFlow<Type> Creating(Type host)
+            => Wf.Creating(host);
+
+        ExecToken Created(WfExecFlow<Type> flow)
+            => Wf.Created(flow);
 
         WfExecFlow<T> Running<T>(T msg)
             => Wf.Running(HostType, msg);

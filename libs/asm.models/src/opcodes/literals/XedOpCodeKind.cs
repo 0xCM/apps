@@ -12,6 +12,11 @@ namespace Z0
     using V = VexMapKind;
     using E = EvexMapKind;
 
+    partial class XedLiterals
+    {
+
+    }
+
     [SymSource(AsmOpCodeMaps.group)]
     public enum XedOpCodeKind : ushort
     {

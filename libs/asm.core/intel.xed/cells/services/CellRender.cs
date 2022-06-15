@@ -4,10 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     using static XedModels;
     using static XedPatterns;
+    using static XedLiterals;
     using static MachineModes;
     using static core;
 

@@ -10,6 +10,7 @@ namespace Z0
     using static XedModels;
     using static XedRules;
     using static XedImport;
+    using static XedLiterals;
 
     using static core;
 
@@ -454,7 +455,7 @@ namespace Z0
         public static bool parse(string src, out InstClassType dst)
             => Classes.Parse(src, out dst);
 
-        public static bool parse(string src, out InstClass dst)
+        public static bool parse(string src, out AsmInstClass dst)
         {
             if(parse(src, out InstClassType @class))
             {
@@ -463,7 +464,7 @@ namespace Z0
             }
             else
             {
-                dst = InstClass.Empty;
+                dst = AsmInstClass.Empty;
                 return false;
             }
         }

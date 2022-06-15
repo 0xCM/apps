@@ -6,7 +6,7 @@
 namespace Z0
 {
     using static XedModels;
-    
+
     partial class XedRules
     {
         public class InstGroupMember : IComparable<InstGroupMember>
@@ -79,7 +79,7 @@ namespace Z0
                 get => ref Seq.Mode;
             }
 
-            public ref readonly InstClass Class
+            public ref readonly AsmInstClass Class
             {
                 [MethodImpl(Inline)]
                 get => ref Seq.Instruction;

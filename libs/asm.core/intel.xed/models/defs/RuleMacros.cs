@@ -16,13 +16,14 @@ namespace Z0
     using static XedModels.SegPrefixKind;
     using static VexMapKind;
     using static XedModels.BCastKind;
+    using static XedLiterals;
     using static bit;
 
     using K = XedRules.FieldKind;
     using M = XedRules.RuleMacroKind;
     using P = XedModels.RepPrefix;
     using D = XedModels.SegDefaultKind;
-    using V = XedVexKind;
+    using V = XedLiterals.XedVexKind;
     using X = XopMapKind;
 
     using static core;

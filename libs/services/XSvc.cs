@@ -23,6 +23,9 @@ namespace Z0
             public CheckRunner CheckRunner(IWfRuntime wf)
                 => Service<CheckRunner>(wf);
 
+            public AppSvcOps<T> AppSvc<T>(IWfRuntime wf)
+                where T : IAppService<T>, new()
+                    => Service<AppSvcOps<T>>(wf);
         }
 
         static AppSvcCache Services => AppSvcCache.Instance;
@@ -31,6 +34,13 @@ namespace Z0
             => Services.Tooling(wf);
 
         public static AppSvcOps AppSvc(this IWfRuntime wf)
+            => Services.AppSvc(wf);
+
+        public static AppSvcOps<T> AppSvc<T>(this IWfRuntime wf, T svc = default)
+            where T : IAppService<T>, new()
+                => Services.AppSvc<T>(wf);
+
+        public static AppSvcOps AppSvc(this IWfRuntime wf, Type host)
             => Services.AppSvc(wf);
 
         public static WsScripts WsScripts(this IWfRuntime wf)

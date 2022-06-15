@@ -59,10 +59,10 @@ namespace Z0
                 return result;
             }
 
-            internal static Outcome parse(in DisasmBlock src, out InstClass dst)
+            internal static Outcome parse(in DisasmBlock src, out AsmInstClass dst)
             {
                 var result = Outcome.Success;
-                dst = InstClass.Empty;
+                dst = AsmInstClass.Empty;
                 ref readonly var content = ref src.Props.Content;
                 if(text.nonempty(content))
                 {
@@ -72,7 +72,7 @@ namespace Z0
                         var expr = text.left(content,j);
                         if(!XedParsers.parse(expr, out dst))
                         {
-                            result = (false, AppMsg.ParseFailure.Format(nameof(InstClass), content));
+                            result = (false, AppMsg.ParseFailure.Format(nameof(AsmInstClass), content));
                             return result;
                         }
                     }
@@ -106,7 +106,7 @@ namespace Z0
                 return result;
             }
 
-            internal static void parse(in DisasmBlock src, out InstClass @class, out InstForm form)
+            internal static void parse(in DisasmBlock src, out AsmInstClass @class, out InstForm form)
             {
                 var content = text.trim(text.split(text.despace(src.Props.Content), Chars.Space));
                 XedParsers.parse(skip(content,0), out @class);

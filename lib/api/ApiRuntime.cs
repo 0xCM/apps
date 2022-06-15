@@ -12,16 +12,16 @@ namespace Z0
             => FS.path(control.Location).FolderPath;
 
         public static IWfRuntime create()
-            => WfAppLoader.create(parts(), array<string>(), EmptyString);
+            => create(parts(), array<string>(), EmptyString);
 
         public static IWfRuntime create(string[] args)
-            => WfAppLoader.create(parts(controller(), args), args, EmptyString);
+            => create(parts(controller(), args), args, EmptyString);
 
         public static IWfRuntime create(PartId[] ids, string[] args)
-            => WfAppLoader.create(parts(controller(), ids, true), args, EmptyString);
+            => create(parts(controller(), ids, true), args, EmptyString);
 
         public static IWfRuntime create(PartId[] ids, string[] args, string log)
-            => WfAppLoader.create(parts(controller(), ids, true), args, log);
+            => create(parts(controller(), ids, true), args, log);
 
         public static IWfRuntime create(IApiParts parts, string[] args)
         {
@@ -43,7 +43,7 @@ namespace Z0
             dst.Paths = AppPaths.create();
             dst.AppName = id.PartName();
             dst.EventBroker = WfBroker.create(dst.LogConfig);
-            dst.Host = new WfHost(typeof(WfRuntime), typeof(WfRuntime));
+            dst.Host = new WfHost(typeof(WfRuntime));
             dst.EmissionLog = Loggers.emission(dst.LogConfig.LogId, dst.Env);
             var wf = new WfRuntime(dst);
             term.inform(AppMsg.status(InitializedRuntime.Format(now(), clock.Elapsed())));
@@ -182,6 +182,33 @@ namespace Z0
         static FS.FolderPath location()
             => FS.path(controller().Location).FolderPath;
 
+
+        internal static IWfRuntime create(IApiParts parts, string[] args, string logname = EmptyString)
+        {
+            term.inform(InitializingRuntime.Format(now()));
+            var clock = Time.counter(true);
+            var control = controller();
+            var id = control.Id();
+            var paths = AppPaths.create();
+            var dst = new WfInit();
+            dst.Env = Env.load().Data;
+            dst.Ct = PartToken.create(id);
+            dst.Tokens = TokenDispenser.create();
+            dst.Settings = JsonSettings.load(control);
+            dst.Control = control;
+            dst.ControlId = id;
+            dst.LogConfig = Loggers.configure(id, paths.Root, logname);
+            dst.ApiParts = parts;
+            dst.Args = args;
+            dst.Paths = AppPaths.create();
+            dst.AppName = id.PartName();
+            dst.EventBroker = WfBroker.create(dst.LogConfig);
+            dst.Host = new WfHost(typeof(WfRuntime));
+            dst.EmissionLog = Loggers.emission(dst.LogConfig.LogId, dst.Env);
+            var wf = new WfRuntime(dst);
+            term.inform(AppMsg.status(InitializedRuntime.Format(now(), clock.Elapsed())));
+            return wf;
+        }
 
         static MsgPattern<Timestamp> InitializingRuntime => "Initializing runtime at {0}";
 

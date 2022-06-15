@@ -4,61 +4,54 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
+    // [Free]
+    // public interface IWfStepId
+    // {
+    //     /// <summary>
+    //     /// The fully-qualified host name
+    //     /// </summary>
+    //     string HostName {get;}
 
-    using static Root;
+    //     /// <summary>
+    //     /// The step token
+    //     /// </summary>
+    //     WfHostId Token {get;}
+    // }
 
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
+    // [Free]
+    // public interface IWfStepId<H> : IWfStepId, IComparable<H>, IEquatable<H>
+    //     where H : struct, IWfStepId<H>
+    // {
+    //     /// <summary>
+    //     /// The step token
+    //     /// </summary>
+    //     WfHostId IWfStepId.Token
+    //     {
+    //         [MethodImpl(Inline)]
+    //         get => new WfHostId((ulong)typeof(H).MetadataToken);
+    //     }
 
-    [Free]
-    public interface IWfStepId : ITextual
-    {
-        /// <summary>
-        /// The fully-qualified host name
-        /// </summary>
-        string HostName {get;}
+    //     string IWfStepId.HostName
+    //         => typeof(H).AssemblyQualifiedName;
 
-        /// <summary>
-        /// The step token
-        /// </summary>
-        WfHostId Token {get;}
-    }
+    //     string Name
+    //         => HostName;
 
-    [Free]
-    public interface IWfStepId<H> : IWfStepId, IComparable<H>, IEquatable<H>
-        where H : struct, IWfStepId<H>
-    {
-        /// <summary>
-        /// The step token
-        /// </summary>
-        WfHostId IWfStepId.Token
-        {
-            [MethodImpl(Inline)]
-            get => new WfHostId((ulong)typeof(H).MetadataToken);
-        }
+    //     string ITextual.Format()
+    //         => HostName;
 
-        string IWfStepId.HostName
-            => typeof(H).AssemblyQualifiedName;
+    //     [MethodImpl(Inline)]
+    //     bool IEquatable<H>.Equals(H src)
+    //         => src.Token.Value == Token.Value;
 
-        string Name
-            => HostName;
+    //     [MethodImpl(Inline)]
+    //     int IComparable<H>.CompareTo(H src)
+    //         => HostName.CompareTo(src.HostName);
 
-        string ITextual.Format()
-            => HostName;
-
-        [MethodImpl(Inline)]
-        bool IEquatable<H>.Equals(H src)
-            => src.Token.Value == Token.Value;
-
-        [MethodImpl(Inline)]
-        int IComparable<H>.CompareTo(H src)
-            => HostName.CompareTo(src.HostName);
-
-        uint Hashed
-        {
-            [MethodImpl(Inline)]
-            get => (uint)alg.hash.calc(typeof(H));
-        }
-    }
+    //     uint Hashed
+    //     {
+    //         [MethodImpl(Inline)]
+    //         get => (uint)alg.hash.calc(typeof(H));
+    //     }
+    // }
 }

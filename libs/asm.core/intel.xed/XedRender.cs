@@ -11,6 +11,7 @@ namespace Z0
     using static XedRules;
     using static XedDisasm;
     using static XedDisasmModels;
+    using static XedLiterals;
     using static core;
 
     using OC = XedRules.OpAttribKind;
@@ -28,7 +29,7 @@ namespace Z0
         static EnumRender<BCast32Kind> BCast32 = new();
 
         static EnumRender<BCast64Kind> BCast64 = new();
-        
+
         static EnumRender<ElementSize> ElementSizes = new();
 
         static EnumRender<DispWidth> DispWidthKinds = new();
@@ -741,7 +742,7 @@ namespace Z0
             var dst = text.buffer();
 
             if(src.Antecedant.Count == 0)
-                dst.Append(XedNames.Null);
+                dst.Append(XedLiterals.Null);
 
             for(var i=0; i<src.Antecedant.Count; i++)
             {
@@ -752,7 +753,7 @@ namespace Z0
 
             if(src.Consequent.Count != 0)
             {
-                dst.AppendFormat(" {0} ", XedNames.Implication);
+                dst.AppendFormat(" {0} ", XedLiterals.Implication);
 
                 for(var i=0; i<src.Consequent.Count; i++)
                 {

@@ -6,6 +6,7 @@ namespace Z0
 {
     using static XedModels;
     using static MachineModes;
+    using static XedLiterals;
 
     partial class XedRules
     {
@@ -211,7 +212,7 @@ namespace Z0
                 => new FieldSeg(Field, (SegVar)Data);
 
             [MethodImpl(Inline)]
-            public InstClass ToInstClass()
+            public AsmInstClass ToInstClass()
                 => (InstClassType)Data;
 
             [MethodImpl(Inline)]

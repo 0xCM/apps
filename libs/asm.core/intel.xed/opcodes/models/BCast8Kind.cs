@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using N = XedNames;
+    using N = XedLiterals;
 
     partial struct XedModels
     {

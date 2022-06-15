@@ -10,7 +10,7 @@ namespace Z0
     using static XedModels;
     using static core;
 
-    public partial class XedImport : AppService<XedImport>
+    public partial class XedImport : WfSvc<XedImport>
     {
         public static ref readonly Index<AsmBroadcast> BroadcastDefs
         {
@@ -20,9 +20,7 @@ namespace Z0
 
         XedPaths XedPaths => Wf.XedPaths();
 
-        AppSvcOps AppSvc => Wf.AppSvc();
-
-        AppDb AppDb => Wf.AppDb();
+        IWfSvc AppSvc => Wf.AppSvc(this);
 
         IDbTargets Targets() => XedPaths.Imports();
 

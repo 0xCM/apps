@@ -29,7 +29,7 @@ namespace Z0
             return service;
         }
 
-        public Identifier HostName {get;}
+        public virtual Type EffectiveHost {get;}
 
         static ConcurrentDictionary<Type,object> ServiceCache {get;}
             = new();
@@ -96,11 +96,11 @@ namespace Z0
 
         protected IProjectDb ProjectDb;
 
-        public EnvData Env => Wf.Env;
+        public EnvData Env {get; private set;}
 
         protected IEnvPaths Paths => new EnvPaths(Env);
 
-        public IWfEmitters WfEmit => _TableOps;
+        public IWfEmitters WfEmit {get; private set;}
 
         protected AppSettings AppSettings => Service(Wf.AppSettings);
 
@@ -110,50 +110,36 @@ namespace Z0
         protected Type HostType
             => typeof(H);
 
-        DevWs _Ws;
-
         FS.Files _Files;
 
-        WfMsgSvc _WfMsg;
+        public DevWs Ws {get; private set;}
 
-        WfEmitters _TableOps;
-
-        public DevWs Ws
-        {
-            [MethodImpl(Inline)]
-            get => _Ws;
-        }
-
-        public IWfMsg WfMsg
-        {
-            [MethodImpl(Inline)]
-            get => _WfMsg;
-        }
+        public IWfMsg WfMsg {get; private set;}
 
         public void Init(IWfRuntime wf)
         {
-            var flow = wf.Creating(typeof(H).Name);
-            Host = new WfSelfHost(typeof(H));
             Wf = wf;
-            _WfMsg = new WfMsgSvc(wf, Env);
-            _TableOps = new WfEmitters(wf,Env);
-            Db = new WfDb(wf, wf.Env.Db);
-            _Ws = DevWs.create(wf.Env.DevWs);
+            Env = wf.Env;
+            WfMsg = new WfMsgSvc(Wf, EffectiveHost, Env);
+            WfEmit = new WfEmitters(Wf, EffectiveHost, Env);
+            var flow = WfMsg.Creating(EffectiveHost);
+            Db = new WfDb(Wf, Env.Db);
+            Ws = DevWs.create(Env.DevWs);
             ProjectDb = Ws.ProjectDb();
             OnInit();
             Initialized();
-            wf.Created(flow);
+            WfMsg.Created(flow);
         }
 
         protected AppService()
         {
-            HostName = GetType().Name;
+            Host = new WfHost(typeof(H));
+            EffectiveHost = typeof(H);
         }
 
         protected AppService(IWfRuntime wf)
             : this()
         {
-            Host = new WfSelfHost(HostName);
             Wf = wf;
         }
 
@@ -237,14 +223,14 @@ namespace Z0
         {
             var count = src.Length;
             for(var i=0; i<count; i++)
-                Write(skip(src,i), flair ?? FlairKind.Data);
+                WfMsg.Write(skip(src,i), flair ?? FlairKind.Data);
         }
 
         protected void Write<T>(Span<T> src, FlairKind? flair = null)
         {
             var count = src.Length;
             for(var i=0; i<count; i++)
-                Write(skip(src,i), flair ?? FlairKind.Data);
+                WfMsg.Write(skip(src,i), flair ?? FlairKind.Data);
         }
 
         protected void Write<R>(ReadOnlySpan<R> src, ReadOnlySpan<byte> widths)
@@ -252,9 +238,9 @@ namespace Z0
         {
             var formatter = Tables.formatter<R>(widths);
             var count = src.Length;
-            Write(formatter.FormatHeader());
+            WfMsg.Write(formatter.FormatHeader());
             for(var i=0; i<count; i++)
-                Write(formatter.Format(skip(src,i)));
+                WfMsg.Write(formatter.Format(skip(src,i)));
         }
 
         protected WfFileWritten EmittingFile(FS.FilePath dst)

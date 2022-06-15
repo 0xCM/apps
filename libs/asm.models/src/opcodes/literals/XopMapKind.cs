@@ -7,7 +7,12 @@ namespace Z0
 {
     using N = AsmOpCodeMaps.Literals;
 
-    [SymSource(AsmOpCodeMaps.group), DataWidth(num4.Width)]
+    partial class XedLiterals
+    {
+
+    }
+
+    [SymSource(AsmOpCodeMaps.group), DataWidth(4)]
     public enum XopMapKind : byte
     {
         [Symbol(N.X8)]
@@ -18,5 +23,5 @@ namespace Z0
 
         [Symbol(N.XA)]
         XopA=10,
-    }   
+    }
 }

@@ -10,9 +10,12 @@ namespace Z0
 
         public EnvData Env {get;}
 
-        public WfEmitters(IWfRuntime wf, EnvData env)
+        public Type HostType {get;}
+
+        public WfEmitters(IWfRuntime wf, Type host, EnvData env)
         {
             Wf = wf;
+            HostType = host;
             Env = env;
         }
 

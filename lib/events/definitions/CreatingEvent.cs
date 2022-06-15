@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Event(Kind)]
-    public readonly struct CreatingEvent<T> : IInitialEvent<CreatingEvent<T>>
+    public readonly struct CreatingEvent : IInitialEvent<CreatingEvent>
     {
         public const string EventName = GlobalEvents.Creating;
 
@@ -13,19 +13,19 @@ namespace Z0
 
         public EventId EventId {get;}
 
-        public EventPayload<T> Payload {get;}
-
         public FlairKind Flair => FlairKind.Creating;
 
+        public Type HostType {get;}
+
         [MethodImpl(Inline)]
-        public CreatingEvent(Type host, T msg)
+        public CreatingEvent(Type host)
         {
             EventId = EventId.define(host, Kind);
-            Payload = msg;
+            HostType = host;
         }
 
         public string Format()
-            => string.Format(RP.PSx2, EventId, Payload);
+            => string.Format(RP.PSx2, EventId, string.Format("Creating {0} service", HostType.Name));
 
         public override string ToString()
             => Format();

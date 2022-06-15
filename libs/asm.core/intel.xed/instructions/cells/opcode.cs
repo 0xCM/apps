@@ -5,7 +5,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+     using static core;
+     using static XedLiterals;
+
     partial class XedRules
     {
         partial struct InstCells

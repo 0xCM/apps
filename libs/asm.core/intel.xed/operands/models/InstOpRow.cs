@@ -18,7 +18,7 @@ namespace Z0
             public uint Pattern;
 
             [Render(18)]
-            public InstClass InstClass;
+            public AsmInstClass InstClass;
 
             [Render(26)]
             public XedOpCode OpCode;

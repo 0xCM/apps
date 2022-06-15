@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct WfStepId : IWfStepId
+    public readonly struct WfStepId
     {
         public CliToken HostKey {get;}
 

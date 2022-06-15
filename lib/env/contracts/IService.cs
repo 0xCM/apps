@@ -11,6 +11,8 @@ namespace Z0
     public interface IService : IEnvProvider
     {
         Type HostType => GetType();
+
+        Type EffectiveHost => HostType;
     }
 
     /// <summary>
@@ -21,6 +23,7 @@ namespace Z0
     public interface IService<H> : IService
         where H : IService<H>, new()
     {
-        Type IService.HostType => typeof(H);
+        Type IService.HostType
+            => typeof(H);
     }
 }

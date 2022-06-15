@@ -12,6 +12,7 @@ namespace Z0
     {
         protected IWfRuntime Wf;
 
+
         protected IWfDb Db => Wf.Db();
 
         public static S Spec() => new S();

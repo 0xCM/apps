@@ -13,7 +13,7 @@ namespace Z0
     {
         public void Emit(Type src, FS.FilePath dst)
         {
-            var flow = Wf.EmittingFile(dst);
+            var flow = EmittingFile(dst);
             using var writer = dst.Writer();
             var patterns = Sources(src);
             var view = patterns.View;
@@ -22,7 +22,7 @@ namespace Z0
             for(var i=0; i<count; i++)
                 writer.WriteLine(skip(view,i).Format());
 
-            Wf.EmittedFile(flow, count);
+            EmittedFile(flow, count);
         }
 
         [Op]

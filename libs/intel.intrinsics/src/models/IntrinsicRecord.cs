@@ -32,7 +32,7 @@ namespace Z0
             public InstForm InstForm;
 
             [Render(18)]
-            public R.InstClass InstClass;
+            public AsmInstClass InstClass;
 
             [Render(56)]
             public Instruction InstSig;

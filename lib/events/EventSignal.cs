@@ -54,27 +54,19 @@ namespace Z0
             return e;
         }
 
-        public CreatingEvent<T> Creating<T>(T data)
+        public CreatingEvent Creating(Type host)
         {
-            var e = creating(Source.Type, data);
-            Raise(e);
-            return e;
-        }
-
-        public CreatedEvent<T> Created<T>(T data)
-        {
-            var e = created(Source.Type, data);
-            Raise(e);
-            return e;
-        }
-
-        public CreatedEvent<T> Created<T>(CreatingEvent<T> prior)
-        {
-            var ev = created(prior);
+            var ev = creating(host);
             Raise(ev);
             return ev;
         }
 
+        public CreatedEvent Created(Type host)
+        {
+            var ev = created(host);
+            Raise(ev);
+            return ev;
+        }
 
         public EmittingTableEvent EmittingTable(Type table, FS.FilePath dst)
         {

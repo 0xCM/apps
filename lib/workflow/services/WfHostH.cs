@@ -4,29 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public abstract class WfHost<H> : IWfHost<H>
         where H : WfHost<H>, new()
     {
         [MethodImpl(Inline)]
         public static H create() => new H();
 
-        public virtual WfStepId StepId {get;}
-
         public Type Type {get;}
-
-        public virtual string Identifier
-            => typeof(H).Name;
 
         [MethodImpl(Inline)]
         protected WfHost()
         {
             Type = typeof(H);
-            StepId = Type;
         }
 
         public virtual void Run(IWfRuntime wf)
@@ -46,14 +35,14 @@ namespace Z0
         protected abstract void Execute(IWfRuntime shell);
 
         public virtual string Format()
-            => StepId.Format();
+            => Type.Name;
 
         [MethodImpl(Inline)]
         public static implicit operator WfStepId(WfHost<H> src)
-            => src.StepId;
+            => src.Type;
 
         [MethodImpl(Inline)]
         public static implicit operator WfHost(WfHost<H> src)
-            => new WfHost(src.StepId, src.Type);
+            => new WfHost(src.Type);
     }
 }

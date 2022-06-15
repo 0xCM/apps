@@ -58,10 +58,10 @@ namespace Z0
             return Flow(data);
         }
 
-        WfExecFlow<T> Running<T>(WfHost host, T data)
+        WfExecFlow<T> Running<T>(WfHost host, T msg)
         {
-            signal(this, host).Running(data);
-            return Flow(data);
+            signal(this, host).Running(msg);
+            return Flow(msg);
         }
 
         WfExecFlow<string> Running(WfHost host, [Caller] string operation = null)
@@ -164,27 +164,16 @@ namespace Z0
         void Error<T>(WfHost host, T data, [Caller] string caller = null, [File] string file = null, [Line]int? line = null)
             => signal(this, host).Error(data, EventFactory.originate("WorkflowError", caller, file, line));
 
-        WfExecFlow<T> Creating<T>(T data)
+
+        WfExecFlow<Type> Creating(Type host)
         {
-            signal(this).Creating(data);
-            return Flow(data);
+            signal(this, host).Creating(host);
+            return Flow(host);
         }
 
-        WfExecFlow<T> Creating<T>(WfHost host, T data)
+        ExecToken Created(WfExecFlow<Type> flow)
         {
-            signal(this, host).Creating(data);
-            return Flow(data);
-        }
-
-        ExecToken Created<T>(WfExecFlow<T> flow)
-        {
-            signal(this).Created(flow.Data);
-            return Completed(flow);
-        }
-
-        ExecToken Created<T>(WfHost host, WfExecFlow<T> flow)
-        {
-            signal(this).Created(flow.Data);
+            signal(this, flow.Data).Created(flow.Data);
             return Completed(flow);
         }
 
@@ -198,7 +187,7 @@ namespace Z0
         WfTableFlow<T> EmittingTable<T>(WfHost host, FS.FilePath dst)
             where T : struct
         {
-            signal(this).EmittingTable<T>(dst);
+            signal(this, host).EmittingTable<T>(dst);
             return Emissions.LogEmission(TableFlow<T>(dst));
         }
 
@@ -217,7 +206,7 @@ namespace Z0
         {
             var completed = Completed(flow);
             var counted = flow.WithCount(count).WithToken(completed);
-            signal(this).EmittedTable<T>(count, counted.Target);
+            signal(this, host).EmittedTable<T>(count, counted.Target);
             Emissions.LogEmission(counted);
             return completed;
         }
@@ -230,7 +219,7 @@ namespace Z0
 
         WfFileWritten EmittingFile(WfHost host, FS.FilePath dst)
         {
-            signal(this).EmittingFile(dst);
+            signal(this, host).EmittingFile(dst);
             return Emissions.LogEmission(Flow(dst));
         }
 

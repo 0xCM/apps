@@ -7,7 +7,12 @@ namespace Z0
 {
     using N = AsmOpCodeMaps.Literals;
 
-    [SymSource("asm.opcodes"), DataWidth(num5.Width)]
+    partial class XedLiterals
+    {
+
+    }
+
+    [SymSource("asm.opcodes"), DataWidth(5)]
     public enum AsmOpCodeClass : byte
     {
         [Symbol("")]
@@ -28,5 +33,5 @@ namespace Z0
         [Symbol(N.Amd3dClassName)]
         Amd3D = 16,
     }
-    
+
 }

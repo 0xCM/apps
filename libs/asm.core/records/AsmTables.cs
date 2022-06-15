@@ -10,7 +10,7 @@ namespace Z0.Asm
 
     public class AsmTables : AppService<AsmTables>
     {
-        AppSvcOps AppSvc => Wf.AppSvc();
+        IWfSvc AppSvc => Wf.AppSvc(this);
 
         [MethodImpl(Inline)]
         public static CorrelationToken token(uint docid, MemoryAddress ip)

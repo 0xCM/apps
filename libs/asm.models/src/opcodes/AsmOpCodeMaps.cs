@@ -6,13 +6,14 @@
 namespace Z0
 {
     using static core;
-    
+
     using static XedOpCodeKind;
     using static VexMapKind;
     using static EvexMapKind;
     using static AsmBaseMapKind;
+    using static XedLiterals;
 
-    using V = XedVexClass;
+    using V = XedLiterals.XedVexClass;
     using I = AsmOpCodeIndex;
     using D = XedOpCodeKind;
     using X = XopMapKind;
@@ -191,7 +192,7 @@ namespace Z0
             }
             return dst;
         }
- 
+
         public static D kind(V vc, byte number)
         {
             var ock = D.None;
@@ -233,7 +234,7 @@ namespace Z0
                 I.Evex0F3A => Evex0F3A,
                 _=> XedOpCodeKind.None
             };
- 
+
         [Op]
         public static AsmOpCodeClass @class(AsmOpCodeIndex src)
             => @class(kind(src));
@@ -402,7 +403,7 @@ namespace Z0
             }
             return result;
         }
- 
+
 
          static string hex(byte src)
             => "0x" + src.ToString("X2");
@@ -459,8 +460,8 @@ namespace Z0
 
             return dst;
         }
- 
- 
+
+
         [LiteralProvider(group)]
         public readonly struct Literals
         {

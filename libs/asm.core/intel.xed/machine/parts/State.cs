@@ -16,7 +16,7 @@ namespace Z0
 
             InstForm _Form;
 
-            InstClass _Class;
+            AsmInstClass _Class;
 
             OperandState _RuleState;
 
@@ -40,7 +40,7 @@ namespace Z0
                 _Pattern = XedRules.InstPattern.Empty;
                 _Mode = MachineModeClass.Default;
                 _Form = InstForm.Empty;
-                _Class = InstClass.Empty;
+                _Class = AsmInstClass.Empty;
                 _Membership = InstGroupMember.Empty;
             }
 

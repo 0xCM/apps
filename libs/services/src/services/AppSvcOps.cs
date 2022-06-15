@@ -7,7 +7,14 @@ namespace Z0
 {
     public class AppSvcOps : WfSvc<AppSvcOps>
     {
-        public new void Babble<T>(T content)
-            => WfMsg.Babble(content);
+
+
+    }
+
+    public sealed class AppSvcOps<T> : WfSvc<AppSvcOps<T>>
+        where T : IAppService<T>, new()
+    {
+        public override Type EffectiveHost
+            => typeof(T);
     }
 }

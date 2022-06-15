@@ -24,10 +24,10 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public FormToken(InstClass value)
+            public FormToken(AsmInstClass value)
             {
                 var data = ByteBlock16.Empty;
-                @as<InstClass>(data.First) = value;
+                @as<AsmInstClass>(data.First) = value;
                 data[15] = (byte)FormTokenKind.InstClass;
                 Data = data;
             }
@@ -83,8 +83,8 @@ namespace Z0
                 => ref @as<Hex16>(Data.First);
 
             [MethodImpl(Inline)]
-            public ref readonly InstClass InstClassValue()
-                => ref @as<InstClass>(Data.First);
+            public ref readonly AsmInstClass InstClassValue()
+                => ref @as<AsmInstClass>(Data.First);
 
             public bool IsEmpty
             {

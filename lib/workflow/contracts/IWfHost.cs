@@ -4,27 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    public interface IWfHost : IWfStep, ITextual
+    public interface IWfHost
     {
         Type Type {get;}
 
         string Name => Type.Name;
 
-        string Identifier
-            => Type.Name;
-        string ITextual.Format()
-            => StepId.Format();
     }
 
-    public interface IWfHost<H> : IWfHost, IWfStep<H>
+    public interface IWfHost<H> : IWfHost
         where H : IWfHost<H>, new()
     {
         Type IWfHost.Type
-            => typeof(H);
-
-        WfStepId IWfStep.StepId
             => typeof(H);
     }
 

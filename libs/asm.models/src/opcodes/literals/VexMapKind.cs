@@ -7,7 +7,7 @@ namespace Z0
 {
     using S = AsmOpCodeMaps.Literals;
 
-    [SymSource(AsmOpCodeMaps.group), DataWidth(num2.Width)]
+    [SymSource(AsmOpCodeMaps.group), DataWidth(2)]
     public enum VexMapKind : byte
     {
         [Symbol(S.V1, "MAP=1")]

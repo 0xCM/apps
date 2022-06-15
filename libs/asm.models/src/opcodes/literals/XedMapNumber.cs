@@ -4,7 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [SymSource("xed"), DataWidth(num4.Width)]
+    partial class XedLiterals
+    {
+
+    }
+
+    [SymSource("xed"), DataWidth(4)]
     public enum XedMapNumber : byte
     {
         [Symbol("0")]
@@ -27,5 +32,5 @@ namespace Z0
 
         [Symbol("10")]
         MAP10=10
-    }   
+    }
 }

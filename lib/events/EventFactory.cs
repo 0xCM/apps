@@ -106,16 +106,16 @@ namespace Z0
             => new RanEvent<T>(prior);
 
         [Op, Closures(Closure)]
-        public static CreatingEvent<T> creating<T>(Type host, T msg)
-            => new CreatingEvent<T>(host, msg);
+        public static CreatingEvent creating(Type host)
+            => new CreatingEvent(host);
 
         [Op, Closures(Closure)]
-        public static CreatedEvent<T> created<T>(Type host, T msg)
-            => new CreatedEvent<T>(host, msg);
+        public static CreatedEvent created(Type host)
+            => new CreatedEvent(host);
 
         [Op, Closures(Closure)]
-        public static CreatedEvent<T> created<T>(CreatingEvent<T> prior)
-            => new CreatedEvent<T>(prior);
+        public static CreatedEvent created(CreatingEvent prior)
+            => new CreatedEvent(prior);
 
         [Op, Closures(Closure)]
         public static DataEvent<T> data<T>(T data, FlairKind? flair = null)

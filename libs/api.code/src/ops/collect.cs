@@ -7,7 +7,6 @@ namespace Z0
     using Asm;
 
     using static core;
-    using static EventFactory;
 
     partial class ApiCode
     {
@@ -79,7 +78,6 @@ namespace Z0
 
             return lookup(dst, log).Emit();
         }
-
 
         static CollectedEncodings lookup(Dictionary<ApiHostUri,CollectedCodeExtracts> src, Action<IWfEvent> log)
         {

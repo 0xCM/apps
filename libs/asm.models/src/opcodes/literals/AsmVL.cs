@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [SymSource("asm.opcodes"), DataWidth(num2.Width)]
+    [SymSource("asm.opcodes"), DataWidth(2)]
     public enum AsmVL : byte
     {
         [Symbol("128", "Specifies a vector length of 128")]
@@ -16,5 +16,5 @@ namespace Z0
 
         [Symbol("512", "Specifies a vector length of 512")]
         VL512 = 2,
-    }   
+    }
 }

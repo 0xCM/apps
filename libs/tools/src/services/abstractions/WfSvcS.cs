@@ -7,30 +7,30 @@ namespace Z0
 {
     using static core;
 
-    public abstract class WfSvc<S> : AppService<S>
+    public abstract class WfSvc<S> : AppService<S>, IWfSvc
         where S : WfSvc<S>, new()
     {
         protected static AppDb AppDb => AppData.AppDb;
 
-        protected new void Babble<T>(T content)
+        public new void Babble<T>(T content)
             => WfMsg.Babble(content);
 
-        protected new void Babble(string pattern, params object[] args)
+        public new void Babble(string pattern, params object[] args)
             => WfMsg.Babble(pattern, args);
 
-        protected new void Status<T>(T content, FlairKind flair = FlairKind.Status)
+        public new void Status<T>(T content, FlairKind flair = FlairKind.Status)
             => WfMsg.Status(content, flair);
 
-        protected new void Status(ReadOnlySpan<char> src, FlairKind flair = FlairKind.Status)
+        public new void Status(ReadOnlySpan<char> src, FlairKind flair = FlairKind.Status)
             => WfMsg.Status(src, flair);
 
         public new void Status(FlairKind flair, string pattern, params object[] args)
             => WfMsg.Status(pattern, flair, args);
 
-        protected new void Status(string pattern, params object[] args)
+        public new void Status(string pattern, params object[] args)
             => WfMsg.Status(pattern, args);
 
-        protected new void Warn<T>(T content)
+        public new void Warn<T>(T content)
             => WfMsg.Warn(content);
 
         public new void Warn(string pattern, params object[] args)

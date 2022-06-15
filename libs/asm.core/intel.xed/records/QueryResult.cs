@@ -22,7 +22,7 @@ namespace Z0
             public string SearchPattern;
 
             [Render(18)]
-            public InstClass InstClass;
+            public AsmInstClass InstClass;
 
             [Render(64)]
             public InstForm InstForm;

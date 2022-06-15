@@ -14,7 +14,7 @@ namespace Z0
 
     using I = XedRecord;
 
-    public partial class XedRuntime : AppService<XedRuntime>
+    public partial class XedRuntime : WfSvc<XedRuntime>
     {
         bool Started = false;
 
@@ -41,8 +41,6 @@ namespace Z0
         public XedDisasmSvc Disasm => Wf.XedDisasm(this);
 
         public XedImport Import => Wf.XedImport(this);
-
-        AppSvcOps AppSvc => Wf.AppSvc();
 
         ConcurrentDictionary<uint,IMachine> Machines = new();
 
@@ -225,12 +223,12 @@ namespace Z0
         }
 
         void Emit(ReadOnlySpan<FieldDef> src)
-            => AppSvc.TableEmit(src, Paths.Table<FieldDef>());
+            => TableEmit(src, Paths.Table<FieldDef>());
 
         void EmitRegmaps()
         {
-            AppSvc.TableEmit(XedRegMap.Service.REntries, Paths.Table<RegMapEntry>("rmap"));
-            AppSvc.TableEmit(XedRegMap.Service.XEntries, Paths.Table<RegMapEntry>("xmap"));
+            TableEmit(XedRegMap.Service.REntries, Paths.Table<RegMapEntry>("rmap"));
+            TableEmit(XedRegMap.Service.XEntries, Paths.Table<RegMapEntry>("xmap"));
         }
     }
 }

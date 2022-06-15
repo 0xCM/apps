@@ -7,7 +7,12 @@ namespace Z0
 {
     using S = AsmOpCodeMaps.Literals;
 
-    [SymSource("asm.opcodes"), DataWidth(num4.Width)]
+    partial class XedLiterals
+    {
+
+    }
+
+    [SymSource("asm.opcodes"), DataWidth(4)]
     public enum AsmOpCodeIndex : sbyte
     {
         [Symbol(S.B0)]

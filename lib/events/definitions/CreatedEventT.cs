@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Event(Kind)]
-    public readonly struct CreatedEvent<T> : ITerminalEvent<CreatedEvent<T>>
+    public readonly struct CreatedEvent : ITerminalEvent<CreatedEvent>
     {
         public const string EventName = GlobalEvents.Created;
 
@@ -16,13 +16,13 @@ namespace Z0
         public FlairKind Flair  => FlairKind.Created;
 
         [MethodImpl(Inline)]
-        public CreatedEvent(Type host, T msg)
+        public CreatedEvent(Type host)
         {
             EventId = EventId.define(host, Kind);
         }
 
         [MethodImpl(Inline)]
-        public CreatedEvent(CreatingEvent<T> prior)
+        public CreatedEvent(CreatingEvent prior)
         {
             EventId = prior.EventId;
         }

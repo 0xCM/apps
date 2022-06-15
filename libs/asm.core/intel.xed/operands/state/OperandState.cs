@@ -7,7 +7,8 @@ namespace Z0
 {
     using static XedModels;
     using static MachineModes;
-    
+    using static XedLiterals;
+
     using K = XedRules.FieldKind;
     using M = XedModels;
 

@@ -22,7 +22,7 @@ namespace Z0
 
             public Extension Extension;
 
-            public InstClass InstClass;
+            public AsmInstClass InstClass;
 
             public InstForm InstForm;
 

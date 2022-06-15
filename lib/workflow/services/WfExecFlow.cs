@@ -47,6 +47,6 @@ namespace Z0
             => new WfExecFlow<string>(Wf, msg, Token);
 
         public void Dispose()
-            => Wf.Ran(this);
+            => Wf.Ran(Wf.Host.Type, this);
     }
 }

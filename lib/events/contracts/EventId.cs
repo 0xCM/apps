@@ -45,7 +45,7 @@ namespace Z0
         EventId(Type host, EventKind kind)
         {
             Ts = Timestamp.now();
-            Identifier = string.Format("{0} | {1,-18} | {2,-24} | {3}", Ts, host.Assembly.Id().Format(), kind, host.Name);
+            Identifier = string.Format("{0} | {1,-18} | {2,-16} | {3,-24}", Ts, kind, host.Assembly.Id().Format(), host.Name);
         }
 
         [MethodImpl(Inline)]

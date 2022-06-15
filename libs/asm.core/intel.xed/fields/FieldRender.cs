@@ -9,6 +9,7 @@ namespace Z0
 
     using static XedRules;
     using static XedModels;
+    using static XedLiterals;
     using static core;
 
     using K = XedRules.FieldKind;
@@ -99,7 +100,7 @@ namespace Z0
                         break;
 
                         case K.ICLASS:
-                            r.Functions[kind] = (x => XedRender.format((InstClass)x));
+                            r.Functions[kind] = (x => XedRender.format((AsmInstClass)x));
                         break;
 
                         case K.MASK:
