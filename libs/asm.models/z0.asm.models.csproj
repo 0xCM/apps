@@ -12,6 +12,7 @@
     <ProjectReference Include="$(Containers)" />
     <ProjectReference Include="$(Memory)" />
     <ProjectReference Include="$(Db)" />
+    <ProjectReference Include="$(EMath)" />
   </ItemGroup>
 
 </Project>

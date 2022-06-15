@@ -3,4 +3,17 @@
     <PackageReference Include="Microsoft.DiaSymReader" Version="1.3.0" />
     <PackageReference Include="Microsoft.DiaSymReader.PortablePdb" Version="1.5.0" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ContentWithTargetPath Include="$(ZPack)\diagnostics\sos.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>sos.dll</TargetPath>
+    </ContentWithTargetPath>
+
+    <ContentWithTargetPath Include="$(ZPack)\diagnostics\sos.pdb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>sos.pdb</TargetPath>
+    </ContentWithTargetPath>
+  </ItemGroup>
+
 </Project>

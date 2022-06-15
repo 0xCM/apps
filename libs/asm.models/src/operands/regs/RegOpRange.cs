@@ -53,7 +53,7 @@ namespace Z0.Asm
         {
             if(Current < Max)
             {
-                dst = asm.reg(Size, Class, Current++);
+                dst = AsmRegBits.reg(Size, Class, Current++);
                 return true;
             }
             else

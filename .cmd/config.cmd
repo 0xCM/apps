@@ -6,9 +6,9 @@ set RuntimeMoniker=win-x64
 set BuildVerbosity=normal
 set BuildProps=/p:Configuration=%BuildKind% /p:Platform=%BuildPlatform%
 
-set Control=c:\dev\ws\control
+set Control=z:\control
 set ControlScripts=%Control%\.cmd
-set SlnRoot=j:\z0
+set SlnRoot=z:\dev\z0
 
 call %ControlScripts%\config-archives.cmd
 

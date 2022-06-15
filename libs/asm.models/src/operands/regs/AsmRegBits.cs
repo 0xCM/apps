@@ -44,6 +44,10 @@ namespace Z0
         public static RegOp reg(NativeSizeCode size, RegClassCode @class, RegIndexCode index)
             => new RegOp(kind(index, @class, size));
 
+        [MethodImpl(Inline), Op]
+        public static RegOp reg(NativeSizeCode width, RegClassCode @class, RegIndex r)
+            => AsmRegBits.reg(width, @class,r);
+
         /// <summary>
         /// Determines the register code from the kind
         /// </summary>
