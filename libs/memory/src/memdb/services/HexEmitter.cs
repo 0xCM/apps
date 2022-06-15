@@ -8,13 +8,40 @@ namespace Z0
 
     public class HexEmitter : AppService<HexEmitter>
     {
+        public void EmitRows(ReadOnlySpan<MemoryBlock> src, IDbTargets dst)
+        {
+            for(var i=0; i<src.Length; i++)
+            {
+                ref readonly var block = ref skip(src,i);
+                EmitRows(block.View, 64, dst.Path(block.Origin.Format(), FileKind.HexDat));
+            }
+        }
+
+        [MethodImpl(Inline), Op]
+        public static ByteSize size(ReadOnlySpan<HexDataRow> src)
+        {
+            var dst = 0ul;
+            for(var i=0; i<src.Length; i++)
+                dst += skip(src,i).Data.Count;
+            return dst;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static ByteSize size(ReadOnlySpan<BinaryCode> src)
+        {
+            var dst = 0ul;
+            for(var i=0; i<src.Length; i++)
+                dst += skip(src,i).Count;
+            return dst;
+        }
+
         public static BinaryCode compact(HexDataRow[] src)
         {
             var count = src.Length;
             if(count == 0)
                 return BinaryCode.Empty;
 
-            var size = src.TotalSize();
+            var size = HexEmitter.size(src);
             var dst = alloc<byte>(size);
             var offset = 0u;
             for(var i=0; i<count; i++)
@@ -26,10 +53,6 @@ namespace Z0
             }
             return dst;
         }
-
-        [MethodImpl(Inline)]
-        public static uint size(Index<BinaryCode> src)
-            => src.Storage.Select(x => x.Count).Sum();
 
         public static BinaryCode compact(Index<BinaryCode> src)
         {
@@ -47,7 +70,7 @@ namespace Z0
             return dst;
         }
 
-        public ByteSize EmitBasedRows(ReadOnlySpan<byte> src, ushort rowsize, FS.FilePath dst)
+        public ByteSize EmitRows(ReadOnlySpan<byte> src, ushort rowsize, FS.FilePath dst)
         {
             const char Delimiter = Chars.Pipe;
             var @base = MemoryAddress.Zero;
@@ -77,7 +100,7 @@ namespace Z0
             return size;
         }
 
-        public ByteSize EmitHexArray(byte[] src, FS.FilePath dst)
+        public ByteSize EmitArray(byte[] src, FS.FilePath dst)
         {
             var array = Hex.hexarray(src);
             var size = src.Length;
@@ -88,7 +111,7 @@ namespace Z0
             return size;
         }
 
-        public Outcome EmitHexArrays(ReadOnlySpan<FS.FilePath> src, FS.FolderPath dir)
+        public Outcome EmitArrays(ReadOnlySpan<FS.FilePath> src, FS.FolderPath dir)
         {
             var result = Outcome.Success;
             var count = src.Length;

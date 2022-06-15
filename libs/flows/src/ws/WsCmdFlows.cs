@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public class CmdFlows : AppService<CmdFlows>
+    public class WsCmdFlows : AppService<WsCmdFlows>
     {
         static AppDb AppDb => AppData.AppDb;
 
@@ -22,11 +22,11 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static WsContext context(IProjectWs project)
-            => new WsContext(project, CmdFlows.flows(project.Project));
+            => new WsContext(project, WsCmdFlows.flows(project.Project));
 
         [MethodImpl(Inline)]
         public static FileFlow flow(in CmdFlow src)
-            => new FileFlow(CmdFlows.flow(src.Tool, src.SourcePath.ToUri(), src.TargetPath.ToUri()));
+            => new FileFlow(WsCmdFlows.flow(src.Tool, src.SourcePath.ToUri(), src.TargetPath.ToUri()));
 
         [MethodImpl(Inline)]
         public static DataFlow<Actor,S,T> flow<S,T>(Tool tool, S src, T dst)
@@ -53,6 +53,14 @@ namespace Z0
             where T : struct
                 => etl(project,scope).Path(FS.file(string.Format("{0}.{1}", project, TableId.identify<T>()),FS.Csv));
 
+        [Parser]
+        public static Outcome parse(string src, out Tool dst)
+        {
+            ToolId id = text.trim(src);
+            dst = id;
+            return true;
+        }
+
         public static WsDataFlows flows(ProjectId id)
         {
             var path = flow(id);
@@ -67,7 +75,7 @@ namespace Z0
                 Require.equal(cells.Length,CmdFlow.FieldCount);
                 var reader = cells.Reader();
                 ref var dst = ref seek(buffer,i++);
-                Tools.parse(reader.Next(), out dst.Tool).Require();
+                parse(reader.Next(), out dst.Tool).Require();
                 DataParser.parse(reader.Next(), out dst.SourceName).Require();
                 DataParser.parse(reader.Next(), out dst.TargetName).Require();
                 DataParser.parse(reader.Next(), out dst.SourcePath).Require();

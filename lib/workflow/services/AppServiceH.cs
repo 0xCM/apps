@@ -368,8 +368,8 @@ namespace Z0
         protected static RunningEvent<T> running<T>(T msg)
             => EventFactory.running(typeof(H), msg);
 
-        protected static RanEvent<T> ran<T>(RunningEvent<T> src)
-            => EventFactory.ran(src);
+        protected static RanEvent<T> ran<T>(RunningEvent<T> src, T msg = default)
+            => EventFactory.ran(src, msg);
 
         protected static RanEvent<T> ran<T>(T msg)
             => EventFactory.ran(typeof(H), msg);

@@ -2,11 +2,12 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
     /// <summary>
     /// Correlates a sequence of native buffers with a 0-based/monotonic integral sequence
     /// </summary>
+    [StructLayout(StructLayout,Pack=1)]
     public readonly struct AddressSpace
     {
         [MethodImpl(Inline)]
@@ -21,7 +22,7 @@ namespace Z0.Asm
         public static AddressSpace define(uint index, MemoryAddress min, MemoryAddress max)
             => new AddressSpace(index, min, max);
 
-        public uint Index {get;}
+        public readonly uint Index;
 
         readonly MemoryRange Range;
 

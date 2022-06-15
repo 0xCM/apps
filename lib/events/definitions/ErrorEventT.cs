@@ -13,6 +13,8 @@ namespace Z0
 
         public LogLevel EventLevel => LogLevel.Error;
 
+        public FlairKind Flair => FlairKind.Error;
+
         public EventId EventId {get;}
 
         public Option<Exception> Exception {get;}
@@ -20,26 +22,6 @@ namespace Z0
         public EventOrigin Origin {get;}
 
         public EventPayload<T> Payload {get;}
-
-        public FlairKind Flair => FlairKind.Error;
-
-        [MethodImpl(Inline)]
-        public ErrorEvent(CmdId cmd, T msg, EventOrigin source)
-        {
-            EventId = (Kind, cmd, PartToken.Default);
-            Exception = Option.none<Exception>();
-            Payload = msg;
-            Origin = source;
-        }
-
-        [MethodImpl(Inline)]
-        public ErrorEvent(Exception error, T msg, EventOrigin source)
-        {
-            EventId = (EventName, PartToken.Default);
-            Exception = error;
-            Payload = msg;
-            Origin = source;
-        }
 
         [MethodImpl(Inline)]
         public ErrorEvent(Type host, T msg, EventOrigin source)
@@ -68,22 +50,13 @@ namespace Z0
             Origin = source;
         }
 
-        [MethodImpl(Inline)]
-        public ErrorEvent(WfStepId step, T msg, EventOrigin source)
-        {
-            EventId = (EventName, step, PartToken.Default);
-            Exception = Option.none<Exception>();
-            Payload = msg;
-            Origin = source;
-        }
-
         public string Format()
         {
             var dst = text.emitter();
             if(Exception.IsSome())
                 format(Exception.Value, this, dst);
             else
-                dst.AppendFormat(RP.format(EventId, Payload, Origin));
+                dst.AppendFormat(string.Format(RP.PSx3, EventId, Payload, Origin));
             return dst.Emit();
 
         }

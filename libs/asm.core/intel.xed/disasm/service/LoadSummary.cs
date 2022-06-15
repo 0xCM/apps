@@ -15,7 +15,7 @@ namespace Z0
         public Index<XedDisasmRow> LoadSummary(ProjectId id)
         {
             const byte FieldCount = XedDisasmRow.FieldCount;
-            var src = CmdFlows.table<XedDisasmRow>(id);
+            var src = WsCmdFlows.table<XedDisasmRow>(id);
             var lines = slice(src.ReadNumberedLines().View,1);
             var count = lines.Length;
             var buffer = alloc<XedDisasmRow>(count);

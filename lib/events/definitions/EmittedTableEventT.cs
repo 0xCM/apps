@@ -18,6 +18,10 @@ namespace Z0
 
         public FS.FilePath Target {get;}
 
+        public TableId TableId => TableId.identify(typeof(T));
+
+        public FlairKind Flair => FlairKind.Ran;
+
         public TableId Table
             => TableId.identify<T>();
 
@@ -35,26 +39,6 @@ namespace Z0
             RowCount = count;
             Target = target;
         }
-
-        [MethodImpl(Inline)]
-        public EmittedTableEvent(WfStepId step, Count count, FS.FilePath target)
-        {
-            EventId = EventId.define(EventName, step);
-            RowCount = count;
-            Target = target;
-        }
-
-        [MethodImpl(Inline)]
-        public EmittedTableEvent(WfStepId step, FS.FilePath target)
-        {
-            EventId = EventId.define(EventName, step);
-            RowCount = 0;
-            Target = target;
-        }
-
-        public TableId TableId => TableId.identify(typeof(T));
-
-        public FlairKind Flair => FlairKind.Ran;
 
         public string Format()
             => RP.format(EventId, AppMsg.EmittedTable.Capture(TableId, RowCount, Target));

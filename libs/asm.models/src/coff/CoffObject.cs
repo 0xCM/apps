@@ -4,13 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    [StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly struct CoffObject
     {
         public readonly FS.FilePath Path;
 
         public readonly BinaryCode Data;
 
-        internal CoffObject(FS.FilePath path, BinaryCode data)
+        public CoffObject(FS.FilePath path, BinaryCode data)
         {
             Path = path;
             Data = data;

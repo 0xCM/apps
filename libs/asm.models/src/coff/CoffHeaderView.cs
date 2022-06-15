@@ -10,6 +10,10 @@ namespace Z0
 
     public struct CoffHeaderView
     {
+        [MethodImpl(Inline), Op]
+        public static Timestamp timestamp(Hex32 src)
+            => Time.epoch(TimeSpan.FromSeconds(src));
+
         readonly CoffHeader Source;
 
         ReadOnlySpan<byte> Data
@@ -42,7 +46,7 @@ namespace Z0
         public Timestamp Timestamp
         {
             [MethodImpl(Inline)]
-            get => CoffObjects.timestamp(Source.TimeDateStamp);
+            get => timestamp(Source.TimeDateStamp);
         }
 
         /// <summary>

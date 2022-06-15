@@ -6,18 +6,13 @@ namespace Z0
 {
     using static core;
 
-    public partial class ApiCode : AppService<ApiCode>
+    public partial class ApiCode : WfSvc<ApiCode>
     {
         ApiJit ApiJit => Service(Wf.ApiJit);
 
         ApiHex ApiHex => Wf.ApiHex();
 
         new ApiCodeFiles Files => Wf.ApiCodeFiles();
-
-        AppSvcOps AppSvc => Wf.AppSvc();
-
-        Action<IWfEvent> EventLogger
-            => x => Write(x.Format(), x.Flair);
 
         public Index<ApiHexRow> EmitApiHex(ApiHostUri uri, ReadOnlySpan<ApiMemberCode> src, FS.FolderPath dst)
             => ApiHex.EmitRows(uri, src, dst);
@@ -69,7 +64,7 @@ namespace Z0
 
         public Index<CollectedEncoding> Collect(ICompositeDispenser dst)
         {
-            var collected = collect(CalcEntryPoints(), EventLogger, dst);
+            var collected = collect(CalcEntryPoints(), EventLog, dst);
             Emit(collected, Files.Path(FS.Csv), Files.Path(FS.Hex));
             return collected;
         }
@@ -87,7 +82,7 @@ namespace Z0
             var collected = sys.empty<CollectedEncoding>();
             if(entries.IsNonEmpty)
             {
-                collected = collect(entries, EventLogger, symbols);
+                collected = collect(entries, EventLog, symbols);
                 Emit(collected, Files.Path(src, FS.Hex), Files.Path(src, FS.Csv));
             }
             else
@@ -122,7 +117,7 @@ namespace Z0
             var collected = sys.empty<CollectedEncoding>();
             if(entries.IsNonEmpty)
             {
-                collected = collect(entries,EventLogger,symbols);
+                collected = collect(entries, EventLog, symbols);
                 Emit(collected, Files.Path(src, FS.Hex), Files.Path(src, FS.Csv));
             }
             else
@@ -134,7 +129,7 @@ namespace Z0
         public Index<CollectedEncoding> Collect()
         {
             using var symbols = Dispense.composite();
-            var collected = collect(CalcEntryPoints(), EventLogger, symbols);
+            var collected = collect(CalcEntryPoints(), EventLog, symbols);
             Emit(collected, Files.Path(FS.Csv), Files.Path(FS.Hex));
             return collected;
         }
@@ -185,7 +180,7 @@ namespace Z0
             return emitted;
         }
 
-        Index<EncodedMember> Emit(PartId part, Index<CollectedEncoding> src, IApiPack dst)
+        public Index<EncodedMember> Emit(PartId part, Index<CollectedEncoding> src, IApiPack dst)
             => Emit(src, dst.HexPath(part), dst.CsvPath(part));
 
         public ByteSize EmitHex(Index<CollectedEncoding> src, FS.FilePath dst)
@@ -210,7 +205,7 @@ namespace Z0
                 seek(buffer,i).TargetRebase = skip(buffer,i).TargetAddress - rebase;
             }
 
-            AppSvc.TableEmit(buffer, dst);
+            TableEmit(buffer, dst);
             return buffer;
         }
 
@@ -273,7 +268,7 @@ namespace Z0
                 seek(encoded,i).TargetRebase = skip(encoded,i).TargetAddress - rebase;
             }
 
-            AppSvc.TableEmit(encoded, csv);
+            TableEmit(encoded, csv);
             return encoded;
         }
 

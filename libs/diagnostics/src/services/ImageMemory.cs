@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     [ApiHost]
     public readonly struct ImageMemory
     {
@@ -27,6 +25,5 @@ namespace Z0
         [Op]
         public static Index<ProcessMemoryRegion> regions(Process src)
             => ProcessMemory.pages(MemoryNode.snapshot(src.Id).Describe());
-
     }
 }

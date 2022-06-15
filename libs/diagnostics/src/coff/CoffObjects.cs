@@ -9,8 +9,6 @@ namespace Z0
     [ApiHost]
     public readonly struct CoffObjects
     {
-        internal const string group = "coff";
-
         [MethodImpl(Inline), Op]
         public static SymAddress address(in ObjSymRow src)
         {
@@ -54,9 +52,9 @@ namespace Z0
                 return result;
         }
 
-        public static Outcome validate(CoffObject coff, HexDataRow[] rows, out BinaryCode hex)
+        public static Outcome validate(CoffObject coff, HexDataRow[] src, out BinaryCode hex)
         {
-            hex = rows.Compact();
+            hex = HexEmitter.compact(src);
             var hexsize = hex.Size;
             var objsize = coff.Size;
             if(hexsize != objsize)

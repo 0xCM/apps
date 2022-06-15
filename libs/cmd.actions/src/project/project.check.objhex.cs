@@ -8,6 +8,6 @@ namespace Z0
     {
         [CmdOp("project/check/objhex")]
         Outcome CheckObjHex(CmdArgs args)
-            => Coff.CheckObjHex(CmdFlows.context(Project()));
+            => Coff.CheckObjHex(WsCmdFlows.context(Project()));
     }
 }

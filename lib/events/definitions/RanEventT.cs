@@ -7,15 +7,13 @@ namespace Z0
     [Event(Kind)]
     public readonly struct RanEvent<T> : ITerminalEvent<RanEvent<T>>
     {
-        public const string EventName = GlobalEvents.Ran;
-
         public const EventKind Kind = EventKind.Ran;
-
-        public static EventLevel Level => FlairKind.Ran;
 
         public FlairKind Flair => FlairKind.Ran;
 
         public EventId EventId {get;}
+
+        public EventPayload<T> Payload {get;}
 
         public Type Host {get;}
 
@@ -23,19 +21,21 @@ namespace Z0
         public RanEvent(Type host, T msg)
         {
             EventId = EventId.define(host, Kind);
+            Payload = msg;
             Host = host;
         }
 
         [MethodImpl(Inline)]
-        public RanEvent(RunningEvent<T> e)
+        public RanEvent(RunningEvent<T> e, T msg = default)
         {
             EventId = e.EventId;
             Host = e.Host;
+            Payload = msg;
         }
 
         [MethodImpl(Inline)]
         public string Format()
-            => EventId.Format();
+            => string.Format(RP.PSx2, EventId, Payload);
 
 
         public override string ToString()

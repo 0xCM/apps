@@ -87,7 +87,7 @@ namespace Z0
             if(cmdflows.Count != 0)
             {
                 Index<CmdFlow> records = cmdflows.ToArray();
-                TableEmit(records.View, CmdFlows.flow(project.Project));
+                TableEmit(records.View, WsCmdFlows.flow(project.Project));
                 result = (true,records);
             }
 

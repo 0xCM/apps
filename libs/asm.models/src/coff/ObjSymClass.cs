@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct ObjSymClass : IEquatable<ObjSymClass>
+    [StructLayout(LayoutKind.Sequential, Pack=1)]
+    public readonly record struct ObjSymClass
     {
         public readonly ObjSymKind Kind;
 
@@ -17,6 +18,12 @@ namespace Z0
             Kind = ObjSymCalcs.kind(code);
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Pack();
+        }
+
         [MethodImpl(Inline)]
         public ushort Pack()
             => math.or((ushort)Kind, math.sll((ushort)Code, 4));
@@ -25,11 +32,8 @@ namespace Z0
         public bool Equals(ObjSymClass src)
             => Code == src.Code;
 
-        public override bool Equals(object src)
-            => src is ObjSymClass c && Equals(c);
-
         public override int GetHashCode()
-            => (byte)Code;
+            => Hash;
 
         [MethodImpl(Inline)]
         public static implicit operator ObjSymClass(ObjSymCode src)

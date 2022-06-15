@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    [SymSource("coff")]
     public enum ObjSymKind : byte
     {
         None = 0,

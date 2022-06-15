@@ -5,17 +5,15 @@ namespace Z0
     [Event(Kind)]
     public readonly struct EmittedFileEvent : ITerminalEvent<EmittedFileEvent>
     {
-        public const string EventName = GlobalEvents.EmittedFile;
-
         public const EventKind Kind = EventKind.EmittedFile;
+
+        public FlairKind Flair => FlairKind.Ran;
 
         public EventId EventId {get;}
 
         public FS.FilePath Path {get;}
 
         public Count LineCount {get;}
-
-        public FlairKind Flair => FlairKind.Ran;
 
         [MethodImpl(Inline)]
         public EmittedFileEvent(Type host, FS.FilePath dst, Count count = default)

@@ -73,14 +73,14 @@ namespace Z0
         protected RunningEvent Running()
             => Signal.Running();
 
-        protected RunningEvent<T> Running<T>(T data)
-            => Signal.Running(data);
+        protected RunningEvent<T> Running<T>(T msg)
+            => Signal.Running(msg);
 
-        protected RanEvent<T> Ran<T>(RunningEvent<T> e, T data)
-            => Signal.Ran(data);
+        protected RanEvent<T> Ran<T>(T msg)
+            => Signal.Ran(msg);
 
-        protected RanEvent<T> Ran<T>(RunningEvent<T> e)
-            => Signal.Ran(e.Payload.Data);
+        protected RanEvent<T> Ran<T>(RunningEvent<T> e, T msg)
+            => Signal.Ran(e, msg);
 
         protected RanEvent<RunningEvent> Ran(RunningEvent e)
             => Signal.Ran(e);

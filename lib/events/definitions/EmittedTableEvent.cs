@@ -11,8 +11,6 @@ namespace Z0
     [Event(Kind)]
     public readonly struct EmittedTableEvent : ITerminalEvent<EmittedTableEvent>
     {
-        public const string EventName = GlobalEvents.EmittedTable;
-
         public const EventKind Kind = EventKind.EmittedTable;
 
         public EventId EventId {get;}
@@ -26,28 +24,19 @@ namespace Z0
         public FlairKind Flair => FlairKind.Ran;
 
         [MethodImpl(Inline)]
-        internal EmittedTableEvent(EventId eid, TableId table, Count count, FS.FilePath dst)
+        public EmittedTableEvent(EventId id, TableId table, Count count, FS.FilePath dst)
         {
-            EventId = eid;
+            EventId = id;
             TableId = table;
             RowCount = count;
             Target = dst;
         }
 
         [MethodImpl(Inline)]
-        public EmittedTableEvent(WfStepId step, TableId dataset, uint count, FS.FilePath target)
+        public EmittedTableEvent(Type host, TableId table, Count count, FS.FilePath target)
         {
-            EventId = EventId.define(EventName, step);
-            TableId = dataset;
-            RowCount = count;
-            Target = target;
-        }
-
-        [MethodImpl(Inline)]
-        public EmittedTableEvent(WfStepId step, TableId dataset, FS.FilePath target)
-        {
-            EventId = EventId.define(EventName, step);
-            TableId = dataset;
+            EventId = EventId.define(host, Kind);
+            TableId = table;
             RowCount = 0;
             Target = target;
         }

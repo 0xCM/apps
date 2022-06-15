@@ -12,8 +12,6 @@ namespace Z0
 
         Symbols<CoffSectionKind> SectionKinds;
 
-        AsmObjPaths ObjectPaths => AsmObjects.ObjPaths;
-
         public CoffServices()
         {
             SectionKinds = Symbols.index<CoffSectionKind>();
@@ -152,7 +150,7 @@ namespace Z0
         public Index<CoffSection> CollectHeaders(WsContext context)
         {
             var records = CalcObjHeaders(context);
-            TableEmit(records, CmdFlows.table<CoffSection>(context.Project.Project));
+            TableEmit(records, WsCmdFlows.table<CoffSection>(context.Project.Project));
             return records;
         }
 
@@ -161,7 +159,7 @@ namespace Z0
 
         public Index<CoffSymRecord> LoadSymbols(ProjectId project)
         {
-            var src = CmdFlows.table<CoffSymRecord>(project);
+            var src = WsCmdFlows.table<CoffSymRecord>(project);
             var lines = src.ReadLines(true);
             var count = lines.Count - 1;
             Index<CoffSymRecord> dst = alloc<CoffSymRecord>(count);
@@ -188,7 +186,7 @@ namespace Z0
 
         public Index<CoffSection> LoadHeaders(ProjectId project)
         {
-            var src = CmdFlows.table<CoffSection>(project);
+            var src = WsCmdFlows.table<CoffSection>(project);
             var lines = src.ReadLines(true);
             var count = lines.Count - 1;
             var buffer = alloc<CoffSection>(count);
@@ -330,7 +328,7 @@ namespace Z0
             var records = buffer.ToArray().Sort();
             for(var i=0u; i<records.Length; i++)
                 seek(records,i).Seq = i;
-            TableEmit(records, CmdFlows.table<CoffSymRecord>(context.Project.Project));
+            TableEmit(records, WsCmdFlows.table<CoffSymRecord>(context.Project.Project));
             return records;
         }
     }

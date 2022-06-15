@@ -9,7 +9,7 @@ namespace Z0
     [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
     public struct CoffSymRecord : IComparable<CoffSymRecord>
     {
-        public const string TableId = "coff.symbols";
+        const string TableId = "coff.symbols";
 
         public const byte FieldCount = 10;
 

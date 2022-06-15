@@ -77,9 +77,9 @@ namespace Z0
         public static EmittedTableEvent emittedTable(Type host, TableId table, Count count, FS.FilePath dst)
             => new EmittedTableEvent(host, table, count, dst);
 
-        [Op]
-        public static EmittedTableEvent emittedTable(Type host, TableId table, FS.FilePath dst)
-            => new EmittedTableEvent(host, table, dst);
+        // [Op]
+        // public static EmittedTableEvent emittedTable(Type host, TableId table, FS.FilePath dst)
+        //     => new EmittedTableEvent(host, table, 0, dst);
 
         [Op]
         public static ProcessingFileEvent processingFile(Type step, FS.FilePath dst)
@@ -102,8 +102,8 @@ namespace Z0
             => new RanEvent<T>(host, msg);
 
         [Op, Closures(Closure)]
-        public static RanEvent<T> ran<T>(RunningEvent<T> prior)
-            => new RanEvent<T>(prior);
+        public static RanEvent<T> ran<T>(RunningEvent<T> prior, T msg = default)
+            => new RanEvent<T>(prior, msg);
 
         [Op, Closures(Closure)]
         public static CreatingEvent creating(Type host)

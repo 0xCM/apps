@@ -12,7 +12,7 @@ namespace Z0
 
         public readonly BinaryCode HexData;
 
-        internal CoffHex(CoffObject coff, HexDataRow[] hex, BinaryCode compacted)
+        public CoffHex(CoffObject coff, HexDataRow[] hex, BinaryCode compacted)
         {
             Object = coff;
             HexRows =  hex;

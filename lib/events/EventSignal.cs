@@ -40,18 +40,18 @@ namespace Z0
             return e;
         }
 
-        public RanEvent<T> Ran<T>(T msg, FlairKind flair = FlairKind.Ran)
+        public RanEvent<T> Ran<T>(T msg)
         {
-            var e = ran(Source.Type, msg);
-            Raise(e);
-            return e;
+            var ev = ran(Source.Type, msg);
+            Raise(ev);
+            return ev;
         }
 
-        public RanEvent<T> Ran<T>(RunningEvent<T> prior)
+        public RanEvent<T> Ran<T>(RunningEvent<T> prior, T msg)
         {
-            var e = ran(prior);
-            Raise(e);
-            return e;
+            var ev = ran(prior,msg);
+            Raise(ev);
+            return ev;
         }
 
         public CreatingEvent Creating(Type host)
@@ -98,12 +98,12 @@ namespace Z0
             return e;
         }
 
-        public EmittedTableEvent EmittedTable(Type type, FS.FilePath dst)
-        {
-            var e = emittedTable(Source.Type, TableId.identify(type), dst);
-            Raise(e);
-            return e;
-        }
+        // public EmittedTableEvent EmittedTable(Type type, FS.FilePath dst)
+        // {
+        //     var e = emittedTable(Source.Type, TableId.identify(type), dst);
+        //     Raise(e);
+        //     return e;
+        // }
 
         public EmittingFileEvent EmittingFile(FS.FilePath dst)
         {

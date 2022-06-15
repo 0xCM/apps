@@ -2,7 +2,7 @@ namespace Z0
 {
     using System;
 
-    [Flags, SymSource(CoffObjects.group)]
+    [Flags, SymSource("coff")]
     public enum ImageSectionFlags : uint
     {
         TYPE_NO_PAD = 0x8u,

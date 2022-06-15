@@ -16,9 +16,10 @@ namespace Z0
 
         public static ByteSize write(ReadOnlySpan<byte> src, MemoryAddress @base, FS.FilePath dst, byte bpl = HexCsvRow.BPL)
         {
+            const string Header = "Address      | Data";
             var formatter = HexDataFormatter.create(@base, bpl);
             using var writer = dst.AsciWriter();
-            writer.WriteLine(string.Concat($"Address".PadRight(12), RP.SpacedPipe, "Data"));
+            writer.WriteLine(Header);
             var offset = MemoryAddress.Zero;
             var lines = 0;
             var blocks = src.Length/bpl;

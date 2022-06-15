@@ -4,11 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    [StructLayout(StructLayout,Pack=1)]
     public readonly struct AddressBankIndex
     {
-        public ushort Selector {get;}
+        public readonly ushort Selector;
 
-        public ushort Base {get;}
+        public readonly ushort Base;
 
         [MethodImpl(Inline)]
         public AddressBankIndex(ushort selector, ushort @base)

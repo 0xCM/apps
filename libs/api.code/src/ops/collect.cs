@@ -11,7 +11,10 @@ namespace Z0
     partial class ApiCode
     {
         public Index<CollectedEncoding> Collect(ICompositeDispenser symbols, IPart src)
-            => collect(MethodEntryPoints.create(ApiJit.JitPart(src)), EventLogger, symbols);
+            => collect(MethodEntryPoints.create(ApiJit.JitPart(src)), EventLog, symbols);
+
+        public static Index<CollectedEncoding> collect(IApiPartCatalog src, Action<IWfEvent> log, ICompositeDispenser dst)
+            => collect(MethodEntryPoints.create(ApiJit.jit(src, log)), log, dst);
 
         public static Index<CollectedEncoding> collect(ReadOnlySpan<MethodEntryPoint> src, Action<IWfEvent> log, ICompositeDispenser dispenser)
             => divine(collect(dispenser, src), log);

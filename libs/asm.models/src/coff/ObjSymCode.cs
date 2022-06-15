@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// https://llvm.org/docs/CommandGuide/llvm-nm.html
     /// </summary>
-    [SymSource("llvm")]
+    [SymSource("coff")]
     public enum ObjSymCode : byte
     {
         None = 0,

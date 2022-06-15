@@ -26,10 +26,10 @@ namespace Z0
             => src.OutFiles(FileKind.McAsm.Ext());
 
         public FS.FilePath AsmSyntaxTable(ProjectId project)
-            => CmdFlows.table<AsmSyntaxRow>(project);
+            => WsCmdFlows.table<AsmSyntaxRow>(project);
 
         public FS.FilePath AsmInstructionTable(ProjectId project)
-            => CmdFlows.table<AsmInstructionRow>(project);
+            => WsCmdFlows.table<AsmInstructionRow>(project);
 
         public Outcome<Index<CmdFlow>> BuildLlc(IProjectWs project, LlvmSubtarget subtarget, bool runexe = false)
         {

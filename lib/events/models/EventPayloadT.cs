@@ -4,8 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
-    public readonly struct EventPayload<T> : ITextual
+    public readonly struct EventPayload<T>
     {
         readonly T _Data;
 

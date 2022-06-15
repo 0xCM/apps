@@ -13,14 +13,27 @@ namespace Z0
 
             public ModuleArchives ModuleArchives(IWfRuntime wf)
                 => Service<ModuleArchives>(wf);
+
+           public MemoryEmitter MemoryEmitter(IWfRuntime wf)
+                => Service<MemoryEmitter>(wf);
+
+            public HexEmitter HexEmitter(IWfRuntime wf)
+                => Service<HexEmitter>(wf);
+
         }
 
-        static Svc AppServices => Svc.Instance;
+        static Svc Services => Svc.Instance;
 
         public static ModuleArchives ModuleArchives(this IWfRuntime wf)
-            => AppServices.ModuleArchives(wf);
+            => Services.ModuleArchives(wf);
 
         public static DumpArchive DumpArchive(this IWfRuntime wf)
-            => AppServices.DumpArchive(wf);
+            => Services.DumpArchive(wf);
+
+        public static MemoryEmitter MemoryEmitter(this IWfRuntime wf)
+            => Services.MemoryEmitter(wf);
+
+        public static HexEmitter HexEmitter(this IWfRuntime wf)
+            => Services.HexEmitter(wf);
    }
 }

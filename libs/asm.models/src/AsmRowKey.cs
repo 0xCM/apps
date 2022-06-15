@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     [StructLayout(StructLayout,Pack=1)]
     public readonly record struct AsmRowKey : IComparable<AsmRowKey>
     {
@@ -24,7 +26,7 @@ namespace Z0
         public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => alg.hash.combine(Seq,DocSeq);
+            get => hash(Seq,DocSeq);
         }
 
         public string Format()

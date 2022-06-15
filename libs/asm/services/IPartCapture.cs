@@ -4,12 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public enum CoffNameKind : byte
+    public interface IPartCapture
     {
-        None,
 
-        String,
-
-        Address,
+        Index<CollectedEncoding> Capture(IApiCatalog src, ICompositeDispenser dispenser, bool pll);
     }
 }

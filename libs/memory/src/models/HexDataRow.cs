@@ -15,9 +15,4 @@ namespace Z0
 
         public static HexDataRow Empty => default;
     }
-
-    public class HexDat
-    {
-
-    }
 }

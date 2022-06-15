@@ -8,47 +8,6 @@ namespace Z0
 
     using static core;
 
-    public interface IPartCapture
-    {
-        void Capture(ReadOnlySpan<IPart> src, ICompositeDispenser dst, bool pll);
-    }
-
-    class ApiPartCapture : WfSvc<ApiPartCapture>, IPartCapture
-    {
-        AsmDecoder AsmDecoder => Wf.AsmDecoder();
-
-        ApiCodeFiles CodeFiles => Wf.ApiCodeFiles();
-
-        ApiCode ApiCode => Wf.ApiCode();
-
-        public void Capture(ReadOnlySpan<IPart> src, ICompositeDispenser dst, bool pll)
-        {
-            var pack = CodeFiles.ApiPack(core.timestamp());
-            iter(src, part => Capture(part, pack, dst), pll);
-        }
-
-        void Capture(IPart src, IApiPack pack, ICompositeDispenser dst)
-        {
-            var collected = ApiCode.Collect(src, dst, pack).Sort();
-            var asm = EmitAsm(dst, src.Id, collected, pack.AsmPath(src.Id));
-        }
-
-        Index<AsmRoutine> EmitAsm(ICompositeDispenser symbols, PartId part, Index<CollectedEncoding> src, FS.FilePath dst)
-        {
-            var buffer = alloc<AsmRoutine>(src.Count);
-            var emitter = text.emitter();
-            for(var i=0; i<src.Count; i++)
-            {
-                var routine = AsmDecoder.Decode(src[i]);
-                seek(buffer,i) = routine;
-                emitter.AppendLine(routine.AsmRender(routine));
-            }
-
-            FileEmit(emitter.Emit(), src.Count, dst);
-            return buffer;
-        }
-    }
-
     public class ApiCapture : WfSvc<ApiCapture>
     {
         AsmDecoder AsmDecoder => Wf.AsmDecoder();
@@ -61,12 +20,11 @@ namespace Z0
 
         public void Run()
         {
-            var capture = ApiPartCapture.create(Wf);
-            using var dst = Dispense.composite();
-            var parts = ApiMd.Parts;
-            capture.Capture(parts, dst, true);
-            // var pack = CodeFiles.ApiPack(core.timestamp());
-            // iter(ApiMd.Parts, part => Run(part, pack, dst), true);
+            var parts = ApiPartCapture.create(Wf);
+            parts.Capture();
+            // using var dst = Dispense.composite();
+            // var parts = ApiMd.Parts;
+            // capture.Capture(parts, dst, true);
         }
 
         public void Run(PartId id)
@@ -92,12 +50,6 @@ namespace Z0
             else
                 Run();
         }
-
-        // void Run(IPart part, IApiPack pack, ICompositeDispenser dst)
-        // {
-        //     var collected = ApiCode.Collect(part, dst, pack).Sort();
-        //     var asm = EmitAsm(dst, part.Id, collected, pack.AsmPath(part.Id));
-        // }
 
         public void Run(ApiHostUri src)
         {

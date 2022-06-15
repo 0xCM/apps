@@ -10,6 +10,8 @@ namespace Z0
 
     public sealed class MemoryEmitter : AppService<MemoryEmitter>, IMemoryEmitter
     {
+        const byte Bpl = 40;
+
         public static void emit(MemoryRange src, StreamWriter dst, byte bpl)
             => HexDataFormatter.create(src.Min, bpl).FormatLines(cover<byte>(src.Min, src.Size), line => dst.WriteLine(line));
 
@@ -19,13 +21,13 @@ namespace Z0
             emit(src, writer, bpl);
         }
 
-        public static void emit(MemoryAddress @base, ByteSize size, FS.FilePath dst, byte bpl = 40)
+        public static void emit(MemoryAddress @base, ByteSize size, FS.FilePath dst, byte bpl = Bpl)
             => emit((@base,  @base + size), dst, bpl);
 
         [Op]
         public unsafe static uint emit(MemorySeg src, uint bpl, FS.FilePath dst)
         {
-            var line = text.buffer();
+            var line = text.emitter();
             using var writer = dst.Writer();
             var pSrc = src.BaseAddress.Pointer<byte>();
             var last =  src.LastAddress.Pointer<byte>();
@@ -80,16 +82,16 @@ namespace Z0
             EmittedFile(flow, (uint)file.Size);
         }
 
-        public void Emit(MemoryRange src, StreamWriter dst, byte bpl = 40)
+        public void Emit(MemoryRange src, StreamWriter dst, byte bpl = Bpl)
             => emit(src, dst, bpl);
 
-        public void Emit(MemoryRange src, FS.FilePath dst, byte bpl = 40)
+        public void Emit(MemoryRange src, FS.FilePath dst, byte bpl = Bpl)
             => emit(src, dst, bpl);
 
-        public void Emit(MemoryAddress @base, ByteSize size, FS.FilePath dst, byte bpl = 40)
+        public void Emit(MemoryAddress @base, ByteSize size, FS.FilePath dst, byte bpl = Bpl)
             => emit((@base,  @base + size), dst, bpl);
 
-        public unsafe void EmitPaged(MemoryRange src, StreamWriter dst, byte bpl = 40)
+        public unsafe void EmitPaged(MemoryRange src, StreamWriter dst, byte bpl = Bpl)
         {
             memory.liberate(src);
             var buffer = span<byte>(PageSize);
@@ -119,13 +121,13 @@ namespace Z0
             }
         }
 
-        public void EmitPaged(MemoryRange src, FS.FilePath dst, byte bpl = 40)
+        public void EmitPaged(MemoryRange src, FS.FilePath dst, byte bpl = Bpl)
         {
             using var writer = dst.Writer();
             EmitPaged(src, writer, bpl);
         }
 
-        public void EmitPaged(MemoryAddress @base, ByteSize size, FS.FilePath dst, byte bpl = 40)
+        public void EmitPaged(MemoryAddress @base, ByteSize size, FS.FilePath dst, byte bpl = Bpl)
             => EmitPaged((@base,  @base + size), dst, bpl);
     }
 }
