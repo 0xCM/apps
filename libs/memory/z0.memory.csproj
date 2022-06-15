@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="$(Native)" />
+    <ProjectReference Include="$(Numbers)" />
   </ItemGroup>
 
 </Project>

@@ -96,6 +96,19 @@ namespace Z0
 
             public BdDisasm BdDisasm(IWfRuntime wf)
                 => Service<BdDisasm>(wf);
+
+            public Parsers Parsers(IWfRuntime wf)
+                => Service<Parsers>(wf);
+
+            public CharMapper CharMapper(IWfRuntime wf)
+                => Service<CharMapper>(wf);
+
+            public FileSplitter FileSplitter(IWfRuntime wf)
+                => Service<FileSplitter>(wf);
+
+            public TypeParser TypeParser(IWfRuntime wf)
+                => Service<TypeParser>(wf);
+
         }
 
         static Svc Services => Svc.Instance;
@@ -186,5 +199,20 @@ namespace Z0
 
         public static BdDisasm BdDisasm(this IWfRuntime wf)
             => Services.BdDisasm(wf);
+
+         public static Parsers Parsers(this IWfRuntime wf)
+            => Services.Parsers(wf);
+
+        public static CharMapper CharMapper(this IWfRuntime wf)
+            => Services.CharMapper(wf);
+
+        public static FileSplitter FileSplitter(this IWfRuntime wf)
+            => Services.FileSplitter(wf);
+
+        public static TypeParser TypeParser(this IWfRuntime wf)
+            => Services.TypeParser(wf);
+
+        public static ApiCaptureArchive ApiCaptureArchive(this IWfRuntime wf)
+            => Z0.ApiCaptureArchive.create(wf);
    }
 }

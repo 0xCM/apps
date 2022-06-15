@@ -5,9 +5,34 @@
 namespace Z0
 {
     using static core;
+    using static Numbers;
+    using static math;
 
     public partial class MemDb : IMemDb
     {
+        [MethodImpl(Inline)]
+        public static ref num4 read(ReadOnlySpan<byte> src, uint index, out num4 dst)
+        {
+            var cell = MemoryScales.index(4, -2, index);
+            ref readonly var b = ref skip(src, cell.Offset);
+            dst = cell.Aligned ? num(n4,b) : num(n4, srl(b , (byte)cell.CellWidth));
+            return ref dst;
+        }
+
+        [MethodImpl(Inline)]
+        public static void write(num4 src, uint index, Span<byte> dst)
+        {
+            const byte UpperMask = 0xF0;
+            const byte LowerMask = 0x0F;
+            var cell = MemoryScales.index(4, -2, index);
+            ref var c = ref seek(dst, cell.Offset);
+            if(cell.Aligned)
+                c = or(and(c, UpperMask), src);
+            else
+                c = or(sll(src, (byte)cell.CellWidth), and(c, LowerMask));
+        }
+
+
         readonly MemoryFile DbMap;
 
         public readonly MemoryFileInfo Description;
@@ -67,7 +92,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static uint NextSeq(ObjectKind kind)
-            => inc(ref ObjSeqSource[kind]);
+            => core.inc(ref ObjSeqSource[kind]);
 
         [MethodImpl(Inline)]
         static AllocToken token(MemoryAddress @base, uint offset, uint size)

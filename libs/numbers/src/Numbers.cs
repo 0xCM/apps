@@ -5,7 +5,6 @@
 namespace Z0
 {
     using static core;
-    using static BitMasks;
     using static math;
 
     [ApiHost]
@@ -22,28 +21,6 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static num2 pack(bit a, bit b)
             => (num2)((uint)a | (uint)b << 1);
-
-        [MethodImpl(Inline)]
-        public static ref num4 read(ReadOnlySpan<byte> src, uint index, out num4 dst)
-        {
-            var cell = MemoryScales.index(4, -2, index);
-            ref readonly var b = ref skip(src, cell.Offset);
-            dst = cell.Aligned ? num(n4,b) : num(n4, srl(b , (byte)cell.CellWidth));
-            return ref dst;
-        }
-
-        [MethodImpl(Inline)]
-        public static void write(num4 src, uint index, Span<byte> dst)
-        {
-            const byte UpperMask = 0xF0;
-            const byte LowerMask = 0x0F;
-            var cell = MemoryScales.index(4, -2, index);
-            ref var c = ref seek(dst, cell.Offset);
-            if(cell.Aligned)
-                c = or(and(c, UpperMask), src);
-            else
-                c = or(sll(src, (byte)cell.CellWidth), and(c, LowerMask));
-        }
 
         [MethodImpl(Inline), Op]
         public static ulong max(byte width)

@@ -12,6 +12,9 @@
     <EmbeddedResource Include="assets/**/*.*" />
     <ProjectReference Include="$(Numbers)" />
     <ProjectReference Include="$(Calcs)" />
+    <ProjectReference Include="$(Assets)" />
+    <ProjectReference Include="$(Services)" />
+    <ProjectReference Include="$(Symbols)" />
 
   </ItemGroup>
 
