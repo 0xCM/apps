@@ -8,6 +8,15 @@ namespace Z0
     {
         public Name Name {get;}
 
+        [MethodImpl(Inline)]
+        public VarSymbol(string name)
+            => Name = name;
+
+        [MethodImpl(Inline)]
+        public VarSymbol(char name)
+            => Name = name.ToString();
+
+
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
@@ -19,6 +28,24 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Name.IsNonEmpty;
         }
+
+        public string Format()
+            => Format(VarContextKind.Workflow);
+
+        public string Format(VarContextKind vck)
+            => string.Format(RP.pattern(vck), Name);
+
+        public override string ToString()
+            => Format();
+
+        public bool Equals(VarSymbol src)
+            => Name.Equals(src.Name);
+
+        public override int GetHashCode()
+            => Name.GetHashCode();
+
+        public override bool Equals(object src)
+            => src is VarSymbol v && Equals(v);
 
         [Op]
         public static string format(IVarValue var, char assign)
@@ -53,31 +80,6 @@ namespace Z0
         public static string format(VarContextKind vck, IVarValue var)
             => format(vck,var, Chars.Eq);
 
-        [MethodImpl(Inline)]
-        public VarSymbol(string name)
-            => Name = name;
-
-        [MethodImpl(Inline)]
-        public VarSymbol(char name)
-            => Name = name.ToString();
-
-        public string Format()
-            => Format(VarContextKind.Workflow);
-
-        public string Format(VarContextKind vck)
-            => string.Format(RP.pattern(vck), Name);
-
-        public override string ToString()
-            => Format();
-
-        public bool Equals(VarSymbol src)
-            => Name.Equals(src.Name);
-
-        public override int GetHashCode()
-            => Name.GetHashCode();
-
-        public override bool Equals(object src)
-            => src is VarSymbol v && Equals(v);
 
         [MethodImpl(Inline)]
         public static implicit operator VarSymbol(string name)
@@ -92,5 +94,7 @@ namespace Z0
 
         public static bool operator !=(VarSymbol a, VarSymbol b)
             => !a.Equals(b);
+
+        public static VarSymbol Empty => new VarSymbol(EmptyString);
     }
 }

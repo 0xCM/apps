@@ -11,26 +11,31 @@ namespace Z0
 
         public const EventKind Kind = EventKind.Created;
 
+        public FlairKind Flair  => FlairKind.Created;
+
         public EventId EventId {get;}
 
-        public FlairKind Flair  => FlairKind.Created;
+        public Type HostType {get;}
 
         [MethodImpl(Inline)]
         public CreatedEvent(Type host)
         {
             EventId = EventId.define(host, Kind);
+            HostType = host;
         }
 
         [MethodImpl(Inline)]
         public CreatedEvent(CreatingEvent prior)
         {
             EventId = prior.EventId;
+            HostType = prior.HostType;
         }
 
         public string Format()
-            => EventId.Format();
+            => string.Format(RP.PSx2, EventId, string.Format("Created {0}", HostType.Name));
 
         public override string ToString()
             => Format();
+
     }
 }

@@ -134,8 +134,14 @@ namespace Z0
         static EnvDirVar dir(string name)
         {
             var value = Environment.GetEnvironmentVariable(name);
+            var dst = EnvDirVar.Empty;
             if(text.blank(value))
-                @throw($"The environment variable '{name}' is undefined");
+            {
+                //term.warn(EventFactory.warn(typeof(Env), $"The environment variable '{name}' is undefined"));
+                dst = (name,FS.dir("Z:/env"));
+
+                //@throw($"The environment variable '{name}' is undefined");
+            }
             return (name, FS.dir(value));
         }
 

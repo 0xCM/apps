@@ -1,22 +1,24 @@
 | Name           | Value                               |
+| Archives       | y:/archives
+| CodGen         | z:/dev/z0/cg                        |
+| Control        | z:/control                          |
 | DevRoot        | z:                                  |
 | DbMain         | z:                                  |
-| RepoDeps       | z:/repos                            |
 | ToolDeps       | y:/tools                            |
 | DbSources      | y:/db.sources                       |
 | DbTargets      | z:/db.targets                       |
 | DbProjects     | z:/db.projects                      |
 | DbCapture      | z:/db.capture                       |
-| CodGen         | z:/dev/z0/cg                        |
-| Control        | z:/control                          |
 | Toolbase       | z:/dev/tools                        |
 | EnvConfig      | z:/env                              |
-| WinSdkRoot     | c:/Program Files (x86)/Windows Kits |
 | VsDir          | y:/tools/msvs                       |
 | LlvmRoot       | z:/repos/llvm                       |
+| LlvmProject    | z:/repos/llvm/llvm-project
+| RepoDeps       | z:/repos                            |
 | XedRoot        | z:/repos/xed                        |
 | WinSdkMajorVer | 10                                  |
-| WinSdkVer      | 10.0.20348.0                        |
+| WinSdkVer      | 10.0.19041.0                        |
 | NetFxVer       | 4.8                                 |
-| MsvcVer        | 14.29.30133                         |
+| MsvcVer        | 14.32.31326                         |
 | LlvmVer        | 13.0.0                              |
+| WinSdkRoot     | c:/Program Files (x86)/Windows Kits |
