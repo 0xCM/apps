@@ -30,7 +30,6 @@ namespace Z0
 
         static Svc Services => Svc.Instance;
 
-
         public static HexCsv HexCsv(this IWfRuntime wf)
             => Services.HexCsv(wf);
 
@@ -38,7 +37,7 @@ namespace Z0
             => Services.HexDataReader(wf);
 
         public static AppDb AppDb(this IWfRuntime wf)
-            => AppData.AppDb;
+            => Z0.AppDb.Service;
 
         public static ScriptRunner ScriptRunner(this IWfRuntime wf)
             => Services.ScriptRunner(wf);

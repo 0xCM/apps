@@ -31,13 +31,13 @@ namespace Z0
             Target = dst;
         }
 
-        K IRelation<K, S, T>.Kind
+        K IRelation<K,S,T>.Kind
             => Kind;
 
-        S IRelation<K, S, T>.Source
+        S IRelation<K,S,T>.Source
             => Source;
 
-        T IRelation<K, S, T>.Target
+        T IRelation<K,S,T>.Target
             => Target;
 
         public Hash32 Hash

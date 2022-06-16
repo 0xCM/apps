@@ -15,10 +15,10 @@ namespace Z0
         public static AsmObjPaths ObjPaths
         {
             [MethodImpl(Inline)]
-            get => new AsmObjPaths(AppData.AppDb);
+            get => new AsmObjPaths(AppDb.Service);
         }
 
-        public AsmCodeMap MapAsm(IProjectWs ws, Alloc dst)
+        public AsmCodeMap MapAsm(IWsProject ws, Alloc dst)
         {
             var entries = map(ws, LoadRows(ws.Project), dst);
             TableEmit(entries, AppDb.ProjectTable<AsmCodeMapEntry>(ws.Project));
@@ -28,7 +28,7 @@ namespace Z0
         public void CollectCoffData(WsContext context)
             => Coff.Collect(context);
 
-        public Index<ObjSymRow> LoadObjSyms(IProjectWs project)
+        public Index<ObjSymRow> LoadObjSyms(IWsProject project)
             => LoadObjSyms(AppDb.DbProjects(project.Project).Table<ObjSymRow>());
 
         public Index<ObjSymRow> LoadObjSyms(FS.FilePath src)

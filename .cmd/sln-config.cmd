@@ -1,14 +1,12 @@
 @echo off
 set SlnTool=dotnet sln
-set SlnPath=%SlnRoot%/%SlnName%
 
-set SlnZLibCmd=%SlnTool% %SlnPath% add %LibDir%/z0.lib.csproj
-set SlnLiteralsCmd=%SlnTool% %SlnPath% add %SlnRoot%/literals/z0.literals.csproj
+set SlnZLibCmd=%SlnTool% %SlnPath% add %ZLibRoot%/z0.lib.csproj
+set SlnLiteralsCmd=%SlnTool% %SlnPath% add %LiteralsRoot%/z0.literals.csproj
+set SlnCmdShell=%SlnTool% %SlnPath% add %WsRoot%/cmd/z0.cmd.csproj
+
 set SlnLibsCmd=%SlnTool% %SlnPath% add %LibsRoot%/z0.libs.csproj
-set SlnCmdCmd=%SlnTool% %SlnPath% add %SlnRoot%/cmd/z0.cmd.csproj
-
 set SlnLibsCoreCmd==%SlnTool% %SlnPath% add %LibsRoot%/libs.core/z0.libs.core.csproj
-
 set SlnAsmCoreCmd=%SlnTool% %SlnPath% add %LibsRoot%/asm.core/z0.asm.core.csproj
 set SlnAsmModelsCmd=%SlnTool% %SlnPath% add %LibsRoot%/asm.models/z0.asm.models.csproj
 set SlnAsmOperandsCmd=%SlnTool% %SlnPath% add %LibsRoot%/asm.operands/z0.asm.operands.csproj
@@ -37,14 +35,14 @@ set SlnIntelCoreCmd=%SlnTool% %SlnPath% add %LibsRoot%/intel.core/z0.intel.core.
 set SlnIntelIntrinsicsCmd=%SlnTool% %SlnPath% add %LibsRoot%/intel.intrinsics/z0.intel.intrinsics.csproj
 set SlnIntelXedCmd=%SlnTool% %SlnPath% add %LibsRoot%/intel.xed/z0.intel.xed.csproj
 
-set SlnTestChecksCmd=%SlnTool% %SlnPath% add %TestDir%/test.checks/z0.test.checks.csproj
-set SlnTestUnitsCmd=%SlnTool% %SlnPath% add %TestDir%/test.units/z0.test.units.csproj
-set SlnTestShellCmd=%SlnTool% %SlnPath% add %TestDir%/test.shell/z0.test.shell.csproj
+set SlnTestChecksCmd=%SlnTool% %SlnPath% add %TestRoot%/test.checks/z0.test.checks.csproj
+set SlnTestUnitsCmd=%SlnTool% %SlnPath% add %TestRoot%/test.units/z0.test.units.csproj
+set SlnTestShellCmd=%SlnTool% %SlnPath% add %TestRoot%/test.shell/z0.test.shell.csproj
 
-set SlnCgIntelCmd=%SlnTool% %SlnPath% add %CgDir%/codegen.intel/z0.codegen.intel.csproj
-set SlnCgCommonCmd=%SlnTool% %SlnPath% add %CgDir%/codegen.common/z0.codegen.common.csproj
-set SlnCgLlvmCmd=%SlnTool% %SlnPath% add %CgDir%/codegen.llvm/z0.codegen.llvm.csproj
-set SlnCgShellCmd=%SlnTool% %SlnPath% add %CgDir%/codegen.shell/z0.codegen.shell.csproj
+set SlnCgIntelCmd=%SlnTool% %SlnPath% add %CgRoot%/codegen.intel/z0.codegen.intel.csproj
+set SlnCgCommonCmd=%SlnTool% %SlnPath% add %CgRoot%/codegen.common/z0.codegen.common.csproj
+set SlnCgLlvmCmd=%SlnTool% %SlnPath% add %CgRoot%/codegen.llvm/z0.codegen.llvm.csproj
+set SlnCgShellCmd=%SlnTool% %SlnPath% add %CgRoot%/codegen.shell/z0.codegen.shell.csproj
 
 set SlnXedShellCmd=%SlnTool% %SlnPath% add %ShellRoot%\xed.shell\z0.xed.shell.csproj
 set SlnIntelShellCmd=%SlnTool% %SlnPath% add %ShellRoot%\intel\z0.intel.csproj

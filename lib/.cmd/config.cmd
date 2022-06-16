@@ -1,3 +1,3 @@
 @echo off
 set ProjectId=lib
-set SlnScripts=%~dp0..\..\.cmd
+call %~dp0..\..\.cmd\config.cmd

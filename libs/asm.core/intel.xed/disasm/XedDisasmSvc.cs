@@ -5,13 +5,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public partial class XedDisasmSvc : AppService<XedDisasmSvc>
+    public partial class XedDisasmSvc : WfSvc<XedDisasmSvc>
     {
         const string disasm = "xed.disasm";
-
-        AppDb AppDb => Wf.AppDb();
-
-        WsScripts Projects => Wf.WsScripts();
 
         AppSvcOps AppSvc => Wf.AppSvc();
 

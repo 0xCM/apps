@@ -6,9 +6,9 @@ namespace Z0
 {
     partial class ProjectSvc
     {
-        public void Etl(IProjectWs project)
+        public void Etl(IWsProject project)
         {
-            var context = WsCmdFlows.context(project);
+            var context = WsContext.load(project);
             AsmObjects.CollectObjects(context);
             AsmObjects.Emit(context, AsmObjects.CalcObjSyms(context));
             //AsmObjects.CollectObjSyms(context);

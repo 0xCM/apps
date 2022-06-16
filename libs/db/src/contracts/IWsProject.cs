@@ -4,10 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class ProjectCmd
+    using static ApiGranules;
+
+    public interface IWsProject : IRootedArchive, IProjectWs
     {
-        [CmdOp("project/check/objhex")]
-        Outcome CheckObjHex(CmdArgs args)
-            => Coff.CheckObjHex(WsContext.load(Project()));
+        FS.FilePath Script(ScriptId id, FileKind kind)
+            => Sources(scripts).Path(id, kind);
     }
 }

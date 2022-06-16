@@ -67,14 +67,6 @@ namespace Z0
             => _Project;
 
         [MethodImpl(Inline)]
-        public IProjectWs Project(ProjectId id)
-        {
-            _ProjectId = id;
-            _Project = Ws.Project(id);
-            return Project();
-        }
-
-        [MethodImpl(Inline)]
         public IProjectWs Project(IProjectWs ws)
         {
             _ProjectId = ws.Project;

@@ -13,7 +13,7 @@ namespace Z0
         public McAsmDoc CalcMcAsmDoc(in FileRef src)
             => new LlvmAsmParser().ParseMcAsmDoc(src);
 
-        public Index<McAsmDoc> CalcMcAsmDocs(IProjectWs src)
+        public Index<McAsmDoc> CalcMcAsmDocs(IWsProject src)
         {
             var files = WsCatalog.load(src).Entries(FileKind.McAsm);
             var count = files.Count;

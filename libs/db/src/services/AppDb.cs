@@ -9,15 +9,11 @@ namespace Z0
 
     public class AppDb : IAppDb
     {
-        WsArchives Archives;
+        public static ref readonly AppDb Service => ref Instance;
 
-        internal AppDb(WsArchives archives)
-        {
-            Archives = archives;
-        }
+        readonly WsArchives Archives;
 
-        EnvData IEnvProvider.Env
-            => AppData.AppEnv;
+        public readonly EnvData Env;
 
         public IDbTargets DbTargets()
             => new DbTargets(Archives.Path(S.DbTargets).Location);
@@ -29,23 +25,26 @@ namespace Z0
         public IDbSources DbSources()
             => new DbSources(Archives.Path(S.DbSources).Location);
 
-        public IDbTargets CgStage()
-            => DbTargets("cgstage");
-
-        public IDbTargets CgStage(string scope)
-            => DbTargets("cgstage").Targets(scope);
-
         public IDbSources Control()
             => new DbSources(Archives.Path(S.Control).Location);
 
         public IDbSources Toolbase()
             => new DbSources(Archives.Path(S.Toolbase).Location);
 
-        public IDbSources Dev()
-            => new DbSources(Archives.Path(S.Dev).Location);
+        public IDbSources DevRoot()
+            => new DbSources(Archives.Path(S.DevRoot).Location);
 
-        public IDbTargets CodeGen()
-            => new DbTargets(Archives.Path(S.CodeGen).Location);
+        public WsCatalog Catalog(IWsProject src)
+            => WsCatalog.load(src);
+
+        public IWsProjects DevProjects()
+            => new WsProjects(DevRoot().Root, "dev");
+
+        public IWsProjects DevProjects(string scope)
+            => DevProjects().Projects(scope);
+
+        public IDbTargets CgRoot()
+            => new DbTargets(Archives.Path(S.CgRoot).Location);
 
         public IDbTargets Capture()
             => new DbTargets(Archives.Path(S.DbCapture).Location);
@@ -53,8 +52,32 @@ namespace Z0
         public IDbSources EnvConfig()
             => new DbSources(Archives.Path(S.EnvConfig).Location);
 
-        public IDbTargets DbProjects(ProjectId project)
-            => new DbTargets(Archives.Path(S.DbProjects).Location, project.Format());
+        public IWsProject DevProject(ProjectId src)
+            => new WsProject(DevProjects().Sources(src).Root + FS.folder(src.Format()), src);
+
+        public IWsProject DevProject(string scope, ProjectId src)
+            => new WsProject(DevProjects(scope).Sources(src).Root + FS.folder(src.Format()), src);
+
+        public IWsProject LlvmModel(ProjectId src)
+            => DevProject("llvm.models", src);
+
+        public WsCatalog DevCatalog(ProjectId src)
+            => Catalog(DevProject(src));
+
+        public WsCatalog DevCatalog(string scope, ProjectId src)
+            => Catalog(DevProject(scope, src));
+
+        public IDbTargets DbProjects(ProjectId src)
+            => new DbTargets(Archives.Path(S.DbProjects).Location, src.Format());
+
+        public IDbTargets DbProjects(IWsProject src)
+            => new DbTargets(Archives.Path(S.DbProjects).Location, src.Name);
+
+        public IDbTargets CgStage()
+            => DbTargets("cgstage");
+
+        public IDbTargets CgStage(string scope)
+            => DbTargets("cgstage").Targets(scope);
 
         public FS.FilePath ProjectTable<T>(ProjectId project)
             where T : struct
@@ -65,12 +88,6 @@ namespace Z0
 
         public IDbTargets DbTargets(string scope)
             => DbTargets().Targets(scope);
-
-        public FS.FilePath DbSource(string name, FileKind kind)
-            => DbSources().Path(name, kind);
-
-        public FS.FilePath DbDource(string scope, string name, FileKind kind)
-            => DbSources(scope).Path(name, kind);
 
         public IDbTargets Logs()
             => DbTargets("logs");
@@ -102,15 +119,20 @@ namespace Z0
         public IDbTargets AsmSrc(ProjectId id)
             => EtlTargets(id, T.asmsrc);
 
-        static SortedDictionary<string,FileKind> FileKindLU;
+        AppDb()
+        {
+            Archives = WsArchives.load();
+            Env = EnvData.load();
+        }
 
-        static Index<FileKind,Sym<FileKind>> _FileKindSyms;
+        static AppDb Instance;
+
+        EnvData IEnvProvider.Env
+            => Env;
 
         static AppDb()
         {
-            var symbols = Symbols.index<FileKind>().View.ToArray();
-            _FileKindSyms = symbols;
-            FileKindLU = symbols.Map(s => ("." + s.Expr.Format().ToLower(), s.Kind)).ToSortedDictionary(TextLengthComparer.create(true));
+            Instance = new();
         }
     }
 }

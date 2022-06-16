@@ -17,7 +17,7 @@ namespace Z0
             => TargetKind.Ext();
 
         string ITextual.Format()
-            => Flows.format(this);
+            => string.Format("{0}:*.{1} -> *.{2}", Actor, SourceExt, TargetExt);
     }
 
     public interface IFileFlowType<F> : IFileFlowType

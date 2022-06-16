@@ -11,9 +11,6 @@ namespace Z0
             public AppSvcOps AppSvc(IWfRuntime wf)
                 => Service<AppSvcOps>(wf);
 
-            public WsScripts WsScripts(IWfRuntime wf)
-                => Service<WsScripts>(wf);
-
             public Tooling Tooling(IWfRuntime wf)
                 => Service<Tooling>(wf);
 
@@ -26,6 +23,9 @@ namespace Z0
             public AppSvcOps<T> AppSvc<T>(IWfRuntime wf)
                 where T : IAppService<T>, new()
                     => Service<AppSvcOps<T>>(wf);
+
+            public WsScripts WsScripts(IWfRuntime wf)
+                => Service<WsScripts>(wf);
         }
 
         static AppSvcCache Services => AppSvcCache.Instance;

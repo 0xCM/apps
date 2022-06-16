@@ -1,9 +1,11 @@
 @echo off
-set ProjectId=cmd
-set ShellId=zcmd
 call %~dp0config.cmd
 
-call %BuildZLibCmd%
+call %BuildLiterals%
 if errorlevel 1 goto:eof
 
-call %BuildShellCmd%
+call %BuildZLib%
+if errorlevel 1 goto:eof
+
+call %BuildCmdSln%
+if errorlevel 1 goto:eof

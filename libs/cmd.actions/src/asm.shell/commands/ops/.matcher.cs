@@ -10,8 +10,8 @@ namespace Z0.Asm
     {
         Outcome Matcher0(CmdArgs args)
         {
-            var gen = Ws.Project("gen");
-            var input = gen.Subdir("sources") + FS.file("matcher-a", FS.Txt);
+            var gen = AppDb.CgStage("gen");
+            var input = gen.Targets("sources").Path(FS.file("matcher-a", FS.Txt));
             var lines = input.ReadNumberedLines();
             var count = lines.Length;
             var histo = dict<char,uint>();
@@ -36,12 +36,12 @@ namespace Z0.Asm
                 }
             }
 
-            var targets = gen.Subdir("targets");
+            var targets = gen.Targets("targets");
             var charcounts = histo.Map(x => (x.Key,x.Value)).OrderBy(x => x.Key);
 
             void EmitBuckets()
             {
-                var dst = targets + input.FileName.ChangeExtension(FS.ext("hist"));
+                var dst = targets.Path(input.FileName.ChangeExtension(FS.ext("hist")));
                 var emitting = EmittingFile(dst);
                 using var writer = dst.Utf8Writer();
                 for(var i=0; i<charcounts.Length; i++)
@@ -56,7 +56,7 @@ namespace Z0.Asm
             {
                 var sorted = terms.Map(x => (x.Key, x.Value)).OrderBy(x => x.Value);
                 var max = gcalc.max(sorted.Select(x => x.Value).ToReadOnlySpan());
-                var dst = targets + input.FileName.ChangeExtension(FS.ext("terms"));
+                var dst = targets.Path(input.FileName.ChangeExtension(FS.ext("terms")));
                 var emitting = EmittingFile(dst);
                 using var writer = dst.Utf8Writer();
                 var s0 = RP.slot(0,math.negate((short)(max)));

@@ -1,7 +1,5 @@
 @echo off
+set SlnName=z0.cmd.sln
 call %~dp0config.cmd
-set SlnDir=%ProjectDir%
-set SlnName=%ProjectSlnName%
-call %CmdScripts%\sln-config.cmd
-call %CmdScripts%\sln-add-libs.cmd
-call %CmdScripts%\sln-add-cmd.cmd
+call %SlnLibsCmd%
+call %SlnCmdShell%

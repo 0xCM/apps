@@ -6,13 +6,17 @@ namespace Z0
 {
     public class WsContext
     {
-        public readonly IProjectWs Project;
+        [MethodImpl(Inline)]
+        public static WsContext load(IWsProject src)
+            => new WsContext(src, WsDataFlows.load(src.Project));
+
+        public readonly IWsProject Project;
 
         public readonly WsCatalog Catalog;
 
         public readonly WsDataFlows Flows;
 
-        public WsContext(IProjectWs project, WsDataFlows flows)
+        public WsContext(IWsProject project, WsDataFlows flows)
         {
             Project = project;
             Catalog = flows.Catalog;

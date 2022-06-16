@@ -10,7 +10,7 @@ namespace Z0
     public abstract class WfSvc<S> : AppService<S>, IWfSvc
         where S : WfSvc<S>, new()
     {
-        protected static AppDb AppDb => AppData.AppDb;
+        protected static AppDb AppDb => AppDb.Service;
 
         public new void Babble<T>(T content)
             => WfMsg.Babble(content);

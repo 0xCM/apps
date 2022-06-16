@@ -9,8 +9,6 @@ namespace Z0
 
     public partial class ProjectSvc : AppCmdService<ProjectSvc>
     {
-        //AppSvcOps AppSvc => Wf.AppSvc();
-
         WsScripts Scripts => Wf.WsScripts();
 
         AsmObjects AsmObjects => Wf.AsmObjects();
@@ -19,19 +17,19 @@ namespace Z0
 
         CoffServices Coff => Wf.CoffServices();
 
-        public FS.Files SynAsmSources(IProjectWs src)
+        public FS.Files SynAsmSources(IWsProject src)
             => src.OutFiles(FileKind.SynAsm.Ext());
 
-        public FS.Files McAsmSources(IProjectWs src)
+        public FS.Files McAsmSources(IWsProject src)
             => src.OutFiles(FileKind.McAsm.Ext());
 
         public FS.FilePath AsmSyntaxTable(ProjectId project)
-            => WsCmdFlows.table<AsmSyntaxRow>(project);
+            => Flows.table<AsmSyntaxRow>(project);
 
         public FS.FilePath AsmInstructionTable(ProjectId project)
-            => WsCmdFlows.table<AsmInstructionRow>(project);
+            => Flows.table<AsmInstructionRow>(project);
 
-        public Outcome<Index<CmdFlow>> BuildLlc(IProjectWs project, LlvmSubtarget subtarget, bool runexe = false)
+        public Outcome<Index<CmdFlow>> BuildLlc(IWsProject project, LlvmSubtarget subtarget, bool runexe = false)
         {
             var scriptid = subtarget switch
             {

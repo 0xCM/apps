@@ -8,7 +8,9 @@ namespace Z0
 
     public class WsCatalog
     {
-        public static WsCatalog load(IProjectWs src)
+        static AppDb AppDb => AppDb.Service;
+
+        public static WsCatalog load(IWsProject src)
         {
             var dst = new WsCatalog();
             dst.Include(Require.notnull(src));
@@ -16,7 +18,7 @@ namespace Z0
         }
 
         public static WsCatalog load(ProjectId project)
-            => load(DevWs.create(Env.load().DevWs).Project(project));
+            => load(AppDb.LlvmModel(project));
 
         readonly PllMap<uint,FileRef> IdMap;
 
@@ -24,7 +26,7 @@ namespace Z0
 
         readonly PllMap<FS.FilePath,FileRef> PathRefs;
 
-        public void Include(IProjectWs project)
+        public void Include(IWsProject project)
         {
             var src = project.ProjectFiles().Storage.Sort();
             var count = src.Length;

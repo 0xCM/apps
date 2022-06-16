@@ -19,9 +19,9 @@ namespace Z0
 
         public const string EnvConfig = nameof(EnvConfig);
 
-        public const string CodeGen = nameof(CodeGen);
+        public const string CgRoot = nameof(CgRoot);
 
-        public const string Dev = nameof(Dev);
+        public const string DevRoot = nameof(DevRoot);
 
         public const string Toolbase = nameof(Toolbase);
     }

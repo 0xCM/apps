@@ -56,7 +56,7 @@ namespace Z0
             return new AsmCodeBlocks(composite.Label(origin.DocName), origin.DocId, blockbuffer);
         }
 
-        static Index<AsmCodeBlocks> blocks(IProjectWs project, Index<ObjDumpRow> src, Alloc dispenser)
+        static Index<AsmCodeBlocks> blocks(IWsProject project, Index<ObjDumpRow> src, Alloc dispenser)
         {
             var collected = dict<uint, AsmCodeBlocks>();
             var groups = src.GroupBy(x => x.OriginId).Array();

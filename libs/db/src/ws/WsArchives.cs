@@ -8,6 +8,35 @@ namespace Z0
 
     public class WsArchives
     {
+        public static Settings settings(FS.FilePath src)
+        {
+            var dst = Settings.Empty;
+            try
+            {
+                dst = Settings.load(src);
+            }
+            catch(Exception e)
+            {
+                term.error(e);
+            }
+            return dst;
+        }
+
+        public static Settings settings(FS.FolderPath src, ProjectId project)
+            => settings(src + FS.file(project.Format(), FS.Csv));
+
+        public static Settings settings()
+            => settings(Assembly.GetEntryAssembly(), FileKind.Csv);
+
+        public static Settings settings(Assembly src, FileKind kind)
+            => settings(SettingsPath(src,kind));
+
+        static FS.FilePath SettingsPath(Assembly src, FileKind kind)
+            => FS.path(src.Location).FolderPath + FS.file(string.Format("{0}.settings", src.GetSimpleName()), kind.Ext());
+
+        public static WsArchives load()
+            => load(settings());
+
         public static WsArchives load(Settings src)
         {
             var count = src.Count;
@@ -35,12 +64,6 @@ namespace Z0
         {
             Data = src;
             Lookup = src.Select(x => (x.Name,x)).ToDictionary();
-        }
-
-        public ReadOnlySpan<string> StoreNames
-        {
-            [MethodImpl(Inline)]
-            get => Lookup.Keys;
         }
 
         public string Format()

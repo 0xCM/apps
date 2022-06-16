@@ -39,7 +39,7 @@ namespace Z0
             foreach(var mnemonic in sources.Keys)
             {
                 var file = AsmFileSpec.define(mnemonic, sources[mnemonic].ToArray());
-                var dst = file.Path(Ws.Project("mc.models").SrcDir("asm"));
+                var dst = file.Path(AppDb.LlvmModel("mc.models").SrcDir("asm"));
                 EmittedFile(EmittingFile(dst), file.Save(dst));
             }
 
@@ -107,7 +107,7 @@ namespace Z0
             foreach(var mnemonic in sources.Keys)
             {
                 var file = AsmFileSpec.define(mnemonic.Format(), sources[mnemonic].ToArray());
-                var dst = file.Path(Ws.Project("mc.models").SrcDir("asm"));
+                var dst = file.Path(AppDb.LlvmModel("mc.models").SrcDir("asm"));
                 EmittedFile(EmittingFile(dst), file.Save(dst));
             }
 

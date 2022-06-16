@@ -150,7 +150,7 @@ namespace Z0
         public Index<CoffSection> CollectHeaders(WsContext context)
         {
             var records = CalcObjHeaders(context);
-            TableEmit(records, WsCmdFlows.table<CoffSection>(context.Project.Project));
+            TableEmit(records, Flows.table<CoffSection>(context.Project.Project));
             return records;
         }
 
@@ -159,7 +159,7 @@ namespace Z0
 
         public Index<CoffSymRecord> LoadSymbols(ProjectId project)
         {
-            var src = WsCmdFlows.table<CoffSymRecord>(project);
+            var src = Flows.table<CoffSymRecord>(project);
             var lines = src.ReadLines(true);
             var count = lines.Count - 1;
             Index<CoffSymRecord> dst = alloc<CoffSymRecord>(count);
@@ -186,7 +186,7 @@ namespace Z0
 
         public Index<CoffSection> LoadHeaders(ProjectId project)
         {
-            var src = WsCmdFlows.table<CoffSection>(project);
+            var src = Flows.table<CoffSection>(project);
             var lines = src.ReadLines(true);
             var count = lines.Count - 1;
             var buffer = alloc<CoffSection>(count);
@@ -328,7 +328,7 @@ namespace Z0
             var records = buffer.ToArray().Sort();
             for(var i=0u; i<records.Length; i++)
                 seek(records,i).Seq = i;
-            TableEmit(records, WsCmdFlows.table<CoffSymRecord>(context.Project.Project));
+            TableEmit(records, Flows.table<CoffSymRecord>(context.Project.Project));
             return records;
         }
     }

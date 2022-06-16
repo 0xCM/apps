@@ -87,7 +87,7 @@ namespace Z0
             var items = collector.Collected;
             var count = items.Length;
             Ran(flow, string.Format("Collected {0} method symbols", count));
-            var dst = Ws.Project("db").Path("api","methods", FS.Md);
+            var dst = AppDb.ApiTargets().Path("api","methods", FileKind.Md);
             var emitting = EmittingFile(dst);
             using var writer = dst.Writer();
             for(var i=0; i<count; i++)
@@ -107,7 +107,7 @@ namespace Z0
         {
             var components = ApiRuntimeCatalog.Components;
             var symbolic = Wf.SourceSymbolic();
-            var dst = Ws.Project("db").Path("api", "types", FS.Md);
+            var dst = AppDb.ApiTargets().Path("api", "types", FileKind.Md);
             var emitting = EmittingFile(dst);
             var counter =0u;
             using var writer = dst.Writer();

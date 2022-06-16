@@ -21,7 +21,7 @@ namespace Z0
             }
         }
 
-        AsmCodeMap MapAsmCode(IProjectWs src, Alloc dst)
+        AsmCodeMap MapAsmCode(IWsProject src, Alloc dst)
             => AsmObjects.MapAsm(src, dst);
     }
 }

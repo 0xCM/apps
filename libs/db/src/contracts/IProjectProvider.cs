@@ -6,6 +6,6 @@ namespace Z0
 {
     public interface IProjectProvider
     {
-        IProjectWs Project();
+        IWsProject Project();
     }
 }

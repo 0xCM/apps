@@ -22,7 +22,7 @@ namespace Z0
         XedPaths XedPaths => Wf.XedPaths();
 
         protected override WsContext Context()
-            => WsCmdFlows.context(CmdRunner.Project());
+            => WsContext.load(CmdRunner.Project());
 
         protected override void LoadProject(CmdArgs args)
             => CmdRunner.LoadProject(args);

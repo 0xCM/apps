@@ -17,7 +17,7 @@ namespace Z0
         public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => alg.hash.marvin(Name.Text);
+            get => core.hash(Name.Text);
         }
 
         public string Format()

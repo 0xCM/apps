@@ -4,17 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public partial class XedDisasm : AppService<XedDisasm>
+    public partial class XedDisasm : WfSvc<XedDisasm>
     {
         const string disasm = "xed.disasm";
 
         XedRuntime Xed;
-
-        AppDb AppDb => Wf.AppDb();
-
-        WsScripts Projects => Wf.WsScripts();
-
-        AppSvcOps AppSvc => Wf.AppSvc();
 
         XedPaths XedPaths => Xed.Paths;
 

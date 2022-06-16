@@ -10,10 +10,10 @@ namespace Z0
     {
         OmniScript OmniScript => Wf.OmniScript();
 
-        public FS.FolderPath CleanOutDir(IProjectWs project)
+        public FS.FolderPath CleanOutDir(IWsProject project)
             => project.OutDir().Clear(true);
 
-        public FS.Files SourceFiles(IProjectWs src, Subject? scope)
+        public FS.Files SourceFiles(IWsProject src, Subject? scope)
         {
             if(scope != null)
                 return src.SrcFiles(scope.Value.Format());
@@ -21,19 +21,19 @@ namespace Z0
                 return src.SrcFiles();
         }
 
-        public Outcome<Index<CmdFlow>> BuildAsm(IProjectWs src)
+        public Outcome<Index<CmdFlow>> BuildAsm(IWsProject src)
             => RunBuildScripts(src, "build", "asm", false);
 
-        public Outcome<Index<CmdFlow>> BuildScoped(IProjectWs src, ScriptId script, string scope)
+        public Outcome<Index<CmdFlow>> BuildScoped(IWsProject src, ScriptId script, string scope)
             => RunBuildScripts(src, script, scope, false);
 
-        public Outcome<Index<CmdFlow>> BuildC(IProjectWs src, bool runexe = false)
+        public Outcome<Index<CmdFlow>> BuildC(IWsProject src, bool runexe = false)
             => RunBuildScripts(src, "c-build", "c", runexe);
 
-        public Outcome<Index<CmdFlow>> BuildCpp(IProjectWs src, bool runexe = false)
+        public Outcome<Index<CmdFlow>> BuildCpp(IWsProject src, bool runexe = false)
             => RunBuildScripts(src, "cpp-build", "cpp", runexe);
 
-        public Outcome<Index<CmdFlow>> RunBuildScripts(IProjectWs project, ScriptId scriptid, Subject? scope, bool runexe)
+        public Outcome<Index<CmdFlow>> RunBuildScripts(IWsProject project, ScriptId scriptid, Subject? scope, bool runexe)
             => RunBuildScripts(project, scriptid, scope, flow => HandleBuildResponse(flow, runexe));
 
         void RunExe(CmdFlow flow)
@@ -57,7 +57,7 @@ namespace Z0
                 RunExe(flow);
         }
 
-        public Outcome<Index<CmdFlow>> RunBuildScripts(IProjectWs project, ScriptId scriptid, Subject? scope, Action<CmdFlow> receiver)
+        public Outcome<Index<CmdFlow>> RunBuildScripts(IWsProject project, ScriptId scriptid, Subject? scope, Action<CmdFlow> receiver)
         {
             var result = Outcome<Index<CmdFlow>>.Success;
             var cmdflows = list<CmdFlow>();
@@ -69,7 +69,7 @@ namespace Z0
                 {
                     var path = files[i];
                     var srcid = path.FileName.WithoutExtension.Format();
-                    result = OmniScript.RunScript(project.Project, scriptid, srcid);
+                    result = OmniScript.RunScript(project, scriptid, srcid);
                     if(result)
                     {
                         cmdflows.AddRange(result.Data);
@@ -87,7 +87,7 @@ namespace Z0
             if(cmdflows.Count != 0)
             {
                 Index<CmdFlow> records = cmdflows.ToArray();
-                TableEmit(records.View, WsCmdFlows.flow(project.Project));
+                TableEmit(records.View, Flows.flow(project.Project));
                 result = (true,records);
             }
 

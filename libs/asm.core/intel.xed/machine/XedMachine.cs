@@ -35,7 +35,7 @@ namespace Z0
             _ClassGroupLookup = groups.ClassGroups();
         }
 
-        static AppDb AppDb => AppData.AppDb;
+        static AppDb AppDb => AppDb.Service;
 
         public InstGroupMember PatternGroup(ushort id)
             => _GroupMemberLookup.Find(id, out var dst) ? dst : InstGroupMember.Empty;
@@ -92,8 +92,7 @@ namespace Z0
         {
             Xed = xed;
             Wf = xed.Wf;
-            var projects = Projects;
-            Ws = WsCmdFlows.project(AppDb.DbTargets().Root, Identifier);
+            Ws = WsProject.load(AppDb.DbTargets().Root, Identifier);
             RuntimeState = new(NextId());
             RuleTables = Xed.Views.RuleTables;
             _Emitter = Emitter.create(this, StatusWriter);
@@ -116,8 +115,6 @@ namespace Z0
 
         public void Dispose()
             => _Emitter.Dispose();
-
-        WsScripts Projects => Service(Wf.WsScripts);
 
         XedRules Rules => Xed.Rules;
     }

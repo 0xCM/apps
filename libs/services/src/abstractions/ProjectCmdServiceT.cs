@@ -7,13 +7,13 @@ namespace Z0
     public abstract class ProjectCmdService<T> : AppCmdService<T>, IProjectProvider
         where T : ProjectCmdService<T>, new()
     {
-        IProjectWs _Project;
+        IWsProject _Project;
 
         [MethodImpl(Inline)]
-        public IProjectWs Project()
+        public IWsProject Project()
             => _Project;
 
-        protected void LoadProject(IProjectWs project)
+        protected void LoadProject(IWsProject project)
         {
             if(project == null)
             {
@@ -33,6 +33,7 @@ namespace Z0
 
         [CmdOp("project")]
         protected void LoadProject(CmdArgs args)
-            => LoadProject(Ws.Project(arg(args,0).Value));
+            => LoadProject(AppDb.DevProjects("llvm.models").Project(arg(args,0).Value));
+
     }
 }

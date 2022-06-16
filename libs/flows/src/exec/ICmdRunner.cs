@@ -15,7 +15,7 @@ namespace Z0
 
     public interface IWsCmdRunner : ICmdRunner, IProjectProvider
     {
-        void Project(IProjectWs ws);
+        void Project(IWsProject ws);
 
         void LoadProject(CmdArgs args);
     }

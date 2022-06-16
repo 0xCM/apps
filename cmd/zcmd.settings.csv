@@ -1,6 +1,6 @@
 | Name           | Value                               |
 | Archives       | y:/archives
-| CodGen         | z:/dev/z0/cg                        |
+| CgRoot         | z:/dev/z0/cg                        |
 | Control        | z:/control                          |
 | DevRoot        | z:                                  |
 | DbMain         | z:                                  |

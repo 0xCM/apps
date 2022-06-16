@@ -1,8 +1,13 @@
 @echo off
 call %~dp0config.cmd
-call %BuildZLibCmd%
 
+call %BuildLiterals%
 if errorlevel 1 goto:eof
-set ProjectId=libs
-call %BuildLibsCmd%
 
+call %BuildZLib%
+if errorlevel 1 goto:eof
+
+call %BuildLibs%
+if errorlevel 1 goto:eof
+
+echo Build Finished

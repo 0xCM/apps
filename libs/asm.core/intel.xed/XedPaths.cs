@@ -13,7 +13,7 @@ namespace Z0
     {
         public static XedPaths Service => Instance;
 
-        static AppDb AppDb => AppData.AppDb;
+        static AppDb AppDb => AppDb.Service;
 
         public readonly struct SvcState
         {
@@ -113,7 +113,7 @@ namespace Z0
         }
 
         public IDbTargets DisasmTargets(IProjectWs project)
-            => WsCmdFlows.etl(project.Project, "xed.disasm");
+            => AppDb.DbProjects(project.Project).Targets("xed.disasm");
 
         public FS.FilePath DisasmFieldsPath(IProjectWs project, in FileRef src)
             => DisasmTargets(project).Path(FS.file(string.Format("{0}.fields", src.Path.FileName.WithoutExtension), FS.Txt));

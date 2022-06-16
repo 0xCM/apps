@@ -11,8 +11,6 @@ namespace Z0.llvm
     {
         public const string ToolId = ToolNames.llvm_objdump;
 
-        WsScripts Projects => Service(Wf.WsScripts);
-
         public LlvmObjDumpSvc()
             : base(ToolId)
         {

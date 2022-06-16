@@ -31,7 +31,7 @@ namespace Z0.llvm
             => Tables().Path(FS.file(id, FS.Csv));
 
         public IDbSources Dev()
-            => AppDb.Dev().Sources(project);
+            => AppDb.DevRoot().Sources(project);
 
         public IDbTargets Tables()
             => AppDb.DbTargets(tables);
@@ -97,6 +97,6 @@ namespace Z0.llvm
             => DbTable(string.Format("llvm.lists.{0}", id));
 
         public IDbTargets CodeGen()
-            => AppDb.CodeGen().Targets("codegen.llvm/src");
+            => AppDb.CgRoot().Targets("codegen.llvm/src");
     }
 }

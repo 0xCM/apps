@@ -6,7 +6,7 @@ namespace Z0.llvm
 {
     using static core;
 
-    public class LlvmToolset : AppService<LlvmToolset>
+    public class LlvmToolset : WfSvc<LlvmToolset>
     {
         FS.FolderPath ToolsetDir;
 
@@ -30,7 +30,7 @@ namespace Z0.llvm
 
         protected override void Initialized()
         {
-            ToolsetDir = Ws.Project("tools/llvm").Home();
+            ToolsetDir = AppDb.Toolbase().Targets("llvm").Root;
             HelpDir = ToolsetDir + FS.folder("help");
             LoadToolset();
             CalcHelpPaths();

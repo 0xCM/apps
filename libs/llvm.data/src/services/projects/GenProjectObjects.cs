@@ -8,9 +8,9 @@ namespace Z0
 
     partial class ProjectSvc
     {
-        public void GenProjectObjects(IProjectWs project)
+        public void GenProjectObjects(IWsProject project)
         {
-            var context = WsCmdFlows.context(project);
+            var context = WsContext.load(project);
             var catalog = context.Catalog;
             var files = catalog.Entries(FileKind.Obj, FileKind.O);
             var count = files.Count;

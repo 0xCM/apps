@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    [StructLayout(LayoutKind.Sequential, Pack=1)]
     public class DataFlow<A,S,T> : IDataFlow<A,S,T>
     {
         public readonly FlowId Id;
