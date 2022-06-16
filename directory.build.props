@@ -3,7 +3,7 @@
   <Import Project="props/build.props"/>
 
   <PropertyGroup>
-    <ZPack>Z:\packages\</ZPack>
+    <ZPack>$(DevRoot)\packages\</ZPack>
     <SlnRoot>$(MSBuildThisFileDirectory)</SlnRoot>
     <TopDir>$(MSBuildThisFileDirectory)</TopDir>
     <Src>$(MSBuildThisFileDirectory)</Src>

@@ -8,6 +8,10 @@ namespace Z0
     {
         IWfRuntime Wf {get;}
 
+        EventId Raise<E>(in E e)
+            where E : IWfEvent
+                => Wf.Raise(e);
+
         void Babble<T>(T content)
             => Wf.Babble(HostType, content);
 

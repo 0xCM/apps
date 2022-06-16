@@ -327,7 +327,7 @@ namespace Z0
             => CgRoot + FS.folder(id);
 
         protected Action<IWfEvent> EventLog
-            => x => WfMsg.Write<string>(x.Format(), x.Flair);
+            => x => WfMsg.Raise(x);
 
         protected void EmittedFile(WfFileWritten file, Count count, Arrow<FS.FileUri> flow)
             => Wf.EmittedFile(HostType, file, count);

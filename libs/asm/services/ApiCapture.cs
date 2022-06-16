@@ -22,9 +22,6 @@ namespace Z0
         {
             var parts = ApiPartCapture.create(Wf);
             parts.Capture();
-            // using var dst = Dispense.composite();
-            // var parts = ApiMd.Parts;
-            // capture.Capture(parts, dst, true);
         }
 
         public void Run(PartId id)
@@ -73,21 +70,21 @@ namespace Z0
             var asm = EmitAsm(symbols, src.Id, collected);
         }
 
-        // Index<AsmRoutine> EmitAsm(ICompositeDispenser symbols, PartId part, Index<CollectedEncoding> src, FS.FilePath dst)
-        // {
-        //     var buffer = alloc<AsmRoutine>(src.Count);
-        //     var emitter = text.emitter();
-        //     for(var i=0; i<src.Count; i++)
-        //     {
-        //         var routine = AsmDecoder.Decode(src[i]);
-        //         seek(buffer,i) = routine;
-        //         emitter.AppendLine(routine.AsmRender(routine));
-        //     }
+        Index<AsmRoutine> EmitAsm(ICompositeDispenser symbols, PartId part, Index<CollectedEncoding> src, FS.FilePath dst)
+        {
+            var buffer = alloc<AsmRoutine>(src.Count);
+            var emitter = text.emitter();
+            for(var i=0; i<src.Count; i++)
+            {
+                var routine = AsmDecoder.Decode(src[i]);
+                seek(buffer,i) = routine;
+                emitter.AppendLine(routine.AsmRender(routine));
+            }
 
-        //     FileEmit(emitter.Emit(), src.Count, dst);
-        //     return buffer;
+            FileEmit(emitter.Emit(), src.Count, dst);
+            return buffer;
 
-        // }
+        }
 
         Index<AsmRoutine> EmitAsm(ICompositeDispenser symbols, PartId part, Index<CollectedEncoding> src)
         {

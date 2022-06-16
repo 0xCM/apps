@@ -5,7 +5,6 @@
 namespace Z0
 {
     using static core;
-
     partial class XTend
     {
         public static OpUri Uri(this MethodInfo src)
@@ -254,45 +253,45 @@ namespace Z0
 
         }
 
-        // public ResolvedPart ResolvePart(IPart src, out uint counter)
-        // {
-        //     counter = 0u;
+        public ResolvedPart ResolvePart(IPart src, out uint counter)
+        {
+            counter = 0u;
 
-        //     var location = FS.path(src.Owner.Location);
-        //     var catalog = ApiRuntimeLoader.catalog(src.Owner);
-        //     var flow = Wf.Running(string.Format("Resolving part {0}", src.Id));
-        //     var hosts = list<ResolvedHost>();
+            var location = FS.path(src.Owner.Location);
+            var catalog = ApiRuntimeLoader.catalog(src.Owner);
+            var flow = Wf.Running(string.Format("Resolving part {0}", src.Id));
+            var hosts = list<ResolvedHost>();
 
-        //     foreach(var host in catalog.ApiTypes)
-        //     {
-        //         var methods = list<ResolvedMethod>();
-        //         var count = ResolveComplete(host, methods);
-        //         if(count != 0)
-        //         {
-        //             var resolved = methods.ToArray().Sort();
-        //             var @base = first(resolved).EntryPoint;
-        //             hosts.Add(new ResolvedHost(host, @base, resolved));
-        //             counter += (uint)resolved.Length;
-        //         }
-        //     }
+            foreach(var host in catalog.ApiTypes)
+            {
+                var methods = list<ResolvedMethod>();
+                var count = ResolveComplete(host, methods);
+                if(count != 0)
+                {
+                    var resolved = methods.ToArray().Sort();
+                    var @base = first(resolved).EntryPoint;
+                    hosts.Add(new ResolvedHost(host, @base, resolved));
+                    counter += (uint)resolved.Length;
+                }
+            }
 
-        //     foreach(var host in catalog.ApiHosts)
-        //     {
-        //         var methods = list<ResolvedMethod>();
-        //         var count = ResolveHost(host, methods);
-        //         if(count != 0)
-        //         {
-        //             var resolved = methods.ToArray().Sort();
-        //             var @base = first(resolved).EntryPoint;
-        //             hosts.Add(new ResolvedHost(host.HostUri, @base, resolved));
-        //             counter += (uint)resolved.Length;
-        //         }
-        //     }
+            foreach(var host in catalog.ApiHosts)
+            {
+                var methods = list<ResolvedMethod>();
+                var count = ResolveHost(host, methods);
+                if(count != 0)
+                {
+                    var resolved = methods.ToArray().Sort();
+                    var @base = first(resolved).EntryPoint;
+                    hosts.Add(new ResolvedHost(host.HostUri, @base, resolved));
+                    counter += (uint)resolved.Length;
+                }
+            }
 
-        //     var result = new ResolvedPart(src.Id, location, hosts.ToArray());
-        //     Wf.Ran(flow, string.Format("Resolved {0} members from {1}", counter, src.Id));
-        //     return result;
-        // }
+            var result = new ResolvedPart(src.Id, location, hosts.ToArray());
+            Wf.Ran(flow, string.Format("Resolved {0} members from {1}", counter, src.Id));
+            return result;
+        }
 
         public uint ResolveHost(IApiHost src, List<ResolvedMethod> dst)
         {
