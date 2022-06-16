@@ -10,7 +10,7 @@ namespace Z0
 
     using static MsProjects;
 
-    public partial class CsLang : AppService<CsLang>
+    public partial class CsLang : WfSvc<CsLang>
     {
         public static CsEmitter emitter()
             => new();
@@ -103,7 +103,7 @@ namespace Z0
         public void EmitArrayInitializer<T>(ItemList<Constant<T>> src, ITextBuffer dst)
         {
             var count = src.Count;
-            var keyword = CsKeywords.keyword(typeof(T));
+            var keyword = CsData.keyword(typeof(T));
             dst.AppendFormat("{0} = new {1}[{2}]{{", src.Name, keyword, count);
             for(var i=0; i<count; i++)
             {

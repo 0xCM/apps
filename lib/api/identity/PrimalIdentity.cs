@@ -15,8 +15,8 @@ namespace Z0
         public static PrimalIdentity from(Type src)
             => src.IsSystemDefined() ?
                (NumericKinds.test(src)
-               ? new PrimalIdentity(src.NumericKind(), CsKeywords.keyword(src))
-               : new PrimalIdentity(CsKeywords.keyword(src))
+               ? new PrimalIdentity(src.NumericKind(), CsData.keyword(src))
+               : new PrimalIdentity(CsData.keyword(src))
                ) : PrimalIdentity.Empty;
 
         public string IdentityText {get;}

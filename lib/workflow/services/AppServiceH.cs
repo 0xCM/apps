@@ -216,8 +216,11 @@ namespace Z0
         protected void Write<T>(T content, FlairKind flair)
             => WfMsg.Write(content, flair);
 
-        protected void Write<T>(string name, T value, FlairKind? flair = null)
+        protected void Write<T>(string name, T value, FlairKind flair)
             => WfMsg.Write(name, value, flair);
+
+        protected void Write<T>(string name, T value)
+            => WfMsg.Write(name, value);
 
         protected void Write<T>(ReadOnlySpan<T> src, FlairKind? flair = null)
         {
@@ -324,7 +327,7 @@ namespace Z0
             => CgRoot + FS.folder(id);
 
         protected Action<IWfEvent> EventLog
-            => x => Write(x.Format(), x.Flair);
+            => x => WfMsg.Write<string>(x.Format(), x.Flair);
 
         protected void EmittedFile(WfFileWritten file, Count count, Arrow<FS.FileUri> flow)
             => Wf.EmittedFile(HostType, file, count);

@@ -8,6 +8,9 @@ namespace Z0
 
     public interface IWsProject : IRootedArchive, IProjectWs
     {
+        ProjectId Id
+            => Project;
+
         FS.FilePath Script(ScriptId id, FileKind kind)
             => Sources(scripts).Path(id, kind);
     }

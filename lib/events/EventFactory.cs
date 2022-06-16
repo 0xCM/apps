@@ -77,10 +77,6 @@ namespace Z0
         public static EmittedTableEvent emittedTable(Type host, TableId table, Count count, FS.FilePath dst)
             => new EmittedTableEvent(host, table, count, dst);
 
-        // [Op]
-        // public static EmittedTableEvent emittedTable(Type host, TableId table, FS.FilePath dst)
-        //     => new EmittedTableEvent(host, table, 0, dst);
-
         [Op]
         public static ProcessingFileEvent processingFile(Type step, FS.FilePath dst)
             => new ProcessingFileEvent(step, dst);
@@ -118,8 +114,12 @@ namespace Z0
             => new CreatedEvent(prior);
 
         [Op, Closures(Closure)]
-        public static DataEvent<T> data<T>(T data, FlairKind? flair = null)
-            => flair.HasValue ? new DataEvent<T>(data, flair.Value) : new DataEvent<T>(data);
+        public static DataEvent<T> data<T>(T data)
+            => new DataEvent<T>(data);
+
+        [Op, Closures(Closure)]
+        public static DataEvent<T> data<T>(T data, FlairKind flair)
+            => new DataEvent<T>(data, flair);
 
         [Op]
         public static DisposedEvent disposed(Type host)

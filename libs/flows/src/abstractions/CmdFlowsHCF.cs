@@ -7,7 +7,7 @@ namespace Z0
     using static core;
 
     [FlowCmdBuilder]
-    public abstract class CmdFlows<H,C,F> : AppService<H>, IFlowCommands<C,F>
+    public abstract class CmdFlows<H,C,F> : WfSvc<H>, IFlowCommands<C,F>
         where C : struct, IFileFlowCmd<C>
         where F : IFileFlowType<F>, new()
         where H : CmdFlows<H,C,F>, new()

@@ -26,8 +26,8 @@ namespace Z0
             => new WorkerLog(config);
 
         [MethodImpl(Inline), Op]
-        public static IWorkerLog worker(PartId control, FS.FolderPath logdir, string name = EmptyString)
-            => worker(configure(control, logdir, name));
+        public static IWorkerLog worker(PartId control, FS.FolderPath root, string name = EmptyString)
+            => worker(configure(control, root, name));
 
         [MethodImpl(Inline), Op]
         public static IWfEventLog events(WfLogConfig config)
@@ -38,7 +38,15 @@ namespace Z0
             => new TermLog(src);
 
         [MethodImpl(Inline), Op]
-        public static WfLogConfig configure(PartId part, FS.FolderPath root, string name)
+        public static WfLogConfig configure(string name = EmptyString)
+        {
+            var a = core.controller();
+            var id = a.Id();
+            return new WfLogConfig(id, FS.path(a.Location).FolderPath, name);
+        }
+
+        [MethodImpl(Inline), Op]
+        public static WfLogConfig configure(PartId part, FS.FolderPath root, string name = EmptyString)
             => new WfLogConfig(part, root, name);
     }
 }

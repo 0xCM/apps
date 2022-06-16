@@ -39,7 +39,7 @@ namespace Z0.llvm
 
         void InitHelpDocs()
         {
-            var dst = lookup<ToolId,ToolHelpDoc>();
+            var dst = new Lookup<ToolId,ToolHelpDoc>();
             var src = HelpFiles.Entries;
             var count = src.Length;
             for(var i=0; i<count; i++)
@@ -82,7 +82,7 @@ namespace Z0.llvm
 
         void CalcHelpPaths()
         {
-            var dst = lookup<ToolId,FS.FilePath>();
+            var dst = new Lookup<ToolId,FS.FilePath>();
             var src = Profiles().Values;
             var count = src.Length;
             for(var i=0; i<count; i++)

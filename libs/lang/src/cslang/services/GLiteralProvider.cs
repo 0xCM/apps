@@ -29,8 +29,8 @@ namespace Z0
                     ref readonly var literal = ref literals[i];
                     var itemName = literal.Name;
                     var itemValue = literal.Value.Format();
-                    if(CsKeywords.test(itemName))
-                        itemName = CsKeywords.identifier(itemName);
+                    if(CsData.test(itemName))
+                        itemName = CsData.identifier(itemName);
 
                     buffer.IndentLineFormat(margin, "public const {0} {1} = {2};", typename, itemName, itemValue);
                 }

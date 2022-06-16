@@ -8,7 +8,7 @@ namespace Z0
     {
         [MethodImpl(Inline)]
         public static WsContext load(IWsProject src)
-            => new WsContext(src, WsDataFlows.load(src.Project));
+            => new WsContext(src, Z0.Flows.load(src));
 
         public readonly IWsProject Project;
 
@@ -22,9 +22,6 @@ namespace Z0
             Catalog = flows.Catalog;
             Flows = flows;
         }
-
-        public IDbTargets ProjectDatasets()
-            => new DbTargets(Project.Datasets());
 
         public IDbTargets ProjectDatasets(string scope)
             => new DbTargets(Project.Datasets(scope));

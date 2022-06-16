@@ -13,7 +13,7 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static Label keyword(C src)
-            => CsKeywords.keyword(src.Kind);
+            => CsData.keyword(src.Kind);
 
         public static C I8 => K.I8;
 

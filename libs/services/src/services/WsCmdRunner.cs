@@ -33,24 +33,11 @@ namespace Z0
             }
 
             Project(ws);
-            Status(LoadingSources.Format(ws.Project, ws.Home()));
 
             var dir = ws.Home();
             if(dir.Exists)
                 Files(ws.SrcFiles());
-            else
-            {
-                Error(FS.missing(ws.Home()));
-                return false;
-            }
             return true;
         }
-
-
-        static MsgPattern<ProjectId> ProjectUndefined
-            => "Project {0} undefined";
-
-        static MsgPattern<ProjectId,FS.FolderPath> LoadingSources
-            => "Loading {0} sources from {1}";
     }
 }

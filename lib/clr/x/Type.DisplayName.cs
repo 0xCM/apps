@@ -36,7 +36,7 @@ namespace Z0
 
                 if(src.IsSystemDefined())
                 {
-                    var kw = CsKeywords.keyword(src);
+                    var kw = CsData.keyword(src);
                     return string.IsNullOrWhiteSpace(kw) ? src.Name : kw;
                 }
 

@@ -78,7 +78,7 @@ namespace Z0
         {
             dst = TextGrid.Empty;
             if(!src.Exists)
-                return (false,FS.missing(src));
+                return (false, FS.missing(src));
 
             using var reader = src.Reader(encoding);
             var result =  parse(reader);

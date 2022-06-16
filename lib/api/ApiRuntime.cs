@@ -37,7 +37,7 @@ namespace Z0
             dst.Settings = JsonSettings.load(control);
             dst.Control = control;
             dst.ControlId = id;
-            dst.LogConfig = Loggers.configure(id, paths.Root, EmptyString);
+            dst.LogConfig = Loggers.configure();
             dst.ApiParts = parts;
             dst.Args = args;
             dst.Paths = AppPaths.create();
@@ -197,7 +197,7 @@ namespace Z0
             dst.Settings = JsonSettings.load(control);
             dst.Control = control;
             dst.ControlId = id;
-            dst.LogConfig = Loggers.configure(id, paths.Root, logname);
+            dst.LogConfig = Loggers.configure(logname);
             dst.ApiParts = parts;
             dst.Args = args;
             dst.Paths = AppPaths.create();

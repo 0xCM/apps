@@ -91,8 +91,11 @@ namespace Z0
         protected EmittedFileEvent Emitted(EmittingFileEvent e, Count metric)
             => Signal.EmittedFile(metric, e.Target);
 
-        protected DataEvent<T> Write<T>(in T src, FlairKind? flair = null)
-            => Signal.Data(src,flair);
+        protected DataEvent<T> Write<T>(in T src)
+            => Signal.Data(src);
+
+        protected DataEvent<T> Write<T>(in T src, FlairKind flair)
+            => Signal.Data(src, flair);
 
         protected void Write<T>(string name, T value, FlairKind flair)
             => Signal.Data(RP.attrib(name, value), flair);

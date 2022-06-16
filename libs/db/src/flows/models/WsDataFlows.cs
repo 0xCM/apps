@@ -8,29 +8,6 @@ namespace Z0
 
     public class WsDataFlows
     {
-        public static WsDataFlows load(ProjectId src)
-        {
-            var path = Flows.flow(src);
-            var lines = path.ReadLines(TextEncodingKind.Asci,true);
-            var buffer = alloc<CmdFlow>(lines.Length - 1);
-            var reader = lines.Reader();
-            reader.Next(out _);
-            var i = 0u;
-            while(reader.Next(out var line))
-            {
-                var parts = text.trim(text.split(line,Chars.Pipe));
-                Require.equal(parts.Length,CmdFlow.FieldCount);
-                var cells = parts.Reader();
-                ref var dst = ref seek(buffer,i++);
-                Flows.parse(cells.Next(), out dst.Tool).Require();
-                DataParser.parse(cells.Next(), out dst.SourceName).Require();
-                DataParser.parse(cells.Next(), out dst.TargetName).Require();
-                DataParser.parse(cells.Next(), out dst.SourcePath).Require();
-                DataParser.parse(cells.Next(), out dst.TargetPath).Require();
-            }
-            return new(WsCatalog.load(src), buffer);
-        }
-
         ConstLookup<FS.FileUri,List<FS.FileUri>> Lookup;
 
         ConstLookup<FS.FileUri,FS.FileUri> Ancestors;

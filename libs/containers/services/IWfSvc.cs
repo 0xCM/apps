@@ -29,7 +29,11 @@ namespace Z0
 
         void Write<T>(T content, FlairKind flair);
 
-        void Write<T>(string name, T value, FlairKind? flair = null);
+        void Write(string content, FlairKind flair);
+
+        void Write<T>(string name, T value, FlairKind flair);
+
+        void Write<T>(string name, T value);
 
         WfExecFlow<T> Running<T>(T msg);
 

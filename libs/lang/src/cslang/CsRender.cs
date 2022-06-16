@@ -135,7 +135,7 @@ namespace Z0
             offset += 4;
             for(var i=0; i<count; i++)
             {
-                var name = CsKeywords.identifier(skip(names,i));
+                var name = CsData.identifier(skip(names,i));
                 var description = EmptyString;
                 var value = (ulong)i;
                 var symbol = SymExpr.Empty;

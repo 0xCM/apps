@@ -24,8 +24,8 @@ namespace Z0
         protected override WsContext Context()
             => WsContext.load(CmdRunner.Project());
 
-        protected override void LoadProject(CmdArgs args)
-            => CmdRunner.LoadProject(args);
+        // protected override void LoadProject(CmdArgs args)
+        //     => CmdRunner.LoadProject(args);
 
         [CmdOp("project/xed/etl")]
         void XedCollect()

@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     [Event(Kind)]
     public readonly struct DataEvent<T> : IWfEvent<DataEvent<T>,T>
     {
@@ -40,7 +35,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public string Format()
-            => Payload.Format();
+            => string.Format("# {0}", Payload);
 
         public override string ToString()
             => Format();

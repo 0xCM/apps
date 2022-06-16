@@ -8,17 +8,22 @@ namespace Z0
 
     public class WsCatalog
     {
-        static AppDb AppDb => AppDb.Service;
-
         public static WsCatalog load(IWsProject src)
         {
             var dst = new WsCatalog();
-            dst.Include(Require.notnull(src));
+            var files = src.ProjectFiles().Storage.Sort().Index();
+            var count = files.Length;
+            for(var i=0u; i<count; i++)
+            {
+                ref readonly var file = ref files[i];
+                var fref = new FileRef(i, hash(file.ToUri().Format()), FileKinder.kind(file), file);
+                dst.IdMap.Include(dst.PathMap.Include(fref, _ => fref.DocId), fref);
+                dst.PathRefs.Include(file, fref);
+            }
+
+            //dst.Include(Require.notnull(src));
             return dst;
         }
-
-        public static WsCatalog load(ProjectId project)
-            => load(AppDb.LlvmModel(project));
 
         readonly PllMap<uint,FileRef> IdMap;
 
@@ -26,26 +31,15 @@ namespace Z0
 
         readonly PllMap<FS.FilePath,FileRef> PathRefs;
 
-        public void Include(IWsProject project)
-        {
-            var src = project.ProjectFiles().Storage.Sort();
-            var count = src.Length;
-            for(var i=0u; i<count; i++)
-            {
-                ref readonly var path = ref skip(src,i);
-                var hash = alg.hash.marvin(path.ToUri().Format());
-                var file = new FileRef(i, hash, FileKinder.kind(path), path);
-                IdMap.Include(PathMap.Include(file, _ => file.DocId), file);
-                PathRefs.Include(path, file);
-            }
-        }
-
         WsCatalog()
         {
             IdMap = new();
             PathMap = new();
             PathRefs = new();
         }
+
+        public Index<FileRef> Entries(string match)
+            => PathRefs.Values.Array().Where(x => x.Path.Contains(match));
 
         public Index<FileRef> Entries(FileKind k0)
             => Entries().Where(e => e.Kind == k0);

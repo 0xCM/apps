@@ -45,8 +45,14 @@ namespace Z0
         public new void Write<T>(T content, FlairKind flair)
             => WfMsg.Write(content, flair);
 
-        public new void Write<T>(string name, T value, FlairKind? flair = null)
+        public void Write(string content, FlairKind flair)
+            => WfMsg.Write(content, flair);
+
+        public new void Write<T>(string name, T value, FlairKind flair)
             => WfMsg.Write(name, value, flair);
+
+        public new void Write<T>(string name, T value)
+            => WfMsg.Write(name, value);
 
         public new WfExecFlow<T> Running<T>(T msg)
             => WfMsg.Running(msg);

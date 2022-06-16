@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     public abstract class ProjectCmdService<T> : AppCmdService<T>, IProjectProvider
         where T : ProjectCmdService<T>, new()
     {
@@ -12,6 +14,14 @@ namespace Z0
         [MethodImpl(Inline)]
         public IWsProject Project()
             => _Project;
+
+        ConcurrentDictionary<ProjectId,WsContext> _Context = new();
+
+        protected WsContext Context()
+        {
+            var project = Project();
+            return _Context.GetOrAdd(project.Id, _ => WsContext.load(project));
+        }
 
         protected void LoadProject(IWsProject project)
         {
@@ -35,5 +45,17 @@ namespace Z0
         protected void LoadProject(CmdArgs args)
             => LoadProject(AppDb.DevProjects("llvm.models").Project(arg(args,0).Value));
 
+        [CmdOp("project/home")]
+        protected void ProjectHome()
+            => Write(Context().Project.Home());
+
+        [CmdOp("project/files")]
+        protected void ProjectFiles(CmdArgs args)
+        {
+            if(args.Count != 0)
+                iter(Context().Catalog.Entries(arg(args,0)), file => Write(file.Format()));
+            else
+                iter(Context().Catalog.Entries(), file => Write(file.Format()));
+        }
     }
 }

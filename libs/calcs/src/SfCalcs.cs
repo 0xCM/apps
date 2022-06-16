@@ -4,8 +4,22 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct CalcHosts
+    using static core;
+    using static ApiClassKind;
+
+    [ApiHost]
+    public class SfCalcs
     {
+        [MethodImpl(Inline), Factory(BitClear), Closures(Integers)]
+        public static VBitClear128<T> vbitclear<T>(N128 w)
+            where T : unmanaged
+                => default(VBitClear128<T>);
+
+        [MethodImpl(Inline), Factory(BitClear), Closures(Integers)]
+        public static VBitClear256<T> vbitclear<T>(N256 w)
+            where T : unmanaged
+                => default(VBitClear256<T>);
+
         [Closures(Integers)]
         public readonly struct VBitClear128<T> : IUnaryImm8x2Op128D<T>
             where T : unmanaged
@@ -31,5 +45,6 @@ namespace Z0
             public T Invoke(T a, byte b, byte c)
                 => gbits.trim(a, b, c);
         }
+
     }
 }

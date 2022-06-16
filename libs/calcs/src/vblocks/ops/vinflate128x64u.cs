@@ -4,35 +4,30 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.Intrinsics;
-
     using static System.Runtime.Intrinsics.X86.Sse41;
-    using static Root;
     using static core;
     using static cpu;
 
     partial struct vblocks
     {
         /// <summary>
-        /// PMOVZXBD xmm, m32
-        /// 4x8u -> 4x32u
+        /// PMOVZXBQ xmm, m16
+        /// 2x8u -> 2x64u
         /// </summary>
         /// <param name="src">The blocked memory source</param>
         /// <param name="dst">The target vector</param>
         [MethodImpl(Inline), Op(inflate)]
-        public static unsafe Vector128<uint> vinflate128x32u(in SpanBlock32<byte> src, uint offset)
-            => v32u(ConvertToVector128Int32(gptr(src[offset])));
+        public static unsafe Vector128<ulong> vinflate128x64u(in SpanBlock16<byte> src, uint offset)
+            => v64u(ConvertToVector128Int64(gptr(src[offset])));
 
         /// <summary>
-        /// PMOVSXWD xmm, m64
-        /// 4x16u -> 4x32u
+        /// PMOVZXWQ xmm, m32
+        /// 2x16u -> 2x64u
         /// </summary>
         /// <param name="src">The blocked memory source</param>
         /// <param name="dst">The target vector</param>
         [MethodImpl(Inline), Op(inflate)]
-        public static unsafe Vector128<uint> vinflate128x32u(in SpanBlock64<ushort> src, uint offset)
-            => v32u(ConvertToVector128Int32(gptr(src[offset])));
+        public static unsafe Vector128<ulong> vinflate128x64u(in SpanBlock32<ushort> src, uint offset)
+            => v64u(ConvertToVector128Int64(gptr(src[offset])));
     }
 }

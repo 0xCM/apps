@@ -4,9 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using api = Loggers;
-
-    public interface IWfLogConfig : ITextual
+    public interface IWfLogConfig
     {
         /// <summary>
         /// The log file root directory
@@ -16,13 +14,7 @@ namespace Z0
         /// <summary>
         /// The controlling part identifier
         /// </summary>
-        PartId ControlId {get;}
-
-        /// <summary>
-        /// The controlling part name
-        /// </summary>
-        string ControlName
-            => ControlId.Format();
+        PartId Control {get;}
 
         /// <summary>
         /// The status log path
@@ -33,7 +25,5 @@ namespace Z0
         /// The error log path
         /// </summary>
         FS.FilePath ErrorPath {get;}
-        string ITextual.Format()
-            => api.format(this);
     }
 }

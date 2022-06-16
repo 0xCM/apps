@@ -93,17 +93,10 @@ namespace Z0
 
         public EmittedTableEvent EmittedTable(Type table, Count count, FS.FilePath dst)
         {
-            var e = emittedTable(Source.Type, TableId.identify(table), count, dst);
-            Raise(e);
-            return e;
+            var ev = emittedTable(Source.Type, TableId.identify(table), count, dst);
+            Raise(ev);
+            return ev;
         }
-
-        // public EmittedTableEvent EmittedTable(Type type, FS.FilePath dst)
-        // {
-        //     var e = emittedTable(Source.Type, TableId.identify(type), dst);
-        //     Raise(e);
-        //     return e;
-        // }
 
         public EmittingFileEvent EmittingFile(FS.FilePath dst)
         {
@@ -154,11 +147,18 @@ namespace Z0
             return ev;
         }
 
-        public DataEvent<T> Data<T>(T data, FlairKind? flair = null)
+        public DataEvent<T> Data<T>(T data, FlairKind flair)
         {
-            var e = EventFactory.data(data, flair);
-            Raise(e);
-            return e;
+            var ev = EventFactory.data(data, flair);
+            Raise(ev);
+            return ev;
+        }
+
+        public DataEvent<T> Data<T>(T data)
+        {
+            var ev = EventFactory.data(data);
+            Raise(ev);
+            return ev;
         }
     }
 }

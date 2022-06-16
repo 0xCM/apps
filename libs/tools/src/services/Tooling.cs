@@ -8,11 +8,9 @@ namespace Z0
     using static WsAtoms;
 
     [ApiHost]
-    public class Tooling : AppService<Tooling>
+    public class Tooling : WfSvc<Tooling>
     {
         const NumericKind Closure = UnsignedInts;
-
-        AppDb AppDb => Wf.AppDb();
 
         const byte FieldCount = ToolProfile.FieldCount;
 

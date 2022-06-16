@@ -13,7 +13,7 @@ namespace Z0
         /// <summary>
         /// The controlling part identifier
         /// </summary>
-        public PartId ControlId {get;}
+        public PartId Control {get;}
 
         /// <summary>
         /// The log file root directory
@@ -33,14 +33,18 @@ namespace Z0
         [MethodImpl(Inline)]
         public WfLogConfig(PartId control, FS.FolderPath root, string name = EmptyString)
         {
-            LogId = text.empty(name) ? control.Format() : string.Format("{0}.{1}", control.Format(), name);
-            LogRoot = root + FS.folder("logs");
-            ControlId = control;
-            StatusPath = LogRoot +  FS.file(LogId, FS.StatusLog);
-            ErrorPath = LogRoot + FS.file(LogId, FS.ErrorLog);
+            LogId = text.empty(name) ? control.Format() : $"{control.Format()}.{name}";
+            Control = control;
+            LogRoot = root;
+            var ts = core.timestamp();
+            StatusPath = LogRoot + FS.file($"{LogId}.status.{ts}", FS.Log);
+            ErrorPath = LogRoot + FS.file($"{LogId}.errors.{ts}", FS.Log);
         }
 
-        public override string ToString()
+        public string Format()
             => api.format(this);
+
+        public override string ToString()
+            => Format();
     }
 }
