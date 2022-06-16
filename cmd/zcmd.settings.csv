@@ -1,21 +1,21 @@
 | Name           | Value                               |
-| Archives       | y:/archives
-| CgRoot         | z:/dev/z0/cg                        |
-| Control        | z:/control                          |
-| DevRoot        | z:                                  |
-| DbMain         | z:                                  |
+| DevRoot        | d:/drives/z                         |
+| CgRoot         | d:/drives/z/dev/z0/cg               |
+| Toolbase       | d:/drives/z/dev/toolbase            |
+| Control        | d:/drives/z/control                 |
+| DbMain         | d:/drives/z                         |
+| DbTargets      | d:/drives/z/db.targets              |
+| DbProjects     | d:/drives/z/db.projects             |
+| DbCapture      | d:/drives/z/db.capture              |
+| EnvConfig      | d:/drives/z/db.env                  |
+| RepoDeps       | d:/drives/z/repos                   |
+| LlvmRoot       | d:/drives/z/repos/llvm              |
+| LlvmProject    | d:/drives/z/repos/llvm/llvm-project |
+| XedRoot        | d:/drives/z/repos/xed               |
+| Archives       | f:/drives/y/archives                |
+| DbSources      | f:/drives/y/db.sources              |
 | ToolDeps       | y:/tools                            |
-| DbSources      | y:/db.sources                       |
-| DbTargets      | z:/db.targets                       |
-| DbProjects     | z:/db.projects                      |
-| DbCapture      | z:/db.capture                       |
-| Toolbase       | z:/dev/tools                        |
-| EnvConfig      | z:/env                              |
 | VsDir          | y:/tools/msvs                       |
-| LlvmRoot       | z:/repos/llvm                       |
-| LlvmProject    | z:/repos/llvm/llvm-project
-| RepoDeps       | z:/repos                            |
-| XedRoot        | z:/repos/xed                        |
 | WinSdkMajorVer | 10                                  |
 | WinSdkVer      | 10.0.19041.0                        |
 | NetFxVer       | 4.8                                 |
