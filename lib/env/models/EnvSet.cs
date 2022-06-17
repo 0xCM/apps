@@ -10,6 +10,5 @@ namespace Z0
             : base(name, data, vars, vars)
         {
         }
-
     }
 }

@@ -72,6 +72,6 @@ namespace Z0
         }
 
         IDbTargets ApiTargets()
-            => AppDb.DbTargets("api");
+            => AppDb.DbOut("api");
    }
 }

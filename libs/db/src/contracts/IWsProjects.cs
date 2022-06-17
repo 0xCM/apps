@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static WsAtoms;
+    using static ApiGranules;
 
     public interface IWsProjects : IRootedArchive
     {

@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Diagnostics;
     using System.Linq;
     using Microsoft.Diagnostics.Runtime;
 

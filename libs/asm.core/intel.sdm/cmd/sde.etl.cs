@@ -14,8 +14,8 @@ namespace Z0
         Outcome LoadCpuidRows(CmdArgs args)
         {
             var result = Outcome.Success;
-            var sources = AppDb.DbSources("intel").Sources("sde.cpuid");
-            var targets = AppDb.DbTargets("sde");
+            var sources = AppDb.DbIn("intel").Sources("sde.cpuid");
+            var targets = AppDb.DbOut("sde");
             var src = CpuId.Import(
                 sources.Root,
                 targets.Path("sde.cpuid.records", FileKind.Csv),

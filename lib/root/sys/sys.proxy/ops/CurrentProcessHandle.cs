@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Reflection;
-    using System.Diagnostics;
-
     using static ApiOpaqueClass;
 
     partial struct proxy

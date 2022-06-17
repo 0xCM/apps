@@ -7,14 +7,11 @@ namespace Z0
     [ApiHost]
     public readonly struct Loggers
     {
-        // public static IWfEmissionLog emission(string name, EnvData env)
-        //     => new WfEmissionLog(env.Logs + FS.folder("emissions") + FS.file(name + ".emissions", FS.Log));
+        public static IWfEmissionLog emission(Assembly src, Timestamp? ts = null, string name = null)
+            => new WfEmissionLog(src, Environs.dir(EnvNames.Logs).VarValue + FS.folder(src.Id().Format()), ts, name);
 
-        // public static IWfEmissionLog emission(string name, FS.FolderPath dst)
-        //     => new WfEmissionLog(dst  + FS.file(name + ".emissions", FS.Log));
-
-        public static IWfEmissionLog emission(Assembly src, FS.FolderPath dst, Timestamp? ts = null, string name = null)
-            => new WfEmissionLog(src, dst, ts, name);
+        public static IWfEmissionLog emission(Assembly src, FS.FolderPath dst, Timestamp ts, string name)
+            => new WfEmissionLog(src, Environs.dir(EnvNames.Logs).VarValue + FS.folder(src.Id().Format()), ts, name);
 
         [Op]
         public static string format(IWfLogConfig src)
@@ -42,11 +39,7 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static WfLogConfig configure(string name = EmptyString)
-        {
-            var a = core.controller();
-            var id = a.Id();
-            return new WfLogConfig(id, FS.path(a.Location).FolderPath, name);
-        }
+            => new WfLogConfig(core.controller().Id(), Environs.dir(EnvNames.Logs), name);
 
         [MethodImpl(Inline), Op]
         public static WfLogConfig configure(PartId part, FS.FolderPath root, string name = EmptyString)

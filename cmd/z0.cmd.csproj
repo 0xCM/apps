@@ -13,7 +13,4 @@
     <ProjectReference Include="$(ZLibs)" />
   </ItemGroup>
 
-  <!-- <ItemGroup>
-    <EmbeddedResource Include="*.settings.*"  CopyToOutputDirectory="Always" />
-  </ItemGroup> -->
 </Project>

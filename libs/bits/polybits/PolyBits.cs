@@ -21,7 +21,7 @@ namespace Z0
 
         AppDb AppDb => Service(Wf.AppDb);
 
-        IDbTargets Targets => AppDb.DbTargets().Targets(polybits);
+        IDbTargets Targets => AppDb.DbOut().Targets(polybits);
 
         public void Check()
         {

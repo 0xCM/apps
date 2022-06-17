@@ -19,7 +19,6 @@ namespace Z0
         public FS.FileName File(string @class, string name, FileKind kind)
             => FS.file(string.Format("{0}.{1}", @class, name), kind.Ext());
 
-
         [Op]
         public static Outcome<FileEmission> emit(FS.Files src, bool uri, FS.FilePath dst)
         {

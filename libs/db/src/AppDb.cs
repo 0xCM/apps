@@ -4,11 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using S = DbNames;
-    using T = ApiGranules;
     using static Settings;
 
-    using static core;
+    using EN = EnvNames;
+    using T = ApiGranules;
 
     public class AppDb : IAppDb
     {
@@ -16,10 +15,10 @@ namespace Z0
 
         static Settings settings(FS.FilePath src)
         {
-            var dst = Settings.Empty;
+            var dst = Z0.Settings.Empty;
             try
             {
-                dst = Settings.load(src);
+                dst = Z0.Settings.load(src);
             }
             catch(Exception e)
             {
@@ -36,26 +35,42 @@ namespace Z0
 
         readonly WsArchives Archives;
 
-        public readonly EnvData Env;
+        public ref readonly Settings Settings()
+            => ref _Settings;
 
-        public IDbTargets DbTargets()
-            => new DbTargets(setting(Archives.Path(S.DbTargets), FS.dir));
+        public IDbTargets DbOut()
+            => new DbTargets(setting(Archives.Path(EN.DbTargets), FS.dir));
+
+        public IDbTargets DbOut(string scope)
+            => DbOut().Targets(scope);
+
+        public IDbSources DbIn()
+            => new DbSources(setting(Archives.Path(EN.DbSources), FS.dir));
+
+        public IDbSources Env()
+            => new DbSources(setting(Archives.Path(EN.EnvConfig), FS.dir));
+
+        public IDbSources DbIn(string scope)
+            => DbIn().Sources(scope);
+
+        public IDbTargets Logs()
+            => DbOut("logs");
+
+        public IDbTargets Logs(string scope)
+            => DbOut($"logs/{scope}");
 
         public FS.FilePath DbTable<T>(string scope)
             where T : struct
-                => DbTargets(scope).Table<T>();
-
-        public IDbSources DbSources()
-            => new DbSources(setting(Archives.Path(S.DbSources), FS.dir));
+                => DbOut(scope).Table<T>();
 
         public IDbSources Control()
-            => new DbSources(setting(Archives.Path(S.Control), FS.dir));
+            => new DbSources(setting(Archives.Path(EN.Control), FS.dir));
 
         public IDbSources Toolbase()
-            => new DbSources(setting(Archives.Path(S.Toolbase), FS.dir));
+            => new DbSources(setting(Archives.Path(EN.Toolbase), FS.dir));
 
         public IDbSources DevRoot()
-            => new DbSources(setting(Archives.Path(S.DevRoot), FS.dir));
+            => new DbSources(setting(Archives.Path(EN.DevRoot), FS.dir));
 
         public WsCatalog Catalog(IWsProject src)
             => WsCatalog.load(src);
@@ -67,13 +82,13 @@ namespace Z0
             => DevProjects().Projects(scope);
 
         public IDbTargets CgRoot()
-            => new DbTargets(setting(Archives.Path(S.CgRoot), FS.dir));
+            => new DbTargets(setting(Archives.Path(EN.CgRoot), FS.dir));
 
         public IDbTargets Capture()
-            => new DbTargets(setting(Archives.Path(S.DbCapture), FS.dir));
+            => new DbTargets(setting(Archives.Path(EN.DbCapture), FS.dir));
 
         public IDbSources EnvConfig()
-            => new DbSources(setting(Archives.Path(S.EnvConfig), FS.dir));
+            => new DbSources(setting(Archives.Path(EN.EnvConfig), FS.dir));
 
         public IWsProject DevProject(ProjectId src)
             => new WsProject(DevProjects().Sources(src).Root + FS.folder(src.Format()), src);
@@ -91,41 +106,29 @@ namespace Z0
             => Catalog(DevProject(scope, src));
 
         public IDbTargets DbProjects(ProjectId src)
-            => new DbTargets(setting(Archives.Path(S.DbProjects),FS.dir), src.Format());
+            => new DbTargets(setting(Archives.Path(EN.DbProjects),FS.dir), src.Format());
 
         public IDbTargets DbProjects(IWsProject src)
-            => new DbTargets(setting(Archives.Path(S.DbProjects),FS.dir), src.Name);
+            => new DbTargets(setting(Archives.Path(EN.DbProjects),FS.dir), src.Name);
 
         public IDbTargets CgStage()
-            => DbTargets("cgstage");
+            => DbOut("cgstage");
 
         public IDbTargets CgStage(string scope)
-            => DbTargets("cgstage").Targets(scope);
+            => DbOut("cgstage").Targets(scope);
 
         public FS.FilePath ProjectTable<T>(ProjectId project)
             where T : struct
                 => DbProjects(project).Table<T>(project);
 
-        public IDbSources DbSources(string scope)
-            => DbSources().Sources(scope);
-
-        public IDbTargets DbTargets(string scope)
-            => DbTargets().Targets(scope);
-
-        public IDbTargets Logs()
-            => DbTargets("logs");
-
-        public IDbTargets Logs(string scope)
-            => DbTargets($"logs/{scope}");
-
         public IDbTargets RuntimeLogs()
             => Logs("runtime");
 
         public IDbTargets ApiTargets()
-            => DbTargets().Targets("api");
+            => DbOut().Targets("api");
 
         public IDbTargets ApiTargets(string scope)
-            => DbTargets($"api/{scope}");
+            => DbOut($"api/{scope}");
 
         public IDbTargets EtlTargets(ProjectId id, string scope)
             => DbProjects(id).Targets(scope);
@@ -142,12 +145,12 @@ namespace Z0
         public IDbTargets AsmSrc(ProjectId id)
             => EtlTargets(id, T.asmsrc);
 
+        Settings _Settings;
+
         AppDb()
         {
-            var _settings = settings(SettingsPath(Assembly.GetEntryAssembly(), FileKind.Csv));
-            Archives = archives(_settings);
-            Env = EnvData.load();
-
+            _Settings = settings(SettingsPath(Assembly.GetEntryAssembly(), FileKind.Csv));
+            Archives = archives(_Settings);
         }
 
         static AppDb Instance;

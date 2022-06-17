@@ -244,7 +244,7 @@ namespace Z0
 
         XedPaths()
         {
-            State = new (AppDb.DbSources("intel/xed.primary").Root, AppDb.DbTargets("xed").Root);
+            State = new (AppDb.DbIn("intel/xed.primary").Root, AppDb.DbOut("xed").Root);
         }
 
         static XedPaths Instance = new();

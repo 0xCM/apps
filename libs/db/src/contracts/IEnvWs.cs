@@ -4,14 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static ApiOpaqueClass;
-
-    partial struct proxy
+    public interface IEnvWs : IWorkspace
     {
-        public static Process CurrentProcess
-        {
-            [MethodImpl(Options), Opaque(GetCurrentProcess)]
-            get => Process.GetCurrentProcess();
-        }
+        Settings Globals();
+
+        Settings Settings(string id);
     }
 }

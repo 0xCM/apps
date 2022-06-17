@@ -5,10 +5,9 @@
 namespace Z0
 {
     using System.Linq;
-    using System.IO;
 
-    using static Environs;
     using static core;
+    using static Environs;
 
     using DP = DataParser;
 
@@ -18,6 +17,40 @@ namespace Z0
         public static Setting<T> setting<T>(Setting src, Func<string,T> parser)
             => new Setting<T>(src.Name, parser(src.ValueText));
 
+        public static MachineEnv machine()
+            => new MachineEnv(Environs.vars());
+
+        public static EnvSet envset(FS.FilePath src, char sep)
+        {
+            var result = Outcome.Success;
+            var name = text.left(src.FileName.Format(), Chars.Dot);
+            var vars = list<EnvVar>();
+            var lookup = dict<VarSymbol,object>();
+            using var reader = src.Utf8LineReader();
+            while(reader.Next(out var line))
+            {
+                var content = line.Content;
+                var i = text.index(content,sep);
+                if(i > 0)
+                {
+                    var vname = text.left(content,i);
+                    var vval = text.right(content,i);
+                    vars.Add((vname,vval));
+                    lookup.TryAdd(vname,vval);
+                }
+            }
+
+            return new EnvSet(name, lookup, vars.Array());
+        }
+
+        public static EnvSet<S> envset<S>(string name, S src)
+            where S : struct
+        {
+            var values = ClrFields.values(src).Select(x => (Name:new VarSymbol(x.Field.Name), x.Value));
+            var lookup = values.ToDictionary();
+            var vars = values.Select(x => new EnvVar(x.Name, x.Value?.ToString()));
+            return new EnvSet<S>(name, lookup, src, vars);
+        }
 
         [Parser]
         public static Outcome parse(string src, out Setting<string> dst)

@@ -43,8 +43,8 @@ namespace Z0
             Control = control;
             LogRoot = root;
             var ts = core.timestamp();
-            StatusPath = LogRoot + FS.file($"{LogId}.status.{ts}", FS.Log);
-            ErrorPath = LogRoot + FS.file($"{LogId}.errors.{ts}", FS.Log);
+            StatusPath = LogRoot + FS.folder(control.Format()) + FS.file($"{LogId}.status.{ts}", FS.Log);
+            ErrorPath = LogRoot + FS.folder(control.Format()) + FS.file($"{LogId}.errors.{ts}", FS.Log);
         }
 
         public string Format()

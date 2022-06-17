@@ -21,7 +21,7 @@ namespace Z0.llvm
         const string project = "llvm.data";
 
         public IDbTargets LogTargets()
-            => AppDb.DbTargets(logs);
+            => AppDb.DbOut(logs);
 
         public FS.FilePath DbTable<T>()
             where T : struct
@@ -34,16 +34,16 @@ namespace Z0.llvm
             => AppDb.DevProjects().Sources(project);
 
         public IDbTargets Tables()
-            => AppDb.DbTargets(tables);
+            => AppDb.DbOut(tables);
 
         public IDbTargets RecordImports()
-            => AppDb.DbTargets(records);
+            => AppDb.DbOut(records);
 
         public IDbTargets ToolImports()
-            => AppDb.DbTargets(tools);
+            => AppDb.DbOut(tools);
 
         public IDbTargets QueryOut()
-            => AppDb.DbTargets(queries);
+            => AppDb.DbOut(queries);
 
         public FS.FilePath QueryOut(FS.FileName file)
             => QueryOut().Path(file);
@@ -82,7 +82,7 @@ namespace Z0.llvm
             => Env.LlvmRoot;
 
         public IDbTargets FileTargets()
-            => AppDb.DbTargets(files);
+            => AppDb.DbOut(files);
 
         public FS.FilePath File(string id, FileKind kind)
             => FileTargets().Path(id,kind);

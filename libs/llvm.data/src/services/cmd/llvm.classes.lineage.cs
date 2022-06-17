@@ -21,7 +21,7 @@ namespace Z0.llvm
             var result = Outcome.Success;
             var defrel = DataProvider.DefRelations();
             var classrel = DataProvider.ClassRelations();
-            var dst =  AppDb.DbTargets("llvm/logs").Path("llvm.lineage", FileKind.Txt);
+            var dst =  AppDb.DbOut("llvm/logs").Path("llvm.lineage", FileKind.Txt);
             var emitting = EmittingFile(dst);
             using var writer = dst.AsciWriter();
 

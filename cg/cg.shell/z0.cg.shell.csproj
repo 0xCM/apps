@@ -2,11 +2,11 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
-    <AssemblyName>zgen</AssemblyName>
+    <AssemblyName>zcg</AssemblyName>
   </PropertyGroup>
 
   <Import Project="$(ImportDefs)common.libs.props"/>
+  <Import Project="$(ImportDefs)env.settings.props"/>
 
   <ItemGroup>
     <EmbeddedResource Include="assets/**/*.*" />

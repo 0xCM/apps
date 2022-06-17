@@ -6,6 +6,20 @@ namespace Z0
 {
     public interface IAppDb
     {
+        IDbSources DbIn();
+
+        IDbSources DbIn(string scope);
+
+        IDbTargets DbOut();
+
+        IDbTargets DbOut(string scope);
+
+        IDbTargets Logs();
+
+        IDbSources Env();
+
+        IDbTargets Logs(string scope);
+
         IDbTargets DbProjects(ProjectId name);
 
         FS.FilePath ProjectTable<T>(ProjectId project)
@@ -13,14 +27,5 @@ namespace Z0
 
         IDbTargets EtlTargets(ProjectId id, string scope);
 
-        IDbTargets DbTargets();
-
-        IDbTargets DbTargets(string scope);
-
-        IDbSources DbSources();
-
-        IDbSources DbSources(string scope);
-
-        IDbTargets Logs(string scope);
     }
 }

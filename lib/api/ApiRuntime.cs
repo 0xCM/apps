@@ -44,8 +44,7 @@ namespace Z0
             dst.AppName = id.PartName();
             dst.EventBroker = WfBroker.create(dst.LogConfig);
             dst.Host = new WfHost(typeof(WfRuntime));
-            dst.EmissionLog = Loggers.emission(control, dst.Env.Logs);
-            //dst.EmissionLog = Loggers.emission(dst.LogConfig.LogId, dst.Env);
+            dst.EmissionLog = Loggers.emission(control);
             var wf = new WfRuntime(dst);
             term.inform(AppMsg.status(InitializedRuntime.Format(now(), clock.Elapsed())));
             return wf;
@@ -173,15 +172,12 @@ namespace Z0
         static FolderFiles managed(FS.FolderPath dir, bool libonly)
         {
             var src = dir.Exclude("System.Private.CoreLib");
-            if(libonly)
-                src = src.Where(x => !x.Format().EndsWith(".exe"));
+            src = src.Where(x => !x.Format().EndsWith(".exe"));
             return new FolderFiles(dir, src.Where(f => FS.managed(f)));
         }
 
-
         static FS.FolderPath location()
             => FS.path(controller().Location).FolderPath;
-
 
         internal static IWfRuntime create(IApiParts parts, string[] args, string logname = EmptyString)
         {
@@ -204,7 +200,7 @@ namespace Z0
             dst.AppName = id.PartName();
             dst.EventBroker = WfBroker.create(dst.LogConfig);
             dst.Host = new WfHost(typeof(WfRuntime));
-            dst.EmissionLog = Loggers.emission(control, dst.Env.Logs, core.timestamp());
+            dst.EmissionLog = Loggers.emission(control, core.timestamp());
             var wf = new WfRuntime(dst);
             term.inform(AppMsg.status(InitializedRuntime.Format(now(), clock.Elapsed())));
             return wf;

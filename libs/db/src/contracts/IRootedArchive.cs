@@ -50,7 +50,7 @@ namespace Z0
             => DbFiles.File(@class, name, kind);
 
         FS.FilePath Path(string name, FileKind kind)
-            => DbFiles.Path(name,kind);
+            => DbFiles.Path(name, kind);
 
         FS.FilePath Path(FS.FileName file)
             => DbFiles.Path(file);

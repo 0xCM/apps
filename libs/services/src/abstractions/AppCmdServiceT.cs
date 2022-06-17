@@ -7,6 +7,8 @@ namespace Z0
     using Windows;
     using static ApiGranules;
 
+    using G = ApiGranules;
+
     using static core;
 
     [CmdProvider]
@@ -61,10 +63,11 @@ namespace Z0
             CommonState.Init(Wf,Ws);
         }
 
-        [CmdOp("app/settings")]
+        [CmdOp("settings")]
         protected void AppSetings()
         {
-
+            var src = AppDb.Settings();
+            iter(src, setting => Write(setting.Format()));
         }
 
         [CmdOp("commands")]
@@ -79,26 +82,23 @@ namespace Z0
             return true;
         }
 
-        [CmdOp("env/logs")]
-        protected Outcome EnvLogs(CmdArgs args)
+        FS.FilePath EnvPath(string name)
+            => AppDb.Env().Root + FS.file(name, FS.Log);
+
+        public EnvSet LoadEnv(string name)
+            => Settings.envset(EnvPath(name), Chars.Eq);
+
+        [CmdOp("env/set")]
+        protected Outcome EnvSet(CmdArgs args)
         {
-            var result = Outcome.Success;
-            var src = AppDb.Control();
-            var paths = src.Sources(env).Files(FileKind.Log);
-            for(var i=0; i<paths.Count; i++)
-            {
-                ref readonly var path = ref paths[i];
-                Write(path.ToUri());
-                var vars = Environs.set(paths[i],Chars.Eq).Vars;
-                for(var j=0; j<vars.Count; j++)
-                {
-                    ref readonly var v = ref vars[j];
-                    Write(v.Format());
-                }
-            }
+            var name = Environment.MachineName.ToLower();
+            if(args.Count != 0)
+                name = arg(args,0).Value.Format();
 
+            var set = LoadEnv($"{name}.vars").Vars;
+            iter(set, member => Write(member.Format()));
 
-            return result;
+            return true;
         }
 
         [CmdOp("env/emit")]

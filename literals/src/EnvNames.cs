@@ -7,8 +7,10 @@ namespace Z0
     using static ApiGranules;
 
     [LiteralProvider(env)]
-    public readonly struct DbNames
+    public readonly struct EnvNames
     {
+        public const string DbRoot = nameof(DbRoot);
+
         public const string DbSources = nameof(DbSources);
 
         public const string DbTargets = nameof(DbTargets);
@@ -29,6 +31,12 @@ namespace Z0
 
         public const string RepoDeps = nameof(RepoDeps);
 
-        public const string ToolDeps = nameof(ToolDeps);
+        public const string Tools = nameof(Tools);
+
+        public const string Views = nameof(Views);
+
+        public const string Logs = nameof(Logs);
+
+        public const string VsRoot = nameof(VsRoot);
     }
 }

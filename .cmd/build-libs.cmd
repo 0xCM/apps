@@ -1,8 +1,8 @@
 @echo off
 call %~dp0config.cmd
 
-call %BuildLiterals%
-if errorlevel 1 goto:eof
+@REM call %BuildLiterals%
+@REM if errorlevel 1 goto:eof
 
 @REM call %BuildZLib%
 @REM if errorlevel 1 goto:eof

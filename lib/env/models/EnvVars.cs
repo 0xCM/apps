@@ -11,8 +11,6 @@ namespace Z0
         public static EnvVars load()
             => new (Environs.vars().ToArray());
 
-        public static EnvSet set(FS.FilePath src, char sep)
-            => Environs.set(src, sep);
 
         Index<EnvVar> Data {get;}
 

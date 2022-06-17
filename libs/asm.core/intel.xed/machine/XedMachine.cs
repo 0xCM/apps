@@ -92,7 +92,7 @@ namespace Z0
         {
             Xed = xed;
             Wf = xed.Wf;
-            Ws = WsProject.load(AppDb.DbTargets().Root, Identifier);
+            Ws = WsProject.load(AppDb.DbOut().Root, Identifier);
             RuntimeState = new(NextId());
             RuleTables = Xed.Views.RuleTables;
             _Emitter = Emitter.create(this, StatusWriter);

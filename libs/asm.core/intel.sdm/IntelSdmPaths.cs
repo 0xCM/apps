@@ -10,7 +10,7 @@ namespace Z0.Asm
     public class IntelSdmPaths : WfSvc<IntelSdmPaths>
     {
         public IDbTargets Targets()
-            => AppDb.DbTargets(sdm);
+            => AppDb.DbOut(sdm);
 
         public FS.FilePath SdmTable<T>()
             where T : struct
@@ -35,7 +35,7 @@ namespace Z0.Asm
             => Settings().Path(FS.file("sdm.splits", FS.Csv));
 
         public IDbSources Sources()
-            => AppDb.DbSources(intel);
+            => AppDb.DbIn(intel);
 
         public IDbSources Sources(string scope)
             => Sources().Sources(scope);

@@ -1,5 +1,5 @@
 @echo off
 call %~dp0config.cmd
-call %BuildLiterals%
+: call %BuildLiterals%
 call %BuildZLib%
 

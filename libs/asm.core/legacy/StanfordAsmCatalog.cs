@@ -119,12 +119,12 @@ namespace Z0.Asm
         }
 
         public ReadOnlySpan<StanfordInstruction> LoadSource()
-            => LoadSource(AppDb.DbSources().Sources("asm.stanford").Path("stanford-asm-catalog",FileKind.Csv));
+            => LoadSource(AppDb.DbIn().Sources("asm.stanford").Path("stanford-asm-catalog",FileKind.Csv));
 
         public ReadOnlySpan<StanfordInstruction> Import()
         {
             var imports = LoadSource();
-            TableEmit(imports, AppDb.DbTargets().Targets("asm.refs").Table<StanfordInstruction>());
+            TableEmit(imports, AppDb.DbOut().Targets("asm.refs").Table<StanfordInstruction>());
             return imports;
         }
 
@@ -141,7 +141,7 @@ namespace Z0.Asm
                 target.Sig = source.Sig;
                 target.FormExpr = new AsmFormInfo(source.OpCode,source.Sig);
             }
-            TableEmit(buffer, AppDb.DbTargets().Targets("asm.refs").Table<StanfordFormInfo>());
+            TableEmit(buffer, AppDb.DbOut().Targets("asm.refs").Table<StanfordFormInfo>());
         }
 
         Outcome parse(ushort seq, in TextLine src, ref StanfordInstruction dst)

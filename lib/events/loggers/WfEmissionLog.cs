@@ -19,13 +19,6 @@ namespace Z0
             Emissions = Target.Stream();
         }
 
-        // internal WfEmissionLog(FS.FilePath dst)
-        // {
-        //     Target = dst;
-        //     Target.EnsureParentExists().Delete();
-        //     Emissions = Target.Stream();
-        // }
-
         public void Dispose()
         {
             Emissions?.Flush();

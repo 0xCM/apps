@@ -6,7 +6,6 @@ namespace Z0
 {
     public class FileKinder
     {
-
         public static FileKind kind(FS.FilePath src)
         {
             var name = src.FileName.Format().ToLower();

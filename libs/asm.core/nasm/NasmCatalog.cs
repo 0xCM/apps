@@ -85,8 +85,8 @@ namespace Z0.Asm
 
         public ReadOnlySpan<NasmInstruction> ImportInstructions()
             => ImportInstructions(
-                AppDb.DbSources().Path(FS.file("nasm.instructions", FS.Txt)),
-                AppDb.DbTargets().Targets("asm.refs").Table<NasmInstruction>()
+                AppDb.DbIn().Path(FS.file("nasm.instructions", FS.Txt)),
+                AppDb.DbOut().Targets("asm.refs").Table<NasmInstruction>()
                 );
 
         ReadOnlySpan<NasmInstruction> ImportInstructions(FS.FilePath src, FS.FilePath dst)
@@ -97,7 +97,7 @@ namespace Z0.Asm
         }
 
         public ReadOnlySpan<NasmInstruction> LoadInstructionImports()
-            => LoadInstructionImports(AppDb.DbTargets().Targets("asm.refs").Table<NasmInstruction>());
+            => LoadInstructionImports(AppDb.DbOut().Targets("asm.refs").Table<NasmInstruction>());
 
         public ReadOnlySpan<NasmInstruction> LoadInstructionImports(FS.FilePath src)
         {

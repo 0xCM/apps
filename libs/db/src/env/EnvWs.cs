@@ -4,13 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IEnvWs : IWorkspace
-    {
-        Settings Globals();
-
-        Settings Settings(string id);
-    }
-
     public sealed class EnvWs : Workspace<EnvWs>, IEnvWs
     {
         public static IEnvWs create()

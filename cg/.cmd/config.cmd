@@ -1,3 +1,4 @@
 @echo off
-set ProjectId=codegen
+set WsId=cg
+set SlnId=cg
 call %~dp0..\..\.cmd\config.cmd

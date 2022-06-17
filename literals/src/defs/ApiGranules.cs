@@ -346,6 +346,10 @@ namespace Z0
 
         public const string llvm = nameof(llvm);
 
+        public const string dev = nameof(dev);
+
+        public const string vars = nameof(vars);
+
         public const string api_classes = api + Dot + classes;
 
         public const string llvm_mc = llvm + Dot + mc;
