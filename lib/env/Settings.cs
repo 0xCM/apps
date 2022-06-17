@@ -15,6 +15,10 @@ namespace Z0
     [ApiHost]
     public class Settings : IIndex<Setting>, ILookup<string,Setting>
     {
+        public static Setting<T> setting<T>(Setting src, Func<string,T> parser)
+            => new Setting<T>(src.Name, parser(src.ValueText));
+
+
         [Parser]
         public static Outcome parse(string src, out Setting<string> dst)
         {
@@ -239,20 +243,20 @@ namespace Z0
             return new Settings(src,dst);
         }
 
-        public static Settings<T> load<T>(FS.FilePath src, Func<string,T> parser)
-        {
-            var formatter = Tables.formatter<Setting<T>>();
-            var data = src.ReadLines(true);
-            var dst = alloc<Setting<T>>(data.Length - 1);
-            for(var i=1; i<data.Length; i++)
-            {
-                ref readonly var line = ref data[i];
-                var parts = text.split(line,Chars.Pipe);
-                Require.equal(parts.Length,2);
-                seek(dst,i-1)= new Setting<T>(text.trim(skip(parts,0)), parser(text.trim(skip(parts,1))));
-            }
-            return new Settings<T>(src,dst);
-        }
+        // public static Settings<T> load<T>(FS.FilePath src, Func<string,T> parser)
+        // {
+        //     var formatter = Tables.formatter<Setting<T>>();
+        //     var data = src.ReadLines(true);
+        //     var dst = alloc<Setting<T>>(data.Length - 1);
+        //     for(var i=1; i<data.Length; i++)
+        //     {
+        //         ref readonly var line = ref data[i];
+        //         var parts = text.split(line,Chars.Pipe);
+        //         Require.equal(parts.Length,2);
+        //         seek(dst,i-1)= new Setting<T>(text.trim(skip(parts,0)), parser(text.trim(skip(parts,1))));
+        //     }
+        //     return new Settings<T>(src,dst);
+        // }
 
         public static void store(ReadOnlySpan<Setting> src, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
         {
@@ -468,7 +472,7 @@ namespace Z0
         public string Format()
         {
             var dst = text.emitter();
-            render(this,dst);
+            render(this, dst);
             return dst.Emit();
         }
 

@@ -20,7 +20,6 @@ namespace Z0
         {
             Root = root;
             Id = id;
-            //ProjectSettings = WsArchives.settings(root,id);
         }
 
         Identifier IWorkspace.Name

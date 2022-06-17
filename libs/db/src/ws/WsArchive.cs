@@ -4,45 +4,52 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public struct WsArchive : IDbSources
+    public readonly struct WsArchive : IWsArchive
     {
         [Render(32)]
-        public string Name;
+        public readonly ProjectId ProjectId;
 
         [Render(1)]
-        public FS.FolderPath Location;
+        public readonly FS.FolderPath Root;
 
         [MethodImpl(Inline)]
-        public WsArchive(string name, FS.FolderPath dst)
+        public WsArchive(ProjectId id, FS.FolderPath dst)
         {
-            Name = name;
-            Location = dst;
+            ProjectId = id;
+            Root = dst;
         }
 
-        public FS.FolderPath Root
+        ProjectId IWsArchive.ProjectId
         {
             [MethodImpl(Inline)]
-            get => Location;
+            get => ProjectId;
+        }
+
+        FS.FolderPath IRootedArchive.Root
+        {
+            [MethodImpl(Inline)]
+            get => Root;
         }
 
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => text.empty(Name) || Location.IsEmpty;
+            get => text.empty(ProjectId) || Root.IsEmpty;
         }
 
         public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
-            get => text.nonempty(Name) && Location.IsNonEmpty;
+            get => text.nonempty(ProjectId) && Root.IsNonEmpty;
         }
 
         public string Format()
-            => Location.Format();
+            => Root.Format();
 
         public override string ToString()
             => Format();
 
         public static WsArchive Empty => new WsArchive(EmptyString, FS.FolderPath.Empty);
+
     }
 }

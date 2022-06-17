@@ -6,6 +6,7 @@ namespace Z0
 {
     using S = DbNames;
     using T = ApiGranules;
+    using static Settings;
 
     using static core;
 
@@ -31,39 +32,33 @@ namespace Z0
             => FS.path(src.Location).FolderPath + FS.file(string.Format("{0}.settings", src.GetSimpleName()), kind.Ext());
 
         static WsArchives archives(Settings src)
-        {
-            var count = src.Count;
-            var dst = alloc<WsArchive>(count);
-            for(var i=0; i<src.Count; i++)
-            {
-                ref readonly var setting = ref src[i];
-                seek(dst,i) = new WsArchive(text.trim(setting.Name), FS.dir(setting.ValueText));
-            }
-            return new WsArchives(dst);
-        }
+            => new WsArchives(src);
 
         readonly WsArchives Archives;
 
         public readonly EnvData Env;
 
+        // public static Setting<T> setting<T>(Setting src, Func<string,T> parser)
+        //     => new Setting<T>(src.Name, parser(src.ValueText));
+
         public IDbTargets DbTargets()
-            => new DbTargets(Archives.Path(S.DbTargets).Location);
+            => new DbTargets(setting(Archives.Path(S.DbTargets), FS.dir));
 
         public FS.FilePath DbTable<T>(string scope)
             where T : struct
                 => DbTargets(scope).Table<T>();
 
         public IDbSources DbSources()
-            => new DbSources(Archives.Path(S.DbSources).Location);
+            => new DbSources(setting(Archives.Path(S.DbSources), FS.dir));
 
         public IDbSources Control()
-            => new DbSources(Archives.Path(S.Control).Location);
+            => new DbSources(setting(Archives.Path(S.Control), FS.dir));
 
         public IDbSources Toolbase()
-            => new DbSources(Archives.Path(S.Toolbase).Location);
+            => new DbSources(setting(Archives.Path(S.Toolbase), FS.dir));
 
         public IDbSources DevRoot()
-            => new DbSources(Archives.Path(S.DevRoot).Location);
+            => new DbSources(setting(Archives.Path(S.DevRoot), FS.dir));
 
         public WsCatalog Catalog(IWsProject src)
             => WsCatalog.load(src);
@@ -75,13 +70,13 @@ namespace Z0
             => DevProjects().Projects(scope);
 
         public IDbTargets CgRoot()
-            => new DbTargets(Archives.Path(S.CgRoot).Location);
+            => new DbTargets(setting(Archives.Path(S.CgRoot), FS.dir));
 
         public IDbTargets Capture()
-            => new DbTargets(Archives.Path(S.DbCapture).Location);
+            => new DbTargets(setting(Archives.Path(S.DbCapture), FS.dir));
 
         public IDbSources EnvConfig()
-            => new DbSources(Archives.Path(S.EnvConfig).Location);
+            => new DbSources(setting(Archives.Path(S.EnvConfig), FS.dir));
 
         public IWsProject DevProject(ProjectId src)
             => new WsProject(DevProjects().Sources(src).Root + FS.folder(src.Format()), src);
@@ -99,10 +94,10 @@ namespace Z0
             => Catalog(DevProject(scope, src));
 
         public IDbTargets DbProjects(ProjectId src)
-            => new DbTargets(Archives.Path(S.DbProjects).Location, src.Format());
+            => new DbTargets(setting(Archives.Path(S.DbProjects),FS.dir), src.Format());
 
         public IDbTargets DbProjects(IWsProject src)
-            => new DbTargets(Archives.Path(S.DbProjects).Location, src.Name);
+            => new DbTargets(setting(Archives.Path(S.DbProjects),FS.dir), src.Name);
 
         public IDbTargets CgStage()
             => DbTargets("cgstage");

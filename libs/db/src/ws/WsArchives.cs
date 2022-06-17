@@ -4,33 +4,40 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     public class WsArchives
     {
-        readonly Index<WsArchive> Data;
+        readonly Settings Data;
 
-        readonly ConstLookup<string, WsArchive> Lookup;
-
-        internal WsArchives(WsArchive[] src)
+        internal WsArchives(Settings src)
         {
             Data = src;
-            Lookup = src.Select(x => (x.Name,x)).ToDictionary();
         }
 
-        public WsArchive Path(string name)
+        public Setting Path(string name)
         {
-            var dst = WsArchive.Empty;
-            Lookup.Find(name, out dst);
-            return dst;
+            var dst = Setting.Empty;
+            var result = Data.Lookup(name, out dst);
+            if(result)
+                return dst;
+            else
+                return Setting.Empty;
         }
 
         public string Format()
-        {
-            var dst = text.emitter();
-            Tables.emit(Data.View, dst);
-            return dst.Emit();
-        }
+            => Data.Format();
+        // {
+        //     var dst = text.emitter();
+        //     var formatter = Tables.formatter<WsArchive>();
+        //     dst.AppendLine(formatter.FormatHeader());
+        //     for(var i=0; i<Data.Count; i++)
+        //     {
+        //         ref readonly var src = ref Data[i];
+        //         var archive = new WsArchive(src.ProjectId, src.Root);
+        //         dst.AppendLine(formatter.Format(archive));
+        //     }
+
+        //     return dst.Emit();
+        // }
 
         public override string ToString()
             => Format();
