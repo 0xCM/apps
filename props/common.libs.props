@@ -1,7 +1,12 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-  <ItemGroup>
+  <!-- <ItemGroup>
     <Reference Include="$(ZLibName)" HintPath="$(ZLibPath)"/>
+    <Reference Include="$(LiteralsLibName)" HintPath="$(LiteralsLibPath)"/>
+  </ItemGroup> -->
+
+  <ItemGroup>
+    <ProjectReference Include="$(ZLib)" />
     <Reference Include="$(LiteralsLibName)" HintPath="$(LiteralsLibPath)"/>
   </ItemGroup>
 

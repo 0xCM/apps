@@ -4,49 +4,54 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
     using System.Linq;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Runtime.CompilerServices;
-    using System.Reflection;
-    using System.IO;
 
-    using static Root;
+    // public abstract partial class TestContext
+    // {
+    //     public bool DiagnosticMode {get; private set;}
 
-    using Caller = System.Runtime.CompilerServices.CallerMemberNameAttribute;
+    //     protected IWfRuntime Wf {get; private set;}
 
-    public abstract partial class TestContext
+    //     public void InjectShell(IWfRuntime wf)
+    //     {
+    //         Wf = wf;
+    //         Db = wf.Db();
+    //         OnShellInjected(wf);
+    //     }
+
+    //     protected virtual void OnShellInjected(IWfRuntime wf)
+    //     {
+
+    //     }
+
+    //     protected IWfDb Db {get; private set;}
+
+    //     public void SetMode(bool diagnostic)
+    //         => DiagnosticMode = diagnostic;
+
+    //     protected TestContext()
+    //     {
+    //     }
+    // }
+
+    public abstract class TestContext<U> : ITestContext<U>
+        where U : TestContext<U>
     {
         public bool DiagnosticMode {get; private set;}
 
         protected IWfRuntime Wf {get; private set;}
 
-        public void InjectShell(IWfRuntime wf)
-        {
-            Wf = wf;
-            Db = wf.Db();
-            OnShellInjected(wf);
-        }
-
-        protected virtual void OnShellInjected(IWfRuntime wf)
-        {
-
-        }
-
-        protected IWfDb Db {get; private set;}
-
         public void SetMode(bool diagnostic)
             => DiagnosticMode = diagnostic;
 
-        protected TestContext()
+        public void InjectShell(IWfRuntime wf)
         {
+            Wf = wf;
+            OnShellInjected(wf);
         }
-    }
 
-    public abstract class TestContext<U> : TestContext, ITestContext<U>
-        where U : TestContext<U>
-    {
+        protected virtual void OnShellInjected(IWfRuntime wf) { }
+
         public ITestContext Context {get;}
 
         public virtual IPolyrand Random {get;}
@@ -163,14 +168,8 @@ namespace Z0
         protected PartName TestApp
             => (PartId)((ulong)Assembly.GetEntryAssembly().Id());
 
-        protected FS.FilePath StatusLogPath
-            => Db.TestLogSummaryRoot() + FS.file(TestApp.Format() + "testrunner" + "." + "status" + "log");
-
-        protected FS.FilePath ErrorLogPath
-            => Db.TestLogSummaryRoot() + FS.file(TestApp.Format() + "testrunner" + "." + "errors" + "log");
-
-        protected FS.FolderPath UnitDataDir
-            => Db.TestAppLogRoot<U>() + FS.folder(GetType().Name);
+        protected virtual FS.FolderPath UnitDataDir
+            => Wf.Env.Logs + FS.folder("test") + FS.folder(GetType().Name);
 
         protected static FS.FileExt LogExt => FS.Log;
 
@@ -181,7 +180,7 @@ namespace Z0
         protected string CaseName(OpIdentity id)
             => Context.name(id);
 
-        protected string CaseName<W,C>([Caller] string label = null, W w = default, C t = default, bool generic = true)
+        protected string CaseName<W,C>([CallerName] string label = null, W w = default, C t = default, bool generic = true)
             where W : unmanaged, ITypeWidth
             where C : unmanaged
                 => Context.name<W,C>(label, generic);
@@ -190,10 +189,7 @@ namespace Z0
             => SFxIdentity.name(f);
 
         CasePaths GetCasePaths()
-        {
-            Require.invariant(Db != null, () => $"Db for {GetType().Name} is null");
-            return new CasePaths(Db.TestLogRoot(), TestApp, GetType());
-        }
+            => new CasePaths(UnitDataDir, TestApp, GetType());
 
         public CasePaths Paths
             => GetCasePaths();
@@ -206,20 +202,20 @@ namespace Z0
             => UnitPath(filename).Writer(append);
 
         [MethodImpl(Inline)]
-        protected FS.FilePath CasePath(FS.FileExt ext, [CallerMemberName] string caller = null, bool append = false)
+        protected FS.FilePath CasePath(FS.FileExt ext, [CallerName] string caller = null, bool append = false)
             => UnitPath(FS.file(caller, ext));
 
         [MethodImpl(Inline)]
         protected FS.FilePath CasePath(string CaseName, FS.FileExt? ext = null)
             => UnitPath(FS.file(CaseName, ext ?? FS.ext("csv")));
 
-        protected StreamWriter CaseWriter(FS.FileExt ext, [Caller] string caller = null, bool append = false)
+        protected StreamWriter CaseWriter(FS.FileExt ext, [CallerName] string caller = null, bool append = false)
             => CasePath(caller, ext).Writer(append);
 
         protected StreamWriter CaseWriter(string CaseName, FS.FileExt? ext = null, bool append = false)
             => CasePath(CaseName, ext).Writer(append);
 
-        protected BenchmarkRecord Benchmark(long opcount, Duration time, [Caller] string label = null)
+        protected BenchmarkRecord Benchmark(long opcount, Duration time, [CallerName] string label = null)
             => Context.Benchmark(opcount, time, label);
 
         protected BenchmarkRecord ReportBenchmark(string name, long opcount, TimeSpan duration)
@@ -236,13 +232,13 @@ namespace Z0
         protected void Notify(string msg, LogLevel? severity = null)
             => Queue.Notify(msg, severity);
 
-        protected void Trace(object msg, [Caller] string caller = null)
+        protected void Trace(object msg, [CallerName] string caller = null)
             => Queue.Trace(msg, GetType(), caller);
 
-        protected void Trace(string title, object msg, FlairKind color, [Caller] string caller = null)
+        protected void Trace(string title, object msg, FlairKind color, [CallerName] string caller = null)
             => Queue.Trace(title, msg, color, GetType(), caller);
 
-        protected void Trace(string title, string msg, [Caller] string caller = null)
+        protected void Trace(string title, string msg, [CallerName] string caller = null)
             => Queue.Trace(title, msg, GetType(), caller);
 
         protected void Trace(IAppMsg msg)
@@ -256,10 +252,10 @@ namespace Z0
         string TypeCaseFormat<C>(string caller, string action)
             => string.Format(TypeCasePattern, GetType().DisplayName(), caller, typeof(C).DisplayName(), action);
 
-        protected void TypeCaseStart<C>([Caller] string caller = null)
+        protected void TypeCaseStart<C>([CallerName] string caller = null)
             => Trace(AppMsg.define(TypeCaseFormat<C>(caller, "running"), LogLevel.Status));
 
-        protected void TypeCaseEnd<C>([Caller] string caller = null)
+        protected void TypeCaseEnd<C>([CallerName] string caller = null)
             => Trace(AppMsg.define(TypeCaseFormat<C>(caller, "ran"), LogLevel.Status));
 
         /// <summary>

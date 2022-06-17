@@ -29,7 +29,7 @@ namespace Z0
         }
 
         static FS.FilePath SettingsPath(Assembly src, FileKind kind)
-            => FS.path(src.Location).FolderPath + FS.file(string.Format("{0}.settings", src.GetSimpleName()), kind.Ext());
+            => FS.path(src.Location).FolderPath + FS.file("app.settings", kind.Ext());
 
         static WsArchives archives(Settings src)
             => new WsArchives(src);
@@ -37,9 +37,6 @@ namespace Z0
         readonly WsArchives Archives;
 
         public readonly EnvData Env;
-
-        // public static Setting<T> setting<T>(Setting src, Func<string,T> parser)
-        //     => new Setting<T>(src.Name, parser(src.ValueText));
 
         public IDbTargets DbTargets()
             => new DbTargets(setting(Archives.Path(S.DbTargets), FS.dir));
@@ -145,21 +142,15 @@ namespace Z0
         public IDbTargets AsmSrc(ProjectId id)
             => EtlTargets(id, T.asmsrc);
 
-        readonly ConstLookup<string, WsArchive> Lookup;
-
         AppDb()
         {
             var _settings = settings(SettingsPath(Assembly.GetEntryAssembly(), FileKind.Csv));
             Archives = archives(_settings);
             Env = EnvData.load();
-            //Lookup = Archives.Select(x => (x.Name,x)).ToDictionary();
 
         }
 
         static AppDb Instance;
-
-        // EnvData IEnvProvider.Env
-        //     => Env;
 
         static AppDb()
         {

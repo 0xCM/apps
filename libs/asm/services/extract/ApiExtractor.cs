@@ -53,7 +53,7 @@ namespace Z0
         {
             Channel = receivers;
             PackArchive = ApiPackArchive.create(dst.Root);
-            Wf.RedirectEmissions("capture", dst.Root);
+            Wf.RedirectEmissions(core.controller(), dst.Root, core.timestamp(), "capture");
             ResolveParts(dst);
             ExtractParts(dst);
             CollectRoutines(dst);

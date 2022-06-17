@@ -17,10 +17,13 @@ namespace Z0
             var basename = AppName;
             var results = SortResults();
 
+            FS.FilePath CaseLogSummary()
+                => AppDb.Logs("test").Path(FS.file(AppName, FS.Csv));
+
             if(results.Any())
             {
                 var timing = results.Sum(x => x.Duration.TimeSpan.TotalSeconds);
-                var dst = Db.CaseLogSummary();
+                var dst = CaseLogSummary();
                 Wf.Status($"Emitting case log to {dst.ToUri()} with execution time of {timing} seconds");
                 EmitTestCaseLog(dst, results);
             }

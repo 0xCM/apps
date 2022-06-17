@@ -8,6 +8,12 @@ namespace Z0
 
     public readonly struct WfLogConfig : IWfLogConfig
     {
+        public static FS.FilePath path(Assembly src, FS.FolderPath root, string name, FileKind kind, Timestamp? ts = null)
+        {
+            var id = text.empty(name) ? src.Id().Format() : $"{src.Id().Format()}.{name}";
+            return root + FS.file($"{id}.{ts ?? core.timestamp()}", kind.Ext());
+        }
+
         public string LogId {get;}
 
         /// <summary>

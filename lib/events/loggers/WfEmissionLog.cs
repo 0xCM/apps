@@ -12,12 +12,19 @@ namespace Z0
 
         readonly FS.FilePath Target;
 
-        internal WfEmissionLog(FS.FilePath dst)
+        internal WfEmissionLog(Assembly src, FS.FolderPath root, Timestamp? ts = null, string name = null)
         {
-            Target = dst;
+            Target = WfLogConfig.path(src, root, name ?? "emissions", FileKind.Csv, ts);
             Target.EnsureParentExists().Delete();
             Emissions = Target.Stream();
         }
+
+        // internal WfEmissionLog(FS.FilePath dst)
+        // {
+        //     Target = dst;
+        //     Target.EnsureParentExists().Delete();
+        //     Emissions = Target.Stream();
+        // }
 
         public void Dispose()
         {

@@ -5,8 +5,6 @@
 namespace Z0
 {
 
-    using Caller = System.Runtime.CompilerServices.CallerMemberNameAttribute;
-
     public readonly struct CasePaths
     {
         public PartId PartId {get;}
@@ -40,7 +38,7 @@ namespace Z0
             => CaseDir + @case;
 
         [MethodImpl(Inline)]
-        public FS.FilePath CasePath(FS.FileExt? ext = null, [Caller] string caller = null)
+        public FS.FilePath CasePath(FS.FileExt? ext = null, [CallerName] string caller = null)
             => CasePath(FS.file(caller,  ext ?? DefaultExt));
 
         FS.FileExt DefaultExt

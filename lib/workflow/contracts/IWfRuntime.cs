@@ -6,10 +6,6 @@ namespace Z0
 {
     using static WfEvents;
 
-    using Caller = System.Runtime.CompilerServices.CallerMemberNameAttribute;
-    using File = System.Runtime.CompilerServices.CallerFilePathAttribute;
-    using Line = System.Runtime.CompilerServices.CallerLineNumberAttribute;
-
     public interface IWfRuntime : IDisposable, ITextual, IServiceContext
     {
         IJsonSettings Settings {get;}
@@ -64,7 +60,7 @@ namespace Z0
             return Flow(msg);
         }
 
-        WfExecFlow<string> Running(WfHost host, [Caller] string operation = null)
+        WfExecFlow<string> Running(WfHost host, [CallerName] string operation = null)
         {
             signal(this, host).Running(operation);
             return Flow(operation);
@@ -155,13 +151,13 @@ namespace Z0
         void Warn<T>(WfHost host, T content)
             => signal(this, host).Warn(content);
 
-        void Error(Exception e, [Caller] string caller = null, [File] string file = null, [Line]int? line = null)
+        void Error(Exception e, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => signal(this).Error(e, EventFactory.originate("WorkflowError", caller, file, line));
 
-        void Error<T>(T msg, [Caller] string caller = null, [File] string file = null, [Line]int? line = null)
+        void Error<T>(T msg, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine]int? line = null)
             => signal(this).Error(msg, EventFactory.originate("WorkflowError", caller, file, line));
 
-        void Error<T>(WfHost host, T data, [Caller] string caller = null, [File] string file = null, [Line]int? line = null)
+        void Error<T>(WfHost host, T data, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine]int? line = null)
             => signal(this, host).Error(data, EventFactory.originate("WorkflowError", caller, file, line));
 
 

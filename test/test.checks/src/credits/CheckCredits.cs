@@ -19,7 +19,7 @@ namespace Z0
     using CT = CreditModel.CreditContentType;
 
     [ApiHost]
-    public class CheckCredits : Service<CheckCredits>
+    public class CheckCredits : Checker<CheckCredits>
     {
         [Op]
         public static bit encode()
@@ -69,7 +69,7 @@ namespace Z0
             return result;
         }
 
-        public void Run()
+        protected override void Execute()
         {
             var flow = Running();
             try

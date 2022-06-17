@@ -1,2 +1,3 @@
+@echo off
 call %~dp0config.cmd
-call %BuildProjCmd%
+call %BuildWsShell%

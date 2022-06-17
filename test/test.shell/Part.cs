@@ -10,6 +10,8 @@ global using System.Runtime.Intrinsics;
 global using System.Runtime.CompilerServices;
 global using System.Runtime.InteropServices;
 global using System.Threading.Tasks;
+global using System.Diagnostics;
+global using System.IO;
 
 global using static Z0.Root;
 

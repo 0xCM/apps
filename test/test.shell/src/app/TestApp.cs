@@ -15,6 +15,8 @@ namespace Z0
 
         protected virtual string AppName {get;}
 
+        protected AppDb AppDb => AppDb.Service;
+
         protected TestApp()
         {
             AppName = GetType().Assembly.GetSimpleName();

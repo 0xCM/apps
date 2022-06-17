@@ -44,7 +44,8 @@ namespace Z0
             dst.AppName = id.PartName();
             dst.EventBroker = WfBroker.create(dst.LogConfig);
             dst.Host = new WfHost(typeof(WfRuntime));
-            dst.EmissionLog = Loggers.emission(dst.LogConfig.LogId, dst.Env);
+            dst.EmissionLog = Loggers.emission(control, dst.Env.Logs);
+            //dst.EmissionLog = Loggers.emission(dst.LogConfig.LogId, dst.Env);
             var wf = new WfRuntime(dst);
             term.inform(AppMsg.status(InitializedRuntime.Format(now(), clock.Elapsed())));
             return wf;
@@ -156,7 +157,6 @@ namespace Z0
             return dst.ToArray();
         }
 
-
         static Option<Assembly> assembly(FS.FilePath src)
         {
             try
@@ -204,7 +204,7 @@ namespace Z0
             dst.AppName = id.PartName();
             dst.EventBroker = WfBroker.create(dst.LogConfig);
             dst.Host = new WfHost(typeof(WfRuntime));
-            dst.EmissionLog = Loggers.emission(dst.LogConfig.LogId, dst.Env);
+            dst.EmissionLog = Loggers.emission(control, dst.Env.Logs, core.timestamp());
             var wf = new WfRuntime(dst);
             term.inform(AppMsg.status(InitializedRuntime.Format(now(), clock.Elapsed())));
             return wf;

@@ -4,32 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     [Free]
-    sealed class App : WfApp<App>
+    sealed class App : AppCmdShell<App>
     {
-        CheckRunCmd Commands;
-
-        protected override void Initialized()
-        {
-            Commands = CheckRunCmd.create(Wf);
-        }
-
-        protected override void Disposing()
-        {
-            Commands.Dispose();
-        }
-
-        protected override void Run()
-            => Commands.Run();
+        static IAppCmdService commands(IWfRuntime wf)
+            => AppCmd.create(wf);
 
         public static void Main(params string[] args)
-        {
-            var parts = array(PartId.TestUnits, PartId.Lib);
-            using var wf = ApiRuntime.create(parts, args, "test.runner.commands");
-            using var shell = create(wf);
-            shell.Run();
-        }
+            => run(commands, args);
     }
 }

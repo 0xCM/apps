@@ -1,5 +1,7 @@
 @echo off
-set ProjId=test.runner
-set AppName=z0.test.runner
-call %~dp0..\..\..\apps\.cmd\project-config.cmd
+set WsArea=test
+set WsId=test.shell
+set ProjectId=test.shell
+set ShellId=ztest
+call %~dp0..\..\..\.cmd\config.cmd
 

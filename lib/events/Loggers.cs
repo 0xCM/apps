@@ -7,11 +7,14 @@ namespace Z0
     [ApiHost]
     public readonly struct Loggers
     {
-        public static IWfEmissionLog emission(string name, EnvData env)
-            => new WfEmissionLog(env.Logs + FS.folder("emissions") + FS.file(name + ".emissions", FS.Log));
+        // public static IWfEmissionLog emission(string name, EnvData env)
+        //     => new WfEmissionLog(env.Logs + FS.folder("emissions") + FS.file(name + ".emissions", FS.Log));
 
-        public static IWfEmissionLog emission(string name, FS.FolderPath dir)
-            => new WfEmissionLog(dir  + FS.file(name + ".emissions", FS.Log));
+        // public static IWfEmissionLog emission(string name, FS.FolderPath dst)
+        //     => new WfEmissionLog(dst  + FS.file(name + ".emissions", FS.Log));
+
+        public static IWfEmissionLog emission(Assembly src, FS.FolderPath dst, Timestamp? ts = null, string name = null)
+            => new WfEmissionLog(src, dst, ts, name);
 
         [Op]
         public static string format(IWfLogConfig src)

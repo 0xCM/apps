@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection;
-
     using static core;
 
     partial class TestApp<A>
@@ -25,8 +22,6 @@ namespace Z0
             {
                 var clock = counter(true);
                 var flow = Wf.Running(typeof(A).Name + " tests");
-                ErrorLogPath.Delete();
-                StatusLogPath.Delete();
                 RunTests(false, hosts);
                 EmitLogs();
                 var runtime = clock.Stop();
