@@ -11,8 +11,8 @@ namespace Z0
         ICilPaths CilPaths
             => new CilPaths(Env);
 
-        IImmArchive ImmArchive()
-            => new ImmArchive(ImmCaptureRoot());
+        // IImmArchive ImmArchive()
+        //     => new ImmArchive(ImmCaptureRoot());
 
         FS.FolderPath DevWs()
             => Env.DevWs;

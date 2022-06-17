@@ -10,7 +10,7 @@ namespace Z0.Asm
 
     using E = SpecializedImmEvent;
 
-    public class ApiImmEmitter :  AppService<ApiImmEmitter>
+    public class ApiImmEmitter :  WfSvc<ApiImmEmitter>
     {
         const uint BufferSize = Pow2.T16;
 
@@ -28,26 +28,16 @@ namespace Z0.Asm
             Specializer = Wf.ImmSpecializer();
         }
 
-        IImmArchive ImmArchive
-            => Db.ImmArchive();
-
         bool Append = true;
 
-        public void Emit(Index<PartId> parts)
+        public void Emit(Index<PartId> parts, IApiPack dst)
         {
             var selected = parts.Length == 0 ? Wf.ApiCatalog.PartIdentities : parts.Storage;
-            ClearArchive(selected);
-            EmitUnrefined(selected);
-            EmitRefined(selected);
+            EmitUnrefined(selected, dst);
+            EmitRefined(selected, dst);
         }
 
-        public void Emit(Index<PartId> parts, FS.FolderPath root)
-        {
-            var selected = parts.Length == 0 ? Wf.ApiCatalog.PartIdentities : parts.Storage;
-            ClearArchive(selected,root);
-        }
-
-        public void Emit(ReadOnlySpan<ApiHostUri> hosts)
+        public void Emit(ReadOnlySpan<ApiHostUri> hosts, IApiPack pack)
         {
             var count = hosts.Length;
             var exchange = Exchange;
@@ -56,14 +46,14 @@ namespace Z0.Asm
                 ref readonly var uri = ref skip(hosts,i);
                 if(Wf.ApiCatalog.FindHost(uri, out var host))
                 {
-                    var dst = Archive(uri);
-                    EmitDirectRefinements(exchange, host, dst);
-                    EmitGenericRefinements(exchange, host, dst);
+                    var writer = new AsmImmWriter(Wf, host.HostUri, pack);
+                    EmitDirectRefinements(exchange, host, writer);
+                    EmitGenericRefinements(exchange, host, writer);
                 }
             }
         }
 
-        public void Emit(ReadOnlySpan<ApiHostUri> hosts, FS.FolderPath root, Delegates.SpanReceiver<AsmRoutine> receiver = null)
+        public void Emit(ReadOnlySpan<ApiHostUri> hosts, IApiPack dst, Delegates.SpanReceiver<AsmRoutine> receiver = null)
         {
             var count = hosts.Length;
             var exchange = Exchange;
@@ -72,47 +62,31 @@ namespace Z0.Asm
                 ref readonly var uri = ref skip(hosts,i);
                 if(Wf.ApiCatalog.FindHost(uri, out var host))
                 {
-                    var dst = Archive(uri, root);
-                    var direct = EmitDirectRefinements(exchange, host, dst);
+                    var writer = new AsmImmWriter(Wf, host.HostUri,dst);
+                    var direct = EmitDirectRefinements(exchange, host, writer);
                     receiver?.Invoke(direct);
-                    var generic = EmitGenericRefinements(exchange, host, dst);
+                    var generic = EmitGenericRefinements(exchange, host, writer);
                     receiver?.Invoke(generic);
                 }
             }
         }
 
-        void ClearArchive(Index<PartId> parts)
-        {
-            if(parts.Length != 0)
-                ImmArchive.ImmHostDirs(parts).Delete();
-            else
-                ImmArchive.Root.Delete();
-        }
-
-        void ClearArchive(Index<PartId> parts, FS.FolderPath root)
-        {
-            if(parts.Length != 0)
-                ImmArchive.ImmHostDirs(root, parts).Delete();
-            else
-                ImmArchive.Root.Delete();
-        }
-
-        ReadOnlySpan<AsmRoutine> EmitLiteral(byte[] imm8, Index<PartId> parts)
+        ReadOnlySpan<AsmRoutine> EmitLiteral(byte[] imm8, Index<PartId> parts, IApiPack dst)
         {
             if(imm8.Length != 0)
-                return EmitUnrefined(Exchange, imm8.ToImm8Values(ImmRefinementKind.Unrefined), parts);
+                return EmitUnrefined(Exchange, imm8.ToImm8Values(ImmRefinementKind.Unrefined), parts, dst);
             else
                 return default;
         }
 
-        ReadOnlySpan<AsmRoutine> EmitUnrefined(Index<PartId> parts)
-            => EmitLiteral(new byte[]{2,4,6,8,10,12}, parts);
+        ReadOnlySpan<AsmRoutine> EmitUnrefined(Index<PartId> parts, IApiPack dst)
+            => EmitLiteral(new byte[]{2,4,6,8,10,12}, parts, dst);
 
         CaptureExchange Exchange
             => Capture.exchange(Buffer.Storage);
 
-        ReadOnlySpan<AsmRoutine> EmitRefined(Index<PartId> parts)
-            => EmitRefined(Exchange, parts);
+        ReadOnlySpan<AsmRoutine> EmitRefined(Index<PartId> parts, IApiPack dst)
+            => EmitRefined(Exchange, parts, dst);
 
         ParameterInfo RefiningParameter(MethodInfo src)
             => src.ImmParameters(ImmRefinementKind.Refined).First();
@@ -181,41 +155,35 @@ namespace Z0.Asm
         Index<IApiHost> Hosts(Index<PartId> parts)
             => Wf.ApiCatalog.PartHosts(parts);
 
-        IAsmImmWriter Archive(in ApiHostUri host)
-            => Wf.ImmWriter(host);
-
-        IAsmImmWriter Archive(in ApiHostUri host, FS.FolderPath root)
-            => Wf.ImmWriter(host, root);
-
-        ReadOnlySpan<AsmRoutine> EmitUnrefined(in CaptureExchange exchange, Index<Imm8R> imm8, Index<PartId> parts)
+        ReadOnlySpan<AsmRoutine> EmitUnrefined(in CaptureExchange exchange, Index<Imm8R> imm8, Index<PartId> parts, IApiPack dst)
         {
             var routines = list<AsmRoutine>();
-            routines.AddRange(EmitUnrefinedDirect(exchange, imm8, parts));
-            routines.AddRange(EmitUnrefinedGeneric(exchange, imm8, parts));
+            routines.AddRange(EmitUnrefinedDirect(exchange, imm8, parts, dst));
+            routines.AddRange(EmitUnrefinedGeneric(exchange, imm8, parts, dst));
             return routines.ViewDeposited();
         }
 
-        ReadOnlySpan<AsmRoutine> EmitRefined(in CaptureExchange exchange, Index<PartId> parts)
+        ReadOnlySpan<AsmRoutine> EmitRefined(in CaptureExchange exchange, Index<PartId> parts, IApiPack dst)
         {
             var routines = list<AsmRoutine>();
             var hosts = Hosts(parts);
             foreach(var host in hosts)
             {
-                var archive = Archive(host.HostUri);
-                EmitDirectRefinements(exchange, host, archive);
-                routines.AddRange(EmitGenericRefinements(exchange, host, archive));
+                var writer = new AsmImmWriter(Wf, host.HostUri, dst);
+                EmitDirectRefinements(exchange, host, writer);
+                routines.AddRange(EmitGenericRefinements(exchange, host, writer));
             }
             return routines.ViewDeposited();
         }
 
-        Index<AsmRoutine> EmitUnrefinedDirect(in CaptureExchange exchange, Index<Imm8R> imm8, Index<PartId> parts)
+        Index<AsmRoutine> EmitUnrefinedDirect(in CaptureExchange exchange, Index<Imm8R> imm8, Index<PartId> parts, IApiPack dst)
         {
             var routines = list<AsmRoutine>();
             foreach(var host in Hosts(parts))
             {
-                var archive = Archive(host.HostUri);
+                var writer = new AsmImmWriter(Wf, host.HostUri, dst);
                 var groups = ApiQuery.imm(host, ImmRefinementKind.Unrefined);
-                routines.AddRange(EmitUnrefinedDirect(exchange, groups,imm8, archive));
+                routines.AddRange(EmitUnrefinedDirect(exchange, groups,imm8, writer));
             }
             return routines.ToArray();
         }
@@ -239,15 +207,15 @@ namespace Z0.Asm
             return routines.ToArray();
         }
 
-        Index<AsmRoutine> EmitUnrefinedGeneric(in CaptureExchange exchange, Index<Imm8R> imm8, Index<PartId> parts)
+        Index<AsmRoutine> EmitUnrefinedGeneric(in CaptureExchange exchange, Index<Imm8R> imm8, Index<PartId> parts, IApiPack dst)
         {
             var routines = list<AsmRoutine>();
             foreach(var host in Hosts(parts))
             {
-                var archive = Archive(host.HostUri);
+                var writer = new AsmImmWriter(Wf, host.HostUri, dst);
                 var specs = ApiQuery.immG(host, ImmRefinementKind.Unrefined);
                 foreach(var spec in specs)
-                    routines.AddRange(EmitUnrefinedGeneric(exchange, spec, imm8, archive));
+                    routines.AddRange(EmitUnrefinedGeneric(exchange, spec, imm8, writer));
             }
             return routines.ToArray();
         }

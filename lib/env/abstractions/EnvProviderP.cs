@@ -8,9 +8,42 @@ namespace Z0
     {
         readonly Index<EnvVar> Data;
 
+        readonly ConstLookup<VarSymbol,object> Lookup;
+
+        public virtual string Name {get;}
+
         protected EnvProvider(EnvVar[] src)
         {
             Data = src;
+            Lookup = Data.Select(x => (x.VarName,(object)x.VarValue)).ToDictionary();
+            Name = typeof(P).Name;
+        }
+
+        public bool Value<T>(VarSymbol name, out T dst)
+            where T : IEquatable<T>
+        {
+            var result = Lookup.Find(name, out var found);
+            if(result)
+                dst = (T)found;
+            else
+                dst = default;
+            return result;
+        }
+
+        public T Value<T>(VarSymbol name)
+            where T : IEquatable<T>
+                => (T)Lookup[name];
+
+        public ReadOnlySpan<VarSymbol> VarNames
+        {
+            [MethodImpl(Inline)]
+            get => Lookup.Keys;
+        }
+
+        public ReadOnlySpan<object> VarValues
+        {
+            [MethodImpl(Inline)]
+            get => Lookup.Values;
         }
 
         public uint VarCount
@@ -40,7 +73,7 @@ namespace Z0
             for(var i=0; i<VarCount; i++)
             {
                 ref readonly var v = ref this[i];
-                dst.AppendLineFormat("{0}={1}", v.Name, v.Value);
+                dst.AppendLineFormat("{0}={1}", v.VarName, v.VarValue);
             }
             return dst.Emit();
         }

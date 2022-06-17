@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IImmArchive : IFileArchive
+    public interface IImmArchive : IRootedArchive
     {
         FS.FolderPath[] ImmDirs(PartId part)
             => Root.SubDirs().Where(d => d.Name.EndsWith(part.Format()));

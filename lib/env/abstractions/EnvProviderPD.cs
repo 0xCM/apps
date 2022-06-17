@@ -16,7 +16,6 @@ namespace Z0
             Data = src;
         }
 
-
         public new ref readonly D this[uint index]
         {
             [MethodImpl(Inline)]

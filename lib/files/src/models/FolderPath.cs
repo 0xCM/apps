@@ -16,7 +16,7 @@ namespace Z0
         const string SearchAll = "*.*";
 
         [DataType(TypeSyntax.Dir)]
-        public readonly struct FolderPath : IFsEntry<FolderPath>, ILocatable<FolderPath>
+        public readonly struct FolderPath : IFsEntry<FolderPath>, ILocatable<FolderPath>, IEquatable<FolderPath>
         {
             public PathPart Name {get;}
 

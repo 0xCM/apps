@@ -5,6 +5,7 @@
 namespace Z0
 {
     using Windows;
+    using static ApiGranules;
 
     using static core;
 
@@ -70,25 +71,6 @@ namespace Z0
         protected void EmitCommands()
             => EmitCommands(AppDb.ApiTargets().Path(FS.file($"{GetType().Name.ToLower()}.commands", FS.Csv)));
 
-        [CmdOp("env/vars")]
-        protected Outcome ShowEnvVars(CmdArgs args)
-        {
-            var src = EnvVars.records(EnvVars.load());
-            iter(src, v => Write(v.Source.Format()));
-            AppSvc.TableEmit(src, AppDb.RuntimeLogs().Table<EnvVarRecord>());
-            return true;
-        }
-
-        [CmdOp("env/settings")]
-        protected Outcome ShowEnv(CmdArgs args)
-        {
-            var result = Outcome.Success;
-            var db = EnvWs.create(Wf);
-            var settings = args.Count == 0 ? db.Globals() : db.Settings(arg(args,0));
-            iter(settings, s => Write(s.Format()));
-            return result;
-        }
-
         [CmdOp("env/tools")]
         protected Outcome ShowToolEnv(CmdArgs args)
         {
@@ -101,15 +83,29 @@ namespace Z0
         protected Outcome EnvLogs(CmdArgs args)
         {
             var result = Outcome.Success;
-            var paths = AppDb.Control().Files(FileKind.Log);
-            var formatter = Tables.formatter<EnvVarSet>(16, RecordFormatKind.KeyValuePairs);
-            foreach(var path in paths)
+            var src = AppDb.Control();
+            var paths = src.Sources(env).Files(FileKind.Log);
+            for(var i=0; i<paths.Count; i++)
             {
-                var dst = EnvVars.set(path);
-                Write(formatter.Format(dst));
+                ref readonly var path = ref paths[i];
+                Write(path.ToUri());
+                var vars = Environs.set(paths[i],Chars.Eq).Vars;
+                for(var j=0; j<vars.Count; j++)
+                {
+                    ref readonly var v = ref vars[j];
+                    Write(v.Format());
+                }
             }
 
+
             return result;
+        }
+
+        [CmdOp("env/emit")]
+        protected Outcome EmitEnvVars(CmdArgs args)
+        {
+            TableEmit(EnvVars.load().View, AppDb.RuntimeLogs().Table<EnvVar>());
+            return true;
         }
 
         [CmdOp("tool/script")]
@@ -139,7 +135,6 @@ namespace Z0
 
             return result;
         }
-
 
         [CmdOp("tool/help")]
         protected Outcome ShowToolHelp(CmdArgs args)

@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.Intrinsics;
-
-    using static Root;
     using static core;
 
     partial class BitGrid
@@ -91,28 +86,28 @@ namespace Z0
             where T : unmanaged
                 => src.ToSpan().FormatGridBits(src.ColCount, maxbits ?? (int)NatCalc.mul<M,N>(), showrow);
 
-        static string format<M,N>(ushort data, bool showrow = false, int? maxbits = null)
+        public static string format<M,N>(ushort data, bool showrow = false, int? maxbits = null)
             where M : unmanaged, ITypeNat
             where N : unmanaged, ITypeNat
                 => bytes(data).FormatGridBits(nat32i<N>(), maxbits ?? (int)NatCalc.mul<M,N>(), showrow);
 
-        static string format<M,N>(uint data, bool showrow = false, int? maxbits = null)
+        public static string format<M,N>(uint data, bool showrow = false, int? maxbits = null)
             where M : unmanaged, ITypeNat
             where N : unmanaged, ITypeNat
                 => bytes(data).FormatGridBits(nat32i<N>(), maxbits ?? (int)NatCalc.mul<M,N>(), showrow);
 
-        static string format<M,N>(ulong data, bool showrow = false, int? maxbits = null)
+        public static string format<M,N>(ulong data, bool showrow = false, int? maxbits = null)
             where M : unmanaged, ITypeNat
             where N : unmanaged, ITypeNat
                 => bytes(data).FormatGridBits(nat32i<N>(), maxbits ?? (int)NatCalc.mul<M,N>(), showrow);
 
-        static string format<M,N,T>(Vector128<T> data, bool showrow = false, int? maxbits = null)
+        public static string format<M,N,T>(Vector128<T> data, bool showrow = false, int? maxbits = null)
             where M : unmanaged, ITypeNat
             where N : unmanaged, ITypeNat
             where T : unmanaged
                 => data.ToSpan().FormatGridBits(nat32i<N>(), maxbits ?? (int)NatCalc.mul<M,N>(), showrow);
 
-        static string format<M,N,T>(Vector256<T> data, bool showrow = false, int? maxbits = null)
+        public static string format<M,N,T>(Vector256<T> data, bool showrow = false, int? maxbits = null)
             where M : unmanaged, ITypeNat
             where N : unmanaged, ITypeNat
             where T : unmanaged

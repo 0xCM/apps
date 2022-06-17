@@ -17,23 +17,8 @@ namespace Z0
         IDbTargets Targets(string scope)
             => Targets().Targets(scope);
 
-        // FS.FilePath PartCsv(PartId part)
-        //     => Targets().Path(FS.file(part.Format(),  FS.Csv));
-
-        // FS.FilePath PartHex(PartId part)
-        //     => Targets().Path(FS.file(part.Format(),  FS.Hex));
-
-        // FS.FilePath PartAsm(PartId part)
-        //     => Targets().Path(FS.file(part.Format(),  FS.Asm));
-
         FS.FilePath HostAsm(ApiHostUri host)
             => Targets().Path(host.FileName(FS.Asm));
-
-        // FS.FilePath HostCsv(ApiHostUri host)
-        //     => Targets().Path(host.FileName(FS.Csv));
-
-        // FS.FilePath HostHex(ApiHostUri host)
-        //     => Targets().Path(host.FileName(FS.Hex));
 
         IDbTargets ContextRoot()
             => Targets(context);

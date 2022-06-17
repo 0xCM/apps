@@ -18,6 +18,8 @@ namespace Z0
 
         ApiCatalogs ApiCatalogs => Service(Wf.ApiCatalogs);
 
+        ApiCodeFiles ApiCode => Wf.ApiCodeFiles();
+
         [Op]
         public ReadOnlySpan<AsmHostRoutines> Capture(ReadOnlySpan<IApiHost> hosts, FS.FolderPath dst)
         {
@@ -28,17 +30,17 @@ namespace Z0
             return buffer.ViewDeposited();
         }
 
-        public void EmitImm(Index<PartId> parts, FS.FolderPath root)
+        public void EmitImm(Index<PartId> parts, IApiPack dst)
         {
-            var flow = Running(nameof(EmitImm));
-            ImmEmitter.Emit(parts, root);
+            var flow = Running("EmitImm");
+            ImmEmitter.Emit(parts, dst);
             Wf.Ran(flow);
         }
 
-        public void EmitImm(ReadOnlySpan<ApiHostUri> hosts, FS.FolderPath root, Delegates.SpanReceiver<AsmRoutine> receiver = null)
+        public void EmitImm(ReadOnlySpan<ApiHostUri> hosts, IApiPack dst, Delegates.SpanReceiver<AsmRoutine> receiver = null)
         {
-            var flow = Running(nameof(EmitImm));
-            ImmEmitter.Emit(hosts, root, receiver);
+            var flow = Running("EmitImm");
+            ImmEmitter.Emit(hosts, dst, receiver);
             Ran(flow);
         }
 
@@ -51,11 +53,12 @@ namespace Z0
         public Index<AsmHostRoutines> Capture(Index<PartId> parts, CaptureWorkflowOptions options)
         {
             var flow = Running();
+            var dst = ApiCode.ApiPack(core.timestamp());
             Status(Seq.enclose(parts.Storage));
             var captured = CaptureParts(parts);
 
             if((options & CaptureWorkflowOptions.EmitImm) != 0)
-                EmitImm(parts);
+                EmitImm(parts, dst);
 
             if((options & CaptureWorkflowOptions.CaptureContext) != 0)
                 EmitRebase(members(captured), Pipe.EmitContext());
@@ -67,11 +70,12 @@ namespace Z0
         public Index<AsmHostRoutines> Capture(ReadOnlySpan<ApiHostUri> hosts, CaptureWorkflowOptions options)
         {
             var flow = Running(nameof(Capture));
+            var dst = ApiCode.ApiPack(core.timestamp());
             Status(Seq.enclose(hosts).Format());
-            var captured = CaptureHosts(hosts);
+            var captured = CaptureHosts(hosts,dst);
 
             if((options & CaptureWorkflowOptions.EmitImm) != 0)
-                EmitImm(hosts);
+                EmitImm(hosts, dst);
 
             if((options & CaptureWorkflowOptions.CaptureContext) != 0)
                 EmitRebase(AsmHostRoutines.members(captured), Pipe.EmitContext());
@@ -91,7 +95,7 @@ namespace Z0
             return captured;
         }
 
-        Index<AsmHostRoutines> CaptureHosts(ReadOnlySpan<ApiHostUri> src)
+        Index<AsmHostRoutines> CaptureHosts(ReadOnlySpan<ApiHostUri> src, IApiPack dst)
         {
             var flow = Running();
             var captured = ApiCapture.CaptureHosts(src);
@@ -99,17 +103,11 @@ namespace Z0
             return captured;
         }
 
-        void EmitImm(Index<PartId> parts)
-        {
-            var flow = Running();
-            ImmEmitter.Emit(parts);
-            Ran(flow);
-        }
 
-        void EmitImm(ReadOnlySpan<ApiHostUri> hosts)
+        void EmitImm(ReadOnlySpan<ApiHostUri> hosts, IApiPack dst)
         {
             var flow = Running();
-            ImmEmitter.Emit(hosts);
+            ImmEmitter.Emit(hosts,dst);
             Ran(flow);
         }
 

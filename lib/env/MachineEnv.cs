@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public partial class Environments
+    partial class Environs
     {
         public class MachineEnv : EnvProvider<MachineEnv,EnvVar>
         {

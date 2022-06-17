@@ -7,9 +7,9 @@ namespace Z0
     [Free]
     public interface IVarValue : ITextual
     {
-        VarSymbol Name {get;}
+        VarSymbol VarName {get;}
 
-        string Value {get;}
+        string VarValue {get;}
 
         string Format(VarContextKind vck)
             => VarSymbol.format(vck, this);
@@ -21,9 +21,9 @@ namespace Z0
     [Free]
     public interface IVarValue<T> : IVarValue
     {
-        new T Value {get;}
+        new T VarValue {get;}
 
-        string IVarValue.Value
-            => Value?.ToString() ?? "";
+        string IVarValue.VarValue
+            => VarValue?.ToString() ?? "";
     }
 }

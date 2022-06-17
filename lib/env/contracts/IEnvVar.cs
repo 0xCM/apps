@@ -5,10 +5,13 @@
 namespace Z0
 {
     [Free]
-    public interface IEnvVar : IVarValue
+    public interface IEnvVar : IVarValue, ISetting<VarSymbol,string>
     {
+         VarSymbol ISetting<VarSymbol,string>.Name
+            => VarName;
 
-
+        string ISetting<string>.Value
+            => VarValue;
     }
 
     [Free]

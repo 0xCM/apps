@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IAppDb : IService
+    public interface IAppDb
     {
         IDbTargets DbProjects(ProjectId name);
 

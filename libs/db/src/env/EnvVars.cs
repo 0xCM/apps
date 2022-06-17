@@ -6,44 +6,13 @@ namespace Z0
 {
     using static core;
 
-    public readonly struct EnvVars// : IIndex<EnvVar>
+    public readonly struct EnvVars
     {
         public static EnvVars load()
-            => new (Z0.Env.vars().ToArray());
+            => new (Environs.vars().ToArray());
 
-        public static Index<EnvVarRecord> records(EnvVars src)
-        {
-            var dst = alloc<EnvVarRecord>(src.Count);
-            for(var i=0; i<src.Count; i++)
-                seek(dst,i) = new EnvVarRecord(src[i].Name,src[i].Value);
-            return dst;
-        }
-
-        public static EnvVarSet set(FS.FilePath src)
-        {
-            var result = Outcome.Success;
-            var dst = new EnvVarSet();
-            dst.Source = src;
-            dst.Name = text.left(src.FileName.Format(), Chars.Dot);
-            dst.Vars = new();
-
-            var vars = list<EnvVar>();
-            using var reader = src.Utf8LineReader();
-            while(reader.Next(out var line))
-            {
-                var content = line.Content;
-                var i = text.index(content,Chars.Eq);
-                if(i > 0)
-                {
-                    var name = text.left(content,i);
-                    var value = text.right(content,i);
-                    vars.Add((name,value));
-                }
-            }
-            dst.Vars = vars;
-
-            return dst;
-        }
+        public static EnvSet set(FS.FilePath src, char sep)
+            => Environs.set(src, sep);
 
         Index<EnvVar> Data {get;}
 

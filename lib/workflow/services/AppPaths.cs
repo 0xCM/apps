@@ -13,6 +13,6 @@ namespace Z0
             => Root = root;
 
         public static IAppPaths create()
-            => new AppPaths(Z0.Env.load().Db.Value);
+            => new AppPaths(Z0.Env.load().Db.VarValue);
     }
 }

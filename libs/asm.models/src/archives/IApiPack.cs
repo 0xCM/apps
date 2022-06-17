@@ -15,6 +15,9 @@ namespace Z0
         FS.FolderPath IRootedArchive.Root
             => ExtractSettings.ExtractRoot;
 
+        IImmArchive ImmArchive()
+            => new ImmArchive(Root + FS.folder("imm"));
+
         IDbTargets Tables()
             => Targets("tables");
 

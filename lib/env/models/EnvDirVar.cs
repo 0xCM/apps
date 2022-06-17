@@ -6,15 +6,15 @@ namespace Z0
 {
     public struct EnvDirVar : IEnvVar<FS.FolderPath>
     {
-        public readonly VarSymbol Name {get;}
+        public readonly VarSymbol VarName {get;}
 
-        public readonly FS.FolderPath Value {get;}
+        public readonly FS.FolderPath VarValue {get;}
 
         [MethodImpl(Inline)]
         public EnvDirVar(VarSymbol name, FS.FolderPath value)
         {
-            Name = name;
-            Value = value;
+            VarName = name;
+            VarValue = value;
         }
 
         public string Format()
@@ -29,11 +29,11 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator CmdScriptVar(EnvDirVar src)
-            => new EnvDirVar(src.Name, src.Value);
+            => new EnvDirVar(src.VarName, src.VarValue);
 
         [MethodImpl(Inline)]
         public static implicit operator FS.FolderPath(EnvDirVar src)
-            => src.Value;
+            => src.VarValue;
 
         public static EnvDirVar Empty => new EnvDirVar(VarSymbol.Empty, FS.FolderPath.Empty);
     }

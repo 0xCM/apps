@@ -9,28 +9,8 @@ namespace Z0
         EnvData Env {get;}
     }
 
-    public interface IEnvSet
+    public interface IEnvProvider2 : IEnvSet
     {
-        T Value<T>(string name);
-
-        bool Value<T>(string name, out T dst);
-
-        ReadOnlySpan<string> VarNames {get;}
-
-        ReadOnlySpan<object> VarValues {get;}
-    }
-
-
-    public interface IEnvSet<S> : IEnvSet
-        where S : struct
-    {
-
-    }
-
-    public interface IEnvProvider2
-    {
-        string ToString();
-
         ref readonly Index<EnvVar> Vars {get;}
 
         uint VarCount => Vars.Count;
@@ -38,7 +18,6 @@ namespace Z0
         ref readonly EnvVar this[uint index] => ref Vars[index];
 
         ref readonly EnvVar this[int index] => ref Vars[index];
-
 
         string Format() => ToString();
     }

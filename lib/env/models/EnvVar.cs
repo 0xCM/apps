@@ -9,47 +9,52 @@ namespace Z0
     /// <summary>
     /// Defines a nonparametric environment variable
     /// </summary>
-    public readonly struct EnvVar : IEnvVar<string>
+    public readonly struct EnvVar : IEnvVar
     {
-        public readonly VarSymbol Name {get;}
+        const string TableId = "env.vars";
+
+        [Render(64)]
+        public readonly VarSymbol VarName;
 
         /// <summary>
         /// The environment variable value
         /// </summary>
-        public readonly string Value {get;}
+        [Render(1)]
+        public readonly string VarValue;
 
         [MethodImpl(Inline)]
         public EnvVar(string name, string value)
         {
-            Name = name;
-            Value = value;
+            VarName = name;
+            VarValue = value;
         }
 
         [MethodImpl(Inline)]
         public EnvVar(VarSymbol name, string value)
         {
-            Name = name;
-            Value = value;
+            VarName = name;
+            VarValue = value;
         }
 
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => Name.IsEmpty;
+            get => VarName.IsEmpty;
         }
 
         public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
-            get => Name.IsNonEmpty;
+            get => VarName.IsNonEmpty;
         }
 
         public EnvVar<T> Transform<T>(Func<string,T> f)
-            => new EnvVar<T>(Name.Format(), f(Value));
+            where T : IEquatable<T>
+                => new EnvVar<T>(VarName.Format(), f(VarValue));
 
         [MethodImpl(Inline)]
         public string Format()
-            =>  nonempty(Value) ? string.Format("{0}={1}", Name, Value) : Name.Format();
+            =>  nonempty(VarValue) ? string.Format("{0}={1}", VarName, VarValue) : VarName.Format();
 
 
         public override string ToString()
@@ -60,7 +65,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public bool Equals(EnvVar src)
-            => Name.Equals(src.Name) && string.Equals(Value, src.Value, NoCase);
+            => VarName.Equals(src.VarName) && string.Equals(VarValue, src.VarValue, NoCase);
 
         public override bool Equals(object src)
             => src is EnvVar v && Equals(v);
@@ -71,12 +76,18 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator string(EnvVar src)
-            => src.Value;
+            => src.VarValue;
 
         public static EnvVar Empty
         {
             [MethodImpl(Inline)]
             get => new EnvVar(EmptyString, EmptyString);
         }
+
+        VarSymbol IVarValue.VarName
+            => VarName;
+
+        string IVarValue.VarValue
+            => VarValue;
     }
 }

@@ -4,12 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public struct EnvVarSet
+    public sealed class EnvSet : EnvSet<Index<EnvVar>>
     {
-        public string Name;
+        internal EnvSet(string name, ConstLookup<VarSymbol,object> data, Index<EnvVar> vars)
+            : base(name, data, vars, vars)
+        {
+        }
 
-        public FS.FilePath Source;
-
-        public EnvVars Vars;
     }
 }

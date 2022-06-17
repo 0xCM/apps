@@ -10,11 +10,6 @@ namespace Z0.Asm
     public interface IAsmImmWriter
     {
         /// <summary>
-        /// The imm root directory
-        /// </summary>
-        FS.FolderPath ImmRoot {get;}
-
-        /// <summary>
         /// The api host
         /// </summary>
         ApiHostUri Uri {get;}

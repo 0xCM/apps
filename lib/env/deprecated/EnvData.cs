@@ -53,9 +53,6 @@ namespace Z0
         public FS.FolderPath ZBin
             => Source.ZBin;
 
-        public FS.FilePath CdbLogPath
-            => Source.CdbLogPath;
-
         public FS.FolderPath SymCacheRoot
             => Source.SymCacheRoot;
 

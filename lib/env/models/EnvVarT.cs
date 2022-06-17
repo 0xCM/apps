@@ -7,37 +7,43 @@ namespace Z0
     /// <summary>
     /// Defines a value-parametric environment variable
     /// </summary>
-    public readonly struct EnvVar<T> : IEnvVar<T>
+    public readonly record struct EnvVar<T> : IEnvVar<T>
+        where T : IEquatable<T>
     {
-        public readonly VarSymbol Name {get;}
+        public readonly VarSymbol VarName {get;}
 
-        public readonly T Value {get;}
+        public readonly T VarValue {get;}
 
         [MethodImpl(Inline)]
         public EnvVar(string name, T value)
         {
-            Name = name;
-            Value = value;
+            VarName = name;
+            VarValue = value;
+        }
+
+
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => core.hash(Format());
         }
 
         public string Format()
-            => $"{Name}={Value}";
+            => $"{VarName}={VarValue}";
 
         public override string ToString()
             => Format();
 
         public override int GetHashCode()
-            => Format().GetHashCode();
+            => Hash;
 
         public bool Equals(EnvVar<T> src)
-            => Name.Equals(src.Name)
-            && Object.Equals(Value, src.Value);
+            => VarName.Equals(src.VarName)
+            && VarValue.Equals(src.VarValue);
 
-        public override bool Equals(object src)
-            => src is EnvVar<T> v && Equals(v);
-
+        [MethodImpl(Inline)]
         public static implicit operator EnvVar(EnvVar<T> src)
-            => new EnvVar(src.Name, src.Value.ToString());
+            => new EnvVar(src.VarName, src.VarValue.ToString());
 
         [MethodImpl(Inline)]
         public static implicit operator EnvVar<T>((string name, T value) src)
@@ -45,6 +51,6 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator T(EnvVar<T> src)
-            => src.Value;
+            => src.VarValue;
     }
 }

@@ -6,55 +6,28 @@ namespace Z0.Asm
 {
     using static core;
 
-    public static partial class XTend
-    {
-        [Op]
-        public static AsmImmWriter ImmWriter(this IWfRuntime wf, in ApiHostUri host)
-            => new AsmImmWriter(wf, host);
-
-        [Op]
-        public static AsmImmWriter ImmWriter(this IWfRuntime wf, in ApiHostUri host, FS.FolderPath root)
-            => new AsmImmWriter(wf, host, root);
-    }
-
     public readonly struct AsmImmWriter : IAsmImmWriter
     {
         public IWfRuntime Wf {get;}
 
         public ApiHostUri Uri {get;}
 
-        public FS.FolderPath ImmRoot {get;}
-
-        readonly IWfDb Db;
+        readonly IImmArchive Target;
 
         readonly AsmFormatConfig Config;
 
         [MethodImpl(Inline)]
-        public AsmImmWriter(IWfRuntime wf, in ApiHostUri host)
+        public AsmImmWriter(IWfRuntime wf, in ApiHostUri host, IApiPack dst)
         {
             Wf = wf;
             Uri = host;
-            Db = Wf.Db();
-            ImmRoot = Db.ImmCaptureRoot();
+            Target = dst.ImmArchive();
             Config = AsmFormatConfig.@default(out var _);
         }
-
-        [MethodImpl(Inline)]
-        public AsmImmWriter(IWfRuntime wf, in ApiHostUri host, FS.FolderPath root)
-        {
-            Wf = wf;
-            Uri = host;
-            Db = Wf.Db(root);
-            ImmRoot = Db.ImmCaptureRoot();
-            Config = AsmFormatConfig.@default(out var _);
-        }
-
-        IImmArchive ImmArchive
-            => Db.ImmArchive();
 
         public Option<FS.FilePath> SaveAsmImm(OpIdentity id, AsmRoutine[] src, bool append, bool refined)
         {
-            var dst = ImmArchive.AsmImmPath(Uri.Part, Uri, id, refined);
+            var dst = Target.AsmImmPath(Uri.Part, Uri, id, refined);
             using var writer = dst.Writer(append);
             for(var i=0; i<src.Length; i++)
             {
@@ -70,7 +43,7 @@ namespace Z0.Asm
             if(src.Length == 0)
                 return ApiCodeset.Empty;
 
-            var path = ImmArchive.HexImmPath(Uri.Part, Uri, id, refined);
+            var path = Target.HexImmPath(Uri.Part, Uri, id, refined);
             var count = src.Length;
             var view = @readonly(src);
             var blocks = alloc<ApiCodeBlock>(count);

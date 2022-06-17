@@ -4,11 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Collections;
 
     using static core;
-    using static Environments;
 
+    using E = Environs;
     using N = EnvVarNames;
 
     public class Env : IEnvProvider
@@ -16,28 +15,18 @@ namespace Z0
         public static Env load()
             => new Env();
 
-        public static MachineEnv machine()
-            => new MachineEnv(Env.vars());
-
-        public static EnvSet<S> set<S>(S src)
-            where S : struct
-        {
-            var values = ClrFields.values(src).Select(x => (x.Field.Name, x.Value));
-            var lookup = values.ToDictionary();
-            var vars = values.Select(x => new EnvVar(x.Name, x.Value?.ToString()));
-            return   new EnvSet<S>(lookup, src, vars);
-        }
-
-        public static Index<EnvVar> vars()
-        {
-            var dst = list<EnvVar>();
-            foreach(DictionaryEntry kv in Environment.GetEnvironmentVariables())
-                 dst.Add(new EnvVar(kv.Key?.ToString() ?? EmptyString, kv.Value?.ToString() ?? EmptyString));
-            return dst.ToArray();
-        }
-
         public PartId AppId
             => Assembly.GetEntryAssembly().Id();
+
+        [Op]
+        static EnvDirVar dir(string name)
+        {
+            var value = Environment.GetEnvironmentVariable(name);
+            var dst = EnvDirVar.Empty;
+            if(text.blank(value))
+                dst = (name,FS.dir("Z:/env"));
+            return (name, FS.dir(value));
+        }
 
         Env()
         {
@@ -53,7 +42,6 @@ namespace Z0
             dst.ZBin = dir(N.ZBin);
             dst.DevRoot = dir(N.DevRoot);
             dst.Tmp = dir(N.ZTmp);
-            dst.CdbLogPath = path(N.CdbLogPath);
             dst.DefaultSymbolCache = dir(N.DefaultSymbolCache);
             dst.SymCacheRoot = dir(N.SymCacheRoot);
             dst.CacheRoot = dir(N.CacheRoot);
@@ -61,7 +49,7 @@ namespace Z0
             dst.DataRoot = dir(N.ZData);
             dst.VendorDocs = dir(N.VendorDocs);
             dst.CapturePacks = dir(N.CapturePacks);
-            dst.CpuCount = number(N.CpuCount);
+            dst.CpuCount = E.number(N.CpuCount);
             dst.DevWs = dir(N.DevWs);
             dst.LlvmRoot = dir(N.LlvmRoot);
             dst.Toolbase = dir(N.Toolbase);
@@ -90,8 +78,6 @@ namespace Z0
         public EnvDirVar Tmp;
 
         public EnvDirVar ZBin;
-
-        public EnvPathVar CdbLogPath;
 
         public EnvDirVar SymCacheRoot;
 
@@ -142,37 +128,6 @@ namespace Z0
 
         EnvData IEnvProvider.Env
             => Data;
-
-        [Op]
-        static EnvDirVar dir(string name)
-        {
-            var value = Environment.GetEnvironmentVariable(name);
-            var dst = EnvDirVar.Empty;
-            if(text.blank(value))
-                dst = (name,FS.dir("Z:/env"));
-            return (name, FS.dir(value));
-        }
-
-        static EnvVar<ulong> number(string name)
-        {
-            var value = Environment.GetEnvironmentVariable(name);
-            if(text.blank(value))
-                return (name,0ul);
-
-            if(ulong.TryParse(value, out var n))
-                return (name,n);
-
-            return (name,0);
-        }
-
-        [Op]
-        static EnvPathVar path(string name)
-        {
-            var value = Environment.GetEnvironmentVariable(name);
-            if(text.blank(value))
-                @throw($"The environment variable '{name}' is undefined");
-            return (name, FS.path(value));
-        }
 
         static Index<IEnvVar> Members(Env src)
             => typeof(Env).GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly).Select(x => (IEnvVar)x.GetValue(src));

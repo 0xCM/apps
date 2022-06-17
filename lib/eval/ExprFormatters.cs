@@ -14,7 +14,7 @@ namespace Z0
     {
         [Op]
         public static string format(IVarValue var, char assign)
-            => string.Format("{0}{1}{2}", format(var.Name), assign, var.Value);
+            => string.Format("{0}{1}{2}", format(var.VarName), assign, var.VarValue);
 
         [Formatter]
         public static string format(IVarValue var)
@@ -22,7 +22,7 @@ namespace Z0
 
         [Op]
         public static string format(VarContextKind vck, IVarValue var, char assign)
-            => string.Format("{0}{1}{2}", format(vck, var.Name), assign, var.Value);
+            => string.Format("{0}{1}{2}", format(vck, var.VarName), assign, var.VarValue);
 
         [Op]
         public static string format(VarContextKind vck, IVarValue var)

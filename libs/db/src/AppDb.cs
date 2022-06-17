@@ -7,9 +7,40 @@ namespace Z0
     using S = DbNames;
     using T = ApiGranules;
 
+    using static core;
+
     public class AppDb : IAppDb
     {
         public static ref readonly AppDb Service => ref Instance;
+
+        static Settings settings(FS.FilePath src)
+        {
+            var dst = Settings.Empty;
+            try
+            {
+                dst = Settings.load(src);
+            }
+            catch(Exception e)
+            {
+                term.error(e);
+            }
+            return dst;
+        }
+
+        static FS.FilePath SettingsPath(Assembly src, FileKind kind)
+            => FS.path(src.Location).FolderPath + FS.file(string.Format("{0}.settings", src.GetSimpleName()), kind.Ext());
+
+        static WsArchives archives(Settings src)
+        {
+            var count = src.Count;
+            var dst = alloc<WsArchive>(count);
+            for(var i=0; i<src.Count; i++)
+            {
+                ref readonly var setting = ref src[i];
+                seek(dst,i) = new WsArchive(text.trim(setting.Name), FS.dir(setting.ValueText));
+            }
+            return new WsArchives(dst);
+        }
 
         readonly WsArchives Archives;
 
@@ -119,16 +150,21 @@ namespace Z0
         public IDbTargets AsmSrc(ProjectId id)
             => EtlTargets(id, T.asmsrc);
 
+        readonly ConstLookup<string, WsArchive> Lookup;
+
         AppDb()
         {
-            Archives = WsArchives.load();
+            var _settings = settings(SettingsPath(Assembly.GetEntryAssembly(), FileKind.Csv));
+            Archives = archives(_settings);
             Env = EnvData.load();
+            //Lookup = Archives.Select(x => (x.Name,x)).ToDictionary();
+
         }
 
         static AppDb Instance;
 
-        EnvData IEnvProvider.Env
-            => Env;
+        // EnvData IEnvProvider.Env
+        //     => Env;
 
         static AppDb()
         {

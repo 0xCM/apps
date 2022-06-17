@@ -6,23 +6,6 @@ namespace Z0
 {
     using static EnvFolders;
 
-    public readonly struct ApiFiles
-    {
-        public static FS.FileName filename(ApiHostUri host, FS.FileExt ext)
-            => FS.file(host.Id.Format(), ext);
-
-        public static FS.FileName filename(ApiHostUri host, FS.FileExt a, FS.FileExt b)
-            => FS.file(text.concat(host.Id.Format(), a), b);
-
-        [MethodImpl(Inline), Op]
-        public static FS.FolderName folder(ApiHostUri host)
-            => FS.folder(host.HostName);
-
-        [MethodImpl(Inline), Op]
-        public static FS.FolderName folder(PartId part)
-            => FS.folder(part.Format());
-    }
-
     public interface ICilPaths : IEnvPaths
     {
         FS.FilePath CilDataPath(FS.FileName name)
@@ -57,20 +40,5 @@ namespace Z0
 
         FS.Files CilCodePaths(PartId part)
             => CilCodePaths().Where(f => f.IsOwner(part));
-    }
-
-    public readonly struct CilPaths : ICilPaths
-    {
-        public EnvData Env {get;}
-
-        [MethodImpl(Inline)]
-        public CilPaths(EnvData env)
-        {
-            Env = env;
-        }
-
-        [MethodImpl(Inline)]
-        public static implicit operator CilPaths(EnvData env)
-            => new CilPaths(env);
     }
 }
