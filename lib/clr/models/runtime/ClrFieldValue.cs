@@ -6,9 +6,9 @@ namespace Z0
 {
     public readonly struct ClrFieldValue : IFieldValue<object,object>
     {
-        public FieldInfo Field {get;}
+        public readonly FieldInfo Field {get;}
 
-        public object Value {get;}
+        public readonly object Value {get;}
 
         [MethodImpl(Inline)]
         public ClrFieldValue(FieldInfo field, object value)

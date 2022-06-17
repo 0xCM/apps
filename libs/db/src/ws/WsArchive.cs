@@ -44,7 +44,5 @@ namespace Z0
             => Format();
 
         public static WsArchive Empty => new WsArchive(EmptyString, FS.FolderPath.Empty);
-
-
     }
 }

@@ -7,6 +7,7 @@ namespace Z0
     using System.Collections;
 
     using static core;
+    using static Environments;
 
     using N = EnvVarNames;
 
@@ -15,12 +16,24 @@ namespace Z0
         public static Env load()
             => new Env();
 
-        public static ReadOnlySpan<EnvVar> vars()
+        public static MachineEnv machine()
+            => new MachineEnv(Env.vars());
+
+        public static EnvSet<S> set<S>(S src)
+            where S : struct
+        {
+            var values = ClrFields.values(src).Select(x => (x.Field.Name, x.Value));
+            var lookup = values.ToDictionary();
+            var vars = values.Select(x => new EnvVar(x.Name, x.Value?.ToString()));
+            return   new EnvSet<S>(lookup, src, vars);
+        }
+
+        public static Index<EnvVar> vars()
         {
             var dst = list<EnvVar>();
             foreach(DictionaryEntry kv in Environment.GetEnvironmentVariables())
                  dst.Add(new EnvVar(kv.Key?.ToString() ?? EmptyString, kv.Value?.ToString() ?? EmptyString));
-            return dst.ViewDeposited();
+            return dst.ToArray();
         }
 
         public PartId AppId

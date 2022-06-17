@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Reflection;
-    using System.Collections.Generic;
-
-    using static Root;
     using static core;
     using static ReflectionFlags;
 
@@ -17,6 +11,14 @@ namespace Z0
     public readonly struct ClrFields
     {
         const NumericKind Closure = UnsignedInts;
+
+        [MethodImpl(Inline)]
+        public static ClrFieldAdapter adapt(FieldInfo src)
+            => new ClrFieldAdapter(src);
+
+        [MethodImpl(Inline)]
+        public static ClrFieldAdapter<T> adapt<T>(FieldInfo src)
+            => new ClrFieldAdapter<T>(src);
 
         [Op]
         public static Dictionary<string,ClrFieldValue> values(object src)

@@ -4,16 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Free]
-    public interface IEnvVar : IVarValue
+    public partial class Environments
     {
+        public class MachineEnv : EnvProvider<MachineEnv,EnvVar>
+        {
+            public MachineEnv(EnvVar[] src)
+                : base(src)
+            {
 
-
-    }
-
-    [Free]
-    public interface IEnvVar<T> : IEnvVar, IVarValue<T>
-    {
-
+            }
+        }
     }
 }

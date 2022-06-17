@@ -9,14 +9,14 @@ namespace Z0
     /// <summary>
     /// Defines a nonparametric environment variable
     /// </summary>
-    public readonly struct EnvVar : IEnvVar
+    public readonly struct EnvVar : IEnvVar<string>
     {
-        public VarSymbol Name {get;}
+        public readonly VarSymbol Name {get;}
 
         /// <summary>
         /// The environment variable value
         /// </summary>
-        public string Value {get;}
+        public readonly string Value {get;}
 
         [MethodImpl(Inline)]
         public EnvVar(string name, string value)

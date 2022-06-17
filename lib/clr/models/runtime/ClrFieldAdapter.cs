@@ -4,24 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
 
     using R = System.Reflection;
 
     public readonly struct ClrFieldAdapter : IRuntimeMember<ClrFieldAdapter,FieldInfo>
     {
-        [MethodImpl(Inline)]
-        public static ClrFieldAdapter adapt(FieldInfo src)
-            => new ClrFieldAdapter(src);
-
-        [MethodImpl(Inline)]
-        public static ClrFieldAdapter<T> adapt<T>(FieldInfo src)
-            => new ClrFieldAdapter<T>(src);
-
         public FieldInfo Definition {get;}
 
         [MethodImpl(Inline)]

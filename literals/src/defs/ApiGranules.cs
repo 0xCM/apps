@@ -68,6 +68,8 @@ namespace Z0
 
         public const string gen = nameof(gen);
 
+        public const string env = nameof(env);
+
         public const string control = nameof(control);
 
         public const string imports = nameof(imports);

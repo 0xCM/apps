@@ -7,15 +7,11 @@ namespace Z0
     /// <summary>
     /// Defines a value-parametric environment variable
     /// </summary>
-    public readonly struct EnvVar<T> : IEnvVar
+    public readonly struct EnvVar<T> : IEnvVar<T>
     {
-        public VarSymbol Name {get;}
+        public readonly VarSymbol Name {get;}
 
-        public T Value {get;}
-
-
-        string IVarValue.Value
-            => Value?.ToString() ?? EmptyString;
+        public readonly T Value {get;}
 
         [MethodImpl(Inline)]
         public EnvVar(string name, T value)

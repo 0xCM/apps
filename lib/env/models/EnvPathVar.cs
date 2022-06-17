@@ -6,9 +6,9 @@ namespace Z0
 {
     public struct EnvPathVar : IEnvVar<FS.FilePath>
     {
-        public VarSymbol Name {get;}
+        public readonly VarSymbol Name {get;}
 
-        public FS.FilePath Value {get;}
+        public readonly FS.FilePath Value {get;}
 
         [MethodImpl(Inline)]
         public EnvPathVar(VarSymbol name, FS.FilePath value)

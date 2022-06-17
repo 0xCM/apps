@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [LiteralProvider]
+    using static ApiGranules;
+
+    [LiteralProvider(env)]
     public readonly struct DbNames
     {
         public const string DbSources = nameof(DbSources);
@@ -24,5 +26,9 @@ namespace Z0
         public const string DevRoot = nameof(DevRoot);
 
         public const string Toolbase = nameof(Toolbase);
+
+        public const string RepoDeps = nameof(RepoDeps);
+
+        public const string ToolDeps = nameof(ToolDeps);
     }
 }
