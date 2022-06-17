@@ -1,9 +1,0 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-
-  <ItemGroup>
-    <Reference Include="z0.codegen.common" HintPath="$(CgCommonPath)"/>
-    <Reference Include="z0.codegen.llvm" HintPath="$(CgIntelPath)"/>
-    <Reference Include="z0.codegen.intel" HintPath="$(CgLlvmPath)"/>
-  </ItemGroup>
-
-</Project>

@@ -16,7 +16,7 @@ namespace Z0
             var hex = AsmHexCode.Empty;
             var log = text.emitter();
             CheckAsmBytes(log);
-            AppSvc.FileEmit(log.Emit(), AppDb.Logs("codegen.test").Path("asm.checks", FileKind.Csv));
+            FileEmit(log.Emit(), AppDb.Logs("codegen.test").Path("asm.checks", FileKind.Csv));
         }
 
         /*

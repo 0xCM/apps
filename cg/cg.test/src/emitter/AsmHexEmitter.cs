@@ -16,7 +16,7 @@ namespace Z0.Asm
         /// <param name="r"></param>
         /// <param name="imm8"></param>
         [MethodImpl(Inline), Op]
-        public void and(al r, imm8 imm8, AsmHexWriter dst)
+        public void and(al r, Imm8 imm8, AsmHexWriter dst)
             => dst.Write(x24,imm8);
 
         /// <summary>
@@ -42,11 +42,11 @@ namespace Z0.Asm
             => dst.Write(x70, x86, cd);
 
         [MethodImpl(Inline), Op]
-        public static void encode(Hex8 a0, imm8 a1, AsmHexWriter dst)
+        public static void encode(Hex8 a0, Imm8 a1, AsmHexWriter dst)
             => dst.Write(a0,a1);
 
         [MethodImpl(Inline), Op]
-        public static void encode(RexPrefix a0, Hex8 a1, imm64 a2, AsmHexWriter dst)
+        public static void encode(RexPrefix a0, Hex8 a1, Imm64 a2, AsmHexWriter dst)
             => dst.Write(a0,a1,a2);
 
         [MethodImpl(Inline), Op]

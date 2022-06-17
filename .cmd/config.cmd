@@ -33,11 +33,12 @@ set BuildTests=dotnet build %TestSln% %BuildProps% -fl -flp:logfile=%TestBuildLo
 set ztest=%WsBin%\z0.test.shell\%BuildKind%\%FrameworkMoniker%\%RuntimeMoniker%\ztest.exe
 
 set CgRoot=%WsRoot%\cg
-set CgShellProject=%CgRoot%\cg.shell\z0.cg.shell.csproj
-set BuildCgShell=dotnet build %CgShellProject% %BuildProps% -fl -flp:logfile=%BuildLogs%\z0.cg.shell.build.log;verbosity=%BuildVerbosity% -graph:true -m:24
-
-set CgProject=%CgRoot%\z0.cg.csproj
-set BuildCg=dotnet build %CgProject% %BuildProps% -fl -flp:logfile=%BuildLogs%\z0.cg.build.log;verbosity=%BuildVerbosity% -graph:true -m:24
+set BuildCgShell=dotnet build %CgRoot%\cg.shell\z0.cg.shell.csproj %BuildProps% -fl -flp:logfile=%BuildLogs%\z0.cg.shell.build.log;verbosity=%BuildVerbosity% -graph:true -m:24
+set BuildCgIntel=dotnet build %CgRoot%\cg.intel\z0.cg.intel.csproj %BuildProps% -fl -flp:logfile=%BuildLogs%\z0.cg.intel.build.log;verbosity=%BuildVerbosity% -graph:true -m:24
+set BuildCgCommon=dotnet build %CgRoot%\cg.common\z0.cg.common.csproj %BuildProps% -fl -flp:logfile=%BuildLogs%\z0.cg.common.build.log;verbosity=%BuildVerbosity% -graph:true -m:24
+set BuildCgIntel=dotnet build %CgRoot%\cg.intel\z0.cg.intel.csproj %BuildProps% -fl -flp:logfile=%BuildLogs%\z0.cg.intel.build.log;verbosity=%BuildVerbosity% -graph:true -m:24
+set BuildCgLlvm=dotnet build %CgRoot%\cg.xed\z0.cg.llvm.csproj %BuildProps% -fl -flp:logfile=%BuildLogs%\z0.cg.llvm.build.log;verbosity=%BuildVerbosity% -graph:true -m:24
+set BuildCg=dotnet build %CgRoot%\cg.libs\z0.cg.libs.csproj %BuildProps% -fl -flp:logfile=%BuildLogs%\z0.cg.libs.build.log;verbosity=%BuildVerbosity% -graph:true -m:24
 
 set MainSln=%WsRoot%\z0.sln
 set BuildMain=dotnet build %MainSln% %BuildProps% -fl -flp:logfile=%BuildLogs%\z0.build.log;verbosity=%BuildVerbosity% -graph:true -m:24

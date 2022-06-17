@@ -5,28 +5,12 @@
 namespace Z0
 {
     [Free]
-    sealed class CgTest : WfApp<CgTest>
+    sealed class App : AppCmdShell<App>
     {
-        IAppCmdService CmdService;
-
-        protected override void Initialized()
-        {
-            CmdService = CgTestCmd.create(Wf);
-        }
-
-        protected override void Disposing()
-        {
-            CmdService?.Dispose();
-        }
-
-        protected override void Run()
-            => CmdService.Run();
+        static IAppCmdService commands(IWfRuntime wf)
+            => CgTestCmd.create(wf);
 
         public static void Main(params string[] args)
-        {
-            using var wf = WfAppLoader.load();
-            using var shell = create(wf);
-            shell.Run();
-        }
+            => run(commands, args);
     }
 }

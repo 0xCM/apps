@@ -1,0 +1,7 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <ItemGroup>
+    <Reference Include="z0.cg.libs" HintPath="$(CgLibsPath)"/>
+  </ItemGroup>
+
+</Project>

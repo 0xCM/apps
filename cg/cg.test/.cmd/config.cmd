@@ -1,4 +1,7 @@
 @echo off
-set AreaId=codegen
-set ProjectId=codegen.test
-call %ZDev%\.cmd\config.cmd
+set WsArea=cg
+set WsId=cg.test
+set ProjectId=cg.test
+set ShellId=cgtest
+call %~dp0..\..\..\.cmd\config.cmd
+

@@ -2,15 +2,15 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
+    <AssemblyName>cgtest</AssemblyName>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
 
   <Import Project="$(ImportDefs)common.libs.props"/>
+  <Import Project="$(ImportDefs)env.settings.props"/>
 
   <ItemGroup>
-    <ProjectReference Include="$(CgLlvm)"/>
-    <ProjectReference Include="$(CgIntel)"/>
-    <ProjectReference Include="$(CgCommon)" />
+    <ProjectReference Include="$(CgLibs)" />
     <ProjectReference Include="$(AsmCore)" />
     <ProjectReference Include="$(AsmOperands)" />
     <ProjectReference Include="$(Numbers)" />

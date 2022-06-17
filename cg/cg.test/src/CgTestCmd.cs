@@ -10,7 +10,7 @@ namespace Z0
     using Asm;
     using static core;
 
-    public sealed partial class CgTestCmd : AppCmdService<CgTestCmd,CmdShellState>
+    public sealed partial class CgTestCmd : AppCmdService<CgTestCmd>
     {
         StringTableChecks LlvmStringTableChecks => Service(() => StringTableChecks.create(Wf));
 

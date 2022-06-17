@@ -252,6 +252,9 @@ public enum PartId : byte
     [Symbol("codegen.llvm")]
     CgLlvm,
 
+    [Symbol("cg.libs")]
+    CgLibs,
+
     // ~ Shells : 128 ..
     // ~ -------------------------------------------------------------------------------
 

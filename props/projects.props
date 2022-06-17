@@ -65,6 +65,8 @@
     <CgCommon>$(CgRoot)cg.common/z0.cg.common.csproj</CgCommon>
     <CgLlvm>$(CgRoot)cg.llvm/z0.cg.llvm.csproj</CgLlvm>
     <CgIntel>$(CgRoot)cg.intel/z0.cg.intel.csproj</CgIntel>
+    <CgLibs>$(CgRoot)cg.libs/z0.cg.libs.csproj</CgLibs>
+
     <CgShell>$(CgRoot)cg.shell/z0.cg.shell.csproj</CgShell>
     <CgTest>$(CgRoot)cg.shell/z0.cg.shell.csproj</CgTest>
 

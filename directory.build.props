@@ -36,6 +36,7 @@
     <CgCommonPath>$(SlnBin)z0.cg.common\$(Configuration)\$(TargetFramework)\z0.cg.common.dll</CgCommonPath>
     <CgIntelPath>$(SlnBin)z0.cg.intel\$(Configuration)\$(TargetFramework)\z0.cg.intel.dll</CgIntelPath>
     <CgLlvmPath>$(SlnBin)z0.cg.llvm\$(Configuration)\$(TargetFramework)\z0.cg.llvm.dll</CgLlvmPath>
+    <CgLibsPath>$(SlnBin)z0.cg.libs\$(Configuration)\$(TargetFramework)\z0.cg.libs.dll</CgLibsPath>
     <LiteralsLibPath>$(SlnBin)z0.literals\$(Configuration)\$(TargetFramework)\z0.literals.dll</LiteralsLibPath>
   </PropertyGroup>
 

@@ -17,7 +17,7 @@ namespace Z0.Asm
         /// and r16, imm8 | 83 /4 ib | r/m16 AND imm8 (sign-extended).
         /// AND | LEGACY_MAP0 | 0x83 MOD[0b11] REG[0b100] RM[nnn] SIMM8()
         /// </summary>
-        public static And16ri8 and_r16_imm8(r16 r16, imm8 imm8)
+        public static And16ri8 and_r16_imm8(r16 r16, Imm8 imm8)
         {
             var dst = And16ri8.Empty;
             var kind = AsmFormKind.and_r16_imm8;
