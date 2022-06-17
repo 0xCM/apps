@@ -5,6 +5,7 @@
 namespace Z0.llvm.X86
 {
     using static CNum;
+    using llvm.mc;
 
     /// <summary>
     /// Describe properties that are true of each instruction in the target

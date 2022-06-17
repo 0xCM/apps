@@ -7,15 +7,15 @@ namespace Z0.llvm
     using static core;
     using static LlvmNames;
 
-    public class LlvmDataImporter : AppService<LlvmDataImporter>
+    public class LlvmDataImporter : WfSvc<LlvmDataImporter>
     {
         LlvmDataProvider DataProvider => Wf.LlvmDataProvider();
 
         LlvmDataEmitter DataEmitter => Wf.LlvmDataEmitter();
 
-        LlvmDataCalcs DataCalcs => Service(Wf.LlvmDataCalcs);
+        LlvmDataCalcs DataCalcs => Wf.LlvmDataCalcs();
 
-        LlvmPaths LlvmPaths => Service(Wf.LlvmPaths);
+        LlvmPaths LlvmPaths => Wf.LlvmPaths();
 
         public bool PllExec
         {
@@ -66,14 +66,14 @@ namespace Z0.llvm
         {
             var relations = DataCalcs.CalcClassRelations(src);
             DataEmitter.Emit(relations);
-            return DataEmitter.EmitLineMap(relations.View, src, Datasets.X86Classes);
+            return DataEmitter.EmitLineMap(relations.View, src, LlvmDatasets.X86Classes);
         }
 
         LineMap<Identifier> EmitDefs(Index<TextLine> src, out Index<DefRelations> defs)
         {
             defs = DataCalcs.CalcDefRelations(src);
             DataEmitter.Emit(defs);
-            return DataEmitter.EmitLineMap(defs.View, src, Datasets.X86Defs);
+            return DataEmitter.EmitLineMap(defs.View, src, LlvmDatasets.X86Defs);
         }
 
         void Emit(Index<LlvmEntity> src)

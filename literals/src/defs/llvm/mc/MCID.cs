@@ -2,10 +2,13 @@
 // Source : LLVM - https://github.com/llvm/llvm-project/
 // License: Apache-2.0 WITH LLVM-exception
 //-----------------------------------------------------------------------------------------//
-namespace Z0.llvm
+namespace Z0.llvm.mc
 {
     using T = MCID.Flag;
 
+    using static ApiGranules;
+
+    [LiteralProvider(llvm)]
     public readonly struct MCID
     {
         /// <summary>
@@ -14,7 +17,7 @@ namespace Z0.llvm
         /// not use these directly.  These all correspond to bitfields in the
         /// MCInstrDesc::Flags field.
         /// </summary>
-        [SymSource("llvm.mcid")]
+        [SymSource(llvm_mc)]
         public enum Flag : byte
         {
             PreISelOpcode = 0,

@@ -31,7 +31,7 @@ namespace Z0.llvm
             => Tables().Path(FS.file(id, FS.Csv));
 
         public IDbSources Dev()
-            => AppDb.DevRoot().Sources(project);
+            => AppDb.DevProjects().Sources(project);
 
         public IDbTargets Tables()
             => AppDb.DbTargets(tables);

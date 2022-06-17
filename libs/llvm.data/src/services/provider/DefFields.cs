@@ -9,6 +9,6 @@ namespace Z0.llvm
     partial class LlvmDataProvider
     {
         public Index<RecordField> DefFields()
-            => Fields(Datasets.X86DefFields);
+            => Fields(LlvmDatasets.X86DefFields);
     }
 }

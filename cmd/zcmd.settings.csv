@@ -12,6 +12,7 @@
 | RepoDeps       | d:/drives/z/repos                      |
 | LlvmRoot       | d:/drives/z/repos/llvm                 |
 | LlvmProject    | d:/drives/z/repos/llvm/llvm-project    |
+| LlvmData       | d:/drives/z/dev/llvm.data
 | XedRoot        | d:/drives/z/repos/xed                  |
 | Archives       | f:/drives/y/archives                   |
 | ToolDeps       | y:/drives/y/tools                      |

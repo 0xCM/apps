@@ -8,8 +8,6 @@ namespace Z0.llvm
 
     public class LlvmDataEmitter : WfSvc<LlvmDataEmitter>
     {
-        const string tables = "llvm/tables";
-
         LlvmPaths LlvmPaths => Wf.LlvmPaths();
 
         LlvmDataProvider DataProvider => Wf.LlvmDataProvider();
@@ -84,17 +82,16 @@ namespace Z0.llvm
             => TableEmit(DataCalcs.CalcChildRelations(src), LlvmPaths.DbTable<ChildRelation>());
 
         public Index<RecordField> EmitDefFields(Index<RecordField> src)
-            => EmitFields(src, LlvmNames.Datasets.X86DefFields);
+            => EmitFields(src, LlvmDatasets.X86DefFields);
 
         public Index<RecordField> EmitClassFields(Index<RecordField> src)
-            => EmitFields(src, LlvmNames.Datasets.X86ClassFields);
+            => EmitFields(src, LlvmDatasets.X86ClassFields);
 
         Index<RecordField> EmitFields(Index<RecordField> src, string id)
         {
             TableEmit<RecordField>(src, RecordField.RenderWidths, LlvmPaths.DbTable(id));
             return src;
         }
-
 
         public LineMap<Identifier> EmitLineMap<T>(ReadOnlySpan<T> src, ReadOnlySpan<TextLine> records, string dstid)
             where T : struct, ILineRelations<T>

@@ -2,12 +2,14 @@
 // Source : LLVM - https://github.com/llvm/llvm-project/
 // License: Apache-2.0 WITH LLVM-exception
 //-----------------------------------------------------------------------------------------//
-namespace Z0.llvm.X86
+namespace Z0.llvm.mc
 {
+    using static ApiGranules;
+
     /// <summary>
     /// From https://github.com/llvm/llvm-project/blob/2946cd701067404b99c39fb29dc9c74bd7193eb3/llvm/lib/Target/X86/MCTargetDesc/X86FixupKinds.h
     /// </summary>
-    [SymSource("llvm.mc.x86")]
+    [SymSource(llvm_mc)]
     public enum Fixups : ushort
     {
         [Symbol("reloc_riprel_4byte", "32-bit rip-relative")]

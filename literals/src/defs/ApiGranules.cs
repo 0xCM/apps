@@ -342,6 +342,10 @@ namespace Z0
 
         public const string ASCII = nameof(ASCII);
 
+        public const string llvm = nameof(llvm);
+
+        public const string llvm_mc = llvm + dot + mc;
+
         public const string net60 = net + Dot + d6 + Dot + d0;
 
         public const string net50 = net + Dot + d5 + Dot + d0;

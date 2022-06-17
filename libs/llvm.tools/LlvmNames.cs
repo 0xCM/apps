@@ -4,22 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+
     public readonly struct LlvmNames
     {
-        [LiteralProvider("llvm.names")]
-        public readonly struct Datasets
-        {
-            public const string X86 = "X86.records";
-
-            public const string X86Defs = "X86.records.defs";
-
-            public const string X86DefFields = "X86.records.defs.fields";
-
-            public const string X86Classes = "X86.records.classes";
-
-            public const string X86ClassFields = "X86.records.classes.fields";
-        }
-
         [LiteralProvider("llvm.names")]
         public readonly struct TableNames
         {

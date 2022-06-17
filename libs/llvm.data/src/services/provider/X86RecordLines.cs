@@ -5,13 +5,12 @@
 namespace Z0.llvm
 {
     using static core;
-    using static LlvmNames;
 
     partial class LlvmDataProvider
     {
         public Index<TextLine> X86RecordLines()
         {
-            var id = Datasets.X86;
+            var id = LlvmDatasets.X86;
             var lookup = DefLineLookup();
             var count = lookup.LineCount;
             using var reader = LlvmPaths.DevSource("records", id).LineReader(TextEncodingKind.Asci);

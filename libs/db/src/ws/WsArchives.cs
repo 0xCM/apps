@@ -25,19 +25,6 @@ namespace Z0
 
         public string Format()
             => Data.Format();
-        // {
-        //     var dst = text.emitter();
-        //     var formatter = Tables.formatter<WsArchive>();
-        //     dst.AppendLine(formatter.FormatHeader());
-        //     for(var i=0; i<Data.Count; i++)
-        //     {
-        //         ref readonly var src = ref Data[i];
-        //         var archive = new WsArchive(src.ProjectId, src.Root);
-        //         dst.AppendLine(formatter.Format(archive));
-        //     }
-
-        //     return dst.Emit();
-        // }
 
         public override string ToString()
             => Format();
