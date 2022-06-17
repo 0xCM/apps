@@ -3,26 +3,25 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
+    using static ApiGranules;
+    using static Pow2Scalars;
 
-    using NBK = NumericBaseKind;
-
-    [SymSource("api.classes", NBK.Base16), Flags]
+    [ApiClass, SymSource(api_classes), Flags]
     public enum ApiGridClass : uint
     {
         None = 0,
 
-        Generic = Pow2.T16,
+        Generic = T16,
 
-        Natural = Pow2.T17,
+        Natural = T17,
 
-        Fixed = Pow2.T18,
+        Fixed = T18,
 
-        Dynamic = Pow2.T19,
+        Dynamic = T19,
 
-        Subgrid = Pow2.T20,
+        Subgrid = T20,
 
-        Numeric = Pow2.T21,
+        Numeric = T21,
 
         GenericDynamic = Generic | Dynamic,
 

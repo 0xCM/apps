@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [ApiClass, SymSource("api.classes")]
+    using static ApiGranules;
+
+    [ApiClass, SymSource(api_classes)]
     public enum ApiSystemClass : ushort
     {
         None = 0,

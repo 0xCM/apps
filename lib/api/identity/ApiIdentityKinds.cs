@@ -4,10 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Collections.Concurrent;
     using System.Linq;
-
-    using static Root;
 
     using NK = NumericKind;
     using ID = ScalarKind;

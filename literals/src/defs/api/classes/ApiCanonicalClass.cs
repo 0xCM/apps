@@ -4,12 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static ApiGranules;
+
     using Id = ApiClassKind;
 
     /// <summary>
     /// Classifies binary boolean and bitwise logical operations
     /// </summary>
-    [ApiClass, SymSource("api.classes")]
+    [ApiClass, SymSource(api_classes)]
     public enum ApiCanonicalClass : ushort
     {
         None = 0,

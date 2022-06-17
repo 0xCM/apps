@@ -12,12 +12,15 @@
 | RepoDeps       | d:/drives/z/repos                      |
 | LlvmRoot       | d:/drives/z/repos/llvm                 |
 | LlvmProject    | d:/drives/z/repos/llvm/llvm-project    |
-| LlvmData       | d:/drives/z/dev/llvm.data
+| LlvmData       | d:/drives/z/dev/llvm.data              |
 | XedRoot        | d:/drives/z/repos/xed                  |
 | Archives       | f:/drives/y/archives                   |
 | ToolDeps       | y:/drives/y/tools                      |
 | VSINSTALLDIR   | y:/tools/msvs/ide                      |
 | NUGET_PACKAGES | f:/drives/y/archives/nuget             |
+| SystemViews    | d:/views                               |
+| llvm13         | d:/views/llvm13                        |
+| llvm14         | d:/views/llvm14                        |
 | WinSdkRoot     | c:/Program Files (x86)/Windows Kits/10 |
 | WinSdkMajorVer | 10                                     |
 | WinSdkVer      | 10.0.19041.0                           |

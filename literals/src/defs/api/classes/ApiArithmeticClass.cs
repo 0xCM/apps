@@ -4,13 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static ApiGranules;
+
     using Id = ApiClassKind;
 
     /// <summary>
-    /// Identifies binary arithmetic operators classes
+    /// Identifies arithmetic operation kinds
     /// </summary>
-    [ApiClass, SymSource("api.classes")]
-    public enum ApiBinaryArithmeticClass : ushort
+    [ApiClass, SymSource(api_classes)]
+    public enum ApiArithmeticClass : ushort
     {
         /// <summary>
         /// The empty identity
@@ -41,20 +43,62 @@ namespace Z0
 
         MulHi = Id.MulHi,
 
+        MulX = Id.MulX,
+
         Div = Id.Div,
 
         Mod = Id.Mod,
 
         Clamp = Id.Clamp,
 
+        Dot = Id.Dot,
+
+        Inc = Id.Inc,
+
+        Dec = Id.Dec,
+
+        Negate = Id.Negate,
+
+        Abs = Id.Abs,
+
+        Square = Id.Square,
+
+        Sqrt = Id.Sqrt,
+
+        Avgz = Id.Avgz,
+
+        Avgi = Id.Avgz,
+
+        Max = Id.Max,
+
+        Min = Id.Min,
+
         Dist = Id.Dist,
 
         ClMul = Id.ClMul,
 
-        Dot = Id.Dot,
-
         Fma = Id.Fma,
 
-        ModMul = Id.ModMul
+        ModMul = Id.ModMul,
+
+        DivMod = Id.DivMod,
+
+        Ceil = Id.Ceil,
+
+        Floor = Id.Floor,
+
+        Round = Id.Round,
+
+        Pow = Id.Pow,
+
+        Log2 = Id.Log2,
+
+        AddAssign = Id.AddAssign,
+
+        SubAssign = Id.SubAssign,
+
+        MulAssign = Id.MulAssign,
+
+        DivAssign = Id.DivAssign,
     }
 }

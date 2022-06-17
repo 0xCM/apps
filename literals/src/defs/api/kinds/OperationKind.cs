@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     using p = Pow2x16;
     using NBK = NumericBaseKind;
 

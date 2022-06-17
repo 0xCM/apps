@@ -1,7 +1,6 @@
 namespace Z0
 {
     using S = Pow2Scalars;
-    using NBK = NumericBaseKind;
 
     /// <summary>
     /// Defines primal-representable powers of 2 and integers of the form 2^n - 1 where n = 0,..,64

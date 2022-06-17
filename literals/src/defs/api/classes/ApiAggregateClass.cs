@@ -4,9 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static ApiGranules;
+
     using Id = ApiClassKind;
 
-    [ApiClass, SymSource("api.classes")]
+    [ApiClass, SymSource(api_classes)]
     public enum ApiAggregateClass : ushort
     {
         None = 0,

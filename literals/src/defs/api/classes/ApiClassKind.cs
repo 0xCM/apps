@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-using K = Z0.Pow2;
+using K = Z0.Pow2Scalars;
 
 /// <summary>
 /// Defines operand kind identity classifiers

@@ -5,12 +5,11 @@
 namespace Z0
 {
     using K = Pow2Scalars;
-    using NBK = NumericBaseKind;
 
     /// <summary>
     /// Defines 1
     /// </summary>
-    [SymSource(pow2, NBK.Base16), Flags]
+    [SymSource(pow2, Base16), Flags]
     public enum Pow2x1 : byte
     {
         /// <summary>

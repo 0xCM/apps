@@ -4,12 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static ApiGranules;
+
+
     using Id = ApiClassKind;
 
     /// <summary>
     /// Classifies bitwise shift operators
     /// </summary>
-    [ApiClass, SymSource("api.classes")]
+    [ApiClass, SymSource(api_classes)]
     public enum BitShiftClass : ushort
     {
         /// <summary>

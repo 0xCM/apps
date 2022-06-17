@@ -4,12 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static ApiGranules;
+
     using Id = ApiClassKind;
 
     /// <summary>
     /// Identifies bitwise operations in an arity-neutral way
     /// </summary>
-    [ApiClass, SymSource("api.classes")]
+    [ApiClass, SymSource(api_classes)]
     public enum ApiBitCalcClass : ushort
     {
         None = 0,

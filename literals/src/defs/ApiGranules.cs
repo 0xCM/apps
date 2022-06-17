@@ -98,6 +98,8 @@ namespace Z0
 
         public const string docs = nameof(docs);
 
+        public const string classes = nameof(classes);
+
         public const string lists = nameof(lists);
 
         public const string lib = nameof(lib);
@@ -344,7 +346,9 @@ namespace Z0
 
         public const string llvm = nameof(llvm);
 
-        public const string llvm_mc = llvm + dot + mc;
+        public const string api_classes = api + Dot + classes;
+
+        public const string llvm_mc = llvm + Dot + mc;
 
         public const string net60 = net + Dot + d6 + Dot + d0;
 

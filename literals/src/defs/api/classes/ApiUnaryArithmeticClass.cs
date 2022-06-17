@@ -4,12 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static ApiGranules;
+
     using Id = ApiClassKind;
 
     /// <summary>
     /// Classifies unary arithmetic operators
     /// </summary>
-    [ApiClass, SymSource("api.classes")]
+    [ApiClass, SymSource(api_classes)]
     public enum ApiUnaryArithmeticClass : ushort
     {
         None = 0,
