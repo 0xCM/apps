@@ -19,6 +19,5 @@ namespace Z0
 
         public FS.FilePath AsmCodePath(ProjectId ws, string origin)
             => AppDb.AsmCsv(ws).Path(FS.file(string.Format("{0}.code", origin), FS.Csv));
-
     }
 }

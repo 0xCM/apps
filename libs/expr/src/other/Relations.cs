@@ -11,9 +11,6 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
-        public static Checks checks(IWfRuntime wf)
-            => Checks.create(wf);
-
         [Op]
         public static Sym<CmpPredKind> symbol(CmpPredKind kind)
             => Symbols.index<CmpPredKind>()[kind];

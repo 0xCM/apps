@@ -9,6 +9,13 @@ namespace Z0
 
     partial class ProjectCmd
     {
+        Runtime RuntimeServices => Wf.Runtime();
+
+        [CmdOp("memory/dump")]
+        void EmitDump()
+        {
+            RuntimeServices.EmitContext();
+        }
         [CmdOp("mc/cleanse")]
         Outcome ExecMcCleanse(CmdArgs args)
         {

@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="$(Assets)" />
-    <ProjectReference Include="$(Services)" />
+    <ProjectReference Include="$(Native)" />
   </ItemGroup>
 
 </Project>

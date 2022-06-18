@@ -21,7 +21,6 @@ namespace Z0
                 wf.LlvmCmd(),
                 wf.PolyBits(),
                 wf.XedTool(),
-                wf.DiagnosticCmd(),
                 wf.Machines(),
                 wf.ApiCmd(),
                 wf.CheckCmd(),

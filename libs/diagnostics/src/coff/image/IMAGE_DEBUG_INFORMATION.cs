@@ -2,97 +2,73 @@
 // Copyright   :  (c) Microsoft
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Windows
 {
-    using Windows;
-    using Windows.Image;
+    using Z0;
 
-    partial class CoffRecords
+    [StructLayout(LayoutKind.Sequential, Pack=1)]
+    public unsafe struct IMAGE_DEBUG_INFORMATION
     {
-        [StructLayout(LayoutKind.Sequential, Pack=1)]
-        public struct IMAGE_DEBUG_DIRECTORY
-        {
-            public uint Characteristics;
+        public LIST_ENTRY List;
 
-            public uint TimeDateStamp;
+        public uint ReservedSize;
 
-            public ushort MajorVersion;
+        public unsafe void* ReservedMappedBase;
 
-            public ushort MinorVersion;
+        public ushort ReservedMachine;
 
-            public IMAGE_DEBUG_TYPE Type;
+        public ushort ReservedCharacteristics;
 
-            public uint SizeOfData;
+        public uint ReservedCheckSum;
 
-            public uint AddressOfRawData;
+        public uint ImageBase;
 
-            public uint PointerToRawData;
-        }
+        public uint SizeOfImage;
 
-        [StructLayout(LayoutKind.Sequential, Pack=1)]
-        public unsafe struct IMAGE_DEBUG_INFORMATION
-        {
-            public LIST_ENTRY List;
+        public uint ReservedNumberOfSections;
 
-            public uint ReservedSize;
+        public unsafe ImageSectionHeader* ReservedSections;
 
-            public unsafe void* ReservedMappedBase;
+        public uint ReservedExportedNamesSize;
 
-            public ushort ReservedMachine;
+        public PSTR ReservedExportedNames;
 
-            public ushort ReservedCharacteristics;
+        public uint ReservedNumberOfFunctionTableEntries;
 
-            public uint ReservedCheckSum;
+        public unsafe IMAGE_FUNCTION_ENTRY* ReservedFunctionTableEntries;
 
-            public uint ImageBase;
+        public uint ReservedLowestFunctionStartingAddress;
 
-            public uint SizeOfImage;
+        public uint ReservedHighestFunctionEndingAddress;
 
-            public uint ReservedNumberOfSections;
+        public uint ReservedNumberOfFpoTableEntries;
 
-            public unsafe ImageSectionHeader* ReservedSections;
+        public unsafe FPO_DATA* ReservedFpoTableEntries;
 
-            public uint ReservedExportedNamesSize;
+        public uint SizeOfCoffSymbols;
 
-            public PSTR ReservedExportedNames;
+        public unsafe COFF_SYMBOLS_HEADER* CoffSymbols;
 
-            public uint ReservedNumberOfFunctionTableEntries;
+        public uint ReservedSizeOfCodeViewSymbols;
 
-            public unsafe IMAGE_FUNCTION_ENTRY* ReservedFunctionTableEntries;
+        public unsafe void* ReservedCodeViewSymbols;
 
-            public uint ReservedLowestFunctionStartingAddress;
+        public PSTR ImageFilePath;
 
-            public uint ReservedHighestFunctionEndingAddress;
+        public PSTR ImageFileName;
 
-            public uint ReservedNumberOfFpoTableEntries;
+        public PSTR ReservedDebugFilePath;
 
-            public unsafe FPO_DATA* ReservedFpoTableEntries;
+        public uint ReservedTimeDateStamp;
 
-            public uint SizeOfCoffSymbols;
+        public BOOL ReservedRomImage;
 
-            public unsafe COFF_SYMBOLS_HEADER* CoffSymbols;
+        public unsafe IMAGE_DEBUG_DIRECTORY* ReservedDebugDirectory;
 
-            public uint ReservedSizeOfCodeViewSymbols;
+        public uint ReservedNumberOfDebugDirectories;
 
-            public unsafe void* ReservedCodeViewSymbols;
+        public uint ReservedOriginalFunctionTableBaseAddress;
 
-            public PSTR ImageFilePath;
-
-            public PSTR ImageFileName;
-
-            public PSTR ReservedDebugFilePath;
-
-            public uint ReservedTimeDateStamp;
-
-            public BOOL ReservedRomImage;
-
-            public unsafe IMAGE_DEBUG_DIRECTORY* ReservedDebugDirectory;
-
-            public uint ReservedNumberOfDebugDirectories;
-
-            public uint ReservedOriginalFunctionTableBaseAddress;
-
-            public ulong Reserved;
-        }
+        public ulong Reserved;
     }
 }

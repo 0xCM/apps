@@ -1,5 +1,7 @@
 namespace Z0
 {
+    using Windows;
+
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public struct ImageSectionHeader
     {
@@ -7,15 +9,15 @@ namespace Z0
 
         public uint VirtualSize;
 
-        public Address32 VirtualAddress;
+        public uint VirtualAddress;
 
         public uint SizeOfRawData;
 
-        public Address32 PointerToRawData;
+        public uint PointerToRawData;
 
-        public Address32 PointerToRelocations;
+        public uint PointerToRelocations;
 
-        public Address32 PointerToLinenumbers;
+        public uint PointerToLinenumbers;
 
         public ushort NumberOfRelocations;
 

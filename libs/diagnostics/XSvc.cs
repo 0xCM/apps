@@ -17,9 +17,6 @@ namespace Z0
             public Runtime Runtime(IWfRuntime wf)
                 => Service<Runtime>(wf);
 
-            public DiagnosticCmd DiagnosticCmd(IWfRuntime wf)
-                => Service<DiagnosticCmd>(wf);
-
             public CoffServices CoffServices(IWfRuntime wf)
                 => Service<CoffServices>(wf);
 
@@ -41,9 +38,6 @@ namespace Z0
         public static Runtime Runtime(this IWfRuntime wf)
             => Services.Runtime(wf);
 
-        public static DiagnosticCmd DiagnosticCmd(this IWfRuntime wf)
-            => Services.DiagnosticCmd(wf);
-
         public static CoffServices CoffServices(this IWfRuntime wf)
             => Services.CoffServices(wf);
 
@@ -51,6 +45,6 @@ namespace Z0
             => Services.AsmObjects(wf);
 
        public static DotNetSymbols DotNetSymbols(this IWfRuntime wf)
-            => Services.DotNetSymbols(wf);            
+            => Services.DotNetSymbols(wf);
     }
 }

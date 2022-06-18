@@ -8,7 +8,7 @@ namespace Z0
 
     public class CoffServices : WfSvc<CoffServices>
     {
-        HexDataReader HexReader => Service(Wf.HexDataReader);
+        HexDataReader HexReader => Wf.HexDataReader();
 
         Symbols<CoffSectionKind> SectionKinds;
 

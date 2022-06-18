@@ -9,4 +9,8 @@
   <Import Project="$(ImportDefs)literals.props"/>
   <Import Project="$(ImportDefs)diagnostics.props"/>
 
+  <ItemGroup>
+    <ProjectReference Include="$(Interop)" />
+  </ItemGroup>
+
 </Project>

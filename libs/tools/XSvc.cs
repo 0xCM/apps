@@ -8,16 +8,6 @@ namespace Z0
     {
         sealed class Svc : AppServices<Svc>
         {
-
-            public HexCsv HexCsv(IWfRuntime wf)
-                => Service<HexCsv>(wf);
-
-            public HexDataReader HexDataReader(IWfRuntime wf)
-                => Service<HexDataReader>(wf);
-
-            public ScriptRunner ScriptRunner(IWfRuntime wf)
-                => Service<ScriptRunner>(wf);
-
             public CmdLineRunner CmdLineRunner(IWfRuntime wf)
                 => Service<CmdLineRunner>(wf);
 
@@ -29,18 +19,6 @@ namespace Z0
         }
 
         static Svc Services => Svc.Instance;
-
-        public static HexCsv HexCsv(this IWfRuntime wf)
-            => Services.HexCsv(wf);
-
-        public static HexDataReader HexDataReader(this IWfRuntime wf)
-            => Services.HexDataReader(wf);
-
-        public static AppDb AppDb(this IWfRuntime wf)
-            => Z0.AppDb.Service;
-
-        public static ScriptRunner ScriptRunner(this IWfRuntime wf)
-            => Services.ScriptRunner(wf);
 
         public static CmdLineRunner CmdLineRunner(this IWfRuntime wf)
             => Services.CmdLineRunner(wf);

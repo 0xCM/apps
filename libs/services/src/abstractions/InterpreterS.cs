@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Diagnostics;
-    using System.Collections.Concurrent;
-    using System.Threading.Tasks;
-
     using static core;
 
     public abstract class Interpreter<S> : WfSvc<S>, IInterpreter
