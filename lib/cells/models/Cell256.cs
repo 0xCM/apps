@@ -7,7 +7,6 @@ namespace Z0
     using static System.Runtime.Intrinsics.X86.Avx2;
     using static core;
 
-    [DataWidth(Width)]
     public struct Cell256 : IDataCell<Cell256,W256,Vector256<ulong>>
     {
         public const uint Width = 256;

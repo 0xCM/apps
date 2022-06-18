@@ -6,7 +6,6 @@ namespace Z0
 {
     using static core;
 
-    [DataType("cell<t:{0}>")]
     public struct Cell<T> : IDataCell<Cell<T>>
         where T : unmanaged
     {

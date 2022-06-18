@@ -6,7 +6,6 @@ namespace Z0
 {
     using static core;
 
-    [DataWidth(Width)]
     public struct Cell16 : IDataCell<Cell16,W16,ushort>
     {
         public const uint Width = 16;

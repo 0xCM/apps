@@ -20,7 +20,6 @@ namespace Z0
                 var tag = m.Tag<CmdOpAttribute>().Require();
                 dst.Add(tag.CommandName, new CmdActionInvoker(tag.CommandName, src, m));
             }
-            term.babble($"Discovered {dst.Count} operations from {src}");
             return new CmdActions(dst);
         }
 

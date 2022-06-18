@@ -4,12 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    public struct Cell<A,B,C,D>  : IDataCell<Cell<A,B,C,D>>
+   public struct Cell<A,B,C,D>  : IDataCell<Cell<A,B,C,D>>
         where A : unmanaged, IDataCell<A>
         where B : unmanaged, IDataCell<B>
         where C : unmanaged, IDataCell<C>

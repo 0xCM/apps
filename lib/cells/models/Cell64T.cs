@@ -6,7 +6,6 @@ namespace Z0
 {
     using static core;
 
-    [DataWidth(Width)]
     public struct Cell64<T> : IDataCell<Cell64<T>,W64,T>
         where T : unmanaged
     {

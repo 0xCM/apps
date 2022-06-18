@@ -10,7 +10,6 @@ namespace Z0
 
     using api = Cells;
 
-    [DataWidth(Width)]
     public struct Cell512 : IDataCell<Cell512,W512,Vector512<ulong>>
     {
         public const uint Width = 512;

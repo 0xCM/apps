@@ -8,7 +8,6 @@ namespace Z0
 
     using F = Cell128;
 
-    [DataWidth(Width)]
     public struct Cell128 : IDataCell<F,W128,Vector128<ulong>>
     {
         public const uint Width = 128;
