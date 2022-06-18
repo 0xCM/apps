@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public class Machines : AppCmdService<Machines,CmdShellState>
+    public class Machines : AppCmdService<Machines>
     {
         IPolyrand Random;
 

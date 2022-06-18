@@ -8,7 +8,7 @@ namespace Z0
     using static core;
     using static XedRules;
 
-    public partial class AsmCoreCmd : WsCmdService<AsmCoreCmd>
+    public partial class AsmCoreCmd : AppCmdService<AsmCoreCmd>
     {
         static XedRuntime Xed;
 
@@ -34,11 +34,9 @@ namespace Z0
 
         protected override void Initialized()
         {
-            ProjectLoad("canonical");
-        }
 
-        IProjectWs Project()
-            => CmdRunner.Project();
+            //ProjectLoad("canonical");
+        }
 
         Outcome LoadStanfordForms()
         {

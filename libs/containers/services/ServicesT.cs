@@ -5,12 +5,12 @@
 namespace Z0
 {
     [ServiceCache]
-    public abstract class Services<T> : ISvcProvider<T>
+    public abstract class Services<T>
         where T : Services<T>, new()
     {
         public static T Instance = new();
 
-        protected ConcurrentDictionary<Type,IService> Lookup = new();
+        protected ConcurrentDictionary<Type,object> Lookup = new();
 
         Index<Type> _HostTypes;
 
@@ -29,14 +29,13 @@ namespace Z0
             get => _HostTypes.View;
         }
 
-        public IService Service(Type host)
-                => Lookup.GetOrAdd(host, _ => (IService)Activator.CreateInstance(host));
+        // public IService Service(Type host)
+        //         => Lookup.GetOrAdd(host, _ => Activator.CreateInstance(host));
         public S Service<S>()
-            where S : IService, new()
+            where S : new()
                 => (S)Lookup.GetOrAdd(typeof(S), new S());
 
         public S Service<S>(Func<S> f)
-            where S : IService, new()
-                => (S)Lookup.GetOrAdd(typeof(S), f());
+            => (S)Lookup.GetOrAdd(typeof(S), f());
     }
 }

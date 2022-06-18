@@ -18,6 +18,9 @@
     <ProjectReference Include="$(Calcs)" />
     <ProjectReference Include="$(Cli)" />
     <ProjectReference Include="$(CmdActions)" />
+    <ProjectReference Include="$(CmdSvc)" />
+    <ProjectReference Include="$(CmdExec)" />
+
     <ProjectReference Include="$(Containers)" />
     <ProjectReference Include="$(Circuits)" />
 
@@ -28,7 +31,6 @@
     <ProjectReference Include="$(Extract)" />
     <ProjectReference Include="$(EMath)" />
 
-    <ProjectReference Include="$(Flows)" />
     <ProjectReference Include="$(Fsm)" />
 
     <ProjectReference Include="$(Glue)" />
@@ -53,7 +55,6 @@
     <ProjectReference Include="$(Render)" />
 
     <ProjectReference Include="$(Symbols)" />
-    <ProjectReference Include="$(Services)" />
 
     <ProjectReference Include="$(Templates)" />
     <ProjectReference Include="$(Tools)" />

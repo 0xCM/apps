@@ -143,4 +143,7 @@ namespace Z0
                 where T : struct
                     => TableEmit(@readonly(rows), dst, encoding, rowpad, fk);
     }
+
+
+
 }

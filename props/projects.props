@@ -19,9 +19,11 @@
     <Commands>$(LibsRoot)commands/z0.commands.csproj</Commands>
     <Calcs>$(LibsRoot)calcs/z0.calcs.csproj</Calcs>
     <Circuits>$(LibsRoot)circuits/z0.circuits.csproj</Circuits>
-
     <Containers>$(LibsRoot)containers/z0.containers.csproj</Containers>
+
+    <CmdSvc>$(LibsRoot)cmd.svc/z0.cmd.svc.csproj</CmdSvc>
     <CmdActions>$(LibsRoot)cmd.actions/z0.cmd.actions.csproj</CmdActions>
+    <CmdExec>$(LibsRoot)cmd.exec/z0.cmd.exec.csproj</CmdExec>
 
     <Db>$(LibsRoot)db/z0.db.csproj</Db>
     <Diagnostics>$(LibsRoot)diagnostics/z0.diagnostics.csproj</Diagnostics>
@@ -30,7 +32,6 @@
     <EMath>$(LibsRoot)emath/z0.emath.csproj</EMath>
 
     <Fsm>$(LibsRoot)fsm/z0.fsm.csproj</Fsm>
-    <Flows>$(LibsRoot)flows/z0.flows.csproj</Flows>
 
     <Glue>$(LibsRoot)glue/z0.glue.csproj</Glue>
     <Graphs>$(LibsRoot)graphs/z0.graphs.csproj</Graphs>
@@ -55,7 +56,6 @@
     <Rules>$(LibsRoot)rules/z0.rules.csproj</Rules>
     <Render>$(LibsRoot)render/z0.render.csproj</Render>
 
-    <Services>$(LibsRoot)services/z0.services.csproj</Services>
     <Tools>$(LibsRoot)tools/z0.tools.csproj</Tools>
     <Templates>$(LibsRoot)templates/z0.templates.csproj</Templates>
     <Symbols>$(LibsRoot)symbols/z0.symbols.csproj</Symbols>

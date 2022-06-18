@@ -11,7 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="$(Symbols)" />
     <ProjectReference Include="$(Calcs)" />
-    <ProjectReference Include="$(Flows)" />
+    <ProjectReference Include="$(CmdExec)" />
     <ProjectReference Include="$(Archives)" />
   </ItemGroup>
 

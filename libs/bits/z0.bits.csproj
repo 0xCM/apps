@@ -15,7 +15,7 @@
     <ProjectReference Include="$(Assets)" />
     <ProjectReference Include="$(Symbols)" />
     <ProjectReference Include="$(Memory)" />
-    <ProjectReference Include="$(Services)" />
+    <ProjectReference Include="$(CmdSvc)" />
 
   </ItemGroup>
 

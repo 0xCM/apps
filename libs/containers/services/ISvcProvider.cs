@@ -4,6 +4,39 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    public interface ICmdProvider
+    {
+        CmdActions Actions {get;}
+    }
+
+    public interface IAppCmdService : IAppService
+    {
+        void Run();
+
+        ICmdDispatcher Dispatcher {get;}
+    }
+
+    public interface ICmdDispatcher
+    {
+        Outcome Dispatch(string action, CmdArgs args);
+
+        Outcome Dispatch(string action);
+
+        IEnumerable<string> SupportedActions {get;}
+
+        Outcome Dispatch(CmdSpec cmd)
+            => Dispatch(cmd.Name, cmd.Args);
+    }
+
+    public interface ICmdRunner
+    {
+        void RunJobs(string match);
+
+        void RunCmd(string name);
+
+        void RunCmd(string name, CmdArgs args);
+    }
+
     public interface ISvcProvider
     {
         Assembly HostComponent {get;}
@@ -12,10 +45,7 @@ namespace Z0
 
         ReadOnlySpan<Type> HostTypes {get;}
 
-        IService Service(Type host);
-
-        S Service<S>()
-            where S : IService, new();
+        S Service<S>();
     }
 
     public interface ISvcProvider<T> : ISvcProvider

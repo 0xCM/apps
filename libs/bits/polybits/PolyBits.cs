@@ -10,12 +10,9 @@ namespace Z0
     using static ApiGranules;
 
     [ApiHost]
-    public partial class PolyBits : AppService<PolyBits>, ICmdProvider
+    public partial class PolyBits : AppService<PolyBits>//, ICmdProvider
     {
         const NumericKind Closure = UInt64k;
-
-        public static ICmdProvider commands(IWfRuntime wf)
-            => wf.PolyBits();
 
         AppSvcOps AppSvc => Service(Wf.AppSvc);
 
@@ -23,6 +20,10 @@ namespace Z0
 
         IDbTargets Targets => AppDb.DbOut().Targets(polybits);
 
+        public PolyBits()
+        {
+            //Actions = CmdActions.discover(this);
+        }
         public void Check()
         {
             Targets.Delete();
@@ -56,6 +57,8 @@ namespace Z0
             }
             return src;
         }
+
+        public CmdActions Actions {get;}
 
         public void EmitPatterns()
         {

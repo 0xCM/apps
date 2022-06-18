@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    public sealed partial class AsmCmdService : AppCmdService<AsmCmdService,CmdShellState>
+    public sealed partial class AsmCmdService : AppCmdService<AsmCmdService>
     {
         IWorkspace AsmWs;
 
@@ -21,14 +21,13 @@ namespace Z0.Asm
             AsmWs = Ws.Asm();
             Random = Rng.wyhash64();
             OutWs = Ws.Output();
-            State.Init(Wf, Ws);
         }
 
-        FS.FolderPath GetToolOut(ToolId tool)
-            => Ws.Output().Subdir(tool.Format());
+        // FS.FolderPath GetToolOut(ToolId tool)
+        //     => Ws.Output().Subdir(tool.Format());
 
-        FS.FolderPath OutDir(string id)
-            => OutWs.Subdir(id);
+        // FS.FolderPath OutDir(string id)
+        //     => OutWs.Subdir(id);
 
         public FS.FolderPath OutRoot()
             => OutWs.Root;

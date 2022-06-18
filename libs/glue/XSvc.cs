@@ -27,12 +27,6 @@ namespace Z0
         public static SourceSymbolic SourceSymbolic(this IWfRuntime wf)
             => Z0.SourceSymbolic.create(wf);
 
-        public static WinSdk WinSdk(this IWfRuntime wf)
-            => Z0.WinSdk.create(wf);
-
-        public static Msvs Msvs(this IWfRuntime wf)
-            => Z0.Msvs.create(wf);
-
         public static DumpParser DumpParser(this IWfRuntime wf)
             => Z0.DumpParser.create(wf);
 

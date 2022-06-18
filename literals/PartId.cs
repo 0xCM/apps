@@ -90,8 +90,8 @@ public enum PartId : byte
     [Symbol("gen")]
     Gen,
 
-    [Symbol("flows")]
-    Flows,
+    [Symbol("cmd.exec")]
+    CmdExec,
 
     [Symbol("test.units")]
     TestUnits,
@@ -177,8 +177,8 @@ public enum PartId : byte
     [Symbol("db")]
     Db,
 
-    [Symbol("services")]
-    Services,
+    [Symbol("cmd.svc")]
+    CmdSvc,
 
     [Symbol("literals")]
     Literals,

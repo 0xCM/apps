@@ -8,13 +8,6 @@ namespace Z0
     {
         XedPaths XedPaths => Wf.XedPaths();
 
-        XedRuntime Xed;
-
-        public static XedChecks commands(XedRuntime xed)
-        {
-            var svc = create(xed.Wf);
-            svc.Xed = xed;
-            return svc;
-        }
+        XedRuntime Xed => GlobalSvc.Instance.Service<XedRuntime>();
    }
 }

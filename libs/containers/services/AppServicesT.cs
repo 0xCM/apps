@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public abstract class AppServices<T> : Services<T>, IAppSvcProvider<T>
+    public abstract class AppServices<T> : Services<T>
         where T : AppServices<T>, new()
     {
         public IAppService Service(Type host, IWfRuntime wf)
@@ -13,10 +13,6 @@ namespace Z0
                     service.Init(wf);
                     return service;
                 });
-
-        public S Inject<S>(S svc)
-            where S : IAppService, new()
-                => (S)Lookup.GetOrAdd(typeof(S), svc);
 
         public S Service<S>(IWfRuntime wf)
             where S : IAppService, new()

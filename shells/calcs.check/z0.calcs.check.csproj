@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="$(Services)" />
-    <ProjectReference Include="$(Flows)" />
+    <ProjectReference Include="$(CmdExec)" />
     <ProjectReference Include="$(Calcs)" />
   </ItemGroup>
 

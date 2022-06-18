@@ -14,13 +14,10 @@ namespace Z0
             public ProjectSvc ProjectSvc(IWfRuntime wf)
                 => Service<ProjectSvc>(wf);
 
-            public AsmFlowCommands AsmFlows(IWfRuntime wf)
-                => Service<AsmFlowCommands>(wf);
-
             public LlvmDataProvider LlvmDataProvider(IWfRuntime wf)
                 => Service<LlvmDataProvider>(wf);
 
-            public AsmCmdProvider AsmCmd(IWfRuntime wf)
+            public AsmCmdProvider AsmCmdProvider(IWfRuntime wf)
                 => Service<AsmCmdProvider>(wf);
 
             public LlvmDataEmitter LlvmDataEmitter(IWfRuntime wf)
@@ -61,16 +58,12 @@ namespace Z0
 
         public static XedDisasmSvc XedDisasmSvc(this IWfRuntime wf)
             => GlobalSvc.Instance.Service<XedRuntime>(wf).Disasm;
-            //Services.Injected<XedRuntime>().Disasm;
-
-        public static AsmFlowCommands AsmFlows(this IWfRuntime wf)
-            => Services.AsmFlows(wf);
 
         public static LlvmDataProvider LlvmDataProvider(this IWfRuntime wf)
             => Services.LlvmDataProvider(wf);
 
-        public static AsmCmdProvider AsmCmd(this IWfRuntime wf)
-            => Services.AsmCmd(wf);
+        public static AsmCmdProvider AsmCmdProvider(this IWfRuntime wf)
+            => Services.AsmCmdProvider(wf);
 
         public static LlvmDataEmitter LlvmDataEmitter(this IWfRuntime wf)
             => Services.LlvmDataEmitter(wf);

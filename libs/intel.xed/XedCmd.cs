@@ -8,24 +8,11 @@ namespace Z0
     using static XedDisasm;
     using static MemDb;
 
-    public class XedCmd : WsCmdService<XedCmd>, ICmdProvider
+    public class XedCmd : AppCmdService<XedCmd>
     {
-        public static XedCmd commands(XedRuntime xed, params ICmdProvider[] providers)
-        {
-            var cmd = create(xed.Wf, providers);
-            cmd.Xed = xed;
-            return cmd;
-        }
-
-        XedRuntime Xed;
+        XedRuntime Xed => GlobalSvc.Instance.Injected<XedRuntime>();
 
         XedPaths XedPaths => Wf.XedPaths();
-
-        protected override WsContext Context()
-            => WsContext.load(CmdRunner.Project());
-
-        // protected override void LoadProject(CmdArgs args)
-        //     => CmdRunner.LoadProject(args);
 
         [CmdOp("project/xed/etl")]
         void XedCollect()

@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
+
     public static class XSvc
     {
         sealed class Svc : AppServices<Svc>
@@ -17,11 +19,20 @@ namespace Z0
             public CaptureCmd CaptureCmd(IWfRuntime wf)
                 => Service<CaptureCmd>(wf);
 
-            public ProjectCmd ProjectCmd(IWfRuntime wf, ICmdRunner runner)
-                => Service(() => Z0.ProjectCmd.create(wf).With(runner));
+            public ProjectCmd ProjectCmd(IWfRuntime wf)
+                => Service<ProjectCmd>(wf);
+
+            public AsmFlowCommands AsmFlows(IWfRuntime wf)
+                => Service<AsmFlowCommands>(wf);
+
+            public AsmCmdService AsmCmdSvc(IWfRuntime wf)
+                => Service<AsmCmdService>(wf);
         }
 
         static Svc Services = Svc.Instance;
+
+       public static AsmFlowCommands AsmFlows(this IWfRuntime wf)
+            => Services.AsmFlows(wf);
 
         public static CheckCmd CheckCmd(this IWfRuntime wf)
             => Services.CheckCmd(wf);
@@ -29,11 +40,13 @@ namespace Z0
         public static ApiCmd ApiCmd(this IWfRuntime wf)
             => Services.ApiCmd(wf);
 
+       public static AsmCmdService AsmCmdSvc(this IWfRuntime wf)
+            => Services.AsmCmdSvc(wf);
+
         public static CaptureCmd CaptureCmd(this IWfRuntime wf)
             => Services.CaptureCmd(wf);
 
-        public static ProjectCmd ProjectCmd(this IWfRuntime wf, ICmdRunner runner)
-            => Services.ProjectCmd(wf, runner);
-
+        public static ProjectCmd ProjectCmd(this IWfRuntime wf)
+            => Services.ProjectCmd(wf);
     }
 }

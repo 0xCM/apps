@@ -4,48 +4,44 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-    using Asm;
-
-    public partial class GlobalCmd : AppCmdService<GlobalCmd,CmdShellState>
+    public partial class GlobalCmd : AppCmdService<GlobalCmd>
     {
         public static GlobalCmd commands(IWfRuntime wf)
         {
-            var runner = new GlobalCmd();
             var xed = GlobalSvc.Instance.Inject(wf.XedRuntime());
-            var providers = array<ICmdProvider>(
-                runner,
-                wf.ProjectCmd(runner),
+            var providers = new ICmdProvider[]{
+                wf.ProjectCmd(),
                 wf.CaptureCmd(),
                 wf.AsmCoreCmd(),
                 wf.LlvmCmd(),
-                wf.PolyBits(),
                 wf.XedTool(),
                 wf.Machines(),
                 wf.ApiCmd(),
                 wf.CheckCmd(),
-                wf.AsmCmd(),
-                wf.AsmChecks(),
+                wf.AsmCmdProvider(),
                 wf.IntelIntrinsicsCmd(),
-                AsmCmdService.create(wf),
-                xed.XedCmd(),
-                xed.XedChecks()
-                );
+                wf.AsmCmdSvc(),
+                wf.XedCmd(),
+                //wf.XedChecks(),
+                //wf.AsmChecks()
+                };
 
-            _Providers = providers;
-            runner.Init(wf);
-            return runner;
+            foreach(var provider in providers)
+            {
+                foreach(var action in provider.Actions.Specs)
+                {
+                    term.babble($"{provider}:{action}");
+                }
+            }
+
+            var dst = create(wf,providers);
+            return dst;
         }
-
-        static ICmdProvider[] _Providers;
 
         protected override void Initialized()
         {
             RunCmd("project", new CmdArg[]{new CmdArg(EmptyString, "canonical")});
         }
-
-        protected override ICmdProvider[] CmdProviders(IWfRuntime wf)
-            => _Providers;
 
         [CmdOp("jobs/run")]
         Outcome RunJobs(CmdArgs args)

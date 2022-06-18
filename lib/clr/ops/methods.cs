@@ -12,6 +12,6 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static MethodInfo[] methods(Type src, out MethodInfo[] dst)
-            => dst = src.GetMethods(BF);
+            => dst = src.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
     }
 }

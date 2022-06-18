@@ -302,6 +302,10 @@ namespace Z0
 
         public const string semantic = nameof(semantic);
 
+        public const string admin = nameof(admin);
+
+        public const string inventory = nameof(inventory);
+
         public const string tok = nameof(tok);
 
         public const string yaml = nameof(yaml);
