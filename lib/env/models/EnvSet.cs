@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public sealed class EnvSet : EnvSet<Index<EnvVar>>
+    public sealed class EnvSet : EnvSet<EnvVars>
     {
-        internal EnvSet(string name, ConstLookup<VarSymbol,object> data, Index<EnvVar> vars)
+        internal EnvSet(string name, ConstLookup<VarSymbol,object> data, EnvVars vars)
             : base(name, data, vars, vars)
         {
         }

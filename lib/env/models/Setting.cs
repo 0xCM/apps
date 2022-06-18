@@ -7,7 +7,7 @@ namespace Z0
     using api = Settings;
 
     [Record(TableId)]
-    public readonly struct Setting : ISetting
+    public readonly record struct Setting : ISetting, IComparable<Setting>
     {
         const string TableId = "settings";
 
@@ -24,10 +24,19 @@ namespace Z0
             Value = value ?? EmptyString;
         }
 
+        public string ValueText
+            => Value?.ToString() ?? EmptyString;
+
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
             get => core.empty(Name) || Value is null;
+        }
+
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => core.hash(Name) | (Hash32)(Value?.GetHashCode() ?? 0);
         }
 
         dynamic ISetting.Value
@@ -36,8 +45,11 @@ namespace Z0
         string ISetting.Name
             => Name;
 
-        public string ValueText
-            => Value?.ToString() ?? EmptyString;
+        public override int GetHashCode()
+            => Hash;
+
+        public bool Equals(Setting src)
+            => Object.Equals(Value, src.Value) && Name == src.Name;
 
         public string Format(bool json)
             => api.format(this, json);
@@ -47,6 +59,9 @@ namespace Z0
 
         public override string ToString()
             => Format();
+
+        public int CompareTo(Setting src)
+            => Name.CompareTo(src.Name);
 
         [MethodImpl(Inline)]
         public static implicit operator Setting((string name, dynamic value) src)

@@ -6,30 +6,11 @@ namespace Z0
 {
     public readonly struct list<T> : IIndex<T>
     {
-        public static ParserDelegate<list<T>> parser(string type, ParserDelegate<T> itemparser)
-        {
-            Outcome parse(string src, out list<T> dst)
-            {
-                var input = text.fenced(src, RenderFence.Bracketed, out _) ? text.unfence(src, RenderFence.Bracketed) : src;
-                var seqparser = new SeqParser<T>(new ParseFunction<T>(itemparser), ",");
-                var result = seqparser.Parse(src, out var items);
-                if(result)
-                    dst = new list<T>(type, items);
-                else
-                    dst = Empty;
-                return result;
-            }
-            return parse;
-        }
-
         readonly Index<T> Data;
 
-        public string ListType {get;}
-
         [MethodImpl(Inline)]
-        public list(string type, T[] src)
+        public list(T[] src)
         {
-            ListType = type;
             Data = src;
         }
 
@@ -81,6 +62,6 @@ namespace Z0
         public override string ToString()
             => Format();
 
-        public static list<T> Empty => new list<T>(EmptyString, sys.empty<T>());
+        public static list<T> Empty => new list<T>(sys.empty<T>());
     }
 }

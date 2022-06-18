@@ -19,4 +19,11 @@ namespace Z0
     {
 
     }
+
+    [Free]
+    public interface IEnvVar<V,T> : IEnvVar<T>, IEquatable<V>, IComparable<V>
+        where V : IEnvVar<V,T>
+    {
+
+    }
 }

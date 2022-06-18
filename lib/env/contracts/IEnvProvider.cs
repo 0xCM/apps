@@ -11,13 +11,15 @@ namespace Z0
 
     public interface IEnvProvider2 : IEnvSet
     {
-        ref readonly Index<EnvVar> Vars {get;}
+        ref readonly EnvVars Vars {get;}
 
         uint VarCount => Vars.Count;
 
-        ref readonly EnvVar this[uint index] => ref Vars[index];
+        ref readonly EnvVar this[uint index]
+            => ref Vars[index];
 
-        ref readonly EnvVar this[int index] => ref Vars[index];
+        ref readonly EnvVar this[int index]
+            => ref Vars[index];
 
         string Format() => ToString();
     }
@@ -27,8 +29,10 @@ namespace Z0
     {
         new ref readonly Index<D> Vars {get;}
 
-        new ref readonly D this[uint index] => ref Vars[index];
+        new ref readonly D this[uint index]
+            => ref Vars[index];
 
-        new ref readonly D this[int index] => ref Vars[index];
+        new ref readonly D this[int index]
+            => ref Vars[index];
     }
 }

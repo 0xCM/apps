@@ -8,12 +8,13 @@ namespace Z0
 
     public partial class Environs
     {
-        public static Index<EnvVar> vars()
+
+        public static EnvVars vars()
         {
             var dst = list<EnvVar>();
             foreach(DictionaryEntry kv in Environment.GetEnvironmentVariables())
                  dst.Add(new EnvVar(kv.Key?.ToString() ?? EmptyString, kv.Value?.ToString() ?? EmptyString));
-            return dst.ToArray();
+            return dst.ToArray().Sort();
         }
 
         public static EnvVar<FS.FolderPath> dir(string name)

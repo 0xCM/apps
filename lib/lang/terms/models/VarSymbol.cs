@@ -4,49 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct VarSymbol : IVarSymbol, IEquatable<VarSymbol>
+    public readonly record struct VarSymbol : IVarSymbol, IEquatable<VarSymbol>, IComparable<VarSymbol>
     {
-        public Name Name {get;}
-
-        [MethodImpl(Inline)]
-        public VarSymbol(string name)
-            => Name = name;
-
-        [MethodImpl(Inline)]
-        public VarSymbol(char name)
-            => Name = name.ToString();
-
-
-        public bool IsEmpty
-        {
-            [MethodImpl(Inline)]
-            get => Name.IsEmpty;
-        }
-
-        public bool IsNonEmpty
-        {
-            [MethodImpl(Inline)]
-            get => Name.IsNonEmpty;
-        }
-
-        public string Format()
-            => Format(VarContextKind.Workflow);
-
-        public string Format(VarContextKind vck)
-            => string.Format(RP.pattern(vck), Name);
-
-        public override string ToString()
-            => Format();
-
-        public bool Equals(VarSymbol src)
-            => Name.Equals(src.Name);
-
-        public override int GetHashCode()
-            => Name.GetHashCode();
-
-        public override bool Equals(object src)
-            => src is VarSymbol v && Equals(v);
-
         [Op]
         public static string format(IVarValue var, char assign)
             => string.Format("{0}{1}{2}", format(var.VarName), assign, var.VarValue);
@@ -80,6 +39,45 @@ namespace Z0
         public static string format(VarContextKind vck, IVarValue var)
             => format(vck,var, Chars.Eq);
 
+        public Name Name {get;}
+
+        [MethodImpl(Inline)]
+        public VarSymbol(string name)
+            => Name = name;
+
+        [MethodImpl(Inline)]
+        public VarSymbol(char name)
+            => Name = name.ToString();
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Name.IsEmpty;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Name.IsNonEmpty;
+        }
+
+        public string Format()
+            => Format(VarContextKind.Workflow);
+
+        public string Format(VarContextKind vck)
+            => string.Format(RP.pattern(vck), Name);
+
+        public override string ToString()
+            => Format();
+
+        public bool Equals(VarSymbol src)
+            => Name.Equals(src.Name);
+
+        public override int GetHashCode()
+            => Name.GetHashCode();
+
+        public int CompareTo(VarSymbol src)
+            => Name.CompareTo(src.Name);
 
         [MethodImpl(Inline)]
         public static implicit operator VarSymbol(string name)
@@ -88,12 +86,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator VarSymbol(char name)
             => new VarSymbol(name);
-
-        public static bool operator ==(VarSymbol a, VarSymbol b)
-            => a.Equals(b);
-
-        public static bool operator !=(VarSymbol a, VarSymbol b)
-            => !a.Equals(b);
 
         public static VarSymbol Empty => new VarSymbol(EmptyString);
     }

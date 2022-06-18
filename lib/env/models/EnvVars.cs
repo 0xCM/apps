@@ -6,12 +6,8 @@ namespace Z0
 {
     using static core;
 
-    public readonly struct EnvVars
+    public readonly struct EnvVars : IIndex<EnvVar>
     {
-        public static EnvVars load()
-            => new (Environs.vars().ToArray());
-
-
         Index<EnvVar> Data {get;}
 
         [MethodImpl(Inline)]

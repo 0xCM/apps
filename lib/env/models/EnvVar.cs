@@ -9,9 +9,10 @@ namespace Z0
     /// <summary>
     /// Defines a nonparametric environment variable
     /// </summary>
-    public readonly struct EnvVar : IEnvVar
+    [Record(TableId)]
+    public readonly record struct EnvVar : IEnvVar, IComparable<EnvVar>
     {
-        const string TableId = "env.vars";
+        const string TableId = "env";
 
         [Render(64)]
         public readonly VarSymbol VarName;
@@ -48,6 +49,15 @@ namespace Z0
             get => VarName.IsNonEmpty;
         }
 
+        public bool Contains(string match)
+            => text.contains(VarValue,match);
+
+        public bool Contains(ReadOnlySpan<char> match)
+            => text.contains(VarValue,match);
+
+        public bool Contains(char match)
+            => text.contains(VarValue,match);
+
         public EnvVar<T> Transform<T>(Func<string,T> f)
             where T : IEquatable<T>
                 => new EnvVar<T>(VarName.Format(), f(VarValue));
@@ -67,8 +77,8 @@ namespace Z0
         public bool Equals(EnvVar src)
             => VarName.Equals(src.VarName) && string.Equals(VarValue, src.VarValue, NoCase);
 
-        public override bool Equals(object src)
-            => src is EnvVar v && Equals(v);
+        public int CompareTo(EnvVar src)
+            => VarName.CompareTo(src.VarName);
 
         [MethodImpl(Inline)]
         public static implicit operator EnvVar((string name, string value) src)

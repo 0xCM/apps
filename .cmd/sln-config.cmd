@@ -1,6 +1,7 @@
 @echo off
 set SlnTool=dotnet sln
 
+set SlnPath=%DevRoot%\dev\z0\z0.sln
 set SlnZLibCmd=%SlnTool% %SlnPath% add %ZLibRoot%/z0.lib.csproj
 set SlnLiteralsCmd=%SlnTool% %SlnPath% add %LiteralsRoot%/z0.literals.csproj
 set SlnCmdShell=%SlnTool% %SlnPath% add %WsRoot%/cmd/z0.cmd.csproj

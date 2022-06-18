@@ -15,10 +15,18 @@ namespace Z0
         readonly bool SplitClean;
 
         [MethodImpl(Inline)]
-        public SeqParser(IParser<T> tp, string delimiter, bool clean = true)
+        public SeqParser(IParser<T> terms, string delimiter, bool clean = true)
         {
             Delimiter = delimiter;
-            TermParser = tp;
+            TermParser = terms;
+            SplitClean = clean;
+        }
+
+        [MethodImpl(Inline)]
+        public SeqParser(IParser<T> terms, char delimiter, bool clean = true)
+        {
+            Delimiter = delimiter.ToString();
+            TermParser = terms;
             SplitClean = clean;
         }
 

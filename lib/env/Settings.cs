@@ -14,6 +14,48 @@ namespace Z0
     [ApiHost]
     public class Settings : IIndex<Setting>, ILookup<string,Setting>
     {
+        public static Index<EnvSetting> records(EnvVars src, string name)
+        {
+            const char Sep = ';';
+            var buffer = list<EnvSetting>();
+            var k=0u;
+            for(var i=0; i<src.Count; i++)
+            {
+                ref readonly var v = ref src[i];
+                var vName = v.VarName.Format();
+                var vValue = v.VarValue;
+
+                if(v.Contains(Sep))
+                {
+                    var parts = text.split(vValue,Sep).Index();
+                    for(var j=0; j<parts.Count; j++)
+                    {
+                        ref readonly var part = ref parts[j];
+                        var dst = new EnvSetting();
+                        dst.Seq = k++;
+                        dst.EnvName = name;
+                        dst.VarName = vName;
+                        dst.VarValue = part;
+                        dst.Join = Sep.ToString();
+                        buffer.Add(dst);
+                    }
+                }
+                else
+                {
+                    var dst = new EnvSetting();
+                    dst.Seq = k++;
+                    dst.EnvName = name;
+                    dst.VarName = vName;
+                    dst.VarValue = vValue;
+                    dst.Join = EmptyString;
+                    buffer.Add(dst);
+                }
+            }
+
+            return buffer.ToIndex();
+        }
+
+
         public static Setting<T> setting<T>(Setting src, Func<string,T> parser)
             => new Setting<T>(src.Name, parser(src.ValueText));
 

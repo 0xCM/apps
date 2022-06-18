@@ -6,9 +6,6 @@ namespace Z0
 {
     public readonly struct EnvData
     {
-        public static EnvData load()
-            => new EnvData(Env.load());
-
         readonly Env Source;
 
         [MethodImpl(Inline)]

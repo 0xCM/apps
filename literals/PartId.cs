@@ -78,8 +78,8 @@ public enum PartId : byte
     [Symbol("tooling")]
     Tooling,
 
-    [Symbol("apicore")]
-    ApiCore,
+    [Symbol("cmd.api")]
+    CmdApi,
 
     [Symbol("interop")]
     Interop,

@@ -7,9 +7,12 @@ namespace Z0
     /// <summary>
     /// Defines a value-parametric environment variable
     /// </summary>
-    public readonly record struct EnvVar<T> : IEnvVar<T>
+    [Record(TableId)]
+    public readonly record struct EnvVar<T> : IEnvVar<EnvVar<T>, T>
         where T : IEquatable<T>
     {
+        const string TableId = "env.vars.{0}";
+
         public readonly VarSymbol VarName {get;}
 
         public readonly T VarValue {get;}
@@ -20,7 +23,6 @@ namespace Z0
             VarName = name;
             VarValue = value;
         }
-
 
         public Hash32 Hash
         {
@@ -36,6 +38,9 @@ namespace Z0
 
         public override int GetHashCode()
             => Hash;
+
+        public int CompareTo(EnvVar<T> src)
+            => VarName.CompareTo(src.VarName);
 
         public bool Equals(EnvVar<T> src)
             => VarName.Equals(src.VarName)

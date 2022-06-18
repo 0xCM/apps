@@ -9,7 +9,7 @@ namespace Z0
     {
         readonly ConstLookup<VarSymbol,object> Data;
 
-        internal EnvSet(string name, ConstLookup<VarSymbol,object> data, S src, Index<EnvVar> vars)
+        internal EnvSet(string name, ConstLookup<VarSymbol,object> data, S src, EnvVars vars)
             : base(vars)
         {
             Data = data;

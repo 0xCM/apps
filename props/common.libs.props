@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <ProjectReference Include="$(ZLib)" />
-    <Reference Include="$(LiteralsLibName)" HintPath="$(LiteralsLibPath)"/>
+    <ProjectReference Include="$(Literals)" />
   </ItemGroup>
 
 </Project>

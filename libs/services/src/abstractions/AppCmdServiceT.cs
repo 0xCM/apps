@@ -5,9 +5,6 @@
 namespace Z0
 {
     using Windows;
-    using static ApiGranules;
-
-    using G = ApiGranules;
 
     using static core;
 
@@ -101,10 +98,37 @@ namespace Z0
             return true;
         }
 
-        [CmdOp("env/emit")]
+        [CmdOp("env/log")]
         protected Outcome EmitEnvVars(CmdArgs args)
         {
-            TableEmit(EnvVars.load().View, AppDb.RuntimeLogs().Table<EnvVar>());
+            var env = "machine";
+            TableEmit(Settings.records(Environs.vars(), env), AppDb.Env().Table<EnvSetting>(env));
+            // const char Sep = ';';
+            // const char Eq = '=';
+            // var vars = EnvVars.load();
+            // var count = vars.Count;
+            // for(var i=0; i<count; i++)
+            // {
+            //     ref readonly var v = ref vars[i];
+            //     if(v.Contains(Sep))
+            //     {
+            //         Write(EmptyString);
+            //         Write(string.Format("{0}:",v.VarName));
+            //         Write(RP.PageBreak80);
+            //         var parts = text.split(v.VarValue,Sep).Index();
+            //         for(var j=0; j<parts.Count; j++)
+            //         {
+            //             ref readonly var part = ref parts[j];
+            //             Write(part);
+            //         }
+            //         Write(RP.PageBreak80);
+            //         Write(EmptyString);
+            //     }
+            //     else
+            //         Write(v.Format());
+            // }
+
+            // TableEmit(vars.View, AppDb.Env().Table<EnvVar>("system"));
             return true;
         }
 

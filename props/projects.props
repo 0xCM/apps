@@ -60,7 +60,6 @@
 
     <TestChecks>$(TestRoot)test.checks/z0.test.checks.csproj</TestChecks>
     <TestUnits>$(TestRoot)test.units/z0.test.units.csproj</TestUnits>
-    <TestUnits>$(TestRoot)test.units/z0.test.units.csproj</TestUnits>
 
     <CgCommon>$(CgRoot)cg.common/z0.cg.common.csproj</CgCommon>
     <CgLlvm>$(CgRoot)cg.llvm/z0.cg.llvm.csproj</CgLlvm>

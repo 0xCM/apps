@@ -7,3 +7,6 @@ call %SlnLiteralsCmd%
 call %SlnZLibCmd%
 call %SlnLibsCmd%
 call %SlnCmdCmd%
+call %SlnTestChecksCmd%
+call %SlnTestUnitsCmd%
+call %SlnCgCommonCmd%

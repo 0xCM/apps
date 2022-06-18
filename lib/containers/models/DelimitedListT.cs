@@ -4,18 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [DataType("delist<{0}>")]
     public readonly struct DelimitedList<T> : ITextual
     {
         readonly List<T> Data;
 
-        public SeqEnclosureKind Kind {get;}
+        public readonly SeqEnclosureKind Kind;
 
-        public char Delimiter {get;}
+        public readonly char Delimiter;
 
-        public int CellPad {get;}
+        public readonly int CellPad;
 
-        public Fence<char>? Fence {get;}
+        public readonly Fence<char>? Fence;
 
         [MethodImpl(Inline)]
         public DelimitedList(T[] src, char delimiter = Chars.Comma, SeqEnclosureKind kind = SeqEnclosureKind.Embraced, int pad = 0)

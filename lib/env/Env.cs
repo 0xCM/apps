@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     using static core;
 
     using E = Environs;
@@ -14,9 +13,6 @@ namespace Z0
     {
         public static Env load()
             => new Env();
-
-        public PartId AppId
-            => Assembly.GetEntryAssembly().Id();
 
         [Op]
         static EnvDirVar dir(string name)

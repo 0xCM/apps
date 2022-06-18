@@ -8,6 +8,23 @@ namespace Z0
 
     public partial class Parsers : AppService<Parsers>, IMultiParser
     {
+        public static ParserDelegate<list<T>> ListParser<T>(string type, ParserDelegate<T> terms)
+        {
+            Outcome parse(string src, out list<T> dst)
+            {
+                var input = text.fenced(src, RenderFence.Bracketed, out _) ? text.unfence(src, RenderFence.Bracketed) : src;
+                var seqparser = new SeqParser<T>(new ParseFunction<T>(terms), ",");
+                var result = seqparser.Parse(src, out var items);
+                if(result)
+                    dst = new list<T>(items);
+                else
+                    dst = list<T>.Empty;
+                return result;
+            }
+            return parse;
+        }
+
+
         public static ref BufferSegments<T> split<T>(SeqSplitter<T> parser, Span<T> src, out BufferSegments<T> dst)
             where T : unmanaged
         {

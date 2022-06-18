@@ -6,7 +6,7 @@ namespace Z0
 {
     public abstract class EnvProvider<P> : IEnvProvider2
     {
-        readonly Index<EnvVar> Data;
+        readonly EnvVars Data;
 
         readonly ConstLookup<VarSymbol,object> Lookup;
 
@@ -15,8 +15,13 @@ namespace Z0
         protected EnvProvider(EnvVar[] src)
         {
             Data = src;
-            Lookup = Data.Select(x => (x.VarName,(object)x.VarValue)).ToDictionary();
+            Lookup = src.Select(x => (x.VarName,(object)x.VarValue)).ToDictionary();
             Name = typeof(P).Name;
+        }
+
+        public Index<EnvSetting> Records()
+        {
+            return default;
         }
 
         public bool Value<T>(VarSymbol name, out T dst)
@@ -64,7 +69,7 @@ namespace Z0
             get => ref Data[index];
         }
 
-        public ref readonly Index<EnvVar> Vars
+        public ref readonly EnvVars Vars
             => ref Data;
 
         public override string ToString()

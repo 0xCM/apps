@@ -18,11 +18,5 @@ namespace Z0
         public uint PackedWidth {get;}
 
         public uint NativeWidth {get;}
-
-        // public DataSize DataSize
-        // {
-        //     [MethodImpl(Inline)]
-        //     get => (PackedWidth,NativeWidth);
-        // }
     }
 }

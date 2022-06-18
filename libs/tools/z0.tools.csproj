@@ -9,11 +9,9 @@
   <Import Project="$(ImportDefs)common.libs.props"/>
 
   <ItemGroup>
-    <ProjectReference Include="$(Graphs)" />
-    <ProjectReference Include="$(Containers)" />
-    <ProjectReference Include="$(Memory)" />
-    <ProjectReference Include="$(Templates)" />
+    <ProjectReference Include="$(Db)" />
     <ProjectReference Include="$(Flows)" />
+    <ProjectReference Include="$(Memory)" />
   </ItemGroup>
 
 </Project>
