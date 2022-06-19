@@ -47,6 +47,9 @@ namespace Z0
         public IDbSources DbIn()
             => new DbSources(setting(Archives.Path(EN.DbSources), FS.dir));
 
+        public IDbSources DbCapture()
+            => new DbSources(setting(Archives.Path(EN.DbCapture), FS.dir));
+
         public IDbSources Env()
             => new DbSources(setting(Archives.Path(EN.EnvConfig), FS.dir));
 
@@ -91,19 +94,14 @@ namespace Z0
             => new DbSources(setting(Archives.Path(EN.EnvConfig), FS.dir));
 
         public IWsProject DevProject(ProjectId src)
-            => new WsProject(DevProjects().Sources(src).Root + FS.folder(src.Format()), src);
+            => new WsProject(DevProjects().Sources(src).Root, src);
 
         public IWsProject DevProject(string scope, ProjectId src)
-            => new WsProject(DevProjects(scope).Sources(src).Root + FS.folder(src.Format()), src);
+            => new WsProject(DevProjects(scope).Root, src);
 
         public IWsProject LlvmModel(ProjectId src)
-            => DevProject("llvm.models", src);
+            => new WsProject(DevProjects("llvm.models"), src);
 
-        public WsCatalog DevCatalog(ProjectId src)
-            => Catalog(DevProject(src));
-
-        public WsCatalog DevCatalog(string scope, ProjectId src)
-            => Catalog(DevProject(scope, src));
 
         public IDbTargets DbProjects(ProjectId src)
             => new DbTargets(setting(Archives.Path(EN.DbProjects),FS.dir), src.Format());

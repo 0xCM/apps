@@ -9,7 +9,6 @@ namespace Z0
     public class XedGenSvc : AppService<XedGenSvc>
     {
 
-
     }
 
 }

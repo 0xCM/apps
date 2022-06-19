@@ -7,5 +7,4 @@
   <Import Project="$(ImportDefs)common.props"/>
   <Import Project="$(ImportDefs)common.libs.props"/>
 
-
 </Project>

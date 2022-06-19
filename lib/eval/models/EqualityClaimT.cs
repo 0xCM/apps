@@ -7,9 +7,9 @@ namespace Z0
     public readonly struct EqualityClaim<C> : IEqualityClaim<C>
         where C : IEquatable<C>
     {
-        public C Actual {get;}
+        public readonly C Actual {get;}
 
-        public C Expect {get;}
+        public readonly C Expect {get;}
 
         [MethodImpl(Inline)]
         public EqualityClaim(C actual, C expect)

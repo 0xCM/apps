@@ -7,9 +7,9 @@ namespace Z0
     [StructLayout(LayoutKind.Sequential, Pack =1)]
     public struct Evaluation<S,T> : IEvaluation<S,T>
     {
-        public S Input {get;}
+        public readonly S Input {get;}
 
-        public T Output {get;}
+        public readonly T Output {get;}
 
         [MethodImpl(Inline)]
         public Evaluation(S input, T output)

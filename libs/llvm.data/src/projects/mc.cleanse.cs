@@ -13,9 +13,8 @@ namespace Z0
 
         [CmdOp("memory/dump")]
         void EmitDump()
-        {
-            RuntimeServices.EmitContext();
-        }
+            => RuntimeServices.EmitContext(timestamp());
+
         [CmdOp("mc/cleanse")]
         Outcome ExecMcCleanse(CmdArgs args)
         {

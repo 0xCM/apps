@@ -17,6 +17,12 @@ namespace Z0
             return true;
         }
 
+        [CmdOp("ancestors/check")]
+        void Ancestors()
+        {
+            AncestryChecks.create(Wf).Run();
+        }
+
         [CmdOp("bitmasks/check")]
         void Hello()
         {

@@ -76,10 +76,6 @@ namespace Z0.Asm
 
             dst.Overwrite(buffer.Emit(), TextEncodingKind.Asci);
 
-            Emitted(dst);
-
-            //OmniScript.RunAsmScript(asmid, ToolScriptId.mc, true, out var flows);
-
             return result;
         }
 

@@ -11,7 +11,7 @@ namespace Z0
         void RunEtl();
     }
 
-    public interface IWsCmdRunner : ICmdRunner, IProjectProvider
+    public interface IWsCmdRunner : ICmdRunner
     {
         void Project(IWsProject ws);
 

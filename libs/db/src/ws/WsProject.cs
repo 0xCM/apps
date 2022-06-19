@@ -16,9 +16,16 @@ namespace Z0
         public Settings ProjectSettings => Settings.Empty;
 
         [MethodImpl(Inline)]
-        public WsProject(FS.FolderPath root, ProjectId id)
+        public WsProject(FS.FolderPath src, ProjectId id)
         {
-            Root = root;
+            Root = src;
+            Id = id;
+        }
+
+        [MethodImpl(Inline)]
+        public WsProject(IRootedArchive src, ProjectId id)
+        {
+            Root = src.Root;
             Id = id;
         }
 

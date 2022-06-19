@@ -29,8 +29,6 @@ namespace Z0
             get => _HostTypes.View;
         }
 
-        // public IService Service(Type host)
-        //         => Lookup.GetOrAdd(host, _ => Activator.CreateInstance(host));
         public S Service<S>()
             where S : new()
                 => (S)Lookup.GetOrAdd(typeof(S), new S());

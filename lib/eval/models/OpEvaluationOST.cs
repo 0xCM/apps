@@ -13,11 +13,11 @@ namespace Z0
     public readonly struct OpEvaluation<O,S,T> : IOpEvaluation<O,S,T>
         where O : IOperation
     {
-        public O Actor {get;}
+        public readonly O Actor {get;}
 
-        public S Input {get;}
+        public readonly S Input {get;}
 
-        public T Output {get;}
+        public readonly T Output {get;}
 
         [MethodImpl(Inline)]
         public OpEvaluation(O op, S src, T result)

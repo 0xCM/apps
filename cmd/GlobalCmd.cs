@@ -21,15 +21,15 @@ namespace Z0
                 wf.IntelIntrinsicsCmd(),
                 wf.AsmCmdSvc(),
                 wf.XedCmd(),
-                //wf.XedChecks(),
-                //wf.AsmChecks()
+                wf.XedChecks(),
+                wf.AsmChecks()
                 };
 
             foreach(var provider in providers)
             {
                 foreach(var action in provider.Actions.Specs)
                 {
-                    term.babble($"{provider}:{action}");
+                    term.emit(EventFactory.babble(typeof(GlobalCmd), $"Discovered {action} from {provider.GetType()}"));
                 }
             }
 

@@ -4,31 +4,32 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Diagnostics;
-
     using static core;
 
     using PCK = ProcessContextFlag;
 
-    public partial class Runtime : AppService<Runtime>
+    public partial class Runtime : WfSvc<Runtime>
     {
         DumpArchive Dumps => Wf.DumpArchive();
 
-        AppSvcOps AppSvc => Wf.AppSvc();
+        public ProcessTargets ContextPaths {get; private set;}
 
-        public Timestamp EmitContext()
+        protected override void OnInit()
         {
-            var ts = core.timestamp();
+            ContextPaths = new ProcessTargets(AppDb.DbCapture().Root);
+        }
+
+        public void EmitContext(Timestamp ts)
+        {
             var archive = Dumps;
             var process = Process.GetCurrentProcess();
             var summaries = EmitPartitions(process, ts);
             var details = EmitRegions(process, ts);
             EmitDump(process, archive.DumpPath(process, ts));
-            return ts;
         }
 
         public void EmitRegions(Timestamp ts, Index<ProcessMemoryRegion> src)
-            => AppSvc.TableEmit(src, Dumps.Table<ProcessMemoryRegion>("regions", ts));
+            => TableEmit(src, Dumps.Table<ProcessMemoryRegion>("regions", ts));
 
         public ProcAddresses EmitSegments(Timestamp ts)
             => EmitSegments(ts, ImageMemory.regions());
@@ -36,37 +37,27 @@ namespace Z0
         public ProcAddresses EmitSegments(Timestamp ts, Index<ProcessMemoryRegion> src)
         {
             var addresses = ImageMemory.addresses(src);
-            AppSvc.TableEmit(addresses.Segments, Dumps.Table<ProcessSegment>("segments", ts));
+            TableEmit(addresses.Segments, Dumps.Table<ProcessSegment>("segments", ts));
             return addresses;
         }
 
-        public ProcessTargets ContextPaths {get; private set;}
-
-        protected override void OnInit()
+        public ProcessContext Emit(Timestamp ts, string label = default, PCK flag = PCK.All)
         {
-            ContextPaths = Db.CaptureContextRoot();
-        }
-
-        public ProcessContext Emit(FS.FolderPath dst, Timestamp ts, Identifier subject = default, PCK flag = PCK.All)
-        {
-            ContextPaths = dst;
-
             var selection = ProcessMemory.flags(flag);
             if(selection.IsEmpty)
             {
-                Wf.Warn("No options have been specified");
+                Warn("No options have been specified");
                 return default;
             }
 
-            var flow = Wf.Running(string.Format("Emitting process context with options {0}", flag));
+            var flow = Running(string.Format("Emitting process context with options {0}", flag));
             var context = new ProcessContext();
             var process = Process.GetCurrentProcess();
             var name = process.ProcessName;
-            subject = text.ifempty(subject,"none");
             context.ProcessId = process.Id;
             context.ProcessName = process.ProcessName;
             context.Timestamp = ts;
-            context.Subject = subject;
+            context.Subject = label;
             if(selection.EmitSummary)
             {
                 context.PartitionPath = ContextPaths.ProcessPartitionPath(process, ts);
@@ -84,17 +75,16 @@ namespace Z0
             }
             if(selection.EmitHashes)
             {
-                ContextPaths = dst;
-                ProcessMemory.EmitHashes(context, dst);
+                ProcessMemory.EmitHashes(context, ContextPaths.Root);
             }
 
-            Wf.Ran(flow,"Emitted process context");
+            Ran(flow,"Emitted process context");
             return context;
         }
 
         public void EmitProcessContext(IApiPack pack)
         {
-            var flow = Wf.Running("Emitting process context");
+            var flow = Running("Emitting process context");
             var ts = pack.Timestamp;
             if(!ts.IsNonZero)
                 ts = now();
@@ -104,14 +94,14 @@ namespace Z0
             var procparts = EmitPartitions(process, ts, dst.Root);
             var regions = EmitRegions(process, ts, dst.Root);
             EmitDump(process, pack.ProcDumpPath(process, ts));
-            Wf.Ran(flow);
+            Ran(flow);
         }
 
         public Count EmitDump(Process process, FS.FilePath dst)
         {
-            var dumping = Wf.EmittingFile(dst.CreateParentIfMissing());
+            var dumping = EmittingFile(dst.CreateParentIfMissing());
             DumpEmitter.emit(process, dst.Format(PathSeparator.BS), DumpTypeOption.Full);
-            Wf.EmittedFile(dumping,1);
+            EmittedFile(dumping,1);
             return 1;
         }
 

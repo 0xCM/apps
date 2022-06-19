@@ -4,11 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Free]
-    public interface IScalarValue<K,T> : IScalarValue<T>, IValue<T>, IScalarExpr
-        where T : unmanaged
-        where K : unmanaged
+    public interface IAppCmdService : IAppService
     {
+        void Run();
 
+        ICmdDispatcher Dispatcher {get;}
     }
 }

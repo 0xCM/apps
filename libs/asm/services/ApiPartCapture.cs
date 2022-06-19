@@ -16,15 +16,17 @@ namespace Z0
 
         ApiCode ApiCode => Wf.ApiCode();
 
-        public void Capture(bool pll = true)
+        public Timestamp Capture()
         {
+            var ts = core.timestamp();
             using var dispenser = Dispense.composite();
-            Capture(ApiRuntimeCatalog, dispenser, pll);
+            Capture(ts,ApiRuntimeCatalog, dispenser, true);
+            return ts;
         }
 
-        public Index<CollectedEncoding> Capture(IApiCatalog src, ICompositeDispenser dispenser, bool pll)
+        public Index<CollectedEncoding> Capture(Timestamp ts, IApiCatalog src, ICompositeDispenser dispenser, bool pll)
         {
-            var pack = CodeFiles.ApiPack(core.timestamp());
+            var pack = CodeFiles.ApiPack(ts);
             var dst = bag<CollectedEncoding>();
             iter(src.PartCatalogs(),
                 part => Collected(part.PartId, ApiCode.collect(part, EventLog, dispenser), pack, dispenser, dst), pll);

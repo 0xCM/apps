@@ -4,8 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IProjectProvider
+    public interface ICmdRunner
     {
-        IWsProject Project();
+        void RunJobs(string match);
+
+        void RunCmd(string name);
+
+        void RunCmd(string name, CmdArgs args);
     }
 }

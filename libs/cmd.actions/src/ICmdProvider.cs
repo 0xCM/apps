@@ -4,8 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public partial class GenCmdProvider : AppCmdService<GenCmdProvider,CmdShellState>
+    public interface ICmdProvider
     {
-
+        CmdActions Actions {get;}
     }
 }

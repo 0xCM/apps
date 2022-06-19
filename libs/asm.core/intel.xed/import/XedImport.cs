@@ -20,8 +20,6 @@ namespace Z0
 
         XedPaths XedPaths => Wf.XedPaths();
 
-        IWfSvc AppSvc => Wf.AppSvc(this);
-
         IDbTargets Targets() => XedPaths.Imports();
 
         IDbTargets Targets(string scope) => Targets().Targets(scope);
@@ -69,34 +67,34 @@ namespace Z0
             => f(FormImporter.calc(XedPaths.DocSource(XedDocKind.FormData)));
 
         void EmitBroadcastDefs()
-            => AppSvc.TableEmit(XedImport.BroadcastDefs, Targets().Table<AsmBroadcast>());
+            => TableEmit(XedImport.BroadcastDefs, Targets().Table<AsmBroadcast>());
 
         void EmitIsaImports()
-            => AppSvc.TableEmit(Xed.Views.IsaImport, Targets().Table<IsaImport>());
+            => TableEmit(Xed.Views.IsaImport, Targets().Table<IsaImport>());
 
         void EmitCpuIdImports()
-            => AppSvc.TableEmit(Xed.Views.CpuIdImport, Targets().Table<CpuIdImport>());
+            => TableEmit(Xed.Views.CpuIdImport, Targets().Table<CpuIdImport>());
 
         void EmitFormImports()
             => Emit(Xed.Views.FormImports);
 
         void Emit(ReadOnlySpan<FormImport> src)
-            => AppSvc.TableEmit(src, Targets().Table<FormImport>());
+            => TableEmit(src, Targets().Table<FormImport>());
 
         void ImportInstBlocks()
             => BlockImporter.Import(Xed.Views.InstImports);
 
         void Emit(ReadOnlySpan<FieldImport> src)
-            => AppSvc.TableEmit(src, XedPaths.Imports().Table<FieldImport>());
+            => TableEmit(src, XedPaths.Imports().Table<FieldImport>());
 
         void Emit(ReadOnlySpan<PointerWidthInfo> src)
-            => AppSvc.TableEmit(src, XedPaths.Imports().Table<PointerWidthInfo>());
+            => TableEmit(src, XedPaths.Imports().Table<PointerWidthInfo>());
 
         void Emit(ReadOnlySpan<OpWidthRecord> src)
-            => AppSvc.TableEmit(src, XedPaths.Imports().Table<OpWidthRecord>());
+            => TableEmit(src, XedPaths.Imports().Table<OpWidthRecord>());
 
         void EmitChips()
-            => AppSvc.TableEmit(Symbolic.symkinds<ChipCode>(), Targets().Path("xed.chips", FileKind.Csv));
+            => TableEmit(Symbolic.symkinds<ChipCode>(), Targets().Path("xed.chips", FileKind.Csv));
 
         void EmitChipMap()
         {
@@ -113,7 +111,7 @@ namespace Z0
                     dst.WriteLine(string.Format(RowFormat, counter++ , code, kind));
             }
 
-            AppSvc.FileEmit(dst.Emit(), counter, Targets().Path(FS.file("xed.chipmap", FS.Csv)));
+            FileEmit(dst.Emit(), counter, Targets().Path(FS.file("xed.chipmap", FS.Csv)));
         }
 
         void EmitIsaForms()
@@ -134,7 +132,7 @@ namespace Z0
                     if(isaforms.TryGetValue(k, out var forms))
                         matches.AddRange(forms);
                     });
-                AppSvc.TableEmit(matches.ToArray().Sort().Resequence(), dst);
+                TableEmit(matches.ToArray().Sort().Resequence(), dst);
             },PllExec);
         }
 

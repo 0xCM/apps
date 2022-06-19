@@ -18,15 +18,7 @@ namespace Z0
 
         void WriteMessage(IAppMsg msg, FlairKind? color = null);
 
-        void WriteMessages(IEnumerable<IAppMsg> messages);
-
-        void WriteLines<F>(params F[] src)
-            where F : ITextual;
-
         void WriteLine<F>(F src, FlairKind color)
-            where F : ITextual;
-
-        void WriteLines<F>(FlairKind color, params F[] src)
             where F : ITextual;
 
         string ReadLine(IAppMsg msg = null);

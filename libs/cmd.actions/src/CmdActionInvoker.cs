@@ -6,6 +6,7 @@ namespace Z0
 {
     using static CmdActionKind;
     using static core;
+
     public enum CmdActionKind : byte
     {
 
@@ -36,7 +37,6 @@ namespace Z0
 
     public class CmdActionInvoker : ICmdActionInvoker
     {
-
         [Op]
         public static CmdActionInvoker action(string name, object host, MethodInfo method)
             => new CmdActionInvoker(name,host,method);

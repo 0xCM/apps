@@ -18,7 +18,7 @@ namespace Z0
             foreach(var m in methods)
             {
                 var tag = m.Tag<CmdOpAttribute>().Require();
-                dst.Add(tag.CommandName, new CmdActionInvoker(tag.CommandName, src, m));
+                dst.TryAdd(tag.CommandName, new CmdActionInvoker(tag.CommandName, src, m));
             }
             return new CmdActions(dst);
         }

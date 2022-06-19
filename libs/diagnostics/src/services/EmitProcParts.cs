@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Diagnostics;
-
     partial class Runtime
     {
         public Index<ProcessPartition> EmitPartitions(Process process, FS.FilePath dst)

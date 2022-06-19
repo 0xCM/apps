@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
-    public static class MonoidialX
+    partial struct term
     {
+        public static void emit(IWfEvent e)
+            => T.WriteLine(e.Format(), e.Flair);
     }
 }

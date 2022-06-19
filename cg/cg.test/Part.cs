@@ -32,7 +32,5 @@ namespace Z0
     {
         public static AsmChecks AsmChecks(this IWfRuntime wf)
             => Z0.AsmChecks.create(wf);
-
     }
-
 }

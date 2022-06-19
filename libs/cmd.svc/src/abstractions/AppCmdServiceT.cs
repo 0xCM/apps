@@ -47,13 +47,11 @@ namespace Z0
 
         protected ICmdRunner Commands;
 
-        public void Project(IWsProject ws)
+        void Project(IWsProject ws)
         {
             _Project = Require.notnull(ws);
             ProjectFiles = WsCatalog.load(ws);
         }
-
-        protected CheckRunner CheckRunner => Wf.CheckRunner();
 
         [CmdOp("project")]
         public void LoadProject(CmdArgs args)
@@ -66,6 +64,8 @@ namespace Z0
                 Error("Project unspecified");
                 return false;
             }
+
+            Status($"Loading project from {ws.Home()}");
 
             Project(ws);
 
@@ -138,7 +138,7 @@ namespace Z0
 
         [CmdOp("commands")]
         protected void EmitCommands()
-            => EmitCommands(AppDb.ApiTargets().Path(FS.file($"{GetType().Name.ToLower()}.commands", FS.Csv)));
+            => EmitCommands(AppDb.ApiTargets().Path(FS.file($"{controller().Id().Format()}.commands", FS.Csv)));
 
         [CmdOp("env/tools")]
         protected Outcome ShowToolEnv(CmdArgs args)
@@ -221,14 +221,6 @@ namespace Z0
             return result;
         }
 
-        [CmdOp("checks/run")]
-        protected void ChecksExec()
-            => CheckRunner.Run();
-
-        [CmdOp("checks/list")]
-        protected void ChecksList()
-            => CheckRunner.ListChecks();
-
         [CmdOp("tools/settings")]
         protected Outcome ShowToolSettings(CmdArgs args)
         {
@@ -260,7 +252,6 @@ namespace Z0
             else
                 return (false, FS.missing(path));
         }
-
 
         [CmdOp("runtime/cpucore")]
         protected Outcome ShowCurrentCore(CmdArgs args)
@@ -331,16 +322,11 @@ namespace Z0
 
         void EmitCommands(FS.FilePath dst)
         {
-            var actions = Dispatcher.SupportedActions.Array().Index();
-            iter(Dispatcher.SupportedActions, cmd => Write(cmd));
-            var emitting = EmittingFile(dst);
-            using var writer = dst.Writer();
-            iter(Dispatcher.SupportedActions, cmd => writer.WriteLine(cmd));
-            EmittedFile(emitting, actions.Count);
+            var actions = Dispatcher.SupportedActions.Index().Sort();
+            var emitter = text.emitter();
+            iter(Dispatcher.SupportedActions, cmd => emitter.AppendLine(cmd));
+            FileEmit(emitter.Emit(), actions.Count, dst);
         }
-
-        protected void Emitted(FS.FilePath dst)
-            => Write(string.Format("Emitted {0}", dst.ToUri()));
 
         protected void DisplayCmdResponse(ReadOnlySpan<TextLine> src)
         {

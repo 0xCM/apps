@@ -7,11 +7,11 @@ namespace Z0
     [StructLayout(LayoutKind.Sequential)]
     public readonly struct OpEvaluation<S,T> : IOpEvaluation<S,T>
     {
-        public IOperation Actor {get;}
+        public readonly IOperation Actor {get;}
 
-        public S Input {get;}
+        public readonly S Input {get;}
 
-        public T Output {get;}
+        public readonly T Output {get;}
 
         [MethodImpl(Inline)]
         public OpEvaluation(IOperation actor, S src, T result)

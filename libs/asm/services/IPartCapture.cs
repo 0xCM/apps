@@ -6,7 +6,6 @@ namespace Z0
 {
     public interface IPartCapture
     {
-
-        Index<CollectedEncoding> Capture(IApiCatalog src, ICompositeDispenser dispenser, bool pll);
+        Timestamp Capture();
     }
 }

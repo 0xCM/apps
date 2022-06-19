@@ -7,7 +7,7 @@ namespace Z0
 {
     using static core;
 
-    public abstract class WfSvc<S> : AppService<S>, IWfSvc
+    public abstract class WfSvc<S> : AppService<S>
         where S : WfSvc<S>, new()
     {
         protected static AppDb AppDb => AppDb.Service;

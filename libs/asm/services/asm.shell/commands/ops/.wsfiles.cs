@@ -42,11 +42,10 @@ namespace Z0.Asm
             var pipe = Wf.Runtime();
             var ts = core.timestamp();
             var flags = ProcessContextFlag.Detail | ProcessContextFlag.Summary | ProcessContextFlag.Hashes;
-            var prejit = pipe.Emit(dst, ts, "prejit", flags);
+            var prejit = pipe.Emit(ts, "prejit", flags);
             var members = Wf.ApiJit().JitCatalog();
-            var postjit = pipe.Emit(dst, ts, "postjit", flags);
+            var postjit = pipe.Emit(ts, "postjit", flags);
         }
-
 
         void CheckMullo(IBoundSource Source)
         {

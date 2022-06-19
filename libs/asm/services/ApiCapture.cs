@@ -18,10 +18,13 @@ namespace Z0
 
         ApiMd ApiMd => Wf.ApiMetadata();
 
+        Runtime Runtime => Wf.Runtime();
+
         public void Run()
         {
             var parts = ApiPartCapture.create(Wf);
-            parts.Capture();
+            var ts = parts.Capture();
+            Runtime.EmitContext(ts);
         }
 
         public void Run(PartId id)
@@ -68,22 +71,6 @@ namespace Z0
             var size = ApiCode.EmitHex(collected, CodeFiles.HexPath(src.Id));
             var csv = ApiCode.EmitCsv(collected, CodeFiles.CsvPath(src.Id));
             var asm = EmitAsm(symbols, src.Id, collected);
-        }
-
-        Index<AsmRoutine> EmitAsm(ICompositeDispenser symbols, PartId part, Index<CollectedEncoding> src, FS.FilePath dst)
-        {
-            var buffer = alloc<AsmRoutine>(src.Count);
-            var emitter = text.emitter();
-            for(var i=0; i<src.Count; i++)
-            {
-                var routine = AsmDecoder.Decode(src[i]);
-                seek(buffer,i) = routine;
-                emitter.AppendLine(routine.AsmRender(routine));
-            }
-
-            FileEmit(emitter.Emit(), src.Count, dst);
-            return buffer;
-
         }
 
         Index<AsmRoutine> EmitAsm(ICompositeDispenser symbols, PartId part, Index<CollectedEncoding> src)

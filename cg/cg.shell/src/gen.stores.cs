@@ -54,7 +54,6 @@ namespace Z0
             return true;
         }
 
-
         static string expand(string src, params object[] ops)
         {
             var dst = src;
