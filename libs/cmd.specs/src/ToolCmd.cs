@@ -27,7 +27,7 @@ namespace Z0
         }
 
         public string Format()
-            => Cmd.format(this);
+            => ToolCmdArgs.format(this);
 
         public override string ToString()
             => Format();

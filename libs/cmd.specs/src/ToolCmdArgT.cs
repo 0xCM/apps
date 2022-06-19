@@ -4,6 +4,29 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+
+    [Free]
+    public interface IToolCmdArg<T> : IToolCmdArg
+    {
+        new T Value {get;}
+
+        dynamic IToolCmdArg.Value
+            => Value;
+    }
+
+    [Free]
+    public interface IToolCmd<C> : IToolCmd
+        where C : struct, IToolCmd
+    {
+        CmdId IToolCmd.CmdId
+            => CmdId.from<C>();
+
+        ToolCmdArgs IToolCmd.Args
+            => ToolCmdArgs.args((C)this);
+    }
+
+
+
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public struct ToolCmdArg<T> : IToolCmdArg<T>
     {

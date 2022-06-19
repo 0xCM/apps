@@ -8,6 +8,41 @@ namespace Z0
 
     public readonly struct CmdSpec
     {
+
+        [MethodImpl(Inline), Op]
+        public static CmdFlag disable(in CmdFlagSpec flag)
+            => new CmdFlag(flag.Name, bit.Off);
+
+        [MethodImpl(Inline), Op]
+        public static CmdFlag enable(in CmdFlagSpec flag)
+            => new CmdFlag(flag.Name, bit.On);
+
+        public static string format(in CmdSpec src)
+        {
+            if(src.IsEmpty)
+                return EmptyString;
+
+            var dst = text.buffer();
+            dst.Append(src.Name);
+            var count = src.Args.Length;
+            for(ushort i=0; i<count; i++)
+            {
+                ref readonly var arg = ref src.Args[i];
+                if(nonempty(arg.Name))
+                {
+                    dst.Append(Chars.Space);
+                    dst.Append(arg.Name);
+                }
+
+                if(nonempty(arg.Value))
+                {
+                    dst.Append(Chars.Space);
+                    dst.Append(arg.Value);
+                }
+            }
+            return dst.Emit();
+        }
+
         [Op, MethodImpl(Inline)]
         public static CmdSpec from(string name, CmdArgs args)
             => new CmdSpec(name, args);
@@ -50,7 +85,7 @@ namespace Z0
         }
 
         public string Format()
-            => Cmd.format(this);
+            => format(this);
 
         public static CmdSpec Empty
         {

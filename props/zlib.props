@@ -2,7 +2,6 @@
 
   <ItemGroup>
     <ProjectReference Include="$(ZLib)" />
-    <ProjectReference Include="$(Literals)" />
   </ItemGroup>
 
 </Project>

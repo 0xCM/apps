@@ -2,11 +2,11 @@
 set SlnTool=dotnet sln
 
 set SlnPath=%DevRoot%\dev\z0\z0.sln
-set SlnZLibCmd=%SlnTool% %SlnPath% add %ZLibRoot%/z0.lib.csproj
 set SlnLiteralsCmd=%SlnTool% %SlnPath% add %LiteralsRoot%/z0.literals.csproj
 set SlnCmdShell=%SlnTool% %SlnPath% add %WsRoot%/cmd/z0.cmd.csproj
 
 set SlnLibsCmd=%SlnTool% %SlnPath% add %LibsRoot%/z0.libs.csproj
+set SlnZLibCmd=%SlnTool% %SlnPath% add %LibsRoot%/lib/z0.lib.csproj
 set SlnLibsCoreCmd==%SlnTool% %SlnPath% add %LibsRoot%/libs.core/z0.libs.core.csproj
 set SlnAsmCoreCmd=%SlnTool% %SlnPath% add %LibsRoot%/asm.core/z0.asm.core.csproj
 set SlnAsmModelsCmd=%SlnTool% %SlnPath% add %LibsRoot%/asm.models/z0.asm.models.csproj

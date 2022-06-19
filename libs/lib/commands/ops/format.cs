@@ -12,18 +12,6 @@ namespace Z0
         public static string format(CmdOptionSpec src)
             => src.IsEmpty ? EmptyString : string.Format("{0,-32}:{1}", src.Name, src.Description);
 
-        [Op]
-        public static void render(ToolCmdArgs src, ITextBuffer dst)
-        {
-            var count = src.Count;
-            for(var i=0u; i<count; i++)
-            {
-                dst.Append(src[i].Format());
-                if(i != count - 1)
-                    dst.Append(Space);
-            }
-        }
-
         public static string format(ArgPrefix src)
         {
             var len = src.Length;
@@ -85,47 +73,6 @@ namespace Z0
             }
         }
 
-        public static string format(IToolCmd src)
-        {
-            var count = src.Args.Count;
-            var buffer = text.buffer();
-            buffer.AppendFormat("{0}{1}", src.CmdId.Format(), Chars.LParen);
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var arg = ref src.Args[i];
-                buffer.AppendFormat(RP.Assign, arg.Name, arg.Value);
-                if(i != count - 1)
-                    buffer.Append(", ");
-            }
 
-            buffer.Append(Chars.RParen);
-            return buffer.Emit();
-        }
-
-        public static string format(in CmdSpec src)
-        {
-            if(src.IsEmpty)
-                return EmptyString;
-
-            var dst = text.buffer();
-            dst.Append(src.Name);
-            var count = src.Args.Length;
-            for(ushort i=0; i<count; i++)
-            {
-                ref readonly var arg = ref src.Args[i];
-                if(nonempty(arg.Name))
-                {
-                    dst.Append(Chars.Space);
-                    dst.Append(arg.Name);
-                }
-
-                if(nonempty(arg.Value))
-                {
-                    dst.Append(Chars.Space);
-                    dst.Append(arg.Value);
-                }
-            }
-            return dst.Emit();
-        }
     }
 }

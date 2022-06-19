@@ -4,9 +4,82 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    [Free]
+    public interface IToolCmdArg : ITextual
+    {
+        /// <summary>
+        /// The argument's relative position
+        /// </summary>
+        ushort Position {get;}
+
+        /// <summary>
+        /// The argument name, if any
+        /// </summary>
+        string Name {get;}
+
+        /// <summary>
+        /// The (required) argument value
+        /// </summary>
+        dynamic Value {get;}
+
+        /// <summary>
+        /// Specifies whether the argument is a flag and thus the name is the value and conversely
+        /// </summary>
+        bool IsFlag => false;
+
+        string ITextual.Format()
+            => Settings.format(Name, Value);
+    }
+
+    [Free]
+    public interface IToolCmd
+    {
+        CmdId CmdId {get;}
+
+        string CmdName {get;}
+
+        ToolCmdArgs Args {get;}
+    }
+
     public readonly struct ToolCmdArgs : IIndex<ToolCmdArg>
     {
         const NumericKind Closure = UnsignedInts;
+
+        [Op]
+        public static void render(ToolCmdArgs src, ITextBuffer dst)
+        {
+            var count = src.Count;
+            for(var i=0u; i<count; i++)
+            {
+                dst.Append(src[i].Format());
+                if(i != count - 1)
+                    dst.Append(Space);
+            }
+        }
+
+        public static string format(IToolCmd src)
+        {
+            var count = src.Args.Count;
+            var buffer = text.buffer();
+            buffer.AppendFormat("{0}{1}", src.CmdId.Format(), Chars.LParen);
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var arg = ref src.Args[i];
+                buffer.AppendFormat(RP.Assign, arg.Name, arg.Value);
+                if(i != count - 1)
+                    buffer.Append(", ");
+            }
+
+            buffer.Append(Chars.RParen);
+            return buffer.Emit();
+        }
+
+        public static ToolCmdArgs args<T>(T src)
+            where T : struct, IToolCmd
+        {
+            var fields = typeof(T).DeclaredInstanceFields();
+            return fields.Select(f => new ToolCmdArg(f.Name, f.GetValue(src)?.ToString() ?? EmptyString));
+        }
 
         [Op]
         public static bool arg(ToolCmdArgs src, string name, out ToolCmdArg dst)

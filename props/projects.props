@@ -24,6 +24,7 @@
     <CmdSvc>$(LibsRoot)cmd.svc/z0.cmd.svc.csproj</CmdSvc>
     <CmdActions>$(LibsRoot)cmd.actions/z0.cmd.actions.csproj</CmdActions>
     <CmdExec>$(LibsRoot)cmd.exec/z0.cmd.exec.csproj</CmdExec>
+    <CmdSpecs>$(LibsRoot)cmd.specs/z0.cmd.specs.csproj</CmdSpecs>
 
     <Db>$(LibsRoot)db/z0.db.csproj</Db>
     <Diagnostics>$(LibsRoot)diagnostics/z0.diagnostics.csproj</Diagnostics>
@@ -70,8 +71,7 @@
     <CgShell>$(CgRoot)cg.shell/z0.cg.shell.csproj</CgShell>
     <CgTest>$(CgRoot)cg.shell/z0.cg.shell.csproj</CgTest>
 
-
-    <ZLib>$(TopDir)lib/z0.lib.csproj</ZLib>
+    <ZLib>$(LibsRoot)lib/z0.lib.csproj</ZLib>
     <ZLibs>$(LibsRoot)z0.libs.csproj</ZLibs>
 
     <Literals>$(TopDir)/literals/z0.literals.csproj</Literals>

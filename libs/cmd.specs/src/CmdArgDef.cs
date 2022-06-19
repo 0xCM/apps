@@ -12,19 +12,19 @@ namespace Z0
         /// <summary>
         /// The argument's relative position
         /// </summary>
-        public ushort Position {get;}
+        public readonly ushort Position;
 
         /// <summary>
         /// The flag name
         /// </summary>
-        public string Name {get;}
+        public readonly string Name;
 
         /// <summary>
         /// The argument value
         /// </summary>
-        public dynamic Value {get;}
+        public readonly dynamic Value;
 
-        public ArgPartKind Classifier {get;}
+        public readonly ArgPartKind Classifier;
 
         [MethodImpl(Inline)]
         public CmdArgDef(ushort pos, string name, ArgPrefix? prefix = null)

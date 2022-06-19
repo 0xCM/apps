@@ -21,12 +21,6 @@ public enum PartId : byte
     [Symbol("asm.services")]
     AsmServices,
 
-    [Symbol("core")]
-    Core,
-
-    [Symbol("generated")]
-    Generated,
-
     [Symbol("apps.core")]
     AppCore,
 
@@ -35,6 +29,9 @@ public enum PartId : byte
 
     [Symbol("cmd.actions")]
     CmdActions,
+
+    [Symbol("cmd.specs")]
+    CmdSpecs,
 
     [Symbol("asm.prototypes")]
     AsmPrototypes,
@@ -75,20 +72,11 @@ public enum PartId : byte
     [Symbol("tools")]
     Tools,
 
-    [Symbol("tooling")]
-    Tooling,
-
     [Symbol("cmd.api")]
     CmdApi,
 
     [Symbol("interop")]
     Interop,
-
-    [Symbol("cpu")]
-    Cpu,
-
-    [Symbol("gen")]
-    Gen,
 
     [Symbol("cmd.exec")]
     CmdExec,
