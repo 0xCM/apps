@@ -1,3 +1,3 @@
 @echo off
 call %~dp0config.cmd
-call %CmdScripts%\build-zlib.cmd
+call %BuildLib%

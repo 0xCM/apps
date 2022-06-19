@@ -8,6 +8,11 @@ namespace Z0
 
     public readonly struct CmdVarValue : ICmdVarValue<string>
     {
+        [Op]
+        public static string format(CmdVarValue src)
+            => src.Content ?? EmptyString;
+
+
         public string Content {get;}
 
         [MethodImpl(Inline)]
@@ -28,7 +33,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public string Format()
-            => Cmd.format(this);
+            => format(this);
 
         public override string ToString()
             => Format();

@@ -8,27 +8,6 @@ namespace Z0
 
     partial struct Cmd
     {
-        [MethodImpl(Inline), Op]
-        public static string format(CmdOptionSpec src)
-            => src.IsEmpty ? EmptyString : string.Format("{0,-32}:{1}", src.Name, src.Description);
-
-        public static string format(ArgPrefix src)
-        {
-            var len = src.Length;
-            if(len == 0)
-                return EmptyString;
-            else if(len == 1)
-            {
-                Span<char> content = stackalloc char[1]{(char)src.C0};
-                return new string(content);
-            }
-            else
-            {
-                Span<char> content = stackalloc char[2]{(char)src.C0, (char)src.C1};
-                return new string(content);
-            }
-        }
-
         public static string format<T>(ICmd<T> src)
             where T : struct, ICmd<T>
         {
@@ -55,24 +34,6 @@ namespace Z0
                     dst.Append(", ");
             }
         }
-
-        [Op]
-        public static string format(CmdVarValue src)
-            => src.Content ?? EmptyString;
-
-        [Op]
-        public static void render(CmdTypeInfo src, ITextBuffer dst)
-        {
-            dst.Append(src.SourceType.Name);
-            var fields = src.Fields.View;;
-            var count = fields.Length;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var field = ref skip(fields,count);
-                dst.Append(string.Format(" | {0}:{1}", field.Name, field.FieldType.Name));
-            }
-        }
-
 
     }
 }

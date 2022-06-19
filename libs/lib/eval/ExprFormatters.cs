@@ -10,7 +10,7 @@ namespace Z0
 
     using Expr;
 
-    readonly struct ExprFormatters
+    public readonly struct ExprFormatters
     {
         [Op]
         public static string format(IVarValue var, char assign)

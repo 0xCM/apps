@@ -6,6 +6,11 @@ namespace Z0
 {
     public readonly struct CmdJob
     {
+        [MethodImpl(Inline)]
+        public static CmdJob<T> job<T>(string name, T spec)
+            where T : struct
+                => new CmdJob<T>(name, spec);
+
         public readonly Name Name;
 
         public readonly TextBlock Spec;

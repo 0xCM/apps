@@ -4,15 +4,32 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Reflection;
-
-    using static Root;
     using static core;
 
     public readonly struct CmdTypeInfo : ICmdTypeInfo
     {
+        [Op]
+        public static void render(CmdTypeInfo src, ITextBuffer dst)
+        {
+            dst.Append(src.SourceType.Name);
+            var fields = src.Fields.View;;
+            var count = fields.Length;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var field = ref skip(fields,count);
+                dst.Append(string.Format(" | {0}:{1}", field.Name, field.FieldType.Name));
+            }
+        }
+
+
+        [Op]
+        static string format(CmdTypeInfo src)
+        {
+            var buffer = text.buffer();
+            render(src, buffer);
+            return buffer.Emit();
+        }
+
         public CmdId CmdId {get;}
 
         public Type SourceType {get;}
@@ -39,25 +56,5 @@ namespace Z0
         public override string ToString()
             => Format();
 
-        [Op]
-        static string format(CmdTypeInfo src)
-        {
-            var buffer = text.buffer();
-            render(src, buffer);
-            return buffer.Emit();
-        }
-
-        [Op]
-        static void render(CmdTypeInfo src, ITextBuffer dst)
-        {
-            dst.Append(src.SourceType.Name);
-            var fields = src.Fields.View;;
-            var count = fields.Length;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var field = ref skip(fields,count);
-                dst.Append(string.Format(" | {0}:{1}", field.Name, field.FieldType.Name));
-            }
-        }
     }
 }
