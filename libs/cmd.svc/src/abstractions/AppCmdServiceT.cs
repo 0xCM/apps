@@ -35,7 +35,7 @@ namespace Z0
 
         public ICmdDispatcher Dispatcher => GlobalSvc.Instance.Injected<CmdActionDispatcher>();
 
-        public new WsCatalog ProjectFiles {get; private set;}
+        public WsCatalog ProjectFiles {get; private set;}
 
         IWsProject _Project;
 
@@ -292,6 +292,14 @@ namespace Z0
             var count = lines.Count;
             for(var i=0; i<count; i++)
                 Dispatch(CmdSpec.from(lines[i].Content));
+        }
+
+        [CmdOp("jobs/run")]
+        Outcome RunJobs(CmdArgs args)
+        {
+            var result = Outcome.Success;
+            RunJobs(arg(args,0));
+            return result;
         }
 
         public virtual void RunJobs(string match)

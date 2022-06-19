@@ -213,8 +213,8 @@ public enum PartId : byte
     [Symbol("intel.sdm")]
     IntelSdm,
 
-    [Symbol("intel.sde")]
-    IntelSde,
+    [Symbol("lines")]
+    Lines,
 
     [Symbol("alloc")]
     Alloc,

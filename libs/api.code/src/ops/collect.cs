@@ -13,10 +13,10 @@ namespace Z0
         public Index<CollectedEncoding> Collect(ICompositeDispenser symbols, IPart src)
             => collect(MethodEntryPoints.create(ApiJit.JitPart(src)), EventLog, symbols);
 
-        public static Index<CollectedEncoding> collect(IApiPartCatalog src, Action<IWfEvent> log, ICompositeDispenser dst)
+        public static Index<CollectedEncoding> collect(IApiPartCatalog src, WfEventLogger log, ICompositeDispenser dst)
             => collect(MethodEntryPoints.create(ApiJit.jit(src, log)), log, dst);
 
-        public static Index<CollectedEncoding> collect(ReadOnlySpan<MethodEntryPoint> src, Action<IWfEvent> log, ICompositeDispenser dispenser)
+        public static Index<CollectedEncoding> collect(ReadOnlySpan<MethodEntryPoint> src, WfEventLogger log, ICompositeDispenser dispenser)
             => divine(collect(dispenser, src), log);
 
         static Index<RawMemberCode> collect(ICompositeDispenser symbols, ReadOnlySpan<MethodEntryPoint> entries)
@@ -50,7 +50,7 @@ namespace Z0
                 dst.Token = token(symbols, entry);
         }
 
-        static Index<CollectedEncoding> divine(ReadOnlySpan<RawMemberCode> src, Action<IWfEvent> log)
+        static Index<CollectedEncoding> divine(ReadOnlySpan<RawMemberCode> src, WfEventLogger log)
         {
             var count = src.Length;
             var buffer = span<byte>(Pow2.T16);
@@ -82,7 +82,7 @@ namespace Z0
             return lookup(dst, log).Emit();
         }
 
-        static CollectedEncodings lookup(Dictionary<ApiHostUri,CollectedCodeExtracts> src, Action<IWfEvent> log)
+        static CollectedEncodings lookup(Dictionary<ApiHostUri,CollectedCodeExtracts> src, WfEventLogger log)
         {
             log(running(Msg.ParsingHosts.Format(src.Count)));
             var buffer = alloc<byte>(Pow2.T14);

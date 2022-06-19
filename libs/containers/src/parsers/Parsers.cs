@@ -8,6 +8,13 @@ namespace Z0
 
     public partial class Parsers : AppService<Parsers>, IMultiParser
     {
+        // public static ItemList<string> list(FS.FilePath src, char delimiter = Chars.Comma)
+        // {
+        //     var items = ItemLists.items(src.ReadText().SplitClean(delimiter).Select(x => x.Trim()).Where(text.nonempty).ToReadOnlySpan());
+        //     var name = src.FileName.WithoutExtension.Format();
+        //     return new ItemList<string>(items);
+        // }
+
         public static ParserDelegate<list<T>> ListParser<T>(string type, ParserDelegate<T> terms)
         {
             Outcome parse(string src, out list<T> dst)

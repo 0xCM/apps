@@ -161,50 +161,6 @@ namespace Z0
         public static BitNumber define(byte n, ulong src)
             => new BitNumber(n,src);
 
-        static string format<T>(W8 w, T src)
-            where T : unmanaged, IBitNumber
-        {
-            var width = src.Width;
-            var i=0u;
-            Span<char> buffer = stackalloc char[8];
-            BitRender.render8(bw8(src), ref i, buffer);
-            var chars = slice(buffer, buffer.Length - width);
-            return new string(chars);
-        }
-
-        public static string format<T>(T src)
-            where T : unmanaged, IBitNumber
-        {
-            var width = src.Width;
-            var dst = EmptyString;
-            var i=0u;
-            if(width <= 8)
-                dst = format(w8,src);
-            else if(width <= 16)
-            {
-                Span<char> buffer = stackalloc char[16];
-                BitRender.render16(bw16(src), ref i, buffer);
-                var chars = slice(buffer, buffer.Length - width);
-                dst = new string(chars);
-            }
-            else if(width <= 32)
-            {
-                Span<char> buffer = stackalloc char[32];
-                BitRender.render32(bw32(src), ref i, buffer);
-                var chars = slice(buffer, buffer.Length - width);
-                dst = new string(chars);
-            }
-            else
-            {
-                Span<char> buffer = stackalloc char[64];
-                BitRender.render64(bw64(src), ref i, buffer);
-                var chars = slice(buffer, buffer.Length - width);
-                dst = new string(chars);
-            }
-
-            return dst;
-        }
-
         const byte WidthOffset = 56;
 
         const ulong WidthMask = 0xFF000000_00000000;
@@ -352,7 +308,7 @@ namespace Z0
         }
 
         public string Format()
-            => BitNumber.format(this);
+            => BitNumbers.format(this);
 
         public override string ToString()
             => Format();

@@ -9,12 +9,11 @@ namespace Z0
     using static core;
 
     [ApiHost]
-    public partial class XedRules : AppService<XedRules>
+    public partial class XedRules : WfSvc<XedRules>
     {
         const string xed = "xed";
 
         const NumericKind Closure = UnsignedInts;
-
 
         Index<PointerWidth> PointerWidths;
 

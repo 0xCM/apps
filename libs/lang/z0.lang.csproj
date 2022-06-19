@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="$(Symbols)" />
-    <ProjectReference Include="$(Containers)" />
   </ItemGroup>
 
 </Project>

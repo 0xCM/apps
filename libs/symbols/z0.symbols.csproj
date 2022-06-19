@@ -11,6 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="$(Assets)" />
     <ProjectReference Include="$(Native)" />
+    <ProjectReference Include="$(Containers)" />
   </ItemGroup>
 
 </Project>

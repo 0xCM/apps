@@ -9,8 +9,10 @@ namespace Z0
     using static CaSymbolModels;
 
     [ApiHost]
-    public sealed class SourceSymbolic : AppService<SourceSymbolic>
+    public sealed class SourceSymbolic : WfSvc<SourceSymbolic>
     {
+        ApiMd ApiMd => Wf.ApiMetadata();
+
         Roslyn Roslyn;
 
         protected override void OnInit()

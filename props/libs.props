@@ -20,9 +20,8 @@
     <ProjectReference Include="$(CmdActions)" />
     <ProjectReference Include="$(CmdSvc)" />
     <ProjectReference Include="$(CmdExec)" />
-
-    <ProjectReference Include="$(Containers)" />
     <ProjectReference Include="$(Circuits)" />
+    <ProjectReference Include="$(Containers)" />
 
     <ProjectReference Include="$(Diagnostics)" />
     <ProjectReference Include="$(Db)" />
@@ -43,6 +42,7 @@
     <ProjectReference Include="$(Lang)" />
     <ProjectReference Include="$(LlvmTools)" />
     <ProjectReference Include="$(LlvmData)" />
+    <ProjectReference Include="$(Lines)" />
 
     <ProjectReference Include="$(Machines)" />
     <ProjectReference Include="$(Memory)" />

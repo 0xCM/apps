@@ -10,7 +10,7 @@ namespace Z0
     using static XedModels;
     using static XedOps;
 
-    public partial class XedMachines : AppService<XedMachines>
+    public partial class XedMachines : WfSvc<XedMachines>
     {
         XedRuntime Xed;
 

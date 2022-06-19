@@ -33,3 +33,16 @@ namespace Z0.Parts
         }
     }
 }
+
+
+namespace Z0
+{
+    public static class XSvc
+    {
+        sealed class Svc : AppServices<Svc>
+        {
+
+        }
+
+    }
+}

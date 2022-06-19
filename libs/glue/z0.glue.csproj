@@ -16,6 +16,7 @@
       <ProjectReference Include="$(AsmCore)"/>
       <ProjectReference Include="$(Diagnostics)"/>
       <ProjectReference Include="$(CsLang)"/>
+      <ProjectReference Include="$(Cli)"/>
   </ItemGroup>
 
   <ItemGroup>

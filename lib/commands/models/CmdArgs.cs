@@ -30,7 +30,6 @@ namespace Z0
             return dst;
         }
 
-
         readonly Index<CmdArg> Data;
 
         [MethodImpl(Inline)]

@@ -7,14 +7,5 @@
   <Import Project="$(ImportDefs)common.props"/>
   <Import Project="$(ImportDefs)common.libs.props"/>
 
-  <ItemGroup>
-    <ProjectReference Include="$(Asm)" />
-    <ProjectReference Include="$(AsmPrototypes)" />
-    <ProjectReference Include="$(LlvmData)" />
-    <ProjectReference Include="$(IntelIntrinsics)" />
-    <ProjectReference Include="$(IntelXed)" />
-    <ProjectReference Include="$(Diagnostics)" />
-    <ProjectReference Include="$(Machines)" />
-  </ItemGroup>
 
 </Project>

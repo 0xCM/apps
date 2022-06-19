@@ -43,12 +43,11 @@
     <LlvmTools>$(LibsRoot)llvm.tools/z0.llvm.tools.csproj</LlvmTools>
     <LlvmData>$(LibsRoot)llvm.data/z0.llvm.data.csproj</LlvmData>
     <Lang>$(LibsRoot)lang/z0.lang.csproj</Lang>
+    <Lines>$(LibsRoot)lines/z0.lines.csproj</Lines>
 
     <Memory>$(LibsRoot)memory/z0.memory.csproj</Memory>
     <Machines>$(LibsRoot)machines/z0.machines.csproj</Machines>
-
     <Native>$(LibsRoot)native/z0.native.csproj</Native>
-
     <Numbers>$(LibsRoot)numbers/z0.numbers.csproj</Numbers>
 
     <Interop>$(LibsRoot)interop/z0.interop.csproj</Interop>

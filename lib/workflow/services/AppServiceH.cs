@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.IO;
-
     using static core;
+
+    public delegate void WfEventLogger(IWfEvent e);
 
     [WfService]
     public abstract class AppService<H> : IAppService<H>
@@ -171,8 +171,6 @@ namespace Z0
 
         protected IApiCatalog ApiRuntimeCatalog => GetApiCatalog();
 
-        protected void Babble<T>(T content)
-            => WfMsg.Babble(content);
 
         protected void Babble(string pattern, params object[] args)
             => WfMsg.Babble(pattern, args);
@@ -213,38 +211,6 @@ namespace Z0
         protected void Write<T>(T content)
             => WfMsg.Write(content);
 
-        protected void Write<T>(T content, FlairKind flair)
-            => WfMsg.Write(content, flair);
-
-        protected void Write<T>(string name, T value, FlairKind flair)
-            => WfMsg.Write(name, value, flair);
-
-        protected void Write<T>(string name, T value)
-            => WfMsg.Write(name, value);
-
-        protected void Write<T>(ReadOnlySpan<T> src, FlairKind? flair = null)
-        {
-            var count = src.Length;
-            for(var i=0; i<count; i++)
-                WfMsg.Write(skip(src,i), flair ?? FlairKind.Data);
-        }
-
-        protected void Write<T>(Span<T> src, FlairKind? flair = null)
-        {
-            var count = src.Length;
-            for(var i=0; i<count; i++)
-                WfMsg.Write(skip(src,i), flair ?? FlairKind.Data);
-        }
-
-        protected void Write<R>(ReadOnlySpan<R> src, ReadOnlySpan<byte> widths)
-            where R : struct
-        {
-            var formatter = Tables.formatter<R>(widths);
-            var count = src.Length;
-            WfMsg.Write(formatter.FormatHeader());
-            for(var i=0; i<count; i++)
-                WfMsg.Write(formatter.Format(skip(src,i)));
-        }
 
         protected WfFileWritten EmittingFile(FS.FilePath dst)
             => WfMsg.EmittingFile(dst);
@@ -260,73 +226,10 @@ namespace Z0
             where T : struct
                 => WfMsg.EmittedTable(flow,count, dst);
 
-        protected void Show(Outcome result)
-        {
-            if(result)
-            {
-                if(text.nonempty(result.Message))
-                    Status(result.Message);
-                else
-                    Status("Success");
-            }
-            else
-            {
-                if(text.nonempty(result.Message))
-                    Error(result.Message);
-                else
-                    Error("Failure");
-            }
-        }
-
-        protected ExecToken TableEmit<T>(ReadOnlySpan<T> src, FS.FilePath dst)
-            where T : struct
-                => WfEmit.TableEmit(src,dst);
-
-        protected uint TableEmit<T>(ReadOnlySpan<T> src, ReadOnlySpan<byte> widths, FS.FilePath dst)
-            where T : struct
-                => WfEmit.TableEmit(src, widths, dst);
-
-        protected uint TableEmit<T>(ReadOnlySpan<T> src, ReadOnlySpan<byte> widths, TextEncodingKind encoding, FS.FilePath dst)
-            where T : struct
-                => WfEmit.TableEmit(src, widths, encoding, dst);
-
-        protected uint TableEmit<T>(ReadOnlySpan<T> src, ReadOnlySpan<byte> widths, StreamWriter writer, FS.FilePath dst)
-            where T : struct
-                => WfEmit.TableEmit(src, widths, writer, dst);
-
-        protected uint TableEmit<T>(ReadOnlySpan<T> src, ReadOnlySpan<byte> widths, ushort rowpad, TextEncodingKind encoding, FS.FilePath dst)
-            where T : struct
-                => WfEmit.TableEmit(src, widths, rowpad, encoding, dst);
-
         protected void FileEmit(string src, Count count, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Utf8)
             => WfEmit.FileEmit(src, count, dst, encoding);
 
-        protected Outcome<uint> EmitLines(ReadOnlySpan<TextLine> src, FS.FilePath dst, TextEncodingKind encoding)
-        {
-            using var writer = dst.Writer(encoding);
-            var count = (uint)src.Length;
-            var emitting = Wf.EmittingFile(HostType, dst);
-            for(var i=0; i<count; i++)
-                writer.WriteLine(skip(src,i));
-            Wf.EmittedFile(HostType, emitting,count);
-            return count;
-        }
-
-        protected FS.Files ProjectFiles(IProjectWs ws, Subject? scope)
-        {
-            if(scope != null)
-                return ws.SrcFiles(scope.Value.Format());
-            else
-                return ws.SrcFiles();
-        }
-
-        protected FS.FolderPath CgRoot
-            => Env.ZDev + FS.folder("codegen");
-
-        protected FS.FolderPath CgDir(string id)
-            => CgRoot + FS.folder(id);
-
-        protected Action<IWfEvent> EventLog
+        protected WfEventLogger EventLog
             => x => WfMsg.Raise(x);
 
         protected void EmittedFile(WfFileWritten file, Count count, Arrow<FS.FileUri> flow)

@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public class ApiSegmentLocator : AppService<ApiSegmentLocator>
+    public class ApiSegmentLocator : WfSvc<ApiSegmentLocator>
     {
         static MsgPattern<Address16> SegSelectorNotFound => "Selector {0} not found";
 

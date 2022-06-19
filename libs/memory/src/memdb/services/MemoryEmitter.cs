@@ -8,7 +8,7 @@ namespace Z0
 
     using static core;
 
-    public sealed class MemoryEmitter : AppService<MemoryEmitter>, IMemoryEmitter
+    public sealed class MemoryEmitter : WfSvc<MemoryEmitter>, IMemoryEmitter
     {
         const byte Bpl = 40;
 

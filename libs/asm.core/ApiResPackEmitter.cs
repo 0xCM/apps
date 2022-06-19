@@ -9,14 +9,12 @@ namespace Z0
     using static CodeGenerator;
     using static core;
 
-    public sealed class ApiResPackEmitter : AppService<ApiResPackEmitter>
+    public sealed class ApiResPackEmitter : WfSvc<ApiResPackEmitter>
     {
         const string ProjId = "codegen.respack";
 
-        FS.FolderPath ProjectDir => CgDir(ProjId);
+        FS.FolderPath ProjectDir => AppDb.CgRoot().Targets(ProjId).Targets("src").Root;
 
-        FS.FolderPath SourceDir
-            => ProjectDir + FS.folder("src");
 
         ApiCode ApiCode => Wf.ApiCode();
 
@@ -44,7 +42,7 @@ namespace Z0
         }
 
         public ReadOnlySpan<ApiHostRes> Emit(ReadOnlySpan<ApiCodeBlock> blocks, bool build = true)
-            => Emit(blocks, SourceDir, build);
+            => Emit(blocks, ProjectDir, build);
 
         public ReadOnlySpan<ApiHostRes> Emit(ReadOnlySpan<ApiCodeBlock> blocks, FS.FolderPath dst, bool build = true)
             => Emit(ApiCodeBlocks.hosted(blocks), dst, build);

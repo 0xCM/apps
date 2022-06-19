@@ -7,7 +7,7 @@ namespace Z0
 {
     using static core;
 
-    public partial class XedForms : AppService<XedForms>
+    public partial class XedForms : WfSvc<XedForms>
     {
         XedPaths XedPaths => Wf.XedPaths();
 

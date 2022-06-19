@@ -12,7 +12,7 @@ namespace Z0
     {
         protected static AppDb AppDb => AppDb.Service;
 
-        public new void Babble<T>(T content)
+        public void Babble<T>(T content)
             => WfMsg.Babble(content);
 
         public new void Babble(string pattern, params object[] args)
@@ -42,16 +42,16 @@ namespace Z0
         public new void Write<T>(T content)
             => WfMsg.Write(content);
 
-        public new void Write<T>(T content, FlairKind flair)
+        public void Write<T>(T content, FlairKind flair)
             => WfMsg.Write(content, flair);
 
         public void Write(string content, FlairKind flair)
             => WfMsg.Write(content, flair);
 
-        public new void Write<T>(string name, T value, FlairKind flair)
+        public void Write<T>(string name, T value, FlairKind flair)
             => WfMsg.Write(name, value, flair);
 
-        public new void Write<T>(string name, T value)
+        public void Write<T>(string name, T value)
             => WfMsg.Write(name, value);
 
         public new WfExecFlow<T> Running<T>(T msg)

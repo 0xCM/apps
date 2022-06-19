@@ -80,9 +80,7 @@ namespace Z0.Asm
             }
 
             if(result.Ok)
-            {
-                TableEmit(entries.ViewDeposited(), TocEntry.RenderWidths, encoding, SdmPaths.TocImportTable());
-            }
+                TableEmit(entries.ViewDeposited(), SdmPaths.TocImportTable(), encoding);
             return result;
         }
     }

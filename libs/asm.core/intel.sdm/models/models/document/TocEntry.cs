@@ -4,27 +4,23 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
-
     partial struct SdmModels
     {
         [StructLayout(LayoutKind.Sequential, Pack =1), Record(TableId)]
-        public struct TocEntry : IRecord<TocEntry>
+        public struct TocEntry
         {
-            public const string TableId ="intel.sdm.toc.entries";
+            const string TableId ="intel.sdm.toc.entries";
 
-            public const byte FieldCount = 4;
-
+            [Render(10)]
             public VolNumber Volume;
 
+            [Render(10)]
             public SectionNumber Section;
 
+            [Render(10)]
             public ChapterPage Page;
 
+            [Render(1)]
             public CharBlock128 Title;
 
             [MethodImpl(Inline)]
@@ -43,8 +39,6 @@ namespace Z0.Asm
                 => Format();
 
             public static TocEntry Empty => default;
-
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{10,10,10,1};
         }
     }
 }

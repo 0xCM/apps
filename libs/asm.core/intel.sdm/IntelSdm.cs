@@ -7,7 +7,7 @@ namespace Z0.Asm
     using static core;
 
     [ApiHost]
-    public partial class IntelSdm : AppService<IntelSdm>
+    public partial class IntelSdm : WfSvc<IntelSdm>
     {
         CharMapper CharMapper => Service(Wf.CharMapper);
 

@@ -7,7 +7,7 @@ namespace Z0
 {
     using static XedRules;
 
-    public partial class XedDb : AppService<XedDb>
+    public partial class XedDb : WfSvc<XedDb>
     {
         static new XedPaths Paths => XedPaths.Service;
 
@@ -25,8 +25,6 @@ namespace Z0
         IMemDb _Store;
 
         XedRuntime Xed;
-
-        AppDb AppDb => Wf.AppDb();
 
         public XedDb With(XedRuntime xed)
         {

@@ -39,7 +39,6 @@ namespace Z0
             get => gmath.nonz(Value);
         }
 
-
         public Hash32 Hash
         {
             [MethodImpl(Inline)]
@@ -57,7 +56,7 @@ namespace Z0
             => gmath.cmp(Value, src);
 
         public string Format()
-            => BitNumber.format(this);
+            => BitNumbers.format(this);
 
         public override string ToString()
             => Format();

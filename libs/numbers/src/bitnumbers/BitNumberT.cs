@@ -52,7 +52,7 @@ namespace Z0
             => gmath.cmp(Value, src);
 
         public string Format()
-            => BitNumber.format(this);
+            => BitNumbers.format(this);
 
         public override string ToString()
             => Format();
@@ -76,7 +76,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator T (BitNumber<T> src)
             => src.Value;
-
-
     }
 }

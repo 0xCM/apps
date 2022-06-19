@@ -8,10 +8,8 @@ namespace Z0.Asm
 
     using static core;
 
-    public class AsmTables : AppService<AsmTables>
+    public class AsmTables : WfSvc<AsmTables>
     {
-        IWfSvc AppSvc => Wf.AppSvc(this);
-
         [MethodImpl(Inline)]
         public static CorrelationToken token(uint docid, MemoryAddress ip)
             => math.or(math.sll(docid, 24),  (uint)ip);
@@ -134,7 +132,7 @@ namespace Z0.Asm
 
         public void EmitBlocks(ReadOnlySpan<AsmDataBlock> src, FS.FilePath dst)
         {
-            AppSvc.TableEmit(src, dst);
+            TableEmit(src, dst);
         }
 
         public Index<HostAsmRecord> LoadHostAsmRows(FS.Files src, bool pll = true, bool sort = true)

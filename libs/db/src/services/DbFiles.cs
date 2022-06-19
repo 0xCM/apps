@@ -79,13 +79,6 @@ namespace Z0
             return files;
         }
 
-        public static ItemList<string> list(FS.FilePath src, char delimiter = Chars.Comma)
-        {
-            var items = ItemLists.items(src.ReadText().SplitClean(delimiter).Select(x => x.Trim()).Where(text.nonempty).ToReadOnlySpan());
-            var name = src.FileName.WithoutExtension.Format();
-            return new ItemList<string>(items);
-        }
-
         public static ListedFiles list(FS.FilePath[] src)
             => new ListedFiles(src.Mapi((i,x) => new ListedFile(i,x)));
 

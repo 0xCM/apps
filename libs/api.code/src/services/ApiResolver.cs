@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static core;
+
     partial class XTend
     {
         public static OpUri Uri(this MethodInfo src)
@@ -12,7 +13,7 @@ namespace Z0
     }
 
     [ApiHost]
-    public class ApiResolver : AppService<ApiResolver>
+    public class ApiResolver : WfSvc<ApiResolver>
     {
         readonly HashSet<string> Exclusions;
 

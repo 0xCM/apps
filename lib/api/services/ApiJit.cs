@@ -5,7 +5,6 @@
 namespace Z0
 {
     using System.Linq;
-    using System.Diagnostics;
 
     using static core;
 
@@ -30,14 +29,14 @@ namespace Z0
             return members;
         }
 
-        public static ApiMembers jit(IApiCatalog src, Action<IWfEvent> log, bool pll)
+        public static ApiMembers jit(IApiCatalog src, WfEventLogger log, bool pll)
         {
             var dst = bag<ApiMembers>();
             iter(src.PartCatalogs(), catalog => dst.Add(jit(catalog,log)), pll);
             return ApiMembers.create(Process.GetCurrentProcess().MainModule.BaseAddress, dst.SelectMany(x => x).Array());
         }
 
-        public static ApiMembers jit(ReadOnlySpan<Assembly> src, Action<IWfEvent> log, bool pll)
+        public static ApiMembers jit(ReadOnlySpan<Assembly> src, WfEventLogger log, bool pll)
         {
             var @base = Process.GetCurrentProcess().MainModule.BaseAddress;
             var dst = bag<ApiMembers>();
@@ -45,7 +44,7 @@ namespace Z0
             return ApiMembers.create(@base, dst.SelectMany(x => x).Array());
         }
 
-        public static ApiMembers jit(IApiPartCatalog src, Action<IWfEvent> log)
+        public static ApiMembers jit(IApiPartCatalog src, WfEventLogger log)
         {
             var dst = list<ApiMember>();
             iter(src.ApiTypes.Select(h => h.HostType), t => dst.AddRange(complete(t,log)));
@@ -53,27 +52,27 @@ namespace Z0
             return ApiMembers.create(dst.ToArray());
         }
 
-        public static ApiMembers jit(Assembly src, Action<IWfEvent> log)
+        public static ApiMembers jit(Assembly src, WfEventLogger log)
             => jit(ApiRuntimeLoader.catalog(src), log);
 
-        public static Index<ApiMember> complete(Type src, Action<IWfEvent> log)
+        public static Index<ApiMember> complete(Type src, WfEventLogger log)
             => Members(ApiQuery.complete(src, CommonExclusions).Select(m => new JittedMethod(src.ApiHostUri(), m, ClrJit.jit(m))));
 
-        public static ApiMembers jit(IApiHost src, Action<IWfEvent> log)
+        public static ApiMembers jit(IApiHost src, WfEventLogger log)
         {
             var direct = JitDirect(src);
             var generic = JitGeneric(src, log);
             return ApiMembers.create(direct.Concat(generic).Array());
         }
 
-        public static ApiMembers jit(Type src, Action<IWfEvent> log)
+        public static ApiMembers jit(Type src, WfEventLogger log)
         {
             var direct = JitDirect(src);
             var generic = JitGeneric(src, log);
             return ApiMembers.create(direct.Concat(generic).Array());
         }
 
-        public static Index<ApiMember> jit(ApiCompleteType src, Action<IWfEvent> log)
+        public static Index<ApiMember> jit(ApiCompleteType src, WfEventLogger log)
             => Members(ApiQuery.complete(src.HostType, CommonExclusions).Select(m => new JittedMethod(src.HostUri, m, ClrJit.jit(m))));
 
         public ApiMembers JitHost(IApiHost src)
@@ -145,7 +144,7 @@ namespace Z0
             return buffer;
         }
 
-        static ApiMember[] JitGeneric(Type src, Action<IWfEvent> log)
+        static ApiMember[] JitGeneric(Type src, WfEventLogger log)
         {
             var uri = src.ApiHostUri();
             var generic = ApiQuery.generic(src).Select(m => new JittedMethod(uri, m)).ToReadOnlySpan();
@@ -156,10 +155,10 @@ namespace Z0
             return buffer.ToArray();
         }
 
-        static ApiMember[] JitGeneric(IApiHost src, Action<IWfEvent> log)
+        static ApiMember[] JitGeneric(IApiHost src, WfEventLogger log)
             => JitGeneric(src.HostType, log);
 
-        static ApiMember[] JitGeneric(JittedMethod src, Action<IWfEvent> log)
+        static ApiMember[] JitGeneric(JittedMethod src, WfEventLogger log)
         {
             var diviner = MultiDiviner.Service;
             var method = src.Method;

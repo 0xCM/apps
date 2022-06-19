@@ -6,13 +6,6 @@ namespace Z0
 {
     using static core;
 
-    partial class XTend
-    {
-        public static SymCounts<K> Counts<K>(this Symbols<K> src)
-            where K : unmanaged
-                => new SymCounts<K>(src);
-    }
-
     public struct SymCounts<K>
         where K : unmanaged
     {

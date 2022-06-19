@@ -4,23 +4,53 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     using static core;
 
     public unsafe class HexCodeRunner : IDisposable
     {
+        public static unsafe void slots(WfEventLogger log)
+        {
+            var slots = ClrDynamic.slots(typeof(SlotBox64)).View;
+            var box = new SlotBox64();
+            var code = GetArg;
+            for(byte i=0; i<slots.Length; i++)
+            {
+                ref readonly var slot = ref skip(slots,i);
+                var pDst = slot.Address.Pointer<byte>();
+                var length = code.Length;
+                for(var j=0; j<length; j++)
+                    seek(pDst,j) = skip(code,j);
+
+                ulong Dispatch(byte index, ulong a)
+                    => index switch
+                    {
+                        0 => box.f0(a*2),
+                        1 => box.f1(a*3),
+                        2 => box.f2(a*4),
+                        3 => box.f3(a*5),
+                        _ => 0
+                    };
+
+                var @return = Dispatch(i,i);
+                log(edata(string.Format("{0}: {1}", i, @return)));
+            }
+        }
+
         readonly NativeBuffer CodeBuffer;
 
-        readonly Action<object> Receiver;
+        readonly WfEventLogger Log;
 
-        readonly IWfRuntime Wf;
-
-        public HexCodeRunner(IWfRuntime wf, Action<object> receiver)
+        public HexCodeRunner(IWfRuntime wf, WfEventLogger log)
         {
-            Wf = wf;
             CodeBuffer = memory.native(Pow2.T10);
-            Receiver = receiver;
+            Log = log;
+        }
+
+        public void RunAlgs(object[] args)
+        {
+            AlgDynamic.runA(result => Log(edata(result)));
+            AlgDynamic.runB(result => Log(edata(result)));
+            AlgDynamic.runC(result => Log(edata(result)));
         }
 
         public void Dispose()
@@ -28,8 +58,6 @@ namespace Z0
             CodeBuffer.Dispose();
         }
 
-        void Push(object content)
-            => Receiver(content);
 
         uint LoadBuffer(uint offset, ReadOnlySpan<byte> src)
         {
@@ -41,10 +69,7 @@ namespace Z0
             return offset - i0;
         }
 
-        static ReadOnlySpan<byte> min64u_64u_64u
-            => new byte[18]{0x0f,0x1f,0x44,0x00,0x00,0x48,0x3b,0xca,0x72,0x04,0x48,0x8b,0xc2,0xc3,0x48,0x8b,0xc1,0xc3};
-
-        void Exec(object[] args)
+        public void ExecDemo()
         {
             LoadBuffer(0,min64u_64u_64u);
             var pCode = CodeBuffer.BaseAddress.Pointer<byte>();
@@ -53,15 +78,42 @@ namespace Z0
             var a = 4ul;
             var b = 12ul;
             var c = f(a,b);
-            Push(string.Format("{0}({1},{2})={3}", name, a, b, c));
+            Log(edata(string.Format("{0}({1},{2})={3}", name, a, b, c)));
         }
 
-
-        void Demos(object[] args)
+        readonly struct SlotBox64
         {
-            AlgDynamic.runA(result => Push(result));
-            AlgDynamic.runB(result => Push(result));
-            AlgDynamic.runC(result => Push(result));
+            readonly ulong A;
+
+            [MethodImpl(NotInline)]
+            public ulong f0(ulong a)
+                => ulong.MaxValue;
+
+            [MethodImpl(NotInline)]
+            public ulong f1(ulong a0)
+                => ulong.MaxValue;
+
+            [MethodImpl(NotInline)]
+            public ulong f2(ulong a0)
+                => ulong.MaxValue;
+
+            [MethodImpl(NotInline)]
+            public ulong f3(ulong a0)
+                => ulong.MaxValue;
         }
+
+
+        // mov rax,rcx -> ret
+        static ReadOnlySpan<byte> GetThis => new byte[]{0x48, 0x8b, 0xc1, 0xc3};
+
+        // mov rax,rdx -> ret
+        static ReadOnlySpan<byte> GetArg => new byte[]{0x48, 0x8b, 0xc2, 0xc3};
+
+        static ReadOnlySpan<byte> JmpRdx => new byte[]{0xff, 0xe2};
+
+        static ReadOnlySpan<byte> min64u_64u_64u
+            => new byte[18]{0x0f,0x1f,0x44,0x00,0x00,0x48,0x3b,0xca,0x72,0x04,0x48,0x8b,0xc2,0xc3,0x48,0x8b,0xc1,0xc3};
+
+
     }
 }
