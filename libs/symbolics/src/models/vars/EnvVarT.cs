@@ -8,17 +8,17 @@ namespace Z0
     /// Defines a value-parametric environment variable
     /// </summary>
     [Record(TableId)]
-    public readonly record struct EnvVar<T> : IVar<AsciName<asci32>,T>
+    public readonly record struct EnvVar<T>
         where T : IEquatable<T>
     {
         const string TableId = "env.vars.{0}";
 
-        public readonly AsciName<asci32> Name;
+        public readonly AsciName<asci64> Name;
 
         public readonly T Value;
 
         [MethodImpl(Inline)]
-        public EnvVar(asci32 name, T value)
+        public EnvVar(asci64 name, T value)
         {
             Name = name;
             Value = value;
@@ -29,15 +29,6 @@ namespace Z0
             [MethodImpl(Inline)]
             get => core.hash(Format());
         }
-
-        AsciName<asci32> IVar<AsciName<asci32>,T>.Name
-            => Name;
-
-        T IVar<T>.Value
-            => Value;
-
-        Name INamed.Name
-            => Name.Format();
 
         public override int GetHashCode()
             => Hash;
@@ -56,14 +47,5 @@ namespace Z0
         public bool Equals(EnvVar<T> src)
             => Name.Equals(src.Name) && Value.Equals(src.Value);
 
-        public bool Equals(AsciName<asci32> other)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int CompareTo(AsciName<asci32> other)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

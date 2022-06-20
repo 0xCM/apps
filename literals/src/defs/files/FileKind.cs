@@ -190,5 +190,8 @@ namespace Z0
 
         [Symbol(zip, "A zip archive file")]
         Zip,
+
+        [Symbol(env, "An environment configuration file")]
+        Env,
     }
 }

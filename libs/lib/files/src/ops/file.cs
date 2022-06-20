@@ -4,16 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial struct FS
     {
         [Op]
         public static FileName file(PartId part, FileExt ext)
             => file(part.Format(), ext);
+
+        public static FileName file(string name, FileKind kind)
+            => new FileName(name, kind.Ext());
 
         [Op]
         public static FileName file(ApiHostUri host, FileExt ext)

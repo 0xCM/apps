@@ -8,14 +8,6 @@ namespace Z0
 
     public class CmdDispatch : AppService<CmdDispatch>, ICmdRouter
     {
-        // public static Index<ICmdReactor> reactors(IWfRuntime wf)
-        // {
-        //     var types = wf.Components.Types();
-        //     var reactors = types.Concrete().Tagged<CmdReactorAttribute>().Select(t => (ICmdReactor)Activator.CreateInstance(t));
-        //     iter(reactors, r => r.Init(wf));
-        //     return reactors;
-        // }
-
         public static CmdDispatch create(IWfRuntime wf, Index<ICmdReactor> reactors)
         {
             var router = new WfCmdRouter(wf);

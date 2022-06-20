@@ -51,8 +51,9 @@ namespace Z0
         public static Settings config(FS.FilePath src, char sep = Chars.Colon)
         {
             var dst = list<Setting>();
+            var line = AsciLine.Empty;
             using var reader = src.AsciLineReader();
-            while(reader.Next(out var line))
+            while(reader.Next(out line))
             {
                 var content = line.Codes;
                 var length = content.Length;

@@ -9,6 +9,33 @@ namespace Z0
 
     public sealed class ToolWs : Workspace<ToolWs>, IWorkspace
     {
+        public static ref readonly ToolWs Service => ref AppDb.ToolWs;
+
+        public static Settings settings(FS.FilePath src)
+        {
+            var dst = list<Setting>();
+            using var reader = src.LineReader(TextEncodingKind.Asci);
+            while(reader.Next(out var line))
+            {
+                var content = span(line.Content);
+                var length = content.Length;
+                if(length != 0)
+                {
+                    if(SQ.hash(first(content)))
+                        continue;
+
+                    var i = SQ.index(content, Chars.Colon);
+                    if(i > 0)
+                    {
+                        var name = text.format(SQ.left(content,i));
+                        var value = text.format(SQ.right(content,i));
+                        dst.Add(new Setting(name,value));
+                    }
+                }
+            }
+            return new Settings(dst.ToArray());
+        }
+
         public static IToolWs configure(IToolWs src)
         {
             var subdirs = src.Root.SubDirs();
@@ -41,14 +68,6 @@ namespace Z0
 
         public FS.FilePath ConfigScript(ToolId id)
             => ToolHome(id) + FS.file(config, FS.Cmd);
-
-        [MethodImpl(Inline)]
-        public static ToolWs create(IEnvProvider src)
-            => new ToolWs(src);
-
-        [MethodImpl(Inline)]
-        public static ToolWs create(FS.FolderPath src)
-            => new ToolWs(src);
 
         Dictionary<ToolId,ToolConfig> ConfigLookup;
 
@@ -85,13 +104,6 @@ namespace Z0
 
         public DbSources Logs()
             => new DbSources(Root, ApiGranules.logs);
-
-        internal ToolWs(IEnvProvider src)
-            : base(src.Env.Toolbase)
-        {
-            ConfigLookup = dict<ToolId,ToolConfig>();
-            Configs = array<ToolConfig>();
-        }
 
         public FS.FilePath Inventory()
             => Root + FS.folder(admin) + FS.file(inventory, FS.Txt);

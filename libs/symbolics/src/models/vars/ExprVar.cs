@@ -6,7 +6,6 @@ namespace Z0
 {
     public class ExprVar : IVar
     {
-
         public VarSymbol Name {get;}
 
         public ExprVar(VarSymbol name)

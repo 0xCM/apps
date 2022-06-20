@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    using api = Lines;
+    using api = AsciLines;
 
     public ref struct AsciLine
     {
@@ -85,17 +85,11 @@ namespace Z0
         public uint Render(Span<char> dst)
         {
             var i=0u;
-            return AsciLines.render(this, ref i, dst);
+            return api.render(this, ref i, dst);
         }
 
         public string Format()
             => api.format(this);
-        // {
-        //     Span<char> buffer = stackalloc char[RenderLength];
-        //     var i=0u;
-        //     AsciLines.render(this, ref i, buffer);
-        //     return text.format(buffer);
-        // }
 
         public static AsciLine Empty
         {

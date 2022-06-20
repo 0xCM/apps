@@ -5,7 +5,6 @@
 namespace Z0
 {
     using static Settings;
-    using static core;
 
     using EN = EnvNames;
     using T = ApiGranules;
@@ -43,8 +42,14 @@ namespace Z0
         public ref readonly Settings Settings()
             => ref _Settings;
 
+        public FS.FilePath EnvPath(string name)
+            => Env().Path(FS.file(name, FileKind.Env));
+
         public IDbTargets DbOut()
             => new DbTargets(setting(Archives.Path(EN.DbTargets), FS.dir));
+
+        public EnvSet LoadEnv(string name)
+            => EnvSet.load(EnvPath(name), Chars.Eq);
 
         public IDbTargets DbOut(string scope)
             => DbOut().Targets(scope);

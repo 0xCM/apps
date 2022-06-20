@@ -16,29 +16,6 @@ namespace Z0
         public static Setting<T> setting<T>(Setting src, Func<string,T> parser)
             => new Setting<T>(src.Name, parser(src.ValueText));
 
-        public static EnvSet envset(FS.FilePath src, char sep)
-        {
-            var result = Outcome.Success;
-            var name = text.left(src.FileName.Format(), Chars.Dot);
-            var vars = list<EnvVar>();
-            var lookup = dict<VarSymbol,object>();
-            using var reader = src.Utf8LineReader();
-            while(reader.Next(out var line))
-            {
-                var content = line.Content;
-                var i = text.index(content,sep);
-                if(i > 0)
-                {
-                    var vname = text.left(content,i);
-                    var vval = text.right(content,i);
-                    vars.Add((vname,vval));
-                    lookup.TryAdd(vname,vval);
-                }
-            }
-
-            return new EnvSet(name, lookup, vars.Array());
-        }
-
         public static EnvSet<S> envset<S>(string name, S src)
             where S : struct
         {

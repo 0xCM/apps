@@ -76,21 +76,21 @@ namespace Z0
             return true;
         }
 
-        protected void LoadProject(IWsProject project)
+        protected void LoadProject(IWsProject src)
         {
-            if(project == null)
+            if(src == null)
             {
                 Error("Project unspecified");
                 return;
             }
 
             var outcome = Outcome.Success;
-            var dir = project.Home();
+            var dir = src.Home();
             outcome = dir.Exists;
             if(outcome)
-                Files(project.SrcFiles());
+                Files(src.SrcFiles());
             else
-                outcome = (false, Msg.ProjectUndefined.Format(project.Project));
+                outcome = (false, Msg.ProjectUndefined.Format(src.Project));
         }
 
         [CmdOp("project/home")]
@@ -141,42 +141,48 @@ namespace Z0
         protected void EmitCommands()
             => EmitCommands(AppDb.ApiTargets().Path(FS.file($"{controller().Id().Format()}.commands", FS.Csv)));
 
-        [CmdOp("env/tools")]
-        protected Outcome ShowToolEnv(CmdArgs args)
-        {
-            var settings = LoadToolEnv(env);
-            iter(settings, s => Write(s));
-            return true;
-        }
 
-        FS.FilePath EnvPath(string name)
-            => AppDb.Env().Root + FS.file(name, FS.Log);
-
-        public EnvSet LoadEnv(string name)
-            => Settings.envset(EnvPath(name), Chars.Eq);
-
-        [CmdOp("env/set")]
-        protected Outcome EnvSet(CmdArgs args)
+        [CmdOp("env/load")]
+        protected Outcome LoadEnv(CmdArgs args)
         {
             var name = Environment.MachineName.ToLower();
             if(args.Count != 0)
                 name = arg(args,0).Value.Format();
 
-            var set = LoadEnv($"{name}.vars").Vars;
+            var set = AppDb.LoadEnv(name).Vars;
             iter(set, member => Write(member.Format()));
 
             return true;
         }
 
-        [CmdOp("env/log")]
-        protected Outcome EmitEnvVars(CmdArgs args)
+        [CmdOp("env/emit")]
+        protected void EmitEnvVars()
         {
-            var env = "machine";
-            TableEmit(EnvDb.records(Environs.vars(), env), AppDb.Env().Table<EnvSetting>(env));
+            TableEmit(EnvDb.records(Environs.vars(), machine), AppDb.Env().Table<EnvSetting>(machine));
+        }
+
+        protected Settings UpdateToolEnv()
+        {
+            var path = ToolWs.Service.Toolbase.Path(FS.file("show-env-config", FS.Cmd));
+            var cmd = CmdScript.cmdline(path.Format(PathSeparator.BS));
+            return AppSettings.Load(OmniScript.RunCmd(cmd));
+        }
+
+        protected Settings LoadToolEnv(string name)
+        {
+            var path = ToolWs.Service.Toolbase.Path(FS.file(name, FileKind.Env));
+            return AppSettings.Load(path.ReadNumberedLines());
+        }
+
+        [CmdOp("tools/env")]
+        protected Outcome ShowToolEnv(CmdArgs args)
+        {
+            var settings = LoadToolEnv(tools);
+            iter(settings, s => Write(s));
             return true;
         }
 
-        [CmdOp("tool/script")]
+        [CmdOp("tools/script")]
         protected Outcome ToolScript(CmdArgs args)
         {
             var tool = (ToolId)arg(args,0).Value;
@@ -187,12 +193,12 @@ namespace Z0
                 return OmniScript.Run(script, out var _);
         }
 
-        [CmdOp("tool/config")]
+        [CmdOp("tools/config")]
         protected Outcome ConfigureTool(CmdArgs args)
         {
             var result = Outcome.Success;
             ToolId tool = arg(args,0).Value;
-            var script = ToolWs.ConfigScript(tool);
+            var script = ToolWs.Service.ConfigScript(tool);
             result = OmniScript.Run(script, out var _);
             var logpath = ToolWs.ConfigLog(tool);
             using var reader = logpath.AsciLineReader();
@@ -205,13 +211,12 @@ namespace Z0
             return result;
         }
 
-        [CmdOp("tool/help")]
-        protected Outcome ShowToolHelp(CmdArgs args)
+        [CmdOp("tools/help")]
+        protected void ShowToolHelp(CmdArgs args)
         {
             var result = Outcome.Success;
-
             var tool = (ToolId)arg(args,0).Value;
-            var docs = ToolWs.ToolDocs(tool);
+            var docs = ToolWs.Service.ToolDocs(tool);
             var doc = docs + FS.file(tool.Format(),FS.Help);
             if(doc.Exists)
             {
@@ -219,20 +224,15 @@ namespace Z0
                 while(reader.Next(out var line))
                     Write(line.Content);
             }
-
-            return result;
         }
 
         [CmdOp("tools/settings")]
         protected Outcome ShowToolSettings(CmdArgs args)
         {
-            ToolId tool = arg(args,0).Value;
-            var src = ToolWs.Logs(tool) + FS.file("config", FS.Log);
+            var src = ToolWs.Service.Logs(arg(args,0).Value) + FS.file("config", FS.Log);
             if(!src.Exists)
                 return (false,FS.missing(src));
-
-            var settings = AppSettings.Load(src);
-            iter(settings, setting => Write(setting));
+            iter(ToolWs.settings(src), setting => Write(setting));
             return true;
         }
 
@@ -242,9 +242,9 @@ namespace Z0
             var tool = (ToolId)arg(args,0).Value;
             var path = FS.FilePath.Empty;
             if(args.Length > 1)
-                path = ToolWs.ToolDocs(tool) + FS.file(arg(args,1));
+                path = ToolWs.Service.ToolDocs(tool) + FS.file(arg(args,1));
             else
-                path = ToolWs.ToolDocs(tool) + FS.file(tool.Format(), FS.Help);
+                path = ToolWs.Service.ToolDocs(tool) + FS.file(tool.Format(), FS.Help);
 
             if(path.Exists)
             {
@@ -258,15 +258,8 @@ namespace Z0
         [CmdOp("runtime/cpucore")]
         protected Outcome ShowCurrentCore(CmdArgs args)
         {
-            Wf.Row(string.Format("Cpu:{0}", Kernel32.GetCurrentProcessorNumber()));
+            Write(string.Format("Cpu:{0}", Kernel32.GetCurrentProcessorNumber()));
             return true;
-        }
-
-        protected void UpdateToolEnv(out Settings dst)
-        {
-            var path = ToolWs.Toolbase.Path(FS.file("show-env-config", FS.Cmd));
-            var cmd = CmdScript.cmdline(path.Format(PathSeparator.BS));
-            dst = AppSettings.Load(OmniScript.RunCmd(cmd));
         }
 
         public void RunCmd(string name)
@@ -316,12 +309,6 @@ namespace Z0
                 Warn(string.Format("No jobs identified by '{0}'", match));
         }
 
-        protected Settings LoadToolEnv(string name)
-        {
-            var path = ToolWs.Toolbase.Path(FS.file(name, FS.Settings));
-            return AppSettings.Load(path.ReadNumberedLines());
-        }
-
         void EmitCommands(FS.FilePath dst)
         {
             var actions = Dispatcher.SupportedActions.Index().Sort();
@@ -330,21 +317,17 @@ namespace Z0
             FileEmit(emitter.Emit(), actions.Count, dst);
         }
 
-        protected void DisplayCmdResponse(ReadOnlySpan<TextLine> src)
+        protected void DisplayCmdResponse(ReadOnlySpan<string> src)
         {
-            var count = src.Length;
-            if(count == 0)
-                Warn("No response to parse");
-
-            for(var i=0; i<count; i++)
+            for(var i=0; i<src.Length; i++)
             {
-                if(CmdResponse.parse(skip(src,i).Content, out var response))
+                if(CmdResponse.parse(skip(src,i), out CmdResponse response))
                     Write(response);
             }
         }
 
         protected static CmdArg arg(in CmdArgs src, int index)
-            => CmdScript.arg(src,index);
+            => CmdScript.arg(src, index);
 
         Outcome SelectTool(ToolId tool)
         {
@@ -364,11 +347,7 @@ namespace Z0
             Witness?.Dispose();
         }
 
-
         protected virtual string PromptTitle {get;}
-
-        protected virtual Outcome DispatchFallback(string command, CmdArgs args)
-            => (false, string.Format("Handler for '{0}' not found", command));
 
         string Prompt()
             => string.Format("{0}> ", PromptTitle);

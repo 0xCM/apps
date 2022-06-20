@@ -9,4 +9,8 @@
   <Import Project="$(ImportDefs)common.libs.props"/>
   <Import Project="$(ImportDefs)common.props"/>
 
+  <ItemGroup>
+    <ProjectReference Include="$(Symbolics)" />
+  </ItemGroup>
+
 </Project>
