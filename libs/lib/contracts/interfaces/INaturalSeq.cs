@@ -4,9 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [ApiHost("expr.api")]
-    public readonly partial struct expr
+    [Free]
+    public interface INaturalSeq<N,T> : IMutableSeq<T>
+        where N : unmanaged, ITypeNat
     {
-        const NumericKind Closure = UnsignedInts;
-   }
+        uint ICounted.Count
+            => core.nat32u<N>();
+    }
 }

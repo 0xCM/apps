@@ -8,7 +8,6 @@ namespace Z0
 
     public partial class Environs
     {
-
         public static EnvVars vars()
         {
             var dst = list<EnvVar>();

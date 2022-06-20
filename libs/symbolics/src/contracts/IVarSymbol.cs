@@ -4,9 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [ApiHost("expr.api")]
-    public readonly partial struct expr
+    [Free]
+    public interface IVarSymbol<T> : INamed<T>
+        where T : unmanaged, ICharBlock<T>
     {
-        const NumericKind Closure = UnsignedInts;
-   }
+        new Name<T> Name {get;}
+
+        Name INamed.Name
+            => Name.ToString();
+    }
 }

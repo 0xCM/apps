@@ -93,7 +93,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static bool bitstring<S>(S src)
-            where S : struct, IAsciSeq<S>
+            where S : unmanaged, IAsciSeq<S>
         {
             var result = true;
             var counter = 0;

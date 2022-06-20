@@ -4,8 +4,5 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IExprContext : IVarResolver
-    {
 
-    }
 }

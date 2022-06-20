@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public readonly struct NativeTypeSeq : ISeq<N16,NativeType>
+    public readonly struct NativeTypeSeq : INaturalSeq<N16,NativeType>
     {
         readonly ByteBlock32 Storage;
 

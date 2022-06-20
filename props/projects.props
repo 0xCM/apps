@@ -56,10 +56,11 @@
     <Rules>$(LibsRoot)rules/z0.rules.csproj</Rules>
     <Render>$(LibsRoot)render/z0.render.csproj</Render>
 
-    <Tools>$(LibsRoot)tools/z0.tools.csproj</Tools>
-    <Templates>$(LibsRoot)templates/z0.templates.csproj</Templates>
+    <Symbolics>$(LibsRoot)symbolics/z0.symbolics.csproj</Symbolics>
+
     <Symbols>$(LibsRoot)symbols/z0.symbols.csproj</Symbols>
 
+    <Tools>$(LibsRoot)tools/z0.tools.csproj</Tools>
     <TestChecks>$(TestRoot)test.checks/z0.test.checks.csproj</TestChecks>
     <TestUnits>$(TestRoot)test.units/z0.test.units.csproj</TestUnits>
 

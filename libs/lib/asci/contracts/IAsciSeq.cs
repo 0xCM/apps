@@ -12,11 +12,10 @@ namespace Z0
 
     [Free]
     public interface IAsciSeq<S> : IAsciSeq, IByteSeq<S>, IComparable<S>, IEquatable<S>, IHashed<S>
-        where S : struct, IAsciSeq<S>
+        where S : IAsciSeq<S>
     {
         S IContented<S>.Content
             => (S)this;
-
     }
 
     [Free]

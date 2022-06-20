@@ -9,7 +9,7 @@
   <Import Project="$(ImportDefs)common.libs.props"/>
 
   <ItemGroup>
-    <ProjectReference Include="$(Templates)" />
+    <ProjectReference Include="$(Symbolics)" />
     <ProjectReference Include="$(Db)" />
     <ProjectReference Include="$(Native)" />
     <ProjectReference Include="$(Containers)" />

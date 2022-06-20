@@ -57,8 +57,8 @@
     <ProjectReference Include="$(Render)" />
 
     <ProjectReference Include="$(Symbols)" />
+    <ProjectReference Include="$(Symbolics)" />
 
-    <ProjectReference Include="$(Templates)" />
     <ProjectReference Include="$(Tools)" />
 
   </ItemGroup>

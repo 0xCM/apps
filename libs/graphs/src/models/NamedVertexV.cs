@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class NamedVertex<V> : INamedVertex<V>, IEquatable<NamedVertex<V>>
+    public class NamedVertex<V> : IEquatable<NamedVertex<V>>
         where V : IEquatable<V>
     {
         public Name Name {get;}

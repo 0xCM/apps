@@ -13,6 +13,7 @@
     <ProjectReference Include="$(Expr)" />
     <ProjectReference Include="$(Fsm)" />
     <ProjectReference Include="$(AsmModels)" />
+    <ProjectReference Include="$(Symbolics)" />
   </ItemGroup>
 
 </Project>

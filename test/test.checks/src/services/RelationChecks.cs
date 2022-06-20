@@ -4,10 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Relations;
-
     [ApiHost]
-    public class RelationChecks
+    public class VarChecks
     {
         const NumericKind Closure = UnsignedInts;
 
@@ -25,13 +23,13 @@ namespace Z0
             {
                 var result = Outcome.Success;
 
-                var v1 = Terms.var("a");
-                var v2 = Terms.var("b");
+                var v1 = Vars.var("a");
+                var v2 = Vars.var("b");
                 var a1 = scalar((byte)22);
                 var b1 = scalar((byte)12);
                 var a2 = scalar((byte)16);
                 var b2 = scalar((byte)87);
-                var context = expr.context();
+                var context = Vars.context();
                 context.Inject((v1,a1), (v2,b1));
                 var eval1 =  v1.Eval<ScalarValue<byte>>(context);
                 var eval2 = v2.Eval<ScalarValue<byte>>(context);

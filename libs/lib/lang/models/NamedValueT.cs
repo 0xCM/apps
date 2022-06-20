@@ -12,12 +12,12 @@ namespace Z0
         /// <summary>
         /// The name of the value
         /// </summary>
-        public Name Name {get;}
+        public readonly Name Name;
 
         /// <summary>
         /// The named value
         /// </summary>
-        public V Value {get;}
+        public readonly V Value;
 
         [MethodImpl(Inline)]
         public NamedValue(string name, V value)

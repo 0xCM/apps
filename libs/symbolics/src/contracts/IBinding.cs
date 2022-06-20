@@ -4,9 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [ApiHost("expr.api")]
-    public readonly partial struct expr
+    public interface IBinding
     {
-        const NumericKind Closure = UnsignedInts;
-   }
+        dynamic Value {get;}
+    }
+
+    [Free]
+    public interface IBinding<T> : IBinding
+    {
+        new T Value {get;}
+
+        dynamic IBinding.Value
+            => Value;
+    }
 }

@@ -16,7 +16,6 @@ namespace Z0
             where T : IListItem<K,T>
                 => src.MapValues(v => new ListItem<K,T>(v.Key, v.Value));
 
-
         [Op, Closures(Closure)]
         public static Index<ListItem<T>> items<T>(ReadOnlySpan<T> src)
         {

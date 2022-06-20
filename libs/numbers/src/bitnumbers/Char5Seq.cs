@@ -16,7 +16,7 @@ namespace Z0
         const byte SegWidth = 5;
 
         public static Char5Seq from<S>(in S src, byte offset)
-            where S : struct, IAsciSeq<S>
+            where S : unmanaged, IAsciSeq<S>
         {
             var storage = 0ul;
             var dst = recover<Char5>(bytes(storage));

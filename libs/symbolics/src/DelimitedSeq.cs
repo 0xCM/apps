@@ -4,9 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [ApiHost("expr.api")]
-    public readonly partial struct expr
+    public class DelimitedSeq
     {
-        const NumericKind Closure = UnsignedInts;
-   }
+        public const char DefaultDelimiter = Chars.Comma;
+    }
 }
