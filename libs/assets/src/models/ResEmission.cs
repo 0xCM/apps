@@ -26,6 +26,12 @@ namespace Z0
         FS.FilePath IArrow<Asset, FS.FilePath>.Target
             => Target;
 
+        public string Format()
+            => string.Format("{0} -> {1}", Source, Target.ToUri());
+
+        public override string ToString()
+            => Format();
+
         [MethodImpl(Inline)]
         public static implicit operator ResEmission(Arrow<Asset,FS.FilePath> link)
             => new ResEmission(link.Source, link.Target);

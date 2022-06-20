@@ -4,17 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Free]
-    public interface ICmdScriptVar : IVarValue
-    {
-
-    }
-
-
     /// <summary>
     /// Defines a script variable
     /// </summary>
-    public struct CmdScriptVar : ICmdScriptVar
+    public struct CmdScriptVar : IVarValue
     {
         /// <summary>
         /// The variable symbol

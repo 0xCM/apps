@@ -8,10 +8,10 @@ namespace Z0
     public readonly struct Loggers
     {
         public static IWfEmissionLog emission(Assembly src, Timestamp? ts = null, string name = null)
-            => new WfEmissionLog(src, Environs.dir(EnvNames.Logs).VarValue + FS.folder(src.Id().Format()), ts, name);
+            => new WfEmissionLog(src, Environs.dir(EnvNames.Logs) + FS.folder(src.Id().Format()), ts, name);
 
         public static IWfEmissionLog emission(Assembly src, FS.FolderPath dst, Timestamp ts, string name)
-            => new WfEmissionLog(src, Environs.dir(EnvNames.Logs).VarValue + FS.folder(src.Id().Format()), ts, name);
+            => new WfEmissionLog(src, Environs.dir(EnvNames.Logs) + FS.folder(src.Id().Format()), ts, name);
 
         [Op]
         public static string format(IWfLogConfig src)

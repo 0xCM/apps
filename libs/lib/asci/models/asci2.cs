@@ -13,8 +13,7 @@ namespace Z0
     /// <summary>
     /// Defines an asci code sequence of length 2
     /// </summary>
-    [DataWidth(16)]
-    public readonly struct asci2 : IAsciSeq<A,N>
+    public readonly record struct asci2 : IAsciSeq<A,N>
     {
         internal readonly S Storage;
 
@@ -107,9 +106,6 @@ namespace Z0
         public bool Equals(A src)
             => Storage == src.Storage;
 
-        public override bool Equals(object src)
-            => src is A x && Equals(x);
-
         public Hash32 Hash
         {
             [MethodImpl(Inline)]
@@ -177,15 +173,15 @@ namespace Z0
             => new A(src);
 
         [MethodImpl(Inline)]
-        public static bool operator ==(A a, A b)
-            => a.Equals(b);
-
-        [MethodImpl(Inline)]
-        public static bool operator !=(A a, A b)
-            => !a.Equals(b);
-
-        [MethodImpl(Inline)]
         public static implicit operator ushort(A src)
             => src.Storage;
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsciSeq<A,N>(A src)
+            => new AsciSeq<A,N>(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsciSeq<A>(A src)
+            => new AsciSeq<A>(src);
     }
 }

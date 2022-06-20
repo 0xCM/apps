@@ -5,6 +5,7 @@
 namespace Z0
 {
     using Windows;
+    using static ApiGranules;
 
     using static core;
 
@@ -18,7 +19,7 @@ namespace Z0
             var actions = bag<CmdActions>();
             actions.Add(CmdActions.discover(dst));
             iter(src, x => actions.Add(x.Actions));
-            var dispatcher = CmdDispatch.dispatcher(CmdActions.join(actions.ToArray()));
+            var dispatcher = CmdActions.dispatcher(CmdActions.join(actions.ToArray()));
             GlobalSvc.Instance.Inject(dispatcher);
             dst.Init(wf);
             return dst;
@@ -143,7 +144,7 @@ namespace Z0
         [CmdOp("env/tools")]
         protected Outcome ShowToolEnv(CmdArgs args)
         {
-            LoadToolEnv(out var settings);
+            var settings = LoadToolEnv(env);
             iter(settings, s => Write(s));
             return true;
         }
@@ -171,7 +172,7 @@ namespace Z0
         protected Outcome EmitEnvVars(CmdArgs args)
         {
             var env = "machine";
-            TableEmit(Settings.records(Environs.vars(), env), AppDb.Env().Table<EnvSetting>(env));
+            TableEmit(EnvDb.records(Environs.vars(), env), AppDb.Env().Table<EnvSetting>(env));
             return true;
         }
 
@@ -195,7 +196,8 @@ namespace Z0
             result = OmniScript.Run(script, out var _);
             var logpath = ToolWs.ConfigLog(tool);
             using var reader = logpath.AsciLineReader();
-            while(reader.Next(out var line))
+            var line = AsciLine.Empty;
+            while(reader.Next(out line))
             {
                 Write(line.Format());
             }
@@ -314,10 +316,10 @@ namespace Z0
                 Warn(string.Format("No jobs identified by '{0}'", match));
         }
 
-        protected void LoadToolEnv(out Settings dst)
+        protected Settings LoadToolEnv(string name)
         {
-            var path = ToolWs.Toolbase.Path(FS.file("env", FS.Settings));
-            dst = AppSettings.Load(path.ReadNumberedLines());
+            var path = ToolWs.Toolbase.Path(FS.file(name, FS.Settings));
+            return AppSettings.Load(path.ReadNumberedLines());
         }
 
         void EmitCommands(FS.FilePath dst)

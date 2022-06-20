@@ -181,7 +181,7 @@ namespace Z0
         {
             dst = asci4.Null;
             ref var storage = ref Unsafe.As<asci4,AsciCode>(ref dst);
-            AsciSymbols.codes(src, (byte)count, ref storage);
+            codes(src, (byte)count, ref storage);
             return ref dst;
         }
 
@@ -194,7 +194,7 @@ namespace Z0
         public static ref readonly asci4 encode(ReadOnlySpan<char> src, out asci4 dst)
         {
             dst = default;
-            AsciSymbols.codes(src, span<asci4,AsciCode>(ref dst));
+            codes(src, span<asci4,AsciCode>(ref dst));
             return ref dst;
         }
 

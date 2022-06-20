@@ -91,7 +91,7 @@ namespace Z0
 
         public EnvDirVar LlvmRoot;
 
-        public EnvVar<ulong> CpuCount;
+        public ulong CpuCount;
 
         public EnvDirVar DevWs;
 

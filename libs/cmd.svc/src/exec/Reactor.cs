@@ -39,7 +39,7 @@ namespace Z0
         protected override Reactor Init(out int state)
         {
             state = 0;
-            Dispatcher = CmdDispatch.create(Wf,CmdDispatch.reactors(Wf));
+            Dispatcher = CmdActions.dispatch(Wf, CmdActions.reactors(Wf));
             return this;
         }
 

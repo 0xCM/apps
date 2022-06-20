@@ -16,30 +16,30 @@ namespace Z0
             return dst.ToArray().Sort();
         }
 
-        public static EnvVar<FS.FolderPath> dir(string name)
+        public static FS.FolderPath dir(string name)
         {
             var value = Environment.GetEnvironmentVariable(name);
-            return (name, FS.dir(value));
+            return FS.dir(value);
         }
 
-        public static EnvVar<ulong> number(string name)
+        public static ulong number(string name)
         {
             var value = Environment.GetEnvironmentVariable(name);
             if(text.blank(value))
-                return (name,0ul);
+                return 0ul;
 
             if(ulong.TryParse(value, out var n))
-                return (name,n);
+                return n;
 
-            return (name,0);
+            return 0;
         }
 
-        public static EnvVar<FS.FilePath> path(string name)
+        public static FS.FilePath path(string name)
         {
             var value = Environment.GetEnvironmentVariable(name);
             if(text.blank(value))
                 @throw($"The environment variable '{name}' is undefined");
-            return (name, FS.path(value));
+            return FS.path(value);
         }
     }
 }

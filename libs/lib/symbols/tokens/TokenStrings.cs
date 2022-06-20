@@ -37,7 +37,7 @@ namespace Z0
             for(var i=0; i<length; i++)
             {
                 ref readonly var c = ref skip(data,i);
-                if(SQ.nil(c))
+                if(SQ.@null(c))
                     counter++;
                 else if(i == length-1 && counter != 0)
                     counter++;
@@ -64,7 +64,7 @@ namespace Z0
                     if(j != 0)
                         receiver(new TokenExpr<T>(counter++, expr));
                 }
-                else if(SQ.nil(c))
+                else if(SQ.@null(c))
                 {
                     receiver(new TokenExpr<T>(counter++, expr));
                     expr = new T();

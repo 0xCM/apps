@@ -145,9 +145,8 @@ namespace Z0
         public static A Spaced
         {
             [MethodImpl(Inline)]
-            get => Asci.init(n);
+            get => Asci.init(default(N));
         }
-
 
         [MethodImpl(Inline)]
         public static implicit operator A(string src)
@@ -202,5 +201,13 @@ namespace Z0
             => !a.Equals(b);
 
         static N n => default;
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsciSeq<A,N>(A src)
+            => new AsciSeq<A,N>(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsciSeq<A>(A src)
+            => new AsciSeq<A>(src);
     }
 }

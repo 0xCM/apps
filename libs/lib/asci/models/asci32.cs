@@ -103,19 +103,19 @@ namespace Z0
         public asci2 this[byte index, N2 size]
         {
             [MethodImpl(Inline)]
-            get =>  Storage.As<byte,ushort>().GetElement(index/2);
+            get => Storage.As<byte,ushort>().GetElement(index/2);
         }
 
         public asci4 this[byte index, N4 size]
         {
             [MethodImpl(Inline)]
-            get =>  Storage.As<byte,uint>().GetElement(index/4);
+            get => Storage.As<byte,uint>().GetElement(index/4);
         }
 
         public asci8 this[byte index, N8 size]
         {
             [MethodImpl(Inline)]
-            get =>  Storage.As<byte,ulong>().GetElement(index/8);
+            get => Storage.As<byte,ulong>().GetElement(index/8);
         }
 
         public A Zero
@@ -196,6 +196,14 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
+        public static bool operator ==(A a, A b)
+            => a.Equals(b);
+
+        [MethodImpl(Inline)]
+        public static bool operator !=(A a, A b)
+            => !a.Equals(b);
+
+        [MethodImpl(Inline)]
         public static implicit operator A(string src)
             => new A(src);
 
@@ -228,15 +236,16 @@ namespace Z0
             => src.Decoded;
 
         [MethodImpl(Inline)]
-        public static bool operator ==(A a, A b)
-            => a.Equals(b);
+        public static implicit operator AsciSeq<A,N>(A src)
+            => new AsciSeq<A,N>(src);
 
         [MethodImpl(Inline)]
-        public static bool operator !=(A a, A b)
-            => !a.Equals(b);
+        public static implicit operator AsciSeq<A>(A src)
+            => new AsciSeq<A>(src);
 
         static N n => default;
 
         static W w => default;
+
     }
 }

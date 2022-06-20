@@ -11,19 +11,6 @@ namespace Z0
         void RunEtl();
     }
 
-    public interface IWsCmdRunner : ICmdRunner
-    {
-        void Project(IWsProject ws);
-
-        void LoadProject(CmdArgs args);
-    }
-
-    public interface IWsCmdRunner<S> : IWsCmdRunner
-        where S : IWsCmdRunner<S>, new()
-    {
-
-    }
-
     public interface IWsProject : IRootedArchive, IProjectWs
     {
         ProjectId Id

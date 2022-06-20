@@ -27,7 +27,7 @@ namespace Z0
             return literals;
         }
 
-        public Index<ApiCatalogEntry> EmitApiCatalog(ApiMembers src, FS.FilePath dst)
+        public Index<ApiCatalogEntry> Rebase(ApiMembers src, FS.FilePath dst)
         {
             var records = rebase(src.BaseAddress, src.View);
             TableEmit(records, dst);

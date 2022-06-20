@@ -88,7 +88,7 @@ namespace Z0
         }
 
         ReadOnlySpan<ApiCatalogEntry> EmitApiCatalog(IApiPack dst)
-            => ApiCatalogs.EmitApiCatalog(ApiMembers.create(CollectedDatasets.SelectMany(x => x.Members)), PackArchive.ApiCatalogPath());
+            => ApiCatalogs.Rebase(ApiMembers.create(CollectedDatasets.SelectMany(x => x.Members)), PackArchive.ApiCatalogPath());
 
         void ExtractParts(IApiPack pack)
             => ExtractParts(ResolvedParts, pack);

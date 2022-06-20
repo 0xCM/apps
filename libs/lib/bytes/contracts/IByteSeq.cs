@@ -25,7 +25,7 @@ namespace Z0
         int Length {get;}
 
         Hash32 IHashed.Hash
-            => core.hash(View);
+            => hash(View);
 
         uint Size
             => (uint)Capacity;
@@ -33,13 +33,13 @@ namespace Z0
         ref readonly byte this[uint i]
         {
             [MethodImpl(Inline)]
-            get => ref core.skip(View,i);
+            get => ref skip(View,i);
         }
 
         ref readonly byte this[int i]
         {
             [MethodImpl(Inline)]
-            get => ref core.skip(View,i);
+            get => ref skip(View,i);
         }
 
         uint Convert<T>(Func<byte,T> converter, Span<T> dst)
@@ -49,18 +49,6 @@ namespace Z0
                 seek(dst,i) = converter(this[i]);
             return count;
         }
-    }
-
-    [Free]
-    public interface IByteSeq<F,T> : IMutableBytes, IByteSeq<F>, IEquatable<F>, INullary<F>
-        where T : unmanaged
-        where F : unmanaged,IByteSeq<F,T>
-    {
-        int IByteSeq.Capacity
-            => Length;
-
-        F INullary<F>.Zero
-            => default;
     }
 
     [Free]

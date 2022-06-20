@@ -43,7 +43,7 @@ namespace Z0
         {
             dst = asci16.Null;
             ref var storage = ref @as<asci16,AsciCode>(dst);
-            AsciSymbols.codes(src, (byte)count, ref storage);
+            codes(src, (byte)count, ref storage);
             return ref dst;
         }
 
@@ -56,7 +56,7 @@ namespace Z0
         public static ref readonly asci16 encode(ReadOnlySpan<char> src, out asci16 dst)
         {
             dst = asci16.Spaced;
-            AsciSymbols.codes(src, span<asci16,AsciCode>(ref dst));
+            codes(src, span<asci16,AsciCode>(ref dst));
             return ref dst;
         }
 

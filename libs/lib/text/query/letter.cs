@@ -5,6 +5,7 @@
 namespace Z0
 {
     using C = AsciCode;
+    using S = AsciSymbol;
 
     partial struct SymbolicQuery
     {

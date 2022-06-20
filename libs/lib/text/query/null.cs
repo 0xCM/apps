@@ -4,12 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
+    using static core;
 
     using C = AsciCode;
+    using S = AsciSymbol;
 
     partial struct SymbolicQuery
     {
@@ -28,5 +26,17 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static bit @null(char src)
             => src == (char)C.Null;
+
+        [MethodImpl(Inline), Op]
+        public static bit @null(ReadOnlySpan<C> src)
+        {
+            var count = src.Length;
+            for(var i=0; i<count; i++)
+            {
+                if(!@null(skip(src,i)))
+                    return false;
+            }
+            return true;
+        }
     }
 }

@@ -7,12 +7,12 @@ namespace Z0
     public readonly struct AsciGrid<K>
         where K : unmanaged
     {
-        readonly AsciSequence _Data;
+        readonly AsciSeq _Data;
 
         public readonly uint RowWidth;
 
         [MethodImpl(Inline)]
-        public AsciGrid(AsciSequence src, uint rows)
+        public AsciGrid(AsciSeq src, uint rows)
         {
             _Data = src;
             RowWidth = rows;

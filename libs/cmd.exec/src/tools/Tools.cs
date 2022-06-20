@@ -7,8 +7,42 @@ namespace Z0
     using TN = ToolNames;
     using static core;
 
+    [ApiHost]
     public readonly struct Tools
     {
+        public static async Task<int> exec(ToolCmdSpec cmd, ToolCmdContext context, Action<string> status, Action<string> error)
+        {
+            var info = new ProcessStartInfo
+            {
+                FileName = cmd.ToolPath.Name,
+                Arguments = cmd.Args.Format(),
+                RedirectStandardError = true,
+                RedirectStandardOutput = true,
+                RedirectStandardInput = true
+            };
+
+            var process = new Process {StartInfo = info};
+
+            if (!context.WorkingDir.IsNonEmpty)
+                process.StartInfo.WorkingDirectory = context.WorkingDir.Name;
+
+            iter(context.EnvVars.Storage, v => process.StartInfo.Environment.Add(v.Name, v.Value));
+            process.OutputDataReceived += (s,d) => status(d.Data ?? EmptyString);
+            process.ErrorDataReceived += (s,d) => error(d.Data ?? EmptyString);
+            process.Start();
+            process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
+            return await wait(process);
+
+            static async Task<int> wait(Process process)
+            {
+                return await Task.Run(() => {
+                    process.WaitForExit();
+                    return Task.FromResult(process.ExitCode);
+                });
+            }
+        }
+
         [MethodImpl(Inline), Op]
         public static ToolCmdLine cmdline(ToolId tool, params string[] src)
             => new ToolCmdLine(tool, CmdScript.cmdline(src));

@@ -5,8 +5,10 @@
 namespace Z0
 {
     [Free]
-    public interface ICmdScriptVar<T> : ICmdScriptVar, IVarValue<T>
+    public interface ICmdScriptVar<T> : IVarValue, IVarValue<T>
     {
 
     }
+
+
 }

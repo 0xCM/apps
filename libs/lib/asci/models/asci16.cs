@@ -34,22 +34,6 @@ namespace Z0
         public asci16(ReadOnlySpan<byte> src)
             => Storage = cpu.vload(w, first(src));
 
-        // [MethodImpl(Inline)]
-        // public asci16(char src)
-        //     => Storage = vmask.v128x8((byte)src);
-
-        // [MethodImpl(Inline)]
-        // public asci16(char c0, char c1)
-        //     => Storage = vmask.v128x8((byte)c0, (byte)c1);
-
-        // [MethodImpl(Inline)]
-        // public asci16(char c0, char c1, char c2)
-        //     => Storage = vmask.v128x8((byte)c0, (byte)c1, (byte)c2);
-
-        // [MethodImpl(Inline)]
-        // public asci16(char c0, char c1, char c2, char c3)
-        //     => Storage = vmask.v128x8((byte)c0, (byte)c1, (byte)c2, (byte)c3);
-
         public bool IsBlank
         {
             [MethodImpl(Inline)]
@@ -230,5 +214,13 @@ namespace Z0
         static N n => default;
 
         static W w => default;
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsciSeq<A,N>(A src)
+            => new AsciSeq<A,N>(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsciSeq<A>(A src)
+            => new AsciSeq<A>(src);
     }
 }

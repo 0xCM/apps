@@ -12,7 +12,7 @@ namespace Z0
 
     using static core;
 
-    public sealed class ApiCaptureService : AppService<ApiCaptureService>
+    public sealed class ApiCaptureService : WfSvc<ApiCaptureService>
     {
         ApiCaptureArchive CaptureArchive => Service(Wf.ApiCaptureArchive);
 
@@ -20,10 +20,10 @@ namespace Z0
 
         ApiMemberExtractor Extractor => Service(ApiMemberExtractor.create);
 
-        ApiJit Jitter => Service(Wf.ApiJit);
+        ApiJit Jit => Service(Wf.ApiJit);
 
         public Index<ApiMemberExtract> ExtractHostOps(IApiHost host)
-            => Extractor.Extract(Jitter.JitHost(host));
+            => Extractor.Extract(Jit.JitHost(host));
 
         public Index<ApiMemberExtract> ExtractMembers(ApiHostMembers src)
             => Extractor.Extract(src.Members);
@@ -85,7 +85,7 @@ namespace Z0
         public void CaptureMembers(ApiHostMembers src, FS.FolderPath path, List<AsmHostRoutines> dst)
         {
             var routines = AsmHostRoutines.Empty;
-            var flow = Wf.Running(src.Host);
+            var flow = Running(src.Host);
             try
             {
                 routines = Emitter.Emit(src.Host, ExtractMembers(src), path);
@@ -93,20 +93,20 @@ namespace Z0
             }
             catch(Exception e)
             {
-                Wf.Error(e);
+                Error(e);
             }
-            Wf.Ran(flow, src.Host);
+            Ran(flow, src.Host);
         }
 
         public ReadOnlySpan<AsmHostRoutines> CaptureCatalog(IApiCatalog catalog)
         {
             var dst = list<AsmHostRoutines>();
-            using var flow = Wf.Running(nameof(CaptureCatalog));
+            var flow = Running();
             var catalogs = catalog.Catalogs.View;
             var count = catalogs.Length;
             for(var i=0; i<count; i++)
                 dst.AddRange(CaptureCatalog(skip(catalogs,i)));
-            Wf.Ran(flow, count);
+            Ran(flow, count);
             return dst.ViewDeposited();
         }
 
@@ -220,7 +220,7 @@ namespace Z0
         {
             try
             {
-                return Extractor.Extract(Jitter.Jit(types));
+                return Extractor.Extract(Jit.Jit(types));
             }
             catch(Exception e)
             {
@@ -237,7 +237,7 @@ namespace Z0
             var count = catalogs.Length;
             for(var i=0; i<count; i++)
                 dst.AddRange(CaptureCatalog(skip(catalogs,i)));
-            Wf.Ran(flow, count);
+            Ran(flow, count);
             return dst.ToArray();
         }
 

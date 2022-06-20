@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using S = AsciSymbol;
+
     partial struct SymbolicQuery
     {
         [MethodImpl(Inline), Op]

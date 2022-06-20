@@ -229,5 +229,13 @@ namespace Z0
         [MethodImpl(Inline)]
         public static bool operator !=(A a, A b)
             => !a.Equals(b);
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsciSeq<A,N>(A src)
+            => new AsciSeq<A,N>(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsciSeq<A>(A src)
+            => new AsciSeq<A>(src);
     }
 }

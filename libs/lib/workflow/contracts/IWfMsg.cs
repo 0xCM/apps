@@ -72,14 +72,14 @@ namespace Z0
         ExecToken Ran<T>(WfExecFlow<T> flow, string msg, FlairKind flair = FlairKind.Ran)
             => Wf.Ran(HostType, flow.WithMsg(msg), flair);
 
+        ExecToken Ran<T,D>(WfExecFlow<T> src, D data, FlairKind flair = FlairKind.Ran)
+            => Wf.Ran(src, data, flair);
+
         WfFileWritten EmittingFile(FS.FilePath dst)
             => Wf.EmittingFile(HostType, dst);
 
         ExecToken EmittedFile(WfFileWritten flow, Count count)
             => Wf.EmittedFile(HostType, flow, count);
-
-        void EmittedFile(WfFileWritten file, Count count, Arrow<FS.FileUri> flow)
-            => Wf.EmittedFile(HostType, file,count);
 
         WfTableFlow<T> EmittingTable<T>(FS.FilePath dst)
             where T : struct

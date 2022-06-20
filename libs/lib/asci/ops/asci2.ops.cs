@@ -12,19 +12,8 @@ namespace Z0
     partial struct Asci
     {
         [MethodImpl(Inline), Op]
-        public static ReadOnlySpan<char> decode(in asci2 src)
-        {
-            var storage = 0u;
-            ref var dst = ref @as<uint,char>(storage);
-            seek(dst, 0) = (char)(byte)(src.Storage >> 0);
-            seek(dst, 1) = (char)(byte)(src.Storage >> 8);
-            return core.cover(dst, 2);
-        }
-
-        [MethodImpl(Inline), Op]
         public static C code(in asci2 src, Hex1Kind index)
             => (C)(src.Storage >> (byte)index);
-
 
         /// <summary>
         /// Encodes a 2-character asci sequence
@@ -34,15 +23,6 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static asci2 define(AsciCode a, AsciCode b)
             => new asci2(AsciSymbols.pack(a,b));
-
-        /// <summary>
-        /// Presents the source content as a bytespan
-        /// </summary>
-        /// <param name="src">The data source</param>
-        [MethodImpl(Inline), Op]
-        public static Span<byte> bytes(in asci2 src)
-            => core.cover(@as<byte>(src.Storage), src.Length);
-
 
         [MethodImpl(Inline), Op]
         public static ReadOnlySpan<AsciSymbol> symbols(in asci2 src)
@@ -55,7 +35,6 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static int length(in asci2 src)
             => foundnot(search(src, z8), src.Capacity);
-
 
         [MethodImpl(Inline), Op]
         public static unsafe void copy(in asci2 src, ref byte dst)

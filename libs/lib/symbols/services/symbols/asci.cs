@@ -9,7 +9,7 @@ namespace Z0
     partial struct Symbols
     {
         [Op, Closures(UInt8k)]
-        public static AsciSequence asci<T>(W8 w, in Sym<T> symbol)
+        public static AsciSeq asci<T>(W8 w, in Sym<T> symbol)
             where T : unmanaged
                 => asci(w, n5, symbol.Expr, symbol.Kind);
 
@@ -26,7 +26,7 @@ namespace Z0
             return (uint)width;
         }
 
-        public static AsciSequence asci<T>(W8 w, N5 n, in SymExpr symbol, T kind)
+        public static AsciSeq asci<T>(W8 w, N5 n, in SymExpr symbol, T kind)
             where T : unmanaged
         {
             const string RenderPattern = "{0,-2} {1,-4} {2,-2} {3,-5}";

@@ -9,7 +9,7 @@ namespace Z0
     partial struct AsciSymbols
     {
         [Op]
-        public static string format(in AsciSequence seq)
+        public static string format(in AsciSeq seq)
             => format(seq.Storage.ToReadOnlySpan());
 
         [Op]

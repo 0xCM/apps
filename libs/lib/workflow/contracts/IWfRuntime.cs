@@ -94,13 +94,6 @@ namespace Z0
             return token;
         }
 
-        ExecToken Ran<T,D>(WfHost host, WfExecFlow<T> src, D data, FlairKind flair = FlairKind.Ran)
-        {
-            var token = Completed(src);
-            WfEvents.signal(this, host).Ran(data);
-            return token;
-        }
-
         Assembly[] Components
             => ApiCatalog.Components;
 

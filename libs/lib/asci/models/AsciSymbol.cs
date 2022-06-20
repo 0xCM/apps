@@ -12,7 +12,7 @@ namespace Z0
     /// <summary>
     /// Lifts an asci code to a structural type
     /// </summary>
-    [ApiHost ,DataWidth(8)]
+    [ApiHost, DataWidth(7)]
     public readonly struct AsciSymbol : IAsciSeq<C,N>
     {
         public readonly AsciCode Code;
@@ -45,6 +45,18 @@ namespace Z0
         {
             [MethodImpl(Inline), Op]
             get => Code != 0;
+        }
+
+        public bool IsBlank
+        {
+            [MethodImpl(Inline), Op]
+            get => SQ.whitespace(Code);
+        }
+
+        public bool IsNull
+        {
+            [MethodImpl(Inline), Op]
+            get => SQ.@null(Code);
         }
 
         [MethodImpl(Inline)]

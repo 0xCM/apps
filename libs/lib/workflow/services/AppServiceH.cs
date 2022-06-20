@@ -203,14 +203,10 @@ namespace Z0
             => WfMsg.Running(msg);
 
         protected ExecToken Ran<T>(WfExecFlow<T> flow, [CallerName] string msg = null)
-            => WfMsg.Ran(flow,msg);
-
-        protected ExecToken Ran<T>(WfExecFlow<T> flow, string msg, FlairKind flair = FlairKind.Ran)
-            => WfMsg.Ran(flow, msg, flair);
+            => WfMsg.Ran(flow, msg);
 
         protected void Write<T>(T content)
             => WfMsg.Write(content);
-
 
         protected WfFileWritten EmittingFile(FS.FilePath dst)
             => WfMsg.EmittingFile(dst);

@@ -11,6 +11,31 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
+        [MethodImpl(Inline)]
+        public static Relation<K,S,T> relation<K,S,T>(K kind, S src, T dst)
+            where K : unmanaged
+            where S : unmanaged
+            where T : unmanaged
+                => new Relation<K,S,T>(FlowId.identify(kind,src,dst), kind, src, dst);
+
+
+        [MethodImpl(Inline)]
+        public static FileFlow flow(in CmdFlow src)
+            => new FileFlow(CmdSpecs.flow(src.Tool, src.SourcePath.ToUri(), src.TargetPath.ToUri()));
+
+        [MethodImpl(Inline)]
+        public static DataFlow<Actor,S,T> flow<S,T>(Tool tool, S src, T dst)
+            => new DataFlow<Actor,S,T>(FlowId.identify(tool,src,dst), tool,src,dst);
+
+        [Op]
+        public static ToolCmdSpec spec(FS.FilePath path, params ToolCmdArg[] args)
+        {
+            var dst = new ToolCmdSpec();
+            dst.ToolPath = path;
+            dst.Args = args.Select(x => x.Format());
+            return dst;
+        }
+
         public static ReadOnlySpan<CmdOption> options(FS.FilePath src)
         {
             var dst = list<CmdOption>();

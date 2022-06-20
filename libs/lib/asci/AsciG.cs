@@ -48,11 +48,11 @@ namespace Z0
         }
 
         [Op, Closures(UInt8k)]
-        public static AsciSequence seq<T>(W8 w, in Sym<T> src)
+        public static AsciSeq seq<T>(W8 w, in Sym<T> src)
             where T : unmanaged
                 => seq(w, n5, src.Expr, src.Kind);
 
-        public static AsciSequence seq<T>(W8 w, N5 n, in SymExpr src, T kind)
+        public static AsciSeq seq<T>(W8 w, N5 n, in SymExpr src, T kind)
             where T : unmanaged
         {
             const string RenderPattern = "{0,-2} {1,-4} {2,-2} {3,-5}";

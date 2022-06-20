@@ -7,8 +7,10 @@ namespace Z0.Asm
     using System.Linq;
 
     using static core;
+    using static Delegates;
 
     using E = SpecializedImmEvent;
+
 
     public class ApiImmEmitter :  WfSvc<ApiImmEmitter>
     {
@@ -53,7 +55,7 @@ namespace Z0.Asm
             }
         }
 
-        public void Emit(ReadOnlySpan<ApiHostUri> hosts, IApiPack dst, Delegates.SpanReceiver<AsmRoutine> receiver = null)
+        public void Emit(ReadOnlySpan<ApiHostUri> hosts, IApiPack dst, SpanReceiver<AsmRoutine> receiver = null)
         {
             var count = hosts.Length;
             var exchange = Exchange;

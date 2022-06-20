@@ -6,14 +6,14 @@ namespace Z0
 {
     public readonly struct AsciGrid
     {
-        readonly AsciSequence Data;
+        readonly AsciSeq Data;
 
         public readonly uint RowWidth;
 
         public readonly uint RowCount;
 
         [MethodImpl(Inline)]
-        public AsciGrid(AsciSequence src, uint width)
+        public AsciGrid(AsciSeq src, uint width)
         {
             RowCount = src.Capacity/width;
             RowWidth = width;

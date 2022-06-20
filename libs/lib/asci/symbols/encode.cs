@@ -9,7 +9,7 @@ namespace Z0
     partial struct AsciSymbols
     {
         [MethodImpl(Inline), Op]
-        public static ref readonly AsciSequence encode(string src, in AsciSequence dst)
+        public static ref readonly AsciSeq encode(string src, in AsciSeq dst)
         {
             encode(src, dst.Storage);
             return ref dst;

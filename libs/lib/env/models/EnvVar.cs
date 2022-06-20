@@ -58,13 +58,9 @@ namespace Z0
         public bool Contains(char match)
             => text.contains(VarValue,match);
 
-        public EnvVar<T> Transform<T>(Func<string,T> f)
-            where T : IEquatable<T>
-                => new EnvVar<T>(VarName.Format(), f(VarValue));
-
         [MethodImpl(Inline)]
         public string Format()
-            =>  nonempty(VarValue) ? string.Format("{0}={1}", VarName, VarValue) : VarName.Format();
+            => nonempty(VarValue) ? string.Format("{0}={1}", VarName, VarValue) : VarName.Format();
 
 
         public override string ToString()

@@ -9,7 +9,7 @@ namespace Z0
     public class ToolCmdFlow<S,T> : DataFlow<Tool,S,T>
     {
         public ToolCmdFlow(Tool tool, S src, T dst)
-            : base(tool, src, dst)
+            : base(FlowId.identify(tool,src,dst), tool, src, dst)
         {
 
         }

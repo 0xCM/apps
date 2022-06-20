@@ -230,5 +230,13 @@ namespace Z0
         static N n => default;
 
         static W w => default;
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsciSeq<A,N>(A src)
+            => new AsciSeq<A,N>(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsciSeq<A>(A src)
+            => new AsciSeq<A>(src);
     }
 }

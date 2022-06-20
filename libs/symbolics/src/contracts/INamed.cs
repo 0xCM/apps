@@ -11,23 +11,17 @@ namespace Z0
     {
         Name Name {get;}
 
+        string ToString()
+            => Name.ToString();
+
         string ITextual.Format()
             => Name;
     }
 
     [Free]
-    public interface INamed<T> : INamed
-        where T : unmanaged
+    public interface INamed<T> : INamed, IEquatable<T>, IComparable<T>
+        where T : unmanaged, INamed
     {
-        new T Name {get;}
 
-        Name INamed.Name
-            => Name.ToString();
-
-        string ToString()
-            => Name.ToString();
-
-        string ITextual.Format()
-            => ToString();
     }
 }

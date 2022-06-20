@@ -14,15 +14,8 @@ namespace Z0
         FS.FolderPath CaptureRoot(FS.FolderPath root)
             => root + FS.folder(capture);
 
-        FS.FolderPath ImmCaptureRoot()
-            => Env.Db + FS.folder(capture) + FS.folder(imm);
-
         FS.FolderPath CaptureContextRoot()
             => Env.Db + FS.folder(capture) + FS.folder(context);
-
-        FS.FilePath ContextTable<T>(Timestamp ts)
-            where T : struct, IRecord<T>
-                => CaptureContextRoot() + FS.file(string.Format("{0}.{1}", Z0.TableId.identify<T>(), ts.Format()), FS.Csv);
 
         FS.FolderPath AsmCaptureRoot()
             => Env.Db + FS.folder(capture) + FS.folder(asm);

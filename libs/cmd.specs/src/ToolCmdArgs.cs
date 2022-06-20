@@ -4,9 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     public readonly struct ToolCmdArgs : IIndex<ToolCmdArg>
     {
         const NumericKind Closure = UnsignedInts;
+
+
 
         [Op]
         public static void render(ToolCmdArgs src, ITextBuffer dst)

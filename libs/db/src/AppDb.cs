@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static Settings;
+    using static core;
 
     using EN = EnvNames;
     using T = ApiGranules;
@@ -12,6 +13,10 @@ namespace Z0
     public class AppDb : IAppDb
     {
         public static ref readonly AppDb Service => ref Instance;
+
+        public static ref readonly ToolWs ToolWs => ref Instance._ToolWs;
+
+        ToolWs _ToolWs;
 
         static Settings settings(FS.FilePath src)
         {
@@ -102,7 +107,6 @@ namespace Z0
         public IWsProject LlvmModel(ProjectId src)
             => new WsProject(DevProjects("llvm.models"), src);
 
-
         public IDbTargets DbProjects(ProjectId src)
             => new DbTargets(setting(Archives.Path(EN.DbProjects),FS.dir), src.Format());
 
@@ -149,6 +153,7 @@ namespace Z0
         {
             _Settings = settings(SettingsPath(Assembly.GetEntryAssembly(), FileKind.Csv));
             Archives = archives(_Settings);
+            _ToolWs = new ToolWs(FS.dir(Archives.Path(EN.Toolbase).ValueText));
         }
 
         static AppDb Instance;

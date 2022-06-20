@@ -15,4 +15,14 @@ namespace Z0
     {
         T Value {get;}
     }
+
+    [Free]
+    public interface IVar<N,T> : IVar<T>, INamed<N>
+        where N : unmanaged, INamed
+    {
+        new N Name {get;}
+
+        VarSymbol IVar.Name
+            => new VarSymbol(Name.Name);
+    }
 }

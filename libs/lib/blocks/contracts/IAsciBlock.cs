@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     public interface IAsciBlock<T> : IStorageBlock<T>
         where T : unmanaged, IAsciBlock<T>
     {

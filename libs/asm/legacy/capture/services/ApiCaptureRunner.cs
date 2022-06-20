@@ -7,8 +7,9 @@ namespace Z0
     using Z0.Asm;
 
     using static core;
+    using static Delegates;
 
-    public class ApiCaptureRunner : AppService<ApiCaptureRunner>
+    public class ApiCaptureRunner : WfSvc<ApiCaptureRunner>
     {
         ApiCaptureService ApiCapture => Service(Wf.ApiCaptureLegacy);
 
@@ -37,7 +38,7 @@ namespace Z0
             Wf.Ran(flow);
         }
 
-        public void EmitImm(ReadOnlySpan<ApiHostUri> hosts, IApiPack dst, Delegates.SpanReceiver<AsmRoutine> receiver = null)
+        public void EmitImm(ReadOnlySpan<ApiHostUri> hosts, IApiPack dst, SpanReceiver<AsmRoutine> receiver = null)
         {
             var flow = Running("EmitImm");
             ImmEmitter.Emit(hosts, dst, receiver);
@@ -64,7 +65,7 @@ namespace Z0
             if((options & CaptureWorkflowOptions.CaptureContext) != 0)
             {
                 Pipe.EmitContext(ts);
-                EmitRebase(members(captured), ts);
+                Rebase(members(captured), dst);
             }
 
             Ran(flow);
@@ -84,7 +85,7 @@ namespace Z0
             if((options & CaptureWorkflowOptions.CaptureContext) != 0)
             {
                 Pipe.EmitContext(ts);
-                EmitRebase(AsmHostRoutines.members(captured), ts);
+                Rebase(AsmHostRoutines.members(captured), dst);
             }
 
             Ran(flow);
@@ -93,6 +94,13 @@ namespace Z0
 
         public Index<AsmHostRoutines> Capture(PartId part, CaptureWorkflowOptions? options = null)
             => Capture(array(part), CaptureWorkflowOptions.EmitImm);
+
+        public void Rebase(ApiMembers members, IApiPack dst)
+        {
+            var flow = Running("Rebasing members");
+            var entries = ApiCatalogs.Rebase(members, dst.Table<ApiCatalogEntry>());
+            Ran(flow);
+        }
 
         Index<AsmHostRoutines> CaptureParts(Index<PartId> parts)
         {
@@ -115,14 +123,6 @@ namespace Z0
             var flow = Running();
             ImmEmitter.Emit(hosts,dst);
             Ran(flow);
-        }
-
-        void EmitRebase(ApiMembers members, Timestamp ts)
-        {
-            var rebasing = Running(nameof(EmitRebase));
-            var dst = Db.ContextTable<ApiCatalogEntry>(ts);
-            var entries = ApiCatalogs.EmitApiCatalog(members, dst);
-            Ran(rebasing);
         }
 
         const CaptureWorkflowOptions DefaultOptions = CaptureWorkflowOptions.CaptureContext | CaptureWorkflowOptions.EmitImm;

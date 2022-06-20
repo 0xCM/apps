@@ -12,5 +12,4 @@ namespace Z0
     {
         T Invoke(S src);
     }
-
 }
