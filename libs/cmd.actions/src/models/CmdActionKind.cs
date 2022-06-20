@@ -4,7 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct Cmd
+    public enum CmdActionKind : byte
     {
+
+        None,
+
+        Pure,
+
+        Emitter,
+
+        Receiver,
+
+        Func
     }
 }

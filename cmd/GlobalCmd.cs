@@ -6,6 +6,25 @@ namespace Z0
 {
     public partial class GlobalCmd : AppCmdService<GlobalCmd>
     {
+
+        public static ICmdProvider[] providers()
+            => new ICmdProvider[]{
+                wf.ProjectCmd(),
+                wf.CaptureCmd(),
+                wf.AsmCoreCmd(),
+                wf.LlvmCmd(),
+                wf.XedTool(),
+                wf.Machines(),
+                wf.ApiCmd(),
+                wf.AsmCmdProvider(),
+                wf.IntelIntrinsicsCmd(),
+                wf.AsmCmdSvc(),
+                wf.XedCmd(),
+                wf.XedChecks(),
+                wf.AsmChecks()
+                };
+
+
         public static GlobalCmd commands(IWfRuntime wf)
         {
             var xed = GlobalSvc.Instance.Inject(wf.XedRuntime());

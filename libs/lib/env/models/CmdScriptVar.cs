@@ -4,6 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    [Free]
+    public interface ICmdScriptVar : IVarValue
+    {
+
+    }
+
+
     /// <summary>
     /// Defines a script variable
     /// </summary>

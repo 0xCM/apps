@@ -4,7 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct Cmd
+    public interface IActionInvoker
     {
     }
+
+    public interface IActionInvoker<S,T> : IActionInvoker
+    {
+        T Invoke(S src);
+    }
+
 }

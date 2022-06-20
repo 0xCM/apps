@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct Cmd
+    [Free]
+    public interface ICmdScriptVar<T> : ICmdScriptVar, IVarValue<T>
     {
+
     }
 }

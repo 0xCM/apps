@@ -30,5 +30,4 @@ namespace Z0
         public static implicit operator CmdExec<K>((K kind, CmdExec cmd) src)
             => new CmdExec<K>(src.kind, src.cmd);
     }
-
 }

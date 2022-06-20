@@ -4,7 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct Cmd
+    [Free]
+    public interface ICmdVarValue : ITextual, INullity
     {
+
     }
+
+    [Free]
+    public interface ICmdVarValue<T> : ICmdVarValue, IContented<T>
+    {
+
+    }
+
 }

@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../templates"
+        },
+		{
+			"path": "../cmd.specs"
+		},
+        {
+			"path": "../cmd.actions"
+		},
+	],
+	"settings": {}
+}
