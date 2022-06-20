@@ -11,6 +11,12 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
+        public static ItemList<K,T> items<K,T>(ConstLookup<K,T> src)
+            where K : unmanaged
+            where T : IListItem<K,T>
+                => src.MapValues(v => new ListItem<K,T>(v.Key, v.Value));
+
+
         [Op, Closures(Closure)]
         public static Index<ListItem<T>> items<T>(ReadOnlySpan<T> src)
         {

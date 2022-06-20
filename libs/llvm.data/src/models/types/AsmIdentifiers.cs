@@ -25,9 +25,6 @@ namespace Z0.llvm
         public ItemList<AsmIdentifier, ushort,asci32> ToItemList()
             => new ItemList<AsmIdentifier,ushort,asci32>("AsmId", MapValues(x => new AsmIdentifier(x.Id, x.Name)));
 
-        // public ItemList<ushort,asci32> ToItemList()
-        //     => new ItemList<ushort,asci32>("AsmId", MapValues(x => new ListItem<ushort,asci32>(x.Id, x.Name)));
-
         public static implicit operator AsmIdentifiers(AsmIdentifier[] src)
             => new AsmIdentifiers(src);
 

@@ -62,4 +62,3 @@ set BuildLiterals=dotnet build %LiteralsProject% %BuildProps% -fl -flp:logfile=%
 
 set CleanBin=rmdir %WsBin% /s/q
 set CleanObj=rmdir %WsObj% /s/q
-

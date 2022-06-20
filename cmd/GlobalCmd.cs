@@ -7,7 +7,7 @@ namespace Z0
     public partial class GlobalCmd : AppCmdService<GlobalCmd>
     {
 
-        public static ICmdProvider[] providers()
+        public static ICmdProvider[] providers(IWfRuntime wf)
             => new ICmdProvider[]{
                 wf.ProjectCmd(),
                 wf.CaptureCmd(),

@@ -72,6 +72,10 @@ namespace Z0
             => new ItemList<K,T>(src);
 
         [MethodImpl(Inline)]
+        public static implicit operator ItemList<K,T>(Index<ListItem<K,T>> src)
+            => new ItemList<K,T>(src);
+
+        [MethodImpl(Inline)]
         public static implicit operator ItemList<K,T>((string name, ListItem<K,T>[] items) src)
             => new ItemList<K,T>(src.name, src.items);
 

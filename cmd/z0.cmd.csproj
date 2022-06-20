@@ -6,11 +6,10 @@
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
 
-  <Import Project="$(ImportDefs)common.libs.props"/>
+  <Import Project="$(ImportDefs)libs.props"/>
   <Import Project="$(ImportDefs)env.settings.props"/>
 
   <ItemGroup>
-    <ProjectReference Include="$(ZLibs)" />
     <ProjectReference Include="$(TestChecks)" />
     <ProjectReference Include="$(TestUnits)" />
     <ProjectReference Include="$(CgLibs)" />

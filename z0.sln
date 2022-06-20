@@ -21,6 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libs", "libs", "{35670672-6
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.lib", "libs\lib\z0.lib.csproj", "{64A268AE-71CD-4A7D-9335-E9211BDBF3DC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.cmd", "cmd\z0.cmd.csproj", "{1DEE5695-6E12-4E33-BDC5-6F7FE5D1F119}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,6 +56,10 @@ Global
 		{64A268AE-71CD-4A7D-9335-E9211BDBF3DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64A268AE-71CD-4A7D-9335-E9211BDBF3DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64A268AE-71CD-4A7D-9335-E9211BDBF3DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DEE5695-6E12-4E33-BDC5-6F7FE5D1F119}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DEE5695-6E12-4E33-BDC5-6F7FE5D1F119}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DEE5695-6E12-4E33-BDC5-6F7FE5D1F119}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DEE5695-6E12-4E33-BDC5-6F7FE5D1F119}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{2AA8EC0B-4550-458B-B192-2BED675B94C0} = {0193E104-52FE-4DD9-9766-D5962459EE7B}

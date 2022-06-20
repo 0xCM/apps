@@ -4,7 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public sealed class CheckRunCmd : CheckRunner<CheckRunCmd>
+    sealed class AppCmd : AppCmdService<AppCmd>
     {
+
+        void RunChecks()
+        {
+
+        }
+
     }
 }
