@@ -4,14 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public abstract class EnvProvider<P,D> : EnvProvider<P>, IEnvProvider<D>
-        where P : EnvProvider<P,D>
-        where D : IEnvVar
+    public abstract class SettingProvider<P,D> : SettingProvider<P>, ISettingProvider<D>
+        where P : SettingProvider<P,D>
+        where D : ISetting<D>
     {
         protected Index<D> Data;
 
-        protected EnvProvider(D[] src)
-            :base(src.Select(x => new EnvVar(x.Name,x.Value)))
+        protected SettingProvider(D[] src)
+            :base(src.Select(x => new Setting<string,object>(x.Name,x.Value)))
         {
             Data = src;
         }
@@ -27,12 +27,5 @@ namespace Z0
             [MethodImpl(Inline)]
             get => ref Data[index];
         }
-
-        public new ref readonly Index<D> Vars
-        {
-            [MethodImpl(Inline)]
-            get => ref Data;
-        }
-
     }
 }

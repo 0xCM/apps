@@ -16,15 +16,6 @@ namespace Z0
         public static Setting<T> setting<T>(Setting src, Func<string,T> parser)
             => new Setting<T>(src.Name, parser(src.ValueText));
 
-        public static EnvSet<S> envset<S>(string name, S src)
-            where S : struct
-        {
-            var values = ClrFields.values(src).Select(x => (Name:new VarSymbol(x.Field.Name), x.Value));
-            var lookup = values.ToDictionary();
-            var vars = values.Select(x => new EnvVar(x.Name, x.Value?.ToString()));
-            return new EnvSet<S>(name, lookup, src, vars);
-        }
-
         [Parser]
         public static Outcome parse(string src, out Setting<string> dst)
         {
@@ -222,10 +213,6 @@ namespace Z0
             return dst.Emit();
         }
 
-        [Op, Closures(Closure)]
-        public static string format<T>(Setting<T> src)
-            => string.Format(RP.Setting, src.Name, src.Value);
-
         public static string format(Setting src, bool json)
         {
             if(json)
@@ -345,6 +332,9 @@ namespace Z0
             return count;
         }
 
+        public static void render(Settings src, ITextEmitter dst)
+            => Tables.emit(src.View, dst);
+
         [Op]
         public static bool search(in Settings src, string key, out Setting value)
         {
@@ -361,29 +351,6 @@ namespace Z0
             }
             return result;
         }
-
-        [Op]
-        public static bool search<T>(in Settings<T> src, string key, out Setting<T> value)
-        {
-            value = Setting<T>.Empty;
-            var result = false;
-            for(var i=0; i<src.Count; i++)
-            {
-                ref readonly var setting = ref src[i];
-                if(string.Equals(setting.Name, key, NoCase))
-                {
-                    value = setting;
-                    result = true;
-                }
-            }
-            return result;
-        }
-
-        public static void render(Settings src, ITextEmitter dst)
-            => Tables.emit(src.View, dst);
-
-        public static void render<T>(Settings<T> src, ITextEmitter dst)
-            => Tables.emit(src.View, dst);
 
         public static string format<T>(in T src)
         {

@@ -4,12 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class MachineEnv : EnvProvider<MachineEnv,EnvVar>
+    public class MachineEnv : SettingProvider<Setting<string,object>>
     {
-        public MachineEnv(EnvVar[] src)
-            : base(src)
+        public MachineEnv(Setting<string,object>[] src)
+            : base(src.Select(x => new Setting<string,object>(x.Name,x.Value)))
         {
-
         }
     }
 }

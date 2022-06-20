@@ -17,6 +17,18 @@ namespace Z0
             VarValue = value;
         }
 
+        public VarSymbol Name
+        {
+            [MethodImpl(Inline)]
+            get => VarName;
+        }
+
+        public string Value
+        {
+            [MethodImpl(Inline)]
+            get => VarValue.Format();
+        }
+
         public string Format()
             => ExprFormatters.format(this);
 

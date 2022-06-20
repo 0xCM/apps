@@ -4,15 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly record struct AsciName<T> : INamed<AsciName<T>>
-        where T : unmanaged, IAsciSeq<T>
+    public readonly record struct SettingName : INamed<SettingName>
     {
-        public readonly T Data;
+        public readonly asci64 Data;
 
         [MethodImpl(Inline)]
-        public AsciName(T name)
+        public SettingName(asci64 data)
         {
-            Data = name;
+            Data = data;
         }
 
         Name INamed.Name
@@ -28,11 +27,11 @@ namespace Z0
             => Hash;
 
         [MethodImpl(Inline)]
-        public bool Equals(AsciName<T> src)
+        public bool Equals(SettingName src)
             => Data.Equals(src.Data);
 
         [MethodImpl(Inline)]
-        public int CompareTo(AsciName<T> src)
+        public int CompareTo(SettingName src)
             => Data.CompareTo(src.Data);
 
         public string Format()
@@ -42,7 +41,7 @@ namespace Z0
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator AsciName<T>(T src)
-            => new AsciName<T>(src);
+        public static implicit operator SettingName(string src)
+            => new SettingName(src);
     }
 }

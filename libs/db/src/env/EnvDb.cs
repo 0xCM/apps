@@ -39,11 +39,8 @@ namespace Z0
         public static Settings config(FS.FolderPath src)
             => config(src + FS.file("tools", FS.ext("env")));
 
-        public static EnvVars vars()
-            => Environs.vars();
-
         public static MachineEnv machine()
-            => new MachineEnv(vars());
+            => new MachineEnv(Environs.vars().Map(x => new Setting<string,object>(x.VarName.Format(), x.VarValue)));
 
         public static ToolEnv tools(Settings src)
             => new ToolEnv(src);
@@ -74,10 +71,10 @@ namespace Z0
             return new Settings(dst.ToArray());
         }
 
-        public static Index<EnvSetting> records(EnvVars src, string name)
+        public static Index<EnvSettingRow> records(EnvVars src, string name)
         {
             const char Sep = ';';
-            var buffer = list<EnvSetting>();
+            var buffer = list<EnvSettingRow>();
             var k=0u;
             for(var i=0; i<src.Count; i++)
             {
@@ -91,7 +88,7 @@ namespace Z0
                     for(var j=0; j<parts.Count; j++)
                     {
                         ref readonly var part = ref parts[j];
-                        var dst = new EnvSetting();
+                        var dst = new EnvSettingRow();
                         dst.Seq = k++;
                         dst.EnvName = name;
                         dst.VarName = vName;
@@ -102,7 +99,7 @@ namespace Z0
                 }
                 else
                 {
-                    var dst = new EnvSetting();
+                    var dst = new EnvSettingRow();
                     dst.Seq = k++;
                     dst.EnvName = name;
                     dst.VarName = vName;

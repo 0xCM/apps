@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Record(TableId)]
-    public struct EnvSetting
+    public struct EnvSettingRow
     {
         public const string TableId = "setting";
 

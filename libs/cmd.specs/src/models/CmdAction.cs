@@ -6,7 +6,7 @@ namespace Z0
 {
     public class CmdAction
     {
-        public readonly AsciName<asci32> Name;
+        public readonly SettingName<asci32> Name;
 
         public readonly CmdActionKind Kind;
 

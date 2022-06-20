@@ -95,5 +95,11 @@ namespace Z0
 
         string IVarValue.VarValue
             => VarValue;
+
+        public VarSymbol Name
+            => VarName;
+
+        public string Value
+            => VarValue;
     }
 }

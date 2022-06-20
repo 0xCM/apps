@@ -8,12 +8,12 @@ namespace Z0
     /// Defines a value-parametric environment variable
     /// </summary>
     [Record(TableId)]
-    public readonly record struct EnvVar<T>
+    public readonly record struct EnvVar<T> : IComparable<EnvVar<T>>, IHashed
         where T : IEquatable<T>
     {
         const string TableId = "env.vars.{0}";
 
-        public readonly AsciName<asci64> Name;
+        public readonly SettingName<asci64> Name;
 
         public readonly T Value;
 
@@ -46,6 +46,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public bool Equals(EnvVar<T> src)
             => Name.Equals(src.Name) && Value.Equals(src.Value);
-
     }
 }

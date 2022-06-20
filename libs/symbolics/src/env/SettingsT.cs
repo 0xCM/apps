@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using api = Settings;
+    using api = EnvSets;
 
     public class Settings<T> : IIndex<Setting<T>>, ILookup<string, Setting<T>>
     {
@@ -49,7 +49,6 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Data.Count;
         }
-
 
         public Span<Setting<T>> Edit
         {

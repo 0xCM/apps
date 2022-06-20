@@ -4,8 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IEnvProvider
+    [Free]
+    public interface ISetting<K,V> : ISetting<V>
+        where K : unmanaged, IAsciSeq<K>
     {
-        EnvData Env {get;}
+        new SettingName<K> Name {get;}
+
+        string ISetting.Name
+            => Name.ToString();
     }
 }

@@ -4,26 +4,29 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IEnvSet
+    [Free]
+    public interface ISettingProvider
     {
         string Name {get;}
 
-        T Value<T>(VarSymbol name)
+        T Value<T>(string name)
             where T : IEquatable<T>;
 
-        bool Value<T>(VarSymbol name, out T dst)
+        bool Value<T>(string name, out T dst)
             where T : IEquatable<T>;
 
-        ReadOnlySpan<VarSymbol> VarNames {get;}
+        ReadOnlySpan<string> Names {get;}
 
-        ReadOnlySpan<object> VarValues {get;}
+        ReadOnlySpan<object> Values {get;}
 
         string ToString();
+
+        string Format() => ToString();
     }
 
-    public interface IEnvSet<S> : IEnvSet
-        where S : struct
-    {
+    [Free]
+    public interface ISettingProvider<D> : ISettingProvider
 
+    {
     }
 }

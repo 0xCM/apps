@@ -8,7 +8,7 @@ namespace Z0
     /// Defines a value-parametric application setting
     /// </summary>
     [Record(TableId)]
-    public readonly struct Setting<T> : ISetting<T>, IComparable<Setting<T>>
+    public readonly struct Setting<T> : IComparable<Setting<T>>
     {
         const string TableId = "settings";
 
@@ -36,12 +36,6 @@ namespace Z0
             [MethodImpl(Inline)]
             get => new (Name, Value.ToString());
         }
-
-        T ISetting<T>.Value
-            => Value;
-
-        string ISetting.Name
-            => Name;
 
         public string Format()
             => string.Format(RP.Setting, Name, Value);

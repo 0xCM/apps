@@ -141,7 +141,6 @@ namespace Z0
         protected void EmitCommands()
             => EmitCommands(AppDb.ApiTargets().Path(FS.file($"{controller().Id().Format()}.commands", FS.Csv)));
 
-
         [CmdOp("env/load")]
         protected Outcome LoadEnv(CmdArgs args)
         {
@@ -149,7 +148,7 @@ namespace Z0
             if(args.Count != 0)
                 name = arg(args,0).Value.Format();
 
-            var set = AppDb.LoadEnv(name).Vars;
+            var set = AppDb.LoadEnv(name);
             iter(set, member => Write(member.Format()));
 
             return true;
@@ -158,7 +157,7 @@ namespace Z0
         [CmdOp("env/emit")]
         protected void EmitEnvVars()
         {
-            TableEmit(EnvDb.records(Environs.vars(), machine), AppDb.Env().Table<EnvSetting>(machine));
+            TableEmit(EnvDb.records(Environs.vars(), machine), AppDb.Env().Table<EnvSettingRow>(machine));
         }
 
         protected Settings UpdateToolEnv()

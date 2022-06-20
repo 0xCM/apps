@@ -4,8 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IEnvProvider
+    public readonly struct Setting<K,V>
     {
-        EnvData Env {get;}
+        public readonly K Name;
+
+        public readonly V Value;
+
+        [MethodImpl(Inline)]
+        public Setting(K name, V value)
+        {
+            Name = name;
+            Value = value;
+        }
     }
 }

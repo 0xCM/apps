@@ -48,8 +48,8 @@ namespace Z0
         public IDbTargets DbOut()
             => new DbTargets(setting(Archives.Path(EN.DbTargets), FS.dir));
 
-        public EnvSet LoadEnv(string name)
-            => EnvSet.load(EnvPath(name), Chars.Eq);
+        public EnvVars<string> LoadEnv(string name)
+            => EnvSets.load(EnvPath(name), Chars.Eq);
 
         public IDbTargets DbOut(string scope)
             => DbOut().Targets(scope);

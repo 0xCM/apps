@@ -4,27 +4,27 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public abstract class EnvProvider<P> : IEnvProvider2
+    public abstract class SettingProvider<P> : ISettingProvider
     {
-        readonly EnvVars Data;
+        readonly Index<Setting<string,object>> Data;
 
-        readonly ConstLookup<VarSymbol,object> Lookup;
+        readonly ConstLookup<string,object> Lookup;
 
         public virtual string Name {get;}
 
-        protected EnvProvider(EnvVar[] src)
+        protected SettingProvider(Setting<string,object>[] src)
         {
             Data = src;
-            Lookup = src.Select(x => (x.VarName,(object)x.VarValue)).ToDictionary();
+            Lookup = src.Select(x => (x.Name,x.Value)).ToDictionary();
             Name = typeof(P).Name;
         }
 
-        public Index<EnvSetting> Records()
+        public Index<EnvSettingRow> Records()
         {
             return default;
         }
 
-        public bool Value<T>(VarSymbol name, out T dst)
+        public bool Value<T>(string name, out T dst)
             where T : IEquatable<T>
         {
             var result = Lookup.Find(name, out var found);
@@ -35,17 +35,17 @@ namespace Z0
             return result;
         }
 
-        public T Value<T>(VarSymbol name)
+        public T Value<T>(string name)
             where T : IEquatable<T>
                 => (T)Lookup[name];
 
-        public ReadOnlySpan<VarSymbol> VarNames
+        public ReadOnlySpan<string> Names
         {
             [MethodImpl(Inline)]
             get => Lookup.Keys;
         }
 
-        public ReadOnlySpan<object> VarValues
+        public ReadOnlySpan<object> Values
         {
             [MethodImpl(Inline)]
             get => Lookup.Values;
@@ -57,20 +57,17 @@ namespace Z0
             get => Data.Count;
         }
 
-        public ref readonly EnvVar this[uint index]
+        public ref readonly Setting<string,object> this[uint index]
         {
             [MethodImpl(Inline)]
             get => ref Data[index];
         }
 
-        public ref readonly EnvVar this[int index]
+        public ref readonly Setting<string,object> this[int index]
         {
             [MethodImpl(Inline)]
             get => ref Data[index];
         }
-
-        public ref readonly EnvVars Vars
-            => ref Data;
 
         public override string ToString()
         {
@@ -78,7 +75,7 @@ namespace Z0
             for(var i=0; i<VarCount; i++)
             {
                 ref readonly var v = ref this[i];
-                dst.AppendLineFormat("{0}={1}", v.VarName, v.VarValue);
+                dst.AppendLineFormat("{0}={1}", v.Name, v.Value);
             }
             return dst.Emit();
         }

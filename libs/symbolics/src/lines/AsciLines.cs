@@ -51,16 +51,6 @@ namespace Z0
             return slice(dst,0,j);
         }
 
-        // [Op]
-        // public static string format<T>(in AsciLine<T> src)
-        //     where T : unmanaged
-        // {
-        //     Span<char> buffer = stackalloc char[src.RenderLength];
-        //     var i=0u;
-        //     render(src, ref i, buffer);
-        //     return text.format(buffer);
-        // }
-
         [Op]
         public static uint render<T>(in AsciLine<T> src, ref uint i, Span<char> dst)
             where T : unmanaged
@@ -70,7 +60,6 @@ namespace Z0
                 text.render(recover<T,AsciCode>(src.View), ref i, dst);
             return i - i0;
         }
-
 
         [Op]
         public static uint render(in AsciLine src, ref uint i, Span<char> dst)
@@ -89,16 +78,6 @@ namespace Z0
                 text.render(src.Codes, ref i, dst);
             return i;
         }
-
-        // [Op]
-        // public static uint render<T>(in AsciLine<T> src, ref uint i, Span<char> dst)
-        //     where T : unmanaged
-        // {
-        //     var i0 = i;
-        //     if(src.IsNonEmpty)
-        //         text.render(recover<T,AsciCode>(src.View), ref i, dst);
-        //     return i - i0;
-        // }
 
         [Op]
         public static bool number(ReadOnlySpan<char> src, out uint j, out LineNumber dst)
