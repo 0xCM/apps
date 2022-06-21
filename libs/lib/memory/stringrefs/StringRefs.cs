@@ -17,6 +17,19 @@ namespace Z0
         const NumericKind Closure = UnsignedInts;
 
         [MethodImpl(Inline), Op, Closures(Closure)]
+        public static StringRefs<S> embedded<S>(ReadOnlySpan<S> src)
+            where S : unmanaged
+                => new StringRefs<S>(src);
+
+        [MethodImpl(Inline), Op]
+        public static StringRefs<char> embedded(string src)
+            => new StringRefs<char>(src);
+
+        [MethodImpl(Inline), Op]
+        public static StringRefs<char> embedded(ReadOnlySpan<char> src)
+            => new StringRefs<char>(src);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
         public static StringRef<S> word<S>(in StringRefs<S> src, ulong index, ulong length)
             where S : unmanaged
                 => new StringRef<S>(src.Address(index), (uint)length);

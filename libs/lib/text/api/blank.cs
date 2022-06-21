@@ -13,5 +13,9 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static bool blank(string src)
             => string.IsNullOrWhiteSpace(src);
+
+        [MethodImpl(Inline), Op]
+        public static bool blank(ReadOnlySpan<char> src)
+            => blank(new string(src));
     }
 }

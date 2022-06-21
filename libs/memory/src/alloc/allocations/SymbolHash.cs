@@ -55,7 +55,7 @@ namespace Z0
                 if(_Strings.Store(src, Allocated))
                 {
                     Allocated += len;
-                    _Symbols[SymIndex++] = new SymHash(new StringRef(_Strings.Address(offset), len), strings.hash(src));
+                    _Symbols[SymIndex++] = new SymHash(new StringRef(_Strings.Address(offset), len), core.hash(src));
                     return true;
                 }
             }

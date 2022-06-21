@@ -4,13 +4,31 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    //using static core;
+    using static core;
 
     [StructLayout(StructLayout,Pack=1, Size=Size)]
     public unsafe readonly struct MemoryStrings
     {
         const byte OffsetScale = 4;
 
+        [MethodImpl(Inline)]
+        public static StringAddress<N> natural<N>(string src)
+            where N : unmanaged, ITypeNat
+        {
+            if(src.Length >= nat32i<N>())
+                return new StringAddress<N>(address(src));
+            else
+                return default;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static unsafe string format(StringAddress src)
+            => new string(src.Address.Pointer<char>());
+
+        [MethodImpl(Inline), Op]
+        public static unsafe string format<N>(StringAddress<N> src)
+            where N : unmanaged, ITypeNat
+                => new string(src.Address.Pointer<char>());
 
         [MethodImpl(Inline), Op]
         public static unsafe ref char first(StringAddress src)
@@ -25,6 +43,17 @@ namespace Z0
             while(c != 0 && i < dst.Length)
                 core.seek(dst, i++) = core.skip(c, j++);
             return j-1;
+        }
+
+        [MethodImpl(Inline)]
+        public static uint render<N>(StringAddress<N> src, ref uint i, Span<char> dst)
+            where N : unmanaged, ITypeNat
+        {
+            ref var c = ref first(src.Source);
+            var n = src.Length;
+            for(var j=0; j<n; j++)
+                seek(dst,i++) = skip(c,j);
+            return n;
         }
 
         [MethodImpl(Inline), Op]
@@ -79,7 +108,11 @@ namespace Z0
             => core.address(chars(src, index));
 
         [MethodImpl(Inline), Op]
-        static StringAddress address(ReadOnlySpan<char> src)
+        public static StringAddress address(string src)
+            => new StringAddress(core.address(src));
+
+        [MethodImpl(Inline), Op]
+        public static StringAddress address(ReadOnlySpan<char> src)
             => new StringAddress(core.address(src));
 
         [MethodImpl(Inline), Op]

@@ -6,6 +6,19 @@ namespace Z0
 {
     public unsafe readonly record struct Label : IMemoryString<Label,char>
     {
+        /// <summary>
+        /// Creates a label from an embedded string
+        /// </summary>
+        /// <param name="src"></param>
+        [MethodImpl(Inline), Op]
+        public static Label FromFixed(string src)
+        {
+            if(core.empty(src))
+                return Label.Empty;
+            StringAddress a = src;
+            return new Label(a.Address, (byte)src.Length);
+        }
+
         readonly ulong Data;
 
         public Label()
@@ -78,7 +91,7 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static implicit operator Label(string src)
-            => strings.label(src);
+            => FromFixed(src);
 
         public static Label Empty => default;
     }

@@ -6,33 +6,16 @@ namespace Z0
 {
     using static core;
 
+    using api = MemoryStrings;
+
     /// <summary>
     /// Specifies an address for a null-terminated unicode string
     /// </summary>
     public unsafe readonly struct StringAddress : IAddressable
     {
         [MethodImpl(Inline), Op]
-        public static StringAddress from(string src)
-            => new StringAddress(core.address(src));
-
-        [MethodImpl(Inline)]
-        public static StringAddress<N> natural<N>(string src)
-            where N : unmanaged, ITypeNat
-        {
-            if(src.Length >= Typed.nat32i<N>())
-                return new StringAddress<N>(from(src));
-            else
-                return default;
-        }
-
-        [MethodImpl(Inline), Op]
         public static unsafe string format(StringAddress src)
             => new string(src.Address.Pointer<char>());
-
-        [MethodImpl(Inline), Op]
-        public static unsafe string format<N>(StringAddress<N> src)
-            where N : unmanaged, ITypeNat
-                => new string(src.Address.Pointer<char>());
 
         public readonly MemoryAddress Address;
 
@@ -60,6 +43,18 @@ namespace Z0
             get => Address.IsNonZero;
         }
 
+        public Hash32 ContentHash
+        {
+            [MethodImpl(Inline)]
+            get => hash(Chars);
+        }
+
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => hash(hash(Address),(uint)Size);
+        }
+
         public ByteSize Size
         {
             [MethodImpl(Inline)]
@@ -78,7 +73,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public unsafe string Format()
-            => StringAddress.format(this);
+            => api.format(this);
 
         public override string ToString()
             => Format();
@@ -102,14 +97,9 @@ namespace Z0
         public static explicit operator StringAddress(MemoryAddress src)
             => new StringAddress(src);
 
-
         [MethodImpl(Inline)]
         public static implicit operator StringAddress(string src)
-            => from(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator StringAddress(Name src)
-            => from(src.Content);
+            => api.address(src);
 
         public static StringAddress Zero
         {

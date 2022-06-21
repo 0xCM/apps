@@ -6,6 +6,8 @@ namespace Z0
 {
     using static core;
 
+    using api = MemoryStrings;
+
     /// <summary>
     /// Specifes the location of a string in memory with a naturally-specified length
     /// </summary>
@@ -29,7 +31,7 @@ namespace Z0
         public uint Length
         {
             [MethodImpl(Inline)]
-            get => Typed.nat32u<N>();
+            get => nat32u<N>();
         }
 
         public bool IsNonZero
@@ -46,10 +48,10 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public uint Render(ref uint i, Span<char> dst)
-            => strings.render(this, ref i, dst);
+            => api.render(this, ref i, dst);
 
         public string Format()
-            => StringAddress.format(this);
+            => api.format(this);
 
         public override string ToString()
             => Format();
@@ -67,6 +69,6 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator StringAddress<N>(string src)
-            => StringAddress.natural<N>(src);
+            => api.natural<N>(src);
     }
 }

@@ -9,7 +9,7 @@ namespace Z0
     using api = CharBlocks;
     using B = CharBlock11;
 
-    [StructLayout(LayoutKind.Sequential, Pack=2), DataWidth(Size*8,Size*8)]
+    [StructLayout(LayoutKind.Sequential, Pack=2)]
     public struct CharBlock11 : ICharBlock<B>
     {
         public const ushort CharCount = 11;
