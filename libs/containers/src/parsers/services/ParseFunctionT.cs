@@ -4,6 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    public delegate Outcome ParserDelegate<T>(string src, out T dst);
+
+
     public readonly struct ParseFunction<T> : IParser<T>
     {
         readonly ParserDelegate<T> F;

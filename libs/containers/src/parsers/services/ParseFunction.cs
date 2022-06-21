@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    public delegate Outcome ParserDelegate(string src, out dynamic dst);
+
     public readonly struct ParseFunction : IParser
     {
         public Type TargetType {get;}

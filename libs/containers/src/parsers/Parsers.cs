@@ -15,6 +15,31 @@ namespace Z0
         //     return new ItemList<string>(items);
         // }
 
+        public static bool parse(string src, out ClrPrimitiveKind dst)
+        {
+            var symbols = Symbols.index<ClrPrimitiveKind>();
+            var i = text.index(src, Chars.Colon);
+            dst = default;
+            if(i > 0)
+            {
+                var input = text.left(src,i);
+                if(symbols.Lookup(input, out var s))
+                    dst = s.Kind;
+            }
+            else
+            {
+                i = text.index(src,Chars.Space);
+                if(i>0)
+                {
+                    var input = text.left(src,i);
+                    if(symbols.Lookup(input, out var s))
+                        dst = s.Kind;
+                }
+            }
+
+            return dst != 0;
+        }
+
         public static ParserDelegate<list<T>> ListParser<T>(string type, ParserDelegate<T> terms)
         {
             Outcome parse(string src, out list<T> dst)

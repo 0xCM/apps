@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System.Threading.Tasks;
+
     [ApiHost]
     public static partial class XCalc
     {
@@ -16,5 +18,9 @@ namespace Z0
         public static T BitSeg<T>(this SpanBlock256<T> src, uint i0, uint i1)
             where T : unmanaged
                 => gbits.seg(src.Storage, i0, i1);
+
+        public static Task Continue<T>(this Task<T> src, Action<T> @continue)
+            where T : struct, ICmd
+                => src.ContinueWith(t => @continue(t.Result));
     }
 }

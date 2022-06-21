@@ -4,18 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     using DW = DataWidth;
     using TW = NativeTypeWidth;
     using FW = CpuCellWidth;
     using VW = NativeVectorWidth;
     using TSK = TypeSignKind;
-
     using W = W128;
+    using N = N128;
 
     /// <summary>
     /// Defines a type-level representation of <see cref='DW.W128'/> with a <see cref='TypeSign'/> classifier
@@ -100,5 +95,13 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator VW(W src)
             => (VW)Width;
+
+        [MethodImpl(Inline)]
+        public static implicit operator W(N src)
+            => default;
+
+        [MethodImpl(Inline)]
+        public static implicit operator N(W src)
+            => default;
     }
 }

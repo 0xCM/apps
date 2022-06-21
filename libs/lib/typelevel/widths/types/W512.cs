@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     using DW = DataWidth;
     using TW = NativeTypeWidth;
     using FW = CpuCellWidth;
@@ -77,6 +72,13 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator VW(W src)
             => (VW)Width;
+
+        [MethodImpl(Inline)]
+        public static implicit operator W512(N512 src) => default(W512);
+
+        [MethodImpl(Inline)]
+        public static implicit operator N512(W512 src) => default(N512);
+
 
         [MethodImpl(Inline)]
         public bool Equals(W w)

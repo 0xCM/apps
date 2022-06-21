@@ -16,6 +16,7 @@ namespace Z0
     using TSK = TypeSignKind;
 
     using W = W1;
+    using N = N1;
 
     /// <summary>
     /// Defines a type-level representation of <see cref='DW.W1'/>
@@ -77,6 +78,15 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator NW(W src)
             => (NW)Width;
+
+        [MethodImpl(Inline)]
+        public static implicit operator W(N src)
+            => default;
+
+        [MethodImpl(Inline)]
+        public static implicit operator N(W src)
+            => default;
+
 
         [MethodImpl(Inline)]
         public bool Equals(W w)

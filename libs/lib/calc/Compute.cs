@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     public readonly struct Compute
     {
         public static ResultCode run<S,T>(Computation<S,T> comp, in S src, out T dst)

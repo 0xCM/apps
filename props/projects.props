@@ -3,6 +3,7 @@
   <PropertyGroup>
     <ApiCode>$(LibsRoot)api.code/z0.api.code.csproj</ApiCode>
     <Assets>$(LibsRoot)assets/z0.assets.csproj</Assets>
+    <Agents>$(LibsRoot)agents/z0.agents.csproj</Agents>
 
     <Asm>$(LibsRoot)asm/z0.asm.csproj</Asm>
     <ApiMd>$(LibsRoot)api.md/z0.api.md.csproj</ApiMd>
@@ -40,18 +41,19 @@
     <IntelIntrinsics>$(LibsRoot)intel.intrinsics/z0.intel.intrinsics.csproj</IntelIntrinsics>
     <IntelCore>$(LibsRoot)intel.core/z0.intel.core.csproj</IntelCore>
     <IntelXed>$(LibsRoot)/intel.xed/z0.intel.xed.csproj</IntelXed>
+    <Interop>$(LibsRoot)interop/z0.interop.csproj</Interop>
 
     <LlvmTools>$(LibsRoot)llvm.tools/z0.llvm.tools.csproj</LlvmTools>
     <LlvmData>$(LibsRoot)llvm.data/z0.llvm.data.csproj</LlvmData>
     <Lang>$(LibsRoot)lang/z0.lang.csproj</Lang>
     <Lines>$(LibsRoot)lines/z0.lines.csproj</Lines>
 
-    <Memory>$(LibsRoot)memory/z0.memory.csproj</Memory>
     <Machines>$(LibsRoot)machines/z0.machines.csproj</Machines>
-    <Native>$(LibsRoot)native/z0.native.csproj</Native>
-    <Numbers>$(LibsRoot)numbers/z0.numbers.csproj</Numbers>
+    <Memory>$(LibsRoot)memory/z0.memory.csproj</Memory>
 
-    <Interop>$(LibsRoot)interop/z0.interop.csproj</Interop>
+    <Native>$(LibsRoot)native/z0.native.csproj</Native>
+    <Nats>$(LibsRoot)nats/z0.nats.csproj</Nats>
+    <Numbers>$(LibsRoot)numbers/z0.numbers.csproj</Numbers>
 
     <Rules>$(LibsRoot)rules/z0.rules.csproj</Rules>
     <Render>$(LibsRoot)render/z0.render.csproj</Render>

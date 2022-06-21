@@ -4,15 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     using DW = DataWidth;
     using TSK = TypeSignKind;
-
     using W = W2;
+    using N = N2;
 
     public readonly struct W2 : WData<W>, ITypedIdentity<string>
     {
@@ -47,6 +42,14 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator DataWidth<W>(W src)
+            => default;
+
+        [MethodImpl(Inline)]
+        public static implicit operator W(N src)
+            => default;
+
+        [MethodImpl(Inline)]
+        public static implicit operator N(W src)
             => default;
 
         [MethodImpl(Inline)]

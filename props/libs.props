@@ -4,6 +4,7 @@
 
     <ProjectReference Include="$(Interop)" />
 
+    <ProjectReference Include="$(Agents)" />
     <ProjectReference Include="$(ApiCode)" />
     <ProjectReference Include="$(ApiMd)" />
     <ProjectReference Include="$(Archives)" />
@@ -50,7 +51,7 @@
     <ProjectReference Include="$(Memory)" />
 
     <ProjectReference Include="$(Native)" />
-
+    <ProjectReference Include="$(Nats)" />
     <ProjectReference Include="$(Numbers)" />
 
     <ProjectReference Include="$(Rules)" />

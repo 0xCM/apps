@@ -4,18 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     using DW = DataWidth;
     using TW = NativeTypeWidth;
     using FW = CpuCellWidth;
     using NW = NumericWidth;
     using TSK = TypeSignKind;
-
     using W = W64;
+    using N = N64;
 
     /// <summary>
     /// Defines a type-level representation of <see cref='DW.W64'/>
@@ -77,6 +72,12 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator NW(W src)
             => (NW)Width;
+
+        [MethodImpl(Inline)]
+        public static implicit operator W(N src) => default(W);
+
+        [MethodImpl(Inline)]
+        public static implicit operator N(W src) => default(N);
 
         [MethodImpl(Inline)]
         public bool Equals(W w)

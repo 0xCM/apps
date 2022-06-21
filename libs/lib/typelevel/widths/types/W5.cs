@@ -4,15 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     using DW = DataWidth;
     using TSK = TypeSignKind;
-
     using W = W5;
+    using N = N5;
 
     /// <summary>
     /// Defines a type-level representation of <see cref='DW.W5'/>
@@ -52,6 +47,14 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator DataWidth<W>(W src)
+            => default;
+
+        [MethodImpl(Inline)]
+        public static implicit operator W(N src)
+            => default;
+
+        [MethodImpl(Inline)]
+        public static implicit operator N(W src)
             => default;
 
         [MethodImpl(Inline)]

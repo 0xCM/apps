@@ -4,16 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     using DW = DataWidth;
     using TSK = TypeSignKind;
     using TW = NativeTypeWidth;
-
     using W = W24;
+    using N = N24;
 
     /// <summary>
     /// Defines a type-level representation of <see cref='DW.W24'/>

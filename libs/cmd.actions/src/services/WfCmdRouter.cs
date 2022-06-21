@@ -48,24 +48,24 @@ namespace Z0
                 if(Nodes.TryGetValue(cmd.CmdId, out var node))
                 {
 
-                    Wf.Status(DispatchingCmd.Format(cmd.CmdId, node.GetType().Name));
+                    Status(DispatchingCmd.Format(cmd.CmdId, node.GetType().Name));
                     var result = node.Invoke(cmd);
                     if(result.Succeeded)
-                        Wf.Status(result);
+                        Status(result);
                     else
-                        Wf.Error(result);
+                        Error(result);
                     return result;
                 }
                 else
                 {
-                    Wf.Error(AppMsg.NotFound.Format(cmd.CmdId));
-                    return Cmd.fail(cmd);
+                    Error(AppMsg.NotFound.Format(cmd.CmdId));
+                    return CmdExec.fail(cmd);
                 }
             }
             catch(Exception e)
             {
-                Wf.Error(e);
-                return Cmd.fail(cmd, e);
+                Error(e);
+                return CmdExec.fail(cmd, e);
             }
         }
 

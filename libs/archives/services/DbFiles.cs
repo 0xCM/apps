@@ -48,7 +48,7 @@ namespace Z0
         {
             var _list = DbFiles.search(cmd.SourceDir, cmd.Extensions, cmd.EmissionLimit);
             var outcome = DbFiles.emit(_list, cmd.FileUriMode, cmd.TargetPath);
-            return outcome ? Cmd.ok(cmd,_list) : Cmd.fail(cmd, outcome.Message);
+            return outcome ? CmdExec.ok(cmd,_list) : CmdExec.fail(cmd, outcome.Message);
         }
 
         [MethodImpl(Inline), Op]

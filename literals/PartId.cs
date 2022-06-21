@@ -18,8 +18,8 @@ public enum PartId : byte
     [Symbol("part")]
     Part,
 
-    [Symbol("asm.services")]
-    AsmServices,
+    [Symbol("agents")]
+    Agents,
 
     [Symbol("symbols")]
     Symbols,
@@ -90,8 +90,8 @@ public enum PartId : byte
     [Symbol("deprecated")]
     Deprecated,
 
-    [Symbol("bitspans")]
-    BitSpans,
+    [Symbol("nats")]
+    Nats,
 
     [Symbol("libm")]
     LibM,

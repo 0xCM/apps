@@ -339,9 +339,10 @@ namespace Z0
             return buffer.Sort();
         }
 
+
         Index<ApiCmdRow> CalcApiCommands()
         {
-            var types = Cmd.types(Components);
+            var types = CmdSpecs.tagged(Components);
             var buffer = list<ApiCmdRow>();
             foreach(var type in types)
             {

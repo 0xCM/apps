@@ -11,6 +11,18 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
+        [Op]
+        public static ICmd[] cmds(Assembly src)
+        {
+            var types = src.Types().Tagged<CmdAttribute>();
+            var specs = types.Select(t => (ICmd)Activator.CreateInstance(t));
+            return specs;
+        }
+
+        [Op]
+        public static Type[] tagged(Assembly[] src)
+            =>  src.Types().Tagged<CmdAttribute>();
+
         [MethodImpl(Inline), Op]
         public static CmdScriptPattern pattern(string name, string content)
             => new CmdScriptPattern(name, content);
