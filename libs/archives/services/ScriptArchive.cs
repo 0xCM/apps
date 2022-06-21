@@ -32,7 +32,5 @@ namespace Z0
 
         public static implicit operator ScriptArchive(FS.FolderPath root)
             => new ScriptArchive(root);
-
-
     }
 }

@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     [Flags, SymSource("files")]
     public enum FileChangeKind : byte
     {

@@ -9,6 +9,7 @@
   <Import Project="$(ImportDefs)common.libs.props"/>
 
   <ItemGroup>
+    <ProjectReference Include="$(Archives)" />
     <ProjectReference Include="$(CmdActions)" />
     <ProjectReference Include="$(Lines)" />
   </ItemGroup>
