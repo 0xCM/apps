@@ -10,6 +10,13 @@ namespace Z0
         sealed class AppSvcCache : AppServices<AppSvcCache>
         {
 
+            public DumpArchive DumpArchive(IWfRuntime wf)
+                => Service<DumpArchive>(wf);
+
+            public ModuleArchives ModuleArchives(IWfRuntime wf)
+                => Service<ModuleArchives>(wf);
+
+
             public AppSvcOps AppSvc(IWfRuntime wf)
                 => Service<AppSvcOps>(wf);
 
@@ -19,6 +26,12 @@ namespace Z0
         }
 
         static AppSvcCache Services => AppSvcCache.Instance;
+
+        public static ModuleArchives ModuleArchives(this IWfRuntime wf)
+            => Services.ModuleArchives(wf);
+
+        public static DumpArchive DumpArchive(this IWfRuntime wf)
+            => Services.DumpArchive(wf);
 
         public static AppSvcOps AppSvc(this IWfRuntime wf)
             => Services.AppSvc(wf);

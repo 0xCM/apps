@@ -11,7 +11,7 @@ namespace Z0
     /// This classification scheme is applicable to arguments of the form [Prefix][name][qualifier]<value/>
     /// For example --foo:3 or -foo 3 or 3
     /// </remarks>
-    [Flags]
+    [Flags, SymSource("cmd")]
     public enum ArgPartKind : byte
     {
         None = 0,

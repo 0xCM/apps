@@ -12,21 +12,10 @@ namespace Z0
     using static core;
     using static MsProjects;
 
+
     [ApiHost]
     public partial class MsDev
     {
-        public readonly struct MsBuildImports
-        {
-            public Assembly MsBuildFramework
-                => typeof(Microsoft.Build.Framework.BuildEngineResult).Assembly;
-
-            public Assembly MsBuildTasks
-                => typeof(Microsoft.Build.Tasks.AssignCulture).Assembly;
-
-            public Assembly MsBuildUtilities
-                => typeof(Microsoft.Build.Utilities.MuxLogger).Assembly;
-        }
-
         [Op]
         public static Project resbytes()
         {

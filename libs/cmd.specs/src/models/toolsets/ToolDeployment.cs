@@ -6,9 +6,9 @@ namespace Z0
 {
     public readonly struct ToolDeployment
     {
-        public readonly ToolId Id {get;}
+        public readonly ToolId Id;
 
-        public readonly FS.FilePath Path {get;}
+        public readonly FS.FilePath Path;
 
         [MethodImpl(Inline)]
         public ToolDeployment(ToolId id, FS.FilePath path)

@@ -5,8 +5,8 @@
 namespace Z0
 {
     using Windows;
-    using static ApiGranules;
 
+    using static ApiGranules;
     using static core;
 
     [CmdProvider]
@@ -139,7 +139,7 @@ namespace Z0
 
         [CmdOp("commands")]
         protected void EmitCommands()
-            => EmitCommands(AppDb.ApiTargets().Path(FS.file($"{controller().Id().Format()}.commands", FS.Csv)));
+            => EmitCommands(AppDb.ApiTargets("commands").Path(FS.file($"{controller().Id().Format()}.commands", FS.Csv)));
 
         [CmdOp("env/load")]
         protected Outcome LoadEnv(CmdArgs args)
@@ -312,7 +312,8 @@ namespace Z0
         {
             var actions = Dispatcher.SupportedActions.Index().Sort();
             var emitter = text.emitter();
-            iter(Dispatcher.SupportedActions, cmd => emitter.AppendLine(cmd));
+            iter(actions, cmd => emitter.AppendLine(cmd));
+            iter(actions, cmd => Write(cmd));
             FileEmit(emitter.Emit(), actions.Count, dst);
         }
 

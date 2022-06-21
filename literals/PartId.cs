@@ -33,6 +33,15 @@ public enum PartId : byte
     [Symbol("cmd.specs")]
     CmdSpecs,
 
+    [Symbol("cmd.exec")]
+    CmdExec,
+
+    [Symbol("cmd.svc")]
+    CmdSvc,
+
+    [Symbol("cmd.checks")]
+    CmdChecks,
+
     [Symbol("asm.prototypes")]
     AsmPrototypes,
 
@@ -72,14 +81,8 @@ public enum PartId : byte
     [Symbol("tools")]
     Tools,
 
-    [Symbol("cmd.api")]
-    CmdApi,
-
     [Symbol("interop")]
     Interop,
-
-    [Symbol("cmd.exec")]
-    CmdExec,
 
     [Symbol("test.units")]
     TestUnits,
@@ -164,9 +167,6 @@ public enum PartId : byte
 
     [Symbol("db")]
     Db,
-
-    [Symbol("cmd.svc")]
-    CmdSvc,
 
     [Symbol("literals")]
     Literals,

@@ -11,13 +11,22 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
+        [MethodImpl(Inline), Op]
+        public static CmdScriptPattern pattern(string name, string content)
+            => new CmdScriptPattern(name, content);
+
+        public static CmdTypeInfo type(Type src)
+            => new CmdTypeInfo(src, src.DeclaredInstanceFields());
+
+        public static Index<CmdTypeInfo> types(Assembly[] src)
+            => src.Types().Tagged<CmdAttribute>().Select(type);
+
         [MethodImpl(Inline)]
         public static Relation<K,S,T> relation<K,S,T>(K kind, S src, T dst)
             where K : unmanaged
             where S : unmanaged
             where T : unmanaged
                 => new Relation<K,S,T>(FlowId.identify(kind,src,dst), kind, src, dst);
-
 
         [MethodImpl(Inline)]
         public static FileFlow flow(in CmdFlow src)
@@ -34,6 +43,27 @@ namespace Z0
             dst.ToolPath = path;
             dst.Args = args.Select(x => x.Format());
             return dst;
+        }
+
+        [Op]
+        public static void render(CmdTypeInfo src, ITextBuffer dst)
+        {
+            dst.Append(src.SourceType.Name);
+            var fields = src.Fields.View;;
+            var count = fields.Length;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var field = ref skip(fields,count);
+                dst.Append(string.Format(" | {0}:{1}", field.Name, field.FieldType.Name));
+            }
+        }
+
+        [Op]
+        public static string format(CmdTypeInfo src)
+        {
+            var buffer = text.buffer();
+            render(src, buffer);
+            return buffer.Emit();
         }
 
         public static ReadOnlySpan<CmdOption> options(FS.FilePath src)
@@ -117,6 +147,13 @@ namespace Z0
                 seek(dst,i) = new CmdArg(skip(src,i));
             return dst;
         }
+
+        public static CmdScriptExpr format(in CmdScriptPattern pattern, params CmdVar[] args)
+            => string.Format(pattern.Pattern, args.Select(a => a.Format()));
+
+        public static CmdScriptExpr format<K>(in CmdScriptPattern pattern, params CmdVar<K>[] args)
+            where K : unmanaged
+                => string.Format(pattern.Pattern, args.Select(a => a.Format()));
 
         public static string format(in CmdSpec src)
         {

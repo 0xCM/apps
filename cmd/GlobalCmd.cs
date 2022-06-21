@@ -4,9 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public partial class GlobalCmd : AppCmdService<GlobalCmd>
+    class AppCmd : AppCmdService<AppCmd>
     {
-
         public static ICmdProvider[] providers(IWfRuntime wf)
             => new ICmdProvider[]{
                 wf.ProjectCmd(),
@@ -25,35 +24,10 @@ namespace Z0
                 };
 
 
-        public static GlobalCmd commands(IWfRuntime wf)
+        public static AppCmd commands(IWfRuntime wf)
         {
             var xed = GlobalSvc.Instance.Inject(wf.XedRuntime());
-            var providers = new ICmdProvider[]{
-                wf.ProjectCmd(),
-                wf.CaptureCmd(),
-                wf.AsmCoreCmd(),
-                wf.LlvmCmd(),
-                wf.XedTool(),
-                wf.Machines(),
-                wf.ApiCmd(),
-                wf.AsmCmdProvider(),
-                wf.IntelIntrinsicsCmd(),
-                wf.AsmCmdSvc(),
-                wf.XedCmd(),
-                wf.XedChecks(),
-                wf.AsmChecks()
-                };
-
-            foreach(var provider in providers)
-            {
-                foreach(var action in provider.Actions.Specs)
-                {
-                    term.emit(EventFactory.babble(typeof(GlobalCmd), $"Discovered {action} from {provider.GetType()}"));
-                }
-            }
-
-            var dst = create(wf,providers);
-            return dst;
+            return create(wf, providers(wf));
         }
 
         protected override void Initialized()

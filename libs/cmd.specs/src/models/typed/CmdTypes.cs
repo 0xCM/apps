@@ -6,14 +6,6 @@ namespace Z0
 {
     public struct CmdTypes : IIndex<CmdTypeInfo>
     {
-        [Op]
-        public static CmdTypeInfo cmdtype(Type src)
-            => new CmdTypeInfo(src, src.DeclaredInstanceFields());
-
-        [Op]
-        public static Index<CmdTypeInfo> cmdtypes(Assembly[] src)
-            => src.Types().Tagged<CmdAttribute>().Select(cmdtype);
-
         Index<CmdTypeInfo> Data;
 
         [MethodImpl(Inline)]

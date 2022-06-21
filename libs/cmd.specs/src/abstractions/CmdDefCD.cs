@@ -4,8 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Free]
-    public interface ICmdScriptVar<T> : IVarValue, IVarValue<T>
+    public abstract class CmdDef<C,D>
+        where C : CmdDef<C,D>
+        where D : struct
     {
 
     }

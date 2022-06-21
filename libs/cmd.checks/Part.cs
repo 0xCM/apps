@@ -9,26 +9,20 @@ global using System.Reflection;
 global using System.Runtime.Intrinsics;
 global using System.Runtime.CompilerServices;
 global using System.Runtime.InteropServices;
+global using System.Threading.Tasks;
 
 global using static Z0.Root;
-global using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-global using SQ = Z0.SymbolicQuery;
 
-[assembly: PartId(PartId.Cmd)]
+global using SQ = Z0.SymbolicQuery;
+global using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
+global using CallerName = System.Runtime.CompilerServices.CallerMemberNameAttribute;
+global using CallerFile = System.Runtime.CompilerServices.CallerFilePathAttribute;
+global using CallerLine = System.Runtime.CompilerServices.CallerLineNumberAttribute;
+[assembly: PartId(PartId.CmdChecks)]
 namespace Z0.Parts
 {
-    public sealed class Cmd : Part<Cmd>
+    public sealed class CmdChecks : Part<CmdChecks>
     {
-        [ModuleInitializer]
-        internal static void Init()
-        {
-            //AppData.init();
-            NumRender.Service.RegisterFomatters();
-        }
 
     }
-}
-
-namespace Z0
-{
 }

@@ -6,13 +6,13 @@ namespace Z0
 {
     public readonly ref struct SymSpanSpec
     {
-        public readonly Identifier Name {get;}
+        public readonly Identifier Name;
 
-        public readonly ReadOnlySpan<Sym> Data {get;}
+        public readonly ReadOnlySpan<Sym> Data;
 
-        public readonly bool IsStatic {get;}
+        public readonly bool IsStatic;
 
-        public readonly string CellType {get;}
+        public readonly string CellType;
 
         [MethodImpl(Inline)]
         public SymSpanSpec(string name, ReadOnlySpan<Sym> data, bool isStatic, string type)

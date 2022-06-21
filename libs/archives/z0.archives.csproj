@@ -9,8 +9,4 @@
   <Import Project="$(ImportDefs)zlib.props"/>
   <Import Project="$(ImportDefs)literals.props"/>
 
-  <ItemGroup>
-    <ProjectReference Include="$(Memory)" />
-  </ItemGroup>
-
 </Project>

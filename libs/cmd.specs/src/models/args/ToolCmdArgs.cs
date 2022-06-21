@@ -10,8 +10,6 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
-
-
         [Op]
         public static void render(ToolCmdArgs src, ITextBuffer dst)
         {

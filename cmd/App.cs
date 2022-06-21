@@ -5,9 +5,9 @@
 namespace Z0
 {
     [Free]
-    sealed class AppCmdShell : AppCmdShell<AppCmdShell>
+    sealed class App : AppCmdShell<App>
     {
         public static void Main(params string[] args)
-            => run(wf => GlobalCmd.commands(wf), args);
+            => run(wf => AppCmd.commands(wf), args);
     }
 }

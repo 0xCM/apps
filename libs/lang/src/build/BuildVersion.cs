@@ -7,6 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines a symver-aligned build/publication version specifier
     /// </summary>
+    [StructLayout(StructLayout,Pack=1)]
     public readonly struct BuildVersion
     {
         public readonly int Major;

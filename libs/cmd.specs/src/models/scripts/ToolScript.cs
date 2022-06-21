@@ -6,11 +6,11 @@ namespace Z0
 {
     public readonly struct ToolScript
     {
-        public readonly ToolId Tool {get;}
+        public readonly ToolId Tool;
 
-        public readonly ScriptId Script {get;}
+        public readonly ScriptId Script;
 
-        public readonly CmdVars Vars {get;}
+        public readonly CmdVars Vars;
 
         [MethodImpl(Inline)]
         public ToolScript(ToolId tool, ScriptId script, CmdVars vars)
