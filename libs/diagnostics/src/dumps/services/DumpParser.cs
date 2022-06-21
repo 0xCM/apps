@@ -7,7 +7,6 @@ namespace Z0
     using System.Linq;
     using Microsoft.Diagnostics.Runtime;
 
-    using DP = DiagnosticProcessors;
     using DR = ClrMdRecords;
 
     public sealed class DumpParser : AppService<DumpParser>
@@ -27,7 +26,7 @@ namespace Z0
         ExecToken Emit(ProcDumpName id, ReadOnlySpan<DR.MethodTableToken> src)
             => AppSvc.TableEmit(src, Archive.Table<DR.MethodTableToken>(id));
 
-        void Emit(ProcDumpName id, DP.ModuleProcessPresult src)
+        void Emit(ProcDumpName id, ModuleProcessPresult src)
         {
             Emit(id, src.Modules);
             Emit(id, src.MethodTables);
@@ -42,8 +41,7 @@ namespace Z0
             {
                 var running = Running(string.Format("Parsing {0}", src.ToUri()));
                 var modules = runtime.EnumerateModules().Array();
-                var sink = EmissionSink.create(GetType());
-                var processor = DP.module(sink);
+                var processor = ModuleProcessor.create(Events.sink());
                 processor.Process(modules);
                 Emit(id, processor.Processed());
                 Ran(running, string.Format("Parsed {0}", src.ToUri()));

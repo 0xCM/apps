@@ -1,12 +1,9 @@
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-// See the LICENSE file in the project root for more information.
+//-----------------------------------------------------------------------------
+// Copyright   :  .NET Foundation
+// License     :  MIT
+//-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Diagnostics;
-    using System.IO;
-    using System.Runtime.InteropServices;
-
     public readonly struct DumpEmitter
     {
         const int ERROR_PARTIAL_COPY = unchecked((int)0x8007012b);

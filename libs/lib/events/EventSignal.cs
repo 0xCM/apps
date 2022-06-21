@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static EventFactory;
+    using static Events;
 
     public class EventSignal
     {
@@ -149,14 +149,14 @@ namespace Z0
 
         public DataEvent<T> Data<T>(T data, FlairKind flair)
         {
-            var ev = EventFactory.data(data, flair);
+            var ev = Events.data(data, flair);
             Raise(ev);
             return ev;
         }
 
         public DataEvent<T> Data<T>(T data)
         {
-            var ev = EventFactory.data(data);
+            var ev = Events.data(data);
             Raise(ev);
             return ev;
         }

@@ -5,7 +5,7 @@
 namespace Z0
 {
     using static core;
-    using static EventFactory;
+    using static Events;
 
     partial class ApiCode
     {

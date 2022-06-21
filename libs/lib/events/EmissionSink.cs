@@ -8,27 +8,23 @@ namespace Z0
 
     public class EmissionSink : IEmissionSink<EmissionSink>
     {
-        public static IEmissionSink create(Type host)
-            => new EmissionSink(host);
-
         readonly ConcurrentDictionary<EventId,IWfEvent> Storage;
 
         object Locker;
 
-        EmissionSink(Type host, ConcurrentDictionary<EventId,IWfEvent> storage)
+        internal EmissionSink(ConcurrentDictionary<EventId,IWfEvent> storage)
         {
             Storage = storage;
             Locker = new();
         }
 
-        EmissionSink(Type host)
-            : this(host, new())
+        internal EmissionSink()
+            : this(new())
         {
         }
 
         public void Deposit(IWfEvent src)
             => Storage.TryAdd(src.EventId, src);
-
 
         public ReadOnlySpan<IWfEvent> Clear()
         {

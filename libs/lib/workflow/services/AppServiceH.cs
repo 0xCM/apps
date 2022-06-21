@@ -250,31 +250,31 @@ namespace Z0
         }
 
         protected static StatusEvent<T> write<T>(T msg, FlairKind flair = FlairKind.StatusData)
-            => EventFactory.status(typeof(H), msg, flair);
+            => Events.status(typeof(H), msg, flair);
 
         protected static BabbleEvent<T> babble<T>(T msg)
-            => EventFactory.babble(typeof(H), msg);
+            => Events.babble(typeof(H), msg);
 
         protected static StatusEvent<T> status<T>(T msg, FlairKind flair = FlairKind.Status)
-            => EventFactory.status(typeof(H), msg, flair);
+            => Events.status(typeof(H), msg, flair);
 
         protected static WarnEvent<T> warn<T>(T msg)
-            => EventFactory.warn(typeof(H), msg);
+            => Events.warn(typeof(H), msg);
 
         protected static ErrorEvent<string> error(Exception e, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
-            => EventFactory.error(typeof(H), e, caller, file, line);
+            => Events.error(typeof(H), e, caller, file, line);
 
         protected static ErrorEvent<T> error<T>(T msg, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
-            => EventFactory.error(typeof(H), msg, EventFactory.originate(typeof(H).Name,caller, file, line));
+            => Events.error(typeof(H), msg, Events.originate(typeof(H).Name,caller, file, line));
 
         protected static RunningEvent<T> running<T>(T msg)
-            => EventFactory.running(typeof(H), msg);
+            => Events.running(typeof(H), msg);
 
         protected static RanEvent<T> ran<T>(RunningEvent<T> src, T msg = default)
-            => EventFactory.ran(src, msg);
+            => Events.ran(src, msg);
 
         protected static RanEvent<T> ran<T>(T msg)
-            => EventFactory.ran(typeof(H), msg);
+            => Events.ran(typeof(H), msg);
 
         static IApiCatalog _ApiCatalog;
 

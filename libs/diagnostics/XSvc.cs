@@ -25,6 +25,10 @@ namespace Z0
 
             public DotNetSymbols DotNetSymbols(IWfRuntime wf)
                 => Service<DotNetSymbols>(wf);
+
+            public DumpParser DumpParser(IWfRuntime wf)
+                => Service<DumpParser>(wf);
+
         }
 
         static Svc Services => Svc.Instance;
@@ -44,7 +48,10 @@ namespace Z0
         public static AsmObjects AsmObjects(this IWfRuntime wf)
             => Services.AsmObjects(wf);
 
-       public static DotNetSymbols DotNetSymbols(this IWfRuntime wf)
+        public static DotNetSymbols DotNetSymbols(this IWfRuntime wf)
             => Services.DotNetSymbols(wf);
+
+        public static DumpParser DumpParser(this IWfRuntime wf)
+            => Services.DumpParser(wf);
     }
 }

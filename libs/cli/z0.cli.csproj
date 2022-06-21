@@ -12,9 +12,10 @@
 
   <ItemGroup>
     <ProjectReference Include="$(Diagnostics)"/>
+    <ProjectReference Include="$(CmdSvc)"/>
   </ItemGroup>
 
-  <ItemGroup>
+  <!-- <ItemGroup>
     <ContentWithTargetPath Include="$(ZPack)\diagnostics\sos.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <TargetPath>sos.dll</TargetPath>
@@ -24,6 +25,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <TargetPath>sos.pdb</TargetPath>
     </ContentWithTargetPath>
-  </ItemGroup>
+  </ItemGroup> -->
 
 </Project>

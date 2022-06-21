@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-    using static Root;
-
     public interface IPageBlock : IStorageBlock
     {
         BlockKind IStorageBlock.Kind

@@ -21,9 +21,6 @@ public enum PartId : byte
     [Symbol("asm.services")]
     AsmServices,
 
-    [Symbol("apps.core")]
-    AppCore,
-
     [Symbol("symbols")]
     Symbols,
 
@@ -75,8 +72,8 @@ public enum PartId : byte
     [Symbol("circuits")]
     Circuits,
 
-    [Symbol("resources")]
-    Resources,
+    [Symbol("text.sized")]
+    SizedText,
 
     [Symbol("tools")]
     Tools,
@@ -95,12 +92,6 @@ public enum PartId : byte
 
     [Symbol("bitspans")]
     BitSpans,
-
-    [Symbol("settings")]
-    Settings,
-
-    [Symbol("logix")]
-    Logix,
 
     [Symbol("libm")]
     LibM,

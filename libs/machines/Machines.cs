@@ -231,11 +231,11 @@ namespace Z0
         {
             var stack = StackMachines.create(Pow2.T08);
             stack.Push(2);
-            Queue.Deposit(EventFactory.data(stack.state()));
+            Queue.Deposit(Events.data(stack.state()));
             stack.Push(4);
-            Queue.Deposit(EventFactory.data(stack.state()));
+            Queue.Deposit(Events.data(stack.state()));
             stack.Push(6);
-            Queue.Deposit(EventFactory.data(stack.state()));
+            Queue.Deposit(Events.data(stack.state()));
         }
 
         void Run(N11 n)

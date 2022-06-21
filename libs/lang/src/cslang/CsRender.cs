@@ -34,7 +34,7 @@ namespace Z0
                 }
 
                 if(i != 0 && i % 128 == 0)
-                    log(EventFactory.babble(typeof(CsRender), string.Format("Generated code for {0} enums", i)));
+                    log(Events.babble(typeof(CsRender), string.Format("Generated code for {0} enums", i)));
             }
 
             if(text.nonempty(spec.DeclaringType))

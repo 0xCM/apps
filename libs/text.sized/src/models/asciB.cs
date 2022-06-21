@@ -6,28 +6,11 @@ namespace Z0
 {
     using static core;
 
+    using api = SizedText;
+
     public readonly record struct asci<B> : IString<asci<B>,AsciSymbol>
         where B : unmanaged, IStorageBlock<B>
     {
-        public static asci<B> load(ReadOnlySpan<byte> src)
-        {
-            var data = src;
-            var dst = Empty;
-            if(data.Length >= StorageSize)
-                dst = new asci<B>(@as<byte,B>(data));
-            else
-                dst = new asci<B>(Storage.block<B>(data));
-            return dst;
-        }
-
-        [MethodImpl(Inline)]
-        public static asci<B> load(ReadOnlySpan<AsciSymbol> src)
-            => load(core.recover<AsciSymbol,byte>(src));
-
-        [MethodImpl(Inline)]
-        public static asci<B> load(ReadOnlySpan<AsciCode> src)
-            => load(core.recover<AsciCode,byte>(src));
-
         readonly B Data;
 
         [MethodImpl(Inline)]
@@ -88,7 +71,7 @@ namespace Z0
         public static implicit operator asci<B>(B block)
             => new asci<B>(block);
 
-        static uint StorageSize
+        public static uint StorageSize
         {
             [MethodImpl(Inline)]
             get => size<B>();
@@ -96,15 +79,15 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator asci<B>(ReadOnlySpan<byte> src)
-            => load(src);
+            => api.load<B>(src);
 
         [MethodImpl(Inline)]
         public static implicit operator asci<B>(ReadOnlySpan<AsciSymbol> src)
-            => load(src);
+            => api.load<B>(src);
 
-       [MethodImpl(Inline)]
+        [MethodImpl(Inline)]
         public static implicit operator asci<B>(ReadOnlySpan<AsciCode> src)
-            => load(src);
+            => api.load<B>(src);
 
         public static asci<B> Empty => default;
     }

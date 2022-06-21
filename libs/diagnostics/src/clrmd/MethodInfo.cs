@@ -10,7 +10,7 @@ namespace Z0
         /// Shape derived from https://github.com/microsoft/clrmd/src/Microsoft.Diagnostics.Runtime/src/DacInterface/Structs/MethodDescData.cs
         /// </summary>
         [Record(TableId), StructLayout(LayoutKind.Sequential)]
-        public struct MethodInfo : IRecord<MethodInfo>
+        public record struct MethodInfo
         {
             public const string TableId = "diagnostic.methods";
 

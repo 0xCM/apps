@@ -45,7 +45,7 @@ namespace Z0
         void Disposed()
         {
             if(Verbosity.IsBabble())
-                Raise(EventFactory.disposed(Host.Type));
+                Raise(Events.disposed(Host.Type));
         }
 
         WfExecFlow<T> Running<T>(T data)
@@ -145,13 +145,13 @@ namespace Z0
             => signal(this, host).Warn(content);
 
         void Error(Exception e, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
-            => signal(this).Error(e, EventFactory.originate("WorkflowError", caller, file, line));
+            => signal(this).Error(e, Events.originate("WorkflowError", caller, file, line));
 
         void Error<T>(T msg, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine]int? line = null)
-            => signal(this).Error(msg, EventFactory.originate("WorkflowError", caller, file, line));
+            => signal(this).Error(msg, Events.originate("WorkflowError", caller, file, line));
 
         void Error<T>(WfHost host, T data, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine]int? line = null)
-            => signal(this, host).Error(data, EventFactory.originate("WorkflowError", caller, file, line));
+            => signal(this, host).Error(data, Events.originate("WorkflowError", caller, file, line));
 
 
         WfExecFlow<Type> Creating(Type host)

@@ -111,7 +111,13 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public IWsProject Project()
-            => _Project;
+        {
+            if(_Project == null)
+            {
+                Errors.Throw("Project is null");
+            }
+            return _Project;
+        }
 
         protected WsContext Context()
         {

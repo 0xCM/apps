@@ -4,12 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IAsciBlock<T> : IStorageBlock<T>
-        where T : unmanaged, IAsciBlock<T>
+    public static class XSvc
     {
-        ref byte First {get;}
 
-        BlockKind IStorageBlock.Kind
-            => BlockKind.Char8;
     }
 }

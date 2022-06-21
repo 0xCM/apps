@@ -6,9 +6,11 @@ namespace Z0
 {
     using static core;
 
+    using api = SizedText;
+
     public readonly record struct text<K,B> : IString<text<K,B>,K>
-        where B : unmanaged, IStorageBlock<B>
         where K : unmanaged, IEquatable<K>, IComparable<K>
+        where B : unmanaged, IStorageBlock<B>
     {
         public static text<K,B> load(ReadOnlySpan<char> src)
         {
@@ -81,7 +83,7 @@ namespace Z0
         public static implicit operator text<K,B>(B block)
             => new text<K,B>(block);
 
-        static uint StorageSize
+        public static uint StorageSize
         {
             [MethodImpl(Inline)]
             get => size<B>();
@@ -89,11 +91,11 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator text<K,B>(string src)
-            => load(span(src));
+            => api.load<K,B>(src);
 
         [MethodImpl(Inline)]
         public static implicit operator text<K,B>(ReadOnlySpan<char> src)
-            => load(src);
+            => api.load<K,B>(src);
 
         public static text<K,B> Empty => default;
     }

@@ -45,7 +45,7 @@ namespace Z0
                 => AppDb.Logs("checks").Table<R>(SvcName + $".{label}");
 
         protected new void Write<X>(X src, FlairKind flair = FlairKind.Data)
-            => Raise(EventFactory.data(src, flair));
+            => Raise(Events.data(src, flair));
 
         protected Action<object> Log
             => msg => Write(msg);

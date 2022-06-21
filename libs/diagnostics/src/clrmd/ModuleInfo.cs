@@ -9,14 +9,14 @@ namespace Z0
     partial struct ClrMdRecords
     {
         [Record(TableId), StructLayout(LayoutKind.Sequential)]
-        public struct ModuleInfo : IRecord<ModuleInfo>
+        public record struct ModuleInfo
         {
             public const string TableId = "clr.md.modules";
 
             public const byte FieldCount = 9;
 
             [Render(64)]
-            public StringAddress Name;
+            public asci64 Name;
 
             [Render(16)]
             public MemoryAddress Address;
@@ -39,8 +39,8 @@ namespace Z0
             [Render(164)]
             public PdbInfo Pdb;
 
-            [Render(84)]
-            public StringAddress ModulePath;
+            [Render(128)]
+            public CharBlock128 ModulePath;
         }
     }
 }

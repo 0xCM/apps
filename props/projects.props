@@ -56,8 +56,8 @@
     <Rules>$(LibsRoot)rules/z0.rules.csproj</Rules>
     <Render>$(LibsRoot)render/z0.render.csproj</Render>
 
+    <SizedText>$(LibsRoot)text.sized/z0.text.sized.csproj</SizedText>
     <Symbolics>$(LibsRoot)symbolics/z0.symbolics.csproj</Symbolics>
-
     <Symbols>$(LibsRoot)symbols/z0.symbols.csproj</Symbols>
 
     <Tools>$(LibsRoot)tools/z0.tools.csproj</Tools>

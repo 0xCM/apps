@@ -1,11 +1,11 @@
 //-----------------------------------------------------------------------------
-// Copyright   :  (c) Chris Moore, 2020
+// Copyright   :  .NET Foundation
 // License     :  MIT
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct CharBlocks
+    public readonly partial struct MinidumpRecords
     {
-
+        //const string Docs = "sdk-api-src/content/minidumpapiset/";
     }
 }

@@ -116,7 +116,12 @@ namespace Z0
             => new DbTargets(setting(Archives.Path(EN.DbProjects),FS.dir), src.Format());
 
         public IDbTargets DbProjects(IWsProject src)
-            => new DbTargets(setting(Archives.Path(EN.DbProjects),FS.dir), src.Name);
+        {
+            var path = Archives.Path(EN.DbProjects);
+            term.inform(Events.status(GetType(), $"Loading {src.Project} from {path}"));
+            var home = setting(path, FS.dir);
+            return new DbTargets(home, src.Name);
+        }
 
         public IDbTargets CgStage()
             => DbOut("cgstage");

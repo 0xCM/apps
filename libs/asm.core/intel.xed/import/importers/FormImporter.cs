@@ -31,7 +31,7 @@ namespace Z0
                 {
                     var result = parse(skip(src,i), i, out seek(dst,i));
                     if(result.Fail)
-                        term.warn(EventFactory.warn(typeof(XedImport), result.Message).Format());
+                        term.warn(Events.warn(typeof(XedImport), result.Message).Format());
                 }
             }
 

@@ -10,7 +10,7 @@ namespace Z0
         /// Shape derived from https://github.com/microsoft/clrmd/Microsoft.Diagnostics.Runtime/src/DacInterface/Structs/RejitData.cs
         /// </summary>
         [Record(TableId), StructLayout(LayoutKind.Sequential)]
-        public struct RejitInfo : IRecord<RejitInfo>
+        public record struct RejitInfo
         {
             public const string TableId = "diagnostic.rejit";
 

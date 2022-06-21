@@ -7,7 +7,7 @@ namespace Z0
     partial struct ClrMdRecords
     {
         [Record(TableId), StructLayout(LayoutKind.Sequential)]
-        public struct MethodTableToken : IComparableRecord<MethodTableToken>
+        public struct MethodTableToken : IComparable<MethodTableToken>
         {
             const string TableId = "clr.md.methods";
 

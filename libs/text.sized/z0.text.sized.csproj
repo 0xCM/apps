@@ -7,12 +7,9 @@
   </PropertyGroup>
 
   <Import Project="$(ImportDefs)common.libs.props"/>
-  <Import Project="$(ImportDefs)microsoft.codeanalysis.props"/>
-  <Import Project="$(ImportDefs)diagnostics.props"/>
-  <Import Project="$(ImportDefs)microsoft.dia.props"/>
+  <Import Project="$(ImportDefs)common.props"/>
 
   <ItemGroup>
-    <ProjectReference Include="$(ApiCode)" />
   </ItemGroup>
 
 </Project>

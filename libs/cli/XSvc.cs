@@ -22,6 +22,9 @@ namespace Z0
 
             public PdbSvc PdbSvc(IWfRuntime wf)
                 => Service<PdbSvc>(wf);
+
+            public ApiCmd ApiCmd(IWfRuntime wf)
+                => Service<ApiCmd>(wf);
         }
 
         static Svc Services => Svc.Instance;
@@ -41,5 +44,7 @@ namespace Z0
         public static PdbReader PdbReader(this IWfRuntime wf, in PdbSymbolSource src)
             => Z0.PdbReader.create(wf,src);
 
+        public static ApiCmd ApiCmd(this IWfRuntime wf)
+            => Services.ApiCmd(wf);
     }
 }

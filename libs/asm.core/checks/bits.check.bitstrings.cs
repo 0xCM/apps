@@ -24,14 +24,14 @@ namespace Z0
         [CmdOp("bits/check/bitstrings")]
         Outcome CheckBitstrings(CmdArgs args)
         {
-            CharBlocks.alloc(n128, out var block1);
+            Storage.chars(n128, out var block1);
             var count = bitstring(Input, block1.Data);
             var chars = slice(block1.Data,0,count);
             var bits = text.format(chars);
             Write(InputBitsA);
             Write(bits);
 
-            CharBlocks.alloc(n128, out var block2);
+            Storage.chars(n128, out var block2);
             count = bitstring(bytes(InputBitsB), block2.Data);
             bits = text.format(chars);
             Write(bits);

@@ -57,7 +57,7 @@ namespace Z0.Asm
             if(src.IsEmpty)
                 return default;
 
-            CharBlocks.alloc(n256, out var block);
+            Storage.chars(n256, out var block);
             var dst = block.Data;
             var count = bitstring(src, dst);
             if(count == 0)

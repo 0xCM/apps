@@ -9,10 +9,10 @@ namespace Z0
 
     using Microsoft.Diagnostics.Runtime;
 
-    public class ProcessDump : IDisposable
+    public class DumpAdapter : IDisposable
     {
-        public static ProcessDump open(FS.FilePath src)
-            => new ProcessDump(src);
+        public static DumpAdapter create(FS.FilePath src)
+            => new DumpAdapter(src);
 
         public FS.FilePath DumpPath {get;}
 
@@ -20,7 +20,7 @@ namespace Z0
 
         ClrRuntime Runtime;
 
-        ProcessDump(FS.FilePath src)
+        DumpAdapter(FS.FilePath src)
         {
             DumpPath = src;
             Target = DataTarget.LoadDump(src.Name);

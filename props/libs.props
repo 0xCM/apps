@@ -56,6 +56,7 @@
     <ProjectReference Include="$(Rules)" />
     <ProjectReference Include="$(Render)" />
 
+    <ProjectReference Include="$(SizedText)" />
     <ProjectReference Include="$(Symbols)" />
     <ProjectReference Include="$(Symbolics)" />
 

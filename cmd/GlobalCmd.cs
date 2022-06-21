@@ -15,6 +15,7 @@ namespace Z0
                 wf.XedTool(),
                 wf.Machines(),
                 wf.ApiCmd(),
+                wf.SourceSymbolic(),
                 wf.AsmCmdProvider(),
                 wf.IntelIntrinsicsCmd(),
                 wf.AsmCmdSvc(),

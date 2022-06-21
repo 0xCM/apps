@@ -68,7 +68,7 @@ namespace Z0
             => Signal.Warn(src);
 
         protected ErrorEvent<string> Error(Type source, Exception e, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
-            => Signal.Error(e, EventFactory.originate(source.Name, caller, file, line));
+            => Signal.Error(e, Events.originate(source.Name, caller, file, line));
 
         protected RunningEvent Running()
             => Signal.Running();
