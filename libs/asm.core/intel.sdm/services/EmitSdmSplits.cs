@@ -99,7 +99,7 @@ namespace Z0.Asm
                 return;
             }
 
-            var range = DocSplits.split(src, TextEncodingKind.Unicode, spec, dst);
+            var range = Lines.split(src, TextEncodingKind.Unicode, spec, dst);
             Emit(range, SdmPaths.Targets().Path(FS.file(string.Format("{0}-{1}", spec.DocId, spec.Unit), FS.Txt)));
             dst.Deposit(range);
         }

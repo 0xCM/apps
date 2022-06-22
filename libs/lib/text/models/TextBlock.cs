@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [DataType("textblock")]
     public readonly struct TextBlock : IComparable<TextBlock>, IEquatable<TextBlock>, IText
     {
         readonly string Data;

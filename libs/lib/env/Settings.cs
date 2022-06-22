@@ -16,33 +16,6 @@ namespace Z0
         public static Setting<T> setting<T>(Setting src, Func<string,T> parser)
             => new Setting<T>(src.Name, parser(src.ValueText));
 
-        [Parser]
-        public static Outcome parse(string src, out Setting<string> dst)
-        {
-            if(sys.empty(src))
-            {
-                dst = default;
-                return (false, "!!Empty!!");
-            }
-            else
-            {
-                var i = src.IndexOf(Chars.Colon);
-                if(i == NotFound)
-                {
-                    dst = default;
-                    return (false, "Setting delimiter not found");
-                }
-                else
-                {
-                    if(i == 0)
-                        dst = new Setting<string>(EmptyString, text.slice(src,i+1));
-                    else
-                        dst = new Setting<string>(text.slice(src,0, i), text.slice(src,i+1));
-                    return true;
-                }
-            }
-        }
-
         [MethodImpl(Inline), Op]
         public static string format<K,V>(K key, V value)
             => string.Format(RP.Setting, key, value);

@@ -23,20 +23,8 @@ namespace Z0
 
         public bool Analyze;
 
-        public bool EmitStatements;
 
         public Timestamp Timestamp;
-
-        public static ApiExtractSettings init(FS.FolderPath root, Timestamp ts)
-        {
-            var dst = new ApiExtractSettings();
-            dst.Timestamp = ts;
-            dst.Analyze = true;
-            dst.EmitContext = true;
-            dst.EmitStatements = true;
-            dst.ExtractRoot = ts.IsNonZero ? root + FS.folder(dst.Timestamp.Format()) : root;
-            return dst;
-        }
 
         public static ApiExtractSettings init(FS.FolderPath root)
         {
@@ -44,7 +32,6 @@ namespace Z0
             timestamp(root, out dst.Timestamp);
             dst.Analyze = true;
             dst.EmitContext = true;
-            dst.EmitStatements = true;
             dst.ExtractRoot =  root;
             return dst;
         }

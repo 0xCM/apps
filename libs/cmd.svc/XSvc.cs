@@ -14,8 +14,8 @@ namespace Z0
             public WsScripts WsScripts(IWfRuntime wf)
                 => Service<WsScripts>(wf);
 
-            public EnvSvc EnvSvc(IWfRuntime wf)
-                => Service<EnvSvc>(wf);
+            public EnvCmd EnvSvc(IWfRuntime wf)
+                => Service<EnvCmd>(wf);
         }
 
         static AppSvcCache Services => AppSvcCache.Instance;
@@ -26,7 +26,7 @@ namespace Z0
         public static CheckRunner CheckRunner(this IWfRuntime wf)
             => Services.CheckRunner(wf);
 
-        public static EnvSvc EnvSvc(this IWfRuntime wf)
+        public static EnvCmd EnvCmd(this IWfRuntime wf)
             => Services.EnvSvc(wf);
     }
 }

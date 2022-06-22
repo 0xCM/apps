@@ -86,7 +86,8 @@ namespace Z0
         {
             var pdb = false;
             var packs = Wf.ApiPacks();
-            var pack = ApiCode.ApiPack(settings);
+            var ts = core.timestamp();
+            var pack = ApiCode.ApiPack(settings.ExtractRoot, ts);
             var collection = Run(pack);
             packs.CreateLink(settings.Timestamp);
             if(pdb)

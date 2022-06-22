@@ -40,7 +40,7 @@ namespace Z0
             => config(src + FS.file("tools", FS.ext("env")));
 
         public static MachineEnv machine()
-            => new MachineEnv(Environs.vars().Map(x => new Setting<string,object>(x.VarName.Format(), x.VarValue)));
+            => new MachineEnv(EnvSets.vars().Map(x => new Setting<string,object>(x.VarName.Format(), x.VarValue)));
 
         public static ToolEnv tools(Settings src)
             => new ToolEnv(src);

@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static core;
+
     public class CmdLineRunner : AppService<CmdLineRunner>
     {
         public void RunScript(FS.FilePath path, string args)
@@ -12,7 +13,7 @@ namespace Z0
             var cmd = new CmdLine($"cmd /c {path.Format(PathSeparator.BS)} {args}");
             var process = ScriptProcess.create(cmd);
             var output = process.Output;
-            Wf.Status(output);
+            Status(output);
         }
 
         public void RunScripts(ScriptArchive archive, ReadOnlySpan<ScriptId> scripts, FS.FilePath log)

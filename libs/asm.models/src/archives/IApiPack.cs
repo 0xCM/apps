@@ -8,9 +8,11 @@ namespace Z0
 
     public interface IApiPack : IRootedArchive
     {
-        ApiExtractSettings ExtractSettings {get;}
+        Timestamp Timestamp {get;}
 
-        FS.FilePath ProcDumpPath(Process process, Timestamp ts);
+        ApiExtractSettings ExtractSettings => default;
+
+        FS.FilePath ProcDumpPath(Process process);
 
         FS.FolderPath IRootedArchive.Root
             => ExtractSettings.ExtractRoot;
@@ -23,9 +25,6 @@ namespace Z0
 
         IDbTargets Extracts()
             => Targets("extracts");
-
-        Timestamp Timestamp
-            => ExtractSettings.Timestamp;
 
         IApiPackArchive Archive()
             => ApiPackArchive.create(ExtractSettings.ExtractRoot);

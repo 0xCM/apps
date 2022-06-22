@@ -6,15 +6,22 @@ namespace Z0
 {
     using static core;
 
-    public ref struct FixedTextGrid
+    public interface IBlockedReader<B>
+            where B : unmanaged, IStorageBlock<B>
     {
-        readonly ReadOnlySpan<char> Data;
+        bool Next(out B dst);
+    }
+
+    public ref struct TextGrid<B>
+        where B : unmanaged, IStorageBlock<B>
+    {
+        readonly ReadOnlySpan<B> Data;
 
         public readonly uint RowWidth;
 
         public readonly uint RowCount;
 
-        public FixedTextGrid(uint width, ReadOnlySpan<char> data)
+        public TextGrid(uint width, ReadOnlySpan<B> data)
         {
             Data = data;
             RowWidth = width;
@@ -23,16 +30,16 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public ReadOnlySpan<char> Row(uint index)
-            => index < RowCount ? slice(Data,index*RowWidth,RowWidth) : default;
+        public ref readonly B Row(uint index)
+            => ref skip(Data,index);
 
-        public ReadOnlySpan<char> this[int index]
+        public B this[int index]
         {
             [MethodImpl(Inline)]
             get => Row((uint)index);
         }
 
-        public ReadOnlySpan<char> this[uint index]
+        public B this[uint index]
         {
             [MethodImpl(Inline)]
             get => Row(index);
@@ -41,7 +48,7 @@ namespace Z0
         public void Render(ITextEmitter dst)
         {
             for(var i=0u; i<RowCount; i++)
-                dst.AppendLine(new string(Row(i)));
+                dst.AppendLine(Row(i));
         }
 
         public string Format()

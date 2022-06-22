@@ -22,15 +22,20 @@ namespace Z0
             return dst;
         }
 
+        [MethodImpl(Inline), Op]
+        public static TextGrid<B> grid<B>(uint width, ReadOnlySpan<B> src)
+            where B : unmanaged, IStorageBlock<B>
+                => new TextGrid<B>(width,src);
+
         [MethodImpl(Inline)]
         public static asci<B> load<B>(ReadOnlySpan<AsciSymbol> src)
-        where B : unmanaged, IStorageBlock<B>
-            => load<B>(core.recover<AsciSymbol,byte>(src));
+            where B : unmanaged, IStorageBlock<B>
+                => load<B>(core.recover<AsciSymbol,byte>(src));
 
         [MethodImpl(Inline)]
         public static asci<B> load<B>(ReadOnlySpan<AsciCode> src)
-        where B : unmanaged, IStorageBlock<B>
-            => load<B>(core.recover<AsciCode,byte>(src));
+            where B : unmanaged, IStorageBlock<B>
+                => load<B>(core.recover<AsciCode,byte>(src));
 
         public static text<K,B> load<K,B>(ReadOnlySpan<char> src)
             where K : unmanaged, IEquatable<K>, IComparable<K>
@@ -200,6 +205,5 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static text<CharBlock512> c16(N512 n, string src = EmptyString)
             => src;
-
     }
 }

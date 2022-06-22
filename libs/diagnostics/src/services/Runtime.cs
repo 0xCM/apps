@@ -86,14 +86,11 @@ namespace Z0
         {
             var flow = Running("Emitting process context");
             var ts = pack.Timestamp;
-            if(!ts.IsNonZero)
-                ts = now();
-
             var dst = pack.Archive().ContextRoot();
             var process = Process.GetCurrentProcess();
             var procparts = EmitPartitions(process, ts, dst.Root);
             var regions = EmitRegions(process, ts, dst.Root);
-            EmitDump(process, pack.ProcDumpPath(process, ts));
+            EmitDump(process, pack.ProcDumpPath(process));
             Ran(flow);
         }
 

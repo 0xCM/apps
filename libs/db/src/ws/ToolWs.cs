@@ -59,7 +59,6 @@ namespace Z0
             return src.Configure(configs.ToArray());
         }
 
-        [Op]
         public static Outcome parse(string src, out ToolConfig dst)
             => ToolWs.parse(src, out dst);
 
@@ -85,6 +84,9 @@ namespace Z0
 
         public FS.FolderPath Logs(ToolId id)
             => ToolHome(id) + FS.folder(logs);
+
+        public FS.FilePath Config(ToolId id)
+            => ToolHome(id) + FS.file(id,FileKind.Config);
 
         public FS.FolderPath Scripts(ToolId id)
             => ToolHome(id) + FS.folder(scripts);

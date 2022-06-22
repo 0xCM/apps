@@ -102,8 +102,6 @@ namespace Z0
 
         public IWfEmitters WfEmit {get; private set;}
 
-        protected AppSettings AppSettings => Service(Wf.AppSettings);
-
         public virtual Type ContractType
             => typeof(H);
 

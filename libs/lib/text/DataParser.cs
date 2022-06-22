@@ -389,9 +389,6 @@ namespace Z0
             return true;
         }
 
-        public static Outcome parse(string src, out Setting<string> dst)
-            => Settings.parse(src, out dst);
-
         [Parser]
         public static Outcome block<T>(string src, out T block)
             where T : unmanaged, ICharBlock<T>

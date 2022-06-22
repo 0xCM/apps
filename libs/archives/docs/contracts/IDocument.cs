@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IDocument : ITextual
+    public interface IDocument
     {
         ILocatable Location {get;}
     }

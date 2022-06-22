@@ -4,12 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct TextLine<T> : ITextLine<T>
-        where T : ITextBlock<T>
+    public readonly struct TextLine<T>
+        where T : IEquatable<T>, IStorageBlock
     {
-        public uint LineNumber {get;}
+        public readonly LineNumber LineNumber;
 
-        public T Content {get;}
+        public readonly T Content;
 
         [MethodImpl(Inline)]
         public TextLine(uint number, T content)
@@ -17,13 +17,12 @@ namespace Z0
             LineNumber = number;
             Content = content;
         }
-        public string Format()
-            => Content.Format();
 
-        public override string ToString()
-            => Format();
 
-        public static implicit operator TextBlock<T>(TextLine<T> src)
-            => src.Content;
+        public bool Equals(TextLine<T> src)
+            => Content.Equals(src.Content) && LineNumber == src.LineNumber;
+
+        public int CompareTo(TextLine<T> src)
+            => LineNumber.CompareTo(src.LineNumber);
     }
 }

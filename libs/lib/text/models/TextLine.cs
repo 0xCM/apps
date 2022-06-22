@@ -8,13 +8,8 @@ namespace Z0
     /// Represents a line of text in the context of a line-oriented text data source
     /// </summary>
     [StructLayout(StructLayout,Pack=1)]
-    public readonly struct TextLine : IComparable<TextLine>
+    public readonly record struct TextLine : ITextLine<TextLine,string>
     {
-        /// <summary>
-        /// The number of characters consumed by the line number
-        /// </summary>
-        public const byte NumberWidth = 8;
-
         /// <summary>
         /// The line number of the data source from which the line was extracted
         /// </summary>
@@ -51,6 +46,15 @@ namespace Z0
             get => Content;
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => core.hash(Data) | LineNumber.Hash;
+        }
+
+        public override int GetHashCode()
+            => Hash;
+
         public Index<string> Cells(char delimiter)
             => text.trim(text.split(Content, delimiter));
 
@@ -67,9 +71,6 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Content?.Length ?? 0;
         }
-
-        public TextBlock Trim()
-            => IsNonEmpty ? Content.Trim() : TextBlock.Empty;
 
         [MethodImpl(Inline)]
         public static bool nonempty(string src)
@@ -132,11 +133,20 @@ namespace Z0
         public override string ToString()
             => Format();
 
+        public bool Equals(TextLine src)
+            => text.equals(Content,src.Content) && LineNumber == src.LineNumber;
+
         public string this[int startpos, int endpos]
             => Content.Substring(startpos, endpos - startpos + 1);
 
         public int CompareTo(TextLine src)
             => LineNumber.CompareTo(src.LineNumber);
+
+        string ITextLine<string>.Content
+            => Content;
+
+        LineNumber ITextLine.LineNumber
+            => LineNumber;
 
         [MethodImpl(Inline)]
         public static implicit operator TextLine((int index, string text) src)

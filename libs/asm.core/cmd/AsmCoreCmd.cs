@@ -60,10 +60,6 @@ namespace Z0
             return true;
         }
 
-        [CmdOp("env/emit/includes")]
-        void LoadToolEnv()
-            => Tooling.EmitEnvIncldes();
-
 
         [CmdOp("asm/codegen")]
         void GenAmsCode()

@@ -9,23 +9,17 @@ namespace Z0
     [ApiHost]
     public sealed class ApiPacks : AppService<ApiPacks>
     {
-        ApiCodeFiles ApiFiles => Wf.ApiCodeFiles();
-
-        public IApiPack Create(ApiExtractSettings settings)
-            => new ApiPack(ApiFiles, settings);
-
         public IApiPack Create(FS.FolderPath root)
-            => Create(ApiExtractSettings.init(root));
+        {
+            ApiPack.parse(root, out var pack);
+            return pack;
+        }
 
         FS.FolderPath PackRoot
             => Env.CapturePacks;
 
         public IApiPack Current()
             => Packs().Last;
-
-
-        IApiPack Pack(FS.FolderPath dir)
-            => new ApiPack(ApiFiles, ApiExtractSettings.init(dir));
 
         public void CreateLink(Timestamp ts)
         {
@@ -48,7 +42,5 @@ namespace Z0
         public Index<IApiPack> Packs()
             => PackRoot.SubDirs(false).Select(x => (IApiPack)(Create(x)));
 
-        public Index<IApiPack> List()
-            => PackRoot.SubDirs(false).Select(x => (IApiPack)(Create(x)));
     }
 }

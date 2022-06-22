@@ -12,6 +12,8 @@ namespace Z0
     {
         protected static AppDb AppDb => AppDb.Service;
 
+        protected AppSettings AppSettings => Service(Wf.AppSettings);
+
         public void Babble<T>(T content)
             => WfMsg.Babble(content);
 

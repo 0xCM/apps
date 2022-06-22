@@ -11,14 +11,11 @@ namespace Z0
         public DumpArchive DumpArchive
             => Wf.DumpArchive();
 
-        public IApiPack ApiPack(ApiExtractSettings settings)
-            => new ApiPack(this, settings);
-
-        public IApiPack ApiPack(FS.FolderPath dst)
-            => ApiPack(ApiExtractSettings.init(dst));
+        public IApiPack ApiPack(FS.FolderPath dst, Timestamp ts)
+            => new ApiPack(dst, ts);
 
         public IApiPack ApiPack(Timestamp ts)
-            => ApiPack(AppDb.Capture().Targets(ts.Format()).Root);
+            => ApiPack(AppDb.Capture().Targets(ts.Format()).Root, ts);
 
         public FS.FilePath Path(Timestamp ts, PartId part, FileKind kind)
             => ApiPack(ts).Path(part, kind);

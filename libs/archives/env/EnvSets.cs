@@ -8,8 +8,45 @@ namespace Z0
 
     public sealed class EnvSets
     {
+
+        public static EnvVars vars()
+        {
+            var dst = list<EnvVar>();
+            foreach(DictionaryEntry kv in Environment.GetEnvironmentVariables())
+                 dst.Add(new EnvVar(kv.Key?.ToString() ?? EmptyString, kv.Value?.ToString() ?? EmptyString));
+            return dst.ToArray().Sort();
+        }
+
         public static void render<T>(Settings<T> src, ITextEmitter dst)
             => Tables.emit(src.View, dst);
+
+        [Parser]
+        public static Outcome parse(string src, out Setting<string> dst)
+        {
+            if(sys.empty(src))
+            {
+                dst = default;
+                return (false, "!!Empty!!");
+            }
+            else
+            {
+                var i = src.IndexOf(Chars.Colon);
+                if(i == NotFound)
+                {
+                    dst = default;
+                    return (false, "Setting delimiter not found");
+                }
+                else
+                {
+                    if(i == 0)
+                        dst = new Setting<string>(EmptyString, text.slice(src,i+1));
+                    else
+                        dst = new Setting<string>(text.slice(src,0, i), text.slice(src,i+1));
+                    return true;
+                }
+            }
+        }
+
 
         [Op]
         public static bool search<T>(in Settings<T> src, string key, out Setting<T> value)

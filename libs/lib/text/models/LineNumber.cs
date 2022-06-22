@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct LineNumber : IComparable<LineNumber>, IEquatable<LineNumber>
+    public readonly record struct LineNumber : IComparable<LineNumber>
     {
         [Parser]
         public static Outcome parse(string src, out LineNumber dst)
@@ -40,6 +40,15 @@ namespace Z0
             get => Value != 0;
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Value;
+        }
+
+        public override int GetHashCode()
+            => Hash;
+
         public string Format()
             => string.Format("{0:D8}",Value);
 
@@ -54,14 +63,6 @@ namespace Z0
         public bool Equals(LineNumber src)
             => Value == src.Value;
 
-        public override bool Equals(object obj)
-            => obj is LineNumber x && Equals(x);
-
-        public override int GetHashCode()
-            => (int)Value;
-
-        public static LineNumber Empty => default;
-
         [MethodImpl(Inline)]
         public static implicit operator LineNumber(uint src)
             => new LineNumber(src);
@@ -73,5 +74,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public static LineNumber operator ++(LineNumber src)
             => new LineNumber(src.Value + 1);
+
+        public static LineNumber Empty => default;
     }
 }

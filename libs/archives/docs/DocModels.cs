@@ -8,14 +8,6 @@ namespace Z0
 
     public readonly struct DocModels
     {
-        public static UnicodeDoc unicode(char[] src)
-            => new UnicodeDoc(src);
-
-        public static AsciDoc asci(AsciSymbol[] src)
-            => new AsciDoc(src);
-
-        public static UnicodeDoc unicode(FS.FilePath src)
-            => unicode(File.ReadAllText(src.Format()).ToCharArray());
 
         public abstract class Doc
         {

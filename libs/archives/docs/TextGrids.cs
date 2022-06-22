@@ -49,29 +49,6 @@ namespace Z0
             return (true, count);
         }
 
-        [MethodImpl(Inline), Op]
-        public static FixedTextGrid @fixed(uint width, ReadOnlySpan<char> src)
-            => new FixedTextGrid(width,src);
-
-        [MethodImpl(Inline), Op]
-        public static FixedTextGrid @fixed(uint width, string src)
-            => new FixedTextGrid(width, src);
-
-
-        public static Outcome load(FS.FilePath src, uint width, out FixedTextGrid dst)
-        {
-            try
-            {
-                dst = @fixed(width, src.ReadUnicode());
-                return true;
-            }
-            catch(Exception e)
-            {
-                dst = default;
-                return e;
-            }
-        }
-
         public static Outcome load(FS.FilePath src, TextEncodingKind encoding, out TextGrid dst)
         {
             dst = TextGrid.Empty;
