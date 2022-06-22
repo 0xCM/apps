@@ -97,3 +97,4 @@
 ### Algorithms
 
 - [VCVTTPS2DQ_ZMMi32_MASKmskw_ZMMf32_AVX512](./catalogs/asm/intrinsics/algorithms/VCVTTPS2DQ_ZMMi32_MASKmskw_ZMMf32_AVX512.alg)
+
