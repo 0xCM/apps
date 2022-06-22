@@ -94,9 +94,16 @@ namespace Z0
             }
         }
 
+        static ToolId tool(CmdArgs args, byte index = 0)
+            => arg(args,index).Value;
+
+        static FS.FileName config(ToolId tool)
+            => FS.file(tool,FileKind.Config);
+
         [CmdOp("env/tools/settings")]
         protected new Outcome ShowToolSettings(CmdArgs args)
         {
+            var id = tool(args);
             var src = ToolWs.Service.Logs(arg(args,0).Value) + FS.file("config", FS.Log);
             if(!src.Exists)
                 return (false,FS.missing(src));
@@ -112,7 +119,10 @@ namespace Z0
             if(args.Length > 1)
                 path = ToolWs.Service.ToolDocs(tool) + FS.file(arg(args,1));
             else
+            {
+
                 path = ToolWs.Service.ToolDocs(tool) + FS.file(tool.Format(), FS.Help);
+            }
 
             if(path.Exists)
             {

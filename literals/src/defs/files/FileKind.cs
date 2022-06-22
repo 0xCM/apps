@@ -50,6 +50,9 @@ namespace Z0
         [Symbol(c, "A c source file")]
         C,
 
+        [Symbol(config, "A text file with colon-delimited key-value lines")]
+        Config,
+
         [Symbol(coffheaders, "A file containing a textual description of the headers in a COFF object file")]
         CoffHeaders,
 

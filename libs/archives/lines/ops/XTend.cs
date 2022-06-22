@@ -4,8 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public static class XSvc
+    partial class XTend
     {
-
+        public static ReadOnlySpan<TextLine> Lines(this string src, bool keepblank = false, bool trim = true)
+            => Z0.Lines.read(src, keepblank, trim);
     }
 }

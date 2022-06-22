@@ -45,7 +45,6 @@
     <ProjectReference Include="$(Lang)" />
     <ProjectReference Include="$(LlvmTools)" />
     <ProjectReference Include="$(LlvmData)" />
-    <ProjectReference Include="$(Lines)" />
 
     <ProjectReference Include="$(Machines)" />
     <ProjectReference Include="$(Memory)" />

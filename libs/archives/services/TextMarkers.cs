@@ -36,7 +36,6 @@ namespace Z0
             return new TextMarkers(buffer);
         }
 
-
         readonly Index<TextMarker> Data;
 
         [MethodImpl(Inline)]

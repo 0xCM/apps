@@ -9,6 +9,10 @@
   <Import Project="$(ImportDefs)common.libs.props"/>
 
   <ItemGroup>
+    <ProjectReference Include="$(Archives)" />
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Include="assets/**/*.*" />
   </ItemGroup>
 </Project>
