@@ -11,6 +11,30 @@ namespace Z0
 
     partial struct Digital
     {
+        [MethodImpl(Inline), Op]
+        public static uint count(Base16 @base, ReadOnlySpan<C> src)
+        {
+            var length = src.Length;
+            var counter = 0u;
+            for(var i=0; i<length; i++)
+            {
+                ref readonly var c = ref skip(src,i);
+                if(SQ.whitespace(c))
+                {
+                    if(counter == 0)
+                        continue;
+                }
+                else
+                    return counter;
+
+                if(Digital.test(base16, c))
+                    counter++;
+                else
+                    break;
+            }
+            return counter;
+        }
+
         /// <summary>
         /// Counts the number of consecutive digits relative to a specified base
         /// </summary>

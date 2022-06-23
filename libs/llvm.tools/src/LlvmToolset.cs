@@ -188,7 +188,7 @@ namespace Z0.llvm
             return result;
         }
 
-        Tooling Tooling => Wf.Tooling();
+        ToolBox Tooling => Wf.ToolBox();
 
         public ConstLookup<ToolId,ToolProfile> Profiles()
             => Tooling.LoadProfiles(ToolsetDir);

@@ -11,11 +11,10 @@ namespace Z0
     {
         public static ref readonly ToolWs Service => ref AppDb.ToolWs;
 
-        public IDbSources BoolBox
+        public IDbSources ToolBox
             => new DbSources(Root);
 
-
-        public static Settings settings(FS.FilePath src)
+        public static Settings config(FS.FilePath src)
         {
             var dst = list<Setting>();
             using var reader = src.LineReader(TextEncodingKind.Asci);
@@ -48,10 +47,10 @@ namespace Z0
             var configs = list<ToolConfig>();
             foreach(var dir in subdirs)
             {
-                var configCmd = dir + FS.file(config, FS.Cmd);
+                var configCmd = dir + FS.file(ApiGranules.config, FS.Cmd);
                 if(configCmd.Exists)
                 {
-                    var path =  dir + FS.folder(logs) + FS.file(config, FS.Log);
+                    var path =  dir + FS.folder(logs) + FS.file(ApiGranules.config, FS.Log);
                     if(path.Exists)
                     {
                         var result = parse(path.ReadText(), out ToolConfig c);
@@ -70,7 +69,7 @@ namespace Z0
             => Root + FS.folder(id.Format());
 
         public FS.FilePath ConfigScript(ToolId id)
-            => ToolHome(id) + FS.file(config, FS.Cmd);
+            => ToolHome(id) + FS.file(ApiGranules.config, FS.Cmd);
 
         Dictionary<ToolId,ToolConfig> ConfigLookup;
 
@@ -89,17 +88,14 @@ namespace Z0
         public FS.FolderPath Logs(ToolId id)
             => ToolHome(id) + FS.folder(logs);
 
-        public FS.FilePath Config(ToolId id)
+        public FS.FilePath ConfigPath(ToolId id)
             => ToolHome(id) + FS.file(id,FileKind.Config);
 
         public FS.FolderPath Scripts(ToolId id)
             => ToolHome(id) + FS.folder(scripts);
 
-        public FS.FilePath Script(ToolId tool, string id)
-            => Scripts(tool) + FS.file(id,FS.Cmd);
-
-        public FS.FilePath ConfigLog(ToolId id)
-            => Logs(id) + FS.file(config, FS.Log);
+        public FS.FilePath Script(ToolId tool, string name)
+            => Scripts(tool) + FS.file(name, FS.Cmd);
 
         public ToolWs(IRootedArchive root)
             : base(root.Root)

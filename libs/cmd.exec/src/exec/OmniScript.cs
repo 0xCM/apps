@@ -89,6 +89,7 @@ namespace Z0
 
         public Outcome Run(CmdLine cmd, CmdVars vars, out ReadOnlySpan<TextLine> response)
             => ScriptRunner.RunCmd(cmd, vars, ReceiveCmdStatusQuiet, ReceiveCmdError, out response);
+
         public ReadOnlySpan<TextLine> RunCmd(CmdLine cmd, Action<Exception> error = null)
         {
             try

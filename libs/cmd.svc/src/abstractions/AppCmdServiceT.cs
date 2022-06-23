@@ -6,22 +6,16 @@ namespace Z0
 {
     using Windows;
 
-    using static ApiGranules;
     using static core;
 
     [CmdProvider]
-    public abstract class AppCmdService<T> : WfSvc<T>, IAppCmdService, ICmdProvider, ICmdRunner
+    public abstract class AppCmdService<T> : WfSvc<T>, IAppCmdService
         where T : AppCmdService<T>, new()
     {
         public static T create(IWfRuntime wf, params ICmdProvider[] src)
         {
             var service = new T();
-            // var actions = bag<CmdActions>();
-            // actions.Add(CmdFlows.actions(service));
-            // iter(src, x => actions.Add(x.Actions));
-            // var dispatcher = CmdFlows.dispatcher(CmdFlows.join(actions.ToArray()));
-            var dispatcher = CmdFlows.dispatcher(service, src);
-            GlobalSvc.Instance.Inject(dispatcher);
+            GlobalSvc.Instance.Inject(CmdFlows.dispatcher(service, src));
             service.Init(wf);
             return service;
         }
@@ -35,8 +29,6 @@ namespace Z0
 
         public CmdActions Actions {get;}
 
-        public ICmdDispatcher Dispatcher => GlobalSvc.Instance.Injected<CmdActionDispatcher>();
-
         public WsCatalog ProjectFiles {get; private set;}
 
         IWsProject _Project;
@@ -48,6 +40,8 @@ namespace Z0
         Option<IToolCmdShell> Shell;
 
         protected ICmdRunner Commands;
+
+        public ICmdDispatcher Dispatcher => GlobalSvc.Instance.Injected<CmdActionDispatcher>();
 
         void Project(IWsProject ws)
         {
@@ -140,13 +134,6 @@ namespace Z0
         [CmdOp("commands")]
         protected void EmitCommands()
             => EmitCommands(AppDb.ApiTargets().Path(FS.file($"api.commands.shell.{controller().Id().Format()}", FS.Csv)));
-
-        protected Settings LoadToolEnv(string name)
-        {
-            var path = ToolWs.BoolBox.Path(FS.file(name, FileKind.Env));
-            return AppSettings.Load(path.ReadNumberedLines());
-        }
-
 
         [CmdOp("runtime/cpucore")]
         protected Outcome ShowCurrentCore(CmdArgs args)

@@ -5,6 +5,21 @@
 namespace Z0
 {
     using static core;
+    using static ApiGranules;
+
+    public class EnvSvc : WfSvc<EnvSvc>
+    {
+        public EnvVars<string> LoadEnv(string name = null)
+        {
+            return AppDb.LoadEnv(text.ifempty(name, Environment.MachineName.ToLower()));
+
+        }
+
+        public void EmitEnv(string name = null)
+        {
+            TableEmit(EnvDb.records(EnvSets.vars(), name ?? machine), AppDb.Env().Table<EnvSettingRow>(name ?? machine));
+        }
+    }
 
     public class EnvDb
     {

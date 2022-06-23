@@ -7,19 +7,108 @@ namespace Z0
     using static core;
 
     [ApiHost]
-    public class Tooling : WfSvc<Tooling>
+    public class ToolBox : WfSvc<ToolBox>
     {
+        public static Settings config(FS.FilePath src)
+        {
+            var dst = list<Setting>();
+            using var reader = src.LineReader(TextEncodingKind.Asci);
+            while(reader.Next(out var line))
+            {
+                var content = span(line.Content);
+                var length = content.Length;
+                if(length != 0)
+                {
+                    if(SQ.hash(first(content)))
+                        continue;
+
+                    var i = SQ.index(content, Chars.Colon);
+                    if(i > 0)
+                    {
+                        var name = text.format(SQ.left(content,i));
+                        var value = text.format(SQ.right(content,i));
+                        dst.Add(new Setting(name,value));
+                    }
+                }
+            }
+            return new Settings(dst.ToArray());
+        }
+
         const byte FieldCount = ToolProfile.FieldCount;
 
         ToolWs ToolWs => new ToolWs(AppDb.Toolbase());
 
-        public Settings LoadSettings()
+        OmniScript OmniScript => Wf.OmniScript();
+
+        public ReadOnlySpan<string> Configure(ToolId tool)
         {
-            var path = ToolWs.BoolBox.Path(FS.file("env", FS.Settings));
+            var script = ToolWs.ConfigScript(tool);
+            var result = OmniScript.Run(script, out _);
+            return ToolWs.ConfigPath(tool).ReadLines();
+        }
+
+        public Outcome RunScript(ToolId tool, string name)
+        {
+            var path = ToolWs.Script(tool, name);
+            if(!path.Exists)
+                return (false, FS.missing(path));
+            else
+                return OmniScript.Run(path, out var _);
+        }
+
+        public void EmitIncludePaths()
+        {
+            var result = Outcome.Success;
+            var settings = LoadEnv();
+            var env = EnvDb.tools(settings);
+            var dst = ProjectDb.Log("env", FS.Log);
+            var emitting = EmittingFile(dst);
+            using var writer = dst.AsciWriter();
+            var headers = env.HeaderIncludes();
+            writer.WriteLine("Header Includes");
+            writer.WriteLine(RP.PageBreak120);
+            iter(headers, h => writer.WriteLine(string.Format("{0,-8} {1,-8} {2}", "Header", h.Exists ? "Found" : "Mising", h)));
+            writer.WriteLine();
+
+            var libs = env.LibIncludes();
+            writer.WriteLine("Lib Includes");
+            writer.WriteLine(RP.PageBreak120);
+            iter(libs, lib => writer.WriteLine(string.Format("{0,-8} {1,-8} {2}", "Lib", lib.Exists ? "Found" : "Mising", lib)));
+
+            EmittedFile(emitting, 2);
+        }
+
+        public Settings LoadConfig(ToolId tool)
+        {
+            var dst = Settings.Empty;
+            var src = ToolWs.ConfigPath(tool);
+            if(src.Exists)
+                dst = config(src);
+            return dst;
+        }
+
+        public Index<string> LoadDocs(ToolId tool)
+        {
+            var src = ToolWs.ToolDocs(tool);
+            var dst = bag<string>();
+            iter(src.TopFiles, file => dst.Add(file.ReadText()));
+            return dst.ToIndex();
+        }
+
+        public Settings UpdateEnv()
+        {
+            var path = ToolWs.ToolBox.Path(FS.file("show-env-config", FS.Cmd));
+            var cmd = CmdScripts.cmdline(path.Format(PathSeparator.BS));
+            return AppSettings.Load(OmniScript.RunCmd(cmd));
+        }
+
+        public Settings LoadEnv()
+        {
+            var path = ToolWs.ToolBox.Path(FS.file("tools", FileKind.Env));
             return AppSettings.Load(path.ReadNumberedLines());
         }
 
-        public Outcome EmitToolCatalog()
+        public Outcome EmitCatalog()
         {
             var subdirs = ToolWs.Root.SubDirs();
             var counter = 0u;

@@ -6,13 +6,6 @@ namespace Z0
 {
     using static core;
 
-    public interface ICmdActions
-    {
-        IEnumerable<string> Specs {get;}
-
-        bool Find(string spec, out CmdActionInvoker runner);
-    }
-
     public class CmdFlows : AppService<CmdFlows>, ICmdRouter
     {
         ICmdRouter Router;

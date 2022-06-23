@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public sealed class ActionRunner : Service<ActionRunner>, IActionRunner
+    public sealed class DynamicActions : Service<DynamicActions>
     {
         int seq;
 

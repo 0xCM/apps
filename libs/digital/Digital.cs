@@ -4,13 +4,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static Root;
     using static core;
 
     using C = AsciCode;
-    using S = AsciSymbol;
 
-    partial struct SymbolicQuery
+    /// <summary>
+    /// Defines operations over character digits
+    /// </summary>
+    [ApiHost]
+    public readonly partial struct Digital
     {
+        const NumericKind Closure = UnsignedInts;
+
         [MethodImpl(Inline), Op]
         public static int IndexOfFirstDigit(Base10 @base, ReadOnlySpan<char> src)
         {

@@ -25,6 +25,7 @@ namespace Z0
             }
             return j;
         }
+
         [Op]
         public static Outcome parse(Base10 @base, ReadOnlySpan<C> src, out ushort dst)
         {
@@ -41,16 +42,38 @@ namespace Z0
             var result = Outcome.Success;
             var input = slice(src,i);
             var length = input.Length;
-            var digits = SQ.digits(n16, base10, input);
-            if(digits.Length == 0)
+            var dig = digits(n16, base10, input);
+            if(dig.Length == 0)
                 result = (false,"No digits found");
             else
             {
-                result = parse(@base, digits, out dst);
+                result = parse(@base, dig, out dst);
                 if(result.Ok)
-                    i += (uint)digits.Length;
+                    i += (uint)dig.Length;
             }
             return result;
         }
+
+        public static Outcome parse(string src, out BinaryDigit dst)
+        {
+            var chars = span((src ?? EmptyString).Trim());
+            var count = chars.Length;
+            dst = default;
+            if(count != 1)
+                return false;
+            ref readonly var c = ref first(chars);
+            if(c == Chars.D0)
+            {
+                dst = BinaryDigitCode.b0;
+                return true;
+            }
+            else if(c == Chars.D1)
+            {
+                dst = BinaryDigitCode.b1;
+                return true;
+            }
+            return false;
+        }
+
     }
 }

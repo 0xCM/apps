@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     /// <summary>
     /// Correlates command names with command realizations
     /// </summary>

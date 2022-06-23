@@ -26,11 +26,11 @@ namespace Z0
         {
             var count = 0u;
             if(typeof(B) == typeof(Base2))
-                count = SQ.digits(@base2, src, dst);
+                count = Digital.digits(@base2, src, dst);
             else if(typeof(B) == typeof(Base10))
-                count = SQ.digits(@base10, src, dst);
+                count = Digital.digits(@base10, src, dst);
             else if(typeof(B) == typeof(Base16))
-                count = SQ.digits(@base16, src, dst);
+                count = Digital.digits(@base16, src, dst);
             else
                 throw no<B>();
             return count;

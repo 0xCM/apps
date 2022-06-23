@@ -4,14 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Root;
-
-    /// <summary>
-    /// Defines operations over character digits
-    /// </summary>
-    [ApiHost]
-    public readonly partial struct Digital
+    public static partial class XTend
     {
-        const NumericKind Closure = UnsignedInts;
+
+
     }
 }

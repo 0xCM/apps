@@ -4,8 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IActionRunner
+    public interface ICmdActions
     {
-        void Run(in DynamicAction fx);
+        IEnumerable<string> Specs {get;}
+
+        bool Find(string spec, out CmdActionInvoker runner);
     }
 }

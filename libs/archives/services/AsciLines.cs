@@ -212,7 +212,7 @@ namespace Z0
             var result = Outcome.Success;
             var input = slice(src,i);
             var length = input.Length;
-            var digits = SQ.digits(n16, base10, input);
+            var digits = Digital.digits(n16, base10, input);
             if(digits.Length == 0)
                 result = (false,"No digits found");
             else

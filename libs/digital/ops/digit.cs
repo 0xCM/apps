@@ -224,5 +224,11 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static HDV digit(HUS src)
             => Hex.digit(src);
+
+        [MethodImpl(Inline), Op]
+        public static BinaryDigit digit(Base2 @base, bit src)
+            => src;
+
+
     }
 }

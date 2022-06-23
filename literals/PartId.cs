@@ -222,6 +222,9 @@ public enum PartId : byte
     [Symbol("templates")]
     Templates,
 
+    [Symbol("digital")]
+    Digital,
+
     // ~ Generated 100 .. 127
     // ~ -------------------------------------------------------------------------------
 

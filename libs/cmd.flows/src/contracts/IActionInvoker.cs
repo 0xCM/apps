@@ -4,11 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IActionInvoker
-    {
-    }
-
-    public interface IActionInvoker<S,T> : IActionInvoker
+    public interface IActionInvoker<S,T>
     {
         T Invoke(S src);
     }

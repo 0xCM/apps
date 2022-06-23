@@ -30,7 +30,7 @@ namespace Z0
 
         StanfordAsmCatalog StanfordCatalog => Wf.StanfordCatalog();
 
-        Tooling Tooling => Wf.Tooling();
+        ToolBox Tooling => Wf.ToolBox();
 
         protected override void Initialized()
         {

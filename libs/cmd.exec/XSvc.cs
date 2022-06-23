@@ -17,8 +17,8 @@ namespace Z0
             public OmniScript OmniScript(IWfRuntime wf)
                 => Service<OmniScript>(wf);
 
-            public Tooling Tooling(IWfRuntime wf)
-                => Service<Tooling>(wf);
+            public ToolBox ToolBox(IWfRuntime wf)
+                => Service<ToolBox>(wf);
 
             public WsScripts WsScripts(IWfRuntime wf)
                 => Service<WsScripts>(wf);
@@ -38,8 +38,8 @@ namespace Z0
         public static OmniScript OmniScript(this IWfRuntime wf)
             => Services.OmniScript(wf);
 
-        public static Tooling Tooling(this IWfRuntime wf)
-            => Services.Tooling(wf);
+        public static ToolBox ToolBox(this IWfRuntime wf)
+            => Services.ToolBox(wf);
 
         public static void RedirectEmissions(this IWfRuntime wf, Assembly src, FS.FolderPath dst, Timestamp? ts = null, string name = null)
             => wf.RedirectEmissions(Loggers.emission(src, dst, ts ?? core.timestamp(), name));
