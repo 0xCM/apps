@@ -1,3 +1,3 @@
 @echo off
-set ProjectId=api.md
+set ProjectId=cmd.flows
 call %Views%\z0\.cmd\config.cmd

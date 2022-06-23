@@ -11,7 +11,7 @@
     <ProjectReference Include="$(CmdExec)" />
     <ProjectReference Include="$(CmdSvc)" />
     <ProjectReference Include="$(CmdSpecs)" />
-    <ProjectReference Include="$(CmdActions)" />
+    <ProjectReference Include="$(CmdFlows)" />
     <ProjectReference Include="$(Archives)" />
   </ItemGroup>
 

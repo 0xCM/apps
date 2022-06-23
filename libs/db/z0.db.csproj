@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="$(Archives)" />
-    <ProjectReference Include="$(CmdActions)" />
+    <ProjectReference Include="$(CmdFlows)" />
   </ItemGroup>
 
 </Project>

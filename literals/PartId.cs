@@ -36,6 +36,9 @@ public enum PartId : byte
     [Symbol("cmd.svc")]
     CmdSvc,
 
+    [Symbol("cmd.flows")]
+    CmdFlows,
+
     [Symbol("cmd.checks")]
     CmdChecks,
 

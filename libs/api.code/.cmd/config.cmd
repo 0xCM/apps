@@ -1,3 +1,3 @@
 @echo off
 set ProjectId=api.code
-call %~dp0..\..\..\.cmd\config.cmd
+call %Views%\z0\.cmd\config.cmd
