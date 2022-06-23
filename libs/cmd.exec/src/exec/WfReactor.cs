@@ -6,9 +6,16 @@ namespace Z0
 {
     using static core;
 
-    public sealed class WfReactor: CmdReactor<CmdExec,CmdResult>
+    public sealed class WfReactor: CmdReactor<WfReactor,CmdExec,CmdResult>
     {
         static ConcurrentDictionary<string,Action> _Lookup = new ConcurrentDictionary<string, Action>();
+
+        public static CmdResult<ListFilesCmd,FS.Files> exec(ListFilesCmd cmd)
+        {
+            var _list = DbFiles.search(cmd.SourceDir, cmd.Extensions, cmd.EmissionLimit);
+            var outcome = DbFiles.emit(_list, cmd.FileUriMode, cmd.TargetPath);
+            return outcome ? Cmd.ok(cmd,_list) : Cmd.fail(cmd, outcome.Message);
+        }
 
         [Op]
         public static void assign(string name, Action handler)
@@ -63,9 +70,9 @@ namespace Z0
             if(find(cmd, out var handler))
             {
                 handler();
-                return CmdExec.ok(cmd, string.Format("Executed <{0}> workflow", cmd.WorkflowName));
+                return Cmd.ok(cmd, string.Format("Executed <{0}> workflow", cmd.WorkflowName));
             }
-            return CmdExec.fail(cmd, "Handler not found");
+            return Cmd.fail(cmd, "Handler not found");
         }
     }
 }

@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-    using static core;
-
     unsafe partial struct LoopModels
     {
         public static void atomic(ref Receiver1 a, ref Receiver1 b)

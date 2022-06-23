@@ -12,12 +12,6 @@ namespace Z0
             => Z0.RuntimeArchive.load(src);
     }
 
-    sealed class ListFiles : CmdReactor<ListFilesCmd,CmdResult>
-    {
-        protected override CmdResult Run(ListFilesCmd cmd)
-            => default;
-    }
-
     [ApiHost]
     public readonly struct RuntimeArchive : IRuntimeArchive
     {

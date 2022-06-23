@@ -5,10 +5,8 @@
 namespace Z0
 {
     [Free]
-    public interface ICmdReactor
+    public interface ICmdReactor : IAppService
     {
-        void Init(IWfRuntime wf);
-
         CmdId CmdId {get;}
 
         CmdResult Invoke(ICmd cmd);

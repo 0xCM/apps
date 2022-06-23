@@ -7,13 +7,10 @@ namespace Z0
     using System;
 
     [CmdReactor]
-    public abstract class CmdReactor<C,T> : ICmdReactor<C,T>
+    public abstract class CmdReactor<R,C,T> : WfSvc<R>, ICmdReactor<C,T>
         where C : struct, ICmd
+        where R : CmdReactor<R,C,T>, new()
     {
-        protected IWfRuntime Wf;
-
-        protected IWfDb Db => Wf.Db();
-
         public static C Spec() => new C();
 
         public CmdId CmdId => Spec().CmdId;
@@ -35,10 +32,5 @@ namespace Z0
 
         CmdResult ICmdReactor.Invoke(ICmd src)
             => Invoke((C)src);
-
-        public void Init(IWfRuntime wf)
-        {
-            Wf = wf;
-        }
     }
 }

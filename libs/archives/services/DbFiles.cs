@@ -44,13 +44,6 @@ namespace Z0
             }
         }
 
-        public static CmdResult<ListFilesCmd,FS.Files> exec(ListFilesCmd cmd)
-        {
-            var _list = DbFiles.search(cmd.SourceDir, cmd.Extensions, cmd.EmissionLimit);
-            var outcome = DbFiles.emit(_list, cmd.FileUriMode, cmd.TargetPath);
-            return outcome ? CmdExec.ok(cmd,_list) : CmdExec.fail(cmd, outcome.Message);
-        }
-
         [MethodImpl(Inline), Op]
         public static IFilteredArchive filter(FS.FolderPath root, string filter)
             => new FilteredArchive(root, filter);

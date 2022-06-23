@@ -4,12 +4,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    sealed class RunScript : CmdReactor<RunScriptCmd>
+
+    sealed class ListFiles : CmdReactor<ListFiles,ListFilesCmd,CmdResult>
+    {
+        protected override CmdResult Run(ListFilesCmd cmd)
+            => default;
+    }
+
+
+    sealed class RunScript : CmdReactor<RunScript,RunScriptCmd>
     {
         protected override CmdResult Run(RunScriptCmd cmd)
         {
             var result = ScriptProcess.create(WinCmd.script(cmd.ScriptPath)).Wait();
-            return CmdExec.ok(cmd);
+            return Cmd.ok(cmd);
         }
 
         public ScriptProcess Launch(FS.FilePath path, string args)
