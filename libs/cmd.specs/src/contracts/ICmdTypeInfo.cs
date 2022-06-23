@@ -9,9 +9,9 @@ namespace Z0
     {
         CmdId CmdId {get;}
 
-        Type SourceType {get;}
+        Type Source {get;}
 
-        Index<FieldInfo> Fields {get;}
+        Index<CmdField> Fields {get;}
     }
 
     [Free]
@@ -19,13 +19,10 @@ namespace Z0
         where T : struct, ICmd<T>
     {
         CmdId ICmdTypeInfo.CmdId
-            => CmdId.from<T>();
+            => CmdTypes.identify<T>();
 
-        Type ICmdTypeInfo.SourceType
+        Type ICmdTypeInfo.Source
             => typeof(T);
-
-        Index<FieldInfo> ICmdTypeInfo.Fields
-            => typeof(T).DeclaredInstanceFields();
     }
 
     [Free]

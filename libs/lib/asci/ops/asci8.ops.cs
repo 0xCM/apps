@@ -144,6 +144,5 @@ namespace Z0
             AsciSymbols.codes(src, span<asci8,AsciCode>(ref dst));
             return ref dst;
         }
-
     }
 }

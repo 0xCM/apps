@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    partial struct Cmd
+    public class CmdRender
     {
         public static string format<T>(ICmd<T> src)
             where T : struct, ICmd<T>
@@ -22,7 +22,6 @@ namespace Z0
             return buffer.Emit();
         }
 
-        [Op]
         static void render(TypedReference src, ReadOnlySpan<ClrFieldAdapter> fields, ITextBuffer dst)
         {
             var count = fields.Length;

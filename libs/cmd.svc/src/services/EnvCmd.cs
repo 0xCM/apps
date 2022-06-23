@@ -11,7 +11,7 @@ namespace Z0
     {
         public Settings LoadSettings()
         {
-            var path = ToolWs.Toolbase.Path(FS.file("tools", FileKind.Env));
+            var path = ToolWs.BoolBox.Path(FS.file("tools", FileKind.Env));
             return AppSettings.Load(path.ReadNumberedLines());
         }
 
@@ -67,16 +67,10 @@ namespace Z0
             TableEmit(EnvDb.records(EnvSets.vars(), machine), AppDb.Env().Table<EnvSettingRow>(machine));
         }
 
-        Settings UpdateToolEnv()
-        {
-            var path = ToolWs.Toolbase.Path(FS.file("show-env-config", FS.Cmd));
-            var cmd = CmdScript.cmdline(path.Format(PathSeparator.BS));
-            return AppSettings.Load(OmniScript.RunCmd(cmd));
-        }
 
         protected new Settings LoadToolEnv(string name)
         {
-            var path = ToolWs.Toolbase.Path(FS.file(name, FileKind.Env));
+            var path = ToolWs.BoolBox.Path(FS.file(name, FileKind.Env));
             return AppSettings.Load(path.ReadNumberedLines());
         }
 

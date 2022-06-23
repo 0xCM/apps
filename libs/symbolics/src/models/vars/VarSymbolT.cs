@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly record struct VarSymbol<T> : INamed<VarSymbol<T>>
+    public readonly record struct VarSymbol<T> : IDataType<VarSymbol<T>>
         where T : unmanaged, ICharBlock<T>
     {
         public readonly Name<T> Name;
@@ -21,8 +21,11 @@ namespace Z0
             get => Name.Hash;
         }
 
-        Name INamed.Name
-            => Name.Format();
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Name.IsEmpty;
+        }
 
         public override int GetHashCode()
             => Hash;

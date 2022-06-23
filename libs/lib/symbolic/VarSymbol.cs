@@ -4,13 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Free]
-    public interface IVarSymbol
-    {
-
-    }
-
-    public readonly record struct VarSymbol : IVarSymbol, IEquatable<VarSymbol>, IComparable<VarSymbol>
+    public readonly record struct VarSymbol : IDataType<VarSymbol>
     {
         [Op]
         public static string format(IVarValue var, char assign)
@@ -55,6 +49,12 @@ namespace Z0
             get => Name.IsEmpty;
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Name.Hash;
+        }
+
         public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
@@ -74,7 +74,7 @@ namespace Z0
             => Name.Equals(src.Name);
 
         public override int GetHashCode()
-            => Name.GetHashCode();
+            => Hash;
 
         public int CompareTo(VarSymbol src)
             => Name.CompareTo(src.Name);

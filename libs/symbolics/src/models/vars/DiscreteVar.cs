@@ -6,23 +6,30 @@ namespace Z0
 {
     public class DiscreteVar : IVar
     {
-        Index<VarSymbol> _Names;
+        Index<Name> _Names;
 
-        public VarSymbol Name {get; private set;}
+        public Name Name {get; private set;}
 
-        public DiscreteVar(VarSymbol[] domain, VarSymbol name)
+
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Name.Hash;
+        }
+
+        public DiscreteVar(Name[] domain, Name name)
         {
             _Names = domain;
             Name = name;
         }
 
-        public ReadOnlySpan<VarSymbol> Names
+        public ReadOnlySpan<Name> Names
         {
             [MethodImpl(Inline)]
             get => _Names;
         }
 
-        public DiscreteVar Select(VarSymbol name)
+        public DiscreteVar Select(Name name)
         {
             Name = name;
             return this;

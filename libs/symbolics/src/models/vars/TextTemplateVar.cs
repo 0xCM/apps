@@ -14,7 +14,7 @@ namespace Z0
                 => ((char)SymNotKind.Lt, (char)SymNotKind.Gt);
         }
 
-        public readonly VarSymbol Name;
+        public readonly Name Name;
 
         public string Value;
 
@@ -32,6 +32,12 @@ namespace Z0
             Value = val;
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Name.Hash;
+        }
+
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
@@ -44,7 +50,7 @@ namespace Z0
             get => text.nonempty(Value);
         }
 
-        VarSymbol IVar.Name
+        Name INamed.Name
             => Name;
 
         string IVar<string>.Value

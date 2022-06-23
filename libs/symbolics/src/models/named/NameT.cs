@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly record struct Name<T> : INamed<Name<T>>
+    public readonly record struct Name<T> : IDataType<Name<T>>
         where T : unmanaged, ICharBlock<T>
     {
         public readonly T Data;
@@ -15,8 +15,17 @@ namespace Z0
             Data = name;
         }
 
-        Name INamed.Name
-            => Data.Format();
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Data.IsEmpty;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Data.IsNonEmpty;
+        }
 
         public Hash32 Hash
         {

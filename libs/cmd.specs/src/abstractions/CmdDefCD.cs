@@ -4,9 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public abstract class CmdDef<C,D>
-        where C : CmdDef<C,D>
-        where D : struct
+    public abstract class CmdDef : ICmdDef
+    {
+        public abstract CmdKind CmdKind {get;}
+    }
+
+    public abstract class CmdDef<D> : CmdDef
+        where D : CmdDef<D>
     {
 
     }

@@ -6,16 +6,16 @@ namespace Z0
 {
     using static core;
 
-    using api = CmdSpecs;
+    using api = ShellCmd;
 
-    public readonly struct CmdSpec
+    public readonly struct ShellCmdSpec
     {
         public readonly string Name;
 
         public readonly CmdArgs Args;
 
         [MethodImpl(Inline)]
-        public CmdSpec(string name, CmdArgs args)
+        public ShellCmdSpec(string name, CmdArgs args)
         {
             Name = name;
             Args = args;
@@ -39,14 +39,14 @@ namespace Z0
         public override string ToString()
             => Format();
 
-        public static CmdSpec Empty
+        public static ShellCmdSpec Empty
         {
             [MethodImpl(Inline)]
-            get => new CmdSpec(default, CmdArgs.Empty);
+            get => new ShellCmdSpec(default, CmdArgs.Empty);
         }
 
         [MethodImpl(Inline)]
-        public static implicit operator CmdSpec((string name, CmdArgs args) src)
-            => new CmdSpec(src.name, src.args);
+        public static implicit operator ShellCmdSpec((string name, CmdArgs args) src)
+            => new ShellCmdSpec(src.name, src.args);
     }
 }

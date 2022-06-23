@@ -341,30 +341,7 @@ namespace Z0
 
 
         Index<ApiCmdRow> CalcApiCommands()
-        {
-            var types = CmdSpecs.tagged(Components);
-            var buffer = list<ApiCmdRow>();
-            foreach(var type in types)
-            {
-                var name = type.Tag<CmdAttribute>().Require().Name;
-                var cmdargs = type.DeclaredInstanceFields();
-                var instance = Activator.CreateInstance(type);
-                var values = ClrFields.values(instance);
-                foreach(var arg in cmdargs)
-                {
-                    var cmdarg = new ApiCmdRow();
-                    cmdarg.CmdName = name;
-                    cmdarg.CmdType = type.Name;
-                    cmdarg.ArgName = arg.Name;
-                    cmdarg.DataType = TypeSyntax.infer(arg.FieldType);
-                    cmdarg.Expression = arg.Tag<CmdArgAttribute>().MapValueOrDefault(x => x.Expression, EmptyString);
-                    cmdarg.DefaultValue = values[arg.Name].Value?.ToString() ?? EmptyString;
-                    buffer.Add(cmdarg);
-                }
-            }
-
-            return buffer.ToIndex();
-        }
+            => CmdTypes.rows(CmdTypes.discover(Components));
 
         public ConstLookup<ApiHostUri,FS.FilePath> EmitMsil()
             => EmitMsil(ApiHosts);

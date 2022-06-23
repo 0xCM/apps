@@ -34,17 +34,26 @@ namespace Z0
             Width = (byte)size.PackedWidth;
         }
 
-        DataSize IDataType.Size
-            => Size;
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Key.Hash;
+        }
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => TypeName.IsNull;
+        }
+
+        public int CompareTo(LiteralType src)
+            => TypeName.CompareTo(src.TypeName);
 
         public string Format()
             => TypeName;
 
         public override string ToString()
             => Format();
-
-        asci64 IDataType.Name
-            => TypeName;
 
         public readonly struct Intrinsic
         {

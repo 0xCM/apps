@@ -89,7 +89,7 @@ namespace Z0
 
         public static string Format<C>(this C src)
             where C : struct, ICmd<C>
-                => Cmd.format(src);
+                => CmdRender.format(src);
 
         public static void AppendLines<T>(this ITextEmitter dst, ReadOnlySpan<T> src)
         {

@@ -8,7 +8,7 @@ namespace Z0
 
     public class ExprContext : IVarResolver
     {
-        ConcurrentDictionary<VarSymbol,IExpr> Vars;
+        ConcurrentDictionary<Name,IExpr> Vars;
 
         public ExprContext()
         {
@@ -25,7 +25,7 @@ namespace Z0
             Vars[var.Name] = value;
         }
 
-        public IExpr Resolve(VarSymbol name)
+        public IExpr Resolve(Name name)
         {
             if(Vars.TryGetValue(name, out var expr))
                 return expr;
@@ -33,7 +33,7 @@ namespace Z0
                 return Errors.Throw<IExpr>(string.Format("The variable '{0}' cannot be resolved", name));
         }
 
-        public T Resolve<T>(VarSymbol name)
+        public T Resolve<T>(Name name)
             where T : IExpr
         {
             if(Vars.TryGetValue(name, out var expr))

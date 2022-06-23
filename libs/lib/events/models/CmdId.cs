@@ -6,13 +6,13 @@ namespace Z0
 {
     using static core;
 
-    public readonly struct CmdId : ITextual, IEquatable<CmdId>, INullity, IHashed
+    public readonly record struct CmdId : IIdentity<CmdId>
     {
-        public static CmdId from<T>()
-            => from(typeof(T));
+        public static CmdId identify<T>()
+            => identify(typeof(T));
 
         [Op]
-        public static CmdId from(Type spec)
+        public static CmdId identify(Type spec)
         {
             var tag = spec.Tag<CmdAttribute>();
             if(tag)
@@ -28,30 +28,8 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public static CmdId from(string src)
-            => new CmdId(src);
-
-        public static Name name<T>()
-            => name(typeof(T));
-
-        [MethodImpl(Inline), Op]
         public static Name name(string src)
             => new Name(src);
-        [Op]
-        public static Name name(Type spec)
-        {
-            var tag = spec.Tag<CmdAttribute>();
-            if(tag)
-            {
-                var name = tag.Value.Name;
-                if(empty(name))
-                    return spec.Name;
-                else
-                    return name;
-            }
-            else
-                return spec.Name;
-        }
 
         readonly string Data;
 
@@ -77,6 +55,9 @@ namespace Z0
             get => core.hash(Data);
         }
 
+        public override int GetHashCode()
+            => Hash;
+
         [MethodImpl(Inline)]
         public string Format()
             => Data;
@@ -85,26 +66,15 @@ namespace Z0
         public bool Equals(CmdId src)
             => string.Equals(Data, src.Data);
 
-        public override bool Equals(object obj)
-            => obj is CmdId x ? Equals(x) : false;
-
         public override string ToString()
             => Format();
 
-        public override int GetHashCode()
-            => (int)Hash;
-
-        [MethodImpl(Inline)]
-        public static bool operator ==(CmdId a, CmdId b)
-            => a.Equals(b);
-
-        [MethodImpl(Inline)]
-        public static bool operator !=(CmdId a, CmdId b)
-            => !a.Equals(b);
+        public int CompareTo(CmdId src)
+            => Data.CompareTo(src.Data);
 
         [MethodImpl(Inline)]
         public static implicit operator CmdId(Type spec)
-            => from(spec);
+            => identify(spec);
 
         [MethodImpl(Inline)]
         public static implicit operator Name(CmdId src)

@@ -4,9 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class CmdAction
+    public sealed class ShellCmdDef : CmdDef<ShellCmdDef>
     {
-        public readonly SettingName<asci32> Name;
+        public override CmdKind CmdKind
+            => CmdKind.ShellCmd;
+
+        public asci32 CmdName {get;}
 
         public readonly CmdActionKind Kind;
 
@@ -15,9 +18,9 @@ namespace Z0
         public readonly MethodInfo Method;
 
         [MethodImpl(Inline)]
-        public CmdAction(asci32 name, CmdActionKind kind, MethodInfo method, object host)
+        public ShellCmdDef(asci32 name, CmdActionKind kind, MethodInfo method, object host)
         {
-            Name = name;
+            CmdName = name;
             Kind = kind;
             Host = host;
             Method = method;

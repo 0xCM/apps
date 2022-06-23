@@ -4,11 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
-    [ApiHost]
-    public readonly partial struct Cmd
+    public abstract class ExecSpec<E> : IExecSpec<E>
+        where E : ExecSpec<E>
     {
-        const NumericKind Closure = UnsignedInts;
+
     }
 }

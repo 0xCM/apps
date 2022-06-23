@@ -14,7 +14,7 @@ namespace Z0
         public static void assign(string name, Action handler)
         {
             if(!_Lookup.TryAdd(name, handler))
-                @throw(string.Format("{0}:Unable to include {1}", nameof(Cmd), name));
+                @throw(string.Format("{0}:Unable to include {1}", "Cmd", name));
         }
 
         public static CmdExec<K> assign<K>(K kind, Action handler)

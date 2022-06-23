@@ -6,11 +6,17 @@ namespace Z0
 {
     public class ExprVar : IVar
     {
-        public VarSymbol Name {get;}
+        public Name Name {get;}
 
-        public ExprVar(VarSymbol name)
+        public ExprVar(Name name)
         {
             Name = name;
+        }
+
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Name.Hash;
         }
 
         public IExpr Eval(IVarResolver context)

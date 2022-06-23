@@ -4,12 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class DiscreteVar<T> : IVar<T>
+    public class DiscreteVar<T>
         where T : IExpr
     {
         Index<VarSymbol> _Names;
 
         public VarSymbol Name {get; private set;}
+
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Name.Hash;
+        }
 
         public T Value {get; private set;}
 

@@ -17,6 +17,18 @@ namespace Z0
         Name INamed.Name
             => Data.Format();
 
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Data.IsNull;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => !Data.IsNull;
+        }
+
         public Hash32 Hash
         {
             [MethodImpl(Inline)]

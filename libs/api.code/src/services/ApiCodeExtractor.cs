@@ -6,6 +6,7 @@ namespace Z0
 {
     using static core;
 
+
     public class ApiCodeExtractor : AppService<ApiCodeExtractor>
     {
         ApiExtractParser Parser => ApiExtractParser.create();

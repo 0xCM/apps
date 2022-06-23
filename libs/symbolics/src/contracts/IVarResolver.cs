@@ -6,9 +6,9 @@ namespace Z0
 {
     public interface IVarResolver
     {
-        IExpr Resolve(VarSymbol name);
+        IExpr Resolve(Name name);
 
-        T Resolve<T>(VarSymbol name)
+        T Resolve<T>(Name name)
             where T : IExpr;
     }
 }

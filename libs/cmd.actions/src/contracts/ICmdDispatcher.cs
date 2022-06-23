@@ -12,7 +12,7 @@ namespace Z0
 
         IEnumerable<string> SupportedActions {get;}
 
-        Outcome Dispatch(CmdSpec cmd)
+        Outcome Dispatch(ShellCmdSpec cmd)
             => Dispatch(cmd.Name, cmd.Args);
     }
 }

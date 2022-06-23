@@ -23,8 +23,11 @@ namespace Z0
             Size = new ((uint)width,(uint)width);
         }
 
-        DataSize IDataType.Size
-            => Size;
+        public TypeKey Key
+        {
+            [MethodImpl(Inline)]
+            get => (byte)PrimalKind;
+        }
 
         public string Format()
             => TypeName;
@@ -44,14 +47,14 @@ namespace Z0
             get => PrimalKind != 0;
         }
 
-        public TypeKey Key
+        public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => (byte)PrimalKind;
+            get => Key.Hash;
         }
 
-        asci64 IDataType.Name
-            => TypeName;
+        public int CompareTo(PrimalType src)
+            => TypeName.CompareTo(src.TypeName);
 
         [MethodImpl(Inline)]
         public static ref readonly PrimalType type(PrimalKind kind)

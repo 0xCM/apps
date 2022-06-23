@@ -64,6 +64,14 @@ namespace Z0
         }
 
 
+        public string Format()
+        {
+            var dst = text.emitter();
+            for(var i=0; i<Data.Count; i++)
+                dst.Append($"{Data[i].Format()} ");
+            return dst.Emit();
+        }
+
         readonly Index<ToolCmdArg> Data;
 
         [MethodImpl(Inline)]

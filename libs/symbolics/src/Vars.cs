@@ -20,7 +20,7 @@ namespace Z0
             => bind ? src.Value.Format() : string.Format(XF.TypedVar, src);
 
         [MethodImpl(Inline), Op]
-        public static ExprVar var(VarSymbol name)
+        public static ExprVar var(Name name)
             => new ExprVar(name);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
@@ -28,7 +28,7 @@ namespace Z0
             => value;
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static ResolvedVar<T> resolve<T>(IVarSymbol var, T value)
+        public static ResolvedVar<T> resolve<T>(VarSymbol var, T value)
             => value;
 
         public static ExprContext context()

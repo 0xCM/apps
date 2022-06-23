@@ -37,8 +37,20 @@ namespace Z0
             Size = new DataSize((uint)packed, x % 8 == 0 ? x/8 : (x/8) + 1);
         }
 
-        DataSize IDataType.Size
-            => Size;
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Key.Hash;
+        }
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => TypeName.IsNull;
+        }
+
+        public int CompareTo(NumericType src)
+            => TypeName.CompareTo(src.TypeName);
 
         public string Format()
             => TypeName;
@@ -46,8 +58,6 @@ namespace Z0
         public override string ToString()
             => Format();
 
-        asci64 IDataType.Name
-            => TypeName;
 
         public static NumericType Empty => Intrinsic.None;
 

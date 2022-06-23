@@ -14,8 +14,8 @@ namespace Z0
         {
             var info = new ProcessStartInfo
             {
-                FileName = cmd.ToolPath.Name,
-                Arguments = cmd.Args.Format(),
+                FileName = cmd.Tool.Format(),
+                Arguments = cmd.Format(),
                 RedirectStandardError = true,
                 RedirectStandardOutput = true,
                 RedirectStandardInput = true
@@ -59,7 +59,7 @@ namespace Z0
             => id;
 
         [Op, Closures(UInt64k)]
-        public static ToolCmd command<T>(in T spec)
+        public static ToolCmdSpec command<T>(ToolId tool, in T spec)
             where T : struct
         {
             var t = typeof(T);
@@ -75,7 +75,7 @@ namespace Z0
                 ref readonly var fv = ref skip(source,i);
                 seek(target,i) = new ToolCmdArg(fv.Field.Name, fv.Value?.ToString() ?? EmptyString);
             }
-            return new ToolCmd(CmdId.from(t), buffer);
+            return new ToolCmdSpec(tool, CmdTypes.identify(t), buffer);
         }
 
         [MethodImpl(Inline), Op]

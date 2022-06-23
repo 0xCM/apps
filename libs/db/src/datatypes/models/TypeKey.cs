@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    [StructLayout(StructLayout,Pack=1)]
+    [StructLayout(StructLayout,Pack=1, Size=4)]
     public readonly record struct TypeKey : IComparable<TypeKey>
     {
         public const byte FirstKey = 0;

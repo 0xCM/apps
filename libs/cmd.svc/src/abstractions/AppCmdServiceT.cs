@@ -138,11 +138,11 @@ namespace Z0
 
         [CmdOp("commands")]
         protected void EmitCommands()
-            => EmitCommands(AppDb.ApiTargets("commands").Path(FS.file($"{controller().Id().Format()}.commands", FS.Csv)));
+            => EmitCommands(AppDb.ApiTargets().Path(FS.file($"api.commands.shell.{controller().Id().Format()}", FS.Csv)));
 
         protected Settings LoadToolEnv(string name)
         {
-            var path = ToolWs.Toolbase.Path(FS.file(name, FileKind.Env));
+            var path = ToolWs.BoolBox.Path(FS.file(name, FileKind.Env));
             return AppSettings.Load(path.ReadNumberedLines());
         }
 
@@ -169,7 +169,7 @@ namespace Z0
             var lines = src.ReadNumberedLines(true);
             var count = lines.Count;
             for(var i=0; i<count; i++)
-                Dispatch(CmdSpecs.from(lines[i].Content));
+                Dispatch(ShellCmd.parse(lines[i].Content));
         }
 
         [CmdOp("jobs/run")]
@@ -245,10 +245,10 @@ namespace Z0
         string Prompt()
             => string.Format("{0}> ", PromptTitle);
 
-        CmdSpec Next()
+        ShellCmdSpec Next()
         {
             var input = term.prompt(Prompt());
-            return CmdSpecs.from(input);
+            return ShellCmd.parse(input);
         }
 
         public virtual void Run()
@@ -275,7 +275,7 @@ namespace Z0
             }
         }
 
-        public bool Dispatch(CmdSpec cmd)
+        public bool Dispatch(ShellCmdSpec cmd)
         {
             var result = Outcome.Success;
             try

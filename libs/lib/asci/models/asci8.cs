@@ -8,6 +8,7 @@ namespace Z0
     using A = asci8;
     using W = W64;
     using S = System.UInt64;
+    using C = AsciCode;
     using api = Asci;
 
     /// <summary>
@@ -55,7 +56,43 @@ namespace Z0
             => Storage = api.pack(c0,c1,c2,c3,c4,c5,c6,c7);
 
         [MethodImpl(Inline)]
+        public asci8(C c0)
+            => Storage = (ulong)c0;
+
+        [MethodImpl(Inline)]
+        public asci8(C c0, C c1)
+            => Storage = api.pack(c0, c1);
+
+        [MethodImpl(Inline)]
+        public asci8(C c0, C c1, C c2)
+            => Storage = api.pack(c0,c1,c2);
+
+        [MethodImpl(Inline)]
+        public asci8(C c0, C c1, C c2, C c3)
+            => Storage = api.pack(c0,c1,c2,c3);
+
+        [MethodImpl(Inline)]
+        public asci8(C c0, C c1, C c2, C c3, C c4)
+            => Storage = api.pack(c0,c1,c2,c3,c4);
+
+        [MethodImpl(Inline)]
+        public asci8(C c0, C c1, C c2, C c3, C c4, C c5)
+            => Storage = api.pack(c0,c1,c2,c3,c4,c5);
+
+        [MethodImpl(Inline)]
+        public asci8(C c0, C c1, C c2, C c3, C c4, C c5, C c6)
+            => Storage = api.pack(c0,c1,c2,c3,c4,c5,c6);
+
+        [MethodImpl(Inline)]
+        public asci8(C c0, C c1, C c2, C c3, C c4, C c5, C c6, C c7)
+            => Storage = api.pack(c0,c1,c2,c3,c4,c5,c6,c7);
+
+        [MethodImpl(Inline)]
         public asci8(string src)
+            => Storage = Asci.encode(n,src).Storage;
+
+        [MethodImpl(Inline)]
+        public asci8(ReadOnlySpan<char> src)
             => Storage = Asci.encode(n,src).Storage;
 
         public bool IsBlank
@@ -88,10 +125,10 @@ namespace Z0
             get => Null;
         }
 
-        public AsciCode this[int index]
+        public C this[int index]
         {
             [MethodImpl(Inline)]
-            get => (AsciCode)(Storage >> index*8);
+            get => (C)(Storage >> index*8);
         }
 
         /// <summary>
@@ -189,9 +226,12 @@ namespace Z0
             get => Asci.init(n);
         }
 
-
         [MethodImpl(Inline)]
         public static implicit operator A(string src)
+            => new A(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator A(ReadOnlySpan<char> src)
             => new A(src);
 
         [MethodImpl(Inline)]

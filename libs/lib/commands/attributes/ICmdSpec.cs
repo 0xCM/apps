@@ -15,9 +15,9 @@ namespace Z0
         where T : struct, ICmd<T>
     {
         CmdId ICmd.CmdId
-            => CmdId.from<T>();
+            => CmdId.identify<T>();
 
         string ITextual.Format()
-            => Cmd.format(this);
+            => CmdRender.format(this);
     }
 }

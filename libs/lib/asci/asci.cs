@@ -327,6 +327,40 @@ namespace Z0
             =>  (ulong)c0 | ((ulong)c1 << 8) | (ulong)c2 << 16 | (ulong)c3 << 24
               | (ulong)c4 << 32 | (ulong)c5 << 40 | (ulong)c6 << 48  | (ulong)c7 << 56;
 
+
+        [MethodImpl(Inline), Op]
+        public static ushort pack(C c0, C c1)
+            => (ushort)((uint)c0 | ((uint)c1 << 8));
+
+        [MethodImpl(Inline), Op]
+        public static uint pack(C c0, C c1, C c2)
+            => (uint)c0 | ((uint)c1 << 8) | (uint)c2 << 16;
+
+        [MethodImpl(Inline), Op]
+        public static uint pack(C c0, C c1, C c2, C c3)
+            => (uint)c0 | ((uint)c1 << 8) | (uint)c2 << 16 | (uint)c3 << 24;
+
+        [MethodImpl(Inline), Op]
+        public static ulong pack(C c0, C c1, C c2, C c3, C c4)
+            => (ulong)c0 | ((ulong)c1 << 8) | (ulong)c2 << 16 | (ulong)c3 << 24
+             | (ulong)c4 << 32;
+
+        [MethodImpl(Inline), Op]
+        public static ulong pack(C c0, C c1, C c2, C c3, C c4, C c5)
+            => (ulong)c0 | ((ulong)c1 << 8) | (ulong)c2 << 16 | (ulong)c3 << 24
+            | (ulong)c4 << 32 | (ulong)c5 << 40;
+
+        [MethodImpl(Inline), Op]
+        public static ulong pack(C c0, C c1, C c2, C c3, C c4, C c5, C c6)
+            => (ulong)c0 | ((ulong)c1 << 8) | (ulong)c2 << 16 | (ulong)c3 << 24
+             | (ulong)c4 << 32 | (ulong)c5 << 40| (ulong)c6 << 48;
+
+        [MethodImpl(Inline), Op]
+        public static ulong pack(C c0, C c1, C c2, C c3, C c4, C c5, C c6, C c7)
+            =>  (ulong)c0 | ((ulong)c1 << 8) | (ulong)c2 << 16 | (ulong)c3 << 24
+              | (ulong)c4 << 32 | (ulong)c5 << 40 | (ulong)c6 << 48  | (ulong)c7 << 56;
+
+
         [MethodImpl(Inline), Op]
         public static ushort pack(byte c0, byte c1)
             => (ushort)((uint)c0 | ((uint)c1 << 8));
@@ -403,7 +437,7 @@ namespace Z0
         /// <param name="w">The vector target width</param>
         /// <param name="src">The code to broadcast</param>
         [MethodImpl(Inline), Op]
-        public Vector128<byte> vbroadcast(W128 w, AsciCode src)
+        public Vector128<byte> vbroadcast(W128 w, C src)
             => cpu.vbroadcast(w,(byte)src);
 
         /// <summary>
@@ -412,7 +446,7 @@ namespace Z0
         /// <param name="w">The vector target width</param>
         /// <param name="src">The code to broadcast</param>
         [MethodImpl(Inline), Op]
-        public Vector256<byte> vbroadcast(W256 w, AsciCode src)
+        public Vector256<byte> vbroadcast(W256 w, C src)
             => cpu.vbroadcast(w,(byte)src);
 
         /// <summary>

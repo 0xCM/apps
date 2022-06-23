@@ -15,7 +15,7 @@ namespace Z0
 
         public Settings LoadSettings()
         {
-            var path = ToolWs.Toolbase.Path(FS.file("env", FS.Settings));
+            var path = ToolWs.BoolBox.Path(FS.file("env", FS.Settings));
             return AppSettings.Load(path.ReadNumberedLines());
         }
 

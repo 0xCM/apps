@@ -21,10 +21,26 @@ namespace Z0
             Size = size;
         }
 
-        DataSize IDataType.Size
-            => Size;
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => LiteralName.IsNull;
+        }
 
-        asci64 IDataType.Name
-            => LiteralName;
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => !LiteralName.IsNull;
+        }
+
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => LiteralName.Hash;
+        }
+
+        public int CompareTo(TypedLiteral src)
+            => LiteralName.CompareTo(src.LiteralName);
+
     }
 }

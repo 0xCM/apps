@@ -5,33 +5,33 @@
 namespace Z0
 {
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public struct ToolCmdArg<T> : IToolCmdArg<T>
+    public struct ToolCmdArg<T>
     {
         /// <summary>
         /// The argument's relative position
         /// </summary>
-        public ushort Position {get;}
+        public readonly int Position {get;}
 
         /// <summary>
         /// The argument name
         /// </summary>
-        public string Name {get;}
+        public readonly string Name {get;}
 
         /// <summary>
         /// The (required) argument value
         /// </summary>
-        public T Value {get;}
+        public readonly T Value {get;}
 
-        public ArgProtocol Protocol {get;}
+        public readonly ArgProtocol Protocol {get;}
 
-        public bool IsFlag {get;}
+        public readonly bool IsFlag {get;}
 
         [MethodImpl(Inline)]
         public ToolCmdArg Untype()
             => new ToolCmdArg(Name, Value);
 
         [MethodImpl(Inline)]
-        public ToolCmdArg(ushort pos, T value, bool flag = false)
+        public ToolCmdArg(int pos, T value, bool flag = false)
         {
             Position = pos;
             Name = EmptyString;
@@ -43,7 +43,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public ToolCmdArg(string name, T value, bool flag = false)
         {
-            Position = 0;
+            Position = -1;
             Name = name;
             Value = value;
             Protocol = (ArgPrefix.Space, ArgQualifier.Space);

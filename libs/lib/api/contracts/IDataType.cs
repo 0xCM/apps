@@ -5,18 +5,12 @@
 namespace Z0
 {
     [Free]
-    public interface IDataType
+    public interface IDataType : IHashed, INullity
     {
-        asci64 Name {get;}
-
-        DataSize Size {get;}
-
-        Hash32 Hash
-            => GetHashCode();
     }
 
     [Free]
-    public interface IDataType<T> : IDataType, IEquatable<T>
+    public interface IDataType<T> : IDataType, IEquatable<T>, IComparable<T>
         where T : IDataType<T>
     {
 

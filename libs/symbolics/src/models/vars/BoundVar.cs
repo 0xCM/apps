@@ -22,7 +22,7 @@ namespace Z0
             Value = val;
         }
 
-        public VarSymbol Name
+        public Name Name
         {
             [MethodImpl(Inline)]
             get => Var.Name;

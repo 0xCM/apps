@@ -6,129 +6,60 @@ namespace Z0
 {
     using static core;
 
-    using C = AsciCode;
-
     public readonly struct ArgPrefix : IEquatable<ArgPrefix>
     {
-        /// <summary>
-        /// Creates a <see cref='ArgPrefix'/> from the leading source element(s)
-        /// </summary>
-        /// <param name="src"></param>
         [MethodImpl(Inline), Op]
         public static ArgPrefix prefix(string src)
             => prefix(chars(src));
 
-        /// <summary>
-        /// Creates a <see cref='ArgPrefix'/> from the leading source element(s)
-        /// </summary>
-        /// <param name="src"></param>
         [MethodImpl(Inline), Op]
         public static ArgPrefix prefix(ReadOnlySpan<char> src)
+            => new ArgPrefix(src);
+
+        readonly asci8 Spec;
+
+        internal ArgPrefix(ReadOnlySpan<char> src)
         {
-            var count = src.Length;
-            if(count == 0)
-                return ArgPrefix.Empty;
-            else if(count == 1)
-                return new ArgPrefix((C)skip(src, 0));
-            else
-                return new ArgPrefix((C)skip(src, 0), (C)skip(src, 1));
+            Spec = src;
         }
-
-        /// <summary>
-        /// Defines an <see cref='ArgPrefix'/> from a specified asci character
-        /// </summary>
-        /// <param name="c0">The delimiter</param>
-        [MethodImpl(Inline), Op]
-        public static ArgPrefix prefix(char c0)
-            => new ArgPrefix((C)c0);
-
-        /// <summary>
-        /// Defines an <see cref='ArgPrefix'/> from a specified asci code
-        /// </summary>
-        /// <param name="c0">The delimiter</param>
-        [MethodImpl(Inline), Op]
-        public static ArgPrefix prefix(C c0)
-            => new ArgPrefix(c0);
-
-        /// <summary>
-        /// Defines an <see cref='ArgPrefix'/> from two specified characters
-        /// </summary>
-        /// <param name="c0">The first part of the delimiter</param>
-        /// <param name="c1">The second part of the delimiter</param>
-        [MethodImpl(Inline), Op]
-        public static ArgPrefix prefix(char c0, char c1)
-            => new ArgPrefix((C)c0, (C)c1);
-
-        /// <summary>
-        /// Defines an <see cref='ArgPrefix'/> from two specified asci codes
-        /// </summary>
-        /// <param name="c0">The first part of the prefix</param>
-        /// <param name="c1">The second part of the prefix</param>
-        [MethodImpl(Inline), Op]
-        public static ArgPrefix prefix(C c0, C c1)
-            => new ArgPrefix((C)c0, (C)c1);
-
-        public static string format(ArgPrefix src)
-        {
-            var len = src.Length;
-            if(len == 0)
-                return EmptyString;
-            else if(len == 1)
-            {
-                Span<char> content = stackalloc char[1]{(char)src.C0};
-                return new string(content);
-            }
-            else
-            {
-                Span<char> content = stackalloc char[2]{(char)src.C0, (char)src.C1};
-                return new string(content);
-            }
-        }
-
-        internal readonly AsciCode C0;
-
-        internal readonly AsciCode C1;
-
         [MethodImpl(Inline)]
         internal ArgPrefix(AsciCode c0)
         {
-            C0 = c0;
-            C1 = AsciCode.Null;
+            Spec = new(c0);
         }
 
         [MethodImpl(Inline)]
         internal ArgPrefix(AsciCode c0, AsciCode c1)
         {
-            C0 = c0;
-            C1 = c1;
+            Spec=new(c0, c1);
         }
 
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => C0 == AsciCode.Null;
+            get => Spec.IsEmpty;
         }
 
         public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
-            get => C0 != AsciCode.Null;
+            get => Spec.IsNonEmpty;
         }
 
-        public uint Hash
+        public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => (uint)C0 | (uint)((uint)C1 << 16);
+            get => Spec.Hash;
         }
 
         public byte Length
         {
             [MethodImpl(Inline)]
-            get => IsEmpty ? z8 : (C1 == AsciCode.Null ? (byte)1 : (byte)2);
+            get => (byte)Spec.Length;
         }
 
         public bool Equals(ArgPrefix src)
-            => C0 == src.C0 && C1 == src.C1;
+            => Spec == src.Spec;
 
         public override bool Equals(object src)
             => src is ArgPrefix x && Equals(x);
@@ -138,7 +69,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public string Format()
-            => format(this);
+            => Spec.Format();
 
         public override string ToString()
             => Format();

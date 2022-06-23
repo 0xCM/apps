@@ -11,7 +11,13 @@ namespace Z0
     {
         public string Value;
 
-        public VarSymbol Name {get;}
+        public Name Name {get;}
+
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Name.Hash;
+        }
 
         string IVar<string>.Value
             => Value;

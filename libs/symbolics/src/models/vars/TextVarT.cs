@@ -7,7 +7,7 @@ namespace Z0
     public class TextVar<K> : ITextVar<K>
         where K : ITextVarExpr
     {
-        public VarSymbol Name {get;}
+        public Name Name {get;}
 
         public K VarExpr {get;}
 
@@ -27,6 +27,12 @@ namespace Z0
             Name = name;
             VarExpr = kind;
             Value = val;
+        }
+
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Name.Hash;
         }
 
         string IVar<string>.Value

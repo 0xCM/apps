@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Free]
-    public interface IToolCmd
+    public interface IToolCmd : IExecCmd
     {
         CmdId CmdId {get;}
 
@@ -16,10 +16,10 @@ namespace Z0
 
     [Free]
     public interface IToolCmd<C> : IToolCmd
-        where C : struct, IToolCmd
+        where C : struct, IToolCmd<C>
     {
         CmdId IToolCmd.CmdId
-            => CmdId.from<C>();
+            => CmdTypes.identify<C>();
 
         ToolCmdArgs IToolCmd.Args
             => ToolCmdArgs.args((C)this);

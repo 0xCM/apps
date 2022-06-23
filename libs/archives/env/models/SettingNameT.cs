@@ -15,6 +15,18 @@ namespace Z0
             Data = name;
         }
 
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Data.IsNull;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => !Data.IsNull;
+        }
+
         Name INamed.Name
             => Data.Format();
 

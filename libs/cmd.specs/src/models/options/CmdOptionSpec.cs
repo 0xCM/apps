@@ -37,6 +37,12 @@ namespace Z0
             Description = description;
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => core.hash(Name.Hash, core.hash(Description));
+        }
+
         public bool IsEmpty
         {
             [MethodImpl(Inline)]

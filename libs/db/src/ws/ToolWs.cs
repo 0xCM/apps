@@ -11,6 +11,10 @@ namespace Z0
     {
         public static ref readonly ToolWs Service => ref AppDb.ToolWs;
 
+        public IDbSources BoolBox
+            => new DbSources(Root);
+
+
         public static Settings settings(FS.FilePath src)
         {
             var dst = list<Setting>();
@@ -115,9 +119,6 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Configs;
         }
-
-        public IDbSources Toolbase
-            => new DbSources(Root);
 
         public bool Settings(ToolId id, out ToolConfig dst)
             => ConfigLookup.TryGetValue(id, out dst);
