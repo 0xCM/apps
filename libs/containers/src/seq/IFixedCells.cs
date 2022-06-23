@@ -10,7 +10,7 @@ namespace Z0
         uint Capacity {get;}
     }
 
-    public interface IFixedCells<T> : IMutableSeq<T>
+    public interface IFixedCells<T> : ISeq<T>
         where T : unmanaged
     {
 

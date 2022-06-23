@@ -12,15 +12,15 @@ namespace Z0
             => RunScript(Paths.ControlScript(name), new ScriptId(name.Name), vars);
 
         public ReadOnlySpan<TextLine> RunToolCmd(ToolScript src)
-            => RunToolScript(src.Tool, src.Script, ToolScriptKind.Cmd, src.Vars);
+            => RunToolScript(src.Tool, src.Script, ScriptKind.Cmd, src.Vars);
 
         public ReadOnlySpan<TextLine> RunToolCmd(ToolId tool, ScriptId script, CmdVars? vars = null)
-            => RunToolScript(tool, script, ToolScriptKind.Cmd, vars);
+            => RunToolScript(tool, script, ScriptKind.Cmd, vars);
 
         public ReadOnlySpan<TextLine> RunToolPs(ToolId tool, ScriptId script, CmdVars? vars = null)
-            => RunToolScript(tool, script, ToolScriptKind.Ps, vars);
+            => RunToolScript(tool, script, ScriptKind.Ps, vars);
 
-        ReadOnlySpan<TextLine> RunToolScript(ToolId tool, ScriptId script, ToolScriptKind kind, CmdVars? vars)
+        ReadOnlySpan<TextLine> RunToolScript(ToolId tool, ScriptId script, ScriptKind kind, CmdVars? vars)
             => Run(CmdLine(ScriptFile(tool, script, kind), kind), script, vars);
 
         ReadOnlySpan<TextLine> RunScript(FS.FilePath src, ScriptId script, CmdVars? vars)
@@ -80,7 +80,7 @@ namespace Z0
             dst = default;
             try
             {
-                var kind = ToolScriptKind.Cmd;
+                var kind = ScriptKind.Cmd;
                 var path = ScriptFile(script, kind);
                 if(!path.Exists)
                     return (false,FS.missing(path));
@@ -164,31 +164,31 @@ namespace Z0
             }
         }
 
-        FS.FilePath ScriptFile(ToolId tool, ScriptId script, ToolScriptKind kind)
+        FS.FilePath ScriptFile(ToolId tool, ScriptId script, ScriptKind kind)
         {
             var x = kind switch{
-                ToolScriptKind.Cmd => FS.Cmd,
-                ToolScriptKind.Ps => FS.Ps1,
+                ScriptKind.Cmd => FS.Cmd,
+                ScriptKind.Ps => FS.Ps1,
                 _ => FS.FileExt.Empty
             };
             return Paths.ToolScript(tool, script, x);
         }
 
-        FS.FilePath ScriptFile(ToolScript spec, ToolScriptKind kind)
+        FS.FilePath ScriptFile(ToolScript spec, ScriptKind kind)
         {
             var x = kind switch{
-                ToolScriptKind.Cmd => FS.Cmd,
-                ToolScriptKind.Ps => FS.Ps1,
+                ScriptKind.Cmd => FS.Cmd,
+                ScriptKind.Ps => FS.Ps1,
                 _ => FS.FileExt.Empty
             };
             return Paths.ToolScript(spec.Tool, spec.Script, x);
         }
 
-        CmdLine CmdLine(FS.FilePath path, ToolScriptKind kind)
+        CmdLine CmdLine(FS.FilePath path, ScriptKind kind)
         {
             return kind switch{
-                ToolScriptKind.Cmd => WinCmd.script(path),
-                ToolScriptKind.Ps => PwshCmd.script(path),
+                ScriptKind.Cmd => WinCmd.script(path),
+                ScriptKind.Ps => PwshCmd.script(path),
                 _ => Z0.CmdLine.Empty
             };
         }

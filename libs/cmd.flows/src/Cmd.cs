@@ -11,6 +11,40 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
+        public static ICmd reify(Type src)
+            => (ICmd)Activator.CreateInstance(src);
+
+        [Op]
+        public static ICmd[] reify(Assembly src)
+            => CmdTypes.tagged(src).Select(reify);
+
+        public static string format<T>(ICmd<T> src)
+            where T : struct, ICmd<T>
+        {
+            var buffer = text.buffer();
+            buffer.AppendFormat("{0}{1}", src.CmdId, Chars.LParen);
+
+            var fields = ClrFields.instance(typeof(T));
+            if(fields.Length != 0)
+                render(__makeref(src), fields, buffer);
+
+            buffer.Append(Chars.RParen);
+            return buffer.Emit();
+        }
+
+        static void render(TypedReference src, ReadOnlySpan<ClrFieldAdapter> fields, ITextBuffer dst)
+        {
+            var count = fields.Length;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var field = ref skip(fields,i);
+                dst.AppendFormat(RP.Assign, field.Name, field.GetValueDirect(src));
+                if(i != count - 1)
+                    dst.Append(", ");
+            }
+        }
+
+
         /// <summary>
         /// Defines a <see cref='CmdResult'/>
         /// </summary>
@@ -144,6 +178,14 @@ namespace Z0
         public static CmdJob<T> job<T>(string name, T spec)
             where T : struct
                 => new CmdJob<T>(name, spec);
+
+        [MethodImpl(Inline)]
+        public static DataFlow<Actor,S,T> flow<S,T>(Tool tool, S src, T dst)
+            => new DataFlow<Actor,S,T>(FlowId.identify(tool,src,dst), tool,src,dst);
+
+        [MethodImpl(Inline)]
+        public static FileFlow flow(in CmdFlow src)
+            => new FileFlow(flow(src.Tool, src.SourcePath.ToUri(), src.TargetPath.ToUri()));
 
         [MethodImpl(Inline), Op]
         public static CmdArgDef<T> def<T>(string name, T value, ArgPrefix prefix)

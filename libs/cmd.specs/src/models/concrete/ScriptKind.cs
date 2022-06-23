@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Flags]
-    public enum ToolScriptKind : ushort
+    public enum ScriptKind : ushort
     {
         None = 0,
 

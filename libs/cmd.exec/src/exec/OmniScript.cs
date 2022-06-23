@@ -35,7 +35,7 @@ namespace Z0
                 return (false, FS.missing(src));
 
             result = ScriptRunner.RunCmd(
-                CmdScript.cmdline(src.Format(PathSeparator.BS)),
+                CmdScripts.cmdline(src.Format(PathSeparator.BS)),
                 vars,
                 quiet ? ReceiveCmdStatusQuiet : ReceiveCmdStatus, ReceiveCmdError,
                 out var response
@@ -44,7 +44,7 @@ namespace Z0
             if(result.Fail)
                 return result;
 
-            flows = CmdFlow.parse(response);
+            flows = CmdFlows.parse(response);
 
             return result;
         }
@@ -57,9 +57,10 @@ namespace Z0
             vars.SrcId = srcid;
             return RunToolScript(path, vars.ToCmdVars(), quiet, out flows);
         }
+
         public Outcome Run(FS.FilePath src, CmdVars vars, bool quiet, out ReadOnlySpan<TextLine> response)
             => ScriptRunner.RunCmd(
-                CmdScript.cmdline(src.Format(PathSeparator.BS)),
+                CmdScripts.cmdline(src.Format(PathSeparator.BS)),
                 vars,
                 quiet ? ReceiveCmdStatusQuiet : ReceiveCmdStatus, ReceiveCmdError,
                 out response
@@ -84,7 +85,7 @@ namespace Z0
             => CmdRunner.Run(WinCmd.cmd(content), ReceiveCmdStatusQuiet, ReceiveCmdError, out response);
 
         public Outcome Run(FS.FilePath src, out ReadOnlySpan<TextLine> response)
-            => ScriptRunner.RunCmd(CmdScript.cmdline(src.Format(PathSeparator.BS)), CmdVars.Empty, ReceiveCmdStatusQuiet, ReceiveCmdError, out response);
+            => ScriptRunner.RunCmd(CmdScripts.cmdline(src.Format(PathSeparator.BS)), CmdVars.Empty, ReceiveCmdStatusQuiet, ReceiveCmdError, out response);
 
         public Outcome Run(CmdLine cmd, CmdVars vars, out ReadOnlySpan<TextLine> response)
             => ScriptRunner.RunCmd(cmd, vars, ReceiveCmdStatusQuiet, ReceiveCmdError, out response);

@@ -22,6 +22,6 @@ namespace Z0
             => CmdTypes.identify<C>();
 
         ToolCmdArgs IToolCmd.Args
-            => ToolCmdArgs.args((C)this);
+            => ToolCmd.args((C)this);
     }
 }

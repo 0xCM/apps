@@ -7,7 +7,7 @@ namespace Z0
     using static DelimitedSeq;
 
     [Free]
-    public class DelimitedSeq<S,T> : Seq<DelimitedSeq<S,T>,T>
+    public class DelimitedSeq<S,T> : ReadOnlySeq<DelimitedSeq<S,T>,T>
     {
         public readonly string Delimiter;
 

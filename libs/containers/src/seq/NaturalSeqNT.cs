@@ -6,76 +6,15 @@ namespace Z0
 {
     using static core;
 
-    public readonly struct NaturalSeq<N,T> : INaturalSeq<N,T>
+    public class NaturalSeq<N,T> : Seq<NaturalSeq<N,T>,T>
         where T : IEquatable<T>
         where N : unmanaged, ITypeNat
     {
-        readonly Index<T> Data;
-
         [MethodImpl(Inline)]
         public NaturalSeq(T[] src)
+            : base(src)
         {
-            Data = src;
-        }
 
-        public uint Count
-        {
-            [MethodImpl(Inline)]
-            get => nat32u<N>();
-        }
-
-        public bool IsEmpty
-        {
-            [MethodImpl(Inline)]
-            get => Count == 0;
-        }
-
-        public bool IsNonEmpty
-        {
-            [MethodImpl(Inline)]
-            get => Count != 0;
-        }
-
-        public int Length
-        {
-            [MethodImpl(Inline)]
-            get => nat32i<N>();
-        }
-
-        public ReadOnlySpan<T> View
-        {
-            [MethodImpl(Inline)]
-            get => Data;
-        }
-
-        public Span<T> Edit
-        {
-            [MethodImpl(Inline)]
-            get => Data;
-        }
-
-        public ref readonly T this[long i]
-        {
-            [MethodImpl(Inline)]
-            get => ref Data[i];
-        }
-
-        public ref readonly T this[ulong i]
-        {
-            [MethodImpl(Inline)]
-            get => ref Data[i];
-        }
-
-        public ref readonly T First
-        {
-            [MethodImpl(Inline)]
-            get => ref Data.First;
-        }
-
-        public ref readonly T Last
-        {
-            [MethodImpl(Inline)]
-            get => ref Data.Last;
         }
 
         public string Format()

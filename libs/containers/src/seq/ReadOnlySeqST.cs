@@ -7,13 +7,13 @@ namespace Z0
     using System.Collections;
 
     [Free]
-    public abstract class Seq<S,T> : ISeq<T>, IEnumerable<T>
-        where S : Seq<S,T>
+    public abstract class ReadOnlySeq<S,T> : IReadOnlySeq<T>
+        where S : ReadOnlySeq<S,T>
     {
         protected readonly Index<T> Data;
 
         [MethodImpl(Inline)]
-        protected Seq(T[] src)
+        protected ReadOnlySeq(T[] src)
         {
             Data =src;
         }
@@ -60,10 +60,7 @@ namespace Z0
             get => ref Data[index];
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-            => ((IEnumerable)Data).GetEnumerator();
-
-        IEnumerator<T> IEnumerable<T>.GetEnumerator()
-            => ((IEnumerable<T>)Data).GetEnumerator();
+        public ReadOnlySpan<T>.Enumerator GetEnumerator()
+            => View.GetEnumerator();
     }
 }

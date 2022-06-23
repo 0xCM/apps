@@ -15,21 +15,22 @@ namespace Z0
     {
         public static T create(IWfRuntime wf, params ICmdProvider[] src)
         {
-            var dst = new T();
-            var actions = bag<CmdActions>();
-            actions.Add(CmdActions.discover(dst));
-            iter(src, x => actions.Add(x.Actions));
-            var dispatcher = CmdActions.dispatcher(CmdActions.join(actions.ToArray()));
+            var service = new T();
+            // var actions = bag<CmdActions>();
+            // actions.Add(CmdFlows.actions(service));
+            // iter(src, x => actions.Add(x.Actions));
+            // var dispatcher = CmdFlows.dispatcher(CmdFlows.join(actions.ToArray()));
+            var dispatcher = CmdFlows.dispatcher(service, src);
             GlobalSvc.Instance.Inject(dispatcher);
-            dst.Init(wf);
-            return dst;
+            service.Init(wf);
+            return service;
         }
 
         protected AppCmdService()
         {
             _Context = new();
             PromptTitle = "cmd";
-            Actions = CmdActions.discover((T)this);
+            Actions = CmdFlows.actions((T)this);
         }
 
         public CmdActions Actions {get;}
@@ -220,7 +221,7 @@ namespace Z0
         }
 
         protected static CmdArg arg(in CmdArgs src, int index)
-            => CmdScript.arg(src, index);
+            => ShellCmd.arg(src, index);
 
         Outcome SelectTool(ToolId tool)
         {

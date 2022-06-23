@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct Seq<T> : ISeq<T>
+    public readonly struct Seq<T> : IReadOnlySeq<T>
         where T : IEquatable<T>
     {
         readonly Index<T> Data;

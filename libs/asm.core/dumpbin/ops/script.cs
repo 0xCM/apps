@@ -16,7 +16,7 @@ namespace Z0
                 buffer.AppendLine(cmd.Format());
             }
 
-            return CmdScript.create(name, buffer.Emit());
+            return CmdScripts.create(name, buffer.Emit());
         }
     }
 }

@@ -45,11 +45,11 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static ToolCmdLine cmdline(ToolId tool, params string[] src)
-            => new ToolCmdLine(tool, CmdScript.cmdline(src));
+            => new ToolCmdLine(tool, CmdScripts.cmdline(src));
 
         [MethodImpl(Inline), Op]
         public static ToolCmdLine cmdline(ToolId tool, CmdModifier modifier, params string[] src)
-            => new ToolCmdLine(tool, modifier, CmdScript.cmdline(src));
+            => new ToolCmdLine(tool, modifier, CmdScripts.cmdline(src));
 
         [MethodImpl(Inline), Op]
         public static ToolScript script(ToolId tool, ScriptId script, CmdVars vars)

@@ -8,7 +8,7 @@ namespace Z0
 
     public sealed class Reactor : GlobalService<Reactor,int>
     {
-        CmdDispatch Dispatcher;
+        CmdFlows Flows;
 
         public static void dispatch(string[] args)
         {
@@ -39,7 +39,7 @@ namespace Z0
         protected override Reactor Init(out int state)
         {
             state = 0;
-            Dispatcher = CmdActions.dispatch(Wf, CmdActions.reactors(Wf));
+            Flows = CmdFlows.create(Wf, CmdFlows.reactors(Wf));
             return this;
         }
 
@@ -53,7 +53,7 @@ namespace Z0
             var name =  first(args).Content;
             var path = args.Length >= 2 ? args[1].Content : EmptyString;
             cmd.ScriptPath = FS.path(path);
-            Dispatcher.Run(cmd);
+            Flows.Run(cmd);
         }
     }
 }

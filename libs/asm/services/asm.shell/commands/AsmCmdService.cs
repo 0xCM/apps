@@ -34,7 +34,7 @@ namespace Z0.Asm
             var vars = CmdVars.load(
                 ("SrcId", id)
                 );
-            var cmd = CmdScript.cmdline(script.Format(PathSeparator.BS));
+            var cmd = CmdScripts.cmdline(script.Format(PathSeparator.BS));
             return OmniScript.Run(cmd, vars, out var response);
         }
     }

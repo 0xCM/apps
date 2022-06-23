@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class NamedValues<K,T> : Seq<NamedValues<K,T>,NamedValue<K,T>>
+    public class NamedValues<K,T> : ReadOnlySeq<NamedValues<K,T>,NamedValue<K,T>>
         where K : unmanaged, IAsciSeq<K>
     {
         [MethodImpl(Inline)]

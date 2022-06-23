@@ -28,12 +28,6 @@ namespace Z0
                 return new CmdId(spec.Name);
         }
 
-        public static ICmd reify(Type src)
-            => (ICmd)Activator.CreateInstance(src);
-
-        [Op]
-        public static ICmd[] reify(Assembly src)
-            => tagged(src).Select(reify);
 
         [Op]
         public static void render(CmdTypeInfo src, ITextBuffer dst)

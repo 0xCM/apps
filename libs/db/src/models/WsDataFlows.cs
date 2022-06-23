@@ -134,7 +134,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref var dst = ref seek(flows,i);
-                dst = CmdSpecs.flow(skip(src,i));
+                dst = Cmd.flow(skip(src,i));
                 if(lookup.TryGetValue(dst.Source, out var targets))
                 {
                     targets.Add(dst.Target);

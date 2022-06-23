@@ -67,15 +67,4 @@ namespace Z0
         public static CmdResult Empty
             => default;
     }
-
-    partial class XTend
-    {
-        [MethodImpl(Inline)]
-        public static CmdResult ToCmdResult<T>(this Outcome<T> result, CmdId id)
-            => CmdResult.FromOutcome(id,result);
-
-        [MethodImpl(Inline)]
-        public static CmdResult ToCmdResult<T>(this Outcome<T> result, ICmd cmd)
-            => CmdResult.FromOutcome(cmd.CmdId,result);
-    }
 }

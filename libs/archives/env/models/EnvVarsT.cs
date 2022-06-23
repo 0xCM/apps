@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public sealed class EnvVars<T> : Seq<EnvVars<T>,EnvVar<T>>
+    public sealed class EnvVars<T> : ReadOnlySeq<EnvVars<T>,EnvVar<T>>
         where T : IEquatable<T>
     {
         readonly ConstLookup<SettingName<asci64>,T> Lookup;

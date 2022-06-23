@@ -56,7 +56,7 @@ namespace Z0
                 name = arg(args,0).Value.Format();
 
             var set = AppDb.LoadEnv(name);
-            iter(set, member => Write(member.Format()));
+            iter(set.View, member => Write(member.Format()));
 
             return true;
         }

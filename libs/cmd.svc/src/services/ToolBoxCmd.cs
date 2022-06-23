@@ -12,7 +12,7 @@ namespace Z0
         Settings UpdateToolEnv()
         {
             var path = ToolWs.BoolBox.Path(FS.file("show-env-config", FS.Cmd));
-            var cmd = CmdScript.cmdline(path.Format(PathSeparator.BS));
+            var cmd = CmdScripts.cmdline(path.Format(PathSeparator.BS));
             return AppSettings.Load(OmniScript.RunCmd(cmd));
         }
 

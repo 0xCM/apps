@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Free]
-    public interface INaturalSeq<N,T> : IMutableSeq<T>
+    public interface INaturalSeq<N,T> : ISeq<T>
         where N : unmanaged, ITypeNat
     {
         uint ICounted.Count

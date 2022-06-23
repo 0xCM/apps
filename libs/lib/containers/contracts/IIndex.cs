@@ -44,10 +44,10 @@ namespace Z0
 
 
         IEnumerator IEnumerable.GetEnumerator()
-            => Storage.GetEnumerator();
+            => ((IEnumerable)Storage).GetEnumerator();
 
         IEnumerator<T> IEnumerable<T>.GetEnumerator()
-            => Storage.ToList().GetEnumerator();
+            => ((IEnumerable<T>)Storage).GetEnumerator();
     }
 
     public interface IIndex<K,T> : IIndex<T>
