@@ -9,11 +9,9 @@ namespace Z0
 
     using DR = ClrMdRecords;
 
-    public sealed class DumpParser : AppService<DumpParser>
+    public sealed class DumpParser : WfSvc<DumpParser>
     {
         DumpArchive Archive => Wf.DumpArchive();
-
-        AppSvcOps AppSvc => Wf.AppSvc();
 
         public DumpParser()
         {
@@ -21,10 +19,10 @@ namespace Z0
         }
 
         void Emit(ProcDumpName id, ReadOnlySpan<DR.ModuleInfo> src)
-            => AppSvc.TableEmit(src, Archive.Table<DR.ModuleInfo>(id));
+            => TableEmit(src, Archive.Table<DR.ModuleInfo>(id));
 
         ExecToken Emit(ProcDumpName id, ReadOnlySpan<DR.MethodTableToken> src)
-            => AppSvc.TableEmit(src, Archive.Table<DR.MethodTableToken>(id));
+            => TableEmit(src, Archive.Table<DR.MethodTableToken>(id));
 
         void Emit(ProcDumpName id, ModuleProcessPresult src)
         {

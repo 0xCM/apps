@@ -69,8 +69,8 @@ namespace Z0
             var data = text.emitter();
             RenderHeader(core.timestamp(), code);
             CsRender.EnumReplicants(spec, tops, code, data, e => Write(e.Format(),e.Flair));
-            AppSvc.FileEmit(code.Emit(), tops.Length, ReplicantCodePath(spec, spec.Namespace), TextEncodingKind.Utf8);
-            AppSvc.FileEmit(data.Emit(), tops.Length, ReplicantDataPath(spec, spec.Namespace), TextEncodingKind.Utf8);
+            FileEmit(code.Emit(), tops.Length, ReplicantCodePath(spec, spec.Namespace), TextEncodingKind.Utf8);
+            FileEmit(data.Emit(), tops.Length, ReplicantDataPath(spec, spec.Namespace), TextEncodingKind.Utf8);
         }
 
         void EmitEnclosedReplicants(EnumReplicantSpec spec, Dictionary<Type,Index<Type>> src)
@@ -85,8 +85,8 @@ namespace Z0
                 RenderHeader(core.timestamp(), code);
                 var enclosed = src[key];
                 CsRender.EnumReplicants(spec, enclosed, code, data, e => Write(e.Format(),e.Flair));
-                AppSvc.FileEmit(code.Emit(), enclosed.Count, ReplicantCodePath(spec, spec.Namespace), TextEncodingKind.Utf8);
-                AppSvc.FileEmit(data.Emit(), enclosed.Count, ReplicantDataPath(spec, spec.Namespace), TextEncodingKind.Utf8);
+                FileEmit(code.Emit(), enclosed.Count, ReplicantCodePath(spec, spec.Namespace), TextEncodingKind.Utf8);
+                FileEmit(data.Emit(), enclosed.Count, ReplicantDataPath(spec, spec.Namespace), TextEncodingKind.Utf8);
             }
         }
     }

@@ -14,7 +14,7 @@ namespace Z0
             var dst = SourceFile(syntax.TableName, "stringtables", cgdst);
             var emitter = text.emitter();
             render(syntax, src, emitter);
-            AppSvc.FileEmit(emitter.Emit(), src.Count, dst);
+            FileEmit(emitter.Emit(), src.Count, dst);
             return dst;
         }
 
@@ -24,7 +24,7 @@ namespace Z0
             var emitter = text.emitter();
             var def = StringTables.create(spec);
             render(def.Spec, spec.Entries, emitter);
-            AppSvc.FileEmit(emitter.Emit(), spec.Entries.Count, dst);
+            FileEmit(emitter.Emit(), spec.Entries.Count, dst);
             return dst;
         }
 
@@ -33,7 +33,7 @@ namespace Z0
             var dst = SourceFile(spec.TableName, "stringtables", cgdst);
             var emitter = text.emitter();
             render(spec, src, emitter);
-            AppSvc.FileEmit(emitter.Emit(), src.Length, dst);
+            FileEmit(emitter.Emit(), src.Length, dst);
             return dst;
         }
 

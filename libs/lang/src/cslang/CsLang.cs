@@ -15,8 +15,6 @@ namespace Z0
         public static CsEmitter emitter()
             => new();
 
-        AppSvcOps AppSvc => Wf.AppSvc();
-
         ConstLookup<CgTarget,string> TargetExpressions;
 
         const string ArrayPackLine = "x{0:x}[{1:D5}:{2:D5}]={3}";

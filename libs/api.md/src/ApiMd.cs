@@ -16,8 +16,6 @@ namespace Z0
 
         MsilPipe MsilSvc => Wf.MsilSvc();
 
-        AppSvcOps AppSvc => Wf.AppSvc();
-
         ApiComments Comments => Wf.ApiComments();
 
         ModuleArchives Modules => Wf.ModuleArchives();
@@ -449,7 +447,7 @@ namespace Z0
         }
 
         public void Emit(ReadOnlySpan<ClrEnumRecord> src, FS.FilePath dst)
-            => AppSvc.TableEmit(src,dst);
+            => TableEmit(src,dst);
 
         public Index<SymInfo> LoadTokens(string name)
         {

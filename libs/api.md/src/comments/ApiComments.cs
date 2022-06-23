@@ -12,12 +12,8 @@ namespace Z0
 
     using CT = ApiCommentTarget;
 
-    public sealed partial class ApiComments : AppService<ApiComments>
+    public sealed partial class ApiComments : WfSvc<ApiComments>
     {
-        AppDb AppDb => Wf.AppDb();
-
-        AppSvcOps AppSvc => Wf.AppSvc();
-
         public CommentDataset Calc()
         {
             var targets = AppDb.ApiTargets("comments");
@@ -130,7 +126,7 @@ namespace Z0
             for(var i=0; i<paths.Length; i++)
             {
                 ref readonly var path = ref skip(paths,i);
-                AppSvc.TableEmit(csv[path], path, TextEncodingKind.Utf8);
+                TableEmit(csv[path], path, TextEncodingKind.Utf8);
             }
 
             ref readonly var xml = ref src.Xml;

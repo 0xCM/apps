@@ -9,5 +9,17 @@ namespace Z0
     public static class XSvc
     {
 
+        sealed class AppSvcCache : AppServices<AppSvcCache>
+        {
+
+            public AppSettings AppSettings(IWfRuntime wf)
+                => Service<AppSettings>(wf);
+        }
+
+
+        static AppSvcCache Services => AppSvcCache.Instance;
+
+        public static AppSettings AppSettings(this IWfRuntime wf)
+            => Services.AppSettings(wf);
     }
 }

@@ -15,6 +15,5 @@ namespace Z0
             var cmd = CmdScripts.cmdline(path.Format(PathSeparator.BS));
             return AppSettings.Load(OmniScript.RunCmd(cmd));
         }
-
     }
 }

@@ -10,6 +10,30 @@ namespace Z0
     [ApiHost]
     public class CalcBuilder : AppService<CalcBuilder>
     {
+
+        public static ClassChecks Checks(IWfRuntime wf) => ClassChecks.create(wf);
+
+        public class ClassChecks : Checker<ClassChecks>
+        {
+            public void CheckSymNames()
+            {
+                var result = Outcome.Success;
+                var classifier = Classifiers.classifier<AsciLetterLoSym,byte>();
+                var symbols = Symbols.index<AsciLetterLoSym>();
+                var classes = classifier.Classes;
+                var count = classes.Length;
+                for(var i=0u; i<count; i++)
+                {
+                    ref readonly var c = ref skip(classes,i);
+                    ref readonly var s = ref symbols[i];
+                    Z0.Require.equal(c.Index, i);
+                    Z0.Require.equal(s.Key.Value, c.Index);
+                    Z0.Require.equal(s.Expr.Format(), c.Symbol.Format());
+                    Z0.Require.equal(s.Name, c.Name.Format());
+                }
+            }
+        }
+
         const NumericKind Closure = Integers;
 
         PageBank16x4x4 PageBlocks;

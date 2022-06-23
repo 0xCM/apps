@@ -20,10 +20,14 @@ namespace Z0
             public Tooling Tooling(IWfRuntime wf)
                 => Service<Tooling>(wf);
 
-
+            public WsScripts WsScripts(IWfRuntime wf)
+                => Service<WsScripts>(wf);
         }
 
         static ServiceCache Services => ServiceCache.Instance;
+
+        public static WsScripts WsScripts(this IWfRuntime wf)
+            => Services.WsScripts(wf);
 
         public static ScriptRunner ScriptRunner(this IWfRuntime wf)
             => Services.ScriptRunner(wf);

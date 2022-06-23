@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public readonly struct Checkers
+    public class Checkers
     {
         public static string name(Type host)
             => string.Format("{0}.{1}", host.Assembly.Id().Format(), host.Name);

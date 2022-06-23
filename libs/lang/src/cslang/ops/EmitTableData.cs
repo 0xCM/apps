@@ -7,10 +7,10 @@ namespace Z0
     partial class CsLang
     {
         void EmitTableData(StringTable src, FS.FilePath dst)
-            => AppSvc.TableEmit(src.Rows, dst);
+            => TableEmit(src.Rows, dst);
 
         void EmitTableData<K>(SymbolStrings<K> src, FS.FilePath dst)
             where K : unmanaged
-                => AppSvc.TableEmit(src.Rows, dst);
+                => TableEmit(src.Rows, dst);
     }
 }

@@ -7,7 +7,7 @@
             "path": "../cmd.specs"
         },
         {
-            "path": "../cmd.actions"
+            "path": "../cmd.flows"
         },
         {
             "path": "../cmd.svc"
@@ -26,7 +26,7 @@
         },
         {
             "path": "../archives"
-        }
+        },
     ],
 	"settings": {}
 }

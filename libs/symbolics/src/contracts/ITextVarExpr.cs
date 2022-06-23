@@ -16,8 +16,6 @@ namespace Z0
 
         bool IsPrefixedFence
             => IsFenced && IsPrefixed;
-
-        TextVarClass Class
-            => TextExpr.VarClass(this);
+        TextVarClass Class {get;}
     }
 }

@@ -149,6 +149,4 @@ namespace Z0
                     => TableEmit(@readonly(rows), dst, encoding, rowpad, fk);
     }
 
-
-
 }
