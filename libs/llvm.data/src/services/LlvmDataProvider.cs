@@ -14,7 +14,7 @@ namespace Z0.llvm
 
             public ConcurrentDictionary<string,object> DataSets;
 
-            public LlvmToolset Toolset;
+            public Toolset Toolset;
 
             public LlvmTableLoader DataLoader;
 
@@ -61,7 +61,7 @@ namespace Z0.llvm
             get => State.DataSets;
         }
 
-        LlvmToolset Toolset
+        Toolset Toolset
         {
             [MethodImpl(Inline)]
             get => State.Toolset;

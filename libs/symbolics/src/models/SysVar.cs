@@ -2,17 +2,19 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.llvm
+namespace Z0
 {
-    [Tool(ToolId)]
-    public sealed partial class LlvmReadObjSvc : ToolService<LlvmReadObjSvc>
+    public sealed class SysVar : SysVar<SysVar, VarName, @string>
     {
-        public const string ToolId = ToolNames.llvm_readobj;
+        public SysVar(VarName name)
+            : base(name)
+        {
+        }
 
-        public LlvmReadObjSvc()
-            : base(ToolId)
+        public SysVar(VarName name, string value)
+            : base(name,value)
         {
 
         }
-   }
+    }
 }

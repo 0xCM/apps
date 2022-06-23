@@ -13,7 +13,7 @@ namespace Z0.llvm
         void LlcHelp()
         {
             var result = Outcome.Success;
-            result = Toolset.HelpDoc(ToolNames.llc, out var doc);
+            result = Toolset.Help(ToolNames.llc, out var doc);
             if(result.Fail)
             {
                 Error(result.Message);

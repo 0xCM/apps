@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-
     [SymSource(nameof(llvm))]
     public enum LlvmConfigKind : byte
     {

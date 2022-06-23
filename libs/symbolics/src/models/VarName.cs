@@ -4,27 +4,26 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly record struct Name<T> : IDataType<Name<T>>
-        where T : unmanaged, ICharBlock<T>
+    public readonly record struct VarName : INamed<VarName>
     {
-        public readonly T Data;
+        public readonly asci64 Data;
 
         [MethodImpl(Inline)]
-        public Name(T name)
+        public VarName(asci64 data)
         {
-            Data = name;
+            Data = data;
         }
 
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => Data.IsEmpty;
+            get => Data.IsNull;
         }
 
         public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
-            get => Data.IsNonEmpty;
+            get => !Data.IsNull;
         }
 
         public Hash32 Hash
@@ -37,12 +36,12 @@ namespace Z0
             => Hash;
 
         [MethodImpl(Inline)]
-        public int CompareTo(Name<T> src)
-            => Data.CompareTo(src.Data);
+        public bool Equals(VarName src)
+            => Data.Equals(src.Data);
 
         [MethodImpl(Inline)]
-        public bool Equals(Name<T> src)
-            => Data.Equals(src.Data);
+        public int CompareTo(VarName src)
+            => Data.CompareTo(src.Data);
 
         public string Format()
             => Data.Format();
@@ -51,7 +50,7 @@ namespace Z0
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator Name<T>(T src)
-            => new Name<T>(src);
+        public static implicit operator VarName(string src)
+            => new VarName(src);
     }
 }

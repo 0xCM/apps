@@ -2,20 +2,18 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.llvm
+namespace Z0
 {
-
-    using static core;
-
-    [Tool(ToolId)]
-    public sealed class LlvmNmSvc : ToolService<LlvmNmSvc>
+    public readonly struct ToolsetSpec
     {
-        public const string ToolId = ToolNames.llvm_nm;
+        public readonly Name Name;
 
-        public LlvmNmSvc()
-            : base(ToolId)
+        public readonly FS.FolderPath Home;
+
+        public ToolsetSpec(string name, FS.FolderPath home)
         {
+            Name = name;
+            Home = home;
         }
-
     }
 }

@@ -8,7 +8,6 @@ namespace Z0.llvm
 
     using static core;
 
-    [Tool(ToolId)]
     public class LlvmLlcSvc : ToolService<LlvmLlcSvc>
     {
         public const string ToolId = ToolNames.llc;

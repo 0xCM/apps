@@ -78,10 +78,6 @@ namespace Z0
             return new ToolCmdSpec(tool, CmdTypes.identify(t), buffer);
         }
 
-        [MethodImpl(Inline), Op]
-        public static ToolHelp help(ToolId tool, string doc, string description, CmdOptionSpec[] options)
-            => new ToolHelp(tool, doc, description, options);
-
         [Parser]
         public static Outcome parse(string src, out Tool dst)
         {

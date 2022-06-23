@@ -4,13 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly record struct SettingName<T> : INamed<SettingName<T>>
+    public readonly record struct VarName<T> : INamed<VarName<T>>
         where T : unmanaged, IAsciSeq<T>
     {
         public readonly T Data;
 
         [MethodImpl(Inline)]
-        public SettingName(T name)
+        public VarName(T name)
         {
             Data = name;
         }
@@ -27,9 +27,6 @@ namespace Z0
             get => !Data.IsNull;
         }
 
-        Name INamed.Name
-            => Data.Format();
-
         public Hash32 Hash
         {
             [MethodImpl(Inline)]
@@ -40,11 +37,11 @@ namespace Z0
             => Hash;
 
         [MethodImpl(Inline)]
-        public bool Equals(SettingName<T> src)
+        public bool Equals(VarName<T> src)
             => Data.Equals(src.Data);
 
         [MethodImpl(Inline)]
-        public int CompareTo(SettingName<T> src)
+        public int CompareTo(VarName<T> src)
             => Data.CompareTo(src.Data);
 
         public string Format()
@@ -54,7 +51,7 @@ namespace Z0
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator SettingName<T>(T src)
-            => new SettingName<T>(src);
+        public static implicit operator VarName<T>(T src)
+            => new VarName<T>(src);
     }
 }

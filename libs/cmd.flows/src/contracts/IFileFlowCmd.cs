@@ -16,5 +16,7 @@ namespace Z0
     public interface IFileFlowCmd<C> : IFileFlowCmd, ICmd<C>
         where C : struct, IFileFlowCmd<C>
     {
+        IActor IFileFlowCmd.Actor
+            => new Tool(typeof(C).Tag<CmdAttribute>().MapValueOrDefault(x => x.Name, GetType().Name));
     }
 }

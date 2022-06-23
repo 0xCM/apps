@@ -33,7 +33,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public CmdVars(CmdVar[] src)
         {
-
             Data = src;
         }
 
@@ -92,7 +91,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator CmdVar[](CmdVars src)
-            => src.Storage;
+            => src.Data;
 
         public static CmdVars Empty
         {

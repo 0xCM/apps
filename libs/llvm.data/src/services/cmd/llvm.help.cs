@@ -12,7 +12,7 @@ namespace Z0.llvm
         Outcome Help(CmdArgs args)
         {
             var id = arg(args,0).Value;
-            var help = Toolset.ToolHelp(id);
+            var help = Toolset.Help(id);
             var result = Outcome.Success;
             if(help.IsNonEmpty)
             {

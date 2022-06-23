@@ -2,17 +2,12 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.llvm
+namespace Z0
 {
-    [Tool(ToolId)]
-    public class ClangSvc : ToolService<ClangSvc>
+    [Free]
+    public interface INamed<T> : IDataType<T>
+        where T : unmanaged, INamed<T>
     {
-        public const string ToolId = ToolNames.clang;
-
-        public ClangSvc()
-            : base(ToolId)
-        {
-
-        }
+        string Format();
     }
 }

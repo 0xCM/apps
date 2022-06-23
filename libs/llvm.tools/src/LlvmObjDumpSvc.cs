@@ -6,7 +6,6 @@ namespace Z0.llvm
 {
     using static core;
 
-    [Tool(ToolId)]
     public sealed class LlvmObjDumpSvc : ToolService<LlvmObjDumpSvc>
     {
         public const string ToolId = ToolNames.llvm_objdump;

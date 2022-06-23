@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="$(Containers)" />
     <ProjectReference Include="$(Digital)" />
+    <ProjectReference Include="$(Symbolics)" />
   </ItemGroup>
 
 </Project>

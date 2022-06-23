@@ -14,7 +14,7 @@ namespace Z0
         /// <summary>
         /// The name of the value
         /// </summary>
-        public readonly SettingName<K> Name;
+        public readonly VarName<K> Name;
 
         /// <summary>
         /// The named value
@@ -22,7 +22,7 @@ namespace Z0
         public readonly T Value;
 
         [MethodImpl(Inline)]
-        public NamedValue(SettingName<K> name, T value)
+        public NamedValue(VarName<K> name, T value)
         {
             Name = name;
             Value = value;

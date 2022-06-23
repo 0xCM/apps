@@ -23,8 +23,8 @@ namespace Z0
             public LlvmDataEmitter LlvmDataEmitter(IWfRuntime wf)
                 => Service<LlvmDataEmitter>(wf);
 
-            public LlvmToolset LLvmToolset(IWfRuntime wf)
-                => Service<LlvmToolset>(wf);
+            public Toolset LLvmToolset(IWfRuntime wf)
+                => Service<Toolset>(wf);
 
             public LlvmDataCalcs LlvmDataCalcs(IWfRuntime wf)
                 => Service<LlvmDataCalcs>(wf);
@@ -80,7 +80,7 @@ namespace Z0
         public static LlvmDataEmitter LlvmDataEmitter(this IWfRuntime wf)
             => Services.LlvmDataEmitter(wf);
 
-        public static LlvmToolset LLvmToolset(this IWfRuntime wf)
+        public static Toolset LLvmToolset(this IWfRuntime wf)
             => Services.LLvmToolset(wf);
 
         public static LlvmDataCalcs LlvmDataCalcs(this IWfRuntime wf)

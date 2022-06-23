@@ -4,10 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
     using System.IO;
 
-    [Tool(ToolId)]
     public sealed class ClangQuerySvc : ToolService<ClangQuerySvc>
     {
         public const string ToolId = ToolNames.clang_query;
@@ -27,7 +25,6 @@ namespace Z0.llvm
         {
             Counter = 0;
         }
-
 
         FS.FilePath NextOutFile()
             => AppDb.LlvmModel("llvm.data").OutDir(Id.Format()) + FS.file(string.Format("QueryOut{0}", Sequence++), FS.ext("tree"));

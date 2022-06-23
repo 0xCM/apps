@@ -17,11 +17,4 @@ namespace Z0
         string ITextual.Format()
             => Name;
     }
-
-    [Free]
-    public interface INamed<T> : INamed, IDataType<T>
-        where T : unmanaged, INamed<T>
-    {
-
-    }
 }

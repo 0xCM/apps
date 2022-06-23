@@ -9,7 +9,7 @@
   <Import Project="$(ImportDefs)common.libs.props"/>
 
   <ItemGroup>
-    <ProjectReference Include="$(Archives)" />
+    <ProjectReference Include="$(Containers)" />
   </ItemGroup>
 
   <ItemGroup>

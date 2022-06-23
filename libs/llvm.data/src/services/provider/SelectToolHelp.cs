@@ -7,6 +7,6 @@ namespace Z0.llvm
     partial class LlvmDataProvider
     {
         public Index<ToolHelpDoc> SelectToolHelp()
-            => (Index<ToolHelpDoc>)DataSets.GetOrAdd(nameof(SelectToolHelp), _ => Toolset.ToolHelp());
+            => (Index<ToolHelpDoc>)DataSets.GetOrAdd(nameof(SelectToolHelp), _ => Toolset.Help());
     }
 }

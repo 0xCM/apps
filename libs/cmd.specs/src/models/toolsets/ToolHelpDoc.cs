@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.llvm
+namespace Z0
 {
     public class ToolHelpDoc
     {
@@ -10,16 +10,11 @@ namespace Z0.llvm
 
         TextBlock Data;
 
-        public bool IsEmpty {get;}
+        public readonly bool IsEmpty;
 
-        public ToolId Tool {get;}
+        public readonly ToolId Tool;
 
-        public string Tag {get;}
-
-        public bool IsNonEmpty
-        {
-            get => !IsEmpty;
-        }
+        public readonly string Tag;
 
         public ToolHelpDoc()
         {
@@ -29,18 +24,18 @@ namespace Z0.llvm
             Source = FS.FilePath.Empty;
         }
 
-        public ToolHelpDoc(ToolId id, FS.FilePath path)
+        public ToolHelpDoc(ToolId tool, FS.FilePath path)
         {
             Source = path;
-            Tool = id;
+            Tool = tool;
             IsEmpty = false;
             Tag = EmptyString;
             Data = EmptyString;
         }
 
-        ToolHelpDoc(ToolId id, string tag, FS.FilePath src, TextBlock data)
+        public ToolHelpDoc(ToolId tool, string tag, FS.FilePath src, TextBlock data)
         {
-            Tool = id;
+            Tool = tool;
             Source = src;
             IsEmpty = false;
             Tag = tag;
@@ -50,11 +45,17 @@ namespace Z0.llvm
         public TextBlock Content
             => Data;
 
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => !IsEmpty;
+        }
 
         public string Format()
-        {
-            return Content;
-        }
+            => Content;
+
+        public override string ToString()
+            => Format();
 
         public ToolHelpDoc Load()
             => new ToolHelpDoc(Tool, Tag, Source, Source.ReadText());

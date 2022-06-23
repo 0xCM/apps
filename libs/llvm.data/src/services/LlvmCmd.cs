@@ -8,7 +8,7 @@ namespace Z0.llvm
     {
         LlvmDataImporter Importer => Wf.LlvmDataImporter();
 
-        LlvmToolset Toolset => Wf.LLvmToolset();
+        Toolset Toolset => Wf.LLvmToolset();
 
         new LlvmPaths Paths => Wf.LlvmPaths();
 

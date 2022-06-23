@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
-    using System.Runtime.InteropServices;
-
     [Cmd(ToolNames.llvm_readobj), StructLayout(LayoutKind.Sequential, Pack=1)]
     public struct ReadObjCmd : IFileFlowCmd<ReadObjCmd>
     {
@@ -60,9 +57,6 @@ namespace Z0.llvm
 
         [CmdFlag("--version-info")]
         public bit VersionInfo;
-
-        IActor IFileFlowCmd.Actor
-            => Tools.llvm_readobj;
 
         FS.FilePath IFileFlowCmd.Source
             => Source;

@@ -9,7 +9,7 @@ namespace Z0.llvm
         [CmdOp("llvm/emit/help")]
         Outcome EmitHelp(CmdArgs args)
         {
-            Toolset.EmitHelpDocs();
+            Toolset.EmitHelp();
             return true;
         }
     }

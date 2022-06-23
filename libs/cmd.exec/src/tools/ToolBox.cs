@@ -40,6 +40,81 @@ namespace Z0
 
         OmniScript OmniScript => Wf.OmniScript();
 
+        public Index<ToolCmdLine> BuildHelpCommands(FS.FolderPath src)
+        {
+            var profiles = LoadProfileLookup(src).Values;
+            var count = profiles.Length;
+            var dst = list<ToolCmdLine>();
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var profile = ref skip(profiles,i);
+                ref readonly var tool = ref profile.Id;
+                if(profile.HelpCmd.IsEmpty)
+                    continue;
+                dst.Add(Tools.cmdline(tool, string.Format("{0} {1}", profile.Path.Format(PathSeparator.BS), profile.HelpCmd)));
+            }
+            dst.Sort();
+            return dst.ToArray();
+        }
+
+        public ConstLookup<ToolId,FS.FilePath> CalcHelpPaths(FS.FolderPath src)
+        {
+            var dst = new Lookup<ToolId,FS.FilePath>();
+            var profiles = LoadProfileLookup(src).Values;
+            var count = profiles.Length;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var profile = ref skip(profiles,i);
+                ref readonly var tool = ref profile.Id;
+                if(profile.HelpCmd.IsEmpty)
+                    continue;
+
+                dst.Include(tool, src + FS.folder("help") + FS.file(tool.Format(), FS.Help));
+            }
+
+            return dst.Seal();
+        }
+
+        public ConstLookup<ToolId,ToolProfile> InferProfiles(FS.FolderPath src)
+        {
+            var @base = FS.FolderPath.Empty;
+            var members = Index<ToolId>.Empty;
+            var config = src + FS.file("toolset", FS.Settings);
+            if(!config.Exists)
+            {
+                Error(FS.missing(config));
+                return dict<ToolId,ToolProfile>();
+            }
+
+            using var reader = config.Utf8LineReader();
+            while(reader.Next(out var line))
+            {
+                ref readonly var content = ref line.Content;
+                var i = text.index(content, Chars.Colon);
+                if(i >=0)
+                {
+                    var name = text.left(content,i);
+                    var value = text.right(content,i);
+                    if(name == "InstallBase")
+                    {
+                        var root = FS.dir(value);
+                        if(root.Exists)
+                            @base = root;
+                    }
+                }
+            }
+
+            return LoadProfileLookup(src);
+        }
+
+        public FS.FilePath ToolPath(FS.FolderPath root, ToolId tool)
+        {
+            if(LoadProfileLookup(root).Find(tool, out var profile))
+                return profile.Path;
+            else
+                return FS.FilePath.Empty;
+        }
+
         public ReadOnlySpan<string> Configure(ToolId tool)
         {
             var script = ToolWs.ConfigScript(tool);
@@ -173,14 +248,13 @@ namespace Z0
             }
         }
 
-        public ConstLookup<ToolId,ToolProfile> LoadProfiles(FS.FolderPath dir)
+        public ConstLookup<ToolId,ToolProfile> LoadProfileLookup(FS.FolderPath dir)
         {
             var running = Running(string.Format("Loading tool profiles from {0}", dir));
             var sources = dir.Files("tool.profiles", FS.Csv, true);
             var dst = new Lookup<ToolId,ToolProfile>();
             iter(sources, src => LoadProfiles(src,dst));
             var lookup = dst.Seal();
-
             Ran(running, string.Format("Collected {0} profile definitions", lookup.EntryCount));
             return lookup;
         }

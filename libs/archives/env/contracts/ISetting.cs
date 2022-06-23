@@ -8,7 +8,7 @@ namespace Z0
     public interface ISetting<K,V> : ISetting<V>
         where K : unmanaged, IAsciSeq<K>
     {
-        new SettingName<K> Name {get;}
+        new VarName<K> Name {get;}
 
         string ISetting.Name
             => Name.ToString();

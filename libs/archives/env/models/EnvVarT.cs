@@ -13,7 +13,7 @@ namespace Z0
     {
         const string TableId = "env.vars.{0}";
 
-        public readonly SettingName<asci64> Name;
+        public readonly VarName<asci64> Name;
 
         public readonly T Value;
 
