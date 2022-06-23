@@ -17,6 +17,10 @@ namespace Z0
         where V : IEquatable<V>, IComparable<V>, new()
     {
         new V Value {get;}
+
+        dynamic ISysVar.Value
+            => Value;
+
     }
 
     [Free]
@@ -25,9 +29,6 @@ namespace Z0
         where V : IEquatable<V>, IComparable<V>, new()
     {
         new N Name {get;}
-
-        dynamic ISysVar.Value
-            => Value;
 
         VarName ISysVar.Name
             => new VarName(Name.Format());

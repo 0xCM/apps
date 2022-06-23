@@ -11,7 +11,7 @@ namespace Z0
     {
         public string Value;
 
-        public Name Name {get;}
+        public VarName Name {get;}
 
         public Hash32 Hash
         {
@@ -19,12 +19,12 @@ namespace Z0
             get => Name.Hash;
         }
 
-        string IVar<string>.Value
+        @string ISysVar<@string>.Value
             => Value;
 
         public VarKind Kind {get;}
 
-        ITextVarExpr ITextVar.VarExpr
+        ITextVarExpr ITextVar.Expr
             => Kind;
 
         public PrefixedTextVar(char prefix, string name)

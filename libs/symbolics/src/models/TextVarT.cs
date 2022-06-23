@@ -4,10 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class TextVar<K> : ITextVar<K>
-        where K : ITextVarExpr
+    public class TextVar<K> : ITextVar
+        where K : IEquatable<K>, IComparable<K>, ITextVarExpr, new()
     {
-        public Name Name {get;}
+        public VarName Name {get;}
 
         public K VarExpr {get;}
 
@@ -35,8 +35,11 @@ namespace Z0
             get => Name.Hash;
         }
 
-        string IVar<string>.Value
+        @string ISysVar<@string>.Value
             => Value;
+
+        ITextVarExpr ITextVar.Expr
+            => VarExpr;
 
         public string Format()
             => TextExpr.FormatVariable(this);

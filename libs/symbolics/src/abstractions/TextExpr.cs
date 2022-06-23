@@ -70,7 +70,7 @@ namespace Z0
         /// <param name="src">The variable to parse</param>
         public static string FormatVariable(ITextVar src)
         {
-            var kind = src.VarExpr;
+            var kind = src.Expr;
             var @class = VarClass(kind);
             if(src.IsNonEmpty)
                 return src.Value;
