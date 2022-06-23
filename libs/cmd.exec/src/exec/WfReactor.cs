@@ -14,7 +14,7 @@ namespace Z0
         {
             var _list = DbFiles.search(cmd.SourceDir, cmd.Extensions, cmd.EmissionLimit);
             var outcome = DbFiles.emit(_list, cmd.FileUriMode, cmd.TargetPath);
-            return outcome ? Cmd.ok(cmd,_list) : Cmd.fail(cmd, outcome.Message);
+            return outcome ? CmdResults.ok(cmd,_list) : CmdResults.fail(cmd, outcome.Message);
         }
 
         [Op]
@@ -70,9 +70,9 @@ namespace Z0
             if(find(cmd, out var handler))
             {
                 handler();
-                return Cmd.ok(cmd, string.Format("Executed <{0}> workflow", cmd.WorkflowName));
+                return CmdResults.ok(cmd, string.Format("Executed <{0}> workflow", cmd.WorkflowName));
             }
-            return Cmd.fail(cmd, "Handler not found");
+            return CmdResults.fail(cmd, "Handler not found");
         }
     }
 }

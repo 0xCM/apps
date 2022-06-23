@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    /// <summary>
-    /// Defines a <see cref='CommandOptionSpec'/> index
-    /// </summary>
     public readonly struct CmdOptionSpecs : IIndex<CmdOptionSpecs,ushort,CmdOptionSpec>
     {
         readonly Index<CmdOptionSpec> Data;

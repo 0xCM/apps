@@ -18,6 +18,6 @@ namespace Z0
             => CmdId.identify<T>();
 
         string ITextual.Format()
-            => Cmd.format(this);
+            => CmdResults.format(this);
     }
 }

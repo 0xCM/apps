@@ -9,10 +9,6 @@ namespace Z0
     /// </summary>
     public readonly struct CmdOptionSpec : ICmdOptionSpec
     {
-        [MethodImpl(Inline), Op]
-        public static string format(CmdOptionSpec src)
-            => src.IsEmpty ? EmptyString : string.Format("{0,-32}:{1}", src.Name, src.Description);
-
         /// <summary>
         /// The option name
         /// </summary>
@@ -57,7 +53,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public string Format()
-            => format(this);
+            => IsEmpty ? EmptyString : string.Format("{0,-32}:{1}", Name, Description);
 
         public override string ToString()
             => Format();

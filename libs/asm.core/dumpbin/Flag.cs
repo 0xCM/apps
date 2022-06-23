@@ -4,13 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     using static Pow2x32;
 
     public partial class DumpBin
     {
-        public enum CmdId : byte
+        public enum CmdName : byte
         {
             None = 0,
 

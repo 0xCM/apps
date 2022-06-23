@@ -9,7 +9,7 @@ namespace Z0
     [ApiHost]
     public partial class DumpBin : ToolService<DumpBin>
     {
-        public Identifier ScriptId(CmdId cmd, FS.FileExt ext)
+        public Identifier ScriptId(CmdName cmd, FS.FileExt ext)
             => string.Format("{0}.{1}.{2}", Id, ext.Name, CmdSymbols[cmd].Expr);
 
         public DumpBinProcessor AsmProcessor()
@@ -117,31 +117,31 @@ namespace Z0
             var dll = archive.NativeDll();
             var obj = archive.Obj();
             var sid = Identifier.Empty;
-            var cmd = DumpBin.CmdId.None;
+            var cmd = DumpBin.CmdName.None;
             var ext = FS.FileExt.Empty;
 
-            cmd = DumpBin.CmdId.EmitHeaders;
+            cmd = DumpBin.CmdName.EmitHeaders;
             paths.Add(EmitScript(cmd, dll, FS.Dll, dst));
 
-            cmd = DumpBin.CmdId.EmitAsm;
+            cmd = DumpBin.CmdName.EmitAsm;
             paths.Add(EmitScript(cmd, dll, FS.Dll, dst));
 
-            cmd = DumpBin.CmdId.EmitRawData;
+            cmd = DumpBin.CmdName.EmitRawData;
             paths.Add(EmitScript(cmd, dll,FS.Dll, dst));
 
-            cmd = DumpBin.CmdId.EmitRelocations;
+            cmd = DumpBin.CmdName.EmitRelocations;
             paths.Add(EmitScript(cmd, dll, FS.Dll, dst));
 
-            cmd = DumpBin.CmdId.EmitLoadConfig;
+            cmd = DumpBin.CmdName.EmitLoadConfig;
             paths.Add(EmitScript(cmd, dll, FS.Dll, dst));
 
-            cmd = DumpBin.CmdId.EmitExports;
+            cmd = DumpBin.CmdName.EmitExports;
             paths.Add(EmitScript(cmd, dll, FS.Dll, dst));
 
             return paths.ToArray();
         }
 
-        FS.FilePath EmitScript<T>(CmdId cmd, Index<T> src, FS.FileExt ext, FS.FolderPath dst)
+        FS.FilePath EmitScript<T>(CmdName cmd, Index<T> src, FS.FileExt ext, FS.FolderPath dst)
             where T : IFileModule
         {
             var sid = ScriptId(cmd, ext);
@@ -161,7 +161,7 @@ namespace Z0
 
         public ToolCmdArgs<Flag,object> Args {get;}
 
-        Symbols<CmdId> CmdSymbols {get;}
+        Symbols<CmdName> CmdSymbols {get;}
 
         [MethodImpl(Inline)]
         public DumpBin()
@@ -169,7 +169,7 @@ namespace Z0
         {
             Args =  alloc<ToolCmdArg<Flag,object>>(MaxVarCount);
             ArgIndex = 0;
-            CmdSymbols = Symbols.index<CmdId>();
+            CmdSymbols = Symbols.index<CmdName>();
         }
     }
 }

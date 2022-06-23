@@ -26,6 +26,7 @@
     <CmdActions>$(LibsRoot)cmd.actions/z0.cmd.actions.csproj</CmdActions>
     <CmdExec>$(LibsRoot)cmd.exec/z0.cmd.exec.csproj</CmdExec>
     <CmdSpecs>$(LibsRoot)cmd.specs/z0.cmd.specs.csproj</CmdSpecs>
+    <CmdTools>$(LibsRoot)cmd.tools/z0.cmd.tools.csproj</CmdTools>
     <CmdFlows>$(LibsRoot)cmd.flows/z0.cmd.flows.csproj</CmdFlows>
     <CmdChecks>$(LibsRoot)cmd.checks/z0.cmd.checks.csproj</CmdChecks>
 

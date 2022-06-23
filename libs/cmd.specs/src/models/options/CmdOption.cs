@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     public readonly struct CmdOption : ICmdOption
     {
         public readonly Name Name {get;}

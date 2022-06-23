@@ -9,8 +9,6 @@ namespace Z0
 
     public sealed class ToolWs : Workspace<ToolWs>, IWorkspace
     {
-        public static ref readonly ToolWs Service => ref AppDb.ToolWs;
-
         public IDbSources ToolBox
             => new DbSources(Root);
 

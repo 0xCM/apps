@@ -10,6 +10,22 @@ namespace Z0
     {
         ICmdRouter Router;
 
+
+        public static ICmd reify(Type src)
+            => (ICmd)Activator.CreateInstance(src);
+
+        [Op]
+        public static ICmd[] reify(Assembly src)
+            => CmdTypes.tagged(src).Select(reify);
+
+        [MethodImpl(Inline)]
+        public static DataFlow<Actor,S,T> flow<S,T>(Tool tool, S src, T dst)
+            => new DataFlow<Actor,S,T>(FlowId.identify(tool,src,dst), tool,src,dst);
+
+        [MethodImpl(Inline)]
+        public static FileFlow flow(in CmdFlow src)
+            => new FileFlow(flow(src.Tool, src.SourcePath.ToUri(), src.TargetPath.ToUri()));
+
         public static CmdActionDispatcher dispatcher(CmdActions actions, Func<string,CmdArgs,Outcome> fallback = null)
             => new CmdActionDispatcher(actions, fallback);
 

@@ -6,17 +6,17 @@ namespace Z0
 {
     partial class DumpBin
     {
-        public static CmdScript script<T>(DumpBin tool, string name, CmdId id, Index<T> src, FS.FolderPath outdir)
+        public static CmdScript script<T>(DumpBin tool, string script, CmdName name, Index<T> src, FS.FolderPath outdir)
             where T : IFileModule
         {
             var buffer = text.buffer();
             foreach(var module in src)
             {
-                var cmd = tool.Command(id, module.Path, outdir);
+                var cmd = tool.Command(name, module.Path, outdir);
                 buffer.AppendLine(cmd.Format());
             }
 
-            return CmdScripts.create(name, buffer.Emit());
+            return CmdScripts.create(script, buffer.Emit());
         }
     }
 }
