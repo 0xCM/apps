@@ -11,9 +11,6 @@ namespace Z0
         FS.FolderPath CaptureRoot()
             => Env.Db + FS.folder(capture);
 
-        FS.FolderPath CaptureRoot(FS.FolderPath root)
-            => root + FS.folder(capture);
-
         FS.FolderPath CaptureContextRoot()
             => Env.Db + FS.folder(capture) + FS.folder(context);
 

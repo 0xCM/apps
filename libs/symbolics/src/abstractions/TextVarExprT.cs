@@ -31,6 +31,6 @@ namespace Z0
         /// </summary>
         public virtual bool IsFenced => Fence.Left != AsciNull.Literal && Fence.Right != AsciNull.Literal;
 
-        public TextVarClass Class  => TextExpr.VarClass(this);
+        public TextVarClass Class  => TextExpr.@class(this);
     }
 }

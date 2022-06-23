@@ -20,7 +20,6 @@ namespace Z0
 
         dynamic ISysVar.Value
             => Value;
-
     }
 
     [Free]

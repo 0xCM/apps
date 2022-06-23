@@ -16,12 +16,12 @@ namespace Z0
         public string EnvName;
 
         [Render(64)]
-        public string VarName;
+        public VarName VarName;
 
         [Render(8)]
         public string Join;
 
         [Render(1)]
-        public string VarValue;
+        public @string VarValue;
     }
 }

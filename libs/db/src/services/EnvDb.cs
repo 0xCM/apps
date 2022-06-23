@@ -9,12 +9,6 @@ namespace Z0
 
     public class EnvSvc : WfSvc<EnvSvc>
     {
-        public EnvVars<string> LoadEnv(string name = null)
-        {
-            return AppDb.LoadEnv(text.ifempty(name, Environment.MachineName.ToLower()));
-
-        }
-
         public void EmitEnv(string name = null)
         {
             TableEmit(EnvDb.records(EnvSets.vars(), name ?? machine), AppDb.Env().Table<EnvSettingRow>(name ?? machine));
@@ -23,6 +17,11 @@ namespace Z0
 
     public class EnvDb
     {
+        static AppDb AppDb => AppDb.Service;
+
+        public static EnvVars<string> vars(string name = null)
+            => AppDb.LoadEnv(text.ifempty(name, Environment.MachineName.ToLower()));
+
         [MethodImpl(Inline), Op]
         public static CmdFlagSpec flag(string name, string desc)
             => new CmdFlagSpec(name, desc);

@@ -13,12 +13,12 @@ namespace Z0
     {
         const string TableId = "env.vars.{0}";
 
-        public readonly VarName<asci64> Name;
+        public readonly VarName Name;
 
         public readonly T Value;
 
         [MethodImpl(Inline)]
-        public EnvVar(asci64 name, T value)
+        public EnvVar(VarName name, T value)
         {
             Name = name;
             Value = value;

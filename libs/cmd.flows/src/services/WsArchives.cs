@@ -6,6 +6,9 @@ namespace Z0
 {
     public class WsArchives
     {
+        public static WsArchives load(Settings src)
+            => new WsArchives(src);
+
         readonly Settings Data;
 
         internal WsArchives(Settings src)

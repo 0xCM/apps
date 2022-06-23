@@ -8,15 +8,6 @@ namespace Z0
 
     partial interface IEnvPaths
     {
-        FS.FolderPath ControlRoot()
-            => Env.Control;
-
-        FS.FolderPath Tools()
-            => Env.ToolWs;
-
-        FS.FolderPath ToolDataRoot()
-            => Env.Db + FS.folder(tools);
-
         FS.FolderPath ToolScripts(ToolId tool)
             => Env.ToolWs + FS.folder(tool.Format()) + FS.folder(scripts);
 

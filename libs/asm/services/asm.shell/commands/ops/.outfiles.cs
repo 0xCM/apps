@@ -124,8 +124,8 @@ namespace Z0.Asm
 
         void CalcRelativePaths()
         {
-            var @base = Db.DbRoot();
-            var files = Db.AsmCapturePaths();
+            var @base = FS.dir("dir1");
+            var files = FS.dir("dir2").AllFiles;
             var links = Markdown.links(@base,files);
             iter(links, r=> Write(r.Format()));
         }

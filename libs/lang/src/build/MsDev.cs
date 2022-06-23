@@ -81,9 +81,9 @@ namespace Z0
             dst.Configuration = "Release";
             dst.Graph = true;
             dst.MaxCpuCount = 6;
-            dst.LogFile = BuildPaths.log(src, vars);
-            dst.ProjectPath = BuildPaths.project(src,vars);
-            dst.SolutionPath = BuildPaths.soulution(src,vars);
+            // dst.LogFile = BuildPaths.log(src, vars);
+            // dst.ProjectPath = BuildPaths.project(src,vars);
+            // dst.SolutionPath = BuildPaths.soulution(src,vars);
             return dst;
         }
 

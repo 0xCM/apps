@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class EnvSet<S> : SettingProvider<EnvSet<S>>, ISettingProvider
+    public class EnvSet<S> : SettingProvider<EnvSet<S>>
         where S : struct
     {
         readonly ConstLookup<string,object> Data;

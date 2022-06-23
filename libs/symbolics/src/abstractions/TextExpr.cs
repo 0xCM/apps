@@ -52,7 +52,7 @@ namespace Z0
             VarExpr = kind;
         }
 
-        public static TextVarClass VarClass(ITextVarExpr kind)
+        public static TextVarClass @class(ITextVarExpr kind)
         {
             if(kind.IsPrefixedFence)
                 return TextVarClass.PrefixedFence;
@@ -68,10 +68,10 @@ namespace Z0
         /// Formats a specified <see cref='ITextVar'/> variable
         /// </summary>
         /// <param name="src">The variable to parse</param>
-        public static string FormatVariable(ITextVar src)
+        public static string format(ITextVar src)
         {
             var kind = src.Expr;
-            var @class = VarClass(kind);
+            var @class = TextExpr.@class(kind);
             if(src.IsNonEmpty)
                 return src.Value;
 

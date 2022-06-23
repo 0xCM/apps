@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
     using static Settings;
 
     using EN = EnvNames;
@@ -13,29 +14,10 @@ namespace Z0
     {
         public static ref readonly AppDb Service => ref Instance;
 
-        public static ref readonly ToolWs ToolWs => ref Instance._ToolWs;
-
         ToolWs _ToolWs;
-
-        static Settings settings(FS.FilePath src)
-        {
-            var dst = Z0.Settings.Empty;
-            try
-            {
-                dst = Z0.Settings.load(src);
-            }
-            catch(Exception e)
-            {
-                term.error(e);
-            }
-            return dst;
-        }
 
         static FS.FilePath SettingsPath(Assembly src, FileKind kind)
             => FS.path(src.Location).FolderPath + FS.file("app.settings", kind.Ext());
-
-        static WsArchives archives(Settings src)
-            => new WsArchives(src);
 
         readonly WsArchives Archives;
 
@@ -49,7 +31,7 @@ namespace Z0
             => new DbTargets(setting(Archives.Path(EN.DbTargets), FS.dir));
 
         public EnvVars<string> LoadEnv(string name)
-            => EnvSets.load(EnvPath(name), Chars.Eq);
+            => vars(EnvPath(name), Chars.Eq);
 
         public IDbTargets DbOut(string scope)
             => DbOut().Targets(scope);
@@ -161,8 +143,8 @@ namespace Z0
 
         AppDb()
         {
-            _Settings = settings(SettingsPath(Assembly.GetEntryAssembly(), FileKind.Csv));
-            Archives = archives(_Settings);
+            _Settings = Z0.Settings.load(SettingsPath(Assembly.GetEntryAssembly(), FileKind.Csv));
+            Archives = WsArchives.load(_Settings);
             _ToolWs = new ToolWs(FS.dir(Archives.Path(EN.Toolbase).ValueText));
         }
 
@@ -171,6 +153,53 @@ namespace Z0
         static AppDb()
         {
             Instance = new();
+        }
+
+        public static Settings config(FS.FilePath src, char sep = Chars.Colon)
+        {
+            var dst = list<Setting>();
+            var line = AsciLine.Empty;
+            using var reader = src.AsciLineReader();
+            while(reader.Next(out line))
+            {
+                var content = line.Codes;
+                var length = content.Length;
+                if(length != 0)
+                {
+                    if(SQ.hash(first(content)))
+                        continue;
+
+                    var i = SQ.index(content, sep);
+                    if(i > 0)
+                    {
+                        var name = text.format(SQ.left(content,i));
+                        var value = text.format(SQ.right(content,i));
+                        dst.Add(new Setting(name,value));
+                    }
+                }
+            }
+            return new Settings(dst.ToArray());
+        }
+
+        public static EnvVars<string> vars(FS.FilePath src, char sep)
+        {
+            var k = z16;
+            var dst = list<EnvVar<string>>();
+            var line = AsciLine.Empty;
+            var buffer = alloc<char>(1024*4);
+            using var reader = src.AsciLineReader();
+            while(reader.Next(out line))
+            {
+                var content = line.Codes;
+                var i = SQ.index(content, sep);
+                if(i == NotFound)
+                    continue;
+
+                var _name = text.format(SQ.left(content,i), buffer);
+                var _value = text.format(SQ.right(content,i), buffer);
+                dst.Add(new (_name, _value));
+            }
+            return dst.ToArray().Sort();
         }
     }
 }

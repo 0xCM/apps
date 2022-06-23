@@ -14,7 +14,7 @@ namespace Z0
                 => ((char)SymNotKind.Lt, (char)SymNotKind.Gt);
         }
 
-        public readonly Name Name;
+        public VarName Name {get;}
 
         public string Value;
 
@@ -50,17 +50,14 @@ namespace Z0
             get => text.nonempty(Value);
         }
 
-        Name INamed.Name
-            => Name;
-
-        string IVar<string>.Value
-            => Value;
-
         ITextVarExpr ITextVar.Expr
             => Kind;
 
+        @string ISysVar<@string>.Value
+            => Value;
+
         public string Format()
-            => TextExpr.FormatVariable(this);
+            => TextExpr.format(this);
 
         public override string ToString()
             => Format();

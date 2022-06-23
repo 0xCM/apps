@@ -19,55 +19,23 @@ namespace Z0
         FS.FolderPath TableDir(FS.FolderName subject)
             => Env.Db + FS.folder(tables) + subject;
 
-        FS.FolderPath TableDir(FS.FolderPath root, string subject)
-            => TableRoot(root) + FS.folder(subject);
-
         FS.FolderPath TableDir(Type t)
             => t.Tag<RecordAttribute>().MapValueOrElse(a => TableDir(a.TableId), () => TableDir(t.Name));
-
-        FS.FolderPath TableDir(FS.FolderPath root, Type t)
-            => t.Tag<RecordAttribute>().MapValueOrElse(a => TableDir(root, a.TableId), () => TableDir(root, t.Name));
 
         FS.FolderPath TableDir<T>()
             where T : struct
                 => TableDir(typeof(T));
 
-        FS.FolderPath TableDir<T>(FS.FolderPath root)
-            where T : struct
-                => TableDir(root, typeof(T));
-
-        FS.FilePath Table(string subject, PartId part)
-            => TableDir(subject) + FS.file(string.Format(RP.SlotDot2, subject, part.Format()), DefaultTableExt);
-
         FS.FilePath Table(FS.FolderPath dir, string subject, PartId part)
             => dir + FS.file(string.Format(RP.SlotDot2, subject, part.Format()), DefaultTableExt);
-
-        FS.FilePath Table<T>(string subject)
-            where T : struct
-                => Table<T>(subject, FS.Csv);
 
         FS.FilePath Table<T>(FS.FolderName subject)
             where T : struct
                 => TableDir(subject) + FS.file(TableId<T>(), DefaultTableExt);
 
-        FS.FilePath Table<T>(FS.FolderPath dir, string subject)
-            where T : struct
-                => dir + FS.file(string.Format("{0}.{1}", TableId<T>(), subject), DefaultTableExt);
-
         FS.FilePath Table<T>(FS.FolderPath dir)
             where T : struct
                 => dir + FS.file(TableId<T>(), DefaultTableExt);
-
-        FS.FilePath Table<T>(string subject, FS.FileExt ext)
-            where T : struct
-        {
-            var id = TableId<T>();
-            var dir = TableDir(id);
-            return dir + FS.file(string.Format("{0}.{1}", id, subject), ext);
-        }
-
-        FS.FilePath Table<S>(string id, S subject)
-            => Env.Db + FS.folder(tables) + FS.folder(id) + FS.file(RP.format(EnvFolders.qualified, id, subject), DefaultTableExt);
 
         FS.FilePath Table<S>(FS.FolderPath dir, S subject)
             => dir + FS.file(subject.ToString(), DefaultTableExt);

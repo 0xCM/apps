@@ -22,7 +22,7 @@ namespace Z0
 
         [CmdOp("env/load")]
         void LoadEnv(CmdArgs args)
-            => iter(EnvSvc.LoadEnv(args.Count != 0 ? arg(args,0).Value : null).View, member => Write(member.Format()));
+            => iter(EnvDb.vars(args.Count != 0 ? arg(args,0).Value : null).View, member => Write(member.Format()));
 
         [CmdOp("env/emit")]
         void EmitEnvVars()

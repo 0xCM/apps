@@ -11,9 +11,6 @@ namespace Z0
         ICilPaths CilPaths
             => new CilPaths(Env);
 
-        FS.FolderPath DbRoot()
-            => Env.Db;
-
         FS.FolderPath ProcessContextRoot()
             => Env.CacheRoot + FS.folder(context);
 
@@ -31,9 +28,6 @@ namespace Z0
 
         FS.FolderPath CmdLogRoot()
             => Env.Db + FS.folder(logs) + FS.folder(commands);
-
-        FS.FolderPath BuildLogRoot()
-            => Env.Db + FS.folder(logs) + FS.folder(dotbuild);
 
         FS.FolderPath CilDataRoot()
             => Env.Db + FS.folder(capture) + FS.folder(cildata);

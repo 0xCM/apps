@@ -43,7 +43,7 @@ namespace Z0
         }
 
         public string Format()
-            => TextExpr.FormatVariable(this);
+            => TextExpr.format(this);
 
         public sealed class VarKind : TextVarExpr<VarKind>
         {

@@ -7,7 +7,7 @@ namespace Z0
     public sealed class EnvVars<T> : ReadOnlySeq<EnvVars<T>,EnvVar<T>>
         where T : IEquatable<T>
     {
-        readonly ConstLookup<VarName<asci64>,T> Lookup;
+        readonly ConstLookup<VarName,T> Lookup;
 
         public EnvVars(EnvVar<T>[] src)
             : base(src)
@@ -15,10 +15,10 @@ namespace Z0
             Lookup = src.Select(x => (x.Name, x.Value)).ToDictionary();
         }
 
-        public bool Find(asci64 name, out T value)
+        public bool Find(VarName name, out T value)
             => Lookup.Find(name, out value);
 
-        public ReadOnlySpan<VarName<asci64>> Names
+        public ReadOnlySpan<VarName> Names
         {
             [MethodImpl(Inline)]
             get => Lookup.Keys;

@@ -4,17 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class TextVar<K> : ITextVar
-        where K : IEquatable<K>, IComparable<K>, ITextVarExpr, new()
+    public class TextVar<E> : ITextVar
+        where E : IEquatable<E>, IComparable<E>, ITextVarExpr, new()
     {
         public VarName Name {get;}
 
-        public K VarExpr {get;}
+        public E VarExpr {get;}
 
         public string Value;
 
         [MethodImpl(Inline)]
-        public TextVar(string name, K kind)
+        public TextVar(string name, E kind)
         {
             Name = name;
             VarExpr = kind;
@@ -22,7 +22,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public TextVar(string name, K kind, string val)
+        public TextVar(string name, E kind, string val)
         {
             Name = name;
             VarExpr = kind;
@@ -42,7 +42,7 @@ namespace Z0
             => VarExpr;
 
         public string Format()
-            => TextExpr.FormatVariable(this);
+            => TextExpr.format(this);
 
         public override string ToString()
             => Format();

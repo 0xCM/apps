@@ -16,22 +16,5 @@ namespace Z0
         FS.FolderPath CaseDir<T,D>(T subject, D discriminator)
             => CaseDir(subject) + FS.folder(string.Format("{0}", discriminator));
 
-        FS.FolderPath TestLogRoot()
-            => Env.Db + FS.folder(logs) + FS.folder(tests);
-
-        FS.FolderPath TestLogDir(PartId id)
-            => TestLogRoot() + FS.folder(id.Format());
-
-        FS.FolderPath TestAppLogRoot(Type t)
-            => TestLogDir(t.Assembly.Id());
-
-        FS.FolderPath TestAppLogRoot<T>()
-            => TestAppLogRoot(typeof(T));
-
-        FS.FolderPath TestLogSummaryRoot()
-            => TestLogRoot();
-
-        FS.FilePath CaseLogSummary()
-            => TestLogSummaryRoot() + FS.file(AppName, FS.Csv);
     }
 }

@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Collections;
-
     [Free]
     public abstract class ReadOnlySeq<S,T> : IReadOnlySeq<T>
         where S : ReadOnlySeq<S,T>

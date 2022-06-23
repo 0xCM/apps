@@ -12,14 +12,8 @@ namespace Z0
         FolderPath ParsedExtractRoot()
             => Env.Db + FS.folder(capture) + FS.folder(parsed);
 
-        FS.FolderPath ParsedExtractRoot(FS.FolderPath root)
-            => CaptureRoot(root) + FS.folder(parsed);
-
         FS.Files ParsedExtractPaths()
             => ParsedExtractRoot().Files(PCsv);
-
-        FS.Files ParsedExtractPaths(FS.FolderPath root)
-            => ParsedExtractRoot(root).Files(PCsv);
 
         FS.FilePath ParsedExtractPath(FS.FileName name)
             => ParsedExtractRoot() + name;
