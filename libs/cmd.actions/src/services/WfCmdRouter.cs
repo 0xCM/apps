@@ -59,13 +59,13 @@ namespace Z0
                 else
                 {
                     Error(AppMsg.NotFound.Format(cmd.CmdId));
-                    return CmdExec.fail(cmd);
+                    return Cmd.fail(cmd);
                 }
             }
             catch(Exception e)
             {
                 Error(e);
-                return CmdExec.fail(cmd, e);
+                return Cmd.fail(cmd, e);
             }
         }
 

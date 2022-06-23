@@ -9,19 +9,6 @@ namespace Z0
     {
         public const string CmdName = "exec-wf";
 
-        [MethodImpl(Inline)]
-        public static CmdResult<C> ok<C>(C spec)
-            where C : struct, ICmd
-                => new CmdResult<C>(spec, true);
-
-        [MethodImpl(Inline), Op]
-        public static CmdResult fail(ICmd cmd)
-            => new CmdResult(cmd.CmdId, false);
-
-        [MethodImpl(Inline), Op]
-        public static CmdResult fail(ICmd cmd, Exception e)
-            => new CmdResult(cmd.CmdId, e);
-
         public Name WorkflowName;
 
         [MethodImpl(Inline)]

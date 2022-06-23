@@ -77,6 +77,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public static CmdResult ToCmdResult<T>(this Outcome<T> result, ICmd cmd)
             => CmdResult.FromOutcome(cmd.CmdId,result);
-
     }
 }

@@ -15,24 +15,24 @@ namespace Z0
     [ApiHost]
     public readonly struct RuntimeArchive : IRuntimeArchive
     {
-        [Op]
-        public static ListFilesCmd files(IEnvPaths paths, string label)
-        {
-            var archive = RuntimeArchive.load();
-            return files(paths, label, archive.Root, core.array(FS.Dll, FS.Exe, FS.Pdb, FS.Lib, FS.Xml, FS.Json));
-        }
+        // [Op]
+        // public static ListFilesCmd files(IEnvPaths paths, string label)
+        // {
+        //     var archive = RuntimeArchive.load();
+        //     return files(paths, label, archive.Root, core.array(FS.Dll, FS.Exe, FS.Pdb, FS.Lib, FS.Xml, FS.Json));
+        // }
 
-        [Op]
-        public static ListFilesCmd files(IEnvPaths paths, string name, FS.FolderPath src, params FS.FileExt[] kinds)
-        {
-            var cmd = new ListFilesCmd();
-            cmd.ListName = name;
-            cmd.SourceDir = src;
-            cmd.Extensions = kinds;
-            cmd.TargetPath = paths.List(name, FS.Csv);
-            cmd.ListFormat = ListFormatKind.Markdown;
-            return cmd;
-        }
+        // [Op]
+        // public static ListFilesCmd files(IEnvPaths paths, string name, FS.FolderPath src, params FS.FileExt[] kinds)
+        // {
+        //     var cmd = new ListFilesCmd();
+        //     cmd.ListName = name;
+        //     cmd.SourceDir = src;
+        //     cmd.Extensions = kinds;
+        //     cmd.TargetPath = paths.List(name, FS.Csv);
+        //     cmd.ListFormat = ListFormatKind.Markdown;
+        //     return cmd;
+        // }
 
         public static IRuntimeArchive load()
             => new RuntimeArchive(FS.dir(RuntimeEnvironment.GetRuntimeDirectory()));

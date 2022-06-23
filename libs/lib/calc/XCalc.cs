@@ -19,8 +19,5 @@ namespace Z0
             where T : unmanaged
                 => gbits.seg(src.Storage, i0, i1);
 
-        public static Task Continue<T>(this Task<T> src, Action<T> @continue)
-            where T : struct, ICmd
-                => src.ContinueWith(t => @continue(t.Result));
     }
 }
