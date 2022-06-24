@@ -6,7 +6,7 @@ namespace Z0
 {
     public delegate void OnAgentTransition(AgentTransition transition);
 
-    public interface IAgentEventSink
+    public interface IAgentEventSink : IDisposable
     {
         void AgentTransitioned(AgentTransition data);
 

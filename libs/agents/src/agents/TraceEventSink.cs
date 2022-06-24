@@ -4,42 +4,33 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Threading.Tasks;
-    using System.Collections.Concurrent;
-    using Microsoft.Diagnostics.Tracing;
     using Microsoft.Diagnostics.Tracing.Session;
 
     using api = SourcedEvents;
 
     public sealed class TraceEventSink : Agent
     {
-        public static IAgent Define(AgentContext Context, AgentIdentity Identity)
-            => new TraceEventSink(Context, Identity);
+        TraceEventSession Session;
 
-        TraceEventSink(AgentContext Context, AgentIdentity Identity)
+        ConcurrentQueue<AgentEventId> TargetQueue = new ConcurrentQueue<AgentEventId>();
+
+        internal TraceEventSink(AgentContext Context, AgentIdentity Identity)
             : base(Context, Identity)
         {
 
         }
 
-        TraceEventSession Session;
-
-        ConcurrentQueue<AgentEventId> TargetQueue = new ConcurrentQueue<AgentEventId>();
-
         void OnPulse(TraceEvent data)
         {
             var identity = api.identify(data);
             term.magenta($"Received event {identity}");
-
             TargetQueue.Enqueue(identity);
         }
 
         void OnAgentTransitioned(TraceEvent data)
         {
             var adapter = api.adapter<AgentTransitioned>(data);
-            var body = adapter.Body;
-            term.magenta($"Received transition event: {body}");
+            term.magenta($"Received transition event: {adapter.Body}");
         }
 
         void OnUnhandled(TraceEvent data)

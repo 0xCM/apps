@@ -4,11 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Threading.Tasks;
-
     /// <summary>
     /// Characterizes a thread of control with independent volition
     /// </summary>
+    [Free]
     public interface IAgent : IDisposable
     {
         /// <summary>

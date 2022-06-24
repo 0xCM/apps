@@ -22,7 +22,7 @@ namespace Z0
         /// <summary>
         /// Represents the time at which the event originated
         /// </summary>
-        public readonly ulong Timestamp;
+        public readonly Timestamp Timestamp;
 
         /// <summary>
         /// The event classifier/discriminator
@@ -33,11 +33,11 @@ namespace Z0
         /// Constructs an event identity from a (kind,server,agent,time) tuple
         /// </summary>
         [MethodImpl(Inline)]
-        public static AgentEventId define(uint server, uint agent, ulong time, ulong kind)
+        public static AgentEventId define(uint server, uint agent, Timestamp time, ulong kind)
             => new AgentEventId(server, agent, time, kind);
 
         [MethodImpl(Inline)]
-        public AgentEventId(uint server, uint agent, ulong ts, ulong kind)
+        public AgentEventId(uint server, uint agent, Timestamp ts, ulong kind)
         {
             ServerId = server;
             AgentId = agent;

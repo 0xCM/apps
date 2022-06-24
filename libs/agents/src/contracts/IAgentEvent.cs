@@ -12,6 +12,7 @@ namespace Z0
     /// a fixed location, is that the source many not produce two events of the same kind
     /// at the same moment in time, relative to timestamp resolution
     /// </summary>
+    [Free]
     public interface IAgentEvent
     {
         /// <summary>
@@ -48,7 +49,7 @@ namespace Z0
         /// The time of occurrence, expressed as number of elapsed units
         /// from some fixed point in time
         /// </summary>
-        ulong Timestamp
+        Timestamp Timestamp
             => Identity.Timestamp;
     }
 }

@@ -4,13 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Free]
-    public interface IAgentContext : IDisposable
+    using System.Diagnostics.Tracing;
+
+    public abstract class SourcedEventWriter : EventSource
     {
-        IEnumerable<IAgent> Members {get;}
 
-        IAgentEventSink EventLog {get;}
-
-        void Register(IAgent agent);
     }
 }

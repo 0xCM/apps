@@ -6,7 +6,6 @@ namespace Z0
 {
     using System;
     using System.Linq;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Agent that manages a collection of servers

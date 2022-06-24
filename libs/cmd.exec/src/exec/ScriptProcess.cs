@@ -46,7 +46,6 @@ namespace Z0
         public static ScriptProcess create(CmdLine cmd, CmdVars? vars, Receiver<string> status, Receiver<string> error)
         {
             var options = new ScriptProcessOptions();
-
             include(vars, options);
             options.WithReceivers(status, error);
             return new ScriptProcess(cmd, options);

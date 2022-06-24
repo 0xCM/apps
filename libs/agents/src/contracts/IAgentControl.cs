@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Threading.Tasks;
-
     /// <summary>
     /// Defines a means by which agents can be queried and directed
     /// </summary>
@@ -21,7 +18,7 @@ namespace Z0
         where S : IAgentControl
         where C : IAgentContext
     {
-        Task Configure(C config);
+        Task Configure(C context);
 
         Task IAgentControl.Configure(IAgentContext context)
             => Configure(context);

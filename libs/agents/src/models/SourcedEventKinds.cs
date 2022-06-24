@@ -4,11 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Diagnostics.Tracing;
-
-    public abstract class SourcedEventWriter : EventSource
+    /// <summary>
+    /// Defines identifiers for intrinsic system events
+    /// </summary>
+    public static class SourcedEventKinds
     {
-
+        public const ulong Pulse = 10;
     }
 }

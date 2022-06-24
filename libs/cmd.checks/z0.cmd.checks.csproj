@@ -13,6 +13,8 @@
     <ProjectReference Include="$(CmdSpecs)" />
     <ProjectReference Include="$(CmdFlows)" />
     <ProjectReference Include="$(CmdTools)" />
+    <ProjectReference Include="$(Agents)" />
+
     <ProjectReference Include="$(Archives)" />
   </ItemGroup>
 

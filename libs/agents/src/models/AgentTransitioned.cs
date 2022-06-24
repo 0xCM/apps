@@ -8,9 +8,4 @@ namespace Z0
     {
 
     }
-
-    public sealed class PulseAdapter : TraceEventAdapter<PulseAdapter>
-    {
-
-    }
 }

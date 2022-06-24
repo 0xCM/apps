@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Captures an instant in time with respect to a server/agent,
     /// real or simulated
@@ -23,20 +19,20 @@ namespace Z0
         /// The time of occurrence, expressed as number of elapsed ticks
         /// from some fixed point in time
         /// </summary>
-        public readonly ulong Timestamp;
+        public readonly Timestamp Timestamp;
 
         [MethodImpl(Inline)]
-        public AgentEventOrigin(uint server, uint agent, ulong Time)
+        public AgentEventOrigin(uint server, uint agent, Timestamp ts)
         {
             Location = ((ulong)server << 32) | agent;
-            Timestamp = Time;
+            Timestamp = ts;
         }
 
         [MethodImpl(Inline)]
-        public AgentEventOrigin(ulong location, ulong time)
+        public AgentEventOrigin(ulong location, Timestamp ts)
         {
             Location = location;
-            Timestamp = time;
+            Timestamp = ts;
         }
 
         /// <summary>
@@ -63,7 +59,7 @@ namespace Z0
         /// <param name="loc">The location of occurrence</param>
         /// <param name="time">The time of occurrence</param>
         [MethodImpl(Inline)]
-        public static implicit operator AgentEventOrigin((ulong loc, ulong time) src)
+        public static implicit operator AgentEventOrigin((ulong loc, Timestamp time) src)
             => new AgentEventOrigin(src.loc,src.time);
 
         /// <summary>
@@ -72,7 +68,7 @@ namespace Z0
         /// <param name="loc">The location of occurrence</param>
         /// <param name="time">The time of occurrence</param>
         [MethodImpl(Inline)]
-        public static implicit operator AgentEventOrigin((uint server, uint agent, ulong time) src)
+        public static implicit operator AgentEventOrigin((uint server, uint agent, Timestamp time) src)
             => new AgentEventOrigin(src.server, src.agent, src.time);
     }
 }

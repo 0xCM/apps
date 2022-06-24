@@ -4,24 +4,30 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Threading.Tasks;
-
     using static core;
+
     [ApiHost]
-    public readonly struct Agents
+    public class Agents : WfSvc<Agents>
     {
         public static IAgentControl control(IAgentContext context)
-            => new AgentControl(context);
+            => AgentControl.create(context);
+
+        public AgentRunner Runner()
+        {
+            var log = new SystemEventWriter();
+            var signal = EventSignals.signal(Wf.EventSink, GetType());
+            var runner = new AgentRunner(signal, new AgentContext(log));
+            return runner;
+        }
 
         /// <summary>
         /// Creates and configures, but does not start, a server process
         /// </summary>
-        /// <param name="Context">The context to which the server process will be assigned</param>
-        /// <param name="ServerId">The server id</param>
-        /// <param name="ServerAgents">The agents to be managed on behalf of the server</param>
-        public static AgentProcess process(IAgentContext Context, uint ServerId, uint CoreNumber, params IAgent[] ServerAgents)
-            => new AgentProcess(Context, ServerId, CoreNumber, ServerAgents);
+        /// <param name="context">The context to which the server process will be assigned</param>
+        /// <param name="server">The server id</param>
+        /// <param name="agents">The agents to be managed on behalf of the server</param>
+        public static AgentProcess process(IAgentContext context, uint server, uint core, params IAgent[] agents)
+            => new AgentProcess(context, server, core, agents);
 
         public static AgentServer server(IAgentContext context, AgentServerConfig config)
             => new AgentServer(context, config);
@@ -53,7 +59,7 @@ namespace Z0
                     corenum = 0;
             }
 
-            var eventSink = TraceEventSink.Define(context, (complex.PartId, complex.HostId));
+            var eventSink = SourcedEvents.sink(context, (complex.PartId, complex.HostId));
             complex.Configure(configs, eventSink);
             await complex.Start();
             AgentComplex.Complex = complex;

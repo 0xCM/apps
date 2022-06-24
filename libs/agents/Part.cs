@@ -17,6 +17,7 @@ global using System.Runtime.InteropServices;
 global using System.Threading;
 global using System.Threading.Tasks;
 global using System.IO;
+global using Microsoft.Diagnostics.Tracing;
 
 global using static Z0.Root;
 

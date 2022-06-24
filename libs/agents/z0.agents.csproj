@@ -8,4 +8,9 @@
 
   <Import Project="$(ImportDefs)common.libs.props"/>
 
+  <ItemGroup>
+    <ProjectReference Include="$(CmdSvc)" />
+    <ProjectReference Include="$(Db)" />
+  </ItemGroup>
+
 </Project>

@@ -4,15 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class AgentRunner
+    public class AgentRunner : IDisposable
     {
-        public static void run(EventSignal signal, params string[] args)
+        public static void run(EventSignal dst)
         {
-            var runner = new AgentRunner(signal, new AgentContext(SystemEventWriter.Log), args);
-            runner.Exec();
+            var runner = new AgentRunner(dst, new AgentContext(SystemEventWriter.Log));
+            runner.Run();
         }
 
-        AgentContext AgentContext;
+        AgentContext Context;
 
         EventSignal Signal;
 
@@ -20,25 +20,25 @@ namespace Z0
 
         IAgentControl Control;
 
-        AgentRunner(EventSignal signal, AgentContext context, string[] args)
+        internal AgentRunner(EventSignal signal, AgentContext context)
         {
             Signal = signal;
-            AgentContext = context;
+            Context = context;
             Control = Agents.control(context);
         }
 
-        void Exec()
+        public void Run()
         {
             Signal.Status("Starting server complex");
-            Agents.complex(AgentContext).ContinueWith(complex =>
+            Agents.complex(Context).ContinueWith(complex =>
                 {
                     Complex = complex.Result;
                     Signal.Status("Server complex started");
                 });
 
-            Control.Configure(AgentContext).ContinueWith(_ =>
+            Control.Configure(Context).ContinueWith(_ =>
             {
-                Signal.Status($"There are {Control.SummaryStats.AgentCount.ToString()} agents in play");
+                Signal.Raise(Events.status(GetType(), $"There are {Control.SummaryStats.AgentCount.ToString()} agents in play"));
             });
 
             term.readKey("Press any key to terminate the application");
@@ -55,6 +55,9 @@ namespace Z0
             }
         }
 
-
+        public void Dispose()
+        {
+            Context?.Dispose();
+        }
     }
 }

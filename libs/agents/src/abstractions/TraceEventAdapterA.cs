@@ -4,16 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using Microsoft.Diagnostics.Tracing;
-
     using api = SourcedEvents;
-
-    public static class TraceEventAdapter
-    {
-        public static T Payload<T>(this TraceEvent e, string name)
-            => (T)e.PayloadByName(name);
-    }
 
     public abstract class TraceEventAdapter<A>
         where A : TraceEventAdapter<A>, new()
@@ -25,13 +16,5 @@ namespace Z0
 
         public T Field<T>(string Name)
             => api.payload<T>(Subject, Name);
-    }
-
-    public abstract class TraceEventAdapter<A,T> : TraceEventAdapter<A>
-        where A : TraceEventAdapter<A,T>, new()
-        where T : unmanaged
-    {
-        public virtual T Body
-            => core.first<T>(Subject.Payload<byte[]>(nameof(Body)).ToSpan());
     }
 }

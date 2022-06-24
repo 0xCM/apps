@@ -4,13 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Free]
-    public interface IAgentContext : IDisposable
+    public sealed class PulseAdapter : TraceEventAdapter<PulseAdapter>
     {
-        IEnumerable<IAgent> Members {get;}
 
-        IAgentEventSink EventLog {get;}
-
-        void Register(IAgent agent);
     }
 }

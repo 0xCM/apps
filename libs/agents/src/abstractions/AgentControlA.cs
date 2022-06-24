@@ -4,11 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Threading.Tasks;
-
-    public abstract class AgentControl<S,C> : IAgentControl<S,C>
-        where S : IAgentControl
+    public abstract class AgentControl<A,C> : WfSvc<A>, IAgentControl<A,C>
+        where A : AgentControl<A,C>, new()
         where C : IAgentContext
     {
         protected AgentControl()
@@ -16,29 +13,30 @@ namespace Z0
 
         }
 
-        protected AgentControl(IAgentContext context)
+        public static A create(C context)
         {
-            Context = context;
+            var dst = new A();
+            dst.Context = context;
+            dst.Configure(context);
+            return dst;
         }
 
-        protected IAgentContext Context;
+        protected C Context;
 
         public AgentStats SummaryStats {get; protected set;}
 
         public event Action<C> Configured;
 
-        protected abstract Task Configure(C config);
+        protected abstract Task Configure(C context);
 
-        async Task IAgentControl<S,C>.Configure(C config)
+        async Task IAgentControl<A,C>.Configure(C contxt)
         {
-            await Configure(config);
-            OnConfigured(config);
+            await Configure(contxt);
+            OnConfigured(contxt);
         }
 
         void OnConfigured(C context)
-        {
-            Configured?.BeginInvoke(context, new AsyncCallback(x => {}), this);
-        }
+            => Configured?.BeginInvoke(context, new AsyncCallback(x => {}), this);
 
         public async Task Configure(dynamic config)
         {
@@ -47,6 +45,5 @@ namespace Z0
 
         protected virtual void OnConfigure(dynamic config) {}
 
-        public virtual void Dispose() {}
     }
 }

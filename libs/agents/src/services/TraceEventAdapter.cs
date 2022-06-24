@@ -4,13 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Free]
-    public interface IAgentContext : IDisposable
+    public static class TraceEventAdapter
     {
-        IEnumerable<IAgent> Members {get;}
-
-        IAgentEventSink EventLog {get;}
-
-        void Register(IAgent agent);
+        public static T Payload<T>(this TraceEvent e, string name)
+            => (T)e.PayloadByName(name);
     }
 }

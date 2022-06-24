@@ -4,25 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using Microsoft.Diagnostics.Tracing;
-    using System.Runtime.CompilerServices;
     using System.Linq.Expressions;
 
-    using static Root;
-
-    /// <summary>
-    /// Defines identifiers for intrinsic system events
-    /// </summary>
-    public static class SourcedEventKinds
-    {
-        public const ulong Pulse = 10;
-    }
-
-    public readonly struct SourcedEvents
+    [ApiHost]
+    public class SourcedEvents
     {
         [MethodImpl(Inline), Op]
-        public static PulseEvent pulse(uint server, uint agent, ulong ts)
+        public static IAgent sink(AgentContext context, AgentIdentity id)
+            => new TraceEventSink(context,id);
+
+        [MethodImpl(Inline), Op]
+        public static PulseEvent pulse(uint server, uint agent, Timestamp ts)
             => new PulseEvent(new AgentEventId(server, agent, ts, SourcedEventKinds.Pulse));
 
         [MethodImpl(Inline), Op]
@@ -39,7 +31,7 @@ namespace Z0
                 => Z0.AgentEventId.define(
                 payload<uint>(data, "ServerId"),
                 payload<uint>(data, "AgentId"),
-                payload<ulong>(data, "Timestamp"),
+                payload<Timestamp>(data, "Timestamp"),
                 payload<ulong>(data, "EventKind")
                 );
 

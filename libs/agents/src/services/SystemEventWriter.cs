@@ -13,7 +13,7 @@ namespace Z0
 
         public static readonly IAgentEventSink Log = new SystemEventWriter();
 
-        SystemEventWriter()
+        internal SystemEventWriter()
         {
 
         }

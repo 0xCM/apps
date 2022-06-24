@@ -4,14 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Threading.Tasks;
-    using System.Collections.Concurrent;
-    using System.Collections.Generic;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Defines a shared context for a set of agents
     /// </summary>
@@ -30,6 +22,11 @@ namespace Z0
 
         public void Register(IAgent agent)
             => Agents.TryAdd(agent.Identity, agent);
+
+        public void Dispose()
+        {
+            EventLog.Dispose();
+        }
 
         public IEnumerable<IAgent> Members
             => Agents.Values;
