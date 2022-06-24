@@ -51,7 +51,7 @@ namespace Z0
 
         public MemoryBlocks LoadMemoryBlocks(FS.FolderPath root)
         {
-            var _blocks = LoadMemoryBlocks(root.Files(".parsed", FS.XPack, true));
+            var _blocks = LoadMemoryBlocks(root.Match(".parsed", FS.XPack, true));
             var entries = _blocks.Entries;
             var count = entries.Length;
             var buffer = list<MemoryBlock>();

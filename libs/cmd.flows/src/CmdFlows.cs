@@ -10,7 +10,6 @@ namespace Z0
     {
         ICmdRouter Router;
 
-
         public static ICmd reify(Type src)
             => (ICmd)Activator.CreateInstance(src);
 

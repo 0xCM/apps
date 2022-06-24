@@ -71,6 +71,9 @@ namespace Z0
         [Symbol(dmp, "A windows dump file")]
         Dmp,
 
+        [Symbol(def)]
+        Def,
+
         [Symbol(dll, "A dynamic library module")]
         Dll,
 
@@ -91,6 +94,9 @@ namespace Z0
 
         [Symbol(idx)]
         Idx,
+
+        [Symbol(inc)]
+        Inc,
 
         [Symbol(json, "Json data")]
         Json,

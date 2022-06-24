@@ -12,9 +12,20 @@ namespace Z0
 
         FS.FolderPath Root;
 
+        public string Name {get; private set;}
+
         ConstLookup<ToolId,ToolHelpDoc> HelpDocs;
 
         OmniScript OmniScript => Wf.OmniScript();
+
+        public static Toolset create(IWfRuntime wf,  FS.FolderPath root, string name)
+        {
+            var dst = new Toolset();
+            dst.Root = root;
+            dst.Name = name;
+            dst.Init(wf);
+            return dst;
+        }
 
         public Toolset()
         {

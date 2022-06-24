@@ -1,4 +1,8 @@
 | Name           | Value                                  |
+| LlvmVer        | 14.0.5                                 |
+| NetFxVer       | 4.8                                    |
+| WinSdkVer      | 10.0.19041.0                           |
+| MsvcVer        | 14.32.31326                            |
 | Views          | d:/views                               |
 | Projects       | d:/drives/z/dev                        |
 | DevRoot        | d:/drives/z                            |
@@ -14,18 +18,11 @@
 | EnvConfig      | d:/views/db/env                        |
 | RepoDeps       | d:/views/repos                         |
 | Archives       | d:/views/archives                      |
-| LlvmRoot       | d:/views/llvm13.src                    |
-| LlvmProject    | d:/views/llvm13.src/src                |
+| LlvmRoot       | d:/repos/llvm                          |
 | LlvmData       | d:/views/dev/dev/llvm.data             |
-| LlvmVer        | 13                                     |
+| LlvmDist       | d:/views/llvm                          |
 | XedRoot        | d:/views/xed.src                       |
 | Tools          | d:/views/tools                         |
-| VsRoot         | d:/views/msvs                          |
-| llvm13         | d:/views/llvm13                        |
-| llvm14         | d:/views/llvm14                        |
-| VSINSTALLDIR   | d:/views/msvs/ide                      |
+| Msvc           | d:/views/msvc                          |
 | NUGET_PACKAGES | d:/views/archives/nuget                |
-| WinSdkRoot     | c:/Program Files (x86)/Windows Kits/10 |
-| NetFxVer       | 4.8                                    |
-| WinSdkVer      | 10.0.19041.0                           |
-| MsvcVer        | 14.32.31326                            |
+| WinSdk         | d:/views/winsdk                        |

@@ -8,6 +8,6 @@ namespace Z0.llvm
     {
         [CmdOp("llvm/list/build/inc")]
         void LLvmBuildInc()
-            => Files(Repo.BuildOutput(FS.Inc));
+            => Files(WsArchive.BuildFiles(FileKind.Inc));
     }
 }

@@ -8,6 +8,6 @@ namespace Z0.llvm
     {
         [CmdOp("llvm/list/headers")]
         void LlvmHeaders()
-            => Files(Repo.Files(FS.H));
+            => Files(WsArchive.Files(FileKind.H));
     }
 }

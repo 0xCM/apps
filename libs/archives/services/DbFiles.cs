@@ -124,11 +124,23 @@ namespace Z0
         public FS.Files Files(bool recursive)
             => Root.Files(recursive);
 
-        public FS.Files Files(FileKind kind, bool recursive = true)
-            => Root.Files(kind.Ext(), recursive);
+        public FS.Files Files(string scope, bool recursive)
+            => Root.Files(recursive);
 
-        public FS.Files Files(FS.FileExt ext, bool recursive = true)
-            => Root.Files(ext, recursive);
+        public FS.Files Files(string scope, bool recurse, FileKind kind)
+            => Root.Files(scope, recurse, kind);
+
+        public FS.Files Files(bool recurse, params FileKind[] kinds)
+            => Root.Files(recurse, kinds);
+
+        public FS.Files Files(string scope, bool recurse, params FileKind[] kinds)
+            => Root.Files(scope, recurse, kinds);
+
+        public FS.Files Files(FileKind kind, bool recurse = true)
+            => Root.Files(kind.Ext(), recurse);
+
+        public FS.Files Files(FS.FileExt ext, bool recurse = true)
+            => Root.Files(ext, recurse);
 
         public ListedFiles List()
             => new ListedFiles(Root.EnumerateFiles(true).Array().Mapi((i,x) => new ListedFile(i,x)));

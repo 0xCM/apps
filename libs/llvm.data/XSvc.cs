@@ -23,8 +23,8 @@ namespace Z0
             public LlvmDataEmitter LlvmDataEmitter(IWfRuntime wf)
                 => Service<LlvmDataEmitter>(wf);
 
-            public Toolset LLvmToolset(IWfRuntime wf)
-                => Service<Toolset>(wf);
+            public Toolset Toolset(IWfRuntime wf, string name)
+                => Service<Toolset>(wf, name);
 
             public LlvmDataCalcs LlvmDataCalcs(IWfRuntime wf)
                 => Service<LlvmDataCalcs>(wf);
@@ -34,9 +34,6 @@ namespace Z0
 
             public LlvmCmd LlvmCmd(IWfRuntime wf)
                 => Service<LlvmCmd>(wf);
-
-            public LlvmRepo LlvmRepo(IWfRuntime wf)
-                => Service<LlvmRepo>(wf);
 
             public LlvmDataImporter LlvmDataImporter(IWfRuntime wf)
                 => Service<LlvmDataImporter>(wf);
@@ -52,12 +49,9 @@ namespace Z0
 
             public ProjectCmd ProjectCmd(IWfRuntime wf)
                 => Service<ProjectCmd>(wf);
-
-
         }
 
         static Svc Services = Svc.Instance;
-
 
         public static ProjectCmd ProjectCmd(this IWfRuntime wf)
             => Services.ProjectCmd(wf);
@@ -81,7 +75,10 @@ namespace Z0
             => Services.LlvmDataEmitter(wf);
 
         public static Toolset LLvmToolset(this IWfRuntime wf)
-            => Services.LLvmToolset(wf);
+            => Services.Toolset(wf, "llvm");
+
+        public static Toolset Toolset(this IWfRuntime wf, string name)
+            => Services.Toolset(wf, name);
 
         public static LlvmDataCalcs LlvmDataCalcs(this IWfRuntime wf)
             => Services.LlvmDataCalcs(wf);
@@ -91,9 +88,6 @@ namespace Z0
 
         public static LlvmCmd LlvmCmd(this IWfRuntime wf)
             => Services.LlvmCmd(wf);
-
-        public static LlvmRepo LlvmRepo(this IWfRuntime wf)
-            => Services.LlvmRepo(wf);
 
         public static LlvmDataImporter LlvmDataImporter(this IWfRuntime wf)
             => Services.LlvmDataImporter(wf);

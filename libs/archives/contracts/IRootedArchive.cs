@@ -43,6 +43,18 @@ namespace Z0
         FS.Files Files(FileKind kind)
             => DbFiles.Files(kind, true);
 
+        FS.Files Files(string scope)
+            => DbFiles.Files(scope, true);
+
+        FS.Files Files(string scope, FileKind kind)
+            => DbFiles.Files(scope, true, kind);
+
+        FS.Files Files(params FileKind[] kinds)
+            => DbFiles.Files(true, kinds);
+
+        FS.Files Files(string scope, params FileKind[] kinds)
+            => DbFiles.Files(scope, true, kinds);
+
         FS.FileName File(string name, FileKind kind)
             => DbFiles.File(name, kind);
 

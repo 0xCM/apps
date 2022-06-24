@@ -251,7 +251,7 @@ namespace Z0
         public ConstLookup<ToolId,ToolProfile> LoadProfileLookup(FS.FolderPath dir)
         {
             var running = Running(string.Format("Loading tool profiles from {0}", dir));
-            var sources = dir.Files("tool.profiles", FS.Csv, true);
+            var sources = dir.Match("tool.profiles", FS.Csv, true);
             var dst = new Lookup<ToolId,ToolProfile>();
             iter(sources, src => LoadProfiles(src,dst));
             var lookup = dst.Seal();

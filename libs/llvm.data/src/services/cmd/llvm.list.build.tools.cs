@@ -8,6 +8,6 @@ namespace Z0.llvm
     {
         [CmdOp("llvm/list/build/tools")]
         void ListExe()
-            => Files(Repo.BuildOutput(FS.Exe));
+            => Files(WsArchive.BuildFiles(FileKind.Exe));
     }
 }

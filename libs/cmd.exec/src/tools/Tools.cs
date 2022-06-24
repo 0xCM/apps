@@ -4,8 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using TN = ToolNames;
     using static core;
+
+    using TN = ToolNames;
 
     [ApiHost]
     public readonly struct Tools

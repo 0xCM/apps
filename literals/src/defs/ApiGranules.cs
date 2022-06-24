@@ -8,11 +8,11 @@ namespace Z0
     [LiteralProvider(api)]
     public readonly struct ApiGranules
     {
-        const string Dot = ".";
+        public const string Dot = ".";
 
-        const string Dash = "-";
+        public const string Dash = "-";
 
-        const string Slash = "/";
+        public const string Slash = "/";
 
         public const string d0 ="0";
 
@@ -353,6 +353,12 @@ namespace Z0
         public const string dev = nameof(dev);
 
         public const string vars = nameof(vars);
+
+        public const string views = nameof(views);
+
+        public const string records = nameof(records);
+
+        public const string files = nameof(files);
 
         public const string api_classes = api + Dot + classes;
 

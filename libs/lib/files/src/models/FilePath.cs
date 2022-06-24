@@ -140,6 +140,10 @@ namespace Z0
                 => Name.Text.EndsWith(ext.Name.Text, NoCase);
 
             [MethodImpl(Inline)]
+            public bool Is(FileKind kind)
+                => Name.Text.EndsWith(kind.Ext().Name.Text, NoCase);
+
+            [MethodImpl(Inline)]
             public bool Is(FileExt x1, FileExt x2)
                 => Is(x1 + x2);
 

@@ -8,6 +8,6 @@ namespace Z0.llvm
     {
         [CmdOp("llvm/list/cpp")]
         void LlvmCppFiles()
-            => Files(Repo.Files(FS.Cpp));
+            => Files(WsArchive.Files(FileKind.Cpp));
     }
 }

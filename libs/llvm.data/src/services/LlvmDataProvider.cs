@@ -32,7 +32,7 @@ namespace Z0.llvm
         {
             State.LlvmPaths = Wf.LlvmPaths();
             State.DataSets = new();
-            State.Toolset = Wf.LLvmToolset();
+            State.Toolset = Wf.Toolset("llvm");
             State.DataLoader = Wf.LlvmTableLoader();
             State.DataCalcs = Wf.LlvmDataCalcs();
         }

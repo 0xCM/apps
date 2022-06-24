@@ -10,14 +10,27 @@ namespace Z0
     {
         public static T Instance = new();
 
-        protected ConcurrentDictionary<Type,object> Lookup = new();
+        protected ConcurrentDictionary<string,object> Lookup = new();
 
         Index<Type> _HostTypes;
+
+        protected static string svcid(Type host)
+            => host.DisplayName();
+
+        protected static string svcid(Type host, string name)
+            => svcid(host) + $".{name}";
+
+        protected static string svcid<S>()
+            => svcid(typeof(S));
+
+        protected static string svcid<S>(string name)
+            => svcid(typeof(S), name);
 
         protected Services()
         {
             _HostTypes = typeof(T).DeclaredPublicInstanceMethods().Concrete().Select(x => x.ReturnType);
         }
+
 
         public Assembly HostComponent => typeof(T).Assembly;
 
@@ -31,9 +44,13 @@ namespace Z0
 
         public S Service<S>()
             where S : new()
-                => (S)Lookup.GetOrAdd(typeof(S), new S());
+                => (S)Lookup.GetOrAdd(svcid<S>(), new S());
 
-        public S Service<S>(Func<S> f)
-            => (S)Lookup.GetOrAdd(typeof(S), f());
+        public S Service<S>(string name)
+            where S : new()
+                => (S)Lookup.GetOrAdd(svcid<S>(name), new S());
+
+        public S Service<S>(string name, Func<S> f)
+            => (S)Lookup.GetOrAdd(svcid<S>(name), f());
     }
 }

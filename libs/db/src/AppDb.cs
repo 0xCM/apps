@@ -27,6 +27,12 @@ namespace Z0
         public FS.FilePath EnvPath(string name)
             => Env().Path(FS.file(name, FileKind.Env));
 
+        public IDbSources LlvmRoot()
+            => new DbSources(setting(Archives.Path(EN.LlvmRoot), FS.dir));
+
+        public IDbSources LlvmDist()
+            => new DbSources(setting(Archives.Path(EN.LlvmDist), FS.dir));
+
         public IDbTargets DbOut()
             => new DbTargets(setting(Archives.Path(EN.DbTargets), FS.dir));
 

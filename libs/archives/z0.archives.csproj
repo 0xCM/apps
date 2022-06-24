@@ -10,6 +10,7 @@
     <ProjectReference Include="$(Containers)" />
     <ProjectReference Include="$(Digital)" />
     <ProjectReference Include="$(Symbolics)" />
+    <ProjectReference Include="$(CmdSpecs)" />
   </ItemGroup>
 
 </Project>

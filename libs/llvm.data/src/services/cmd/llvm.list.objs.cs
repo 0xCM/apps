@@ -6,8 +6,8 @@ namespace Z0.llvm
 {
     partial class LlvmCmd
     {
-       [CmdOp("llvm/list/build/headers")]
-        void ListBuildHeaders()
-            => Files(Repo.BuildOutput(FS.H));
+       [CmdOp("llvm/list/build/obj")]
+        void ObjFiles()
+            => Files(WsArchive.BuildFiles(FileKind.Obj));
     }
 }

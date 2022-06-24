@@ -6,8 +6,41 @@ namespace Z0
 {
     using static core;
 
-    public sealed class ScriptRunner : AppService<ScriptRunner>
+    public sealed class ScriptRunner : WfSvc<ScriptRunner>
     {
+        FS.FilePath ErrorLog(Timestamp ts, string name)
+            => AppDb.Logs("process").Path($"{name}.errors.{ts}", FileKind.Log);
+
+        FS.FilePath StatusLog(Timestamp ts, string name)
+            => AppDb.Logs("process").Path($"{name}.{ts}", FileKind.Log);
+
+        public void Run(bool pll, params CmdScript[] src)
+            => iter(src, Run, pll);
+
+        void Run(CmdScript src)
+        {
+            var ts = core.timestamp();
+            using var status = StatusLog(ts,src.Id.Format()).AsciWriter();
+
+            void OnStatus(in string msg)
+                => status.AppendLine(msg);
+
+            void OnError(in string msg)
+                => ErrorLog(ts,src.Id).Append(msg);
+
+            try
+            {
+                var flow = Running($"Executing process '{src.ToCmdLine()}'");
+                var process = ScriptProcess.create(src.ToCmdLine(), OnStatus, OnError).Wait();
+                Ran(flow);
+            }
+            catch(Exception e)
+            {
+                ErrorLog(ts,src.Id).Append(e.ToString());
+                Error(e);
+            }
+        }
+
         public ReadOnlySpan<TextLine> RunControlScript(FS.FileName name, CmdVars? vars = null)
             => RunScript(Paths.ControlScript(name), new ScriptId(name.Name), vars);
 

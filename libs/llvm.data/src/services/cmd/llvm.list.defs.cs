@@ -8,6 +8,6 @@ namespace Z0.llvm
     {
         [CmdOp("llvm/list/defs")]
         void LlvmDefs()
-            => Files(Repo.Files(FS.Def));
+            => Files(WsArchive.Files(FileKind.Def));
     }
 }

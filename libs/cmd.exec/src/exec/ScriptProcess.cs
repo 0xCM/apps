@@ -95,6 +95,7 @@ namespace Z0
             }
 
         }
+
         readonly CmdLine _commandLine;
 
         readonly StringBuilder _output;

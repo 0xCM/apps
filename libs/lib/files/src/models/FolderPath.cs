@@ -69,9 +69,6 @@ namespace Z0
                 get => FS.folder(Info.Name);
             }
 
-            FilePath[] Match(string pattern = null)
-                => Directory.EnumerateFiles(Name, pattern ?? SearchAll).Array().Select(x => FS.path(x));
-
             public FilePath[] Exclude(string substring, string match = null)
                 => Z0.text.nonempty(substring) ? Match(match).Where(f => !f.Name.Contains(substring)) : Match(match);
 
@@ -95,16 +92,28 @@ namespace Z0
             public FS.Files AllFiles
                 => Files(true);
 
-            public FS.Files Files(string pattern, bool recurse)
+            FilePath[] Match(string pattern = null)
+                => Directory.EnumerateFiles(Name, pattern ?? SearchAll).Array().Select(x => FS.path(x));
+
+            public FS.Files Match(string pattern, bool recurse)
                 => Exists
                 ? files(Directory.EnumerateFiles(Name, pattern, option(recurse)).Map(path))
                 : FS.Files.Empty;
 
-            public FS.Files Files(string pattern, FS.FileExt ext, bool recurse)
+            public FS.Files Match(string pattern, FS.FileExt ext, bool recurse)
                 => Exists ? Files(ext, recurse).Where(f => f.Name.Contains(pattern)) : FS.Files.Empty;
 
-            public FS.Files Files(FileExt[] ext, bool recurse)
-                => Exists ? new FS.Files(EnumerateFiles(recurse).Array()) : FS.Files.Empty;
+            public FS.Files Files(string scope, bool recurse)
+                => (this + FS.folder(scope)).Files(recurse);
+
+            public FS.Files Files(string scope, bool recurse, FileKind kind)
+                => (this + FS.folder(scope)).Files(recurse).Where(f => f.Is(kind));
+
+            public FS.Files Files(string scope, bool recurse, params FileKind[] kinds)
+                => (this + FS.folder(scope)).Files(recurse).Where(f => kinds.Contains(f.FileKind()));
+
+            public FS.Files Files(bool recurse, params FileKind[] kinds)
+                => Files(recurse).Where(f => kinds.Contains(f.FileKind()));
 
             public FS.Files Files(bool recurse)
                 => Exists ? files(Directory.EnumerateFiles(Name, SearchAll, option(recurse)).Map(path)) : FS.Files.Empty;

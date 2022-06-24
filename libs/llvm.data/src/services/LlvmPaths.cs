@@ -4,19 +4,24 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
+     using static ApiGranules;
+     using G = ApiGranules;
+
     public class LlvmPaths : WfSvc<LlvmPaths>
     {
-        const string tables = "llvm/tables";
+        const string Base = llvm + Slash;
 
-        const string records = "llvm/records";
+        const string tables = Base + G.tables;
 
-        const string tools = "llvm/tools";
+        const string records = Base + G.records;
 
-        const string logs = "llvm/logs";
+        const string tools = Base + G.tools;
 
-        const string queries = "llvm/queries";
+        const string logs = Base + G.logs;
 
-        const string files = "llvm/files";
+        const string queries = Base + G.queries;
+
+        const string files = Base + G.files;
 
         const string project = "llvm.data";
 
@@ -52,7 +57,7 @@ namespace Z0.llvm
             => RecordImports().Path(id, FileKind.Map);
 
         public IDbSources DevSources()
-            => Dev().Sources("sources");
+            => Dev().Sources(sources);
 
         public IDbSources DevSources(string scope)
             => DevSources().Sources(scope);
@@ -61,22 +66,22 @@ namespace Z0.llvm
             => DevSources(scope).Path(name, FileKind.Txt);
 
         public FS.Files TableGenHeaders()
-            => DevSources("headers").Files(FS.H);
+            => DevSources(headers).Files(FileKind.H);
 
         public IDbSources DevViews()
-            => Dev().Sources("views");
+            => Dev().Sources(views);
 
         public IDbSources DevViews(string scope)
             => DevViews().Sources(scope);
 
         public IDbSources DevSettings()
-            => Dev().Sources("settings");
+            => Dev().Sources(settings);
 
         public FS.FilePath DevSettings(string name, FS.FileExt ext)
             => DevSettings().Path(FS.file(name,ext));
 
         public IDbSources LlvmSourceView()
-            => DevViews("llvm");
+            => DevViews(llvm);
 
         public FS.FolderPath LlvmRoot
             => Env.LlvmRoot;
@@ -84,8 +89,8 @@ namespace Z0.llvm
         public IDbTargets FileTargets()
             => AppDb.DbOut(files);
 
-        public FS.FilePath File(string id, FileKind kind)
-            => FileTargets().Path(id,kind);
+        public FS.FilePath File(string name, FileKind kind)
+            => FileTargets().Path(name, kind);
 
         public FS.Files Lists()
             => Tables().Files(FileKind.Csv).Where(f => f.FileName.StartsWith("llvm.lists."));

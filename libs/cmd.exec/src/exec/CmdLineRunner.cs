@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public class CmdLineRunner : AppService<CmdLineRunner>
+    public class CmdLineRunner : WfSvc<CmdLineRunner>
     {
         public void RunScript(FS.FilePath path, string args)
         {
@@ -15,37 +15,6 @@ namespace Z0
             var output = process.Output;
             Status(output);
         }
-
-        public void RunScripts(ScriptArchive archive, ReadOnlySpan<ScriptId> scripts, FS.FilePath log)
-        {
-            try
-            {
-                var count = scripts.Length;
-                for(var i=0; i<count; i++)
-                {
-                    ref readonly var id = ref skip(scripts,i);
-                    var path = archive.Script(id);
-                    if(path.Exists)
-                    {
-                        var output = RunScript(path, log);
-                        var processor = CmdResultProcessor.create(path, sys.empty<IToolResultHandler>());
-                        Write("Response");
-                        iter(output, x => processor.Process(x));
-                    }
-                    else
-                    {
-                        Error($"The script {path.ToUri()} does not exist");
-                    }
-                }
-            }
-            catch(Exception e)
-            {
-                Error(e);
-            }
-        }
-
-        public void RunScripts(ScriptArchive archive, ReadOnlySpan<ScriptId> scripts)
-            => RunScripts(archive, scripts, Db.AppLog("cmdline"));
 
         public ReadOnlySpan<TextLine> Run(CmdLine cmd, FS.FilePath log)
         {
@@ -65,13 +34,10 @@ namespace Z0
             }
         }
 
-        public Outcome Run(CmdLine cmd, out ReadOnlySpan<TextLine> dst)
-            => Run(cmd, OnStatusEvent, OnErrorEvent, out dst);
-
         public Outcome Run(CmdLine cmd, Receiver<string> status, Receiver<string> error, out ReadOnlySpan<TextLine> dst)
-            => Run(cmd,Db.AppLog("cmdline"), status, error, out dst);
+            => Run(cmd, Db.AppLog("cmdline"), status, error, out dst);
 
-        public Outcome Run(CmdLine cmd, FS.FilePath log, Receiver<string> status, Receiver<string> error, out ReadOnlySpan<TextLine> dst)
+        Outcome Run(CmdLine cmd, FS.FilePath log, Receiver<string> status, Receiver<string> error, out ReadOnlySpan<TextLine> dst)
         {
             using var writer = log.AsciWriter();
             try
@@ -89,8 +55,8 @@ namespace Z0
             }
         }
 
-        public ReadOnlySpan<TextLine> RunScript(FS.FilePath src, FS.FilePath log)
-            => Run(WinCmd.script(src), log);
+        // public ReadOnlySpan<TextLine> RunScript(FS.FilePath src, FS.FilePath log)
+        //     => Run(WinCmd.script(src), log);
 
         void OnErrorEvent(in string src)
             => Error(src);

@@ -8,6 +8,6 @@ namespace Z0.llvm
     {
         [CmdOp("llvm/emit/files/td")]
         void LlvmTableDefs(CmdArgs args)
-            => Query.Emit(Repo.Files(FS.Td), "llvm.files.td");
+            => Query.Emit(WsArchive.Files(FileKind.Td), "llvm.files.td");
     }
 }

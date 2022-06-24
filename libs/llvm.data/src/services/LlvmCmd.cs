@@ -4,23 +4,23 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
+    using static ApiGranules;
+
     public partial class LlvmCmd : AppCmdService<LlvmCmd>
     {
         LlvmDataImporter Importer => Wf.LlvmDataImporter();
 
-        Toolset Toolset => Wf.LLvmToolset();
+        Toolset Toolset => Wf.Toolset(llvm);
 
         new LlvmPaths Paths => Wf.LlvmPaths();
 
-        LlvmRepo Repo => Wf.LlvmRepo();
+        WsArchive WsArchive => new WsArchive(AppDb.LlvmRoot(), "llvm");
 
         LlvmDataProvider DataProvider => Wf.LlvmDataProvider();
 
         LlvmDataEmitter DataEmitter => Wf.LlvmDataEmitter();
 
         LlvmCodeGen CodeGen => Wf.LlvmCodeGen();
-
-        LlvmDataCalcs Calcs => Wf.LlvmDataCalcs();
 
         LlvmConfigSvc Config => Wf.LlvmConfig();
 
@@ -29,7 +29,7 @@ namespace Z0.llvm
         ToolId SelectedTool;
 
         FS.Files TdFiles()
-            => DbFiles.filter(Paths.LlvmRoot, FS.ext("td")).Files().Array();
+            => DbFiles.filter(Paths.LlvmRoot, FS.ext(td)).Files().Array();
 
         public LlvmCmd()
         {
