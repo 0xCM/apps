@@ -4,9 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
-    public readonly struct AsmMnemonic : IAsmSourcePart, IComparable<AsmMnemonic>
+    public readonly struct AsmMnemonic : IComparable<AsmMnemonic>
     {
         public static AsmMnemonic parse(string src, out int i)
         {
@@ -64,8 +62,6 @@ namespace Z0
             get => Name.Hash;
         }
 
-        AsmCellKind IAsmSourcePart.PartKind
-            => AsmCellKind.Mnemonic;
 
         public override int GetHashCode()
             => Hash;

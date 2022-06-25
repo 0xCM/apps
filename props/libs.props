@@ -50,6 +50,7 @@
 
     <ProjectReference Include="$(Machines)" />
     <ProjectReference Include="$(Memory)" />
+    <ProjectReference Include="$(Models)" />
 
     <ProjectReference Include="$(Native)" />
     <ProjectReference Include="$(Nats)" />

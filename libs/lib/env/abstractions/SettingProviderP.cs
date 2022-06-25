@@ -19,7 +19,7 @@ namespace Z0
             Name = typeof(P).Name;
         }
 
-        public Index<EnvSettingRow> Records()
+        public Index<EnvVarRow> Records()
         {
             return default;
         }

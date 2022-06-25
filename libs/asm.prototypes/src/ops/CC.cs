@@ -4,11 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.Intrinsics;
-
     using static core;
-    using static Root;
 
     partial struct AsmPrototypes
     {
@@ -168,7 +164,6 @@ namespace Z0.Asm
                 b2 = a0[2];
                 b3 = a0[3];
             }
-
         }
     }
 }

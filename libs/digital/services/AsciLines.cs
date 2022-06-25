@@ -11,25 +11,80 @@ namespace Z0
     [ApiHost]
     public class AsciLines
     {
-        [Op]
-        public static string format(in AsciLine src)
+        [MethodImpl(Inline), Op]
+        public static CmdFlagSpec flag(string name, string desc)
+            => new CmdFlagSpec(name, desc);
+
+        /// <summary>
+        /// Parses a file with lines of the form k:v where k is interpreted as a flag identifier and v is interpreted
+        /// as a description. This information is then used to create a <see cref='CmdFlagSpec'/> sequence
+        /// </summary>
+        /// <param name="src"></param>
+        public static Index<CmdFlagSpec> flags(FS.FilePath src)
         {
-            Span<char> buffer = stackalloc char[src.RenderLength];
-            var i=0u;
-            render(src, ref i, buffer);
-            return text.format(buffer);
+            var k = z16;
+            var dst = list<CmdFlagSpec>();
+            using var reader = src.AsciLineReader();
+            while(reader.Next(out var line))
+            {
+                var content = line.Codes;
+                var i = SQ.index(content, AsciCode.Colon);
+                if(i == NotFound)
+                    continue;
+
+                var name = text.trim(text.format(SQ.left(content,i)));
+                var desc = text.trim(text.format(SQ.right(content,i)));
+                dst.Add(flag(name, desc));
+            }
+            return dst.ToArray();
         }
 
-        [Op]
-        public static string format<T>(in AsciLine<T> src)
-            where T : unmanaged
+        public static EnvVars<string> vars(FS.FilePath src, char sep)
         {
-            Span<char> buffer = stackalloc char[src.RenderLength];
-            var i=0u;
-            render(src, ref i, buffer);
-            return text.format(buffer);
+            var k = z16;
+            var dst = list<EnvVar<string>>();
+            var line = AsciLine.Empty;
+            var buffer = alloc<char>(1024*4);
+            using var reader = src.AsciLineReader();
+            while(reader.Next(out line))
+            {
+                var content = line.Codes;
+                var i = SQ.index(content, sep);
+                if(i == NotFound)
+                    continue;
+
+                var _name = text.format(SQ.left(content,i), buffer);
+                var _value = text.format(SQ.right(content,i), buffer);
+                dst.Add(new (_name, _value));
+            }
+            return dst.ToArray().Sort();
         }
 
+        public static Settings config(FS.FilePath src, char sep = Chars.Colon)
+        {
+            var dst = list<Setting>();
+            var line = AsciLine.Empty;
+            using var reader = src.AsciLineReader();
+            while(reader.Next(out line))
+            {
+                var content = line.Codes;
+                var length = content.Length;
+                if(length != 0)
+                {
+                    if(SQ.hash(first(content)))
+                        continue;
+
+                    var i = SQ.index(content, sep);
+                    if(i > 0)
+                    {
+                        var name = text.format(SQ.left(content,i));
+                        var value = text.format(SQ.right(content,i));
+                        dst.Add(new Setting(name,value));
+                    }
+                }
+            }
+            return new Settings(dst.ToArray());
+        }
 
         public static ReadOnlySpan<LineStats> stats(ReadOnlySpan<byte> data, uint buffer = 0)
         {
@@ -49,34 +104,6 @@ namespace Z0
             }
 
             return slice(dst,0,j);
-        }
-
-        [Op]
-        public static uint render<T>(in AsciLine<T> src, ref uint i, Span<char> dst)
-            where T : unmanaged
-        {
-            var i0 = i;
-            if(src.IsNonEmpty)
-                text.render(recover<T,AsciCode>(src.View), ref i, dst);
-            return i - i0;
-        }
-
-        [Op]
-        public static uint render(in AsciLine src, ref uint i, Span<char> dst)
-        {
-            var i0 = i;
-            if(src.IsNonEmpty)
-                text.render(src.Codes, ref i, dst);
-            return i - i0;
-        }
-
-        [Op]
-        public static uint render(in AsciLine src, Span<char> dst)
-        {
-            var i = 0u;
-            if(src.IsNonEmpty)
-                text.render(src.Codes, ref i, dst);
-            return i;
         }
 
         [Op]
@@ -179,7 +206,6 @@ namespace Z0
             }
             return max;
         }
-
 
         [Op]
         public static int SkipWhitespace(ReadOnlySpan<C> src)

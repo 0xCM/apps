@@ -13,6 +13,54 @@ namespace Z0
     [ApiHost]
     public class Settings : IIndex<Setting>, ILookup<string,Setting>
     {
+        public static EnvSet<S> set<S>(string name, S src)
+            where S : struct
+                => new EnvSet<S>(name, src, ClrFields.values(src).Select(x => new Setting<string,object>(x.Field.Name, x.Value)));
+
+        [Op]
+        public static bool search<T>(in Settings<T> src, string key, out Setting<T> value)
+        {
+            value = Setting<T>.Empty;
+            var result = false;
+            for(var i=0; i<src.Count; i++)
+            {
+                ref readonly var setting = ref src[i];
+                if(string.Equals(setting.Name, key, NoCase))
+                {
+                    value = setting;
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+        [Parser]
+        public static Outcome parse(string src, out Setting<string> dst)
+        {
+            if(sys.empty(src))
+            {
+                dst = default;
+                return (false, "!!Empty!!");
+            }
+            else
+            {
+                var i = src.IndexOf(Chars.Colon);
+                if(i == NotFound)
+                {
+                    dst = default;
+                    return (false, "Setting delimiter not found");
+                }
+                else
+                {
+                    if(i == 0)
+                        dst = new Setting<string>(EmptyString, text.slice(src,i+1));
+                    else
+                        dst = new Setting<string>(text.slice(src,0, i), text.slice(src,i+1));
+                    return true;
+                }
+            }
+        }
+
         public static Setting<T> setting<T>(Setting src, Func<string,T> parser)
             => new Setting<T>(src.Name, parser(src.ValueText));
 

@@ -16,8 +16,6 @@ namespace Z0
 
         IDbTargets Logs();
 
-        IDbSources Env();
-
         IDbTargets Logs(string scope);
 
         IDbTargets DbProjects(ProjectId name);

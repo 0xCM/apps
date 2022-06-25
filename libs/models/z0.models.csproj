@@ -6,11 +6,10 @@
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
-  <Import Project="$(ImportDefs)common.props"/>
 
   <ItemGroup>
+    <ProjectReference Include="$(Literals)" />
     <ProjectReference Include="$(ZLib)" />
-    <ProjectReference Include="$(Containers)" />
   </ItemGroup>
 
 </Project>

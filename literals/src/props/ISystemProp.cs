@@ -4,18 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
-    public static class XSvc
+    public interface ISystemProp
     {
+        string Name {get;}
 
-        sealed class AppSvcCache : AppServices<AppSvcCache>
-        {
+        dynamic Value {get;}
+    }
 
-        }
+    public interface ISystemProp<V> : ISystemProp
+    {
+        new V Value {get;}
 
-
-        static AppSvcCache Services => AppSvcCache.Instance;
-
+        dynamic ISystemProp.Value
+            => Value;
     }
 }

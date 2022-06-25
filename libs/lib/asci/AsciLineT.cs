@@ -48,7 +48,7 @@ namespace Z0
         }
 
         public string Format()
-            => AsciLines.format(this);
+            => AsciLine.format(this);
 
         public override string ToString()
             => Format();

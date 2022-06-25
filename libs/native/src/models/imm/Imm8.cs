@@ -4,26 +4,41 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System.Linq;
+
+    using W = W8;
+    using I = Imm8;
+
     using Asm;
 
-    using W = W64;
-    using I = Imm64;
-
     /// <summary>
-    /// Defines a 64-bit immediate value
+    /// Defines an 8-bit immediate value
     /// </summary>
-    public readonly struct Imm64 : IImm<Imm64,ulong>
+    public readonly struct Imm8 : IImm<I,byte>
     {
+        [Op]
+        public static Index<Imm8R> refined(byte[] src, ImmRefinementKind kind)
+            => src.Map(x => new Imm8R(x));
+
+        [Op]
+        public static Index<Imm8R> refined(ParameterInfo param)
+        {
+            if(param.IsRefinedImmediate())
+                return refined(param.ParameterType.GetEnumValues().Cast<byte>().Array(),ImmRefinementKind.Refined);
+            else
+                return sys.empty<Imm8R>();
+        }
+
         [Parser]
-        public static bool parse(string src, out Imm64 dst)
+        public static Outcome parse(string src, out Imm8 dst)
         {
             var result = Outcome.Success;
             dst = default;
             var i = text.index(src,HexFormatSpecs.PreSpec);
-            var imm = 0ul;
+            var imm = z8;
             if(i>=0)
             {
-                result = HexParser.parse64u(src, out imm);
+                result = HexParser.parse8u(src, out imm);
                 if(result)
                     dst = imm;
             }
@@ -36,43 +51,47 @@ namespace Z0
             return result;
         }
 
-        public const ImmKind Kind = ImmKind.Imm64u;
-
-        public ulong Value {get;}
-
-        public static W W => default;
+        public byte Value {get;}
 
         [MethodImpl(Inline)]
-        public Imm64(ulong src)
+        public Imm8(byte src)
             => Value = src;
 
+        public bit this[int i]
+        {
+            [MethodImpl(Inline)]
+            get => bit.test(Value,(byte)i);
+        }
+
         public ImmKind ImmKind
-            => Kind;
+            => ImmKind.Imm8u;
 
         public AsmOpClass OpClass
-            => AsmOpClass.Imm;
+        {
+            [MethodImpl(Inline)]
+            get => AsmOpClass.Imm;
+        }
 
         public AsmOpKind OpKind
-            => AsmOpKind.Imm64;
+            => AsmOpKind.Imm8;
 
         public NativeSize Size
-            => NativeSizeCode.W64;
+            => NativeSizeCode.W8;
 
         public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => core.hash(Value);
+            get => Value;
         }
-
-
-        public override int GetHashCode()
-            => Hash;
 
         public string Format()
             => Imm.format(this);
 
         public override string ToString()
             => Format();
+
+        public override int GetHashCode()
+            => (int)Hash;
 
         [MethodImpl(Inline)]
         public int CompareTo(I src)
@@ -86,7 +105,7 @@ namespace Z0
             => src is I x && Equals(x);
 
         [MethodImpl(Inline)]
-        public Address64 ToAddress()
+        public Address8 ToAddress()
             => Value;
 
         [MethodImpl(Inline)]
@@ -114,31 +133,25 @@ namespace Z0
             => a.Value != b.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator ulong(I src)
+        public static implicit operator byte(I src)
             => src.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator Imm<ulong>(I src)
-            => new Imm<ulong>(src);
+        public static implicit operator Imm<byte>(I src)
+            => new Imm<byte>(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator I(ulong src)
-            => new I(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator MemoryAddress(I src)
-            => src.Value;
-
-        [MethodImpl(Inline)]
-        public static implicit operator I(MemoryAddress src)
+        public static implicit operator I(byte src)
             => new I(src);
 
         [MethodImpl(Inline)]
         public static implicit operator Imm(I src)
             => new Imm(src.ImmKind, src.Value);
 
-        [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(Imm64 src)
-            => new AsmOperand(src);
-   }
+        // [MethodImpl(Inline)]
+        // public static implicit operator AsmOperand(Imm8 src)
+        //     => new AsmOperand(src);
+
+        public static W W => default;
+    }
 }

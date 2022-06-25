@@ -5,9 +5,76 @@
 namespace Z0
 {
     using static core;
+    using G = ApiGranules;
+
+    using EN = EnvNames;
 
     public readonly struct EnvVars : IIndex<EnvVar>
     {
+        public static FS.FolderPath dir(string name)
+        {
+            var value = Environment.GetEnvironmentVariable(name);
+            return FS.dir(value);
+        }
+
+        public static void emit(string name = null)
+        {
+            var archives = WsArchives.load(Settings.load(AppSettings.path()));
+            var dir = Settings.setting(archives.Path(EN.EnvConfig), FS.dir).Value;
+            var dst = dir + Tables.filename<EnvVarRow>(name ?? G.machine);
+            var src = records(machine(), name ?? G.machine).View;
+            Tables.emit(src, dst, TextEncodingKind.Asci);
+        }
+
+        public static EnvVars machine()
+        {
+            var dst = list<EnvVar>();
+            foreach(DictionaryEntry kv in Environment.GetEnvironmentVariables())
+                 dst.Add(new EnvVar(kv.Key?.ToString() ?? EmptyString, kv.Value?.ToString() ?? EmptyString));
+            return dst.ToArray().Sort();
+        }
+
+        public static Index<EnvVarRow> records(EnvVars src, string name)
+        {
+            const char Sep = ';';
+            var buffer = list<EnvVarRow>();
+            var k=0u;
+            for(var i=0; i<src.Count; i++)
+            {
+                ref readonly var v = ref src[i];
+                var vName = v.VarName.Format();
+                var vValue = v.VarValue;
+
+                if(v.Contains(Sep))
+                {
+                    var parts = text.split(vValue,Sep).Index();
+                    for(var j=0; j<parts.Count; j++)
+                    {
+                        ref readonly var part = ref parts[j];
+                        var dst = new EnvVarRow();
+                        dst.Seq = k++;
+                        dst.EnvName = name;
+                        dst.VarName = vName;
+                        dst.VarValue = part;
+                        dst.Join = Sep.ToString();
+                        buffer.Add(dst);
+                    }
+                }
+                else
+                {
+                    var dst = new EnvVarRow();
+                    dst.Seq = k++;
+                    dst.EnvName = name;
+                    dst.VarName = vName;
+                    dst.VarValue = vValue;
+                    dst.Join = EmptyString;
+                    buffer.Add(dst);
+                }
+            }
+
+            return buffer.ToIndex();
+        }
+
         Index<EnvVar> Data {get;}
 
         [MethodImpl(Inline)]

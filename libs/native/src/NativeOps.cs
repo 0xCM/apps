@@ -4,18 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
+    using static core;
 
-    public static class XSvc
+    public class NativeOps
     {
 
-        sealed class AppSvcCache : AppServices<AppSvcCache>
-        {
-
-        }
-
-
-        static AppSvcCache Services => AppSvcCache.Instance;
 
     }
 }

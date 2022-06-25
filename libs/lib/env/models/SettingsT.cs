@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using api = EnvSets;
-
     public class Settings<T> : IIndex<Setting<T>>, ILookup<string, Setting<T>>
     {
         public readonly FS.FilePath Source;
@@ -30,7 +28,7 @@ namespace Z0
         }
 
         public bool Lookup(string key, out Setting<T> value)
-            => api.search(this, key, out value);
+            => Settings.search(this, key, out value);
 
         public ref Setting<T> this[uint index]
         {
@@ -65,7 +63,7 @@ namespace Z0
         public string Format()
         {
             var dst = text.emitter();
-            api.render(this,dst);
+            Tables.emit(View,dst);
             return dst.Emit();
         }
 

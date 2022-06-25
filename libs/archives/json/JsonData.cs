@@ -47,12 +47,11 @@ namespace Z0
             return dst.Emit();
         }
 
-        public static void Save<S>(S src, FS.FilePath dst)
-            where S : ISettingsProvider
+        public static void Save(Settings src, FS.FilePath dst)
         {
             const string indent = "    ";
 
-            var settings = src.Settings.View;
+            var settings = src.View;
             if(settings.Length != 0)
             {
                 using var writer = dst.Writer();

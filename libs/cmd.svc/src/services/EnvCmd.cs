@@ -10,11 +10,9 @@ namespace Z0
     {
         ToolBox ToolBox => Wf.ToolBox();
 
-        EnvSvc EnvSvc => Wf.EnvSvc();
-
         [CmdOp("app/settings")]
         void AppSetings()
-            => iter(AppDb.Settings(), setting => Write(setting.Format()));
+            => iter(AppSettings.load(), setting => Write(setting.Format()));
 
         [CmdOp("env/emit/includes")]
         void LoadToolEnv()
@@ -26,7 +24,7 @@ namespace Z0
 
         [CmdOp("env/emit")]
         void EmitEnvVars()
-            => EnvSvc.EmitEnv();
+            => EnvVars.emit();
 
         [CmdOp("tools/env")]
         void ShowToolEnv()

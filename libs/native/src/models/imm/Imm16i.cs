@@ -5,19 +5,21 @@
 namespace Z0.Asm
 {
     using W = W16;
-    using I = Imm16u;
+    using I = Imm16i;
 
     /// <summary>
     /// Defines a 16-bit immediate value
     /// </summary>
-    public readonly struct Imm16u : IImm<I,ushort>
+    public readonly struct Imm16i : IImm<I,short>
     {
-        public ushort Value {get;}
+        public const ImmKind Kind = ImmKind.Imm16i;
+
+        public short Value {get;}
 
         public static W W => default;
 
         [MethodImpl(Inline)]
-        public Imm16u(ushort src)
+        public Imm16i(short src)
             => Value = src;
 
         public AsmOpClass OpClass
@@ -27,7 +29,7 @@ namespace Z0.Asm
         }
 
         public ImmKind ImmKind
-            => ImmKind.Imm16u;
+            => Kind;
 
         public AsmOpKind OpKind
             => AsmOpKind.Imm16;
@@ -41,10 +43,10 @@ namespace Z0.Asm
         public override string ToString()
             => Format();
 
-        public Hash32 Hash
+        public uint Hash
         {
             [MethodImpl(Inline)]
-            get => Value;
+            get => alg.hash.calc(Value);
         }
 
         public override int GetHashCode()
@@ -60,6 +62,10 @@ namespace Z0.Asm
 
         public override bool Equals(object src)
             => src is I x && Equals(x);
+
+        [MethodImpl(Inline)]
+        public Address16 ToAddress()
+            => (ushort)Value;
 
         [MethodImpl(Inline)]
         public static bool operator <(I a, I b)
@@ -86,23 +92,23 @@ namespace Z0.Asm
             => a.Value != b.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator ushort(I src)
+        public static implicit operator short(I src)
             => src.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator Imm<ushort>(I src)
-            => new Imm<ushort>(src);
+        public static implicit operator Imm<short>(I src)
+            => new Imm<short>(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator I(ushort src)
+        public static implicit operator I(short src)
             => new I(src);
 
         [MethodImpl(Inline)]
         public static implicit operator Imm(I src)
             => new Imm(src.ImmKind, src.Value);
 
-        [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(Imm16u src)
-            => new AsmOperand(src);
+        // [MethodImpl(Inline)]
+        // public static implicit operator AsmOperand(Imm16i src)
+        //     => new AsmOperand(src);
      }
 }

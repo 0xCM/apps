@@ -4,8 +4,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using EN = EnvNames;
+
     public class WsArchives
     {
+        public FS.FolderPath EnvSource()
+            => Settings.setting(Path(EN.EnvConfig), FS.dir);
+
+        public FS.FilePath EnvPath(string name)
+            => EnvSource() + FS.file(name, FileKind.Env);
+
+        public static WsArchives load()
+            => load(Settings.load(AppSettings.path()));
+
         public static WsArchives load(Settings src)
             => new WsArchives(src);
 

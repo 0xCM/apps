@@ -6,8 +6,6 @@ namespace Z0
 {
     using static core;
 
-    using api = AsciLines;
-
     public ref struct AsciLine
     {
         /// <summary>
@@ -85,11 +83,37 @@ namespace Z0
         public uint Render(Span<char> dst)
         {
             var i=0u;
-            return api.render(this, ref i, dst);
+            return render(this, ref i, dst);
+        }
+
+        public static uint render(in AsciLine src, ref uint i, Span<char> dst)
+        {
+            var i0 = i;
+            if(src.IsNonEmpty)
+                text.render(src.Codes, ref i, dst);
+            return i - i0;
+        }
+
+        [Op]
+        public static string format<T>(in AsciLine<T> src)
+            where T : unmanaged
+        {
+            Span<char> buffer = stackalloc char[src.RenderLength];
+            var i=0u;
+            text.render(recover<T,AsciCode>(src.View), ref i, buffer);
+            return text.format(buffer);
+        }
+
+        public static string format(in AsciLine src)
+        {
+            Span<char> buffer = stackalloc char[src.RenderLength];
+            var i=0u;
+            text.render(src.Codes, ref i, buffer);
+            return text.format(buffer);
         }
 
         public string Format()
-            => api.format(this);
+            => format(this);
 
         public static AsciLine Empty
         {

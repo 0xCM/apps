@@ -2,69 +2,21 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.Asm
 {
-    using System.Linq;
-
-    using W = W8;
-    using I = Imm8;
-
-    using Asm;
+    using W = W32;
+    using I = Imm32;
 
     /// <summary>
-    /// Defines an 8-bit immediate value
+    /// Defines a 32-bit immediate value
     /// </summary>
-    public readonly struct Imm8 : IImm<I,byte>
+    public readonly struct Imm32 : IImm<I,uint>
     {
-        [Op]
-        public static Index<Imm8R> refined(byte[] src, ImmRefinementKind kind)
-            => src.Map(x => new Imm8R(x));
-
-        [Op]
-        public static Index<Imm8R> refined(ParameterInfo param)
-        {
-            if(param.IsRefinedImmediate())
-                return refined(param.ParameterType.GetEnumValues().Cast<byte>().Array(),ImmRefinementKind.Refined);
-            else
-                return sys.empty<Imm8R>();
-        }
-
-        [Parser]
-        public static Outcome parse(string src, out Imm8 dst)
-        {
-            var result = Outcome.Success;
-            dst = default;
-            var i = text.index(src,HexFormatSpecs.PreSpec);
-            var imm = z8;
-            if(i>=0)
-            {
-                result = HexParser.parse8u(src, out imm);
-                if(result)
-                    dst = imm;
-            }
-            else
-            {
-                result = DataParser.parse(src, out imm);
-                if(result)
-                    dst = imm;
-            }
-            return result;
-        }
-
-        public byte Value {get;}
+        public uint Value {get;}
 
         [MethodImpl(Inline)]
-        public Imm8(byte src)
+        public Imm32(uint src)
             => Value = src;
-
-        public bit this[int i]
-        {
-            [MethodImpl(Inline)]
-            get => bit.test(Value,(byte)i);
-        }
-
-        public ImmKind ImmKind
-            => ImmKind.Imm8u;
 
         public AsmOpClass OpClass
         {
@@ -72,23 +24,26 @@ namespace Z0
             get => AsmOpClass.Imm;
         }
 
+        public ImmKind ImmKind
+            => ImmKind.Imm32u;
+
         public AsmOpKind OpKind
-            => AsmOpKind.Imm8;
+            => AsmOpKind.Imm32;
 
         public NativeSize Size
-            => NativeSizeCode.W8;
+            => NativeSizeCode.W32;
+
+        public string Format()
+             => Imm.format(this);
+
+        public override string ToString()
+            => Format();
 
         public Hash32 Hash
         {
             [MethodImpl(Inline)]
             get => Value;
         }
-
-        public string Format()
-            => Imm.format(this);
-
-        public override string ToString()
-            => Format();
 
         public override int GetHashCode()
             => (int)Hash;
@@ -105,7 +60,7 @@ namespace Z0
             => src is I x && Equals(x);
 
         [MethodImpl(Inline)]
-        public Address8 ToAddress()
+        public Address32 ToAddress()
             => Value;
 
         [MethodImpl(Inline)]
@@ -133,24 +88,24 @@ namespace Z0
             => a.Value != b.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator byte(I src)
+        public static implicit operator uint(I src)
             => src.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator Imm<byte>(I src)
-            => new Imm<byte>(src);
+        public static implicit operator Imm<uint>(I src)
+            => new Imm<uint>(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator I(byte src)
+        public static implicit operator I(uint src)
             => new I(src);
 
         [MethodImpl(Inline)]
         public static implicit operator Imm(I src)
             => new Imm(src.ImmKind, src.Value);
 
-        [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(Imm8 src)
-            => new AsmOperand(src);
+        // [MethodImpl(Inline)]
+        // public static implicit operator AsmOperand(Imm32 src)
+        //     => new AsmOperand(src);
 
         public static W W => default;
     }

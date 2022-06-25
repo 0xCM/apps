@@ -113,8 +113,8 @@ namespace Z0.Asm
         /// </summary>
         /// <param name="src">The source value</param>
         [MethodImpl(Inline), Op]
-        public static Imm16u imm16(ushort src)
-            => new Imm16u(src);
+        public static Imm16 imm16(ushort src)
+            => new Imm16(src);
 
         /// <summary>
         /// Defines a 32-bit immediate operand

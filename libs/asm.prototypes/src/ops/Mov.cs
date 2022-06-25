@@ -10,7 +10,6 @@ namespace Z0.Asm
         [ApiHost(prototypes + "mov")]
         public readonly struct Mov
         {
-
             [MethodImpl(Inline), Op, Closures(AllNumeric)]
             public static unsafe void mov<T>(uint i, T* pSrc, uint j, T* pDst)
                 where T : unmanaged

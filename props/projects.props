@@ -54,6 +54,7 @@
 
     <Machines>$(LibsRoot)machines/z0.machines.csproj</Machines>
     <Memory>$(LibsRoot)memory/z0.memory.csproj</Memory>
+    <Models>$(LibsRoot)models/z0.models.csproj</Models>
 
     <Native>$(LibsRoot)native/z0.native.csproj</Native>
     <Nats>$(LibsRoot)nats/z0.nats.csproj</Nats>

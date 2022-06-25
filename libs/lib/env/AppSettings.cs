@@ -6,8 +6,14 @@ namespace Z0
 {
     using static core;
 
-    public sealed class AppSettings : AppService<AppSettings>
+    public sealed class AppSettings
     {
+        public static Settings load()
+            => Settings.load(path());
+
+        public static FS.FilePath path()
+            => FS.path(controller().Location).FolderPath + FS.file("app.settings", FileKind.Csv);
+
         public static string format<T>(in T src)
         {
             var fields = typeof(T).PublicInstanceFields();
@@ -19,21 +25,6 @@ namespace Z0
                 dst.AppendLineFormat("{0}:{1}",field.Name, field.GetValue(src));
             }
             return dst.Emit();
-        }
-
-        public Settings Load(ReadOnlySpan<TextLine> src)
-            => Settings.parse(src);
-
-        public Outcome Load<T>(FS.FilePath src, out T dst)
-            where T : new()
-                => Settings.single(src, out dst);
-
-        public Outcome Save<T>(T src, FS.FilePath dst)
-            where T : new()
-        {
-            using var writer = dst.Writer();
-            writer.WriteLine(format(src));
-            return true;
         }
     }
 }

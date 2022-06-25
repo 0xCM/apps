@@ -174,13 +174,13 @@ namespace Z0
         {
             var path = ToolWs.ToolBox.Path(FS.file("show-env-config", FS.Cmd));
             var cmd = CmdScripts.cmdline(path.Format(PathSeparator.BS));
-            return AppSettings.Load(OmniScript.RunCmd(cmd));
+            return Settings.parse(OmniScript.RunCmd(cmd));
         }
 
         public Settings LoadEnv()
         {
             var path = ToolWs.ToolBox.Path(FS.file("tools", FileKind.Env));
-            return AppSettings.Load(path.ReadNumberedLines());
+            return Settings.parse(path.ReadNumberedLines());
         }
 
         public Outcome EmitCatalog()

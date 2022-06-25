@@ -20,16 +20,15 @@ namespace Z0
                 dst.WriteLine(formatter.Format(skip(src,i)));
         }
 
-        public static ExecToken emit<T>(IWfMsg msg, ReadOnlySpan<T> src, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci, ushort rowpad = 0, RecordFormatKind fk = RecordFormatKind.Tablular, string delimiter = Tables.DefaultDelimiter)
+        public static void emit<T>(ReadOnlySpan<T> src, FS.FilePath dst, TextEncodingKind encoding, ushort rowpad = 0, RecordFormatKind fk = RecordFormatKind.Tablular, string delimiter = Tables.DefaultDelimiter)
             where T : struct
         {
-            var emitting = msg.EmittingTable<T>(dst);
             var formatter = RecordFormatters.create<T>(rowpad, fk, delimiter);
             using var writer = dst.Emitter(encoding);
             writer.WriteLine(formatter.FormatHeader());
             for(var i=0; i<src.Length; i++)
                 writer.WriteLine(formatter.Format(skip(src,i)));
-            return msg.EmittedTable(emitting, src.Length, dst);
+            term.emit(Events.emittedTable<EnvVarRow>(typeof(Tables), src.Length, dst));
         }
 
         [Op, Closures(Closure)]

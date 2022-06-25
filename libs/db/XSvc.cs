@@ -15,9 +15,6 @@ namespace Z0
             public ModuleArchives ModuleArchives(IWfRuntime wf)
                 => Service<ModuleArchives>(wf);
 
-            public EnvSvc EnvSvc(IWfRuntime wf)
-                => Service<EnvSvc>(wf);
-
         }
 
         static AppSvcCache Services => AppSvcCache.Instance;
@@ -27,9 +24,5 @@ namespace Z0
 
         public static DumpArchive DumpArchive(this IWfRuntime wf)
             => Services.DumpArchive(wf);
-
-        public static EnvSvc EnvSvc(this IWfRuntime wf)
-            => Services.EnvSvc(wf);
-
     }
 }

@@ -228,6 +228,9 @@ public enum PartId : byte
     [Symbol("digital")]
     Digital,
 
+    [Symbol("models")]
+    Models,
+
     // ~ Generated 100 .. 127
     // ~ -------------------------------------------------------------------------------
 

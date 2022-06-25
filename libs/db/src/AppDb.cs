@@ -14,18 +14,7 @@ namespace Z0
     {
         public static ref readonly AppDb Service => ref Instance;
 
-        ToolWs _ToolWs;
-
-        static FS.FilePath SettingsPath(Assembly src, FileKind kind)
-            => FS.path(src.Location).FolderPath + FS.file("app.settings", kind.Ext());
-
         readonly WsArchives Archives;
-
-        public ref readonly Settings Settings()
-            => ref _Settings;
-
-        public FS.FilePath EnvPath(string name)
-            => Env().Path(FS.file(name, FileKind.Env));
 
         public IDbSources LlvmRoot()
             => new DbSources(setting(Archives.Path(EN.LlvmRoot), FS.dir));
@@ -37,7 +26,7 @@ namespace Z0
             => new DbTargets(setting(Archives.Path(EN.DbTargets), FS.dir));
 
         public EnvVars<string> LoadEnv(string name)
-            => vars(EnvPath(name), Chars.Eq);
+            => AsciLines.vars(Archives.EnvPath(name), Chars.Eq);
 
         public IDbTargets DbOut(string scope)
             => DbOut().Targets(scope);
@@ -47,9 +36,6 @@ namespace Z0
 
         public IDbSources DbCapture()
             => new DbSources(setting(Archives.Path(EN.DbCapture), FS.dir));
-
-        public IDbSources Env()
-            => new DbSources(setting(Archives.Path(EN.EnvConfig), FS.dir));
 
         public IDbSources DbIn(string scope)
             => DbIn().Sources(scope);
@@ -72,9 +58,6 @@ namespace Z0
 
         public IDbSources DevRoot()
             => new DbSources(setting(Archives.Path(EN.DevRoot), FS.dir));
-
-        public WsCatalog Catalog(IWsProject src)
-            => WsCatalog.load(src);
 
         public IWsProjects DevProjects()
             => new WsProjects(DevRoot().Root, "dev");
@@ -145,13 +128,9 @@ namespace Z0
         public IDbTargets AsmSrc(ProjectId id)
             => EtlTargets(id, T.asmsrc);
 
-        Settings _Settings;
-
         AppDb()
         {
-            _Settings = Z0.Settings.load(SettingsPath(Assembly.GetEntryAssembly(), FileKind.Csv));
-            Archives = WsArchives.load(_Settings);
-            _ToolWs = new ToolWs(FS.dir(Archives.Path(EN.Toolbase).ValueText));
+            Archives = WsArchives.load();
         }
 
         static AppDb Instance;
@@ -159,53 +138,6 @@ namespace Z0
         static AppDb()
         {
             Instance = new();
-        }
-
-        public static Settings config(FS.FilePath src, char sep = Chars.Colon)
-        {
-            var dst = list<Setting>();
-            var line = AsciLine.Empty;
-            using var reader = src.AsciLineReader();
-            while(reader.Next(out line))
-            {
-                var content = line.Codes;
-                var length = content.Length;
-                if(length != 0)
-                {
-                    if(SQ.hash(first(content)))
-                        continue;
-
-                    var i = SQ.index(content, sep);
-                    if(i > 0)
-                    {
-                        var name = text.format(SQ.left(content,i));
-                        var value = text.format(SQ.right(content,i));
-                        dst.Add(new Setting(name,value));
-                    }
-                }
-            }
-            return new Settings(dst.ToArray());
-        }
-
-        public static EnvVars<string> vars(FS.FilePath src, char sep)
-        {
-            var k = z16;
-            var dst = list<EnvVar<string>>();
-            var line = AsciLine.Empty;
-            var buffer = alloc<char>(1024*4);
-            using var reader = src.AsciLineReader();
-            while(reader.Next(out line))
-            {
-                var content = line.Codes;
-                var i = SQ.index(content, sep);
-                if(i == NotFound)
-                    continue;
-
-                var _name = text.format(SQ.left(content,i), buffer);
-                var _value = text.format(SQ.right(content,i), buffer);
-                dst.Add(new (_name, _value));
-            }
-            return dst.ToArray().Sort();
         }
     }
 }

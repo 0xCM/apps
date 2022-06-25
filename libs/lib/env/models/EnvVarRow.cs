@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Record(TableId)]
-    public struct EnvSettingRow
+    public struct EnvVarRow
     {
         public const string TableId = "setting";
 
@@ -13,10 +13,10 @@ namespace Z0
         public uint Seq;
 
         [Render(16)]
-        public string EnvName;
+        public asci32 EnvName;
 
         [Render(64)]
-        public VarName VarName;
+        public asci64 VarName;
 
         [Render(8)]
         public string Join;

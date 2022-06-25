@@ -163,15 +163,6 @@ namespace Z0
                 RenderPattern = Slots.Intersperse(Sep).Concat();
             }
 
-            public TableColumns UpdateWidths(params byte[] src)
-            {
-                Demand.eq(src.Length,Widths.Length);
-                Widths = src;
-                Recalc();
-
-                return this;
-            }
-
             public ColumnBuffer Buffer()
                 => new ColumnBuffer(this);
 

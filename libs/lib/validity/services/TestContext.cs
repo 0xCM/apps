@@ -6,34 +6,6 @@ namespace Z0
 {
     using System.Linq;
 
-    // public abstract partial class TestContext
-    // {
-    //     public bool DiagnosticMode {get; private set;}
-
-    //     protected IWfRuntime Wf {get; private set;}
-
-    //     public void InjectShell(IWfRuntime wf)
-    //     {
-    //         Wf = wf;
-    //         Db = wf.Db();
-    //         OnShellInjected(wf);
-    //     }
-
-    //     protected virtual void OnShellInjected(IWfRuntime wf)
-    //     {
-
-    //     }
-
-    //     protected IWfDb Db {get; private set;}
-
-    //     public void SetMode(bool diagnostic)
-    //         => DiagnosticMode = diagnostic;
-
-    //     protected TestContext()
-    //     {
-    //     }
-    // }
-
     public abstract class TestContext<U> : ITestContext<U>
         where U : TestContext<U>
     {

@@ -62,7 +62,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline)]
-        public AsmOperand(Imm16u src)
+        public AsmOperand(Imm16 src)
         {
             OpClass = src.OpClass;
             OpKind = src.OpKind;
@@ -329,6 +329,22 @@ namespace Z0.Asm
 
         AsmOpKind IAsmOp.OpKind
             => OpKind;
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsmOperand(Imm8 src)
+            => new AsmOperand(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsmOperand(Imm16 src)
+            => new AsmOperand(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsmOperand(Imm32 src)
+            => new AsmOperand(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsmOperand(Imm64 src)
+            => new AsmOperand(src);
 
         public static AsmOperand Empty => default;
     }
