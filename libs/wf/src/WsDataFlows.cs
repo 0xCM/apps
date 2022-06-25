@@ -123,6 +123,15 @@ namespace Z0
             }
         }
 
+        [MethodImpl(Inline)]
+        public static DataFlow<Actor,S,T> flow<S,T>(Tool tool, S src, T dst)
+            => new DataFlow<Actor,S,T>(FlowId.identify(tool,src,dst), tool,src,dst);
+
+        [MethodImpl(Inline)]
+        public static FileFlow flow(in CmdFlow src)
+            => new FileFlow(flow(src.Tool, src.SourcePath.ToUri(), src.TargetPath.ToUri()));
+
+
         public WsDataFlows(WsCatalog files, ReadOnlySpan<CmdFlow> src)
         {
             Catalog = files;
@@ -134,7 +143,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref var dst = ref seek(flows,i);
-                dst = CmdFlows.flow(skip(src,i));
+                dst = flow(skip(src,i));
                 if(lookup.TryGetValue(dst.Source, out var targets))
                 {
                     targets.Add(dst.Target);

@@ -6,7 +6,7 @@ namespace Z0
 {
     using api = JsonData;
 
-    public struct JsonSetting : ISetting
+    public struct JsonSetting
     {
         public readonly string Name {get;}
 

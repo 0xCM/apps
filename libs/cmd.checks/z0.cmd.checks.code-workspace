@@ -32,6 +32,9 @@
         },
         {
             "path": "../agents"
+        },
+        {
+            "path": "../lib/env"
         }
     ],
 	"settings": {}

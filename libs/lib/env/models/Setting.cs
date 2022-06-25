@@ -12,15 +12,15 @@ namespace Z0
         const string TableId = "settings";
 
         [Render(32)]
-        public readonly string Name;
+        public readonly VarName Name;
 
         [Render(1)]
         public readonly dynamic Value;
 
         [MethodImpl(Inline)]
-        public Setting(string name, dynamic value)
+        public Setting(VarName name, dynamic value)
         {
-            Name = name ?? EmptyString;
+            Name = name;
             Value = value ?? EmptyString;
         }
 
@@ -30,7 +30,7 @@ namespace Z0
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => core.empty(Name) || Value is null;
+            get => Name.IsEmpty || Value is null;
         }
 
         public Hash32 Hash
@@ -42,7 +42,7 @@ namespace Z0
         dynamic ISetting.Value
             => Value;
 
-        string ISetting.Name
+        VarName ISetting.Name
             => Name;
 
         public override int GetHashCode()

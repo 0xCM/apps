@@ -4,18 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class EnvSet<S> : SettingProvider<EnvSet<S>>
-        where S : struct
+    public class EnvSet<EnvVar> : SettingProvider<EnvVar>
     {
-        readonly ConstLookup<string,object> Data;
-
-        public EnvSet(string name, S src, Setting<string,object>[] settings)
-            : base(settings)
+        internal EnvSet(VarName name, Setting<VarName,EnvVar>[] settings, Dictionary<VarName,EnvVar> lookup)
+            : base(name,settings, lookup)
         {
-            Name = name;
-            Data = settings.Select(x => (x.Name,x.Value)).ToDictionary();
-        }
 
-        public override string Name {get;}
+        }
     }
 }

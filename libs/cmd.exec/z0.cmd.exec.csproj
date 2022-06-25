@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <ProjectReference Include="$(CmdFlows)" />
-    <ProjectReference Include="$(Db)" />
     <ProjectReference Include="$(Native)" />
     <ProjectReference Include="$(Containers)" />
   </ItemGroup>

@@ -1,4 +1,4 @@
 @echo off
 set ProjectId=emath
-call %~dp0..\..\..\.cmd\config.cmd
+call %Views%\z0\.cmd\config.cmd
 

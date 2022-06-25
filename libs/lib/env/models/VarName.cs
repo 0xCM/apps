@@ -52,5 +52,9 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator VarName(string src)
             => new VarName(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator string(VarName src)
+            => src.Data;
     }
 }

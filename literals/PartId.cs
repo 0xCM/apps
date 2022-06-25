@@ -231,6 +231,9 @@ public enum PartId : byte
     [Symbol("models")]
     Models,
 
+    [Symbol("wf")]
+    Wf,
+
     // ~ Generated 100 .. 127
     // ~ -------------------------------------------------------------------------------
 

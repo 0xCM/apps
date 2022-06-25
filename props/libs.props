@@ -65,6 +65,8 @@
 
     <ProjectReference Include="$(Tools)" />
 
+    <ProjectReference Include="$(Wf)" />
+
   </ItemGroup>
 
 </Project>

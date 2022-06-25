@@ -12,7 +12,7 @@ namespace Z0
         /// <summary>
         /// The variable symbol
         /// </summary>
-        public VarSymbol VarName {get;}
+        public VarName VarName {get;}
 
         /// <summary>
         /// The variable value, possibly empty
@@ -20,7 +20,7 @@ namespace Z0
         public T VarValue {get;set;}
 
         [MethodImpl(Inline)]
-        public CmdScriptVar(VarSymbol name, T value)
+        public CmdScriptVar(VarName name, T value)
         {
             VarName = name;
             VarValue = value;
@@ -41,7 +41,7 @@ namespace Z0
             => string.Format(RP.pattern(vck), VarValue);
 
         [MethodImpl(Inline)]
-        public static implicit operator CmdScriptVar<T>((VarSymbol symbol, T value) src)
+        public static implicit operator CmdScriptVar<T>((VarName symbol, T value) src)
             => new CmdScriptVar<T>(src.symbol, src.value);
     }
 }

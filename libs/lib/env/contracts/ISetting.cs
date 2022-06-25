@@ -12,12 +12,15 @@ namespace Z0
         /// <summary>
         /// The setting name
         /// </summary>
-        string Name {get;}
+        VarName Name {get;}
 
         /// <summary>
         /// The setting value
         /// </summary>
         dynamic Value {get;}
+
+        string ITextual.Format()
+            => $"{Name}={Value}";
     }
 
     public interface ISetting<T> : ISetting

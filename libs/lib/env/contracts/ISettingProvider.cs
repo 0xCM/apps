@@ -7,17 +7,10 @@ namespace Z0
     [Free]
     public interface ISettingProvider
     {
-        string Name {get;}
+        VarName Name {get;}
 
-        T Value<T>(string name)
-            where T : IEquatable<T>;
+        ReadOnlySpan<VarName> Names {get;}
 
-        bool Value<T>(string name, out T dst)
-            where T : IEquatable<T>;
-
-        ReadOnlySpan<string> Names {get;}
-
-        ReadOnlySpan<object> Values {get;}
 
         string ToString();
 
@@ -25,8 +18,13 @@ namespace Z0
     }
 
     [Free]
-    public interface ISettingProvider<D> : ISettingProvider
-
+    public interface ISettingProvider<V> : ISettingProvider
     {
+        V Value(VarName name);
+
+        bool Value(VarName name, out V value);
+
+
+        ReadOnlySpan<V> Values {get;}
     }
 }

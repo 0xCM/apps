@@ -4,19 +4,27 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public abstract class SettingProvider<P> : ISettingProvider
+    public abstract class SettingProvider<V> : ISettingProvider<V>
     {
-        readonly Index<Setting<string,object>> Data;
+        readonly Index<Setting<VarName,V>> Data;
 
-        readonly ConstLookup<string,object> Lookup;
+        readonly SortedLookup<VarName,V> Lookup;
 
-        public virtual string Name {get;}
+        public virtual VarName Name {get;}
 
-        protected SettingProvider(Setting<string,object>[] src)
+        protected SettingProvider(Setting<VarName,V>[] src)
         {
             Data = src;
             Lookup = src.Select(x => (x.Name,x.Value)).ToDictionary();
-            Name = typeof(P).Name;
+            Name = typeof(V).Name;
+        }
+
+        protected SettingProvider(VarName name, Setting<VarName,V>[] src, Dictionary<VarName,V> lookup)
+        {
+            Name = name;
+            Data = src;
+            Lookup = lookup;
+            Name = typeof(V).Name;
         }
 
         public Index<EnvVarRow> Records()
@@ -24,28 +32,26 @@ namespace Z0
             return default;
         }
 
-        public bool Value<T>(string name, out T dst)
-            where T : IEquatable<T>
+        public bool Value(VarName name, out V dst)
         {
             var result = Lookup.Find(name, out var found);
             if(result)
-                dst = (T)found;
+                dst = found;
             else
                 dst = default;
             return result;
         }
 
-        public T Value<T>(string name)
-            where T : IEquatable<T>
-                => (T)Lookup[name];
+        public V Value(VarName name)
+            => Lookup[name];
 
-        public ReadOnlySpan<string> Names
+        public ReadOnlySpan<VarName> Names
         {
             [MethodImpl(Inline)]
             get => Lookup.Keys;
         }
 
-        public ReadOnlySpan<object> Values
+        public ReadOnlySpan<V> Values
         {
             [MethodImpl(Inline)]
             get => Lookup.Values;
@@ -57,13 +63,13 @@ namespace Z0
             get => Data.Count;
         }
 
-        public ref readonly Setting<string,object> this[uint index]
+        public ref readonly Setting<VarName,V> this[uint index]
         {
             [MethodImpl(Inline)]
             get => ref Data[index];
         }
 
-        public ref readonly Setting<string,object> this[int index]
+        public ref readonly Setting<VarName,V> this[int index]
         {
             [MethodImpl(Inline)]
             get => ref Data[index];

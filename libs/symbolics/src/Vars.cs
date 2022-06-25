@@ -28,7 +28,7 @@ namespace Z0
             => value;
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static ResolvedVar<T> resolve<T>(VarSymbol var, T value)
+        public static ResolvedVar<T> resolve<T>(VarName var, T value)
             => value;
 
         public static ExprContext context()

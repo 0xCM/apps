@@ -4,11 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class MachineEnv : SettingProvider<Setting<string,object>>
+    public static class XSvc
     {
-        public MachineEnv(Setting<string,object>[] src)
-            : base(src.Select(x => new Setting<string,object>(x.Name,x.Value)))
+        sealed class ServiceCache : AppServices<ServiceCache>
         {
+
         }
+
+        static ServiceCache Services => ServiceCache.Instance;
+
     }
 }

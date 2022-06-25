@@ -10,9 +10,18 @@ namespace Z0
     {
         ToolBox ToolBox => Wf.ToolBox();
 
+
+        Settings SettingValues => data(nameof(Settings), AppSettings.load);
+
         [CmdOp("app/settings")]
-        void AppSetings()
-            => iter(AppSettings.load(), setting => Write(setting.Format()));
+        void Setings()
+            => iter(SettingValues, setting => Write(setting.Format()));
+
+        [CmdOp("app/setting")]
+        void Setting(CmdArgs args)
+        {
+
+        }
 
         [CmdOp("env/emit/includes")]
         void LoadToolEnv()

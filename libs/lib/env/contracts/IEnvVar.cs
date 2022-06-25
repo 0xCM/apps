@@ -7,9 +7,6 @@ namespace Z0
     [Free]
     public interface IEnvVar : IVarValue
     {
-        VarSymbol Name {get;}
-
-        string Value {get;}
     }
 
     [Free]

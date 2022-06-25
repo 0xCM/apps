@@ -5,17 +5,14 @@
 namespace Z0
 {
     using static core;
-    using G = ApiGranules;
 
+    using G = ApiGranules;
     using EN = EnvNames;
 
     public readonly struct EnvVars : IIndex<EnvVar>
     {
         public static FS.FolderPath dir(string name)
-        {
-            var value = Environment.GetEnvironmentVariable(name);
-            return FS.dir(value);
-        }
+            => FS.dir(Environment.GetEnvironmentVariable(name));
 
         public static void emit(string name = null)
         {
@@ -33,6 +30,7 @@ namespace Z0
                  dst.Add(new EnvVar(kv.Key?.ToString() ?? EmptyString, kv.Value?.ToString() ?? EmptyString));
             return dst.ToArray().Sort();
         }
+
 
         public static Index<EnvVarRow> records(EnvVars src, string name)
         {

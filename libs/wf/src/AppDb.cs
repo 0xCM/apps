@@ -10,6 +10,12 @@ namespace Z0
     using EN = EnvNames;
     using T = ApiGranules;
 
+    partial class XTend
+    {
+        public static AppDb AppDb(this IWfRuntime wf)
+            => Z0.AppDb.Service;
+    }
+
     public class AppDb : IAppDb
     {
         public static ref readonly AppDb Service => ref Instance;

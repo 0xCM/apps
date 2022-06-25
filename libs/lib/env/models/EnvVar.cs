@@ -15,7 +15,7 @@ namespace Z0
         const string TableId = "env";
 
         [Render(64)]
-        public readonly VarSymbol VarName;
+        public readonly VarName VarName;
 
         /// <summary>
         /// The environment variable value
@@ -24,14 +24,7 @@ namespace Z0
         public readonly string VarValue;
 
         [MethodImpl(Inline)]
-        public EnvVar(string name, string value)
-        {
-            VarName = name;
-            VarValue = value;
-        }
-
-        [MethodImpl(Inline)]
-        public EnvVar(VarSymbol name, string value)
+        public EnvVar(VarName name, string value)
         {
             VarName = name;
             VarValue = value;
@@ -90,16 +83,10 @@ namespace Z0
             get => new EnvVar(EmptyString, EmptyString);
         }
 
-        VarSymbol IVarValue.VarName
+        VarName IVarValue.VarName
             => VarName;
 
-        string IVarValue.VarValue
-            => VarValue;
-
-        public VarSymbol Name
-            => VarName;
-
-        public string Value
+        object IVarValue.VarValue
             => VarValue;
     }
 }

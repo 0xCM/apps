@@ -79,6 +79,8 @@
     <CgShell>$(CgRoot)cg.shell/z0.cg.shell.csproj</CgShell>
     <CgTest>$(CgRoot)cg.shell/z0.cg.shell.csproj</CgTest>
 
+    <Wf>$(LibsRoot)wf/z0.wf.csproj</Wf>
+
     <ZLib>$(LibsRoot)lib/z0.lib.csproj</ZLib>
     <ZLibs>$(LibsRoot)z0.libs.csproj</ZLibs>
 

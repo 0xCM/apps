@@ -13,9 +13,22 @@ namespace Z0
     [ApiHost]
     public class Settings : IIndex<Setting>, ILookup<string,Setting>
     {
-        public static EnvSet<S> set<S>(string name, S src)
-            where S : struct
-                => new EnvSet<S>(name, src, ClrFields.values(src).Select(x => new Setting<string,object>(x.Field.Name, x.Value)));
+        public static EnvSet<EnvVar> set(VarName name, params EnvVar[] vars)
+        {
+            var count = vars.Length;
+            var settings = alloc<Setting<VarName,EnvVar>>(vars.Length);
+            var lookup = dict<VarName,EnvVar>();
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var v = ref skip(vars,i);
+                ref var setting = ref seek(settings,i);
+                setting = new Setting<VarName, EnvVar>(v.VarName, v);
+                lookup.TryAdd(v.VarName, v);
+            }
+
+            return new EnvSet<EnvVar>(name, settings,lookup);
+        }
+
 
         [Op]
         public static bool search<T>(in Settings<T> src, string key, out Setting<T> value)
@@ -237,7 +250,7 @@ namespace Z0
         public static string format(Setting src, bool json)
         {
             if(json)
-                return string.Concat(src.Name.Enquote(), Chars.Colon, Chars.Space, src.Value.Enquote());
+                return string.Concat(text.enquote(src.Name), Chars.Colon, Chars.Space, src.Value.Enquote());
             else
                 return format(core.ifempty(src.Name, "<anonymous>"), src.Value);
         }
@@ -357,7 +370,7 @@ namespace Z0
             => Tables.emit(src.View, dst);
 
         [Op]
-        public static bool search(in Settings src, string key, out Setting value)
+        public static bool search(in Settings src, VarName key, out Setting value)
         {
             value = Setting.Empty;
             var result = false;

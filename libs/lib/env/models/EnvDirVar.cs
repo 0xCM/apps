@@ -6,27 +6,15 @@ namespace Z0
 {
     public struct EnvDirVar : IEnvVar<FS.FolderPath>
     {
-        public readonly VarSymbol VarName {get;}
+        public readonly VarName VarName {get;}
 
         public readonly FS.FolderPath VarValue {get;}
 
         [MethodImpl(Inline)]
-        public EnvDirVar(VarSymbol name, FS.FolderPath value)
+        public EnvDirVar(VarName name, FS.FolderPath value)
         {
             VarName = name;
             VarValue = value;
-        }
-
-        public VarSymbol Name
-        {
-            [MethodImpl(Inline)]
-            get => VarName;
-        }
-
-        public string Value
-        {
-            [MethodImpl(Inline)]
-            get => VarValue.Format();
         }
 
         public string Format()
@@ -36,7 +24,7 @@ namespace Z0
             => ExprFormatters.format(vck, this);
 
         [MethodImpl(Inline)]
-        public static implicit operator EnvDirVar((VarSymbol symbol, FS.FolderPath value) src)
+        public static implicit operator EnvDirVar((VarName symbol, FS.FolderPath value) src)
             => new EnvDirVar(src.symbol, src.value);
 
         [MethodImpl(Inline)]
@@ -47,6 +35,6 @@ namespace Z0
         public static implicit operator FS.FolderPath(EnvDirVar src)
             => src.VarValue;
 
-        public static EnvDirVar Empty => new EnvDirVar(VarSymbol.Empty, FS.FolderPath.Empty);
+        public static EnvDirVar Empty => new EnvDirVar(default, FS.FolderPath.Empty);
     }
 }
