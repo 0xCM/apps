@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <ProjectReference Include="$(Archives)" />
-    <ProjectReference Include="$(CmdFlows)" />
   </ItemGroup>
 
 </Project>

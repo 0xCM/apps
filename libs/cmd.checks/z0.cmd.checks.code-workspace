@@ -35,6 +35,9 @@
         },
         {
             "path": "../lib/env"
+        },
+        {
+            "path": "../models"
         }
     ],
 	"settings": {}

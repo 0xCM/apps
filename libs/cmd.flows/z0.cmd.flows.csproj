@@ -8,8 +8,6 @@
   <Import Project="$(ImportDefs)common.libs.props"/>
 
   <ItemGroup>
-    <ProjectReference Include="$(CmdSpecs)" />
-    <ProjectReference Include="$(Archives)" />
     <ProjectReference Include="$(Wf)" />
   </ItemGroup>
 

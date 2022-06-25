@@ -19,7 +19,6 @@ namespace Z0
 
             public HexEmitter HexEmitter(IWfRuntime wf)
                 => Service<HexEmitter>(wf);
-
         }
 
         static Svc Services => Svc.Instance;
@@ -35,7 +34,5 @@ namespace Z0
 
         public static HexEmitter HexEmitter(this IWfRuntime wf)
             => Services.HexEmitter(wf);
-
-
     }
 }

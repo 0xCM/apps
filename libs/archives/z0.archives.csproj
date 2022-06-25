@@ -11,6 +11,7 @@
     <ProjectReference Include="$(Digital)" />
     <ProjectReference Include="$(Symbolics)" />
     <ProjectReference Include="$(CmdSpecs)" />
+    <ProjectReference Include="$(Models)" />
   </ItemGroup>
 
 </Project>
