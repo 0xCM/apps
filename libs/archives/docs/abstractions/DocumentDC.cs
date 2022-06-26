@@ -15,6 +15,7 @@ namespace Z0
             return doc;
         }
 
+
         public C Content {get; protected set;}
 
         protected Document(C content)

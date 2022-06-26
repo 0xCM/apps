@@ -8,13 +8,4 @@ namespace Z0
     {
         dynamic Locator {get;}
     }
-
-    public interface ILocatable<T> : ILocatable
-        where T : struct
-    {
-        new T Locator => (T)this;
-
-        dynamic ILocatable.Locator
-            => Locator;
-    }
 }

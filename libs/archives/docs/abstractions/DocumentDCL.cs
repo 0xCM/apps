@@ -7,7 +7,7 @@ namespace Z0
 
     public abstract class Document<D,C,L> : Document<D,C>, IDocument<D,C,L>
         where D : Document<D,C,L>, new()
-        where L : ILocatable
+        where L : IFsEntry
     {
         public static D load(L location)
         {

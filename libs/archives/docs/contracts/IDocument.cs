@@ -6,7 +6,7 @@ namespace Z0
 {
     public interface IDocument
     {
-        ILocatable Location {get;}
+        IFsEntry Location {get;}
     }
 
     public interface IDocument<D> : IDocument
@@ -23,11 +23,11 @@ namespace Z0
 
     public interface IDocument<D,C,L> : IDocument<D,C>
         where D : IDocument, new()
-        where L : ILocatable
+        where L : IFsEntry
     {
         new L Location {get;}
 
-        ILocatable IDocument.Location
+        IFsEntry IDocument.Location
             => Location;
 
         D IDocument<D>.Load()

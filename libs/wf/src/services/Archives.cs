@@ -10,6 +10,6 @@ namespace Z0
             => new DbArchive(root);
 
         public static IDbArchive jobs(FS.FolderPath root)
-            => new DbArchive(root);
+            => new JobArchive(root);
     }
 }

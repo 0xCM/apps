@@ -9,7 +9,7 @@ namespace Z0
 
     partial struct FS
     {
-        public readonly struct FilePath : IFsEntry<FilePath>, ILocatable<FilePath>
+        public readonly struct FilePath : IFsEntry<FilePath>
         {
             public PathPart Name {get;}
 
@@ -97,18 +97,6 @@ namespace Z0
                 get => Info.Length;
             }
 
-            public bool IsEmpty
-            {
-                [MethodImpl(Inline)]
-                get => Name.IsEmpty;
-            }
-
-            public bool IsNonEmpty
-            {
-                [MethodImpl(Inline)]
-                get => Name.IsNonEmpty;
-            }
-
             /// <summary>
             /// Specifies the file's owning part, if any
             /// </summary>
@@ -175,9 +163,6 @@ namespace Z0
             public string ReadUnicode()
                 => File.ReadAllText(Name, Encoding.Unicode);
 
-            // public FilePath Timestamped()
-            //     => timestamped(this);
-
             public RelativeFilePath RelativeTo(FS.FolderPath src)
                 => relative(src, this);
 
@@ -197,8 +182,17 @@ namespace Z0
             public bool Contains(string substring)
                 => FileName.Contains(substring);
 
-            public bool Equals(FilePath src)
-                => Name.Equals(src.Name);
+            public bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Name.IsEmpty;
+            }
+
+            public bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Name.IsNonEmpty;
+            }
 
             public Hash32 Hash
             {
@@ -213,6 +207,17 @@ namespace Z0
             public string Format()
                 => Name.Format();
 
+            public override string ToString()
+                => Format();
+
+            [MethodImpl(Inline)]
+            public int CompareTo(FilePath src)
+                => Name.CompareTo(src.Name);
+
+            [MethodImpl(Inline)]
+            public bool Equals(FilePath src)
+                => Name.Equals(src.Name);
+
             [MethodImpl(Inline)]
             public string Format(PathSeparator sep, bool quote = false)
                 => quote ? text.enquote(Name.Format(sep)) : Name.Format(sep);
@@ -220,12 +225,6 @@ namespace Z0
             [MethodImpl(Inline)]
             public FileUri ToUri()
                 => new FileUri(this);
-
-            public override string ToString()
-                => Format();
-
-            public int CompareTo(FilePath src)
-                => Name.CompareTo(src.Name);
 
             [MethodImpl(Inline)]
             public static FilePath operator +(FilePath a, FileExt b)

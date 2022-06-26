@@ -7,16 +7,16 @@ namespace Z0
     public abstract class Document<D> : IDocument<D>
         where D : Document<D>, new()
     {
-        public ILocatable Location {get; protected set;}
+        public IFsEntry Location {get; protected set;}
 
-        protected Document(ILocatable src)
+        protected Document(IFsEntry src)
         {
             Location = src;
         }
 
         protected Document()
         {
-            Location = Locatable.Empty;
+            Location = FS.FsEntry.Empty;
         }
 
         public abstract D Load();

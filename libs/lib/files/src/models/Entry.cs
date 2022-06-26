@@ -25,6 +25,38 @@ namespace Z0
             public string Format()
                 => string.Format(FormatPattern, Kind, Name);
 
+            public bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Name.IsEmpty;
+            }
+
+            public bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Name.IsNonEmpty;
+            }
+
+            public Hash32 Hash
+            {
+                [MethodImpl(Inline)]
+                get => Name.Hash;
+            }
+
+            public override int GetHashCode()
+                => Hash;
+
+            [MethodImpl(Inline)]
+            public string Format()
+                => Name.Format();
+
+            public override string ToString()
+                => Format();
+
+            [MethodImpl(Inline)]
+            public int CompareTo(FsEntry src)
+                => Name.CompareTo(src.Name);
+
             [MethodImpl(Inline)]
             public bool Equals(FsEntry src)
                 => Name.Equals(src.Name);
@@ -37,6 +69,8 @@ namespace Z0
 
             public override bool Equals(object src)
                 => src is FsEntry x && Equals(x);
+
+            public static FsEntry Empty => new FsEntry(PathPart.Empty, 0);
         }
     }
 }

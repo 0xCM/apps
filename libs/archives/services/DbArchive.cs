@@ -20,7 +20,6 @@ namespace Z0
             Root = root;
         }
 
-
         public Hash32 Hash
         {
             [MethodImpl(Inline)]
