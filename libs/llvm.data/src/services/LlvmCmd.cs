@@ -10,8 +10,6 @@ namespace Z0.llvm
     {
         LlvmDataImporter Importer => Wf.LlvmDataImporter();
 
-        Toolset Toolset => Wf.Toolset(llvm);
-
         new LlvmPaths Paths => Wf.LlvmPaths();
 
         WsArchive WsArchive => new WsArchive(AppDb.LlvmRoot(), "llvm");
@@ -29,7 +27,7 @@ namespace Z0.llvm
         ToolId SelectedTool;
 
         FS.Files TdFiles()
-            => DbFiles.filter(Paths.LlvmRoot, FS.ext(td)).Files().Array();
+            => DbArchive.filter(Paths.LlvmRoot, FS.ext(td)).Files().Array();
 
         public LlvmCmd()
         {

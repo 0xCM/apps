@@ -13,6 +13,14 @@ namespace Z0
 
         const string HandlerNotFound = "Handler for {0} not found";
 
+        [MethodImpl(Inline), Op]
+        public static EventSignal signal(IEventSink sink, WfHost host)
+            => new EventSignal(sink, host);
+
+        [MethodImpl(Inline), Op]
+        public static EventSignal signal(IEventSink sink, Type host)
+            => new EventSignal(sink, host);
+
         [Op, Closures(Closure)]
         public static BufferedProjector<T> projector<T>(IPipeline pipeline)
             => projector(pipeline, new Queue<T>(), new SFxProjector<T>(identity));
@@ -220,6 +228,14 @@ namespace Z0
         [Op, Closures(Closure)]
         public static DataEvent<T> data<T>(T data, FlairKind flair)
             => new DataEvent<T>(data, flair);
+
+        [Op, Closures(Closure)]
+        public static RowEvent<T> row<T>(T data, FlairKind flair)
+            => new RowEvent<T>(data, flair);
+
+        [Op, Closures(Closure)]
+        public static RowEvent<T> row<T>(T data)
+            => new RowEvent<T>(data, FlairKind.Data);
 
         [Op]
         public static DisposedEvent disposed(Type host)

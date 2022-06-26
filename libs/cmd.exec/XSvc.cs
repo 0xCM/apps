@@ -22,6 +22,9 @@ namespace Z0
 
             public WsScripts WsScripts(IWfRuntime wf)
                 => Service<WsScripts>(wf);
+
+            public  Toolsets Toolsets(IWfRuntime wf)
+                => Service<Toolsets>(wf);
         }
 
         static ServiceCache Services => ServiceCache.Instance;
@@ -40,6 +43,9 @@ namespace Z0
 
         public static ToolBox ToolBox(this IWfRuntime wf)
             => Services.ToolBox(wf);
+
+        public static Toolsets Toolsets(this IWfRuntime wf)
+            => Services.Toolsets(wf);
 
         public static void RedirectEmissions(this IWfRuntime wf, Assembly src, FS.FolderPath dst, Timestamp? ts = null, string name = null)
             => wf.RedirectEmissions(Loggers.emission(src, dst, ts ?? core.timestamp(), name));

@@ -15,8 +15,7 @@ namespace Z0
 
         const string SearchAll = "*.*";
 
-        [DataType(TypeSyntax.Dir)]
-        public readonly struct FolderPath : IFsEntry<FolderPath>, ILocatable<FolderPath>, IEquatable<FolderPath>
+        public readonly struct FolderPath : IFsEntry<FolderPath>, ILocatable<FolderPath>
         {
             public PathPart Name {get;}
 
@@ -82,9 +81,7 @@ namespace Z0
             /// Nonrecursively enumerates all files in the folder
             /// </summary>
             public FS.Files TopFiles
-                => Directory.Exists(Name)
-                ? files(Directory.EnumerateFiles(Name).Map(path))
-                : FS.Files.Empty;
+                => Directory.Exists(Name) ? files(Directory.EnumerateFiles(Name).Map(path)) : FS.Files.Empty;
 
             /// <summary>
             /// Recursively enumerates all files in the folder
@@ -96,9 +93,7 @@ namespace Z0
                 => Directory.EnumerateFiles(Name, pattern ?? SearchAll).Array().Select(x => FS.path(x));
 
             public FS.Files Match(string pattern, bool recurse)
-                => Exists
-                ? files(Directory.EnumerateFiles(Name, pattern, option(recurse)).Map(path))
-                : FS.Files.Empty;
+                => Exists ? files(Directory.EnumerateFiles(Name, pattern, option(recurse)).Map(path)) : FS.Files.Empty;
 
             public FS.Files Match(string pattern, FS.FileExt ext, bool recurse)
                 => Exists ? Files(ext, recurse).Where(f => f.Name.Contains(pattern)) : FS.Files.Empty;
@@ -182,6 +177,15 @@ namespace Z0
                 get => new DirectoryInfo(Name);
             }
 
+            public Hash32 Hash
+            {
+                [MethodImpl(Inline)]
+                get => Name.Hash;
+            }
+
+            public override int GetHashCode()
+                => Hash;
+
             [MethodImpl(Inline)]
             public string Format()
                 => Name.Format();
@@ -209,10 +213,6 @@ namespace Z0
             [MethodImpl(Inline)]
             public static bool operator !=(FolderPath a, FolderPath b)
                 => !a.Equals(b);
-
-
-            public override int GetHashCode()
-                => Name.GetHashCode();
 
             [MethodImpl(Inline)]
             static SearchOption option(bool recurse)
@@ -257,6 +257,9 @@ namespace Z0
                     foreach(var file in Directory.EnumerateFiles(src.Name, SearchAll, option(recurse)))
                         yield return path(file);
             }
+
+            public int CompareTo(FolderPath src)
+                => Name.CompareTo(src.Name);
 
             [MethodImpl(Inline)]
             public static FolderPath operator +(FolderPath a, FolderName b)

@@ -9,7 +9,7 @@ namespace Z0
         /// <summary>
         /// Defines the content of file path component
         /// </summary>
-        public readonly struct PathPart : ITextual, IComparable<PathPart>
+        public readonly struct PathPart : ITextual, IDataType<PathPart>
         {
             public string Text {get;}
 
@@ -27,6 +27,12 @@ namespace Z0
                 get => Text ?? EmptyString;
             }
 
+            public Hash32 Hash
+            {
+                [MethodImpl(Inline)]
+                get => core.hash(TextData);
+            }
+
             public uint Length
             {
                 [MethodImpl(Inline)]
@@ -38,6 +44,8 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get => TextData;
             }
+
+
 
             [MethodImpl(Inline)]
             public string Format()
@@ -83,7 +91,7 @@ namespace Z0
                 => TextData.Replace(src,dst);
 
             public override int GetHashCode()
-                => TextData.GetHashCode();
+                => Hash;
 
             [MethodImpl(Inline)]
             public bool Equals(PathPart src)
@@ -129,7 +137,7 @@ namespace Z0
             }
 
             public int CompareTo(PathPart src)
-                => TextData.CompareTo(src.TextData);
+                => text.cmp(TextData, src.TextData, uncased());
 
             [MethodImpl(Inline)]
             public static bool operator ==(PathPart a, PathPart b)

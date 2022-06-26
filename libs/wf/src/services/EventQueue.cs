@@ -26,14 +26,14 @@ namespace Z0
         {
             Host = host;
             Receiver = e => {};
-            Signal = EventSignals.signal(this, Host);
+            Signal = Events.signal(this, Host);
         }
 
         internal EventQueue(Type host, Action<IWfEvent> receiver)
         {
             Host = host ?? GetType();
             Receiver = receiver;
-            Signal = EventSignals.signal(this, Host);
+            Signal = Events.signal(this, Host);
         }
 
         public void Deposit(IWfEvent e)

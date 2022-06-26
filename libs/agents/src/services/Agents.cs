@@ -15,7 +15,7 @@ namespace Z0
         public AgentRunner Runner()
         {
             var log = new SystemEventWriter();
-            var signal = EventSignals.signal(Wf.EventSink, GetType());
+            var signal = Events.signal(Wf.EventSink, GetType());
             var runner = new AgentRunner(signal, new AgentContext(log));
             return runner;
         }

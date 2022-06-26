@@ -73,7 +73,7 @@ namespace Z0.Asm
             for(var i=0u; i<offsets.Length; i++)
             {
                 var seg = text.format(heap.Segment(i));
-                Wf.Row(seg);
+                Wf.Data(seg);
             }
         }
 
@@ -93,7 +93,7 @@ namespace Z0.Asm
         {
             var info = WinMem.basic();
             var formatter = Tables.formatter<BasicMemoryInfo>(16,RecordFormatKind.KeyValuePairs);
-            Wf.Row(formatter.Format(info));
+            Wf.Data(formatter.Format(info));
         }
 
         void EmitDependencyGraph()
@@ -120,14 +120,6 @@ namespace Z0.Asm
             }
             writer.WriteLine("}");
             Wf.EmittedFile(flow, count);
-        }
-
-        void CalcRelativePaths()
-        {
-            var @base = FS.dir("dir1");
-            var files = FS.dir("dir2").AllFiles;
-            var links = Markdown.links(@base,files);
-            iter(links, r=> Write(r.Format()));
         }
 
 

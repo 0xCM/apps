@@ -15,7 +15,7 @@ namespace Z0
             var blocks = Pow2.T08;
             var random = Rng.@default();
             var mapper = new VMap01();
-            var signal = EventSignals.signal(wf.EventSink, typeof(VPipeTests));
+            var signal = Events.signal(wf.EventSink, typeof(VPipeTests));
             var src = new BlockSource01(random, blocks);
             var dst = new BlockSink01(signal);
             var pipeline = Pipelines.create(w, src, mapper, dst, z8, z8);

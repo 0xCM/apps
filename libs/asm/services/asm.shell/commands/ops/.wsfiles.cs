@@ -76,7 +76,7 @@ namespace Z0.Asm
             {
                 ref readonly var call = ref skip(calls,i);
                 ref readonly var expect = ref skip(expected,i);
-                Wf.Row(call.Format() + " ?=? " + expect.ToString());
+                Wf.Data(call.Format() + " ?=? " + expect.ToString());
             }
         }
 
@@ -85,9 +85,9 @@ namespace Z0.Asm
             var types = Wf.ApiCatalog.Components.Storage.Types();
             var unique = hashset<Type>();
             var count = unique.Include(types).Where(x => x).Count();
-            Wf.Row($"{types.Length} ?=? {count}");
+            Wf.Data($"{types.Length} ?=? {count}");
             var fields = Wf.ApiCatalog.Components.Storage.DeclaredStaticFields();
-            iter(fields, f => Wf.Row(f.Name + ": " + f.FieldType.Name));
+            iter(fields, f => Wf.Data(f.Name + ": " + f.FieldType.Name));
         }
 
 
@@ -122,11 +122,11 @@ namespace Z0.Asm
             var options = deps.Options();
             var target = deps.Target();
             var graph = deps.Graph;
-            Wf.Row(string.Format("Target: {0} {1} {2}", target.Framework, target.Runtime, target.RuntimeSignature));
-            iter(libs, lib => Wf.Row(lib.Name));
+            Wf.Data(string.Format("Target: {0} {1} {2}", target.Framework, target.Runtime, target.RuntimeSignature));
+            iter(libs, lib => Wf.Data(lib.Name));
             var buffer = text.buffer();
             iter(rtlibs, lib => lib.Render(buffer));
-            Wf.Row(buffer.Emit());
+            Wf.Data(buffer.Emit());
         }
 
 
@@ -144,7 +144,7 @@ namespace Z0.Asm
             {
                 ref readonly var detail = ref skip(details,i);
                 var description = string.Format("{0,-12} | {1,-48} | {2}", detail.Position, detail.Name, detail.ScalarValue.FormatHex());
-                Wf.Row(description);
+                Wf.Data(description);
             }
         }
 
@@ -257,7 +257,7 @@ namespace Z0.Asm
         {
             var blocks = Wf.ApiCatalogs().Correlate();
             var f1 = ApiCodeBlocks.filter(blocks,ApiClassKind.And);
-            iter(f1,f => Wf.Row(f.Uri));
+            iter(f1,f => Wf.Data(f.Uri));
         }
     }
 }

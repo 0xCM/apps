@@ -9,7 +9,7 @@ namespace Z0
     partial struct FS
     {
         [DataType(TypeSyntax.FileName)]
-        public readonly struct FileName : IFsEntry<FileName>, IComparable<FileName>
+        public readonly struct FileName : IFsEntry<FileName>
         {
             public PathPart Name {get;}
 
@@ -101,8 +101,14 @@ namespace Z0
             public bool Is(FileExt ext)
                 => FS.matches(this, ext);
 
+            public Hash32 Hash
+            {
+                [MethodImpl(Inline)]
+                get => Name.Hash;
+            }
+
             public override int GetHashCode()
-                => Name.GetHashCode();
+                => Hash;
 
             public bool Equals(FileName src)
                 => Name == src.Name;

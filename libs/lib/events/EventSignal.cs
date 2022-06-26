@@ -78,9 +78,9 @@ namespace Z0
         public EmittingTableEvent<T> EmittingTable<T>(FS.FilePath dst)
             where T : struct
         {
-            var e = emittingTable<T>(Source.Type, dst);
-            Raise(e);
-            return e;
+            var ev = emittingTable<T>(Source.Type, dst);
+            Raise(ev);
+            return ev;
         }
 
         public EmittedTableEvent<T> EmittedTable<T>(Count count, FS.FilePath dst)
@@ -157,6 +157,20 @@ namespace Z0
         public DataEvent<T> Data<T>(T data)
         {
             var ev = Events.data(data);
+            Raise(ev);
+            return ev;
+        }
+
+        public RowEvent<T> Row<T>(T data)
+        {
+            var ev = Events.row(data);
+            Raise(ev);
+            return ev;
+        }
+
+        public RowEvent<T> Row<T>(T data, FlairKind flair)
+        {
+            var ev = Events.row(data, flair);
             Raise(ev);
             return ev;
         }

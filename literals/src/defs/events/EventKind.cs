@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    [SymSource(events)]
     public enum EventKind : byte
     {
         None = 0,
@@ -51,6 +52,6 @@ namespace Z0
         ProcessedFile,
         Data,
 
-        Rows,
+        Row,
     }
 }

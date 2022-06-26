@@ -12,8 +12,8 @@ namespace Z0
 
         public static CmdResult<ListFilesCmd,FS.Files> exec(ListFilesCmd cmd)
         {
-            var _list = DbFiles.search(cmd.SourceDir, cmd.Extensions, cmd.EmissionLimit);
-            var outcome = DbFiles.emit(_list, cmd.FileUriMode, cmd.TargetPath);
+            var _list = DbArchive.search(cmd.SourceDir, cmd.Extensions, cmd.EmissionLimit);
+            var outcome = DbArchive.emissions(_list, cmd.FileUriMode, cmd.TargetPath);
             return outcome ? CmdResults.ok(cmd,_list) : CmdResults.fail(cmd, outcome.Message);
         }
 

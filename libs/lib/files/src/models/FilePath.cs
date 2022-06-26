@@ -9,8 +9,7 @@ namespace Z0
 
     partial struct FS
     {
-        [DataType(TypeSyntax.FilePath)]
-        public readonly struct FilePath : IFsEntry<FilePath>, IComparable<FilePath>, ILocatable<FilePath>, IEquatable<FilePath>
+        public readonly struct FilePath : IFsEntry<FilePath>, ILocatable<FilePath>
         {
             public PathPart Name {get;}
 
@@ -200,6 +199,15 @@ namespace Z0
 
             public bool Equals(FilePath src)
                 => Name.Equals(src.Name);
+
+            public Hash32 Hash
+            {
+                [MethodImpl(Inline)]
+                get => Name.Hash;
+            }
+
+            public override int GetHashCode()
+                => Hash;
 
             [MethodImpl(Inline)]
             public string Format()

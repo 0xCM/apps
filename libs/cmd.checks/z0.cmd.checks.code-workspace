@@ -38,6 +38,9 @@
         },
         {
             "path": "../models"
+        },
+        {
+            "path": "../wf"
         }
     ],
 	"settings": {}

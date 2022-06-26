@@ -45,6 +45,12 @@ namespace Z0
         public void Write<T>(T content, FlairKind flair)
             => WfMsg.Write(content, flair);
 
+        public void Row<T>(T content)
+            => WfMsg.Row(content);
+
+        public void Row<T>(T content, FlairKind flair)
+            => WfMsg.Row(content, flair);
+
         public void Write(string content, FlairKind flair)
             => WfMsg.Write(content, flair);
 

@@ -47,6 +47,21 @@ namespace Z0
             public FolderName(PathPart name)
                 => Name = name;
 
+            public Hash32 Hash
+            {
+                [MethodImpl(Inline)]
+                get => Name.Hash;
+            }
+
+            public override int GetHashCode()
+                => Hash;
+
+            public bool Equals(FolderName src)
+                => Name == src.Name;
+
+            public int CompareTo(FolderName src)
+                => Name.CompareTo(src.Name);
+
             [MethodImpl(Inline)]
             public string Format()
                 => Name.Format();

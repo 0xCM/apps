@@ -8,7 +8,7 @@ namespace Z0
     {
         FS.FolderPath Root {get;}
 
-        DbFiles DbFiles => Root;
+        DbArchive DbFiles => Root;
 
         IDbSources Sources()
             => DbFiles.Sources();
@@ -58,7 +58,7 @@ namespace Z0
         FS.FileName File(string name, FileKind kind)
             => DbFiles.File(name, kind);
 
-        FS.FileName File(string @class, string name, FileKind kind)
+        FS.FileName file(string @class, string name, FileKind kind)
             => DbFiles.File(@class, name, kind);
 
         FS.FilePath Path(string name, FileKind kind)
@@ -72,6 +72,9 @@ namespace Z0
 
         ListedFiles List()
             => DbFiles.List();
+
+        ListedFiles List(string pattern, bool recurse = true)
+            => DbArchive.list(Root,pattern,recurse);
 
         string Format()
             => DbFiles.Format();

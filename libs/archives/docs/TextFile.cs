@@ -42,6 +42,35 @@ namespace Z0
         public TextFile(FS.FilePath src)
             => Path = src;
 
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Name.IsEmpty;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Name.IsNonEmpty;
+        }
+
+        [MethodImpl(Inline)]
+        public int CompareTo(TextFile src)
+            => Name.CompareTo(src.Name);
+
+        [MethodImpl(Inline)]
+        public bool Equals(TextFile src)
+            => Name == src.Name;
+
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Name.Hash;
+        }
+
+        public override int GetHashCode()
+            => Hash;
+
         [MethodImpl(Inline)]
         public static implicit operator TextFile(FS.FilePath src)
             => new TextFile(src);

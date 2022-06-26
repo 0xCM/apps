@@ -12,7 +12,7 @@ namespace Z0.Asm
         void ReadSymbols()
         {
             var reader = SOS.SymbolReader.create();
-            reader.ShowSymbolStore(data => Wf.Row(data));
+            reader.ShowSymbolStore(data => Wf.Data(data));
         }
 
         [CmdOp(".asm-exe")]

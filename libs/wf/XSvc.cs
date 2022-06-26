@@ -8,10 +8,15 @@ namespace Z0
     {
         sealed class ServiceCache : AppServices<ServiceCache>
         {
-
+            public Archives Archives(IWfRuntime wf)
+                => Service<Archives>(wf);
         }
 
         static ServiceCache Services => ServiceCache.Instance;
+
+
+        public static Archives Archives(this IWfRuntime wf)
+            => Services.Archives(wf);
 
     }
 }

@@ -12,7 +12,7 @@ namespace Z0.Asm
         Outcome ShowThread(CmdArgs args)
         {
             var id = Kernel32.GetCurrentThreadId();
-            Wf.Row(string.Format("ThreadId:{0}", id));
+            Wf.Data(string.Format("ThreadId:{0}", id));
             return true;
         }
     }

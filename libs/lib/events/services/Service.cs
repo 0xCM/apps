@@ -39,7 +39,7 @@ namespace Z0
             Context = ctx;
             Env = ctx.Env;
             Paths = new EnvPaths(Env);
-            Signal = EventSignals.signal(ctx.EventSink, typeof(H));
+            Signal = Events.signal(ctx.EventSink, typeof(H));
             Initializer((H)this);
             Initialized();
         }

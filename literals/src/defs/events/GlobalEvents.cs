@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [LiteralProvider]
+    [LiteralProvider(events)]
     public readonly struct GlobalEvents
     {
         public const string Creating = nameof(Creating);
@@ -52,6 +52,8 @@ namespace Z0
         public const string ToolRan = nameof(ToolRan);
 
         public const string Data = nameof(Data);
+
+        public const string Row = nameof(Row);
 
         public const string EmittingTable = nameof(EmittingTable);
 

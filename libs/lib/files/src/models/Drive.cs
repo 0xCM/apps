@@ -30,6 +30,22 @@ namespace Z0
                 get => Name != 0;
             }
 
+            public Hash32 Hash
+            {
+                [MethodImpl(Inline)]
+                get => (uint)Char.ToLower((char)Name);
+            }
+
+            public override int GetHashCode()
+                => Hash;
+
+            public int CompareTo(Drive src)
+                => text.cmp(Name.ToString(), src.Name.ToString(), uncased());
+
+            [MethodImpl(Inline)]
+            public bool Equals(Drive src)
+                =>  text.equals(Name.ToString(), src.Name.ToString(), NoCase);
+
             [MethodImpl(Inline)]
             public string Format()
                 => Name.ToString();
@@ -37,7 +53,6 @@ namespace Z0
             [MethodImpl(Inline)]
             public static implicit operator Drive(DriveLetter src)
                 => new Drive(src);
-
 
             public static Drive Empty => default;
         }

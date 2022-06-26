@@ -230,16 +230,22 @@ namespace Z0
             return completed;
         }
 
-        void Row<T>(T data)
+        void Data<T>(T data)
             => signal(this).Data(data);
+
+        void Data<T>(T data, FlairKind flair)
+            => signal(this).Data(data, flair);
+
+        void Data<T>(WfHost host, T data)
+            => signal(this).Data(data);
+
+        void Data<T>(WfHost host, T data, FlairKind flair)
+            => signal(this).Data(data, flair);
+
+        void Row<T>(T data)
+            => signal(this).Row(data);
 
         void Row<T>(T data, FlairKind flair)
-            => signal(this).Data(data, flair);
-
-        void Row<T>(WfHost host, T data)
-            => signal(this).Data(data);
-
-        void Row<T>(WfHost host, T data, FlairKind flair)
-            => signal(this).Data(data, flair);
+            => signal(this).Row(data, flair);
     }
 }

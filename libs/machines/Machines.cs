@@ -32,7 +32,7 @@ namespace Z0
         {
             Random = Rng.@default();
             Queue = EventQueue.allocate(typeof(Machines), EventRaised);
-            Signal = EventSignals.signal(Queue, GetType());
+            Signal = Events.signal(Queue, GetType());
             Machine = X86Machine.create(Signal);
         }
 
@@ -177,7 +177,7 @@ namespace Z0
                 ref readonly var a = ref skip(lCell,i);
                 ref readonly var b = ref skip(rCell,i);
                 ref readonly var result = ref skip(target,i);
-                Wf.Row(string.Format("{0:D6} {1}([{2}],[{3}]) = {4}", i, "or", a.V32u.FormatHex(), b.V32u.FormatHex(), result.V32u.FormatHex()));
+                Wf.Data(string.Format("{0:D6} {1}([{2}],[{3}]) = {4}", i, "or", a.V32u.FormatHex(), b.V32u.FormatHex(), result.V32u.FormatHex()));
             }
         }
 
@@ -223,7 +223,7 @@ namespace Z0
                 ref readonly var a = ref skip(lCell,i);
                 ref readonly var b = ref skip(rCell,i);
                 ref readonly var result = ref skip(target,i);
-                Wf.Row(string.Format("{0:D6} {1}([{2}],[{3}]) = {4}", i, "or", a.V32u.FormatHex(), b.V32u.FormatHex(), result.V32u.FormatHex()));
+                Wf.Data(string.Format("{0:D6} {1}([{2}],[{3}]) = {4}", i, "or", a.V32u.FormatHex(), b.V32u.FormatHex(), result.V32u.FormatHex()));
             }
         }
 

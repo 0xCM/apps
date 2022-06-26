@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    [SymSource(events)]
     public enum MsgLevel : byte
     {
         None = 0,

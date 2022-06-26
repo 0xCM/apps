@@ -6,15 +6,13 @@ namespace Z0.llvm
 {
     using static core;
 
-    public sealed partial class LlvmDataProvider : AppService<LlvmDataProvider>
+    public sealed partial class LlvmDataProvider : WfSvc<LlvmDataProvider>
     {
         public struct SvcState
         {
             public LlvmPaths LlvmPaths;
 
             public ConcurrentDictionary<string,object> DataSets;
-
-            public Toolset Toolset;
 
             public LlvmTableLoader DataLoader;
 
@@ -32,7 +30,6 @@ namespace Z0.llvm
         {
             State.LlvmPaths = Wf.LlvmPaths();
             State.DataSets = new();
-            State.Toolset = Wf.Toolset("llvm");
             State.DataLoader = Wf.LlvmTableLoader();
             State.DataCalcs = Wf.LlvmDataCalcs();
         }
@@ -61,10 +58,5 @@ namespace Z0.llvm
             get => State.DataSets;
         }
 
-        Toolset Toolset
-        {
-            [MethodImpl(Inline)]
-            get => State.Toolset;
-        }
     }
 }

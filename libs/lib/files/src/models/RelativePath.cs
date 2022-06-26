@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial struct FS
     {
         public readonly struct RelativePath : IFsEntry<RelativePath>
@@ -44,6 +39,18 @@ namespace Z0
                 }
             }
 
+            public Hash32 Hash
+            {
+                [MethodImpl(Inline)]
+                get => Name.Hash;
+            }
+
+            public override int GetHashCode()
+                => Hash;
+
+            public int CompareTo(RelativePath src)
+                => Name.CompareTo(src.Name);
+
             [MethodImpl(Inline)]
             public RelativePath Replace(char src, char dst)
                 => new RelativePath(Name.Replace(src,dst));
@@ -51,6 +58,9 @@ namespace Z0
             [MethodImpl(Inline)]
             public RelativePath Replace(string src, string dst)
                 => new RelativePath(Name.Replace(src,dst));
+
+            public bool Equals(RelativePath src)
+                => Name == src.Name;
 
             [MethodImpl(Inline)]
             public string Format()

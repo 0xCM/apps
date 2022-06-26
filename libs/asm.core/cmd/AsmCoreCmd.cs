@@ -55,7 +55,7 @@ namespace Z0
             }
 
             dst.Sort();
-            iter(dst.ViewDeposited(), x => Wf.Row(x));
+            iter(dst.ViewDeposited(), x => Wf.Data(x));
 
             return true;
         }

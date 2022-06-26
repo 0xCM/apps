@@ -21,7 +21,7 @@ namespace Z0
                 {
                     wf.Status("usage: run <command> [options]");
                     var settings = wf.Settings;
-                    wf.Row(settings.Format());
+                    wf.Data(settings.Format());
                 }
                 else
                 {

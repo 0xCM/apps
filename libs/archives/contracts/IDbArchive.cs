@@ -4,14 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class Toolset
+    public interface IDbArchive : IDbSources, IDbTargets
     {
-        public FS.FolderPath Home;
 
-        public string Name;
+    }
 
-        ConstLookup<ToolId,ToolHelpDoc> HelpDocs;
-
+    public interface IDbArchive<A> : IDbArchive
+        where A : IDbArchive, new()
+    {
 
     }
 }

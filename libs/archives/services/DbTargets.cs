@@ -6,12 +6,12 @@ namespace Z0
 {
     public readonly struct DbTargets : IDbTargets<DbTargets>
     {
-        public readonly DbFiles DbFiles {get;}
+        public readonly DbArchive DbFiles {get;}
 
         [MethodImpl(Inline)]
         public DbTargets(IRootedArchive src, string scope)
         {
-            DbFiles = new DbFiles(src.Root + FS.folder(scope));
+            DbFiles = new DbArchive(src.Root + FS.folder(scope));
         }
 
         [MethodImpl(Inline)]
@@ -29,7 +29,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public DbTargets(IRootedArchive src)
         {
-            DbFiles = new DbFiles(src.Root);
+            DbFiles = new DbArchive(src.Root);
         }
 
         public FS.FolderPath Root

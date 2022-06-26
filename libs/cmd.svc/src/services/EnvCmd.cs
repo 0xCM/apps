@@ -10,17 +10,53 @@ namespace Z0
     {
         ToolBox ToolBox => Wf.ToolBox();
 
-
         Settings SettingValues => data(nameof(Settings), AppSettings.load);
+
+        void CalcRelativePaths()
+        {
+            var @base = FS.dir("dir1");
+            var files = FS.dir("dir2").AllFiles;
+            var links = Markdown.links(@base,files);
+            iter(links, r=> Write(r.Format()));
+        }
+
+
+        [CmdOp("dir")]
+        void Dir(CmdArgs args)
+        {
+            var src = Archives.archive(FS.dir(arg(args,0)));
+            var files = ListedFiles.Empty;
+            if(args.Count >= 2)
+                files = src.List(arg(args,1));
+            else
+                files = src.List();
+
+            Row(files.Format());
+
+            //var files = dir.Match(arg(args,1),true);
+
+            //iter(files, file => Write(file.ToUri()));
+
+        }
 
         [CmdOp("app/settings")]
         void Setings()
             => iter(SettingValues, setting => Write(setting.Format()));
 
         [CmdOp("app/setting")]
-        void Setting(CmdArgs args)
+        Outcome Setting(CmdArgs args)
         {
-
+            var name = arg(args,0).Value;
+            var result = Outcome.Success;
+            if(SettingValues.Lookup(name, out var setting))
+            {
+                Write(setting.Format());
+            }
+            else
+            {
+                result = (false, $"Setting '{name}' not found");
+            }
+            return result;
         }
 
         [CmdOp("env/emit/includes")]

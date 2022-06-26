@@ -17,7 +17,7 @@ namespace Z0.Asm
                 if(SOS.SymbolReader.GetInfoForMethod(path, method.MetadataToken, out var info))
                 {
                     var size = info.size;
-                    Wf.Row($"{method.Name} | {size}");
+                    Wf.Data($"{method.Name} | {size}");
                 }
             }
         }

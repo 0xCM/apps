@@ -4,14 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class Toolset
+    public class Archives : WfSvc<Archives>
     {
-        public FS.FolderPath Home;
+        public static IDbArchive archive(FS.FolderPath root)
+            => new DbArchive(root);
 
-        public string Name;
-
-        ConstLookup<ToolId,ToolHelpDoc> HelpDocs;
-
-
+        public static IDbArchive jobs(FS.FolderPath root)
+            => new DbArchive(root);
     }
 }

@@ -4,21 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Defines an entry in list of files
     /// </summary>
     [Record(TableId)]
-    public struct ListedFile : ITextual, IRecord<ListedFile>
+    public struct ListedFile : ITextual
     {
         public const string TableId = "files";
 
+        [Render(12)]
         public uint Index;
 
+        [Render(1)]
         public FS.FileUri Path;
 
         [MethodImpl(Inline)]

@@ -52,7 +52,7 @@ namespace Z0
         {
             var record = SVFChecks.TestCase(casename, succeeded, duration);
             var content = TestCaseRecord.FormatFunction(record);
-            Wf.Row(content);
+            Wf.Data(content);
         }
 
         [MethodImpl(Inline)]
@@ -127,7 +127,7 @@ namespace Z0
         {
             var record = SVFChecks.TestCase(casename, succeeded, duration);
             var content = TestCaseRecord.FormatFunction(record);
-            Wf.Row(content);
+            Wf.Data(content);
         }
 
         public bit CheckSVF(IBinaryOp128D<T> f)

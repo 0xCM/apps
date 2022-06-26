@@ -4,14 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class Toolset
+    public readonly struct JobArchive : IDbArchive<JobArchive>
     {
-        public FS.FolderPath Home;
+        public FS.FolderPath Root {get;}
 
-        public string Name;
-
-        ConstLookup<ToolId,ToolHelpDoc> HelpDocs;
-
-
+        public JobArchive(FS.FolderPath root)
+        {
+            Root = root;
+        }
     }
 }

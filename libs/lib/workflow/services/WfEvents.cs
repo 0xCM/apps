@@ -9,10 +9,10 @@ namespace Z0
     {
         [MethodImpl(Inline), Op]
         internal static EventSignal signal(IWfRuntime wf)
-            => EventSignals.signal(wf.EventSink, wf.Host);
+            => Events.signal(wf.EventSink, wf.Host);
 
         [MethodImpl(Inline), Op]
         internal static EventSignal signal(IWfRuntime wf, WfHost host)
-            => EventSignals.signal(wf.EventSink, host);
+            => Events.signal(wf.EventSink, host);
     }
 }

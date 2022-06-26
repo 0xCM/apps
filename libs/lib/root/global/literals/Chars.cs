@@ -18,6 +18,8 @@ namespace Z0
         /// </summary>
         public const StringComparison Cased = StringComparison.InvariantCulture;
 
+        public static Uncased uncased() => default;
+
         /// <summary>
         /// The end-of-line escape sequence
         /// </summary>

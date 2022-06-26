@@ -40,19 +40,25 @@ namespace Z0
             => Wf.Error(HostType, core.require(content));
 
         void Write<T>(T content)
-            => Wf.Row(HostType, content);
+            => Wf.Data(HostType, content);
 
         void Write<T>(T content, FlairKind flair)
-            => Wf.Row(HostType, content, flair);
+            => Wf.Data(HostType, content, flair);
 
         void Write(string content, FlairKind flair)
-            => Wf.Row(HostType, content, flair);
+            => Wf.Data(HostType, content, flair);
 
         void Write<T>(string name, T value)
-            => Wf.Row(HostType, RP.attrib(name, value));
+            => Wf.Data(HostType, RP.attrib(name, value));
 
         void Write<T>(string name, T value, FlairKind flair)
-            => Wf.Row(HostType, RP.attrib(name, value), flair);
+            => Wf.Data(HostType, RP.attrib(name, value), flair);
+
+        void Row<T>(T content)
+            => Wf.Row(content);
+
+        void Row<T>(T content, FlairKind flair)
+            => Wf.Row(content, flair);
 
         WfExecFlow<Type> Creating(Type host)
             => Wf.Creating(host);

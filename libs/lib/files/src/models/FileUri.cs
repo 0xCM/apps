@@ -6,8 +6,7 @@ namespace Z0
 {
     partial struct FS
     {
-        [DataType(TypeSyntax.FileUri)]
-        public readonly struct FileUri : IFsEntry<FileUri>, ITextual, IComparable<FileUri>
+        public readonly struct FileUri : IFsEntry<FileUri>
         {
             readonly FilePath Source;
 
@@ -29,6 +28,9 @@ namespace Z0
             public string MarkdownBullet(string label = null)
                 => string.Format("* {0}", Source.ToUri().FormatMarkdown(label));
 
+            public bool Equals(FileUri src)
+                => Source.Equals(src.Source);
+
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
@@ -40,6 +42,15 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get => Source.IsNonEmpty;
             }
+
+            public Hash32 Hash
+            {
+                [MethodImpl(Inline)]
+                get => Source.Hash;
+            }
+
+            public override int GetHashCode()
+                => Hash;
 
             public FileUri WithoutLine
             {
