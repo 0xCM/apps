@@ -8,7 +8,7 @@ namespace Z0
 
     partial class Hashed
     {
-        public readonly record struct Hash16<T> : IHashCode<T,ushort>
+        public readonly record struct Hash16<T> : IHashCode<Hash16<T>,ushort>
             where T : unmanaged, IEquatable<T>
         {
             public readonly T Value;
@@ -23,8 +23,20 @@ namespace Z0
                 get => u16(Value);
             }
 
-            T IHashCode<T>.Value
-                => Value;
+            bool INullity.IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Primitive == 0;
+            }
+
+            Hash32 IHashed.Hash
+                => Primitive;
+
+            ushort IHashCode<ushort>.Value
+                => Primitive;
+
+            public int CompareTo(Hash16<T> src)
+                => Primitive.CompareTo(src.Primitive);
 
             public string Format()
                 => Primitive.ToString("X");

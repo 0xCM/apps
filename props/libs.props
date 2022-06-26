@@ -6,6 +6,7 @@
 
     <ProjectReference Include="$(Agents)" />
     <ProjectReference Include="$(ApiCode)" />
+    <ProjectReference Include="$(ApiContracts)" />
     <ProjectReference Include="$(ApiMd)" />
     <ProjectReference Include="$(Archives)" />
     <ProjectReference Include="$(Asm)" />
@@ -55,6 +56,8 @@
     <ProjectReference Include="$(Native)" />
     <ProjectReference Include="$(Nats)" />
     <ProjectReference Include="$(Numbers)" />
+
+    <ProjectReference Include="$(Pipelines)" />
 
     <ProjectReference Include="$(Rules)" />
     <ProjectReference Include="$(Render)" />

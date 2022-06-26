@@ -4,35 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct AppSetting
-    {
-        public readonly VarName Name;
-
-        public readonly dynamic Value;
-
-        [MethodImpl(Inline)]
-        public AppSetting(VarName name, dynamic value)
-        {
-            Name = name;
-            Value = value;
-        }
-    }
-
-    public readonly struct AppSetting<V>
-    {
-        public readonly VarName Name;
-
-        public readonly V Value;
-
-        [MethodImpl(Inline)]
-        public AppSetting(VarName name, V value)
-        {
-            Name = name;
-            Value = value;
-        }
-
-    }
-
     /// <summary>
     /// Defines a script variable
     /// </summary>

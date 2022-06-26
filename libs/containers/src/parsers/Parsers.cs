@@ -8,16 +8,9 @@ namespace Z0
 
     public partial class Parsers : AppService<Parsers>, IMultiParser
     {
-        // public static ItemList<string> list(FS.FilePath src, char delimiter = Chars.Comma)
-        // {
-        //     var items = ItemLists.items(src.ReadText().SplitClean(delimiter).Select(x => x.Trim()).Where(text.nonempty).ToReadOnlySpan());
-        //     var name = src.FileName.WithoutExtension.Format();
-        //     return new ItemList<string>(items);
-        // }
-
-        public static bool parse(string src, out ClrPrimitiveKind dst)
+        public static bool parse(string src, out PrimalKind dst)
         {
-            var symbols = Symbols.index<ClrPrimitiveKind>();
+            var symbols = Symbols.index<PrimalKind>();
             var i = text.index(src, Chars.Colon);
             dst = default;
             if(i > 0)
@@ -55,7 +48,6 @@ namespace Z0
             }
             return parse;
         }
-
 
         public static ref BufferSegments<T> split<T>(SeqSplitter<T> parser, Span<T> src, out BufferSegments<T> dst)
             where T : unmanaged

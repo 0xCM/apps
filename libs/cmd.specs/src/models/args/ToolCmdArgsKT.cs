@@ -7,6 +7,11 @@ namespace Z0
     public class ToolCmdArgs<K,T> : Seq<ToolCmdArgs<K,T>,ToolCmdArg<K,T>>
         where K : unmanaged
     {
+        public ToolCmdArgs()
+        {
+
+        }
+
         [MethodImpl(Inline)]
         public ToolCmdArgs(ToolCmdArg<K,T>[] src)
             : base(src)
@@ -14,11 +19,8 @@ namespace Z0
 
         }
 
-        public string Format()
+        public override string Format()
             => ToolCmd.format(this);
-
-        public override string ToString()
-            => Format();
 
         [MethodImpl(Inline)]
         public static implicit operator ToolCmdArgs<K,T>(ToolCmdArg<K,T>[] src)

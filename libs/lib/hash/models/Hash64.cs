@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct Hash64 : IHashCode<ulong,ulong>
+    public readonly record struct Hash64 : IHashCode<Hash64,ulong>
     {
         [Parser]
         public static Outcome parse(string src, out Hash64 dst)
@@ -30,6 +30,24 @@ namespace Z0
 
         ulong IHashCode<ulong>.Value
             => Value;
+
+        [MethodImpl(Inline)]
+        public bool Equals(Hash64 src)
+            => Value == src.Value;
+
+        [MethodImpl(Inline)]
+        public int CompareTo(Hash64 src)
+            => Value.CompareTo(src.Value);
+
+        public override int GetHashCode()
+            => Value.GetHashCode();
+
+        Hash32 IHashed.Hash
+            => GetHashCode();
+
+        bool INullity.IsEmpty
+            => Value == 0;
+
         public string Format()
             => Value.FormatHex(zpad:true, specifier:true, uppercase:true);
 

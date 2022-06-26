@@ -12,11 +12,7 @@ namespace Z0
     {
         CoffServices Coff => Wf.CoffServices();
 
-        public static AsmObjPaths ObjPaths
-        {
-            [MethodImpl(Inline)]
-            get => new AsmObjPaths(AppDb.Service);
-        }
+        static AsmObjPaths ObjPaths => new(AppDb);
 
         public AsmCodeMap MapAsm(IWsProject ws, Alloc dst)
         {
@@ -149,7 +145,7 @@ namespace Z0
 
         public Index<AsmCodeBlocks> EmitAsmCodeTables(WsContext context, Alloc alloc)
         {
-            AppDb.AsmCsv(context.Project.Project).Clear();
+            ObjPaths.AsmCsv(context.Project.Project).Clear();
             var files = context.Catalog.Entries(FileKind.ObjAsm);
             var count = files.Count;
             var seq = 0u;
@@ -205,7 +201,7 @@ namespace Z0
         {
             using var alloc = Alloc.create();
             var code = EmitAsmCodeTables(context, alloc);
-            AppDb.AsmSrc(context.Project.Project).Clear();
+            ObjPaths.AsmSrc(context.Project.Project).Clear();
             for(var i=0; i<code.Count; i++)
                 RecodeBlocks(context.Project, code[i]);
         }

@@ -10,6 +10,14 @@ namespace Z0
         where T : IEquatable<T>
         where N : unmanaged, ITypeNat
     {
+        public static N n => default;
+
+        public NaturalSeq()
+            : base(alloc<T>(n.NatValue))
+        {
+
+        }
+
         [MethodImpl(Inline)]
         public NaturalSeq(T[] src)
             : base(src)
@@ -17,18 +25,8 @@ namespace Z0
 
         }
 
-        public string Format()
-            => string.Join(Chars.Comma, Data.Storage);
-
-        public override string ToString()
-            => Format();
-
-        public NaturalSeq<N,T> Reverse()
+        public new NaturalSeq<N,T> Reverse()
             => new NaturalSeq<N,T>(Data.Reverse());
-
-        [MethodImpl(Inline)]
-        public T[] ToArray()
-            => Data;
 
         [MethodImpl(Inline)]
         public static implicit operator T[](NaturalSeq<N,T> src)
@@ -37,7 +35,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator Index<T>(NaturalSeq<N,T> src)
             => src.Data;
-
-        public static NaturalSeq<N,T> Empty => new NaturalSeq<N,T>(sys.empty<T>());
     }
 }

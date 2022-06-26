@@ -10,6 +10,8 @@ namespace Z0
     {
         HexDataReader HexReader => Wf.HexDataReader();
 
+        AsmObjPaths ObjPaths => new AsmObjPaths(AppDb);
+
         Symbols<CoffSectionKind> SectionKinds;
 
         public CoffServices()
@@ -28,7 +30,7 @@ namespace Z0
 
         public Outcome CollectObjHex(WsContext context)
         {
-            var targets = AppDb.ObjHex(context.Project.Project);
+            var targets = ObjPaths.ObjHex(context.Project.Project);
             targets.Clear();
             var result = Outcome.Success;
             var files = context.Catalog.Entries(FileKind.Obj, FileKind.O);
@@ -50,7 +52,7 @@ namespace Z0
 
         public HexFileData LoadObjHex(WsContext context)
         {
-            var src = AppDb.ObjHex(context.Project.Project).Files(FileKind.HexDat);
+            var src = ObjPaths.ObjHex(context.Project.Project).Files(FileKind.HexDat);
             var count = src.Length;
             var dst = dict<FS.FilePath,Index<HexDataRow>>(count);
             for(var i=0; i<count; i++)

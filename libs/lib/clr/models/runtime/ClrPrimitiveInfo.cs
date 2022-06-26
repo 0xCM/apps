@@ -6,7 +6,7 @@ namespace Z0
 {
     public readonly record struct ClrPrimitiveInfo : ITextual
     {
-        public readonly ClrPrimitiveKind Kind;
+        public readonly PrimalKind Kind;
 
         public readonly NativeTypeWidth Width;
 
@@ -15,7 +15,7 @@ namespace Z0
         public readonly PrimalCode TypeCode;
 
         [MethodImpl(Inline)]
-        public ClrPrimitiveInfo(ClrPrimitiveKind kind, NativeTypeWidth width, PolarityKind sign, PrimalCode tc)
+        public ClrPrimitiveInfo(PrimalKind kind, NativeTypeWidth width, PolarityKind sign, PrimalCode tc)
         {
             Kind = kind;
             Width = width;

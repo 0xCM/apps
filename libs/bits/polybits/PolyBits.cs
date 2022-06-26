@@ -10,13 +10,11 @@ namespace Z0
     using static ApiGranules;
 
     [ApiHost]
-    public partial class PolyBits : AppService<PolyBits>//, ICmdProvider
+    public partial class PolyBits : WfSvc<PolyBits>
     {
         const NumericKind Closure = UInt64k;
 
         AppSvcOps AppSvc => Service(Wf.AppSvc);
-
-        AppDb AppDb => Service(Wf.AppDb);
 
         IDbTargets Targets => AppDb.DbOut().Targets(polybits);
 

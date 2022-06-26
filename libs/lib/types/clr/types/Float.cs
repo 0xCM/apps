@@ -7,11 +7,11 @@ namespace Z0
     partial class ClrTypeSystem
     {
         [DataType("clr.float",true)]
-        public readonly struct Float : IType<ClrPrimitiveKind>
+        public readonly struct Float : IType<PrimalKind>
         {
             public Identifier Name => nameof(Float);
 
-            public ClrPrimitiveKind Kind => ClrPrimitiveKind.F32;
+            public PrimalKind Kind => PrimalKind.F32;
 
             public string Format()
                 => Name;

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using EN = EnvNames;
+    using EN = SettingNames;
 
     public class WsArchives
     {
@@ -30,7 +30,7 @@ namespace Z0
         public Setting Path(string name)
         {
             var dst = Setting.Empty;
-            var result = Data.Lookup(name, out dst);
+            var result = Data.Find(name, out dst);
             if(result)
                 return dst;
             else

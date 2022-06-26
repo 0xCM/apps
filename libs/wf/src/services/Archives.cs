@@ -9,7 +9,5 @@ namespace Z0
         public static IDbArchive archive(FS.FolderPath root)
             => new DbArchive(root);
 
-        public static IDbArchive jobs(FS.FolderPath root)
-            => new JobArchive(root);
     }
 }

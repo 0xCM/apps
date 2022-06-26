@@ -8,6 +8,6 @@ namespace Z0
     {
         IEnumerable<string> Specs {get;}
 
-        bool Find(string spec, out CmdActionInvoker runner);
+        bool Find(string spec, out ICmdActionInvoker runner);
     }
 }

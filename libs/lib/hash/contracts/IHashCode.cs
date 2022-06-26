@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
     public interface IHashCode
     {
         ReadOnlySpan<byte> Data {get;}
@@ -30,8 +26,8 @@ namespace Z0
      }
 
     [Free]
-    public interface IHashCode<T,U> : IHashCode<T>
-        where T : unmanaged
+    public interface IHashCode<C,U> : IHashCode<U>, IDataType<C>
+        where C : unmanaged, IHashCode<C,U>
         where U : unmanaged
     {
         U Primitive {get;}

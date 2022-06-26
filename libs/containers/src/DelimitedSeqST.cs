@@ -15,13 +15,20 @@ namespace Z0
 
         public readonly Fence<char>? Fence;
 
+        public DelimitedSeq()
+        {
+            Delimiter = EmptyString;
+            CellPad = 0;
+            Fence = Fence<char>.Empty;
+        }
+
         [MethodImpl(Inline)]
         public DelimitedSeq(T[] src, char delimiter, int pad, Fence<char>? fence)
             : base(src)
         {
             Delimiter = delimiter.ToString();
             CellPad = pad;
-            Fence = fence;
+            Fence = null;
         }
 
         [MethodImpl(Inline)]
@@ -44,7 +51,7 @@ namespace Z0
 
 
         [MethodImpl(Inline)]
-        public string Format()
+        public override string Format()
         {
             var content = text.delimit(Data.View, Delimiter, CellPad);
             if(Fence != null && text.nonempty(content))

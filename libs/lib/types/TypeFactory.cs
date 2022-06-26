@@ -13,7 +13,7 @@ namespace Z0
         const NumericKind Closure = UnsignedInts;
 
         [Formatter]
-        public static string format(ClrPrimitiveKind src)
+        public static string format(PrimalKind src)
             => src.ToString().ToLower();
 
         public static DiscreteRefinement<T,V> refinement<T,V>(Identifier name, T type, params V[] values)

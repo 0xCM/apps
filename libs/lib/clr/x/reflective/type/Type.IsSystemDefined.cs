@@ -12,11 +12,11 @@ namespace Z0
     partial class ClrQuery
     {
         /// <summary>
-        /// Determines the <see cref='Z0.ClrPrimitiveKind'/> of a specified type
+        /// Determines the <see cref='Z0.PrimalKind'/> of a specified type
         /// </summary>
         /// <param name="t">The type to examine</param>
         [MethodImpl(Inline), Op]
-        public static ClrPrimitiveKind ClrPrimitiveKind(this Type t)
+        public static PrimalKind ClrPrimitiveKind(this Type t)
             => PrimalBits.kind(t);
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace Z0
             => t.IsPrimalNumeric() || t.IsBool() || t.IsVoid() || t.IsChar() || t.IsString() || t.IsObject() || t.IsDynamic();
 
         /// <summary>
-        /// Determines whether a type is a directly instantiable <see cref='Z0.ClrPrimitiveKind'/>
+        /// Determines whether a type is a directly instantiable <see cref='Z0.PrimalKind'/>
         /// </summary>
         /// <param name="t">The type to examine</param>
         [MethodImpl(Inline), Op]

@@ -9,6 +9,12 @@ namespace Z0
     {
         readonly ConstLookup<VarName,T> Lookup;
 
+        public EnvVars()
+        {
+
+
+        }
+
         public EnvVars(EnvVar<T>[] src)
             : base(src)
         {

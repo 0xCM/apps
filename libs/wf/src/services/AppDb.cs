@@ -7,18 +7,11 @@ namespace Z0
     using static core;
     using static Settings;
 
-    using EN = EnvNames;
-    using T = ApiGranules;
-
-    partial class XTend
-    {
-        public static AppDb AppDb(this IWfRuntime wf)
-            => Z0.AppDb.Service;
-    }
+    using EN = SettingNames;
 
     public class AppDb : IAppDb
     {
-        public static ref readonly AppDb Service => ref Instance;
+        public static AppDb Service => Instance;
 
         readonly WsArchives Archives;
 
@@ -32,7 +25,7 @@ namespace Z0
             => new DbTargets(setting(Archives.Path(EN.DbTargets), FS.dir));
 
         public EnvVars<string> LoadEnv(string name)
-            => AsciLines.vars(Archives.EnvPath(name), Chars.Eq);
+            => EnvVars.load(Archives.EnvPath(name));
 
         public IDbTargets DbOut(string scope)
             => DbOut().Targets(scope);
@@ -48,6 +41,9 @@ namespace Z0
 
         public IDbTargets Logs()
             => DbOut("logs");
+
+        public IDbSources DbRoot()
+            => new DbSources(setting(Archives.Path(EN.DbRoot), FS.dir));
 
         public IDbTargets Logs(string scope)
             => DbOut($"logs/{scope}");
@@ -118,21 +114,6 @@ namespace Z0
 
         public IDbTargets ApiTargets(string scope)
             => DbOut($"api/{scope}");
-
-        public IDbTargets EtlTargets(ProjectId id, string scope)
-            => DbProjects(id).Targets(scope);
-
-        public IDbTargets AsmCsv(ProjectId id)
-            => EtlTargets(id, T.asmcsv);
-
-        public IDbTargets ObjHex(ProjectId id)
-            => EtlTargets(id, T.objhex);
-
-        public IDbTargets XedDisasm(ProjectId id)
-            => EtlTargets(id, T.xeddisasm);
-
-        public IDbTargets AsmSrc(ProjectId id)
-            => EtlTargets(id, T.asmsrc);
 
         AppDb()
         {

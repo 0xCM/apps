@@ -12,6 +12,8 @@ namespace Z0
     {
         protected static AppDb AppDb => AppDb.Service;
 
+        protected IDbArchive DbArchive => Archives.archive(FS.dir(AppSettings.Find(SettingNames.DbRoot).ValueText));
+
         public void Babble<T>(T content)
             => WfMsg.Babble(content);
 

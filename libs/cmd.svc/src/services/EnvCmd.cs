@@ -10,7 +10,6 @@ namespace Z0
     {
         ToolBox ToolBox => Wf.ToolBox();
 
-        Settings SettingValues => data(nameof(Settings), AppSettings.load);
 
         void CalcRelativePaths()
         {
@@ -41,14 +40,14 @@ namespace Z0
 
         [CmdOp("app/settings")]
         void Setings()
-            => iter(SettingValues, setting => Write(setting.Format()));
+            => AppSettings.Iter(setting => Write(setting.Format()));
 
         [CmdOp("app/setting")]
         Outcome Setting(CmdArgs args)
         {
             var name = arg(args,0).Value;
             var result = Outcome.Success;
-            if(SettingValues.Lookup(name, out var setting))
+            if(AppSettings.Find(name, out var setting))
             {
                 Write(setting.Format());
             }

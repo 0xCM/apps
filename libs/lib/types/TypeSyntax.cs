@@ -159,7 +159,7 @@ namespace Z0
         public static TypeSpec num(TypeSpec type) => string.Format(Num, type);
 
         [TypeSyntax(Clr)]
-        public static TypeSpec clr(ClrPrimitiveKind kind) => string.Format(Clr, symbol(kind));
+        public static TypeSpec clr(PrimalKind kind) => string.Format(Clr, symbol(kind));
 
         /// <summary>
         /// Defines a type that represents a singed displacement of specified width

@@ -17,6 +17,9 @@ namespace Z0
             public AppSvcOps AppSvc(IWfRuntime wf)
                 => Service<AppSvcOps>(wf);
 
+            public DbCmd DbCmd(IWfRuntime wf)
+                => Service<DbCmd>(wf);
+
             public AppSvcOps<T> AppSvc<T>(IWfRuntime wf)
                 where T : IAppService<T>, new()
                     => Service<AppSvcOps<T>>(wf);
@@ -29,6 +32,9 @@ namespace Z0
 
         public static EnvCmd EnvCmd(this IWfRuntime wf)
             => Services.EnvSvc(wf);
+
+        public static DbCmd DbCmd(this IWfRuntime wf)
+            => Services.DbCmd(wf);
 
         public static AppSvcOps AppSvc(this IWfRuntime wf)
             => Services.AppSvc(wf);

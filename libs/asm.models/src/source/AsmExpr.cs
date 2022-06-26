@@ -21,7 +21,7 @@ namespace Z0
         {
             dst = AsmExpr.Empty;
             var outcome = Outcome.Success;
-            var i = AsciLines.SkipWhitespace(src);
+            var i = SQ.SkipWhitespace(src);
             if(i == NotFound)
                 return (false,"Input was empty");
 

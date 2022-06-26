@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <ApiCode>$(LibsRoot)api.code/z0.api.code.csproj</ApiCode>
+    <ApiContracts>$(LibsRoot)api.contracts/z0.api.contracts.csproj</ApiContracts>
     <Assets>$(LibsRoot)assets/z0.assets.csproj</Assets>
     <Agents>$(LibsRoot)agents/z0.agents.csproj</Agents>
 
@@ -59,6 +60,7 @@
     <Native>$(LibsRoot)native/z0.native.csproj</Native>
     <Nats>$(LibsRoot)nats/z0.nats.csproj</Nats>
     <Numbers>$(LibsRoot)numbers/z0.numbers.csproj</Numbers>
+
 
     <Rules>$(LibsRoot)rules/z0.rules.csproj</Rules>
     <Render>$(LibsRoot)render/z0.render.csproj</Render>

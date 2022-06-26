@@ -32,13 +32,3 @@ namespace Z0.Parts
     {
     }
 }
-
-namespace Z0
-{
-
-    // public sealed partial class SymCmd : AppCmdService<SymCmd>
-    // {
-
-    // }
-
-}

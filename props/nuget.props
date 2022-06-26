@@ -1,5 +1,4 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-
   <ItemGroup>
     <PackageReference Include="NuGet.Packaging.Core" Version="5.9.1" />
     <PackageReference Include="NuGet.ProjectModel" Version="5.9.1" />

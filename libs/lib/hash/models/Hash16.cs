@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct Hash16 : IHashCode<ushort,ushort>
+    public readonly record struct Hash16 : IHashCode<Hash16,ushort>
     {
         [Parser]
         public static Outcome parse(string src, out Hash16 dst)
@@ -32,11 +32,28 @@ namespace Z0
             => Value;
 
         [MethodImpl(Inline)]
+        public bool Equals(Hash16 src)
+            => Value == src.Value;
+
+        [MethodImpl(Inline)]
+        public int CompareTo(Hash16 src)
+            => Value.CompareTo(src.Value);
+
+        public override int GetHashCode()
+            => Value;
+
+        [MethodImpl(Inline)]
         public string Format()
             => Value.FormatHex(zpad:true, specifier:true, uppercase:true);
 
         public override string ToString()
             => Format();
+
+        Hash32 IHashed.Hash
+            => Value;
+
+        bool INullity.IsEmpty
+            => Value == 0;
 
         [MethodImpl(Inline)]
         public static implicit operator Hash16(ushort src)

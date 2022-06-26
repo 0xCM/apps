@@ -8,6 +8,8 @@ namespace Z0
     {
         IDbSources DbIn();
 
+        IDbSources DbRoot();
+
         IDbSources DbIn(string scope);
 
         IDbTargets DbOut();
@@ -22,8 +24,5 @@ namespace Z0
 
         FS.FilePath ProjectTable<T>(ProjectId project)
             where T : struct;
-
-        IDbTargets EtlTargets(ProjectId id, string scope);
-
     }
 }

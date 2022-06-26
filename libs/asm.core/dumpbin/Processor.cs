@@ -28,7 +28,7 @@ namespace Z0
                 => Lines.count(src);
 
             public uint MaxLineLength(ReadOnlySpan<byte> src)
-                => AsciLines.maxlength(src);
+                => SQ.maxlength(recover<C>(src));
 
             Span<char> StatementBuffer()
                 => _LineBuffer.Clear().Edit;

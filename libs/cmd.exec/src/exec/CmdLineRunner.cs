@@ -35,7 +35,7 @@ namespace Z0
         }
 
         public Outcome Run(CmdLine cmd, Receiver<string> status, Receiver<string> error, out ReadOnlySpan<TextLine> dst)
-            => Run(cmd, Db.AppLog("cmdline"), status, error, out dst);
+            => Run(cmd, DbArchive.Log("cmdline", FileKind.Log), status, error, out dst);
 
         Outcome Run(CmdLine cmd, FS.FilePath log, Receiver<string> status, Receiver<string> error, out ReadOnlySpan<TextLine> dst)
         {

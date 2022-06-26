@@ -13,6 +13,6 @@ namespace Z0
     {
         [MethodImpl(Inline), Op]
         public static bool IsSigned(this ClrEnumKind src)
-            => ((ClrPrimitiveKind)src).IsSigned();
+            => ((PrimalKind)src).IsSigned();
     }
 }

@@ -8,7 +8,7 @@ namespace Z0
 
     partial class Hashed
     {
-        public readonly record struct Hash64<T> : IHashCode<T,ulong>
+        public readonly record struct Hash64<T>
             where T : unmanaged, IEquatable<T>
         {
             public readonly T Value;
@@ -22,9 +22,6 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get => u64(Value);
             }
-
-            T IHashCode<T>.Value
-                => Value;
 
             public string Format()
                 => uint64(Value).ToString("X");

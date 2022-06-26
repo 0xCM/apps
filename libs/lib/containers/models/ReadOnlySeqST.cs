@@ -4,9 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     [Free]
     public abstract class ReadOnlySeq<S,T> : IReadOnlySeq<T>
-        where S : ReadOnlySeq<S,T>
+        where S : ReadOnlySeq<S,T>, new()
     {
         protected readonly Index<T> Data;
 
@@ -14,6 +16,12 @@ namespace Z0
         protected ReadOnlySeq(T[] src)
         {
             Data =src;
+        }
+
+        [MethodImpl(Inline)]
+        protected ReadOnlySeq()
+        {
+            Data = sys.empty<T>();
         }
 
         public uint Count
@@ -60,5 +68,28 @@ namespace Z0
 
         public ReadOnlySpan<T>.Enumerator GetEnumerator()
             => View.GetEnumerator();
+
+        public ReadOnlySeq<Y> Select<Y>(Func<T,Y> f)
+            => Seq.select(View, f);
+
+        public ReadOnlySeq<Z> SelectMany<Y,Z>(Func<T,ReadOnlySeq<Y>> lift, Func<T,Y,Z> project)
+             => Seq.map(View, lift, project);
+
+        public ReadOnlySeq<Y> SelectMany<Y>(Func<T,ReadOnlySeq<Y>> lift)
+             => Seq.map(View, lift);
+
+        public ReadOnlySeq<T> Where(Func<T,bool> predicate)
+            => Seq.where(View, predicate);
+
+        public void Iter(Action<T> f)
+            => Seq.iter(View, f);
+
+        public virtual string Format()
+            => string.Join(Chars.Comma, Data.Storage);
+
+        public override string ToString()
+            => Format();
+
+        public static S Empty => new ();
     }
 }

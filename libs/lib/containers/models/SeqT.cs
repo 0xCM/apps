@@ -4,89 +4,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct Seq<T> : IReadOnlySeq<T>
-        where T : IEquatable<T>
+    public class Seq<T> : Seq<Seq<T>,T>
     {
-        readonly Index<T> Data;
+        public Seq()
+        {
+
+        }
 
         [MethodImpl(Inline)]
         public Seq(T[] src)
+            : base(src)
         {
-            Data = src;
+
         }
-
-        public uint Count
-        {
-            [MethodImpl(Inline)]
-            get => Data.Count;
-        }
-
-        public bool IsEmpty
-        {
-            [MethodImpl(Inline)]
-            get => Data.IsEmpty;
-        }
-
-        public bool IsNonEmpty
-        {
-            [MethodImpl(Inline)]
-            get => Data.IsNonEmpty;
-        }
-
-        public int Length
-        {
-            [MethodImpl(Inline)]
-            get => Data.Length;
-        }
-
-        public ReadOnlySpan<T> View
-        {
-            [MethodImpl(Inline)]
-            get => Data;
-        }
-
-        public Span<T> Edit
-        {
-            [MethodImpl(Inline)]
-            get => Data;
-        }
-
-        public ref readonly T this[long i]
-        {
-            [MethodImpl(Inline)]
-            get => ref Data[i];
-        }
-
-        public ref readonly T this[ulong i]
-        {
-            [MethodImpl(Inline)]
-            get => ref Data[i];
-        }
-
-        public ref readonly T First
-        {
-            [MethodImpl(Inline)]
-            get => ref Data.First;
-        }
-
-        public ref readonly T Last
-        {
-            [MethodImpl(Inline)]
-            get => ref Data.Last;
-        }
-
-        public string Format()
-            => string.Join(Chars.Comma, Data.Storage);
-
-        public override string ToString()
-            => Format();
-
-        public Seq<T> Reverse()
-            => new Seq<T>(Data.Reverse());
-
-        [MethodImpl(Inline)]
-        public T[] ToArray()
-            => Data;
 
         [MethodImpl(Inline)]
         public static implicit operator Seq<T>(T[] src)
@@ -104,6 +34,8 @@ namespace Z0
         public static implicit operator Seq<T>(Index<T> src)
             => new Seq<T>(src.Storage);
 
-        public static Seq<T> Empty => new Seq<T>(sys.empty<T>());
+        [MethodImpl(Inline)]
+        public static implicit operator ReadOnlySeq<T>(Seq<T> src)
+            => new ReadOnlySeq<T>(src.Data);
     }
 }

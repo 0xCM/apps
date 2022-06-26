@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public readonly struct FolderPaths : IIndex<FS.FolderPath>
+    public sealed class FolderPaths : Seq<FolderPaths,FS.FolderPath>
     {
         public static Outcome parse(char sep, string src, out FolderPaths dst)
         {
@@ -42,12 +42,16 @@ namespace Z0
             return dst.Emit();
         }
 
-        Index<FS.FolderPath> Data {get;}
+        public FolderPaths()
+        {
+
+        }
 
         [MethodImpl(Inline)]
         public FolderPaths(FS.FolderPath[] src)
+            : base(src)
         {
-            Data = src;
+
         }
 
         public FS.FolderPath[] Storage
@@ -56,26 +60,11 @@ namespace Z0
             get => Data;
         }
 
-        public ref FS.FolderPath this[int index]
-        {
-            [MethodImpl(Inline)]
-            get => ref Data[index];
-        }
-
-        public ref FS.FolderPath this[uint index]
-        {
-            [MethodImpl(Inline)]
-            get => ref Data[index];
-        }
-
-        public string Format()
+        public override string Format()
             => format(this);
 
         public string Format(char sep)
             => format(this, sep);
-
-        public override string ToString()
-            => Format();
 
         [MethodImpl(Inline)]
         public static implicit operator FolderPaths(FS.FolderPath[] src)
@@ -84,8 +73,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator FS.FolderPath[](FolderPaths src)
             => src.Storage;
-
-        public static FolderPaths Empty
-            => sys.empty<FS.FolderPath>();
     }
 }

@@ -15,10 +15,6 @@ namespace Z0
 
     public interface ISeq<T> : IReadOnlySeq<T>
     {
-
-        new Span<T>.Enumerator GetEnumerator()
-            => Edit.GetEnumerator();
-
         Span<T> Edit {get;}
 
         ReadOnlySpan<T> IReadOnlySeq<T>.View
@@ -73,5 +69,22 @@ namespace Z0
             [MethodImpl(Inline)]
             get => ref Cell(index);
         }
+
+        new Span<T>.Enumerator GetEnumerator()
+            => Edit.GetEnumerator();
+
+        new Seq<Y> Select<Y>(Func<T,Y> f)
+            => Seq.select(View, f);
+
+        Seq<Z> SelectMany<Y,Z>(Func<T,Seq<Y>> lift, Func<T,Y,Z> project)
+             => Seq.map(Edit, lift, project);
+
+        Seq<Y> SelectMany<Y>(Func<T,Seq<Y>> lift)
+             => Seq.map(Edit, lift);
+
+        new Seq<T> Where(Func<T,bool> predicate)
+            => Seq.where(Edit, predicate);
+
+
     }
 }

@@ -6,7 +6,7 @@ namespace Z0
 {
     using System;
 
-    using PK = ClrPrimitiveKind;
+    using PK = PrimalKind;
     using EK = ClrEnumKind;
 
 

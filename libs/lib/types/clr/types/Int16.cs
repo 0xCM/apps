@@ -7,11 +7,11 @@ namespace Z0
     partial class ClrTypeSystem
     {
         [DataType("clr.i16",true)]
-        public readonly struct Int16 : IType<ClrPrimitiveKind>
+        public readonly struct Int16 : IType<PrimalKind>
         {
             public Identifier Name => nameof(Int16);
 
-            public ClrPrimitiveKind Kind => ClrPrimitiveKind.I16;
+            public PrimalKind Kind => PrimalKind.I16;
 
             public string Format()
                 => Name;

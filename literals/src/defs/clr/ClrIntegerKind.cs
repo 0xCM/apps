@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using P = ClrPrimitiveKind;
+    using P = PrimalKind;
 
     /// <summary>
     /// Defines a <see cref='P'/> subset that corresponds to integers

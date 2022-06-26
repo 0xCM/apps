@@ -21,7 +21,7 @@ namespace Z0
             }
 
             public static ReadOnlySpan<LineStats> stats(MemoryFile src)
-                => AsciLines.stats(src.View(), 400000);
+                => LineStats.stats(src.View(), 400000);
 
             public void EmitStats(ReadOnlySpan<LineStats> src)
                 => Emit(src);

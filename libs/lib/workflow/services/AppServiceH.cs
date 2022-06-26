@@ -29,6 +29,8 @@ namespace Z0
             return service;
         }
 
+        protected AppSettings AppSettings => data(nameof(Settings), AppSettings.load);
+
         public virtual Type EffectiveHost {get;}
 
         static ConcurrentDictionary<Type,object> ServiceCache {get;}

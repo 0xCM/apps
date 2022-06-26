@@ -1,7 +1,10 @@
 @echo off
 
+set EnvId=app.settings
 set WsRoot=%DevRoot%\dev\z0
 set SlnRoot=%WsRoot%
+set ImportDefs=%SlnRoot%\props\
+set AppSettings=%ImportDefs%\app.settings.csv
 
 call %DevRoot%\control\.cmd\config.cmd
 call %ControlScripts%\config-build.cmd
@@ -56,8 +59,8 @@ set CmdProject=%WsRoot%\cmd\z0.cmd.csproj
 set BuildCmdProject=dotnet build %CmdProject% %BuildProps% -fl -flp:logfile=%BuildLogs%\z0.cmd.build.log;verbosity=%BuildVerbosity% -graph:true -m:24
 set zcmd=%WsBin%\z0.cmd\%BuildKind%\%FrameworkMoniker%\%RuntimeMoniker%\zcmd.exe
 
-set LiteralsRoot=%WsRoot%\literals
-set LiteralsProject=%LiteralsRoot%\z0.literals.csproj
+set LiteralRoot=%WsRoot%\literals
+set LiteralsProject=%LiteralRoot%\z0.literals.csproj
 set BuildLiterals=dotnet build %LiteralsProject% %BuildProps% -fl -flp:logfile=%BuildLogs%\z0.literals.build.log;verbosity=%BuildVerbosity% -m:24
 
 set CleanBin=rmdir %WsBin% /s/q

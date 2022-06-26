@@ -4,20 +4,37 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using G = ApiGranules;
+
     public readonly struct AsmObjPaths
     {
-        readonly AppDb AppDb;
+        readonly IAppDb AppDb;
 
         [MethodImpl(Inline)]
-        public AsmObjPaths(AppDb db)
+        public AsmObjPaths(IAppDb db)
         {
             AppDb = db;
         }
 
+        IDbTargets EtlTargets(ProjectId id, string scope)
+            => AppDb.DbProjects(id).Targets(scope);
+
+        public IDbTargets AsmCsv(ProjectId id)
+            => EtlTargets(id, G.asmcsv);
+
+        public IDbTargets ObjHex(ProjectId id)
+            => EtlTargets(id, G.objhex);
+
+        public IDbTargets XedDisasm(ProjectId id)
+            => EtlTargets(id, G.xeddisasm);
+
+        public IDbTargets AsmSrc(ProjectId id)
+            => EtlTargets(id, G.asmsrc);
+
         public FS.FilePath RecodedPath(ProjectId ws, string origin)
-            => AppDb.AsmSrc(ws).Path(FS.file(origin.Remove(string.Format(".{0}", FileKind.ObjAsm.Ext().Format())), FileKind.Asm.Ext()));
+            => AsmSrc(ws).Path(FS.file(origin.Remove(string.Format(".{0}", FileKind.ObjAsm.Ext().Format())), FileKind.Asm.Ext()));
 
         public FS.FilePath AsmCodePath(ProjectId ws, string origin)
-            => AppDb.AsmCsv(ws).Path(FS.file(string.Format("{0}.code", origin), FS.Csv));
+            => AsmCsv(ws).Path(FS.file(string.Format("{0}.code", origin), FS.Csv));
     }
 }

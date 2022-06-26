@@ -15,16 +15,15 @@ namespace Z0
             return doc;
         }
 
-
         public C Content {get; protected set;}
 
         protected Document(C content)
-            : base(Locatable.Empty)
+            : base(FS.FsEntry.Empty)
         {
             Content = content;
         }
 
-        protected Document(ILocatable src, C content)
+        protected Document(IFsEntry src, C content)
             : base(src)
         {
             Content = content;

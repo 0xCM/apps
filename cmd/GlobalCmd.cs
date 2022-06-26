@@ -10,6 +10,7 @@ namespace Z0
             => new ICmdProvider[]{
                 wf.ProjectCmd(),
                 wf.EnvCmd(),
+                wf.DbCmd(),
                 wf.CaptureCmd(),
                 wf.AsmCoreCmd(),
                 wf.LlvmCmd(),

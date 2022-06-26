@@ -8,7 +8,7 @@ namespace Z0
     /// Classifies type-system primitives
     /// </summary>
     [SymSource("api"), DataWidth(3)]
-    public enum PrimalKind : byte
+    public enum _PrimalKind : byte
     {
         /// <summary>
         /// 0

@@ -138,14 +138,11 @@ public enum PartId : byte
     [Symbol("native")]
     Native,
 
-    [Symbol("capture.checks")]
-    CaptureChecks,
+    [Symbol("api.contracts")]
+    ApiContracts,
 
     [Symbol("diagnosics")]
     Diagnostics,
-
-    [Symbol("cpu.dsl")]
-    CpuDsl,
 
     [Symbol("bits.test")]
     BitsTest,

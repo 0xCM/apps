@@ -12,6 +12,7 @@
     <ProjectReference Include="$(Literals)" />
     <ProjectReference Include="$(Interop)" />
     <ProjectReference Include="$(Nats)" />
+    <ProjectReference Include="$(ApiContracts)" />
   </ItemGroup>
 
 </Project>

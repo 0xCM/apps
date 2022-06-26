@@ -11,9 +11,6 @@ namespace Z0
     {
         ReadOnlySpan<T> View {get;}
 
-        ReadOnlySpan<T>.Enumerator GetEnumerator()
-            => View.GetEnumerator();
-
         ref readonly T Cell(int index)
             => ref skip(View,index);
 
@@ -46,5 +43,20 @@ namespace Z0
 
         bool INullity.IsEmpty
             => View.Length == 0;
+
+        ReadOnlySpan<T>.Enumerator GetEnumerator()
+            => View.GetEnumerator();
+
+        ReadOnlySeq<Y> Select<Y>(Func<T,Y> f)
+            => Seq.select(View, f);
+
+        ReadOnlySeq<Z> SelectMany<Y,Z>(Func<T,ReadOnlySeq<Y>> lift, Func<T,Y,Z> project)
+             => Seq.map(View, lift, project);
+
+        ReadOnlySeq<Y> SelectMany<Y>(Func<T,ReadOnlySeq<Y>> lift)
+             => Seq.map(View, lift);
+
+        ReadOnlySeq<T> Where(Func<T,bool> predicate)
+            => Seq.where(View, predicate);
     }
 }

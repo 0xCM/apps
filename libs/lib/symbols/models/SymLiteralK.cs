@@ -53,7 +53,7 @@ namespace Z0
         /// The literal's primitive classifier
         /// </summary>
         [Render(12)]
-        public ClrPrimitiveKind DataType;
+        public PrimalKind DataType;
 
         /// <summary>
         /// The encoded literal, possibly an invariant address to a string resource

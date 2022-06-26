@@ -8,10 +8,6 @@ namespace Z0
 
     public readonly record struct DbArchive : IDbArchive<DbArchive>
     {
-        [MethodImpl(Inline)]
-        public static DbArchive create(FS.FolderPath root)
-            => new DbArchive(root);
-
         public FS.FolderPath Root {get;}
 
         [MethodImpl(Inline)]
@@ -40,7 +36,8 @@ namespace Z0
 
         public int CompareTo(DbArchive src)
             => Root.CompareTo(src.Root);
-       public IDbSources ProjectSources(ProjectId id)
+
+        public IDbSources ProjectSources(ProjectId id)
             => new DbSources(Root, id.Format());
 
         public IDbTargets ProjectData(ProjectId id)
@@ -95,7 +92,7 @@ namespace Z0
             => Root + FS.file(name, kind.Ext());
 
         public FS.FilePath Path(string @class, string name, FileKind kind)
-            => new DbSources(Root, @class).Root + file(@class, name,kind);
+            => new DbSources(Root, @class).Root + File(@class, name,kind);
 
         public FS.FilePath Path(FS.FileName file)
             => Root + file;

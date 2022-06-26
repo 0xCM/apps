@@ -7,8 +7,7 @@
     <SlnRoot>$(MSBuildThisFileDirectory)</SlnRoot>
     <TopDir>$(MSBuildThisFileDirectory)</TopDir>
     <Src>$(MSBuildThisFileDirectory)</Src>
-    <SlnProps>$(SlnRoot)props/</SlnProps>
-    <ImportDefs>$(SlnProps)</ImportDefs>
+    <ImportDefs>$(SlnRoot)props\</ImportDefs>
     <EnvConfig>$(SlnRoot)env/</EnvConfig>
     <SlnBuild>$(SlnRoot).build\</SlnBuild>
     <SlnBin>$(SlnBuild)bin\</SlnBin>
@@ -16,9 +15,10 @@
     <AppsRoot>$(SlnRoot)apps/</AppsRoot>
     <AppLibs>$(SlnRoot)libs/</AppLibs>
     <LibsRoot>$(SlnRoot)libs/</LibsRoot>
-
+    <LiteralRoot>$(SlnRoot)literals</LiteralRoot>
     <CgRoot>$(SlnRoot)cg/</CgRoot>
     <TestRoot>$(SlnRoot)test/</TestRoot>
+
     <BuildRootDir>$(SlnRoot).build\</BuildRootDir>
     <OutputPath>$(SlnBuild)bin\$(MsBuildProjectName)\$(Configuration)\</OutputPath>
     <DocumentationFile>$(OutputPath)$(TargetFramework)\$(MsBuildProjectName).xml</DocumentationFile>
@@ -30,6 +30,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
+
     <ZLibPath>$(SlnBin)z0.lib\$(Configuration)\$(TargetFramework)\z0.lib.dll</ZLibPath>
     <ChecksPath>$(SlnBin)z0.test.checks\$(Configuration)\$(TargetFramework)\z0.test.checks.dll</ChecksPath>
     <ZTestPath>$(SlnBin)z0.test.units\$(Configuration)\$(TargetFramework)\z0.test.units.dll</ZTestPath>

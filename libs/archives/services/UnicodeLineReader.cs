@@ -41,7 +41,7 @@ namespace Z0
             Consumed++;
 
             var data = span(line);
-            if(AsciLines.number(data, out var length, out var number))
+            if(Digital.number(data, out var length, out var number))
                 dst = new UnicodeLine(number, text.slice(line, (int)length));
             else
                 dst = new UnicodeLine(Consumed, line);

@@ -11,6 +11,8 @@ namespace Z0
     {
         const string TableId = "settings";
 
+        public readonly PrimalKind Primitive;
+
         [Render(32)]
         public readonly VarName Name;
 
@@ -20,7 +22,16 @@ namespace Z0
         [MethodImpl(Inline)]
         public Setting(VarName name, dynamic value)
         {
+            Primitive = 0;
             Name = name;
+            Value = value;
+        }
+
+        [MethodImpl(Inline)]
+        public Setting(VarName name, PrimalKind primal, dynamic value)
+        {
+            Name = name;
+            Primitive = primal;
             Value = value ?? EmptyString;
         }
 
@@ -64,13 +75,13 @@ namespace Z0
             => Name.CompareTo(src.Name);
 
         [MethodImpl(Inline)]
-        public static implicit operator Setting((string name, dynamic value) src)
-            => new (src.name, src.value);
+        public static implicit operator Setting<VarName,dynamic>(Setting src)
+            => new Setting<VarName,dynamic>(src.Name, src.Value);
 
         public static Setting Empty
         {
             [MethodImpl(Inline)]
-            get => new (EmptyString, EmptyString);
+            get => new (EmptyString, 0, EmptyString);
         }
     }
 }

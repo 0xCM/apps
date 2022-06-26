@@ -4,17 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
-    public sealed class SettingLookup : ConstLookup<VarName,Setting<VarName,string>>
-    {
-        public SettingLookup(Dictionary<VarName,Setting<VarName,string>> src)
-            : base(src)
-        {
-
-        }
-    }
-
     public readonly struct Setting<K,V>
+        where K : unmanaged, INamed<K>
     {
         public readonly K Name;
 
@@ -26,5 +17,13 @@ namespace Z0
             Name = name;
             Value = value;
         }
+
+        public string Format()
+            => $"{Name}={Value}";
+
+        public override string ToString()
+            => Format();
+
+        public static Setting<K,V> Empty => default;
     }
 }

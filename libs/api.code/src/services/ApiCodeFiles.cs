@@ -4,10 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class ApiCodeFiles : AppService<ApiCodeFiles>
+    public class ApiCodeFiles : WfSvc<ApiCodeFiles>
     {
-        AppDb AppDb => Wf.AppDb();
-
         public DumpArchive DumpArchive
             => Wf.DumpArchive();
 

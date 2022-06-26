@@ -8,7 +8,8 @@ namespace Z0
     {
         public static ICmdProvider[] providers(IWfRuntime wf)
             => new ICmdProvider[]{
-                wf.EnvCmd()
+                wf.EnvCmd(),
+                wf.DbCmd()
             };
 
         public static AppCmd commands(IWfRuntime wf)

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly record struct Hash32 : IHashCode<uint,uint>, IComparable<Hash32>, IEquatable<Hash32>
+    public readonly record struct Hash32 : IHashCode<Hash32,uint>
     {
         [MethodImpl(Inline)]
         public static Hash32 bytehash<C>(C src)
@@ -42,6 +42,12 @@ namespace Z0
 
         uint IHashCode<uint>.Value
             => Value;
+
+        Hash32 IHashed.Hash
+            => Value;
+
+        bool INullity.IsEmpty
+            => Value == 0;
 
         [MethodImpl(Inline)]
         public bool Equals(Hash32 src)

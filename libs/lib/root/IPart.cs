@@ -4,34 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface ITextual
-    {
-        string Format();
-    }
-
-    public interface IPartId : ITextual
-    {
-        /// <summary>
-        /// The part identifier
-        /// </summary>
-        PartId Id {get;}
-
-        uint Hash
-            => (uint)Id.GetHashCode();
-        string ITextual.Format()
-            => Id.Format();
-    }
-
-    public interface IPartId<P> : IPartId, IEquatable<P>
-        where P : IPartId, new()
-    {
-        string ITextual.Format()
-            => Id.Format();
-
-        bool IEquatable<P>.Equals(P src)
-            => src.Id == Id;
-    }
-
     public interface IPart : IPartId
     {
         /// <summary>
@@ -60,16 +32,5 @@ namespace Z0
         /// </summary>
         Assembly IPart.Owner
             => typeof(P).Assembly;
-    }
-
-    public interface IExecutablePart : IExecutable<string>, IPart
-    {
-
-    }
-
-    public interface IExecutablePart<P> : IExecutablePart, IPart<P>
-        where P : IPart<P>, new()
-    {
-
     }
 }

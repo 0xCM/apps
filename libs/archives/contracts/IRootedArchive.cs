@@ -58,9 +58,6 @@ namespace Z0
         FS.FileName File(string name, FileKind kind)
             => DbFiles.File(name, kind);
 
-        FS.FileName file(string @class, string name, FileKind kind)
-            => DbFiles.File(@class, name, kind);
-
         FS.FilePath Path(string name, FileKind kind)
             => DbFiles.Path(name, kind);
 

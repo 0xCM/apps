@@ -9,11 +9,13 @@ namespace Z0
 
     partial class XedDisasmSvc
     {
+        static AsmObjPaths ObjPaths => new(AppDb);
+
         public void Collect(WsContext context)
         {
             //AppDb.ProjectDb(context.Project.Project, disasm).Clear();
             var project = context.Project.Project;
-            AppDb.XedDisasm(project).Clear();
+            ObjPaths.XedDisasm(project).Clear();
 
             var docs = CalcDocs(context);
             exec(PllExec,

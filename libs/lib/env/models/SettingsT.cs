@@ -4,70 +4,30 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class Settings<T> : IIndex<Setting<T>>, ILookup<string, Setting<T>>
+    public class Settings<K,V> : ReadOnlySeq<Setting<K,V>>, ILookup<K,Setting<K,V>>
+        where K : unmanaged, INamed<K>
     {
-        public readonly FS.FilePath Source;
+        readonly ConstLookup<K,Setting<K,V>> Lookup;
 
-        Index<Setting<T>> Data;
-
-        public Settings(Setting<T>[] data)
+        public Settings()
         {
-            Source = FS.FilePath.Empty;
-            Data = data;
+            Lookup = ConstLookup<K,Setting<K,V>>.Empty;
+
         }
 
-        public Settings(FS.FilePath src, Setting<T>[] data)
+        public Settings(Setting<K,V>[] data)
+            : base(data)
         {
-            Source = src;
-            Data = data;
+            Lookup = data.Select(x => (x.Name,x)).ToDictionary();
         }
 
-        public Setting<T>[] Storage
+        public Settings(Setting<K,V>[] data, Dictionary<K,Setting<K,V>> lookup)
+            : base(data)
         {
-            get => Data;
+            Lookup = lookup;
         }
 
-        public bool Lookup(string key, out Setting<T> value)
-            => Settings.search(this, key, out value);
-
-        public ref Setting<T> this[uint index]
-        {
-            [MethodImpl(Inline)]
-            get => ref Data[index];
-        }
-
-        public ref Setting<T> this[int index]
-        {
-            [MethodImpl(Inline)]
-            get => ref Data[index];
-        }
-
-        public uint Count
-        {
-            [MethodImpl(Inline)]
-            get => Data.Count;
-        }
-
-        public Span<Setting<T>> Edit
-        {
-            [MethodImpl(Inline)]
-            get => Data.Edit;
-        }
-
-        public ReadOnlySpan<Setting<T>> View
-        {
-            [MethodImpl(Inline)]
-            get => Data.View;
-        }
-
-        public string Format()
-        {
-            var dst = text.emitter();
-            Tables.emit(View,dst);
-            return dst.Emit();
-        }
-
-        public override string ToString()
-            => Format();
+        public bool Find(K name, out Setting<K,V> dst)
+            => Lookup.Find(name, out dst);
     }
 }

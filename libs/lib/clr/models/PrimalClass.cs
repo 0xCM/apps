@@ -6,9 +6,9 @@ namespace Z0
 {
     public readonly struct PrimalClass
     {
-        public readonly ClrPrimitiveKind Kind;
+        public readonly PrimalKind Kind;
 
-        public PrimalClass(ClrPrimitiveKind kind)
+        public PrimalClass(PrimalKind kind)
         {
             Kind = kind;
         }
@@ -26,11 +26,11 @@ namespace Z0
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator PrimalClass(ClrPrimitiveKind src)
+        public static implicit operator PrimalClass(PrimalKind src)
             => new PrimalClass(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator ClrPrimitiveKind(PrimalClass src)
+        public static implicit operator PrimalKind(PrimalClass src)
             => src.Kind;
     }
 }

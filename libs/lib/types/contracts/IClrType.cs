@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IClrType : IType<ClrPrimitiveKind>
+    public interface IClrType : IType<PrimalKind>
     {
 
     }
@@ -13,8 +13,8 @@ namespace Z0
     {
         ClrEnumKind EnumKind {get;}
 
-        ClrPrimitiveKind ScalarKind
-            => (ClrPrimitiveKind)EnumKind;
+        PrimalKind ScalarKind
+            => (PrimalKind)EnumKind;
 
         BitWidth ISizedType.ContentWidth
             => PrimalBits.width(EnumKind);
@@ -22,7 +22,7 @@ namespace Z0
         BitWidth ISizedType.StorageWidth
             => PrimalBits.width(EnumKind);
 
-        ClrPrimitiveKind IType<ClrPrimitiveKind>.Kind
+        PrimalKind IType<PrimalKind>.Kind
             => ScalarKind;
 
         ClrEnumKind IType<ClrEnumKind>.Kind

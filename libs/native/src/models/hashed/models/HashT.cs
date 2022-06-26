@@ -6,22 +6,16 @@ namespace Z0
 {
     partial class Hashed
     {
-        public readonly record struct Hash<T> : IHashCode<T,T>
+        public readonly record struct Hash<T>
             where T : unmanaged, IEquatable<T>
         {
-            public readonly T Code;
+            public readonly T Value;
 
             [MethodImpl(Inline)]
             public Hash(T src)
             {
-                Code = src;
+                Value = src;
             }
-
-            T IHashCode<T>.Value
-                => Code;
-
-            T IHashCode<T,T>.Primitive
-                => Code;
 
             [MethodImpl(Inline)]
             public static implicit operator Hash<T>(Hash32<T> src)

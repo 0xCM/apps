@@ -9,14 +9,14 @@ namespace Z0
     /// </summary>
     public class CmdActions : ICmdActions
     {
-        internal readonly Dictionary<string,CmdActionInvoker> Invokers;
+        internal readonly Dictionary<string,ICmdActionInvoker> Invokers;
 
-        internal CmdActions(Dictionary<string,CmdActionInvoker> src)
+        internal CmdActions(Dictionary<string,ICmdActionInvoker> src)
         {
             Invokers = src;
         }
 
-        public bool Find(string spec, out CmdActionInvoker runner)
+        public bool Find(string spec, out ICmdActionInvoker runner)
         {
             return Invokers.TryGetValue(spec, out runner);
         }

@@ -7,6 +7,12 @@ namespace Z0
     public class NamedValues<K,T> : ReadOnlySeq<NamedValues<K,T>,NamedValue<K,T>>
         where K : unmanaged, IAsciSeq<K>
     {
+        public NamedValues()
+        {
+
+        }
+
+
         [MethodImpl(Inline)]
         public NamedValues(NamedValue<K,T>[] src)
             : base(src)

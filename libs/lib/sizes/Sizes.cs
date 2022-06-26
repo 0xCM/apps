@@ -141,7 +141,7 @@ namespace Z0
         /// </summary>
         /// <param name="src">The literal's bitfield</param>
         [MethodImpl(Inline), Op]
-        public static NativeSize native(ClrPrimitiveKind src)
+        public static NativeSize native(PrimalKind src)
             => native((uint)PrimalBits.width(src));
 
         [MethodImpl(Inline)]

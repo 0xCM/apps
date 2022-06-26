@@ -13,32 +13,42 @@ namespace Z0
     [ApiHost]
     public class Settings : IIndex<Setting>, ILookup<string,Setting>
     {
-        public static EnvSet<EnvVar> set(VarName name, params EnvVar[] vars)
+        public static Settings config(FS.FilePath src, char sep = Chars.Colon)
         {
-            var count = vars.Length;
-            var settings = alloc<Setting<VarName,EnvVar>>(vars.Length);
-            var lookup = dict<VarName,EnvVar>();
-            for(var i=0; i<count; i++)
+            var dst = list<Setting>();
+            var line = AsciLine.Empty;
+            using var reader = src.AsciLineReader();
+            while(reader.Next(out line))
             {
-                ref readonly var v = ref skip(vars,i);
-                ref var setting = ref seek(settings,i);
-                setting = new Setting<VarName, EnvVar>(v.VarName, v);
-                lookup.TryAdd(v.VarName, v);
-            }
+                var content = line.Codes;
+                var length = content.Length;
+                if(length != 0)
+                {
+                    if(SQ.hash(first(content)))
+                        continue;
 
-            return new EnvSet<EnvVar>(name, settings,lookup);
+                    var i = SQ.index(content, sep);
+                    if(i > 0)
+                    {
+                        var name = text.format(SQ.left(content,i));
+                        var value = text.format(SQ.right(content,i));
+                        dst.Add(new Setting(name,value));
+                    }
+                }
+            }
+            return new Settings(dst.ToArray());
         }
 
-
         [Op]
-        public static bool search<T>(in Settings<T> src, string key, out Setting<T> value)
+        public static bool search<K,T>(in Settings<K,T> src, K key, out Setting<K,T> value)
+            where K : unmanaged, INamed<K>, IEquatable<K>
         {
-            value = Setting<T>.Empty;
+            value = Setting<K,T>.Empty;
             var result = false;
             for(var i=0; i<src.Count; i++)
             {
                 ref readonly var setting = ref src[i];
-                if(string.Equals(setting.Name, key, NoCase))
+                if(setting.Name.Equals(key))
                 {
                     value = setting;
                     result = true;
@@ -78,6 +88,10 @@ namespace Z0
             => new Setting<T>(src.Name, parser(src.ValueText));
 
         [MethodImpl(Inline), Op]
+        public static Setting setting(VarName name, PrimalKind primitive, dynamic value)
+            => new Setting(name, primitive, value);
+
+        [MethodImpl(Inline)]
         public static string format<K,V>(K key, V value)
             => string.Format(RP.Setting, key, value);
 
@@ -132,14 +146,14 @@ namespace Z0
 
                 if(type == typeof(string))
                 {
-                    dst = (name, input);
+                    dst = setting(name, PrimalKind.String, input);
                     return true;
                 }
                 else if (type == typeof(bool))
                 {
-                    if(DP.parse(input, out bool value))
+                    if(DP.parse(input,  out bool value))
                     {
-                        dst = (name, value);
+                        dst = setting(name, PrimalKind.U1, value);
                         return true;
                     }
                 }
@@ -147,7 +161,7 @@ namespace Z0
                 {
                     if(DP.parse(input, out bit u1))
                     {
-                        dst = (name, u1);
+                        dst = setting(name, PrimalKind.U1, u1);
                         return true;
                     }
                 }
@@ -155,7 +169,8 @@ namespace Z0
                 {
                     if(DP.numeric(input, type, out var n))
                     {
-                        dst = (name,n);
+                        type.ClrPrimitiveKind();
+                        dst = setting(name, type.ClrPrimitiveKind(), n);
                         return true;
                     }
                 }
@@ -163,13 +178,14 @@ namespace Z0
                 {
                     if(Enums.parse(type, src, out object o))
                     {
-                        dst = (name, o);
+
+                        dst = setting(name, type.GetEnumUnderlyingType().ClrPrimitiveKind(), o);
                         return true;
                     }
                 }
                 else if(src.Length == 1 && type == typeof(char))
                 {
-                    dst = (name, name[0]);
+                    dst = setting(name, PrimalKind.C16, name[0]);
                     return true;
                 }
             }
@@ -458,7 +474,7 @@ namespace Z0
             get => Data.View;
         }
 
-        public bool Lookup(string key, out Setting value)
+        public bool Find(string key, out Setting value)
             => search(this,key,out value);
 
         public string Format()

@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <Import Project="$(ImportDefs)common.libs.props"/>
-  <Import Project="$(ImportDefs)env.settings.props"/>
 
   <ItemGroup>
     <ProjectReference Include="$(Containers)" />

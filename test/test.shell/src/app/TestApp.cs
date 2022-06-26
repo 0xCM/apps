@@ -8,7 +8,7 @@ namespace Z0
     /// Base type for test applications
     /// </summary>
     /// <typeparam name="A">The concrete subtype</typeparam>
-    public abstract partial class TestApp<A> : TestContext<A>, ITestApp
+    public abstract partial class TestApp<A> : TestContext<A>
         where A : TestApp<A>, new()
     {
         const bool InDiagnosticMode = false;

@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public class CmdFlows : AppService<CmdFlows>, ICmdRouter
+    public class CmdFlows : WfSvc<CmdFlows>, ICmdRouter
     {
         ICmdRouter Router;
 
@@ -42,7 +42,7 @@ namespace Z0
 
         public static CmdActions actions<T>(T src)
         {
-            var dst = dict<string,CmdActionInvoker>();
+            var dst = dict<string,ICmdActionInvoker>();
             var methods = typeof(T).DeclaredInstanceMethods().Where(x => x.Tagged<CmdOpAttribute>());
             foreach(var m in methods)
             {
@@ -54,7 +54,7 @@ namespace Z0
 
         public static CmdActions join(CmdActions[] src)
         {
-            var dst = dict<string,CmdActionInvoker>();
+            var dst = dict<string,ICmdActionInvoker>();
             foreach(var a in src)
                 iter(a.Invokers,  a => dst.TryAdd(a.Key,a.Value));
             return new CmdActions(dst);

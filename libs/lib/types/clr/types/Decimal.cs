@@ -8,11 +8,11 @@ namespace Z0
     {
 
         [DataType("clr.decimal",true)]
-        public readonly struct Decimal : IType<ClrPrimitiveKind>
+        public readonly struct Decimal : IType<PrimalKind>
         {
             public Identifier Name => nameof(Decimal);
 
-            public ClrPrimitiveKind Kind => ClrPrimitiveKind.F128;
+            public PrimalKind Kind => PrimalKind.F128;
 
             public string Format()
                 => Name;

@@ -9,11 +9,9 @@ namespace Z0
     using System.IO;
 
     [ApiHost]
-    public class PdbSvc : AppService<PdbSvc>
+    public class PdbSvc : WfSvc<PdbSvc>
     {
         PdbIndexBuilder PdbIndexBuilder => Wf.PdbIndexBuilder();
-
-        AppDb AppDb => Wf.AppDb();
 
         public FS.FilePath IndexApiComponents()
             => IndexComponents(ApiRuntimeCatalog.Components);

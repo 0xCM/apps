@@ -39,7 +39,7 @@ namespace Z0
             var data = line.ToCharArray();
             state.LineCount++;
 
-            if(AsciLines.number(data, out var length, out var num))
+            if(Digital.number(data, out var length, out var num))
                 dst = new AsciLine<char>(data);
             else
                 dst = new AsciLine<char>(data);

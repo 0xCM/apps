@@ -77,11 +77,17 @@ namespace Z0
             public FS.Files Files(bool recurse, params FileExt[] ext)
                 => Files(this, recurse, ext);
 
-            /// <summary>
-            /// Nonrecursively enumerates all files in the folder
-            /// </summary>
             public FS.Files TopFiles
                 => Directory.Exists(Name) ? files(Directory.EnumerateFiles(Name).Map(path)) : FS.Files.Empty;
+
+            public FolderPaths Folders(string match, bool recurse)
+                => Directory.Exists(Name) ? Directory.EnumerateDirectories(Name, match, options(recurse)).Array().Select(FS.dir) : FolderPaths.Empty;
+
+            public FolderPaths Folders(bool recurse)
+                => Directory.Exists(Name) ? Directory.EnumerateDirectories(Name).Array().Select(FS.dir) : FolderPaths.Empty;
+
+            public FolderPaths TopFolders
+                => Folders("*.*", false);
 
             /// <summary>
             /// Recursively enumerates all files in the folder
@@ -92,6 +98,10 @@ namespace Z0
             FilePath[] Match(string pattern = null)
                 => Directory.EnumerateFiles(Name, pattern ?? SearchAll).Array().Select(x => FS.path(x));
 
+            static EnumerationOptions options(bool recurse)
+                => new EnumerationOptions{
+                    RecurseSubdirectories = recurse
+                };
             public FS.Files Match(string pattern, bool recurse)
                 => Exists ? files(Directory.EnumerateFiles(Name, pattern, option(recurse)).Map(path)) : FS.Files.Empty;
 

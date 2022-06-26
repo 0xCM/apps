@@ -8,7 +8,7 @@ namespace Z0
 
     partial class Hashed
     {
-        public readonly record struct Hash8<T> : IHashCode<T,byte>
+        public readonly record struct Hash8<T>
             where T : unmanaged, IEquatable<T>
         {
             public readonly T Value;
@@ -23,8 +23,8 @@ namespace Z0
                 get => u8(Value);
             }
 
-            T IHashCode<T>.Value
-                => Value;
+            public int CompareTo(Hash8<T> src)
+                => Primitive.CompareTo(src.Primitive);
 
             public string Format()
                 => u8(Value).ToString("X");

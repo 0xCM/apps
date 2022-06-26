@@ -6,11 +6,11 @@ namespace Z0
 {
     partial struct FS
     {
-        public readonly struct FsEntry : IEquatable<FsEntry>, ITextual
+        public readonly record struct FsEntry : IFsEntry<FsEntry>
         {
             const string FormatPattern = "{0}: {1}";
 
-            public readonly FS.PathPart Name;
+            public readonly PathPart Name;
 
             public readonly ObjectKind Kind;
 
@@ -24,6 +24,10 @@ namespace Z0
             [MethodImpl(Inline)]
             public string Format()
                 => string.Format(FormatPattern, Kind, Name);
+
+
+            PathPart IFsEntry.Name
+                => Name;
 
             public bool IsEmpty
             {
@@ -47,13 +51,6 @@ namespace Z0
                 => Hash;
 
             [MethodImpl(Inline)]
-            public string Format()
-                => Name.Format();
-
-            public override string ToString()
-                => Format();
-
-            [MethodImpl(Inline)]
             public int CompareTo(FsEntry src)
                 => Name.CompareTo(src.Name);
 
@@ -64,11 +61,6 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public override int GetHashCode()
-                => Name.GetHashCode();
-
-            public override bool Equals(object src)
-                => src is FsEntry x && Equals(x);
 
             public static FsEntry Empty => new FsEntry(PathPart.Empty, 0);
         }

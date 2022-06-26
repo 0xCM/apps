@@ -7,11 +7,11 @@ namespace Z0
     partial class ClrTypeSystem
     {
         [DataType("clr.string",true)]
-        public readonly struct String : IType<ClrPrimitiveKind>
+        public readonly struct String : IType<PrimalKind>
         {
             public Identifier Name => nameof(String);
 
-            public ClrPrimitiveKind Kind => ClrPrimitiveKind.String;
+            public PrimalKind Kind => PrimalKind.String;
 
             public string Format()
                 => Name;

@@ -8,13 +8,11 @@ namespace Z0
     using static IntrinsicsDoc;
     using static core;
 
-    public partial class IntelIntrinsics : AppService<IntelIntrinsics>
+    public partial class IntelIntrinsics : WfSvc<IntelIntrinsics>
     {
         static internal ref readonly PartAssets Assets => ref AssetData;
 
         AppSvcOps AppSvc => Wf.AppSvc();
-
-        AppDb AppDb => Wf.AppDb();
 
         IDbSources Sources()
             => AppDb.DbIn("intel");

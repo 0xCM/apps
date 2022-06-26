@@ -142,13 +142,13 @@ namespace Z0
             var headers = env.HeaderIncludes();
             writer.WriteLine("Header Includes");
             writer.WriteLine(RP.PageBreak120);
-            iter(headers, h => writer.WriteLine(string.Format("{0,-8} {1,-8} {2}", "Header", h.Exists ? "Found" : "Mising", h)));
+            headers.Iter(h => writer.WriteLine(string.Format("{0,-8} {1,-8} {2}", "Header", h.Exists ? "Found" : "Mising", h)));
             writer.WriteLine();
 
             var libs = env.LibIncludes();
             writer.WriteLine("Lib Includes");
             writer.WriteLine(RP.PageBreak120);
-            iter(libs, lib => writer.WriteLine(string.Format("{0,-8} {1,-8} {2}", "Lib", lib.Exists ? "Found" : "Mising", lib)));
+            libs.Iter(lib => writer.WriteLine(string.Format("{0,-8} {1,-8} {2}", "Lib", lib.Exists ? "Found" : "Mising", lib)));
 
             EmittedFile(emitting, 2);
         }

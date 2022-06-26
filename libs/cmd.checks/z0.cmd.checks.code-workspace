@@ -41,6 +41,12 @@
         },
         {
             "path": "../wf"
+        },
+        {
+            "path": "../../literals"
+        },
+        {
+            "path": "../containers"
         }
     ],
 	"settings": {}
