@@ -20,6 +20,10 @@ namespace Z0
             public DbCmd DbCmd(IWfRuntime wf)
                 => Service<DbCmd>(wf);
 
+            public ToolsetCmd ToolsetCmd(IWfRuntime wf)
+                => Service<ToolsetCmd>(wf);
+
+
             public AppSvcOps<T> AppSvc<T>(IWfRuntime wf)
                 where T : IAppService<T>, new()
                     => Service<AppSvcOps<T>>(wf);
@@ -35,6 +39,9 @@ namespace Z0
 
         public static DbCmd DbCmd(this IWfRuntime wf)
             => Services.DbCmd(wf);
+
+        public static ToolsetCmd ToolsetCmd(this IWfRuntime wf)
+            => Services.ToolsetCmd(wf);
 
         public static AppSvcOps AppSvc(this IWfRuntime wf)
             => Services.AppSvc(wf);

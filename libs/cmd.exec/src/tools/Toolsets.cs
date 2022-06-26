@@ -6,11 +6,20 @@ namespace Z0
 {
     using static core;
 
+    using G = ApiGranules;
+
     public class Toolsets : WfSvc<Toolsets>
     {
         ToolBox ToolBox => Wf.ToolBox();
 
         OmniScript OmniScript => Wf.OmniScript();
+
+        public Settings LlvmDistConfig()
+        {
+            var root = FS.dir(AppSettings.Find(SettingNames.LlvmDist));
+            var path = root + FS.file(G.llvm, FileKind.Config);
+            return Settings.config(path);
+        }
 
         public ConstLookup<ToolId,ToolHelpDoc> LoadHelpDocs(FS.FolderPath home)
         {

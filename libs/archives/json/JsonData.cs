@@ -58,7 +58,7 @@ namespace Z0
                 writer.WriteLine(LBrace);
                 for(var i = 0; i<settings.Length; i++)
                 {
-                    var line = indent + settings[i].Format();
+                    var line = indent + settings[i].Json();
                     if(i != settings.Length - 1)
                         line += Chars.Comma;
                     writer.WriteLine(line);

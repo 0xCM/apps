@@ -14,12 +14,12 @@
     <ProjectReference Include="$(CmdTools)" />
     <ProjectReference Include="$(Agents)" />
     <ProjectReference Include="$(Archives)" />
-
     <ProjectReference Include="$(Native)" />
-    <ProjectReference Include="$(Db)" />
     <ProjectReference Include="$(Wf)" />
     <ProjectReference Include="$(Libs)" />
     <ProjectReference Include="$(Literals)" />
+    <ProjectReference Include="$(ApiContracts)" />
+
   </ItemGroup>
 
 </Project>

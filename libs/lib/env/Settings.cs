@@ -87,25 +87,33 @@ namespace Z0
         public static Setting<T> setting<T>(Setting src, Func<string,T> parser)
             => new Setting<T>(src.Name, parser(src.ValueText));
 
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static Setting<T> setting<T>(VarName name, T value)
+            => new Setting<T>(name,value);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static Setting<T> setting<T>(VarName name, PrimalKind primitive, T value)
+            => new Setting<T>(name, primitive, value);
+
         [MethodImpl(Inline), Op]
-        public static Setting setting(VarName name, PrimalKind primitive, dynamic value)
+        public static Setting setting(VarName name, PrimalKind primitive, string value)
             => new Setting(name, primitive, value);
 
         [MethodImpl(Inline)]
         public static string format<K,V>(K key, V value)
             => string.Format(RP.Setting, key, value);
 
-        public static Outcome single<T>(FS.FilePath src, out T dst)
+        public static Outcome single<T>(FS.FilePath src, char sep, out T dst)
             where T : new()
         {
             var result = Outcome.Success;
             dst = new();
             if(!src.Exists)
                 return (false, FS.missing(src));
-            return Settings.single(src.ReadLines(), out dst);
+            return Settings.single(src.ReadLines(), sep, out dst);
         }
 
-        public static Outcome single<T>(ReadOnlySpan<string> src, out T dst)
+        public static Outcome single<T>(ReadOnlySpan<string> src, char sep, out T dst)
             where T : new()
         {
             dst = new();
@@ -122,7 +130,7 @@ namespace Z0
                 if(fields.TryGetValue(setting.Name, out var field))
                 {
                     var type = field.FieldType;
-                    result = Settings.parse(setting.Format(), type, out var s);
+                    result = Settings.parse(setting.Format(sep), type, out var s);
                     if(result.Fail)
                         break;
                     field.SetValue(dst, s.Value);
@@ -151,7 +159,7 @@ namespace Z0
                 }
                 else if (type == typeof(bool))
                 {
-                    if(DP.parse(input,  out bool value))
+                    if(DP.parse(input, out bool value))
                     {
                         dst = setting(name, PrimalKind.U1, value);
                         return true;
@@ -256,20 +264,15 @@ namespace Z0
         public static Setting empty()
             => Setting.Empty;
 
-        public static string format(Index<Setting> src)
+        public static string format(Index<Setting> src, char sep)
         {
             var dst = text.buffer();
-            iter(src, x => dst.AppendLine(x.Format()));
+            iter(src, x => dst.AppendLine(x.Format(sep)));
             return dst.Emit();
         }
 
-        public static string format(Setting src, bool json)
-        {
-            if(json)
-                return string.Concat(text.enquote(src.Name), Chars.Colon, Chars.Space, src.Value.Enquote());
-            else
-                return format(core.ifempty(src.Name, "<anonymous>"), src.Value);
-        }
+        public static string json(Setting src)
+            => string.Concat(text.enquote(src.Name), Chars.Colon, Chars.Space, src.Value.Enquote());
 
         public static Settings load(FS.FilePath src)
         {
@@ -354,12 +357,12 @@ namespace Z0
             var _fieldValues = from f in _fields
                                 let value = f.GetValue(src)
                                 where f != null
-                                select new Setting(f.Name, value);
+                                select setting(f.Name, value);
 
             var _propValues = from f in _props
                                 let value = f.GetValue(src)
                                 where f != null
-                                select new Setting(f.Name, value);
+                                select setting(f.Name, value);
 
             return _fieldValues.Union(_propValues).Array();
         }
@@ -418,6 +421,13 @@ namespace Z0
         readonly Index<Setting> Data;
 
         public readonly FS.FilePath Source;
+
+        [MethodImpl(Inline)]
+        public Settings(Setting<object>[] data)
+        {
+            Source = FS.FilePath.Empty;
+            Data = data.Select(x => new Setting(x.Name, x.Value?.ToString()));
+        }
 
         [MethodImpl(Inline)]
         public Settings(FS.FilePath src, Setting[] data)
@@ -486,6 +496,10 @@ namespace Z0
 
         public override string ToString()
             => Format();
+
+        [MethodImpl(Inline)]
+        public static implicit operator Settings(Setting<object>[] src)
+            => new Settings(src);
 
         [MethodImpl(Inline)]
         public static implicit operator Settings(Setting[] src)

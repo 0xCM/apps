@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Characterizes a nonparametric application setting
     /// </summary>
-    public interface ISetting : ITextual
+    public interface ISetting
     {
         /// <summary>
         /// The setting name
@@ -17,17 +17,26 @@ namespace Z0
         /// <summary>
         /// The setting value
         /// </summary>
-        dynamic Value {get;}
+        string Value {get;}
 
-        string ITextual.Format()
-            => $"{Name}={Value}";
+        string Format(char sep)
+            => $"{Name}{sep}{Value}";
     }
 
     public interface ISetting<T> : ISetting
     {
         new T Value {get;}
 
-        dynamic ISetting.Value
-            => Value;
+        string ISetting.Value
+            => Value.ToString();
+    }
+
+    public interface ISetting<K,V> : ISetting<V>
+        where K : unmanaged, INamed<K>
+    {
+        new K Name {get;}
+
+        VarName ISetting.Name
+            => Name.Format();
     }
 }

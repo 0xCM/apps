@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <ProjectReference Include="$(CmdSvc)" />
-    <ProjectReference Include="$(Db)" />
   </ItemGroup>
 
 </Project>

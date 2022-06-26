@@ -8,7 +8,7 @@ namespace Z0
 
     using FK = FileKind;
 
-    public class WsFileFlows
+    public class FileFlows
     {
         /// <summary>
         /// *.asm -> *.mc.asm

@@ -24,11 +24,23 @@ namespace Z0
         [Render(1)]
         public readonly T Value;
 
+        [Ignore]
+        public readonly PrimalKind Primitive;
+
         [MethodImpl(Inline)]
         public Setting(VarName name, T value)
         {
             Name = name;
             Value = value;
+            Primitive = 0;
+        }
+
+        [MethodImpl(Inline)]
+        public Setting(VarName name, PrimalKind primitive, T value)
+        {
+            Name = name;
+            Value = value;
+            Primitive = primitive;
         }
 
         public Setting NonGeneric
@@ -42,10 +54,6 @@ namespace Z0
 
         public string Json()
             => string.Format(RP.JsonProp, Name, Value);
-
-        public override string ToString()
-            => Format();
-
         public int CompareTo(Setting<T> src)
             => Name.CompareTo(src.Name);
 

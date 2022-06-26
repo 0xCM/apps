@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <ProjectReference Include="$(Memory)" />
-    <ProjectReference Include="$(Db)" />
     <ProjectReference Include="$(EMath)" />
     <ProjectReference Include="$(Native)" />
   </ItemGroup>

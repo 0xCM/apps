@@ -39,13 +39,13 @@ namespace Z0
         {
             var count = src.Length;
             var settings = alloc<Setting<VarName,string>>(src.Length);
-            var lookup = dict<VarName,Setting<VarName,string>>();
+            var lookup = dict<VarName,string>();
             for(var i=0; i<count; i++)
             {
                 ref readonly var v = ref skip(src,i);
                 ref var setting = ref seek(settings,i);
                 setting = new Setting<VarName,string>(v.VarName, v);
-                lookup.TryAdd(setting.Name, setting);
+                lookup.TryAdd(setting.Name, setting.Value);
             }
 
             return new Settings<VarName,string>(settings, lookup);

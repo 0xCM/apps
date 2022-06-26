@@ -10,7 +10,6 @@ namespace Z0
     {
         ToolBox ToolBox => Wf.ToolBox();
 
-
         void CalcRelativePaths()
         {
             var @base = FS.dir("dir1");
@@ -18,7 +17,6 @@ namespace Z0
             var links = Markdown.links(@base,files);
             iter(links, r=> Write(r.Format()));
         }
-
 
         [CmdOp("dir")]
         void Dir(CmdArgs args)
@@ -31,25 +29,20 @@ namespace Z0
                 files = src.List();
 
             Row(files.Format());
-
-            //var files = dir.Match(arg(args,1),true);
-
-            //iter(files, file => Write(file.ToUri()));
-
         }
 
         [CmdOp("app/settings")]
         void Setings()
-            => AppSettings.Iter(setting => Write(setting.Format()));
+            => AppSettings.Iter(setting => Write(setting.Format(Chars.Eq)));
 
         [CmdOp("app/setting")]
         Outcome Setting(CmdArgs args)
         {
             var name = arg(args,0).Value;
             var result = Outcome.Success;
-            if(AppSettings.Find(name, out var setting))
+            if(AppSettings.Find(name, out var value))
             {
-                Write(setting.Format());
+                Write($"{name}:{value}");
             }
             else
             {
@@ -66,8 +59,12 @@ namespace Z0
         void LoadEnv(CmdArgs args)
             => iter(EnvDb.vars(args.Count != 0 ? arg(args,0).Value : null).View, member => Write(member.Format()));
 
-        [CmdOp("env/emit")]
-        void EmitEnvVars()
+        [CmdOp("env/machine/list")]
+        void ListMachineEnv()
+            => EnvVars.machine().Iter(v => Write(v.Format()));
+
+        [CmdOp("env/machine/emit")]
+        void EmitMachineEnv()
             => EnvVars.emit();
 
         [CmdOp("tools/env")]

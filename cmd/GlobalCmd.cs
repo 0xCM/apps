@@ -11,6 +11,7 @@ namespace Z0
                 wf.ProjectCmd(),
                 wf.EnvCmd(),
                 wf.DbCmd(),
+                wf.ToolsetCmd(),
                 wf.CaptureCmd(),
                 wf.AsmCoreCmd(),
                 wf.LlvmCmd(),

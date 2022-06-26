@@ -25,7 +25,5 @@ namespace Z0
         public string Format()
             => Value.ToString();
 
-        public override string ToString()
-            => Format();
     }
 }

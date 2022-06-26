@@ -30,7 +30,6 @@
 
     <ProjectReference Include="$(Diagnostics)" />
     <ProjectReference Include="$(Digital)" />
-    <ProjectReference Include="$(Db)" />
 
     <ProjectReference Include="$(Expr)" />
     <ProjectReference Include="$(Extract)" />

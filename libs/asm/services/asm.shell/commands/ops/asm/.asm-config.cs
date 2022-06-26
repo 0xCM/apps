@@ -18,11 +18,10 @@ namespace Z0.Asm
             var src = Settings.parse(response);
             var count = src.Length;
             var vars = new CmdVar[count];
-            ref var dst = ref first(vars);
             for(var i=0; i<count; i++)
             {
                 ref readonly var facet = ref src[i];
-                seek(dst,i) = CmdScripts.var(facet.Name, facet.Value);
+                seek(vars,i) = CmdScripts.var(facet.Name, facet.Value);
             }
 
             iter(vars, v => Write(v.Name,

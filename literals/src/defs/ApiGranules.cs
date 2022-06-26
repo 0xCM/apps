@@ -116,6 +116,8 @@ namespace Z0
 
         public const string tools = nameof(tools);
 
+        public const string toolset = nameof(toolset);
+
         public const string status = nameof(status);
 
         public const string tooling = nameof(tooling);

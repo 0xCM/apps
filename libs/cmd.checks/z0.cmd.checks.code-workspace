@@ -22,9 +22,6 @@
             "path": "../native"
         },
         {
-            "path": "../db"
-        },
-        {
             "path": "../archives"
         },
         {

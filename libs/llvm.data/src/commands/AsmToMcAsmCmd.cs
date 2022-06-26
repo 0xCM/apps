@@ -6,7 +6,7 @@ namespace Z0
 {
     using llvm;
 
-    using static WsFileFlows;
+    using static FileFlows;
 
     public sealed class AsmToMcAsmCmd : ScriptFlows<AsmToMcAsmCmd,McCmd,AsmToMcAsm>
     {

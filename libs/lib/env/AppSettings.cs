@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public sealed class AppSettings : Settings<VarName,Setting>
+    public sealed class AppSettings : Settings<VarName,string>
     {
         public AppSettings()
         {
@@ -14,12 +14,12 @@ namespace Z0
         }
 
         public AppSettings(Setting[] settings)
-            : base(settings.Select(x => new Setting<VarName, Setting>(x.Name,x)))
+            : base(settings.Select(x => new Setting<VarName, string>(x.Name,x.Value)))
         {
 
         }
 
-        public AppSettings(Setting<VarName,Setting>[] settings)
+        public AppSettings(Setting<VarName,string>[] settings)
             : base(settings)
         {
 
@@ -32,29 +32,15 @@ namespace Z0
             for(var i=1; i<data.Length; i++)
             {
                 ref readonly var line = ref data[i];
-                var parts = text.split(line,Chars.Pipe);
+                var parts = text.split(line, Chars.Pipe);
                 Require.equal(parts.Length,2);
                 seek(dst,i-1)= new Setting(text.trim(skip(parts,0)), text.trim(skip(parts,1)));
             }
             return new AppSettings(dst);
         }
 
-        public Setting Find(VarName name)
-        {
-            var setting = Setting.Empty;
-            Find(name, out setting);
-            return setting;
-        }
-
-        public bool Find(VarName name, out Setting dst)
-        {
-            var result = base.Find(name, out var x);
-            if(result)
-                dst = new Setting(name, x.Value);
-            else
-                dst = Setting.Empty;
-            return result;
-        }
+        public string Find(VarName name)
+            => Find(name, EmptyString);
 
         public static AppSettings load()
             => load(path());

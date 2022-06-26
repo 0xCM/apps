@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using api = Settings;
-
     [Record(TableId)]
     public readonly record struct Setting : ISetting, IComparable<Setting>
     {
@@ -17,10 +15,10 @@ namespace Z0
         public readonly VarName Name;
 
         [Render(1)]
-        public readonly dynamic Value;
+        public readonly string Value;
 
         [MethodImpl(Inline)]
-        public Setting(VarName name, dynamic value)
+        public Setting(VarName name, string value)
         {
             Primitive = 0;
             Name = name;
@@ -28,12 +26,16 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public Setting(VarName name, PrimalKind primal, dynamic value)
+        public Setting(VarName name, PrimalKind primal, string value)
         {
             Name = name;
             Primitive = primal;
             Value = value ?? EmptyString;
         }
+
+        [MethodImpl(Inline)]
+        public Setting<T> Convert<T>(Func<string,T> f)
+            => new Setting<T>(Name, f(ValueText));
 
         public string ValueText
             => Value?.ToString() ?? EmptyString;
@@ -50,11 +52,11 @@ namespace Z0
             get => core.hash(Name) | (Hash32)(Value?.GetHashCode() ?? 0);
         }
 
-        dynamic ISetting.Value
-            => Value;
-
         VarName ISetting.Name
             => Name;
+
+        string ISetting.Value
+            => Value;
 
         public override int GetHashCode()
             => Hash;
@@ -62,21 +64,14 @@ namespace Z0
         public bool Equals(Setting src)
             => Object.Equals(Value, src.Value) && Name == src.Name;
 
-        public string Format(bool json)
-            => api.format(this, json);
+        public string Json()
+            => Settings.json(this);
 
-        public string Format()
-            => Format(false);
-
-        public override string ToString()
-            => Format();
+        public string Format(char sep)
+            => $"{Name}{sep}{ValueText}";
 
         public int CompareTo(Setting src)
             => Name.CompareTo(src.Name);
-
-        [MethodImpl(Inline)]
-        public static implicit operator Setting<VarName,dynamic>(Setting src)
-            => new Setting<VarName,dynamic>(src.Name, src.Value);
 
         public static Setting Empty
         {
