@@ -41,20 +41,18 @@ namespace Z0
             => new SortedReadOnlySpan<T>(src);
 
         [MethodImpl(Inline)]
-        public static bool equal<T,C>(ReadOnlySpan<T> src, ReadOnlySpan<T> dst, C comparer)
+        public static bool equal<T,C>(ReadOnlySpan<T> a, ReadOnlySpan<T> b, C comparer)
             where C : IEqualityComparer<T>
         {
-            var count = src.Length;
-            if(count != dst.Length)
+            var count = a.Length;
+            if(count != b.Length)
                 return false;
 
             if(count == 0)
                 return true;
 
-            ref readonly var a = ref first(src);
-            ref readonly var b = ref first(dst);
             for(var i=0; i<count; i++)
-                if(!comparer.Equals(skip(a,i),skip(b,i)))
+                if(!comparer.Equals(skip(a,i), skip(b,i)))
                     return false;
 
             return true;

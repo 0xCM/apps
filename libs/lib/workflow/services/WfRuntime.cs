@@ -27,8 +27,6 @@ namespace Z0
 
         public WfController Controller {get;}
 
-        public IPolySource Polysource {get; private set;}
-
         public WfHost Host {get; private set;}
 
         public LogLevel Verbosity {get; private set;}
@@ -48,7 +46,6 @@ namespace Z0
             Ct = init.Ct;
             EventBroker = init.EventBroker;
             Host = init.Host;
-            Polysource = default;
             Verbosity = LogLevel.Status;
             AppPaths = init.Paths;
             Args = init.Args;
@@ -70,12 +67,6 @@ namespace Z0
         {
             Emissions?.Dispose();
             Emissions = dst;
-        }
-
-        public IWfRuntime WithSource(IPolySource random)
-        {
-            Polysource = random;
-            return this;
         }
 
         [MethodImpl(Inline)]

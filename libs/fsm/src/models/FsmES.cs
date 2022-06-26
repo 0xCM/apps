@@ -99,7 +99,7 @@ namespace Z0
             Id = id;
             Wf = wf;
             CurrentState = ground;
-            Random = Wf.Polysource;
+            Random = Rng.pcg64();
             EndState = end;
             Error = Option.none<Exception>();
             Transition = transition;
@@ -114,7 +114,7 @@ namespace Z0
             Id = id;
             CurrentState = ground;
             EndState = end;
-            Random = context.Random;
+            Random = Rng.pcg64();
             Error = Option.none<Exception>();
             Transition = transition;
             ReceiptCount = 0;

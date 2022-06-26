@@ -24,8 +24,6 @@ namespace Z0
 
         IEventBroker EventBroker {get;}
 
-        IPolySource Polysource {get;}
-
         WfHost Host {get;}
 
         LogLevel Verbosity {get;}
@@ -35,8 +33,6 @@ namespace Z0
         ExecToken Completed(WfExecFlow src);
 
         ExecToken Completed<T>(WfExecFlow<T> src);
-
-        IWfRuntime WithSource(IPolySource source);
 
         IWfEmissionLog Emissions {get;}
 

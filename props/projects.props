@@ -61,6 +61,7 @@
     <Nats>$(LibsRoot)nats/z0.nats.csproj</Nats>
     <Numbers>$(LibsRoot)numbers/z0.numbers.csproj</Numbers>
 
+    <Polyrand>$(LibsRoot)polyrand/z0.polyrand.csproj</Polyrand>
 
     <Rules>$(LibsRoot)rules/z0.rules.csproj</Rules>
     <Render>$(LibsRoot)render/z0.render.csproj</Render>

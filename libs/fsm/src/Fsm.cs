@@ -89,9 +89,9 @@ namespace Z0
         /// <param name="index">The rng stream index</param>
         /// <typeparam name="T">The primal fsm type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Fsm<T,T> create<T>(IWfRuntime wf, PrimalFsmSpec<T> spec, ulong seed, ulong index)
+        public static Fsm<T,T> create<T>(IWfRuntime wf, IPolyrand random, PrimalFsmSpec<T> spec, ulong seed, ulong index)
             where T : unmanaged
-                => create(wf, spec);
+                => create(wf, random, spec);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         static string identify<T>(PrimalFsmSpec<T> spec)
@@ -104,9 +104,9 @@ namespace Z0
         /// <param name="spec">The FSM definition</param>
         /// <typeparam name="T">The primal fsm type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Fsm<T,T> create<T>(IWfRuntime wf, PrimalFsmSpec<T> spec)
+        public static Fsm<T,T> create<T>(IWfRuntime wf, IPolyrand random, PrimalFsmSpec<T> spec)
             where T : unmanaged
-                => Fsm.machine(identify(spec), wf, spec.StartState, spec.EndState, transition(wf.Polysource, spec), spec.ReceiptLimit);
+                => Fsm.machine(identify(spec), wf, spec.StartState, spec.EndState, transition(random, spec), spec.ReceiptLimit);
 
         /// <summary>
         /// Executes one or more primal state machines

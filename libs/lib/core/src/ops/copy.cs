@@ -193,6 +193,5 @@ namespace Z0
             where S: unmanaged
             where T :unmanaged
                 => copy(@readonly(src), start, count, dst, offset);
-
     }
 }

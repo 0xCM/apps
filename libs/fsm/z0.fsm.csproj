@@ -8,4 +8,8 @@
 
   <Import Project="$(ImportDefs)common.libs.props"/>
 
+  <ItemGroup>
+    <ProjectReference Include="$(Polyrand)" />
+  </ItemGroup>
+
 </Project>

@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     /// <summary>
     /// Defines a reference to a value
     /// </summary>

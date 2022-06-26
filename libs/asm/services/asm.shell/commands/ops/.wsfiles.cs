@@ -187,7 +187,7 @@ namespace Z0.Asm
         public void RunPipes()
         {
             using var flow = Wf.Running(nameof(RunPipes));
-            var data = Wf.Polysource.Span<ushort>(2400);
+            //var data = Wf.Polysource.Span<ushort>(2400);
 
             // var input = Pipes.pipe<ushort>();
             // var incount = Pipes.flow(data, input);

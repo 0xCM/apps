@@ -57,6 +57,7 @@
     <ProjectReference Include="$(Numbers)" />
 
     <ProjectReference Include="$(Pipelines)" />
+    <ProjectReference Include="$(Polyrand)" />
 
     <ProjectReference Include="$(Rules)" />
     <ProjectReference Include="$(Render)" />
