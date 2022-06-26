@@ -23,8 +23,6 @@ namespace Z0
 
         static MsgPattern ArgSpecError => "Argument specification error";
 
-
-
         public static CmdArgs args(ReadOnlySpan<string> src)
         {
             var dst = alloc<CmdArg>(src.Length);
@@ -76,6 +74,5 @@ namespace Z0
                 return new ShellCmdSpec(name, args(_args));
             }
         }
-
     }
 }

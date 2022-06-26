@@ -21,9 +21,9 @@ namespace Z0
                 ref var target = ref seek(dst,i);
                 ref readonly var literal = ref literals[i];
                 target.Part = literal.Part;
-                target.Type = literal.Type.Format();
-                target.Group = literal.Group.Format();
-                target.Name = literal.Name.Format();
+                target.Type = literal.Type;
+                target.Group = literal.Group;
+                target.Name = literal.Name;
                 target.Kind = literal.Kind.ToString();
                 target.Value = literal.Value();
                 target.Length = (uint)target.Value.Data.Length;

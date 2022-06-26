@@ -1,6 +1,6 @@
 ﻿namespace Z0.Asm
 {
-    [LiteralProvider]
+    [LiteralProvider("cg")]
     public readonly struct AsmMnemonicNames
     {
         public const string aaa = "aaa";

@@ -44,7 +44,7 @@ namespace Z0
             if(result.Fail)
                 return result;
 
-            flows = CmdFlows.parse(response);
+            flows = Cmd.flows(response);
 
             return result;
         }

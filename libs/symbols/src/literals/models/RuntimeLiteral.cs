@@ -11,22 +11,22 @@ namespace Z0
     /// The <see cref='decimal'/> type is not supported; the <see cref='string'/> type is supported via addressing
     /// </remarks>
     [StructLayout(LayoutKind.Sequential,Pack=1)]
-    public readonly record struct RuntimeLiteral : ITextual, IRuntimeLiteral, IComparableRecord<RuntimeLiteral>
+    public readonly record struct RuntimeLiteral : ITextual, IComparableRecord<RuntimeLiteral>
     {
         public readonly PartId Part;
 
-        public readonly StringAddress Group;
+        public readonly string Group;
 
-        public readonly StringAddress Type;
+        public readonly string Type;
 
-        public readonly StringAddress Name;
+        public readonly string Name;
 
         public readonly ulong Data;
 
         public readonly ClrLiteralKind Kind;
 
         [MethodImpl(Inline)]
-        public RuntimeLiteral(PartId part, StringAddress group, StringAddress type, StringAddress name, ulong content, ClrLiteralKind clr)
+        public RuntimeLiteral(PartId part, string group, string type, string name, ulong content, ClrLiteralKind clr)
         {
             Part = part;
             Group = group;
@@ -47,14 +47,5 @@ namespace Z0
 
         public int CompareTo(RuntimeLiteral src)
             => Format().CompareTo(src.Format());
-
-        StringAddress IRuntimeLiteral.Source
-            => Type;
-
-        StringAddress IRuntimeLiteral.Name
-            => Name;
-
-        ClrLiteralKind IKinded<ClrLiteralKind>.Kind
-            => Kind;
     }
 }

@@ -10,6 +10,38 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
+        [MethodImpl(Inline), Op]
+        public static ToolCmdLine cmdline(ToolId tool, params string[] src)
+            => new ToolCmdLine(tool, CmdScripts.cmdline(src));
+
+        [MethodImpl(Inline), Op]
+        public static ToolCmdLine cmdline(ToolId tool, CmdModifier modifier, params string[] src)
+            => new ToolCmdLine(tool, modifier, CmdScripts.cmdline(src));
+
+        [MethodImpl(Inline), Op]
+        public static ToolScript script(ToolId tool, ScriptId script, CmdVars vars)
+            => new ToolScript(tool,script,vars);
+
+        [Op, Closures(UInt64k)]
+        public static ToolCmdSpec spec<T>(ToolId tool, in T spec)
+            where T : struct
+        {
+            var t = typeof(T);
+            var fields = Clr.fields(t);
+            var count = fields.Length;
+            var reflected = alloc<ClrFieldValue>(count);
+            ClrFields.values(spec, fields, reflected);
+            var buffer = alloc<ToolCmdArg>(count);
+            var target = span(buffer);
+            var source = @readonly(reflected);
+            for(var i=0u; i<count; i++)
+            {
+                ref readonly var fv = ref skip(source,i);
+                seek(target,i) = new ToolCmdArg(fv.Field.Name, fv.Value?.ToString() ?? EmptyString);
+            }
+            return new ToolCmdSpec(tool, CmdTypes.identify(t), buffer);
+        }
+
         public static string format<K,T>(in ToolCmdArgs<K,T> src)
             where K : unmanaged
         {
@@ -20,7 +52,6 @@ namespace Z0
                 dst.AppendLine(skip(src,i).Format());
             return dst.Emit();
         }
-
 
         [Op]
         public static void render(ToolCmdArgs src, ITextBuffer dst)

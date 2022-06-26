@@ -7,19 +7,19 @@ namespace Z0
     partial struct ClrLiterals
     {
         [MethodImpl(Inline), Op]
-        public static StringAddress name(FieldInfo src)
-            => new StringAddress(core.address(src.Name));
+        public static string name(FieldInfo src)
+            => src.Name;
 
         [MethodImpl(Inline), Op]
-        public static StringAddress name(Type src)
-            => new StringAddress(core.address(src.Name));
+        public static string name(Type src)
+            => src.Name;
 
         [MethodImpl(Inline), Op]
-        public static StringAddress name(PropertyInfo src)
-            => new StringAddress(core.address(src.Name));
+        public static Label name(PropertyInfo src)
+            => src.Name;
 
         [MethodImpl(Inline), Op]
-        public static StringAddress name(MethodBase src)
-            => new StringAddress(core.address(src.Name));
+        public static Label name(MethodBase src)
+            => src.Name;
     }
 }

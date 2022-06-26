@@ -54,7 +54,7 @@ namespace Z0
         public static CmdResult FromOutcome<T>(CmdId id, Outcome<T> result)
             => new CmdResult(id, result.Ok, result.Message);
 
-        internal static string DefaultMsg(CmdId id, bool success)
+        public static string DefaultMsg(CmdId id, bool success)
             => string.Format("{0} execution {1}", id, success ? "succeeded" : "failed");
 
         [MethodImpl(Inline)]

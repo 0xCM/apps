@@ -8,13 +8,6 @@ namespace Z0
 
     public readonly struct CmdLogger : IDisposable
     {
-        public static CmdLogger open<T>(IEnvPaths paths, T id)
-            where T : unmanaged
-                => open(paths, id.ToString());
-
-        public static CmdLogger open(IEnvPaths paths, string name)
-            => new CmdLogger(paths.CmdLogRoot() + FS.file(name, FS.StatusLog));
-
         readonly FS.FilePath Target;
 
         readonly Stream LogStream;

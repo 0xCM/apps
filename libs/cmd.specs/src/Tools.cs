@@ -4,56 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
-    using TN = ToolNames;
+    using N = ToolNames;
 
     [ApiHost]
-    public readonly struct Tools
+    public class Tools
     {
-        [MethodImpl(Inline), Op]
-        public static ToolCmdLine cmdline(ToolId tool, params string[] src)
-            => new ToolCmdLine(tool, CmdScripts.cmdline(src));
-
-        [MethodImpl(Inline), Op]
-        public static ToolCmdLine cmdline(ToolId tool, CmdModifier modifier, params string[] src)
-            => new ToolCmdLine(tool, modifier, CmdScripts.cmdline(src));
-
-        [MethodImpl(Inline), Op]
-        public static ToolScript script(ToolId tool, ScriptId script, CmdVars vars)
-            => new ToolScript(tool,script,vars);
-
-        public static Tool tool(ToolId id)
-            => id;
-
-        [Op, Closures(UInt64k)]
-        public static ToolCmdSpec command<T>(ToolId tool, in T spec)
-            where T : struct
-        {
-            var t = typeof(T);
-            var fields = Clr.fields(t);
-            var count = fields.Length;
-            var reflected = alloc<ClrFieldValue>(count);
-            ClrFields.values(spec, fields, reflected);
-            var buffer = alloc<ToolCmdArg>(count);
-            var target = span(buffer);
-            var source = @readonly(reflected);
-            for(var i=0u; i<count; i++)
-            {
-                ref readonly var fv = ref skip(source,i);
-                seek(target,i) = new ToolCmdArg(fv.Field.Name, fv.Value?.ToString() ?? EmptyString);
-            }
-            return new ToolCmdSpec(tool, CmdTypes.identify(t), buffer);
-        }
-
-        [Parser]
-        public static Outcome parse(string src, out Tool dst)
-        {
-            ToolId id = text.trim(src);
-            dst = id;
-            return true;
-        }
-
         public static readonly Llc llc = Llc.Instance;
 
         public static readonly LlvmMc llvm_mc = LlvmMc.Instance;
@@ -100,7 +55,7 @@ namespace Z0
         public sealed class Llc : Tool<Llc>
         {
             public Llc()
-                : base(TN.llc)
+                : base(N.llc)
             {
 
             }
@@ -115,7 +70,7 @@ namespace Z0
         public sealed class LlvmMc : Tool<LlvmMc>
         {
             public LlvmMc()
-                : base(TN.llvm_mc)
+                : base(N.llvm_mc)
             {
 
             }
@@ -130,7 +85,7 @@ namespace Z0
         public sealed class Clang : Tool<Clang>
         {
             public Clang()
-                : base(TN.clang)
+                : base(N.clang)
             {
 
             }
@@ -145,7 +100,7 @@ namespace Z0
         public sealed class LlvmObjDump : Tool<LlvmObjDump>
         {
             public LlvmObjDump()
-                : base(TN.llvm_objdump)
+                : base(N.llvm_objdump)
             {
 
             }
@@ -160,7 +115,7 @@ namespace Z0
         public sealed class LlvmConfig : Tool<LlvmConfig>
         {
             public LlvmConfig()
-                : base(TN.llvm_config)
+                : base(N.llvm_config)
             {
 
             }
@@ -175,7 +130,7 @@ namespace Z0
         public sealed class LlvmReadObj : Tool<LlvmReadObj>
         {
             public LlvmReadObj()
-                : base(TN.llvm_readobj)
+                : base(N.llvm_readobj)
             {
 
             }
@@ -190,7 +145,7 @@ namespace Z0
         public sealed class LlvmAs : Tool<LlvmAs>
         {
             public LlvmAs()
-                : base(TN.llvm_as)
+                : base(N.llvm_as)
             {
 
             }
@@ -205,7 +160,7 @@ namespace Z0
         public sealed class LlvmTableGen : Tool<LlvmTableGen>
         {
             public LlvmTableGen()
-                : base(TN.llvm_tblgen)
+                : base(N.llvm_tblgen)
             {
 
             }
@@ -220,7 +175,7 @@ namespace Z0
         public sealed class LlvmDis : Tool<LlvmDis>
         {
             public LlvmDis()
-                : base(TN.llvm_dis)
+                : base(N.llvm_dis)
             {
 
             }
@@ -235,7 +190,7 @@ namespace Z0
         public sealed class LlvmLld : Tool<LlvmLld>
         {
             public LlvmLld()
-                : base(TN.llvm_lld)
+                : base(N.llvm_lld)
             {
 
             }
@@ -250,7 +205,7 @@ namespace Z0
         public sealed class LlvmNm : Tool<LlvmNm>
         {
             public LlvmNm()
-                : base(TN.llvm_nm)
+                : base(N.llvm_nm)
             {
 
             }
@@ -265,7 +220,7 @@ namespace Z0
         public sealed class Xed : Tool<Xed>
         {
             public Xed()
-                : base(TN.xed)
+                : base(N.xed)
             {
 
             }
@@ -280,7 +235,7 @@ namespace Z0
         public sealed class BdDisasm : Tool<BdDisasm>
         {
             public BdDisasm()
-                : base(TN.bddisasm)
+                : base(N.bddisasm)
             {
 
             }
@@ -295,7 +250,7 @@ namespace Z0
         public sealed class Msvs : Tool<Msvs>
         {
             public Msvs()
-                : base(TN.msvs)
+                : base(N.msvs)
             {
 
             }

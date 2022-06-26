@@ -39,7 +39,7 @@ namespace Z0
         protected override Reactor Init(out int state)
         {
             state = 0;
-            Flows = CmdFlows.create(Wf, CmdFlows.reactors(Wf));
+            Flows = CmdFlows.flows(Wf, Cmd.reactors(Wf));
             return this;
         }
 

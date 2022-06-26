@@ -122,6 +122,5 @@ namespace Z0
         public static CmdResult<C> fail<C>(C cmd, string message)
             where C : struct, ICmd
                 => new CmdResult<C>(cmd, false, message);
-
     }
 }

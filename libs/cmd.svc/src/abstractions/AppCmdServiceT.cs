@@ -15,7 +15,7 @@ namespace Z0
         public static T create(IWfRuntime wf, params ICmdProvider[] src)
         {
             var service = new T();
-            GlobalSvc.Instance.Inject(CmdFlows.dispatcher(service, src));
+            GlobalSvc.Instance.Inject(Cmd.dispatcher(service, src));
             service.Init(wf);
             return service;
         }
@@ -24,7 +24,7 @@ namespace Z0
         {
             _Context = new();
             PromptTitle = "cmd";
-            Actions = CmdFlows.actions((T)this);
+            Actions = CmdActions.discover((T)this);
         }
 
         public CmdActions Actions {get;}

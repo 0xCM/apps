@@ -8,9 +8,9 @@ namespace Z0
 
     public interface IRuntimeLiteral : IClrLiteralValue
     {
-        StringAddress Source {get;}
+        Label Source {get;}
 
-        StringAddress Name {get;}
+        Label Name {get;}
     }
 
     public interface IRuntimeLiteral<T> : IRuntimeLiteral, IClrLiteralValue<T>

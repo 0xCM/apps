@@ -45,7 +45,6 @@ namespace Z0
             Message = e.ToString();
         }
 
-
         [MethodImpl(Inline)]
         public string Format()
             => Message;

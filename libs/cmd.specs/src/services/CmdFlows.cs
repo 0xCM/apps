@@ -4,20 +4,25 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
-    public class CmdDispatch : AppService<CmdDispatch>, ICmdRouter
+    public class CmdFlows : AppService<CmdFlows>, ICmdRouter
     {
-        public static CmdDispatch create(IWfRuntime wf, Index<ICmdReactor> reactors)
+        ICmdRouter Router;
+
+        public static ICmd reify(Type src)
+            => (ICmd)Activator.CreateInstance(src);
+
+        [Op]
+        public static ICmd[] reify(Assembly src)
+            => CmdTypes.tagged(src).Select(reify);
+
+        public static CmdFlows flows(IWfRuntime wf, ICmdReactor[] reactors)
         {
-            var router = new WfCmdRouter(wf);
+            var router = new CmdRouter(wf);
             router.Enlist(reactors);
             var dst = create(wf);
             dst.Router = router;
             return dst;
         }
-
-        ICmdRouter Router;
 
         public Task<CmdResult> Dispatch<T>(T cmd)
             where T : struct, ICmd

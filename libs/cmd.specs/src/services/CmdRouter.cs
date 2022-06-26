@@ -6,16 +6,16 @@ namespace Z0
 {
     using static core;
 
-    public sealed class WfCmdRouter : AppService<WfCmdRouter>, ICmdRouter<WfCmdRouter>
+    public sealed class CmdRouter : AppService<CmdRouter>, ICmdRouter<CmdRouter>
     {
         ConcurrentDictionary<CmdId,ICmdReactor> Nodes;
 
-        public WfCmdRouter()
+        public CmdRouter()
         {
             Nodes = new ConcurrentDictionary<CmdId,ICmdReactor>();
         }
 
-        public WfCmdRouter(IWfRuntime wf)
+        public CmdRouter(IWfRuntime wf)
             : base(wf)
         {
             Nodes = new ConcurrentDictionary<CmdId,ICmdReactor>();
