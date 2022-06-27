@@ -28,7 +28,7 @@ namespace Z0.Asm
             const string ExprPattern = "{0} {1}, {2}";
             var src = span(string.Format(ExprPattern, inst, op1, op2));
             var size = (byte)src.Length;
-            var cells = dst.Cells;
+            var cells = dst.Data;
             for(var i=0; i<size; i++)
                 seek(cells,i) = skip(src,i);
             return size;

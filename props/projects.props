@@ -84,10 +84,10 @@
 
     <Wf>$(LibsRoot)wf/z0.wf.csproj</Wf>
 
-    <ZLib>$(LibsRoot)lib/z0.lib.csproj</ZLib>
     <ZLibs>$(LibsRoot)z0.libs.csproj</ZLibs>
+    <Literals>$(LibsRoot)literals/z0.literals.csproj</Literals>
 
-    <Literals>$(TopDir)/literals/z0.literals.csproj</Literals>
+    <ZLib>$(LibsRoot)lib/z0.lib.csproj</ZLib>
     <LiteralsLibName>z0.literals</LiteralsLibName>
 
   </PropertyGroup>
