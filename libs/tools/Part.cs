@@ -17,11 +17,10 @@ global using System.Runtime.InteropServices;
 global using System.Threading;
 global using System.Threading.Tasks;
 global using System.IO;
+global using static Root;
 
-global using static Z0.Root;
 
 global using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-global using SQ = Z0.SymbolicQuery;
 global using CallerName = System.Runtime.CompilerServices.CallerMemberNameAttribute;
 global using CallerFile = System.Runtime.CompilerServices.CallerFilePathAttribute;
 global using CallerLine = System.Runtime.CompilerServices.CallerLineNumberAttribute;
@@ -30,8 +29,13 @@ global using CallerLine = System.Runtime.CompilerServices.CallerLineNumberAttrib
 
 namespace Z0.Parts
 {
-    public sealed partial class Tools : Part<Tools>
-    {
 
-    }
+}
+
+class Root
+{
+    public const string EmptyString = "";
+
+    public const MethodImplOptions Inline = MethodImplOptions.AggressiveInlining;
+
 }

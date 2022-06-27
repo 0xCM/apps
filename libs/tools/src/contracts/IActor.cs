@@ -4,16 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public abstract class Actor<A> : IActor<A>
-        where A : Actor<A>,new()
+    public interface IActor
     {
-        public Identifier Name {get;}
+        string Name {get;}
+    }
 
-        public static A Instance = new();
+    public interface IActor<A> : IActor
+        where A : IActor
+    {
 
-        protected Actor(Identifier name)
-        {
-            Name = name;
-        }
     }
 }

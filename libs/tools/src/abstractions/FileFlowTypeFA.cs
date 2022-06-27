@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using FK = FileKind;
-
     public abstract class FileFlowType<F,A> : FileFlowType<F,A,FileKind>, IFileFlowType<F>
         where F : FileFlowType<F,A>,new()
         where A : IActor
@@ -16,12 +14,9 @@ namespace Z0
 
         }
 
-        public FS.FileExt SourceExt => Source.Ext();
 
-        public FS.FileExt TargetExt => Target.Ext();
+        public FileKind SourceKind => Source;
 
-        public FK SourceKind => Source;
-
-        public FK TargetKind => Target;
+        public FileKind TargetKind => Target;
     }
 }

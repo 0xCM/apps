@@ -14,7 +14,7 @@ namespace Z0
             ToolId = id;
         }
 
-        public Identifier Name
+        public string Name
             => ToolId.Format();
 
         public string Format()
@@ -36,7 +36,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator Tool(Actor src)
-            => new Tool(src.Name.Text);
+            => new Tool(src.Name);
 
         public static Tool Empty => new Tool(ToolId.Empty);
     }

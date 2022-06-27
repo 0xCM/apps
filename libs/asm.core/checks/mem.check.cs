@@ -132,7 +132,7 @@ namespace Z0
             var result = Outcome.Success;
             var spec = EmptyString;
             if(args.Count != 0)
-                spec = text.trim(arg(args,0).Value.Format());
+                spec = text.trim(arg(args,0).Value);
             using var members = ApiCode.LoadEncoded(spec);
             CheckSize(members);
 
@@ -160,7 +160,7 @@ namespace Z0
             var result = Outcome.Success;
             var spec = EmptyString;
             if(args.Count != 0)
-                spec = text.trim(arg(args,0).Value.Format());
+                spec = text.trim(arg(args,0).Value);
 
             const string RenderPattern = "{0,-8} | {1, -8} | {2,-8} | {3,-5} | {4,-8} | {5,-8} | {6,-32} | {7}";
             using var members = ApiCode.LoadEncoded(spec);

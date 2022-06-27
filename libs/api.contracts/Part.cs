@@ -40,6 +40,9 @@ namespace Z0
     class Root
     {
 
+        public const string EmptyString = "";
+
+        public const MethodImplOptions Inline = MethodImplOptions.AggressiveInlining;
 
     }
 }

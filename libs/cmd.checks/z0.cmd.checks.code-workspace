@@ -44,6 +44,12 @@
         },
         {
             "path": "../containers"
+        },
+        {
+            "path": "../tools"
+        },
+        {
+            "path": "../api.contracts"
         }
     ],
 	"settings": {}

@@ -8,7 +8,7 @@ namespace Z0
 
     public interface IWorkspace : IFileArchive
     {
-        Identifier Name {get;}
+        string Name {get;}
 
         FS.FolderPath IFileArchive.Datasets()
             => Root + FS.folder("db");
@@ -89,7 +89,7 @@ namespace Z0
         FS.FolderPath WsRoot()
             => Root;
 
-        Identifier IWorkspace.Name
+        string IWorkspace.Name
             => WsRoot().FolderName.Format();
     }
 }

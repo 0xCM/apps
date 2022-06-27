@@ -73,7 +73,7 @@ namespace Z0
             => Home() + FS.folder("projects");
 
         FS.FolderPath ProjectData(IProjectWs project)
-            => ProjectData() + FS.folder(project.Name.Format());
+            => ProjectData() + FS.folder(project.Name);
 
         FS.FolderPath ProjectData(string scope)
             => ProjectData() + FS.folder(scope);
@@ -84,8 +84,6 @@ namespace Z0
         FS.FileName ProjectFile(IProjectWs project, string name, FS.FileExt ext)
             => FS.file(string.Format("{0}.{1}", project.Name, name), ext);
 
-        // FS.FileName ProjectFile(IProjectWs project, string name, FileKind kind)
-        //     => FS.file(string.Format("{0}.{1}", project.Name, name), kind.Ext());
 
         FS.FileName TableFileName<T>(IProjectWs project)
             where T : struct

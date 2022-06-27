@@ -27,9 +27,9 @@ namespace Z0
             get => !string.IsNullOrWhiteSpace(Id);
         }
 
-        [MethodImpl(Inline)]
-        public TaggedTool WithTag(text15 tag)
-            => new TaggedTool(this, tag);
+        // [MethodImpl(Inline)]
+        // public TaggedTool WithTag(string tag)
+        //     => new TaggedTool(this, tag);
 
         [MethodImpl(Inline)]
         public string Format()
@@ -55,9 +55,6 @@ namespace Z0
         public static implicit operator ToolId(string src)
             => new ToolId(src);
 
-       [MethodImpl(Inline)]
-        public static implicit operator ToolId(@string src)
-            => new ToolId(src);
 
         [MethodImpl(Inline)]
         public static implicit operator string(ToolId src)

@@ -10,7 +10,7 @@ namespace Z0
 
         public Name Name {get;}
 
-        public @string Value {get;}
+        public string Value {get;}
 
         [MethodImpl(Inline)]
         public CmdArg(string name)
@@ -49,7 +49,7 @@ namespace Z0
         }
 
         public override string ToString()
-            => Value.IsEmpty ? Name.Format() : string.Format("{0}={1}", Name, Value);
+            => text.empty(Value) ? Name.Format() : string.Format("{0}={1}", Name, Value);
 
         [MethodImpl(Inline)]
         public static implicit operator string(CmdArg arg)

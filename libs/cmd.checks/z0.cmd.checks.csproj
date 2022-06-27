@@ -19,7 +19,7 @@
     <ProjectReference Include="$(Libs)" />
     <ProjectReference Include="$(Literals)" />
     <ProjectReference Include="$(ApiContracts)" />
-
+    <ProjectReference Include="$(Tools)" />
   </ItemGroup>
 
 </Project>

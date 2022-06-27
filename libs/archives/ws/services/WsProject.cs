@@ -29,7 +29,7 @@ namespace Z0
             Id = id;
         }
 
-        Identifier IWorkspace.Name
+        string IWorkspace.Name
             => Id.Format();
 
         ProjectId IProjectWs.Project

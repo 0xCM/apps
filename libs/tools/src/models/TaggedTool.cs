@@ -4,19 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct TaggedTool : IEquatable<TaggedTool>
     {
         public ToolId Tool {get;}
 
-        public text15 Tag {get;}
+        public string Tag {get;}
 
         [MethodImpl(Inline)]
-        public TaggedTool(ToolId tool, text15 tag)
+        public TaggedTool(ToolId tool, string tag)
         {
             Tool = tool;
             Tag = tag;

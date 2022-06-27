@@ -222,7 +222,7 @@ namespace Z0
         {
             public static EmptyActor Instance = new();
 
-            public Identifier Name => Identifier.Empty;
+            public string Name => string.Empty;
         }
     }
 }

@@ -6,18 +6,18 @@ namespace Z0
 {
     public readonly struct Actor : IActor, IEquatable<Actor>
     {
-        public Identifier Name {get;}
+        public string Name {get;}
 
         [MethodImpl(Inline)]
-        public Actor(Identifier name)
+        public Actor(string name)
         {
             Name = name;
         }
 
-        public Hash32 Hash
+        public uint Hash
         {
             [MethodImpl(Inline)]
-            get => core.hash(Name.Text);
+            get => (uint)Name.GetHashCode();
         }
 
         public string Format()
@@ -33,10 +33,10 @@ namespace Z0
             => src is Actor a && Equals(a);
 
         public override int GetHashCode()
-            => Hash;
+            => (int)Hash;
 
         [MethodImpl(Inline)]
-        public static implicit operator Actor(Identifier name)
+        public static implicit operator Actor(string name)
             => new Actor(name);
     }
 }

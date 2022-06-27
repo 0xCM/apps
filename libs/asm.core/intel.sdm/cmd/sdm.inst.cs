@@ -12,7 +12,7 @@ namespace Z0
         Outcome ShowInstInfo(CmdArgs args)
         {
             var details = Sdm.LoadOcDetails();
-            var selected = args.Length > 0 ? arg(args,0).Value.Format() : EmptyString;
+            var selected = args.Length > 0 ? arg(args,0).Value : EmptyString;
             var count = details.Count;
             for(var i=0; i<count; i++)
             {

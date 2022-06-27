@@ -31,7 +31,7 @@ namespace Z0
             => ((IArrow<S,T>)this).Target;
 
         string ITextual.Format()
-            => string.Format(RP.Arrow, Source, Target);
+            => string.Format("{0} -> {1}", Source, Target);
     }
 
     [Free]
