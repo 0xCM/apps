@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
-    using static Root;
-
     public class t_natmod : t_gmath<t_natmod>
     {
         public void mod_mul32_n3()

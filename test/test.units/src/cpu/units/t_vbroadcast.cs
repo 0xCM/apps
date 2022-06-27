@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Root;
-    using static core;
-
     public class t_vbroadcast : t_inx<t_vbroadcast>
     {
         public void vbroadcast_check()

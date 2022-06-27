@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     public sealed class t_enums : t_numeric<t_enums>
     {
         public enum Choices8u : byte

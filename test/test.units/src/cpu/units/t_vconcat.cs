@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    using static Root;
-
     public class t_vconcat : t_inx<t_vconcat>
     {
         public void vconcat_check()

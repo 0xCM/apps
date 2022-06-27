@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Root;
-
     public class t_bg_layout : t_bits<t_bg_layout>
     {
         public void bg_layout_21x32x32()

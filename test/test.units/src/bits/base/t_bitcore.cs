@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     public interface ITestBits : ICheckBitVectors, ICheckBitStrings, ICheckNumeric, ICheckVectors
     {
 

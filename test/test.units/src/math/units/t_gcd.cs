@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     public class t_gcd : t_gmath<t_gcd>
     {
         public void gcdbin_8u()

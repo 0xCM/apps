@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    using static Root;
-
     public class t_natproof : UnitTest<t_natproof>
     {
         public void equality()

@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     public sealed class t_convert : UnitTest<t_convert>
     {
         public void convert_32u_to_bytes_check()
