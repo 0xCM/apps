@@ -4,12 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
     using System.Runtime.Intrinsics.X86;
-
-    using static Root;
-    using static core;
+    using static System.Runtime.CompilerServices.Unsafe;
+    using static System.Runtime.InteropServices.MemoryMarshal;
 
     partial class Widths
     {

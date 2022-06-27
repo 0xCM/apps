@@ -6,7 +6,7 @@ namespace Z0
 {
     using System;
 
-    [SymSource("api.kinds"), Flags]
+    [SymSource(api_kinds), Flags]
     public enum FpRoundDir : byte
     {
         /// <summary>

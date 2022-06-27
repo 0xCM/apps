@@ -14,7 +14,7 @@ namespace Z0
     /// <summary>
     /// Defines operator classifiers
     /// </summary>
-    [SymSource("api.kinds", NBK.Base16), Flags]
+    [SymSource(api_kinds, NBK.Base16), Flags]
     public enum CellOperationKind : uint
     {
         /// <summary>

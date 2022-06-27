@@ -9,7 +9,7 @@ namespace Z0
     /// <summary>
     /// Enumerates the identifiable things
     /// </summary>
-    [SymSource("api.kinds"), Flags]
+    [SymSource(api_kinds), Flags]
     public enum IdentityTargetKind : byte
     {
         None = 0,

@@ -439,13 +439,12 @@ namespace Z0
             */
         }
 
-
         protected void vblendp_check<P,S,T>(N128 w, P np, S pattern, T t = default)
             where T : unmanaged
             where S : unmanaged
             where P : unmanaged, ITypeNat
         {
-            var spec = @as(gcpu.vbroadcast(w, pattern), t);
+            var spec = cpu.@as(gcpu.vbroadcast(w, pattern), t);
             var a = gcpu.vinc(w, t);
             var b = gcpu.vadd(a, gmath.add(a.LastCell(), one<T>()));
             var c = gcpu.vblendp(a,b,spec);
@@ -455,7 +454,7 @@ namespace Z0
             gcpu.vhi(c).StoreTo(dst,1);
 
             var perm = Z0.Perm.init(dst.Storage);
-            for(var i=0; i< perm.Length; i++)
+            for(var i=0; i<perm.Length; i++)
             {
                 var identity = gmath.eq(Numeric.force<T>(i), perm[i]);
                 if(!identity)
@@ -473,7 +472,7 @@ namespace Z0
             where S : unmanaged
             where P : unmanaged, ITypeNat
         {
-            var spec = @as(gcpu.vbroadcast(w, pattern),t);
+            var spec = cpu.@as(gcpu.vbroadcast(w, pattern),t);
             var a = gcpu.vinc(w, t);
             var b = gcpu.vadd(a, gmath.add(a.LastCell(), one<T>()));
             var c = gcpu.vblendp(a,b,spec);

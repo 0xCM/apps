@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines polarity classifiers
     /// </summary>
-    [SymSource("api.kinds")]
+    [SymSource(api_kinds)]
     public enum PolarityKind : sbyte
     {
         /// <summary>

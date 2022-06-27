@@ -12,7 +12,7 @@ namespace Z0
     /// <summary>
     /// Classifies operators of arity up to 3
     /// </summary>
-    [SymSource("api.kinds", NBK.Base16), Flags]
+    [SymSource(api_kinds, NBK.Base16), Flags]
     public enum ApiOperatorKind : ushort
     {
         /// <summary>

@@ -10,7 +10,7 @@ namespace Z0
     /// <summary>
     /// Defines grid-sort datatype classifiers
     /// </summary>
-    [SymSource("api.kinds", NBK.Base16), Flags]
+    [SymSource(api_kinds, NBK.Base16), Flags]
     public enum ApiGridKind : uint
     {
         None = 0,

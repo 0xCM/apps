@@ -9,14 +9,14 @@ public enum PartId : byte
 {
     None = 0,
 
+    [Symbol("part")]
+    Part,
+
     [Symbol("root")]
     Root,
 
     [Symbol("asm.operands")]
     AsmOperands,
-
-    [Symbol("part")]
-    Part,
 
     [Symbol("agents")]
     Agents,
@@ -65,6 +65,9 @@ public enum PartId : byte
 
     [Symbol("cli")]
     Cli,
+
+    [Symbol("clr.query")]
+    ClrQuery,
 
     [Symbol("llvm.tools")]
     LlvmTools,

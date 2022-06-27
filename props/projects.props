@@ -30,6 +30,7 @@
     <CmdTools>$(LibsRoot)cmd.tools/z0.cmd.tools.csproj</CmdTools>
     <CmdFlows>$(LibsRoot)cmd.flows/z0.cmd.flows.csproj</CmdFlows>
     <CmdChecks>$(LibsRoot)cmd.checks/z0.cmd.checks.csproj</CmdChecks>
+    <ClrQuery>$(LibsRoot)clr.query/z0.clr.query.csproj</ClrQuery>
 
     <Db>$(LibsRoot)db/z0.db.csproj</Db>
     <Diagnostics>$(LibsRoot)diagnostics/z0.diagnostics.csproj</Diagnostics>
@@ -62,6 +63,7 @@
     <Nats>$(LibsRoot)nats/z0.nats.csproj</Nats>
     <Numbers>$(LibsRoot)numbers/z0.numbers.csproj</Numbers>
 
+    <Part>$(LibsRoot)part/z0.part.csproj</Part>
     <Polyrand>$(LibsRoot)polyrand/z0.polyrand.csproj</Polyrand>
 
     <Rules>$(LibsRoot)rules/z0.rules.csproj</Rules>

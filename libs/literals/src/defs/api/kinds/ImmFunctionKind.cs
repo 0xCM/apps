@@ -13,7 +13,7 @@ namespace Z0
     /// <summary>
     /// Classifies operations according to their immediate needs
     /// </summary>
-    [SymSource("api.kinds", NBK.Base16), Flags]
+    [SymSource(api_kinds, NBK.Base16), Flags]
     public enum ImmFunctionKind : byte
     {
         /// <summary>

@@ -27,10 +27,6 @@ namespace Z0
             get => !string.IsNullOrWhiteSpace(Id);
         }
 
-        // [MethodImpl(Inline)]
-        // public TaggedTool WithTag(string tag)
-        //     => new TaggedTool(this, tag);
-
         [MethodImpl(Inline)]
         public string Format()
             => Id;

@@ -11,7 +11,7 @@ namespace Z0
     /// <summary>
     /// Defines immediate value classifiers
     /// </summary>
-    [SymSource("api.kinds", NBK.Base16), Flags]
+    [SymSource(api_kinds, NBK.Base16), Flags]
     public enum ImmRefinementKind : byte
     {
         None = 0,

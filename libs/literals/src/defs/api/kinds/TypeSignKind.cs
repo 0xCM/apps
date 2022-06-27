@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines an equivalence class over types of integral numeric kind
     /// </summary>
-    [SymSource("api.kinds")]
+    [SymSource(api_kinds)]
     public enum TypeSignKind : sbyte
     {
         /// <summary>

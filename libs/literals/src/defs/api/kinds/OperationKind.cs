@@ -10,7 +10,7 @@ namespace Z0
     /// <summary>
     /// Classifies an operation in various ways
     /// </summary>
-    [SymSource("api.kinds", NBK.Base16), Flags]
+    [SymSource(api_kinds, NBK.Base16), Flags]
     public enum OperationKind : ushort
     {
         /// <summary>

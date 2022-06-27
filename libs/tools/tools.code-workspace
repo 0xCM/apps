@@ -4,13 +4,16 @@
 			"path": "."
 		},
 		{
-			"path": "..\\lib"
+			"path": "../lib"
 		},
 		{
-			"path": "..\\api.contracts"
+			"path": "../api.contracts"
 		},
 		{
-			"path": "..\\..\\literals"
+			"path": "../nats"
+		},
+		{
+			"path": "../literals"
 		}
 	],
 	"settings": {}

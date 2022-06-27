@@ -11,7 +11,7 @@ namespace Z0
     /// <summary>
     /// Floating point comparison mode
     /// </summary>
-    [SymSource("api.kinds"), Flags]
+    [SymSource(api_kinds), Flags]
     public enum FpCmpMode : byte
     {
         /// <summary>

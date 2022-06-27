@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Classifies unary logic operators
     /// </summary>
-    [SymSource("api.kinds")]
+    [SymSource(api_kinds)]
     public enum UnaryBitLogicKind : byte
     {
         None = 0,

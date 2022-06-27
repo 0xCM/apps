@@ -27,13 +27,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public static T[] Where<S,T>(this S[] src, Func<S,bool> test, Func<S,T> project)
             => Arrays.map(src.Where(test), project);
-
-        // [MethodImpl(Inline)]
-        // public static Span<T> Where<T>(this ReadOnlySpan<T> src, Func<T,bool> f)
-        //     => Spans.where(src,f);
-
-        // [MethodImpl(Inline)]
-        // public static Span<T> Where<T>(this Span<T> src, Func<T,bool> f)
-        //     => Spans.where(src,f);
    }
 }

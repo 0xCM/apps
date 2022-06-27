@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines scalar shift operator classifiers
     /// </summary>
-    [SymSource("api.kinds")]
+    [SymSource(api_kinds)]
     public enum LogicalShiftKind : byte
     {
         /// <summary>

@@ -24,9 +24,9 @@
     <ProjectReference Include="$(CmdExec)" />
     <ProjectReference Include="$(CmdSpecs)" />
     <ProjectReference Include="$(CmdTools)" />
-
     <ProjectReference Include="$(Circuits)" />
     <ProjectReference Include="$(Containers)" />
+    <ProjectReference Include="$(ClrQuery)" />
 
     <ProjectReference Include="$(Diagnostics)" />
     <ProjectReference Include="$(Digital)" />
@@ -58,6 +58,7 @@
     <ProjectReference Include="$(Nats)" />
     <ProjectReference Include="$(Numbers)" />
 
+    <ProjectReference Include="$(Part)" />
     <ProjectReference Include="$(Pipelines)" />
     <ProjectReference Include="$(Polyrand)" />
 

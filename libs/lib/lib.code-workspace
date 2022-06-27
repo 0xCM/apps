@@ -16,6 +16,12 @@
 			"path": "../literals"
 		},
 		{
+			"path": "../clr.query"
+		},
+		{
+			"path": "../part"
+		},
+		{
 			"path": "../monadic"
 		}
 	],

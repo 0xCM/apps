@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Classifies elementary unary arithmetic operations
     /// </summary>
-    [SymSource("api.kinds")]
+    [SymSource(api_kinds)]
     public enum UnaryArithmeticKind : byte
     {
         None,

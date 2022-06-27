@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Classifies ternary logic and bitwise operators
     /// </summary>
-    [SymSource("api.kinds")]
+    [SymSource(api_kinds)]
     public enum TernaryBitLogicKind : byte
     {
         /// <summary>

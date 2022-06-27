@@ -6,7 +6,7 @@ namespace Z0
 {
     using S = CmpPredSymbols;
 
-    [SymSource("api.kinds")]
+    [SymSource(api_kinds)]
     public enum CmpPredKind : byte
     {
         None = 0,

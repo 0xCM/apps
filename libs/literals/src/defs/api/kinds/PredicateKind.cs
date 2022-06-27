@@ -8,7 +8,7 @@ namespace Z0
 
     using OC = OperationKind;
 
-    [SymSource("api.kinds"), Flags]
+    [SymSource(api_kinds), Flags]
     public enum PredicateKind : ushort
     {
         /// <summary>
