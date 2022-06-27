@@ -4,5 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
+    [ApiHost]
+    public static partial class XCalc
+    {
+    }
 }

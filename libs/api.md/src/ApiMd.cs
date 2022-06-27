@@ -78,8 +78,8 @@ namespace Z0
         public Index<ApiFlowSpec> DataFlows
             => data(K.DataFlows, CalcDataFlows);
 
-        public Index<BitMaskInfo> ApiBitMasks
-            => Data(K.BitMasks, () => BitMask.masks(typeof(BitMaskLiterals)));
+        // public Index<BitMaskInfo> ApiBitMasks
+        //     => Data(K.BitMasks, () => BitMask.masks(typeof(BitMaskLiterals)));
 
         public ConstLookup<string,Index<SymInfo>> ApiTokens
             => data(K.ApiTokens, CalcApiTokens);
@@ -106,8 +106,8 @@ namespace Z0
                 EmitParsers,
                 EmitApiTables,
                 EmitApiCommands,
-                () => EmitApiTokens(),
-                EmitApiBitMasks
+                () => EmitApiTokens()
+                //EmitApiBitMasks
             );
         }
 
@@ -227,8 +227,8 @@ namespace Z0
         void EmitApiLiterals()
             => Emit(ApiLiterals);
 
-        void EmitApiBitMasks()
-            => Emit(ApiBitMasks);
+        // void EmitApiBitMasks()
+        //     => Emit(ApiBitMasks);
 
         void EmitTypeLists()
         {
@@ -302,8 +302,8 @@ namespace Z0
         public void Emit(ReadOnlySpan<ClrEnumRecord> src)
             => TableEmit(src, AppDb.ApiTargets().Table<ClrEnumRecord>(), TextEncodingKind.Unicode);
 
-        public void Emit(Index<BitMaskInfo> src)
-            => TableEmit(src, ProjectDb.ApiTablePath<BitMaskInfo>());
+        // public void Emit(Index<BitMaskInfo> src)
+        //     => TableEmit(src, ProjectDb.ApiTablePath<BitMaskInfo>());
 
         public void EmitHostMsil(string hostid)
         {

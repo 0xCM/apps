@@ -55,8 +55,8 @@ namespace Z0
                 if(options.EmitSymbolicLiterals)
                     ApiMd.Emit(ApiMd.SymLits);
 
-                if(options.EmitApiBitMasks)
-                    ApiMd.Emit(ApiMd.ApiBitMasks);
+                // if(options.EmitApiBitMasks)
+                //     ApiMd.Emit(ApiMd.ApiBitMasks);
 
                 if(options.CollectApiDocs)
                     Wf.ApiComments().Collect();

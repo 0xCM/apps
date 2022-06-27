@@ -1,4 +1,4 @@
 @echo off
 set ProjectId=calcs
-call %~dp0..\..\..\.cmd\config.cmd
+call %Views%\z0\.cmd\config.cmd
 
