@@ -2,12 +2,12 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-using System;
-
-public class ApiPartAttribute : Attribute
+namespace Z0
 {
-    public ApiPartAttribute()
+    [ApiHost]
+    [LiteralProvider]
+    public readonly partial struct Root
     {
-
+        const NumericKind Closure = Root.UnsignedInts;
     }
 }

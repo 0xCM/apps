@@ -1,3 +1,3 @@
 @echo off
-set ProjectId=api.contracts
+set ProjectId=monadic
 call %Views%\z0\.cmd\config.cmd

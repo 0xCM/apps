@@ -4,16 +4,19 @@
 			"path": "."
 		},
 		{
-			"path": "..\\api.contracts"
+			"path": "../api.contracts"
 		},
 		{
-			"path": "..\\nats"
+			"path": "../nats"
 		},
 		{
-			"path": "..\\interop"
+			"path": "../interop"
 		},
 		{
-			"path": "..\\..\\literals"
+			"path": "../literals"
+		},
+		{
+			"path": "../monadic"
 		}
 	],
 	"settings": {}

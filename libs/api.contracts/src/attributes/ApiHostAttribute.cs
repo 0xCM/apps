@@ -2,10 +2,6 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-using System;
-
-using Z0;
-
 /// <summary>
 /// Identifies an api host
 /// </summary>

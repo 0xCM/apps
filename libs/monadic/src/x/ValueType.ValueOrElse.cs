@@ -5,11 +5,6 @@
 
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial class XTend
     {
         [MethodImpl(Inline), Op, Closures(Closure)]

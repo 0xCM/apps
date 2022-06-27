@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Zero, variously
     /// </summary>
-    [LiteralProvider]
+    [LiteralProvider(numeric)]
     public readonly struct Zero
     {
         /// <summary>

@@ -159,6 +159,9 @@ public enum PartId : byte
     [Symbol("memory")]
     Memory,
 
+    [Symbol("monadic")]
+    Monadic,
+
     [Symbol("db")]
     Db,
 

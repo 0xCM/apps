@@ -51,6 +51,7 @@
 
     <ProjectReference Include="$(Machines)" />
     <ProjectReference Include="$(Memory)" />
+    <ProjectReference Include="$(Monadic)" />
     <ProjectReference Include="$(Models)" />
 
     <ProjectReference Include="$(Native)" />
