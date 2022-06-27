@@ -14,7 +14,7 @@ namespace Z0
         const string NetSdk = "Microsoft.NET.Sdk";
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Property<T> property<T>(Name name, T value)
+        public static Property<T> property<T>(Identifier name, T value)
             => new Property<T>(name, value);
 
         [MethodImpl(Inline), Op]

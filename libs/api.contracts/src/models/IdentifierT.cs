@@ -16,7 +16,7 @@ namespace Z0
         public Identifier(T src)
             => Value = src;
 
-        public Name Name
+        public string Content
         {
             [MethodImpl(Inline)]
             get => Value?.ToString() ?? EmptyString;
@@ -24,13 +24,13 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public string Format()
-            => Name.Format();
+            => Content;
 
         public override string ToString()
             => Format();
 
         public bool Equals(Identifier<T> src)
-            => Name.Equals(src.Name);
+            => Content.Equals(src.Content);
         public int CompareTo(Identifier<T> other)
             => Value?.CompareTo(other.Value) ?? 0;
 

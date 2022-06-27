@@ -14,7 +14,6 @@ namespace Z0
 
         }
 
-
         public FileKind SourceKind => Source;
 
         public FileKind TargetKind => Target;

@@ -15,12 +15,4 @@ namespace Z0
        string ITextual.Format()
             => string.Empty;
     }
-
-    [Free]
-    public interface IExpr<K> : IExpr, IKinded<K>
-        where K : unmanaged
-    {
-        ulong IExpr.Kind
-            => core.bw64((this as IKinded<K>).Kind);
-    }
 }

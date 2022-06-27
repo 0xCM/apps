@@ -4,18 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
     using System.Reflection.Emit;
-
-    using static Root;
 
     public readonly struct DynamicAction
     {
         /// <summary>
         /// The operation identity
         /// </summary>
-        public Name Id {get;}
+        public Identifier Id {get;}
 
         public MemoryAddress SourceAddress {get;}
 
@@ -24,7 +20,7 @@ namespace Z0
         public Action Operation {get;}
 
         [MethodImpl(Inline)]
-        public DynamicAction(Name id, MemoryAddress src, DynamicMethod enclosure, Action op)
+        public DynamicAction(Identifier id, MemoryAddress src, DynamicMethod enclosure, Action op)
         {
             Id = id;
             SourceAddress = src;

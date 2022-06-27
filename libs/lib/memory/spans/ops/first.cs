@@ -24,6 +24,15 @@ namespace Z0
         /// <param name="src">The source span</param>
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
+        public static ref T edit<T>(ReadOnlySpan<T> src)
+            => ref GetReference<T>(src);
+
+        /// <summary>
+        /// Returns a reference to the head of a readonly span
+        /// </summary>
+        /// <param name="src">The source span</param>
+        /// <typeparam name="T">The cell type</typeparam>
+        [MethodImpl(Inline), Op, Closures(Closure)]
         public static ref readonly T first<T>(ReadOnlySpan<T> src)
             => ref GetReference<T>(src);
 

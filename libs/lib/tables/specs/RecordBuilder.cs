@@ -4,13 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection;
-    using System.Runtime.CompilerServices;
-    using System.Reflection.Emit;
-
     using static System.Reflection.TypeAttributes;
-    using static Root;
     using static core;
 
     [ApiHost]
@@ -69,7 +63,7 @@ namespace Z0
         [Op]
         public static RecordSpec clone(Type src)
         {
-            Name name = src.Name;
+            Identifier name = src.Name;
             var declared = src.DeclaredInstanceFields();
             var count = declared.Length;
             var buffer = alloc<MemberFieldSpec>(count);

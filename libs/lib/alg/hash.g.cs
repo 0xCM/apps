@@ -30,7 +30,7 @@ namespace Z0.alg
         [MethodImpl(Inline), Op, Closures(AllNumeric)]
         public static uint bytehash<C>(C src)
             where C : struct
-                => calc<byte>(bytes(src));
+                => calc<byte>(Refs.bytes(src));
 
         /// <summary>
         /// Creates a 64-bit calccode over a pair

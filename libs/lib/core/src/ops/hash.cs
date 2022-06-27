@@ -97,6 +97,10 @@ namespace Z0
             => alg.hash.marvin(src);
 
         [MethodImpl(Inline)]
+        public static Hash32 hash(string src)
+            => alg.hash.marvin(src);
+
+        [MethodImpl(Inline)]
         public static Hash32 hash(ReadOnlySpan<char> src)
             => alg.hash.marvin(src);
 

@@ -10,6 +10,10 @@ namespace Z0
         public static FileName file(PartId part, FileExt ext)
             => file(part.Format(), ext);
 
+        [MethodImpl(Inline), Op]
+        public static FileName file(Identifier name, string type)
+            => new FileName(name.Content, FS.ext(type));
+
         public static FileName file(string name, FileKind kind)
             => new FileName(name, kind.Ext());
 
@@ -36,6 +40,7 @@ namespace Z0
         [Op]
         public static FileName file(PathPart name, FileExt x1, FileExt x2)
             => new FileName(name, FS.combine(x1,x2));
+
 
         [MethodImpl(Inline), Op]
         public static FileName file(string name)

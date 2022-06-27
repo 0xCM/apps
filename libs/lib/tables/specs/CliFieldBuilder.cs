@@ -4,13 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection;
-    using System.Runtime.CompilerServices;
-    using System.Reflection.Emit;
-
     using static System.Reflection.TypeAttributes;
-    using static Root;
     using static core;
 
     [ApiHost]
@@ -99,7 +93,7 @@ namespace Z0
         }
 
         [MethodImpl(NotInline), Op]
-        public RecordSpec Complete(Name name)
+        public RecordSpec Complete(Identifier name)
         {
             var cells = Fields.Slice(0,(int)Index).ToArray();
             Fields.Clear();

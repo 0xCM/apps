@@ -4,27 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection;
-    using System.Reflection.Emit;
-    using System.Runtime.InteropServices;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
-
-    public interface IDFxSpec
-    {
-        Identifier Name {get;}
-
-        SegRef Code {get;}
-    }
-
-    public interface IDFxSpec<T> : IDFxSpec
-        where T : IDFxSpec<T>
-    {
-
-    }
 
     [ApiHost]
     public unsafe readonly struct DFx

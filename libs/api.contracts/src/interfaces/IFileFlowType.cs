@@ -10,14 +10,8 @@ namespace Z0
 
         FileKind TargetKind {get;}
 
-        FS.FileExt SourceExt
-            => SourceKind.Ext();
-
-        FS.FileExt TargetExt
-            => TargetKind.Ext();
-
-        string ITextual.Format()
-            => string.Format("{0}:*.{1} -> *.{2}", Actor, SourceExt, TargetExt);
+        // string ITextual.Format()
+        //     => string.Format("{0}:*.{1} -> *.{2}", Actor, SourceKind, TargetKind);
     }
 
     public interface IFileFlowType<F> : IFileFlowType

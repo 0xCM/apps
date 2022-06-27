@@ -27,8 +27,10 @@ namespace Z0
 
         public string Id
             => Identifier;
+
         public DW DataWidth
             => Width;
+
         public TSK TypeSign
             => Sign;
 

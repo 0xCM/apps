@@ -385,11 +385,11 @@ namespace Z0
             => new string('-',80);
 
         static FS.FileName filename<W,M,N,T>(string label, W w, M m = default, N n = default, T t = default)
-            where W: unmanaged, ITypeNat
-            where M: unmanaged, ITypeNat
-            where N: unmanaged, ITypeNat
-            where T: unmanaged
-                => FS.file($"{label}_{sigtext(w,m,n,t)}","grid");
+            where W : unmanaged, ITypeNat
+            where M : unmanaged, ITypeNat
+            where N : unmanaged, ITypeNat
+            where T : unmanaged
+                => FS.file($"{label}_{sigtext(w,m,n,t)}",FS.ext("grid"));
 
         /// <summary>
         /// Creates a grid writer predicated on type parameters

@@ -216,6 +216,8 @@ namespace Z0
             public dynamic Source => SourceKind;
 
             public dynamic Target => TargetKind;
+
+            public string Format() => EmptyString;
         }
 
         sealed class EmptyActor : IActor

@@ -93,10 +93,10 @@ namespace Z0.llvm
             return ref dst;
         }
 
-        public @string EntityName
+        public Identifier EntityName
             => Def.Name;
 
-        public @string ParentName
+        public Identifier ParentName
             => Def.ParentName;
 
         public new string this[string name]

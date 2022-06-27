@@ -81,6 +81,9 @@ namespace Z0
             public FileName ChangeExtension(FileExt ext)
                 => FS.file(Path.GetFileNameWithoutExtension(Name), ext);
 
+            public FileName ChangeExtension(FileKind kind)
+                => FS.file(Path.GetFileNameWithoutExtension(Name), kind);
+
             /// <summary>
             /// Determines whether the filename, begins with a specified substring
             /// </summary>

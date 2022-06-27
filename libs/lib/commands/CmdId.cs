@@ -27,10 +27,6 @@ namespace Z0
                 return new CmdId(spec.Name);
         }
 
-        [MethodImpl(Inline), Op]
-        public static Name name(string src)
-            => new Name(src);
-
         readonly string Data;
 
         [MethodImpl(Inline)]
@@ -77,12 +73,8 @@ namespace Z0
             => identify(spec);
 
         [MethodImpl(Inline)]
-        public static implicit operator Name(CmdId src)
-            => name(src.Data);
-
-        [MethodImpl(Inline)]
-        public static implicit operator CmdId(Name src)
-            => new CmdId(src.Content);
+        public static implicit operator CmdId(string name)
+            =>new CmdId(name);
 
         public static CmdId Empty => default;
     }

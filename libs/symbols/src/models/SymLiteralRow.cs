@@ -60,7 +60,7 @@ namespace Z0
         /// The literal's declaring type
         /// </summary>
         [Render(32)]
-        public @string Type;
+        public Identifier Type;
 
         /// <summary>
         /// The token size
@@ -78,7 +78,7 @@ namespace Z0
         /// The literal name
         /// </summary>
         [Render(64)]
-        public @string Name;
+        public Identifier Name;
 
         /// <summary>
         /// The symbol, if so attributed, otherwise, the identifier

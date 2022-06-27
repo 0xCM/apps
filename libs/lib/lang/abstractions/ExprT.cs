@@ -4,9 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
+    [Free]
+    public interface IExpr<K> : IExpr, IKinded<K>
+        where K : unmanaged
+    {
+        ulong IExpr.Kind
+            => core.bw64((this as IKinded<K>).Kind);
+    }
 
     public abstract class Expr<F,K> : IExpr<K>
         where F : Expr<F,K>

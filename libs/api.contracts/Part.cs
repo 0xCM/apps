@@ -11,6 +11,7 @@ global using System.Diagnostics;
 global using System.Reflection.Metadata;
 global using System.Reflection.Metadata.Ecma335;
 global using System.Reflection.PortableExecutable;
+global using System.Reflection.Emit;
 global using System.Runtime.Intrinsics;
 global using System.Runtime.CompilerServices;
 global using System.Runtime.InteropServices;
@@ -25,17 +26,7 @@ global using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 global using CallerName = System.Runtime.CompilerServices.CallerMemberNameAttribute;
 global using CallerFile = System.Runtime.CompilerServices.CallerFilePathAttribute;
 global using CallerLine = System.Runtime.CompilerServices.CallerLineNumberAttribute;
-
-
 [assembly: PartId(PartId.ApiContracts)]
-
-// namespace Z0.Parts
-// {
-//     public sealed partial class ApiContracts : Part<ApiContracts>
-//     {
-
-//     }
-// }
 
 namespace Z0
 {

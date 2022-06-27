@@ -11,7 +11,6 @@ namespace Z0
         /// </summary>
         CpuCellWidth CellWidth
             => (CpuCellWidth)BitWidth;
-
    }
 
     public interface ICellWidth<W> : ICellWidth

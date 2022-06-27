@@ -7,7 +7,7 @@ namespace Z0
     public readonly struct FileFlowType : IFileFlowType
     {
         public static string format(IFileFlowType flow)
-            => string.Format("{0}:*.{1} -> *.{2}", flow.Actor, flow.SourceExt, flow.TargetExt);
+            => string.Format("{0}:*.{1} -> *.{2}", flow.Actor, flow.SourceKind.Ext(), flow.TargetKind.Ext());
 
         public readonly Actor Actor {get;}
 

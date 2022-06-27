@@ -4,12 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    partial class XWidth
+    partial class XTend
     {
         [MethodImpl(Inline)]
         public static string FormatValue(this NativeTypeWidth w)

@@ -2,13 +2,25 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.alg
+namespace Z0
 {
-    using static Z0.core;
+    using static core;
 
-    [ApiHost("alg.range")]
-    public readonly struct range
+    partial class Algs
     {
+        [Op, Closures(Integers)]
+        public static Index<T> points<T>(T x0, T x1, T step)
+            where T : unmanaged
+        {
+            var min = @as<T,ulong>(x0);
+            var max = @as<T,ulong>(x1);
+            var inc = @as<T,ulong>(step);
+            var count = (max - min)/inc;
+            var buffer = sys.alloc<T>(count);
+            fill_1(x0,x1,step,buffer);
+            return buffer;
+        }
+
        [MethodImpl(Inline), Op, Closures(Integers)]
        public static void i8<T>(T x0, T x1, T? step, Span<T> dst)
             where T : unmanaged
@@ -106,19 +118,6 @@ namespace Z0.alg
             var _step = @as<T,ulong>(step);
             for(var i=min; i<=max; i+=_step)
                 seek(dst, i) = @as<ulong,T>(i);
-        }
-
-        [Op, Closures(Integers)]
-        public static Index<T> points<T>(T x0, T x1, T step)
-            where T : unmanaged
-        {
-            var min = @as<T,ulong>(x0);
-            var max = @as<T,ulong>(x1);
-            var inc = @as<T,ulong>(step);
-            var count = (max - min)/inc;
-            var buffer = sys.alloc<T>(count);
-            fill_1(x0,x1,step,buffer);
-            return buffer;
         }
 
         [MethodImpl(Inline)]

@@ -4,19 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct RecordSpec : ITextual
     {
-        public Name TypeName {get;}
+        public Identifier TypeName {get;}
 
         readonly Index<MemberFieldSpec> FieldSpecs;
 
         [MethodImpl(Inline)]
-        public RecordSpec(Name name, MemberFieldSpec[] cells)
+        public RecordSpec(Identifier name, MemberFieldSpec[] cells)
         {
             TypeName = name;
             FieldSpecs = cells;

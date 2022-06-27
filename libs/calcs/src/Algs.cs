@@ -7,7 +7,7 @@ namespace Z0
     using static core;
 
     [ApiHost]
-    public class Algs
+    public partial class Algs
     {
         [Op]
         public static unsafe int intersect(ushort* rcx, int rdx,  ushort* r8, int r9, ushort* dst)

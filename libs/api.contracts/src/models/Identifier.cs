@@ -89,18 +89,6 @@ namespace Z0
             => new Identifier(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator Identifier(@string src)
-            => new Identifier(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator Identifier(Name src)
-            => new Identifier(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator Name(Identifier src)
-            => src.Content;
-
-        [MethodImpl(Inline)]
         public static implicit operator string(Identifier src)
             => src.Content;
 

@@ -7,8 +7,6 @@ namespace Z0.alg
     using System.Diagnostics;
     using System.Numerics;
 
-    using static Z0.core;
-
     partial struct hash
     {
         const ulong DefaultMarvivSeed = 0x7ffc5cf169c0aab1;
@@ -18,14 +16,14 @@ namespace Z0.alg
         /// </summary>
         [MethodImpl(Inline), Op]
         public static uint marvin(ReadOnlySpan<byte> src, ulong seed = DefaultMarvivSeed)
-            => (uint)ComputeHash32(ref MemoryMarshal.GetReference(src), (uint)src.Length, (uint)seed, (uint)(seed >> 32));
+            => (uint)ComputeHash32(ref Spans.edit(src), (uint)src.Length, (uint)seed, (uint)(seed >> 32));
 
         /// <summary>
         /// Compute a Marvin hash and collapse it into a 32-bit hash.
         /// </summary>
         [MethodImpl(Inline), Op]
         public static uint marvin(ReadOnlySpan<char> src, ulong seed = DefaultMarvivSeed)
-            => marvin(recover<char,byte>(src), seed);
+            => marvin(Spans.recover<char,byte>(src), seed);
 
         /// <summary>
         /// Compute a Marvin hash and collapse it into a 32-bit hash.

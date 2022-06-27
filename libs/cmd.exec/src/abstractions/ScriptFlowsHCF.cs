@@ -159,7 +159,7 @@ namespace Z0
         }
 
         protected FS.FilePath GetTargetPath(IProjectWs project, string scope, FS.FilePath src)
-            => project.Out(scope).Create() + src.FileName.ChangeExtension(Flow.TargetExt);
+            => project.Out(scope).Create() + src.FileName.ChangeExtension(Flow.TargetKind);
 
         static ScriptFlows()
         {
