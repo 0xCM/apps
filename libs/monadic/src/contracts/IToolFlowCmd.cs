@@ -5,15 +5,13 @@
 namespace Z0
 {
     [Free]
-    public interface IActor
+    public interface IToolFlowCmd<C,T,A,B> : IFlowCmd<A,B>
+        where C : struct, IToolFlowCmd<C,T,A,B>
+        where T : ITool, new()
     {
-        string Name {get;}
-    }
+        T Tool {get;}
 
-    [Free]
-    public interface IActor<A> : IActor
-        where A : IActor
-    {
-
+        IActor IFlowCmd.Actor
+            => Tool;
     }
 }

@@ -5,7 +5,7 @@
 namespace Z0.llvm
 {
     [Cmd(ToolNames.llvm_readobj), StructLayout(LayoutKind.Sequential, Pack=1)]
-    public struct ReadObjCmd : IFileFlowCmd<ReadObjCmd>
+    public struct ReadObjCmd : IToolFlowCmd<ReadObjCmd>
     {
         [CmdArg("<src>")]
         public FS.FilePath Source;
@@ -58,10 +58,14 @@ namespace Z0.llvm
         [CmdFlag("--version-info")]
         public bit VersionInfo;
 
-        FS.FilePath IFileFlowCmd.Source
+        IActor IFlowCmd.Actor
+            => Tools.llvm_readobj;
+
+        FS.FilePath IFlowCmd<FS.FilePath, FS.FilePath>.Source
             => Source;
 
-        FS.FilePath IFileFlowCmd.Target
+        FS.FilePath IFlowCmd<FS.FilePath, FS.FilePath>.Target
             => Target;
+
     }
 }

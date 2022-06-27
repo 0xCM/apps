@@ -6,7 +6,7 @@ namespace Z0
 {
     using static Tools;
 
-    using FK = FileKind;
+    using K = FileKind;
 
     public class FileFlows
     {
@@ -16,7 +16,7 @@ namespace Z0
         public class AsmToMcAsm : FileFlowType<AsmToMcAsm,LlvmMc>
         {
             public AsmToMcAsm()
-                : base(llvm_mc, FK.Asm, FK.McAsm)
+                : base(llvm_mc, K.Asm, K.McAsm)
             {
 
             }
@@ -28,7 +28,7 @@ namespace Z0
         public class LlToAsm : FileFlowType<LlToAsm,Llc>
         {
             public LlToAsm()
-                : base(llc, FK.Llir, FK.LlAsm)
+                : base(llc, K.Llir, K.LlAsm)
             {
 
             }
@@ -40,7 +40,7 @@ namespace Z0
         public class LlToBc : FileFlowType<LlToBc,LlvmAs>
         {
             public LlToBc()
-                : base(llvm_as, FK.Llir, FK.Bc)
+                : base(llvm_as, K.Llir, K.Bc)
             {
 
             }
@@ -52,7 +52,7 @@ namespace Z0
         public class LlToObj : FileFlowType<LlToObj,Llc>
         {
             public LlToObj()
-                : base(llc, FK.Llir, FK.Obj)
+                : base(llc, K.Llir, K.Obj)
             {
 
             }
@@ -64,7 +64,7 @@ namespace Z0
         public class ObjToExe : FileFlowType<ObjToExe,LlvmLld>
         {
             public ObjToExe()
-                : base(llvm_lld, FK.Obj, FK.Exe)
+                : base(llvm_lld, K.Obj, K.Exe)
             {
 
             }
@@ -76,7 +76,7 @@ namespace Z0
         public class ObjToObjAsm : FileFlowType<ObjToObjAsm,LlvmObjDump>
         {
             public ObjToObjAsm()
-                : base(llvm_objdump, FK.Obj, FK.ObjAsm)
+                : base(llvm_objdump, K.Obj, K.ObjAsm)
             {
 
             }
@@ -88,7 +88,7 @@ namespace Z0
         public class ObjToHexDat : FileFlowType<ObjToHexDat,ZTool>
         {
             public ObjToHexDat()
-                : base(ztool, FK.Obj, FK.HexDat)
+                : base(ztool, K.Obj, K.HexDat)
             {
 
             }
@@ -100,7 +100,7 @@ namespace Z0
         public class OToHexDat : FileFlowType<OToHexDat,ZTool>
         {
             public OToHexDat()
-                : base(ztool, FK.O, FK.HexDat)
+                : base(ztool, K.O, K.HexDat)
             {
 
             }
@@ -112,7 +112,7 @@ namespace Z0
         public class BcToLlBc : FileFlowType<BcToLlBc,LlvmDis>
         {
             public BcToLlBc()
-                : base(llvm_dis, FK.Bc, FK.LlBc)
+                : base(llvm_dis, K.Bc, K.LlBc)
             {
 
             }
@@ -124,7 +124,7 @@ namespace Z0
         public class LlAsmToAsmEncoding : FileFlowType<LlAsmToAsmEncoding,LlvmMc>
         {
             public LlAsmToAsmEncoding()
-                : base(llvm_mc, FK.Asm, FK.EncAsm)
+                : base(llvm_mc, K.Asm, K.EncAsm)
             {
 
             }
@@ -136,7 +136,7 @@ namespace Z0
         public class LlasmToMcAsm : FileFlowType<LlasmToMcAsm,LlvmMc>
         {
             public LlasmToMcAsm()
-                : base(llvm_mc, FK.Asm, FK.McAsm)
+                : base(llvm_mc, K.Asm, K.McAsm)
             {
 
             }
@@ -149,7 +149,7 @@ namespace Z0
         public class EncAsmToSynAsm : FileFlowType<EncAsmToSynAsm,LlvmMc>
         {
             public EncAsmToSynAsm()
-                : base(llvm_mc, FK.EncAsm, FK.SynAsm)
+                : base(llvm_mc, K.EncAsm, K.SynAsm)
             {
 
             }
@@ -161,7 +161,7 @@ namespace Z0
         public class EncAsmToSynLog : FileFlowType<EncAsmToSynLog, LlvmMc>
         {
             public EncAsmToSynLog()
-                : base(llvm_mc, FK.EncAsm, FK.SynAsmLog)
+                : base(llvm_mc, K.EncAsm, K.SynAsmLog)
             {
 
             }
@@ -173,7 +173,7 @@ namespace Z0
         public class AsmToEncAsm : FileFlowType<AsmToEncAsm,LlvmMc>
         {
             public AsmToEncAsm()
-                : base(llvm_mc, FK.Asm, FK.EncAsm)
+                : base(llvm_mc, K.Asm, K.EncAsm)
             {
 
             }

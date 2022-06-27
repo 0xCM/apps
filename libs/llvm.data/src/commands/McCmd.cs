@@ -2,10 +2,25 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.llvm
+namespace Z0
 {
+    using static Tools;
+
+    partial class XTend
+    {
+        [MethodImpl(Inline)]
+        public static McCmd Command(this LlvmMc tool, FS.FilePath src, FS.FilePath dst)
+        {
+            var cmd = new McCmd();
+            cmd.Source = src;
+            cmd.Target = dst;
+            return cmd;
+        }
+
+    }
+
     [Cmd(ToolNames.llvm_mc), StructLayout(LayoutKind.Sequential, Pack=1)]
-    public struct McCmd : IFileFlowCmd<McCmd>
+    public struct McCmd : IToolFlowCmd<McCmd,LlvmMc>
     {
         public McCmd()
         {
@@ -39,7 +54,7 @@ namespace Z0.llvm
         [CmdArg("--x86-asm-syntax={0}")]
         public string X86AsmSyntax = EmptyString;
 
-        [CmdArg("--output-asm-variant={0}", -1)]
+        [CmdArg("--output-asm-variant={0}")]
         public int OutputAsmVariant = -1;
 
         [CmdFlag("--print-imm-hex")]
@@ -51,7 +66,7 @@ namespace Z0.llvm
         [CmdFlag("--masm-hexfloats")]
         public bit MasmHexFloats = 0;
 
-        [CmdArg("--x86-align-branch-boundary={0}", -1)]
+        [CmdArg("--x86-align-branch-boundary={0}")]
         public int X86AlignBranchBoundary = -1;
 
         [CmdFlag("--x86-branches-within-32B-boundaries")]
@@ -63,15 +78,14 @@ namespace Z0.llvm
         [CmdFlag("--fdebug-compilation-dir={0}")]
         public FS.FolderPath DebugCompliationDir = FS.FolderPath.Empty;
 
-        IActor IFileFlowCmd.Actor
+        public LlvmMc Tool
             => Tools.llvm_mc;
 
-        FS.FilePath IFileFlowCmd.Source
+        FS.FilePath IFlowCmd<FS.FilePath, FS.FilePath>.Source
             => Source;
 
-        FS.FilePath IFileFlowCmd.Target
+        FS.FilePath IFlowCmd<FS.FilePath, FS.FilePath>.Target
             => Target;
-
         public static McCmd Empty => default;
     }
 }

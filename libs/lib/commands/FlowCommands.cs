@@ -4,16 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Free]
-    public interface IActor
+    public interface IFlowCommands
     {
-        string Name {get;}
+
     }
 
-    [Free]
-    public interface IActor<A> : IActor
-        where A : IActor
+    public readonly struct FlowCommands : IFlowCommands
     {
-
+        public static IFlowCommands Service => new FlowCommands();
     }
 }

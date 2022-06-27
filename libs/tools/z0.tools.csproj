@@ -9,7 +9,6 @@
   <ItemGroup>
     <ProjectReference Include="$(Literals)" />
     <ProjectReference Include="$(ApiContracts)" />
-    <ProjectReference Include="$(ZLib)" />
   </ItemGroup>
 
 </Project>

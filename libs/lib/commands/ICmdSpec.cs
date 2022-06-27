@@ -12,6 +12,7 @@ namespace Z0
         CmdId CmdId {get;}
     }
 
+
     [Free]
     public interface ICmd<T> : ICmd
         where T : struct, ICmd<T>

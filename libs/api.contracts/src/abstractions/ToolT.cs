@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    [Free]
     public abstract class Tool<T> : Actor<T>, ITool
         where T : Tool<T>, new()
     {

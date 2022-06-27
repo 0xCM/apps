@@ -8,7 +8,7 @@ namespace Z0
     partial class XedTool
     {
         [StructLayout(LayoutKind.Sequential, Pack=1), Cmd(CmdName)]
-        public struct XedToolCmd : IFileFlowCmd<XedToolCmd>
+        public struct XedToolCmd : IToolFlowCmd<XedToolCmd>
         {
             const string CmdName = "xedtool.cmd";
 
@@ -27,13 +27,13 @@ namespace Z0
             [CmdArg("-{0}")]
             public Mode Mode;
 
-            IActor IFileFlowCmd.Actor
+            IActor IFlowCmd.Actor
                 => Z0.Tools.xed;
 
-            FS.FilePath IFileFlowCmd.Source
+            FS.FilePath IFlowCmd<FS.FilePath, FS.FilePath>.Source
                 => Source;
 
-            FS.FilePath IFileFlowCmd.Target
+            FS.FilePath IFlowCmd<FS.FilePath, FS.FilePath>.Target
                 => Target;
         }
     }

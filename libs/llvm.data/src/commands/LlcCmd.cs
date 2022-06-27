@@ -2,10 +2,24 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.llvm
+namespace Z0
 {
+    using static Tools;
+
+    partial class XTend
+    {
+        [MethodImpl(Inline)]
+        public static LlcCmd Command(this Llc tool, FS.FilePath src, FS.FilePath dst)
+        {
+            var cmd = new LlcCmd();
+            cmd.Source = src;
+            cmd.Target = dst;
+            return cmd;
+        }
+    }
+
     [Cmd(ToolNames.llc), StructLayout(LayoutKind.Sequential, Pack=1)]
-    public struct LlcCmd : IFileFlowCmd<LlcCmd>
+    public struct LlcCmd : IToolFlowCmd<LlcCmd,Llc>
     {
         [CmdArg("<src>")]
         public FS.FilePath Source;
@@ -40,13 +54,13 @@ namespace Z0.llvm
         [CmdArg("--mattr={0}")]
         public string Mattr;
 
-        IActor IFileFlowCmd.Actor
+        public Llc Tool
             => Tools.llc;
 
-        FS.FilePath IFileFlowCmd.Source
+        FS.FilePath IFlowCmd<FS.FilePath, FS.FilePath>.Source
             => Source;
 
-        FS.FilePath IFileFlowCmd.Target
+        FS.FilePath IFlowCmd<FS.FilePath, FS.FilePath>.Target
             => Target;
     }
 }

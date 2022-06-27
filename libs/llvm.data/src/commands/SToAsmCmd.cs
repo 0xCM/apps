@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using llvm;
-
     using static FileFlows;
 
     public sealed class SToAsmCmd : ScriptFlows<SToAsmCmd,McCmd,SToAsm>

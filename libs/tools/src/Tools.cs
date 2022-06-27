@@ -6,36 +6,84 @@ namespace Z0
 {
     using N = ToolNames;
 
-    [ApiHost]
-    public class Tools
+    using static Tools;
+
+    [Free]
+    public interface ITools
     {
-        public static readonly Llc llc = Llc.Instance;
 
-        public static readonly LlvmMc llvm_mc = LlvmMc.Instance;
 
-        public static readonly LlvmConfig llvm_config = LlvmConfig.Instance;
+    }
 
-        public static readonly Clang clang = Clang.Instance;
+    partial class XTend
+    {
+        [MethodImpl(Inline)]
+        public static ref readonly Xed xed(this ITools tools)
+            => ref Tools.xed;
 
-        public static readonly LlvmObjDump llvm_objdump = LlvmObjDump.Instance;
+        [MethodImpl(Inline)]
+        public static ref readonly LlvmTableGen tablgen(this ITools tools)
+            => ref Tools.llvm_tblgen;
 
-        public static readonly LlvmTableGen llvm_tblgen = LlvmTableGen.Instance;
+        [MethodImpl(Inline)]
+        public static ref readonly Llc llc(this ITools tools)
+            => ref Tools.llc;
 
-        public static readonly LlvmReadObj llvm_readobj = LlvmReadObj.Instance;
+        [MethodImpl(Inline)]
+        public static ref readonly LlvmMc llvm_mc(this ITools tools)
+            => ref Tools.llvm_mc;
 
-        public static readonly LlvmDis llvm_dis = LlvmDis.Instance;
+        [MethodImpl(Inline)]
+        public static ref readonly LlvmObjDump objdump(this ITools tools)
+            => ref Tools.llvm_objdump;
 
-        public static readonly LlvmAs llvm_as = LlvmAs.Instance;
+        [MethodImpl(Inline)]
+        public static ref readonly Clang clang(this ITools tools)
+            => ref Tools.clang;
 
-        public static readonly LlvmLld llvm_lld = LlvmLld.Instance;
+        [MethodImpl(Inline)]
+        public static ref readonly T Tool<T>(this ITools tools)
+            where T : Tool<T>, new()
+                => ref Tools.tool<T>();
+    }
 
-        public static readonly ZTool ztool = ZTool.Instance;
+    [ApiHost]
+    public class Tools : ITools
+    {
+        public static ITools Service => new Tools();
 
-        public static readonly Xed xed = Xed.Instance;
+        [MethodImpl(Inline)]
+        public static ref readonly T tool<T>()
+            where T : Tool<T>, new()
+                => ref Tool<T>.Instance;
 
-        public static readonly BdDisasm bddisasm = BdDisasm.Instance;
+        public static ref readonly Llc llc => ref Llc.Instance;
 
-        public static readonly Msvs msvs = Msvs.Instance;
+        public static ref readonly LlvmMc llvm_mc => ref LlvmMc.Instance;
+
+        public static ref readonly LlvmConfig llvm_config => ref LlvmConfig.Instance;
+
+        public static ref readonly Clang clang => ref Clang.Instance;
+
+        public static ref readonly LlvmObjDump llvm_objdump => ref LlvmObjDump.Instance;
+
+        public static ref readonly LlvmTableGen llvm_tblgen => ref LlvmTableGen.Instance;
+
+        public static ref readonly LlvmReadObj llvm_readobj => ref LlvmReadObj.Instance;
+
+        public static ref readonly LlvmDis llvm_dis => ref LlvmDis.Instance;
+
+        public static ref readonly LlvmAs llvm_as => ref LlvmAs.Instance;
+
+        public static ref readonly LlvmLld llvm_lld => ref LlvmLld.Instance;
+
+        public static ref readonly ZTool ztool => ref ZTool.Instance;
+
+        public static ref readonly Xed xed => ref Xed.Instance;
+
+        public static ref readonly BdDisasm bddisasm => ref BdDisasm.Instance;
+
+        public static ref readonly Msvs msvs => ref Msvs.Instance;
 
         public sealed class ZTool : Tool<ZTool>
         {

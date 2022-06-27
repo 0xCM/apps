@@ -16,7 +16,6 @@
     <ProjectReference Include="$(Monadic)" />
     <ProjectReference Include="$(ClrQuery)" />
     <ProjectReference Include="$(Part)" />
-
   </ItemGroup>
 
 </Project>

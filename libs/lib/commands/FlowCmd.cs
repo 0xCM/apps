@@ -4,16 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Free]
-    public interface IActor
+    public struct FlowCmd : IFlowCmd
     {
-        string Name {get;}
-    }
+        public IActor Actor {get;}
 
-    [Free]
-    public interface IActor<A> : IActor
-        where A : IActor
-    {
-
+        [MethodImpl(Inline)]
+        public FlowCmd(IActor actor)
+        {
+            Actor = actor;
+        }
     }
 }

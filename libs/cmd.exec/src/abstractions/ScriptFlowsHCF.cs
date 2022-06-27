@@ -7,8 +7,8 @@ namespace Z0
     using static core;
 
     [FlowCmdBuilder]
-    public abstract class ScriptFlows<H,C,F> : WfSvc<H>, IFlowCommands<C,F>
-        where C : struct, IFileFlowCmd<C>
+    public abstract class ScriptFlows<H,C,F> : WfSvc<H>
+        where C : struct, IToolFlowCmd<C>
         where F : IFileFlowType<F>, new()
         where H : ScriptFlows<H,C,F>, new()
     {
@@ -33,7 +33,6 @@ namespace Z0
                     continue;
 
                 var tagval = tag.Require();
-                var missing = tagval.Missing;
                 var expr = tagval.Expression ?? EmptyString;
 
                 if(type == typeof(string))
@@ -64,8 +63,8 @@ namespace Z0
                 }
                 else
                 {
-                    if(missing.Exists && object.Equals(value, missing.Value))
-                        continue;
+                    // if(missing.Exists && object.Equals(value, missing.Value))
+                    //     continue;
 
                     if(type == typeof(FS.FilePath))
                     {

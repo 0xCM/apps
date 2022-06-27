@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class ClrQuery
+    public static partial class ClrQuery
     {
         /// <summary>
         /// Gets the value of a member attribute if it exists
