@@ -4,8 +4,26 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct core
+    partial struct Arrays
     {
+        /// <summary>
+        /// Returns a reference to a T-measured count-identified cell
+        /// </summary>
+        /// <param name="src">The data source</param>
+        /// <param name="count">The T-measured count count</param>
+        /// <typeparam name="T">The cell type</typeparam>
+        /// <remarks>Approach taken from https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/81a23809c1fc2df912a4687487cae22581695064/Microsoft.Toolkit.HighPerformance%2FExtensions%2FArrayExtensions.1D.cs
+        /// See <see cref ='RawArrayData'/> for details
+        /// </remarks>
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static ref T seek<T>(T[] src, ulong count)
+        {
+            var arrayData = Unsafe.As<RawArrayData>(src);
+            ref T r0 = ref Unsafe.As<byte,T>(ref arrayData.Data);
+            ref T ri = ref Unsafe.Add(ref r0, (nint)count);
+            return ref ri;
+        }
+
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static ref T seek<T>(T[] src, byte count)
             => ref seek(src, (ulong)count);
@@ -50,23 +68,6 @@ namespace Z0
         public static ref T seek<T>(T[] src, long count)
             => ref seek(src, (ulong)count);
 
-        /// <summary>
-        /// Returns a reference to a T-measured count-identified cell
-        /// </summary>
-        /// <param name="src">The data source</param>
-        /// <param name="count">The T-measured count count</param>
-        /// <typeparam name="T">The cell type</typeparam>
-        /// <remarks>Approach taken from https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/81a23809c1fc2df912a4687487cae22581695064/Microsoft.Toolkit.HighPerformance%2FExtensions%2FArrayExtensions.1D.cs
-        /// See <see cref ='RawArrayData'/> for details
-        /// </remarks>
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static ref T seek<T>(T[] src, ulong count)
-        {
-            var arrayData = Unsafe.As<RawArrayData>(src);
-            ref T r0 = ref Unsafe.As<byte,T>(ref arrayData.Data);
-            ref T ri = ref Unsafe.Add(ref r0, (nint)count);
-            return ref ri;
-        }
 
         // https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/81a23809c1fc2df912a4687487cae22581695064/Microsoft.Toolkit.HighPerformance%2FExtensions%2FArrayExtensions.1D.cs
         // Description taken from CoreCLR: see https://source.dot.net/#System.Private.CoreLib/src/System/Runtime/CompilerServices/RuntimeHelpers.CoreCLR.cs,285.

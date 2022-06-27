@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Linq;
-
-    using static core;
-
     partial struct Arrays
     {
         public static Array<N,Y> map<N,T,Y>(Array<N,T> src, Func<T,Y> project)
@@ -46,11 +42,11 @@ namespace Z0
         [MethodImpl(Inline)]
         public static T[] map<S,T>(IEnumerable<S> src, Func<S,T> f)
         {
-            var source = src.ToArray();
+            var source = array(src);
             var count = source.Length;
             var dst = new T[count];
             for(var i=0; i<count; i++)
-                core.seek(dst,i) = f(core.skip(source,i));
+                seek(dst,i) = f(skip(source,i));
             return dst;
         }
     }

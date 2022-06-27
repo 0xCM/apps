@@ -108,7 +108,7 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static unsafe Span<T> cover<T>(T* pSrc, uint count)
             where T : unmanaged
-                => CreateSpan(ref @ref<T>(pSrc), (int)count);
+                => CreateSpan(ref Refs.@ref<T>(pSrc), (int)count);
 
         /// <summary>
         /// Covers a pointer-identified T-counted buffer with a span
@@ -119,7 +119,7 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static unsafe Span<T> cover<T>(T* pSrc, int count)
             where T : unmanaged
-                => CreateSpan(ref @ref<T>(pSrc), (int)count);
+                => CreateSpan(ref Refs.@ref<T>(pSrc), (int)count);
 
         /// <summary>
         /// Covers a pointer-identified T-counted buffer with a span
@@ -130,7 +130,7 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static unsafe Span<T> cover<T>(T* pSrc, long count)
             where T : unmanaged
-                => CreateSpan(ref @ref<T>(pSrc), (int)count);
+                => CreateSpan(ref Refs.@ref<T>(pSrc), (int)count);
 
         /// <summary>
         /// Covers a pointer-identified T-counted buffer with a span
@@ -141,7 +141,7 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static unsafe Span<T> cover<T>(T* pSrc, ulong count)
             where T : unmanaged
-                => CreateSpan(ref @ref<T>(pSrc), (int)count);
+                => CreateSpan(ref Refs.@ref<T>(pSrc), (int)count);
 
         /// <summary>
         /// Covers a reference-identified T-counted buffer with a span

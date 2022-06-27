@@ -10,6 +10,6 @@ namespace Z0
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static T[] create<T>(IEnumerable<T> src)
-            => src.ToArray();
+            => array(src);
     }
 }

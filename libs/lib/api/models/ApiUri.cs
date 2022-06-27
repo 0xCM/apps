@@ -9,7 +9,7 @@ namespace Z0
     [ApiHost]
     public readonly struct ApiUri
     {
-        internal static string safe(string src)
+        public static string safe(string src)
             => (src ?? EmptyString).Replace(Chars.Lt, IDI.TypeArgsOpen).Replace(Chars.Gt, IDI.TypeArgsClose).Replace(Chars.Pipe, Chars.Caret);
 
         /// <summary>
@@ -122,6 +122,9 @@ namespace Z0
             return result;
         }
 
+        public static OpIdentity opid_define(string src)
+            => new OpIdentity(safe(src));
+
         [Op]
         public static OpIdentity opid(string src)
         {
@@ -130,14 +133,15 @@ namespace Z0
                 if(empty(src))
                     return OpIdentity.Empty;
 
-                var name = src.TakeBefore(IDI.PartSep);
+                var name = safe(text.trim(src.TakeBefore(IDI.PartSep)));
                 var suffixed = src.Contains(IDI.SuffixSep);
-                var suffix = suffixed ? src.TakeAfter(IDI.SuffixSep) : EmptyString;
+                var suffix = text.trim(suffixed ? src.TakeAfter(IDI.SuffixSep) : EmptyString);
                 var _generic = src.TakeAfter(IDI.PartSep);
                 var generic =  nonempty(_generic) ? _generic[0] == IDI.Generic : false;
                 var imm = suffix.Contains(IDI.Imm);
-                var components = src.SplitClean(IDI.PartSep);
-                return new OpIdentity(src, name, suffix, generic, imm, components);
+                var components = core.map(src.SplitClean(IDI.PartSep), safe);
+                var data = safe(text.trim(src));
+                return new OpIdentity(data, name, suffix, generic, imm, components);
             }
             catch(Exception)
             {
@@ -202,7 +206,7 @@ namespace Z0
         /// <param name="host">The source type</param>
         [Op]
         public static string HostUri(Type host)
-            => $"{PartName.from(host)}{IDI.UriPathSep}{host.Name}";
+            => $"{PartNames.name(host)}{IDI.UriPathSep}{host.Name}";
 
         /// <summary>
         /// Builds the *canonical* operation uri

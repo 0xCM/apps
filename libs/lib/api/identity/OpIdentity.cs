@@ -10,14 +10,6 @@ namespace Z0
     public class OpIdentity : IMethodIdentity<OpIdentity>
     {
         /// <summary>
-        /// Creates a moniker directly from source text
-        /// </summary>
-        /// <param name="src">The source text</param>
-        [MethodImpl(Inline)]
-        public static OpIdentity define(string src)
-            => new OpIdentity(text.ifempty(src,EmptyString));
-
-        /// <summary>
         /// The operation identifier
         /// </summary>
         public string IdentityText {get;}
@@ -49,18 +41,18 @@ namespace Z0
 
         internal OpIdentity(string data, string name, string suffix, bool generic, bool imm, string[] components)
         {
-            IdentityText = text.trim(ApiUri.safe(data));
-            Name = ApiUri.safe(text.trim(name));
-            Suffix = suffix.Trim();
+            IdentityText = data;
+            Name = name;
+            Suffix = suffix;
             IsGeneric = generic;
             HasImm = imm;
-            Components = core.map(components,ApiUri.safe);
+            Components = components;
         }
 
         [MethodImpl(Inline)]
-        OpIdentity(string data)
+        public OpIdentity(string data)
         {
-            IdentityText = text.trim(ApiUri.safe(data));
+            IdentityText = data;
             Name = EmptyString;
             Suffix = EmptyString;
             IsGeneric = false;
@@ -71,20 +63,20 @@ namespace Z0
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => core.empty(IdentityText);
+            get => string.IsNullOrEmpty(IdentityText);
         }
 
         public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
-            get => core.nonempty(IdentityText);
+            get => !string.IsNullOrEmpty(IdentityText);
         }
 
         public override int GetHashCode()
             => IdentityText.GetHashCode();
 
         public bool Equals(OpIdentity src)
-            => string.Equals(IdentityText, src.IdentityText, NoCase);
+            => string.Equals(IdentityText, src.IdentityText, StringComparison.InvariantCultureIgnoreCase);
 
         public override bool Equals(object src)
             => src is OpIdentity x && Equals(x);

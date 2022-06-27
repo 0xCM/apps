@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial struct Arrays
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
@@ -14,7 +12,7 @@ namespace Z0
             var k = 0u;
             for(var i=0; i<src.Length; i++)
             {
-                if(f(skip(src,i)))
+                if(f(Spans.skip(src,i)))
                     k++;
             }
             return k;

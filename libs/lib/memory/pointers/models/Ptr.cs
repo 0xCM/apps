@@ -4,15 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Captures a <see cref='void'/> pointer
     /// </summary>
-    [DataType("ptr")]
     public unsafe struct Ptr : IPtr
     {
         public void* P;

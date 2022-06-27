@@ -6,8 +6,6 @@ namespace Z0
 {
     using System.Linq;
 
-    using static core;
-
     partial struct Arrays
     {
         /// <summary>
@@ -18,11 +16,11 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static uint cells<T>(T[][] src)
         {
-            var members = span(src);
+            var members = Spans.span(src);
             var terms = members.Length;
             var items = 0u;
             for(var i=0u; i<terms; i++)
-                items += (uint)core.skip(members,i).Length;
+                items += (uint)Spans.skip(members,i).Length;
             return items;
         }
 
@@ -32,7 +30,7 @@ namespace Z0
         /// <param name="src">The source arrays</param>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static T[] concat<T>(IEnumerable<T[]> src)
-            => concat(src.ToArray());
+            => concat(array(src));
 
         /// <summary>
         /// Concatenates two arrays
@@ -44,7 +42,7 @@ namespace Z0
         public static T[] concat<T>(T[] left, T[] right)
         {
             var length = left.Length + right.Length;
-            var dst = sys.alloc<T>(length);
+            var dst = new T[length];
             left.CopyTo(dst,0);
             right.CopyTo(dst, left.Length);
             return dst;
@@ -59,7 +57,7 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static byte[] concat(byte[] left, byte[] right)
         {
-            var ret = sys.alloc<byte>(left.Length + right.Length);
+            var ret = new byte[left.Length + right.Length];
             Buffer.BlockCopy(left, 0, ret, 0, left.Length);
             Buffer.BlockCopy(right, 0, ret, left.Length, right.Length);
             return ret;
@@ -74,14 +72,14 @@ namespace Z0
         {
             var total = src.Sum(x => x.Length);
             var buffer = new T[total];
-            ref var dst = ref core.first(buffer);
+            ref var dst = ref first(buffer);
             var counter = 0;
-            for(var i=0; i< src.Length; i++)
+            for(var i=0; i<src.Length; i++)
             {
                 ref readonly var arr = ref skip(src,i);
                 var len = arr.Length;
                 for(var j = 0; j<len; j++)
-                    seek(dst, counter++) = skip(arr,j);
+                    Refs.seek(dst, counter++) = skip(arr,j);
             }
             return buffer;
         }

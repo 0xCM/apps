@@ -10,7 +10,7 @@ namespace Z0
         public static ref SymDetailRow detail<T>(in Sym<T> src, ushort count, out SymDetailRow dst)
             where T : unmanaged
         {
-            dst.TypeName = src.Type.Name;
+            dst.TypeName = src.Type.Content;
             dst.SymCount = count;
             dst.Index = src.Key;
             dst.Name = src.Name;

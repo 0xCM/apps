@@ -4,10 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection;
     using System.Reflection.Emit;
 
+    [Free]
     public interface IDynamicDelegate
     {
         /// <summary>
@@ -33,6 +32,7 @@ namespace Z0
             => Operation.DynamicInvoke(args);
     }
 
+    [Free]
     public interface IDynamicDelegate<D> : IDynamicDelegate
         where D : Delegate
     {

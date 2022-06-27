@@ -18,6 +18,26 @@ namespace Z0
                 return new PartName(id, id.ToString().ToLower());
         }
 
+        [Op]
+        public static string format(PartId id)
+        {
+            var lookup = NameLookup();
+            var name = PartName.Empty;
+            var dst = EmptyString;
+            if(lookup.TryGetValue(id, out name))
+                dst = name.Format();
+            else
+                dst = id.ToString().ToLower();
+            return dst;
+        }
+
+        [MethodImpl(Inline)]
+        public static PartName name(Type src)
+        {
+            var id = PartResolution.id(src.Assembly);
+            return new PartName(id, format(name(id)));
+        }
+
         public static bool FindId(string symbol, out PartId id)
             => _Instance.SymbolIds.TryGetValue(symbol, out id);
 
@@ -40,7 +60,7 @@ namespace Z0
             foreach(var f in fields)
             {
                 var id = (PartId)f.GetRawConstantValue();
-                var symbol = PartResolutions.tag<SymbolAttribute>(f).MapValueOrElse(a => a.Symbol, () => f.Name);
+                var symbol = PartResolution.tag<SymbolAttribute>(f).MapValueOrElse(a => a.Symbol, () => f.Name);
                 var name = new PartName(id, symbol);
                 IdNames.TryAdd(id,name);
                 SymbolIds.TryAdd(symbol,id);

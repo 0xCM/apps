@@ -4,14 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Linq;
+    using static core;
 
-    using static ApiOpaqueClass;
+    using static System.Runtime.CompilerServices.Unsafe;
+    using static System.Runtime.InteropServices.MemoryMarshal;
 
-    partial struct proxy
+    partial class Pointed
     {
-        [MethodImpl(Options), Opaque(GetEnumValues)]
-        public static Enum[] EnumValues(Type src)
-            => Enum.GetValues(src).Cast<Enum>().ToArray();
+
     }
 }

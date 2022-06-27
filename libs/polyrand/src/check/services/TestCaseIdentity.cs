@@ -36,7 +36,7 @@ namespace Z0
         /// <param name="method">The method that implements the test</param>
         [Op]
         public static string from(MethodInfo method)
-            => $"{PartName.from(method.DeclaringType)}{IDI.UriPathSep}{method.DeclaringType.Name}{IDI.UriPathSep}{method.Name}";
+            => $"{PartNames.name(method.DeclaringType)}{IDI.UriPathSep}{method.DeclaringType.Name}{IDI.UriPathSep}{method.Name}";
 
         /// <summary>
         /// Produces a test case name predicated on a parametrically-specialized label
@@ -66,7 +66,7 @@ namespace Z0
         /// <param name="fullname">The full name of the test</param>
         [Op]
         public static string identify(Type host, string fullname)
-            => $"{PartName.from(host)}{IDI.UriPathSep}{host.Name}{IDI.UriPathSep}{fullname}";
+            => $"{PartNames.name(host)}{IDI.UriPathSep}{host.Name}{IDI.UriPathSep}{fullname}";
 
         /// <summary>
         /// Produces the name of the test case predicated on fully-specified name, excluding the host name
@@ -90,7 +90,7 @@ namespace Z0
         /// <param name="id">Identity of the operation under test</param>
         [Op]
         public static string from(Type host, OpIdentity id)
-            => $"{PartName.from(host)}{IDI.UriPathSep}{host.Name}{IDI.UriPathSep}{id.IdentityText}";
+            => $"{PartNames.name(host)}{IDI.UriPathSep}{host.Name}{IDI.UriPathSep}{id.IdentityText}";
 
         /// <summary>
         /// Produces a case name for an identified operation match test

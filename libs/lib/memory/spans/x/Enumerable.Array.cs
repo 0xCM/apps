@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Linq;
-
     partial class XTend
     {
         /// <summary>
@@ -15,11 +13,11 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(AllNumeric)]
         public static T[] Array<T>(this IEnumerable<T> src)
-            => src == null ? System.Array.Empty<T>() : src.ToArray();
+            => Arrays.array(src);
 
         [MethodImpl(Inline), Op, Closures(AllNumeric)]
         public static Span<T> Span<T>(this IEnumerable<T> src)
-            => src.ToArray();
+            => Arrays.array(src);
 
         [MethodImpl(Inline)]
         public static T[] Array<T>(this T[] src)

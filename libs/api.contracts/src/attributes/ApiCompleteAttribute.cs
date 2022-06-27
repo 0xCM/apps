@@ -2,8 +2,6 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-using System;
-
 /// <summary>
 /// Marks a type as an api data type
 /// </summary>

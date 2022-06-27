@@ -21,17 +21,7 @@ namespace Z0
         public Identifier(string src)
             => Data = src ?? EmptyString;
 
-        [MethodImpl(Inline)]
-        public Identifier(Name src)
-            => Data = src;
-
         public string Text
-        {
-            [MethodImpl(Inline)]
-            get => Content;
-        }
-
-        public Name Name
         {
             [MethodImpl(Inline)]
             get => Content;
@@ -98,7 +88,7 @@ namespace Z0
         public static implicit operator Identifier(string src)
             => new Identifier(src);
 
-       [MethodImpl(Inline)]
+        [MethodImpl(Inline)]
         public static implicit operator Identifier(@string src)
             => new Identifier(src);
 
@@ -145,7 +135,7 @@ namespace Z0
         public static Identifier Empty
         {
             [MethodImpl(Inline)]
-            get => new Identifier(Name.Empty);
+            get => new Identifier(EmptyString);
         }
     }
 }

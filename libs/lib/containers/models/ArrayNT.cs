@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    //using static core;
 
     using api = Arrays;
 
@@ -15,7 +15,7 @@ namespace Z0
 
         public Array()
         {
-            Data = alloc<T>(nat32u<N>());
+            Data = new T[Typed.nat32u<N>()];
         }
 
         internal Array(T[] data)
@@ -105,7 +105,7 @@ namespace Z0
             => Data.Search(predicate, out found);
 
         public Array<N,Y> Cast<Y>()
-            => new (Data.Select(x => cast<Y>(x)));
+            => new (Data.Select(x => (Y)(object)x));
 
         public Array<N,Y> Select<Y>(Func<T,Y> projector)
              => api.map(this, projector);
@@ -121,6 +121,5 @@ namespace Z0
 
         public Index<T> Reverse()
             => Data.Reverse();
-
     }
 }

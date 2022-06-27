@@ -4,8 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [ApiComplete]
-    public readonly struct Typed
+    [Free]
+    public class Typed
     {
         /// <summary>
         /// Returns the numeric value represented by a natural type

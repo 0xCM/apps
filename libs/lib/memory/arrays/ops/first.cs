@@ -4,10 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial struct Arrays
     {
+        /// <summary>
+        /// Returns a reference to the location of the first element
+        /// </summary>
+        /// <param name="src">The source array</param>
+        /// <typeparam name="T">The element type</typeparam>
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static unsafe ref T first<T>(T[] src)
+            => ref seek<T>(src, 0);
+
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static bool first<T>(T[] src, Func<T,bool> f, out T found)
         {

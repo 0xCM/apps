@@ -6,10 +6,6 @@ namespace Z0
 {
     public readonly struct PartName : ILexical<PartName>, IComparable<PartName>
     {
-        [MethodImpl(Inline)]
-        public static PartName from(Type src)
-            => new PartName(src.Assembly.Id());
-
         public readonly PartId Part {get;}
 
         public readonly string Name {get;}
@@ -57,5 +53,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator PartId(PartName name)
             => name.Part;
+
+        public static PartName Empty => new PartName(PartId.None, EmptyString);
     }
 }

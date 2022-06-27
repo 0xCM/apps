@@ -4,15 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Represents a legal identifier
     /// </summary>
-    [DataType("identifier<t:{0}>")]
     public readonly struct Identifier<T> : IIdentifier<Identifier<T>,T>
         where T : IComparable<T>
     {

@@ -18,7 +18,7 @@ namespace Z0
                 ref readonly var symbol = ref symbols[i];
                 seek(dst,i) = new Token(symbol.Key,
                     text.ifempty(symbol.Group, EmptyString),
-                    symbol.Type.Name.Content,
+                    symbol.Type.Content,
                     symbol.Name,
                     text.ifempty(symbol.Expr.Text,symbol.Name),
                     symbol.Value

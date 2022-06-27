@@ -12,6 +12,5 @@ namespace Z0
     public partial class Refs
     {
         const NumericKind Closure = UnsignedInts;
-
     }
 }

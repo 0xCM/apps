@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Linq;
-
-    using static core;
-
     partial struct Arrays
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
@@ -21,10 +17,10 @@ namespace Z0
             if(count == 0)
                 return true;
 
-            ref readonly var a = ref core.first(src);
-            ref readonly var b = ref core.first(dst);
+            ref readonly var a = ref Spans.first(src);
+            ref readonly var b = ref Spans.first(dst);
             for(var i=0; i<count; i++)
-                if(!skip(a,i).Equals(skip(b,i)))
+                if(!Refs.skip(a,i).Equals(Refs.skip(b,i)))
                     return false;
 
             return true;

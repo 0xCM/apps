@@ -4,8 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
-    public static class PartResolutions
+    public readonly struct PartResolution
     {
         /// <summary>
         /// Gets the value of a member attribute if it exists
@@ -17,10 +16,6 @@ namespace Z0
             where A : Attribute
                 => m.GetCustomAttribute<A>();
 
-    }
-
-    public readonly struct PartResolution
-    {
         /// <summary>
         /// Retrieves the part identifier, if any, of the entry assembly
         /// </summary>
