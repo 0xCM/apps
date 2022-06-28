@@ -30,7 +30,9 @@ global using CallerLine = System.Runtime.CompilerServices.CallerLineNumberAttrib
 
 [assembly: PartId(PartId.Imagine)]
 
-namespace Z0
+namespace Z0.Parts
 {
-
+    public sealed class Imagine : Part<Imagine>
+    {
+    }
 }

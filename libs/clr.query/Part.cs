@@ -28,6 +28,13 @@ global using CallerLine = System.Runtime.CompilerServices.CallerLineNumberAttrib
 using NK = Z0.NumericKind;
 
 [assembly: PartId(PartId.ClrQuery)]
+namespace Z0.Parts
+{
+    public sealed class ClrQuery : Part<ClrQuery>
+    {
+    }
+}
+
 
 namespace Z0
 {
@@ -42,6 +49,6 @@ namespace Z0
         /// Specifies unsigned integral types of widths <see cref='NumericWidths'/>
         /// </summary>
         public const NK UnsignedInts = NK.UnsignedInts;
-
     }
 }
+

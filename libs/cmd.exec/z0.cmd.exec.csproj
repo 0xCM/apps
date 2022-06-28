@@ -9,9 +9,9 @@
   <Import Project="$(ImportDefs)common.libs.props"/>
 
   <ItemGroup>
-    <ProjectReference Include="$(CmdFlows)" />
     <ProjectReference Include="$(Native)" />
     <ProjectReference Include="$(Containers)" />
+    <ProjectReference Include="$(Wf)" />
   </ItemGroup>
 
 </Project>

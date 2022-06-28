@@ -26,6 +26,12 @@
 		},
 		{
 			"path": "libs\\sys"
+		},
+		{
+			"path": "libs\\part"
+		},
+		{
+			"path": "libs\\pow2"
 		}
 	],
 	"settings": {}

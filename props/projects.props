@@ -66,6 +66,7 @@
 
     <Part>$(LibsRoot)part/z0.part.csproj</Part>
     <Polyrand>$(LibsRoot)polyrand/z0.polyrand.csproj</Polyrand>
+    <Pow2>$(LibsRoot)pow2/z0.pow2.csproj</Pow2>
 
     <Rules>$(LibsRoot)rules/z0.rules.csproj</Rules>
     <Render>$(LibsRoot)render/z0.render.csproj</Render>

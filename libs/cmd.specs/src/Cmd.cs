@@ -62,7 +62,7 @@ namespace Z0
         }
 
 
-        public static CmdActionDispatcher dispatcher(CmdActions actions, Func<string,CmdArgs,Outcome> fallback = null)
+        public static CmdActionDispatcher dispatcher(ICmdActions actions, Func<string,CmdArgs,Outcome> fallback = null)
             => new CmdActionDispatcher(actions, fallback);
 
         public static Index<ICmdReactor> reactors(IWfRuntime wf)

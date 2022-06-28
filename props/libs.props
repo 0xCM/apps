@@ -6,7 +6,6 @@
 
     <ProjectReference Include="$(Agents)" />
     <ProjectReference Include="$(ApiCode)" />
-    <ProjectReference Include="$(ApiContracts)" />
     <ProjectReference Include="$(ApiMd)" />
     <ProjectReference Include="$(Archives)" />
     <ProjectReference Include="$(Asm)" />
@@ -19,7 +18,6 @@
 
     <ProjectReference Include="$(Calcs)" />
     <ProjectReference Include="$(Cli)" />
-    <ProjectReference Include="$(CmdFlows)" />
     <ProjectReference Include="$(CmdSvc)" />
     <ProjectReference Include="$(CmdExec)" />
     <ProjectReference Include="$(CmdSpecs)" />
@@ -62,6 +60,7 @@
     <ProjectReference Include="$(Part)" />
     <ProjectReference Include="$(Pipelines)" />
     <ProjectReference Include="$(Polyrand)" />
+    <ProjectReference Include="$(Pow2)" />
 
     <ProjectReference Include="$(Rules)" />
     <ProjectReference Include="$(Render)" />

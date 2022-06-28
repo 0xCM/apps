@@ -11,7 +11,7 @@ namespace Z0
     static class XTrace
     {
         public static string TracePrefix(object title, Type host, string caller)
-            => string.Concat(PartResolution.Executing.Format(), Chars.FSlash, host.Name, Chars.FSlash, caller, Chars.LBrace, title, Chars.RBrace).PadRight(60);
+            => string.Concat(ExecutingPart.Id.Format(), Chars.FSlash, host.Name, Chars.FSlash, caller, Chars.LBrace, title, Chars.RBrace).PadRight(60);
 
         public static IAppMsg TraceMsg(object title, object msg, Type host, string caller, FlairKind color)
             => AppMsg.colorize(string.Concat(TracePrefix(title, host, caller), Chars.Pipe, Chars.Space, msg), color);

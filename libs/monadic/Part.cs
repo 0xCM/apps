@@ -29,6 +29,12 @@ using NK = Z0.NumericKind;
 
 [assembly: PartId(PartId.Monadic)]
 
+namespace Z0.Parts
+{
+    public sealed class Monadic : Part<Monadic>
+    {
+    }
+}
 
 
 namespace Z0

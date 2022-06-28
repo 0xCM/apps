@@ -10,7 +10,6 @@
     <ProjectReference Include="$(CmdExec)" />
     <ProjectReference Include="$(CmdSvc)" />
     <ProjectReference Include="$(CmdSpecs)" />
-    <ProjectReference Include="$(CmdFlows)" />
     <ProjectReference Include="$(CmdTools)" />
     <ProjectReference Include="$(Agents)" />
     <ProjectReference Include="$(Archives)" />
@@ -18,7 +17,6 @@
     <ProjectReference Include="$(Wf)" />
     <ProjectReference Include="$(Libs)" />
     <ProjectReference Include="$(Literals)" />
-    <ProjectReference Include="$(ApiContracts)" />
     <ProjectReference Include="$(Tools)" />
   </ItemGroup>
 

@@ -12,11 +12,11 @@
     <ProjectReference Include="$(Literals)" />
     <ProjectReference Include="$(Interop)" />
     <ProjectReference Include="$(Nats)" />
-    <ProjectReference Include="$(ApiContracts)" />
     <ProjectReference Include="$(Monadic)" />
     <ProjectReference Include="$(ClrQuery)" />
     <ProjectReference Include="$(Part)" />
     <ProjectReference Include="$(Imagine)" />
+    <ProjectReference Include="$(Pow2)" />
   </ItemGroup>
 
 </Project>

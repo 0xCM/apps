@@ -1,0 +1,23 @@
+{
+	"folders": [
+		{
+			"path": "cmd.checks"
+		},
+		{
+			"path": "cmd.exec"
+		},
+		{
+			"path": "cmd.specs"
+		},
+		{
+			"path": "cmd.svc"
+		},
+		{
+			"path": "cmd.tools"
+		},
+		{
+			"path": "wf"
+		}
+	],
+	"settings": {}
+}

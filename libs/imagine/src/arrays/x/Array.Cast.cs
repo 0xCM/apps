@@ -6,6 +6,7 @@ namespace Z0
 {
     partial class XTend
     {
+
         /// <summary>
         /// Populates a target array by casting each elements of a source aray to the target element type
         /// </summary>

@@ -27,7 +27,7 @@ namespace Z0
         public static Index<T> Append<T>(this Span<T> head, ReadOnlySpan<T> tail)
         {
             var count = head.Length + tail.Length;
-            var dst = alloc<T>(count);
+            var dst = sys.alloc<T>(count);
             var j=0;
             for(var i=0; i<head.Length; i++, j++)
                 seek(dst,j) = skip(head,i);

@@ -15,7 +15,7 @@ namespace Z0
         public static T create(IWfRuntime wf, params ICmdProvider[] src)
         {
             var service = new T();
-            GlobalSvc.Instance.Inject(Cmd.dispatcher(service, src));
+            GlobalServices.Instance.Inject(Cmd.dispatcher(service, src));
             service.Init(wf);
             return service;
         }
@@ -39,9 +39,9 @@ namespace Z0
 
         Option<IToolCmdShell> Shell;
 
-        protected ICmdRunner Commands;
+        protected IAppCmdRunner Commands;
 
-        public ICmdDispatcher Dispatcher => GlobalSvc.Instance.Injected<CmdActionDispatcher>();
+        public ICmdDispatcher Dispatcher => GlobalServices.Instance.Injected<CmdActionDispatcher>();
 
         void Project(IWsProject ws)
         {

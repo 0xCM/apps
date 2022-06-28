@@ -8,7 +8,6 @@ namespace Z0
 
     partial struct Arrays
     {
-
         [MethodImpl(Inline)]
         public static T[] array<T>(IEnumerable<T> src)
             => src == null ? System.Array.Empty<T>() : src.ToArray();

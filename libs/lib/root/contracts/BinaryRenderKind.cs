@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
 
     [Flags]
     public enum BinaryRenderKind : byte

@@ -29,7 +29,7 @@ namespace Z0
         /// Attempts to resolve a part resolution property
         /// </summary>
         static Option<PropertyInfo> resolve(Type src)
-            => src.StaticProperties().Where(p => p.Name == PartResolution.ResolutionProperty).FirstOrDefault();
+            => src.StaticProperties().Where(p => p.Name == "Resolved").FirstOrDefault();
 
         /// <summary>
         /// Attempts to resolve a part from a resolution property

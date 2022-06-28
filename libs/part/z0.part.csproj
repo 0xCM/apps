@@ -7,10 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="$(ApiContracts)" />
     <ProjectReference Include="$(Literals)" />
-    <ProjectReference Include="$(Monadic)" />
-    <ProjectReference Include="$(ClrQuery)" />
   </ItemGroup>
 
 </Project>

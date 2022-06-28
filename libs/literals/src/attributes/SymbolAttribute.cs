@@ -2,8 +2,21 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
+
 public class SymbolAttribute : Attribute
 {
+    public static string symbol(FieldInfo src)
+    {
+        var symbol = src.Name;
+        if(tag<SymbolAttribute>(src, out var a))
+        {
+            if(!string.IsNullOrEmpty(a.Symbol))
+                symbol = a.Symbol;
+        }
+
+        return symbol;
+    }
+
     object _Symbol {get;}
 
     public Type SourceType

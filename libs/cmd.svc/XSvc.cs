@@ -11,7 +11,7 @@ namespace Z0
             public CheckRunner CheckRunner(IWfRuntime wf)
                 => Service<CheckRunner>(wf);
 
-            public EnvCmd EnvSvc(IWfRuntime wf)
+            public EnvCmd EnvCmd(IWfRuntime wf)
                 => Service<EnvCmd>(wf);
 
             public AppSvcOps AppSvc(IWfRuntime wf)
@@ -20,9 +20,11 @@ namespace Z0
             public DbCmd DbCmd(IWfRuntime wf)
                 => Service<DbCmd>(wf);
 
+            public MemCmd MemCmd(IWfRuntime wf)
+                => Service<MemCmd>(wf);
+
             public ToolsetCmd ToolsetCmd(IWfRuntime wf)
                 => Service<ToolsetCmd>(wf);
-
 
             public AppSvcOps<T> AppSvc<T>(IWfRuntime wf)
                 where T : IAppService<T>, new()
@@ -35,10 +37,13 @@ namespace Z0
             => Services.CheckRunner(wf);
 
         public static EnvCmd EnvCmd(this IWfRuntime wf)
-            => Services.EnvSvc(wf);
+            => Services.EnvCmd(wf);
 
         public static DbCmd DbCmd(this IWfRuntime wf)
             => Services.DbCmd(wf);
+
+        public static MemCmd MemCmd(this IWfRuntime wf)
+            => Services.MemCmd(wf);
 
         public static ToolsetCmd ToolsetCmd(this IWfRuntime wf)
             => Services.ToolsetCmd(wf);

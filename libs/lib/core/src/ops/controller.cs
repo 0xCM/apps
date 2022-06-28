@@ -7,7 +7,7 @@ namespace Z0
     partial struct core
     {
         [MethodImpl(Inline), Op]
-        public static Assembly controller()
-            => Assembly.GetEntryAssembly();
+        public static ref readonly Assembly controller()
+            => ref ExecutingPart.Component;
     }
 }

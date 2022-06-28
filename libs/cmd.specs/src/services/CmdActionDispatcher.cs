@@ -6,11 +6,11 @@ namespace Z0
 {
     public class CmdActionDispatcher :  ICmdDispatcher
     {
-        CmdActions Lookup;
+        ICmdActions Lookup;
 
         Func<string,CmdArgs,Outcome> Fallback;
 
-        public CmdActionDispatcher(CmdActions lookup, Func<string,CmdArgs,Outcome> fallback = null)
+        public CmdActionDispatcher(ICmdActions lookup, Func<string,CmdArgs,Outcome> fallback = null)
         {
             Lookup = lookup;
             Fallback = fallback ?? NotFound;
