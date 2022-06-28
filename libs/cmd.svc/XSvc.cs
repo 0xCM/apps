@@ -39,9 +39,6 @@ namespace Z0
         public static DbCmd DbCmd(this IWfRuntime wf)
             => Services.DbCmd(wf);
 
-        public static MemCmd MemCmd(this IWfRuntime wf)
-            => GlobalServices.CmdSvc<MemCmd>(wf);
-
         public static ToolsetCmd ToolsetCmd(this IWfRuntime wf)
             => Services.ToolsetCmd(wf);
 

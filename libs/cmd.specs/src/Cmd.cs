@@ -85,7 +85,6 @@ namespace Z0
             return dispatcher(CmdActions.join(_dst.ToArray()));
         }
 
-
         [Op]
         public static CmdActionInvoker invoker(string name, object host, MethodInfo method)
             => new CmdActionInvoker(name,host,method);

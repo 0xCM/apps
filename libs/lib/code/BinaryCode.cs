@@ -17,7 +17,6 @@ namespace Z0
         public BinaryCode(byte[] bytes)
             => Data = bytes;
 
-
         public byte[] Storage
         {
             [MethodImpl(Inline)]

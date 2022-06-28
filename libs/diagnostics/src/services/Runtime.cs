@@ -10,7 +10,10 @@ namespace Z0
 
     public partial class Runtime : WfSvc<Runtime>
     {
+
         DumpArchive Dumps => Wf.DumpArchive();
+
+        ImageRegions Regions => Wf.ImageRegions();
 
         ProcessMemory ProcessMemory => Wf.ProcessMemory();
 
@@ -26,7 +29,7 @@ namespace Z0
             var archive = Dumps;
             var process = Process.GetCurrentProcess();
             var summaries = ProcessMemory.EmitPartitions(process, ts);
-            var details = ProcessMemory.EmitRegions(process, ts);
+            var details = Regions.EmitRegions(process, ts);
             EmitDump(process, archive.DumpPath(process, ts));
         }
 
@@ -66,7 +69,7 @@ namespace Z0
             if(selection.EmitDetail)
             {
                 context.RegionPath = ContextPaths.MemoryRegionPath(process, ts);
-                context.Regions = ProcessMemory.EmitRegions(process, context.RegionPath);
+                context.Regions = Regions.EmitRegions(process, context.RegionPath);
             }
             if(selection.EmitDump)
             {
@@ -89,7 +92,7 @@ namespace Z0
             var dst = pack.Archive().ContextRoot();
             var process = Process.GetCurrentProcess();
             var procparts = ProcessMemory.EmitPartitions(process, ts, dst.Root);
-            var regions = ProcessMemory.EmitRegions(process, ts, dst.Root);
+            var regions = Regions.EmitRegions(process, ts, dst.Root);
             EmitDump(process, pack.ProcDumpPath(process));
             Ran(flow);
         }

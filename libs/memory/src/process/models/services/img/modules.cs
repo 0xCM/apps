@@ -11,17 +11,17 @@ namespace Z0
     partial class ImageMemory
     {
         [Op]
-        public static ReadOnlySpan<ProcessModuleAdapter> modules()
+        public static ReadOnlySpan<ProcessModule> modules()
             => modules((ProcessAdapter)Process.GetCurrentProcess());
 
         [Op]
-        public static ReadOnlySpan<ProcessModuleAdapter> modules(ProcessAdapter src)
+        public static ReadOnlySpan<ProcessModule> modules(ProcessAdapter src)
             => src.Modules.OrderBy(x => x.BaseAddress).Array();
 
         [Op]
         public static Index<ProcessModuleRow> modules(Process src)
         {
-            var modules = @readonly(src.Modules.Cast<ProcessModule>().Array());
+            var modules = @readonly(src.Modules.Cast<System.Diagnostics.ProcessModule>().Array());
             var count = modules.Length;
             var buffer = alloc<ProcessModuleRow>(count);
             fill(modules, buffer);
@@ -29,7 +29,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        static void fill(ReadOnlySpan<ProcessModule> src, Span<ProcessModuleRow> dst)
+        static void fill(ReadOnlySpan<System.Diagnostics.ProcessModule> src, Span<ProcessModuleRow> dst)
         {
             var count = min(src.Length, dst.Length);
             for(var i=0u; i<count; i++)
@@ -37,7 +37,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        static ref ProcessModuleRow fill(ProcessModule src, ref ProcessModuleRow dst)
+        static ref ProcessModuleRow fill(System.Diagnostics.ProcessModule src, ref ProcessModuleRow dst)
         {
             dst.ImageName = src.ModuleName;
             dst.BaseAddress = src.BaseAddress;

@@ -238,10 +238,10 @@ namespace Z0
         //   T:System.InvalidOperationException:
         //     The process System.Diagnostics.Process.Id is not available. -or- The process
         //     has exited.
-        public ProcessModuleAdapter MainModule
+        public ProcessModule MainModule
         {
             [MethodImpl(Inline)]
-            get => new ProcessModuleAdapter(Subject.MainModule);
+            get => new ProcessModule(Subject.MainModule);
         }
 
         //
@@ -379,10 +379,10 @@ namespace Z0
         //     You are attempting to access the System.Diagnostics.Process.Modules property
         //     for either the system process or the idle process. These processes do not have
         //     modules.
-        public Index<ProcessModuleAdapter> Modules
+        public Index<ProcessModule> Modules
         {
             [MethodImpl(Inline)]
-            get => Subject.Modules.Cast<D.ProcessModule>().Map(ProcessModuleAdapter.adapt);
+            get => Subject.Modules.Cast<D.ProcessModule>().Map(ProcessModule.adapt);
 
             //Subject.Modules.Cast<D.ProcessModule>().Union(root.seq(Subject.MainModule)).Map(ProcessModule.adapt);
         }

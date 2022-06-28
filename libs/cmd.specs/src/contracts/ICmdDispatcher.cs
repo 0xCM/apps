@@ -11,8 +11,5 @@ namespace Z0
         Outcome Dispatch(string action);
 
         ref readonly CmdActions Commands {get;}
-
-        Outcome Dispatch(ShellCmdSpec cmd)
-            => Dispatch(cmd.Name, cmd.Args);
     }
 }

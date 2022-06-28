@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct ProcessModuleRow : IRecord<ProcessModuleRow>
+    public struct ProcessModuleRow
     {
         public const string TableId = "image.process.modules";
 

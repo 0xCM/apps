@@ -1,5 +1,9 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
+  <PropertyGroup>
+    <FrameworkMoniker>net6.0</FrameworkMoniker>
+  </PropertyGroup>
+
   <Import Project="props/build.props"/>
 
   <PropertyGroup>

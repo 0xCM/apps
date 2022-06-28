@@ -55,7 +55,7 @@ namespace Z0
             {
                 var sidx = (ushort)Index(src.StartAddress.Quadrant(n2));
                 Bases[sidx].Add(paired(src.StartAddress.Lo, (uint)src.Size));
-                ProcessMemory.segment(src, ref Segments[index]);
+                ImageMemory.segment(src, ref Segments[index]);
             }
         }
 

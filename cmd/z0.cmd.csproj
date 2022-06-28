@@ -7,12 +7,12 @@
   </PropertyGroup>
 
   <Import Project="$(ImportDefs)shells.common.props"/>
-  <Import Project="$(ImportDefs)libs.props"/>
 
   <ItemGroup>
     <ProjectReference Include="$(TestChecks)" />
     <ProjectReference Include="$(TestUnits)" />
     <ProjectReference Include="$(CgLibs)" />
+    <ProjectReference Include="$(ZLibs)" />
   </ItemGroup>
 
 </Project>

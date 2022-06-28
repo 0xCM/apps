@@ -21,9 +21,6 @@ namespace Z0
         static Outcome NotFound(string cmd, CmdArgs args)
             => (false, string.Format("Handler for '{0}' not found", cmd));
 
-        public IEnumerable<string> SupportedActions
-            => _Actions.Specs;
-
         public Outcome Dispatch(string action)
             => Dispatch(action, CmdArgs.Empty);
 

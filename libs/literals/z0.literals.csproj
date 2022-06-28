@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <DebugSymbols>true</DebugSymbols>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>$(FrameworkMoniker)</TargetFramework>
   </PropertyGroup>
 
 </Project>

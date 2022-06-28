@@ -4,13 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Linq;
-
     using static core;
 
     partial class ImageMemory
     {
-
         [Op]
         public static Index<ProcessMemoryRegion> regions()
             => pages(MemoryNode.snapshot().Describe());
@@ -22,5 +19,33 @@ namespace Z0
         [Op]
         public static Index<ProcessMemoryRegion> regions(Process src)
             => pages(MemoryNode.snapshot(src.Id).Describe());
+
+        public static Outcome parse(string src, out ProcessMemoryRegion dst)
+        {
+            dst = default;
+            if(text.empty(src))
+                return false;
+
+            var count = ProcessMemoryRegion.FieldCount;
+            var parts = text.split(src,Chars.Pipe);
+            if(parts.Length != ProcessMemoryRegion.FieldCount)
+                return (false, Tables.FieldCountMismatch.Format(parts.Length, count));
+
+            var buffer = alloc<Outcome>(count);
+            ref var outcomes = ref first(buffer);
+
+            var i=0;
+            var j=0;
+            seek(outcomes,i++) = DataParser.parse(skip(parts,j++), out dst.Index);
+            seek(outcomes,i++) = DataParser.parse(skip(parts,j++), out dst.Identity);
+            seek(outcomes,i++) = DataParser.parse(skip(parts,j++), out dst.StartAddress);
+            seek(outcomes,i++) = DataParser.parse(skip(parts,j++), out dst.EndAddress);
+            seek(outcomes,i++) = DataParser.parse(skip(parts,j++), out dst.Size);
+            seek(outcomes,i++) = DataParser.eparse(skip(parts,j++), out dst.Type);
+            seek(outcomes,i++) = DataParser.eparse(skip(parts,j++), out dst.Protection);
+            seek(outcomes,i++) = DataParser.eparse(skip(parts,j++), out dst.State);
+            seek(outcomes,i++) = DataParser.parse(skip(parts,j++), out dst.FullIdentity);
+            return true;
+        }
     }
 }

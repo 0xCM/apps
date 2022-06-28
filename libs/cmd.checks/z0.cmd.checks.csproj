@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
+    <TargetFramework>$(FrameworkMoniker)</TargetFramework>
   </PropertyGroup>
 
   <Import Project="$(ImportDefs)shells.common.props"/>

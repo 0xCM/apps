@@ -21,29 +21,7 @@ namespace Z0
 
         public CmdService()
         {
-           Actions = CmdActions.discover(this);
-        }
-
-        public bool Dispatch(ShellCmdSpec cmd)
-        {
-            var result = Outcome.Success;
-            try
-            {
-                result = Dispatcher.Dispatch(cmd.Name, cmd.Args);
-                if(result.Fail)
-                    Error(result.Message ?? RP.Null);
-                else
-                {
-                    if(text.nonempty(result.Message))
-                        Status(result.Message);
-                }
-            }
-            catch(Exception e)
-            {
-                Error(e);
-                result = e;
-            }
-            return result;
+           Actions = CmdActions.discover<S>((S)this);
         }
 
         public void RunCmd(string name)

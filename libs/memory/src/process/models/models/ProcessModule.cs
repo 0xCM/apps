@@ -6,9 +6,9 @@ namespace Z0
 {
     using S = System.Diagnostics.ProcessModule;
     using D = System.Diagnostics;
-    using A = ProcessModuleAdapter;
+    using A = ProcessModule;
 
-    public readonly struct ProcessModuleAdapter : IAdapter<A,S>
+    public readonly struct ProcessModule : IAdapter<A,S>
     {
         [MethodImpl(Inline)]
         public static A adapt(S subject)
@@ -17,11 +17,11 @@ namespace Z0
         public S Subject {get;}
 
         [MethodImpl(Inline)]
-        public ProcessModuleAdapter(S subject)
+        public ProcessModule(S subject)
             => Subject = subject;
 
         [MethodImpl(Inline)]
-        public ProcessModuleAdapter Adapt(S subject)
+        public ProcessModule Adapt(S subject)
             => adapt(subject);
 
         public override string ToString()
@@ -94,7 +94,7 @@ namespace Z0
         //
         // Returns:
         //     The name of the module.
-        public Name ModuleName
+        public string ModuleName
         {
             [MethodImpl(Inline)]
             get => Subject.ModuleName;

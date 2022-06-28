@@ -2,7 +2,7 @@
   <PropertyGroup>
     <ZLibVersion>0.0.110</ZLibVersion>
     <ZLibName>z0.lib</ZLibName>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>$(FrameworkMoniker)</TargetFramework>
     <TieredCompilation>false</TieredCompilation>
     <TieredCompilationQuickJit>false</TieredCompilationQuickJit>
     <TieredCompilationQuickJitForLoops>false</TieredCompilationQuickJitForLoops>

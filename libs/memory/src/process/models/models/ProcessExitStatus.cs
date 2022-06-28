@@ -7,9 +7,6 @@ namespace Z0
 {
     public readonly struct ProcessExitStatus
     {
-        public static ProcessExitStatus Empty {get;}
-            = new ProcessExitStatus();
-
         public int Code {get;}
 
         public bool Started {get;}

@@ -57,7 +57,6 @@ namespace Z0
 
         public PartId PartId => HostComponent.Id();
 
-
         public S Inject<S>(S svc)
             => inject(svc);
 

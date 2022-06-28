@@ -9,16 +9,22 @@ namespace Z0
     {
         public const string TableId = "address-bank.entry";
 
+        [Render(16)]
         public AddressBankIndex Index;
 
+        [Render(16)]
         public Address16 Selector;
 
+        [Render(16)]
         public Address32 Base;
 
+        [Render(16)]
         public ByteSize Size;
 
+        [Render(16)]
         public MemoryAddress Target;
 
+        [Render(16)]
         public ByteSize TotalSize;
     }
 }

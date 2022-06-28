@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"path": "cmd"
+		},
+		{
+			"path": "libs"
+		},
+		{
+			"path": "props"
+		},
+
+	],
+	"settings": {}
+}

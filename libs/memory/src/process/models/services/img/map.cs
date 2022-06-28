@@ -9,18 +9,18 @@ namespace Z0
     partial class ImageMemory
     {
         [Op]
-        public static ProcessImageMap map(Process src)
+        public static ProcessImageMap map(Process process)
         {
-            var images = ImageMemory.images(src);
-            ref readonly var image = ref images.First;
-            var count = images.Count;
+            var src = images(process);
+            ref readonly var image = ref src.First;
+            var count = src.Count;
             Index<MemoryAddress> addresses = alloc<MemoryAddress>(count);
             ref var address = ref addresses.First;
             for(var i=0u; i<count; i++)
                 seek(address, i) = skip(image, i).BaseAddress;
             var state = new ProcessMemoryState();
-            fill(src, ref state);
-            return new ProcessImageMap(state, images, addresses.Sort(), modules(src));
+            fill(process, ref state);
+            return new ProcessImageMap(state, src, addresses.Sort(), modules(process));
         }
 
         [Op]

@@ -6,13 +6,25 @@ namespace Z0
 {
     using static core;
 
-    public class ApiSegmentLocator : WfSvc<ApiSegmentLocator>
+    public class ImageSegments : WfSvc<ImageSegments>
     {
         static MsgPattern<Address16> SegSelectorNotFound => "Selector {0} not found";
 
         static MsgPattern<Count> LocatingSegments => "Locating segments for {0} methods";
 
         static MsgPattern<Count,Count> LocatedSegments => "Computed {0} segment entries for {0} methods";
+
+        DumpArchive Dumps => Wf.DumpArchive();
+
+        public ProcAddresses EmitSegments(Timestamp ts)
+            => EmitSegments(ts, ImageMemory.regions());
+
+        public ProcAddresses EmitSegments(Timestamp ts, Index<ProcessMemoryRegion> src)
+        {
+            var addresses = ImageRegions.addresses(src);
+            TableEmit(addresses.Segments, Dumps.Table<ProcessSegment>("segments", ts));
+            return addresses;
+        }
 
         public ReadOnlySpan<ProcessSegment> LocateSegments(ProcAddresses src, ReadOnlySpan<ApiMemberInfo> methods, FS.FolderPath dir)
         {

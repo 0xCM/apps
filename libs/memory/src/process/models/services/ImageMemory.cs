@@ -26,48 +26,20 @@ namespace Z0
             return options;
         }
 
-        public static Index<ProcessMemoryRegion> pages(ReadOnlySpan<MemoryRangeInfo> src)
+        [MethodImpl(Inline), Op]
+        public static ref ProcessSegment segment(in ProcessMemoryRegion src, ref ProcessSegment dst)
         {
-            var count = src.Length;
-            var buffer = alloc<ProcessMemoryRegion>(count);
-            ref var dst = ref first(buffer);
-            for(var i=0u; i<count; i++)
-                fill(skip(src,i), i, out seek(dst,i));
-            return buffer;
-        }
-
-        public static ref ProcessMemoryRegion fill(in MemoryRangeInfo src, uint index, out ProcessMemoryRegion dst)
-        {
-            var identity = src.Owner;
-            dst.Index = index;
-            if(text.nonempty(identity))
-            {
-                dst.FullIdentity = identity;
-                if(identity.Contains("."))
-                    dst.Identity = Path.GetFileName(identity);
-                else
-                    dst.Identity = identity.Substring(0, min(identity.Length, 12));
-            }
-            else
-            {
-                dst.Identity = "unknown";
-                dst.FullIdentity = "unknown";
-            }
-
-            dst.StartAddress = src.StartAddress;
-            dst.EndAddress = src.EndAddress;
+            dst.Index = src.Index;
+            dst.Selector = src.StartAddress.Quadrant(n2);
+            dst.Base = src.StartAddress.Lo;
             dst.Size = src.Size;
-            dst.Protection = src.Protection;
+            dst.PageCount = src.Size/PageSize;
+            dst.Range = (src.StartAddress, src.EndAddress);
             dst.Type = src.Type;
-            dst.State = src.State;
+            dst.Protection = src.Protection;
+            dst.Label = src.Identity.Format();
             return ref dst;
         }
 
-        public static ProcAddresses addresses(ReadOnlySpan<ProcessMemoryRegion> src)
-        {
-            var processor = new RegionProcessor();
-            processor.Include(src);
-            return processor.Complete();
-        }
     }
 }

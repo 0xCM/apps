@@ -1,20 +1,51 @@
 @echo off
 
-set EnvId=app.settings
-set WsRoot=%DevRoot%\dev\z0
-set SlnRoot=%WsRoot%
-set ImportDefs=%SlnRoot%\props\
-set AppSettings=%ImportDefs%\app.settings.csv
+set BuildPlatform="Any CPU"
+set FrameworkMoniker=net6.0
+set TargetFramework=%FrameworkMoniker%
+set BuildKind=Release
+set RuntimeMoniker=win-x64
+set BuildVerbosity=normal
+set BuildProps=/p:Configuration=%BuildKind% /p:Platform=%BuildPlatform%
 
-call %DevRoot%\control\.cmd\config.cmd
-call %ControlScripts%\config-build.cmd
+set EnvId=app.settings
+set WsId=z0
+set WsRoot=%DevRoot%\dev\%WsId%
+set WsBuild=%WsRoot%\.build
+set WsLogs=%WsBuild%\logs
+set WsBin=%WsBuild%\bin
+set WsObj=%WsBuild%\obj
+
+mkdir %WsLogs% 1>nul 2>nul
+set BuldLogs=%WsLogs%
+
+set ImportDefs=%WsRoot%\props\
+set AppSettings=%ImportDefs%app.settings.csv
+set ControlScripts=%Views%\control\.cmd
+
+set RepoArchives=%Views%\archives\repos
+set RepoArchive=%RepoArchives%\%WsId%.repo.archive.zip
+set CommitLog=%Views%\db\logs\%WsId%.commit.log
+
+set FrameworkBuildRoot=%WsBin%\z0.%ProjectId%\%BuildKind%\%TargetFramework%
+set ShellBin=%FrameworkBuildRoot%\%RuntimeMoniker%\%ShellName%
+set ProjectBuildLog=%BuildLogs%\z0.%ProjectId%.build.log
+
+set SlnFile=z0.%SlnId%.sln
+set ProjectSlnFile=z0.%ProjectId%.sln
+
+set ShellName=%ShellId%.exe
+set ShellExePath=%FrameworkBuildRoot%\%RuntimeMoniker%\%ShellName%
+set DllShellPath=%FrameworkBuildRoot%\z0.%ProjectId%.exe
+
+set LibName=z0.%ProjectId%.dll
+set LibPath=%FrameworkBuildRoot%\%LibName%
 
 set LibsRoot=%WsRoot%\libs
 set LibProject=%LibsRoot%\%ProjectId%\%CsProjectFile%
 set BuildLib=dotnet build %LibProject% %BuildProps% -fl -flp:logfile=%ProjectBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 set BuildLibs=dotnet build %LibsRoot%\z0.libs.csproj %BuildProps% -fl -flp:logfile=%ProjectBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 
-set SlnFile=z0.%SlnId%.sln
 set SlnPath=%WsRoot%\%WsId%\%SlnFile%
 set SlnBuildLog=%BuildLogs%\z0.%SlnId%.build.log
 set BuildSln=dotnet build %SlnPath% %BuildProps% -fl -flp:logfile=%SlnBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
@@ -28,7 +59,7 @@ set BuildShell=dotnet build %ShellProject% %BuildProps% -fl -flp:logfile=%Projec
 
 set WsShellProject=%WsRoot%\%WsArea%\%WsId%\%CsProjectFile%
 set BuildWsShell=dotnet build %WsShellProject% %BuildProps% -fl -flp:logfile=%ProjectBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
-set shell=%WsBin%\z0.%ProjectId%\%BuildKind%\%FrameworkMoniker%\%RuntimeMoniker%\%ShellName%
+set shell=%WsBin%\z0.%ProjectId%\%BuildKind%\%TargetFramework%\%RuntimeMoniker%\%ShellName%
 
 set ZLibRoot=%WsRoot%\lib
 set ZLibProject=%ZLibRoot%\z0.lib.csproj
@@ -38,7 +69,7 @@ set TestRoot=%WsRoot%\test
 set TestSln=%TestRoot%\z0.test.sln
 set TestBuildLog=%BuildLogs%\z0.test.build.log
 set BuildTests=dotnet build %TestSln% %BuildProps% -fl -flp:logfile=%TestBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
-set ztest=%WsBin%\z0.test.shell\%BuildKind%\%FrameworkMoniker%\%RuntimeMoniker%\ztest.exe
+set ztest=%WsBin%\z0.test.shell\%BuildKind%\%TargetFramework%\%RuntimeMoniker%\ztest.exe
 
 set CgRoot=%WsRoot%\cg
 set BuildCgShell=dotnet build %CgRoot%\cg.shell\z0.cg.shell.csproj %BuildProps% -fl -flp:logfile=%BuildLogs%\z0.cg.shell.build.log;verbosity=%BuildVerbosity% -graph:true -m:24
@@ -52,12 +83,13 @@ set MainSln=%WsRoot%\z0.sln
 set BuildMain=dotnet build %MainSln% %BuildProps% -fl -flp:logfile=%BuildLogs%\z0.build.log;verbosity=%BuildVerbosity% -graph:true -m:24
 
 set CmdShellRoot=%WsRoot%\cmd
-set CmdSln=%CmdShellRoot%\z0.cmd.sln
-set BuildCmdSln=dotnet build %CmdSln% %BuildProps% -fl -flp:logfile=%BuildLogs%\z0.cmd.build.log;verbosity=%BuildVerbosity% -graph:true -m:24
+set CmdProject=%CmdShellRoot%\z0.cmd.csproj
+set BuildCmdShell=dotnet build %CmdProject% %BuildProps% -fl -flp:logfile=%BuildLogs%\z0.cmd.build.log;verbosity=%BuildVerbosity% -graph:true -m:24
+set CmdShellPath=%FrameworkBuildRoot%\%RuntimeMoniker%\%ShellName%
 
 set CmdProject=%WsRoot%\cmd\z0.cmd.csproj
 set BuildCmdProject=dotnet build %CmdProject% %BuildProps% -fl -flp:logfile=%BuildLogs%\z0.cmd.build.log;verbosity=%BuildVerbosity% -graph:true -m:24
-set zcmd=%WsBin%\z0.cmd\%BuildKind%\%FrameworkMoniker%\%RuntimeMoniker%\zcmd.exe
+set zcmd=%WsBin%\z0.cmd\%BuildKind%\%TargetFramework%\%RuntimeMoniker%\zcmd.exe
 
 set LiteralRoot=%WsRoot%\literals
 set LiteralsProject=%LiteralRoot%\z0.literals.csproj
@@ -65,3 +97,4 @@ set BuildLiterals=dotnet build %LiteralsProject% %BuildProps% -fl -flp:logfile=%
 
 set CleanBin=rmdir %WsBin% /s/q
 set CleanObj=rmdir %WsObj% /s/q
+set CleanBuild=rmdir %WsBuild% /s/q

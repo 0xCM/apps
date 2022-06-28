@@ -15,10 +15,10 @@ namespace Z0
 
         [Op]
         public static Index<LocatedImageInfo> images(Process src)
-            => src.Modules.Cast<ProcessModule>().Map(image).OrderBy(x => x.BaseAddress);
+            => src.Modules.Cast<System.Diagnostics.ProcessModule>().Map(image).OrderBy(x => x.BaseAddress);
 
         [Op]
-        public static LocatedImageInfo image(ProcessModule src)
+        public static LocatedImageInfo image(System.Diagnostics.ProcessModule src)
         {
             var part = ApiParsers.partFromFile(src.FileName);
             var entry = (MemoryAddress)src.EntryPointAddress;
