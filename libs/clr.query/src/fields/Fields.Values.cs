@@ -7,7 +7,11 @@ namespace Z0
     partial class ClrQuery
     {
         [Op]
-        public static Type[] Classes(this Assembly[] src)
-            => src.SelectMany(x => x.Classes());
+        public static object[] Values(this FieldInfo[] src, object o = null)
+            => src.Select(x => x.GetValue(o));
+
+        [Op]
+        public static T[] Values<T>(this FieldInfo[] src, object o = null)
+            => src.Select(x => x.GetValue(o)).Where(x => x is T).Cast<T>();
     }
 }

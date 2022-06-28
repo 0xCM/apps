@@ -15,11 +15,11 @@ namespace Z0
         public static ushort bw16<T>(T src)
             where T : unmanaged
         {
-            if(_width<T>() == 8)
+            if(Sized.width<T>() == 8)
                 return u8(src);
-            if(_width<T>() == 16)
+            if(Sized.width<T>() == 16)
                 return u16(src);
-            else if(_width<T>() == 32)
+            else if(Sized.width<T>() == 32)
                 return (ushort)u32(src);
             else
                 return (ushort)u64(src);

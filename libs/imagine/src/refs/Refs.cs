@@ -64,6 +64,42 @@ namespace Z0
             => ref @as<T,ulong>(src);
 
         /// <summary>
+        /// Presents a <typeparamref name='T'/> reference as an <see cref='sbyte'/> reference
+        /// </summary>
+        /// <param name="src">The source reference</param>
+        /// <typeparam name="T">The source type</typeparam>
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static ref sbyte i8<T>(in T src)
+            => ref @as<T,sbyte>(src);
+
+        /// <summary>
+        /// Presents a T-references as a <see cref='short'/> reference
+        /// </summary>
+        /// <param name="src">The source reference</param>
+        /// <typeparam name="T">The source type</typeparam>
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static ref short i16<T>(in T src)
+            => ref @as<T,short>(src);
+
+        /// <summary>
+        /// Presents a T-references as a <see cref='int'/> reference
+        /// </summary>
+        /// <param name="src">The source reference</param>
+        /// <typeparam name="T">The source type</typeparam>
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static ref int i32<T>(in T src)
+            => ref @as<T,int>(src);
+
+        /// <summary>
+        /// Presents a T-references as a <see cref='long'/> reference
+        /// </summary>
+        /// <param name="src">The source reference</param>
+        /// <typeparam name="T">The source type</typeparam>
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static ref long i64<T>(in T src)
+            => ref @as<T,long>(src);
+
+        /// <summary>
         /// Presents a parametric source reference to a <see cref='byte'/>
         /// </summary>
         /// <param name="src">The source value</param>

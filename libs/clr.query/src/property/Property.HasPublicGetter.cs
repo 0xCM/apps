@@ -4,14 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+
     partial class ClrQuery
     {
         /// <summary>
-        /// Determines whether a member has a name that contains {'<' | '>'}
+        /// Determines whether the property has a public getter
         /// </summary>
-        /// <param name="src">The member</param>
+        /// <param name="p">The property to examine</param>
         [MethodImpl(Inline), Op]
-        public static bool HasGenericName(this MemberInfo src)
-            => src.Name.Contains('<') || src.Name.Contains('>');
+        public static bool HasPublicGetter(this PropertyInfo p)
+            => p.GetGetMethod() != null;
     }
 }

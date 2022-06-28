@@ -7,11 +7,11 @@ namespace Z0
     partial class ClrQuery
     {
         /// <summary>
-        /// Determines whether a member has a name that contains {'<' | '>'}
+        /// Selects all static properties declared by the source types
         /// </summary>
-        /// <param name="src">The member</param>
-        [MethodImpl(Inline), Op]
-        public static bool HasGenericName(this MemberInfo src)
-            => src.Name.Contains('<') || src.Name.Contains('>');
+        /// <param name="src">The types to search</param>
+        [Op]
+        public static PropertyInfo[] StaticProperties(this Type[] src)
+            => src.SelectMany(x => x.StaticProperties());
     }
 }

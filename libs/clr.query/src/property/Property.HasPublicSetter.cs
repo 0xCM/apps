@@ -7,11 +7,11 @@ namespace Z0
     partial class ClrQuery
     {
         /// <summary>
-        /// Determines whether a member has a name that contains {'<' | '>'}
+        /// Determines whether the property has a public setter
         /// </summary>
-        /// <param name="src">The member</param>
+        /// <param name="p">The property to examine</param>
         [MethodImpl(Inline), Op]
-        public static bool HasGenericName(this MemberInfo src)
-            => src.Name.Contains('<') || src.Name.Contains('>');
+        public static bool HasPublicSetter(this PropertyInfo p)
+            => p.GetSetMethod() != null;
     }
 }

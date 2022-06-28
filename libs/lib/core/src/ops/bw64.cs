@@ -9,9 +9,6 @@ namespace Z0
 
     partial struct core
     {
-        static uint _width<T>()
-            => (uint)SizeOf<T>()*8;
-
         /// <summary>
         /// Conforms a source value as needed to yield a value of bit-width 64
         /// </summary>
@@ -21,38 +18,38 @@ namespace Z0
         public static ulong bw64<T>(T src)
             where T : unmanaged
         {
-            if(_width<T>() == 8)
-                return u8(src);
-            if(_width<T>() == 16)
-                return u16(src);
-            else if(_width<T>() == 32)
-                return u32(src);
+            if(Sized.width<T>() == 8)
+                return Refs.u8(src);
+            if(Sized.width<T>() == 16)
+                return Refs.u16(src);
+            else if(Sized.width<T>() == 32)
+                return Refs.u32(src);
             else
-                return u64(src);
+                return Refs.u64(src);
         }
 
         [MethodImpl(Inline), Op, Closures(AllNumeric)]
         public static long bw64i<T>(T src)
             where T : unmanaged
         {
-            if(_width<T>() == 8)
-                return i8(src);
-            if(_width<T>() == 16)
-                return i16(src);
-            else if(_width<T>() == 32)
-                return i32(src);
+            if(Sized.width<T>() == 8)
+                return Refs.i8(src);
+            if(Sized.width<T>() == 16)
+                return Refs.i16(src);
+            else if(Sized.width<T>() == 32)
+                return Refs.i32(src);
             else
-                return i64(src);
+                return Refs.i64(src);
         }
 
         [MethodImpl(Inline), Op]
         public static long bw64i(ReadOnlySpan<byte> src)
         {
             var storage = z64i;
-            ref var dst = ref @as<byte>(storage);
+            ref var dst = ref Refs.@as<byte>(storage);
             var count = min(8,src.Length);
             for(var i=0; i<count; i++)
-                seek(dst,i) = skip(src,i);
+                Refs.seek(dst,i) = Spans.skip(src,i);
             return storage;
         }
 
@@ -60,10 +57,10 @@ namespace Z0
         public static ulong bw64u(ReadOnlySpan<byte> src)
         {
             var storage = z64;
-            ref var dst = ref @as<byte>(storage);
+            ref var dst = ref Refs.@as<byte>(storage);
             var count = min(8,src.Length);
             for(var i=0; i<count; i++)
-                seek(dst,i) = skip(src,i);
+                Refs.seek(dst,i) = Spans.skip(src,i);
             return storage;
         }
     }

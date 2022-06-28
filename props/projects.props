@@ -73,6 +73,7 @@
     <SizedText>$(LibsRoot)text.sized/z0.text.sized.csproj</SizedText>
     <Symbolics>$(LibsRoot)symbolics/z0.symbolics.csproj</Symbolics>
     <Symbols>$(LibsRoot)symbols/z0.symbols.csproj</Symbols>
+    <Sys>$(LibsRoot)sys/z0.sys.csproj</Sys>
 
     <Tools>$(LibsRoot)tools/z0.tools.csproj</Tools>
     <TestChecks>$(TestRoot)test.checks/z0.test.checks.csproj</TestChecks>

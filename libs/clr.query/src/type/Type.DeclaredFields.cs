@@ -4,14 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static ReflectionFlags;
+
     partial class ClrQuery
     {
         /// <summary>
-        /// Determines whether a member has a name that contains {'<' | '>'}
+        /// Queries the source <see cref='Type'/> for <see cref='FieldInfo'/> members determined by the <see cref='BF_Declared'/> flags
         /// </summary>
-        /// <param name="src">The member</param>
+        /// <param name="src">The source type</param>
         [MethodImpl(Inline), Op]
-        public static bool HasGenericName(this MemberInfo src)
-            => src.Name.Contains('<') || src.Name.Contains('>');
+        public static FieldInfo[] DeclaredFields(this Type src)
+            => src.GetFields(BF_Declared);
     }
 }

@@ -69,6 +69,7 @@
     <ProjectReference Include="$(SizedText)" />
     <ProjectReference Include="$(Symbols)" />
     <ProjectReference Include="$(Symbolics)" />
+    <ProjectReference Include="$(Sys)" />
 
     <ProjectReference Include="$(Tools)" />
 

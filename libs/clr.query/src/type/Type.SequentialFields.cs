@@ -4,14 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static ReflectionFlags;
+
     partial class ClrQuery
     {
-        /// <summary>
-        /// Determines whether a member has a name that contains {'<' | '>'}
-        /// </summary>
-        /// <param name="src">The member</param>
         [MethodImpl(Inline), Op]
-        public static bool HasGenericName(this MemberInfo src)
-            => src.Name.Contains('<') || src.Name.Contains('>');
+        public static FieldInfo[] SequentialFields(this Type src)
+            => src.GetFields(BF_DeclaredInstance).OrderBy(f => f.MetadataToken);
     }
 }

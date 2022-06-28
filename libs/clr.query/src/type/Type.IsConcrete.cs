@@ -7,11 +7,11 @@ namespace Z0
     partial class ClrQuery
     {
         /// <summary>
-        /// Determines whether a member has a name that contains {'<' | '>'}
+        /// Returns true if the source type is either non-generic or a generic type that has been closed over all parameters
         /// </summary>
-        /// <param name="src">The member</param>
+        /// <param name="src">The type to examine</param>
         [MethodImpl(Inline), Op]
-        public static bool HasGenericName(this MemberInfo src)
-            => src.Name.Contains('<') || src.Name.Contains('>');
+        public static bool IsConcrete(this Type src)
+            => !src.ContainsGenericParameters && !src.IsGenericParameter && !src.IsAbstract;
     }
 }

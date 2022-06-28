@@ -23,6 +23,9 @@
 		},
 		{
 			"path": "libs\\interop"
+		},
+		{
+			"path": "libs\\sys"
 		}
 	],
 	"settings": {}

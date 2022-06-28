@@ -240,6 +240,9 @@ public enum PartId : byte
     [Symbol("imagine")]
     Imagine,
 
+    [Symbol("sys")]
+    Sys,
+
     // ~ Generated 100 .. 127
     // ~ -------------------------------------------------------------------------------
 

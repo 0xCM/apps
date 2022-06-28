@@ -76,7 +76,6 @@ namespace Z0
         public static ref readonly T skip<T>(Span<T> src, ushort count)
             => ref skip(in first(src), count);
 
-
         /// <summary>
         /// Skips a specified number of <typeparamref name='T'/> cells and returns a readonly reference to the next cell
         /// </summary>
