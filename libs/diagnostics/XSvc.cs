@@ -11,9 +11,6 @@ namespace Z0
             public SymbolArchive SymbolArchives(IWfRuntime wf)
                 => Service<SymbolArchive>(wf);
 
-            public ApiSegmentLocator ApiSegments(IWfRuntime wf)
-                => Service<ApiSegmentLocator>(wf);
-
             public Runtime Runtime(IWfRuntime wf)
                 => Service<Runtime>(wf);
 
@@ -28,16 +25,12 @@ namespace Z0
 
             public DumpParser DumpParser(IWfRuntime wf)
                 => Service<DumpParser>(wf);
-
         }
 
         static Svc Services => Svc.Instance;
 
         public static SymbolArchive SymbolArchives(this IWfRuntime wf)
             => Services.SymbolArchives(wf);
-
-        public static ApiSegmentLocator ApiSegments(this IWfRuntime wf)
-            => Services.ApiSegments(wf);
 
         public static Runtime Runtime(this IWfRuntime wf)
             => Services.Runtime(wf);

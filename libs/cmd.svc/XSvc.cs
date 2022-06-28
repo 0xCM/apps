@@ -20,9 +20,6 @@ namespace Z0
             public DbCmd DbCmd(IWfRuntime wf)
                 => Service<DbCmd>(wf);
 
-            public MemCmd MemCmd(IWfRuntime wf)
-                => Service<MemCmd>(wf);
-
             public ToolsetCmd ToolsetCmd(IWfRuntime wf)
                 => Service<ToolsetCmd>(wf);
 
@@ -43,7 +40,7 @@ namespace Z0
             => Services.DbCmd(wf);
 
         public static MemCmd MemCmd(this IWfRuntime wf)
-            => Services.MemCmd(wf);
+            => GlobalServices.CmdSvc<MemCmd>(wf);
 
         public static ToolsetCmd ToolsetCmd(this IWfRuntime wf)
             => Services.ToolsetCmd(wf);

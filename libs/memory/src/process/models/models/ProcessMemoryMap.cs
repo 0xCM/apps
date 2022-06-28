@@ -4,20 +4,21 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct ProcessMemoryMap
+    [StructLayout(LayoutKind.Sequential,Pack=1)]
+    public class ProcessMemoryMap
     {
-        public Name ProcessName {get;}
+        public readonly string ProcessName;
 
-        public uint ProcessId {get;}
+        public readonly uint ProcessId;
 
-        public MemoryAddress BaseAddress {get;}
+        public readonly MemoryAddress BaseAddress;
 
-        public ByteSize MemorySize {get;}
+        public readonly ByteSize MemorySize;
 
-        public Index<ModuleMemory> Modules {get;}
+        public readonly Index<ModuleMemory> Modules;
 
         [MethodImpl(Inline)]
-        public ProcessMemoryMap(Name name, uint id, MemoryAddress @base, ByteSize size, Index<ModuleMemory> modules)
+        public ProcessMemoryMap(string name, uint id, MemoryAddress @base, ByteSize size, Index<ModuleMemory> modules)
         {
             ProcessName = name;
             ProcessId = id;

@@ -61,8 +61,11 @@ namespace Z0
             return slice(dst,0,counter);
         }
 
+        public static CmdActionDispatcher dispatcher<T>(T svc, CmdActions actions)
+            where T : ICmdService
+                => dispatcher(actions);
 
-        public static CmdActionDispatcher dispatcher(ICmdActions actions, Func<string,CmdArgs,Outcome> fallback = null)
+        public static CmdActionDispatcher dispatcher(CmdActions actions, Func<string,CmdArgs,Outcome> fallback = null)
             => new CmdActionDispatcher(actions, fallback);
 
         public static Index<ICmdReactor> reactors(IWfRuntime wf)
@@ -73,14 +76,15 @@ namespace Z0
             return reactors;
         }
 
-        public static CmdActionDispatcher dispatcher<T>(T service, Index<ICmdProvider> providers)
+        public static CmdActionDispatcher dispatcher<T>(T svc, Index<ICmdProvider> providers)
         {
             var dst = dict<string,CmdActionInvoker>();
             var _dst = bag<CmdActions>();
-            _dst.Add(CmdActions.discover(service));
+            _dst.Add(CmdActions.discover(svc));
             iter(providers, x => _dst.Add(x.Actions));
             return dispatcher(CmdActions.join(_dst.ToArray()));
         }
+
 
         [Op]
         public static CmdActionInvoker invoker(string name, object host, MethodInfo method)

@@ -71,12 +71,6 @@ namespace Z0
 
                 address = child.BasicInfo.BaseAddress + child.BasicInfo.RegionSize;
 
-                // if(child.Protection == PageProtection.NoAccess)
-                // {
-                //     if(NativeMethods.read(process.Handle, (IntPtr)address, child.BasicInfo.RegionSize))
-                //         liberated.Add((IntPtr)address);
-                // }
-
                 if(NativeMethods.liberate(process.Handle, (IntPtr)address, child.BasicInfo.RegionSize))
                     liberated.Add((IntPtr)address);
 

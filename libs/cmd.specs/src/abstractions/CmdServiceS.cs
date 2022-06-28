@@ -7,18 +7,22 @@ namespace Z0
     public class CmdService<S> : AppService<CmdService<S>>, ICmdService
         where S : CmdService<S>, new()
     {
-        public static S create(IWfRuntime wf, CmdActions actions, ICmdDispatcher dispatch)
+        public new static S create(IWfRuntime wf)
         {
-            var dst = new S();
-            dst.Dispatcher = dispatch;
-            dst.Actions = actions;
-            dst.Init(wf);
-            return dst;
+            var svc = new S();
+            svc.Dispatcher = Cmd.dispatcher(svc.Actions);
+            svc.Init(wf);
+            return svc;
         }
 
         ICmdDispatcher Dispatcher;
 
-        public CmdActions Actions {get;private set;}
+        public CmdActions Actions {get;}
+
+        public CmdService()
+        {
+           Actions = CmdActions.discover(this);
+        }
 
         public bool Dispatch(ShellCmdSpec cmd)
         {
@@ -53,5 +57,8 @@ namespace Z0
         {
             Dispatcher.Dispatch(name, args);
         }
+
+        protected static CmdArg arg(in CmdArgs src, int index)
+            => ShellCmd.arg(src, index);
     }
 }

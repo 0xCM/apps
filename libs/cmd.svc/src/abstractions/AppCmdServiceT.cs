@@ -191,7 +191,7 @@ namespace Z0
 
         void EmitCommands(FS.FilePath dst)
         {
-            var actions = Dispatcher.SupportedActions.Index().Sort();
+            var actions = Dispatcher.Commands.Specs.Index().Sort();
             var emitter = text.emitter();
             iter(actions, cmd => emitter.AppendLine(cmd));
             iter(actions, cmd => Write(cmd));

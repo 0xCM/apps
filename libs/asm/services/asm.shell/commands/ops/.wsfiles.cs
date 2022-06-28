@@ -5,46 +5,17 @@
 namespace Z0.Asm
 {
     using static core;
+
     using System.Linq;
 
     partial class AsmCmdService
     {
-        // [CmdOp(".wsfiles")]
-        // Outcome WsFiles(CmdArgs args)
-        // {
-        //     var result = Outcome.Success;
-        //     var root = State.Workspace().Root;
-        //     if(args.Length == 0)
-        //     {
-        //         Files(root.Files(true));
-        //     }
-        //     else
-        //     {
-        //         var filter = arg(args,0).Value;
-        //         Files(root.Files(filter, true));
-        //     }
-
-        //     return result;
-        // }
-
-
         public void ProcessMsDocs()
         {
             var src = FS.dir(@"J:\docs\msdocs-sdk-api\sdk-api-src\content\dbghelp");
             var dst = Db.AppLog("dbghelp", FS.ext("yml"));
             var tool = Wf.MsDocs();
             tool.Process(src,dst);
-        }
-
-        void CollectMemStats()
-        {
-            var dst = Db.ProcessContextRoot();
-            var pipe = Wf.Runtime();
-            var ts = core.timestamp();
-            var flags = ProcessContextFlag.Detail | ProcessContextFlag.Summary | ProcessContextFlag.Hashes;
-            var prejit = pipe.Emit(ts, "prejit", flags);
-            var members = Wf.ApiJit().JitCatalog();
-            var postjit = pipe.Emit(ts, "postjit", flags);
         }
 
         void CheckMullo(IBoundSource Source)
@@ -128,7 +99,6 @@ namespace Z0.Asm
             iter(rtlibs, lib => lib.Render(buffer));
             Wf.Data(buffer.Emit());
         }
-
 
         void CheckFlags()
         {

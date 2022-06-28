@@ -4,23 +4,25 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class CmdActionDispatcher :  ICmdDispatcher
+    public class CmdActionDispatcher : ICmdDispatcher
     {
-        ICmdActions Lookup;
+        CmdActions _Actions;
 
         Func<string,CmdArgs,Outcome> Fallback;
 
-        public CmdActionDispatcher(ICmdActions lookup, Func<string,CmdArgs,Outcome> fallback = null)
+        public CmdActionDispatcher(CmdActions lookup, Func<string,CmdArgs,Outcome> fallback = null)
         {
-            Lookup = lookup;
+            _Actions = lookup;
             Fallback = fallback ?? NotFound;
         }
+
+        public ref readonly CmdActions Commands => ref _Actions;
 
         static Outcome NotFound(string cmd, CmdArgs args)
             => (false, string.Format("Handler for '{0}' not found", cmd));
 
         public IEnumerable<string> SupportedActions
-            => Lookup.Specs;
+            => _Actions.Specs;
 
         public Outcome Dispatch(string action)
             => Dispatch(action, CmdArgs.Empty);
@@ -29,7 +31,7 @@ namespace Z0
         {
             try
             {
-                if(Lookup.Find(name, out var invoker))
+                if(_Actions.Find(name, out var invoker))
                     return invoker.Invoke(args);
                 else
                 {

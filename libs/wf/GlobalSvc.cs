@@ -8,9 +8,9 @@ namespace Z0
     {
         static ref readonly GlobalCmdSvc Commands => ref GlobalCmdSvc.Instance;
 
-        public static S CmdSvc<S>(IWfRuntime wf, Func<IWfRuntime,S> factory)
+        public static S CmdSvc<S>(IWfRuntime wf)
             where S : ICmdService, new()
-                => Commands.Service(wf, factory);
+                => Commands.Service<S>(wf);
 
         public static S InjectCmdSvc<S>(S svc)
             where S : ICmdService

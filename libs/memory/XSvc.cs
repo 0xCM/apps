@@ -19,6 +19,19 @@ namespace Z0
 
             public HexEmitter HexEmitter(IWfRuntime wf)
                 => Service<HexEmitter>(wf);
+
+            public ApiSegmentLocator ApiSegments(IWfRuntime wf)
+                => Service<ApiSegmentLocator>(wf);
+
+            public ProcessMemory ProcessMemory(IWfRuntime wf)
+                => Service<ProcessMemory>(wf);
+
+            public DumpArchive DumpArchive(IWfRuntime wf)
+                => Service<DumpArchive>(wf);
+
+            public ModuleArchives ModuleArchives(IWfRuntime wf)
+                => Service<ModuleArchives>(wf);
+
         }
 
         static Svc Services => Svc.Instance;
@@ -34,5 +47,18 @@ namespace Z0
 
         public static HexEmitter HexEmitter(this IWfRuntime wf)
             => Services.HexEmitter(wf);
+
+        public static ApiSegmentLocator ApiSegments(this IWfRuntime wf)
+            => Services.ApiSegments(wf);
+
+        public static ProcessMemory ProcessMemory(this IWfRuntime wf)
+            => Services.ProcessMemory(wf);
+
+        public static ModuleArchives ModuleArchives(this IWfRuntime wf)
+            => Services.ModuleArchives(wf);
+
+        public static DumpArchive DumpArchive(this IWfRuntime wf)
+            => Services.DumpArchive(wf);
+
     }
 }

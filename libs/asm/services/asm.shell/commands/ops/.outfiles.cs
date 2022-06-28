@@ -8,7 +8,6 @@ namespace Z0.Asm
 
     partial class AsmCmdService
     {
-
         void JitApiCatalog()
         {
             Wf.ApiJit().JitCatalog();

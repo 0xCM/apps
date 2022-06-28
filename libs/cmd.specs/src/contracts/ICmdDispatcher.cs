@@ -10,7 +10,7 @@ namespace Z0
 
         Outcome Dispatch(string action);
 
-        IEnumerable<string> SupportedActions {get;}
+        ref readonly CmdActions Commands {get;}
 
         Outcome Dispatch(ShellCmdSpec cmd)
             => Dispatch(cmd.Name, cmd.Args);
