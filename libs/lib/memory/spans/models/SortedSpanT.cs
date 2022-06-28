@@ -5,18 +5,6 @@
 namespace Z0
 {
     using static core;
-
-    public class SortedSpans
-    {
-        [MethodImpl(Inline)]
-        public static SortedSpan<T> define<T>(T[] src)
-            => new SortedSpan<T>(src);
-
-        [MethodImpl(Inline)]
-        public static SortedSpan<T> define<T>(Span<T> src)
-            => new SortedSpan<T>(src);
-
-    }
     public readonly ref struct SortedSpan<T>
     {
         readonly Span<T> Data;

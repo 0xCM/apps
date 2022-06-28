@@ -12,7 +12,7 @@ namespace Z0.Asm
 
         AppSvcOps AppSvc => Wf.AppSvc();
 
-        public SortedReadOnlySpan<ProcessAsmRecord> BuildProcessAsm(ReadOnlySpan<AsmRoutine> src)
+        public SortedSpan<ProcessAsmRecord> BuildProcessAsm(ReadOnlySpan<AsmRoutine> src)
         {
             var kRountines = src.Length;
             if(kRountines == 0)
@@ -62,7 +62,7 @@ namespace Z0.Asm
             }
 
             var records = slice(buffer,1,counter);
-            return Spans.sorted(@readonly(records));
+            return SortedSpans.define(records);
         }
 
         public ExecToken EmitProcessAsm(SortedReadOnlySpan<ProcessAsmRecord> src, FS.FilePath dst)
@@ -126,7 +126,7 @@ namespace Z0.Asm
                 }
             }
 
-            return Spans.sorted(dst.ViewDeposited());
+            return SortedSpans.define(dst.ViewDeposited());
         }
 
         AsmInstructionBlock Decode(in ApiCodeBlock src)
