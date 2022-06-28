@@ -237,6 +237,9 @@ public enum PartId : byte
     [Symbol("wf")]
     Wf,
 
+    [Symbol("imagine")]
+    Imagine,
+
     // ~ Generated 100 .. 127
     // ~ -------------------------------------------------------------------------------
 

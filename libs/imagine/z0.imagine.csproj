@@ -8,8 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="$(Literals)" />
-    <ProjectReference Include="$(ApiContracts)" />
-    <ProjectReference Include="$(Imagine)" />
   </ItemGroup>
 
 </Project>

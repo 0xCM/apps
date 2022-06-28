@@ -49,7 +49,7 @@ namespace Z0
         /// <summary>
         /// The process image version
         /// </summary>
-        public VersionSpec ImageVersion;
+        public ApiVersion ImageVersion;
 
         /// <summary>
         /// The minimum working set size

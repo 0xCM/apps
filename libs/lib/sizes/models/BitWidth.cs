@@ -32,7 +32,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public static int div<T>(int a)
             where T : unmanaged
-                => a / (Unsafe.SizeOf<T>()*8);
+                => a/(Unsafe.SizeOf<T>()*8);
 
         /// <summary>
         /// Computes the remainder r :=  a % bitsize[T] of an operand a and parametric type T

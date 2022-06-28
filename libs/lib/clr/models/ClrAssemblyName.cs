@@ -6,7 +6,7 @@ namespace Z0
 {
     using api = ClrAssemblyNames;
 
-    public readonly struct ClrAssemblyName : IEquatable<ClrAssemblyName>
+    public readonly record struct ClrAssemblyName : IDataType<ClrAssemblyName>
     {
         readonly AssemblyName Subject;
 
@@ -36,25 +36,44 @@ namespace Z0
             get => api.version(Subject);
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => core.hash(FullName);
+        }
+
+        public override int GetHashCode()
+            => Hash;
+
         [MethodImpl(Inline)]
         public string Format()
             => api.format(Subject);
+
+        public override string ToString()
+            => Format();
+
+        public int CompareTo(ClrAssemblyName src)
+            => FullName.CompareTo(src.FullName);
 
         [MethodImpl(Inline)]
         public string Format(AssemblyNameKind kind)
             => api.format(Subject, kind);
 
-        public override string ToString()
-            => Format();
-
-        public override int GetHashCode()
-            => Subject?.GetHashCode() ?? 0;
-
         public bool Equals(ClrAssemblyName src)
             => Subject?.Equals(src.Subject) ?? false;
 
-        public override bool Equals(object src)
-            => src is ClrAssemblyName n && Equals(n);
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Subject is null;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => !(Subject is null);
+        }
 
         [MethodImpl(Inline)]
         public static implicit operator ClrAssemblyName(AssemblyName src)
@@ -73,5 +92,6 @@ namespace Z0
             [MethodImpl(Inline)]
             get => new ClrAssemblyName(new AssemblyName());
         }
+
     }
 }

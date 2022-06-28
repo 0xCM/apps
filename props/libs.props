@@ -40,6 +40,7 @@
     <ProjectReference Include="$(Glue)" />
     <ProjectReference Include="$(Graphs)" />
 
+    <ProjectReference Include="$(Imagine)" />
     <ProjectReference Include="$(IntelCore)" />
     <ProjectReference Include="$(IntelIntrinsics)" />
     <ProjectReference Include="$(IntelXed)" />

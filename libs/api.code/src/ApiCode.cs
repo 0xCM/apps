@@ -274,7 +274,7 @@ namespace Z0
 
         [Op]
         public ReadOnlySpan<ApiHexIndexRow> EmitIndex(SortedIndex<ApiCodeBlock> src, FS.FilePath dst)
-            => EmitIndex(Spans.sorted(src.View), dst);
+            => EmitIndex(SortedSpans.define(src.Storage), dst);
 
         [Op]
         ReadOnlySpan<ApiHexIndexRow> EmitIndex(SortedReadOnlySpan<ApiCodeBlock> src, FS.FilePath dst)

@@ -11,6 +11,7 @@ global using System.Diagnostics;
 global using System.Reflection.Metadata;
 global using System.Reflection.Metadata.Ecma335;
 global using System.Reflection.PortableExecutable;
+global using System.Reflection.Emit;
 global using System.Runtime.Intrinsics;
 global using System.Runtime.CompilerServices;
 global using System.Runtime.InteropServices;
@@ -19,17 +20,16 @@ global using System.Threading.Tasks;
 global using System.IO;
 
 global using static Z0.Root;
+global using static Z0.ApiGranules;
 
 global using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 global using CallerName = System.Runtime.CompilerServices.CallerMemberNameAttribute;
 global using CallerFile = System.Runtime.CompilerServices.CallerFilePathAttribute;
 global using CallerLine = System.Runtime.CompilerServices.CallerLineNumberAttribute;
-
 using NK = Z0.NumericKind;
 
-[assembly: PartId(PartId.Monadic)]
 
-
+[assembly: PartId(PartId.Imagine)]
 
 namespace Z0
 {

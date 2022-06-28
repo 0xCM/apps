@@ -10,7 +10,7 @@ namespace Z0
 
         public FS.FolderPath ToolRoot;
 
-        public VersionSpec Version;
+        public ApiVersion Version;
 
         public FS.FolderPath ToolVersionRoot;
 
