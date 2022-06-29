@@ -48,6 +48,9 @@ public enum PartId : byte
     [Symbol("cmd.tools")]
     CmdTools,
 
+    [Symbol("validity")]
+    Validity,
+
     [Symbol("asm.prototypes")]
     AsmPrototypes,
 

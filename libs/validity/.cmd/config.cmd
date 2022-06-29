@@ -1,3 +1,3 @@
 @echo off
-set ProjectId=lib
+set ProjectId=validity
 call %Views%\z0\.cmd\config.cmd

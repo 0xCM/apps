@@ -24,8 +24,8 @@ namespace Z0.Asm
             {
                 var n = text.index(op, Chars.FSlash);
                 var dst = op;
-                if(text.fenced(dst,RenderFence.Angled))
-                    dst = text.unfence(dst,RenderFence.Angled);
+                if(Fenced.test(dst, Fenced.Angled))
+                    dst = Fenced.unfence(dst, Fenced.Angled);
 
                 if(n > 0)
                 {

@@ -59,6 +59,12 @@ namespace Z0
             get => SQ.@null(Code);
         }
 
+        public bool IsNonNull
+        {
+            [MethodImpl(Inline), Op]
+            get => !IsNull;
+        }
+
         [MethodImpl(Inline)]
         public bool Equals(C src)
             => Code == src.Code;

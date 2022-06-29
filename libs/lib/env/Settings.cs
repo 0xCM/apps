@@ -13,6 +13,12 @@ namespace Z0
     [ApiHost]
     public class Settings : IIndex<Setting>, ILookup<string,Setting>
     {
+        public static FS.FilePath path()
+            => FS.path(ExecutingPart.Component.Location).FolderPath + FS.file($"{ExecutingPart.Id.Format()}.settings", FileKind.Csv);
+
+        public static FS.FilePath path(PartId part)
+            => FS.path(ExecutingPart.Component.Location).FolderPath + FS.file($"{part.Format()}.settings", FileKind.Csv);
+
         public static Settings table(FS.FilePath src)
         {
             const char sep = Chars.Pipe;

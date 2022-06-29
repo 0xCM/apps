@@ -96,7 +96,7 @@ namespace Z0.llvm
 
         public static Outcome parse(string src, string type, out list<string> dst)
         {
-            dst = new list<string>(text.trim(text.split(text.unfence(src, RenderFence.Bracketed), Chars.Comma)));
+            dst = new list<string>(text.trim(text.split(Fenced.unfence(src, Fenced.Bracketed), Chars.Comma)));
             return true;
         }
 

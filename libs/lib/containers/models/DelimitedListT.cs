@@ -23,7 +23,7 @@ namespace Z0
             CellPad = pad;
             Kind = kind;
             Delimiter = delimiter;
-            Fence = kind == SeqEnclosureKind.Embraced ? RenderFence.Embraced : RenderFence.Bracketed;
+            Fence = kind == SeqEnclosureKind.Embraced ? Fenced.Embraced : Fenced.Bracketed;
         }
 
         [MethodImpl(Inline)]

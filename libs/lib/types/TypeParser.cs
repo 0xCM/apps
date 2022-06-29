@@ -16,7 +16,7 @@ namespace Z0
             var buffer = sys.empty<TypeParam>();
             if(parametric(src))
             {
-                var content = text.unfence(src.Text, RenderFence.Angled);
+                var content = Fenced.unfence(src.Text, Fenced.Angled);
                 if(nonempty(content))
                 {
                     var parts = text.split(content,Chars.Comma);

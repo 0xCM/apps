@@ -78,7 +78,7 @@ namespace Z0
             var result = Outcome.Success;
             const string Expect = "* 1 {} {33 a cde:} d*";
             var input = "aba {* 1 {} {33 a cde:} d*} x b";
-            var inner = text.unfence(input,0, RenderFence.Embraced);
+            var inner = Fenced.unfence(input,0, Fenced.Embraced);
             if(inner!=Expect)
             {
                 result = (false,string.Format("{0} != {1}", inner, Expect));

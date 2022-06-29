@@ -7,10 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="$(ZLib)" />
+    <ProjectReference Include="$(Polyrand)" />
+    <ProjectReference Include="$(CmdSvc)" />
+    <ProjectReference Include="$(Wf)" />
+    <ProjectReference Include="$(Archives)" />
   </ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Include="assets/**/*.*" />
-  </ItemGroup>
 </Project>

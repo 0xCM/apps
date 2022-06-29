@@ -288,7 +288,7 @@ namespace Z0
             if(components.Length == 2 && components[0].Length == 1)
             {
                 var summary = text.replace(
-                              text.unfence(value, RenderFence.define("<summary>", "</summary>"))
+                              Fenced.unfence(value, Fenced.define("<summary>", "</summary>"))
                                  .RemoveAny((char)AsciControlSym.CR, (char)AsciControlSym.LF).Trim(), Chars.Pipe, Chars.Caret);
                 result = parse(target(components[0][0]), components[1], summary, out dst);
             }
@@ -301,7 +301,7 @@ namespace Z0
             if(components.Length == 2 && components[0].Length == 1)
             {
                 var summary = text.replace(
-                              text.unfence(value, RenderFence.define("<summary>", "</summary>"))
+                              Fenced.unfence(value, Fenced.define("<summary>", "</summary>"))
                                  .RemoveAny((char)AsciControlSym.CR, (char)AsciControlSym.LF).Trim(), Chars.Pipe, Chars.Caret);
 
                 return ParseResult.win(key, comment(target(components[0][0]), components[1], summary));

@@ -42,7 +42,7 @@ namespace Z0
                 if(j >= 0)
                 {
                     ToolId tool = text.left(content, j);
-                    var flow = text.unfence(text.right(content,j), RenderFence.Bracketed);
+                    var flow = Fenced.unfence(text.right(content,j), Fenced.Bracketed);
 
                     j = text.index(flow, "--");
                     if(j == NotFound)

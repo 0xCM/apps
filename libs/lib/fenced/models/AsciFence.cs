@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct AsciFence
+    public readonly struct AsciFence : IDataType<AsciFence>
     {
         public readonly AsciSymbol Left;
 
@@ -15,6 +15,18 @@ namespace Z0
         {
             Left = left;
             Right = right;
+        }
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Left.IsNull || Right.IsNull;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Left.IsNonNull && Right.IsNonNull;
         }
 
         public Hash32 Hash
@@ -54,6 +66,5 @@ namespace Z0
             => new (src.Left,src.Right);
 
         public static AsciFence Empty => default;
-
     }
 }

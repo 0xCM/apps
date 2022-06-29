@@ -46,8 +46,8 @@ namespace Z0
 
         static string syncontent(string src)
         {
-            if(text.fenced(src, RenderFence.Paren))
-                return text.trim(text.despace(text.unfence(src,RenderFence.Paren)));
+            if(Fenced.test(src, Fenced.Paren))
+                return text.trim(text.despace(Fenced.unfence(src, Fenced.Paren)));
             else
                 return text.trim(text.despace(src));
         }
@@ -79,7 +79,7 @@ namespace Z0
                 Lines.parse(locator, out FilePoint point);
                 var srcpath = point.Path;
                 var syntax = text.right(a, m + EntryMarker.Length);
-                syntax = text.unfence(syntax, Brackets, out var semantic) ? RP.parenthetical(semantic) : syntax;
+                syntax = Fenced.unfence(syntax, Brackets, out var semantic) ? RP.parenthetical(semantic) : syntax;
                 var body = b.Replace(Chars.Tab, Chars.Space);
                 var record = new AsmSyntaxRow();
                 var orign = context.Root(src);

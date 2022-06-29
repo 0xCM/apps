@@ -58,7 +58,7 @@ namespace Z0
             set => Packed = @as<ulong,T>(bit.set(@as<T,ulong>(Packed), (byte)pos, value));
         }
 
-        public string Format(RenderFence fence, char sep = (char)0)
+        public string Format(CharFence fence, char sep = (char)0)
         {
             var dst = text.buffer();
             BitRender.render(N, fence, sep, Packed, dst);
@@ -68,10 +68,10 @@ namespace Z0
         public string Format()
         {
             var dst = text.buffer();
-            BitRender.render(N, RenderFence.Embraced, DefaultSep, Packed, dst);
+            BitRender.render(N, Fenced.Embraced, DefaultSep, Packed, dst);
             return dst.Emit();
         }
-    
+
 
         public override string ToString()
             => Format();

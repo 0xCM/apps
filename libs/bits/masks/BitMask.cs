@@ -34,12 +34,12 @@ namespace Z0
         public static Index<BitMaskInfo> masks(LiteralInfo src, object value)
         {
             var input = src.Text;
-            var fence = RenderFence.define(Chars.LBracket, Chars.RBracket);
+            var fence = CharFence.define(Chars.LBracket, Chars.RBracket);
             var content = input;
-            var fenced = text.fenced(input, fence);
+            var fenced = Fenced.test(input, fence);
             if(fenced)
             {
-                if(!text.unfence(input, fence, out content))
+                if(!Fenced.unfence(input, fence, out content))
                     return sys.empty<BitMaskInfo>();
             }
 

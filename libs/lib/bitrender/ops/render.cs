@@ -10,7 +10,7 @@ namespace Z0
 
     partial struct BitRender
     {
-        public static void render<T>(uint n, RenderFence fence, char sep, in T src, ITextBuffer dst)
+        public static void render<T>(uint n, CharFence fence, char sep, in T src, ITextBuffer dst)
             where T : unmanaged
         {
             if(fence.IsNonEmpty)

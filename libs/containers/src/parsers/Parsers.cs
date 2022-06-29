@@ -37,7 +37,7 @@ namespace Z0
         {
             Outcome parse(string src, out list<T> dst)
             {
-                var input = text.fenced(src, RenderFence.Bracketed, out _) ? text.unfence(src, RenderFence.Bracketed) : src;
+                var input = Fenced.find(src, Fenced.Bracketed, out _) ? Fenced.unfence(src, Fenced.Bracketed) : src;
                 var seqparser = new SeqParser<T>(new ParseFunction<T>(terms), ",");
                 var result = seqparser.Parse(src, out var items);
                 if(result)

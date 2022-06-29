@@ -62,7 +62,7 @@ namespace Z0.Asm
             dst = AsmFormInfo.Empty;
             var result = Outcome.Success;
 
-            result = text.unfence(src, SigFence, out var sigexpr);
+            result = Fenced.unfence(src, SigFence, out var sigexpr);
             if(result.Fail)
                 return (false, AppMsg.FenceNotFound.Format(src,SigFence));
 
@@ -70,7 +70,7 @@ namespace Z0.Asm
             if(result.Fail)
                 return (false, AppMsg.ParseFailure.Format("Sig", sigexpr));
 
-            result = text.unfence(src, OpCodeFence, out var opcode);
+            result = Fenced.unfence(src, OpCodeFence, out var opcode);
             if(result.Fail)
                 return (false, AppMsg.FenceNotFound.Format(src,OpCodeFence));
 

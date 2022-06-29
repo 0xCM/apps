@@ -4,42 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
-    partial class text
+    partial class Fenced
     {
-        [Op]
-        public static bool fenced(string src, Fence<char> fence, out Pair<int> location)
-        {
-            location = pair((int)NotFound,(int)NotFound);
-            if(nonempty(src))
-            {
-                var chars = span(src);
-                var count = chars.Length;
-                for(var i=0; i<count; i++)
-                {
-                    ref readonly var c = ref skip(chars,i);
-                    if(location.Left == NotFound)
-                    {
-                        if(c == fence.Left)
-                            location.Left = i;
-                    }
-
-                    else if(location.Left != NotFound && location.Right == NotFound)
-                    {
-                        if(c == fence.Right)
-                        {
-                            location.Right = i;
-                            break;
-                        }
-                    }
-
-                }
-            }
-
-            return location.Left != NotFound && location.Right != NotFound;
-        }
-
         /// <summary>
         /// Determines whether the source text is of the form {left:char}{content:string}{right:char}, ignoring leading/trailing whitespace
         /// </summary>
@@ -47,15 +13,15 @@ namespace Z0
         /// <param name="left">The left boundary</param>
         /// <param name="right">The right boundary</param>
         [Op]
-        public static bool fenced(string src, char left, char right)
+        public static bool test(string src, char left, char right)
         {
-            if(nonempty(src))
+            if(text.nonempty(src))
             {
                 var leftIndex = -1;
                 var rightIndex = -1;
-                var chars = span(src.Trim());
+                var chars = Spans.span(src.Trim());
                 var count = chars.Length;
-                return first(chars) == left && skip(chars, count - 1) == right;
+                return Spans.first(chars) == left && Spans.skip(chars, count - 1) == right;
             }
 
             return false;
@@ -69,7 +35,7 @@ namespace Z0
         /// <param name="right">The right marker</param>
         /// <param name="compare">Th comparison type</param>
         [Op]
-        public static bool fenced(string src, string left, string right)
+        public static bool test(string src, string left, string right)
             => src.StartsWith(left, Cased) && src.EndsWith(right, Cased);
 
         /// <summary>
@@ -78,8 +44,8 @@ namespace Z0
         /// <param name="src">The source text</param>
         /// <param name="fence">The fence definition</param>
         [Op]
-        public static bool fenced(string src, Fence<char> fence)
-            => fenced(src, fence.Left, fence.Right);
+        public static bool test(string src, Fence<char> fence)
+            => test(src, fence.Left, fence.Right);
 
         /// <summary>
         /// Determines whether the source text is enclosed by a specified fence
@@ -87,7 +53,7 @@ namespace Z0
         /// <param name="src">The source text</param>
         /// <param name="fence">The fence definition</param>
         [Op]
-        public static bool fenced(string src, Fence<string> fence)
-            => fenced(src, fence.Left, fence.Right);
+        public static bool test(string src, Fence<string> fence)
+            => test(src, fence.Left, fence.Right);
     }
 }

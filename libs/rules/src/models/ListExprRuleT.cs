@@ -31,7 +31,7 @@ namespace Z0
             }
 
             public override string Format()
-                => Terms.Delimit(Chars.Comma, fence:RenderFence.Embraced).Format();
+                => Terms.Delimit(Chars.Comma, fence:Fenced.Embraced).Format();
 
             [MethodImpl(Inline)]
             public static implicit operator ListExprRule<T>(T[] src)

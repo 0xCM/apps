@@ -65,7 +65,7 @@ namespace Z0
             if(i >= 0)
             {
                 var id = text.left(src,i);
-                result = text.unfence(src, RangeFence, out var rs);
+                result = Fenced.unfence(src, RangeFence, out var rs);
                 if(result.Fail)
                     return result;
 
@@ -97,7 +97,7 @@ namespace Z0
             var i = text.index(src,Chars.Colon);
             if(i >= 0)
             {
-                result = text.unfence(src, RangeFence, out var rs);
+                result = Fenced.unfence(src, RangeFence, out var rs);
                 if(result.Fail)
                     return result;
 

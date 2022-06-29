@@ -6,8 +6,6 @@
     <TargetFramework>$(FrameworkMoniker)</TargetFramework>
   </PropertyGroup>
 
-  <Import Project="$(ImportDefs)common.libs.props"/>
-
   <ItemGroup>
     <EmbeddedResource Include="assets/**/*.*" />
     <ProjectReference Include="$(Numbers)" />
@@ -16,7 +14,7 @@
     <ProjectReference Include="$(Memory)" />
     <ProjectReference Include="$(CmdSvc)" />
     <ProjectReference Include="$(Calcs)" />
-
+    <ProjectReference Include="$(Validity)" />
   </ItemGroup>
 
 </Project>

@@ -52,8 +52,8 @@ namespace Z0
 
                 var source = text.left(line.Content,i);
                 var target = text.right(line.Content,i + Sep.Length - 1);
-                if(text.fenced(target, RenderFence.SQuote))
-                    dst[source] = text.unfence(target, RenderFence.SQuote);
+                if(Fenced.test(target, Fenced.SQuote))
+                    dst[source] = Fenced.unfence(target, Fenced.SQuote);
                 else
                     dst[source] = target;
             }
@@ -96,15 +96,15 @@ namespace Z0
 
         static IProduction production(string src, string dst)
         {
-            if(text.fenced(dst, RenderFence.Bracketed))
+            if(Fenced.test(dst, Fenced.Bracketed))
             {
-                var content = text.unfence(dst, RenderFence.Bracketed);
+                var content = Fenced.unfence(dst, Fenced.Bracketed);
                 var terms = map(text.trim(text.split(content,Chars.Pipe)), x => value(x));
                 return new ListProduction(value(text.trim(src)), new SeqExpr(terms));
             }
-            else if(text.fenced(dst, RenderFence.Angled))
+            else if(Fenced.test(dst, Fenced.Angled))
             {
-                var content = text.unfence(dst, RenderFence.Angled);
+                var content = Fenced.unfence(dst, Fenced.Angled);
                 var terms = map(text.trim(text.split(content,Chars.Pipe)), x => value(x));
                 return new ListProduction(value(text.trim(src)), new SeqExpr(terms));
             }
@@ -113,10 +113,10 @@ namespace Z0
         }
 
         public static bool IsChoice(string src)
-            => text.fenced(src,ChoiceFence);
+            => Fenced.test(src,ChoiceFence);
 
         public static bool IsOption(string src)
-            => text.fenced(src, OptionFence);
+            => Fenced.test(src, OptionFence);
 
         public static Outcome parse(string src, out IRuleExpr dst)
         {
@@ -148,7 +148,7 @@ namespace Z0
             dst = default;
             if(IsChoice(src))
             {
-                var termSrc = text.trim(text.split(text.unfence(src, ChoiceFence), ChoiceSep));
+                var termSrc = text.trim(text.split(Fenced.unfence(src, ChoiceFence), ChoiceSep));
                 var count = termSrc.Length;
                 var terms = alloc<IRuleExpr>(count);
                 for(var i=0; i<count; i++)
@@ -174,7 +174,7 @@ namespace Z0
             dst = default;
             if(IsOption(src))
             {
-                result = parse(text.unfence(src, OptionFence), out IRuleExpr expr);
+                result = parse(Fenced.unfence(src, OptionFence), out IRuleExpr expr);
                 if(result)
                     dst = new Optional<IRuleExpr>(expr);
             }
@@ -185,9 +185,9 @@ namespace Z0
             return result;
         }
 
-        static Fence<char> OptionFence => RenderFence.Bracketed;
+        static Fence<char> OptionFence => Fenced.Bracketed;
 
-        static Fence<char> ChoiceFence => RenderFence.Angled;
+        static Fence<char> ChoiceFence => Fenced.Angled;
 
         const char ChoiceSep = Chars.Pipe;
     }

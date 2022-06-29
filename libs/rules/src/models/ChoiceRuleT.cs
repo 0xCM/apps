@@ -20,7 +20,7 @@ namespace Z0
                 => Content.Map(x => (IRuleExpr)x);
 
             public override string Format()
-                => Content.Delimit(Chars.Pipe, fence:RenderFence.Angled).Format();
+                => Content.Delimit(Chars.Pipe, fence:Fenced.Angled).Format();
 
             [MethodImpl(Inline)]
             public static implicit operator ChoiceRule<T>(T[] src)

@@ -5,9 +5,10 @@
 namespace Z0
 {
     using static core;
+
     partial class ApiComments
     {
-        static Fence<string> SummaryFence = RenderFence.define("<summary>", "</summary>");
+        static Fence<string> SummaryFence = Fenced.define("<summary>", "</summary>");
 
         public readonly struct Summary
         {
@@ -15,12 +16,12 @@ namespace Z0
             {
                 var result = false;
                 dst = Empty;
-                if(text.fenced(src, SummaryFence))
+                if(Fenced.test(src, SummaryFence))
                 {
-                    var data = text.unfence(src, SummaryFence);
+                    var data = Fenced.unfence(src, SummaryFence);
                     if(nonempty(data))
                     {
-                        var content = text.trim(text.unfence(src, SummaryFence));
+                        var content = text.trim(Fenced.unfence(src, SummaryFence));
                         iter(Replacements, kvp => content = text.replace(content, kvp.Key, kvp.Value));
                         dst = new (map(content.Lines(), x=> x.Content).Concat(Chars.Eol));
                         result = true;

@@ -23,10 +23,10 @@ namespace Z0
             else if(input.Contains(Chars.Space))
                 sep = ' ';
 
-            if(text.fenced(input, RenderFence.Embraced))
+            if(Fenced.test(input, Fenced.Embraced))
             {
                 if(input.Length > 2)
-                    input = text.unfence(input, RenderFence.Embraced);
+                    input = Fenced.unfence(input, Fenced.Embraced);
                 else
                     input = EmptyString;
             }

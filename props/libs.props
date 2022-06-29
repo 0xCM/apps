@@ -76,6 +76,8 @@
 
     <ProjectReference Include="$(Tools)" />
 
+    <ProjectReference Include="$(Validity)" />
+
     <ProjectReference Include="$(Wf)" />
 
     <ProjectReference Include="$(ZLib)" />

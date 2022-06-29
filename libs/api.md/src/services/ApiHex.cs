@@ -309,10 +309,10 @@ namespace Z0
             if(result.Fail)
                 return (false, $"{result.Message} | Could not parse address from '{src}'");
 
-            if(!text.unfence(src, SegFence, out var seg))
+            if(!Fenced.unfence(src, SegFence, out var seg))
                 return (false, $"Line {src} does not contain segment fence");
 
-            if(!text.unfence(src, DataFence, out var data))
+            if(!Fenced.unfence(src, DataFence, out var data))
                 return (false, $"Line {src} does not contain data fence");
 
             var segparts = text.split(seg, SegSep);
