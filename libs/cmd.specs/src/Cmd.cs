@@ -61,9 +61,6 @@ namespace Z0
             return slice(dst,0,counter);
         }
 
-        public static ActionDispatcher dispatcher<T>(T svc, CmdActions actions)
-            where T : ICmdService
-                => dispatcher(actions);
 
         public static ActionDispatcher dispatcher(CmdActions actions, Func<string,CmdArgs,Outcome> fallback = null)
             => new ActionDispatcher(actions, fallback);

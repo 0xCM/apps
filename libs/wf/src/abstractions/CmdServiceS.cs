@@ -4,7 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class CmdService<S> : AppService<CmdService<S>>, ICmdService
+
+    public class CmdService
+    {
+        public static ActionDispatcher dispatcher<T>(T svc, CmdActions actions)
+            where T : ICmdService
+                => Cmd.dispatcher(actions);
+    }
+
+    public class CmdService<S> : WfSvc<CmdService<S>>, ICmdService
         where S : CmdService<S>, new()
     {
         public new static S create(IWfRuntime wf)
@@ -14,6 +22,7 @@ namespace Z0
             svc.Init(wf);
             return svc;
         }
+
 
         IDispatcher Dispatcher;
 

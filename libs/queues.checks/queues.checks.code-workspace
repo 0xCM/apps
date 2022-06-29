@@ -1,0 +1,29 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "..\\queues"
+		},
+		{
+			"path": "..\\wf"
+		},
+		{
+			"path": "..\\cmd.specs"
+		},
+		{
+			"path": "..\\cmd.svc"
+		},
+		{
+			"path": "..\\cmd.exec"
+		},
+		{
+			"path": "..\\archives"
+		},
+		{
+			"path": "..\\tools"
+		}
+	],
+	"settings": {}
+}

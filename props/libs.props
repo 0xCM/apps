@@ -64,6 +64,8 @@
     <ProjectReference Include="$(Polyrand)" />
     <ProjectReference Include="$(Pow2)" />
 
+    <ProjectReference Include="$(Queues)" />
+
     <ProjectReference Include="$(Rules)" />
     <ProjectReference Include="$(Render)" />
 

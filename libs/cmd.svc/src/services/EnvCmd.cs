@@ -35,6 +35,7 @@ namespace Z0
         void Setings()
             => AppSettings.Iter(setting => Write(setting.Format(Chars.Eq)));
 
+
         [CmdOp("app/setting")]
         Outcome Setting(CmdArgs args)
         {

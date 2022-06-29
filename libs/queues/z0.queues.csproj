@@ -2,15 +2,13 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
+    <DebugSymbols>true</DebugSymbols>
     <TargetFramework>$(FrameworkMoniker)</TargetFramework>
   </PropertyGroup>
 
-  <Import Project="$(ImportDefs)common.libs.props"/>
-
   <ItemGroup>
-    <ProjectReference Include="$(AsmCore)" />
-    <ProjectReference Include="$(Expr)" />
-    <ProjectReference Include="$(Queues)" />
+    <ProjectReference Include="$(Wf)" />
+    <ProjectReference Include="$(CmdSpecs)" />
   </ItemGroup>
 
 </Project>

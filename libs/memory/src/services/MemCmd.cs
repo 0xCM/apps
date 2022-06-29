@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static core;
+
     [Free]
     public unsafe class MemCmd : CmdService<MemCmd>
     {

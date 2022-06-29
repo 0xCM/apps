@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="$(Archives)" />
+    <ProjectReference Include="$(CmdSpecs)" />
   </ItemGroup>
 
 </Project>

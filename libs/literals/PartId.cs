@@ -33,6 +33,9 @@ public enum PartId : byte
     [Symbol("cmd.exec")]
     CmdExec,
 
+    [Symbol("queues.checks")]
+    QueueChecks,
+
     [Symbol("cmd.svc")]
     CmdSvc,
 
@@ -143,6 +146,9 @@ public enum PartId : byte
 
     [Symbol("native")]
     Native,
+
+    [Symbol("queues")]
+    Queues,
 
     [Symbol("api.contracts")]
     ApiContracts,

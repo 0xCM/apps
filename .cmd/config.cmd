@@ -36,7 +36,8 @@ set ProjectSlnFile=z0.%ProjectId%.sln
 
 set ShellName=%ShellId%.exe
 set ShellExePath=%FrameworkBuildRoot%\%RuntimeMoniker%\%ShellName%
-set DllShellPath=%FrameworkBuildRoot%\z0.%ProjectId%.exe
+set DllShellBin=%FrameworkBuildRoot%
+set DllShellPath=%DllShellBin%\z0.%ProjectId%.exe
 
 set LibName=z0.%ProjectId%.dll
 set LibPath=%FrameworkBuildRoot%\%LibName%
