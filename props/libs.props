@@ -28,6 +28,7 @@
 
     <ProjectReference Include="$(Diagnostics)" />
     <ProjectReference Include="$(Digital)" />
+    <ProjectReference Include="$(Dynamic)" />
 
     <ProjectReference Include="$(Expr)" />
     <ProjectReference Include="$(Extract)" />

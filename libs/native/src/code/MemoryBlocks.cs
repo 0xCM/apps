@@ -28,7 +28,6 @@ namespace Z0
             return new MemoryBlock(origin, data.ToArray());
         }
 
-
         public static unsafe MemoryBlock block(byte* pSrc, ByteSize size)
         {
             var slice = MemorySpan.create(pSrc,size);

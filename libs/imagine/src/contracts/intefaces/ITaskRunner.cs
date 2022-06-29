@@ -4,12 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using System.Threading.Tasks;
 
-    partial struct ApiExtracts
+    [Free]
+    public interface ITaskRunner
     {
-        [Op]
-        public static byte[] buffer(ByteSize? size = null)
-            => alloc<byte>(size ?? DefaultBufferLength);
+        Task Run();
+
+        void Submit(string command);
     }
 }

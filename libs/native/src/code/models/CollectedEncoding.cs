@@ -5,7 +5,7 @@
 namespace Z0
 {
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public readonly struct CollectedEncoding : IEquatable<CollectedEncoding>, IComparable<CollectedEncoding>
+    public readonly record struct CollectedEncoding : IEquatable<CollectedEncoding>, IComparable<CollectedEncoding>
     {
         public readonly ApiToken Token;
 
@@ -30,16 +30,18 @@ namespace Z0
             get => Token.Sig;
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Token.EntryId;
+        }
+
         public override int GetHashCode()
-            => (int)Token.EntryId;
+            => Hash;
 
         [MethodImpl(Inline)]
         public bool Equals(CollectedEncoding src)
             => Token.Equals(src.Token);
-
-        public override bool Equals(object src)
-            => src is CollectedEncoding x && Equals(x);
-
         public int CompareTo(CollectedEncoding src)
             => Token.EntryAddress.CompareTo(src.Token.EntryAddress);
     }

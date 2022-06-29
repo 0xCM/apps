@@ -6,6 +6,8 @@ namespace Z0
 {
     using static core;
 
+    using System.IO;
+
     public readonly struct HexLine
     {
         public const string HexPackPattern = "x{0:x}[{1:D5}:{2:D5}]=<{3}>";
@@ -353,11 +355,27 @@ namespace Z0
         public Index<ApiCodeBlock> ReadBlocks(FS.FilePath src)
             => code(src);
 
+        [MethodImpl(Inline), Op]
+        public static MemoryBlock maxblock(ReadOnlySpan<MemoryBlock> src)
+        {
+            var max = MemoryBlock.Empty;
+            var count = src.Length;
+            if(count == 0)
+                return max;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var block = ref skip(src,i);
+                if(block.Size > max.Size)
+                    max = block;
+            }
+            return max;
+        }
+
         [Op]
         public static ByteSize pack(in MemoryBlocks src, StreamWriter dst)
         {
             var blocks = src.View;
-            var maxsz = Z0.memory.maxblock(blocks).Size;
+            var maxsz = maxblock(blocks).Size;
             var count = blocks.Length;
             var buffer = span<char>(maxsz*2);
             var total = 0u;

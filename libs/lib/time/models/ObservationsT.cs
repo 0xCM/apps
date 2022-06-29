@@ -4,11 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
     using System.Text;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
 
     /// <summary>
     /// Defines an observation sequence

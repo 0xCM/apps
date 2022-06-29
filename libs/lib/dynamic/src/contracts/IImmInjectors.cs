@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.Intrinsics;
-
     public interface IImmInjectors
     {
         /// <summary>

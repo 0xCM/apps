@@ -16,7 +16,7 @@ namespace Z0
 
         public string Identifier {get;}
 
-        public Timestamp Ts { get; }
+        public Timestamp Ts {get;}
 
         const string PatternBase = "{0} | {1,-18}";
 
@@ -116,10 +116,10 @@ namespace Z0
         public string Format()
             => Identifier.PadRight(56);
 
-        public uint Hashed
+        public Hash32 Hashed
         {
             [MethodImpl(Inline)]
-            get => alg.hash.combine(Ts.Hashed, (uint)(Identifier?.GetHashCode() ?? 0));
+            get => alg.hash.combine(Ts.Hash, (uint)(Identifier?.GetHashCode() ?? 0));
         }
 
         public override int GetHashCode()

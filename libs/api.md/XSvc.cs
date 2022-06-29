@@ -24,6 +24,9 @@ namespace Z0
             public ApiJit Jit(IWfRuntime wf)
                 => Service<ApiJit>(wf);
 
+            public ApiHex ApiHex(IWfRuntime wf)
+                => Service<ApiHex>(wf);
+
         }
 
         static Svc Services => Svc.Instance;
@@ -39,6 +42,10 @@ namespace Z0
 
         public static ApiJit Jit(this IWfRuntime wf)
             => Services.Jit(wf);
+
+       public static ApiHex ApiHex(this IWfRuntime wf)
+            => Services.ApiHex(wf);
+
     }
 
 }

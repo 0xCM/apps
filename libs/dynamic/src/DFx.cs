@@ -210,7 +210,7 @@ namespace Z0
         {
             spec.Name = name;
             spec.Code = dst;
-            spec.Operation = (Func<A,B,C>)DFx.emit(name, functype:typeof(Func<A,B,C>), result:typeof(C), args: array(typeof(A), typeof(B)), dst.Address);
+            spec.Operation = (Func<A,B,C>)emit(name, functype:typeof(Func<A,B,C>), result:typeof(C), args: array(typeof(A), typeof(B)), dst.Address);
             return ref spec;
         }
 

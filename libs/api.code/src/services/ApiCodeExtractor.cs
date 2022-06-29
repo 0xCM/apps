@@ -6,7 +6,6 @@ namespace Z0
 {
     using static core;
 
-
     public class ApiCodeExtractor : AppService<ApiCodeExtractor>
     {
         ApiExtractParser Parser => ApiExtractParser.create();
@@ -63,7 +62,7 @@ namespace Z0
 
         ApiHostExtracts ExtractHost(in ResolvedHost src)
         {
-            var buffer = ApiExtracts.buffer();
+            var buffer = core.alloc<byte>(Pow2.T14 + Pow2.T08);
             var dst = list<ApiMemberExtract>();
             var flow = Running(Msg.ExtractingHost.Format(src.Host));
             var methods = src.Methods.View;

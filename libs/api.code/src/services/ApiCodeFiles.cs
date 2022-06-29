@@ -6,9 +6,6 @@ namespace Z0
 {
     public class ApiCodeFiles : WfSvc<ApiCodeFiles>
     {
-        public DumpArchive DumpArchive
-            => Wf.DumpArchive();
-
         public IApiPack ApiPack(FS.FolderPath dst, Timestamp ts)
             => new ApiPack(dst, ts);
 

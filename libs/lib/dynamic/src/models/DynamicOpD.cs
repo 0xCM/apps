@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection.Emit;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct DynamicOp<D>
         where D : Delegate
     {

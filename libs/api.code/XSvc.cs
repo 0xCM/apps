@@ -32,8 +32,6 @@ namespace Z0
             public ApiIndexBuilder ApiIndexBuilder(IWfRuntime wf)
                 =>Service<ApiIndexBuilder>(wf);
 
-            public ApiHex ApiHex(IWfRuntime wf)
-                => Service<ApiHex>(wf);
         }
 
         static Svc Services => Svc.Instance;
@@ -58,9 +56,6 @@ namespace Z0
 
         public static ApiIndexBuilder ApiIndexBuilder(this IWfRuntime wf)
              => Services.ApiIndexBuilder(wf);
-
-        public static ApiHex ApiHex(this IWfRuntime wf)
-            => Services.ApiHex(wf);
 
         public static ApiPackages ApiPackages(this IEnvPaths src)
             => src.PackageRoot();

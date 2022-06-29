@@ -84,6 +84,9 @@ public enum PartId : byte
     [Symbol("text.sized")]
     SizedText,
 
+    [Symbol("dynamic")]
+    Dynamic,
+
     [Symbol("tools")]
     Tools,
 

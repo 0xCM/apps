@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct Timestamp : IComparable<Timestamp>, IEquatable<Timestamp>
+    public readonly record struct Timestamp : IDataType<Timestamp>
     {
         public const string FormatPattern = "yyyy-MM-dd.HH.mm.ss.fff";
 
@@ -38,12 +38,17 @@ namespace Z0
             => Ticks == src.Ticks;
 
         [MethodImpl(Inline)]
-        public override bool Equals(object src)
-            => src is Timestamp x && Equals(x);
-
-        [MethodImpl(Inline)]
         public int CompareTo(Timestamp src)
             => Ticks.CompareTo(src.Ticks);
+
+        bool INullity.IsEmpty
+            => IsZero;
+
+        public bool IsZero
+        {
+            [MethodImpl(Inline)]
+            get => Ticks == 0;
+        }
 
         public bool IsNonZero
         {
@@ -51,14 +56,14 @@ namespace Z0
             get => Ticks != 0;
         }
 
-        public uint Hashed
+        public Hash32 Hash
         {
             [MethodImpl(Inline)]
             get => alg.hash.calc(Ticks);
         }
 
         public override int GetHashCode()
-            => (int)Hashed;
+            => (int)Hash;
 
         [MethodImpl(Inline)]
         public static implicit operator ulong(Timestamp src)
@@ -83,14 +88,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public static bool operator >=(Timestamp a, Timestamp b)
             => a.Ticks >= b.Ticks;
-
-        [MethodImpl(Inline)]
-        public static bool operator ==(Timestamp a, Timestamp b)
-            => a.Equals(b);
-
-        [MethodImpl(Inline)]
-        public static bool operator !=(Timestamp a, Timestamp b)
-            => !a.Equals(b);
 
         public static Timestamp Zero => default;
     }

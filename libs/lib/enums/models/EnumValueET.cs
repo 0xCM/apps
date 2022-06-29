@@ -4,13 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Reflection;
-
-    using static Root;
-
-     /// <summary>
+    /// <summary>
     /// Captures an <typeparamname name='E'/> parametric enum value and the integral <typeparamref name='E'/> value along with the <see cref='FieldInfo'/>
     /// that defines the corresponding enum literal
     /// </summary>

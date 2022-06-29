@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Reflection.Emit;
-
     public readonly struct DynamicAction
     {
         /// <summary>

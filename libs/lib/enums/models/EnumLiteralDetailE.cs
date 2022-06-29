@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Reflection;
-
-    using static Root;
-
     /// <summary>
     /// Defines an enumeration literal as the triple (index,identifier,value)
     /// </summary>

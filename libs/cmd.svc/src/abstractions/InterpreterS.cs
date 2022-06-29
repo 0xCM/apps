@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public abstract class Interpreter<S> : WfSvc<S>, IInterpreter
+    public abstract class Interpreter<S> : WfSvc<S>, ITaskRunner
         where S : Interpreter<S>, new()
     {
         public static S create()

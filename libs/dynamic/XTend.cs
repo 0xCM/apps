@@ -2,17 +2,15 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
+
 namespace Z0
 {
-    using Free =System.Security.SuppressUnmanagedCodeSecurityAttribute;
+    using static core;
 
-    using System.Threading.Tasks;
-
-    [Free]
-    public interface IInterpreter
+    [ApiHost]
+    public static partial class XTend
     {
-        Task Run();
+        const NumericKind Closure = Root.UnsignedInts;
 
-        void Submit(string command);
     }
 }

@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection;
-
     public interface IImmInjector
     {
         DynamicDelegate Inject(MethodInfo method, byte imm);

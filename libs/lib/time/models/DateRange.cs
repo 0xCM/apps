@@ -4,20 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
 
     using api = Time;
 
     /// <summary>
     /// Represents a contiguous finite interval of time with calendar day resolution
     /// </summary>
-    [DataType("daterange")]
     public readonly struct DateRange : ITimeInterval<Date>
     {
         /// <summary>

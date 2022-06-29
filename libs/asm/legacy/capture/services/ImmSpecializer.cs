@@ -30,19 +30,6 @@ namespace Z0.Asm
             Dynamic = Dynops.Dynexus;
         }
 
-        // public Option<AsmRoutine> UnaryOp(in CaptureExchange exchange, MethodInfo src, byte imm)
-        // {
-        //     var width = VK.width(src.ReturnType);
-        //     var f = Dynamic.CreateUnaryOp(width,src, imm).OnNone(() => OnEmbeddingFailure(src));
-        //     if(f)
-        //       return
-        //             from c in Core.Capture(exchange, f.Value.Id, f.Value)
-        //             from d in Decoder.Decode(c)
-        //             select d;
-        //     else
-        //         return root.none<AsmRoutine>();
-        // }
-
         public Option<AsmRoutine> UnaryOp(in CaptureExchange exchange, MethodInfo src, OpIdentity id, byte imm8)
         {
             var width = VK.width(src.ReturnType);

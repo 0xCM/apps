@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Reflection.Emit;
-
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
     [Free]
     public interface IMethodBodyEmitter
     {

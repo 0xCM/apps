@@ -5,9 +5,6 @@
 namespace Z0
 {
     using System.Diagnostics;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
 
     /// <summary>
     /// Captures and explores the relationship between hardware ticks and measured time

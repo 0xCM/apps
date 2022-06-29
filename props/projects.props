@@ -35,6 +35,7 @@
     <Db>$(LibsRoot)db/z0.db.csproj</Db>
     <Diagnostics>$(LibsRoot)diagnostics/z0.diagnostics.csproj</Diagnostics>
     <Digital>$(LibsRoot)digital/z0.digital.csproj</Digital>
+    <Dynamic>$(LibsRoot)dynamic/z0.dynamic.csproj</Dynamic>
 
     <Expr>$(LibsRoot)expr/z0.expr.csproj</Expr>
     <EMath>$(LibsRoot)emath/z0.emath.csproj</EMath>

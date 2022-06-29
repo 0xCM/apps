@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     public readonly struct ExtractTermData
     {
         const byte SBB = 0x19;

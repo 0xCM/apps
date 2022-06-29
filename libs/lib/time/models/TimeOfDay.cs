@@ -19,7 +19,6 @@ namespace System
     /// </summary>
     [DebuggerDisplay("{ToString()}")]
     [XmlSchemaProvider("GetSchema")]
-    [DataType("time")]
     public struct TimeOfDay : IEquatable<TimeOfDay>, IComparable<TimeOfDay>, IComparable, IFormattable, IXmlSerializable
     {
         public const long TicksPerMillisecond = 10000;

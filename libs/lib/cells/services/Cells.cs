@@ -7,8 +7,6 @@ namespace Z0
     using static Root;
     using static core;
 
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
     [Free, ApiHost]
     public partial class Cells
     {

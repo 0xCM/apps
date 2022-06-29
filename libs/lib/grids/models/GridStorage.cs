@@ -4,15 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Specifies the memory storage required for a specified grid
     /// </summary>
-    [DataType("grid.storage")]
     public readonly struct GridStorage : IEquatable<GridStorage>
     {
         /// <summary>

@@ -6,11 +6,11 @@ namespace Z0
 {
     public readonly struct ExtractTermInfo
     {
-        public readonly ExtractTermKind Kind {get;}
+        public readonly ExtractTermKind Kind;
 
-        public readonly int Offset {get;}
+        public readonly int Offset;
 
-        public readonly sbyte Modifier {get;}
+        public readonly sbyte Modifier;
 
         [MethodImpl(Inline)]
         public ExtractTermInfo(ExtractTermKind kind, int offset, sbyte modifier)

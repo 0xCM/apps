@@ -27,13 +27,11 @@ namespace Z0
 
         public static MsgPattern<string> NotFound => "'{0}' not found";
 
-
         public static MsgPattern<ApiHostUri> ExtractingHost => "Extracting {0} members";
 
         public static MsgPattern<Count,ApiHostUri> ExtractedHost => "Extracted {0} members from {1}";
 
         const NumericKind Closure = Root.UnsignedInts;
-
 
         public static MsgPattern<Count,Count,string> FieldCountMismatch => "{0} fields were found while {1} were expected: {2}";
 
