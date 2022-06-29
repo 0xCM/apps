@@ -25,22 +25,22 @@ namespace Z0
         public readonly T Value;
 
         [Ignore]
-        public readonly PrimalKind Primitive;
+        public readonly SettingType Type;
 
         [MethodImpl(Inline)]
         public Setting(VarName name, T value)
         {
             Name = name;
             Value = value;
-            Primitive = 0;
+            Type = SettingType.String;
         }
 
         [MethodImpl(Inline)]
-        public Setting(VarName name, PrimalKind primitive, T value)
+        public Setting(VarName name, SettingType type, T value)
         {
             Name = name;
             Value = value;
-            Primitive = primitive;
+            Type = type;
         }
 
         public Setting NonGeneric

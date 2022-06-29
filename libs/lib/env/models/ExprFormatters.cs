@@ -25,6 +25,5 @@ namespace Z0
         [Op]
         internal static string format(VarContextKind vck, VarName src)
             => string.Format(RP.pattern(vck), src);
-
     }
 }

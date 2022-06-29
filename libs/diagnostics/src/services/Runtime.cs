@@ -10,7 +10,6 @@ namespace Z0
 
     public partial class Runtime : WfSvc<Runtime>
     {
-
         DumpArchive Dumps => Wf.DumpArchive();
 
         ImageRegions Regions => Wf.ImageRegions();

@@ -6,7 +6,7 @@ namespace Z0
 {
     public readonly struct CmdOption : ICmdOption
     {
-        public readonly Name Name {get;}
+        public readonly @string Name {get;}
 
         public readonly @string Value {get;}
 

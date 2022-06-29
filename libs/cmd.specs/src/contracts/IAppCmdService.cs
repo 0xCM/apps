@@ -8,6 +8,6 @@ namespace Z0
     {
         void Run();
 
-        ICmdDispatcher Dispatcher {get;}
+        IDispatcher Dispatcher {get;}
     }
 }

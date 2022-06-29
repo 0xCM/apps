@@ -14,12 +14,8 @@ namespace Z0
 
         OmniScript OmniScript => Wf.OmniScript();
 
-        public Settings LlvmDistConfig()
-        {
-            var root = FS.dir(AppSettings.Find(SettingNames.LlvmDist));
-            var path = root + FS.file(G.llvm, FileKind.Config);
-            return Settings.config(path);
-        }
+        public Settings Config(FS.FilePath src)
+            => Settings.config(src);
 
         public ConstLookup<ToolId,ToolHelpDoc> LoadHelpDocs(FS.FolderPath home)
         {

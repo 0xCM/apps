@@ -4,12 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct CmdOptionSpecs : IIndex<CmdOptionSpecs,ushort,CmdOptionSpec>
+    public readonly struct OptionSpecs : IIndex<OptionSpecs,ushort,OptionSpec>
     {
-        readonly Index<CmdOptionSpec> Data;
+        readonly Index<OptionSpec> Data;
 
         [MethodImpl(Inline)]
-        public CmdOptionSpecs(CmdOptionSpec[] src)
+        public OptionSpecs(OptionSpec[] src)
             => Data = src;
 
         public uint Count
@@ -18,13 +18,13 @@ namespace Z0
             get => Data.Count;
         }
 
-        public ref CmdOptionSpec this[ushort index]
+        public ref OptionSpec this[ushort index]
         {
             [MethodImpl(Inline)]
             get => ref Data[index];
         }
 
-        public CmdOptionSpec[] Storage
+        public OptionSpec[] Storage
         {
             [MethodImpl(Inline)]
             get => Data;
@@ -37,11 +37,11 @@ namespace Z0
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator CmdOptionSpecs(CmdOptionSpec[] src)
-            => new CmdOptionSpecs(src);
+        public static implicit operator OptionSpecs(OptionSpec[] src)
+            => new OptionSpecs(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator CmdOptionSpec[](CmdOptionSpecs src)
+        public static implicit operator OptionSpec[](OptionSpecs src)
             => src.Storage;
     }
 }

@@ -61,12 +61,12 @@ namespace Z0
             return slice(dst,0,counter);
         }
 
-        public static CmdActionDispatcher dispatcher<T>(T svc, CmdActions actions)
+        public static ActionDispatcher dispatcher<T>(T svc, CmdActions actions)
             where T : ICmdService
                 => dispatcher(actions);
 
-        public static CmdActionDispatcher dispatcher(CmdActions actions, Func<string,CmdArgs,Outcome> fallback = null)
-            => new CmdActionDispatcher(actions, fallback);
+        public static ActionDispatcher dispatcher(CmdActions actions, Func<string,CmdArgs,Outcome> fallback = null)
+            => new ActionDispatcher(actions, fallback);
 
         public static Index<ICmdReactor> reactors(IWfRuntime wf)
         {
@@ -76,9 +76,9 @@ namespace Z0
             return reactors;
         }
 
-        public static CmdActionDispatcher dispatcher<T>(T svc, Index<ICmdProvider> providers)
+        public static ActionDispatcher dispatcher<T>(T svc, Index<ICmdProvider> providers)
         {
-            var dst = dict<string,CmdActionInvoker>();
+            var dst = dict<string,ActionInvoker>();
             var _dst = bag<CmdActions>();
             _dst.Add(CmdActions.discover(svc));
             iter(providers, x => _dst.Add(x.Actions));
@@ -86,19 +86,19 @@ namespace Z0
         }
 
         [Op]
-        public static CmdActionInvoker invoker(string name, object host, MethodInfo method)
-            => new CmdActionInvoker(name,host,method);
+        public static ActionInvoker invoker(string name, object host, MethodInfo method)
+            => new ActionInvoker(name,host,method);
 
         [Op]
-        public static Index<CmdActionInvoker> invokers(object host)
+        public static Index<ActionInvoker> invokers(object host)
         {
             var methods = host.GetType().Methods().Tagged<CmdOpAttribute>();
-            var buffer = alloc<CmdActionInvoker>(methods.Length);
+            var buffer = alloc<ActionInvoker>(methods.Length);
             actions(host, methods,buffer);
             return buffer;
         }
 
-        static void actions(object host, ReadOnlySpan<MethodInfo> src, Span<CmdActionInvoker> dst)
+        static void actions(object host, ReadOnlySpan<MethodInfo> src, Span<ActionInvoker> dst)
         {
             var count = src.Length;
             for(var i=0; i<count; i++)

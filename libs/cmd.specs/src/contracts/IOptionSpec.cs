@@ -8,8 +8,10 @@ namespace Z0
     /// Characterizes a tool option
     /// </summary>
     [Free]
-    public interface ICmdOptionSpec : INamed, ITextual
+    public interface IOptionSpec : ITextual
     {
+        @string Name {get;}
+
         @string Description {get;}
     }
 
@@ -17,12 +19,12 @@ namespace Z0
     /// Characterizes a kinded tool option
     /// </summary>
     [Free]
-    public interface ICmdOptionSpec<K> : ICmdOptionSpec
+    public interface IOptionSpec<K> : IOptionSpec
         where K : unmanaged
     {
         K Kind {get;}
 
-        Name INamed.Name
+        @string IOptionSpec.Name
             => Kind.ToString();
     }
 }

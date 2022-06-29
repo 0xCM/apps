@@ -6,7 +6,7 @@ namespace Z0
 {
     public interface ICmdOption : ITextual, INullity
     {
-        Name Name {get;}
+        @string Name {get;}
 
         @string Value {get;}
 

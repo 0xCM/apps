@@ -92,12 +92,12 @@ namespace Z0
             => new Setting<T>(name,value);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Setting<T> setting<T>(VarName name, PrimalKind primitive, T value)
+        public static Setting<T> setting<T>(VarName name, SettingType primitive, T value)
             => new Setting<T>(name, primitive, value);
 
         [MethodImpl(Inline), Op]
-        public static Setting setting(VarName name, PrimalKind primitive, string value)
-            => new Setting(name, primitive, value);
+        public static Setting setting(VarName name, SettingType type, string value)
+            => new Setting(name, type, value);
 
         [MethodImpl(Inline)]
         public static string format<K,V>(K key, V value)
@@ -154,14 +154,14 @@ namespace Z0
 
                 if(type == typeof(string))
                 {
-                    dst = setting(name, PrimalKind.String, input);
+                    dst = setting(name, SettingType.String, input);
                     return true;
                 }
                 else if (type == typeof(bool))
                 {
                     if(DP.parse(input, out bool value))
                     {
-                        dst = setting(name, PrimalKind.U1, value);
+                        dst = setting(name, SettingType.Bool, value);
                         return true;
                     }
                 }
@@ -169,7 +169,7 @@ namespace Z0
                 {
                     if(DP.parse(input, out bit u1))
                     {
-                        dst = setting(name, PrimalKind.U1, u1);
+                        dst = setting(name, SettingType.Bit, u1);
                         return true;
                     }
                 }
@@ -178,7 +178,7 @@ namespace Z0
                     if(DP.numeric(input, type, out var n))
                     {
                         type.ClrPrimitiveKind();
-                        dst = setting(name, type.ClrPrimitiveKind(), n);
+                        dst = setting(name, SettingType.Integer, n);
                         return true;
                     }
                 }
@@ -186,14 +186,14 @@ namespace Z0
                 {
                     if(Enums.parse(type, src, out object o))
                     {
-
-                        dst = setting(name, type.GetEnumUnderlyingType().ClrPrimitiveKind(), o);
+                        //type.GetEnumUnderlyingType().ClrPrimitiveKind()
+                        dst = setting(name, SettingType.Enum, o);
                         return true;
                     }
                 }
                 else if(src.Length == 1 && type == typeof(char))
                 {
-                    dst = setting(name, PrimalKind.C16, name[0]);
+                    dst = setting(name, SettingType.Char, name[0]);
                     return true;
                 }
             }

@@ -4,14 +4,30 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class Toolset
+    public enum SettingType : byte
     {
-        public FS.FolderPath Home;
+        String,
 
-        public string Name;
+        Folder,
 
-        ConstLookup<ToolId,ToolHelpDoc> HelpDocs;
+        File,
 
+        Bool,
 
+        Bit,
+
+        Integer,
+
+        Asci16,
+
+        Asci32,
+
+        Asci64,
+
+        Version,
+
+        Enum,
+
+        Char,
     }
 }

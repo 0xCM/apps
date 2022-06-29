@@ -7,13 +7,13 @@ namespace Z0
     /// <summary>
     /// Specifies a kinded option
     /// </summary>
-    public readonly struct CmdOptionSpec<K> : ICmdOptionSpec<K>
+    public readonly struct OptionSpec<K> : IOptionSpec<K>
         where K : unmanaged
     {
         /// <summary>
         /// The option name
         /// </summary>
-        public readonly Name Name {get;}
+        public readonly @string Name {get;}
 
         /// <summary>
         /// The option kind
@@ -26,7 +26,7 @@ namespace Z0
         public readonly @string Description {get;}
 
         [MethodImpl(Inline)]
-        public CmdOptionSpec(K kind)
+        public OptionSpec(K kind)
         {
             Name = kind.ToString();
             Kind = kind;
@@ -34,7 +34,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public CmdOptionSpec(string name, K kind)
+        public OptionSpec(string name, K kind)
         {
             Name = name;
             Kind = kind;
@@ -42,7 +42,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public CmdOptionSpec(string name, K kind, string description)
+        public OptionSpec(string name, K kind, string description)
         {
             Name = name;
             Kind = kind;
@@ -74,16 +74,16 @@ namespace Z0
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator CmdOptionSpec(CmdOptionSpec<K> src)
-            => new CmdOptionSpec(src.Name, src.Description);
+        public static implicit operator OptionSpec(OptionSpec<K> src)
+            => new OptionSpec(src.Name, src.Description);
 
         /// <summary>
         /// Specifies the empty option
         /// </summary>
-        public static CmdOptionSpec<K> Empty
+        public static OptionSpec<K> Empty
         {
             [MethodImpl(Inline)]
-            get => new CmdOptionSpec<K>(EmptyString, default(K));
+            get => new OptionSpec<K>(EmptyString, default(K));
         }
     }
 }

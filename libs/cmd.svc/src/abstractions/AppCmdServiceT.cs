@@ -41,7 +41,7 @@ namespace Z0
 
         protected IAppCmdRunner Commands;
 
-        public ICmdDispatcher Dispatcher => GlobalServices.Instance.Injected<CmdActionDispatcher>();
+        public IDispatcher Dispatcher => GlobalServices.Instance.Injected<ActionDispatcher>();
 
         void Project(IWsProject ws)
         {

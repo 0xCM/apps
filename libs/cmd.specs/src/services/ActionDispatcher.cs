@@ -4,13 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class CmdActionDispatcher : ICmdDispatcher
+    public class ActionDispatcher : IDispatcher
     {
         CmdActions _Actions;
 
         Func<string,CmdArgs,Outcome> Fallback;
 
-        public CmdActionDispatcher(CmdActions lookup, Func<string,CmdArgs,Outcome> fallback = null)
+        public ActionDispatcher(CmdActions lookup, Func<string,CmdArgs,Outcome> fallback = null)
         {
             _Actions = lookup;
             Fallback = fallback ?? NotFound;

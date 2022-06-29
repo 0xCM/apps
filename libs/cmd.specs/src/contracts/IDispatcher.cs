@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface ICmdDispatcher
+    public interface IDispatcher
     {
         Outcome Dispatch(string action, CmdArgs args);
 

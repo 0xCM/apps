@@ -15,7 +15,7 @@ namespace Z0
             return svc;
         }
 
-        ICmdDispatcher Dispatcher;
+        IDispatcher Dispatcher;
 
         public CmdActions Actions {get;}
 

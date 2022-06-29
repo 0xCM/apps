@@ -7,12 +7,12 @@ namespace Z0
     /// <summary>
     /// Defines a command option
     /// </summary>
-    public readonly struct CmdOptionSpec : ICmdOptionSpec
+    public readonly struct OptionSpec : IOptionSpec
     {
         /// <summary>
         /// The option name
         /// </summary>
-        public Name Name {get;}
+        public @string Name {get;}
 
         /// <summary>
         /// The option's use
@@ -20,14 +20,14 @@ namespace Z0
         public @string Description {get;}
 
         [MethodImpl(Inline)]
-        public CmdOptionSpec(string name)
+        public OptionSpec(string name)
         {
             Name = name;
             Description = EmptyString;
         }
 
         [MethodImpl(Inline)]
-        public CmdOptionSpec(string name, string description)
+        public OptionSpec(string name, string description)
         {
             Name = name;
             Description = description;
@@ -59,13 +59,13 @@ namespace Z0
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator CmdOptionSpec(string src)
-            => new CmdOptionSpec(src);
+        public static implicit operator OptionSpec(string src)
+            => new OptionSpec(src);
 
-        public static CmdOptionSpec Empty
+        public static OptionSpec Empty
         {
             [MethodImpl(Inline)]
-            get => new CmdOptionSpec(EmptyString);
+            get => new OptionSpec(EmptyString);
         }
     }
 }

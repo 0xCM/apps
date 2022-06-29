@@ -4,22 +4,22 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct CmdOptionSpecs<K> : IIndexedView<CmdOptionSpecs<K>,ushort,CmdOptionSpec<K>>
+    public readonly struct OptionSpecs<K> : IIndexedView<OptionSpecs<K>,ushort,OptionSpec<K>>
         where K : unmanaged
     {
-        readonly Index<CmdOptionSpec<K>> Data;
+        readonly Index<OptionSpec<K>> Data;
 
         [MethodImpl(Inline)]
-        public CmdOptionSpecs(CmdOptionSpec<K>[] src)
+        public OptionSpecs(OptionSpec<K>[] src)
             => Data = src;
 
-        public CmdOptionSpec<K>[] Storage
+        public OptionSpec<K>[] Storage
         {
             [MethodImpl(Inline)]
             get => Data;
         }
 
-        public ReadOnlySpan<CmdOptionSpec<K>> View
+        public ReadOnlySpan<OptionSpec<K>> View
         {
             [MethodImpl(Inline)]
             get => Data.View;
@@ -32,7 +32,7 @@ namespace Z0
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator CmdOptionSpecs<K>(CmdOptionSpec<K>[] src)
-            => new CmdOptionSpecs<K>(src);
+        public static implicit operator OptionSpecs<K>(OptionSpec<K>[] src)
+            => new OptionSpecs<K>(src);
     }
 }

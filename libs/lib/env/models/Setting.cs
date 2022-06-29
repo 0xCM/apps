@@ -9,7 +9,7 @@ namespace Z0
     {
         const string TableId = "settings";
 
-        public readonly PrimalKind Primitive;
+        public readonly SettingType Type;
 
         [Render(32)]
         public readonly VarName Name;
@@ -20,16 +20,16 @@ namespace Z0
         [MethodImpl(Inline)]
         public Setting(VarName name, string value)
         {
-            Primitive = 0;
+            Type = 0;
             Name = name;
             Value = value;
         }
 
         [MethodImpl(Inline)]
-        public Setting(VarName name, PrimalKind primal, string value)
+        public Setting(VarName name, SettingType type, string value)
         {
             Name = name;
-            Primitive = primal;
+            Type = type;
             Value = value ?? EmptyString;
         }
 
