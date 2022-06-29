@@ -128,15 +128,6 @@ namespace Z0
             Size = width;
         }
 
-        // public AsmOpKind OpKind
-        // {
-        //     [MethodImpl(Inline)]
-        //     get => AsmOps.kind(AsmOpClass.Disp, Size);
-        // }
-
-        // public AsmOpClass OpClass
-        //     => AsmOpClass.Disp;
-
         public bool IsNonZero
         {
             [MethodImpl(Inline)]

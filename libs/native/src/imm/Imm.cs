@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+
+
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly struct Imm : IImm<Imm,ulong>
     {
@@ -32,7 +34,6 @@ namespace Z0
                 ImmKind.Imm64i => NativeSizeCode.W64,
                 _ => 0
             };
-
 
         [Op]
         public static string format(in Imm src)

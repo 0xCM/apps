@@ -4,14 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    // public static class XSvc
-    // {
-    //     sealed class Svc : AppServices<Svc>
-    //     {
+    [Free]
+    public interface IImmSx<I,S,X> : ISignExtension<S,X>, IDataType<I>
+        where S : unmanaged, IImmOp<S>
+        where X : unmanaged, IImmOp<X>
+        where I : unmanaged, IImmSx<I,S,X>
+    {
 
-    //     }
-
-    //     static Svc Services => Svc.Instance;
-
-    // }
+    }
 }

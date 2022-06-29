@@ -2,16 +2,15 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
-    public enum BranchTargetWidth : byte
+    [Free]
+    public interface ISignExtension<S,X>
+        where S : unmanaged
+        where X : unmanaged
     {
-        None = 0,
+        S Source {get;}
 
-        Branch16 = 16,
-
-        Branch32 = 32,
-
-        Branch64 = 64,
+        X Target {get;}
     }
 }

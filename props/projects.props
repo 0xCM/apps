@@ -54,6 +54,7 @@
     <LlvmData>$(LibsRoot)llvm.data/z0.llvm.data.csproj</LlvmData>
     <Lang>$(LibsRoot)lang/z0.lang.csproj</Lang>
     <Lines>$(LibsRoot)lines/z0.lines.csproj</Lines>
+    <Linq>$(LibsRoot)linq/z0.linq.csproj</Linq>
 
     <Machines>$(LibsRoot)machines/z0.machines.csproj</Machines>
     <Memory>$(LibsRoot)memory/z0.memory.csproj</Memory>

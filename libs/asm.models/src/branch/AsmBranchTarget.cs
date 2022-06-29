@@ -2,48 +2,75 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
+    using Asm;
 
-    using static Root;
-
-    [Record(TableId)]
-    public struct AsmBranchTarget : IRecord<AsmBranchTarget>
+    [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
+    public struct AsmBranchTarget
     {
         public const string TableId = "asm.branch";
 
         /// <summary>
         /// The target address
         /// </summary>
+        [Render(16)]
         public MemoryAddress Address;
 
         /// <summary>
         /// The target classifier, near or far
         /// </summary>
+        [Render(8)]
         public BranchTargetKind Kind;
 
         /// <summary>
         /// The target size
         /// </summary>
-        public BranchTargetWidth Size;
+        [Render(8)]
+        public BranchTargetWidth Width;
 
         /// <summary>
         /// Specifies a branch target selector, if far
         /// </summary>
+        [Render(8)]
         public Address16 Selector;
 
         [MethodImpl(Inline)]
-        public AsmBranchTarget(MemoryAddress dst, BranchTargetKind kind, BranchTargetWidth size,  Address16? selector = null)
+        public AsmBranchTarget(MemoryAddress dst, BranchTargetKind kind, BranchTargetWidth width, Address16? selector = null)
         {
             Kind = kind;
-            Size = size;
+            Width = width;
             Address = dst;
             Selector = selector ?? 0;
         }
 
+
+        public bool IsNear
+        {
+            [MethodImpl(Inline)]
+            get => Kind == BranchTargetKind.Near;
+        }
+
+        public bool IsFar
+        {
+            [MethodImpl(Inline)]
+            get => Kind == BranchTargetKind.Far;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Address != 0;
+        }
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Address == 0;
+        }
+
         public static AsmBranchTarget Empty
             => default;
+
     }
 }

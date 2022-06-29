@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
     /// <summary>
     /// Characterizes an operation which is, by definition, a named evaluator
     /// </summary>
@@ -13,7 +11,7 @@ namespace Z0
     public interface IExprSvc
     {
         /// <summary>
-        /// Attempts to evaluate a specified value, returning <langkeyword name='true'/> upon success and <langkeyword name='false'/> otherwise 
+        /// Attempts to evaluate a specified value, returning <langkeyword name='true'/> upon success and <langkeyword name='false'/> otherwise
         /// </summary>
         /// <param name="src">The source value</param>
         /// <param name="dst">The evaluation</param>
@@ -24,7 +22,7 @@ namespace Z0
     public interface IExprSvc<S> : IExprSvc
     {
         /// <summary>
-        /// Attempts to evaluate a specified value, returning <langkeyword name='true'/> upon success and <langkeyword name='false'/> otherwise 
+        /// Attempts to evaluate a specified value, returning <langkeyword name='true'/> upon success and <langkeyword name='false'/> otherwise
         /// </summary>
         /// <param name="src">The source value</param>
         /// <param name="dst">The evaluation</param>
@@ -38,7 +36,7 @@ namespace Z0
     public interface IExprSvc<S,T> : IExprSvc<S>
     {
         /// <summary>
-        /// Attempts to evaluate a specified value, returning <langkeyword name='true'/> upon success and <langkeyword name='false'/> otherwise 
+        /// Attempts to evaluate a specified value, returning <langkeyword name='true'/> upon success and <langkeyword name='false'/> otherwise
         /// </summary>
         /// <param name="src">The source value</param>
         /// <param name="dst">The evaluation</param>
@@ -56,6 +54,6 @@ namespace Z0
                 dst = default(T);
             }
             return succeeded;
-        }      
+        }
     }
 }

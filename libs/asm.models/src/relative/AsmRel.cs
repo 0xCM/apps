@@ -8,7 +8,6 @@ namespace Z0
 
     using static core;
 
-
     [ApiHost]
     public readonly struct AsmRel
     {

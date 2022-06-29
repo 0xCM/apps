@@ -15,6 +15,46 @@ namespace Z0.Asm
     [ApiHost]
     public readonly partial struct IceConverters
     {
+        /// <summary>
+        /// Adapted from http://github.com/dotnet/BenchmarkDotNet/src/BenchmarkDotNet.Disassembler.x64/ClrMdDisassembler.cs
+        /// </summary>
+        /// <param name="src"></param>
+        public static MemoryAddress TargetAddress(Iced.Instruction src)
+        {
+            var address = MemoryAddress.Zero;
+            for (int i = 0; i < src.OpCount; i++)
+            {
+                switch (src.GetOpKind(i))
+                {
+                    case Iced.OpKind.NearBranch16:
+                    case Iced.OpKind.NearBranch32:
+                    case Iced.OpKind.NearBranch64:
+                        address = src.NearBranchTarget;
+                        return address > ushort.MaxValue ? address : MemoryAddress.Zero;
+                    case Iced.OpKind.Immediate16:
+                    case Iced.OpKind.Immediate8to16:
+                    case Iced.OpKind.Immediate8to32:
+                    case Iced.OpKind.Immediate8to64:
+                    case Iced.OpKind.Immediate32to64:
+                    case Iced.OpKind.Immediate32:
+                    case Iced.OpKind.Immediate64:
+                        address = src.GetImmediate(i);
+                        return address > ushort.MaxValue ? address : MemoryAddress.Zero;
+                    case Iced.OpKind.Memory64:
+                        address = src.MemoryAddress64;
+                        return address > ushort.MaxValue ? address : MemoryAddress.Zero;
+                    case Iced.OpKind.Memory when src.IsIPRelativeMemoryOperand:
+                        address = src.IPRelativeMemoryAddress;
+                        return address > ushort.MaxValue ? address : MemoryAddress.Zero;
+                    case Iced.OpKind.Memory:
+                        address = src.MemoryDisplacement;
+                        return address > ushort.MaxValue ? address : MemoryAddress.Zero;
+                }
+            }
+
+            return address;
+        }
+
         public static IceUsedMemory[] UsedMemory(Iced.InstructionInfo src)
             => src.GetUsedMemory().Map(x => Thaw(x));
 

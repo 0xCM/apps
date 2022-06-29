@@ -9,8 +9,6 @@ namespace Z0
     using W = W8;
     using I = Imm8;
 
-    using Asm;
-
     /// <summary>
     /// Defines an 8-bit immediate value
     /// </summary>

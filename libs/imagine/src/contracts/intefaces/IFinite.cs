@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
     /// <summary>
     /// Characterizes a type for which a well-defined Count() function can be implemented
     /// such types will be referred to as "countable" although this terminology unfortunately conflicts

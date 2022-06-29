@@ -21,7 +21,7 @@ namespace Z0
         new K Kind {get;}
 
         ulong IKinded.Kind
-            => core.bw64(Kind);
+            => Sized.bw64(Kind);
 
         string ITextual.Format()
             => Kind.ToString();

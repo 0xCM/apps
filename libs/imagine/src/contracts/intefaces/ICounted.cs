@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     /// <summary>
     /// Characterizes a finite thing that yields a count value that does not require computation/enumeration
     /// to reveal; in other words, the count function for counted things is free, as evinced by
@@ -33,6 +31,6 @@ namespace Z0
         new T Count {get;}
 
         uint ICounted.Count
-            => @as<T,uint>(Count);
+            => Refs.@as<T,uint>(Count);
     }
 }

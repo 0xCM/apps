@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Free]
-    public interface IReadOnlySpanProvider<T> : IDataProvider
+    public interface IReadOnlySpanProvider<T>
     {
         ReadOnlySpan<T> Data();
     }
