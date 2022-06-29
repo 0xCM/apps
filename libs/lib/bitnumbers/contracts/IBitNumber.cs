@@ -32,7 +32,7 @@ namespace Z0
 
     }
 
-    public interface IBitNumber<F,T> : IBitNumber<F>, INullary<F,T>, IHashed<F>, IBits<T>
+    public interface IBitNumber<F,T> : IBitNumber<F>, INullary<F,T>, IHashed, IBits<T>
         where F : unmanaged, IBitNumber<F,T>
         where T : unmanaged
     {

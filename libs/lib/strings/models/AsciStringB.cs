@@ -6,47 +6,35 @@ namespace Z0
 {
     using static core;
 
-    using api = SizedText;
+    using api = NativeStrings;
 
-    public readonly record struct text<K,B> : IString<text<K,B>,K>
-        where K : unmanaged, IEquatable<K>, IComparable<K>
+    public readonly record struct AsciString<B> : IString8<AsciString<B>, B>
         where B : unmanaged, IStorageBlock<B>
     {
-        public static text<K,B> load(ReadOnlySpan<char> src)
-        {
-            var data = recover<byte>(span(src));
-            var dst = Empty;
-            if(data.Length >= StorageSize)
-                dst = new text<K,B>(@as<byte,B>(data));
-            else
-                dst = new text<K,B>(Storage.block<B>(data));
-            return dst;
-        }
-
         readonly B Data;
 
         [MethodImpl(Inline)]
-        public text(B block)
+        public AsciString(B block)
         {
             Data = block;
-        }
-
-        public byte CharSize
-        {
-            [MethodImpl(Inline)]
-            get => (byte)size<K>();
         }
 
         public uint Capacity
         {
             [MethodImpl(Inline)]
-            get => Data.Size/CharSize;
+            get => Data.Size/8;
         }
 
-        public ReadOnlySpan<K> Cells
+        public ReadOnlySpan<AsciSymbol> Cells
         {
             [MethodImpl(Inline)]
-            get => recover<K>(Data.Bytes);
+            get => recover<AsciSymbol>(Data.Bytes);
+        }
+
+        public Span<AsciCode> Codes
+        {
+            [MethodImpl(Inline)]
+            get => recover<AsciCode>(Data.Bytes);
         }
 
         public Span<byte> Bytes
@@ -62,12 +50,12 @@ namespace Z0
         }
 
         public ReadOnlySpan<char> String
-            => CharSize == 16 ? recover<char>(Bytes) : Asci.format(recover<AsciCode>(Bytes));
+            => Asci.format(Cells);
 
-        public int CompareTo(text<K,B> src)
+        public int CompareTo(AsciString<B> src)
             => Format().CompareTo(src.Format());
 
-        public bool Equals(text<K,B> src)
+        public bool Equals(AsciString<B> src)
             => Bytes.SequenceEqual(src.Bytes);
 
         public string Format()
@@ -80,8 +68,8 @@ namespace Z0
             => (int)Hash;
 
         [MethodImpl(Inline)]
-        public static implicit operator text<K,B>(B block)
-            => new text<K,B>(block);
+        public static implicit operator AsciString<B>(B block)
+            => new AsciString<B>(block);
 
         public static uint StorageSize
         {
@@ -90,13 +78,17 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public static implicit operator text<K,B>(string src)
-            => api.load<K,B>(src);
+        public static implicit operator AsciString<B>(ReadOnlySpan<byte> src)
+            => api.asci<B>(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator text<K,B>(ReadOnlySpan<char> src)
-            => api.load<K,B>(src);
+        public static implicit operator AsciString<B>(ReadOnlySpan<AsciSymbol> src)
+            => api.load<B>(src);
 
-        public static text<K,B> Empty => default;
+        [MethodImpl(Inline)]
+        public static implicit operator AsciString<B>(ReadOnlySpan<AsciCode> src)
+            => api.load<B>(src);
+
+        public static AsciString<B> Empty => default;
     }
 }

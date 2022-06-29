@@ -6,35 +6,36 @@ namespace Z0
 {
     using static core;
 
-    using api = SizedText;
+    using api = NativeStrings;
 
-    public readonly record struct asci<B> : IString<asci<B>,AsciSymbol>
+    public readonly record struct NativeString<K,B> : INativeString<NativeString<K,B>,K,B>
+        where K : unmanaged, IEquatable<K>, IComparable<K>
         where B : unmanaged, IStorageBlock<B>
     {
         readonly B Data;
 
         [MethodImpl(Inline)]
-        public asci(B block)
+        public NativeString(B block)
         {
             Data = block;
+        }
+
+        public byte CharSize
+        {
+            [MethodImpl(Inline)]
+            get => (byte)size<K>();
         }
 
         public uint Capacity
         {
             [MethodImpl(Inline)]
-            get => Data.Size/8;
+            get => Data.Size/CharSize;
         }
 
-        public ReadOnlySpan<AsciSymbol> Cells
+        public ReadOnlySpan<K> Cells
         {
             [MethodImpl(Inline)]
-            get => recover<AsciSymbol>(Data.Bytes);
-        }
-
-        public Span<AsciCode> Codes
-        {
-            [MethodImpl(Inline)]
-            get => recover<AsciCode>(Data.Bytes);
+            get => recover<K>(Data.Bytes);
         }
 
         public Span<byte> Bytes
@@ -50,12 +51,12 @@ namespace Z0
         }
 
         public ReadOnlySpan<char> String
-            => Asci.format(Cells);
+            => CharSize == 16 ? recover<char>(Bytes) : Asci.format(recover<AsciCode>(Bytes));
 
-        public int CompareTo(asci<B> src)
+        public int CompareTo(NativeString<K,B> src)
             => Format().CompareTo(src.Format());
 
-        public bool Equals(asci<B> src)
+        public bool Equals(NativeString<K,B> src)
             => Bytes.SequenceEqual(src.Bytes);
 
         public string Format()
@@ -68,8 +69,8 @@ namespace Z0
             => (int)Hash;
 
         [MethodImpl(Inline)]
-        public static implicit operator asci<B>(B block)
-            => new asci<B>(block);
+        public static implicit operator NativeString<K,B>(B block)
+            => new NativeString<K,B>(block);
 
         public static uint StorageSize
         {
@@ -78,17 +79,13 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public static implicit operator asci<B>(ReadOnlySpan<byte> src)
-            => api.load<B>(src);
+        public static implicit operator NativeString<K,B>(string src)
+            => api.load<K,B>(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator asci<B>(ReadOnlySpan<AsciSymbol> src)
-            => api.load<B>(src);
+        public static implicit operator NativeString<K,B>(ReadOnlySpan<char> src)
+            => api.load<K,B>(src);
 
-        [MethodImpl(Inline)]
-        public static implicit operator asci<B>(ReadOnlySpan<AsciCode> src)
-            => api.load<B>(src);
-
-        public static asci<B> Empty => default;
+        public static NativeString<K,B> Empty => default;
     }
 }

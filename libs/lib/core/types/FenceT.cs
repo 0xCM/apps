@@ -4,12 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    [DataType("fence<t:{0}>")]
+    [StructLayout(LayoutKind.Sequential,Pack=1)]
     public readonly struct Fence<T>
     {
         public readonly T Left;

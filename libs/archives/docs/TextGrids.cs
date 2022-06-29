@@ -9,6 +9,11 @@ namespace Z0
     [ApiHost]
     public readonly struct TextGrids
     {
+        [MethodImpl(Inline), Op]
+        public static TextGrid<B> grid<B>(uint width, ReadOnlySpan<B> src)
+            where B : unmanaged, IStorageBlock<B>
+                => new TextGrid<B>(width,src);
+
         public static ReadOnlySpan<string> split(string src, in TextDocFormat spec)
             => text.nonempty(src) ? spec.SplitClean ? src.SplitClean(spec.Delimiter) : src.Split(spec.Delimiter) : sys.empty<string>();
 

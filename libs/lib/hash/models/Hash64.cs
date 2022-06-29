@@ -42,12 +42,6 @@ namespace Z0
         public override int GetHashCode()
             => Value.GetHashCode();
 
-        Hash32 IHashed.Hash
-            => GetHashCode();
-
-        bool INullity.IsEmpty
-            => Value == 0;
-
         public string Format()
             => Value.FormatHex(zpad:true, specifier:true, uppercase:true);
 

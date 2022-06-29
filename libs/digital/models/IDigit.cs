@@ -11,7 +11,7 @@ namespace Z0
         string Format();
     }
 
-    public interface IDigit<D,B,S,C,V> : IDigit, IComparable<D>, IEquatable<D>, IHashed<D>
+    public interface IDigit<D,B,S,C,V> : IDigit, IComparable<D>, IEquatable<D>, IHashed
         where D : unmanaged, IDigit<D,B,S,C,V>
         where B : unmanaged, INumericBase<B>
         where S : unmanaged

@@ -43,12 +43,6 @@ namespace Z0
         uint IHashCode<uint>.Value
             => Value;
 
-        Hash32 IHashed.Hash
-            => Value;
-
-        bool INullity.IsEmpty
-            => Value == 0;
-
         [MethodImpl(Inline)]
         public bool Equals(Hash32 src)
             => Value.Equals(src.Value);

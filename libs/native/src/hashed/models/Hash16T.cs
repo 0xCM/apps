@@ -23,15 +23,6 @@ namespace Z0
                 get => u16(Value);
             }
 
-            bool INullity.IsEmpty
-            {
-                [MethodImpl(Inline)]
-                get => Primitive == 0;
-            }
-
-            Hash32 IHashed.Hash
-                => Primitive;
-
             ushort IHashCode<ushort>.Value
                 => Primitive;
 

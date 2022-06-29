@@ -11,6 +11,7 @@ namespace Z0
     [ApiHost]
     public class AsciLines
     {
+
         [MethodImpl(Inline), Op]
         public static CmdFlagSpec flag(string name, string desc)
             => new CmdFlagSpec(name, desc);

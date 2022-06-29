@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public readonly partial struct BinaryCode : IComparable<BinaryCode>, ITextual, IHashed<BinaryCode>
+    public readonly partial struct BinaryCode : IComparable<BinaryCode>, ITextual, IHashed
     {
         /// <summary>
         /// The encoded bytes

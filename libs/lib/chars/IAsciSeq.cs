@@ -13,7 +13,7 @@ namespace Z0
     }
 
     [Free]
-    public interface IAsciSeq<S> : IAsciSeq, IComparable<S>, IEquatable<S>, IHashed<S>, IContented<S>
+    public interface IAsciSeq<S> : IAsciSeq, IComparable<S>, IEquatable<S>, IHashed, IContented<S>
         where S : IAsciSeq<S>
     {
         ReadOnlySpan<byte> ICellular.Cells

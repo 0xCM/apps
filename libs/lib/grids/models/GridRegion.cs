@@ -8,7 +8,7 @@ namespace Z0
     /// Identifies a rectangular region within a table
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public readonly record struct GridRegion : IEquatable<GridRegion>, IComparable<GridRegion>, IHashed<GridRegion>
+    public readonly record struct GridRegion : IEquatable<GridRegion>, IComparable<GridRegion>, IHashed
     {
         /// <summary>
         /// The top-left cell

@@ -4,13 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct text<C> : IString<text<C>,char>
+    public readonly struct @string<C> : IString16<@string<C>,C>
         where C : unmanaged, ICharBlock<C>
     {
         readonly C Block;
 
         [MethodImpl(Inline)]
-        public text(C block)
+        public @string(C block)
         {
             Block = block;
         }
@@ -63,28 +63,28 @@ namespace Z0
         public override string ToString()
             => Format();
 
-        public int CompareTo(text<C> src)
+        public int CompareTo(@string<C> src)
             => Data.SequenceCompareTo(src.Data);
 
-        public bool Equals(text<C> src)
+        public bool Equals(@string<C> src)
             => Data.SequenceEqual(src.Data);
 
         public override int GetHashCode()
             => (int)Hash;
 
         public override bool Equals(object obj)
-            => obj is text<C> x && Equals(x);
+            => obj is @string<C> x && Equals(x);
 
         [MethodImpl(Inline)]
-        public static implicit operator text<C>(C block)
-            => new text<C>(block);
+        public static implicit operator @string<C>(C block)
+            => new @string<C>(block);
 
         [MethodImpl(Inline)]
-        public static implicit operator text<C>(string src)
-            => new text<C>(CharBlocks.init<C>(src, out _));
+        public static implicit operator @string<C>(string src)
+            => new @string<C>(CharBlocks.init<C>(src, out _));
 
         [MethodImpl(Inline)]
-        public static implicit operator text<C>(ReadOnlySpan<char> src)
-            => new text<C>(CharBlocks.init<C>(src, out _));
+        public static implicit operator @string<C>(ReadOnlySpan<char> src)
+            => new @string<C>(CharBlocks.init<C>(src, out _));
     }
 }

@@ -9,7 +9,7 @@ namespace Z0
     /// <summary>
     /// Describes an embedded resource
     /// </summary>
-    public readonly record struct Asset : IComparable<Asset>, IAddressable, IHashed<Asset>
+    public readonly record struct Asset : IComparable<Asset>, IAddressable, IHashed
     {
         public readonly AssetName Name;
 

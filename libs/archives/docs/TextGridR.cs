@@ -6,12 +6,6 @@ namespace Z0
 {
     using static core;
 
-    public interface IBlockedReader<B>
-            where B : unmanaged, IStorageBlock<B>
-    {
-        bool Next(out B dst);
-    }
-
     public ref struct TextGrid<B>
         where B : unmanaged, IStorageBlock<B>
     {

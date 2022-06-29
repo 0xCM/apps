@@ -8,7 +8,7 @@ namespace Z0
     /// Encoded x86 bytes extracted from a memory source with a known (nonzero) location
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public readonly struct CodeBlock : IHashed<CodeBlock>
+    public readonly struct CodeBlock : IHashed
     {
         /// <summary>
         /// The head of the memory location from which the data originated

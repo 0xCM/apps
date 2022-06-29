@@ -13,6 +13,36 @@ namespace Z0
     [ApiHost]
     public class Settings : IIndex<Setting>, ILookup<string,Setting>
     {
+        public static Settings table(FS.FilePath src)
+        {
+            const char sep = Chars.Pipe;
+            using var reader = src.AsciLineReader();
+            var dst = list<Setting>();
+            var line = AsciLine.Empty;
+            if(reader.Next(out line))
+            {
+                while(reader.Next(out line))
+                {
+                    var content = line.Codes;
+                    if(first(content) == AsciCode.Pipe)
+                        content = slice(content,1);
+                    var length = content.Length;
+                    if(length != 0)
+                    {
+                        var i = SQ.index(content, sep);
+                        if(i > 0)
+                        {
+                            var name = text.trim(text.format(SQ.left(content,i)));
+                            var value = text.trim(text.format(SQ.right(content,i)));
+                            dst.Add(new Setting(name, value));
+                        }
+                    }
+
+                }
+            }
+            return new Settings(dst.ToArray());
+
+        }
         public static Settings config(FS.FilePath src, char sep = Chars.Colon)
         {
             var dst = list<Setting>();

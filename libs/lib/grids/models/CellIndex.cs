@@ -8,7 +8,7 @@ namespace Z0
     /// Identifies a cell within the context of a table
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public readonly record struct CellIndex : IComparable<CellIndex>, IEquatable<CellIndex>, IHashed<CellIndex>
+    public readonly record struct CellIndex : IComparable<CellIndex>, IEquatable<CellIndex>, IHashed
     {
         internal const string RenderPattern = "({0},{1})";
 

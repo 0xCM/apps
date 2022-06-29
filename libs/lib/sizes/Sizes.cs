@@ -25,6 +25,15 @@ namespace Z0
         public const ulong BitsPerGb = 1000*BitsPerMb;
 
         [MethodImpl(Inline)]
+        public static NativeSize native<T>()
+            where T : unmanaged
+                => native(width<T>());
+
+        [MethodImpl(Inline)]
+        public static uint bits<T>()
+            => bits(typeof(T));
+
+        [MethodImpl(Inline)]
         public static DataSize datasize(BitWidth packed)
             => new DataSize(packed,(uint)(packed % 8 == 0 ? packed/8 : (packed/8) + 1));
 
@@ -149,14 +158,6 @@ namespace Z0
             where W : unmanaged, IDataWidth
                 => native((BitWidth)w.BitWidth);
 
-        [MethodImpl(Inline)]
-        public static NativeSize native<T>()
-            where T : unmanaged
-                => native(width<T>());
-
-        [MethodImpl(Inline)]
-        public static uint bits<T>()
-            => bits(typeof(T));
 
         public static DataSize measure(Type src)
         {

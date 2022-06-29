@@ -45,12 +45,6 @@ namespace Z0
         public override string ToString()
             => Format();
 
-        Hash32 IHashed.Hash
-            => Value;
-
-        bool INullity.IsEmpty
-            => Value == 0;
-
         [MethodImpl(Inline)]
         public static implicit operator Hash8(byte src)
             => new Hash8(src);

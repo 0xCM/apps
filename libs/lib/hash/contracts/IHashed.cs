@@ -21,8 +21,8 @@ namespace Z0
             => (int)Hash;
     }
 
-    public interface IHashed<F> : IHashed
-        where F : IHashed<F>
+    public interface IHashed<H> : IHashed
+        where H : IHashCode
     {
 
     }

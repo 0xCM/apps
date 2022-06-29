@@ -7,7 +7,7 @@ namespace Z0
     using static core;
 
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public readonly record struct FlowId : IEquatable<FlowId>, IHashed<FlowId>, IComparable<FlowId>
+    public readonly record struct FlowId : IEquatable<FlowId>, IHashed, IComparable<FlowId>
     {
         [MethodImpl(Inline)]
         public static FlowId identify<A,S,T>(A actor, S src, T dst)
