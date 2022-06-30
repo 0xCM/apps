@@ -9,7 +9,6 @@ namespace Z0
     {
         ReadOnlySpan<byte> Data {get;}
 
-        NativeSize Size {get;}
     }
 
     [Free]
@@ -17,9 +16,6 @@ namespace Z0
         where T : unmanaged
      {
          T Value {get;}
-
-         NativeSize IHashCode.Size
-            => Sizes.native<T>();
 
         string ITextual.Format()
             => Value.ToString();

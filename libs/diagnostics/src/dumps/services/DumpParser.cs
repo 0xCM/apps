@@ -39,7 +39,7 @@ namespace Z0
             {
                 var running = Running(string.Format("Parsing {0}", src.ToUri()));
                 var modules = runtime.EnumerateModules().Array();
-                var processor = ModuleProcessor.create(Events.sink());
+                var processor = ModuleProcessor.create(Pipelines.sink());
                 processor.Process(modules);
                 Emit(id, processor.Processed());
                 Ran(running, string.Format("Parsed {0}", src.ToUri()));

@@ -4,26 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(64)]
     public readonly record struct DataSize : IComparable<DataSize>
     {
-        [Parser]
-        public static bool parse(string src, out DataSize dst)
-        {
-            dst = Empty;
-            var parts = text.split(text.trim(text.despace(src)),Chars.Space);
-            var result = parts.Length == 2;
-            if(result)
-            {
-                result &= DataParser.parse(skip(parts,0), out uint p);
-                result &= DataParser.parse(skip(parts,1), out uint n);
-                dst = new DataSize(p,n);
-            }
-            return result;
-        }
-
         readonly ulong Data;
 
         [MethodImpl(Inline)]

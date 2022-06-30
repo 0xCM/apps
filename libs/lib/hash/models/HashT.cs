@@ -16,7 +16,7 @@ namespace Z0
         }
 
         public override int GetHashCode()
-            => core.i32(Value.Data);
+            => Spans.i32(Value.Data);
 
         [MethodImpl(Inline)]
         public bool Equals(Hash<T> src)

@@ -15,7 +15,7 @@ namespace Z0
                 => AsciG.parse(src, n, out dst);
 
         public static bool parse(string src, out DataSize dst)
-            => DataSize.parse(src, out dst);
+            => Sizes.parse(src, out dst);
 
         public static bool parse(string src, out uint1 dst)
             => uint1.parse(src, out dst);
@@ -86,17 +86,21 @@ namespace Z0
         public static Outcome parse(ReadOnlySpan<char> src, out Hex64 dst)
             => Hex64.parse(src, out dst);
 
+        [Parser]
         public static Outcome parse(string src, out Hash8 dst)
-            => Hash8.parse(src, out dst);
+            => Hash.parse(src, out dst);
 
+        [Parser]
         public static Outcome parse(string src, out Hash16 dst)
-            => Hash16.parse(src, out dst);
+            => Hash.parse(src, out dst);
 
+        [Parser]
         public static Outcome parse(string src, out Hash32 dst)
-            => Hash32.parse(src, out dst);
+            => Hash.parse(src, out dst);
 
+        [Parser]
         public static Outcome parse(string src, out Hash64 dst)
-            => Hash64.parse(src, out dst);
+            => Hash.parse(src, out dst);
 
         public static Outcome parse(string src, out SymKey dst)
             => SymKey.parse(src, out dst);

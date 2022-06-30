@@ -36,8 +36,6 @@ namespace Z0
 
         const byte FieldCount = ToolProfile.FieldCount;
 
-        ToolWs ToolWs => new ToolWs(AppDb.Toolbase());
-
         OmniScript OmniScript => Wf.OmniScript();
 
         public Index<ToolCmdLine> BuildHelpCommands(FS.FolderPath src)

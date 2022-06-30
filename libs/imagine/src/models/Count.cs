@@ -7,8 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines a data structure that measures a nonnegative count (I mean, really, is there any other kind?) of 32-bit capacity
     /// </summary>
-    [DataType("count")]
-    public struct Count : ICount
+    public record struct Count : ICount
     {
         public uint Value;
 
@@ -20,11 +19,21 @@ namespace Z0
         public Count(int value)
             => Value = (uint)value;
 
+        [MethodImpl(Inline)]
+        public bool Equals(Count src)
+            => Value == src.Value;
+
         public string Format()
             => Value.ToString();
 
         public override string ToString()
             => Format();
+
+        public override int GetHashCode()
+            => (int)Value;
+
+        public int CompareTo(Count src)
+            => Value.CompareTo(src.Value);
 
         uint ICounted.Count
              => Value;

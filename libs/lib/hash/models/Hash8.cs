@@ -6,16 +6,6 @@ namespace Z0
 {
     public readonly record struct Hash8 : IHashCode<Hash8,byte>
     {
-        [Parser]
-        public static Outcome parse(string src, out Hash8 dst)
-        {
-            var result = Hex8.parse(src, out var hex);
-            dst = 0;
-            if(result)
-                dst = (byte)hex;
-            return result;
-        }
-
         public byte Value {get;}
 
         [MethodImpl(Inline)]

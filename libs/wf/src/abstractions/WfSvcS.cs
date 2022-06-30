@@ -14,6 +14,8 @@ namespace Z0
 
         protected IDbArchive DbArchive => Archives.archive(FS.dir(AppSettings.Find(SettingNames.DbRoot)));
 
+        protected ToolWs ToolWs => new ToolWs(AppDb.Toolbase());
+
         public void Babble<T>(T content)
             => WfMsg.Babble(content);
 

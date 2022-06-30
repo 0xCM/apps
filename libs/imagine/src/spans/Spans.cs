@@ -10,5 +10,6 @@ namespace Z0
     public partial class Spans
     {
         const NumericKind Closure = UnsignedInts;
+
     }
 }

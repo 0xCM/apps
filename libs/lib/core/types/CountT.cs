@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    [DataType("count<t:{0}>")]
     public struct Count<T> : ICount<Count<T>,T>
         where T : unmanaged
     {

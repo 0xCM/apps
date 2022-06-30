@@ -92,7 +92,7 @@ namespace Z0
         ReadOnlySpan<TextLine> RunScript(FS.FilePath src, ScriptId script, CmdVars? vars)
             => Run(new CmdLine(src.Format(PathSeparator.BS)), script, vars);
 
-        public void Dispatch(Index<IToolResultHandler> handlers, Index<string> args)
+        public void Dispatch(Index<IToolResultHandler> handlers, Index<string> args, ILineProcessor processor)
         {
             try
             {
@@ -110,7 +110,7 @@ namespace Z0
                     if(script.Exists)
                     {
                         var output = RunControlScript(name);
-                        var processor = CmdResultProcessor.create(script, handlers);
+                        //var processor = CmdResultProcessor.create(script, handlers);
                         term.inform("Response");
                         iter(output, x => processor.Process(x));
                     }

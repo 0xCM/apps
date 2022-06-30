@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="$(ApiCode)" />
+    <ProjectReference Include="$(Queues)" />
   </ItemGroup>
 
 </Project>

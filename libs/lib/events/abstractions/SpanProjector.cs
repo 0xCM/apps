@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     public abstract class SpanProjector<H,S,T> : PipelineService<H>, ISpanMap<S,T>
         where H : SpanProjector<H,S,T>, new()
     {

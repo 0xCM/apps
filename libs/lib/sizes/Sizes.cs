@@ -24,6 +24,22 @@ namespace Z0
 
         public const ulong BitsPerGb = 1000*BitsPerMb;
 
+        [Parser]
+        public static bool parse(string src, out DataSize dst)
+        {
+            dst = DataSize.Empty;
+            var parts = text.split(text.trim(text.despace(src)),Chars.Space);
+            var result = parts.Length == 2;
+            if(result)
+            {
+                result &= DataParser.parse(skip(parts,0), out uint p);
+                result &= DataParser.parse(skip(parts,1), out uint n);
+                dst = new DataSize(p,n);
+            }
+            return result;
+        }
+
+
         [MethodImpl(Inline)]
         public static NativeSize native<T>()
             where T : unmanaged

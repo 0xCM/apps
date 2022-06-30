@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    //using static core;
-    using static System.Runtime.InteropServices.MemoryMarshal;
-
     partial class Spans
     {
         /// <summary>

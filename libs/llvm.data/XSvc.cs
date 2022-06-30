@@ -46,6 +46,10 @@ namespace Z0
 
             public LlvmLineMaps LlvmLineMaps(IWfRuntime wf)
                 => Service<LlvmLineMaps>(wf);
+
+             public LlvmConfigSvc LlvmConfig(IWfRuntime wf)
+                => Service<LlvmConfigSvc>(wf);
+
         }
 
         static Svc Services = Svc.Instance;
@@ -88,5 +92,9 @@ namespace Z0
 
         public static AsmFlowCommands AsmFlows(this IWfRuntime wf)
             => Services.AsmFlows(wf);
+
+        public static LlvmConfigSvc LlvmConfig(this IWfRuntime wf)
+            => Services.LlvmConfig(wf);
+
     }
 }

@@ -6,16 +6,6 @@ namespace Z0
 {
     public readonly record struct Hash64 : IHashCode<Hash64,ulong>
     {
-        [Parser]
-        public static Outcome parse(string src, out Hash64 dst)
-        {
-            var result = Hex64.parse(src, out var hex);
-            dst = 0;
-            if(result)
-                dst = (ulong)hex;
-            return result;
-        }
-
         public readonly ulong Value;
 
         [MethodImpl(Inline)]

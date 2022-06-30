@@ -129,8 +129,6 @@ namespace Z0
 
         protected AppSvcOps AppSvc => Wf.AppSvc();
 
-        protected ToolWs ToolWs => new ToolWs(AppDb.Toolbase());
-
         [CmdOp("commands")]
         protected void EmitCommands()
             => EmitCommands(AppDb.ApiTargets().Path(FS.file($"api.commands.shell.{controller().Id().Format()}", FS.Csv)));

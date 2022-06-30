@@ -6,21 +6,6 @@ namespace Z0
 {
     public readonly record struct Hash32 : IHashCode<Hash32,uint>
     {
-        [MethodImpl(Inline)]
-        public static Hash32 bytehash<C>(C src)
-            where C : struct
-                => alg.ghash.bytehash(src);
-
-        [Parser]
-        public static Outcome parse(string src, out Hash32 dst)
-        {
-            var result = Hex32.parse(src, out var hex);
-            dst = 0;
-            if(result)
-                dst = (uint)hex;
-            return result;
-        }
-
         public readonly uint Value;
 
         [MethodImpl(Inline)]

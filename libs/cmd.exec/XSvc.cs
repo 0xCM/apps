@@ -8,9 +8,6 @@ namespace Z0
     {
         sealed class ServiceCache : AppServices<ServiceCache>
         {
-            public ScriptRunner ScriptRunner(IWfRuntime wf)
-                => Service<ScriptRunner>(wf);
-
             public CmdLineRunner CmdLineRunner(IWfRuntime wf)
                 => Service<CmdLineRunner>(wf);
 
@@ -32,8 +29,6 @@ namespace Z0
         public static WsScripts WsScripts(this IWfRuntime wf)
             => Services.WsScripts(wf);
 
-        public static ScriptRunner ScriptRunner(this IWfRuntime wf)
-            => Services.ScriptRunner(wf);
 
         public static CmdLineRunner CmdLineRunner(this IWfRuntime wf)
             => Services.CmdLineRunner(wf);
