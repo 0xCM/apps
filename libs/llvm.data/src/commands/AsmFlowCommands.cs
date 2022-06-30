@@ -9,9 +9,9 @@ namespace Z0
     public class AsmFlowCommands : AppService<AsmFlowCommands>
     {
         public SToAsmCmd Select(SToAsm flow)
-            => Service(() => SToAsmCmd.create(Wf));
+            => Service(() => new SToAsmCmd());
 
         public AsmToMcAsmCmd Select(AsmToMcAsm flow)
-            => Service(() => AsmToMcAsmCmd.create(Wf));
+            => Service(() => new AsmToMcAsmCmd());
     }
 }

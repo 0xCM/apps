@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Linq;
-    using System.Collections.Generic;
-
     public interface IMsgExchange : IMessageQueue
     {
         void IMessageSink.Deposit(IEnumerable<IAppMsg> msg)

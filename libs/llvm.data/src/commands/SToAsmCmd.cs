@@ -6,7 +6,7 @@ namespace Z0
 {
     using static FileFlows;
 
-    public sealed class SToAsmCmd : ScriptFlows<SToAsmCmd,McCmd,SToAsm>
+    public sealed class SToAsmCmd : ScriptBuilder<SToAsmCmd,McCmd,SToAsm>
     {
         public override McCmd BuildCmd(IProjectWs project, string scope, FS.FilePath src)
         {

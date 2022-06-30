@@ -4,11 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using llvm;
-
     using static FileFlows;
 
-    public sealed class AsmToMcAsmCmd : ScriptFlows<AsmToMcAsmCmd,McCmd,AsmToMcAsm>
+    public sealed class AsmToMcAsmCmd : ScriptBuilder<AsmToMcAsmCmd,McCmd,AsmToMcAsm>
     {
         public override McCmd BuildCmd(IProjectWs project, string scope, FS.FilePath src)
         {

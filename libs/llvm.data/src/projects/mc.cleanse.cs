@@ -22,7 +22,7 @@ namespace Z0
             var scope = "att/64";
             var project = Project();
             var cmd = AsmFlows.Select(SToAsm.Instance);
-            cmd.Execute(project, (scope, cmdname));
+            //cmd.Execute(project, (scope, cmdname));
             return true;
         }
 
@@ -32,8 +32,8 @@ namespace Z0
             var cmdname = "asm-to-mcasm";
             var scope = "asm";
             var project = Project();
-            var cmd = AsmFlows.Select(AsmToMcAsm.Instance);
-            cmd.Execute(project, (scope, cmdname));
+            var builder = AsmFlows.Select(AsmToMcAsm.Instance);
+            //builder.Execute(project, (scope, cmdname));
             return true;
         }
     }

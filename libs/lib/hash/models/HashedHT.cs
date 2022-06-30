@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     public readonly record struct Hashed<H,T> : IEquatable<Hashed<H,T>>, IComparable<Hashed<H,T>>
         where H : unmanaged, IEquatable<H>, IHashCode<H>
         where T : IEquatable<T>, IComparable<T>
@@ -30,6 +28,6 @@ namespace Z0
             => Hash.Equals(src.Hash) && Data.Equals(src.Data);
 
         public override int GetHashCode()
-            => i32(Hash.Value);
+            => core.i32(Hash.Value);
     }
 }

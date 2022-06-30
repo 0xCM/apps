@@ -8,7 +8,7 @@
   <Import Project="$(ImportDefs)common.libs.props"/>
 
   <ItemGroup>
-    <ProjectReference Include="$(LlvmTools)" />
+    <ProjectReference Include="$(AsmCore)" />
   </ItemGroup>
 
 </Project>
