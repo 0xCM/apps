@@ -10,10 +10,8 @@ namespace Z0.llvm
     {
         public Index<TextLine> X86RecordLines()
         {
-            var id = LlvmDatasets.X86;
-            var lookup = DefLineLookup();
-            var count = lookup.LineCount;
-            using var reader = LlvmPaths.DevSource("records", id).LineReader(TextEncodingKind.Asci);
+            var id = LlvmDatasets.dataset(LlvmTargetName.x86).Records;
+            using var reader = LlvmPaths.RecordSource(id).LineReader(TextEncodingKind.Asci);
             var lines = reader.ReadAll().ToArray().Index();
             return (Index<TextLine>)DataSets.GetOrAdd(id + "lines", _ => lines);
         }

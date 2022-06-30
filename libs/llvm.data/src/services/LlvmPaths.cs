@@ -4,8 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-     using static ApiGranules;
-     using G = ApiGranules;
+    using static ApiGranules;
+
+    using G = ApiGranules;
 
     public class LlvmPaths : WfSvc<LlvmPaths>
     {
@@ -65,8 +66,8 @@ namespace Z0.llvm
         public FS.FilePath DevSource(string scope, string name)
             => DevSources(scope).Path(name, FileKind.Txt);
 
-        public FS.Files TableGenHeaders()
-            => DevSources(headers).Files(FileKind.H);
+        public FS.Files TableGenHeaders(LlvmTargetName target)
+            => LlvmSources("headers").Files(FileKind.H).Where(f => f.FileName.StartsWith($"{target}."));
 
         public IDbSources DevViews()
             => Dev().Sources(views);
@@ -86,6 +87,24 @@ namespace Z0.llvm
         public FS.FolderPath LlvmRoot
             => Env.LlvmRoot;
 
+        public IDbSources LlvmSources()
+            => AppDb.DbIn(llvm);
+
+        public IDbSources LlvmSources(string scope)
+            => AppDb.DbIn(llvm).Sources(scope);
+
+        public IDbSources RecordSources()
+            => LlvmSources("records");
+
+        public IDbSources HelpSouces()
+            => LlvmSources("docs/help");
+
+        public IDbSources SourceSettings()
+            => LlvmSources("settings");
+
+        public FS.FilePath RecordSource(string id)
+            => RecordSources().Path(id, FileKind.Txt);
+
         public IDbTargets FileTargets()
             => AppDb.DbOut(files);
 
@@ -102,6 +121,6 @@ namespace Z0.llvm
             => DbTable(string.Format("llvm.lists.{0}", id));
 
         public IDbTargets CodeGen()
-            => AppDb.CgRoot().Targets("codegen.llvm/src");
+            => AppDb.CgRoot().Targets("cg.llvm/src");
     }
 }

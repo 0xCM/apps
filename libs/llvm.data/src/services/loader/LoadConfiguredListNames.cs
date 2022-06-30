@@ -10,7 +10,7 @@ namespace Z0.llvm
     {
         public Index<string> LoadConfiguredListNames()
         {
-            var src = LlvmPaths.DevSettings("ListEmissions", FS.List);
+            var src = LlvmPaths.SourceSettings().Path("ListEmissions", FileKind.List);
             var lines = src.ReadLines();
             return lines.Select(x => x.Trim()).Where(x => nonempty(x));
         }

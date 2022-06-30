@@ -5,7 +5,6 @@
 namespace Z0.llvm
 {
     using static core;
-    using static LlvmNames;
 
     public class LlvmDataImporter : WfSvc<LlvmDataImporter>
     {
@@ -49,7 +48,7 @@ namespace Z0.llvm
             exec(PllExec,
                 () => ImportToolHelp(),
                 ImportTestLogs,
-                () => DataEmitter.Emit(DataProvider.DiscoverRegIdentifiers()),
+                () => DataEmitter.Emit(DataCalcs.CalcRegIdentifiers(LlvmTargetName.x86)),
                 () => classMap = EmitClasses(lines),
                 () => defMap = EmitDefs(lines, out defRelations)
             );
@@ -78,7 +77,7 @@ namespace Z0.llvm
 
         void Emit(Index<LlvmEntity> src)
         {
-            var asmids = DataProvider.DiscoverAsmIdentifiers();
+            var asmids = DataCalcs.CalcAsmIdentifiers(LlvmTargetName.x86);
             var instructions = DataProvider.Instructions(src);
             var variations = sys.empty<LlvmAsmVariation>();
             exec(PllExec,
@@ -100,7 +99,7 @@ namespace Z0.llvm
         public Index<ToolHelpDoc> ImportToolHelp()
         {
             var imports = LlvmPaths.ToolImports();
-            var docs = DataProvider.SelectToolHelp();
+            var docs = DataProvider.CalcHelpDocs();
             var count = docs.Count;
             for(var i=0; i<count; i++)
             {

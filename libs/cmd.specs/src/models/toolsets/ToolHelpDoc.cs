@@ -14,12 +14,9 @@ namespace Z0
 
         public readonly ToolId Tool;
 
-        public readonly string Tag;
-
         public ToolHelpDoc()
         {
             IsEmpty = true;
-            Tag = EmptyString;
             Data = EmptyString;
             Source = FS.FilePath.Empty;
         }
@@ -29,16 +26,14 @@ namespace Z0
             Source = path;
             Tool = tool;
             IsEmpty = false;
-            Tag = EmptyString;
             Data = EmptyString;
         }
 
-        public ToolHelpDoc(ToolId tool, string tag, FS.FilePath src, TextBlock data)
+        public ToolHelpDoc(ToolId tool, FS.FilePath src, string data)
         {
             Tool = tool;
             Source = src;
             IsEmpty = false;
-            Tag = tag;
             Data = data;
         }
 
@@ -58,7 +53,7 @@ namespace Z0
             => Format();
 
         public ToolHelpDoc Load()
-            => new ToolHelpDoc(Tool, Tag, Source, Source.ReadText());
+            => new ToolHelpDoc(Tool, Source, Source.ReadText());
 
         public static ToolHelpDoc Empty => new ToolHelpDoc();
     }

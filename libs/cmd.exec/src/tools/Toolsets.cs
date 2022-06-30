@@ -6,8 +6,6 @@ namespace Z0
 {
     using static core;
 
-    using G = ApiGranules;
-
     public class Toolsets : WfSvc<Toolsets>
     {
         ToolBox ToolBox => Wf.ToolBox();
@@ -17,17 +15,20 @@ namespace Z0
         public Settings Config(FS.FilePath src)
             => Settings.config(src);
 
-        public ConstLookup<ToolId,ToolHelpDoc> LoadHelpDocs(FS.FolderPath home)
+        public ConstLookup<ToolId,ToolHelpDoc> LoadHelpDocs(IDbSources src)
         {
-            var dst = new Lookup<ToolId,ToolHelpDoc>();
-            var src = ToolBox.CalcHelpPaths(home).Entries;
-            var count = src.Length;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var entry = ref skip(src,i);
-                dst.Include(entry.Key, new ToolHelpDoc(entry.Key, entry.Value));
-            }
-            return dst.Seal();
+            var dst = dict<ToolId,ToolHelpDoc>();
+            var files = src.Files(FileKind.Help);
+            iter(files, file =>{
+                var fmt = file.FileName.Format();
+                var i = text.index(fmt, Chars.Dot);
+                if(i > 0)
+                {
+                    var tool = text.left(fmt,i);
+                    dst.TryAdd(tool, new ToolHelpDoc(tool, file, file.ReadAsci()));
+                }
+            });
+            return dst;
         }
 
         public Index<ToolHelpDoc> EmitHelp(FS.FolderPath home)

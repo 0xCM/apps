@@ -6,6 +6,6 @@ namespace Z0.llvm
 {
     public partial class LlvmDataCalcs : AppService<LlvmDataCalcs>
     {
-
+        LlvmPaths LlvmPaths => Wf.LlvmPaths();
     }
 }

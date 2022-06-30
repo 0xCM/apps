@@ -9,6 +9,6 @@ namespace Z0.llvm
     partial class LlvmDataProvider
     {
         public LineMap<string> X86DefMap()
-            => LineMap(LlvmPaths.ImportMap(LlvmDatasets.X86Defs));
+            => LineMap(LlvmPaths.ImportMap(LlvmDatasets.dataset(LlvmTargetName.x86).Defs));
     }
 }

@@ -20,7 +20,7 @@ namespace Z0.llvm
 
         public void Run()
         {
-            LlvmPaths.CodeGen().Clear();
+            //LlvmPaths.CodeGen().Clear();
             EmitStringTables();
             EmitAsmIds();
         }

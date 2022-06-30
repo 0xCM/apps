@@ -16,6 +16,8 @@
     <ProjectReference Include="$(AsmModels)" />
     <ProjectReference Include="$(Symbolics)" />
     <ProjectReference Include="$(Polyrand)" />
+    <ProjectReference Include="$(Validity)" />
+
   </ItemGroup>
 
 </Project>

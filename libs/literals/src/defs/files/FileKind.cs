@@ -202,5 +202,8 @@ namespace Z0
 
         [Symbol(env, "An environment configuration file")]
         Env,
+
+        [Symbol(help, "A plaintext tool help file")]
+        Help,
     }
 }

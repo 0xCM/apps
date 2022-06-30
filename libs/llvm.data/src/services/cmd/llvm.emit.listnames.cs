@@ -9,5 +9,11 @@ namespace Z0.llvm
         [CmdOp("llvm/emit/listnames")]
         void EmitListNames()
             => Query.FileEmit("llvm.lists.names", DataProvider.Lists().Map(x => x.ToNameList()).View);
+
+        [CmdOp("llvm/emit/linemaps")]
+        void EmitLineMaps()
+        {
+            LineMaps.EmitLineMaps();
+        }
     }
 }

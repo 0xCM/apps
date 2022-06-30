@@ -24,6 +24,8 @@ namespace Z0.llvm
 
         LlvmQuery Query => DataEmitter.Query;
 
+        LlvmLineMaps LineMaps => Wf.LlvmLineMaps();
+
         ToolId SelectedTool;
 
         FS.Files TdFiles()

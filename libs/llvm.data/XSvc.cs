@@ -17,9 +17,6 @@ namespace Z0
             public LlvmDataProvider LlvmDataProvider(IWfRuntime wf)
                 => Service<LlvmDataProvider>(wf);
 
-            public AsmCmdProvider AsmCmdProvider(IWfRuntime wf)
-                => Service<AsmCmdProvider>(wf);
-
             public LlvmDataEmitter LlvmDataEmitter(IWfRuntime wf)
                 => Service<LlvmDataEmitter>(wf);
 
@@ -46,6 +43,9 @@ namespace Z0
 
             public ProjectCmd ProjectCmd(IWfRuntime wf)
                 => Service<ProjectCmd>(wf);
+
+            public LlvmLineMaps LlvmLineMaps(IWfRuntime wf)
+                => Service<LlvmLineMaps>(wf);
         }
 
         static Svc Services = Svc.Instance;
@@ -65,9 +65,6 @@ namespace Z0
         public static LlvmDataProvider LlvmDataProvider(this IWfRuntime wf)
             => Services.LlvmDataProvider(wf);
 
-        public static AsmCmdProvider AsmCmdProvider(this IWfRuntime wf)
-            => Services.AsmCmdProvider(wf);
-
         public static LlvmDataEmitter LlvmDataEmitter(this IWfRuntime wf)
             => Services.LlvmDataEmitter(wf);
 
@@ -76,6 +73,9 @@ namespace Z0
 
         public static LlvmTableLoader LlvmTableLoader(this IWfRuntime wf)
             => Services.LlvmTableLoader(wf);
+
+        public static LlvmLineMaps LlvmLineMaps(this IWfRuntime wf)
+            => Services.LlvmLineMaps(wf);
 
         public static LlvmCmd LlvmCmd(this IWfRuntime wf)
             => Services.LlvmCmd(wf);

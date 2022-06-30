@@ -4,18 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public enum CgTarget : byte
+
+    public class SqlDb : WfSvc<SqlDb>
     {
-        None,
-
-        [Symbol("cg.common")]
-        Common,
-
-        [Symbol("cg.intel")]
-        Intel,
-
-        [Symbol("cg.llvm")]
-        Llvm,
 
     }
+
 }

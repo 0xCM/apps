@@ -85,7 +85,7 @@ namespace Z0.llvm
             => EmitFields(src, LlvmDatasets.X86DefFields);
 
         public Index<RecordField> EmitClassFields(Index<RecordField> src)
-            => EmitFields(src, LlvmDatasets.X86ClassFields);
+            => EmitFields(src, LlvmDatasets.dataset(LlvmTargetName.x86).ClassFields);
 
         Index<RecordField> EmitFields(Index<RecordField> src, string id)
         {

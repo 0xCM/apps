@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public sealed partial class AsmCmdProvider : AppCmdService<AsmCmdProvider>
+    public class SqlDbCmd : CmdService<SqlDbCmd>
     {
+
     }
+
 }
