@@ -5,7 +5,6 @@
 namespace Z0
 {
     using static core;
-    using static Hashed;
 
     [ApiHost]
     public class MemoryStores
@@ -46,7 +45,7 @@ namespace Z0
             {
                 ref var entry = ref dst[i];
                 ref readonly var hash = ref skip(codes,i);
-                entry.Key = (hash % count);
+                entry.Seq = (hash % count);
                 entry.Code = hash;
                 entry.Content = skip(src,i);
             }

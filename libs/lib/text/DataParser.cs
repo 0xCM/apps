@@ -88,19 +88,19 @@ namespace Z0
 
         [Parser]
         public static Outcome parse(string src, out Hash8 dst)
-            => Hash.parse(src, out dst);
+            => HashCodes.parse(src, out dst);
 
         [Parser]
         public static Outcome parse(string src, out Hash16 dst)
-            => Hash.parse(src, out dst);
+            => HashCodes.parse(src, out dst);
 
         [Parser]
         public static Outcome parse(string src, out Hash32 dst)
-            => Hash.parse(src, out dst);
+            => HashCodes.parse(src, out dst);
 
         [Parser]
         public static Outcome parse(string src, out Hash64 dst)
-            => Hash.parse(src, out dst);
+            => HashCodes.parse(src, out dst);
 
         public static Outcome parse(string src, out SymKey dst)
             => SymKey.parse(src, out dst);

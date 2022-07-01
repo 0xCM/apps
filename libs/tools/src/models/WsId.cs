@@ -6,15 +6,15 @@ namespace Z0
 {
     public readonly record struct WsId : IDataType<WsId>, INamed<WsId>
     {
-        readonly asci16 Data;
+        readonly asci32 Data;
 
         [MethodImpl(Inline)]
-        public WsId(asci16 src)
+        public WsId(asci32 src)
         {
             Data = src;
         }
 
-        public asci16 Name
+        public asci32 Name
         {
             [MethodImpl(Inline)]
             get => Data;
@@ -35,7 +35,7 @@ namespace Z0
         public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
-            get => Data.IsNotNull;
+            get => !IsEmpty;
         }
 
         public override int GetHashCode()

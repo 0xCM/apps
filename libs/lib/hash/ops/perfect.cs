@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    partial class Hashed
+    partial class HashCodes
     {
         public static bool perfect(ReadOnlySpan<string> src, out Index<HashEntry<string>> dst)
         {
@@ -23,7 +23,7 @@ namespace Z0
                 {
                     ref readonly var hash = ref skip(codes,j);
                     ref var record = ref dst[j];
-                    record.Key = hash.Hash % n;
+                    record.Seq = hash.Hash % n;
                     record.Code = hash.Hash;
                     record.Content = hash.Source;
                 }
