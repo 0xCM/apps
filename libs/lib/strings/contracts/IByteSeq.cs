@@ -7,7 +7,7 @@ namespace Z0
     using static core;
 
     [Free]
-    public interface IByteSeq : INullity, ITextual, IHashed
+    public interface IByteSeq : IHashed, INullity, ISized
     {
         /// <summary>
         /// The terms presented as a readonly span
@@ -26,9 +26,6 @@ namespace Z0
 
         Hash32 IHashed.Hash
             => hash(View);
-
-        uint Size
-            => (uint)Capacity;
 
         ref readonly byte this[uint i]
         {

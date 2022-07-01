@@ -5,11 +5,9 @@
 namespace Z0
 {
     [Free]
-    public interface ISeqExpr<T> : IExpr
+    sealed class App : AppCmdShell<App>
     {
-        ReadOnlySpan<T> Terms {get;}
-
-        string IExpr2.Format()
-            => Terms.MapArray(t => t.ToString()).Concat(" ");
+        public static void Main(params string[] args)
+            => run(wf => AppCmd.commands(wf), args);
     }
 }

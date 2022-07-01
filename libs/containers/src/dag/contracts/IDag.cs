@@ -5,32 +5,32 @@
 namespace Z0
 {
     [Free]
-    public interface IDag : IExpr
+    public interface IDag : IExpr2
     {
-        dynamic Left {get;}
+        IExpr2 Left {get;}
 
-        dynamic Right {get;}
+        IExpr2 Right {get;}
     }
 
     [Free]
     public interface IDag<L,R> : IDag
-        where L : IExpr
-        where R : IExpr
+        where L : IExpr2
+        where R : IExpr2
     {
         new L Left {get;}
 
         new R Right {get;}
 
-        dynamic IDag.Left
+        IExpr2 IDag.Left
             => Left;
 
-        dynamic IDag.Right
+        IExpr2 IDag.Right
             => Right;
     }
 
     [Free]
     public interface IDag<T> : IDag<T,T>
-        where T : IExpr
+        where T : IExpr2
     {
 
     }

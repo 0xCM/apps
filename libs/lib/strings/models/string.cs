@@ -8,7 +8,7 @@ namespace Z0
 
     using T = @string;
 
-    public readonly struct @string : IString<@string,char>, IExpr
+    public readonly struct @string : IString<@string,char>
     {
         readonly string Data;
 
@@ -27,6 +27,30 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => Data ?? EmptyString;
+        }
+
+        public int Capacity
+        {
+            [MethodImpl(Inline)]
+            get => Data.Length;
+        }
+
+        public int Length
+        {
+            [MethodImpl(Inline)]
+            get => Data.Length;
+        }
+
+        public BitWidth Width
+        {
+            [MethodImpl(Inline)]
+            get => Length*2*8;
+        }
+
+        public ByteSize Size
+        {
+            [MethodImpl(Inline)]
+            get => Length*2;
         }
 
         public bool IsEmpty
@@ -51,12 +75,6 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => hash(Cells);
-        }
-
-        public int Length
-        {
-            [MethodImpl(Inline)]
-            get => Value.Length;
         }
 
         public string Format()

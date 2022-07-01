@@ -26,10 +26,22 @@ namespace Z0
             get => (byte)size<K>();
         }
 
-        public uint Capacity
+        public int Capacity
         {
             [MethodImpl(Inline)]
             get => Data.Size/CharSize;
+        }
+
+        public int Length
+        {
+            [MethodImpl(Inline)]
+            get => Data.Size/CharSize;
+        }
+
+        public BitWidth Width
+        {
+            [MethodImpl(Inline)]
+            get => Length*CharSize*8;
         }
 
         public ReadOnlySpan<K> Cells

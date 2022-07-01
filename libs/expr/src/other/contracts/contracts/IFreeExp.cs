@@ -12,9 +12,18 @@ namespace Z0
         /// Characterizes an unmanaged expression
         /// </summary>
         [Free]
-        public interface IFreeExpr : ITextual, INullity, Z0.IExpr
+        public interface IFreeExpr : IExpr2
         {
             uint Size {get;}
+
+            bool INullity.IsEmpty
+                => Size == 0;
+
+            bool INullity.IsNonEmpty
+                => Size != 0;
+
+            string IExpr2.Format()
+                => EmptyString;
         }
 
         /// <summary>

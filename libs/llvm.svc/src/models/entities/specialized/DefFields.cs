@@ -77,15 +77,15 @@ namespace Z0.llvm
             return ref dst;
         }
 
-        protected ref dag<IExpr> Parse(string attrib, out dag<IExpr> dst)
+        protected ref dag<IExpr2> Parse(string attrib, out dag<IExpr2> dst)
         {
-            dag<IExpr> parse()
+            dag<IExpr2> parse()
             {
                 var result = LlvmTypes.parse(this[attrib], out var _dst);
                 if(result)
                     return _dst;
                 else
-                    return new dag<IExpr>(@string.Empty, @string.Empty);
+                    return new dag<IExpr2>(@string.Empty, @string.Empty);
             }
 
 

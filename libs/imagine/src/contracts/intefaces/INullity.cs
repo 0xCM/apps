@@ -14,4 +14,5 @@ namespace Z0
 
         bool IsNonEmpty => !IsEmpty;
     }
+
 }

@@ -43,6 +43,18 @@ namespace Z0
             get => (uint)Cells.Length;
         }
 
+        int IByteSeq.Length
+        {
+            [MethodImpl(Inline)]
+            get => Length;
+        }
+
+        int IByteSeq.Capacity
+        {
+            [MethodImpl(Inline)]
+            get => Length;
+        }
+
         public Hash32 Hash
         {
             [MethodImpl(Inline)]

@@ -26,7 +26,14 @@ namespace Z0
         where B : unmanaged, IStorageBlock<B>
         where S : unmanaged, IString8<S,B>
     {
+        BitWidth ISized.Width
+            => core.width<B>();
 
+        ByteSize ISized.Size
+            => core.size<B>();
+
+        int IByteSeq.Capacity
+            => (int)core.size<B>();
     }
 
     [Free]
@@ -34,6 +41,13 @@ namespace Z0
         where S : unmanaged, IString16<S,B>
         where B : unmanaged, ICharBlock<B>
     {
+        BitWidth ISized.Width
+            => core.width<B>();
 
+        ByteSize ISized.Size
+            => core.size<B>();
+
+        int IByteSeq.Capacity
+            => (int)core.size<B>()/2;
     }
 }

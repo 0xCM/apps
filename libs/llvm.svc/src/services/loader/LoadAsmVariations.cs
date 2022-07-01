@@ -48,7 +48,7 @@ namespace Z0.llvm
 
                 var j=0;
                 ref var dst = ref records[i-1];
-                DataParser.parse(skip(values,j++), out dst.Key);
+                DataParser.parse(skip(values,j++), out dst.Seq);
                 dst.Name = skip(values,j++);
                 dst.Mnemonic = skip(values,j++);
                 dst.Code = new AsmVariationCode(text.trim(skip(values,j++)));

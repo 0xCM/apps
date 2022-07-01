@@ -38,6 +38,12 @@ namespace Z0
             get => (byte)(Data >> 56);
         }
 
+        public int Capacity
+        {
+            [MethodImpl(Inline)]
+            get => Length;
+        }
+
         public ByteSize Size
         {
             [MethodImpl(Inline)]

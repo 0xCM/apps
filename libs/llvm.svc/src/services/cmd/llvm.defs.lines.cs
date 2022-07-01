@@ -6,12 +6,10 @@ namespace Z0.llvm
 {
     partial class LlvmCmd
     {
-        const string DefLineQuery = "llvm/defs/lines";
-
-        [CmdOp(DefLineQuery)]
+        [CmdOp("llvm/defs/lines")]
         Outcome Def(CmdArgs args)
         {
-            Query.FileEmit(DefLineQuery, arg(args,0).Value, DataProvider.DefLines(arg(args,0).Value));
+            Query.FileEmit(DataProvider.DefLines(arg(args,0).Value), "llvm.defs.lines", arg(args,0).Value);
             return true;
         }
     }

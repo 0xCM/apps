@@ -49,6 +49,12 @@ namespace Z0
             get => Data.Hash;
         }
 
+        public int Length
+        {
+            [MethodImpl(Inline)]
+            get => String.Length;
+        }
+
         public ReadOnlySpan<char> String
             => Asci.format(Cells);
 

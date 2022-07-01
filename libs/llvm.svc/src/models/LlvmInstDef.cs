@@ -23,7 +23,7 @@ namespace Z0.llvm
         public bit Pseudo;
 
         [Render(32)]
-        public Identifier InstName;
+        public string InstName;
 
         [Render(16)]
         public AsmMnemonic Mnemonic;
@@ -32,13 +32,13 @@ namespace Z0.llvm
         public AsmVariationCode VarCode;
 
         [Render(54)]
-        public TextBlock FormatPattern;
+        public string FormatPattern;
 
         [Render(86)]
-        public dag<IExpr> InOperandList;
+        public dag<IExpr2> InOperandList;
 
         [Render(1)]
-        public dag<IExpr> OutOperandList;
+        public dag<IExpr2> OutOperandList;
 
         [MethodImpl(Inline)]
         public int CompareTo(LlvmInstDef src)

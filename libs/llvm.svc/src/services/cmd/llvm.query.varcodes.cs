@@ -4,19 +4,28 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using static core;
     using Asm;
+
+    using static core;
     partial class LlvmCmd
     {
+        LlvmPaths LlvmPaths => Wf.LlvmPaths();
+
         const string AsmVarCodeQuery = "llvm/asm/varcodes";
 
-        [CmdOp(AsmVarCodeQuery)]
+        [CmdOp("llvm/query/asmvars")]
         void EmitVarCodes(CmdArgs args)
         {
             var src = DataProvider.AsmVariations();
             var dst = hashset<AsmVariationCode>();
-            iter(src, v => dst.Add(v.Code));
-            Query.FileEmit(AsmVarCodeQuery, @readonly(dst.Array().Sort()));
+            iter(src, v => {
+
+                    if(v.IsNonEmpty)
+                        dst.Add(v.Code);
+                }
+                );
+
+            Query.FileEmit(dst.Array().Sort().ToReadOnlySpan(), "llvm.asm.variations", FileKind.List);
         }
     }
 }

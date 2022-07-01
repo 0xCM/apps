@@ -12,6 +12,12 @@ namespace Z0
         F IContented<F>.Content
             => (F)this;
 
+        ByteSize ISized.Size
+            =>default(N).NatValue;
+
+        BitWidth ISized.Width
+            => default(N).NatValue*8;
+
         int IByteSeq.Capacity
             => Length;
 

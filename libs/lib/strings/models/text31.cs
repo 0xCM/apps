@@ -18,6 +18,8 @@ namespace Z0
 
         static N31 N => default;
 
+        public int Capacity => (int)N.NatValue;
+
         [StructLayout(LayoutKind.Sequential, Size=32, Pack=1)]
         internal struct StorageType
         {
@@ -80,7 +82,13 @@ namespace Z0
             get => Data;
         }
 
-        public uint Length
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => hash(Storage);
+        }
+
+        public int Length
         {
             [MethodImpl(Inline)]
             get => Storage.Cell(31);
@@ -91,6 +99,7 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Storage[index];
         }
+
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
@@ -108,6 +117,9 @@ namespace Z0
         public BitWidth CharWidth => PointSize*8;
 
         public BitWidth StorageWidth => size<StorageType>();
+
+        public override int GetHashCode()
+            => Hash;
 
         public string Format()
             => api.format(this);

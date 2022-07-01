@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface ICellular : ISized, ICounted, IHashed, INullity
+    public interface ICellular : ICounted, IHashed, INullity
     {
         ReadOnlySpan<byte> Cells {get;}
 
@@ -16,12 +16,6 @@ namespace Z0
 
         uint CellSize
             => 1;
-
-        ByteSize ISized.Size
-            =>  CellSize * CellCount;
-
-        BitWidth ISized.Width
-            => CellSize*8*CellCount;
 
         uint ICounted.Count
             => CellCount;

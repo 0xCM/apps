@@ -8,9 +8,7 @@ namespace Z0.llvm
 
     partial class LlvmCmd
     {
-        const string ClassSubtypeQuery = "llvm/classes/subtypes";
-
-        [CmdOp(ClassSubtypeQuery)]
+        [CmdOp("llvm/classes/subtypes")]
         Outcome Subtypes(CmdArgs args)
         {
             var result = Outcome.Success;
@@ -42,7 +40,7 @@ namespace Z0.llvm
                 }
             }
 
-            Query.FileEmit(ClassSubtypeQuery, cname, items.ViewDeposited());
+            Query.FileEmit(items.ViewDeposited(), cname);
 
             return result;
         }

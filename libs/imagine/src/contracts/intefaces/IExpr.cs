@@ -5,14 +5,15 @@
 namespace Z0
 {
     [Free]
-    public interface IExpr : ITextual, INullity
+    public interface IExpr : IExpr2
     {
         ulong Kind => 0;
 
         bool INullity.IsEmpty
             => false;
 
-       string ITextual.Format()
+       string IExpr2.Format()
             => string.Empty;
     }
+
 }

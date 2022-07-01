@@ -129,7 +129,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static string @string<A>(in A src)
-            where A : unmanaged, IByteSeq
+            where A : unmanaged, IString
                 => src.Format();
 
         [MethodImpl(Inline)]

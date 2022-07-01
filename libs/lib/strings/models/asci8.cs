@@ -14,7 +14,6 @@ namespace Z0
     /// <summary>
     /// Defines a 64-bit asci code sequence of length 8
     /// </summary>
-    [DataWidth(64)]
     public readonly struct asci8 : IAsciSeq<A,N>
     {
         internal readonly S Storage;

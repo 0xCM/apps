@@ -32,7 +32,7 @@ namespace Z0
         public Span<char> Data
         {
             [MethodImpl(Inline)]
-           get => cover<B,char>(this, CharCount);
+            get => cover<B,char>(this, CharCount);
         }
 
         /// <summary>

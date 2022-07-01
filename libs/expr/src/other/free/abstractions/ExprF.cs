@@ -15,6 +15,11 @@ namespace Z0
             where F : Expr<F>
         {
             public abstract uint Size {get;}
+
+            public abstract string Format();
+
+            public override string ToString()
+                => Format();
         }
     }
 }

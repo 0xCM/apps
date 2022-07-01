@@ -21,6 +21,8 @@ namespace Z0
 
         static N15 N => default;
 
+        public int Capacity => (int)N.NatValue;
+
         [StructLayout(LayoutKind.Sequential, Size=16, Pack=1)]
         internal struct StorageType
         {
@@ -56,7 +58,7 @@ namespace Z0
                 get => A != 0 || B != 0;
             }
 
-            public uint Hash
+            public Hash32 Hash
             {
                 [MethodImpl(Inline)]
                 get => alg.hash.combine(alg.hash.calc(A), alg.hash.calc(B));
@@ -95,7 +97,7 @@ namespace Z0
             get => Storage[index];
         }
 
-        public uint Length
+        public int Length
         {
             [MethodImpl(Inline)]
             get => Storage.Cell(15);
@@ -119,6 +121,12 @@ namespace Z0
 
         public BitWidth StorageWidth => size<StorageType>();
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => hash(Storage);
+        }
+
         public string Format()
             => FC.format(this);
 
@@ -131,7 +139,7 @@ namespace Z0
             => Format().CompareTo(src.Format());
 
         public override int GetHashCode()
-            => (int)Storage.Hash;
+            => Hash;
 
         public override bool Equals(object src)
             => src is text15 x && Equals(x);

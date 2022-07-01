@@ -8,7 +8,7 @@ namespace Z0.llvm
 
     partial class LlvmCmd
     {
-        [CmdOp("llvm/asm/cc")]
+        [CmdOp("llvm/query/asmcc")]
         void QueryCC()
         {
             var conditions = list<LlvmEntity>();
@@ -18,8 +18,8 @@ namespace Z0.llvm
                     conditions.Add(e);
             });
 
-            var specs = @readonly(conditions.Map(x => string.Format("{0,-16} {1}", x.EntityName, x["Fragments"])));
-            Query.FileEmit("llvm/asm/cc", specs);
+            var specs = conditions.Map(x => string.Format("{0,-16} | {1}", x.EntityName, x["Fragments"]));
+            Query.FileEmit(specs, "llvm.asm.cc", FileKind.Csv);
         }
     }
 }

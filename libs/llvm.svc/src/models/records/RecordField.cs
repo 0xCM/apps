@@ -13,13 +13,13 @@ namespace Z0.llvm
         /// The name of the declaring record
         /// </summary>
         [Render(64)]
-        public Identifier RecordName;
+        public string RecordName;
 
         /// <summary>
         /// The field data type
         /// </summary>
         [Render(32)]
-        public string DataType;
+        public asci32 DataType;
 
         /// <summary>
         /// The name of the represented member
@@ -34,7 +34,7 @@ namespace Z0.llvm
         public string Value;
 
         [MethodImpl(Inline)]
-        public RecordField(Identifier record, string type, string name, string value)
+        public RecordField(string record, asci32 type, string name, string value)
         {
             RecordName = record;
             DataType = type;

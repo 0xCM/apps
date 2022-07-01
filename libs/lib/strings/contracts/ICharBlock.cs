@@ -6,11 +6,17 @@ namespace Z0
 {
     using static core;
 
-    public interface ICharBlock : ICharSeq<char>,  ITextual, IStorageBlock, ICharSeq
+    public interface ICharBlock : ICharSeq<char>, IStorageBlock, ICharSeq
     {
         Span<char> Data {get;}
 
+        BitWidth ISized.Width
+            => (Data.Length * 2)*8;
+
         ReadOnlySpan<char> String {get;}
+
+        ReadOnlySpan<byte> IByteSeq.View
+            => recover<byte>(Data);
 
         ReadOnlySpan<char> ICellular<char>.Cells
             => Data;
@@ -39,7 +45,7 @@ namespace Z0
         Hash32 IHashed.Hash
             => hash(Data);
 
-        string ITextual.Format()
+        string IExpr2.Format()
             => new string(Data);
 
         bool ICharSeq.IsBlank
@@ -55,8 +61,11 @@ namespace Z0
     public interface ICharBlock<T> : ICharBlock, IComparable<T>, IEquatable<T>, IStorageBlock<T>
         where T : unmanaged, ICharBlock<T>
     {
-        ByteSize IStorageBlock.Size
-            => Length*2;
+        ByteSize ISized.Size
+            => size<T>();
+
+        BitWidth ISized.Width
+            => width<T>();
 
         int IByteSeq.Capacity
             => Length*2;

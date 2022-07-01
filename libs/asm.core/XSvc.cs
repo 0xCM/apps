@@ -73,7 +73,6 @@ namespace Z0
             public X86Dispatcher X86Dispatcher(IWfRuntime wf)
                 => Service<X86Dispatcher>(wf);
 
-
             public XedDisasm.Analyzer DisasmAnalyzer(IWfRuntime wf)
                 => Service<XedDisasm.Analyzer>(wf);
 

@@ -16,10 +16,7 @@ namespace Z0
             where F : Expr<F,T>
             where T : unmanaged
         {
-            public abstract string Format();
 
-            public override string ToString()
-                => Format();
         }
     }
 }

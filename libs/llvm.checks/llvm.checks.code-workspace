@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"path": "..\\llvm.svc"
+		},
+		{
+			"path": "."
+		},
+		{
+			"path": "..\\asm.core"
+		},
+		{
+			"path": "..\\asm.models"
+		},
+		{
+			"path": "..\\containers"
+		}
+	],
+	"settings": {}
+}

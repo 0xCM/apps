@@ -6,10 +6,8 @@ namespace Z0
 {
     using static core;
 
-    public interface IStorageBlock : IHashed, INullity
+    public interface IStorageBlock : IHashed, INullity, ISized
     {
-        ByteSize Size {get;}
-
         Span<byte> Bytes {get;}
 
         BlockKind Kind
@@ -28,8 +26,11 @@ namespace Z0
     public interface IStorageBlock<T> : IStorageBlock
         where T : unmanaged, IStorageBlock<T>
     {
-        ByteSize IStorageBlock.Size
+        ByteSize ISized.Size
             => size<T>();
+
+        BitWidth ISized.Width
+            => width<T>();
 
         Span<byte> IStorageBlock.Bytes
             => bytes((T)this);

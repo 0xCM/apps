@@ -17,13 +17,19 @@ namespace Z0
 
         public readonly MemoryAddress Address;
 
-        public uint Length {get;}
+        public int Length {get;}
 
         [MethodImpl(Inline)]
         public StringRef(MemoryAddress @base, uint length)
         {
             Address = @base;
-            Length = length;
+            Length = (int)length;
+        }
+
+        public int Capacity
+        {
+            [MethodImpl(Inline)]
+            get => Length;
         }
 
         public bool IsEmpty

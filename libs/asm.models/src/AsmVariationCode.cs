@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    public readonly struct AsmVariationCode : IEquatable<AsmVariationCode>, IComparable<AsmVariationCode>
+    public readonly record struct AsmVariationCode : IDataType<AsmVariationCode>
     {
         [Parser]
         public static Outcome parse(string src, out AsmVariationCode dst)
@@ -13,10 +13,10 @@ namespace Z0.Asm
             return true;
         }
 
-        public readonly text15 Name;
+        public readonly asci16 Name;
 
         [MethodImpl(Inline)]
-        public AsmVariationCode(text15 name)
+        public AsmVariationCode(asci16 name)
         {
             Name = name;
         }
@@ -33,22 +33,24 @@ namespace Z0.Asm
             get => Name.IsNonEmpty;
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Name.Hash;
+        }
+
         public string Format()
             => Name.Format();
 
         public override string ToString()
             => Format();
 
-
         [MethodImpl(Inline)]
         public bool Equals(AsmVariationCode src)
             => Name.Equals(src.Name);
 
         public override int GetHashCode()
-            => Name.GetHashCode();
-
-        public override bool Equals(object src)
-            => src is AsmVariationCode x && Equals(x);
+            => Hash;
 
         public int CompareTo(AsmVariationCode src)
             => Name.CompareTo(src.Name);
@@ -56,7 +58,7 @@ namespace Z0.Asm
         public static AsmVariationCode Empty
         {
             [MethodImpl(Inline)]
-            get => new AsmVariationCode(text15.Empty);
+            get => new AsmVariationCode(asci16.Null);
         }
     }
 }

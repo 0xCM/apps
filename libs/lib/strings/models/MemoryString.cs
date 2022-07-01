@@ -23,6 +23,23 @@ namespace Z0
             Size = (uint)length*size<char>();
         }
 
+        public int Capacity
+        {
+            [MethodImpl(Inline)]
+            get => Length;
+        }
+
+        int IByteSeq.Length
+        {
+            [MethodImpl(Inline)]
+            get => Length;
+        }
+
+        public BitWidth Width
+        {
+            get => Size*8;
+        }
+
         public unsafe ReadOnlySpan<char> Cells
         {
             [MethodImpl(Inline)]

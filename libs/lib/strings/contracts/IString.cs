@@ -5,16 +5,16 @@
 namespace Z0
 {
     [Free]
-    public interface IString : INullity, IHashed, ICellular
+    public interface IString : IByteSeq, IExpr2
     {
-
     }
 
     [Free]
     public interface IString<T> : IString, ICellular<T>
         where T : unmanaged, IEquatable<T>, IComparable<T>
     {
-
+        ReadOnlySpan<byte> IByteSeq.View
+            => Spans.recover<T,byte>(Cells);
     }
 
     [Free]

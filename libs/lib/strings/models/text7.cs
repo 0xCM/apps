@@ -21,12 +21,19 @@ namespace Z0
 
         static N7 N => default;
 
+        public int Capacity => (int)N.NatValue;
+
         [MethodImpl(Inline)]
         internal text7(in ulong data)
         {
             Storage = data;
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => hash(Bytes);
+        }
         public Span<byte> Bytes
         {
             [MethodImpl(Inline)]
@@ -39,16 +46,10 @@ namespace Z0
             get => Bytes;
         }
 
-        public uint Length
+        public int Length
         {
             [MethodImpl(Inline)]
-            get => (uint)(Storage >> 56) & 0xFF;
-        }
-
-        public uint Hash
-        {
-            [MethodImpl(Inline)]
-            get => alg.hash.calc(Storage);
+            get => (int)(Storage >> 56) & 0xFF;
         }
 
         public bool IsEmpty

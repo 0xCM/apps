@@ -7,14 +7,14 @@ namespace Z0
     using Asm;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential, Pack=1)]
-    public struct LlvmAsmVariation
+    public struct LlvmAsmVariation : IComparable<LlvmAsmVariation>, ISequential<LlvmAsmVariation>
     {
-        public const string TableId = "llvm.asm.variation";
+        const string TableId = "llvm.asm.variation";
 
         public const byte FieldCount = 4;
 
         [Render(8)]
-        public uint Key;
+        public uint Seq;
 
         [Render(32)]
         public asci32 Name;
@@ -28,10 +28,35 @@ namespace Z0
         [MethodImpl(Inline)]
         public LlvmAsmVariation(uint id, in asci32 name, in AsmMnemonic monic, in AsmVariationCode code)
         {
-            Key = id;
+            Seq = id;
             Name = name;
             Mnemonic = monic;
             Code = code;
         }
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Name.IsNull;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => !Name.IsNull;
+        }
+
+
+        [MethodImpl(Inline)]
+        public int CompareTo(LlvmAsmVariation src)
+            => Code.CompareTo(src.Code);
+
+        uint ISequential.Seq
+        {
+            get => Seq;
+            set => Seq=value;
+        }
+
+        public static LlvmAsmVariation Empty => default;
     }
 }

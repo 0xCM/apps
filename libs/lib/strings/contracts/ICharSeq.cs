@@ -5,14 +5,11 @@
 namespace Z0
 {
     [Free]
-    public interface ICharSeq : IByteSeq, ICellular
+    public interface ICharSeq : IString
     {
         bool IsBlank {get;}
 
         bool IsNull {get;}
-
-        ReadOnlySpan<byte> IByteSeq.View
-            => Cells;
     }
 
     [Free]

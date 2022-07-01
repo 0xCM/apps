@@ -9,8 +9,6 @@ namespace Z0
     {
         uint CharCapacity {get;}
 
-        uint Length {get;}
-
         BitWidth StorageWidth {get;}
 
         BitWidth CharWidth {get;}

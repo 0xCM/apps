@@ -16,9 +16,6 @@ namespace Z0
     public interface IAsciSeq<S> : IAsciSeq, IComparable<S>, IEquatable<S>, IHashed, IContented<S>
         where S : IAsciSeq<S>
     {
-        ReadOnlySpan<byte> ICellular.Cells
-            => Content.View;
-
         S IContented<S>.Content
             => (S)this;
 
@@ -42,6 +39,12 @@ namespace Z0
     {
         S IContented<S>.Content
             => (S)this;
+
+        BitWidth ISized.Width
+            => core.nat32u<N>()*8;
+
+        ByteSize ISized.Size
+            => core.nat32u<N>();
 
         int IByteSeq.Length
             => Content.Length;

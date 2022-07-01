@@ -5,11 +5,8 @@
 namespace Z0
 {
     [Free]
-    public interface ISeqExpr<T> : IExpr
+    public interface IExpr2 : INullity
     {
-        ReadOnlySpan<T> Terms {get;}
-
-        string IExpr2.Format()
-            => Terms.MapArray(t => t.ToString()).Concat(" ");
+        string Format();
     }
 }

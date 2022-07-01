@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class dag : IDag<IExpr>
+    public class dag : IDag<IExpr2>
     {
         public static string format(IDag src, DagFormatStyle style)
         {
@@ -19,12 +19,12 @@ namespace Z0
                 return src.Right.Format();
         }
 
-        public IExpr Left {get;}
+        public IExpr2 Left {get;}
 
-        public IExpr Right {get;}
+        public IExpr2 Right {get;}
 
         [MethodImpl(Inline)]
-        public dag(IExpr left, IExpr right)
+        public dag(IExpr2 left, IExpr2 right)
         {
             Left = left;
             Right = right;

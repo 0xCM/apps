@@ -18,6 +18,8 @@ namespace Z0
 
         static N47 N => default;
 
+        public int Capacity => (int)N.NatValue;
+
         [StructLayout(LayoutKind.Sequential, Size=16*3, Pack=1)]
         internal struct StorageType
         {
@@ -84,7 +86,7 @@ namespace Z0
             get => Bytes;
         }
 
-        public uint Length
+        public int Length
         {
             [MethodImpl(Inline)]
             get => Storage.Cell(47);
@@ -116,6 +118,12 @@ namespace Z0
         public string Format()
             => api.format(this);
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => api.hash(this);
+        }
+
         public override string ToString()
             => Format();
 
@@ -123,7 +131,7 @@ namespace Z0
             => api.eq(this,src);
 
         public override int GetHashCode()
-            => (int)api.hash(this);
+            => Hash;
 
         public override bool Equals(object src)
             => src is text47 x && Equals(x);

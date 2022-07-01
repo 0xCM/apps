@@ -8,6 +8,6 @@ namespace Z0.llvm
     {
         [CmdOp("llvm/emit/classlines")]
         void ClassLines(CmdArgs args)
-            => Query.FileEmit("llvm.classes.lines", arg(args,0).Value, DataProvider.ClassLines(arg(args,0).Value));
+            => Query.FileEmit(DataProvider.ClassLines(arg(args,0).Value), "llvm.classes.lines", arg(args,0).Value);
     }
 }

@@ -106,7 +106,7 @@ namespace Z0
         C INullary<C>.Zero
             => Empty;
 
-        string ITextual.Format()
+        string IExpr2.Format()
             => Text;
 
         [MethodImpl(Inline)]

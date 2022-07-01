@@ -42,6 +42,12 @@ namespace Z0
         MemoryAddress IAddressable.Address
             => Address;
 
+        int IByteSeq.Length
+            => Length;
+
+        int IByteSeq.Capacity
+            => Length;
+
         public Hash32 Hash
         {
             [MethodImpl(Inline)]

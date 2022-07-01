@@ -6,7 +6,7 @@ namespace Z0
 {
     partial class FreeExpr
     {
-        public abstract class FreeOpExpr<F,K> : IFreeExpr<F>, ITextual, INullity, IKinded<K>, IKinded
+        public abstract class FreeOpExpr<F,K> : IFreeExpr<F>, ITextual, IKinded<K>, IKinded
             where F : FreeOpExpr<F, K>
             where K : unmanaged
         {
