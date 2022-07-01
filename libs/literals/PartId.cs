@@ -82,7 +82,7 @@ public enum PartId : byte
     LlvmTools,
 
     [Symbol("llvm.data")]
-    LlvmData,
+    LlvmSvc,
 
     [Symbol("calcs")]
     Calcs,

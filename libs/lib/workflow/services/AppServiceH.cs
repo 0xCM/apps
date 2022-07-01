@@ -29,7 +29,7 @@ namespace Z0
             return service;
         }
 
-        protected AppSettings AppSettings => data(nameof(Settings), AppSettings.load);
+        protected static AppSettings AppSettings => data(nameof(Settings), AppSettings.load);
 
         public virtual Type EffectiveHost {get;}
 
@@ -192,8 +192,8 @@ namespace Z0
         protected void Warn(string pattern, params object[] args)
             => WfMsg.Warn(pattern, args);
 
-        protected virtual void Error<T>(T content)
-            => WfMsg.Error(content);
+        protected virtual void Error<T>(T content, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
+            => WfMsg.Error(content, caller, file, line);
 
         protected WfExecFlow<T> Running<T>(T msg)
             => WfMsg.Running(msg);

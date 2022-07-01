@@ -8,7 +8,7 @@ namespace Z0
 
     public class DbCmd : AppCmdService<DbCmd>
     {
-        IJobArchive Jobs() => new JobArchive(DbArchive.Root + FS.folder("jobs"));
+        IJobArchive Jobs() => new JobArchive(DbArchive().Root + FS.folder("jobs"));
 
         [CmdOp("jobs/types")]
         void ListJobTypes()

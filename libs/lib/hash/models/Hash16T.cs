@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     public readonly record struct Hash16<T> : IHashCode<Hash16<T>,ushort>
         where T : unmanaged, IEquatable<T>
     {

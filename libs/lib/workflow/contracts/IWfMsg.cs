@@ -36,8 +36,8 @@ namespace Z0
         void Warn(string pattern, params object[] args)
             => Wf.Warn(HostType, string.Format(pattern,args));
 
-        void Error<T>(T content)
-            => Wf.Error(HostType, core.require(content));
+        void Error<T>(T content, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
+            => Wf.Error(HostType, core.require(content), caller, file, line);
 
         void Write<T>(T content)
             => Wf.Data(HostType, content);

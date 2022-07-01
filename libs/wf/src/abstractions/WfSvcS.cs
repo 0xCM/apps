@@ -10,6 +10,8 @@ namespace Z0
     public abstract class WfSvc<S> : AppService<S>
         where S : WfSvc<S>, new()
     {
+        public static IDbArchive DbArchive() => Archives.archive(FS.dir(AppSettings.Find(SettingNames.DbRoot)));
+
         ConcurrentDictionary<ProjectId,WsContext> _Context = new();
 
         IWsProject _Project;
@@ -40,7 +42,7 @@ namespace Z0
 
         protected static AppDb AppDb => AppDb.Service;
 
-        protected IDbArchive DbArchive => Archives.archive(FS.dir(AppSettings.Find(SettingNames.DbRoot)));
+        //protected IDbArchive DbArchive => Archives.archive(FS.dir(AppSettings.Find(SettingNames.DbRoot)));
 
         protected ToolWs ToolWs => new ToolWs(AppDb.Toolbase().Root);
 
@@ -146,8 +148,8 @@ namespace Z0
         public new void Warn(string pattern, params object[] args)
             => WfMsg.Warn(pattern, args);
 
-        public new void Error<T>(T content)
-            => WfMsg.Error(content);
+        public new void Error<T>(T content, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
+            => WfMsg.Error(content, caller, file, line);
 
         public new void Write<T>(T content)
             => WfMsg.Write(content);

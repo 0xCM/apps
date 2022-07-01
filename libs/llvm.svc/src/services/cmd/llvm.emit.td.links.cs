@@ -20,7 +20,7 @@ namespace Z0.llvm
                 var relative = srcpath.Relative(Paths.LlvmRoot);
                 var linkpath = view.Root + relative;
                 var link = FS.symlink(linkpath, srcpath, true);
-                link.OnFailure(Error).OnSuccess(Write);
+                link.OnFailure(e => Error(e)).OnSuccess(Write);
             }
 
             var dst = Paths.File("tablegen-defs", FileKind.Md);

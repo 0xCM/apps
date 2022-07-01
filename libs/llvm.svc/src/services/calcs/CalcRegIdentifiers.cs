@@ -18,16 +18,5 @@ namespace Z0.llvm
             return LlvmIdentifiers.discover<ushort>(src[0],BeginRegsMarker).Map(x => new RegIdentifier(x.Key, x.Value));
         }
 
-        public AsmIdentifiers CalcAsmIdentifiers(LlvmTargetName target)
-        {
-            const string BeginAsmIdMarker = "PHI	= 0,";
-            var src = LlvmPaths.TableGenHeaders(target).Where(x => x.FileName == FS.file($"{target}.InstInfo", FileKind.H));
-            if(src.Count != 1)
-            {
-                Error("Path not found");
-                return llvm.AsmIdentifiers.Empty;
-            }
-            return LlvmIdentifiers.discover<ushort>(src[0],BeginAsmIdMarker).Map(x => new AsmIdentifier(x.Key, x.Value));
-        }
     }
 }

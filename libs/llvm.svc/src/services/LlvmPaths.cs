@@ -66,8 +66,11 @@ namespace Z0.llvm
         public FS.FilePath DevSource(string scope, string name)
             => DevSources(scope).Path(name, FileKind.Txt);
 
+        public FS.FilePath TableGenHeader(LlvmTargetName target, string kind)
+            => LlvmSources("include").Path($"{target}.{kind}", FileKind.H);
+
         public FS.Files TableGenHeaders(LlvmTargetName target)
-            => LlvmSources("headers").Files(FileKind.H).Where(f => f.FileName.StartsWith($"{target}."));
+            => LlvmSources("include").Files(FileKind.H).Where(f => f.FileName.StartsWith($"{target}."));
 
         public IDbSources DevViews()
             => Dev().Sources(views);

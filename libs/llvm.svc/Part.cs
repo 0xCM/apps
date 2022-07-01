@@ -23,10 +23,10 @@ global using SQ = Z0.SymbolicQuery;
 global using CallerName = System.Runtime.CompilerServices.CallerMemberNameAttribute;
 global using CallerFile = System.Runtime.CompilerServices.CallerFilePathAttribute;
 global using CallerLine = System.Runtime.CompilerServices.CallerLineNumberAttribute;
-[assembly: PartId(PartId.LlvmData)]
+[assembly: PartId(PartId.LlvmSvc)]
 namespace Z0.Parts
 {
-    public sealed partial class LlvmData : Part<LlvmData>
+    public sealed partial class LlvmSvc : Part<LlvmSvc>
     {
 
     }

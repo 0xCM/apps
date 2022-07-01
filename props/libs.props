@@ -46,7 +46,7 @@
 
     <ProjectReference Include="$(Lang)" />
     <ProjectReference Include="$(LlvmTools)" />
-    <ProjectReference Include="$(LlvmData)" />
+    <ProjectReference Include="$(LlvmSvc)" />
     <ProjectReference Include="$(Literals)" />
     <ProjectReference Include="$(Linq)" />
 

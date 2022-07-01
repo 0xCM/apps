@@ -52,7 +52,7 @@
     <Imagine>$(LibsRoot)imagine/z0.imagine.csproj</Imagine>
 
     <LlvmTools>$(LibsRoot)llvm.tools/z0.llvm.tools.csproj</LlvmTools>
-    <LlvmData>$(LibsRoot)llvm.data/z0.llvm.data.csproj</LlvmData>
+    <LlvmSvc>$(LibsRoot)llvm.svc/z0.llvm.svc.csproj</LlvmSvc>
     <Lang>$(LibsRoot)lang/z0.lang.csproj</Lang>
     <Lines>$(LibsRoot)lines/z0.lines.csproj</Lines>
     <Linq>$(LibsRoot)linq/z0.linq.csproj</Linq>
