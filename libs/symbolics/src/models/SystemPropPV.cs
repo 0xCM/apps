@@ -7,7 +7,7 @@ namespace Z0
     public abstract record class SystemProp<P,V> : IEquatable<P>, ISystemProp<V>
         where P : SystemProp<P,V>, new()
     {
-        public VarName Name;
+        public Name Name;
 
         public V Value;
 
@@ -17,13 +17,13 @@ namespace Z0
             Value = default;
         }
 
-        protected SystemProp(VarName name)
+        protected SystemProp(Name name)
         {
             Name = name;
             Value = default;
         }
 
-        protected SystemProp(VarName name, V value)
+        protected SystemProp(Name name, V value)
         {
             Name = name;
             Value = value;

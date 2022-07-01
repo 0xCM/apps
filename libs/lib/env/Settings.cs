@@ -124,15 +124,15 @@ namespace Z0
             => new Setting<T>(src.Name, parser(src.ValueText));
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Setting<T> setting<T>(VarName name, T value)
+        public static Setting<T> setting<T>(Name name, T value)
             => new Setting<T>(name,value);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Setting<T> setting<T>(VarName name, SettingType primitive, T value)
+        public static Setting<T> setting<T>(Name name, SettingType primitive, T value)
             => new Setting<T>(name, primitive, value);
 
         [MethodImpl(Inline), Op]
-        public static Setting setting(VarName name, SettingType type, string value)
+        public static Setting setting(Name name, SettingType type, string value)
             => new Setting(name, type, value);
 
         [MethodImpl(Inline)]
@@ -425,7 +425,7 @@ namespace Z0
             => Tables.emit(src.View, dst);
 
         [Op]
-        public static bool search(in Settings src, VarName key, out Setting value)
+        public static bool search(in Settings src, Name key, out Setting value)
         {
             value = Setting.Empty;
             var result = false;

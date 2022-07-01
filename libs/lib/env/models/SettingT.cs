@@ -16,7 +16,7 @@ namespace Z0
         /// The setting name
         /// </summary>
         [Render(32)]
-        public readonly VarName Name;
+        public readonly Name Name;
 
         /// <summary>
         /// The setting value
@@ -28,7 +28,7 @@ namespace Z0
         public readonly SettingType Type;
 
         [MethodImpl(Inline)]
-        public Setting(VarName name, T value)
+        public Setting(Name name, T value)
         {
             Name = name;
             Value = value;
@@ -36,7 +36,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public Setting(VarName name, SettingType type, T value)
+        public Setting(Name name, SettingType type, T value)
         {
             Name = name;
             Value = value;

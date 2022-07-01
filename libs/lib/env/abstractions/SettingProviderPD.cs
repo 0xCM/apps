@@ -11,7 +11,7 @@ namespace Z0
         protected Index<V> Data;
 
         protected SettingProvider(V[] src)
-            :base(src.Select(x => new Setting<VarName,V>(x.Name,x.Value)))
+            :base(src.Select(x => new Setting<Name,V>(x.Name,x.Value)))
         {
             Data = src;
         }

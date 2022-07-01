@@ -7,7 +7,7 @@ namespace Z0
     [Free]
     public interface IVarValue : ITextual
     {
-        VarName VarName {get;}
+        Name VarName {get;}
 
         object VarValue {get;}
 

@@ -4,12 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly record struct VarName : INamed<VarName>
+    public readonly record struct Name : IDataType<Name>, INamed<Name>
     {
         public readonly asci64 Data;
 
         [MethodImpl(Inline)]
-        public VarName(asci64 data)
+        public Name(asci64 data)
         {
             Data = data;
         }
@@ -36,11 +36,11 @@ namespace Z0
             => Hash;
 
         [MethodImpl(Inline)]
-        public bool Equals(VarName src)
+        public bool Equals(Name src)
             => Data.Equals(src.Data);
 
         [MethodImpl(Inline)]
-        public int CompareTo(VarName src)
+        public int CompareTo(Name src)
             => Data.CompareTo(src.Data);
 
         public string Format()
@@ -50,23 +50,23 @@ namespace Z0
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator VarName(string src)
-            => new VarName(src);
+        public static implicit operator Name(string src)
+            => new Name(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator VarName(@string src)
-            => new VarName(src.Format());
+        public static implicit operator Name(@string src)
+            => new Name(src.Format());
 
         [MethodImpl(Inline)]
-        public static implicit operator VarName(Identifier src)
-            => new VarName(src.Format());
+        public static implicit operator Name(Identifier src)
+            => new Name(src.Format());
 
         [MethodImpl(Inline)]
-        public static implicit operator VarName(NameOld src)
-            => new VarName(src.Format());
+        public static implicit operator Name(NameOld src)
+            => new Name(src.Format());
 
         [MethodImpl(Inline)]
-        public static implicit operator string(VarName src)
+        public static implicit operator string(Name src)
             => src.Data;
     }
 }

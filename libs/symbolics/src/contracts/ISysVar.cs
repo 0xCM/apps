@@ -7,7 +7,7 @@ namespace Z0
     [Free]
     public interface ISysVar : IHashed
     {
-        VarName Name {get;}
+        Name Name {get;}
 
         dynamic Value {get;}
     }
@@ -29,8 +29,8 @@ namespace Z0
     {
         new N Name {get;}
 
-        VarName ISysVar.Name
-            => new VarName(Name.Format());
+        Name ISysVar.Name
+            => new Name(Name.Format());
     }
 
     [Free]

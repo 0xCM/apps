@@ -7,7 +7,7 @@ namespace Z0
     public class CmdVar<K,T>
         where K : unmanaged
     {
-        public readonly VarName Name;
+        public readonly Name Name;
 
         public readonly K Kind;
 
@@ -30,7 +30,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public CmdVar(VarName name, K kind, T value)
+        public CmdVar(Name name, K kind, T value)
         {
             Name = name;
             Kind = kind;

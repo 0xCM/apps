@@ -4,14 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public sealed class SysVar : SysVar<SysVar, VarName, @string>
+    public sealed class SysVar : SysVar<SysVar, Name, @string>
     {
-        public SysVar(VarName name)
+        public SysVar(Name name)
             : base(name)
         {
         }
 
-        public SysVar(VarName name, string value)
+        public SysVar(Name name, string value)
             : base(name,value)
         {
 

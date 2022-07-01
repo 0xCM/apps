@@ -23,7 +23,7 @@ namespace Z0
             => format(vck,var, Chars.Eq);
 
         [Op]
-        internal static string format(VarContextKind vck, VarName src)
+        internal static string format(VarContextKind vck, Name src)
             => string.Format(RP.pattern(vck), src);
     }
 }

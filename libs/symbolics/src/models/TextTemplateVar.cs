@@ -14,7 +14,7 @@ namespace Z0
                 => ((char)SymNotKind.Lt, (char)SymNotKind.Gt);
         }
 
-        public VarName Name {get;}
+        public Name Name {get;}
 
         public string Value;
 

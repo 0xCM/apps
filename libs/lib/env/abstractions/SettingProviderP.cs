@@ -6,20 +6,20 @@ namespace Z0
 {
     public abstract class SettingProvider<V> : ISettingProvider<V>
     {
-        readonly Index<Setting<VarName,V>> Data;
+        readonly Index<Setting<Name,V>> Data;
 
-        readonly SortedLookup<VarName,V> Lookup;
+        readonly SortedLookup<Name,V> Lookup;
 
-        public virtual VarName Name {get;}
+        public virtual Name Name {get;}
 
-        protected SettingProvider(Setting<VarName,V>[] src)
+        protected SettingProvider(Setting<Name,V>[] src)
         {
             Data = src;
             Lookup = src.Select(x => (x.Name,x.Value)).ToDictionary();
             Name = typeof(V).Name;
         }
 
-        protected SettingProvider(VarName name, Setting<VarName,V>[] src, Dictionary<VarName,V> lookup)
+        protected SettingProvider(Name name, Setting<Name,V>[] src, Dictionary<Name,V> lookup)
         {
             Name = name;
             Data = src;
@@ -32,7 +32,7 @@ namespace Z0
             return default;
         }
 
-        public bool Value(VarName name, out V dst)
+        public bool Value(Name name, out V dst)
         {
             var result = Lookup.Find(name, out var found);
             if(result)
@@ -42,10 +42,10 @@ namespace Z0
             return result;
         }
 
-        public V Value(VarName name)
+        public V Value(Name name)
             => Lookup[name];
 
-        public ReadOnlySpan<VarName> Names
+        public ReadOnlySpan<Name> Names
         {
             [MethodImpl(Inline)]
             get => Lookup.Keys;
@@ -63,13 +63,13 @@ namespace Z0
             get => Data.Count;
         }
 
-        public ref readonly Setting<VarName,V> this[uint index]
+        public ref readonly Setting<Name,V> this[uint index]
         {
             [MethodImpl(Inline)]
             get => ref Data[index];
         }
 
-        public ref readonly Setting<VarName,V> this[int index]
+        public ref readonly Setting<Name,V> this[int index]
         {
             [MethodImpl(Inline)]
             get => ref Data[index];

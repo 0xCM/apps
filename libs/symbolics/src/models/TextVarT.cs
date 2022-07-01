@@ -7,7 +7,7 @@ namespace Z0
     public class TextVar<E> : ITextVar
         where E : IEquatable<E>, IComparable<E>, ITextVarExpr, new()
     {
-        public VarName Name {get;}
+        public Name Name {get;}
 
         public E VarExpr {get;}
 

@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public sealed class AppSettings : Settings<VarName,string>
+    public sealed class AppSettings : Settings<Name,string>
     {
         public AppSettings()
         {
@@ -14,12 +14,12 @@ namespace Z0
         }
 
         public AppSettings(Setting[] settings)
-            : base(settings.Select(x => new Setting<VarName, string>(x.Name,x.Value)))
+            : base(settings.Select(x => new Setting<Name, string>(x.Name,x.Value)))
         {
 
         }
 
-        public AppSettings(Setting<VarName,string>[] settings)
+        public AppSettings(Setting<Name,string>[] settings)
             : base(settings)
         {
 
@@ -39,7 +39,7 @@ namespace Z0
             return new AppSettings(dst);
         }
 
-        public string Find(VarName name)
+        public string Find(Name name)
             => Find(name, EmptyString);
 
         public static AppSettings load()

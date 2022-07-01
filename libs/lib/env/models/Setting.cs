@@ -12,13 +12,13 @@ namespace Z0
         public readonly SettingType Type;
 
         [Render(32)]
-        public readonly VarName Name;
+        public readonly Name Name;
 
         [Render(1)]
         public readonly string Value;
 
         [MethodImpl(Inline)]
-        public Setting(VarName name, string value)
+        public Setting(Name name, string value)
         {
             Type = 0;
             Name = name;
@@ -26,7 +26,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public Setting(VarName name, SettingType type, string value)
+        public Setting(Name name, SettingType type, string value)
         {
             Name = name;
             Type = type;
@@ -52,7 +52,7 @@ namespace Z0
             get => core.hash(Name) | (Hash32)(Value?.GetHashCode() ?? 0);
         }
 
-        VarName ISetting.Name
+        Name ISetting.Name
             => Name;
 
         string ISetting.Value

@@ -11,7 +11,7 @@ namespace Z0
     {
         public string Value;
 
-        public VarName Name {get;}
+        public Name Name {get;}
 
         public Hash32 Hash
         {

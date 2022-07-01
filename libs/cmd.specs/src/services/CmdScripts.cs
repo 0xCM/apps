@@ -82,7 +82,7 @@ namespace Z0
         /// </summary>
         /// <param name="name">The variable symbol</param>
         [MethodImpl(Inline), Op]
-        public static CmdScriptVar var(VarName name)
+        public static CmdScriptVar var(Name name)
             => new CmdScriptVar(name);
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace Z0
         /// <param name="name">The variable symbol</param>
         /// <param name="value">The variable value</param>
         [MethodImpl(Inline), Op]
-        public static CmdVar var(VarName name, string value)
+        public static CmdVar var(Name name, string value)
             => new CmdVar(name, value);
     }
 }

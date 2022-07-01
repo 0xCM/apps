@@ -12,7 +12,7 @@ namespace Z0
         /// <summary>
         /// The setting name
         /// </summary>
-        VarName Name {get;}
+        Name Name {get;}
 
         /// <summary>
         /// The setting value
@@ -36,7 +36,7 @@ namespace Z0
     {
         new K Name {get;}
 
-        VarName ISetting.Name
+        Name ISetting.Name
             => Name.Format();
     }
 }

@@ -6,12 +6,12 @@ namespace Z0
 {
     public struct EnvDirVar : IEnvVar<FS.FolderPath>
     {
-        public readonly VarName VarName {get;}
+        public readonly Name VarName {get;}
 
         public readonly FS.FolderPath VarValue {get;}
 
         [MethodImpl(Inline)]
-        public EnvDirVar(VarName name, FS.FolderPath value)
+        public EnvDirVar(Name name, FS.FolderPath value)
         {
             VarName = name;
             VarValue = value;
@@ -24,7 +24,7 @@ namespace Z0
             => ExprFormatters.format(vck, this);
 
         [MethodImpl(Inline)]
-        public static implicit operator EnvDirVar((VarName symbol, FS.FolderPath value) src)
+        public static implicit operator EnvDirVar((Name symbol, FS.FolderPath value) src)
             => new EnvDirVar(src.symbol, src.value);
 
         [MethodImpl(Inline)]

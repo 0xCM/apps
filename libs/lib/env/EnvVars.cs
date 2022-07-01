@@ -35,20 +35,20 @@ namespace Z0
         public static FS.FolderPath dir(string name)
             => FS.dir(Environment.GetEnvironmentVariable(name));
 
-        public static Settings<VarName,string> settings(VarName name, EnvVar[] src)
+        public static Settings<Name,string> settings(Name name, EnvVar[] src)
         {
             var count = src.Length;
-            var settings = alloc<Setting<VarName,string>>(src.Length);
-            var lookup = dict<VarName,string>();
+            var settings = alloc<Setting<Name,string>>(src.Length);
+            var lookup = dict<Name,string>();
             for(var i=0; i<count; i++)
             {
                 ref readonly var v = ref skip(src,i);
                 ref var setting = ref seek(settings,i);
-                setting = new Setting<VarName,string>(v.VarName, v);
+                setting = new Setting<Name,string>(v.VarName, v);
                 lookup.TryAdd(setting.Name, setting.Value);
             }
 
-            return new Settings<VarName,string>(settings, lookup);
+            return new Settings<Name,string>(settings, lookup);
         }
 
         public static void emit(string name = null)
