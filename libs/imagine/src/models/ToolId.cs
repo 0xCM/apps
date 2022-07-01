@@ -7,12 +7,12 @@ namespace Z0
     /// <summary>
     /// Identifies an internal or external tool
     /// </summary>
-    public struct ToolId
+    public struct ToolIdOld
     {
         public string Id {get;}
 
         [MethodImpl(Inline)]
-        public ToolId(string id)
+        public ToolIdOld(string id)
             => Id = id;
 
         public bool IsEmpty
@@ -34,44 +34,44 @@ namespace Z0
         public override string ToString()
             => Id;
 
-        public int CompareTo(ToolId src)
+        public int CompareTo(ToolIdOld src)
             => IsNonEmpty ? Id.CompareTo(src.Id) : -1;
 
         [MethodImpl(Inline)]
-        public bool Equals(ToolId src)
+        public bool Equals(ToolIdOld src)
             => Id.Equals(src.Id);
 
         public override int GetHashCode()
             => Id.GetHashCode();
 
         public override bool Equals(object src)
-            => src is ToolId x && Equals(x);
+            => src is ToolIdOld x && Equals(x);
 
         [MethodImpl(Inline)]
-        public static implicit operator ToolId(string src)
-            => new ToolId(src);
+        public static implicit operator ToolIdOld(string src)
+            => new ToolIdOld(src);
 
 
         [MethodImpl(Inline)]
-        public static implicit operator string(ToolId src)
+        public static implicit operator string(ToolIdOld src)
             => src.Id;
 
         [MethodImpl(Inline)]
-        public static bool operator ==(ToolId a, ToolId b)
+        public static bool operator ==(ToolIdOld a, ToolIdOld b)
             => a.Equals(b);
 
         [MethodImpl(Inline)]
-        public static bool operator !=(ToolId a, ToolId b)
+        public static bool operator !=(ToolIdOld a, ToolIdOld b)
             => !a.Equals(b);
 
         [MethodImpl(Inline)]
-        public static implicit operator ToolId(Type src)
-            => new ToolId(src.Name);
+        public static implicit operator ToolIdOld(Type src)
+            => new ToolIdOld(src.Name);
 
-        public static ToolId Empty
+        public static ToolIdOld Empty
         {
             [MethodImpl(Inline)]
-            get => new ToolId(EmptyString);
+            get => new ToolIdOld(EmptyString);
         }
     }
 }

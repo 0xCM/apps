@@ -14,7 +14,7 @@ namespace Z0
             Flow = flow;
         }
 
-        public IActor Actor => Flow.Actor;
+        public Actor Actor => Flow.Actor;
 
         public S Source => Flow.Source;
 

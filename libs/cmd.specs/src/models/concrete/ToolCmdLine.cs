@@ -6,14 +6,14 @@ namespace Z0
 {
     public struct ToolCmdLine : IComparable<ToolCmdLine>
     {
-        public readonly ToolId Tool;
+        public readonly Actor Tool;
 
         public readonly CmdModifier Modifier;
 
         public readonly CmdLine Command;
 
         [MethodImpl(Inline)]
-        public ToolCmdLine(ToolId tool, CmdLine cmd)
+        public ToolCmdLine(Actor tool, CmdLine cmd)
         {
             Tool = tool;
             Modifier = EmptyString;
@@ -21,7 +21,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public ToolCmdLine(ToolId tool, CmdModifier modifier, CmdLine cmd)
+        public ToolCmdLine(Actor tool, CmdModifier modifier, CmdLine cmd)
         {
             Tool = tool;
             Modifier = modifier;

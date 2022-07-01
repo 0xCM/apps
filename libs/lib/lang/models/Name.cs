@@ -4,12 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct Name : IComparable<Name>, IEquatable<Name>
+    public readonly struct NameOld : IComparable<NameOld>, IEquatable<NameOld>
     {
         readonly string Data;
 
         [MethodImpl(Inline)]
-        public Name(string src)
+        public NameOld(string src)
             => Data = src ?? EmptyString;
 
         public bool IsEmpty
@@ -65,11 +65,11 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public int CompareTo(Name src)
+        public int CompareTo(NameOld src)
             => Content.CompareTo(src.Content);
 
         [MethodImpl(Inline)]
-        public bool Equals(Name src)
+        public bool Equals(NameOld src)
             => string.Equals(Data, src.Data);
 
 
@@ -80,48 +80,48 @@ namespace Z0
             => (int)Hash;
 
         public override bool Equals(object src)
-            => src is Name n && Equals(n);
+            => src is NameOld n && Equals(n);
 
         [MethodImpl(Inline)]
-        public static implicit operator Name(string src)
-            => new Name(src);
+        public static implicit operator NameOld(string src)
+            => new NameOld(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator string(Name src)
+        public static implicit operator string(NameOld src)
             => src.Content;
 
         [MethodImpl(Inline)]
-        public static implicit operator ReadOnlySpan<char>(Name src)
+        public static implicit operator ReadOnlySpan<char>(NameOld src)
             => src.Content;
 
         [MethodImpl(Inline)]
-        public static bool operator <(Name x, Name y)
+        public static bool operator <(NameOld x, NameOld y)
             => x.CompareTo(y) < 0;
 
         [MethodImpl(Inline)]
-        public static bool operator <=(Name x, Name y)
+        public static bool operator <=(NameOld x, NameOld y)
             => x.CompareTo(y) <= 0;
 
         [MethodImpl(Inline)]
-        public static bool operator >(Name x, Name y)
+        public static bool operator >(NameOld x, NameOld y)
             => x.CompareTo(y) > 0;
 
         [MethodImpl(Inline)]
-        public static bool operator >=(Name x, Name y)
+        public static bool operator >=(NameOld x, NameOld y)
             => x.CompareTo(y) >= 0;
 
         [MethodImpl(Inline)]
-        public static bool operator ==(Name x, Name y)
+        public static bool operator ==(NameOld x, NameOld y)
             => x.Data == y.Data;
 
         [MethodImpl(Inline)]
-        public static bool operator !=(Name x, Name y)
+        public static bool operator !=(NameOld x, NameOld y)
             => x.Data != y.Data;
 
-        public static Name Empty
+        public static NameOld Empty
         {
             [MethodImpl(Inline)]
-            get => new Name(EmptyString);
+            get => new NameOld(EmptyString);
         }
     }
 }

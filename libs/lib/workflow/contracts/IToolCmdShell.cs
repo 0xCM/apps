@@ -6,6 +6,6 @@ namespace Z0
 {
     public interface IToolCmdShell
     {
-        Outcome SelectTool(ToolId tool);
+        Outcome SelectTool(ToolIdOld tool);
     }
 }

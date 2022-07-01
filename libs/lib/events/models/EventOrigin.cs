@@ -11,7 +11,7 @@ namespace Z0
 
     public readonly struct EventOrigin : ITextual
     {
-        public Name OriginName {get;}
+        public NameOld OriginName {get;}
 
         public CallingMember Caller {get;}
 

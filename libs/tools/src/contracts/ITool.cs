@@ -7,7 +7,9 @@ namespace Z0
     [Free]
     public interface ITool : IActor
     {
-        ToolId ToolId {get;}
-    }
+        Actor ToolId {get;}
 
+        Name<asci64> IActor.Name
+            => ToolId.Name;
+    }
 }

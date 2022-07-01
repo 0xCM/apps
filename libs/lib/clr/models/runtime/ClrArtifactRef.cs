@@ -10,10 +10,10 @@ namespace Z0
 
         public CliToken Token {get;}
 
-        public Name Name {get;}
+        public NameOld Name {get;}
 
         [MethodImpl(Inline)]
-        public ClrArtifactRef(CliToken id, ClrArtifactKind kind, Name name)
+        public ClrArtifactRef(CliToken id, ClrArtifactKind kind, NameOld name)
         {
             Token = id;
             Kind = kind;

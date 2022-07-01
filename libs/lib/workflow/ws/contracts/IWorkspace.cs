@@ -52,34 +52,34 @@ namespace Z0
         FS.FolderPath ExeOut()
             => OutDir() + FS.folder(exe);
 
-        FS.FilePath ExePath(string id)
-            => ExeOut() + FS.file(id,FS.Exe);
+        FS.FilePath ExePath(string tool)
+            => ExeOut() + FS.file(tool,FS.Exe);
 
         FS.FolderPath Settings()
             => Root + FS.folder(settings);
 
-        FS.FilePath Settings(string id, FS.FileExt ext)
-            => Settings() + FS.file(id, ext);
+        FS.FilePath Settings(string tool, FS.FileExt ext)
+            => Settings() + FS.file(tool, ext);
 
-        FS.FolderPath ToolHome(ToolId id)
-            => Root + FS.folder(id.Format());
+        FS.FolderPath ToolHome(string tool)
+            => Root + FS.folder(tool);
 
-        FS.FolderPath ToolDocs(ToolId id)
-            => ToolHome(id) + FS.folder(docs);
+        FS.FolderPath ToolDocs(string tool)
+            => ToolHome(tool) + FS.folder(docs);
 
-        FS.FolderPath Logs(ToolId id)
-            => ToolHome(id) + FS.folder(logs);
+        FS.FolderPath Logs(string tool)
+            => ToolHome(tool) + FS.folder(logs);
 
-        FS.FolderPath Scripts(ToolId id)
+        FS.FolderPath Scripts(string id)
             => ToolHome(id) + FS.folder(scripts);
 
-        FS.FilePath Script(ToolId tool, string id)
+        FS.FilePath Script(string tool, string id)
             => Scripts(tool) + FS.file(id,FS.Cmd);
 
-        FS.FilePath ConfigScript(ToolId id)
-            => ToolHome(id) + FS.file(config, FS.Cmd);
+        FS.FilePath ConfigScript(string tool)
+            => ToolHome(tool) + FS.file(config, FS.Cmd);
 
-        FS.FilePath ConfigLog(ToolId id)
+        FS.FilePath ConfigLog(ToolIdOld id)
             => Logs(id) + FS.file(config, FS.Log);
     }
 

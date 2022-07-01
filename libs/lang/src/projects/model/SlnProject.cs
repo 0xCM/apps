@@ -13,7 +13,7 @@ namespace Z0
 
             public FS.FilePath Path;
 
-            public Name ProjectName;
+            public NameOld ProjectName;
 
             public Guid ProjectGuid;
 

@@ -41,7 +41,7 @@ namespace Z0
                 var j = text.index(content, Chars.Colon);
                 if(j >= 0)
                 {
-                    ToolId tool = text.left(content, j);
+                    Tool tool = text.left(content, j);
                     var flow = Fenced.unfence(text.right(content,j), Fenced.Bracketed);
 
                     j = text.index(flow, "--");

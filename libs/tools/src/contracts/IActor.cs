@@ -7,6 +7,6 @@ namespace Z0
     [Free]
     public interface IActor
     {
-        string Name {get;}
+        Name<asci64> Name {get;}
     }
 }

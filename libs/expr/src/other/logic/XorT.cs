@@ -29,7 +29,7 @@ namespace Z0
                 Right = src.Right;
             }
 
-            public Name Name
+            public NameOld Name
                 => "xor<{0}>";
 
             public string Format()

@@ -27,7 +27,7 @@ namespace Z0
         /// <summary>
         /// The tool identifier
         /// </summary>
-        public ToolId ToolId;
+        public Actor Tool;
 
         /// <summary>
         /// The executable filename without the directory path

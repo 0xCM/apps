@@ -6,7 +6,7 @@ namespace Z0
 {
     class DefaultResultHandler : IToolResultHandler
     {
-        public ToolId Tool => default;
+        public ToolIdOld Tool => default;
 
         void Status(TextLine src)
             => term.babble(src);

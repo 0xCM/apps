@@ -22,7 +22,7 @@ namespace Z0
 
         FS.FolderPath DetailRoot;
 
-        ToolId Tool;
+        ToolIdOld Tool;
 
         FS.FilePath InputFile;
 

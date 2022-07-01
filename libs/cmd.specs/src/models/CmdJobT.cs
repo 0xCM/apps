@@ -7,7 +7,7 @@ namespace Z0
     public readonly struct CmdJob<T> : ITextual
         where T : struct
     {
-        public readonly Name Name {get;}
+        public readonly NameOld Name {get;}
 
         public readonly T Spec {get;}
 

@@ -37,7 +37,7 @@ namespace Z0.Asm
             return counter;
         }
 
-        public uint Produce(FS.FolderPath dst, ToolId consumer, params ApiHostUri[] hosts)
+        public uint Produce(FS.FolderPath dst, ToolIdOld consumer, params ApiHostUri[] hosts)
         {
             var options = CaptureWorkflowOptions.None;
             var routines = Capture.run(Wf, hosts, options).View;

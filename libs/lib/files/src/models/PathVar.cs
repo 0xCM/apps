@@ -11,19 +11,19 @@ namespace Z0
 
     public struct PathVar
     {
-        public Name Name {get;}
+        public NameOld Name {get;}
 
         FS.FilePath _Value;
 
         [MethodImpl(Inline)]
-        public PathVar(Name name)
+        public PathVar(NameOld name)
         {
             Name = name;
             _Value = FS.FilePath.Empty;
         }
 
         [MethodImpl(Inline)]
-        public PathVar(Name name, FS.FilePath value)
+        public PathVar(NameOld name, FS.FilePath value)
         {
             Name = name;
             _Value = value;
@@ -45,7 +45,7 @@ namespace Z0
             => new PathVar(name);
 
         [MethodImpl(Inline)]
-        public static implicit operator PathVar(Name name)
+        public static implicit operator PathVar(NameOld name)
             => new PathVar(name);
     }
 }

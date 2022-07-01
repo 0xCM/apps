@@ -18,7 +18,7 @@ namespace Z0
             {
             }
 
-            public override Name OpName
+            public override NameOld OpName
                 => "impl";
 
 

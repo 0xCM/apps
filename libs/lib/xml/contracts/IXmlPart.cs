@@ -16,8 +16,8 @@ namespace Z0
         IXmlPart Ancestor
             => XmlParts.empty();
 
-        Name Name
-            => Name.Empty;
+        NameOld Name
+            => NameOld.Empty;
 
         bool HasName
             => Name.IsNonEmpty;

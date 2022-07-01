@@ -13,7 +13,7 @@ namespace Z0
     {
         public readonly struct XmlAttribute : IXmlAttribute<string>, IXmlPart<string>
         {
-            public Name Name {get;}
+            public NameOld Name {get;}
 
             public string Value {get;}
 

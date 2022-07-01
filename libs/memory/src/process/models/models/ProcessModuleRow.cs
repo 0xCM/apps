@@ -13,7 +13,7 @@ namespace Z0
 
         public ByteSize MemorySize;
 
-        public Name ImageName;
+        public NameOld ImageName;
 
         public MemoryAddress EntryAddress;
 

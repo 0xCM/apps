@@ -12,14 +12,14 @@ namespace Z0
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly struct Var : IVar
     {
-        public Name Name {get;}
+        public NameOld Name {get;}
 
         readonly Func<dynamic> Resolver;
 
         public Type ValueType {get;}
 
         [MethodImpl(Inline)]
-        public Var(Name name, Type t, Func<dynamic> resolver)
+        public Var(NameOld name, Type t, Func<dynamic> resolver)
         {
             Name = name;
             ValueType = t;

@@ -12,11 +12,11 @@ namespace Z0
     partial struct ApiSigs
     {
         [MethodImpl(Inline), Op]
-        public static ApiSigTypeParam parameter(ushort position, Name name)
+        public static ApiSigTypeParam parameter(ushort position, NameOld name)
             => new ApiSigTypeParam(position, name);
 
         [MethodImpl(Inline), Op]
-        public static ApiSigTypeParam parameter(ushort position, Name name, ApiTypeSig closure)
+        public static ApiSigTypeParam parameter(ushort position, NameOld name, ApiTypeSig closure)
             => new ApiSigTypeParam(position, name, closure);
     }
 }

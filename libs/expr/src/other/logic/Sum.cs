@@ -20,7 +20,7 @@ namespace Z0
                 get => Members.Count;
             }
 
-            public Name OpName => "sum";
+            public NameOld OpName => "sum";
 
             public string Format()
                 => OpFormatters.format(this);

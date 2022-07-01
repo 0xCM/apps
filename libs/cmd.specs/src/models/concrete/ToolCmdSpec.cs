@@ -9,17 +9,14 @@ namespace Z0
     /// </summary>
     public struct ToolCmdSpec : IToolCmd
     {
-        public readonly ToolId Tool {get;}
+        public readonly Actor Tool {get;}
 
         public readonly CmdId CmdId {get;}
 
         public readonly ToolCmdArgs Args {get;}
 
-//        public string Format()
-//            => string.Format("{0} {0}", ToolPath.Format(PathSeparator.BS), Args.Format());
-
         [MethodImpl(Inline)]
-        public ToolCmdSpec(ToolId tool, CmdId cmd, params ToolCmdArg[] args)
+        public ToolCmdSpec(Actor tool, CmdId cmd, params ToolCmdArg[] args)
         {
             Tool = tool;
             CmdId = cmd;
@@ -41,7 +38,7 @@ namespace Z0
         public static ToolCmdSpec Empty
         {
             [MethodImpl(Inline)]
-            get => new ToolCmdSpec(ToolId.Empty, CmdId.Empty);
+            get => new ToolCmdSpec(Actor.Empty, CmdId.Empty);
         }
     }
 }

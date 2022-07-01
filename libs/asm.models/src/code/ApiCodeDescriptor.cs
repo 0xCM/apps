@@ -11,7 +11,7 @@ namespace Z0
 
         public ApiPartKind Part;
 
-        public Name Host;
+        public NameOld Host;
 
         public MemoryAddress Base;
 

@@ -43,7 +43,7 @@ namespace Z0
         public static TableId define(string name)
             => new TableId(name);
 
-        public Name Identifier {get;}
+        public NameOld Identifier {get;}
 
         [MethodImpl(Inline)]
         TableId(string name)

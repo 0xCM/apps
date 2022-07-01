@@ -8,7 +8,7 @@ namespace Z0
     {
         readonly IEnvPaths Paths;
 
-        public ToolId Tool => "msbuild";
+        public ToolIdOld Tool => "msbuild";
 
         void Status(TextLine src)
             => term.babble(src);

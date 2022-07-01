@@ -7,9 +7,9 @@ namespace Z0
     public abstract class ToolService<T> : AppCmdService<T>
         where T : ToolService<T>, new()
     {
-        public virtual ToolId Id {get;}
+        public virtual Actor Id {get;}
 
-        protected ToolService(ToolId id)
+        protected ToolService(Actor id)
         {
             Id = id;
         }
@@ -20,14 +20,8 @@ namespace Z0
         protected FS.FolderPath Deployment
             => Deployments + FS.folder(Id.Format());
 
-        public FS.FolderPath OutDir
-            => Paths.ToolOutDir(Id);
-
         public FS.FilePath Script(FS.FolderPath dir, FS.FileName name)
             => dir + name;
-
-        public FS.FilePath Output(FS.FileName name)
-            => OutDir + name;
 
         public virtual FS.FilePath ToolPath()
             => Deployment +  FS.file(string.Format("{0}.{1}", Id, FS.Exe));

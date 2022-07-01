@@ -7,7 +7,7 @@ namespace Z0
     [ApiHost]
     public readonly struct DataParser
     {
-        public static MsgPattern<Name,string> ParseFailure => "Parse failure {0}:{1}";
+        public static MsgPattern<NameOld,string> ParseFailure => "Parse failure {0}:{1}";
 
         public static Outcome asci<S,N>(string src, N n, out S dst)
             where S : struct, IAsciSeq<S,N>
@@ -269,7 +269,7 @@ namespace Z0
             => DateTime.TryParse(src, out dst);
 
         [Parser]
-        public static Outcome parse(string src, out Name dst)
+        public static Outcome parse(string src, out NameOld dst)
         {
             dst = text.trim(src ?? EmptyString);
             return true;
@@ -387,7 +387,7 @@ namespace Z0
             => AddressParser.range(src, out dst);
 
         [Parser]
-        public static Outcome parse(string src, out ToolId dst)
+        public static Outcome parse(string src, out ToolIdOld dst)
         {
             dst = src;
             return true;

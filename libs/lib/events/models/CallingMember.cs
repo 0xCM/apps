@@ -34,12 +34,12 @@ namespace Z0
         /// <summary>
         /// The originator name
         /// </summary>
-        public Name CallerName;
+        public NameOld CallerName;
 
         /// <summary>
         /// The name of the file from which the invocation occurred
         /// </summary>
-        public Name CallerFile;
+        public NameOld CallerFile;
 
         /// <summary>
         /// The file-relative invocation line number

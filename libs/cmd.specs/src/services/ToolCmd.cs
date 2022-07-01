@@ -11,19 +11,19 @@ namespace Z0
         const NumericKind Closure = UnsignedInts;
 
         [MethodImpl(Inline), Op]
-        public static ToolCmdLine cmdline(ToolId tool, params string[] src)
+        public static ToolCmdLine cmdline(IToolWs ws, Actor tool, params string[] src)
             => new ToolCmdLine(tool, CmdScripts.cmdline(src));
 
         [MethodImpl(Inline), Op]
-        public static ToolCmdLine cmdline(ToolId tool, CmdModifier modifier, params string[] src)
+        public static ToolCmdLine cmdline(IToolWs ws, Actor tool, CmdModifier modifier, params string[] src)
             => new ToolCmdLine(tool, modifier, CmdScripts.cmdline(src));
 
         [MethodImpl(Inline), Op]
-        public static ToolScript script(ToolId tool, ScriptId script, CmdVars vars)
-            => new ToolScript(tool,script,vars);
+        public static ToolScript script(IToolWs ws, Actor tool, ScriptId script, CmdVars vars)
+            => new ToolScript(ws, tool, script, vars);
 
         [Op, Closures(UInt64k)]
-        public static ToolCmdSpec spec<T>(ToolId tool, in T spec)
+        public static ToolCmdSpec spec<T>(Actor tool, in T spec)
             where T : struct
         {
             var t = typeof(T);

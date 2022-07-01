@@ -36,7 +36,7 @@ namespace Z0
         /// <summary>
         /// The literal name
         /// </summary>
-        public Name Name;
+        public NameOld Name;
 
         /// <summary>
         /// The description, if available

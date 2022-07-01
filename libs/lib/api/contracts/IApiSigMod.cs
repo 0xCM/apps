@@ -7,7 +7,7 @@ namespace Z0
     public interface IApiSigMod<T> : ITextual
         where T : struct, IApiSigMod<T>
     {
-        Name Name {get;}
+        NameOld Name {get;}
 
         ApiSigModKind Kind {get;}
     }

@@ -7,7 +7,6 @@ namespace Z0
     using static Tools;
 
     using K = FileKind;
-
     public class FileFlows
     {
         /// <summary>
@@ -224,7 +223,7 @@ namespace Z0
         {
             public static EmptyActor Instance = new();
 
-            public string Name => string.Empty;
+            public Name<asci64> Name => asci64.Null;
         }
     }
 }

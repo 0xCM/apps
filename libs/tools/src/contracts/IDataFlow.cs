@@ -7,7 +7,7 @@ namespace Z0
     [Free]
     public interface IDataFlow : IArrow
     {
-        IActor Actor {get;}
+        Actor Actor {get;}
     }
 
     /// <summary>

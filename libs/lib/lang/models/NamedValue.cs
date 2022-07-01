@@ -9,7 +9,7 @@ namespace Z0
         /// <summary>
         /// The name of the value
         /// </summary>
-        public Name Name {get;}
+        public NameOld Name {get;}
 
         /// <summary>
         /// The named value

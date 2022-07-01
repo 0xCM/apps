@@ -6,7 +6,7 @@ namespace Z0
 {
     public interface IToolResultHandler
     {
-        ToolId Tool => default;
+        ToolIdOld Tool => default;
 
         bool CanHandle(TextLine src);
 

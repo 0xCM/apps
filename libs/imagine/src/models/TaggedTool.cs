@@ -6,12 +6,12 @@ namespace Z0
 {
     public readonly struct TaggedTool : IEquatable<TaggedTool>
     {
-        public ToolId Tool {get;}
+        public ToolIdOld Tool {get;}
 
         public string Tag {get;}
 
         [MethodImpl(Inline)]
-        public TaggedTool(ToolId tool, string tag)
+        public TaggedTool(ToolIdOld tool, string tag)
         {
             Tool = tool;
             Tag = tag;
@@ -30,7 +30,7 @@ namespace Z0
             => Format().GetHashCode();
 
         [MethodImpl(Inline)]
-        public static implicit operator TaggedTool((ToolId tool, string tag) src)
+        public static implicit operator TaggedTool((ToolIdOld tool, string tag) src)
             => new TaggedTool(src.tool, src.tag);
     }
 }

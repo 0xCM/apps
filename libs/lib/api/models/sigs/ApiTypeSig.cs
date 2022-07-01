@@ -8,14 +8,14 @@ namespace Z0
 
     public class ApiTypeSig : ITextual
     {
-        public Name TypeName {get;}
+        public NameOld TypeName {get;}
 
         public Index<ApiSigMod> Modifiers {get;}
 
         public Index<ISigTypeParam> Parameters {get;}
 
         [MethodImpl(Inline)]
-        public ApiTypeSig(Name name, params ISigTypeParam[] parameters)
+        public ApiTypeSig(NameOld name, params ISigTypeParam[] parameters)
         {
             Modifiers = Index<ApiSigMod>.Empty;
             TypeName = name;
@@ -23,7 +23,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public ApiTypeSig(Name name, ApiSigMod mod, params ISigTypeParam[] parameters)
+        public ApiTypeSig(NameOld name, ApiSigMod mod, params ISigTypeParam[] parameters)
         {
             Modifiers = core.array(mod);
             TypeName = name;
@@ -31,7 +31,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public ApiTypeSig(Name name, Index<ApiSigMod> modifiers, params ISigTypeParam[] parameters)
+        public ApiTypeSig(NameOld name, Index<ApiSigMod> modifiers, params ISigTypeParam[] parameters)
         {
             Modifiers = modifiers;
             TypeName = name;

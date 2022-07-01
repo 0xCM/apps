@@ -12,18 +12,18 @@ namespace Z0
 
     public readonly struct JsonProp
     {
-        public Name Name {get;}
+        public NameOld Name {get;}
 
         public JsonText Value {get;}
 
         [MethodImpl(Inline)]
-        public JsonProp(Name name, JsonText value)
+        public JsonProp(NameOld name, JsonText value)
         {
             Name = name;
             Value = value;
         }
 
-        public KeyedValue<Name,string> Unescape()
+        public KeyedValue<NameOld,string> Unescape()
             => (Name, Value.Unescape());
     }
 }

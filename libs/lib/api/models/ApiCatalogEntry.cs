@@ -23,9 +23,9 @@ namespace Z0
 
         public ByteSize MaxSize;
 
-        public Name PartName;
+        public NameOld PartName;
 
-        public Name HostName;
+        public NameOld HostName;
 
         public OpUri OpUri;
     }

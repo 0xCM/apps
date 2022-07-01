@@ -8,14 +8,14 @@ namespace Z0
 
     public class ApiOperandSig
     {
-        public Name Name {get;}
+        public NameOld Name {get;}
 
         public ApiTypeSig Type {get;}
 
         public Index<ApiSigModKind> Modifiers {get;}
 
         [MethodImpl(Inline)]
-        public ApiOperandSig(Name name, ApiTypeSig type, ApiSigModKind[] modifiers)
+        public ApiOperandSig(NameOld name, ApiTypeSig type, ApiSigModKind[] modifiers)
         {
             Name = name;
             Type = type;
@@ -49,7 +49,7 @@ namespace Z0
         public static ApiOperandSig Empty
         {
             [MethodImpl(Inline)]
-            get => new ApiOperandSig(Name.Empty, ApiTypeSig.Empty, sys.empty<ApiSigModKind>());
+            get => new ApiOperandSig(NameOld.Empty, ApiTypeSig.Empty, sys.empty<ApiSigModKind>());
         }
     }
 }

@@ -46,7 +46,7 @@ namespace Z0
             get => alg.hash.marvin(Text);
         }
 
-        public Name Name
+        public NameOld Name
         {
             get
             {

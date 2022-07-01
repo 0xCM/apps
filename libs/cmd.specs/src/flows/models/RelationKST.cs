@@ -56,7 +56,5 @@ namespace Z0
         public override string ToString()
             => Format();
 
-        public static implicit operator DataFlow<K,S,T>(Relation<K,S,T> src)
-            => new DataFlow<K,S,T>(src.Id, src.Kind, src.Source, src.Target);
     }
 }

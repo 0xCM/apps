@@ -40,7 +40,11 @@ namespace Z0
         T IArrow<S,T>.Target
             => Target;
 
-        IActor IDataFlow.Actor
-            => Actor;
+        Actor IDataFlow.Actor
+            => new Actor(Actor.Name);
+
+        // public static implicit operator DataFlow<F,K,S,T>(Relation<K,S,T> src)
+        //     => new DataFlow<F,K,S,T>(new Actor(src.Id.ToString()), src.Kind, src.Source, src.Target);
+
     }
 }

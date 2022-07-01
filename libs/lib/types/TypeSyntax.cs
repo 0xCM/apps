@@ -406,7 +406,7 @@ namespace Z0
         /// </summary>
         /// <param name="name">The class name</param>
         [TypeSyntax(S)]
-        public static Name kind(string name) => string.Format(Kind,name);
+        public static NameOld kind(string name) => string.Format(Kind,name);
 
         /// <summary>
         /// Defines a string of arbitrary length

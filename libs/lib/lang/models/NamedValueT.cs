@@ -12,7 +12,7 @@ namespace Z0
         /// <summary>
         /// The name of the value
         /// </summary>
-        public readonly Name Name;
+        public readonly NameOld Name;
 
         /// <summary>
         /// The named value
@@ -34,7 +34,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public void Deconstruct(out Name name, out V value)
+        public void Deconstruct(out NameOld name, out V value)
         {
             name = Name;
             value = Value;
@@ -51,11 +51,11 @@ namespace Z0
             => new NamedValue<V>(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator NamedValue<V>((Name name, V value) src)
+        public static implicit operator NamedValue<V>((NameOld name, V value) src)
             => new NamedValue<V>(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator (Name name, V value)(NamedValue<V> src)
+        public static implicit operator (NameOld name, V value)(NamedValue<V> src)
             => (src.Name, src.Value);
 
         [MethodImpl(Inline)]

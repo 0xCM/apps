@@ -10,7 +10,7 @@ namespace Z0
             where F : FreeOpExpr<F, K>
             where K : unmanaged
         {
-            public virtual Name OpName => typeof(F).Name;
+            public virtual NameOld OpName => typeof(F).Name;
 
             public abstract string Format();
 

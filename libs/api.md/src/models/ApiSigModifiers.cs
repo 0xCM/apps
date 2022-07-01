@@ -31,7 +31,7 @@ namespace Z0
 
         public readonly struct In : IApiSigMod<In>
         {
-            public Name Name => "in";
+            public NameOld Name => "in";
 
             public K Kind => K.In;
 
@@ -48,7 +48,7 @@ namespace Z0
 
         public readonly struct Out : IApiSigMod<Out>
         {
-            public Name Name => "out";
+            public NameOld Name => "out";
 
             public K Kind => K.Out;
 
@@ -65,7 +65,7 @@ namespace Z0
 
         public readonly struct Ref : IApiSigMod<Ref>
         {
-            public Name Name => "ref";
+            public NameOld Name => "ref";
 
             public K Kind => K.Ref;
 
@@ -82,7 +82,7 @@ namespace Z0
 
         public readonly struct Ptr : IApiSigMod<Ptr>
         {
-            public Name Name => "ptr";
+            public NameOld Name => "ptr";
 
             public K Kind => K.Ptr;
 
@@ -101,7 +101,7 @@ namespace Z0
 
         public readonly struct Imm : IApiSigMod<Imm>
         {
-            public Name Name => "imm";
+            public NameOld Name => "imm";
 
             public K Kind => K.Imm;
 

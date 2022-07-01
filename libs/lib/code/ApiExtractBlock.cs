@@ -15,7 +15,7 @@ namespace Z0
         /// <summary>
         /// The operation uri
         /// </summary>
-        public readonly Name Uri;
+        public readonly NameOld Uri;
 
         /// <summary>
         /// The enExtractd operation data
@@ -23,7 +23,7 @@ namespace Z0
         public readonly BinaryCode Encoded;
 
         [MethodImpl(Inline)]
-        public ApiExtractBlock(MemoryAddress @base, Name uri, BinaryCode src)
+        public ApiExtractBlock(MemoryAddress @base, NameOld uri, BinaryCode src)
         {
             BaseAddress = @base;
             Uri = uri;

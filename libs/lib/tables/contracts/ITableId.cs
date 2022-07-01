@@ -9,7 +9,7 @@ namespace Z0
     [Free]
     public interface ITableId : ITextual
     {
-        Name Identifier {get;}
+        NameOld Identifier {get;}
         string ITextual.Format()
             => Identifier.Format();
     }

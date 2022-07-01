@@ -9,9 +9,6 @@ namespace Z0
         FileKind SourceKind {get;}
 
         FileKind TargetKind {get;}
-
-        // string ITextual.Format()
-        //     => string.Format("{0}:*.{1} -> *.{2}", Actor, SourceKind, TargetKind);
     }
 
     public interface IFileFlowType<F> : IFileFlowType

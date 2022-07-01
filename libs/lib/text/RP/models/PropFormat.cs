@@ -11,14 +11,14 @@ namespace Z0
 
     public readonly struct PropFormat : ITextual
     {
-        public Name Name {get;}
+        public NameOld Name {get;}
 
         public dynamic Value {get;}
 
         public sbyte Pad {get;}
 
         [MethodImpl(Inline)]
-        internal PropFormat(Name name, dynamic value, sbyte pad)
+        internal PropFormat(NameOld name, dynamic value, sbyte pad)
         {
             Name = name;
             Value = value;
@@ -40,14 +40,14 @@ namespace Z0
 
     public readonly struct PropFormat<T> : ITextual
     {
-        public Name Name {get;}
+        public NameOld Name {get;}
 
         public T Value {get;}
 
         public sbyte Pad {get;}
 
         [MethodImpl(Inline)]
-        public PropFormat(Name name, T value, sbyte pad)
+        public PropFormat(NameOld name, T value, sbyte pad)
         {
             Name = name;
             Value = value;
@@ -55,7 +55,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public PropFormat(Name name, T value)
+        public PropFormat(NameOld name, T value)
         {
             Name = name;
             Value = value;

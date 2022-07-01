@@ -55,9 +55,9 @@ namespace Z0
         public static DocId define(string name)
             => new DocId(name, EmptyString);
 
-        public Name Identifier {get;}
+        public NameOld Identifier {get;}
 
-        public Name Identity {get;}
+        public NameOld Identity {get;}
 
         [MethodImpl(Inline)]
         DocId(string name, string identity)

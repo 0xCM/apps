@@ -21,7 +21,7 @@ namespace Z0
         /// The name of the defining type
         /// </summary>
         [Render(24)]
-        public Name TypeName;
+        public NameOld TypeName;
 
         /// <summary>
         /// The metadata token of the defining type
@@ -33,7 +33,7 @@ namespace Z0
         /// The name of the literal identifier
         /// </summary>
         [Render(24)]
-        public Name FieldName;
+        public NameOld FieldName;
 
         /// <summary>
         /// The metadata token of the defining field

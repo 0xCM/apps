@@ -12,7 +12,7 @@ namespace Z0
         public const byte FieldCount = 4;
 
         [Render(16)]
-        public string Actor;
+        public Actor Actor;
 
         [Render(16)]
         public string Source;

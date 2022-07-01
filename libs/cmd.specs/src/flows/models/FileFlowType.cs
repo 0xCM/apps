@@ -15,7 +15,7 @@ namespace Z0
 
         public readonly FileKind TargetKind {get;}
 
-        public FileFlowType(Identifier actor, FileKind src, FileKind dst)
+        public FileFlowType(string actor, FileKind src, FileKind dst)
         {
             Actor = new Actor(actor);
             SourceKind = src;

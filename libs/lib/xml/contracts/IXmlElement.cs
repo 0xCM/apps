@@ -6,7 +6,7 @@ namespace Z0
 {
     using static XmlParts;
 
-    public interface IXmlElement : IXmlPart<Name>
+    public interface IXmlElement : IXmlPart<NameOld>
     {
         XmlAttributes Attributes {get;}
     }

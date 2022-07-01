@@ -71,11 +71,11 @@ namespace Z0.Asm
             return buffer;
         }
 
-        public ReadOnlySpan<Name> DeriveEncodingKinds()
+        public ReadOnlySpan<NameOld> DeriveEncodingKinds()
         {
             var rows = LoadSource();
             var count = rows.Length;
-            var dst = hashset<Name>();
+            var dst = hashset<NameOld>();
             for(var i=0u; i<count; i++)
                 dst.Add(skip(rows,i).EncodingKind);
             return dst.Index().Sort();

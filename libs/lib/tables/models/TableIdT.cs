@@ -21,7 +21,7 @@ namespace Z0
         public Type RecordType
             => typeof(T);
 
-        public Name Identifier
+        public NameOld Identifier
             => Value.Identifier;
 
         [MethodImpl(Inline)]

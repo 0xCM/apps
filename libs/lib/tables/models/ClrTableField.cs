@@ -22,7 +22,7 @@ namespace Z0
         /// <summary>
         /// The external field name
         /// </summary>
-        public readonly Name FieldName;
+        public readonly NameOld FieldName;
 
         /// <summary>
         /// A render specification, if any
@@ -70,10 +70,10 @@ namespace Z0
         /// <summary>
         /// The member field name
         /// </summary>
-        public Name MemberName
+        public NameOld MemberName
         {
             [MethodImpl(Inline)]
-            get => IsNonEmpty ? Definition.Name : Name.Empty;
+            get => IsNonEmpty ? Definition.Name : NameOld.Empty;
         }
 
         /// <summary>

@@ -6,11 +6,11 @@ namespace Z0
 {
     public readonly struct ApiSigMod : IApiSigMod<ApiSigMod>
     {
-        public Name Name {get;}
+        public NameOld Name {get;}
 
         public ApiSigModKind Kind {get;}
 
-        public ApiSigMod(Name name, ApiSigModKind kind)
+        public ApiSigMod(NameOld name, ApiSigModKind kind)
         {
             Name = name;
             Kind = kind;

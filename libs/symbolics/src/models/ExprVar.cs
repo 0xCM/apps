@@ -6,9 +6,9 @@ namespace Z0
 {
     public class ExprVar : IVar
     {
-        public Name Name {get;}
+        public NameOld Name {get;}
 
-        public ExprVar(Name name)
+        public ExprVar(NameOld name)
         {
             Name = name;
         }

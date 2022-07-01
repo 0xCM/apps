@@ -123,7 +123,7 @@ namespace Z0.Asm
 
         void ConvertPdbXml()
         {
-            var dir = Db.ToolOutDir("pdb2xml");
+            var dir = FS.FolderPath.Empty;
             var file = PartId.AsmCore.Component(FS.Pdb, FS.Xml);
             var srcPath = dir + file;
             var buffer = text.buffer();

@@ -12,7 +12,7 @@ namespace Z0
     partial struct ApiSigs
     {
         [MethodImpl(Inline), Op]
-        public static ApiTypeSig type(Name name, params ISigTypeParam[] parameters)
+        public static ApiTypeSig type(NameOld name, params ISigTypeParam[] parameters)
             => new ApiTypeSig(name, parameters);
     }
 }

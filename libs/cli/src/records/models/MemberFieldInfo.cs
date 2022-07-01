@@ -17,7 +17,7 @@ namespace Z0
 
         public Address32 Rva;
 
-        public Name FieldName;
+        public NameOld FieldName;
 
         public FieldAttributes Attribs;
 

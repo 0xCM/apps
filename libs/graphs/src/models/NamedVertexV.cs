@@ -7,14 +7,14 @@ namespace Z0
     public class NamedVertex<V> : IEquatable<NamedVertex<V>>
         where V : IEquatable<V>
     {
-        public Name Name {get;}
+        public NameOld Name {get;}
 
         public V Value {get;}
 
         public DataList<Vertex<V>> Targets {get;}
 
         [MethodImpl(Inline)]
-        public NamedVertex(Name name, V value)
+        public NamedVertex(NameOld name, V value)
         {
             Name = name;
             Value = value;

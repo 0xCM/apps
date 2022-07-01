@@ -8,16 +8,13 @@ namespace Z0
 
     public interface IToolWs : IWorkspace
     {
+        FS.FolderPath Home {get;}
+
+        FS.FolderPath Inputs() => Home + FS.folder(src);
+
         IToolWs Configure(ToolConfig[] src);
-
-        ReadOnlySpan<ToolConfig> Configured {get;}
-
-        IDbSources Toolbase {get;}
 
         FS.FilePath Inventory()
             => Root + FS.folder(admin) + FS.file(inventory, FS.Txt);
-
-        new DbSources ToolHome(ToolId id)
-            => new DbSources(Toolbase, id.Format());
     }
 }

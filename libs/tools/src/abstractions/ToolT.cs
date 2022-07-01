@@ -8,15 +8,15 @@ namespace Z0
     public abstract class Tool<T> : Actor<T>, ITool
         where T : Tool<T>, new()
     {
-        protected Tool(string name)
+        protected Tool(asci64 name)
             : base(name)
         {
             ToolId = name;
         }
 
-        public ToolId ToolId {get;}
+        public Actor ToolId {get;}
 
-        public static implicit operator ToolId(Tool<T> src)
+        public static implicit operator Actor(Tool<T> src)
             => src.ToolId;
     }
 }

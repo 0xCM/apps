@@ -62,7 +62,7 @@ namespace Z0
             => new VarName(src.Format());
 
         [MethodImpl(Inline)]
-        public static implicit operator VarName(Name src)
+        public static implicit operator VarName(NameOld src)
             => new VarName(src.Format());
 
         [MethodImpl(Inline)]

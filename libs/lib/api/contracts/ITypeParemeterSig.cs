@@ -8,7 +8,7 @@ namespace Z0
     {
         ushort Position {get;}
 
-        Name Name {get;}
+        NameOld Name {get;}
 
         ApiTypeSig Closure => ApiTypeSig.Empty;
 

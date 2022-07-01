@@ -16,7 +16,7 @@ namespace Z0
     /// </summary>
     public readonly struct ClrMemberName : IEquatable<ClrMemberName>, IComparable<ClrMemberName>
     {
-        public Name Name {get;}
+        public NameOld Name {get;}
 
         [MethodImpl(Inline)]
         public ClrMemberName(MemberInfo src)
@@ -125,7 +125,7 @@ namespace Z0
 
 
         [MethodImpl(Inline), Op]
-        public static int compare(Name a, Name b)
+        public static int compare(NameOld a, NameOld b)
             => compare(a.Content, b.Content);
 
         [MethodImpl(Inline), Op]

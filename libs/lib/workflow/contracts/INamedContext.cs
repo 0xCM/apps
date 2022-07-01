@@ -6,7 +6,7 @@ namespace Z0
 {
     public interface INamedContext : IContext
     {
-        Name ContextName {get;}
+        NameOld ContextName {get;}
 
         string ITextual.Format()
             => ContextName;

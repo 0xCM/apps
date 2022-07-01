@@ -15,7 +15,7 @@ namespace Z0
             {
             }
 
-            public override Name OpName
+            public override NameOld OpName
                 => "or";
 
             public override LogicExprKind Kind

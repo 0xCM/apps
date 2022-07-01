@@ -9,7 +9,7 @@ namespace Z0
     /// </summary>
     public interface INamed : ITextual, IDataType
     {
-        Name Name {get;}
+        NameOld Name {get;}
 
         string ToString()
             => Name.ToString();

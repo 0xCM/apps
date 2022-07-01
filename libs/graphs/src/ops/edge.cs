@@ -10,7 +10,7 @@ namespace Z0
             where V : IEquatable<V>, IVertex<V>
                 => new Edge<V>(src, dst);
 
-        public static NamedEdge<V> edge<V>(Name name, V src, V dst)
+        public static NamedEdge<V> edge<V>(NameOld name, V src, V dst)
             where V : IEquatable<V>, IVertex<V>
                 => new NamedEdge<V>(name, src, dst);
     }

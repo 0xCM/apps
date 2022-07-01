@@ -30,8 +30,7 @@ namespace Z0
         [Parser]
         public static Outcome parse(string src, out Tool dst)
         {
-            ToolId id = text.trim(src);
-            dst = id;
+            dst = text.trim(src);
             return true;
         }
 

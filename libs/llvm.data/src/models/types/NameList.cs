@@ -4,14 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct NameList : IIndex<Name>
+    public readonly struct NameList : IIndex<NameOld>
     {
-        readonly Index<Name> Data;
+        readonly Index<NameOld> Data;
 
-        public Name ListName {get;}
+        public NameOld ListName {get;}
 
         [MethodImpl(Inline)]
-        public NameList(Name name, Name[] src)
+        public NameList(NameOld name, NameOld[] src)
         {
             ListName = name;
             Data = src;
@@ -23,30 +23,30 @@ namespace Z0
             get => Data.Count;
         }
 
-        public Span<Name> Edit
+        public Span<NameOld> Edit
         {
             [MethodImpl(Inline)]
             get => Data;
         }
 
-        public ReadOnlySpan<Name> View
+        public ReadOnlySpan<NameOld> View
         {
             [MethodImpl(Inline)]
             get => Data;
         }
 
-        public Name[] Storage
+        public NameOld[] Storage
         {
             [MethodImpl(Inline)]
             get => Data;
         }
 
         [MethodImpl(Inline)]
-        public static implicit operator NameList((Name name, Name[] names) src)
+        public static implicit operator NameList((NameOld name, NameOld[] names) src)
             => new NameList(src.name, src.names);
 
         [MethodImpl(Inline)]
         public static implicit operator NameList((string name, string[] names) src)
-            => (src.name, src.names.Select(x => (Name)x));
+            => (src.name, src.names.Select(x => (NameOld)x));
     }
 }

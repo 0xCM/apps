@@ -11,6 +11,15 @@
 		},
 		{
 			"path": "..\\asm.core"
+		},
+		{
+			"path": "..\\tools"
+		},
+		{
+			"path": "..\\wf"
+		},
+		{
+			"path": "..\\cmd.specs"
 		}
 	],
 	"settings": {}

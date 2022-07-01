@@ -7,7 +7,7 @@ namespace Z0
     [Free]
     public interface IOpExpr : IExpr
     {
-        Name OpName {get;}
+        NameOld OpName {get;}
     }
 
     [Free]

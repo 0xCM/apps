@@ -15,7 +15,7 @@ namespace Z0
 
         public CliToken Parent;
 
-        public Name Name;
+        public NameOld Name;
 
         public CliSig Sig;
     }

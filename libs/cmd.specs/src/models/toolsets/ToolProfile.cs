@@ -12,7 +12,7 @@ namespace Z0
         public const byte FieldCount = 5;
 
         [Render(32)]
-        public ToolId Id;
+        public Actor Id;
 
         [Render(16)]
         public string Modifier;
@@ -21,7 +21,7 @@ namespace Z0
         public CmdArg HelpCmd;
 
         [Render(32)]
-        public ToolId Memberhisp;
+        public Actor Memberhisp;
 
         [Render(1)]
         public FS.FilePath Path;

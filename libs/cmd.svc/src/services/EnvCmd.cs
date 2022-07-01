@@ -80,7 +80,7 @@ namespace Z0
         void ConfigureTool(CmdArgs args)
             => iter(ToolBox.Configure(tool(args)), entry => Write(entry));
 
-        static ToolId tool(CmdArgs args, byte index = 0)
+        static Actor tool(CmdArgs args, byte index = 0)
             => arg(args,index).Value;
 
         [CmdOp("tool/config")]

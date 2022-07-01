@@ -16,7 +16,7 @@ namespace Z0
 
         Option<IToolCmdShell> Shell;
 
-        protected Outcome SelectTool(ToolId tool)
+        protected Outcome SelectTool(ToolIdOld tool)
         {
             var result = Outcome.Success;
             if(Shell.IsNone())
@@ -42,7 +42,7 @@ namespace Z0
 
         protected IDbArchive DbArchive => Archives.archive(FS.dir(AppSettings.Find(SettingNames.DbRoot)));
 
-        protected ToolWs ToolWs => new ToolWs(AppDb.Toolbase());
+        protected ToolWs ToolWs => new ToolWs(AppDb.Toolbase().Root);
 
         public Settings ShellSettings()
             => Settings.table(Settings.path());

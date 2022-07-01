@@ -329,7 +329,7 @@ namespace Z0
             {
                 ref var dst = ref seek(buffer,i);
                 ref readonly var flow = ref src[i];
-                dst.Actor = flow.Actor.Name;
+                dst.Actor = flow.Actor;
                 dst.Source = flow.Source?.ToString() ?? EmptyString;
                 dst.Target = flow.Target?.ToString() ?? EmptyString;
                 dst.Description = flow.Format();

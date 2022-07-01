@@ -30,19 +30,19 @@ namespace Z0
             get => FullName.Hash;
         }
 
-        public Name ShortName
+        public NameOld ShortName
         {
             [MethodImpl(Inline)]
             get => Source.Name;
         }
 
-        public Name FullName
+        public NameOld FullName
         {
             [MethodImpl(Inline)]
             get => Source.FullName;
         }
 
-        public Name AssemblyQualifiedName
+        public NameOld AssemblyQualifiedName
         {
             [MethodImpl(Inline)]
             get => Source.AssemblyQualifiedName;

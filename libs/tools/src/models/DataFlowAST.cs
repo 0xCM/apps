@@ -6,6 +6,7 @@ namespace Z0
 {
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public class DataFlow<A,S,T> : IDataFlow<A,S,T>
+        where A : IActor
     {
         public readonly FlowId Id;
 
@@ -39,7 +40,7 @@ namespace Z0
         T IArrow<S,T>.Target
             => Target;
 
-        IActor IDataFlow.Actor
-            => new Actor(Actor.ToString());
+        Actor IDataFlow.Actor
+            => new Actor(Actor.Name);
     }
 }

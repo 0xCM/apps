@@ -17,6 +17,6 @@ namespace Z0
 
         public ByteSize Gap;
 
-        public Name ImageName;
+        public NameOld ImageName;
     }
 }

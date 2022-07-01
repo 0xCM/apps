@@ -51,7 +51,7 @@ namespace Z0
             => new FileName(name);
 
         [MethodImpl(Inline), Op]
-        public static FileName file(Name name, string x)
+        public static FileName file(NameOld name, string x)
             => new FileName(name.Format(), ext(x));
     }
 }

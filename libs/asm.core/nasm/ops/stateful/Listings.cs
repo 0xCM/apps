@@ -6,9 +6,6 @@ namespace Z0
 {
     partial class Nasm
     {
-        public FS.FilePath ListPath(Identifier name)
-            => Output(FS.file(name + ".bin", ListingExt));
-
         public FS.FilePath ListPath(FS.FolderPath dst, Identifier name)
             => dst + FS.file(name + ".bin", ListingExt);
 

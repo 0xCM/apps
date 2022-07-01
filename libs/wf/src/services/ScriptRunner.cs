@@ -6,6 +6,8 @@ namespace Z0
 {
     using static core;
 
+    using static ApiGranules;
+
     public sealed class ScriptRunner : WfSvc<ScriptRunner>
     {
         public static async Task<int> exec(ToolCmdSpec cmd, ToolCmdContext context, Action<string> status, Action<string> error)
@@ -78,16 +80,16 @@ namespace Z0
             => RunScript(Paths.ControlScript(name), new ScriptId(name.Name), vars);
 
         public ReadOnlySpan<TextLine> RunToolCmd(ToolScript src)
-            => RunToolScript(src.Tool, src.Script, ScriptKind.Cmd, src.Vars);
+            => RunToolScript(src.Ws, src.Tool, src.Script, ScriptKind.Cmd, src.Vars);
 
-        public ReadOnlySpan<TextLine> RunToolCmd(ToolId tool, ScriptId script, CmdVars? vars = null)
-            => RunToolScript(tool, script, ScriptKind.Cmd, vars);
+        public ReadOnlySpan<TextLine> RunToolCmd(IToolWs ws, Actor tool, ScriptId script, CmdVars? vars = null)
+            => RunToolScript(ws, tool, script, ScriptKind.Cmd, vars);
 
-        public ReadOnlySpan<TextLine> RunToolPs(ToolId tool, ScriptId script, CmdVars? vars = null)
-            => RunToolScript(tool, script, ScriptKind.Ps, vars);
+        // public ReadOnlySpan<TextLine> RunToolPs(Actor tool, ScriptId script, CmdVars? vars = null)
+        //     => RunToolScript(tool, script, ScriptKind.Ps, vars);
 
-        ReadOnlySpan<TextLine> RunToolScript(ToolId tool, ScriptId script, ScriptKind kind, CmdVars? vars)
-            => Run(CmdLine(ScriptFile(tool, script, kind), kind), script, vars);
+        ReadOnlySpan<TextLine> RunToolScript(IToolWs ws, Actor tool, ScriptId script, ScriptKind kind, CmdVars? vars)
+            => Run(CmdLine(ScriptFile(ws, tool, script, kind), kind), script, vars);
 
         ReadOnlySpan<TextLine> RunScript(FS.FilePath src, ScriptId script, CmdVars? vars)
             => Run(new CmdLine(src.Format(PathSeparator.BS)), script, vars);
@@ -147,7 +149,7 @@ namespace Z0
             try
             {
                 var kind = ScriptKind.Cmd;
-                var path = ScriptFile(script, kind);
+                var path = script.Path();
                 if(!path.Exists)
                     return (false,FS.missing(path));
                 var process = ScriptProcess.create(CmdLine(path, kind), script.Vars, status, error);
@@ -230,25 +232,37 @@ namespace Z0
             }
         }
 
-        FS.FilePath ScriptFile(ToolId tool, ScriptId script, ScriptKind kind)
+        FS.FilePath ScriptFile(ToolScript src)
+            => src.Path();
+
+        FS.FilePath ScriptFile(IToolWs ws, Actor tool, ScriptId script, ScriptKind kind)
         {
             var x = kind switch{
                 ScriptKind.Cmd => FS.Cmd,
                 ScriptKind.Ps => FS.Ps1,
                 _ => FS.FileExt.Empty
             };
-            return Paths.ToolScript(tool, script, x);
+            return ToolScript(ws, tool, script, x);
         }
 
-        FS.FilePath ScriptFile(ToolScript spec, ScriptKind kind)
-        {
-            var x = kind switch{
-                ScriptKind.Cmd => FS.Cmd,
-                ScriptKind.Ps => FS.Ps1,
-                _ => FS.FileExt.Empty
-            };
-            return Paths.ToolScript(spec.Tool, spec.Script, x);
-        }
+        FS.FolderPath ToolScripts(IToolWs ws, Actor tool)
+            => ws.ScriptDir() + FS.folder(tool.Format()) + FS.folder(scripts);
+
+        FS.FolderPath ToolOutDir(IToolWs ws, Actor tool)
+            => ws.OutDir() + FS.folder(tools) + FS.folder(tool.Format()) + FS.folder(output);
+
+        FS.FilePath ToolScript(IToolWs ws, Actor tool, ScriptId script, FS.FileExt? ext = null)
+            => ToolScripts(ws, tool) + FS.file(script.Format(), ext ?? FS.Cmd);
+
+        // FS.FilePath ScriptFile(Actor spec, ScriptKind kind)
+        // {
+        //     var x = kind switch{
+        //         ScriptKind.Cmd => FS.Cmd,
+        //         ScriptKind.Ps => FS.Ps1,
+        //         _ => FS.FileExt.Empty
+        //     };
+        //     return ToolScript(spec.Tool, spec.Script, x);
+        // }
 
         CmdLine CmdLine(FS.FilePath path, ScriptKind kind)
         {

@@ -9,10 +9,10 @@ namespace Z0
     {
         public readonly MemoryAddress Address;
 
-        public readonly Name Name;
+        public readonly NameOld Name;
 
         [MethodImpl(Inline)]
-        public MethodSlot(Name name, MemoryAddress address)
+        public MethodSlot(NameOld name, MemoryAddress address)
         {
             Name = name;
             Address = address;

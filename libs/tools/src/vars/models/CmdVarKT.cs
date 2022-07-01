@@ -4,61 +4,63 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class CmdVar<K>
+    public class CmdVar<K,T>
         where K : unmanaged
     {
-        public readonly Name Name;
+        public readonly VarName Name;
 
         public readonly K Kind;
 
-        public string Value;
+        public T Value;
 
         [MethodImpl(Inline)]
         public CmdVar(K id)
         {
-            Kind = id;
-            Value = EmptyString;
             Name = EmptyString;
+            Kind = id;
+            Value = default;
         }
 
         [MethodImpl(Inline)]
-        public CmdVar(K kind, string value)
+        public CmdVar(K id, T value)
         {
+            Name = EmptyString;
+            Kind = id;
+            Value = value;
+        }
+
+        [MethodImpl(Inline)]
+        public CmdVar(VarName name, K kind, T value)
+        {
+            Name = name;
             Kind = kind;
             Value = value;
         }
 
         [MethodImpl(Inline)]
-        public CmdVar(string name, K kind, string value)
-        {
-            Kind = kind;
-            Value = value;
-        }
-
-        [MethodImpl(Inline)]
-        public CmdVar<K> Set(string value)
+        public CmdVar<K,T> Set(T value)
         {
             Value = value;
             return this;
         }
 
         [MethodImpl(Inline)]
-        public static implicit operator CmdVar<K>(K name)
-            => new CmdVar<K>(name);
+        public static implicit operator CmdVar<K,T>(K name)
+            => new CmdVar<K,T>(name);
 
         [MethodImpl(Inline)]
         public string Format()
-            => Value ?? EmptyString;
+            => Value?.ToString() ?? EmptyString;
 
         public override string ToString()
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator CmdVar<K>((K id, string value) src)
-            => new CmdVar<K>(src.id, src.value);
+        public static implicit operator CmdVar<K,T>((K id, T value) src)
+            => new CmdVar<K,T>(src.id, src.value);
 
         [MethodImpl(Inline)]
-        public static implicit operator CmdVar<K>(Paired<K,string> src)
-            => new CmdVar<K>(src.Left, src.Right);
+        public static implicit operator CmdVar<K,T>(Paired<K,T> src)
+            => new CmdVar<K,T>(src.Left, src.Right);
     }
 }

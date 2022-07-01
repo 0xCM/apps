@@ -6,7 +6,7 @@ namespace Z0
 {
     public readonly struct ToolsetSpec
     {
-        public readonly Name Name;
+        public readonly NameOld Name;
 
         public readonly FS.FolderPath Home;
 

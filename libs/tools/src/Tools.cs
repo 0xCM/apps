@@ -94,7 +94,7 @@ namespace Z0
             }
 
             public string Format()
-                => Name;
+                => Name.Format();
 
             public override string ToString()
                 => Format();
@@ -109,7 +109,7 @@ namespace Z0
             }
 
             public string Format()
-                => Name;
+                => Name.Format();
 
             public override string ToString()
                 => Format();
@@ -124,7 +124,7 @@ namespace Z0
             }
 
             public string Format()
-                => Name;
+                => Name.Format();
 
             public override string ToString()
                 => Format();
@@ -139,7 +139,7 @@ namespace Z0
             }
 
             public string Format()
-                => Name;
+                => Name.Format();
 
             public override string ToString()
                 => Format();
@@ -154,7 +154,7 @@ namespace Z0
             }
 
             public string Format()
-                => Name;
+                => Name.Format();
 
             public override string ToString()
                 => Format();
@@ -169,7 +169,7 @@ namespace Z0
             }
 
             public string Format()
-                => Name;
+                => Name.Format();
 
             public override string ToString()
                 => Format();
@@ -184,7 +184,7 @@ namespace Z0
             }
 
             public string Format()
-                => Name;
+                => Name.Format();
 
             public override string ToString()
                 => Format();
@@ -199,7 +199,7 @@ namespace Z0
             }
 
             public string Format()
-                => Name;
+                => Name.Format();
 
             public override string ToString()
                 => Format();
@@ -214,7 +214,7 @@ namespace Z0
             }
 
             public string Format()
-                => Name;
+                => Name.Format();
 
             public override string ToString()
                 => Format();
@@ -229,7 +229,7 @@ namespace Z0
             }
 
             public string Format()
-                => Name;
+                => Name.Format();
 
             public override string ToString()
                 => Format();
@@ -244,7 +244,7 @@ namespace Z0
             }
 
             public string Format()
-                => Name;
+                => Name.Format();
 
             public override string ToString()
                 => Format();
@@ -259,7 +259,7 @@ namespace Z0
             }
 
             public string Format()
-                => Name;
+                => Name.Format();
 
             public override string ToString()
                 => Format();
@@ -274,7 +274,7 @@ namespace Z0
             }
 
             public string Format()
-                => Name;
+                => Name.Format();
 
             public override string ToString()
                 => Format();
@@ -289,7 +289,7 @@ namespace Z0
             }
 
             public string Format()
-                => Name;
+                => Name.Format();
 
             public override string ToString()
                 => Format();
@@ -304,7 +304,7 @@ namespace Z0
             }
 
             public string Format()
-                => Name;
+                => Name.Format();
 
             public override string ToString()
                 => Format();

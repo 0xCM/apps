@@ -9,8 +9,8 @@ namespace Z0
 
     public sealed class ToolWs : Workspace<ToolWs>, IWorkspace
     {
-        public IDbSources ToolBox
-            => new DbSources(Root);
+        public static ToolWs create(FS.FolderPath home)
+            => new ToolWs(home);
 
         public static Settings config(FS.FilePath src)
         {
@@ -63,47 +63,40 @@ namespace Z0
         public static Outcome parse(string src, out ToolConfig dst)
             => ToolWs.parse(src, out dst);
 
-        public FS.FolderPath ToolHome(ToolId id)
+        public FS.FolderPath ToolHome(Actor id)
             => Root + FS.folder(id.Format());
 
-        public FS.FilePath ConfigScript(ToolId id)
+        public FS.FilePath ConfigScript(Actor id)
             => ToolHome(id) + FS.file(ApiGranules.config, FS.Cmd);
 
-        Dictionary<ToolId,ToolConfig> ConfigLookup;
+        Dictionary<Actor,ToolConfig> ConfigLookup;
 
         Index<ToolConfig> Configs;
 
         public ToolWs(FS.FolderPath root)
             : base(root)
         {
-            ConfigLookup = dict<ToolId,ToolConfig>();
+            ConfigLookup = dict<Actor,ToolConfig>();
             Configs = array<ToolConfig>();
         }
 
-        public FS.FolderPath ToolDocs(ToolId id)
-            => ToolHome(id) + FS.folder(docs);
+        public FS.FolderPath Home
+            => Root;
 
-        public FS.FolderPath Logs(ToolId id)
-            => ToolHome(id) + FS.folder(logs);
+        public FS.FolderPath ToolDocs(Actor tool)
+            => ToolHome(tool) + FS.folder(docs);
 
-        public FS.FilePath ConfigPath(ToolId id)
-            => ToolHome(id) + FS.file(id,FileKind.Config);
+        public FS.FolderPath Logs(Actor tool)
+            => ToolHome(tool) + FS.folder(logs);
 
-        public FS.FolderPath Scripts(ToolId id)
-            => ToolHome(id) + FS.folder(scripts);
+        public FS.FilePath ConfigPath(Actor tool)
+            => ToolHome(tool) + FS.file(tool.Format(), FileKind.Config);
 
-        public FS.FilePath Script(ToolId tool, string name)
+        public FS.FolderPath Scripts(Actor tool)
+            => ToolHome(tool) + FS.folder(scripts);
+
+        public FS.FilePath Script(Actor tool, string name)
             => Scripts(tool) + FS.file(name, FS.Cmd);
-
-        public ToolWs(IRootedArchive root)
-            : base(root.Root)
-        {
-            ConfigLookup = dict<ToolId,ToolConfig>();
-            Configs = array<ToolConfig>();
-        }
-
-        public DbSources Logs()
-            => new DbSources(Root, ApiGranules.logs);
 
         public FS.FilePath Inventory()
             => Root + FS.folder(admin) + FS.file(inventory, FS.Txt);
@@ -114,16 +107,16 @@ namespace Z0
             get => Configs;
         }
 
-        public bool Settings(ToolId id, out ToolConfig dst)
-            => ConfigLookup.TryGetValue(id, out dst);
+        public bool Settings(Actor tool, out ToolConfig dst)
+            => ConfigLookup.TryGetValue(tool, out dst);
 
-        public void Configure(ToolId id, in ToolConfig src)
-            => ConfigLookup[id] = src;
+        public void Configure(Actor tool, in ToolConfig src)
+            => ConfigLookup[tool] = src;
 
         public ToolWs Configure(ToolConfig[] src)
         {
             Configs = src;
-            ConfigLookup = src.Select(x => (x.ToolId, x)).ToDictionary();
+            ConfigLookup = src.Select(x => (x.Tool, x)).ToDictionary();
             return this;
         }
     }

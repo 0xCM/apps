@@ -16,7 +16,7 @@ namespace Z0
         public uint Index;
 
         [Render(16)]
-        public Name Identity;
+        public NameOld Identity;
 
         [Render(16)]
         public MemoryAddress StartAddress;

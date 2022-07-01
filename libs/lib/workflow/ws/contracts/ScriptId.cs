@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Identifies an internal or external tool
     /// </summary>
-    public struct ScriptId : ITypedIdentity<ScriptId,string>
+    public struct ScriptId
     {
         public string Id {get;}
 

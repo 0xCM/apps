@@ -22,7 +22,7 @@ namespace Z0
             Value = val;
         }
 
-        public Name Name
+        public NameOld Name
         {
             [MethodImpl(Inline)]
             get => Var.Name;

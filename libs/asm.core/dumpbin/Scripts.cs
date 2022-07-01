@@ -10,32 +10,32 @@ namespace Z0
 
         public readonly struct Scripts
         {
-            public static ToolScript DumpObj(FS.FolderPath SrcDir, FS.FileName SrcFile, FS.FolderPath DstDir)
+            public static ToolScript DumpObj(IToolWs ws, FS.FileName SrcFile, FS.FolderPath DstDir)
             {
                 const string ScriptId = "dump-obj";
                 var result = Outcome.Success;
-                return ToolCmd.script(dumpbin, ScriptId, vars(SrcDir,SrcFile,DstDir));
+                return ToolCmd.script(ws, dumpbin, ScriptId, vars(ws.Inputs(),SrcFile,DstDir));
             }
 
-            public static ToolScript DumpDll(FS.FolderPath SrcDir, FS.FileName SrcFile, FS.FolderPath DstDir)
+            public static ToolScript DumpDll(IToolWs ws, FS.FileName SrcFile, FS.FolderPath DstDir)
             {
                 const string ScriptId = "dump-dll";
                 var result = Outcome.Success;
-                return ToolCmd.script(dumpbin, ScriptId, vars(SrcDir,SrcFile,DstDir));
+                return ToolCmd.script(ws, dumpbin, ScriptId, vars(ws.Inputs(),SrcFile,DstDir));
             }
 
-            public static ToolScript DumpExe(FS.FolderPath SrcDir, FS.FileName SrcFile, FS.FolderPath DstDir)
+            public static ToolScript DumpExe(IToolWs ws, FS.FileName SrcFile, FS.FolderPath DstDir)
             {
                 const string ScriptId = "dump-exe";
                 var result = Outcome.Success;
-                return ToolCmd.script(dumpbin, ScriptId, vars(SrcDir,SrcFile,DstDir));
+                return ToolCmd.script(ws, dumpbin, ScriptId, vars(ws.Inputs(), SrcFile,DstDir));
             }
 
-            public static ToolScript DumpLib(FS.FolderPath SrcDir, FS.FileName SrcFile, FS.FolderPath DstDir)
+            public static ToolScript DumpLib(IToolWs ws, FS.FileName SrcFile, FS.FolderPath DstDir)
             {
                 const string ScriptId = "dump-lib";
                 var result = Outcome.Success;
-                return ToolCmd.script(dumpbin, ScriptId, vars(SrcDir,SrcFile,DstDir));
+                return ToolCmd.script(ws, dumpbin, ScriptId, vars(ws.Inputs(), SrcFile, DstDir));
             }
 
             static CmdVars vars(FS.FolderPath SrcDir, FS.FileName SrcFile, FS.FolderPath DstDir)

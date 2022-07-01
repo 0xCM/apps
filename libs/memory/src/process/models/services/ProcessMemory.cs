@@ -90,7 +90,7 @@ namespace Z0
             => @base(Path.GetFileNameWithoutExtension(src.Location));
 
         [MethodImpl(Inline), Op]
-        public static MemoryAddress @base(Name procname)
+        public static MemoryAddress @base(NameOld procname)
         {
             var match =  procname.Content;
             var module = ImageMemory.modules(Process.GetCurrentProcess()).Where(m => Path.GetFileNameWithoutExtension(m.ImagePath.Name) == match).First();

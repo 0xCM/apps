@@ -12,12 +12,12 @@ namespace Z0
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public class Var<T> : IVar<Value<T>>
     {
-        public Name Name {get;}
+        public NameOld Name {get;}
 
         readonly Func<T> Resolver;
 
         [MethodImpl(Inline)]
-        public Var(Name name, Func<T> resolver)
+        public Var(NameOld name, Func<T> resolver)
         {
             Name = name;
             Resolver = resolver;

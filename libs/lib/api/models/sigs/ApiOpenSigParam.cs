@@ -11,7 +11,7 @@ namespace Z0
     {
         public ushort Position {get;}
 
-        public Name Name {get;}
+        public NameOld Name {get;}
 
         [MethodImpl(Inline)]
         public ApiOpenSigParam(ushort position, string name)

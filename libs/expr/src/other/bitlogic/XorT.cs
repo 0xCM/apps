@@ -25,7 +25,7 @@ namespace Z0.Ops.Scalar
             Right = b;
         }
 
-        public Name OpName
+        public NameOld OpName
             => "xor<{0}>";
 
         public BinaryBitLogicKind Kind

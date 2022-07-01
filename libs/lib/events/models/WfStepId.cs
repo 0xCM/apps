@@ -14,7 +14,7 @@ namespace Z0
             => HostName.Contains(Chars.Comma) && HostName.Contains(Chars.Dot) ? HostName.LeftOfFirst(Chars.Comma).RightOfLast(Chars.Dot) : HostName;
 
         [MethodImpl(Inline)]
-        public WfStepId(Name name)
+        public WfStepId(NameOld name)
         {
             HostName = name;
             HostKey = CliToken.Empty;
@@ -82,7 +82,7 @@ namespace Z0
         public static implicit operator WfStepId(Type control)
             => new WfStepId(control);
 
-        public static implicit operator WfStepId(Name name)
+        public static implicit operator WfStepId(NameOld name)
             => new WfStepId(name);
     }
 }

@@ -6,12 +6,12 @@ namespace Z0
 {
     public readonly struct ToolDeployment
     {
-        public readonly ToolId Id;
+        public readonly ToolIdOld Id;
 
         public readonly FS.FilePath Path;
 
         [MethodImpl(Inline)]
-        public ToolDeployment(ToolId id, FS.FilePath path)
+        public ToolDeployment(ToolIdOld id, FS.FilePath path)
         {
             Id = id;
             Path = path;
@@ -24,7 +24,7 @@ namespace Z0
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator ToolDeployment((ToolId id, FS.FilePath path) src)
+        public static implicit operator ToolDeployment((ToolIdOld id, FS.FilePath path) src)
             => new ToolDeployment(src.id, src.path);
     }
 }

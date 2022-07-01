@@ -15,9 +15,9 @@ namespace Z0
         public Settings Config(FS.FilePath src)
             => Settings.config(src);
 
-        public ConstLookup<ToolId,ToolHelpDoc> LoadHelpDocs(IDbSources src)
+        public ConstLookup<ToolIdOld,ToolHelpDoc> LoadHelpDocs(IDbSources src)
         {
-            var dst = dict<ToolId,ToolHelpDoc>();
+            var dst = dict<ToolIdOld,ToolHelpDoc>();
             var files = src.Files(FileKind.Help);
             iter(files, file =>{
                 var fmt = file.FileName.Format();
@@ -31,11 +31,11 @@ namespace Z0
             return dst;
         }
 
-        public Index<ToolHelpDoc> EmitHelp(FS.FolderPath home)
+        public Index<ToolHelpDoc> EmitHelp(IToolWs ws)
         {
             var result = Outcome.Success;
-            var paths = ToolBox.CalcHelpPaths(home);
-            var commands = ToolBox.BuildHelpCommands(home);
+            var paths = ToolBox.CalcHelpPaths(ws.Home);
+            var commands = ToolBox.BuildHelpCommands(ws);
             var count = commands.Length;
             var docs = list<ToolHelpDoc>();
             for(var i=0; i<count; i++)

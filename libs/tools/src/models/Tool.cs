@@ -6,38 +6,36 @@ namespace Z0
 {
     public readonly struct Tool : ITool
     {
-        public readonly ToolId ToolId;
+        public readonly Actor ToolId;
 
         [MethodImpl(Inline)]
-        public Tool(ToolId id)
+        public Tool(Actor id)
         {
             ToolId = id;
         }
 
-        public string Name
-            => ToolId.Format();
-
         public string Format()
-            => Name;
+            => ToolId.Format();
 
         public override string ToString()
             => Format();
 
-        ToolId ITool.ToolId
+        Actor ITool.ToolId
             => ToolId;
 
         [MethodImpl(Inline)]
-        public static implicit operator Tool(ToolId id)
+        public static implicit operator Tool(Actor id)
             => new Tool(id);
 
         [MethodImpl(Inline)]
-        public static implicit operator Actor(Tool tool)
-            => new Actor(tool.Name);
+        public static implicit operator Actor(Tool src)
+            => src.ToolId;
 
         [MethodImpl(Inline)]
-        public static implicit operator Tool(Actor src)
-            => new Tool(src.Name);
+        public static implicit operator Tool(string src)
+            => new Tool(src);
 
-        public static Tool Empty => new Tool(ToolId.Empty);
+
+        public static Tool Empty => new Tool(Actor.Empty);
     }
 }

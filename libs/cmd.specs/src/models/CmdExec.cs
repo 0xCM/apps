@@ -9,10 +9,10 @@ namespace Z0
     {
         public const string CmdName = "exec-wf";
 
-        public Name WorkflowName;
+        public NameOld WorkflowName;
 
         [MethodImpl(Inline)]
-        public CmdExec(Name name)
+        public CmdExec(NameOld name)
             => WorkflowName = name;
 
         [MethodImpl(Inline)]
@@ -30,7 +30,7 @@ namespace Z0
             => new CmdExec(name);
 
         [MethodImpl(Inline)]
-        public static implicit operator CmdExec(Name name)
+        public static implicit operator CmdExec(NameOld name)
             => new CmdExec(name);
 
         public static bool operator ==(CmdExec a, CmdExec b)
@@ -39,6 +39,6 @@ namespace Z0
         public static bool operator !=(CmdExec a, CmdExec b)
             => !a.Equals(b);
 
-        public static CmdExec Empty => new CmdExec(Name.Empty);
+        public static CmdExec Empty => new CmdExec(NameOld.Empty);
     }
 }

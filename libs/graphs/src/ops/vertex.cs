@@ -12,7 +12,7 @@ namespace Z0
                 => new Vertex<V>(value);
 
         [MethodImpl(Inline)]
-        public static NamedVertex<V> vertex<V>(Name name, V value)
+        public static NamedVertex<V> vertex<V>(NameOld name, V value)
             where V : IEquatable<V>
                 => new NamedVertex<V>(name,value);
     }

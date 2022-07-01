@@ -11,9 +11,9 @@ namespace Z0
 
     partial struct XmlParts
     {
-        public readonly struct EntityRef : IXmlPart<Name>
+        public readonly struct EntityRef : IXmlPart<NameOld>
         {
-            public Name Value {get;}
+            public NameOld Value {get;}
 
             [MethodImpl(Inline)]
             public EntityRef(string value)

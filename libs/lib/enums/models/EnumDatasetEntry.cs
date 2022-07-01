@@ -37,7 +37,7 @@ namespace Z0
         /// <summary>
         /// The literal name
         /// </summary>
-        public Name Name;
+        public NameOld Name;
 
         /// <summary>
         /// The description, if available
@@ -45,7 +45,7 @@ namespace Z0
         public string Description;
 
         [MethodImpl(Inline)]
-        public EnumDatasetEntry(CliToken id, CliToken enumId, uint index, Name name, ulong scalar, string description)
+        public EnumDatasetEntry(CliToken id, CliToken enumId, uint index, NameOld name, ulong scalar, string description)
         {
             Id = id;
             EnumId = enumId;

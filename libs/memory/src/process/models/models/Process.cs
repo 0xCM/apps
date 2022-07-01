@@ -213,7 +213,7 @@ namespace Z0
         // Exceptions:
         //   T:System.InvalidOperationException:
         //     There is no process associated with this System.Diagnostics.Process object.
-        public Name MachineName
+        public NameOld MachineName
         {
             [MethodImpl(Inline)]
             get => Subject.MachineName;
@@ -550,7 +550,7 @@ namespace Z0
         //
         //   T:System.NotSupportedException:
         //     The process is not on this computer.
-        public Name ProcessName
+        public NameOld ProcessName
         {
             [MethodImpl(Inline)]
             get => Subject.ProcessName;

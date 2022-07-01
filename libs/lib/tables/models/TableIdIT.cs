@@ -24,7 +24,7 @@ namespace Z0
             Index = index;
         }
 
-        public Name Identifier
+        public NameOld Identifier
             => Value.Identifier;
 
         [MethodImpl(Inline)]

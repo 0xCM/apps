@@ -17,7 +17,7 @@ namespace Z0
 
         public uint Position {get;}
 
-        public Name Name {get;}
+        public NameOld Name {get;}
 
         public E Literal {get;}
 

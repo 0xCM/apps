@@ -6,7 +6,7 @@ namespace Z0
 {
     public struct CmdVar
     {
-        public readonly Name Name;
+        public readonly VarName Name;
 
         string _Value;
 

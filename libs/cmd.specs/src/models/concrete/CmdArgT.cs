@@ -8,7 +8,7 @@ namespace Z0
     {
         public readonly uint Index;
 
-        public readonly Name Name;
+        public readonly NameOld Name;
 
         public readonly T Value;
 

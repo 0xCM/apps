@@ -38,9 +38,9 @@ namespace Z0
 
         OmniScript OmniScript => Wf.OmniScript();
 
-        public Index<ToolCmdLine> BuildHelpCommands(FS.FolderPath src)
+        public Index<ToolCmdLine> BuildHelpCommands(IToolWs ws)
         {
-            var profiles = LoadProfileLookup(src).Values;
+            var profiles = LoadProfileLookup(ws.Home).Values;
             var count = profiles.Length;
             var dst = list<ToolCmdLine>();
             for(var i=0; i<count; i++)
@@ -49,15 +49,15 @@ namespace Z0
                 ref readonly var tool = ref profile.Id;
                 if(profile.HelpCmd.IsEmpty)
                     continue;
-                dst.Add(ToolCmd.cmdline(tool, string.Format("{0} {1}", profile.Path.Format(PathSeparator.BS), profile.HelpCmd)));
+                dst.Add(ToolCmd.cmdline(ws, tool, string.Format("{0} {1}", profile.Path.Format(PathSeparator.BS), profile.HelpCmd)));
             }
             dst.Sort();
             return dst.ToArray();
         }
 
-        public ConstLookup<ToolId,FS.FilePath> CalcHelpPaths(FS.FolderPath src)
+        public ConstLookup<Actor,FS.FilePath> CalcHelpPaths(FS.FolderPath src)
         {
-            var dst = new Lookup<ToolId,FS.FilePath>();
+            var dst = new Lookup<Actor,FS.FilePath>();
             var profiles = LoadProfileLookup(src).Values;
             var count = profiles.Length;
             for(var i=0; i<count; i++)
@@ -73,15 +73,15 @@ namespace Z0
             return dst.Seal();
         }
 
-        public ConstLookup<ToolId,ToolProfile> InferProfiles(FS.FolderPath src)
+        public ConstLookup<Actor,ToolProfile> InferProfiles(FS.FolderPath src)
         {
             var @base = FS.FolderPath.Empty;
-            var members = Index<ToolId>.Empty;
+            var members = Index<Actor>.Empty;
             var config = src + FS.file("toolset", FS.Settings);
             if(!config.Exists)
             {
                 Error(FS.missing(config));
-                return dict<ToolId,ToolProfile>();
+                return dict<Actor,ToolProfile>();
             }
 
             using var reader = config.Utf8LineReader();
@@ -105,7 +105,7 @@ namespace Z0
             return LoadProfileLookup(src);
         }
 
-        public FS.FilePath ToolPath(FS.FolderPath root, ToolId tool)
+        public FS.FilePath ToolPath(FS.FolderPath root, Actor tool)
         {
             if(LoadProfileLookup(root).Find(tool, out var profile))
                 return profile.Path;
@@ -113,14 +113,14 @@ namespace Z0
                 return FS.FilePath.Empty;
         }
 
-        public ReadOnlySpan<string> Configure(ToolId tool)
+        public ReadOnlySpan<string> Configure(Actor tool)
         {
             var script = ToolWs.ConfigScript(tool);
             var result = OmniScript.Run(script, out _);
             return ToolWs.ConfigPath(tool).ReadLines();
         }
 
-        public Outcome RunScript(ToolId tool, string name)
+        public Outcome RunScript(Actor tool, string name)
         {
             var path = ToolWs.Script(tool, name);
             if(!path.Exists)
@@ -151,7 +151,7 @@ namespace Z0
             EmittedFile(emitting, 2);
         }
 
-        public Settings LoadConfig(ToolId tool)
+        public Settings LoadConfig(Actor tool)
         {
             var dst = Settings.Empty;
             var src = ToolWs.ConfigPath(tool);
@@ -160,7 +160,7 @@ namespace Z0
             return dst;
         }
 
-        public Index<string> LoadDocs(ToolId tool)
+        public Index<string> LoadDocs(Actor tool)
         {
             var src = ToolWs.ToolDocs(tool);
             var dst = bag<string>();
@@ -168,16 +168,16 @@ namespace Z0
             return dst.ToIndex();
         }
 
-        public Settings UpdateEnv()
-        {
-            var path = ToolWs.ToolBox.Path(FS.file("show-env-config", FS.Cmd));
-            var cmd = CmdScripts.cmdline(path.Format(PathSeparator.BS));
-            return Settings.parse(OmniScript.RunCmd(cmd));
-        }
+        // public Settings UpdateEnv()
+        // {
+        //     var path = ToolWs.Path(FS.file("show-env-config", FS.Cmd));
+        //     var cmd = CmdScripts.cmdline(path.Format(PathSeparator.BS));
+        //     return Settings.parse(OmniScript.RunCmd(cmd));
+        // }
 
         public Settings LoadEnv()
         {
-            var path = ToolWs.ToolBox.Path(FS.file("tools", FileKind.Env));
+            var path = ToolWs.Home + FS.file("tools", FileKind.Env);
             return Settings.parse(path.ReadNumberedLines());
         }
 
@@ -223,7 +223,7 @@ namespace Z0
         //     return true;
         // }
 
-        void LoadProfiles(FS.FilePath src, Lookup<ToolId,ToolProfile> dst)
+        void LoadProfiles(FS.FilePath src, Lookup<Actor,ToolProfile> dst)
         {
             var content = src.ReadUnicode();
             var result = TextGrids.parse(content, out var grid);
@@ -246,11 +246,11 @@ namespace Z0
             }
         }
 
-        public ConstLookup<ToolId,ToolProfile> LoadProfileLookup(FS.FolderPath dir)
+        public ConstLookup<Actor,ToolProfile> LoadProfileLookup(FS.FolderPath dir)
         {
             var running = Running(string.Format("Loading tool profiles from {0}", dir));
             var sources = dir.Match("tool.profiles", FS.Csv, true);
-            var dst = new Lookup<ToolId,ToolProfile>();
+            var dst = new Lookup<Actor,ToolProfile>();
             iter(sources, src => LoadProfiles(src,dst));
             var lookup = dst.Seal();
             Ran(running, string.Format("Collected {0} profile definitions", lookup.EntryCount));

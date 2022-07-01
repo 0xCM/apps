@@ -7,15 +7,15 @@ namespace Z0
     public readonly struct TextProp : ITextual
     {
         [MethodImpl(Inline), Op]
-        public static TextProp define<T>(Name name, T value)
+        public static TextProp define<T>(NameOld name, T value)
             => new TextProp(name, string.Format("{0}", value));
 
-        public Name Name {get;}
+        public NameOld Name {get;}
 
         public TextBlock Value {get;}
 
         [MethodImpl(Inline)]
-        public TextProp(Name name, TextBlock value)
+        public TextProp(NameOld name, TextBlock value)
         {
             Name = name;
             Value = value;

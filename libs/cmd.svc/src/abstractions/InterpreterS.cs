@@ -29,7 +29,7 @@ namespace Z0
 
         }
 
-        public Name Name {get;}
+        public NameOld Name {get;}
 
         Duration Frequency;
 

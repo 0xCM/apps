@@ -26,14 +26,14 @@ namespace Z0.llvm
 
         LlvmLineMaps LineMaps => Wf.LlvmLineMaps();
 
-        ToolId SelectedTool;
+        ToolIdOld SelectedTool;
 
         FS.Files TdFiles()
             => Z0.DbArchive.filter(Paths.LlvmRoot, FS.ext(td)).Files().Array();
 
         public LlvmCmd()
         {
-            SelectedTool = ToolId.Empty;
+            SelectedTool = ToolIdOld.Empty;
         }
     }
 }

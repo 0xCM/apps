@@ -8,7 +8,7 @@ namespace Z0
     {
         public uint Index {get;}
 
-        public Name Name {get;}
+        public NameOld Name {get;}
 
         public string Value {get;}
 

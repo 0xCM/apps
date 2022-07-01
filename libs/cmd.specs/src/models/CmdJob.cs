@@ -6,12 +6,12 @@ namespace Z0
 {
     public readonly struct CmdJob
     {
-        public readonly Name Name;
+        public readonly NameOld Name;
 
         public readonly TextBlock Spec;
 
         [MethodImpl(Inline)]
-        public CmdJob(Name name, TextBlock spec)
+        public CmdJob(NameOld name, TextBlock spec)
         {
             Name = name;
             Spec = spec;

@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     public class ToolCmdFlow<S,T> : DataFlow<Tool,S,T>
     {
         public ToolCmdFlow(Tool tool, S src, T dst)

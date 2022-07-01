@@ -13,7 +13,7 @@ namespace Z0
 
         public MemoryAddress Base;
 
-        public Name Uri;
+        public NameOld Uri;
 
         public BinaryCode Encoded;
     }

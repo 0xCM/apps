@@ -6,9 +6,9 @@ namespace Z0
 {
     public class DiscreteVar : IVar
     {
-        Index<Name> _Names;
+        Index<NameOld> _Names;
 
-        public Name Name {get; private set;}
+        public NameOld Name {get; private set;}
 
 
         public Hash32 Hash
@@ -17,19 +17,19 @@ namespace Z0
             get => Name.Hash;
         }
 
-        public DiscreteVar(Name[] domain, Name name)
+        public DiscreteVar(NameOld[] domain, NameOld name)
         {
             _Names = domain;
             Name = name;
         }
 
-        public ReadOnlySpan<Name> Names
+        public ReadOnlySpan<NameOld> Names
         {
             [MethodImpl(Inline)]
             get => _Names;
         }
 
-        public DiscreteVar Select(Name name)
+        public DiscreteVar Select(NameOld name)
         {
             Name = name;
             return this;

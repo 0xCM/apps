@@ -8,14 +8,14 @@ namespace Z0
 
     public class ApiOperationSig : ITextual
     {
-        public Name Name {get;}
+        public NameOld Name {get;}
 
         public ApiOperandSig Return {get;}
 
         public Index<ApiOperandSig> Operands {get;}
 
         [MethodImpl(Inline)]
-        public ApiOperationSig(Name name, ApiOperandSig @return, ApiOperandSig[] operands)
+        public ApiOperationSig(NameOld name, ApiOperandSig @return, ApiOperandSig[] operands)
         {
             Name = name;
             Return = @return;
@@ -54,7 +54,7 @@ namespace Z0
         public static ApiOperationSig Empty
         {
             [MethodImpl(Inline)]
-            get => new ApiOperationSig(Name.Empty, ApiOperandSig.Empty, Index<ApiOperandSig>.Empty);
+            get => new ApiOperationSig(NameOld.Empty, ApiOperandSig.Empty, Index<ApiOperandSig>.Empty);
         }
     }
 }
