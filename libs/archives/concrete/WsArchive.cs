@@ -48,6 +48,5 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Root.Root;
         }
-
     }
 }

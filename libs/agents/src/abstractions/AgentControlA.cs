@@ -21,7 +21,7 @@ namespace Z0
             return dst;
         }
 
-        protected C Context;
+        protected new C Context;
 
         public AgentStats SummaryStats {get; protected set;}
 

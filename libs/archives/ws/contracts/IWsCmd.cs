@@ -4,14 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Free]
-    public interface IDataType : IHashed, INullity
-    {
-    }
-
-    [Free]
-    public interface IDataType<T> : IDataType, IEquatable<T>, IComparable<T>
-        where T : IDataType<T>
+    public interface IWsCmd<C> : ICmd<C>
+        where C : unmanaged, IWsCmd<C>
     {
 
     }

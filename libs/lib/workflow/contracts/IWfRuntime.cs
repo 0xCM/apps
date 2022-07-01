@@ -106,14 +106,11 @@ namespace Z0
         WfFileWritten Flow(FS.FilePath dst)
             => new WfFileWritten(this, dst, NextExecToken());
 
-        /// <summary>
-        /// Provides a <see cref='IWfDb'/> rooted at a shell-configured location
-        /// </summary>
         IWfDb Db()
-            => new WfDb(this, Env.Db);
+            => new WfDb(this, FS.dir(@"d:\views\db\apps"));
+        // IWfDb Db()
+        //     => new WfDb(this, Env.Db);
 
-        IWfDb Db(FS.FolderPath root)
-            => new WfDb(this, root);
 
         EventId Raise<E>(in E e)
             where E : IWfEvent
@@ -148,7 +145,6 @@ namespace Z0
 
         void Error<T>(WfHost host, T data, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine]int? line = null)
             => signal(this, host).Error(data, Events.originate("WorkflowError", caller, file, line));
-
 
         WfExecFlow<Type> Creating(Type host)
         {

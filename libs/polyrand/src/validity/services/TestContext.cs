@@ -141,7 +141,7 @@ namespace Z0
             => (PartId)((ulong)Assembly.GetEntryAssembly().Id());
 
         protected virtual FS.FolderPath UnitDataDir
-            => Wf.Env.Logs + FS.folder("test") + FS.folder(GetType().Name);
+            => Wf.Db().Root + FS.folder("test") + FS.folder(GetType().Name);
 
         protected static FS.FileExt LogExt => FS.Log;
 

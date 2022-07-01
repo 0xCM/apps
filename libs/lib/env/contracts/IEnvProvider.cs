@@ -4,8 +4,5 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IEnvProvider
-    {
-        EnvData Env {get;}
-    }
+
 }

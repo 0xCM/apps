@@ -46,6 +46,12 @@ namespace Z0
             get => Equals(Null);
         }
 
+        public bool IsNotNull
+        {
+            [MethodImpl(Inline)]
+            get => !IsNull;
+        }
+
         public bool IsEmpty
         {
             [MethodImpl(Inline)]

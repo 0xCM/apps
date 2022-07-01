@@ -4,15 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     using Asm;
+
     using static AsmPrefixCodes;
+    using static core;
 
     using gp32 = AsmRegTokens.Gp32Reg;
 
     [ApiHost]
-    public partial class AsmChecks : CheckRunner<AsmChecks>
+    public partial class AsmCheckCmd : CheckRunner<AsmCheckCmd>
     {
         SdmOpCodes OpCodes => Wf.AsmOpCodes();
 

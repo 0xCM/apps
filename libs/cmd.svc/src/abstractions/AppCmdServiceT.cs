@@ -9,7 +9,7 @@ namespace Z0
     using static core;
 
     [CmdProvider]
-    public abstract class AppCmdService<T> : WfSvc<T>, IAppCmdService
+    public abstract class AppCmdService<T> : CmdService<T>, IAppCmdService
         where T : AppCmdService<T>, new()
     {
         public static T create(IWfRuntime wf, params ICmdProvider[] src)
@@ -22,103 +22,63 @@ namespace Z0
 
         protected AppCmdService()
         {
-            _Context = new();
             PromptTitle = "cmd";
-            Actions = CmdActions.discover((T)this);
         }
 
-        public CmdActions Actions {get;}
+        // IWsProject _Project;
 
-        public WsCatalog ProjectFiles {get; private set;}
-
-        IWsProject _Project;
-
-        ConcurrentDictionary<ProjectId,WsContext> _Context = new();
+        // ConcurrentDictionary<ProjectId,WsContext> _Context = new();
 
         IWorkerLog Witness;
 
         Option<IToolCmdShell> Shell;
 
-        protected IAppCmdRunner Commands;
+        public override IDispatcher Dispatcher => GlobalServices.Instance.Injected<ActionDispatcher>();
 
-        public IDispatcher Dispatcher => GlobalServices.Instance.Injected<ActionDispatcher>();
+        // void Project(IWsProject ws)
+        // {
+        //     _Project = Require.notnull(ws);
+        //     ProjectFiles = WsCatalog.load(ws);
+        // }
 
-        void Project(IWsProject ws)
-        {
-            _Project = Require.notnull(ws);
-            ProjectFiles = WsCatalog.load(ws);
-        }
+        // [CmdOp("project")]
+        // public void LoadProject(CmdArgs args)
+        //     => LoadProjectSources(AppDb.LlvmModel(arg(args,0).Value));
 
-        [CmdOp("project")]
-        public void LoadProject(CmdArgs args)
-            => LoadProjectSources(AppDb.LlvmModel(arg(args,0).Value));
+        // bool LoadProjectSources(IWsProject ws)
+        // {
+        //     if(ws == null)
+        //     {
+        //         Error("Project unspecified");
+        //         return false;
+        //     }
 
-        bool LoadProjectSources(IWsProject ws)
-        {
-            if(ws == null)
-            {
-                Error("Project unspecified");
-                return false;
-            }
+        //     Status($"Loading project from {ws.Home()}");
 
-            Status($"Loading project from {ws.Home()}");
+        //     LoadProjectInner(ws);
 
-            Project(ws);
+        //     var dir = ws.Home();
+        //     if(dir.Exists)
+        //         Files(ws.SrcFiles());
+        //     return true;
+        // }
 
-            var dir = ws.Home();
-            if(dir.Exists)
-                Files(ws.SrcFiles());
-            return true;
-        }
 
-        protected void LoadProject(IWsProject src)
-        {
-            if(src == null)
-            {
-                Error("Project unspecified");
-                return;
-            }
+        // [MethodImpl(Inline)]
+        // public IWsProject Project()
+        // {
+        //     if(_Project == null)
+        //     {
+        //         Errors.Throw("Project is null");
+        //     }
+        //     return _Project;
+        // }
 
-            var outcome = Outcome.Success;
-            var dir = src.Home();
-            outcome = dir.Exists;
-            if(outcome)
-                Files(src.SrcFiles());
-            else
-                outcome = (false, Msg.ProjectUndefined.Format(src.Project));
-        }
-
-        [CmdOp("project/home")]
-        protected void ProjectHome()
-            => Write(Context().Project.Home());
-
-        [CmdOp("project/files")]
-        protected void ListProjectFiles(CmdArgs args)
-        {
-            if(args.Count != 0)
-                iter(Context().Catalog.Entries(arg(args,0)), file => Write(file.Format()));
-            else
-                iter(Context().Catalog.Entries(), file => Write(file.Format()));
-        }
-
-        protected void ProjectLoad(string name)
-            => Dispatcher?.Dispatch("project", new CmdArg[]{new CmdArg(EmptyString, name)});
-
-        [MethodImpl(Inline)]
-        public IWsProject Project()
-        {
-            if(_Project == null)
-            {
-                Errors.Throw("Project is null");
-            }
-            return _Project;
-        }
-
-        protected WsContext Context()
-        {
-            var project = Project();
-            return _Context.GetOrAdd(project.Id, _ => WsContext.load(project));
-        }
+        // protected WsContext Context()
+        // {
+        //     var project = Project();
+        //     return _Context.GetOrAdd(project.Id, _ => WsContext.load(project));
+        // }
 
         protected override void OnInit()
         {
@@ -129,10 +89,6 @@ namespace Z0
 
         protected AppSvcOps AppSvc => Wf.AppSvc();
 
-        [CmdOp("commands")]
-        protected void EmitCommands()
-            => EmitCommands(AppDb.ApiTargets().Path(FS.file($"api.commands.shell.{controller().Id().Format()}", FS.Csv)));
-
         [CmdOp("runtime/cpucore")]
         protected Outcome ShowCurrentCore(CmdArgs args)
         {
@@ -140,23 +96,16 @@ namespace Z0
             return true;
         }
 
-        public void RunCmd(string name)
-        {
-            var result = Dispatcher.Dispatch(name);
-            if(result.Fail)
-                Error(result.Message);
-        }
+        // public void RunCmd(string name)
+        // {
+        //     var result = Dispatcher.Dispatch(name);
+        //     if(result.Fail)
+        //         Error(result.Message);
+        // }
 
-        public void RunCmd(string name, CmdArgs args)
-            => Dispatcher.Dispatch(name, args);
+        // public void RunCmd(string name, CmdArgs args)
+        //     => Dispatcher.Dispatch(name, args);
 
-        public void DispatchJobs(FS.FilePath src)
-        {
-            var lines = src.ReadNumberedLines(true);
-            var count = lines.Count;
-            for(var i=0; i<count; i++)
-                Dispatch(ShellCmd.parse(lines[i].Content));
-        }
 
         [CmdOp("jobs/run")]
         Outcome RunJobs(CmdArgs args)
@@ -187,15 +136,6 @@ namespace Z0
                 Warn(string.Format("No jobs identified by '{0}'", match));
         }
 
-        void EmitCommands(FS.FilePath dst)
-        {
-            var actions = Dispatcher.Commands.Specs.Index().Sort();
-            var emitter = text.emitter();
-            iter(actions, cmd => emitter.AppendLine(cmd));
-            iter(actions, cmd => Write(cmd));
-            FileEmit(emitter.Emit(), actions.Count, dst);
-        }
-
         protected void DisplayCmdResponse(ReadOnlySpan<string> src)
         {
             for(var i=0; i<src.Length; i++)
@@ -203,21 +143,6 @@ namespace Z0
                 if(CmdResponse.parse(skip(src,i), out CmdResponse response))
                     Write(response);
             }
-        }
-
-        protected static CmdArg arg(in CmdArgs src, int index)
-            => ShellCmd.arg(src, index);
-
-        Outcome SelectTool(ToolId tool)
-        {
-            var result = Outcome.Success;
-            if(Shell.IsNone())
-            {
-                result = (false, "Target shell unspecified");
-                return result;
-            }
-
-            return Shell.Value.SelectTool(tool);
         }
 
         protected override void Disposing()
@@ -261,26 +186,26 @@ namespace Z0
             }
         }
 
-        public bool Dispatch(ShellCmdSpec cmd)
-        {
-            var result = Outcome.Success;
-            try
-            {
-                result = Dispatcher.Dispatch(cmd.Name, cmd.Args);
-                if(result.Fail)
-                    Error(result.Message ?? RP.Null);
-                else
-                {
-                    if(nonempty(result.Message))
-                        Status(result.Message);
-                }
-            }
-            catch(Exception e)
-            {
-                Error(e);
-                result = e;
-            }
-            return result;
-        }
+        // public bool Dispatch(ShellCmdSpec cmd)
+        // {
+        //     var result = Outcome.Success;
+        //     try
+        //     {
+        //         result = Dispatcher.Dispatch(cmd.Name, cmd.Args);
+        //         if(result.Fail)
+        //             Error(result.Message ?? RP.Null);
+        //         else
+        //         {
+        //             if(nonempty(result.Message))
+        //                 Status(result.Message);
+        //         }
+        //     }
+        //     catch(Exception e)
+        //     {
+        //         Error(e);
+        //         result = e;
+        //     }
+        //     return result;
+        // }
     }
 }

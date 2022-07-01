@@ -98,7 +98,7 @@ namespace Z0
 
         protected IProjectDb ProjectDb;
 
-        public EnvData Env {get; private set;}
+        public EnvData Env => data("Env", () => Z0.Env.load().Data);
 
         protected IEnvPaths Paths => new EnvPaths(Env);
 
@@ -119,7 +119,6 @@ namespace Z0
         public void Init(IWfRuntime wf)
         {
             Wf = wf;
-            Env = wf.Env;
             WfMsg = new WfMsgSvc(Wf, EffectiveHost, Env);
             WfEmit = new WfEmitters(Wf, EffectiveHost, Env);
             var flow = WfMsg.Creating(EffectiveHost);

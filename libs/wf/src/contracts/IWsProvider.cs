@@ -4,8 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IAppCmdRunner : ICmdRunner
+    public interface IWsProvider : IRootedArchive, IService
     {
-        void RunJobs(string match);
+        ref readonly WsId WsId {get;}
+
+        FS.FolderPath Home {get;}
+
+        FS.FolderPath IRootedArchive.Root
+            => Home;
     }
 }

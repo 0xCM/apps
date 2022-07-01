@@ -4,8 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly record struct Name<T> : INamed<Name<T>>
-        where T : unmanaged, ICharBlock<T>
+
+    [Free]
+    public interface ITool<T>
+        where T : unmanaged, IAsciSeq<T>
+    {
+        Name<T> Name {get;}
+    }
+
+    public readonly record struct Name<T> : IDataType<Name<T>>
+        where T : unmanaged, IAsciSeq<T>
     {
         public readonly T Data;
 

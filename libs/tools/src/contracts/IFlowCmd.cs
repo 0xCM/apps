@@ -16,7 +16,6 @@ namespace Z0
     {
         IActor IFlowCmd.Actor
             => new Tool(typeof(C).Tag<CmdAttribute>().MapValueOrDefault(x => x.Name, GetType().Name));
-
     }
 
     [Free]

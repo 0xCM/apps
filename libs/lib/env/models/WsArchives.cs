@@ -6,16 +6,28 @@ namespace Z0
 {
     using EN = SettingNames;
 
+    public class ConfigPaths
+    {
+        public static FS.FilePath app()
+            => FS.path(ExecutingPart.Component.Location).FolderPath + FS.file("app.settings", FileKind.Csv);
+
+        public static FS.FilePath cmd()
+            => Settings.path();
+    }
+
+    public class ConfigSets
+    {
+        public static Settings app()
+            => Settings.load(ConfigPaths.app());
+
+        public static Settings cmd()
+            => Settings.load(ConfigPaths.cmd());
+    }
+
     public class WsArchives
     {
-        public FS.FolderPath EnvSource()
-            => Settings.setting(Path(EN.EnvConfig), FS.dir);
-
-        public FS.FilePath EnvPath(string name)
-            => EnvSource() + FS.file(name, FileKind.Env);
-
         public static WsArchives load()
-            => load(Settings.load(AppSettings.path()));
+            => load(ConfigSets.app());
 
         public static WsArchives load(Settings src)
             => new WsArchives(src);
@@ -26,6 +38,12 @@ namespace Z0
         {
             Data = src;
         }
+
+        public FS.FolderPath EnvSource()
+            => Settings.setting(Path(EN.EnvConfig), FS.dir);
+
+        public FS.FilePath EnvPath(string name)
+            => EnvSource() + FS.file(name, FileKind.Env);
 
         public Setting Path(string name)
         {

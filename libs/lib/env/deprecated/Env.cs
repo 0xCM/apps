@@ -8,7 +8,7 @@ namespace Z0
 
     using N = EnvVarNames;
 
-    public class Env : IEnvProvider
+    public class Env
     {
         public static Env load()
             => new Env();
@@ -87,9 +87,6 @@ namespace Z0
 
         public ReadOnlySpan<IEnvVar> Provided
             => Members(this);
-
-        EnvData IEnvProvider.Env
-            => Data;
 
         static Index<IEnvVar> Members(Env src)
             => typeof(Env).GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly).Select(x => (IEnvVar)x.GetValue(src));

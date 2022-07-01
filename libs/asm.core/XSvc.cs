@@ -13,6 +13,9 @@ namespace Z0
     {
         sealed class Svc : AppServices<Svc>
         {
+            public AsmCheckCmd AsmCheckCmd(IWfRuntime wf)
+                => Service<AsmCheckCmd>(wf);
+
             public IntelSdm IntelSdm(IWfRuntime wf)
                 => Service<IntelSdm>(wf);
 
@@ -70,8 +73,6 @@ namespace Z0
             public X86Dispatcher X86Dispatcher(IWfRuntime wf)
                 => Service<X86Dispatcher>(wf);
 
-            public AsmChecks AsmChecks(IWfRuntime wf)
-                => Service<AsmChecks>(wf);
 
             public XedDisasm.Analyzer DisasmAnalyzer(IWfRuntime wf)
                 => Service<XedDisasm.Analyzer>(wf);
@@ -112,6 +113,12 @@ namespace Z0
         }
 
         static Svc Services => Svc.Instance;
+
+        public static AsmCoreCmd AsmCoreCmd(this IWfRuntime wf)
+            => Services.AsmCoreCmd(wf);
+
+        public static AsmCheckCmd AsmChecks(this IWfRuntime wf)
+            => Services.AsmCheckCmd(wf);
 
         public static IntelSdm IntelSdm(this IWfRuntime wf)
             => Services.IntelSdm(wf);
@@ -176,14 +183,8 @@ namespace Z0
         public static X86Dispatcher X86Dispatcher(this IWfRuntime wf)
             => Services.X86Dispatcher(wf);
 
-        public static AsmChecks AsmChecks(this IWfRuntime wf)
-            => Services.AsmChecks(wf);
-
         public static NasmCatalog NasmCatalog(this IWfRuntime wf)
             => Services.NasmCatalog(wf);
-
-        public static AsmCoreCmd AsmCoreCmd(this IWfRuntime wf)
-            => Services.AsmCoreCmd(wf);
 
         public static Nasm Nasm(this IWfRuntime wf)
             => Services.Nasm(wf);

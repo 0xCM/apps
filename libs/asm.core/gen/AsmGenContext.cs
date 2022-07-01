@@ -18,7 +18,7 @@ namespace Z0.Asm
 
         ImmOpRange ImmOps;
 
-        public SdmForm Form {get;}
+        public readonly SdmForm Form;
 
         public AsmGenContext()
         {

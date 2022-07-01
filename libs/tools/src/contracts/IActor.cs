@@ -9,11 +9,4 @@ namespace Z0
     {
         string Name {get;}
     }
-
-    [Free]
-    public interface IActor<A> : IActor
-        where A : IActor
-    {
-
-    }
 }

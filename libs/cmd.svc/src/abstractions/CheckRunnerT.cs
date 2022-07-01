@@ -14,7 +14,6 @@ namespace Z0
         protected CheckRunner()
         {
             Pll = true;
-
         }
 
         protected override void Initialized()

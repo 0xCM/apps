@@ -8,7 +8,7 @@ namespace Z0
     /// Characterizes nothing but is a marker for a type that, perhaps, defines something useful to someone
     /// </summary>
     [Free]
-    public interface IService : IEnvProvider
+    public interface IService
     {
         Type HostType => GetType();
 

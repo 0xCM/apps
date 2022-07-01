@@ -9,7 +9,7 @@ namespace Z0
     using static core;
     using static Asm.RegClasses;
 
-    partial class AsmChecks
+    partial class AsmCheckCmd
     {
         [CmdOp("asm/check/regs")]
         Outcome CheckRegstore(CmdArgs args)

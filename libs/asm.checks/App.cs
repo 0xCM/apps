@@ -4,14 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public struct FlowCmd : IFlowCmd
+    [Free]
+    sealed class App : AppCmdShell<App>
     {
-        public IActor Actor {get;}
-
-        [MethodImpl(Inline)]
-        public FlowCmd(IActor actor)
-        {
-            Actor = actor;
-        }
+        public static void Main(params string[] args)
+            => run(wf => AppCmd.commands(wf), args);
     }
 }

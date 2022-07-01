@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Identifies an internal or external tool
     /// </summary>
-    public struct ToolId : ITypedIdentity<ToolId,string>
+    public struct ToolId
     {
         public string Id {get;}
 

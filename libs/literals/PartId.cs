@@ -66,6 +66,9 @@ public enum PartId : byte
     [Symbol("assets")]
     Assets,
 
+    [Symbol("asm.checks")]
+    AsmChecks,
+
     [Symbol("numbers")]
     Numbers,
 

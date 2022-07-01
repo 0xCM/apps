@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IServiceContext : IEnvProvider
+    public interface IServiceContext
     {
         IEventSink EventSink {get;}
 

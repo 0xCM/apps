@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Free]
-    public abstract class Actor<A> : IActor<A>
+    public abstract class Actor<A> : IActor
         where A : Actor<A>,new()
     {
         public string Name {get;}

@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "..\\asm.models"
+		},
+		{
+			"path": "..\\archives"
+		},
+		{
+			"path": "..\\asm.core"
+		}
+	],
+	"settings": {}
+}

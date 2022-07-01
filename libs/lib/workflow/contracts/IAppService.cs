@@ -7,6 +7,8 @@ namespace Z0
     [Free]
     public interface IAppService : IService, IDisposable
     {
+        EnvData Env {get;}
+
         IWfRuntime Wf {get;}
 
         DevWs Ws {get;}
@@ -18,10 +20,7 @@ namespace Z0
         IWfEmitters WfEmit {get;}
 
         IWfDb Db
-            => Wf.Db();
-
-        EnvData IEnvProvider.Env
-            => Wf.Env;
+            => new WfDb(Wf,FS.dir(@"D:\views\db\apps"));
 
         void Init(IWfRuntime wf);
 

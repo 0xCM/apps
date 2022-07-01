@@ -6,7 +6,7 @@ namespace Z0
 {
     using static CodeExecCases;
 
-    partial class AsmChecks
+    partial class AsmCheckCmd
     {
         [CmdOp("asm/check/exec")]
         void CheckCodeExec()

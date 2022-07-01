@@ -5,7 +5,7 @@
 namespace Z0
 {
     /// <summary>
-    /// Identifies a concreate <see cref='ICmdSpec'/> realization
+    /// Identifies a concrete command specification
     /// </summary>
     [AttributeUsage(AttributeTargets.Struct)]
     public class CmdAttribute : Attribute

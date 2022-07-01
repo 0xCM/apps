@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    partial class AsmChecks
+    partial class AsmCheckCmd
     {
         [CmdOp("parsers/check")]
         void CheckParsers()

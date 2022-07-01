@@ -10,11 +10,117 @@ namespace Z0
     public abstract class WfSvc<S> : AppService<S>
         where S : WfSvc<S>, new()
     {
+        ConcurrentDictionary<ProjectId,WsContext> _Context = new();
+
+        IWsProject _Project;
+
+        Option<IToolCmdShell> Shell;
+
+        protected Outcome SelectTool(ToolId tool)
+        {
+            var result = Outcome.Success;
+            if(Shell.IsNone())
+            {
+                result = (false, "Target shell unspecified");
+                return result;
+            }
+
+            return Shell.Value.SelectTool(tool);
+        }
+
+        public WsCatalog ProjectFiles {get; protected set;}
+
+        protected WfSvc()
+        {
+
+        }
+
+        protected static CmdArg arg(in CmdArgs src, int index)
+            => ShellCmd.arg(src, index);
+
         protected static AppDb AppDb => AppDb.Service;
 
         protected IDbArchive DbArchive => Archives.archive(FS.dir(AppSettings.Find(SettingNames.DbRoot)));
 
         protected ToolWs ToolWs => new ToolWs(AppDb.Toolbase());
+
+        public Settings ShellSettings()
+            => Settings.table(Settings.path());
+
+        protected void LoadProjectInner(IWsProject ws)
+        {
+            _Project = Require.notnull(ws);
+            ProjectFiles = WsCatalog.load(ws);
+        }
+
+
+        [MethodImpl(Inline)]
+        public IWsProject Project()
+        {
+            if(_Project == null)
+            {
+                Errors.Throw("Project is null");
+            }
+            return _Project;
+        }
+
+        protected WsContext Context()
+        {
+            var project = Project();
+            return _Context.GetOrAdd(project.Id, _ => WsContext.load(project));
+        }
+
+        [CmdOp("project/home")]
+        protected void ProjectHome()
+            => Write(Context().Project.Home());
+
+        [CmdOp("project/files")]
+        protected void ListProjectFiles(CmdArgs args)
+        {
+            if(args.Count != 0)
+                iter(Context().Catalog.Entries(arg(args,0)), file => Write(file.Format()));
+            else
+                iter(Context().Catalog.Entries(), file => Write(file.Format()));
+        }
+
+        [CmdOp("project")]
+        public Outcome LoadProject(CmdArgs args)
+            => LoadProjectSources(AppDb.LlvmModel(arg(args,0).Value));
+
+        protected Outcome LoadProjectSources(IWsProject ws)
+        {
+            var result = Outcome.Success;
+            if(ws == null)
+                result = Outcome.fail("Project unspecified");
+            else
+            {
+                Status($"Loading project from {ws.Home()}");
+
+                LoadProjectInner(ws);
+
+                var dir = ws.Home();
+                if(dir.Exists)
+                    Files(ws.SrcFiles());
+            }
+            return result;
+        }
+
+        protected Outcome LoadProject(IWsProject src)
+        {
+            var result = Outcome.Success;
+            if(src == null)
+                result = Outcome.fail("Project unspecified");
+            else
+            {
+                var dir = src.Home();
+                result = dir.Exists;
+                if(result)
+                    Files(src.SrcFiles());
+                else
+                    result = Outcome.fail($"{src.Project.Id} not found");;
+            }
+            return result;
+        }
 
         public void Babble<T>(T content)
             => WfMsg.Babble(content);

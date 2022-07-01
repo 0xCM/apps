@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class AsmChecks
+    partial class AsmCheckCmd
     {
         [CmdOp("mem/check/blocks")]
         Outcome CheckBlockSize(CmdArgs args)

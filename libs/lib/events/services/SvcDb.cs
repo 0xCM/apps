@@ -1,21 +1,21 @@
-//-----------------------------------------------------------------------------
-// Copyright   :  (c) Chris Moore, 2020
-// License     :  MIT
-//-----------------------------------------------------------------------------
-namespace Z0
-{
-    sealed class SvcDb : Service<SvcDb>, IWfDb
-    {
-        public FS.FolderPath Root {get; private set;}
+// //-----------------------------------------------------------------------------
+// // Copyright   :  (c) Chris Moore, 2020
+// // License     :  MIT
+// //-----------------------------------------------------------------------------
+// namespace Z0
+// {
+//     sealed class SvcDb : Service<SvcDb>, IWfDb
+//     {
+//         public FS.FolderPath Root {get; private set;}
 
-        public SvcDb()
-        {
-            Root = FS.FolderPath .Empty;
-        }
+//         public SvcDb()
+//         {
+//             Root = FS.FolderPath .Empty;
+//         }
 
-        protected override void Initialized()
-        {
-            Root = Env.Db;
-        }
-    }
-}
+//         protected override void Initialized()
+//         {
+//             Root = Env.Db;
+//         }
+//     }
+// }

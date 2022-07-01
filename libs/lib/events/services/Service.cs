@@ -13,8 +13,6 @@ namespace Z0
         [MethodImpl(Inline)]
         protected static H create() => new H();
 
-        public EnvData Env {get; protected set;}
-
         /// <summary>
         /// Creates and initializes the service
         /// </summary>
@@ -26,7 +24,6 @@ namespace Z0
             return service;
         }
 
-        protected IEnvPaths Paths {get; private set;}
 
         protected IServiceContext Context {get; private set;}
 
@@ -37,8 +34,6 @@ namespace Z0
         public void Init(IServiceContext ctx)
         {
             Context = ctx;
-            Env = ctx.Env;
-            Paths = new EnvPaths(Env);
             Signal = Events.signal(ctx.EventSink, typeof(H));
             Initializer((H)this);
             Initialized();
