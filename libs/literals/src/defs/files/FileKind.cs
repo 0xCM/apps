@@ -205,5 +205,8 @@ namespace Z0
 
         [Symbol(help, "A plaintext tool help file")]
         Help,
+
+        [Symbol(dot, "A .dot graph file")]
+        Dot,
     }
 }

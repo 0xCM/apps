@@ -8,15 +8,15 @@ namespace Z0.llvm
 
     partial class LlvmDataProvider
     {
-        public Index<TextLine> X86RecordLines()
+        public Index<TextLine> RecordLines(LlvmTargetName target)
         {
-            var id = LlvmDatasets.dataset(LlvmTargetName.x86).Records;
+            var id = LlvmDatasets.dataset(target).Records;
             using var reader = LlvmPaths.RecordSource(id).LineReader(TextEncodingKind.Asci);
             var lines = reader.ReadAll().ToArray().Index();
             return (Index<TextLine>)DataSets.GetOrAdd(id + "lines", _ => lines);
         }
 
-        public ReadOnlySpan<TextLine> X86RecordLines(ClosedInterval<uint> range)
-            => slice(X86RecordLines().View, range.Min - 1, range.Max - range.Min + 1);
+        public ReadOnlySpan<TextLine> RecordLines(LlvmTargetName target, ClosedInterval<uint> range)
+            => slice(RecordLines(target).View, range.Min - 1, range.Max - range.Min + 1);
     }
 }

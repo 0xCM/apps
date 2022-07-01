@@ -11,7 +11,7 @@ namespace Z0.llvm
         public IdentityMap<uint> CalcIdentityMap(LineMap<string> src)
         {
             var lookup = new IdentityMap<uint>();
-            iteri(src.Intervals, (i,entry) => lookup.Include(entry.Id, (entry.MinLine, entry.MaxLine)));
+            iteri(src.View, (i,entry) => lookup.Include(entry.Id, (entry.MinLine, entry.MaxLine)));
             return lookup.Seal();
         }
     }

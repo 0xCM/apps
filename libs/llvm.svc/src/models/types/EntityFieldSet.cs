@@ -6,12 +6,12 @@ namespace Z0.llvm
 {
     public readonly struct EntityFieldSet : IIndex<RecordField>
     {
-        public Identifier EntityName {get;}
+        public string EntityName {get;}
 
         readonly Index<RecordField> Data;
 
         [MethodImpl(Inline)]
-        public EntityFieldSet(Identifier name, RecordField[] src)
+        public EntityFieldSet(string name, RecordField[] src)
         {
             EntityName = name;
             Data = src;

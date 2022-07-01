@@ -6,7 +6,7 @@ namespace Z0.llvm
 {
     partial class LlvmDataProvider
     {
-        public ConstLookup<Identifier,EntityLineage> DefLineage()
-            => (ConstLookup<Identifier,EntityLineage>)DataSets.GetOrAdd(nameof(DefLineage), key => DataCalcs.CalcDefLineage(DefRelations()));
+        public ConstLookup<string,EntityLineage> DefLineage()
+            => (ConstLookup<string,EntityLineage>)DataSets.GetOrAdd(nameof(DefLineage), key => DataCalcs.CalcDefLineage(DefRelations()));
     }
 }

@@ -8,42 +8,38 @@ namespace Z0.llvm
 
     partial class LlvmCmd
     {
-        [CmdOp("llvm/emit/lineage")]
-        Outcome QueryClassLineage(CmdArgs args)
+        [CmdOp("llvm/query/lineage")]
+        void EmitLineageSummary()
         {
-            Query.FileEmit("llvm/classes/lineage", DataProvider.ClassLineage().Values);
-            return true;
-        }
-
-        [CmdOp("llvm/emit/lineage-summary")]
-        Outcome EmitLineageSummary(CmdArgs args)
-        {
-            var result = Outcome.Success;
             var defrel = DataProvider.DefRelations();
             var classrel = DataProvider.ClassRelations();
-            var dst =  AppDb.DbOut("llvm/logs").Path("llvm.lineage", FileKind.Txt);
+            var dst = LlvmPaths.QueryOut("llvm.lineage", FileKind.Dot);
             var emitting = EmittingFile(dst);
             using var writer = dst.AsciWriter();
 
+            TableEmit(DataProvider.ClassLineage().Values, LlvmPaths.QueryOut("llvm.lineage.classes", FileKind.Csv));
+            TableEmit(DataProvider.DefLineage().Values, LlvmPaths.QueryOut("llvm.lineage.defs", FileKind.Csv));
+
+            writer.AppendLine("digrapph G {");
             iter(classrel, r => {
                 if(r.Ancestors.IsNonEmpty)
-                    writer.WriteLine(string.Format("{0} -> {1}", r.Name, r.Ancestors));
+                    writer.IndentLine(4, string.Format("{0} -> {1}", r.Name, r.Ancestors));
                 else
-                    writer.WriteLine(r.Name);
+                    writer.IndentLine(4, r.Name);
             });
 
             iter(defrel, r => {
                 if(r.Ancestors.IsNonEmpty)
-                    writer.WriteLine(string.Format("{0} -> {1}", r.Name, r.Ancestors));
+                    writer.IndentLine(4, string.Format("{0} -> {1}", r.Name, r.Ancestors));
                 else
-                    writer.WriteLine(r.Name);
+                    writer.IndentLine(4, r.Name);
             });
+
+            writer.AppendLine("}");
 
             iter(LlvmRelations.CalcEqClasses(classrel), c => Write(c.Format()));
 
             EmittedFile(emitting, classrel.Length + defrel.Length);
-
-            return result;
         }
     }
 }

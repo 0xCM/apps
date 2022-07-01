@@ -16,6 +16,6 @@ namespace Z0.llvm
             => (Index<LlvmEntity>)CalcEntities(relations, fields);
 
         public Index<LlvmEntity> Entities()
-            => (Index<LlvmEntity>)CalcEntities(DefRelations(), DefFields());
+            => (Index<LlvmEntity>)CalcEntities(DefRelations(), DefFields(LlvmTargetName.x86));
     }
 }

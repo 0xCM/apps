@@ -4,52 +4,47 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     public readonly struct LineMap<T>
     {
-        readonly LineInterval<T>[] _Intervals;
+        readonly Index<LineInterval<T>> Data;
 
         [MethodImpl(Inline)]
         public LineMap(LineInterval<T>[] src)
         {
-            _Intervals = src;
+            Data = src;
         }
 
-        public LineInterval<T>[] Intervals
+        public ReadOnlySpan<LineInterval<T>> View
         {
             [MethodImpl(Inline)]
-            get => _Intervals;
+            get => Data.View;
         }
 
         public uint IntervalCount
         {
             [MethodImpl(Inline)]
-            get => (uint)(_Intervals?.Length ?? 0);
+            get => Data.Count;
         }
 
-        public uint LineCount
+        [MethodImpl(Inline)]
+        public uint CountLines()
         {
-            get
-            {
-                var k = 0u;
-                var src = Intervals;
-                for(var i=0; i<src.Length; i++)
-                    k += skip(src,i).LineCount;
-                return k;
-            }
+            var k = 0u;
+            for(var i=0; i<Data.Count; i++)
+                k += this[i].LineCount;
+            return k;
         }
 
         public ref LineInterval<T> this[uint i]
         {
             [MethodImpl(Inline)]
-            get => ref seek(_Intervals,i);
+            get => ref Data[i];
         }
 
         public ref LineInterval<T> this[int i]
         {
             [MethodImpl(Inline)]
-            get => ref seek(_Intervals,i);
+            get => ref Data[i];
         }
 
         public bool IsEmpty
@@ -68,9 +63,6 @@ namespace Z0
         public static implicit operator LineMap<T>(LineInterval<T>[] src)
             => new LineMap<T>(src);
 
-        public static LineMap<T> Empty
-        {
-            get => new LineMap<T>(Array.Empty<LineInterval<T>>());
-        }
+        public static LineMap<T> Empty => new LineMap<T>(sys.empty<LineInterval<T>>());
     }
 }

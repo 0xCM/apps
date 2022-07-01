@@ -51,6 +51,9 @@ namespace Z0.llvm
         public IDbTargets QueryOut()
             => AppDb.DbOut(queries);
 
+        public FS.FilePath QueryOut(string name, FileKind kind)
+            => QueryOut(FS.file(name,kind));
+
         public FS.FilePath QueryOut(FS.FileName file)
             => QueryOut().Path(file);
 

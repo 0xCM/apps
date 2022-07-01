@@ -11,13 +11,11 @@ namespace Z0.llvm
         public static Index<RecordField> parse(ReadOnlySpan<TextLine> src, LineMap<Identifier> map)
         {
             var result = Outcome.Success;
-            var icount = map.IntervalCount;
-            var lcount = map.LineCount;
-            var intervals = map.Intervals;
-            var buffer = alloc<RecordField>(lcount);
+            var count = map.CountLines();
+            var buffer = alloc<RecordField>(count);
             var k = 0;
-            for(var i=0u; i<icount; i++)
-                parse(src, skip(intervals,i), ref k, buffer);
+            for(var i=0u; i<map.IntervalCount; i++)
+                parse(src, map[i], ref k, buffer);
             return buffer;
         }
 

@@ -130,10 +130,9 @@ namespace Z0.llvm
             var dst = LlvmPaths.ImportMap(dstid);
             var emitting = EmittingFile(dst);
             using var writer = dst.AsciWriter();
-            var _intervals = map.Intervals;
-            for(var i=0; i<_intervals.Length; i++)
-                writer.WriteLine(skip(_intervals,i).Format());
-            EmittedFile(emitting, _intervals.Length);
+            for(var i=0; i<map.IntervalCount; i++)
+                writer.WriteLine(map[i].Format());
+            EmittedFile(emitting, map.IntervalCount);
             return map;
         }
     }

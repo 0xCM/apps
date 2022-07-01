@@ -12,7 +12,7 @@ namespace Z0.llvm
         {
             var lines = list<TextLine>();
             if(ClassLineLookup().Find(name, out var interval))
-                return X86RecordLines(interval);
+                return RecordLines(LlvmTargetName.x86, interval);
             return lines.ViewDeposited();
         }
     }

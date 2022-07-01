@@ -37,13 +37,14 @@ namespace Z0.llvm
 
         public void Run()
         {
-            var lines = DataProvider.X86RecordLines();
+            var lines = DataProvider.RecordLines(LlvmTargetName.x86);
             LlvmPaths.Tables().Delete();
             Index<DefRelations> defRelations = sys.empty<DefRelations>();
             LineMap<Identifier> defMap = LineMap<Identifier>.Empty;
             LineMap<Identifier> classMap = LineMap<Identifier>.Empty;
             Index<RecordField> classFields = sys.empty<RecordField>();
             Index<RecordField> defFields = sys.empty<RecordField>();
+
 
             exec(PllExec,
                 () => ImportToolHelp(),

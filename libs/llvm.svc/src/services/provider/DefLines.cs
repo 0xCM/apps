@@ -9,7 +9,7 @@ namespace Z0.llvm
         public ReadOnlySpan<TextLine> DefLines(string name)
         {
             if(DefLineLookup().Find(name, out var interval))
-                return X86RecordLines(interval);
+                return RecordLines(LlvmTargetName.x86, interval);
             return default;
         }
     }
