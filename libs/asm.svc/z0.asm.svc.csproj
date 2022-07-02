@@ -2,17 +2,14 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <DebugSymbols>true</DebugSymbols>
     <TargetFramework>$(FrameworkMoniker)</TargetFramework>
   </PropertyGroup>
 
-  <Import Project="$(ImportDefs)common.props"/>
-
   <ItemGroup>
-    <ProjectReference Include="$(ZLib)" />
-    <ProjectReference Include="$(Containers)" />
-    <ProjectReference Include="$(Digital)" />
+    <ProjectReference Include="$(Asm)" />
+    <ProjectReference Include="$(Glue)" />
+    <ProjectReference Include="$(Cli)" />
+    <ProjectReference Include="$(Polyrand)" />
   </ItemGroup>
-
 
 </Project>

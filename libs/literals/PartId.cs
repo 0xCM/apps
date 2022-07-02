@@ -2,8 +2,6 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-using Z0;
-
 [SymSource("parts")]
 public enum PartId : byte
 {
@@ -17,6 +15,24 @@ public enum PartId : byte
 
     [Symbol("asm.operands")]
     AsmOperands,
+
+    [Symbol("asm.svc")]
+    AsmSvc,
+
+    [Symbol("asm.prototypes")]
+    AsmPrototypes,
+
+    [Symbol("asm.checks")]
+    AsmChecks,
+
+    [Symbol("asm")]
+    Asm,
+
+    [Symbol("asm.core")]
+    AsmCore,
+
+    [Symbol("asm.models")]
+    AsmModels,
 
     [Symbol("agents")]
     Agents,
@@ -51,9 +67,6 @@ public enum PartId : byte
     [Symbol("validity")]
     Validity,
 
-    [Symbol("asm.prototypes")]
-    AsmPrototypes,
-
     [Symbol("polyrand")]
     Polyrand,
 
@@ -65,9 +78,6 @@ public enum PartId : byte
 
     [Symbol("assets")]
     Assets,
-
-    [Symbol("asm.checks")]
-    AsmChecks,
 
     [Symbol("numbers")]
     Numbers,
@@ -129,17 +139,9 @@ public enum PartId : byte
     [Symbol("mkl")]
     Mkl,
 
-    [Symbol("asm")]
-    Asm,
-
     [Symbol("lang")]
     Lang,
 
-    [Symbol("asm.core")]
-    AsmCore,
-
-    [Symbol("asm.models")]
-    AsmModels,
 
     [Symbol("dynamic.linq")]
     DynamicLinq,
@@ -182,6 +184,9 @@ public enum PartId : byte
 
     [Symbol("memory.svc")]
     MemorySvc,
+
+    [Symbol("memory.checks")]
+    MemoryChecks,
 
     [Symbol("monadic")]
     Monadic,
@@ -303,9 +308,6 @@ public enum PartId : byte
     [Symbol("codegen.test")]
     CgTest,
 
-    [Symbol("asm.shell")]
-    AsmShell,
-
     [Symbol("tools.shell")]
     ToolShell,
 
@@ -315,17 +317,11 @@ public enum PartId : byte
     [Symbol("calc.checks")]
     CalcChecks,
 
-    [Symbol("asmz")]
-    AsmZ,
-
     [Symbol("run")]
     Run,
 
     [Symbol("test.runner")]
     TestRunner,
-
-    [Symbol("asm.run")]
-    AsmRun,
 
     [Symbol("machines")]
     Machines,

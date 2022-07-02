@@ -9,10 +9,13 @@
     <ProjectReference Include="$(ApiCode)" />
     <ProjectReference Include="$(ApiMd)" />
     <ProjectReference Include="$(Archives)" />
+
     <ProjectReference Include="$(Asm)" />
     <ProjectReference Include="$(AsmCore)" />
     <ProjectReference Include="$(AsmOperands)" />
     <ProjectReference Include="$(AsmPrototypes)" />
+    <ProjectReference Include="$(AsmSvc)" />
+
     <ProjectReference Include="$(Assets)" />
 
     <ProjectReference Include="$(Bits)" />
@@ -51,8 +54,10 @@
     <ProjectReference Include="$(Linq)" />
 
     <ProjectReference Include="$(Machines)" />
+
     <ProjectReference Include="$(Memory)" />
     <ProjectReference Include="$(MemorySvc)" />
+
     <ProjectReference Include="$(Monadic)" />
     <ProjectReference Include="$(Models)" />
 

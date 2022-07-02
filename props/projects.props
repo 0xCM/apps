@@ -6,12 +6,14 @@
     <Assets>$(LibsRoot)assets/z0.assets.csproj</Assets>
     <Agents>$(LibsRoot)agents/z0.agents.csproj</Agents>
 
-    <Asm>$(LibsRoot)asm/z0.asm.csproj</Asm>
     <ApiMd>$(LibsRoot)api.md/z0.api.md.csproj</ApiMd>
+
+    <Asm>$(LibsRoot)asm/z0.asm.csproj</Asm>
     <AsmCore>$(LibsRoot)asm.core/z0.asm.core.csproj</AsmCore>
     <AsmModels>$(LibsRoot)asm.models/z0.asm.models.csproj</AsmModels>
     <AsmOperands>$(LibsRoot)asm.operands/z0.asm.operands.csproj</AsmOperands>
     <AsmPrototypes>$(LibsRoot)asm.prototypes/z0.asm.prototypes.csproj</AsmPrototypes>
+    <AsmSvc>$(LibsRoot)asm.svc/z0.asm.svc.csproj</AsmSvc>
 
     <Archives>$(LibsRoot)archives/z0.archives.csproj</Archives>
 
@@ -58,10 +60,12 @@
     <Linq>$(LibsRoot)linq/z0.linq.csproj</Linq>
 
     <Machines>$(LibsRoot)machines/z0.machines.csproj</Machines>
-    <Memory>$(LibsRoot)memory/z0.memory.csproj</Memory>
     <Models>$(LibsRoot)models/z0.models.csproj</Models>
-    <MemorySvc>$(LibsRoot)memory.svc/z0.memory.svc.csproj</MemorySvc>
     <Monadic>$(LibsRoot)monadic/z0.monadic.csproj</Monadic>
+
+    <Memory>$(LibsRoot)memory/z0.memory.csproj</Memory>
+    <MemorySvc>$(LibsRoot)memory.svc/z0.memory.svc.csproj</MemorySvc>
+    <MemoryChecks>$(LibsRoot)memory.checks/z0.memory.checks.csproj</MemoryChecks>
 
     <Native>$(LibsRoot)native/z0.native.csproj</Native>
     <Nats>$(LibsRoot)nats/z0.nats.csproj</Nats>

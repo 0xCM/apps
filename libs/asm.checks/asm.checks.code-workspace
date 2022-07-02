@@ -13,13 +13,19 @@
 			"path": "..\\asm.core"
 		},
 		{
+			"path": "..\\asm"
+		},
+		{
+			"path": "..\\asm.svc"
+		},
+		{
+			"path": "..\\asm.prototypes"
+		},
+		{
 			"path": "..\\tools"
 		},
 		{
-			"path": "..\\wf"
-		},
-		{
-			"path": "..\\cmd.specs"
+			"path": "..\\..\\props"
 		}
 	],
 	"settings": {}
