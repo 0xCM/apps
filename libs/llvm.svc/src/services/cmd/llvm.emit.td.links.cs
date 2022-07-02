@@ -11,19 +11,19 @@ namespace Z0.llvm
         [CmdOp("llvm/emit/td/links")]
         void EmitTdSymLinks()
         {
-            var sources = TdFiles().View;
+            var sources = TdFiles();
             var count = sources.Length;
-            var view = Paths.LlvmSourceView();
+            var links = Paths.Targets("links");
             for(var i=0; i<count; i++)
             {
-                ref readonly var srcpath = ref skip(sources,i);
+                ref readonly var srcpath = ref sources[i];
                 var relative = srcpath.Relative(Paths.LlvmRoot);
-                var linkpath = view.Root + relative;
+                var linkpath = links.Root + relative;
                 var link = FS.symlink(linkpath, srcpath, true);
                 link.OnFailure(e => Error(e)).OnSuccess(Write);
             }
 
-            var dst = Paths.File("tablegen-defs", FileKind.Md);
+            var dst = Paths.File("links", "tabledefs", FileKind.Md);
             using var writer = dst.AsciWriter();
             iter(TdFiles(), f => writer.WriteLine(f.ToUri().MarkdownBullet()));
         }

@@ -16,6 +16,8 @@ namespace Z0.llvm
 
         LlvmPaths LlvmPaths => Wf.LlvmPaths();
 
+        LlvmLineMaps LineMaps => Wf.LlvmLineMaps();
+
         public bool PllExec
         {
             [MethodImpl(Inline)]
@@ -32,7 +34,7 @@ namespace Z0.llvm
                 "lld",
                 "mlir",
                 "polly"
-            }, id => DataEmitter.Emit(id, DataProvider.TestLogs(id)), PllExec);
+            }, name => DataEmitter.Emit(name, DataProvider.TestResults(name)), PllExec);
         }
 
         public void Run()
@@ -40,8 +42,8 @@ namespace Z0.llvm
             var lines = DataProvider.RecordLines(LlvmTargetName.x86);
             LlvmPaths.Tables().Delete();
             Index<DefRelations> defRelations = sys.empty<DefRelations>();
-            LineMap<Identifier> defMap = LineMap<Identifier>.Empty;
-            LineMap<Identifier> classMap = LineMap<Identifier>.Empty;
+            LineMap<string> defMap = LineMap<string>.Empty;
+            LineMap<string> classMap = LineMap<string>.Empty;
             Index<RecordField> classFields = sys.empty<RecordField>();
             Index<RecordField> defFields = sys.empty<RecordField>();
 
@@ -62,18 +64,18 @@ namespace Z0.llvm
             Emit(DataProvider.Entities(defRelations, defFields));
         }
 
-        LineMap<Identifier> EmitClasses(Index<TextLine> src)
+        LineMap<string> EmitClasses(Index<TextLine> src)
         {
             var relations = DataCalcs.CalcClassRelations(src);
             DataEmitter.Emit(relations);
-            return DataEmitter.EmitLineMap(relations.View, src, LlvmDatasets.X86Classes);
+            return LineMaps.EmitLineMap(relations, src, LlvmDatasets.X86Classes);
         }
 
-        LineMap<Identifier> EmitDefs(Index<TextLine> src, out Index<DefRelations> defs)
+        LineMap<string> EmitDefs(Index<TextLine> src, out Index<DefRelations> defs)
         {
             defs = DataCalcs.CalcDefRelations(src);
             DataEmitter.Emit(defs);
-            return DataEmitter.EmitLineMap(defs.View, src, LlvmDatasets.X86Defs);
+            return LineMaps.EmitLineMap(defs, src, LlvmDatasets.X86Defs);
         }
 
         void Emit(Index<LlvmEntity> src)

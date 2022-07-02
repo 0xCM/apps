@@ -20,7 +20,7 @@ namespace Z0
 
         }
 
-        public Span<T> Edit
+        public virtual Span<T> Edit
         {
             [MethodImpl(Inline)]
             get => Data.Edit;

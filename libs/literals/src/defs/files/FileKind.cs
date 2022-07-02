@@ -101,6 +101,9 @@ namespace Z0
         [Symbol(json, "Json data")]
         Json,
 
+        [Symbol(deps_json, "A .net json dependency file")]
+        JsonDeps,
+
         [Symbol(lib, "A static library module")]
         Lib,
 

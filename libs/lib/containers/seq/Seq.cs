@@ -4,11 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Root;
-
     [ApiHost]
     public readonly partial struct Seq
     {
         const NumericKind Closure = UInt64k;
+
     }
 }

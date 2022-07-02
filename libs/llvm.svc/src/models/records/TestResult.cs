@@ -5,9 +5,9 @@
 namespace Z0.llvm
 {
     [Record(TableId)]
-    public struct LlvmTestLogEntry
+    public struct TestResult
     {
-        const string TableId = "llvm.logs.tests";
+        const string TableId = "tests.results";
 
         [Render(24)]
         public string code;

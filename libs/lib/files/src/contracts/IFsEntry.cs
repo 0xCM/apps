@@ -6,12 +6,12 @@ namespace Z0
 {
     using static FS;
 
-    public interface IFsEntry : ITextual, IDataType
+    public interface IFsEntry : IDataTypeExpr
     {
         PathPart Name {get;}
 
         Hash32 IHashed.Hash
-            => core.hash(Name.Format());
+            => HashCodes.hash(Name.Format());
 
         bool INullity.IsEmpty
             => Name.IsEmpty;
@@ -19,14 +19,14 @@ namespace Z0
         bool INullity.IsNonEmpty
             => Name.IsNonEmpty;
 
-        string ITextual.Format()
+        string IExpr2.Format()
             => Name.Format();
 
         int GetHashCode()
             => Hash;
     }
 
-    public interface IFsEntry<F> : IFsEntry, IDataType<F>
+    public interface IFsEntry<F> : IFsEntry, IDataTypeExpr<F>
         where F : struct, IFsEntry<F>
     {
         bool IEquatable<F>.Equals(F src)

@@ -15,7 +15,7 @@ namespace Z0.llvm
         public LineNumber SourceLine;
 
         [Render(60)]
-        public Identifier Name;
+        public string Name;
 
         [Render(110)]
         public Lineage Ancestors;
@@ -26,7 +26,7 @@ namespace Z0.llvm
         LineNumber ILineRelations.SourceLine
             => SourceLine;
 
-        Identifier ILineRelations.Name
+        string ILineRelations.Name
             => Name;
 
         public static ClassRelations Empty => default;

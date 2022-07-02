@@ -15,7 +15,7 @@ namespace Z0.llvm
         public LineNumber SourceLine;
 
         [Render(64)]
-        public Identifier Name;
+        public string Name;
 
         [Render(1)]
         public Lineage Ancestors;
@@ -23,18 +23,18 @@ namespace Z0.llvm
         LineNumber ILineRelations.SourceLine
             => SourceLine;
 
-        Identifier ILineRelations.Name
+        string ILineRelations.Name
             => Name;
 
         [MethodImpl(Inline)]
-        public DefRelations(LineNumber line, Identifier name, Lineage ancestors)
+        public DefRelations(LineNumber line, string name, Lineage ancestors)
         {
             SourceLine = line;
             Name = name;
             Ancestors = ancestors ?? Lineage.Empty;
         }
 
-        public Identifier ParentName
+        public string ParentName
             => Lineage.parent(Ancestors);
 
         public Index<string> AncestorNames

@@ -48,6 +48,10 @@ namespace Z0
 
         IEnumerator<T> IEnumerable<T>.GetEnumerator()
             => ((IEnumerable<T>)Storage).GetEnumerator();
+
+       string IExpr2.Format()
+            => string.Join(Chars.Comma, View.ToArray());
+
     }
 
     public interface IIndex<K,T> : IIndex<T>

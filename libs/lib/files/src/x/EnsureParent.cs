@@ -14,7 +14,7 @@ namespace Z0
             if(src.IsEmpty)
                 Throw.sourced("The source path is unspecified");
 
-            var dir = Path.GetDirectoryName(src.Name.Format());
+            var dir = System.IO.Path.GetDirectoryName(src.Name.Format());
             if(!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
             return src;

@@ -320,6 +320,10 @@ namespace Z0
 
         public const string inc = nameof(inc);
 
+        public const string include = nameof(include);
+
+        public const string includes = nameof(includes);
+
         public const string td = nameof(td);
 
         public const string win = nameof(win);
@@ -425,6 +429,8 @@ namespace Z0
         public const string wslogs = ws + Slash + logs;
 
         public const string win_x64 = win + Dash + x64;
+
+        public const string deps_json = deps + Dot + json;
 
         public const string xcsv = CharText.x + Dot + csv;
 

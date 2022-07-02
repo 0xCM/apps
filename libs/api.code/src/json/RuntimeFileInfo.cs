@@ -6,19 +6,13 @@ namespace Z0
 {
     partial struct JsonDepsModel
     {
-        public struct RuntimeFileInfo
+        public record struct RuntimeFileInfo
         {
             public FS.FilePath Path;
 
             public string AssemblyVersion;
 
             public string FileVersion;
-
-            public void Render(ITextBuffer dst)
-            {
-                if(Path.IsNonEmpty)
-                    dst.Append(Format());
-            }
 
             public string Format()
             {

@@ -6,7 +6,7 @@ namespace Z0
 {
     partial struct JsonDepsModel
     {
-        public struct Options
+        public record struct Options
         {
             public Index<string> Defines;
 

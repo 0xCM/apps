@@ -7,9 +7,15 @@ namespace Z0
     using static core;
 
     [Free]
-    public interface IReadOnlySeq<T> : ISeq
+    public interface IReadOnlySeq<T> : ISeq, IEnumerable<T>
     {
         ReadOnlySpan<T> View {get;}
+
+        bool INullity.IsEmpty
+            => View.Length == 0;
+
+        bool INullity.IsNonEmpty
+            => View.Length != 0;
 
         ref readonly T Cell(int index)
             => ref skip(View,index);
@@ -41,10 +47,7 @@ namespace Z0
         int IMeasured.Length
             => View.Length;
 
-        bool INullity.IsEmpty
-            => View.Length == 0;
-
-        ReadOnlySpan<T>.Enumerator GetEnumerator()
+        new ReadOnlySpan<T>.Enumerator GetEnumerator()
             => View.GetEnumerator();
 
         ReadOnlySeq<Y> Select<Y>(Func<T,Y> f)
@@ -58,5 +61,8 @@ namespace Z0
 
         ReadOnlySeq<T> Where(Func<T,bool> predicate)
             => Seq.where(View, predicate);
+
+        string IExpr2.Format()
+            => string.Join(Chars.Comma, View.ToArray());
     }
 }

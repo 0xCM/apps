@@ -10,8 +10,15 @@ namespace Z0.llvm
     {
         new LlvmPaths Paths => Service(Wf.LlvmPaths);
 
-        public void Emit(FS.Files src, string name)
+        public void Emit(string name, FS.Files src)
             => FileEmit(name, @readonly(src.View.Map(x => x.ToUri())));
+
+        public void Emit(ListedFiles src, string name, bool display = true)
+        {
+            if(display)
+                Row(src.Format());
+            TableEmit(src.View, Paths.QueryOut().Path(name, FileKind.Csv));
+        }
 
         public uint FileEmit<T>(string name, ReadOnlySpan<T> src)
             => FileEmit(src, name, string.Empty);

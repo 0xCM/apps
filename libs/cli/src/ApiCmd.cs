@@ -54,17 +54,19 @@ namespace Z0
 
         void ShowDependencies(Assembly src)
         {
-            var deps = JsonDepsLoader.from(src);
+            var deps = JsonDepsLoader.load();
             var libs = deps.Libs();
             var rtlibs = deps.RuntimeLibs();
+            var buffer = text.buffer();
             var options = deps.Options();
             var target = deps.Target();
-            var graph = deps.Graph;
-            Wf.Data(string.Format("Target: {0} {1} {2}", target.Framework, target.Runtime, target.RuntimeSignature));
-            iter(libs, lib => Wf.Data(lib.Name));
-            var buffer = text.buffer();
-            iter(rtlibs, lib => lib.Render(buffer));
-            Wf.Data(buffer.Emit());
+            var fallbacks = deps.RuntimeFallbacks();
+            iter(fallbacks, f => Write(f.Format()));
+            // iter(rtlibs, lib => lib.Render(buffer));
+            // Wf.Data(buffer.Emit());
+
+            // Wf.Data(string.Format("Target: {0} {1} {2}", target.Framework, target.Runtime, target.RuntimeSignature));
+            // iter(libs, lib => Wf.Data(lib.Name));
         }
 
         [CmdOp("api/etl")]

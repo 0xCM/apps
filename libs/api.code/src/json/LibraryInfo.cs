@@ -6,7 +6,7 @@ namespace Z0
 {
     partial struct JsonDepsModel
     {
-        public struct LibraryInfo
+        public record struct LibraryInfo
         {
             public string Type;
 

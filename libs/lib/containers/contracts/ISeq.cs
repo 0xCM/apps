@@ -7,10 +7,9 @@ namespace Z0
     using static core;
 
     [Free]
-    public interface ISeq : IMeasured, ITextual
+    public interface ISeq : IMeasured, IExpr2
     {
-        string ITextual.Format()
-            => GetType().Name;
+
     }
 
     public interface ISeq<T> : IReadOnlySeq<T>
@@ -84,7 +83,5 @@ namespace Z0
 
         new Seq<T> Where(Func<T,bool> predicate)
             => Seq.where(Edit, predicate);
-
-
     }
 }

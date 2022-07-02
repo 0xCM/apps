@@ -8,7 +8,7 @@ namespace Z0
     {
         LineNumber SourceLine {get;}
 
-        Identifier Name {get;}
+        string Name {get;}
     }
 
     public interface ILineRelations<T> : ILineRelations

@@ -10,10 +10,10 @@ namespace Z0.llvm
     {
         public Index<TextLine> RecordLines(LlvmTargetName target)
         {
-            var id = LlvmDatasets.dataset(target).Records;
-            using var reader = LlvmPaths.RecordSource(id).LineReader(TextEncodingKind.Asci);
+            var project = "llvm";
+            using var reader = LlvmPaths.RecordSet(project, LlvmTargetName.x86).LineReader(TextEncodingKind.Asci);
             var lines = reader.ReadAll().ToArray().Index();
-            return (Index<TextLine>)DataSets.GetOrAdd(id + "lines", _ => lines);
+            return (Index<TextLine>)DataSets.GetOrAdd(project + "lines", _ => lines);
         }
 
         public ReadOnlySpan<TextLine> RecordLines(LlvmTargetName target, ClosedInterval<uint> range)

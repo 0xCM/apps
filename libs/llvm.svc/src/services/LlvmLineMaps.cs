@@ -25,7 +25,7 @@ namespace Z0.llvm
                 );
         }
 
-        public static LineMap<Identifier> calc<T>(string name, Index<TextLine> lines, Index<T> relations)
+        public static LineMap<string> calc<T>(Index<TextLine> lines, Index<T> relations)
             where T : struct, ILineRelations<T>
         {
             const uint BufferLength = 256;
@@ -33,7 +33,7 @@ namespace Z0.llvm
             var linecount = lines.Length;
             var count = relations.Length;
             var buffer = span<TextLine>(BufferLength);
-            var intervals = list<LineInterval<Identifier>>();
+            var intervals = list<LineInterval<string>>();
             for(var i=0;i<count; i++)
             {
                 ref readonly var relation = ref relations[i];
@@ -62,37 +62,11 @@ namespace Z0.llvm
         void EmitLineMap(Index<TextLine> lines, Index<ClassRelations> relations)
             => EmitLineMap(relations, lines, LlvmDatasets.dataset(LlvmTargetName.x86).Classes);
 
-        public LineMap<Identifier> EmitLineMap<T>(Index<T> src, Index<TextLine> records, string name)
+        public LineMap<string> EmitLineMap<T>(Index<T> src, Index<TextLine> records, string name)
             where T : struct, ILineRelations<T>
         {
-            // const uint BufferLength = 256;
-            // var result = Outcome.Success;
-            // var linecount = records.Length;
-            // var count = src.Length;
-            // var buffer = span<TextLine>(BufferLength);
-            // var intervals = list<LineInterval<Identifier>>();
-            // for(var i=0;i<count; i++)
-            // {
-            //     ref readonly var relation = ref skip(src,i);
-            //     var k=0;
-            //     buffer.Clear();
-            //     var index = relation.SourceLine.Value;
-            //     for(var j=index; j<linecount && k<BufferLength; j++)
-            //     {
-            //         ref readonly var line = ref skip(records,j);
-            //         if(SQ.index(line.Content, Chars.RBrace) != 0)
-            //             seek(buffer,k++) = line;
-            //         else
-            //             break;
-            //     }
-
-            //     if(k>0)
-            //         intervals.Add(Lines.interval(relation.Name, first(buffer).LineNumber, skip(buffer,k-1).LineNumber));
-            // }
-
-            // var map = Lines.map(intervals.ToArray());
-            var map = calc(name, records, src);
-            var dst = LlvmPaths.ImportMap(name);
+            var map = calc(records, src);
+            var dst = LlvmPaths.LineMap(name);
             var emitting = EmittingFile(dst);
             using var writer = dst.AsciWriter();
             for(var i=0; i<map.IntervalCount; i++)

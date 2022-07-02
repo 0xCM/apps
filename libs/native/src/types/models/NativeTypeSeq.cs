@@ -4,6 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System.Collections;
+    using System.Collections.Generic;
+
     using static core;
 
     public readonly struct NativeTypeSeq : INaturalSeq<N16,NativeType>
@@ -53,5 +56,11 @@ namespace Z0
             [MethodImpl(Inline)]
             get => ref seek(Edit,i);
         }
+
+        public IEnumerator<NativeType> GetEnumerator()
+            => throw new NotImplementedException();
+
+        IEnumerator IEnumerable.GetEnumerator()
+            => throw new NotImplementedException();
     }
 }

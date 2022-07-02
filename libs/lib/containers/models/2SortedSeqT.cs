@@ -4,19 +4,23 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public record class Ancestry : Lineage<Ancestry,Label>
+    public class SortedSeq<T> : Seq<T>, ISortedSeq<T>
+        where T : IComparable<T>
     {
-        public Ancestry(Label name, Label[] ancestors)
-            : base(name,ancestors)
+        public SortedSeq()
         {
+
         }
 
-        public Ancestry(Label name)
+        public SortedSeq(T[] src)
+            : base(src.Sort())
         {
+
         }
 
-        public Ancestry()
+        public void ReSort()
         {
+            Data.Sort();
         }
     }
 }

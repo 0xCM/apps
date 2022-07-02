@@ -4,11 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct JsonDepsModel
+    [Free]
+    public interface ISortedSeq<T> : ISeq<T>
+        where T : IComparable<T>
     {
-        public record struct RuntimeLibInfo
-        {
-            public LibraryInfo Library;
-        }
+        void ReSort();
     }
 }

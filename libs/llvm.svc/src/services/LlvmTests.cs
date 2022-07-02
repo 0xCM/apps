@@ -25,7 +25,7 @@ namespace Z0.llvm
 
         const byte OutputPropLength = 9;
 
-        public static bool parse(string src, ref LlvmTestLogEntry dst)
+        public static bool parse(string src, ref TestResult dst)
         {
             var i = text.index(src, CodeProp);
             var result = false;
@@ -58,18 +58,18 @@ namespace Z0.llvm
             return result;
         }
 
-        public static Index<LlvmTestLogEntry> logs(FS.FilePath src)
+        public static Index<TestResult> logs(FS.FilePath src)
         {
             using var reader = src.Utf8LineReader();
-            var entries = list<LlvmTestLogEntry>();
-            var entry = new LlvmTestLogEntry();
+            var entries = list<TestResult>();
+            var entry = new TestResult();
             while(reader.Next(out var line))
             {
                 var result = parse(line.Content, ref entry);
                 if(result)
                 {
                     entries.Add(entry);
-                    entry = new LlvmTestLogEntry();
+                    entry = new TestResult();
                 }
             }
             return entries.ToIndex();

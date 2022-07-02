@@ -25,7 +25,7 @@ namespace Z0
                 if(RuntimeFiles.Count != 0)
                 {
                     dst.AppendLine("runtime_files:");
-                    core.iter(RuntimeFiles, f => dst.AppendLine(string.Format("{0}", f.Format())));
+                    core.iter(RuntimeFiles, f => dst.AppendLine(string.Format("{0}", f)));
                 }
             }
         }

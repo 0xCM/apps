@@ -20,7 +20,7 @@ namespace Z0
     }
 
     [Free]
-    public unsafe interface INativeSeq<T> : INativeSeq,ISeq<T>
+    public unsafe interface INativeSeq<T> : INativeSeq, ISeq<T>
         where T : unmanaged
     {
         uint INativeSeq.CellSize

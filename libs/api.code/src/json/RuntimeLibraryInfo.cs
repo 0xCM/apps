@@ -6,19 +6,13 @@ namespace Z0
 {
     partial struct JsonDepsModel
     {
-        public struct RuntimeLibraryInfo
+        public record struct RuntimeLibraryInfo
         {
-            public Index<AssetGroupInfo> AssemblyGroups;
+            public Seq<AssetGroupInfo> AssemblyGroups;
 
-            public Index<AssetGroupInfo> NativeLibraries;
+            public Seq<AssetGroupInfo> NativeLibraries;
 
-            public Index<ResourceAssembly> ResourceAssemblies;
-
-            public void Render(ITextBuffer dst)
-            {
-                core.iter(AssemblyGroups, x => x.Render(dst));
-                core.iter(NativeLibraries, x => x.Render(dst));
-            }
+            public Seq<ResourceAssembly> ResourceAssemblies;
         }
     }
 }

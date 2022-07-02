@@ -4,13 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
-    public readonly struct TableSpan<T> : IIndex<T>, ITextual
+    public readonly struct TableSpan<T> : IIndex<T>
         where T : struct
     {
         public static TableSpan<T> Empty

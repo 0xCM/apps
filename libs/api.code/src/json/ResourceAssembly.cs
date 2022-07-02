@@ -6,7 +6,7 @@ namespace Z0
 {
     partial struct JsonDepsModel
     {
-        public struct ResourceAssembly
+        public record struct ResourceAssembly
         {
             public string Locale;
 

@@ -4,11 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using static LlvmNames;
-
     partial class LlvmDataProvider
     {
         public LineMap<string> X86ClassMap()
-            => LineMap(LlvmPaths.ImportMap(LlvmDatasets.dataset(LlvmTargetName.x86).Classes));
+            => LineMap(LlvmPaths.LineMap(LlvmDatasets.dataset(LlvmTargetName.x86).Classes));
     }
 }

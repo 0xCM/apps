@@ -9,7 +9,7 @@ namespace Z0.llvm
     partial class LlvmTableLoader
     {
         public LlvmList LoadList(string id)
-            => LoadList(LlvmPaths.ListImportPath(id));
+            => LoadList(LlvmPaths.ListTargetPath(id));
 
         LlvmList LoadList(FS.FilePath src)
         {

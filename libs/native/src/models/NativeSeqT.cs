@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Free]
-    public sealed class NativeSeq<T> : INativeSeq<T>
+    public sealed class NativeSeq<T> : Seq<T>, INativeSeq<T>
         where T : unmanaged
     {
         readonly SegRef<T> Source;
@@ -33,19 +33,19 @@ namespace Z0
             get => Source.CellSize;
         }
 
-        public uint Count
+        public override uint Count
         {
             [MethodImpl(Inline)]
             get => Source.CellCount;
         }
 
-        public Span<T> Edit
+        public override Span<T> Edit
         {
             [MethodImpl(Inline)]
             get => Source.Data;
         }
 
-        public ReadOnlySpan<T> View
+        public override ReadOnlySpan<T> View
         {
             [MethodImpl(Inline)]
             get => Source.Data;
@@ -59,31 +59,31 @@ namespace Z0
         public unsafe ref T Cell(uint index)
             => ref Source.Cell(index);
 
-        public ref T First
+        public new ref T First
         {
             [MethodImpl(Inline)]
             get => ref Cell(0);
         }
 
-        public ref T this[int index]
+        public new  ref T this[int index]
         {
             [MethodImpl(Inline)]
             get => ref Cell(index);
         }
 
-        public ref T this[uint index]
+        public new ref T this[uint index]
         {
             [MethodImpl(Inline)]
             get => ref Cell(index);
         }
 
-        public bool IsEmpty
+        public override bool IsEmpty
         {
             [MethodImpl(Inline)]
             get => Source.IsEmpty;
         }
 
-        public bool IsNonEmpty
+        public override bool IsNonEmpty
         {
             [MethodImpl(Inline)]
             get => !IsEmpty;

@@ -6,7 +6,7 @@ namespace Z0
 {
     partial struct FS
     {
-        public readonly struct FileUri : IFsEntry<FileUri>
+        public readonly record struct FileUri : IFsEntry<FileUri>
         {
             readonly FilePath Source;
 

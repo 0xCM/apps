@@ -6,7 +6,7 @@ namespace Z0
 {
     partial struct JsonDepsModel
     {
-        public struct ProjectDependency
+        public record struct ProjectDependency
         {
             public string AssemblyName;
 

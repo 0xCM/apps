@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Free]
-    public abstract class ReadOnlySeq<S,T> : IReadOnlySeq<T>
+    public abstract class ReadOnlySeq<S,T> : IReadOnlySeq<T>, IEnumerable<T>
         where S : ReadOnlySeq<S,T>, new()
     {
         protected readonly Index<T> Data;
@@ -22,25 +22,25 @@ namespace Z0
             Data = sys.empty<T>();
         }
 
-        public uint Count
+        public virtual uint Count
         {
             [MethodImpl(Inline)]
             get => Data.Count;
         }
 
-        public bool IsEmpty
+        public virtual bool IsEmpty
         {
             [MethodImpl(Inline)]
             get => Data.IsEmpty;
         }
 
-        public bool IsNonEmpty
+        public virtual bool IsNonEmpty
         {
             [MethodImpl(Inline)]
             get => Data.IsNonEmpty;
         }
 
-        public ReadOnlySpan<T> View
+        public virtual ReadOnlySpan<T> View
         {
             [MethodImpl(Inline)]
             get => Data.View;
@@ -87,6 +87,12 @@ namespace Z0
 
         public override string ToString()
             => Format();
+
+        IEnumerator<T> IEnumerable<T>.GetEnumerator()
+            => (Data as IIndex<T>).GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator()
+            => (Data as IIndex<T>).GetEnumerator();
 
         public static S Empty => new ();
     }

@@ -13,6 +13,22 @@ namespace Z0
 
     using api = JsonDepsLoader;
 
+    public sealed record class JsonGraph : Lineage<JsonGraph,string>
+    {
+        public JsonGraph()
+            : base(EmptyString, sys.empty<string>())
+        {
+
+        }
+
+        public JsonGraph(string node, string[] src)
+        : base(node,src)
+        {
+
+        }
+
+    }
+
     public class JsonDeps
     {
         readonly M.DependencyContext Source;
@@ -46,7 +62,7 @@ namespace Z0
             return api.extract(Source, ref dst);
         }
 
-        public ReadOnlySpan<RuntimeLibraryInfo> RuntimeLibs()
+        public Index<RuntimeLibraryInfo> RuntimeLibs()
         {
             var count = _RuntimeLibraries.Count;
             if(count != 0)
@@ -63,13 +79,24 @@ namespace Z0
             }
         }
 
-        public Index<string> Graph
-            => RuntimeGraph.SelectMany(x => x.Fallbacks);
+        public Index<JsonGraph> RuntimeFallbacks()
+        {
+            var src = RuntimeGraph;
+            var count = src.Count;
+            var dst = new JsonGraph();
+            var nodes = list<JsonGraph>();
+            for(var i=0; i<src.Count; i++)
+            {
+                ref readonly var f = ref src[i];
+                nodes.Add(new JsonGraph(f.Runtime, f.Fallbacks.Array()));
+            }
+            return nodes.ToIndex();
+        }
 
-        public ReadOnlySpan<LibraryInfo> Libs()
+        public Index<LibraryInfo> Libs()
         {
             var count = _CompilationLibraries.Count;
-            var dst = span<LibraryInfo>(count);
+            var dst = alloc<LibraryInfo>(count);
             var src = _CompilationLibraries.View;
             for(var i=0; i<count; i++)
                 api.extract(src[i], ref dst[i]);

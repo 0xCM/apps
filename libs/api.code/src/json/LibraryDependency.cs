@@ -4,10 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     partial struct JsonDepsModel
     {
-        public struct LibraryDependency
+        public record struct LibraryDependency
         {
             public string Name;
 

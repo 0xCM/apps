@@ -22,8 +22,8 @@ namespace Z0.llvm
         public void Emit(Index<DefRelations> src)
             => TableEmit(src, LlvmPaths.DbTable<DefRelations>());
 
-        public void Emit(string id, Index<LlvmTestLogEntry> src)
-            => TableEmit(src, LlvmPaths.LogTargets().Table<LlvmTestLogEntry>("llvm.tests.logs." + id + ".detail"));
+        public void Emit(string name, Index<TestResult> src)
+            => TableEmit(src, LlvmPaths.TestResultTargets().Table<TestResult>(name));
 
         public void Emit(ReadOnlySpan<LlvmInstDef> src)
             => TableEmit(src, LlvmPaths.DbTable<LlvmInstDef>());
@@ -39,7 +39,7 @@ namespace Z0.llvm
 
         public FS.FilePath EmitList(LlvmList src)
         {
-            var dst = LlvmPaths.ListImportPath(src.Name);
+            var dst = LlvmPaths.ListTargetPath(src.Name);
             EmitList(src,dst);
             return dst;
         }
@@ -66,7 +66,7 @@ namespace Z0.llvm
 
         public Index<LlvmList> EmitLists(Index<LlvmEntity> entities)
         {
-            FS.Files paths = LlvmPaths.ListNames().Map(x => LlvmPaths.ListImportPath(x));
+            FS.Files paths = LlvmPaths.ListNames().Map(x => LlvmPaths.ListTargetPath(x));
             paths.Delete();
             return EmitLists(entities, DataProvider.ConfiguredListNames());
         }
@@ -93,47 +93,47 @@ namespace Z0.llvm
             return src;
         }
 
-        public LineMap<Identifier> EmitLineMap<T>(ReadOnlySpan<T> src, ReadOnlySpan<TextLine> records, string dstid)
-            where T : struct, ILineRelations<T>
-        {
-            const uint BufferLength = 256;
-            var result = Outcome.Success;
-            var linecount = records.Length;
-            var count = src.Length;
-            var buffer = span<TextLine>(BufferLength);
-            var intervals = list<LineInterval<Identifier>>();
-            for(var i=0;i<count; i++)
-            {
-                ref readonly var relation = ref skip(src,i);
-                var k=0;
-                buffer.Clear();
-                var index = relation.SourceLine.Value;
-                for(var j=index; j<linecount && k<BufferLength; j++)
-                {
-                    ref readonly var line = ref skip(records,j);
-                    ref readonly var content = ref line.Content;
-                    if(SQ.index(content, Chars.RBrace) != 0)
-                        seek(buffer,k++) = line;
-                    else
-                        break;
-                }
+        // public LineMap<Identifier> EmitLineMap<T>(ReadOnlySpan<T> src, ReadOnlySpan<TextLine> records, string dstid)
+        //     where T : struct, ILineRelations<T>
+        // {
+        //     const uint BufferLength = 256;
+        //     var result = Outcome.Success;
+        //     var linecount = records.Length;
+        //     var count = src.Length;
+        //     var buffer = span<TextLine>(BufferLength);
+        //     var intervals = list<LineInterval<Identifier>>();
+        //     for(var i=0;i<count; i++)
+        //     {
+        //         ref readonly var relation = ref skip(src,i);
+        //         var k=0;
+        //         buffer.Clear();
+        //         var index = relation.SourceLine.Value;
+        //         for(var j=index; j<linecount && k<BufferLength; j++)
+        //         {
+        //             ref readonly var line = ref skip(records,j);
+        //             ref readonly var content = ref line.Content;
+        //             if(SQ.index(content, Chars.RBrace) != 0)
+        //                 seek(buffer,k++) = line;
+        //             else
+        //                 break;
+        //         }
 
-                if(k>0)
-                {
-                    ref readonly var l0 = ref first(buffer);
-                    ref readonly var l1 = ref skip(buffer,k-1);
-                    intervals.Add(Lines.interval(relation.Name, l0.LineNumber, l1.LineNumber));
-                }
-            }
+        //         if(k>0)
+        //         {
+        //             ref readonly var l0 = ref first(buffer);
+        //             ref readonly var l1 = ref skip(buffer,k-1);
+        //             intervals.Add(Lines.interval(relation.Name, l0.LineNumber, l1.LineNumber));
+        //         }
+        //     }
 
-            var map = Lines.map(intervals.ToArray());
-            var dst = LlvmPaths.ImportMap(dstid);
-            var emitting = EmittingFile(dst);
-            using var writer = dst.AsciWriter();
-            for(var i=0; i<map.IntervalCount; i++)
-                writer.WriteLine(map[i].Format());
-            EmittedFile(emitting, map.IntervalCount);
-            return map;
-        }
+        //     var map = Lines.map(intervals.ToArray());
+        //     var dst = LlvmPaths.LineMap(dstid);
+        //     var emitting = EmittingFile(dst);
+        //     using var writer = dst.AsciWriter();
+        //     for(var i=0; i<map.IntervalCount; i++)
+        //         writer.WriteLine(map[i].Format());
+        //     EmittedFile(emitting, map.IntervalCount);
+        //     return map;
+        // }
     }
 }

@@ -8,7 +8,7 @@ namespace Z0.llvm
 
     public readonly struct RecordFieldParser
     {
-        public static Index<RecordField> parse(ReadOnlySpan<TextLine> src, LineMap<Identifier> map)
+        public static Index<RecordField> parse(ReadOnlySpan<TextLine> src, LineMap<string> map)
         {
             var result = Outcome.Success;
             var count = map.CountLines();
@@ -35,7 +35,7 @@ namespace Z0.llvm
             return result;
         }
 
-        static void parse(ReadOnlySpan<TextLine> src, in LineInterval<Identifier> interval, ref int k, Span<RecordField> dst)
+        static void parse(ReadOnlySpan<TextLine> src, in LineInterval<string> interval, ref int k, Span<RecordField> dst)
         {
             ref readonly var min = ref interval.MinLine;
             ref readonly var max = ref interval.MaxLine;

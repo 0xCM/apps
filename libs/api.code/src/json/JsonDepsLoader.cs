@@ -4,10 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
     using Microsoft.Extensions.DependencyModel;
-    using System.Reflection;
     using System.Text;
     using System.IO;
 
@@ -16,17 +13,26 @@ namespace Z0
 
     public readonly struct JsonDepsLoader
     {
-        public static FS.FileExt Ext => FS.ext("deps", "json");
+        [Op]
+        public static JsonDeps parse(JsonText src)
+            => new JsonDeps(context(src));
+
+        public static JsonDeps load()
+            => parse(ExecutingPart.Component.Path().ChangeExtension(FileKind.JsonDeps));
+
+        [Op]
+        public static JsonDeps load(Assembly src)
+            => new JsonDeps(DependencyContext.Load(src));
 
         [Op]
         public static JsonText json(Assembly src)
         {
-            var path = FS.path(src.Location).ChangeExtension(Ext);
+            var path = FS.path(src.Location).ChangeExtension(FileKind.JsonDeps);
             return path.ReadText();
         }
 
         [Op]
-        public static JsonDeps from(FS.FilePath src)
+        public static JsonDeps parse(FS.FilePath src)
             => new JsonDeps(context(src.ReadText()));
 
         internal static ref RuntimeLibraryInfo extract(RuntimeLibrary src, ref RuntimeLibraryInfo dst)
@@ -47,7 +53,6 @@ namespace Z0
                 target.Path = FS.path(src.ResourceAssemblies[i].Path);
                 target.Locale = src.ResourceAssemblies[i].Locale;
             }
-
 
             return ref dst;
         }
@@ -70,15 +75,6 @@ namespace Z0
             dst.Path = FS.path(src.Path);
             return ref dst;
         }
-
-
-        [Op]
-        public static JsonDeps from(JsonText src)
-            => new JsonDeps(context(src));
-
-        [Op]
-        public static JsonDeps from(Assembly src)
-            => new JsonDeps(DependencyContext.Load(src));
 
         [Op]
         internal static LibraryDependency[] dependencies(CompilationLibrary src)

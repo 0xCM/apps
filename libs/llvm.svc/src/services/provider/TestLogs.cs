@@ -8,8 +8,8 @@ namespace Z0.llvm
 
     partial class LlvmDataProvider
     {
-        public Index<LlvmTestLogEntry> TestLogs(string id)
-            => (Index<LlvmTestLogEntry>)DataSets.GetOrAdd(id + "-test-logs", _
-                => LlvmTests.logs(FS.dir(@"J:\llvm\toolset\logs") + FS.file(id + "-tests-detail", FS.Json)));
+        public Index<TestResult> TestResults(string name)
+            => (Index<TestResult>)DataSets.GetOrAdd(name + "-test-logs", _
+                => LlvmTests.logs(LlvmPaths.TestResultSources().Path(name + "-tests-detail", FileKind.Json)));
     }
 }
