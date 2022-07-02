@@ -7,6 +7,7 @@ namespace Z0
     using System.Globalization;
 
     using static HexFormatSpecs;
+    using static HexFormatter;
 
     [ApiHost]
     public readonly struct HexNumericParser

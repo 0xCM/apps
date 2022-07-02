@@ -78,7 +78,8 @@ namespace Z0.Asm
                 EmitTokens();
                 var details = CalcOcDetails();
                 Emit(details);
-                //EmitSigOps(EmitForms(details));
+
+                EmitSigOps(EmitForms(details));
 
             }
             catch(Exception e)

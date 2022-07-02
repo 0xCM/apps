@@ -8,7 +8,7 @@ namespace Z0.Asm
 
     partial class IntelSdm
     {
-        public SdmForms CalcForms()
+        public SdmFormSeq CalcForms()
             => map(CalcFormDescriptors().Values, v => v.Form);
 
         public SdmFormDescriptors CalcFormDescriptors()
@@ -36,7 +36,7 @@ namespace Z0.Asm
                     if(result.Fail)
                         break;
 
-                    var terms = AsmSigs.terminate(SdmForm.define(sig,opcode));
+                    var terms = AsmSigs.terminate(SdmForms.form(sig,opcode));
                     var kTerms = terms.Count;
                     for(var j=0; j<kTerms; j++)
                     {

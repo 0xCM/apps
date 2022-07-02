@@ -73,8 +73,8 @@ namespace Z0.Asm
         public IDbSources CsvSources()
             => Sources().Sources("sdm.instructions");
 
-        public FS.FilePath Tokens()
-            => AppDb.DbTable<AsmToken>("sdm");
+        public FS.FilePath Tokens(string sort)
+            => Targets().Path(sort,FileKind.Csv);
 
         static bool IsTocPart(FS.FilePath src)
         {

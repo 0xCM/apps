@@ -10,7 +10,7 @@ namespace Z0
     {
         public static ByteSize hex(Index<CollectedEncoding> src, FS.FilePath dst)
         {
-            var options = HexFormatSpecs.options();
+            var options = HexFormatter.options();
             using var writer = dst.AsciWriter();
             var size = 0u;
             for(var i=0; i<src.Count; i++)

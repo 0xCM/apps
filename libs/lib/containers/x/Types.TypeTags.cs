@@ -2,14 +2,13 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
+
 namespace Z0
 {
-    [Free]
-    public interface IHostedApiMethod : IApiMethod
+    partial class XTend
     {
-        new IApiHost Host {get;}
-
-        ApiHostUri IApiMethod.Host
-            => Host.HostUri;
+        public static Pairings<Type,A> TypeTags<A>(this Type[] src)
+            where A : Attribute
+                => src.Tagged<A>().Select(t => Tuples.paired(t,t.Tag<A>().Require()));
     }
 }

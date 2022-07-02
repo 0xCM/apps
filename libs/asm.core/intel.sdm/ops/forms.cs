@@ -27,7 +27,7 @@ namespace Z0.Asm
             if(result.Fail)
                 Errors.Throw(result.Message);
 
-            return SdmForm.define(sig,opcode);
+            return SdmForms.form(sig,opcode);
         }
     }
 }

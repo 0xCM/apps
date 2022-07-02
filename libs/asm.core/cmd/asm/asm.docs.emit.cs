@@ -18,21 +18,6 @@ namespace Z0
             CheckCcv();
         }
 
-
-        public void EmitAsmTokens()
-            => Emit(AsmTokens.Tokens);
-
-        public void Emit(AsmTokens src)
-            => AppSvc.TableEmit(src.View, AppDb.ApiTargets().Table<AsmToken>());
-
-        [CmdOp("asm/emit")]
-        void TokensEmit()
-        {
-            EmitAsmTokens();
-            //Sdm.EmitTokens();
-            //var src = Sdm.LoadOcDetails();
-        }
-
         void GenHex8()
         {
             var dst = text.emitter();

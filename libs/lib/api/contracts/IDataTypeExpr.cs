@@ -5,20 +5,14 @@
 namespace Z0
 {
     [Free]
-    public interface IRuntimeObject : IClrArtifact
+    public interface IDataTypeExpr : IDataType, IExpr2
     {
 
     }
 
     [Free]
-    public interface IRuntimeObject<D> : IRuntimeObject
-    {
-        D Definition {get;}
-    }
-
-    [Free]
-    public interface IRuntimeObject<H,D> : IRuntimeObject<D>
-        where H : IRuntimeObject<H,D>
+    public interface IDataTypeExpr<T> : IDataTypeExpr, IDataType<T>
+        where T : IDataTypeExpr<T>
     {
 
     }

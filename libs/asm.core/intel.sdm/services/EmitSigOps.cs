@@ -12,11 +12,10 @@ namespace Z0.Asm
         {
             const string RP = "{0,-8} | {1,-16} | {2,-6} | {3,-48} | {4}";
             var result = Outcome.Success;
-            var dst = ProjectDb.Subdir("sdm") + FS.file("sdm.sigs.operands", FS.Csv);
+            var dst = SdmPaths.Targets().Path("sdm.sigs.operands", FileKind.Csv);
             var emitting = EmittingFile(dst);
             using var writer = dst.Writer();
             writer.WriteLine(string.Format(RP, "FormSeq", "Mnemonic", "OpSeq", "Sig","OpCode"));
-
             var keys = src.Keys;
             var counter = 0u;
             var count = keys.Length;

@@ -35,7 +35,6 @@ namespace Z0.Asm
             return slice(outgoing, 0, j).ToArray();
         }
 
-
         Index<SdmOpCodeDetail> CalcOcDetails(ReadOnlySpan<FS.FilePath> src)
         {
             var result = Outcome.Success;
@@ -112,7 +111,7 @@ namespace Z0.Asm
                     switch(name)
                     {
                         case "Opcode":
-                        var octext = text.despace(ocfixups.Apply(text.trim(content)));
+                        var octext = text.despace(text.trim(ocfixups.Apply(content)));
                         var oc = SdmOpCode.Empty;
                         target.OpCodeExpr = octext;
                         if(empty(octext))

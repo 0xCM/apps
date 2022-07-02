@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     using R = System.Reflection;
 
     public readonly struct ClrFieldAdapter : IRuntimeMember<ClrFieldAdapter,FieldInfo>

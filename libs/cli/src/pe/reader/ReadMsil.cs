@@ -10,9 +10,9 @@ namespace Z0
 
     partial class PeReader
     {
-        public ReadOnlySpan<MsilMetadata> ReadMsil()
+        public ReadOnlySpan<MsilRow> ReadMsil()
         {
-            var dst = list<MsilMetadata>();
+            var dst = list<MsilRow>();
             var types = @readonly(MD.TypeDefinitions.ToArray());
             var typeCount = types.Length;
             for(var k=0u; k<typeCount; k++)
@@ -29,7 +29,7 @@ namespace Z0
                     if(rva != 0)
                     {
                         var body = PE.GetMethodBody(rva);
-                        dst.Add(new MsilMetadata
+                        dst.Add(new MsilRow
                         {
                             MethodRva = (Address32)rva,
                             Token = Clr.token(method),

@@ -21,11 +21,11 @@ namespace Z0
         }
 
         public FS.FilePath MsilPath(Assembly src)
-            => ProjectDb.TablePath<MsilMetadata>(MsilScope, src.GetSimpleName());
+            => ProjectDb.TablePath<MsilRow>(MsilScope, src.GetSimpleName());
 
-        public ReadOnlySpan<MsilMetadata> EmitMsilMetadata(Assembly src)
+        public ReadOnlySpan<MsilRow> EmitMsilMetadata(Assembly src)
         {
-            var methods = ReadOnlySpan<MsilMetadata>.Empty;
+            var methods = ReadOnlySpan<MsilRow>.Empty;
             var srcPath = FS.path(src.Location);
             if(ClrModules.valid(srcPath))
             {
@@ -36,9 +36,9 @@ namespace Z0
                 if(count != 0)
                 {
                     var dst = MsilPath(src);
-                    var flow = EmittingTable<MsilMetadata>(dst);
+                    var flow = EmittingTable<MsilRow>(dst);
                     Tables.emit(methods, dst);
-                    EmittedTable<MsilMetadata>(flow, count);
+                    EmittedTable<MsilRow>(flow, count);
                 }
             }
             return methods;

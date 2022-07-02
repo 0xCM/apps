@@ -8,7 +8,7 @@ namespace Z0
 
     using static core;
 
-    public readonly struct SdmFormDescriptor
+    public class SdmFormDescriptor
     {
         public static Index<SdmFormDescriptor> unmodify(ReadOnlySpan<SdmFormDescriptor> src)
         {
@@ -19,7 +19,7 @@ namespace Z0
                 ref readonly var form = ref skip(src,i);
                 ref var dst = ref seek(buffer,i);
                 if(AsmSigs.modified(form.Sig))
-                    dst = new SdmFormDescriptor(SdmForm.define(AsmSigs.unmodify(form.Sig), form.OpCode), form.OcDetail);
+                    dst = new SdmFormDescriptor(SdmForms.form(AsmSigs.unmodify(form.Sig), form.OpCode), form.OcDetail);
                 else
                     dst = form;
             }
@@ -40,7 +40,7 @@ namespace Z0
 
         public readonly SdmForm Form;
 
-        internal readonly SdmOpCodeDetail OcDetail;
+        readonly SdmOpCodeDetail OcDetail;
 
         public readonly AsmBitModeKind Mode;
 
@@ -56,32 +56,38 @@ namespace Z0
             Description = oc.Description.Format().Trim();
         }
 
-        public text47 Name
+        public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => Form.Name;
+            get => (uint)Id;
         }
 
-        public AsmSig Sig
+        public ref readonly asci64 Name
         {
             [MethodImpl(Inline)]
-            get => Form.Sig;
+            get => ref Form.Name;
         }
 
-        public SdmOpCode OpCode
+        public ref readonly AsmSig Sig
         {
             [MethodImpl(Inline)]
-            get => Form.OpCode;
+            get => ref Form.Sig;
         }
 
-        public AsmMnemonic Mnemonic
+        public ref readonly SdmOpCode OpCode
         {
             [MethodImpl(Inline)]
-            get => Form.Mnemonic;
+            get => ref Form.OpCode;
+        }
+
+        public ref readonly AsmMnemonic Mnemonic
+        {
+            [MethodImpl(Inline)]
+            get => ref Sig.Mnemonic;
         }
 
         [MethodImpl(Inline)]
-        public SdmFormDescriptor WithName(in text47 name)
+        public SdmFormDescriptor WithName(in asci64 name)
             => new SdmFormDescriptor(Form.WithName(name), OcDetail);
     }
 }

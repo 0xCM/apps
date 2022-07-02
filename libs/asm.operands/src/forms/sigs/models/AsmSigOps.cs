@@ -7,7 +7,7 @@ namespace Z0
     using static core;
 
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public struct AsmSigOps
+    public record struct AsmSigOps : INullity, IHashed
     {
         public AsmSigOp Op0;
 
@@ -51,6 +51,39 @@ namespace Z0
                     break;
                 }
             }
+        }
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => OpCount == 0;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => OpCount != 0;
+        }
+
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => (Hash32)(Op0.Hash | Op1.Hash) | (Hash32)(Op2.Hash | Op3.Hash | Op4.Hash);
+        }
+
+        public override int GetHashCode()
+            => Hash;
+
+        [MethodImpl(Inline)]
+        public bool Equals(AsmSigOps src)
+        {
+            var result = OpCount == src.OpCount;
+            result &= Op0 == src.Op0;
+            result &= Op1 == src.Op1;
+            result &= Op2 == src.Op2;
+            result &= Op3 == src.Op3;
+            result &= Op4 == src.Op4;
+            return result;
         }
 
         public byte OpCount

@@ -21,20 +21,3 @@ namespace Z0.Parts
     {
     }
 }
-
-namespace Z0
-{
-    public static partial class XTend
-    {
-
-    }
-
-    partial struct Msg
-    {
-
-    }
-
-    public static class XSvc
-    {
-    }
-}

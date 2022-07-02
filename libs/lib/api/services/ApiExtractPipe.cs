@@ -4,12 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Collections.Generic;
     using System.Globalization;
 
-    using static Root;
     using static HexFormatSpecs;
+    using static HexFormatter;
     using static core;
 
     public class ApiExtractPipe : AppService<ApiExtractPipe>

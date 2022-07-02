@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Reflection;
-
     /// <summary>
     /// Characterizes a type that defines views over captured literals
     /// </summary>

@@ -4,22 +4,27 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct ClrArtifactRef : ITextual
+    public readonly struct ClrArtifactRef : IExpr2
     {
-        public ClrArtifactKind Kind {get;}
+        public readonly ClrArtifactKind Kind;
 
-        public CliToken Token {get;}
+        public readonly CliToken Token;
 
-        public NameOld Name {get;}
+        public readonly string Name;
 
         [MethodImpl(Inline)]
-        public ClrArtifactRef(CliToken id, ClrArtifactKind kind, NameOld name)
+        public ClrArtifactRef(CliToken id, ClrArtifactKind kind, string name)
         {
             Token = id;
             Kind = kind;
             Name = name;
         }
 
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Token.IsEmpty;
+        }
         public string Format()
             => string.Format(RP.PSx3, Kind, Token, Name);
 

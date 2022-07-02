@@ -4,35 +4,41 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [StructLayout(LayoutKind.Sequential)]
-    public readonly struct SdmForm : IComparable<SdmForm>
+    [StructLayout(LayoutKind.Sequential,Pack=1)]
+    public readonly record struct SdmForm : IDataTypeExpr<SdmForm>
     {
-        public static SdmForm define(in AsmSig sig, in SdmOpCode opcode)
-            => new SdmForm(text47.Empty,sig, opcode);
+        public readonly Hex32 Id;
 
-        public static SdmForm define(in text47 name, in AsmSig sig, in SdmOpCode opcode)
-            => new SdmForm(name, sig, opcode);
-
-        public readonly text47 Name;
+        public readonly asci64 Name;
 
         public readonly AsmSig Sig;
 
         public readonly SdmOpCode OpCode;
 
         [MethodImpl(Inline)]
-        public SdmForm(text47 name, AsmSig sig, SdmOpCode oc)
+        public SdmForm(asci64 name, AsmSig sig, SdmOpCode oc)
         {
+            Id = name.Hash | sig.Hash | oc.Hash;
             Name = name;
             Sig = sig;
             OpCode = oc;
         }
 
-        public Hex32 Id
-            => alg.hash.calc(Format());
-
         [MethodImpl(Inline)]
-        public SdmForm WithName(in text47 name)
-            => define(name, Sig, OpCode);
+        public SdmForm WithName(in asci64 name)
+            => SdmForms.form(name, Sig, OpCode);
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Name.IsNull;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => !Name.IsNull;
+        }
 
         public AsmMnemonic Mnemonic
         {
@@ -46,11 +52,24 @@ namespace Z0
             get => Sig.OpCount;
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => (uint)Id;
+        }
+
         public AsmSigOps Operands
         {
             [MethodImpl(Inline)]
             get => Sig.Operands;
         }
+
+        [MethodImpl(Inline)]
+        public bool Equals(SdmForm src)
+            => Name == src.Name && Sig == src.Sig && OpCode == src.OpCode;
+
+        public override int GetHashCode()
+            => Hash;
 
         public int CompareTo(SdmForm src)
         {

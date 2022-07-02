@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public readonly partial struct BinaryCode : IComparable<BinaryCode>, ITextual, IHashed
+    public readonly partial struct BinaryCode : IDataTypeExpr<BinaryCode>
     {
         /// <summary>
         /// The encoded bytes
@@ -53,6 +53,11 @@ namespace Z0
             get => Data;
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => HashCodes.hash(Data);
+        }
         public int Length
         {
             [MethodImpl(Inline)]
@@ -112,11 +117,6 @@ namespace Z0
         public string Format(HexFormatOptions config)
             => Data.FormatHex(config);
 
-        public Hash32 Hash
-        {
-            [MethodImpl(Inline)]
-            get => core.hash(View);
-        }
 
         public override int GetHashCode()
             => Hash;

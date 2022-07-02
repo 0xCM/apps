@@ -18,7 +18,7 @@ namespace Z0
         public Hex32 Id;
 
         [Render(38)]
-        public text47 Name;
+        public asci64 Name;
 
         [Render(48)]
         public AsmSig Sig;

@@ -54,24 +54,24 @@ namespace Z0
         }
 
         public FS.Files MetadataFiles()
-            => Db.TableDir<MsilMetadata>().AllFiles;
+            => Db.TableDir<MsilRow>().AllFiles;
 
         public FS.Files CapturesFiles()
             => Db.CilPaths.CilDataPaths();
 
-        public Index<MsilMetadata> LoadMetadata(FS.FilePath src)
+        public Index<MsilRow> LoadMetadata(FS.FilePath src)
         {
             var flow = Wf.Running(src.ToUri());
-            var dst = DataList.create<MsilMetadata>();
+            var dst = DataList.create<MsilRow>();
             using var reader = src.Utf8Reader();
             var fields = reader.ReadLine().SplitClean(Chars.Pipe);
-            if(fields.Length != MsilMetadata.FieldCount)
+            if(fields.Length != MsilRow.FieldCount)
             {
-                Wf.Error(Tables.FieldCountMismatch.Format(MsilMetadata.FieldCount, fields.Length));
-                return Index<MsilMetadata>.Empty;
+                Wf.Error(Tables.FieldCountMismatch.Format(MsilRow.FieldCount, fields.Length));
+                return Index<MsilRow>.Empty;
             }
 
-            var row = default(MsilMetadata);
+            var row = default(MsilRow);
             while(!reader.EndOfStream)
             {
                 var line = reader.ReadLine();
@@ -86,7 +86,7 @@ namespace Z0
             return dst.Emit();
         }
 
-        public void EmitCode(ReadOnlySpan<MsilMetadata> src, FS.FilePath dst)
+        public void EmitCode(ReadOnlySpan<MsilRow> src, FS.FilePath dst)
         {
             var count = src.Length;
             if(count == 0)
@@ -219,13 +219,13 @@ namespace Z0
             }
         }
 
-        static Outcome parse(string src, out MsilMetadata dst)
+        static Outcome parse(string src, out MsilRow dst)
         {
             dst = default;
             var parts = @readonly(src.Split(Chars.Pipe));
             var count = parts.Length;
-            if(count != MsilMetadata.FieldCount)
-                return (false, Tables.FieldCountMismatch.Format(MsilMetadata.FieldCount, count));
+            if(count != MsilRow.FieldCount)
+                return (false, Tables.FieldCountMismatch.Format(MsilRow.FieldCount, count));
             else
             {
                 var outcome = Outcome.Empty;

@@ -7,7 +7,7 @@ namespace Z0
     using Asm;
 
     [StructLayout(LayoutKind.Sequential, Size=2)]
-    public readonly struct AsmSigOp : IEquatable<AsmSigOp>
+    public readonly record struct AsmSigOp
     {
         public readonly AsmSigTokenKind Kind;
 
@@ -29,7 +29,7 @@ namespace Z0
             get => new AsmSigToken(Kind, Value);
         }
 
-        public uint Id
+        public ushort Id
         {
             [MethodImpl(Inline)]
             get => bits.join((byte)Value, (byte)Kind);
@@ -55,6 +55,12 @@ namespace Z0
         public AsmSigOp WithModifier(AsmModifierKind mod)
             => new AsmSigOp(Kind, Value, mod);
 
+        public Hash16 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Id;
+        }
+
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
@@ -68,14 +74,11 @@ namespace Z0
         }
 
         public override int GetHashCode()
-            => (int)Id;
+            => (int)Hash;
 
         [MethodImpl(Inline)]
         public bool Equals(AsmSigOp src)
             => core.bw64(this) == core.bw64(src);
-
-        public override bool Equals(object src)
-            => src is AsmSigOp x && Equals(x);
 
         public string Format()
             => AsmSigs.format(this);

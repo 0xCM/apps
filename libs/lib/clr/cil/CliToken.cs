@@ -11,7 +11,7 @@ namespace Z0
     /// Identifies a metadata element
     /// </summary>
     [ApiComplete]
-    public readonly struct CliToken : ITextual, IEquatable<CliToken>, INullity, IComparable<CliToken>
+    public readonly record struct CliToken : IDataType<CliToken>
     {
         readonly uint Data;
 
@@ -102,10 +102,15 @@ namespace Z0
             get => Data != 0;
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Data;
+        }
+
         [MethodImpl(Inline)]
         public string Format()
             => IsEmpty ? EmptyString : string.Format("{0:X2}:{1:x6}", (byte)Table, Row);
-
 
         [MethodImpl(Inline)]
         public int CompareTo(CliToken src)
@@ -119,10 +124,7 @@ namespace Z0
             => Data == src.Data;
 
         public override int GetHashCode()
-            => Data.GetHashCode();
-
-        public override bool Equals(object src)
-            => src is CliToken t && Equals(t);
+            => Hash;
 
         [MethodImpl(Inline)]
         public static implicit operator CliToken(int src)
@@ -131,14 +133,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator CliToken(uint src)
             => new CliToken(src);
-
-        [MethodImpl(Inline)]
-        public static bool operator ==(CliToken x, CliToken y)
-            => x.Equals(y);
-
-        [MethodImpl(Inline)]
-        public static bool operator !=(CliToken x, CliToken y)
-            => !x.Equals(y);
 
         [MethodImpl(Inline)]
         public static implicit operator CliToken(Type src)

@@ -50,6 +50,12 @@
 		},
 		{
 			"path": "..\\files"
+		},
+		{
+			"path": "..\\cli"
+		},
+		{
+			"path": "..\\lib"
 		}
 	],
 	"settings": {}

@@ -173,7 +173,7 @@ namespace Z0
 
         [Op]
         public static string FormatHex(this byte[] src)
-            => HexFormatter.format(src, HexFormatSpecs.HexData);
+            => HexFormatter.format(src, HexFormatter.HexData);
 
         [Op]
         public static string FormatHex(this byte[] src, in HexFormatOptions config)
@@ -181,7 +181,7 @@ namespace Z0
 
         [Op]
         public static string FormatHex(this ReadOnlySpan<byte> src)
-            => HexFormatter.format(src, HexFormatSpecs.HexData);
+            => HexFormatter.format(src, HexFormatter.HexData);
 
         [Op]
         public static string FormatHex(this ReadOnlySpan<byte> src, in HexFormatOptions options)
@@ -189,7 +189,7 @@ namespace Z0
 
         [Op]
         public static string FormatHex(this Span<byte> src)
-            => HexFormatter.format(src, HexFormatSpecs.HexData);
+            => HexFormatter.format(src, HexFormatter.HexData);
 
         [Op]
         public static string FormatHex(this Span<byte> src, in HexFormatOptions options)

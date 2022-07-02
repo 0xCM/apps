@@ -9,9 +9,8 @@ namespace Z0
     /// <summary>
     /// Defines a cli signature
     /// </summary>
-    public readonly struct CliSig : IComparable<CliSig>, IEquatable<CliSig>
+    public readonly struct CliSig : IDataTypeExpr<CliSig>
     {
-
         [Op]
         public static string format(CliSig src)
             => DefaultMsilFormatProvider.Instance.SigByteArrayToString(src);
@@ -34,10 +33,10 @@ namespace Z0
             get => !IsEmpty;
         }
 
-        public uint Hash
+        public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => alg.ghash.calc(Data.View);
+            get => HashCodes.hash(Data);
         }
 
         public string Format()

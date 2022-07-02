@@ -5,23 +5,27 @@
 namespace Z0
 {
     [Free]
-    public interface IHashCode
+    public interface IHashCode : IExpr2
     {
         ReadOnlySpan<byte> Data {get;}
 
+        bool INullity.IsEmpty
+            => Sized.bw64u(Data) == 0;
+        bool INullity.IsNonEmpty
+            => Sized.bw64u(Data) != 0;
     }
 
     [Free]
-    public interface IHashCode<T> : IHashCode, ITextual
+    public interface IHashCode<T> : IHashCode
         where T : unmanaged
      {
          T Value {get;}
 
-        string ITextual.Format()
+        string IExpr2.Format()
             => Value.ToString();
 
         ReadOnlySpan<byte> IHashCode.Data
-            => core.bytes(Value);
+            => Refs.bytes(Value);
      }
 
     [Free]

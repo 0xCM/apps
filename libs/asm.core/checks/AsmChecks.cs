@@ -16,11 +16,17 @@ namespace Z0
     {
         SdmOpCodes OpCodes => Wf.AsmOpCodes();
 
-        ApiCodeFiles CodeFiles => Wf.ApiCodeFiles();
-
         X86Dispatcher Jumps => Wf.X86Dispatcher();
 
         ApiCode ApiCode => Wf.ApiCode();
+
+        [CmdOp("asm/emit/tokens")]
+        void EmitAsmSymbols()
+        {
+            TableEmit(AsmTokens.OcTokenDefs.View, AppDb.ApiTargets().Path("api.asm.tokens.opcodes", FileKind.Csv), unicode);
+            TableEmit(AsmTokens.SigTokenDefs.View, AppDb.ApiTargets().Path("api.asm.tokens.sigs", FileKind.Csv), unicode);
+            TableEmit(AsmTokens.TokenDefs.View, AppDb.ApiTargets().Path("api.asm.tokens", FileKind.Csv), unicode);
+        }
 
         [CmdOp("asm/check/flags")]
         Outcome CheckAsmFlags(CmdArgs args)
@@ -77,13 +83,18 @@ namespace Z0
             const string Oc1 = "REX.W + 05 id";
 
             var asm0 = AsmSpecs.and(gp32.edx, 0xC1C1);
-            var result = OpCodes.Parse(Oc0, out var oc0);
-            if(result)
-                Write(Require.equal(oc0.Format(), Oc0));
+            Write($"{asm0}");
 
-            result = OpCodes.Parse(Oc1, out var oc1);
-            if(result)
-                Write(Require.equal(oc1.Format(), Oc1));
+            var opcode = SdmOpCode.Empty;
+            var result = OpCodes.Parse(Oc0, out opcode);
+            Write($"{Oc0} -> {opcode}");
+
+            // if(result)
+            //     Write(Require.equal(oc0.Format(), Oc0));
+
+            // result = OpCodes.Parse(Oc1, out var oc1);
+            // if(result)
+            //     Write(Require.equal(oc1.Format(), Oc1));
             return result;
         }
 
@@ -251,7 +262,7 @@ namespace Z0
 
             var buffer = alloc<byte>(count/2);
             var size = Digital.pack(dst,buffer);
-            var output = buffer.FormatHex(HexFormatSpecs.Compact);
+            var output = buffer.FormatHex(HexFormatter.Compact);
             Write(Require.equal(DataSource,output));
             return result;
         }
@@ -310,7 +321,7 @@ namespace Z0
             return true;
         }
 
-        [CmdOp("asm/check/tokens")]
+        [CmdOp("asm/tokens/check")]
         void CheckAsmTokens()
         {
             AsmSigs.parse("adc r16, r16", out var sig);
@@ -334,7 +345,6 @@ namespace Z0
 
             if(SdmOpCodes.diff(oc1, oc2, out token))
                 Write(token.Format());
-
 
             var sigs = AsmSigTokens.create();
             var src = sigs;

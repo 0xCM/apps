@@ -15,7 +15,7 @@ namespace Z0
         public ushort Primitive
         {
             [MethodImpl(Inline)]
-           get => Value;
+            get => Value;
         }
 
         ushort IHashCode<ushort>.Value
@@ -42,6 +42,18 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator Hash16(ushort src)
             => new Hash16(src);
+
+        [MethodImpl(Inline)]
+        public static explicit operator int(Hash16 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator Hash32(Hash16 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator Hash64(Hash16 src)
+            => src.Value;
 
         [MethodImpl(Inline)]
         public static Hash32 operator | (Hash16 a, Hash16 b)

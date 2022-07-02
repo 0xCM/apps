@@ -51,7 +51,7 @@ namespace Z0
                     break;
             }
 
-            return new string(dst);
+            return text.trim(new string(dst));
         }
 
         const NumericKind Closure = UnsignedInts;

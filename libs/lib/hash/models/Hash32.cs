@@ -65,7 +65,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static Hash32 operator | (Hash32 a, Hash32 b)
-            => alg.hash.combine(a,b);
+            => HashCodes.combine(a,b);
 
         [MethodImpl(Inline)]
         public static Hash32 operator ^ (Hash32 a, Hash32 b)

@@ -17,6 +17,6 @@ namespace Z0
             => HexFormatter.format(src, options);
 
         public string Format(ReadOnlySpan<T> src)
-            => HexFormatter.format(src, HexFormatSpecs.options(valsep: Chars.Space));
+            => HexFormatter.format(src, HexFormatter.options(valsep: Chars.Space));
     }
 }

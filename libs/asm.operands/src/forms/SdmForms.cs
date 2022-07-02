@@ -4,53 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
-    public readonly struct SdmForms
+    [Free, ApiHost]
+    public class SdmForms
     {
-        readonly SortedLookup<string,SdmForm> Data;
+        public static SdmForm form(in AsmSig sig, in SdmOpCode opcode)
+            => new SdmForm(asci64.Null,sig, opcode);
 
-        public SdmForms(SdmForm[] src)
-        {
-            Data = map(src, form => (form.Name.Format(), form)).ToDictionary();
-        }
-
-        public ReadOnlySpan<SdmForm> View
-        {
-            [MethodImpl(Inline)]
-            get => Data.Values;
-        }
-
-        public ReadOnlySpan<string> Names
-        {
-            [MethodImpl(Inline)]
-            get => Data.Keys;
-        }
-
-        public uint Count
-        {
-            [MethodImpl(Inline)]
-            get => Data.EntryCount;
-        }
-
-        public ref readonly SdmForm this[uint index]
-        {
-            [MethodImpl(Inline)]
-            get => ref skip(View,index);
-        }
-
-        public ref readonly SdmForm this[int index]
-        {
-            [MethodImpl(Inline)]
-            get => ref skip(View,index);
-        }
-
-        [MethodImpl(Inline)]
-        public bool Find(string name, out SdmForm form)
-            => Data.Find(name, out form);
-
-        [MethodImpl(Inline)]
-        public static implicit operator SdmForms(SdmForm[] src)
-            => new SdmForms(src);
+        public static SdmForm form(in asci64 name, in AsmSig sig, in SdmOpCode opcode)
+            => new SdmForm(name, sig, opcode);
     }
 }

@@ -18,7 +18,7 @@ namespace Z0
             if(empty(src))
                 return (false, "Empty input");
 
-            var input = HexFormatSpecs.ClearPrespec(src);
+            var input = HexFormatter.ClearPrespec(src);
             var digits = input.Length;
             var result = Outcome.Failure;
 

@@ -9,6 +9,22 @@ namespace Z0.Asm
 
     partial class SdmOpCodes
     {
+
+        public static Outcome parse2(string src, out SdmOpCode dst)
+        {
+            var result = Outcome.Success;
+            dst = SdmOpCode.Empty;
+            var parts = sys.empty<string>();
+            var input = text.trim(text.despace(src));
+            if(evex(input) || vex(input))
+            {
+
+            }
+
+
+            return result;
+
+        }
         public static Outcome parse(string src, out SdmOpCode dst)
         {
             var result = Outcome.Success;

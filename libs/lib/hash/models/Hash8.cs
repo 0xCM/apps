@@ -40,6 +40,18 @@ namespace Z0
             => new Hash8(src);
 
         [MethodImpl(Inline)]
+        public static implicit operator Hash16(Hash8 src)
+            => new Hash16(src.Value);
+
+        [MethodImpl(Inline)]
+        public static implicit operator Hash32(Hash8 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator Hash64(Hash8 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
         public static Hash16 operator | (Hash8 a, Hash8 b)
             => (ushort)((uint)a.Value | ((uint)b.Value << 8));
 

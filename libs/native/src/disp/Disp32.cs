@@ -22,7 +22,7 @@ namespace Z0
 
             dst = default;
             var disp = 0;
-            if(HexFormatSpecs.HasSpec(input))
+            if(HexFormatter.HasSpec(input))
             {
                 result = HexParser.parse32i(src, out disp);
                 if(result)

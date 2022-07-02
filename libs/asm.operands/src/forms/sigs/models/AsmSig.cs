@@ -4,12 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     using api = Asm.AsmSigs;
 
     [StructLayout(LayoutKind.Sequential,Pack=1)]
-    public readonly struct AsmSig : IComparable<AsmSig>
+    public readonly record struct AsmSig : IDataTypeExpr<AsmSig>
     {
         public readonly AsmMnemonic Mnemonic;
 
@@ -84,8 +82,11 @@ namespace Z0
             Operands.Op4 = op4;
         }
 
-        public Hex32 Hash
-            => alg.hash.calc(Format());
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Mnemonic.Hash | Operands.Hash;
+        }
 
         public AsmSigOp this[int i]
             => Operands[i];
@@ -107,6 +108,13 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Mnemonic.IsEmpty;
         }
+
+        public override int GetHashCode()
+            => Hash;
+
+        [MethodImpl(Inline)]
+        public bool Equals(AsmSig src)
+            => Mnemonic == src.Mnemonic && Operands == src.Operands;
 
         [MethodImpl(Inline)]
         public AsmSig Replicate()

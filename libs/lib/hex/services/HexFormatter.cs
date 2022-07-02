@@ -17,6 +17,171 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
+        /// <summary>
+        /// Specifies the default configuration for hex data emission
+        /// </summary>
+        public static HexFormatOptions HexData
+        {
+            [MethodImpl(Inline)]
+            get => options(true, false, false, false, true, DataDelimiter);
+        }
+
+        /// <summary>
+        /// The default configuration for array initialization content
+        /// </summary>
+        public static HexFormatOptions HexArray
+        {
+            [MethodImpl(Inline)]
+             get => options(zpad:true, specifier:true, uppercase:false, prespec:true, delimitsegs:true, segsep:ListDelimiter, valsep: ListDelimiter);
+        }
+
+        public static HexFormatOptions Compact
+        {
+            [MethodImpl(Inline)]
+            get => options(zpad:true, specifier:false, uppercase:true, prespec:false, delimitsegs:false, delimitblocks:false);
+        }
+
+
+        /// <summary>
+        /// Removes leading or trailing hex specifiers
+        /// </summary>
+        /// <param name="src">The source string</param>
+        public static string clear(string src)
+            => src.Remove("0x").RemoveAny('h');
+
+        /// <summary>
+        /// Removes leading or trailing hex specifiers
+        /// </summary>
+        /// <param name="src">The source string</param>
+        public static ReadOnlySpan<char> clear(ReadOnlySpan<char> src)
+        {
+            var output = src;
+            if(src.Length >= 2)
+            {
+                ref readonly var c0 = ref skip(src,0);
+                ref readonly var c1 = ref skip(src,1);
+                if(c0 == '0' & c1 == 'x')
+                    output = slice(src,2);
+                else
+                {
+                    ref readonly var c = ref skip(src,src.Length-1);
+                    if(c == 'h')
+                    {
+                        output = slice(src,0, src.Length - 1);
+                    }
+                }
+            }
+            return output;
+        }
+
+        public static string spec(W8 w, HexPadStyle pad, LetterCaseKind @case)
+        {
+            if(pad == HexPadStyle.Zero)
+                return @case == LetterCaseKind.Upper ? Hex8SpecUC : Hex8Spec;
+            else
+                 return CaseSpec(@case);
+        }
+
+        public static string spec(W8i w, HexPadStyle pad, LetterCaseKind @case)
+            => spec(w8, pad, @case);
+
+        public static string spec(W16 w, HexPadStyle pad, LetterCaseKind @case)
+        {
+            if(pad == HexPadStyle.Zero)
+                return @case == LetterCaseKind.Upper ? Hex16SpecUC : Hex16Spec;
+            else
+                 return CaseSpec(@case);
+        }
+
+        public static string spec(W16i w, HexPadStyle pad, LetterCaseKind @case)
+            => spec(w16, pad, @case);
+
+        public static string spec(W32 w, HexPadStyle pad, LetterCaseKind @case)
+        {
+            if(pad == HexPadStyle.Zero)
+                return @case == LetterCaseKind.Upper ? Hex32SpecUC : Hex32Spec;
+            else
+                 return CaseSpec(@case);
+        }
+
+        public static string spec(W32i w, HexPadStyle pad, LetterCaseKind @case)
+            => spec(w32, pad, @case);
+
+        public static string spec(W64 w, HexPadStyle pad, LetterCaseKind @case)
+        {
+            if(pad == HexPadStyle.Zero)
+                return @case == LetterCaseKind.Upper ? Hex64SpecUC : Hex64Spec;
+            else
+                 return CaseSpec(@case);
+        }
+
+        public static string spec(W64i w, HexPadStyle pad, LetterCaseKind @case)
+            => spec(w64, pad, @case);
+
+        public static string spec(W8 w, LetterCaseKind @case, int? digits)
+            => @case == LetterCaseKind.Lower ? digits.Map(n => $"x{n}", () => Hex8Spec) : digits.Map(n => $"X{n}", () => Hex8SpecUC);
+
+        public static string spec(W16 w, LetterCaseKind @case, int? digits)
+            => @case == LetterCaseKind.Lower ? digits.Map(n => $"x{n}", () => Hex16Spec) : digits.Map(n => $"X{n}", () => Hex16SpecUC);
+
+        public static string spec(W32 w, LetterCaseKind @case, int? digits)
+            => @case == LetterCaseKind.Lower ? digits.Map(n => $"x{n}", () => Hex32Spec) : digits.Map(n => $"X{n}", () => Hex32SpecUC);
+
+        public static string spec(W64 w, LetterCaseKind @case, int? digits)
+            => @case == LetterCaseKind.Lower ? digits.Map(n => $"x{n}", () => "x") : digits.Map(n => $"X{n}", () => "X");
+
+        public static ReadOnlySpan<char> ClearSpecs(ReadOnlySpan<char> src)
+            => clear(text.format(src));
+
+        [MethodImpl(Inline)]
+        public static bool HasPrespec(ReadOnlySpan<char> src)
+            => src.Length > 2 && text.begins(src,"0x");
+
+        [MethodImpl(Inline)]
+        public static bool HasPostspec(ReadOnlySpan<char> src)
+            => src.Length > 0 && skip(src, src.Length - 1) == 'h';
+
+        [MethodImpl(Inline)]
+        public static bool HasSpec(ReadOnlySpan<char> src)
+            => HasPrespec(src) || HasPostspec(src);
+
+        [MethodImpl(Inline)]
+        public static ReadOnlySpan<char> ClearPrespec(ReadOnlySpan<char> src)
+            => HasPrespec(src) ? slice(src,2) : src;
+
+        [MethodImpl(Inline)]
+        public static HexFormatOptions options(bool zpad = true, bool specifier = true, bool uppercase = false, bool prespec = true,
+            bool delimitsegs = true, char? segsep = null, bool delimitblocks = false, char? blocksep = null, char? valsep = null)
+        {
+            var dst = new HexFormatOptions();
+            dst.ZeroPad = zpad;
+            dst.CaseIndicator = CaseSpec(uppercase);
+            dst.Specifier = specifier;
+            dst.Uppercase = uppercase;
+            dst.PreSpec = prespec;
+            dst.DelimitSegs = delimitsegs;
+            dst.SegDelimiter = segsep ?? DataDelimiter;
+            dst.DelimitBlocks = delimitblocks;
+            dst.BlockDelimiter = blocksep ?? Chars.Null;
+            dst.BlockWidth = 0;
+            dst.ValueDelimiter = valsep ?? DataDelimiter;
+            return dst;
+        }
+
+        /// <summary>
+        /// Defines the asci character codes for uppercase hex digits 1,2, ..., 9, A, ..., F
+        /// </summary>
+        public static ReadOnlySpan<byte> UpperHexDigits
+            => new byte[]{48,49,50,51,52,53,54,55,56,57,65,66,67,68,69,70};
+
+        /// <summary>
+        /// Defines the asci character codes for uppercase hex digits 1,2, ..., 9, a, ..., f
+        /// </summary>
+        public static ReadOnlySpan<byte> LowerHexDigits
+            => new byte[]{48,49,50,51,52,53,54,55,56,57,97,98,99,100,101,102};
+
+
+
         [Op, Closures(Closure)]
         public static string format<T>(ReadOnlySpan<T> src, in HexFormatOptions config)
             where T : unmanaged
@@ -191,7 +356,7 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static string array<T>(ReadOnlySpan<T> src)
             where T : unmanaged
-                => formatter<T>().Format(src, HexFormatSpecs.HexArray);
+                => formatter<T>().Format(src, HexArray);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static HexFormatter<T> formatter<T>()
@@ -445,31 +610,31 @@ namespace Z0
 
         [Op]
         public static string bytes(ushort src)
-            => format(core.bytes(src), HexFormatSpecs.HexData);
+            => format(core.bytes(src), HexData);
 
         [Op]
         public static string bytes(short src)
-            => format(core.bytes(src), HexFormatSpecs.HexData);
+            => format(core.bytes(src), HexData);
 
         [Op]
         public static string bytes(int src)
-            => format(core.bytes(src), HexFormatSpecs.HexData);
+            => format(core.bytes(src), HexData);
 
         [Op]
         public static string bytes(uint src)
-            => format(core.bytes(src), HexFormatSpecs.HexData);
+            => format(core.bytes(src), HexData);
 
         [Op]
         public static string bytes(long src)
-            => format(core.bytes(src), HexFormatSpecs.HexData);
+            => format(core.bytes(src), HexData);
 
         [Op]
         public static string bytes(ulong src)
-            => format(core.bytes(src), HexFormatSpecs.HexData);
+            => format(core.bytes(src), HexData);
 
         public static string bytes<T>(T src)
             where T : unmanaged
-                => format(core.bytes(src), HexFormatSpecs.HexData);
+                => format(core.bytes(src), HexData);
 
         [Op, Closures(AllNumeric)]
         public static string format<T>(T src, bool zpad, bool specifier, bool uppercase = false, bool prespec = true)

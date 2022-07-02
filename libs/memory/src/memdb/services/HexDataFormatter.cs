@@ -25,8 +25,8 @@ namespace Z0
         {
             LineConfig = config;
             BaseAddress = @base ?? 0;
-            LabelConfig = HexFormatSpecs.options(zpad:true, specifier: true, uppercase: false, prespec:false);
-            DataConfig = HexFormatSpecs.HexData;
+            LabelConfig = HexFormatter.options(zpad:true, specifier: true, uppercase: false, prespec:false);
+            DataConfig = HexFormatter.HexData;
         }
 
         public string FormatLine(ReadOnlySpan<byte> data, ulong offset, char delimiter)

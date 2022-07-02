@@ -19,7 +19,7 @@ namespace Z0.Asm
             var count = sigs.Count;
             var dst = alloc<SdmForm>(count);
             for(var i=0; i<count; i++)
-                seek(dst,i) = SdmForm.define(src.Name, sigs[i], src.OpCode);
+                seek(dst,i) = SdmForms.form(src.Name, sigs[i], src.OpCode);
             return dst;
         }
 

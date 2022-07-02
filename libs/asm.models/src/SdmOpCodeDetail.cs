@@ -14,7 +14,7 @@ namespace Z0
         [Render(12)]
         public uint OpCodeKey;
 
-        [Render(12)]
+        [Render(16)]
         public AsmMnemonic Mnemonic;
 
         [Render(36)]
