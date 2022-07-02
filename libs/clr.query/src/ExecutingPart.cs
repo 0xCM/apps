@@ -4,11 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System.Diagnostics;
+
     public class ExecutingPart
     {
         public static ref readonly Assembly Component => ref _Component;
 
         public static ref readonly PartId Id => ref _Id;
+
+        public static Process Process => Process.GetCurrentProcess();
 
         static PartId _Id;
 

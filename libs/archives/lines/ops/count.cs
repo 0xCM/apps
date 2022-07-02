@@ -75,8 +75,5 @@ namespace Z0
             return counter;
         }
 
-        [MethodImpl(Inline), Op]
-        public static uint count(ReadOnlySpan<AsciCode> src)
-            => count(recover<AsciCode,byte>(src));
     }
 }

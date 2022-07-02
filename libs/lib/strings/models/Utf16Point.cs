@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public readonly struct UnicodeSymbol : INatBytes<UnicodeSymbol,N2>
+    public readonly struct Utf16Point : INatBytes<Utf16Point,N2>
     {
         public readonly ushort Code;
 
@@ -41,7 +41,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public bool Equals(UnicodeSymbol src)
+        public bool Equals(Utf16Point src)
             => Code == src.Code;
 
         [MethodImpl(Inline)]
@@ -52,7 +52,7 @@ namespace Z0
             => (int)Code;
 
         public override bool Equals(object src)
-            => src is UnicodeSymbol c && Equals(c);
+            => src is Utf16Point c && Equals(c);
 
         public override string ToString()
             => Text;

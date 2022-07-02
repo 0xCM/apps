@@ -25,7 +25,7 @@ namespace Z0
             => new DbTargets(setting(Archives.Path(EN.DbTargets), FS.dir));
 
         public EnvVars<string> LoadEnv(string name)
-            => EnvVars.load(Archives.EnvPath(name));
+            => AsciLines.env(Archives.EnvPath(name));
 
         public IDbTargets DbOut(string scope)
             => DbOut().Targets(scope);

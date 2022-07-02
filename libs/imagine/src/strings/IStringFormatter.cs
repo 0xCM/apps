@@ -4,19 +4,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
+    [Free]
     public interface IStringFormatter
     {
         string Format(ReadOnlySpan<byte> src);
     }
 
-    public interface IStringFormatter<T> : IStringFormatter
-        where T : unmanaged
+    [Free]
+    public interface IStringFormatter<K> : IStringFormatter
+        where K : unmanaged
     {
-        string Format(ReadOnlySpan<T> src);
+        string Format(ReadOnlySpan<K> src);
 
         string IStringFormatter.Format(ReadOnlySpan<byte> src)
-            => Format(recover<T>(src));
+            => Format(Spans.recover<K>(src));
     }
 }

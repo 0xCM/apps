@@ -40,6 +40,5 @@ namespace Z0
             dst.Label = src.Identity.Format();
             return ref dst;
         }
-
     }
 }

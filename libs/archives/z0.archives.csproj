@@ -12,6 +12,7 @@
     <ProjectReference Include="$(Symbolics)" />
     <ProjectReference Include="$(CmdSpecs)" />
     <ProjectReference Include="$(Models)" />
+    <ProjectReference Include="$(Files)" />
   </ItemGroup>
 
 </Project>

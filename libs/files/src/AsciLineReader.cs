@@ -44,9 +44,9 @@ namespace Z0
             Source?.Dispose();
         }
 
-        public bool Next(out AsciLine dst)
+        public bool Next(out AsciLineCover dst)
         {
-            dst = AsciLine.Empty;
+            dst = AsciLineCover.Empty;
             var _line = Source.ReadLine();
             if(_line == null)
                 return false;
@@ -57,9 +57,9 @@ namespace Z0
             LineCount++;
 
             if(AsciLines.number(data, out var length, out var n))
-                dst = new AsciLine(slice(data, (int)length));
+                dst = new AsciLineCover(slice(data, (int)length));
             else
-                dst = new AsciLine(data);
+                dst = new AsciLineCover(data);
 
             Offset+=length;
 

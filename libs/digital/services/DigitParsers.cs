@@ -70,7 +70,7 @@ namespace Z0
             return result;
         }
 
-        public static Outcome parse(Base10 @base, in AsciLine src, ref uint i, out ushort dst)
+        public static Outcome parse(Base10 @base, in AsciLineCover src, ref uint i, out ushort dst)
         {
             var i0 = i;
             var result = Outcome.Success;

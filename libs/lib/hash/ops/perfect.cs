@@ -17,11 +17,11 @@ namespace Z0
             if(result)
             {
                 var codes = hashed.Codes;
-                dst = alloc<HashEntry<string>>(n);
+                dst = sys.alloc<HashEntry<string>>(n);
                 ref var records = ref dst.First;
                 for(var j=0u; j<count; j++)
                 {
-                    ref readonly var hash = ref skip(codes,j);
+                    ref readonly var hash = ref Spans.skip(codes,j);
                     ref var record = ref dst[j];
                     record.Seq = hash.Hash % n;
                     record.Code = hash.Hash;
@@ -41,7 +41,7 @@ namespace Z0
             var accumulator = hashset<uint>();
             for(var i=0; i<count; i++)
             {
-                ref readonly var input = ref skip(src,i);
+                ref readonly var input = ref Spans.skip(src,i);
                 var computed = hasher.Compute(f(input));
                 seek(buffer,i) = (input, computed);
                 accumulator.Add(computed);
@@ -55,12 +55,12 @@ namespace Z0
             where T : IEquatable<T>
         {
             var count = src.Length;
-            var buffer = alloc<HashCode<T>>(count);
+            var buffer = sys.alloc<HashCode<T>>(count);
             var accumulator = hashset<uint>();
             var fx = new StringHasher();
             for(var i=0; i<count; i++)
             {
-                ref readonly var input = ref skip(src,i);
+                ref readonly var input = ref Spans.skip(src,i);
                 var computed = fx.Compute(format(input));
                 seek(buffer,i) = (input, computed);
                 accumulator.Add(computed);

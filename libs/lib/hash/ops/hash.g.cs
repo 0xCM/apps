@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Diagnostics;
-    using System.Numerics;
-
-    using static HashCodes.Marvin;
     using static Scalars;
 
     using H = HashCodes;

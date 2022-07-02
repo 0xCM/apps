@@ -4,14 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public readonly record struct MemoryString<K> : IMemoryString<MemoryString<K>, char>
+    public readonly record struct MemoryString<K> : IMemoryString<K>
         where K : unmanaged
     {
-        public readonly K Kind;
-
         public readonly MemoryAddress Address;
 
         public readonly int Length;
@@ -19,40 +15,45 @@ namespace Z0
         public readonly uint Size;
 
         [MethodImpl(Inline)]
-        public MemoryString(K kind, MemoryAddress address, int length)
+        public MemoryString(MemoryAddress address, int length)
         {
-            Kind = kind;
             Address = address;
             Length = length;
-            Size = (uint)length*size<char>();
+            Size = (uint)length*Sized.size<K>();
         }
 
-        public unsafe ReadOnlySpan<char> Cells
+        public unsafe ReadOnlySpan<K> Cells
         {
             [MethodImpl(Inline)]
-            get => cover(Address.Pointer<char>(), Length);
+            get => Spans.cover(Address.Pointer<K>(), Length);
         }
 
         public ReadOnlySpan<byte> Bytes
         {
             [MethodImpl(Inline)]
-            get => cover<byte>(Address, Size);
+            get => Spans.recover<K,byte>(Cells);
         }
 
-        MemoryAddress IAddressable.Address
-            => Address;
+        public byte CellSize
+        {
+            [MethodImpl(Inline)]
+            get => (byte)Sized.size<K>();
+        }
 
-        int IByteSeq.Length
-            => Length;
-
-        int IByteSeq.Capacity
-            => Length;
+        public uint CellCount
+        {
+            [MethodImpl(Inline)]
+            get => (uint)Cells.Length;
+        }
 
         public Hash32 Hash
         {
             [MethodImpl(Inline)]
             get => Address.Hash;
         }
+
+        MemoryAddress IAddressable.Address
+            => Address;
 
         public override int GetHashCode()
             => Hash;
@@ -61,7 +62,16 @@ namespace Z0
             => formatter.Format(Bytes);
 
         public string Format()
-            => text.format(Cells);
+        {
+            var dst = EmptyString;
+            if(CellSize == 1)
+                dst = Asci.format(Bytes);
+            else if(CellSize == 2)
+                dst = new string(Spans.recover<char>(Bytes));
+            else
+                Unsupported.raise<K>();
+            return dst;
+        }
 
         public override string ToString()
             => Format();
@@ -70,7 +80,6 @@ namespace Z0
             => Bytes.SequenceEqual(src.Bytes);
 
         public int CompareTo(MemoryString<K> src)
-            => Cells.CompareTo(src.Cells, StringComparison.InvariantCulture);
-
+            => text.cmp(Format(), src.Format());
     }
 }

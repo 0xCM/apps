@@ -4,18 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Diagnostics;
-    using System.Numerics;
-
-    [Free]
-    [ApiHost]
+    [Free,ApiHost]
     public partial class HashCodes
     {
         [MethodImpl(Inline)]
         public static Hash32 bytehash<C>(C src)
             where C : struct
                 => Generic.bytehash(src);
-
 
         [ApiHost("hash.generic")]
         public partial class Generic
@@ -30,7 +25,6 @@ namespace Z0
         internal const uint FnvPrime = 16777619;
 
         const NumericKind Closure = UnsignedInts;
-
 
         [MethodImpl(Inline)]
         static unsafe ulong u64(double src)

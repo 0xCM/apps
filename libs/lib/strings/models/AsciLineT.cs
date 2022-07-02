@@ -4,15 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
-    public readonly ref struct AsciLine<T>
+    public readonly ref struct AsciLineCover<T>
         where T : unmanaged
     {
         readonly ReadOnlySpan<T> Data;
 
         [MethodImpl(Inline)]
-        public AsciLine(ReadOnlySpan<T> src)
+        public AsciLineCover(ReadOnlySpan<T> src)
         {
             Data = src;
         }
@@ -48,15 +46,15 @@ namespace Z0
         }
 
         public string Format()
-            => AsciLine.format(this);
+            => AsciLineCover.format(this);
 
         public override string ToString()
             => Format();
 
-        public static AsciLine<T> Empty
+        public static AsciLineCover<T> Empty
         {
             [MethodImpl(Inline)]
-            get => new AsciLine<T>(core.array<T>());
+            get => new AsciLineCover<T>(core.array<T>());
         }
     }
 }

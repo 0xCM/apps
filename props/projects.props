@@ -43,6 +43,7 @@
     <EMath>$(LibsRoot)emath/z0.emath.csproj</EMath>
 
     <Fsm>$(LibsRoot)fsm/z0.fsm.csproj</Fsm>
+    <Files>$(LibsRoot)files/z0.files.csproj</Files>
 
     <Glue>$(LibsRoot)glue/z0.glue.csproj</Glue>
     <Graphs>$(LibsRoot)graphs/z0.graphs.csproj</Graphs>

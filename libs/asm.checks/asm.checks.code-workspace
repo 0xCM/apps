@@ -41,6 +41,15 @@
 		},
 		{
 			"path": "..\\memory.svc"
+		},
+		{
+			"path": "..\\memory"
+		},
+		{
+			"path": "..\\containers"
+		},
+		{
+			"path": "..\\files"
 		}
 	],
 	"settings": {}

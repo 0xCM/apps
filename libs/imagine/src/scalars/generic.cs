@@ -6,11 +6,8 @@ namespace Z0
 {
     using static System.Runtime.CompilerServices.Unsafe;
 
-    [ApiHost]
-    public class Scalars
+    partial class Scalars
     {
-        const NumericKind Closure = UnsignedInts;
-
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static sbyte int8<T>(T src)
             => As<T,sbyte>(ref src);

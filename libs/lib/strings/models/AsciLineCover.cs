@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public ref struct AsciLine
+    public ref struct AsciLineCover
     {
         /// <summary>
         /// The line content
@@ -14,25 +14,25 @@ namespace Z0
         readonly ReadOnlySpan<byte> Data;
 
         [MethodImpl(Inline)]
-        public AsciLine(ReadOnlySpan<AsciSymbol> src)
+        public AsciLineCover(ReadOnlySpan<AsciSymbol> src)
         {
             Data = recover<AsciSymbol,byte>(src);
         }
 
         [MethodImpl(Inline)]
-        public AsciLine(ReadOnlySpan<AsciCode> src)
+        public AsciLineCover(ReadOnlySpan<AsciCode> src)
         {
             Data = recover<AsciCode,byte>(src);
         }
 
         [MethodImpl(Inline)]
-        public AsciLine(ReadOnlySpan<byte> src)
+        public AsciLineCover(ReadOnlySpan<byte> src)
         {
             Data = src;
         }
 
         [MethodImpl(Inline)]
-        public AsciLine(Span<byte> src)
+        public AsciLineCover(Span<byte> src)
         {
             Data = src;
         }
@@ -86,7 +86,7 @@ namespace Z0
             return render(this, ref i, dst);
         }
 
-        public static uint render(in AsciLine src, ref uint i, Span<char> dst)
+        public static uint render(in AsciLineCover src, ref uint i, Span<char> dst)
         {
             var i0 = i;
             if(src.IsNonEmpty)
@@ -95,7 +95,7 @@ namespace Z0
         }
 
         [Op]
-        public static string format<T>(in AsciLine<T> src)
+        public static string format<T>(in AsciLineCover<T> src)
             where T : unmanaged
         {
             Span<char> buffer = stackalloc char[src.RenderLength];
@@ -104,7 +104,7 @@ namespace Z0
             return text.format(buffer);
         }
 
-        public static string format(in AsciLine src)
+        public static string format(in AsciLineCover src)
         {
             Span<char> buffer = stackalloc char[src.RenderLength];
             var i=0u;
@@ -115,10 +115,10 @@ namespace Z0
         public string Format()
             => format(this);
 
-        public static AsciLine Empty
+        public static AsciLineCover Empty
         {
             [MethodImpl(Inline)]
-            get => new AsciLine(default(ReadOnlySpan<byte>));
+            get => new AsciLineCover(default(ReadOnlySpan<byte>));
         }
     }
 }

@@ -9,6 +9,17 @@ namespace Z0
     partial struct core
     {
         /// <summary>
+        /// Creates a T-counted T-span from an S-cell data source
+        /// </summary>
+        /// <param name="src">The data source</param>
+        /// <param name="count">The T-counted target count</param>
+        /// <typeparam name="S">The source cell type</typeparam>
+        /// <typeparam name="T">The target cell type</typeparam>
+        [MethodImpl(Inline)]
+        public static Span<T> cover<S,T>(in S src, uint count)
+            => CreateSpan(ref Refs.edit<S,T>(src), (int)count);
+
+        /// <summary>
         /// Creates a <see cref='Span{T}'/> over a <typeparamref name='T'/> measured memory segment
         /// </summary>
         /// <param name="base">The segment base address</param>
@@ -56,7 +67,7 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static unsafe Span<T> cover<T>(void* pSrc, uint count)
-            => cover(@as<T>(pSrc), count);
+            => cover(Refs.@as<T>(pSrc), count);
 
         /// <summary>
         /// Creates a <see cref='Span{T}'/> over a <typeparamref name='T'/> measured memory segment sourced from a pointer
@@ -66,7 +77,7 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static unsafe Span<T> cover<T>(void* pSrc, int count)
-            => cover(@as<T>(pSrc), count);
+            => cover(Refs.@as<T>(pSrc), count);
 
         /// <summary>
         /// Creates a <see cref='Span{T}'/> over a <typeparamref name='T'/> measured memory segment sourced from a pointer
@@ -76,7 +87,7 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static unsafe Span<T> cover<T>(void* pSrc, long count)
-            => cover(@as<T>(pSrc), count);
+            => cover(Refs.@as<T>(pSrc), count);
 
         /// <summary>
         /// Creates a <see cref='Span{T}'/> over a <typeparamref name='T'/> measured memory segment sourced from a pointer
@@ -86,18 +97,7 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static unsafe Span<T> cover<T>(void* pSrc, ulong count)
-            => cover(@as<T>(pSrc), count);
-
-        /// <summary>
-        /// Creates a T-counted T-span from an S-cell data source
-        /// </summary>
-        /// <param name="src">The data source</param>
-        /// <param name="count">The T-counted target count</param>
-        /// <typeparam name="S">The source cell type</typeparam>
-        /// <typeparam name="T">The target cell type</typeparam>
-        [MethodImpl(Inline)]
-        public static Span<T> cover<S,T>(in S src, uint count)
-            => CreateSpan(ref edit<S,T>(src), (int)count);
+            => cover(Refs.@as<T>(pSrc), count);
 
         /// <summary>
         /// Covers a pointer-identified T-counted buffer with a span
@@ -151,7 +151,7 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static Span<T> cover<T>(in T src, int count)
-            => CreateSpan(ref edit(src), count);
+            => CreateSpan(ref Refs.edit(src), count);
 
         /// <summary>
         /// Covers a reference-identified T-counted buffer with a span
@@ -161,7 +161,7 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static Span<T> cover<T>(in T src, uint count)
-            => CreateSpan(ref edit(src), (int)count);
+            => CreateSpan(ref Refs.edit(src), (int)count);
 
         /// <summary>
         /// Covers a reference-identified T-counted buffer with a span
@@ -171,7 +171,7 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static Span<T> cover<T>(in T src, long count)
-            => CreateSpan(ref edit(src), (int)count);
+            => CreateSpan(ref Refs.edit(src), (int)count);
 
         /// <summary>
         /// Covers a reference-identified T-counted buffer with a span
@@ -181,6 +181,6 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static Span<T> cover<T>(in T src, ulong count)
-            => CreateSpan(ref edit(src), (int)count);
+            => CreateSpan(ref Refs.edit(src), (int)count);
     }
 }

@@ -45,7 +45,7 @@ namespace Z0
         protected ToolWs ToolWs => new ToolWs(AppDb.Toolbase().Root);
 
         public Settings ShellSettings()
-            => Settings.table(Settings.path());
+            => AsciLines.settings(Settings.path());
 
         protected void LoadProjectInner(IWsProject ws)
         {

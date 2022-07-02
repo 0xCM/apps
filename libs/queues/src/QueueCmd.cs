@@ -11,13 +11,13 @@ namespace Z0
             => FS.path(ExecutingPart.Component.Location).FolderPath + FS.file($"{ExecutingPart.Id.Format()}.settings", FileKind.Csv);
 
         public Settings LoadSettings()
-            => Settings.table(SettingsPath());
+            => AsciLines.settings(SettingsPath());
 
         [CmdOp("settings")]
         void PartSettings()
         {
             var path = Settings.path();
-            var table = Settings.table(path);
+            var table = AsciLines.settings(path);
             table.Iter(setting => Write(setting.Format(Chars.Colon)));
         }
     }

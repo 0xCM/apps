@@ -18,6 +18,19 @@ namespace Z0
         public static ReadOnlySpan<ProcessModule> modules(ProcessAdapter src)
             => src.Modules.OrderBy(x => x.BaseAddress).Array();
 
+        public static Index<ProcessModuleRow> modules(FS.FilePath src)
+        {
+
+            using var reader = src.AsciLineReader();
+            var line = AsciLineCover.Empty;
+            reader.Next(out line);
+            while(reader.Next(out line))
+            {
+
+            }
+
+            return default;
+        }
         [Op]
         public static Index<ProcessModuleRow> modules(Process src)
         {

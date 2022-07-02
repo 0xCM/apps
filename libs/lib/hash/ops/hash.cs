@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static HashCodes.Marvin;
-
     partial class HashCodes
     {
         /// <summary>
@@ -118,10 +116,6 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static uint hash(bool x)
             => @byte(x);
-
-        [MethodImpl(Inline), Op]
-        public static uint hash(string src)
-            => marvin(text.ifempty(src,EmptyString));
 
         [MethodImpl(Inline), Op]
         public static uint hash(ushort a, ushort b)

@@ -1,8 +1,10 @@
+//-----------------------------------------------------------------------------
+// Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct core
+    partial class Scalars
     {
         [MethodImpl(Inline), Op]
         public static sbyte max(sbyte a, sbyte b)
@@ -43,5 +45,6 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static double max(double a, double b)
             => a > b ? a : b;
+
     }
 }

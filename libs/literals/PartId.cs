@@ -64,6 +64,10 @@ public enum PartId : byte
     [Symbol("cmd.tools")]
     CmdTools,
 
+
+    [Symbol("files")]
+    Files,
+
     [Symbol("validity")]
     Validity,
 

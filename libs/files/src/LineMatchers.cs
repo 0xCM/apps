@@ -9,9 +9,9 @@ namespace Z0
     public readonly struct LineMatchers
     {
         [Op]
-        public static bool next(ref LineReaderState state, out AsciLine<byte> dst)
+        public static bool next(ref LineReaderState state, out AsciLineCover<byte> dst)
         {
-            dst = AsciLine<byte>.Empty;
+            dst = AsciLineCover<byte>.Empty;
             var line = state.Source.ReadLine();
             if(line == null)
                 return false;
@@ -19,9 +19,9 @@ namespace Z0
             state.LineCount++;
 
             if(AsciLines.number(data, out var length, out var num))
-                dst = new AsciLine<byte>(data);
+                dst = new AsciLineCover<byte>(data);
             else
-                dst = new AsciLine<byte>(data);
+                dst = new AsciLineCover<byte>(data);
 
             state.Offset+=length;
 
@@ -29,9 +29,9 @@ namespace Z0
         }
 
         [Op]
-        public static bool next(ref LineReaderState state, out AsciLine<char> dst)
+        public static bool next(ref LineReaderState state, out AsciLineCover<char> dst)
         {
-            dst = AsciLine<char>.Empty;
+            dst = AsciLineCover<char>.Empty;
             var line = state.Source.ReadLine();
             if(line == null)
                 return false;
@@ -40,19 +40,19 @@ namespace Z0
             state.LineCount++;
 
             if(Digital.number(data, out var length, out var num))
-                dst = new AsciLine<char>(data);
+                dst = new AsciLineCover<char>(data);
             else
-                dst = new AsciLine<char>(data);
+                dst = new AsciLineCover<char>(data);
 
             state.Offset+=length;
 
             return true;
         }
 
-        public static bool next<T>(ref LineReaderState State, Span<byte> buffer, out AsciLine<T> dst)
+        public static bool next<T>(ref LineReaderState State, Span<byte> buffer, out AsciLineCover<T> dst)
             where T : unmanaged
         {
-            dst = AsciLine<T>.Empty;
+            dst = AsciLineCover<T>.Empty;
             var _line = State.Source.ReadLine();
             if(_line == null)
                 return false;
@@ -63,9 +63,9 @@ namespace Z0
             State.LineCount++;
 
             if(AsciLines.number(data, out var length, out var num))
-                dst = new AsciLine<T>(recover<byte,T>(slice(data, (int)length)));
+                dst = new AsciLineCover<T>(recover<byte,T>(slice(data, (int)length)));
             else
-                dst = new AsciLine<T>(recover<byte,T>(data));
+                dst = new AsciLineCover<T>(recover<byte,T>(data));
 
             State.Offset+=length;
 

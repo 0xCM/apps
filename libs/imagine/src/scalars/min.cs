@@ -1,8 +1,10 @@
+//-----------------------------------------------------------------------------
+// Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct core
+    partial class Scalars
     {
         [MethodImpl(Inline), Op]
         public static sbyte min(sbyte a, sbyte b)

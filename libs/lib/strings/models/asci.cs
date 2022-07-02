@@ -13,8 +13,6 @@ namespace Z0
     [ApiHost]
     public readonly partial struct Asci
     {
-        static AsciSymbols AsciStrings => default;
-
         [MethodImpl(Inline), Op]
         public static AsciSeq seq(uint size)
             => new AsciSeq(alloc<byte>(size));

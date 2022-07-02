@@ -9,7 +9,7 @@ namespace Z0
     /// </summary>
     public readonly struct AsmBlockLabel : IAsmSourcePart
     {
-        public static Outcome parse(in AsciLine src, out AsmBlockLabel label, out AsmExpr expr)
+        public static Outcome parse(in AsciLineCover src, out AsmBlockLabel label, out AsmExpr expr)
         {
             label = AsmBlockLabel.Empty;
             expr = AsmExpr.Empty;

@@ -5,7 +5,7 @@
 namespace Z0
 {
     using static core;
-
+    using static ApiGranules;
     [Free]
     public unsafe class MemCmd : CmdService<MemCmd>
     {
@@ -36,13 +36,18 @@ namespace Z0
         [CmdOp("mem/modules")]
         void ListModules()
         {
-            var src = ImageMemory.modules();
+            var src = ImageMemory.modules(ExecutingPart.Process);
+            var dst = AppDb.App().Targets(tables).Table<ProcessModuleRow>();
+            TableEmit(src, dst);
+            //var src = ImageMemory.modules();
             for(var i=0; i<src.Length; i++)
             {
-                ref readonly var module = ref skip(src,i);
-                var @base = module.BaseAddress;
-                var size = module.ModuleMemorySize;
-                Write(string.Format("{0:D3} | {1,-16} | {2,-16} | {3}",i,  @base, size, module.Path.ToUri()));
+                ref readonly var module = ref src[i];
+
+
+                // var @base = module.BaseAddress;
+                // var size = module.ModuleMemorySize;
+                // Write(string.Format("{0:D3} | {1,-16} | {2,-16} | {3}",i,  @base, size, module.Path.ToUri()));
             }
         }
     }

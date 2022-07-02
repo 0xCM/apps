@@ -39,6 +39,7 @@
     <ProjectReference Include="$(EMath)" />
 
     <ProjectReference Include="$(Fsm)" />
+    <ProjectReference Include="$(Files)" />
 
     <ProjectReference Include="$(Glue)" />
     <ProjectReference Include="$(Graphs)" />

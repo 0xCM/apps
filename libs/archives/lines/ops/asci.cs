@@ -9,24 +9,24 @@ namespace Z0
     partial class Lines
     {
         [MethodImpl(Inline)]
-        public static AsciLine<T> asci<T>(ReadOnlySpan<T> src)
+        public static AsciLineCover<T> asci<T>(ReadOnlySpan<T> src)
             where T : unmanaged
-                => new AsciLine<T>(src);
+                => new AsciLineCover<T>(src);
 
         [MethodImpl(Inline), Op]
-        public static AsciLine asci(ReadOnlySpan<byte> src)
-            => new AsciLine(src);
+        public static AsciLineCover asci(ReadOnlySpan<byte> src)
+            => new AsciLineCover(src);
 
         [MethodImpl(Inline), Op]
-        public static uint asci(ReadOnlySpan<AsciCode> src, ref uint number, ref uint i, out AsciLine dst)
+        public static uint asci(ReadOnlySpan<AsciCode> src, ref uint number, ref uint i, out AsciLineCover dst)
             => asci(core.recover<AsciCode,byte>(src), ref number, ref i, out dst);
 
         [MethodImpl(Inline), Op]
-        public static AsciLine asci(ReadOnlySpan<byte> src, uint offset, uint length)
-            => new AsciLine(slice(src,offset,length));
+        public static AsciLineCover asci(ReadOnlySpan<byte> src, uint offset, uint length)
+            => new AsciLineCover(slice(src,offset,length));
 
         [MethodImpl(Inline), Op]
-        public static uint asci(ReadOnlySpan<byte> src, ref uint number, ref uint i, out AsciLine dst)
+        public static uint asci(ReadOnlySpan<byte> src, ref uint number, ref uint i, out AsciLineCover dst)
         {
             var i0 = i;
             dst = default;
@@ -37,7 +37,7 @@ namespace Z0
                 if(SQ.eol(skip(src, i), skip(src, i + 1)))
                 {
                     length = i - i0;
-                    dst = new AsciLine(slice(src, i0, length));
+                    dst = new AsciLineCover(slice(src, i0, length));
                     ++number;
                     i+=2;
                     break;
@@ -48,17 +48,17 @@ namespace Z0
         }
 
         /// <summary>
-        /// Reads a <see cref='AsciLine{bytee}'/> from the data source
+        /// Reads a <see cref='AsciLineCover{bytee}'/> from the data source
         /// </summary>
         /// <param name="src">The data source</param>
         /// <param name="number">The current line count</param>
         /// <param name="i">The source-relative offset</param>
         /// <param name="dst">The target</param>
         [Op]
-        public static uint asci(string src, ref uint number, ref uint i, out AsciLine<byte> dst)
+        public static uint asci(string src, ref uint number, ref uint i, out AsciLineCover<byte> dst)
         {
             var i0 = i;
-            dst = AsciLine<byte>.Empty;
+            dst = AsciLineCover<byte>.Empty;
             var max = src.Length;
             var length = 0u;
             var data = span(src);

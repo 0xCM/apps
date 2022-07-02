@@ -9,7 +9,6 @@ namespace Z0
 
     partial class Spans
     {
-
         /// <summary>
         /// Presents a span of S-cells as a span of T-cells
         /// </summary>

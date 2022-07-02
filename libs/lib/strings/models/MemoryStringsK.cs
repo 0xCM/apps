@@ -79,7 +79,7 @@ namespace Z0
         public MemoryString<K> this[K index]
         {
             [MethodImpl(Inline)]
-            get => new MemoryString<K>(index, Address(index), Length(index));
+            get => new MemoryString<K>(Address(index), Length(index));
         }
 
         public ReadOnlySpan<char> this[int index]
@@ -102,15 +102,15 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public MemoryString<K> String(uint index)
-            => new MemoryString<K>(core.@as<uint,K>(index), Address(index), Length(index));
+            => new MemoryString<K>(Address(index), Length(index));
 
         [MethodImpl(Inline)]
         public MemoryString<K> String(int index)
-            => new MemoryString<K>(core.@as<int,K>(index), Address(index), Length(index));
+            => new MemoryString<K>(Address(index), Length(index));
 
         [MethodImpl(Inline)]
         public MemoryString<K> String(K index)
-            => new MemoryString<K>(index, Address(index), Length(index));
+            => new MemoryString<K>(Address(index), Length(index));
 
         [MethodImpl(Inline)]
         public static implicit operator MemoryStrings<K>(MemoryStrings src)

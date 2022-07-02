@@ -13,7 +13,7 @@ namespace Z0
             => string.Format("{0}:{1}", src.LineNumber, new string(src.View));
 
         [MethodImpl(Inline), Op]
-        public static void convert(in AsciLine src, uint line, Span<char> buffer, out UnicodeLine dst)
+        public static void convert(in AsciLineCover src, uint line, Span<char> buffer, out UnicodeLine dst)
         {
             var count = src.Length;
             for(var i=0u; i<count; i++)

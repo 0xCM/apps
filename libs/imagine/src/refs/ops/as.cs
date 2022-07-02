@@ -150,5 +150,14 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(AllNumeric)]
         public static ref T @as<T>(in string src)
             => ref As<string,T>(ref AsRef(src));
+
+        /// <summary>
+        /// Presents the source as a <typeparamref name='T'/>-cell reference
+        /// </summary>
+        /// <param name="pSrc">A pointer to the source</param>
+        /// <typeparam name="T">The target cell type</typeparam>
+        [MethodImpl(Inline), Keyword, Closures(Closure)]
+        public static unsafe ref T @as<T>(void* pSrc)
+            => ref AsRef<T>(pSrc);
     }
 }

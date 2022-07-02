@@ -35,7 +35,7 @@ namespace Z0
 
             public static MsgPattern<C> MarkerCodeNotFound => "Markier '{0}' not found";
 
-            Outcome ProcessLine(ref AsciLine src, out DumpBinDisasm dst)
+            Outcome ProcessLine(ref AsciLineCover src, out DumpBinDisasm dst)
             {
                 dst = default;
                 var i = SQ.index(src.Codes, C.Colon);
