@@ -25,60 +25,11 @@ namespace Z0
             PromptTitle = "cmd";
         }
 
-        // IWsProject _Project;
-
-        // ConcurrentDictionary<ProjectId,WsContext> _Context = new();
-
         IWorkerLog Witness;
 
         Option<IToolCmdShell> Shell;
 
         public override IDispatcher Dispatcher => GlobalServices.Instance.Injected<ActionDispatcher>();
-
-        // void Project(IWsProject ws)
-        // {
-        //     _Project = Require.notnull(ws);
-        //     ProjectFiles = WsCatalog.load(ws);
-        // }
-
-        // [CmdOp("project")]
-        // public void LoadProject(CmdArgs args)
-        //     => LoadProjectSources(AppDb.LlvmModel(arg(args,0).Value));
-
-        // bool LoadProjectSources(IWsProject ws)
-        // {
-        //     if(ws == null)
-        //     {
-        //         Error("Project unspecified");
-        //         return false;
-        //     }
-
-        //     Status($"Loading project from {ws.Home()}");
-
-        //     LoadProjectInner(ws);
-
-        //     var dir = ws.Home();
-        //     if(dir.Exists)
-        //         Files(ws.SrcFiles());
-        //     return true;
-        // }
-
-
-        // [MethodImpl(Inline)]
-        // public IWsProject Project()
-        // {
-        //     if(_Project == null)
-        //     {
-        //         Errors.Throw("Project is null");
-        //     }
-        //     return _Project;
-        // }
-
-        // protected WsContext Context()
-        // {
-        //     var project = Project();
-        //     return _Context.GetOrAdd(project.Id, _ => WsContext.load(project));
-        // }
 
         protected override void OnInit()
         {
@@ -95,17 +46,6 @@ namespace Z0
             Write(string.Format("Cpu:{0}", Kernel32.GetCurrentProcessorNumber()));
             return true;
         }
-
-        // public void RunCmd(string name)
-        // {
-        //     var result = Dispatcher.Dispatch(name);
-        //     if(result.Fail)
-        //         Error(result.Message);
-        // }
-
-        // public void RunCmd(string name, CmdArgs args)
-        //     => Dispatcher.Dispatch(name, args);
-
 
         [CmdOp("jobs/run")]
         Outcome RunJobs(CmdArgs args)
@@ -185,27 +125,5 @@ namespace Z0
                 input = Next();
             }
         }
-
-        // public bool Dispatch(ShellCmdSpec cmd)
-        // {
-        //     var result = Outcome.Success;
-        //     try
-        //     {
-        //         result = Dispatcher.Dispatch(cmd.Name, cmd.Args);
-        //         if(result.Fail)
-        //             Error(result.Message ?? RP.Null);
-        //         else
-        //         {
-        //             if(nonempty(result.Message))
-        //                 Status(result.Message);
-        //         }
-        //     }
-        //     catch(Exception e)
-        //     {
-        //         Error(e);
-        //         result = e;
-        //     }
-        //     return result;
-        // }
-    }
+   }
 }

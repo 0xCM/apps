@@ -16,6 +16,8 @@
     <SlnBuild>$(SlnRoot).build\</SlnBuild>
     <SlnBin>$(SlnBuild)bin\</SlnBin>
 
+    <ShellCommon>$(SlnRoot)shells/</ShellCommon>
+
     <AppsRoot>$(SlnRoot)apps/</AppsRoot>
     <AppLibs>$(SlnRoot)libs/</AppLibs>
     <LibsRoot>$(SlnRoot)libs/</LibsRoot>

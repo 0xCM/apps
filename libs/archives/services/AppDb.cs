@@ -30,6 +30,21 @@ namespace Z0
         public IDbTargets DbOut(string scope)
             => DbOut().Targets(scope);
 
+        public IDbTargets Apps()
+            => DbRoot().Targets("apps");
+
+        public IDbTargets App(PartId part)
+            => Apps().Targets(part.Format());
+
+        public IDbTargets App()
+            => Apps().Targets(ExecutingPart.Id.Format());
+
+        public IDbTargets App(string scope)
+            => App().Targets(scope);
+
+        public IDbTargets App(PartId part, string scope)
+            => App(part).Targets(scope);
+
         public IDbSources DbIn()
             => new DbSources(setting(Archives.Path(EN.DbSources), FS.dir));
 

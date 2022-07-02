@@ -7,12 +7,13 @@
     <TargetFramework>$(FrameworkMoniker)</TargetFramework>
   </PropertyGroup>
 
-  <Import Project="$(ImportDefs)common.libs.props"/>
 
   <ItemGroup>
     <ProjectReference Include="$(AsmModels)" />
     <ProjectReference Include="$(Archives)" />
     <ProjectReference Include="$(Services)" />
+    <ProjectReference Include="$(CmdSvc)" />
+    <ProjectReference Include="$(ApiMd)" />
   </ItemGroup>
 
 </Project>

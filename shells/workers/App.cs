@@ -20,7 +20,7 @@ namespace Z0
 
         public static void Main(string[] args)
         {
-            using var wf = WfAppLoader.load();
+            using var wf = ApiRuntime.create(args);
             CreateHostBuilder(wf, args).Build().Run();
         }
 

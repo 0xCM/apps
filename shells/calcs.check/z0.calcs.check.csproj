@@ -3,15 +3,19 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>$(FrameworkMoniker)</TargetFramework>
+    <ShellId>calcs.check</ShellId>
+    <ShellRoot>$(ShellCommon)</ShellRoot>
   </PropertyGroup>
 
-  <Import Project="$(ImportDefs)common.libs.props"/>
+  <Import Project="$(ImportDefs)shell.settings.props"/>
+
 
   <ItemGroup>
     <ProjectReference Include="$(Services)" />
     <ProjectReference Include="$(CmdExec)" />
     <ProjectReference Include="$(Calcs)" />
     <ProjectReference Include="$(CmdSvc)" />
+    <ProjectReference Include="$(Bits)" />
   </ItemGroup>
 
 </Project>

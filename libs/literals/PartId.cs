@@ -180,6 +180,9 @@ public enum PartId : byte
     [Symbol("memory")]
     Memory,
 
+    [Symbol("memory.svc")]
+    MemorySvc,
+
     [Symbol("monadic")]
     Monadic,
 
@@ -303,12 +306,14 @@ public enum PartId : byte
     [Symbol("asm.shell")]
     AsmShell,
 
-
     [Symbol("tools.shell")]
     ToolShell,
 
     [Symbol("calc.shell")]
     CalcShell,
+
+    [Symbol("calc.checks")]
+    CalcChecks,
 
     [Symbol("asmz")]
     AsmZ,

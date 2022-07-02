@@ -2,8 +2,9 @@
 
   <ItemGroup>
 
-    <ProjectReference Include="$(Interop)" />
+    <ProjectReference Include="$(Literals)" />
 
+    <ProjectReference Include="$(Interop)" />
     <ProjectReference Include="$(Agents)" />
     <ProjectReference Include="$(ApiCode)" />
     <ProjectReference Include="$(ApiMd)" />
@@ -47,11 +48,11 @@
     <ProjectReference Include="$(Lang)" />
     <ProjectReference Include="$(LlvmTools)" />
     <ProjectReference Include="$(LlvmSvc)" />
-    <ProjectReference Include="$(Literals)" />
     <ProjectReference Include="$(Linq)" />
 
     <ProjectReference Include="$(Machines)" />
     <ProjectReference Include="$(Memory)" />
+    <ProjectReference Include="$(MemorySvc)" />
     <ProjectReference Include="$(Monadic)" />
     <ProjectReference Include="$(Models)" />
 

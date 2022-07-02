@@ -4,19 +4,23 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static ApiGranules;
+
     sealed class AppCmd : AppCmdService<AppCmd>
     {
-        [CmdOp("bitmasks/check")]
+        [CmdOp("calcs/check")]
         void Hello()
         {
+            var dst = AppDb.App(logs).Path("bitmasks", FileKind.Csv);
             var src = BitMask.masks(typeof(BitMaskLiterals));
-            var formatter = Tables.formatter<BitMaskLiterals>();
+            var formatter = Tables.formatter<BitMaskInfo>();
             for(var i=0; i<src.Count; i++)
             {
                 ref readonly var mask = ref src[i];
-                Write(formatter.Format(mask));
+                Row(formatter.Format(mask));
                 Write(mask.Text);
             }
+            TableEmit(src,dst,TextEncodingKind.Unicode);
         }
     }
 }

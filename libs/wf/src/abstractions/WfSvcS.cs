@@ -42,8 +42,6 @@ namespace Z0
 
         protected static AppDb AppDb => AppDb.Service;
 
-        //protected IDbArchive DbArchive => Archives.archive(FS.dir(AppSettings.Find(SettingNames.DbRoot)));
-
         protected ToolWs ToolWs => new ToolWs(AppDb.Toolbase().Root);
 
         public Settings ShellSettings()
