@@ -4,11 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.IO;
-
     public static class XSvc
     {
-
         sealed class Svc : AppServices<Svc>
         {
 
@@ -18,15 +15,11 @@ namespace Z0
             public ApiComments ApiComments(IWfRuntime wf)
                 => Service<ApiComments>(wf);
 
-            public MsilPipe MsilSvc(IWfRuntime wf)
-                => Service<MsilPipe>(wf);
-
             public ApiJit Jit(IWfRuntime wf)
                 => Service<ApiJit>(wf);
 
-            public ApiHex ApiHex(IWfRuntime wf)
-                => Service<ApiHex>(wf);
-
+            public ApiCatalogs ApiCatalogs(IWfRuntime wf)
+                => Service<ApiCatalogs>(wf);
         }
 
         static Svc Services => Svc.Instance;
@@ -36,16 +29,10 @@ namespace Z0
 
         public static ApiComments ApiComments(this IWfRuntime wf)
             => Services.ApiComments(wf);
-
-         public static MsilPipe MsilSvc(this IWfRuntime wf)
-            => Services.MsilSvc(wf);
-
         public static ApiJit Jit(this IWfRuntime wf)
             => Services.Jit(wf);
 
-       public static ApiHex ApiHex(this IWfRuntime wf)
-            => Services.ApiHex(wf);
-
+        public static ApiCatalogs ApiCatalogs(this IWfRuntime wf)
+            => Services.ApiCatalogs(wf);
     }
-
 }

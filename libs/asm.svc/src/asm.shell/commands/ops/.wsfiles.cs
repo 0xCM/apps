@@ -10,9 +10,10 @@ namespace Z0.Asm
 
     partial class AsmCmdService
     {
+        [CmdOp("msdocs/emit")]
         public void ProcessMsDocs()
         {
-            var src = FS.dir(@"J:\docs\msdocs-sdk-api\sdk-api-src\content\dbghelp");
+            var src = FS.dir(@"D:\views\repos\MicrosoftDocs\sdk-api\sdk-api-src\content\dbghelp");
             var dst = Db.AppLog("dbghelp", FS.ext("yml"));
             var tool = Wf.MsDocs();
             tool.Process(src,dst);
@@ -78,26 +79,6 @@ namespace Z0.Asm
             //         line = reader.ReadLine();
             //     }
             // }
-        }
-
-        void ShowDependencies()
-        {
-            ShowDependencies(Wf.Controller);
-        }
-
-        void ShowDependencies(Assembly src)
-        {
-            var deps = JsonDepsLoader.from(src);
-            var libs = deps.Libs();
-            var rtlibs = deps.RuntimeLibs();
-            var options = deps.Options();
-            var target = deps.Target();
-            var graph = deps.Graph;
-            Wf.Data(string.Format("Target: {0} {1} {2}", target.Framework, target.Runtime, target.RuntimeSignature));
-            iter(libs, lib => Wf.Data(lib.Name));
-            var buffer = text.buffer();
-            iter(rtlibs, lib => lib.Render(buffer));
-            Wf.Data(buffer.Emit());
         }
 
         void CheckFlags()

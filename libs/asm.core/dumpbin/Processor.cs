@@ -13,6 +13,7 @@ namespace Z0
 
     using Asm;
 
+
     partial class DumpBin
     {
         public class DumpBinProcessor : AppService<DumpBinProcessor>
@@ -25,7 +26,7 @@ namespace Z0
             }
 
             public uint LineCount(ReadOnlySpan<byte> src)
-                => Lines.count(src);
+                => AsciLines.count(recover<C>(src));
 
             public uint MaxLineLength(ReadOnlySpan<byte> src)
                 => SQ.maxlength(recover<C>(src));
@@ -80,7 +81,7 @@ namespace Z0
                     ref readonly var a1 = ref skip(src, pos + 1);
                     if(SQ.eol(a0,a1))
                     {
-                        var line = Lines.asci(src, offset, length + 1);
+                        var line = AsciLines.asci(src, offset, length + 1);
                         number++;
                         if(!SQ.contains(line.Codes, C.Colon) || number < 4)
                         {

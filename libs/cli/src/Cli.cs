@@ -6,6 +6,7 @@ namespace Z0
 {
     using static core;
     using static Bytes;
+    using static ApiGranules;
 
     [ApiHost]
     public class Cli : AppService<Cli>
@@ -13,6 +14,89 @@ namespace Z0
         const NumericKind Closure = UnsignedInts;
 
         ApiMd ApiMd => Wf.ApiMetadata();
+
+        public ConstLookup<ApiHostUri,FS.FilePath> EmitMsil()
+            => EmitMsil(ApiMd.ApiHosts);
+
+        MsilPipe MsilSvc => Wf.MsilSvc();
+
+        ApiMembers JitHost(IApiHost host)
+            => Jit.JitHost(host);
+
+        ApiJit Jit => Wf.Jit();
+
+        public void EmitHostMsil(string hostid)
+        {
+            var result = Outcome.Success;
+            result = ApiParsers.host(hostid, out var uri);
+            if(result.Ok)
+            {
+                result = ApiRuntimeCatalog.FindHost(uri, out var host);
+                if(result.Ok)
+                    EmitMsil(array(host));
+            }
+
+            if(result.Fail)
+                Errors.Throw(result.Message);
+        }
+
+
+        public ConstLookup<ApiHostUri,FS.FilePath> EmitMsil(ReadOnlySpan<IApiHost> hosts, IDbTargets dst)
+        {
+            var buffer = text.buffer();
+            var k = 0u;
+            var emitted = cdict<ApiHostUri,FS.FilePath>();
+            for(var i=0; i<hosts.Length; i++)
+            {
+                ref readonly var host = ref skip(hosts, i);
+                var members = JitHost(host);
+                var count = members.Length;
+                if(members.Count == 0)
+                    continue;
+
+                for(var j=0; j<members.Count; j++)
+                {
+                    MsilSvc.RenderCode(members[j].Msil, buffer);
+                    k++;
+                }
+
+                var path = dst.Path(FS.hostfile(host.HostUri, FS.Il));
+                FileEmit(buffer.Emit(), members.Count, path, TextEncodingKind.Unicode);
+                emitted[host.HostUri] = path;
+            }
+            return emitted;
+        }
+
+        IDbTargets MsilTargets()
+            => ApiMd.ApiTargets(msil);
+
+        FS.FilePath MsilPath(ApiHostUri uri)
+            => MsilTargets().Path(FS.hostfile(uri, FS.Il));
+
+
+
+        public ConstLookup<ApiHostUri,FS.FilePath> EmitMsil(ReadOnlySpan<IApiHost> hosts)
+        {
+            var buffer = text.buffer();
+            var k = 0u;
+            var emitted = cdict<ApiHostUri,FS.FilePath>();
+            for(var i=0; i<hosts.Length; i++)
+            {
+                ref readonly var host = ref skip(hosts, i);
+                var members = JitHost(host);
+                if(members.Count == 0)
+                    continue;
+
+                for(var j=0; j<members.Count; j++, k++)
+                    MsilSvc.RenderCode(members[j].Msil, buffer);
+
+                var path = MsilPath(host.HostUri);
+                FileEmit(buffer.Emit(), members.Count, path, TextEncodingKind.Unicode);
+                emitted[host.HostUri] = path;
+            }
+
+            return emitted;
+        }
 
         public ReadOnlySpan<string> ReadUserStrings(PartId part)
         {

@@ -24,7 +24,7 @@ namespace Z0
         EventId(Type type)
         {
             Ts = Timestamp.now();
-            Identifier = string.Format(PatternBase, Ts, type.Name);
+            Identifier = string.Format(PatternBase, Ts, type.DisplayName());
         }
 
         [MethodImpl(Inline)]
@@ -45,7 +45,7 @@ namespace Z0
         EventId(Type host, EventKind kind)
         {
             Ts = Timestamp.now();
-            Identifier = string.Format("{0} | {1,-18} | {2,-16} | {3,-24}", Ts, kind, host.Assembly.Id().Format(), host.Name);
+            Identifier = string.Format("{0} | {1,-18} | {2,-16} | {3,-24}", Ts, kind, host.Assembly.Id().Format(), host.DisplayName());
         }
 
         [MethodImpl(Inline)]
@@ -95,7 +95,7 @@ namespace Z0
         EventId(Type type, WfStepId step, PartToken ct, Timestamp? ts = null)
         {
             Ts = ts ?? Timestamp.now();
-            Identifier = string.Format(PatternBase + " | {2}", Ts, type.Name, step);
+            Identifier = string.Format(PatternBase + " | {2}", Ts, type.DisplayName(), step);
         }
 
         /// <summary>

@@ -9,12 +9,12 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(AllNumeric)]
         public static ref Ptr<T> cast<T>(in Ptr src)
             where T : unmanaged
-                => ref core.@as<Ptr,Ptr<T>>(src);
+                => ref Refs.@as<Ptr,Ptr<T>>(src);
 
         [MethodImpl(Inline)]
         public static ref Ptr<T> cast<S,T>(in Ptr<S> src)
             where S : unmanaged
             where T : unmanaged
-                => ref core.@as<Ptr<S>,Ptr<T>>(src);
+                => ref Refs.@as<Ptr<S>,Ptr<T>>(src);
     }
 }

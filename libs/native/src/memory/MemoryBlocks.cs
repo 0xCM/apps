@@ -9,6 +9,10 @@ namespace Z0
 
     public readonly struct MemoryBlocks
     {
+        public static MemoryList<T> list<T>(uint count)
+            where T : unmanaged
+                => new MemoryList<T>(memory.native(count*Sized.size<T>()));
+
         [Op]
         public static MemoryBlock block(in ApiMemberCode src, ExtractTermInfo term)
         {

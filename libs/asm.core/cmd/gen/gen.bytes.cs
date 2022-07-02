@@ -16,7 +16,6 @@ namespace Z0
             return true;
         }
 
-
         public static void RenderByteSpans(uint offset, ITextEmitter dst)
         {
             Bytes.bytespan<byte>(0,255,offset,dst);

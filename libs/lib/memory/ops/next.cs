@@ -4,15 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     unsafe partial struct memory
     {
         [MethodImpl(Inline), Op, Closures(AllNumeric)]
         public static ref Ptr<T> next<T>(in Ptr<T> src)
             where T : unmanaged
         {
-            ref var dst = ref edit(src);
+            ref var dst = ref Refs.edit(src);
             dst.P++;
             return ref dst;
         }
@@ -53,7 +51,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ref Ptr8 next(in Ptr8 src)
         {
-            ref var dst = ref edit(src);
+            ref var dst = ref Refs.edit(src);
             dst.P++;
             return ref dst;
         }
@@ -65,7 +63,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ref PChar next(in PChar src)
         {
-            ref var dst = ref edit(src);
+            ref var dst = ref Refs.edit(src);
             dst.P++;
             return ref dst;
         }
@@ -77,7 +75,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ref Ptr16 next(in Ptr16 src)
         {
-            ref var dst = ref edit(src);
+            ref var dst = ref Refs.edit(src);
             dst.P++;
             return ref dst;
         }
@@ -89,7 +87,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ref Ptr32 next(in Ptr32 src)
         {
-            ref var dst = ref edit(src);
+            ref var dst = ref Refs.edit(src);
             dst.P++;
             return ref dst;
         }
@@ -101,7 +99,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ref Ptr64 next(in Ptr64 src)
         {
-            ref var dst = ref edit(src);
+            ref var dst = ref Refs.edit(src);
             dst.P++;
             return ref dst;
         }

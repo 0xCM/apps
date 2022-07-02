@@ -5,13 +5,75 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using api = memory;
-
     /// <summary>
     /// Represents a native buffer allocation
     /// </summary>
+    [ApiHost]
     public readonly struct NativeBuffer : IBufferAllocation
     {
+        const NumericKind Closure = UnsignedInts;
+
+        /// <summary>
+        /// Zero-fills a token-identified buffer and returns the cleared memory content
+        /// </summary>
+        [MethodImpl(Inline), Op]
+        public static Span<byte> clear(in NativeBuffers src, byte index)
+            => sys.clear(span(src.Token(index)));
+
+        [MethodImpl(Inline), Op]
+        public static void clear(BufferToken src)
+            => span(src).Clear();
+
+        /// <summary>
+        /// Covers a token-identified buffer with a bytespan
+        /// </summary>
+        [MethodImpl(Inline), Op]
+        public static unsafe Span<byte> span(BufferToken src)
+            => Spans.cover(src.Address.Pointer<byte>(), src.BufferSize);
+
+        /// <summary>
+        /// Covers a token-identified buffer with a span
+        /// </summary>
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static unsafe Span<T> span<T>(BufferToken src)
+            where T : unmanaged
+                => Spans.cover(src.Address.Pointer<byte>(), src.BufferSize).Recover<T>();
+
+        [MethodImpl(Inline), Op]
+        public static unsafe Span<byte> span(NativeBuffer src)
+            => new Span<byte>(src.Handle.ToPointer(), (int)src.Size);
+
+        [MethodImpl(Inline), Op]
+        public static unsafe Span<T> span<T>(in NativeBuffer<T> src)
+            where T : unmanaged
+                => new Span<T>(src.Handle.ToPointer(), (int)src.Count);
+
+        /// <summary>
+        /// Deallocates a native allocation
+        /// </summary>
+        /// <param name="handle">The allocation handle</param>
+        [MethodImpl(Inline), Op]
+        public static void release(in NativeBuffer src)
+            => Marshal.FreeHGlobal(src.Handle);
+
+        /// <summary>
+        /// Deallocates a native allocation
+        /// </summary>
+        /// <param name="handle">The allocation handle</param>
+        [MethodImpl(Inline), Op]
+        public static void release<T>(in NativeBuffer<T> src)
+            where T : unmanaged
+                => Marshal.FreeHGlobal(src.Handle);
+
+        /// <summary>
+        /// Identifies a buffer of specified base address and size
+        /// </summary>
+        /// <param name="base"></param>
+        /// <param name="size"></param>
+        [MethodImpl(Inline), Op]
+        public static BufferToken token(MemoryAddress @base, ByteSize size)
+            => new BufferToken(@base,size);
+
         public IntPtr Handle {get;}
 
         public ByteSize Size {get;}
@@ -51,13 +113,13 @@ namespace Z0
         public unsafe Span<byte> Edit
         {
             [MethodImpl(Inline)]
-            get => api.span(this);
+            get => span(this);
         }
 
         public Span<byte> Bytes
         {
             [MethodImpl(Inline)]
-            get => api.span(this);
+            get => span(this);
         }
 
         public uint Count
@@ -73,11 +135,11 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public void Dispose()
-            => api.release(this);
+            => release(this);
 
         [MethodImpl(Inline)]
         public static implicit operator BufferToken(NativeBuffer src)
-            => api.token(src.BaseAddress, src.Size);
+            => token(src.BaseAddress, src.Size);
 
         [MethodImpl(Inline)]
         public static implicit operator Span<byte>(NativeBuffer src)

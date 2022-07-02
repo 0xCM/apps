@@ -35,7 +35,6 @@
     <ProjectReference Include="$(Dynamic)" />
 
     <ProjectReference Include="$(Expr)" />
-    <ProjectReference Include="$(Extract)" />
     <ProjectReference Include="$(EMath)" />
 
     <ProjectReference Include="$(Fsm)" />
@@ -46,7 +45,9 @@
 
     <ProjectReference Include="$(Imagine)" />
     <ProjectReference Include="$(IntelCore)" />
+
     <ProjectReference Include="$(IntelIntrinsics)" />
+
     <ProjectReference Include="$(IntelXed)" />
 
     <ProjectReference Include="$(Lang)" />

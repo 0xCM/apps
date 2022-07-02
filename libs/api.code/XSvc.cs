@@ -25,13 +25,6 @@ namespace Z0
 
             public ApiPacks ApiPacks(IWfRuntime wf)
                 => Service<ApiPacks>(wf);
-
-            public ApiCatalogs ApiCatalogs(IWfRuntime wf)
-                => Service<ApiCatalogs>(wf);
-
-            public ApiIndexBuilder ApiIndexBuilder(IWfRuntime wf)
-                =>Service<ApiIndexBuilder>(wf);
-
         }
 
         static Svc Services => Svc.Instance;
@@ -54,13 +47,7 @@ namespace Z0
         public static ApiPacks ApiPacks(this IWfRuntime wf)
             => Services.ApiPacks(wf);
 
-        public static ApiIndexBuilder ApiIndexBuilder(this IWfRuntime wf)
-             => Services.ApiIndexBuilder(wf);
-
         public static ApiPackages ApiPackages(this IEnvPaths src)
             => src.PackageRoot();
-
-        public static ApiCatalogs ApiCatalogs(this IWfRuntime wf)
-            => Services.ApiCatalogs(wf);
     }
 }

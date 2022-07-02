@@ -6,10 +6,32 @@ namespace Z0
 {
     using static core;
 
+    [Free]
+    public abstract class StringProcessor<P,S,T>
+        where P : StringProcessor<P,S,T>, new()
+        where S : unmanaged, IEquatable<S>, IComparable<S>, IString<S>
+    {
+        public abstract bool Process(ref S src, out T dst);
+    }
+
+
     [StructLayout(StructLayout,Pack=1, Size=Size)]
     public unsafe readonly struct MemoryStrings
     {
         const byte OffsetScale = 4;
+
+        [MethodImpl(Inline), Op]
+        public static MemoryStrings create(uint entries, uint length, MemoryAddress offsetbase, MemoryAddress charbase)
+            => new MemoryStrings(entries, length, offsetbase, charbase);
+
+        [MethodImpl(Inline), Op]
+        public static MemoryStrings create(ReadOnlySpan<byte> offsets, ReadOnlySpan<char> chars)
+            => new MemoryStrings(count(offsets), (uint)chars.Length, core.address(offsets), core.address(chars));
+
+        [MethodImpl(Inline)]
+        public static MemoryStrings<K> create<K>(ReadOnlySpan<byte> offsets, ReadOnlySpan<char> chars)
+            where K : unmanaged
+                => new MemoryStrings<K>(create(offsets, chars));
 
         [MethodImpl(Inline)]
         public static StringAddress<N> natural<N>(string src)
@@ -55,19 +77,6 @@ namespace Z0
                 seek(dst,i++) = skip(c,j);
             return n;
         }
-
-        [MethodImpl(Inline), Op]
-        public static MemoryStrings create(uint entries, uint length, MemoryAddress offsetbase, MemoryAddress charbase)
-            => new MemoryStrings(entries, length, offsetbase, charbase);
-
-        [MethodImpl(Inline), Op]
-        public static MemoryStrings create(ReadOnlySpan<byte> offsets, ReadOnlySpan<char> chars)
-            => new MemoryStrings(count(offsets), (uint)chars.Length, core.address(offsets), core.address(chars));
-
-        [MethodImpl(Inline)]
-        public static MemoryStrings<K> create<K>(ReadOnlySpan<byte> offsets, ReadOnlySpan<char> chars)
-            where K : unmanaged
-                => new MemoryStrings<K>(create(offsets, chars));
 
         [MethodImpl(Inline), Op]
         static Label label(ReadOnlySpan<char> src)

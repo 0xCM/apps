@@ -32,7 +32,7 @@ namespace Z0
         }
 
         public string Format()
-            => string.Format(RP.PSx2, EventId, string.Format("Created {0}", HostType.Name));
+            => string.Format(RP.PSx2, EventId, string.Format("Created {0}", HostType.DisplayName()));
 
         public override string ToString()
             => Format();

@@ -11,6 +11,38 @@ namespace Z0
     [Free,ApiHost]
     public class AsciLines
     {
+        [Op]
+        public static LineCount count(FS.FilePath src)
+            => (src, count(src.ReadBytes()));
+
+        [Op]
+        public static Index<LineCount> count(ReadOnlySpan<FS.FilePath> src)
+        {
+            var dst = bag<LineCount>();
+            iter(src, path => dst.Add(count(path)), true);
+            return dst.ToArray().Sort();
+        }
+
+        public static Index<LineStats> stats(MemoryFile src, uint buffer = 0)
+        {
+            var dst = list<LineStats>(buffer);
+            var data = src.View();
+            var last = 0u;
+            var counter = 0u;
+            for(var i=0u; i<data.Length; i++)
+            {
+                if(SQ.nl(skip(data,i)))
+                {
+                    var offset = i;
+                    var length = (byte)(offset - last);
+                    dst.Add(new LineStats(counter++, offset, length));
+                    last = offset;
+                }
+            }
+
+            return dst.Array();
+        }
+
         [MethodImpl(Inline)]
         public static AsciLineCover<T> asci<T>(ReadOnlySpan<T> src)
             where T : unmanaged

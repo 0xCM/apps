@@ -5,23 +5,16 @@
 namespace Z0
 {
     using Windows;
-
     using static Windows.Kernel32;
-    using static System.Runtime.CompilerServices.Unsafe;
 
     unsafe partial struct memory
     {
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        static unsafe T* pointer<T>(ref T src)
-            where T : unmanaged
-                => (T*)AsPointer(ref src);
-
         [MethodImpl(Inline), Op]
         public static unsafe bool liberate(ReadOnlySpan<byte> src, out byte* pDst)
         {
             var size = (ulong)src.Length;
-            ref var cell = ref core.edit(core.first(src));
-            var pCell = pointer(ref cell);
+            ref var cell = ref Refs.edit(Spans.first(src));
+            var pCell = Refs.gptr(ref cell);
             if(liberate(pCell, size))
             {
                 pDst = pCell;
@@ -40,7 +33,7 @@ namespace Z0
         /// <param name="src">The buffer to let it be what it wants</param>
         [MethodImpl(Inline), Op]
         public static unsafe byte* liberate(Span<byte> src)
-            => liberate((byte*)core.refptr(ref core.first(src)), src.Length);
+            => liberate((byte*)Refs.gptr(ref Spans.first(src)), src.Length);
 
         /// <summary>
         /// This may not be the best idea to solve your problem
@@ -48,7 +41,7 @@ namespace Z0
         /// <param name="src">The buffer to let it be what it wants</param>
         [MethodImpl(Inline), Op]
         public static unsafe byte* liberate(ReadOnlySpan<byte> src)
-            => liberate<byte>(ref core.edit(core.first(src)), src.Length);
+            => liberate<byte>(ref Refs.edit(Spans.first(src)), src.Length);
 
         /// <summary>
         /// Enables execution over a specified memory range

@@ -30,7 +30,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public Span<byte> Edit(byte index)
-            => memory.span(Token(index));
+            => NativeBuffer.span(Token(index));
 
         /// <summary>
         /// Covers a token-identified buffer with a span over cells of unmanaged type

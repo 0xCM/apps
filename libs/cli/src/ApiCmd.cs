@@ -8,22 +8,74 @@ namespace Z0
 
     using static ApiGranules;
 
+    using K = ApiMdKind;
+
     public class ApiCmd : AppCmdService<ApiCmd>
     {
         ApiMd ApiMd => Wf.ApiMetadata();
 
         CliEmitter CliEmitter => Wf.CliEmitter();
 
+        Cli Cli => Wf.Cli();
+
         Heaps Heaps => Wf.Heaps();
 
         PdbIndexBuilder PdbIndexBuilder => Wf.PdbIndexBuilder();
 
+        CsLang CsLang => Wf.CsLang();
+
         PdbSvc PdbSvc => Wf.PdbSvc();
+
+        public Index<BitMaskInfo> ApiBitMasks
+            => Data(K.BitMasks, () => BitMask.masks(typeof(BitMaskLiterals)));
+
+        [CmdOp("api/emit/bitmasks")]
+        void EmitApiBitMasks()
+            => Emit(ApiBitMasks);
+
+        [CmdOp("api/emit/classes")]
+        Outcome EmitApiClasses(CmdArgs args)
+        {
+            var classifier = Classifiers.classifier<AsmSigTokens.GpRmToken,byte>();
+            var dst = text.emitter();
+            Classifiers.render(classifier,dst);
+            Write(dst.Emit());
+            return true;
+        }
+
+        public void Emit(Index<BitMaskInfo> src)
+            => TableEmit(src, ProjectDb.ApiTablePath<BitMaskInfo>());
+
+        [CmdOp("api/deps")]
+        void ShowDependencies()
+        {
+            ShowDependencies(Wf.Controller);
+        }
+
+        void ShowDependencies(Assembly src)
+        {
+            var deps = JsonDepsLoader.from(src);
+            var libs = deps.Libs();
+            var rtlibs = deps.RuntimeLibs();
+            var options = deps.Options();
+            var target = deps.Target();
+            var graph = deps.Graph;
+            Wf.Data(string.Format("Target: {0} {1} {2}", target.Framework, target.Runtime, target.RuntimeSignature));
+            iter(libs, lib => Wf.Data(lib.Name));
+            var buffer = text.buffer();
+            iter(rtlibs, lib => lib.Render(buffer));
+            Wf.Data(buffer.Emit());
+        }
 
         [CmdOp("api/etl")]
         void ApiEmit()
         {
             ApiMd.EmitDatasets();
+        }
+
+        public void EmitCliDatasets(Timestamp ts)
+        {
+
         }
 
         [CmdOp("api/emit/pdb/info")]
@@ -34,7 +86,7 @@ namespace Z0
         void EmitMetadataCli()
         {
             CliEmitter.Emit(CliEmitOptions.@default());
-            ApiMd.EmitMsil();
+            Cli.EmitMsil();
         }
 
         [CmdOp("api/emit/pdb/index")]
@@ -50,14 +102,14 @@ namespace Z0
 
         [CmdOp("api/emit/msil-host")]
         void EmitHostMsil(CmdArgs args)
-            => ApiMd.EmitHostMsil(arg(args,0));
+            => Cli.EmitHostMsil(arg(args,0));
 
         [CmdOp("api/emit/msil")]
         void EmitMsil()
         {
             var targets = AppDb.ApiTargets(msil);
             targets.Delete();
-            ApiMd.EmitMsil(ApiMd.ApiHosts, targets.Targets(il));
+            Cli.EmitMsil(ApiMd.ApiHosts, targets.Targets(il));
             TableEmit(Cil.opcodes(), AppDb.DbOut("clr").Path("cil.opcodes", FileKind.Csv));
         }
 
@@ -76,5 +128,18 @@ namespace Z0
         [CmdOp("api/emit/comments")]
         void ApiEmitComments()
             => ApiMd.EmitComments();
+
+        const string il = nameof(il);
+
+        [CmdOp("gen/replicants")]
+        Outcome GenEnums(CmdArgs args)
+        {
+            const string Name = "api.types.enums";
+            var src = AppDb.ApiTargets().Path(Name, FileKind.List);
+            var types = ApiMd.LoadTypes(src);
+            var name = "EnumDefs";
+            CsLang.EmitReplicants(CsLang.replicant(AppDb.CgStage(name).Root, out var spec), types, AppDb.CgStage(name).Root);
+            return true;
+        }
     }
 }

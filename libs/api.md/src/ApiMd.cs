@@ -12,10 +12,6 @@ namespace Z0
 
     public sealed class ApiMd : WfSvc<ApiMd>
     {
-        ApiJit Jit => Wf.Jit();
-
-        MsilPipe MsilSvc => Wf.MsilSvc();
-
         ApiComments Comments => Wf.ApiComments();
 
         ModuleArchives Modules => Wf.ModuleArchives();
@@ -25,17 +21,11 @@ namespace Z0
         IDbTargets ApiTargets()
             => AppDb.ApiTargets();
 
-        IDbTargets ApiTargets(string scope)
+        public IDbTargets ApiTargets(string scope)
             => AppDb.ApiTargets(scope);
 
         IDbTargets AssetTargets
             => AppDb.ApiTargets("assets");
-
-        IDbTargets MsilTargets()
-            => ApiTargets(msil);
-
-        FS.FilePath MsilPath(ApiHostUri uri)
-            => MsilTargets().Path(FS.hostfile(uri, FS.Il));
 
         public IApiCatalog Catalog
             => ApiRuntimeCatalog;
@@ -78,9 +68,6 @@ namespace Z0
         public Index<ApiFlowSpec> DataFlows
             => data(K.DataFlows, CalcDataFlows);
 
-        // public Index<BitMaskInfo> ApiBitMasks
-        //     => Data(K.BitMasks, () => BitMask.masks(typeof(BitMaskLiterals)));
-
         public ConstLookup<string,Index<SymInfo>> ApiTokens
             => data(K.ApiTokens, CalcApiTokens);
 
@@ -107,7 +94,6 @@ namespace Z0
                 EmitApiTables,
                 EmitApiCommands,
                 () => EmitApiTokens()
-                //EmitApiBitMasks
             );
         }
 
@@ -227,9 +213,6 @@ namespace Z0
         void EmitApiLiterals()
             => Emit(ApiLiterals);
 
-        // void EmitApiBitMasks()
-        //     => Emit(ApiBitMasks);
-
         void EmitTypeLists()
         {
             EmitTypeList("api.types.enums", EnumTypes);
@@ -261,7 +244,6 @@ namespace Z0
                     ));
             FileEmit(emitter.Emit(), parsers.Count, AppDb.ApiTargets().Path("api.parsers", FileKind.Csv));
         }
-
 
         public void EmitComments()
         {
@@ -302,24 +284,6 @@ namespace Z0
         public void Emit(ReadOnlySpan<ClrEnumRecord> src)
             => TableEmit(src, AppDb.ApiTargets().Table<ClrEnumRecord>(), TextEncodingKind.Unicode);
 
-        // public void Emit(Index<BitMaskInfo> src)
-        //     => TableEmit(src, ProjectDb.ApiTablePath<BitMaskInfo>());
-
-        public void EmitHostMsil(string hostid)
-        {
-            var result = Outcome.Success;
-            result = ApiParsers.host(hostid, out var uri);
-            if(result.Ok)
-            {
-                result = ApiRuntimeCatalog.FindHost(uri, out var host);
-                if(result.Ok)
-                    EmitMsil(array(host));
-            }
-
-            if(result.Fail)
-                Errors.Throw(result.Message);
-        }
-
         Index<ApiFlowSpec> CalcDataFlows()
         {
             var src = ApiDataFlow.discover(Components);
@@ -341,60 +305,6 @@ namespace Z0
         Index<ApiCmdRow> CalcApiCommands()
             => CmdTypes.rows(CmdTypes.discover(Components));
 
-        public ConstLookup<ApiHostUri,FS.FilePath> EmitMsil()
-            => EmitMsil(ApiHosts);
-
-        ApiMembers JitHost(IApiHost host)
-            => Jit.JitHost(host);
-
-        public ConstLookup<ApiHostUri,FS.FilePath> EmitMsil(ReadOnlySpan<IApiHost> hosts, IDbTargets dst)
-        {
-            var buffer = text.buffer();
-            var k = 0u;
-            var emitted = cdict<ApiHostUri,FS.FilePath>();
-            for(var i=0; i<hosts.Length; i++)
-            {
-                ref readonly var host = ref skip(hosts, i);
-                var members = JitHost(host);
-                var count = members.Length;
-                if(members.Count == 0)
-                    continue;
-
-                for(var j=0; j<members.Count; j++)
-                {
-                    MsilSvc.RenderCode(members[j].Msil, buffer);
-                    k++;
-                }
-
-                var path = dst.Path(FS.hostfile(host.HostUri, FS.Il));
-                FileEmit(buffer.Emit(), members.Count, path, TextEncodingKind.Unicode);
-                emitted[host.HostUri] = path;
-            }
-            return emitted;
-        }
-
-        public ConstLookup<ApiHostUri,FS.FilePath> EmitMsil(ReadOnlySpan<IApiHost> hosts)
-        {
-            var buffer = text.buffer();
-            var k = 0u;
-            var emitted = cdict<ApiHostUri,FS.FilePath>();
-            for(var i=0; i<hosts.Length; i++)
-            {
-                ref readonly var host = ref skip(hosts, i);
-                var members = JitHost(host);
-                if(members.Count == 0)
-                    continue;
-
-                for(var j=0; j<members.Count; j++, k++)
-                    MsilSvc.RenderCode(members[j].Msil, buffer);
-
-                var path = MsilPath(host.HostUri);
-                FileEmit(buffer.Emit(), members.Count, path, TextEncodingKind.Unicode);
-                emitted[host.HostUri] = path;
-            }
-
-            return emitted;
-        }
 
         ConstLookup<string,Index<SymInfo>> CalcApiTokens()
         {
@@ -592,7 +502,6 @@ namespace Z0
             TableEmit(syms, dst, TextEncodingKind.Unicode);
             return syms;
         }
-
 
         public Index<SymInfo> EmitApiTokens(ITokenGroup src, FS.FilePath dst)
         {

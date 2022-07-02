@@ -7,7 +7,7 @@ namespace Z0
 {
     using static core;
 
-    using api = memory;
+    using api = NativeBuffer;
 
     /// <summary>
     /// Represents a native buffer allocation
@@ -57,7 +57,7 @@ namespace Z0
         public uint Count
         {
             [MethodImpl(Inline)]
-            get => Size/size<T>();
+            get => Size/Sized.size<T>();
         }
 
         /// <summary>
@@ -77,6 +77,6 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public void Dispose()
-            => api.release(this);
+            => NativeBuffer.release(this);
     }
 }

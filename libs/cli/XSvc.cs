@@ -25,6 +25,9 @@ namespace Z0
 
             public ApiCmd ApiCmd(IWfRuntime wf)
                 => Service<ApiCmd>(wf);
+
+            public MsilPipe MsilSvc(IWfRuntime wf)
+                => Service<MsilPipe>(wf);
         }
 
         static Svc Services => Svc.Instance;
@@ -46,5 +49,11 @@ namespace Z0
 
         public static ApiCmd ApiCmd(this IWfRuntime wf)
             => Services.ApiCmd(wf);
+
+        public static MsilPipe MsilSvc(this IWfRuntime wf)
+            => Services.MsilSvc(wf);
+
+        public static Cli Cli(this IWfRuntime wf)
+            => Services.Cli(wf);
     }
 }
