@@ -49,7 +49,6 @@ namespace Z0
 
              public LlvmConfigSvc LlvmConfig(IWfRuntime wf)
                 => Service<LlvmConfigSvc>(wf);
-
         }
 
         static Svc Services = Svc.Instance;

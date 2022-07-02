@@ -38,13 +38,13 @@ namespace Z0
             SortedRoutines = array<AsmRoutine>();
             ResolvedParts = array<ResolvedPart>();
             FormatConfig = AsmFormatConfig.@default(out var _);
+            Channel = new ApiExtractChannel();
         }
 
         protected override void OnInit()
         {
             Resolver = Wf.ApiResolver();
             Decoder = Wf.AsmDecoder();
-            Channel = new ApiExtractChannel();
             DatasetReceiver = new();
             ApiCatalogs = Wf.ApiCatalogs();
         }

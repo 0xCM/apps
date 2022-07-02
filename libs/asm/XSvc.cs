@@ -17,17 +17,8 @@ namespace Z0
             public AsmDecoder AsmDecoder(IWfRuntime wf)
                 => Service<AsmDecoder>(wf);
 
-            public ApiExtractor ApiExtractor(IWfRuntime wf)
-                => Service<ApiExtractor>(wf);
-
-            public ApiExtractWorkflow ApiExtractWorkflow(IWfRuntime wf)
-                => Service<ApiExtractWorkflow>(wf);
-
             public HostAsmEmitter HostAsmEmitter(IWfRuntime wf)
                 => Service<HostAsmEmitter>(wf);
-
-            public ApiCapture ApiCapture(IWfRuntime wf)
-                => Service<ApiCapture>(wf);
 
             public AsmCallPipe AsmCallPipe(IWfRuntime wf)
                 => Service<AsmCallPipe>(wf);
@@ -47,40 +38,21 @@ namespace Z0
             public ImmSpecializer ImmSpecializer(IWfRuntime wf)
                 => Service<ImmSpecializer>(wf);
 
-            public CaptureCmd CaptureCmd(IWfRuntime wf)
-                => Service<CaptureCmd>(wf);
-
             public ApiImmEmitter ImmEmitter(IWfRuntime wf)
                 => Service<ApiImmEmitter>(wf);
-
-
-            public AsmCmdService AsmCmdSvc(IWfRuntime wf)
-                => Service<AsmCmdService>(wf);
-
         }
 
         static Svc Services => Svc.Instance;
 
-        public static CaptureCmd CaptureCmd(this IWfRuntime wf)
-            => Services.CaptureCmd(wf);
 
         public static AsmEtl AsmEtl(this IWfRuntime wf)
             => Services.AsmEtl(wf);
-
-        public static ApiExtractor ApiExtractor(this IWfRuntime wf)
-            => Services.ApiExtractor(wf);
-
-        public static ApiExtractWorkflow ApiExtractWorkflow(this IWfRuntime wf)
-            => Services.ApiExtractWorkflow(wf);
 
         public static AsmRowBuilder AsmRowBuilder(this IWfRuntime wf)
             => Services.AsmRowBuilder(wf);
 
         public static HostAsmEmitter HostAsmEmitter(this IWfRuntime wf)
             => Services.HostAsmEmitter(wf);
-
-        public static ApiCapture ApiCapture(this IWfRuntime wf)
-            => Services.ApiCapture(wf);
 
         public static AsmJmpPipe AsmJmpPipe(this IWfRuntime wf)
             => Services.AsmJmpPipe(wf);
@@ -117,9 +89,5 @@ namespace Z0
 
         public static ICaptureCore CaptureCore(this IWfRuntime wf)
             => Asm.CaptureCore.create(wf);
-
-        public static AsmCmdService AsmCmdSvc(this IWfRuntime wf)
-            => Services.AsmCmdSvc(wf);
-
     }
 }

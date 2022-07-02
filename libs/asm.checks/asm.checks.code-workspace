@@ -26,6 +26,21 @@
 		},
 		{
 			"path": "..\\..\\props"
+		},
+		{
+			"path": "..\\intel.core"
+		},
+		{
+			"path": "..\\intel.intrinsics"
+		},
+		{
+			"path": "..\\intel.xed"
+		},
+		{
+			"path": "..\\memory.checks"
+		},
+		{
+			"path": "..\\memory.svc"
 		}
 	],
 	"settings": {}

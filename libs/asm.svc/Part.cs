@@ -8,6 +8,7 @@ global using System.Collections;
 global using System.Collections.Concurrent;
 global using System.Reflection;
 global using System.Diagnostics;
+global using System.Diagnostics.Tracing;
 global using System.Reflection.Metadata;
 global using System.Reflection.Metadata.Ecma335;
 global using System.Reflection.PortableExecutable;

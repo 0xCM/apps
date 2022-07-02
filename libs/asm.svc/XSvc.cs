@@ -56,11 +56,24 @@ namespace Z0
 
             public AsmCmdService AsmCmdSvc(IWfRuntime wf)
                 => Service<AsmCmdService>(wf);
-
         }
 
         static Svc Services => Svc.Instance;
 
+        public static ApiCapture ApiCapture(this IWfRuntime wf)
+            => Services.ApiCapture(wf);
+
+        public static AsmCmdService AsmCmdSvc(this IWfRuntime wf)
+            => Services.AsmCmdSvc(wf);
+
+        public static CaptureCmd CaptureCmd(this IWfRuntime wf)
+            => Services.CaptureCmd(wf);
+
+        public static ApiExtractor ApiExtractor(this IWfRuntime wf)
+            => Services.ApiExtractor(wf);
+
+        public static ApiExtractWorkflow ApiExtractWorkflow(this IWfRuntime wf)
+            => Services.ApiExtractWorkflow(wf);
 
     }
 }

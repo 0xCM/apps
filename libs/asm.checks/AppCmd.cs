@@ -9,7 +9,24 @@ namespace Z0
     {
         public static ICmdProvider[] providers(IWfRuntime wf)
             => new ICmdProvider[]{
-                wf.EnvCmd()
+                wf.AsmCmdSvc(),
+                wf.ProjectCmd(),
+                wf.EnvCmd(),
+                wf.DbCmd(),
+                wf.MemCmd(),
+                wf.ToolsetCmd(),
+                wf.CaptureCmd(),
+                wf.AsmCoreCmd(),
+                wf.LlvmCmd(),
+                wf.XedTool(),
+                wf.Machines(),
+                wf.ApiCmd(),
+                wf.SourceSymbolic(),
+                wf.IntelIntrinsicsCmd(),
+                wf.AsmCmdSvc(),
+                wf.XedCmd(),
+                wf.XedChecks(),
+                wf.AsmChecks()
             };
 
         public static AppCmd commands(IWfRuntime wf)

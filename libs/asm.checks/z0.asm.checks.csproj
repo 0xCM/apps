@@ -8,10 +8,17 @@
   </PropertyGroup>
 
   <Import Project="$(ImportDefs)shell.settings.props"/>
+  <Import Project="$(ImportDefs)cg.libs.props"/>
 
   <ItemGroup>
+    <ProjectReference Include="$(TestChecks)" />
+    <ProjectReference Include="$(TestUnits)" />
     <ProjectReference Include="$(CmdSvc)" />
     <ProjectReference Include="$(AsmSvc)" />
+    <ProjectReference Include="$(LlvmSvc)" />
+    <ProjectReference Include="$(Machines)" />
+    <ProjectReference Include="$(IntelIntrinsics)" />
+    <ProjectReference Include="$(IntelXed)" />
   </ItemGroup>
 
 </Project>

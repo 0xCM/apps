@@ -26,7 +26,6 @@ namespace Z0
     public abstract class ApiExtractEvent<E,P> : ApiExtractEvent<E>
         where E : ApiExtractEvent<E,P>, new()
     {
-
         protected ApiExtractEvent()
         {
 
