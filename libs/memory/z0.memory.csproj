@@ -6,12 +6,9 @@
     <TargetFramework>$(FrameworkMoniker)</TargetFramework>
   </PropertyGroup>
 
-  <Import Project="$(ImportDefs)common.libs.props"/>
-
   <ItemGroup>
     <ProjectReference Include="$(Native)" />
     <ProjectReference Include="$(Numbers)" />
-    <ProjectReference Include="$(Wf)" />
   </ItemGroup>
 
 </Project>

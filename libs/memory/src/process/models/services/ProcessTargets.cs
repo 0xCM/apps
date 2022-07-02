@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct ProcessTargets : IRootedArchive
+    public readonly struct ProcessTargets
     {
         public FS.FolderPath Root {get;}
 

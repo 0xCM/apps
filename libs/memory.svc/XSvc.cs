@@ -38,7 +38,6 @@ namespace Z0
             public ModuleArchives ModuleArchives(IWfRuntime wf)
                 => Service<ModuleArchives>(wf);
 
-
         }
 
         static Svc Services => Svc.Instance;
@@ -55,10 +54,8 @@ namespace Z0
         public static ProcessMemory ProcessMemory(this IWfRuntime wf)
             => Services.ProcessMemory(wf);
 
-
         public static ImageSegments ImageSegments(this IWfRuntime wf)
             => Services.ImageSegments(wf);
-
 
         public static MemCmd MemCmd(this IWfRuntime wf)
             => GlobalServices.CmdSvc<MemCmd>(wf);
