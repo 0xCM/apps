@@ -19,12 +19,13 @@ namespace Z0
 
         public readonly ClrMethodArtifact Metadata;
 
-        public ApiMember(OpUri uri, MethodInfo method, MemoryAddress address)
+        public ApiMember(OpUri uri, MethodInfo method, MemoryAddress address, ApiMsil msil)
         {
             OpUri = uri;
             ApiClass = method.ApiClass();
             Method = Require.notnull(method);
-            Msil = ClrDynamic.msil(address, uri, method);
+            //Msil = ClrDynamic.msil(address, uri, method);
+            Msil = msil;
             Metadata = method.Artifact();
         }
 
@@ -81,7 +82,7 @@ namespace Z0
             => BaseAddress.CompareTo(src.BaseAddress);
 
         public static ApiMember Empty
-            => new ApiMember(OpUri.Empty, EmptyVessels.EmptyMethod, 0);
+            => new ApiMember(OpUri.Empty, EmptyVessels.EmptyMethod, 0, default);
 
         ApiMsil IApiMember.Msil
             => Msil;

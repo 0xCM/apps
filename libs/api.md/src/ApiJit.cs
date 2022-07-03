@@ -10,6 +10,9 @@ namespace Z0
 
     public sealed class ApiJit : AppService<ApiJit>
     {
+        public static ApiMember member(in ResolvedMethod src)
+            => new ApiMember(src.Uri, src.Method, src.EntryPoint, ClrDynamic.msil(src.EntryPoint, src.Uri, src.Method));
+
         public ApiMembers JitCatalog()
             => JitCatalog(Wf.ApiParts.Catalog);
 
@@ -128,6 +131,21 @@ namespace Z0
         static ApiMember[] JitDirect(IApiHost src)
             => JitDirect(src.HostType);
 
+        public static ApiMember member(MethodInfo src, ApiHostUri host)
+        {
+            var uri = ApiUri.define(ApiUriScheme.Located, host, src.Name, MultiDiviner.Service.Identify(src));
+            var address = ClrJit.jit(src);
+            return new ApiMember(uri, src, address, ClrDynamic.msil(address, uri, src));
+        }
+
+
+        public static ApiMember member(MethodInfo src, OpUri uri)
+        {
+            var address = ClrJit.jit(src);
+            return new ApiMember(uri, src, address, ClrDynamic.msil(address, uri, src));
+        }
+
+
         static ApiMember[] JitDirect(Type src)
         {
             var uri = src.ApiHostUri();
@@ -138,7 +156,8 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 var m = methods[i];
-                seek(buffer,i) = new ApiMember(ApiUri.define(ApiUriScheme.Located, uri, m.Method.Name, diviner.Identify(m.Method)), m.Method, ClrJit.jit(m.Method));
+                //seek(buffer,i) = new ApiMember(ApiUri.define(ApiUriScheme.Located, uri, m.Method.Name, diviner.Identify(m.Method)), m.Method, ClrJit.jit(m.Method));
+                seek(buffer,i) = member(m.Method, uri);
 
             }
             return buffer;
@@ -172,10 +191,11 @@ namespace Z0
                 {
                     ref readonly var t = ref skip(types, i);
                     var constructed = src.Method.MakeGenericMethod(t);
-                    var address = ClrJit.jit(constructed);
-                    var id = diviner.Identify(constructed);
-                    var uri = ApiUri.define(ApiUriScheme.Located, src.Host, method.Name, id);
-                    seek(dst,i) = new ApiMember(uri, constructed, address);
+                    //var address = ClrJit.jit(constructed);
+                    //var id = diviner.Identify(constructed);
+                    var uri = ApiUri.define(ApiUriScheme.Located, src.Host, method.Name, diviner.Identify(constructed));
+                    //seek(dst,i) = new ApiMember(uri, constructed, address);
+                    seek(dst,i) = member(constructed, uri);
                 }
             }
             catch(ArgumentException e)
@@ -202,7 +222,7 @@ namespace Z0
                 var method = member.Method;
                 var id = diviner.Identify(method);
                 var uri = ApiUri.define(ApiUriScheme.Located, member.Host, method.Name, id);
-                dst[i] = new ApiMember(uri, method, member.Location);
+                dst[i] = new ApiMember(uri, method, member.Location, ClrDynamic.msil(member.Location, uri, method));
             }
 
             return dst;

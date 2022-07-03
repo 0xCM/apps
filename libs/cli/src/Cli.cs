@@ -23,7 +23,7 @@ namespace Z0
         ApiMembers JitHost(IApiHost host)
             => Jit.JitHost(host);
 
-        ApiJit Jit => Wf.Jit();
+        ApiJit Jit => Wf.ApiJit();
 
         public void EmitHostMsil(string hostid)
         {

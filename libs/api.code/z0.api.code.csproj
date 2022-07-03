@@ -13,6 +13,8 @@
     <ProjectReference Include="$(Wf)" />
     <ProjectReference Include="$(Graphs)" />
     <ProjectReference Include="$(MemorySvc)" />
+    <ProjectReference Include="$(Dynamic)" />
+    <ProjectReference Include="$(ApiMd)" />
   </ItemGroup>
 
 </Project>

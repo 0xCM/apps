@@ -15,11 +15,14 @@ namespace Z0
             public ApiComments ApiComments(IWfRuntime wf)
                 => Service<ApiComments>(wf);
 
-            public ApiJit Jit(IWfRuntime wf)
-                => Service<ApiJit>(wf);
-
             public ApiCatalogs ApiCatalogs(IWfRuntime wf)
                 => Service<ApiCatalogs>(wf);
+
+            public ApiJit ApiJit(IWfRuntime wf)
+                => Service<ApiJit>(wf);
+
+
+
         }
 
         static Svc Services => Svc.Instance;
@@ -29,10 +32,12 @@ namespace Z0
 
         public static ApiComments ApiComments(this IWfRuntime wf)
             => Services.ApiComments(wf);
-        public static ApiJit Jit(this IWfRuntime wf)
-            => Services.Jit(wf);
 
         public static ApiCatalogs ApiCatalogs(this IWfRuntime wf)
             => Services.ApiCatalogs(wf);
+
+        [Op]
+        public static ApiJit ApiJit(this IWfRuntime wf)
+            => Services.ApiJit(wf);
     }
 }

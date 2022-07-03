@@ -10,41 +10,6 @@ namespace Z0
     {
         const int MaxZeroCount = 10;
 
-        // [Op]
-        // public static ApiExtractBlock extract(MethodInfo src, Span<byte> buffer)
-        // {
-        //     var method = resolve(src);
-        //     var result = extract2(method.EntryPoint, buffer);
-        //     if(result > 0)
-        //         return new ApiExtractBlock(method.EntryPoint, method.Uri.Format(), slice(buffer, 0, result));
-        //     else
-        //         return new ApiExtractBlock(method.EntryPoint, method.Uri.Format(), buffer.ToArray());
-        // }
-
-        // [Op]
-        // public static ApiExtractBlock extract2(in ResolvedMethod src, Span<byte> buffer)
-        // {
-        //     var result = extract2(src.EntryPoint, buffer);
-        //     if(result > 0)
-        //         return new ApiExtractBlock(src.EntryPoint, src.Uri.Format(), slice(buffer, 0, result));
-        //     else
-        //         return new ApiExtractBlock(src.EntryPoint, src.Uri.Format(), buffer.ToArray());
-        // }
-
-        // [Op]
-        // static unsafe int extract2(MemoryAddress src, Span<byte> dst)
-        // {
-        //     var reader = MemoryReader.create(src.Pointer<byte>(), dst.Length);
-        //     var counter = 0;
-        //     while(reader.Read(ref seek(dst, counter++)))
-        //     {
-        //         var term = ApiExtracts.terminal(slice(dst,0,counter));
-        //         if(term.TerminalFound)
-        //             return counter + term.Modifier;
-        //     }
-        //     return NotFound;
-        // }
-
         [Op]
         public static unsafe Index<ApiMemberExtract> extract(ReadOnlySpan<ApiMember> src, Span<byte> buffer)
         {
@@ -69,8 +34,9 @@ namespace Z0
         public static unsafe ApiMemberExtract extract(in ResolvedMethod src, Span<byte> buffer)
         {
             var size = Bytes.readz(MaxZeroCount, src.EntryPoint, buffer);
+            //var member = new ApiMember(src.Uri, src.Method, src.EntryPoint, ClrDynamic.msil(src.EntryPoint, src.Uri, src.Method));
             var block = new ApiExtractBlock(src.EntryPoint, src.Uri.Format(), slice(buffer,0, size).ToArray());
-            return new ApiMemberExtract(src.ToApiMember(), block);
+            return new ApiMemberExtract(member(src), block);
         }
     }
 }
