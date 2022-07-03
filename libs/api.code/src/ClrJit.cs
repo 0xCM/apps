@@ -4,12 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Reflection;
-
     using static core;
-    using static Root;
 
     [ApiHost]
     public readonly struct ClrJit

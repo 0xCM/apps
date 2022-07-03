@@ -21,14 +21,6 @@ namespace Z0
             return new (uri,ClrDynamic.msil(hex.BaseAddress, uri, method), hex, asm);
         }
 
-        // [MethodImpl(Inline), Op]
-        // public static MsilCode msil(CliToken id, CliSig sig, BinaryCode encoded, MethodImplAttributes attributes)
-        //     => new MsilCode(id, sig, encoded, attributes);
-
-        // [MethodImpl(Inline), Op]
-        // public static MsilCode msil(ApiMsil src, MethodImplAttributes attributes)
-        //     => MsilCode.define(src.Token, src.CliSig, src.CliCode, src.Attributes);
-
         public readonly OpUri Id;
 
         public readonly MsilCode Msil;

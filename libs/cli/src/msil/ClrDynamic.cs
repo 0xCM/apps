@@ -13,7 +13,6 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
-
         [Op]
         public static ApiMsil msil(MemoryAddress @base, OpUri uri, MethodInfo src)
             => new ApiMsil(

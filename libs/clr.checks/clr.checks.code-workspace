@@ -9,6 +9,24 @@
 		{
 			"path": "..\\clr.query"
 		},
+		{
+			"path": "..\\api.md"
+		},
+		{
+			"path": "..\\lib"
+		},
+		{
+			"path": "..\\dynamic"
+		},
+		{
+			"path": "..\\imagine"
+		},
+		{
+			"path": "..\\pow2"
+		},
+		{
+			"path": "..\\literals"
+		}
 	],
 	"settings": {}
 }

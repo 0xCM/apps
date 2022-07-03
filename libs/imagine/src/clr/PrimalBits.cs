@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
     using static PrimalData;
 
     using W = PrimalData.SegWidth;
@@ -16,12 +15,20 @@ namespace Z0
     public readonly struct PrimalBits
     {
         /// <summary>
+        /// Computes 2^i where i is an integer value in the interval [0,63]
+        /// </summary>
+        /// <param name="i">The exponent</param>
+        [MethodImpl(Inline), Op]
+        static ulong pow(byte i)
+            => 1ul << i;
+
+        /// <summary>
         /// Computes the bit-width of the represented primitive
         /// </summary>
         /// <param name="f">The literal's bitfield</param>
         [MethodImpl(Inline), Op]
         public static NativeTypeWidth width(PrimalKind f)
-            => (NativeTypeWidth)Pow2.pow(select(f, Field.Width));
+            => (NativeTypeWidth)pow(select(f, Field.Width));
 
         /// <summary>
         /// Determines the numeric sign, if any, of the represented primitive
@@ -91,7 +98,7 @@ namespace Z0
         /// <param name="src">The type code</param>
         [MethodImpl(Inline), Op]
         public static PrimalKind kind(TypeCode src)
-            => skip(Kinds, (uint)src);
+            => Spans.skip(Kinds, (uint)src);
 
         [MethodImpl(Inline), Op]
         public static PrimalCode code(PrimalKind f)
@@ -108,16 +115,16 @@ namespace Z0
         public static ReadOnlySpan<PrimalKind> Kinds
         {
             [MethodImpl(Inline), Op]
-            get => recover<PrimalKind>(PrimalKindData);
+            get => Spans.recover<PrimalKind>(PrimalKindData);
         }
 
         [MethodImpl(Inline), Op]
         static ref readonly SegMask filter(Field i)
-            => ref skip(Masks, (byte)i);
+            => ref Spans.skip(Masks, (byte)i);
 
         [MethodImpl(Inline), Op]
         static ref readonly SegPos index(Field i)
-            => ref skip(Positions, (byte)i);
+            => ref Spans.skip(Positions, (byte)i);
 
         [MethodImpl(Inline), Op]
         static PrimalKind view(PrimalKind src, SegPos offset)

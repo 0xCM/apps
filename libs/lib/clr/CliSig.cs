@@ -4,7 +4,25 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Msil;
+    public readonly struct CliSigFormat
+    {
+        public static string format(byte[] sig)
+        {
+            var sb = text.emitter();
+            int length = sig.Length;
+            for (int i = 0; i < length; i++)
+            {
+                if (i == 0) sb.AppendFormat("SIG [");
+                else sb.AppendFormat(" ");
+                sb.Append(Int8ToHex(sig[i]));
+            }
+            sb.AppendFormat("]");
+            return sb.ToString();
+        }
+
+        static string Int8ToHex(int int8)
+            => int8.ToString("X2");
+    }
 
     /// <summary>
     /// Defines a cli signature
@@ -13,7 +31,7 @@ namespace Z0
     {
         [Op]
         public static string format(CliSig src)
-            => DefaultMsilFormatProvider.Instance.SigByteArrayToString(src);
+            => CliSigFormat.format(src);
 
         public BinaryCode Data {get;}
 
