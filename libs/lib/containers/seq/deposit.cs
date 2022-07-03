@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial struct Seq
     {
         [MethodImpl(Inline), Closures(Closure)]
@@ -13,7 +11,7 @@ namespace Z0
         {
             var count = src.Length;
             for(var i=0; i<count; i++)
-                dst.Add(skip(src,i));
+                dst.Add(Spans.skip(src,i));
         }
 
         [MethodImpl(Inline), Op, Closures(Closure)]
@@ -21,11 +19,11 @@ namespace Z0
         {
             var kA = a.Length;
             for(var i=0; i<kA; i++)
-                dst.Add(skip(a,i));
+                dst.Add(Spans.skip(a,i));
 
             var kB = b.Length;
             for(var i=0; i<kB; i++)
-                dst.Add(skip(b,i));
+                dst.Add(Spans.skip(b,i));
         }
 
         /// <summary>

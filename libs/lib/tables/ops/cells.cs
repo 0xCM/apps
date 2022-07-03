@@ -12,13 +12,11 @@ namespace Z0
         public static uint cells<T>(in RowFormatSpec rowspec, in DynamicRow<T> row, Span<string> dst)
             where T : struct
         {
-            var values = @readonly(row.Cells);
-            var specs = rowspec.Cells.View;
-            var count = (uint)min(specs.Length,values.Length);
+            var count = (uint)min(rowspec.CellCount, row.CellCount);
             for(var i=0; i<count; i++)
             {
-                ref readonly var value = ref skip(values,i);
-                ref readonly var spec = ref skip(specs,i);
+                ref readonly var value = ref row[i];
+                ref readonly var spec = ref rowspec[i];
                 var cellpad = spec.Width.Pattern();
                 seek(dst, i) = string.Format(cellpad, spec.Pattern.Format(value));
             }

@@ -41,12 +41,11 @@ namespace Z0.llvm
         {
             var lines = DataProvider.RecordLines(LlvmTargetName.x86);
             LlvmPaths.Tables().Delete();
-            Index<DefRelations> defRelations = sys.empty<DefRelations>();
+            Index<LineRelations> defRelations = sys.empty<LineRelations>();
             LineMap<string> defMap = LineMap<string>.Empty;
             LineMap<string> classMap = LineMap<string>.Empty;
             Index<RecordField> classFields = sys.empty<RecordField>();
             Index<RecordField> defFields = sys.empty<RecordField>();
-
 
             exec(PllExec,
                 () => ImportToolHelp(),
@@ -67,14 +66,14 @@ namespace Z0.llvm
         LineMap<string> EmitClasses(Index<TextLine> src)
         {
             var relations = DataCalcs.CalcClassRelations(src);
-            DataEmitter.Emit(relations);
+            DataEmitter.EmitClassRelations(relations);
             return LineMaps.EmitLineMap(relations, src, LlvmDatasets.X86Classes);
         }
 
-        LineMap<string> EmitDefs(Index<TextLine> src, out Index<DefRelations> defs)
+        LineMap<string> EmitDefs(Index<TextLine> src, out Index<LineRelations> defs)
         {
             defs = DataCalcs.CalcDefRelations(src);
-            DataEmitter.Emit(defs);
+            DataEmitter.EmitDefRelations(defs);
             return LineMaps.EmitLineMap(defs, src, LlvmDatasets.X86Defs);
         }
 

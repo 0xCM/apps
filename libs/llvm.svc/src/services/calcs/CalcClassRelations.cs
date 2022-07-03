@@ -8,23 +8,33 @@ namespace Z0.llvm
 
     partial class LlvmDataCalcs
     {
-        public Index<ClassRelations> CalcClassRelations(ReadOnlySpan<TextLine> src)
+        public static void CalcClassRelations(ReadOnlySpan<TextLine> src, List<LineRelations> dst)
         {
-            var dst = list<ClassRelations>();
-            var record = ClassRelations.Empty;
+            var record = LineRelations.Empty;
             for(var i=0; i<src.Length; i++)
             {
-                if(parse(skip(src,i), out record))
+                if(ParseClassRelations(skip(src,i), out record))
+                    dst.Add(record);
+           }
+        }
+
+        public Index<LineRelations> CalcClassRelations(ReadOnlySpan<TextLine> src)
+        {
+            var dst = list<LineRelations>();
+            var record = LineRelations.Empty;
+            for(var i=0; i<src.Length; i++)
+            {
+                if(ParseClassRelations(skip(src,i), out record))
                     dst.Add(record);
            }
 
             return dst.ToArray();
         }
 
-        static bool parse(in TextLine src, out ClassRelations dst)
+        static bool ParseClassRelations(in TextLine src, out LineRelations dst)
         {
             const string Marker = "class ";
-            dst = ClassRelations.Empty;
+            dst = LineRelations.Empty;
             var content = src.Content;
             var j = text.index(content, Marker);
             var parameters = EmptyString;
@@ -46,8 +56,8 @@ namespace Z0.llvm
                         name = text.trim(text.inside(content, j + Marker.Length - 1, k));
 
                     if(nonempty(name))
-                    {                            
-                        dst = new ClassRelations();
+                    {
+                        dst = new LineRelations();
                         dst.SourceLine = src.LineNumber;
                         dst.Name = name;
                         Lineage.parse(content, out dst.Ancestors);
@@ -56,7 +66,7 @@ namespace Z0.llvm
                     }
                 }
             }
-            
+
             return result;
         }
     }

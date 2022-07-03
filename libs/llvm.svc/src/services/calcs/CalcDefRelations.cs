@@ -8,22 +8,22 @@ namespace Z0.llvm
 
     partial class LlvmDataCalcs
     {
-        public Index<DefRelations> CalcDefRelations(ReadOnlySpan<TextLine> src)
+        public Index<LineRelations> CalcDefRelations(ReadOnlySpan<TextLine> src)
         {
-            var dst = list<DefRelations>();
-            var record = DefRelations.Empty;
+            var dst = list<LineRelations>();
+            var record = LineRelations.Empty;
             for(var i=0; i<src.Length; i++)
             {
-                if(parse(skip(src,i), out record))
+                if(ParseDefRelations(skip(src,i), out record))
                     dst.Add(record);
            }
             return dst.ToArray();
         }
 
-        static bool parse(in TextLine line, out DefRelations dst)
+        static bool ParseDefRelations(in TextLine line, out LineRelations dst)
         {
             const string Marker = "def ";
-            dst = DefRelations.Empty;
+            dst = LineRelations.Empty;
             var content = line.Content;
             var result = false;
             var name = EmptyString;
@@ -36,8 +36,8 @@ namespace Z0.llvm
                     name = text.trim(text.inside(content, j + Marker.Length - 1, k));
                     if(nonempty(name))
                     {
-                        Lineage.parse(content, out var a);                        
-                        dst= new (line.LineNumber, name, a);
+                        Lineage.parse(content, out var a);
+                        dst = new (line.LineNumber, name, a);
                         result = true;
                     }
                 }

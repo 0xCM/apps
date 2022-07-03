@@ -11,7 +11,7 @@ namespace Z0
         [Op, Closures(Closure)]
         public static Seq<T> select<X,T>(ReadOnlySpan<X> src, Func<X,T> f)
         {
-            var dst = alloc<T>(src.Length);
+            var dst = sys.alloc<T>(src.Length);
             for(var i=0; i<src.Length; i++)
                 seek(dst,i) = f(src[i]);
             return dst;
@@ -37,7 +37,7 @@ namespace Z0
             var dst = core.list<Z>();
             for(var i=0; i<src.Length; i++)
             {
-                ref readonly var x = ref skip(src,i);
+                ref readonly var x = ref Spans.skip(src,i);
                 var y = lift(x);
                 for(var j=0; j<y.Count; j++)
                     dst.Add(project(x,y[j]));
@@ -50,7 +50,7 @@ namespace Z0
             var dst = core.list<Z>();
             for(var i=0; i<src.Length; i++)
             {
-                ref readonly var x = ref skip(src,i);
+                ref readonly var x = ref Spans.skip(src,i);
                 var y = lift(x);
                 for(var j=0; j<y.Count; j++)
                     dst.Add(project(x,y[j]));
@@ -64,7 +64,7 @@ namespace Z0
             var dst = core.list<Y>();
             for(var i=0; i<src.Length; i++)
             {
-                ref readonly var x = ref skip(src,i);
+                ref readonly var x = ref Spans.skip(src,i);
                 var y = lift(x);
                 for(var j=0; j<y.Count; j++)
                     dst.Add(y[j]);
@@ -77,7 +77,7 @@ namespace Z0
             var dst = core.list<Y>();
             for(var i=0; i<src.Length; i++)
             {
-                ref readonly var x = ref skip(src,i);
+                ref readonly var x = ref Spans.skip(src,i);
                 var y = lift(x);
                 for(var j=0; j<y.Count; j++)
                     dst.Add(y[j]);
@@ -91,7 +91,7 @@ namespace Z0
             var dst = core.list<X>();
             for(var i=0; i<src.Length; i++)
             {
-                ref readonly var x = ref skip(src,i);
+                ref readonly var x = ref Spans.skip(src,i);
                 if(f(x))
                     dst.Add(x);
             }
@@ -104,7 +104,7 @@ namespace Z0
             var dst = core.list<X>();
             for(var i=0; i<src.Length; i++)
             {
-                ref readonly var x = ref skip(src,i);
+                ref readonly var x = ref Spans.skip(src,i);
                 if(f(x))
                     dst.Add(x);
             }
@@ -142,7 +142,7 @@ namespace Z0
         {
             var count = (byte)indices.Length;
             for(byte i=0; i<count; i++)
-                seek(dst,i) = skip(src, @as<I,byte>(skip(indices,i)));
+                seek(dst,i) = Spans.skip(src, @as<I,byte>(skip(indices,i)));
         }
 
         [MethodImpl(Inline)]
@@ -151,7 +151,7 @@ namespace Z0
         {
             var count = (ushort)indices.Length;
             for(ushort i=0; i<count; i++)
-                seek(dst,i) = skip(src, @as<I,ushort>(skip(indices,i)));
+                seek(dst,i) = Spans.skip(src, @as<I,ushort>(skip(indices,i)));
         }
 
         [MethodImpl(Inline)]
@@ -160,7 +160,7 @@ namespace Z0
         {
             var count = (uint)indices.Length;
             for(uint i=0; i<count; i++)
-                seek(dst,i) = skip(src, @as<I,uint>(skip(indices,i)));
+                seek(dst,i) = Spans.skip(src, @as<I,uint>(skip(indices,i)));
         }
 
         [MethodImpl(Inline)]
@@ -169,8 +169,7 @@ namespace Z0
         {
             var count = (ulong)indices.Length;
             for(ulong i=0; i<count; i++)
-                seek(dst,i) = skip(src, @as<I,ulong>(skip(indices,i)));
+                seek(dst,i) = Spans.skip(src, @as<I,ulong>(skip(indices,i)));
         }
-
     }
 }

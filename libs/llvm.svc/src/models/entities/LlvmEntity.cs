@@ -9,7 +9,7 @@ namespace Z0.llvm
 
     public class LlvmEntity : DefFields
     {
-        public LlvmEntity(DefRelations def, RecordField[] fields)
+        public LlvmEntity(LineRelations def, RecordField[] fields)
             : base(def,fields)
         {
         }

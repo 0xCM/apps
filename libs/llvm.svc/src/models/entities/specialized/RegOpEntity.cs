@@ -9,7 +9,7 @@ namespace Z0.llvm
     /// </summary>
     public class RegOpEntity : DefFields
     {
-        public RegOpEntity(DefRelations def, RecordField[] fields)
+        public RegOpEntity(LineRelations def, RecordField[] fields)
             : base(def,fields)
         {
 

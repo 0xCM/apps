@@ -33,6 +33,10 @@ namespace Z0.llvm
             where T : struct
                 => Tables().Table<T>();
 
+        public FS.FilePath DbTable<T>(string prefix)
+            where T : struct
+                => Tables().Table<T>(prefix);
+
         public FS.FilePath DbTable(string id)
             => Tables().Path(FS.file(id, FS.Csv));
 
@@ -66,6 +70,9 @@ namespace Z0.llvm
         public FS.FilePath LineMap(string name)
             => LineMaps().Path(name, FileKind.Map);
 
+        public FS.FilePath LineMap(string project, string name)
+            => LineMaps().Path($"{project}.{name}", FileKind.Map);
+
         public FS.FilePath TableGenHeader(LlvmTargetName target, string kind)
             => LlvmSources(include).Path($"{target}.{kind}", FileKind.H);
 
@@ -88,7 +95,7 @@ namespace Z0.llvm
             => Sources("settings");
 
         public FS.FilePath RecordSet(string project, string name)
-            => Records(project).Path(name, FileKind.Txt);
+            => Records(project).Path($"{project}.{name}.records", FileKind.Txt);
 
         public FS.FilePath RecordSet(string project, LlvmTargetName target)
             => Records(project).Path($"{project}.{target}.records", FileKind.Txt);

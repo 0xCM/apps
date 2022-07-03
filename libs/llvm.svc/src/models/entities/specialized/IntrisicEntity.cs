@@ -11,7 +11,7 @@ namespace Z0.llvm
     {
         public const string LlvmName = "Intrinsic";
 
-        public IntrinsicEntity(DefRelations def, RecordField[] fields)
+        public IntrinsicEntity(LineRelations def, RecordField[] fields)
             : base(def,fields)
         {
 

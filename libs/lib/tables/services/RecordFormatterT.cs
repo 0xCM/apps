@@ -46,7 +46,7 @@ namespace Z0
         {
             api.adapt(src, ref Adapter);
             if(fk == RecordFormatKind.Tablular)
-                return api.format(FormatSpec, Adapter.Adapted);
+                return Adapter.Adapted.Format(FormatSpec);
             else
             {
                 Buffer.Clear();

@@ -4,20 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct LineMap<T>
+    public class LineMap<T> : Seq<LineMap<T>, LineInterval<T>>
     {
-        readonly Index<LineInterval<T>> Data;
+        public LineMap()
+        {
+
+        }
 
         [MethodImpl(Inline)]
         public LineMap(LineInterval<T>[] src)
+            : base(src)
         {
-            Data = src;
-        }
-
-        public ReadOnlySpan<LineInterval<T>> View
-        {
-            [MethodImpl(Inline)]
-            get => Data.View;
         }
 
         public uint IntervalCount
@@ -35,34 +32,11 @@ namespace Z0
             return k;
         }
 
-        public ref LineInterval<T> this[uint i]
-        {
-            [MethodImpl(Inline)]
-            get => ref Data[i];
-        }
-
-        public ref LineInterval<T> this[int i]
-        {
-            [MethodImpl(Inline)]
-            get => ref Data[i];
-        }
-
-        public bool IsEmpty
-        {
-            [MethodImpl(Inline)]
-            get => IntervalCount == 0;
-        }
-
-        public bool IsNonEmpty
-        {
-            [MethodImpl(Inline)]
-            get => IntervalCount != 0;
-        }
-
         [MethodImpl(Inline)]
         public static implicit operator LineMap<T>(LineInterval<T>[] src)
             => new LineMap<T>(src);
 
-        public static LineMap<T> Empty => new LineMap<T>(sys.empty<LineInterval<T>>());
+        public static LineMap<T> operator +(LineMap<T> a, LineMap<T> b)
+            => Seq.concat<LineMap<T>,LineInterval<T>>(a,b);
     }
 }

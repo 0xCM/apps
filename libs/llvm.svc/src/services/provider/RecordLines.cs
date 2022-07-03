@@ -8,6 +8,12 @@ namespace Z0.llvm
 
     partial class LlvmDataProvider
     {
+        public Index<TextLine> RecordLines(string project, string name)
+            => data($"{project}.{name}.records",() => LlvmPaths.RecordSet(project, name).ReadNumberedLines());
+
+        public ReadOnlySpan<TextLine> RecordLines(string project, string name, ClosedInterval<uint> range)
+            => slice(RecordLines(project,name).View, range.Min - 1, range.Max - range.Min + 1);
+
         public Index<TextLine> RecordLines(LlvmTargetName target)
         {
             var project = "llvm";

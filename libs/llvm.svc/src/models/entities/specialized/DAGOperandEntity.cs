@@ -11,7 +11,7 @@ namespace Z0.llvm
     {
         public const string LlvmName = "DAGOperand";
 
-        public DAGOperandEntity(DefRelations def, RecordField[] fields)
+        public DAGOperandEntity(LineRelations def, RecordField[] fields)
             : base(def,fields)
         {
 

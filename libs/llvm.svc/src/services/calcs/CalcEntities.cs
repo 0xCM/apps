@@ -8,14 +8,14 @@ namespace Z0.llvm
 
     partial class LlvmDataCalcs
     {
-        public Index<LlvmEntity> CalcEntities(ReadOnlySpan<DefRelations> rel, ReadOnlySpan<RecordField> fields)
+        public Index<LlvmEntity> CalcEntities(ReadOnlySpan<LineRelations> rel, ReadOnlySpan<RecordField> fields)
         {
             var relations = rel.Map(x => (x.Name, x)).ToDictionary();
             var entites = list<LlvmEntity>();
             var current = EmptyString;
             var buffer = list<RecordField>();
             var count = fields.Length;
-            var relation = DefRelations.Empty;
+            var relation = LineRelations.Empty;
             for(var i=0; i<count; i++)
             {
                 ref readonly var field = ref skip(fields,i);

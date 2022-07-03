@@ -37,22 +37,28 @@ namespace Z0
         public RowAdapter<T> Adapt(in T src)
             => api.adapt(src, ref this);
 
+        public ref readonly object this[uint index]
+        {
+            [MethodImpl(Inline)]
+            get => ref Row[index];
+        }
+
+        public ref readonly object this[int index]
+        {
+            [MethodImpl(Inline)]
+            get => ref Row[index];
+        }
+
         public readonly DynamicRow<T> Adapted
         {
             [MethodImpl(Inline)]
             get => Row;
         }
 
-        public readonly Span<dynamic> Cells
+        public uint CellCount
         {
             [MethodImpl(Inline)]
-            get => Row.Cells;
-        }
-
-        public readonly uint ColumnCount
-        {
-            [MethodImpl(Inline)]
-            get => Fields.Count;
+            get => Row.CellCount;
         }
     }
 }

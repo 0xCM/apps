@@ -12,6 +12,13 @@ namespace Z0
 
     }
 
+    [Free]
+    public interface ISeq<S,T> : ISeq<T>
+        where S : ISeq<S,T>, new()
+    {
+        S Alloc(uint count);
+    }
+
     public interface ISeq<T> : IReadOnlySeq<T>
     {
         Span<T> Edit {get;}

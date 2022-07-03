@@ -13,7 +13,7 @@ namespace Z0.llvm
 
         public const string FeaturesType = "SubtargetFeature";
 
-        public ProcessorEntity(DefRelations def, RecordField[] fields)
+        public ProcessorEntity(LineRelations def, RecordField[] fields)
             : base(def,fields)
         {
 

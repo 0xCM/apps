@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Free]
-    public abstract class Seq<S,T> : ReadOnlySeq<S,T>, ISeq<T>
+    public abstract class Seq<S,T> : ReadOnlySeq<S,T>, ISeq<S,T>
         where S : Seq<S,T>, new()
     {
         public Seq()
@@ -18,6 +18,14 @@ namespace Z0
             : base(src)
         {
 
+        }
+
+        public S Alloc(uint count)
+        {
+            var dst = new S();
+            var data = sys.alloc<T>(count);
+            Data = data;
+            return dst;
         }
 
         public virtual Span<T> Edit

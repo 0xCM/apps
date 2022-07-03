@@ -13,7 +13,7 @@ namespace Z0.llvm
     {
         public const string LlvmName = "X86Reg";
 
-        public X86RegEntity(DefRelations def, RecordField[] fields)
+        public X86RegEntity(LineRelations def, RecordField[] fields)
             : base(def,fields)
         {
 

@@ -2,17 +2,16 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.llvm
+namespace Z0
 {
-    /// <summary>
-    /// Represents a table-gen defined instruction
-    /// </summary>
-    public class MemOpEntity : DefFields
+    partial struct Seq
     {
-        public MemOpEntity(LineRelations def, RecordField[] fields)
-            : base(def,fields)
+        public static S create<S,T>(uint count)
+            where S : ISeq<S,T>, new()
         {
-
+            var dst = new S();
+            var buffer = sys.alloc<T>(count);
+            return dst;
         }
     }
 }

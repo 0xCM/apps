@@ -8,22 +8,22 @@ namespace Z0.llvm
 
     partial class LlvmTableLoader
     {
-        public Index<ClassRelations> LoadClassRelations()
+        public Index<LineRelations> LoadClassRelations()
         {
             var running = Running(nameof(LoadClassRelations));
-            var src = LlvmPaths.DbTable<ClassRelations>();
-            var dst = list<ClassRelations>();
+            var src = LlvmPaths.DbTable<LineRelations>();
+            var dst = list<LineRelations>();
             var rows = src.ReadLines();
             var count = rows.Length;
             var result = Outcome.Success;
             for(var i=1; i<count; i++)
             {
-                var record = new ClassRelations();
+                var record = new LineRelations();
                 ref readonly var row = ref rows[i];
                 var cells = @readonly(row.Split(Chars.Pipe).Select(x => x.Trim()));
-                if(cells.Length != llvm.ClassRelations.FieldCount)
+                if(cells.Length != LineRelations.FieldCount)
                 {
-                    Error(Tables.FieldCountMismatch.Format(llvm.ClassRelations.FieldCount, cells.Length));
+                    Error(Tables.FieldCountMismatch.Format(LineRelations.FieldCount, cells.Length));
                     Babble(row);
                     break;
                 }

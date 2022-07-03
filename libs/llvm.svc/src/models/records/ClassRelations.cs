@@ -1,34 +1,34 @@
-//-----------------------------------------------------------------------------
-// Copyright   :  (c) Chris Moore, 2020
-// License     :  MIT
-//-----------------------------------------------------------------------------
-namespace Z0.llvm
-{
-    [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct ClassRelations : ILineRelations<ClassRelations>
-    {
-        const string TableId = "llvm.classes.relations";
+// //-----------------------------------------------------------------------------
+// // Copyright   :  (c) Chris Moore, 2020
+// // License     :  MIT
+// //-----------------------------------------------------------------------------
+// namespace Z0.llvm
+// {
+//     [Record(TableId), StructLayout(LayoutKind.Sequential)]
+//     public struct LineRelations : ILineRelations<LineRelations>
+//     {
+//         const string TableId = "llvm.classes.relations";
 
-        public const byte FieldCount = 4;
+//         public const byte FieldCount = 4;
 
-        [Render(14)]
-        public LineNumber SourceLine;
+//         [Render(14)]
+//         public LineNumber SourceLine;
 
-        [Render(60)]
-        public string Name;
+//         [Render(60)]
+//         public string Name;
 
-        [Render(110)]
-        public Lineage Ancestors;
+//         [Render(110)]
+//         public Lineage Ancestors;
 
-        [Render(1)]
-        public string Parameters;
+//         [Render(1)]
+//         public string Parameters;
 
-        LineNumber ILineRelations.SourceLine
-            => SourceLine;
+//         LineNumber ILineRelations.SourceLine
+//             => SourceLine;
 
-        string ILineRelations.Name
-            => Name;
+//         string ILineRelations.Name
+//             => Name;
 
-        public static ClassRelations Empty => default;
-    }
-}
+//         public static LineRelations Empty => default;
+//     }
+// }

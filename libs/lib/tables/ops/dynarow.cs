@@ -9,10 +9,10 @@ namespace Z0
         [Op, Closures(Closure)]
         public static DynamicRow<T> dynarow<T>(ClrTableFields fields)
             where T : struct
-                => new DynamicRow<T>(fields, new dynamic[fields.Length]);
+                => new DynamicRow<T>(fields, new object[fields.Length]);
 
         [Op, Closures(Closure)]
         public static DynamicRow dynarow(ClrTableFields fields)
-            => new DynamicRow(fields, new dynamic[fields.Length]);
+            => new DynamicRow(fields, new object[fields.Length]);
     }
 }

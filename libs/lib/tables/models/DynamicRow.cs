@@ -17,25 +17,14 @@ namespace Z0
         /// </summary>
         public readonly ClrTableFields Fields;
 
-        /// <summary>
-        /// The cell values
-        /// </summary>
-        public readonly dynamic[] Cells;
+        readonly Index<object> Cells;
 
         [MethodImpl(Inline)]
-        public DynamicRow(ClrTableFields fields, dynamic[] cells)
+        public DynamicRow(ClrTableFields fields, object[] cells)
         {
             Fields = fields;
             Cells = cells;
         }
-
-        // public void Update<T>(in T src)
-        //     where T : struct
-        // {
-        //     var tr = __makeref(edit(src));
-        //     for(var i=0u; i<FieldCount; i++)
-        //         this[i] = Fields[i].Definition.GetValueDirect(tr);
-        // }
 
         public string Format(string pattern, object[] buffer)
         {
@@ -56,16 +45,16 @@ namespace Z0
             get => (uint)Cells.Length;
         }
 
-        public ref dynamic this[uint index]
+        public ref object this[uint index]
         {
             [MethodImpl(Inline)]
-            get => ref seek(Cells,index);
+            get => ref Cells[index];
         }
 
-        public ref dynamic this[int index]
+        public ref object this[int index]
         {
             [MethodImpl(Inline)]
-            get => ref seek(Cells,index);
+            get => ref Cells[index];
         }
     }
 }

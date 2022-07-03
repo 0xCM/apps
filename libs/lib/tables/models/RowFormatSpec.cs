@@ -40,5 +40,17 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Cells.Count;
         }
+
+        public ref readonly CellFormatSpec this[uint index]
+        {
+            [MethodImpl(Inline)]
+            get => ref Cells[index];
+        }
+
+        public ref readonly CellFormatSpec this[int index]
+        {
+            [MethodImpl(Inline)]
+            get => ref Cells[index];
+        }
     }
 }

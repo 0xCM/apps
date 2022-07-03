@@ -21,10 +21,10 @@ namespace Z0
         /// <summary>
         /// The cell values
         /// </summary>
-        public readonly dynamic[] Cells;
+        readonly Index<object> Cells;
 
         [MethodImpl(Inline)]
-        public DynamicRow(ClrTableFields fields, dynamic[] cells)
+        public DynamicRow(ClrTableFields fields, object[] cells)
         {
             Fields = fields;
             Cells = cells;
@@ -49,17 +49,20 @@ namespace Z0
             get => (uint)Cells.Length;
         }
 
-        public ref dynamic this[uint index]
+        public ref object this[uint index]
         {
             [MethodImpl(Inline)]
-            get => ref seek(Cells,index);
+            get => ref Cells[index];
         }
 
-        public ref dynamic this[int index]
+        public ref object this[int index]
         {
             [MethodImpl(Inline)]
-            get => ref seek(Cells,index);
+            get => ref Cells[index];
         }
+
+        public string Format(in RowFormatSpec spec)
+            => string.Format(spec.Pattern, Cells.Storage);
 
         [MethodImpl(Inline)]
         public static implicit operator DynamicRow(DynamicRow<T> src)

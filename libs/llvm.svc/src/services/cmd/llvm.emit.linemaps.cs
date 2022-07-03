@@ -8,6 +8,9 @@ namespace Z0.llvm
     {
         [CmdOp("llvm/emit/linemaps")]
         void EmitLineMaps()
-            => LineMaps.EmitLineMaps();
+        {
+            var src = LineMaps.CalcMap("llvm","x86");
+            LineMaps.EmitMap("llvm", "x86",src);
+        }
     }
 }

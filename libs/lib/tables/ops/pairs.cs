@@ -22,11 +22,9 @@ namespace Z0
             where T : struct
         {
             var pattern = KvpPattern(spec);
-            var cells = src.Cells;
-            var count = cells.Length;
             var fields = src.Fields.View;
-            for(var i=0; i<count; i++)
-                dst.AppendLineFormat(pattern, skip(fields,i).MemberName, skip(cells,i));
+            for(var i=0; i<src.CellCount; i++)
+                dst.AppendLineFormat(pattern, skip(fields,i).MemberName, src[i]);
             dst.AppendLine();
         }
     }

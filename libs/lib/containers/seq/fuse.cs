@@ -4,18 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial struct Seq
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static Span<T> fuse<T>(Span<T> xs, Span<T> ys, Func<T,T,T> f)
         {
-            var len = xs.Length;
-            ref var xh = ref first(xs);
-            ref var yh = ref first(ys);
-            for(var i = 0u; i<len ; i++)
-                seek(xh, i) = f(skip(xh,i), skip(in yh, i));
+            var count = xs.Length;
+            ref var xh = ref Spans.first(xs);
+            ref var yh = ref Spans.first(ys);
+            for(var i = 0u; i<count ; i++)
+                Refs.seek(xh, i) = f(Refs.skip(xh,i), Refs.skip(yh, i));
             return xs;
         }
     }

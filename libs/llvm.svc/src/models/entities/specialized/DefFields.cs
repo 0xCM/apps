@@ -6,9 +6,9 @@ namespace Z0.llvm
 {
     public class DefFields : Entity<string,RecordField>
     {
-        public readonly DefRelations Def;
+        public readonly LineRelations Def;
 
-        public DefFields(DefRelations def, RecordField[] fields)
+        public DefFields(LineRelations def, RecordField[] fields)
             : base(fields ?? sys.empty<RecordField>())
         {
             Def = def;

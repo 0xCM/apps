@@ -8,12 +8,12 @@ namespace Z0
     public abstract class ReadOnlySeq<S,T> : IReadOnlySeq<T>, IEnumerable<T>
         where S : ReadOnlySeq<S,T>, new()
     {
-        protected readonly Index<T> Data;
+        protected Index<T> Data;
 
         [MethodImpl(Inline)]
         protected ReadOnlySeq(T[] src)
         {
-            Data =src;
+            Data = src;
         }
 
         [MethodImpl(Inline)]

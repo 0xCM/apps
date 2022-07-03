@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial struct Seq
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
@@ -15,11 +13,8 @@ namespace Z0
             var count = a.Length;
             if(count != b.Length)
                 return false;
-
-            ref readonly var left = ref first(a);
-            ref readonly var right = ref first(b);
             for(var i=0u; i<count; i++)
-                if(!skip(left, i).Equals(skip(right, i)))
+                if(!Spans.skip(a, i).Equals(Spans.skip(b, i)))
                     return false;
             return true;
         }

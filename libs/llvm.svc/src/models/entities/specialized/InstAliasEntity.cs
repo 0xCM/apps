@@ -13,7 +13,7 @@ namespace Z0.llvm
     /// </summary>
     public class InstAliasEntity : DefFields
     {
-        public InstAliasEntity(DefRelations def, RecordField[] fields)
+        public InstAliasEntity(LineRelations def, RecordField[] fields)
             : base(def,fields)
         {
 

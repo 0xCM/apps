@@ -13,7 +13,7 @@ namespace Z0.llvm
 
     public readonly struct LlvmRelations
     {
-        public static ReadOnlySpan<Eq.ClassMember> CalcEqClasses(ReadOnlySpan<ClassRelations> src)
+        public static ReadOnlySpan<Eq.ClassMember> CalcEqClasses(ReadOnlySpan<LineRelations> src)
         {
             var count = (uint)src.Length;
             var classes = Eq.lookup();

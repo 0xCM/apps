@@ -15,13 +15,40 @@ namespace Z0.llvm
         LlvmDataProvider DataProvider => Wf.LlvmDataProvider();
 
         public void EmitLineMaps()
-            => EmitLineMaps(data("lines",() => DataProvider.RecordLines(LlvmTargetName.x86)));
+        {
+
+
+        }
+
+        public LineMap<string> CalcMap(string project, string name)
+        {
+            var src = DataProvider.RecordLines(project,name);
+
+            var cr = DataCalcs.CalcClassRelations(src);
+            var dr = DataCalcs.CalcDefRelations(src);
+            var cm = calc(src, cr);
+            var dm = calc(src, dr);
+            return dm;
+            //return cm + dm;
+        }
+
+        public void EmitMap(string project, string name, LineMap<string> src)
+        {
+            var dst = LlvmPaths.LineMap(project,name);
+            var emitting = EmittingFile(dst);
+            using var writer = dst.AsciWriter();
+            for(var i=0; i<src.IntervalCount; i++)
+                writer.WriteLine(src[i].Format());
+            EmittedFile(emitting, src.IntervalCount);
+        }
+
+            //=> EmitLineMaps(data("lines",() => DataProvider.RecordLines(LlvmTargetName.x86)));
 
         void EmitLineMaps(Index<TextLine> src)
         {
             exec(true,
-                () => EmitLineMap(src, DataCalcs.CalcClassRelations(src)),
-                () => EmitLineMap(src, DataCalcs.CalcDefRelations(src))
+                () => EmitClassMap(src, DataCalcs.CalcClassRelations(src)),
+                () => EmitDefMap(src, DataCalcs.CalcDefRelations(src))
                 );
         }
 
@@ -56,10 +83,10 @@ namespace Z0.llvm
             return Lines.map(intervals.ToArray());
         }
 
-        void EmitLineMap(Index<TextLine> lines, Index<DefRelations> relations)
+        void EmitDefMap(Index<TextLine> lines, Index<LineRelations> relations)
             => EmitLineMap(relations, lines, LlvmDatasets.dataset(LlvmTargetName.x86).Defs);
 
-        void EmitLineMap(Index<TextLine> lines, Index<ClassRelations> relations)
+        void EmitClassMap(Index<TextLine> lines, Index<LineRelations> relations)
             => EmitLineMap(relations, lines, LlvmDatasets.dataset(LlvmTargetName.x86).Classes);
 
         public LineMap<string> EmitLineMap<T>(Index<T> src, Index<TextLine> records, string name)

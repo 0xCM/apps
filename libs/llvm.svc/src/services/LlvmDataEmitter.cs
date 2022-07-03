@@ -16,11 +16,11 @@ namespace Z0.llvm
 
         public LlvmQuery Query => Service(() => LlvmQuery.create(Wf));
 
-        public void Emit(Index<ClassRelations> src)
-            => TableEmit(src, LlvmPaths.DbTable<ClassRelations>());
+        public void EmitClassRelations(Index<LineRelations> src)
+            => TableEmit(src, LlvmPaths.DbTable<LineRelations>("llvm.classes"));
 
-        public void Emit(Index<DefRelations> src)
-            => TableEmit(src, LlvmPaths.DbTable<DefRelations>());
+        public void EmitDefRelations(Index<LineRelations> src)
+            => TableEmit(src, LlvmPaths.DbTable<LineRelations>("llvm.defs"));
 
         public void Emit(string name, Index<TestResult> src)
             => TableEmit(src, LlvmPaths.TestResultTargets().Table<TestResult>(name));

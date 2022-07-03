@@ -6,7 +6,7 @@ namespace Z0.llvm
 {
     partial class LlvmDataCalcs
     {
-        public ConstLookup<string,EntityLineage> CalcDefLineage(Index<DefRelations> src)
+        public ConstLookup<string,EntityLineage> CalcDefLineage(Index<LineRelations> src)
             => src.Select(r => new EntityLineage(r.Name, r.Ancestors)).Select(x => (x.EntityName,x)).Storage.ToConstLookup();
     }
 }
