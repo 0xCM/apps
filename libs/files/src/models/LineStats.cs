@@ -6,30 +6,9 @@ namespace Z0
 {
     using static core;
 
-    [StructLayout(StructLayout,Size=8), DataWidth(TypeWidth)]
+    [StructLayout(StructLayout,Size=8)]
     public struct LineStats
     {
-        public static ReadOnlySpan<LineStats> stats(ReadOnlySpan<byte> data, uint buffer = 0)
-        {
-            var dst = span<LineStats>(buffer);
-            var last = 0u;
-            var counter = 0u;
-            var j=0u;
-            for(var i=0u; i<data.Length && i < buffer; i++)
-            {
-                if(SQ.nl(skip(data,i)))
-                {
-                    var offset = i;
-                    var length = (byte)(offset - last);
-                    seek(dst,j++) = new LineStats(counter++, offset, length);
-                    last = offset;
-                }
-            }
-
-            return slice(dst,0,j);
-        }
-
-
         enum BfSpec : byte
         {
             [Render(12)]
@@ -44,10 +23,6 @@ namespace Z0
 
         const string RenderPattern = "{0,-12} | {1,-12} | {2,-1}";
 
-        const byte TypeWidth = NumberWidth + OffsetWidth + LengthWidth;
-
-        public const string TableId = "xed.instblocks.stats";
-
         public static string Header
             => string.Format(RenderPattern, BfSpec.LineNumber, BfSpec.Offset, BfSpec.Length);
 
@@ -55,7 +30,7 @@ namespace Z0
         public LineStats(uint number, uint offset, byte length)
             => this = define(number,offset,length);
 
-        public uint LineNumber
+        public LineNumber LineNumber
         {
             [MethodImpl(Inline)]
             get
@@ -102,8 +77,6 @@ namespace Z0
         const byte NumberWidth = (byte)BfSpec.LineNumber;
 
         const byte OffsetWidth = (byte)BfSpec.Offset;
-
-        const byte LengthWidth = (byte)BfSpec.Length;
 
         const byte NumberOffset = 0;
 

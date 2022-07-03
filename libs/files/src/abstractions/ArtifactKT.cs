@@ -19,10 +19,10 @@ namespace Z0
             Location = locator;
         }
 
-        T IArtifact<K, T>.Location 
+        T IArtifact<K,T>.Location
             => Location;
 
-        K IArtifact<K>.Kind 
+        K IArtifact<K>.Kind
             => Kind;
 
         public string Format()

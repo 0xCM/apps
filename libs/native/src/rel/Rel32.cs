@@ -7,7 +7,7 @@ namespace Z0
     using W = W32;
     using I = Rel32;
 
-    public readonly record struct Rel32 : IRelOp<uint>
+    public readonly record struct Rel32 : IRelOp<uint>, IDataTypeExpr<Rel32>
     {
         public readonly uint Value;
 
@@ -43,7 +43,7 @@ namespace Z0
          uint IValue<uint>.Value
             => Value;
 
-       [MethodImpl(Inline)]
+        [MethodImpl(Inline)]
         public Address32 ToAddress()
             => Value;
 

@@ -6,6 +6,8 @@ namespace Z0
 {
     partial class Lines
     {
+        static MsgPattern<Count,LineNumber,string> BadLineNumber => "BadLineNumber(counter{0} != line{1}, content{2})";
+
         public static Outcome<uint> copy(FS.FilePath src, FS.FilePath dst, Pair<TextEncodingKind> encoding)
         {
             var outcome = Outcome.Success;

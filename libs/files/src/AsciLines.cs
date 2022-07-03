@@ -15,6 +15,45 @@ namespace Z0
         public static LineCount count(FS.FilePath src)
             => (src, count(src.ReadBytes()));
 
+        public static void emit(ReadOnlySpan<LineStats> src, FS.FilePath dst)
+        {
+            using var writer = dst.AsciWriter();
+            writer.WriteLine(LineStats.Header);
+            for(var i=0; i<src.Length; i++)
+                writer.WriteLine(skip(src,i).Format());
+        }
+
+        public static Index<LineStats> stats(FS.FilePath src)
+        {
+            var data = src.ReadBytes();
+            var count = AsciLines.count(data);
+            var dst = alloc<LineStats>(count);
+            for(var i=0; i<count; i++)
+            {
+
+            }
+            return dst;
+        }
+        public static ReadOnlySpan<LineStats> stats(ReadOnlySpan<byte> data, uint buffer = 0)
+        {
+            var dst = span<LineStats>(buffer);
+            var last = 0u;
+            var counter = 0u;
+            var j=0u;
+            for(var i=0u; i<data.Length && i < buffer; i++)
+            {
+                if(SQ.nl(skip(data,i)))
+                {
+                    var offset = i;
+                    var length = (byte)(offset - last);
+                    seek(dst,j++) = new LineStats(counter++, offset, length);
+                    last = offset;
+                }
+            }
+
+            return slice(dst,0,j);
+        }
+
         [Op]
         public static Index<LineCount> count(ReadOnlySpan<FS.FilePath> src)
         {
@@ -138,6 +177,7 @@ namespace Z0
             }
             return length;
         }
+
         public static void load(FS.FilePath src)
         {
             using var map = MemoryFiles.map(src);
@@ -153,6 +193,10 @@ namespace Z0
         public static uint count(ReadOnlySpan<AsciCode> src)
             => count(recover<AsciCode,byte>(src));
 
+        // static uint count(ReadOnlySpan<byte> src, List<byte> dst)
+        // {
+
+        // }
         /// <summary>
         /// Counts the number of asci-encoded lines represented in the source
         /// </summary>

@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial class Lines
     {
         public static string prop(ReadOnlySpan<TextLine> src, string name)
@@ -13,7 +11,7 @@ namespace Z0
             var result = EmptyString;
             for(var i=0; i<src.Length; i++)
             {
-                ref readonly var line = ref skip(src,i);
+                ref readonly var line = ref Spans.skip(src,i);
                 var j = text.index(line.Content,Chars.Colon);
                 if(j > 0)
                 {

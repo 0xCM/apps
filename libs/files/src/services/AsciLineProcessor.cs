@@ -4,9 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-    using C = AsciCode;
     using System.Text;
+
+    using static core;
+
+    using C = AsciCode;
 
     public class AsciLineProcessor
     {

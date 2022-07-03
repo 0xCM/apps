@@ -10,31 +10,75 @@ namespace Z0
     {
         public static T Instance = new();
 
+        static ConcurrentDictionary<string,object> Lookup = new();
+
+        static object ServiceLock = new();
+
         [MethodImpl(Inline)]
         public static S inject<S>(S svc)
-            => (S)Instance.Lookup.GetOrAdd(svcid<S>(), svc);
+        {
+            lock(ServiceLock)
+                return (S)Lookup.GetOrAdd(svcid<S>(), svc);
+        }
 
         [MethodImpl(Inline)]
         public static S injected<S>()
-            => (S)Instance.Lookup[svcid<S>()];
+            => (S)Lookup[svcid<S>()];
 
         [MethodImpl(Inline)]
         public static S service<S>()
             where S : new()
-                => (S)Instance.Lookup.GetOrAdd(svcid<S>(), new S());
+        {
+            lock(ServiceLock)
+              return (S)Lookup.GetOrAdd(svcid<S>(), new S());
+        }
 
         [MethodImpl(Inline)]
-        public S service<S>(string name)
-            where S : new()
-                => (S)Instance.Lookup.GetOrAdd(svcid<S>(name), new S());
+        public static S service<S>(IWfRuntime wf, Func<IWfRuntime,S> factory)
+            where S : ICmdService, new()
+        {
+            lock(ServiceLock)
+                return (S)Lookup.GetOrAdd(svcid<S>(), _ => factory(wf));
+        }
 
-        [MethodImpl(Inline)]
-        public S service<S>(string name, Func<S> f)
-            => (S)Instance.Lookup.GetOrAdd(svcid<S>(name), f());
+        public static S service<S>(IWfRuntime wf, string name)
+            where S : IAppService, new()
+        {
+            lock(ServiceLock)
+                return (S)Lookup.GetOrAdd(svcid<S>(name), _ => {
+                    var service = new S();
+                    service.Init(wf);
+                    return service;
+                });
+        }
 
-        protected ConcurrentDictionary<string,object> Lookup = new();
+        public static IAppService service(IWfRuntime wf, Type host, string name)
+        {
+            lock(ServiceLock)
+                return (IAppService)Lookup.GetOrAdd(svcid(host, name), _ => {
+                    var service = (IAppService)Activator.CreateInstance(host);
+                    service.Init(wf);
+                    return service;
+                });
+        }
 
-        Index<Type> _HostTypes;
+        public static S service<S>(IWfRuntime wf, string name, Func<IWfRuntime,S> factory)
+            where S : IAppService, new()
+        {
+            lock(ServiceLock)
+                return (S)Lookup.GetOrAdd(svcid<S>(name), _ => factory(wf));
+        }
+
+        public static S service<S>(IWfRuntime wf)
+            where S : IAppService, new()
+        {
+            lock(ServiceLock)
+                return (S)Lookup.GetOrAdd(svcid<S>(), _ => {
+                    var service = new S();
+                    service.Init(wf);
+                    return service;
+                });
+        }
 
         protected static string svcid(Type host)
             => host.DisplayName();
@@ -50,12 +94,7 @@ namespace Z0
 
         protected Services()
         {
-            _HostTypes = typeof(T).DeclaredPublicInstanceMethods().Concrete().Select(x => x.ReturnType);
         }
-
-        public Assembly HostComponent => typeof(T).Assembly;
-
-        public PartId PartId => HostComponent.Id();
 
         public S Inject<S>(S svc)
             => inject(svc);
@@ -66,18 +105,5 @@ namespace Z0
         public S Service<S>()
             where S : new()
                 => service<S>();
-
-        public S Service<S>(string name)
-            where S : new()
-                => service<S>(name);
-
-        public S Service<S>(string name, Func<S> f)
-            => service(name,f);
-
-        public ReadOnlySpan<Type> HostTypes
-        {
-            [MethodImpl(Inline)]
-            get => _HostTypes.View;
-        }
     }
 }

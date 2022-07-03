@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     public abstract record class Lineage<F,T> : IEquatable<F>
         where F : Lineage<F,T>, new()
         where T : IEquatable<T>

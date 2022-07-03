@@ -30,6 +30,10 @@ namespace Z0
             return true;
         }
 
+        static Fence<char> RangeFence
+            => (Chars.LBracket, Chars.RBracket);
+
+        const string RangeDelimiter = "..";
 
         [Parser]
         public static Outcome parse(string src, out LineOffset dst)
