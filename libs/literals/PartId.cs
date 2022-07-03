@@ -89,11 +89,17 @@ public enum PartId : byte
     [Symbol("cli")]
     Cli,
 
+    [Symbol("clr.checks")]
+    ClrChecks,
+
     [Symbol("clr.query")]
     ClrQuery,
 
     [Symbol("llvm.tools")]
     LlvmTools,
+
+    [Symbol("llvm.labs")]
+    LlvmLabs,
 
     [Symbol("llvm.svc")]
     LlvmSvc,

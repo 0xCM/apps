@@ -18,10 +18,10 @@ global using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 global using CallerName = System.Runtime.CompilerServices.CallerMemberNameAttribute;
 global using CallerFile = System.Runtime.CompilerServices.CallerFilePathAttribute;
 global using CallerLine = System.Runtime.CompilerServices.CallerLineNumberAttribute;
-[assembly: PartId(PartId.AsmChecks)]
+[assembly: PartId(PartId.LlvmChecks)]
 namespace Z0.Parts
 {
-    public sealed class AsmChecks : Part<AsmChecks>
+    public sealed class LlvmChecks : Part<LlvmChecks>
     {
 
     }

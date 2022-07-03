@@ -15,6 +15,9 @@
     <EnvConfig>$(SlnRoot)env/</EnvConfig>
     <SlnBuild>$(SlnRoot).build\</SlnBuild>
     <SlnBin>$(SlnBuild)bin\</SlnBin>
+    <LogRoot>$(SlnBuild)logs\</LogRoot>
+    <TestLogRoot>$(LogRoot)test\</TestLogRoot>
+    <BuildLogRoot>$(LogRoot)build\</BuildLogRoot>
 
     <ShellCommon>$(SlnRoot)shells/</ShellCommon>
 

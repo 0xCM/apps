@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "..\\cli"
+		},
+		{
+			"path": "..\\clr.query"
+		},
+	],
+	"settings": {}
+}

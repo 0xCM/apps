@@ -56,6 +56,7 @@
 
     <LlvmTools>$(LibsRoot)llvm.tools/z0.llvm.tools.csproj</LlvmTools>
     <LlvmSvc>$(LibsRoot)llvm.svc/z0.llvm.svc.csproj</LlvmSvc>
+    <LlvmLabs>$(LibsRoot)llvm.labs/z0.llvm.labs.csproj</LlvmLabs>
     <Lang>$(LibsRoot)lang/z0.lang.csproj</Lang>
     <Lines>$(LibsRoot)lines/z0.lines.csproj</Lines>
     <Linq>$(LibsRoot)linq/z0.linq.csproj</Linq>

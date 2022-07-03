@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>$(FrameworkMoniker)</TargetFramework>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VSTestLogger>trx</VSTestLogger>
+    <VSTestResultsDirectory>$(TestLogRoot)</VSTestResultsDirectory>
+    <VSTestLogFileName>$(ProjectId).trx</VSTestLogFileName>
+  </PropertyGroup>
+
+  <Import Project="$(ImportDefs)microsoft.test.props"/>
+  <Import Project="$(ImportDefs)llvm.sharp.props"/>
+
+  <ItemGroup>
+    <None Include="ClangUnsavedFile.h" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="$(Imagine)" />
+  </ItemGroup>
+
+</Project>

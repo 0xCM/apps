@@ -15,6 +15,7 @@ set WsBuild=%WsRoot%\.build
 set WsLogs=%WsBuild%\logs
 set WsBin=%WsBuild%\bin
 set WsObj=%WsBuild%\obj
+set TestLog=%WsLogs%\z0.%ProjectId%.tests.trx
 
 mkdir %WsLogs% 1>nul 2>nul
 set BuldLogs=%WsLogs%

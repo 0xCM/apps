@@ -16,11 +16,5 @@ namespace Z0
 
         public static AppCmd commands(IWfRuntime wf)
             => create(wf, providers(wf));
-
-        // [CmdOp("shell/settings")]
-        // void PartSettings()
-        // {
-        //     ShellSettings().Iter(setting => Write(setting.Format(Chars.Colon)));
-        // }
     }
 }

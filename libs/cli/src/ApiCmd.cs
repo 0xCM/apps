@@ -54,14 +54,19 @@ namespace Z0
 
         void ShowDependencies(Assembly src)
         {
-            var deps = JsonDepsLoader.load();
+            var deps = JsonDeps.load();
             var libs = deps.Libs();
             var rtlibs = deps.RuntimeLibs();
-            var buffer = text.buffer();
             var options = deps.Options();
-            var target = deps.Target();
             var fallbacks = deps.RuntimeFallbacks();
-            iter(fallbacks, f => Write(f.Format()));
+            //iter(fallbacks, f => Write(f.Format()));
+
+            iter(rtlibs, lib => Write(lib));
+            Write(deps.Target());
+            Write(deps.Options());
+
+            //iter(libs, lib => Write(lib));
+
             // iter(rtlibs, lib => lib.Render(buffer));
             // Wf.Data(buffer.Emit());
 
