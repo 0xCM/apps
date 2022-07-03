@@ -6,11 +6,8 @@
     <TargetFramework>$(FrameworkMoniker)</TargetFramework>
   </PropertyGroup>
 
-
   <ItemGroup>
-    <ProjectReference Include="$(ClrCil)" />
     <ProjectReference Include="$(ZLib)" />
-
   </ItemGroup>
 
 </Project>

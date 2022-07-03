@@ -27,7 +27,9 @@
     <ProjectReference Include="$(CmdSpecs)" />
     <ProjectReference Include="$(Circuits)" />
     <ProjectReference Include="$(Containers)" />
+
     <ProjectReference Include="$(ClrQuery)" />
+    <ProjectReference Include="$(ClrCil)" />
 
     <ProjectReference Include="$(Db)" />
     <ProjectReference Include="$(Diagnostics)" />

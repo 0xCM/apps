@@ -95,6 +95,9 @@ public enum PartId : byte
     [Symbol("clr.query")]
     ClrQuery,
 
+    [Symbol("clr.cil")]
+    ClrCil,
+
     [Symbol("llvm.tools")]
     LlvmTools,
 

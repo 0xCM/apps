@@ -20,6 +20,9 @@
     <Bits>$(LibsRoot)bits/z0.bits.csproj</Bits>
 
     <Cli>$(LibsRoot)cli/z0.cli.csproj</Cli>
+    <ClrCil>$(LibsRoot)clr.cil/z0.clr.cil.csproj</ClrCil>
+    <ClrQuery>$(LibsRoot)clr.query/z0.clr.query.csproj</ClrQuery>
+
     <Commands>$(LibsRoot)commands/z0.commands.csproj</Commands>
     <Calcs>$(LibsRoot)calcs/z0.calcs.csproj</Calcs>
     <Circuits>$(LibsRoot)circuits/z0.circuits.csproj</Circuits>
@@ -32,7 +35,6 @@
     <CmdTools>$(LibsRoot)cmd.tools/z0.cmd.tools.csproj</CmdTools>
     <CmdFlows>$(LibsRoot)cmd.flows/z0.cmd.flows.csproj</CmdFlows>
     <CmdChecks>$(LibsRoot)cmd.checks/z0.cmd.checks.csproj</CmdChecks>
-    <ClrQuery>$(LibsRoot)clr.query/z0.clr.query.csproj</ClrQuery>
 
     <Db>$(LibsRoot)db/z0.db.csproj</Db>
     <Diagnostics>$(LibsRoot)diagnostics/z0.diagnostics.csproj</Diagnostics>
