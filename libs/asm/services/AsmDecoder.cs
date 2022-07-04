@@ -32,8 +32,8 @@ namespace Z0.Asm
             try
             {
                 var decoded = new Iced.InstructionList();
-                var decoder = idecoder(src, src.BaseAddress, out var reader);
-                var @base = src.BaseAddress;
+                var decoder = idecoder(src, src.Address, out var reader);
+                var @base = src.Address;
                 var buffer = list<Asm.IceInstruction>();
                 var pos = 0u;
                 while(reader.CanReadByte)
@@ -141,8 +141,8 @@ namespace Z0.Asm
 
         public ReadOnlySpan<ApiPartRoutines> Decode(ReadOnlySpan<ApiCodeBlock> src)
         {
-            var hosts = ApiCodeBlocks.hosted(src);
-            var parts = ApiCodeBlocks.parts(hosts);
+            var hosts = ApiCode.hosted(src);
+            var parts = ApiCode.parts(hosts);
             var count = parts.Length;
             var dst = alloc<ApiPartRoutines>(count);
             Decode(parts, dst);
@@ -288,7 +288,7 @@ namespace Z0.Asm
                 var decoded = new Iced.InstructionList();
                 var reader = new Iced.ByteArrayCodeReader(src.Code);
                 var decoder = Iced.Decoder.Create(IntPtr.Size*8, reader);
-                var @base = src.BaseAddress;
+                var @base = src.Address;
                 decoder.IP = @base;
                 var buffer = list<Asm.IceInstruction>(decoded.Count);
                 var position = 0u;

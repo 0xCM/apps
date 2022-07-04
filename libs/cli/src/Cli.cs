@@ -20,9 +20,6 @@ namespace Z0
 
         MsilPipe MsilSvc => Wf.MsilSvc();
 
-        ApiMembers JitHost(IApiHost host)
-            => Jit.JitHost(host);
-
         ApiJit Jit => Wf.ApiJit();
 
         public void EmitHostMsil(string hostid)
@@ -49,7 +46,7 @@ namespace Z0
             for(var i=0; i<hosts.Length; i++)
             {
                 ref readonly var host = ref skip(hosts, i);
-                var members = JitHost(host);
+                var members = Jit.JitHost(host);
                 var count = members.Length;
                 if(members.Count == 0)
                     continue;
@@ -67,13 +64,8 @@ namespace Z0
             return emitted;
         }
 
-        IDbTargets MsilTargets()
-            => ApiMd.ApiTargets(msil);
-
         FS.FilePath MsilPath(ApiHostUri uri)
-            => MsilTargets().Path(FS.hostfile(uri, FS.Il));
-
-
+            => ApiMd.ApiTargets(msil).Path(FS.hostfile(uri, FS.Il));
 
         public ConstLookup<ApiHostUri,FS.FilePath> EmitMsil(ReadOnlySpan<IApiHost> hosts)
         {
@@ -83,7 +75,7 @@ namespace Z0
             for(var i=0; i<hosts.Length; i++)
             {
                 ref readonly var host = ref skip(hosts, i);
-                var members = JitHost(host);
+                var members = Jit.JitHost(host);
                 if(members.Count == 0)
                     continue;
 

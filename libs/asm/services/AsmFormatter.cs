@@ -112,7 +112,7 @@ namespace Z0.Asm
             seek(dst, i++) = comment(CommentMarker, $"{src.DisplaySig}::{src.Uri}");
             seek(dst, i++) = bytespan(src.Uri, src.CodeBlock);
             seek(dst, i++) = hexarray(src.CodeBlock);
-            seek(dst, i++) = comment(CommentMarker, string.Concat(nameof(CodeBlock.BaseAddress), RP.spaced(Chars.Eq), src.CodeBlock.BaseAddress));
+            seek(dst, i++) = comment(CommentMarker, string.Concat(nameof(CodeBlock.Address), RP.spaced(Chars.Eq), src.CodeBlock.Address));
             seek(dst, i++) = comment(CommentMarker, string.Concat(nameof(src.TermCode), RP.spaced(Chars.Eq), src.TermCode.ToString()));
             seek(dst, i++) = PageBreak;
             return i;

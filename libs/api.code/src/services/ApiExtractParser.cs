@@ -71,7 +71,7 @@ namespace Z0
                 if(term != TC.Fail)
                 {
                     var code = locate(src.Block.BaseAddress, parser.Parsed, term == CTC_Zx7 ? Zx7Cut : 0);
-                    return new ApiMemberCode(src.Member, new ApiCodeBlock(code.BaseAddress, src.OpUri, code), seq, term);
+                    return new ApiMemberCode(src.Member, new ApiCodeBlock(code.Address, src.OpUri, code), seq, term);
                 }
                 else
                     return Outcomes.fail<ApiMemberCode>(term.ToString());

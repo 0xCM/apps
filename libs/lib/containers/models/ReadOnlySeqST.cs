@@ -83,7 +83,7 @@ namespace Z0
             => Seq.iter(View, f);
 
         public virtual string Format()
-            => string.Join(Chars.Comma, Data.Storage);
+            => text.embrace(string.Join("\r\n  ", Data.Storage));
 
         public override string ToString()
             => Format();

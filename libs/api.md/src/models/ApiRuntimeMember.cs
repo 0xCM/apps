@@ -31,8 +31,6 @@ namespace Z0
         public int CompareTo(ApiRuntimeMember src)
             => Address.CompareTo(src.Address);
 
-        BitWidth ISized.Width
-            => 0;
 
         MemoryAddress IAddressable.Address
             => Address;

@@ -24,7 +24,6 @@ namespace Z0
             OpUri = uri;
             ApiClass = method.ApiClass();
             Method = Require.notnull(method);
-            //Msil = ClrDynamic.msil(address, uri, method);
             Msil = msil;
             Metadata = method.Artifact();
         }

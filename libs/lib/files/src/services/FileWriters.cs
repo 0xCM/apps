@@ -10,15 +10,15 @@ namespace Z0
     public readonly struct FileWriters
     {
         public static StreamWriter writer(FS.FilePath dst, FileWriteMode mode, Encoding encoding)
-            => new StreamWriter(dst.EnsureParentExists().Name.Format(), mode == FileWriteMode.Append, encoding);
+            => new StreamWriter(dst.CreateParentIfMissing().Name.Format(), mode == FileWriteMode.Append, encoding);
 
         public static StreamWriter asci(FS.FilePath dst, FileWriteMode mode = FileWriteMode.Overwrite)
-            => new StreamWriter(dst.EnsureParentExists().Name.Format(), mode == FileWriteMode.Append, Encoding.ASCII);
+            => new StreamWriter(dst.CreateParentIfMissing().Name.Format(), mode == FileWriteMode.Append, Encoding.ASCII);
 
         public static StreamWriter utf8(FS.FilePath dst, FileWriteMode mode = FileWriteMode.Overwrite)
-            => new StreamWriter(dst.EnsureParentExists().Name.Format(), mode == FileWriteMode.Append, Encoding.UTF8);
+            => new StreamWriter(dst.CreateParentIfMissing().Name.Format(), mode == FileWriteMode.Append, Encoding.UTF8);
 
         public static StreamWriter unicode(FS.FilePath dst, FileWriteMode mode = FileWriteMode.Overwrite)
-            => new StreamWriter(dst.EnsureParentExists().Name.Format(), mode == FileWriteMode.Append, Encoding.Unicode);
+            => new StreamWriter(dst.CreateParentIfMissing().Name.Format(), mode == FileWriteMode.Append, Encoding.Unicode);
     }
 }

@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-    using static Events;
-
     partial class ApiCode
     {
         class CollectedEncodings

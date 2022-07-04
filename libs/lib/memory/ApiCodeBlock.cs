@@ -68,7 +68,7 @@ namespace Z0
         public MemoryAddress BaseAddress
         {
              [MethodImpl(Inline)]
-             get => Code.BaseAddress;
+             get => Code.Address;
         }
 
         public MemoryRange AddressRange

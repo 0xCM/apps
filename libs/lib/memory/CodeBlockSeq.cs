@@ -5,25 +5,28 @@
 namespace Z0
 {
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public readonly struct CodeKey
+    public readonly struct CodeBlockSeq
     {
-        public readonly CodeHostKey HostKey;
+        public readonly uint LibSeq;
+
+        public readonly uint TypeSeq;
 
         public readonly uint BlockSeq;
 
         [MethodImpl(Inline)]
-        public CodeKey(CodeHostKey host, uint block)
+        public CodeBlockSeq(uint lib, uint type, uint block)
         {
-            HostKey = host;
+            LibSeq = lib;
+            TypeSeq = type;
             BlockSeq = block;
         }
 
         public string Format()
-            => string.Format("{0}:{1:D3}", HostKey, BlockSeq);
+            => string.Format("{0:D3}:{1:D4}:{2:D6}", LibSeq, TypeSeq, BlockSeq);
 
         public override string ToString()
             => Format();
 
-        public static CodeKey Empty => default;
+        public static CodeBlockSeq Empty => default;
     }
 }

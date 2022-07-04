@@ -16,15 +16,16 @@ namespace Z0
 
         ApiCode ApiCode => Wf.ApiCode();
 
-        ApiMd ApiMd => Wf.ApiMetadata();
-
         Runtime Runtime => Wf.Runtime();
 
         public void Run()
         {
             var parts = ApiPartCapture.create(Wf);
-            var ts = parts.Capture();
-            Runtime.EmitContext(ts);
+            var ts = core.timestamp();
+            using var observer = RuntimeObservers.MethodLoad.observe(AppDb.App().Path($"clr.events.methodload.{ts}", FileKind.Csv));
+            //using var log = OpenEventLog(ts);
+            parts.Capture(ts);
+            //Runtime.EmitContext(ts);
         }
 
         public void Run(PartId id)
@@ -35,6 +36,9 @@ namespace Z0
                 Run(symbols, src);
             }
         }
+
+        ClrEventListener OpenEventLog(Timestamp ts)
+            => ClrEventListener.create(AppDb.App().Path($"clr.events.{ts}", FileKind.Log));
 
         public void Run(CmdArgs args)
         {

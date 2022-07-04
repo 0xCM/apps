@@ -6,7 +6,7 @@ namespace Z0
 {
     partial struct JsonDepsModel
     {
-        public record struct RuntimLib
+        public record struct RuntimeLib
         {
             public Seq<AssetGroup> AssemblyGroups;
 

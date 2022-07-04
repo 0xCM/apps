@@ -8,12 +8,12 @@ namespace Z0
     /// Encoded x86 bytes extracted from a memory source with a known (nonzero) location
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public readonly struct CodeBlock : IHashed
+    public readonly record struct CodeBlock : ICodeBlock<CodeBlock>
     {
         /// <summary>
         /// The head of the memory location from which the data originated
         /// </summary>
-        public readonly MemoryAddress BaseAddress;
+        public readonly MemoryAddress Address;
 
         /// <summary>
         /// The encoded content
@@ -23,29 +23,26 @@ namespace Z0
         [MethodImpl(Inline)]
         public CodeBlock(MemoryAddress src, byte[] data)
         {
-            BaseAddress = src;
+            Address = src;
             Code = new BinaryCode(data ?? core.array<byte>());
         }
 
         [MethodImpl(Inline)]
         public CodeBlock(MemoryAddress src, in BinaryCode code)
         {
-            BaseAddress = src;
+            Address = src;
             Code = code;
         }
 
         [MethodImpl(Inline)]
         CodeBlock(ulong zero)
         {
-            BaseAddress = zero;
-            Code = Array.Empty<byte>();
+            Address = zero;
+            Code = sys.empty<byte>();
         }
 
-        public MemoryRange AddressRange
-        {
-            [MethodImpl(Inline)]
-            get => (BaseAddress, BaseAddress + (MemoryAddress)Code.Length);
-        }
+        MemoryAddress IAddressable.Address
+            => Address;
 
         public ByteSize Size
         {
@@ -112,12 +109,12 @@ namespace Z0
             get => Code.Hash;
         }
 
+        [MethodImpl(Inline)]
+        public int CompareTo(CodeBlock src)
+            =>  Address.CompareTo(src.Address);
+
         public override int GetHashCode()
             => Hash;
-
-        public override bool Equals(object src)
-            => src is CodeBlock x && Equals(x);
-
 
         [MethodImpl(Inline)]
         public static implicit operator byte[](CodeBlock src)
@@ -131,15 +128,8 @@ namespace Z0
         public static implicit operator ReadOnlySpan<byte>(CodeBlock src)
             => src.View;
 
-        [MethodImpl(Inline)]
-        public static bool operator==(CodeBlock a, CodeBlock b)
-            => a.Equals(b);
-
-        [MethodImpl(Inline)]
-        public static bool operator!=(CodeBlock a, CodeBlock b)
-            => !a.Equals(b);
-
         public static CodeBlock Empty
             => new CodeBlock(0);
+
     }
 }

@@ -4,10 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     public readonly struct Demand
     {
+        public static T nonempty<T>(T src, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
+            where T : INullity
+        {
+            if(src.IsEmpty)
+                Fail.empty(src, caller,file,line);
+            return src;
+        }
+
         public static T eq<T>(T a, T b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             where T : IEquatable<T>
         {
@@ -84,8 +90,8 @@ namespace Z0
             var count = eq(a.Length,b.Length, caller, file, line);
             for(var i=0; i<count; i++)
             {
-                ref readonly var left = ref skip(a,i);
-                ref readonly var right = ref skip(b,i);
+                ref readonly var left = ref Spans.skip(a,i);
+                ref readonly var right = ref Spans.skip(b,i);
                 eq(left,right, caller,file, line);
             }
             return a;

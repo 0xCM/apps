@@ -10,11 +10,11 @@ namespace Z0
         ReadOnlySpan<byte> Data
             => Cells;
 
-        ByteSize ISized.Size
-            => Cells.Length;
+        // ByteSize ISized.Size
+        //     => Cells.Length;
 
-        BitWidth ISized.Width
-            => Cells.Length*8;
+        // BitWidth ISized.Width
+        //     => Cells.Length*8;
 
         Hash32 IHashed.Hash
             => core.hash(Cells);

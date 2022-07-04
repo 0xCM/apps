@@ -6,8 +6,6 @@
     <TargetFramework>$(FrameworkMoniker)</TargetFramework>
   </PropertyGroup>
 
-  <Import Project="$(ImportDefs)common.libs.props"/>
-
   <ItemGroup>
     <ProjectReference Include="$(Bits)" />
     <ProjectReference Include="$(Memory)" />
@@ -17,7 +15,6 @@
     <ProjectReference Include="$(Symbolics)" />
     <ProjectReference Include="$(Polyrand)" />
     <ProjectReference Include="$(Validity)" />
-
   </ItemGroup>
 
 </Project>

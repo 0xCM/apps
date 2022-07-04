@@ -21,10 +21,10 @@ namespace Z0.Asm
             dst.Raw = raw;
             dst.Parsed = parsed;
             dst.Method = method;
-            Require.invariant(raw.BaseAddress == parsed.BaseAddress, () => CaptureAddressMismatch);
+            Require.invariant(raw.Address == parsed.Address, () => CaptureAddressMismatch);
             dst.OpUri = ApiUri.hex(method.DeclaringType.ApiHostUri(), method.Name, id);
             dst.TermCode = term;
-            dst.Msil = ClrDynamic.msil(parsed.BaseAddress, dst.OpUri, method);
+            dst.Msil = ClrDynamic.msil(parsed.Address, dst.OpUri, method);
             dst.CliSig = Clr.sig(method);
             return dst;
         }

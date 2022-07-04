@@ -18,7 +18,7 @@ namespace Z0
         void EmitCode(WorkflowOptions options)
         {
             SortedIndex<ApiCodeBlock> sorted = ApiCode.LoadBlocks();
-            var partitioned = ApiCodeBlocks.hosted(sorted.View);
+            var partitioned = ApiCode.hosted(sorted.View);
 
             if(options.EmitAsmStatements)
                 Wf.HostAsmEmitter().EmitHostAsm(partitioned, Db.AsmStatementRoot());
@@ -34,8 +34,8 @@ namespace Z0
 
             if(options.EmitResBytes)
                 Wf.ResPackEmitter().Emit(sorted.View);
-
         }
+
         public void Run(WorkflowOptions options)
         {
             var parts = Wf.ApiCatalog.PartIdentities;

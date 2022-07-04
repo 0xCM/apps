@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Reflection;
-
-    using static Root;
-
     /// <summary>
     /// Pairs a member attribute value with its target
     /// </summary>
@@ -20,12 +14,12 @@ namespace Z0
         /// <summary>
         /// The target member
         /// </summary>
-        public M Member {get;}
+        public readonly M Member;
 
         /// <summary>
         /// The tag value
         /// </summary>
-        public A Tag {get;}
+        public readonly A Tag;
 
         [MethodImpl(Inline)]
         public ClrMemberTag(M member, A tag)

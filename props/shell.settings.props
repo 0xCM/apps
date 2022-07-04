@@ -1,9 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-
-
   <ItemGroup>
     <EmbeddedResource Include="$(ImportDefs)app.settings.csv"  CopyToOutputDirectory="Always" />
     <EmbeddedResource Include="$(ShellRoot)$(ShellId)\$(ShellId).settings.csv"  CopyToOutputDirectory="Always" />
   </ItemGroup>
-
 </Project>

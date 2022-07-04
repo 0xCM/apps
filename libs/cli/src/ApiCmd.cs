@@ -49,29 +49,8 @@ namespace Z0
         [CmdOp("api/deps")]
         void ShowDependencies()
         {
-            ShowDependencies(Wf.Controller);
-        }
-
-        void ShowDependencies(Assembly src)
-        {
-            var deps = JsonDeps.load();
-            var libs = deps.Libs();
-            var rtlibs = deps.RuntimeLibs();
-            var options = deps.Options();
-            var fallbacks = deps.RuntimeFallbacks();
-            //iter(fallbacks, f => Write(f.Format()));
-
-            iter(rtlibs, lib => Write(lib));
-            Write(deps.Target());
-            Write(deps.Options());
-
-            //iter(libs, lib => Write(lib));
-
-            // iter(rtlibs, lib => lib.Render(buffer));
-            // Wf.Data(buffer.Emit());
-
-            // Wf.Data(string.Format("Target: {0} {1} {2}", target.Framework, target.Runtime, target.RuntimeSignature));
-            // iter(libs, lib => Wf.Data(lib.Name));
+            var deps = JsonDeps.load(ExecutingPart.Component);
+            iter(deps.RuntimeLibs(), lib => Write(lib));
         }
 
         [CmdOp("api/etl")]
@@ -96,6 +75,41 @@ namespace Z0
             Cli.EmitMsil();
         }
 
+        void EmitMetadata(WorkflowOptions options)
+        {
+            var cli = Wf.CliEmitter();
+            if(options.EmitAssemblyRefs)
+                cli.EmitAssemblyRefs();
+
+            if(options.EmitFieldMetadata)
+                cli.EmitFieldMetadata();
+
+            if(options.EmitApiMetadump)
+                cli.EmitApiMetadump();
+
+            if(options.EmitSectionHeaders)
+                cli.EmitSectionHeaders();
+
+            if(options.EmitMsilMetadata)
+                cli.EmitMsilMetadata();
+
+            if(options.EmitCliStrings)
+            {
+                cli.EmitUserStrings();
+                cli.EmitSystemStringInfo();
+            }
+
+            if(options.EmitCliConstants)
+                cli.EmitConstants();
+
+            if(options.EmitCliBlobs)
+                cli.EmitBlobs();
+
+            if(options.EmitImageContent)
+                cli.EmitImageContent();
+        }
+
+
         [CmdOp("api/emit/pdb/index")]
         void IndexApiPdbFiles()
         {
@@ -115,7 +129,7 @@ namespace Z0
         void EmitMsil()
         {
             var targets = AppDb.ApiTargets(msil);
-            targets.Delete();
+            //targets.Delete();
             Cli.EmitMsil(ApiMd.ApiHosts, targets.Targets(il));
             TableEmit(Cil.opcodes(), AppDb.DbOut("clr").Path("cil.opcodes", FileKind.Csv));
         }

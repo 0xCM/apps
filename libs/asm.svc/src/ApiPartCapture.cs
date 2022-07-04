@@ -16,11 +16,16 @@ namespace Z0
 
         ApiCode ApiCode => Wf.ApiCode();
 
+        public void Capture(Timestamp ts)
+        {
+            using var dispenser = Dispense.composite();
+            Capture(ts,ApiRuntimeCatalog, dispenser, true);
+        }
+
         public Timestamp Capture()
         {
             var ts = core.timestamp();
-            using var dispenser = Dispense.composite();
-            Capture(ts,ApiRuntimeCatalog, dispenser, true);
+            Capture(ts);
             return ts;
         }
 

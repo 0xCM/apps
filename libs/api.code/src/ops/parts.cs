@@ -4,8 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IPartCapture
+    using System.Linq;
+
+    partial class ApiCode
     {
-        void Capture(Timestamp ts);
+       [Op]
+        public static ReadOnlySpan<ApiPartBlocks> parts(ReadOnlySpan<ApiHostBlocks> src)
+            => src.ToArray().GroupBy(x => x.Part).Map(x => new ApiPartBlocks(x.Key, x.ToArray()));
     }
 }

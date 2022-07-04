@@ -4,9 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
-    public readonly partial struct BinaryCode : IDataTypeExpr<BinaryCode>
+    public readonly record struct BinaryCode : IDataTypeExpr<BinaryCode>
     {
         /// <summary>
         /// The encoded bytes
@@ -26,13 +24,13 @@ namespace Z0
         public ref byte First
         {
             [MethodImpl(Inline)]
-            get => ref first(Data);
+            get => ref Arrays.first(Data);
         }
 
         public ref byte Last
         {
             [MethodImpl(Inline)]
-            get => ref seek(Data, Length - 1);
+            get => ref Arrays.seek(Data, Length - 1);
         }
 
         /// <summary>
@@ -97,15 +95,14 @@ namespace Z0
         public ref byte this[long index]
         {
             [MethodImpl(Inline)]
-            get => ref Data[index];
+            get => ref Arrays.seek(Data,index);
         }
 
         public ref byte this[ulong index]
         {
             [MethodImpl(Inline)]
-            get => ref Data[index];
+            get => ref Arrays.seek(Data,index);
         }
-
 
         [MethodImpl(Inline)]
         public bool Equals(BinaryCode src)
@@ -120,9 +117,6 @@ namespace Z0
 
         public override int GetHashCode()
             => Hash;
-
-        public override bool Equals(object src)
-            => src is BinaryCode encoded && Equals(encoded);
 
         public override string ToString()
             => Format();
@@ -146,14 +140,6 @@ namespace Z0
         public static implicit operator ReadOnlySpan<byte>(BinaryCode src)
             => src.Data;
 
-        [MethodImpl(Inline)]
-        public static bool operator==(BinaryCode a, BinaryCode b)
-            => a.Equals(b);
-
-        [MethodImpl(Inline)]
-        public static bool operator!=(BinaryCode a, BinaryCode b)
-            => !a.Equals(b);
-
         [Op]
         public static bool equals(BinaryCode a, BinaryCode b)
         {
@@ -172,6 +158,6 @@ namespace Z0
         /// The canonical zero
         /// </summary>
         public static BinaryCode Empty
-            => new BinaryCode(Array.Empty<byte>());
+            => new BinaryCode(sys.empty<byte>());
     }
 }

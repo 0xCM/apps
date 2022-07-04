@@ -16,7 +16,7 @@ namespace Z0
 
             public string Hash;
 
-            public Index<LibDep> Dependencies;
+            public Seq<LibDep> Dependencies;
 
             public bool Serviceable;
 
@@ -26,9 +26,9 @@ namespace Z0
 
             public string RuntimeStoreManifestName;
 
-            public Index<string> Assemblies;
+            public Seq<string> Assemblies;
 
-            public Index<FS.FilePath> ReferencePaths;
+            public Seq<FS.FilePath> ReferencePaths;
         }
     }
 }

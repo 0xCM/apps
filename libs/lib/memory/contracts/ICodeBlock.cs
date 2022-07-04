@@ -4,15 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct ApiExtractRow
+    [Free]
+    public interface ICodeBlock<T> : ICodeBlock, IDataType<T>
+        where T : ICodeBlock<T>
     {
-        public const string TableId = "extract";
 
-        public MemoryAddress Base;
+    }
 
-        public string Uri;
+    [Free]
+    public interface ICodeBlock : IByteSeq, IAddressable, IDataTypeExpr
+    {
 
-        public BinaryCode Encoded;
     }
 }

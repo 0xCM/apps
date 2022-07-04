@@ -11,7 +11,7 @@ namespace Z0
     {
         [MethodImpl(Inline), Op]
         public static StreamWriter writer(FS.FilePath dst, FileWriteMode mode, Encoding encoding)
-            => new StreamWriter(dst.EnsureParentExists().Name.Format(), mode == FileWriteMode.Append, encoding);
+            => new StreamWriter(dst.CreateParentIfMissing().Name.Format(), mode == FileWriteMode.Append, encoding);
 
         [Op]
         public static StreamWriter writer(FS.FilePath dst, TextEncodingKind encoding)

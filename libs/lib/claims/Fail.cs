@@ -6,6 +6,9 @@ namespace Z0
 {
     public readonly struct Fail
     {
+        public static void empty<T>(T src, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
+            => Errors.Throw($"Empty value from: [{caller}] {FS.path(file).ToUri().LineRef((uint)line.Value)}");
+
         public static void eq<T>(T a, T b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => Errors.Throw($"{a} != {b}: [{caller}] {FS.path(file).ToUri().LineRef((uint)line.Value)}");
 

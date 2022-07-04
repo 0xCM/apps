@@ -6,8 +6,6 @@ namespace Z0
 {
     public struct WorkflowOptions : ISettings<WorkflowOptions>
     {
-        public bool EmitAssetIndex;
-
         public bool CollectApiDocs;
 
         public bool EmitImageContent;
@@ -26,9 +24,9 @@ namespace Z0
 
         public bool EmitApiMetadump;
 
-        public bool EmitApiClasses;
-
         public bool EmitFieldMetadata;
+
+        public bool EmitApiClasses;
 
         public bool EmitSymbolicLiterals;
 
@@ -37,10 +35,6 @@ namespace Z0
         public bool EmitAsmRows;
 
         public bool EmitResBytes;
-
-        public bool EmitAsmAnalysis;
-
-        public bool EmitIntrinsicsInfo;
 
         public bool EmitAsmStatements;
 
@@ -60,12 +54,6 @@ namespace Z0
 
         public bool ProcessCultFiles;
 
-        public bool EmitMethodDefs;
-
-        public bool EmitCliRowStats;
-
-        public bool EmitMetaBlocks;
-
         public static WorkflowOptions @default()
         {
             var dst = new WorkflowOptions();
@@ -80,12 +68,9 @@ namespace Z0
             dst.EmitXedCatalogs = true;
             dst.EmitAsmRows = true;
             dst.EmitResBytes = true;
-            dst.EmitAsmAnalysis = true;
-            dst.EmitIntrinsicsInfo = true;
             dst.EmitAsmStatements = true;
             dst.EmitApiMetadump = true;
             dst.CorrelateMembers = true;
-            dst.EmitAssetIndex = true;
             dst.EmitAssetContent = false;
             dst.EmitSymbolicLiterals = true;
             dst.EmitApiBitMasks = true;
@@ -96,9 +81,6 @@ namespace Z0
             dst.ProcessCultFiles = false;
             dst.EmitAssemblyRefs = true;
             dst.EmitApiClasses = true;
-            dst.EmitMethodDefs = true;
-            dst.EmitCliRowStats = true;
-            dst.EmitMetaBlocks = true;
             return dst;
         }
 

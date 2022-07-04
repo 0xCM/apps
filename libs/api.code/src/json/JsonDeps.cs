@@ -68,7 +68,7 @@ namespace Z0
             return dst;
         }
 
-        internal static ref RuntimLib extract(M.RuntimeLibrary src, ref RuntimLib dst)
+        internal static ref RuntimeLib extract(M.RuntimeLibrary src, ref RuntimeLib dst)
         {
             dst.AssemblyGroups = sys.alloc<AssetGroup>(src.RuntimeAssemblyGroups.Count);
             for(var i=0; i<dst.AssemblyGroups.Count; i++)

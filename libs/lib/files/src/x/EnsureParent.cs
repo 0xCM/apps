@@ -23,11 +23,5 @@ namespace Z0
         public static FS.FilePath CreateParentIfMissing(this FS.FilePath src)
             => src.EnsureParentExists();
 
-        public static FS.FolderPath EnsureExists(this FS.FolderPath src)
-        {
-            if(!src.Exists)
-                src.Create();
-            return src;
-        }
     }
 }

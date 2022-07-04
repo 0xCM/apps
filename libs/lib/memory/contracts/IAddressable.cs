@@ -8,7 +8,7 @@ namespace Z0
     /// Characterizes an object that advertises its memory location
     /// </summary>
     [Free]
-    public interface IAddressable : ISized
+    public interface IAddressable
     {
         MemoryAddress Address {get;}
     }

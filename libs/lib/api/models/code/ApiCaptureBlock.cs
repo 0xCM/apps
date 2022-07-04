@@ -62,7 +62,7 @@ namespace Z0
         public MemoryAddress BaseAddress
         {
             [MethodImpl(Inline)]
-            get => Parsed.BaseAddress;
+            get => Parsed.Address;
         }
 
         public uint Hash

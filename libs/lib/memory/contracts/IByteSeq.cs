@@ -13,14 +13,20 @@ namespace Z0
         ReadOnlySpan<byte> View {get;}
 
         /// <summary>
-        /// The number of bytes allocated for the sequence
-        /// </summary>
-        int Capacity {get;}
-
-        /// <summary>
         /// Specifies the number of characters that precede a null terminator, if any; otherwise, returns the capacity
         /// </summary>
         int Length {get;}
+
+        /// <summary>
+        /// The number of bytes allocated for the sequence
+        /// </summary>
+        int Capacity => View.Length;
+
+        ByteSize ISized.Size
+            => View.Length;
+
+        BitWidth ISized.Width
+            => View.Length*8;
 
         Hash32 IHashed.Hash
             => HashCodes.hash(View);

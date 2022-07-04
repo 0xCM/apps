@@ -17,6 +17,8 @@ namespace Z0
         public AsciVarExpr(A name)
         {
             VarName = name;
+            Fence = AsciFence.Empty;
+            Prefix = AsciSymbol.Empty;
         }
 
         [MethodImpl(Inline)]
@@ -24,6 +26,7 @@ namespace Z0
         {
             VarName = name;
             Prefix = prefix;
+            Fence = AsciFence.Empty;
         }
 
         [MethodImpl(Inline)]
@@ -31,6 +34,7 @@ namespace Z0
         {
             VarName = name;
             Fence = fence;
+            Prefix = AsciSymbol.Empty;
         }
 
         [MethodImpl(Inline)]

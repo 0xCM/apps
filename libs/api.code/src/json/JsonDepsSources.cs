@@ -44,12 +44,12 @@ namespace Z0
             return api.extract(Source, ref dst);
         }
 
-        public Index<RuntimLib> RuntimeLibs()
+        public Index<RuntimeLib> RuntimeLibs()
         {
             var count = _RuntimeLibraries.Count;
             if(count != 0)
             {
-                var dst = sys.alloc<RuntimLib>(count);
+                var dst = sys.alloc<RuntimeLib>(count);
                 var src = _RuntimeLibraries;
                 for(var i=0; i<count; i++)
                     api.extract(src[i], ref dst[i]);
@@ -57,7 +57,7 @@ namespace Z0
             }
             else
             {
-                return sys.empty<RuntimLib>();
+                return sys.empty<RuntimeLib>();
             }
         }
 

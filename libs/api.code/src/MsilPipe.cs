@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public sealed class MsilPipe : AppService<MsilPipe>
+    public sealed class MsilPipe : WfSvc<MsilPipe>
     {
         const string CommentToken = "// ";
 

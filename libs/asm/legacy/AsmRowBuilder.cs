@@ -117,7 +117,7 @@ namespace Z0.Asm
         void Fill(in CodeBlock code, Address16 offset, Span<byte> encoded, in IceInstruction src, ref AsmDetailRow dst)
         {
             dst.Sequence = (uint)NextSequence;
-            dst.BlockAddress = code.BaseAddress;
+            dst.BlockAddress = code.Address;
             dst.IP = src.IP;
             dst.LocalOffset = offset;
             dst.GlobalOffset = NextOffset;
