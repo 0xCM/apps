@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "..\\cmd.svc"
+		},
+		{
+			"path": "..\\..\\props"
+		}
+	],
+	"settings": {}
+}

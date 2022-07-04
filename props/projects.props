@@ -7,6 +7,8 @@
     <Agents>$(LibsRoot)agents/z0.agents.csproj</Agents>
 
     <ApiMd>$(LibsRoot)api.md/z0.api.md.csproj</ApiMd>
+    <ApiCmd>$(LibsRoot)api.cmd/z0.api.cmd.csproj</ApiCmd>
+    <ApiChecks>$(LibsRoot)api.checks/z0.api.checks.csproj</ApiChecks>
 
     <Asm>$(LibsRoot)asm/z0.asm.csproj</Asm>
     <AsmCore>$(LibsRoot)asm.core/z0.asm.core.csproj</AsmCore>

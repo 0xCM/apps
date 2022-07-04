@@ -2,12 +2,11 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <DebugSymbols>true</DebugSymbols>
     <TargetFramework>$(FrameworkMoniker)</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="$(Dynamic)" />
+    <ProjectReference Include="$(Wf)" />
   </ItemGroup>
 
 </Project>

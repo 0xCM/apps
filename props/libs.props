@@ -6,9 +6,11 @@
 
     <ProjectReference Include="$(Interop)" />
     <ProjectReference Include="$(Agents)" />
+
     <ProjectReference Include="$(ApiCode)" />
     <ProjectReference Include="$(ApiMd)" />
     <ProjectReference Include="$(Archives)" />
+    <ProjectReference Include="$(ApiCmd)" />
 
     <ProjectReference Include="$(Asm)" />
     <ProjectReference Include="$(AsmCore)" />

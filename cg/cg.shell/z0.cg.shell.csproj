@@ -6,8 +6,6 @@
     <AssemblyName>zcg</AssemblyName>
   </PropertyGroup>
 
-  <Import Project="$(ImportDefs)common.libs.props"/>
-
   <ItemGroup>
     <EmbeddedResource Include="assets/**/*.*" />
     <ProjectReference Include="$(Lang)" />

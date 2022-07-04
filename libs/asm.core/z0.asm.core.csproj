@@ -5,8 +5,6 @@
     <TargetFramework>$(FrameworkMoniker)</TargetFramework>
   </PropertyGroup>
 
-  <Import Project="$(ImportDefs)common.libs.props"/>
-
   <ItemGroup>
     <EmbeddedResource Include="assets/**/*.*" />
     <PackageReference Include="Iced" Version="1.4.0" />

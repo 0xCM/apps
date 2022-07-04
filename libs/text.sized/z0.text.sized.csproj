@@ -6,10 +6,10 @@
 
   </PropertyGroup>
 
-  <Import Project="$(ImportDefs)common.libs.props"/>
   <Import Project="$(ImportDefs)common.props"/>
 
   <ItemGroup>
+    <ProjectReference Include="$(ZLib)" />
   </ItemGroup>
 
 </Project>

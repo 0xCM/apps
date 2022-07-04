@@ -9,7 +9,6 @@
   <Import Project="$(ImportDefs)omnisharp.props"/>
   <Import Project="$(ImportDefs)diagnostics.props"/>
   <Import Project="$(ImportDefs)microsoft.dia.props"/>
-  <Import Project="$(ImportDefs)common.libs.props"/>
   <Import Project="$(ImportDefs)nuget.props"/>
   <Import Project="$(ImportDefs)microsoft.build.props"/>
 

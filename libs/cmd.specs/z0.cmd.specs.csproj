@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <Import Project="$(ImportDefs)common.props"/>
-  <Import Project="$(ImportDefs)common.libs.props"/>
 
   <ItemGroup>
     <ProjectReference Include="$(Symbolics)" />

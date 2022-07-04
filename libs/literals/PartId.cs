@@ -174,14 +174,8 @@ public enum PartId : byte
     [Symbol("queues")]
     Queues,
 
-    [Symbol("api.contracts")]
-    ApiContracts,
-
     [Symbol("diagnosics")]
     Diagnostics,
-
-    [Symbol("bits.test")]
-    BitsTest,
 
     [Symbol("graphs")]
     Graphs,
@@ -240,12 +234,6 @@ public enum PartId : byte
     [Symbol("intel.sdm")]
     IntelSdm,
 
-    [Symbol("lines")]
-    Lines,
-
-    [Symbol("alloc")]
-    Alloc,
-
     [Symbol("commands")]
     Commands,
 
@@ -254,6 +242,12 @@ public enum PartId : byte
 
     [Symbol("api.md")]
     ApiMd,
+
+    [Symbol("api.cmd")]
+    ApiCmd,
+
+    [Symbol("api.checks")]
+    ApiChecks,
 
     [Symbol("rules")]
     Rules,
