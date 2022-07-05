@@ -12,14 +12,14 @@ namespace Z0.Ops
         where F : TernaryOpExpr<F,K>
         where K : unmanaged
     {
-        public IExpr A {get;}
+        public IExprDeprecated A {get;}
 
-        public IExpr B {get;}
+        public IExprDeprecated B {get;}
 
-        public IExpr C {get;}
+        public IExprDeprecated C {get;}
 
         [MethodImpl(Inline)]
-        protected TernaryOpExpr(IExpr a, IExpr b, IExpr c)
+        protected TernaryOpExpr(IExprDeprecated a, IExprDeprecated b, IExprDeprecated c)
         {
             A = a;
             B = b;

@@ -7,7 +7,7 @@ namespace Z0
     partial class LogicOps
     {
         public readonly struct Sop<T> : ISeqExpr<Product<T>>
-            where T : IExpr
+            where T : IExprDeprecated
         {
             readonly Index<Product<T>> Data;
 

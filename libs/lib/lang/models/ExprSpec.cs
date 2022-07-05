@@ -8,12 +8,12 @@ namespace Z0
     {
         public ExprScope Scope {get;}
 
-        public Index<IExpr> Operands {get;}
+        public Index<IExprDeprecated> Operands {get;}
 
         public IExprComposer Composer {get;}
 
         [MethodImpl(Inline)]
-        public ExprSpec(ExprScope scope, IExpr[] operands, IExprComposer composer)
+        public ExprSpec(ExprScope scope, IExprDeprecated[] operands, IExprComposer composer)
         {
             Scope = scope;
             Operands = operands;

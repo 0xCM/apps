@@ -80,8 +80,6 @@
 
     <Part>$(LibsRoot)part/z0.part.csproj</Part>
     <Polyrand>$(LibsRoot)polyrand/z0.polyrand.csproj</Polyrand>
-    <Pow2>$(LibsRoot)pow2/z0.pow2.csproj</Pow2>
-
     <Queues>$(LibsRoot)queues/z0.queues.csproj</Queues>
 
     <Rules>$(LibsRoot)rules/z0.rules.csproj</Rules>
@@ -112,9 +110,7 @@
 
     <ZLibs>$(LibsRoot)z0.libs.csproj</ZLibs>
     <Literals>$(LibsRoot)literals/z0.literals.csproj</Literals>
-
     <ZLib>$(LibsRoot)lib/z0.lib.csproj</ZLib>
-    <LiteralsLibName>z0.literals</LiteralsLibName>
 
   </PropertyGroup>
 

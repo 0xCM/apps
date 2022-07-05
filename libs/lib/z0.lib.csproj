@@ -16,7 +16,6 @@
     <ProjectReference Include="$(ClrQuery)" />
     <ProjectReference Include="$(Part)" />
     <ProjectReference Include="$(Imagine)" />
-    <ProjectReference Include="$(Pow2)" />
   </ItemGroup>
 
 </Project>

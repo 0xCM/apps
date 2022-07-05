@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly record struct BinaryCode : IDataTypeExpr<BinaryCode>
+    public readonly record struct BinaryCode : IFormattableDataType<BinaryCode>
     {
         /// <summary>
         /// The encoded bytes

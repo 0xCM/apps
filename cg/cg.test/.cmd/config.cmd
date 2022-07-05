@@ -1,7 +1,6 @@
 @echo off
-set WsArea=cg
-set WsId=cg.test
 set ProjectId=cg.test
-set ShellId=cgtest
-call %~dp0..\..\..\.cmd\config.cmd
+set WsId=cg
+set EnvId=cg.test
+call %Views%\z0\.cmd\config.cmd
 

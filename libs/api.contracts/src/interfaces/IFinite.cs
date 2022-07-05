@@ -18,4 +18,5 @@ namespace Z0
         /// </summary>
         uint Count();
     }
+
 }

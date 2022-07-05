@@ -62,7 +62,7 @@ namespace Z0
         ReadOnlySeq<T> Where(Func<T,bool> predicate)
             => Seq.where(View, predicate);
 
-        string IExpr2.Format()
+        string IExpr.Format()
             => string.Join(Chars.Comma, View.ToArray());
     }
 }

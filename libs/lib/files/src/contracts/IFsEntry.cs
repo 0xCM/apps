@@ -6,7 +6,7 @@ namespace Z0
 {
     using static FS;
 
-    public interface IFsEntry : IDataTypeExpr
+    public interface IFsEntry : IFormattableDataType
     {
         PathPart Name {get;}
 
@@ -19,14 +19,14 @@ namespace Z0
         bool INullity.IsNonEmpty
             => Name.IsNonEmpty;
 
-        string IExpr2.Format()
+        string IExpr.Format()
             => Name.Format();
 
         int GetHashCode()
             => Hash;
     }
 
-    public interface IFsEntry<F> : IFsEntry, IDataTypeExpr<F>
+    public interface IFsEntry<F> : IFsEntry, IFormattableDataType<F>
         where F : struct, IFsEntry<F>
     {
         bool IEquatable<F>.Equals(F src)

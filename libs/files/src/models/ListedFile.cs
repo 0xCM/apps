@@ -8,7 +8,7 @@ namespace Z0
     /// Defines an entry in list of files
     /// </summary>
     [Record(TableId)]
-    public record struct ListedFile : IDataTypeExpr<ListedFile>, ISequential<ListedFile>
+    public record struct ListedFile : IFormattableDataType<ListedFile>, ISequential<ListedFile>
     {
         public const string TableId = "files";
 

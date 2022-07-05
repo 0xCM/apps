@@ -7,7 +7,7 @@ namespace Z0
     using static core;
 
     [Free]
-    public interface ISeq : IMeasured, IExpr2
+    public interface ISeq : IMeasured, IExpr
     {
 
     }

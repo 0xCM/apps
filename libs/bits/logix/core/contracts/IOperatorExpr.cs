@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Characterizes an expression defined via an operator
     /// </summary>
-    public interface IOperatorExpr : IExpr
+    public interface IOperatorExpr : IExprDeprecated
     {
 
     }

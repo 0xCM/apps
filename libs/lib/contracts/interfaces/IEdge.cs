@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Free]
-    public interface IEdge : IExpr
+    public interface IEdge : IExprDeprecated
     {
 
     }

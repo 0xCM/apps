@@ -5,10 +5,10 @@
 namespace Z0
 {
     [Free]
-    public interface IExpr<K> : IExpr, IKinded<K>
+    public interface IExpr<K> : IExprDeprecated, IKinded<K>
         where K : unmanaged
     {
-        ulong IExpr.Kind
+        ulong IExprDeprecated.Kind
             => core.bw64((this as IKinded<K>).Kind);
     }
 

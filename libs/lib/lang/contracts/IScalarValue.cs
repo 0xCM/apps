@@ -5,9 +5,15 @@
 namespace Z0
 {
     [Free]
-    public interface IScalarValue : ISizedValue, IScalarExpr
+    public interface IScalarValue : ISizedValue, IScalarExpr, INullary
     {
-        string IExpr2.Format()
+        bool INullity.IsEmpty
+            => false;
+
+        bool INullity.IsNonEmpty
+            => false;
+
+        string IExpr.Format()
             => "";
     }
 

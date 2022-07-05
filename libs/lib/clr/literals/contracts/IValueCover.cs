@@ -5,11 +5,11 @@
 namespace Z0
 {
     [Free]
-    public interface IValueCover : IExpr
+    public interface IValueCover : IExprDeprecated
     {
         dynamic Value {get;}
 
-        string IExpr2.Format()
+        string IExpr.Format()
             => Value?.ToString() ?? string.Empty;
     }
 

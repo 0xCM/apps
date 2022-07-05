@@ -6,10 +6,9 @@
     <TargetFramework>$(FrameworkMoniker)</TargetFramework>
   </PropertyGroup>
 
-  <Import Project="$(ImportDefs)common.props"/>
-
   <ItemGroup>
     <ProjectReference Include="$(ZLib)" />
+    <PackageReference Include="QuikGraph.Graphviz" Version="2.3.1" />
   </ItemGroup>
 
 </Project>

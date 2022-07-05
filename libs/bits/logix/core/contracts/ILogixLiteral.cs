@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface ILogixLiteral : IExpr
+    public interface ILogixLiteral : IExprDeprecated
     {
 
     }

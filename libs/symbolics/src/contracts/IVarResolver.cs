@@ -6,9 +6,9 @@ namespace Z0
 {
     public interface IVarResolver
     {
-        IExpr Resolve(NameOld name);
+        IExprDeprecated Resolve(NameOld name);
 
         T Resolve<T>(NameOld name)
-            where T : IExpr;
+            where T : IExprDeprecated;
     }
 }

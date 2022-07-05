@@ -8,33 +8,33 @@ namespace Z0
 
     public class ExprContext : IVarResolver
     {
-        ConcurrentDictionary<NameOld,IExpr> Vars;
+        ConcurrentDictionary<NameOld,IExprDeprecated> Vars;
 
         public ExprContext()
         {
             Vars = new();
         }
 
-        public void Inject(params (ExprVar var, IExpr value)[] src)
+        public void Inject(params (ExprVar var, IExprDeprecated value)[] src)
         {
             iter(src, x => Inject(x.var, x.value));
         }
 
-        public void Inject(ExprVar var, IExpr value)
+        public void Inject(ExprVar var, IExprDeprecated value)
         {
             Vars[var.Name] = value;
         }
 
-        public IExpr Resolve(NameOld name)
+        public IExprDeprecated Resolve(NameOld name)
         {
             if(Vars.TryGetValue(name, out var expr))
                 return expr;
             else
-                return Errors.Throw<IExpr>(string.Format("The variable '{0}' cannot be resolved", name));
+                return Errors.Throw<IExprDeprecated>(string.Format("The variable '{0}' cannot be resolved", name));
         }
 
         public T Resolve<T>(NameOld name)
-            where T : IExpr
+            where T : IExprDeprecated
         {
             if(Vars.TryGetValue(name, out var expr))
                 return (T)expr;

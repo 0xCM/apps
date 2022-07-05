@@ -2,12 +2,18 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-
-
 namespace Z0
 {
-    public static partial class XTend
+    [Free]
+    public interface IFormattableDataType : IDataType, IExpr
     {
-        const NumericKind Closure = UnsignedInts;
+
+    }
+
+    [Free]
+    public interface IFormattableDataType<T> : IFormattableDataType, IDataType<T>
+        where T : IFormattableDataType<T>
+    {
+
     }
 }

@@ -5,11 +5,11 @@
 namespace Z0
 {
     [Free]
-    public interface ISeqExpr<T> : IExpr
+    public interface ISeqExpr<T> : IExprDeprecated
     {
         ReadOnlySpan<T> Terms {get;}
 
-        string IExpr2.Format()
+        string IExpr.Format()
             => Terms.MapArray(t => t.ToString()).Concat(" ");
     }
 }

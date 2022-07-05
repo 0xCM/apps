@@ -7,7 +7,7 @@ namespace Z0
     using W = W32;
     using I = Rel32;
 
-    public readonly record struct Rel32 : IRelOp<uint>, IDataTypeExpr<Rel32>
+    public readonly record struct Rel32 : IRelOp<uint>, IFormattableDataType<Rel32>
     {
         public readonly uint Value;
 
@@ -17,6 +17,18 @@ namespace Z0
 
         public NativeSize Size
             => NativeSizeCode.W32;
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Value == 0;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Value != 0;
+        }
 
         public string Format()
             => HexFormatter.format(w, Value, HexPadStyle.Unpadded, prespec:true, @case:UpperCase);

@@ -8,7 +8,7 @@ namespace Z0
     /// <summary>
     /// Captures a duration
     /// </summary>
-    public readonly struct Duration : ITextual, IEquatable<Duration>, IComparable<Duration>
+    public readonly struct Duration : IDataType<Duration>
     {
         /// <summary>
         /// The number of elapsed timer ticks that determines the period length
@@ -30,6 +30,15 @@ namespace Z0
         [MethodImpl(Inline)]
         public Duration(long ticks)
             => Ticks = ticks;
+
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get  => HashCodes.hash(Ticks);
+        }
+
+        bool INullity.IsEmpty
+            => Ticks == 0;
 
         /// <summary>
         /// The duration expressed in nanoseconds
@@ -166,5 +175,6 @@ namespace Z0
 
         public static Duration Zero
             => new Duration(0);
+
     }
 }

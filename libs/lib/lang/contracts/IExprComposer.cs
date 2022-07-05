@@ -6,6 +6,6 @@ namespace Z0
 {
     public interface IExprComposer
     {
-        IExpr Compose(params IExpr[] src);
+        IExprDeprecated Compose(params IExprDeprecated[] src);
     }
 }

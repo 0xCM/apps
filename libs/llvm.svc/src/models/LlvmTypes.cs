@@ -90,8 +90,8 @@ namespace Z0.llvm
         }
 
         public static dag<L,R> dag<L,R>(L left, R right)
-            where L : IExpr2
-            where R : IExpr2
+            where L : IExpr
+            where R : IExpr
                 => new dag<L,R>(left,right);
 
         public static Outcome parse(string src, string type, out list<string> dst)
@@ -100,9 +100,9 @@ namespace Z0.llvm
             return true;
         }
 
-        public static Outcome parse(string src, out dag<IExpr2> dag)
+        public static Outcome parse(string src, out dag<IExpr> dag)
         {
-            dag = new dag<IExpr2>(@string.Empty, @string.Empty);
+            dag = new dag<IExpr>(@string.Empty, @string.Empty);
             if(src.Contains("->"))
             {
                 var parts = src.SplitClean("->").Select(x => x.Trim());
@@ -110,9 +110,9 @@ namespace Z0.llvm
                 for(var i=1; i<count; i++)
                 {
                     if(i==1)
-                        dag = new dag<IExpr2>((@string)skip(parts,i-1), (@string)skip(parts,i));
+                        dag = new dag<IExpr>((@string)skip(parts,i-1), (@string)skip(parts,i));
                     else
-                        dag = new dag<IExpr2>(dag, (@string)skip(parts,i));
+                        dag = new dag<IExpr>(dag, (@string)skip(parts,i));
                 }
             }
             else if(src.Contains(","))
@@ -122,14 +122,14 @@ namespace Z0.llvm
                 for(var i=1; i<count; i++)
                 {
                     if(i==1)
-                        dag = new dag<IExpr2>((@string)skip(parts,i-1), (@string)skip(parts,i));
+                        dag = new dag<IExpr>((@string)skip(parts,i-1), (@string)skip(parts,i));
                     else
-                        dag = new dag<IExpr2>(dag, (@string)skip(parts,i));
+                        dag = new dag<IExpr>(dag, (@string)skip(parts,i));
                 }
             }
             else
             {
-                dag = new dag<IExpr2>((@string)src, @string.Empty);
+                dag = new dag<IExpr>((@string)src, @string.Empty);
             }
             return true;
         }

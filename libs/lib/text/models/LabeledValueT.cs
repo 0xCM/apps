@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct LabeledValue<T> : IExpr
+    public readonly struct LabeledValue<T> : IExprDeprecated
     {
         public Label Label {get;}
 

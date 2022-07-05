@@ -6,7 +6,7 @@ namespace Z0.Ops.Scalar
 {
     public class And : BinaryOpExpr<And,BinaryBitLogicKind>
     {
-        public And(IExpr a, IExpr b)
+        public And(IExprDeprecated a, IExprDeprecated b)
             : base(a,b)
         {
         }
@@ -17,7 +17,7 @@ namespace Z0.Ops.Scalar
         public override BinaryBitLogicKind Kind
             => BinaryBitLogicKind.And;
 
-        public override And Create(IExpr a, IExpr b)
+        public override And Create(IExprDeprecated a, IExprDeprecated b)
             => new And(a,b);
     }
 }

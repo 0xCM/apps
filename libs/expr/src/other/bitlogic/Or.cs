@@ -6,7 +6,7 @@ namespace Z0.Ops.Scalar
 {
     public class Or : BinaryOpExpr<Or,BinaryBitLogicKind>
     {
-        public Or(IExpr a, IExpr b)
+        public Or(IExprDeprecated a, IExprDeprecated b)
             : base(a,b)
         {
         }
@@ -17,7 +17,7 @@ namespace Z0.Ops.Scalar
         public override BinaryBitLogicKind Kind
             => BinaryBitLogicKind.Or;
 
-        public override Or Create(IExpr a, IExpr b)
+        public override Or Create(IExprDeprecated a, IExprDeprecated b)
             => new Or(a,b);
     }
 }

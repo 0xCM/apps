@@ -42,7 +42,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public void Set(IExpr value)
+        public void Set(IExprDeprecated value)
             => Value = (ILogixExpr<T>)value;
 
         public string Format()

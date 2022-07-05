@@ -9,7 +9,7 @@ namespace Z0
     {
         dynamic Value {get;}
 
-        string IExpr2.Format()
+        string IExpr.Format()
             => Value?.ToString() ?? string.Empty;
     }
 

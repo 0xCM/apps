@@ -9,21 +9,21 @@ namespace Z0
     [Free]
     public interface IExprEvaluator
     {
-        dynamic Evaluate(IExpr src);
+        dynamic Evaluate(IExprDeprecated src);
     }
 
     [Free]
     public interface IExprEvaluator<T> : IExprEvaluator
     {
-        new T Evaluate(IExpr src);
+        new T Evaluate(IExprDeprecated src);
 
-        dynamic IExprEvaluator.Evaluate(IExpr src)
+        dynamic IExprEvaluator.Evaluate(IExprDeprecated src)
             => Evaluate(src);
     }
 
     [Free]
     public interface IExprEvaluator<S,T>
-        where S : IExpr
+        where S : IExprDeprecated
     {
         T Evaluate(S src);
     }

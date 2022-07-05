@@ -10,7 +10,7 @@ namespace Z0
     /// Characterizes a finite sequence of terms
     /// </summary>
     /// <typeparam name="T">The term type</typeparam>
-    public interface ILogixSeqExpr<T> : IExpr
+    public interface ILogixSeqExpr<T> : IExprDeprecated
         where T : IEquatable<T>
     {
         /// <summary>

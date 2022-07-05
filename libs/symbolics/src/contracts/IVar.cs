@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Free]
-    public interface IVar : IExpr, ITerm, INamed
+    public interface IVar : IExprDeprecated, ITerm, INamed
     {
         string ITextual.Format()
             => Name.Format();

@@ -10,9 +10,9 @@ namespace Z0
 
     partial struct Rules
     {
-        public class BranchRule<K,T> : IExpr
+        public class BranchRule<K,T> : IExprDeprecated
             where K : unmanaged
-            where T : IExpr
+            where T : IExprDeprecated
         {
             readonly Index<Literal<K>> _Choices;
 

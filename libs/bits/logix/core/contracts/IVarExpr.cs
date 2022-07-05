@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Characterizes a variable
     /// </summary>
-    public interface IVarExpr : IExpr
+    public interface IVarExpr : IExprDeprecated
     {
         /// <summary>
         /// The name of the variable

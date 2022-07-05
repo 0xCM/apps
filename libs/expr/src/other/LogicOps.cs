@@ -11,26 +11,26 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public Product<T> product<T>(params T[] src)
-            where T : IExpr
+            where T : IExprDeprecated
                 => new Product<T>(src);
 
         [MethodImpl(Inline)]
         public Sum<T> sum<T>(params T[] src)
-            where T : IExpr
+            where T : IExprDeprecated
                 => new Sum<T>(src);
 
         [MethodImpl(Inline)]
         public static Sop<T> sop<T>(params Product<T>[] src)
-            where T : IExpr
+            where T : IExprDeprecated
                 => new Sop<T>(src);
 
         public static Sum untype<T>(Sum<T> src)
-            where T : IExpr
-                => new Sum(src.Terms.MapArray(x => (IExpr)x));
+            where T : IExprDeprecated
+                => new Sum(src.Terms.MapArray(x => (IExprDeprecated)x));
 
         public static Product untype<T>(Product<T> src)
-            where T : IExpr
-                => new Product(src.Terms.MapArray(x => (IExpr)x));
+            where T : IExprDeprecated
+                => new Product(src.Terms.MapArray(x => (IExprDeprecated)x));
 
         [MethodImpl(Inline), Op]
         public static Xor xor(IBooleanExpr a, IBooleanExpr b)

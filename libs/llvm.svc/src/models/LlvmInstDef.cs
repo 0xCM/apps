@@ -35,10 +35,10 @@ namespace Z0.llvm
         public string FormatPattern;
 
         [Render(86)]
-        public dag<IExpr2> InOperandList;
+        public dag<IExpr> InOperandList;
 
         [Render(1)]
-        public dag<IExpr2> OutOperandList;
+        public dag<IExpr> OutOperandList;
 
         [MethodImpl(Inline)]
         public int CompareTo(LlvmInstDef src)

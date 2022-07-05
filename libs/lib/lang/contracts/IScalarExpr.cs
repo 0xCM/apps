@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Free]
-    public interface IScalarExpr : IExpr
+    public interface IScalarExpr : IExprDeprecated
     {
         TypeSpec ScalarType {get;}
     }

@@ -6,6 +6,8 @@
     <TargetFramework>$(FrameworkMoniker)</TargetFramework>
   </PropertyGroup>
 
-  <Import Project="$(ImportDefs)literals.props"/>
+  <ItemGroup>
+    <ProjectReference Include="$(Literals)" />
+  </ItemGroup>
 
 </Project>

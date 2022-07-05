@@ -60,11 +60,11 @@ namespace Z0.llvm
         public string InstName
             => EntityName;
 
-        public dag<IExpr2> InOperandList
-            => Parse(nameof(InOperandList), out dag<IExpr2> _);
+        public dag<IExpr> InOperandList
+            => Parse(nameof(InOperandList), out dag<IExpr> _);
 
-        public dag<IExpr2> OutOperandList
-            => Parse(nameof(OutOperandList), out dag<IExpr2> _);
+        public dag<IExpr> OutOperandList
+            => Parse(nameof(OutOperandList), out dag<IExpr> _);
 
         public bit hasREX_WPrefix
             => Parse(nameof(hasREX_WPrefix), out bit _);

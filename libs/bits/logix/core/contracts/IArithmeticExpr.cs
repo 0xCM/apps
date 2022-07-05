@@ -6,7 +6,7 @@ namespace Z0
 {
     using System;
 
-    public interface IArithmeticExpr : IExpr
+    public interface IArithmeticExpr : IExprDeprecated
     {
 
     }

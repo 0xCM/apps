@@ -49,7 +49,7 @@ namespace Z0
         IEnumerator<T> IEnumerable<T>.GetEnumerator()
             => ((IEnumerable<T>)Storage).GetEnumerator();
 
-       string IExpr2.Format()
+       string IExpr.Format()
             => string.Join(Chars.Comma, View.ToArray());
 
     }

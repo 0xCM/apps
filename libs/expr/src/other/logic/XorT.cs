@@ -9,7 +9,7 @@ namespace Z0
         /// <summary>
         /// Defines two potential choices
         /// </summary>
-        public readonly struct Xor<T> : IExpr
+        public readonly struct Xor<T> : IExprDeprecated
         {
             public T Left {get;}
 

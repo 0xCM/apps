@@ -8,7 +8,7 @@ namespace Z0
     /// Characterizes a ternary operator parametrized by expression type
     /// </summary>
     public interface ITernaryOpExpr<X> : IOperatorExpr
-        where X : IExpr
+        where X : IExprDeprecated
     {
         X First {get;}
 

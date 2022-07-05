@@ -45,7 +45,7 @@ namespace Z0
         Hash32 IHashed.Hash
             => hash(Data);
 
-        string IExpr2.Format()
+        string IExpr.Format()
             => new string(Data);
 
         bool ICharSeq.IsBlank

@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Free]
-    public interface IVertex : IExpr
+    public interface IVertex : IExprDeprecated
     {
         object Value {get;}
 

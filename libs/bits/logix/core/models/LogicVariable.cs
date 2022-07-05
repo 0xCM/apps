@@ -40,7 +40,7 @@ namespace Z0
             => Value = new LiteralLogicExpr(value);
 
         [MethodImpl(Inline)]
-        public void Set(IExpr value)
+        public void Set(IExprDeprecated value)
             => Value = (ILogicExpr)value;
 
         public string Format()

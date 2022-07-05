@@ -5,15 +5,14 @@
 namespace Z0
 {
     [Free]
-    public interface IDataTypeExpr : IDataType, IExpr2
+    public interface IExprDeprecated : IExpr
     {
+        ulong Kind => 0;
 
-    }
+        bool INullity.IsEmpty
+            => false;
 
-    [Free]
-    public interface IDataTypeExpr<T> : IDataTypeExpr, IDataType<T>
-        where T : IDataTypeExpr<T>
-    {
-
+       string IExpr.Format()
+            => string.Empty;
     }
 }

@@ -57,7 +57,7 @@ namespace Z0
             }
 
             public static string format<T>(Product<T> src)
-                where T : IExpr
+                where T : IExprDeprecated
             {
                 //const char Delimiter = (char)LogicSym.And;
                 const char Delimiter = Chars.Comma;
@@ -79,7 +79,7 @@ namespace Z0
                 => string.Format(XF.BinaryChoice, src.Left, src.Right);
 
             public static string format<T>(Sop<T> src)
-                where T : IExpr
+                where T : IExprDeprecated
             {
                 const char Delimiter = Chars.Pipe;
                 var dst = text.buffer();

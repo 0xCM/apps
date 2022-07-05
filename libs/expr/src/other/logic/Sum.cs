@@ -8,10 +8,10 @@ namespace Z0
     {
         public readonly struct Sum : ILogicOp
         {
-            public Index<IExpr> Members {get;}
+            public Index<IExprDeprecated> Members {get;}
 
             [MethodImpl(Inline)]
-            public Sum(Index<IExpr> members)
+            public Sum(Index<IExprDeprecated> members)
                 => Members = members;
 
             public uint N

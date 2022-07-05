@@ -8,7 +8,6 @@
   </PropertyGroup>
 
   <Import Project="$(ImportDefs)shell.settings.props"/>
-  <Import Project="$(ImportDefs)cg.libs.props"/>
 
   <ItemGroup>
     <ProjectReference Include="$(TestChecks)" />

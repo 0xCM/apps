@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct ClrArtifactRef : IExpr2
+    public readonly struct ClrArtifactRef : IExpr
     {
         public readonly ClrArtifactKind Kind;
 

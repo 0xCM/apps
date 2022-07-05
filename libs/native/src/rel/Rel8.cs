@@ -10,12 +10,25 @@ namespace Z0
     public readonly record struct Rel8 : IRelOp<byte>
     {
         public readonly byte Value;
+
         [MethodImpl(Inline)]
         public Rel8(byte src)
             => Value = src;
 
         public NativeSize Size
             => NativeSizeCode.W8;
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Value == 0;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Value != 0;
+        }
 
         public string Format()
             => HexFormatter.format(w, Value, HexPadStyle.Unpadded, prespec:true, @case:UpperCase);

@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Free]
-    public interface IHashCode : IExpr2
+    public interface IHashCode : IExpr
     {
         ReadOnlySpan<byte> Data {get;}
 
@@ -21,7 +21,7 @@ namespace Z0
      {
          T Value {get;}
 
-        string IExpr2.Format()
+        string IExpr.Format()
             => Value.ToString();
 
         ReadOnlySpan<byte> IHashCode.Data

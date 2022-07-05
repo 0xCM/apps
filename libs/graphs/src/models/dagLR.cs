@@ -5,8 +5,8 @@
 namespace Z0
 {
     public class dag<L,R> : IDag<L,R>
-        where L : IExpr2
-        where R : IExpr2
+        where L : IExpr
+        where R : IExpr
     {
         public L Left {get;}
 

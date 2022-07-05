@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface ILiteralExpr<T> : IExpr
+    public interface ILiteralExpr<T> : IExprDeprecated
     {
         Identifier Name {get;}
 

@@ -7,7 +7,7 @@ namespace Z0
     using api = Asm.AsmSigs;
 
     [StructLayout(LayoutKind.Sequential,Pack=1)]
-    public readonly record struct AsmSig : IDataTypeExpr<AsmSig>
+    public readonly record struct AsmSig : IFormattableDataType<AsmSig>
     {
         public readonly AsmMnemonic Mnemonic;
 

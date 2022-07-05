@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Distinguishes varied expressions from other sorts of expressions
     /// </summary>
-    public interface IVariedExpr : IExpr
+    public interface IVariedExpr : IExprDeprecated
     {
 
     }

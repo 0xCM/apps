@@ -12,7 +12,7 @@ namespace Z0
     }
 
     [Free]
-    public interface ICodeBlock : IByteSeq, IAddressable, IDataTypeExpr
+    public interface ICodeBlock : IByteSeq, IAddressable, IFormattableDataType
     {
 
     }

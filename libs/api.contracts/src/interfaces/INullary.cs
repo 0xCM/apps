@@ -22,13 +22,18 @@ namespace Z0
         T Zero {get;}
     }
 
+    public interface INullary
+    {
+        bool IsZero => false;
+    }
+
     /// <summary>
     /// Characterizes an additive structure S for which there exists a distinguished
     /// element 0:S such that for every s:S, s + 0 = s
     /// </summary>
     /// <typeparam name="T">The zero value type</typeparam>
     [Free]
-    public interface INullary<T>
+    public interface INullary<T> : INullary
         where T : new()
     {
         /// <summary>

@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Free]
-    public interface IOpExpr : IExpr
+    public interface IOpExpr : IExprDeprecated
     {
         NameOld OpName {get;}
     }

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IRuleExpr : IExpr
+    public interface IRuleExpr : IExprDeprecated
     {
         bool IsTerminal
             => false;

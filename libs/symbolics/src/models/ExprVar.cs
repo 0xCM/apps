@@ -19,11 +19,11 @@ namespace Z0
             get => Name.Hash;
         }
 
-        public IExpr Eval(IVarResolver context)
+        public IExprDeprecated Eval(IVarResolver context)
             => context.Resolve(Name);
 
         public T Eval<T>(IVarResolver context)
-            where T : IExpr
+            where T : IExprDeprecated
                 => context.Resolve<T>(Name);
 
         public bool IsEmpty

@@ -6,9 +6,9 @@ namespace Z0
 {
     partial struct Rules
     {
-        public class SeqExpr : RuleExpr<Index<IExpr>>, ISeqExpr<IExpr>
+        public class SeqExpr : RuleExpr<Index<IExprDeprecated>>, ISeqExpr<IExprDeprecated>
         {
-            public SeqExpr(params IExpr[] terms)
+            public SeqExpr(params IExprDeprecated[] terms)
                 : base(terms)
             {
 
@@ -20,7 +20,7 @@ namespace Z0
                 get => Content.Count;
             }
 
-            public ReadOnlySpan<IExpr> Terms
+            public ReadOnlySpan<IExprDeprecated> Terms
                 => Content;
 
             public bool IsEmpty
@@ -38,7 +38,7 @@ namespace Z0
             public override string Format()
                 => text.embrace(Content.Delimit().Format());
 
-            public static implicit operator SeqExpr(IExpr[] src)
+            public static implicit operator SeqExpr(IExprDeprecated[] src)
                 => new SeqExpr(src);
         }
     }

@@ -6,15 +6,15 @@ namespace Z0
 {
     partial class LogicOps
     {
-        public readonly struct Except : IExpr
+        public readonly struct Except : IExprDeprecated
         {
-            HashSet<IExpr> _Terms {get;}
+            HashSet<IExprDeprecated> _Terms {get;}
 
             [MethodImpl(Inline)]
-            public Except(IExpr[] choices)
+            public Except(IExprDeprecated[] choices)
                 => _Terms = core.hashset(choices);
 
-            public IReadOnlyCollection<IExpr> Terms
+            public IReadOnlyCollection<IExprDeprecated> Terms
             {
                 [MethodImpl(Inline)]
                 get => _Terms;

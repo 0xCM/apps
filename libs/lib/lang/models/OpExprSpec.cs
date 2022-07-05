@@ -10,10 +10,10 @@ namespace Z0
 
         public string OpName {get;}
 
-        public Index<IExpr> Operands {get;}
+        public Index<IExprDeprecated> Operands {get;}
 
         [MethodImpl(Inline)]
-        public OpExprSpec(ExprScope scope, string opname, IExpr[] operands)
+        public OpExprSpec(ExprScope scope, string opname, IExprDeprecated[] operands)
         {
             Scope = scope;
             OpName = opname;

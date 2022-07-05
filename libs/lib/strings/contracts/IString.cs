@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Free]
-    public interface IString : IByteSeq, IExpr2
+    public interface IString : IByteSeq, IExpr
     {
     }
 

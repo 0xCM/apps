@@ -12,7 +12,7 @@ namespace Z0
         /// Characterizes an unmanaged expression
         /// </summary>
         [Free]
-        public interface IFreeExpr : IExpr2
+        public interface IFreeExpr : IExpr
         {
             uint Size {get;}
 
@@ -22,7 +22,7 @@ namespace Z0
             bool INullity.IsNonEmpty
                 => Size != 0;
 
-            string IExpr2.Format()
+            string IExpr.Format()
                 => EmptyString;
         }
 

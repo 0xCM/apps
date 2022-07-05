@@ -34,6 +34,18 @@ namespace Z0
             Size = size;
         }
 
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Value == 0;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Value != 0;
+        }
+
         public string Format()
             => HexFormatter.format(Size, Value, prespec:true, @case:UpperCase);
 

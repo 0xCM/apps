@@ -28,6 +28,8 @@ namespace Z0.Parts
 
 namespace Z0
 {
+    using Asm;
+
     public static partial class XTend
     {
         public static AsmChecks AsmChecks(this IWfRuntime wf)

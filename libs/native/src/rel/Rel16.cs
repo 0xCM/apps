@@ -21,6 +21,18 @@ namespace Z0
             get => Value;
         }
 
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Value == 0;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Value != 0;
+        }
+
         public NativeSize Size
             => NativeSizeCode.W16;
 

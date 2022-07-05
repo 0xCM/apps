@@ -83,7 +83,7 @@ namespace Z0
             }
 
             public override string ToString()
-                => (this as IExpr2).Format();
+                => (this as IExpr).Format();
 
             public bool Search(OpAttribKind @class, out OpAttrib dst)
                 => XedPatterns.first(this, @class, out dst);
