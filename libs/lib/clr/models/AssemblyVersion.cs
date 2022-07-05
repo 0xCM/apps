@@ -10,13 +10,13 @@ namespace Z0
     [StructLayout(LayoutKind.Sequential)]
     public readonly struct AssemblyVersion
     {
-        public ushort Major {get;}
+        public readonly ushort Major;
 
-        public ushort Minor {get;}
+        public readonly ushort Minor;
 
-        public ushort Build {get;}
+        public readonly ushort Build;
 
-        public ushort Revision {get;}
+        public readonly ushort Revision;
 
         [MethodImpl(Inline)]
         public AssemblyVersion(ushort a, ushort b, ushort c, ushort d)
@@ -26,6 +26,12 @@ namespace Z0
             Build = c;
             Revision = d;
         }
+
+        public string Format()
+            =>$"{Major}.{Minor}.{Build}.{Revision}";
+
+        public override string ToString()
+            => Format();
 
         [MethodImpl(Inline)]
         public static explicit operator ulong(AssemblyVersion src)

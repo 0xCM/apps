@@ -8,18 +8,13 @@ namespace Z0
 
     partial class CliEmitter
     {
+        IDbTargets BlobTargets()
+            => AppDb.ApiTargets("api.blobs");
+
         public void EmitBlobs()
         {
-            var flow = Running(nameof(EmitBlobs));
-            ClearBlobs();
-            foreach(var part in ApiRuntimeCatalog.Parts)
-                EmitBlobs(part.Owner);
-            Ran(flow);
-        }
-
-        public void ClearBlobs()
-        {
-            ProjectDb.Subdir(BlobScope).Clear();
+            BlobTargets().Clear();
+            iter(ApiMd.Components, c => EmitBlobs(c),true);
         }
 
         public ExecToken EmitBlobs(FS.FilePath src, FS.FilePath dst)
@@ -38,6 +33,6 @@ namespace Z0
         }
 
         public ExecToken EmitBlobs(Assembly src)
-            => EmitBlobs(FS.path(src.Location), ProjectDb.TablePath<CliBlob>(BlobScope, src.GetSimpleName()));
+            => EmitBlobs(FS.path(src.Location), BlobTargets().Table<CliBlob>(src.GetSimpleName()));
     }
 }

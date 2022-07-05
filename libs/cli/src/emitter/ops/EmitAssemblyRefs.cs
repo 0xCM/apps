@@ -17,19 +17,19 @@ namespace Z0
             => EmitAssemblyRefs(src, ProjectDb.TablePath<AssemblyRefInfo>(CliScope));
 
         public void EmitAssemblyRefs()
-            => EmitAssemblyRefs(ApiRuntimeCatalog.Components);
+            => EmitAssemblyRefs(ApiMd.Components);
 
         public void EmitAssemblyRefs(ReadOnlySpan<Assembly> src, FS.FilePath dst)
         {
             var count = src.Length;
             var counter = 0u;
-            var flow = Wf.EmittingTable<AssemblyRefInfo>(dst);
-            var formatter = Tables.formatter<AssemblyRefInfo>(48);
+            var flow = EmittingTable<AssemblyRefInfo>(dst);
+            var formatter = Tables.formatter<AssemblyRefInfo>();
             using var writer = dst.Writer();
             writer.WriteLine(formatter.FormatHeader());
             for(var i=0; i<count; i++)
                 counter += EmitAssemblyRefs(skip(src,i), formatter, writer);
-            Wf.EmittedTable(flow, counter);
+            EmittedTable(flow, counter);
         }
 
         public void EmitAssemblyRefs(ReadOnlySpan<Assembly> src)

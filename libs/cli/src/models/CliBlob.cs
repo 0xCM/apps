@@ -7,9 +7,9 @@ namespace Z0
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct CliBlob
     {
-        public const string TableId = "image.blob";
+        public const string TableId = "api.blob";
 
-        public Count Sequence;
+        public Count Seq;
 
         public ByteSize HeapSize;
 

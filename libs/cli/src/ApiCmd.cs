@@ -60,15 +60,27 @@ namespace Z0
             CliEmitter.Emit(CliEmitOptions.@default(), timestamp());
         }
 
-        [CmdOp("api/emit/mdhex")]
-        void EmitMdHex()
+        [CmdOp("api/emit/hex")]
+        void EmitApiHex()
         {
-            CliEmitter.EmitMetadataHex();
+            CliEmitter.EmitApiHex();
+        }
+
+        [CmdOp("api/emit/refs")]
+        void EmitApiRefs()
+        {
+            CliEmitter.EmitAssemblyRefs();
+        }
+
+        [CmdOp("api/emit/blobs")]
+        void EmitBlobs()
+        {
+            CliEmitter.EmitBlobs();
         }
 
         [CmdOp("api/emit/pdb/info")]
         void EmitApiPdbInfo()
-            => PdbSvc.EmitPdbDocInfo(PartId.AsmOperands);
+            => PdbSvc.EmitPdbInfo(ApiMd.Components.Single(c => c.GetSimpleName().Contains("z0.circuits")));
 
         [CmdOp("api/emit/pdb/index")]
         void IndexApiPdbFiles()
@@ -89,7 +101,6 @@ namespace Z0
         void EmitMsil()
         {
             var targets = AppDb.ApiTargets(msil);
-            //targets.Delete();
             Cli.EmitMsil(ApiMd.ApiHosts, targets.Targets(il));
             TableEmit(Cil.opcodes(), AppDb.DbOut("clr").Path("cil.opcodes", FileKind.Csv));
         }

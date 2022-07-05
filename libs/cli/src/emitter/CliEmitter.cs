@@ -56,7 +56,7 @@ namespace Z0
             }
 
             if(options.EmitMetadataHex)
-                EmitMetadataHex();
+                EmitApiHex();
 
             if(options.EmitCliConstants)
                 EmitConstants();

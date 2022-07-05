@@ -7,7 +7,7 @@ namespace Z0
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct MemberRefInfo : IRecord<MemberRefInfo>
     {
-        public const string TableId = "cli.metadata.memberref";
+        public const string TableId = "api.members.refs";
 
         public CliToken Token;
 
@@ -15,7 +15,7 @@ namespace Z0
 
         public CliToken Parent;
 
-        public NameOld Name;
+        public string Name;
 
         public CliSig Sig;
     }

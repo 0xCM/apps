@@ -59,19 +59,16 @@ namespace Z0
             return counter;
         }
 
-        public FS.FilePath EmitPdbDocInfo(PartId part)
+        public FS.FilePath EmitPdbInfo(Assembly src)
         {
-            var components = ApiRuntimeCatalog.Components;
-            var catalog = ApiRuntimeCatalog.PartCatalogs(part).Single();
-            var partMethods = catalog.Methods.View;
-            var assembly = catalog.Component;
-            var module = assembly.ManifestModule;
-            using var source = SymbolSource(FS.path(catalog.ComponentPath));
-            var pePath = source.PePath;
-            var pdbPath = source.PdbPath;
-            using var pdbReader = Wf.PdbReader(source);
+            var _name = src.GetSimpleName();
+            var module = src.ManifestModule;
+            using var symbols = SymbolSource(FS.path(src.Location));
+            var pePath = symbols.PePath;
+            var pdbPath = symbols.PdbPath;
+            using var pdbReader = Wf.PdbReader(symbols);
             var counter = 0u;
-            var dst = AppDb.ApiTargets("pdb").Path(string.Format("{0}.pdbinfo", part.PartName()), FileKind.Csv);
+            var dst = AppDb.ApiTargets("pdb").Path(string.Format("{0}.pdbinfo", src.GetSimpleName()), FileKind.Csv);
             using var writer = dst.Writer();
             var emitting = Wf.EmittingFile(dst);
             Write("Collecting methods");
@@ -84,16 +81,15 @@ namespace Z0
                 var docview = info.Documents.View;
                 var doc = docview.Length >=1 ? first(docview).Path : FS.FilePath.Empty;
                 var token = info.Token;
-                var methodBase = Clr.method(module,token);
-                var name = methodBase.Name;
-                var sig = methodBase is MethodInfo method ? method.DisplaySig().Format() : EmptyString;
-
-                writer.WriteLine(string.Format("{0,-12} | {1,-24} | {2,-68} | {3}", token, name, doc.ToUri(), sig));
+                var mb = Clr.method(module,token);
+                var sig = mb is MethodInfo method ? method.DisplaySig().Format() : EmptyString;
+                writer.WriteLine(string.Format("{0,-12} | {1,-24} | {2,-68} | {3}", token, mb.Name, doc.ToUri(), sig));
                 counter++;
             }
 
             EmittedFile(emitting, counter);
             return dst;
+
         }
 
         public PdbSymbolSource SymbolSource(FileModule src)

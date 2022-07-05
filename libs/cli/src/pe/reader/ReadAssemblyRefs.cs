@@ -22,17 +22,16 @@ namespace Z0
         {
             var count = src.Length;
             for(var i=0u; i<count; i++)
-            {
-                var ar = MD.GetAssemblyReference(skip(src,i));
-                ReadAssemblyRef(ar, ref seek(dst,i));
-            }
+                ReadAssemblyRef(MD.GetAssemblyReference(skip(src,i)), ref seek(dst,i));
         }
 
         [Op]
         public ref AssemblyRefInfo ReadAssemblyRef(AssemblyReference src, ref AssemblyRefInfo dst)
         {
             dst.Source = AssemblyName();
+            dst.SourceVersion = dst.Source.Version;
             dst.Target = src.GetAssemblyName();
+            dst.TargetVersion = dst.Target.Version;
             dst.Token = CliReader().Read(src.PublicKeyOrToken);
             return ref dst;
         }

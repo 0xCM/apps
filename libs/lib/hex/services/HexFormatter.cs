@@ -180,8 +180,6 @@ namespace Z0
         public static ReadOnlySpan<byte> LowerHexDigits
             => new byte[]{48,49,50,51,52,53,54,55,56,57,97,98,99,100,101,102};
 
-
-
         [Op, Closures(Closure)]
         public static string format<T>(ReadOnlySpan<T> src, in HexFormatOptions config)
             where T : unmanaged

@@ -19,7 +19,7 @@ namespace Z0
             {
                 var value = MD.GetBlobBytes(handle);
                 var row = new CliBlob();
-                row.Sequence = i++;
+                row.Seq = i++;
                 row.HeapSize = size;
                 row.Offset = (Address32)MD.GetHeapOffset(handle);
                 row.Data = MD.GetBlobBytes(handle);

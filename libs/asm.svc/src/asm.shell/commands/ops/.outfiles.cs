@@ -109,10 +109,10 @@ namespace Z0.Asm
             for(var i=0; i<count; i++)
             {
                 ref readonly var x = ref skip(refs,i);
-                if(parts.Contains(x.Target.Name))
+                if(parts.Contains(x.Target.Format()))
                 {
-                    var source = x.Source.Name.Replace(Chars.Dot, Chars.Underscore);
-                    var target = x.Target.Name.Replace(Chars.Dot, Chars.Underscore);
+                    var source = x.Source.Format().Replace(Chars.Dot, Chars.Underscore);
+                    var target = x.Target.Format().Replace(Chars.Dot, Chars.Underscore);
                     var arrow = string.Format("{0}->{1}", source, target);
                     writer.WriteLine(arrow);
                 }

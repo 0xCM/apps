@@ -9,7 +9,7 @@ namespace Z0
     partial class CliEmitter
     {
         IDbTargets MdHexTargets()
-            => AppDb.ApiTargets("metadata/raw");
+            => AppDb.ApiTargets("api.hex");
 
         FS.FilePath HexPath(Assembly src)
             => MdHexTargets().Path(src.GetSimpleName(), FileKind.Hex);
@@ -18,11 +18,11 @@ namespace Z0
         {
             var dst = HexPath(src);
             var flow = EmittingFile(dst);
-            ByteSize size = MemoryEmitter.emit(Clr.metadata(src), bpl, dst);
+            ByteSize size = MemoryEmitter.emit(Clr.metadata(src), 64, dst);
             EmittedFile(flow, $"Emitted {size} bytes from {src.GetSimpleName()} to {dst.ToUri()}");
         }
 
-        public void EmitMetadataHex(uint bpl = 64)
+        public void EmitApiHex(uint bpl = 64)
         {
             MdHexTargets().Clear();
             iter(ApiMd.Components, c => EmitMetadataHex(c, bpl), true);

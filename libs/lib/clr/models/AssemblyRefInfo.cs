@@ -10,18 +10,27 @@ namespace Z0
     [StructLayout(StructLayout), Record(TableId)]
     public struct AssemblyRefInfo : IComparableRecord<AssemblyRefInfo>
     {
-        public const string TableId = "clr.assembly-refs";
+        const string TableId = "clr.assembly.references";
 
-        public AssemblyName Source;
+        [Render(48)]
+        public ClrAssemblyName Source;
 
-        public AssemblyName Target;
+        [Render(12)]
+        public AssemblyVersion SourceVersion;
 
+        [Render(48)]
+        public ClrAssemblyName Target;
+
+        [Render(12)]
+        public AssemblyVersion TargetVersion;
+
+        [Render(1)]
         public BinaryCode Token;
 
         public int CompareTo(AssemblyRefInfo src)
         {
-            var left = string.Format("{0}.{1}", Source.SimpleName(), Target.SimpleName());
-            var right = string.Format("{0}.{1}", src.Source.SimpleName(), src.Target.SimpleName());
+            var left = string.Format("{0}.{1}", Source, Target);
+            var right = string.Format("{0}.{1}", src.Source, src.Target);
             return left.CompareTo(right);
         }
     }

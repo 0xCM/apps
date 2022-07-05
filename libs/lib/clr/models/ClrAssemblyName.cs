@@ -62,7 +62,6 @@ namespace Z0
         public bool Equals(ClrAssemblyName src)
             => Subject?.Equals(src.Subject) ?? false;
 
-
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
@@ -92,6 +91,5 @@ namespace Z0
             [MethodImpl(Inline)]
             get => new ClrAssemblyName(new AssemblyName());
         }
-
     }
 }

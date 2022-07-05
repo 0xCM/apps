@@ -6,8 +6,6 @@ namespace Z0
 {
     using Microsoft.DiaSymReader;
 
-    using static PdbModel;
-
     public readonly struct PdbMethod : IAppSymAdapter<PdbMethod, ISymUnmanagedMethod>
     {
         [MethodImpl(Inline), Op]

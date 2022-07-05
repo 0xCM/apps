@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+
     using System.IO;
 
     using static core;
@@ -23,6 +24,53 @@ namespace Z0
 
         public static void emit(MemoryAddress @base, ByteSize size, FS.FilePath dst, byte bpl = Bpl)
             => emit((@base,  @base + size), dst, bpl);
+
+        [Op]
+        public unsafe static uint emit2(MemorySeg src, FS.FilePath dst)
+        {
+            var line = text.emitter();
+            using var writer = dst.Writer();
+            var pSrc = src.BaseAddress.Pointer<ulong>();
+            var last =  src.LastAddress.Pointer<ulong>();
+            var current = MemoryAddress.Zero;
+            var offset = 1;
+            var restart = true;
+            var bpl = 64;
+            var i = 0u;
+            Span<char> buffer = alloc<char>(Pow2.T11);
+            while(pSrc++ <= last)
+            {
+                current = (MemoryAddress)pSrc;
+
+                if(restart)
+                {
+                    seek(buffer,i++) = Chars.D0;
+                    seek(buffer,i++) = Chars.x;
+                    Hex.render(LowerCase, (Hex64)current, ref i, buffer);
+                    //i += Hex.hexchars((Hex64)current, LowerCase, ref i, buffer);
+                    seek(buffer,i++) = Chars.Space;
+                    //line.Append(string.Format("0x{0} ", current.Format()));
+                    restart = false;
+                }
+
+                i += Hex.hexchars(*pSrc, LowerCase, ref i, buffer);
+                seek(buffer, i++) = Chars.Space;
+                // var @string = text.format(slice(buffer,0, counter));
+                // line.Append($"{@string} ");
+
+                if(offset % bpl == 0)
+                {
+                    writer.WriteLine(text.format(slice(buffer,0, i)));
+                    buffer.Clear();
+                    restart = true;
+                    i = 0;
+                }
+
+                offset++;
+            }
+            writer.WriteLine(line.Emit());
+            return (uint)offset;
+        }
 
         [Op]
         public unsafe static uint emit(MemorySeg src, uint bpl, FS.FilePath dst)
