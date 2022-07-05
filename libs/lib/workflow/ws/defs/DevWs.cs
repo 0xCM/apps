@@ -41,9 +41,8 @@ namespace Z0
         public IWorkspace Asm()
             => AsmWs.create(_WsRoot + FS.folder(asm));
 
-
         public IProjectDb ProjectDb()
-            => ProjectDbWs.create(_WsRoot + FS.folder("projects/db"));
+            => ProjectDbWs.create(FS.dir("d:/views/db/targets"));
 
         public IWorkspace Tables()
             => TableWs.create(_WsRoot + FS.folder(tables));

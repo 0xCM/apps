@@ -10,7 +10,7 @@ namespace Z0
     /// <typeparam name="S">The structure type</typeparam>
     /// <typeparam name="T">The underlying numeric component type</typeparam>
     /// <typeparam name="C">The complex number type</typeparam>
-    public interface IComplex<S,T,C> : INumeric<S>
+    public interface IComplex<S,T,C> : IRational<S>
         where S : unmanaged, IComplex<S,T,C>
     {
         /// <summary>

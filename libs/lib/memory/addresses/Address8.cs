@@ -8,13 +8,8 @@ namespace Z0
     using W = W8;
     using T = System.Byte;
 
-    [DataType(TypeSyntax.Address8)]
     public readonly struct Address8 : IAddress<A,T>
     {
-        [MethodImpl(Inline), Op]
-        public static Outcome parse(string src, out Address8 dst)
-            => AddressParser.parse(src, out dst);
-
         public const NativeSizeCode StorageSize = NativeSizeCode.W8;
 
         public T Location {get;}
@@ -24,6 +19,12 @@ namespace Z0
             => Location = offset;
 
         public static W W => default;
+
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Location;
+        }
 
         public NativeSize Capacity
         {
@@ -70,7 +71,7 @@ namespace Z0
             => Format();
 
         public override int GetHashCode()
-            => Location.GetHashCode();
+            => Hash;
 
         public override bool Equals(object src)
             => src is A a && Equals(a);

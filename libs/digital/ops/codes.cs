@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Spans;
+    using static Refs;
 
     partial struct Digital
     {
@@ -12,8 +13,8 @@ namespace Z0
         public static Index<HexLowerCode> codes<T>(in T src, Base16 @base, LowerCased @case)
             where T : struct
         {
-            var count = size<T>();
-            var dst = alloc<HexLowerCode>(count*2);
+            var count = Sized.size<T>();
+            var dst = sys.alloc<HexLowerCode>(count*2);
             codes(src,dst);
             return dst;
         }
@@ -22,7 +23,7 @@ namespace Z0
         public static void codes<T>(in T src, Span<HexLowerCode> dst)
             where T : struct
         {
-            var count = size<T>();
+            var count = Sized.size<T>();
             ref readonly var bytes = ref @as<T,byte>(src);
             var j = count*2 - 1;
             for(var i=0u; i<count; i++)

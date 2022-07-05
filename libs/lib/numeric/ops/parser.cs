@@ -11,5 +11,4 @@ namespace Z0
             where T : unmanaged
                 => default;
     }
-
 }

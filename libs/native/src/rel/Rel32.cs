@@ -52,7 +52,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public bool Equals(I src)
             => Value == src.Value;
-         uint IValue<uint>.Value
+         uint IValued<uint>.Value
             => Value;
 
         [MethodImpl(Inline)]

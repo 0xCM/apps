@@ -58,7 +58,7 @@ namespace Z0
             get => hash(Value,(byte)Size);
         }
 
-        uint IValue<uint>.Value
+        uint IValued<uint>.Value
             => Value;
 
         public override int GetHashCode()

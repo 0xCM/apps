@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Spans;
+    using static Refs;
+    using static Scalars;
 
     using BDS = BinaryDigitSym;
     using BDV = BinaryDigitValue;
@@ -128,7 +130,7 @@ namespace Z0
         /// <param name="src">The perm spec</param>
         public static Span<ODV> digits(Base8 @base, Perm8L src)
         {
-            var dst = alloc<ODV>(8);
+            var dst = sys.alloc<ODV>(8);
             digits(src, dst);
             return dst;
         }
@@ -260,7 +262,7 @@ namespace Z0
         /// <param name="src">The perm spec</param>
         public static Span<HDV> digits(Base16 @base, Perm16L src)
         {
-            var dst = alloc<HDV>(16);
+            var dst = sys.alloc<HDV>(16);
             digits(src, dst);
             return dst;
         }

@@ -36,7 +36,7 @@ namespace Z0
         public override string ToString()
             => Format();
 
-        byte IValue<byte>.Value
+        byte IValued<byte>.Value
             => Value;
 
         public Hash32 Hash

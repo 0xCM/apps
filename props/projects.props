@@ -73,6 +73,7 @@
     <Memory>$(LibsRoot)memory/z0.memory.csproj</Memory>
     <MemorySvc>$(LibsRoot)memory.svc/z0.memory.svc.csproj</MemorySvc>
     <MemoryChecks>$(LibsRoot)memory.checks/z0.memory.checks.csproj</MemoryChecks>
+    <MemoryModels>$(LibsRoot)memory.models/z0.memory.models.csproj</MemoryModels>
 
     <Native>$(LibsRoot)native/z0.native.csproj</Native>
     <Nats>$(LibsRoot)nats/z0.nats.csproj</Nats>

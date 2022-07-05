@@ -27,7 +27,7 @@ namespace Z0
             get => Definition.Id() != 0;
         }
 
-        public NameOld SimpleName
+        public string SimpleName
         {
             [MethodImpl(Inline)]
             get => Definition.GetSimpleName();

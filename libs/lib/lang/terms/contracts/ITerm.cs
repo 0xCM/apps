@@ -14,7 +14,7 @@ namespace Z0
     }
 
     [Free]
-    public interface ITerm<V> : ITerm, IValue<V>
+    public interface ITerm<V> : ITerm, IValued<V>
     {
 
     }

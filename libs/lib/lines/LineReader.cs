@@ -44,7 +44,6 @@ namespace Z0
             return false;
         }
 
-
         readonly StreamReader Source;
 
         uint Consumed;

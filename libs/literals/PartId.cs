@@ -198,6 +198,9 @@ public enum PartId : byte
     [Symbol("memory.checks")]
     MemoryChecks,
 
+    [Symbol("memory.models")]
+    MemoryModels,
+
     [Symbol("monadic")]
     Monadic,
 

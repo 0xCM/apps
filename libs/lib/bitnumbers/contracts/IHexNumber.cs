@@ -4,32 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    public interface IHexNumber : IByte
+    public interface IHexNumber : INumeric
     {
-        bool IsZero {get;}
 
-        bool IsNonZero {get;}
     }
 
-    public interface IHexNumber<K> : IHexNumber
-        where K : unmanaged
-    {
-        new K Value {get;}
-
-        byte IByte.Value
-            => (byte)(object)Value;
-    }
-
-    public interface IHexNumber<F,K> : IHexNumber<K>, IByte<F>, IComparable<F>, IEquatable<F>, ITextual
-        where F : unmanaged, IHexNumber<F,K>
+    public interface IHexNumber<K> : IHexNumber, INumeric<K>
         where K : unmanaged
     {
 
     }
 
-    public interface IHexNumber<F,W,K> : IHexNumber<F,K>
+    public interface IHexNumber<F,W,K> : IHexNumber<K>
         where F : unmanaged, IHexNumber<F,W,K>
         where K : unmanaged
         where W : unmanaged, IDataWidth

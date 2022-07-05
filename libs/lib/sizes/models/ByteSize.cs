@@ -9,13 +9,12 @@ namespace Z0
     /// <summary>
     /// Specifies data size in bytes
     /// </summary>
-    [DataType("size")]
-    public readonly struct ByteSize : IEquatable<ByteSize>, IComparable<ByteSize>
+    public readonly struct ByteSize : IDataType<ByteSize>
     {
         /// <summary>
         /// Specifies a byte count
         /// </summary>
-        public ulong Content {get;}
+        public readonly ulong Content;
 
         [MethodImpl(Inline)]
         public ByteSize(int count)
@@ -49,6 +48,12 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => Kb.Mb;
+        }
+
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => HashCodes.hash(Content);
         }
 
         [MethodImpl(Inline),Ignore]

@@ -12,14 +12,6 @@ namespace System.Reflection.Metadata
     using System.Text;
     using System.Globalization;
 
-    [Flags]
-    public enum MetadataVisualizerOptions
-    {
-        None = 0,
-        ShortenBlobs = 1,
-        NoHeapReferences = 1 << 1
-    }
-
     public class MetadataVisualizer
     {
         readonly TextWriter _writer;

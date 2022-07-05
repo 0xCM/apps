@@ -13,7 +13,7 @@ namespace Z0
     public readonly struct Hex12 : IEquatable<Hex12>, IComparable<Hex12>
     {
         [Parser]
-        public static Outcome parse(ReadOnlySpan<char> src, out Hex12 dst)
+        public static bool parse(ReadOnlySpan<char> src, out Hex12 dst)
         {
             dst = Zero;
             var storage = z32;

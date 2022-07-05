@@ -6,7 +6,7 @@
 namespace Z0
 {
     [Free]
-    public interface INativeOpValue : IValue
+    public interface INativeOpValue : IValued
     {
         NativeSize Size {get;}
 
@@ -14,7 +14,7 @@ namespace Z0
     }
 
     [Free]
-    public interface INativeOpValue<T> : INativeOpValue, IValue<T>
+    public interface INativeOpValue<T> : INativeOpValue, IValued<T>
         where T : unmanaged
     {
         NativeSize INativeOpValue.Size

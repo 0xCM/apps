@@ -44,6 +44,9 @@ namespace Z0
         public static W W
             => default;
 
+        K IValued<K>.Value
+            => Value;
+
         public bool IsZero
         {
              [MethodImpl(Inline)]
@@ -76,10 +79,6 @@ namespace Z0
 
         public override int GetHashCode()
             => Hash;
-
-
-        ulong IHexNumber<ulong>.Value
-            => Value;
 
         [MethodImpl(Inline)]
         public bool Equals(H src)

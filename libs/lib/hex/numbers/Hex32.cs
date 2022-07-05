@@ -12,7 +12,7 @@ namespace Z0
     public readonly struct Hex32 : IHexNumber<H,W,K>
     {
         [Parser]
-        public static Outcome parse(string src, out Hex32 dst)
+        public static bool parse(string src, out Hex32 dst)
         {
             var outcome = HexParser.parse32u(src, out var x);
             dst = x;
@@ -74,11 +74,11 @@ namespace Z0
             get => Value;
         }
 
+        K IValued<K>.Value
+            => Value;
+
         public override int GetHashCode()
             => Hash;
-
-        uint IHexNumber<uint>.Value
-            => Value;
 
         [MethodImpl(Inline)]
         public bool Equals(H src)

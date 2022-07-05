@@ -41,7 +41,7 @@ namespace Z0
             => Value.CompareTo(src.Value);
 
         public string Format()
-            => Value.Format();
+            => Sized.bw64(Value).ToString("X");
 
         public override string ToString()
             => Format();

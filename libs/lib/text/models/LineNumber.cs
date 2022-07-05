@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly record struct LineNumber : IComparable<LineNumber>
+    public readonly record struct LineNumber : IDataType<LineNumber>
     {
         [Parser]
         public static Outcome parse(string src, out LineNumber dst)

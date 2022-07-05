@@ -19,7 +19,7 @@ namespace Z0
 
         public bool IsEmpty => false;
 
-        T IValue<T>.Value
+        T IValued<T>.Value
             => Value;
 
         public string Format()

@@ -4,12 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    partial class XNKind
+    partial class XTend
     {
         [MethodImpl(Inline), Op]
         public static NumericKind ToNumericKind(this NumericWidth width, NumericIndicator indicator)

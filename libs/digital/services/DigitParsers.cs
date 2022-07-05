@@ -40,15 +40,13 @@ namespace Z0
             return count;
         }
 
-
-
         [Op]
         public static bool parse(Base10 @base, ReadOnlySpan<C> src, out ushort dst)
         {
             var storage = CharBlock16.Null;
             var buffer = storage.Data;
             Asci.convert(src, buffer);
-            return ScalarParser.parse(@base, buffer, out dst);
+            return NumericParser.parse(@base, buffer, out dst);
         }
 
         [Op]

@@ -22,7 +22,11 @@ namespace Z0
 
         const string ImageHexScope = CliScope + "/image.hex";
 
-        public void Emit(CliEmitOptions options)
+        ApiMd ApiMd => Wf.ApiMetadata();
+
+        Cli Cli => Wf.Cli();
+
+        public void Emit(CliEmitOptions options, Timestamp ts)
         {
             if(options.EmitAssemblyRefs)
                 EmitAssemblyRefs();
@@ -30,7 +34,7 @@ namespace Z0
             if(options.EmitFieldMetadata)
             {
                 EmitFieldMetadata();
-                EmitFieldDefs(ApiRuntimeCatalog.Components, ProjectDb.TablePath<FieldDefInfo>(FieldScope));
+                EmitFieldDefs(ApiMd.Components, ProjectDb.TablePath<FieldDefInfo>(FieldScope));
             }
 
             if(options.EmitApiMetadump)
@@ -42,14 +46,17 @@ namespace Z0
             if(options.EmitMsilMetadata)
                 EmitMsilMetadata();
 
+            if(options.EmitMsilCode)
+                Cli.EmitMsil();
+
             if(options.EmitCliStrings)
             {
                 EmitUserStrings();
                 EmitSystemStringInfo();
             }
 
-            if(options.EmitMetaBlocks)
-                EmitMetaBlocks();
+            if(options.EmitMetadataHex)
+                EmitMetadataHex();
 
             if(options.EmitCliConstants)
                 EmitConstants();

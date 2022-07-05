@@ -5,7 +5,7 @@
 namespace Z0
 {
     using static core;
-    using static math;
+    using static NumericParser;
 
     [ApiHost]
     public readonly partial struct Numbers
@@ -17,6 +17,51 @@ namespace Z0
         internal const NumericKind Closure16 = NumericKind.U16;
 
         internal const NumericKind Closure32 = NumericKind.U32;
+
+        public static bool num8(string src, out byte dst)
+        {
+            var result = false;
+            dst = default;
+            if(IsHexLiteral(src))
+            {
+                result = Hex8.parse(src, out Hex8 n);
+                dst = n;
+            }
+            else if(IsBinaryLiteral(src))
+            {
+                result = uint8b.parse(src, out uint8b n);
+                dst = n;
+            }
+            else
+            {
+                result = byte.TryParse(src, out dst);
+            }
+            return result;
+        }
+
+        public static bool num8<T>(string src, out T dst)
+            where T : unmanaged
+        {
+            var result = false;
+            dst = default;
+
+            if(IsHexLiteral(src))
+            {
+                result = Hex8.parse(src, out Hex8 n);
+                dst = @as<Hex8,T>(n);
+            }
+            else if(IsBinaryLiteral(src))
+            {
+                result = uint8b.parse(src, out uint8b n);
+                dst = @as<uint8b,T>(n);
+            }
+            else
+            {
+                result = byte.TryParse(src, out var n);
+                dst = @as<byte,T>(n);
+            }
+            return result;
+        }
 
         [MethodImpl(Inline), Op]
         public static num2 pack(bit a, bit b)

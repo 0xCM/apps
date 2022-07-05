@@ -13,7 +13,7 @@ namespace Z0
     public readonly struct Hex10 : IEquatable<Hex10>, IComparable<Hex10>
     {
         [Parser]
-        public static Outcome parse(ReadOnlySpan<char> src, out Hex10 dst)
+        public static bool parse(ReadOnlySpan<char> src, out Hex10 dst)
         {
             dst = Zero;
             var storage = z32;
@@ -83,7 +83,7 @@ namespace Z0
         }
 
         public override int GetHashCode()
-            => (int)Hash;
+            => Hash;
 
         public override bool Equals(object src)
             => src is H c && Equals(c);

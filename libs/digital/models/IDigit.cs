@@ -4,14 +4,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IDigit : IHashed
+    public interface IDigit : IDataType
     {
         char Char {get;}
 
         string Format();
+
+        bool INullity.IsNonEmpty
+            => Char != 0;
+
+        bool INullity.IsEmpty
+            => Char == 0;
     }
 
-    public interface IDigit<D,B,S,C,V> : IDigit, IComparable<D>, IEquatable<D>, IHashed
+    public interface IDigit<D,B,S,C,V> : IDigit, IDataType<D>
         where D : unmanaged, IDigit<D,B,S,C,V>
         where B : unmanaged, INumericBase<B>
         where S : unmanaged

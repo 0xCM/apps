@@ -42,7 +42,7 @@ namespace Z0
         public override string ToString()
             => Format();
 
-        ushort IValue<ushort>.Value
+        ushort IValued<ushort>.Value
             => Value;
 
         public override int GetHashCode()

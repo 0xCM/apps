@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct ResolvedVar : IValue<object>, ITerm
+    public readonly struct ResolvedVar : IValued<object>, ITerm
     {
         public readonly dynamic Value;
 
@@ -14,7 +14,7 @@ namespace Z0
             Value = value;
         }
 
-        object IValue<object>.Value
+        object IValued<object>.Value
             => Value;
 
         public string Format()

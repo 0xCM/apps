@@ -20,7 +20,7 @@ namespace Z0
             return buffer;
         }
 
-        public static ref ProcessMemoryRegion fill(in MemoryRangeInfo src, uint index, out ProcessMemoryRegion dst)
+        static ref ProcessMemoryRegion fill(in MemoryRangeInfo src, uint index, out ProcessMemoryRegion dst)
         {
             var identity = src.Owner;
             dst.Index = index;

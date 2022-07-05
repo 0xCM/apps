@@ -11,7 +11,7 @@ namespace Z0
 
     public sealed class DumpParser : WfSvc<DumpParser>
     {
-        DumpArchive Archive => Wf.DumpArchive();
+        IDumpArchive Archive => DumpArchive.Service;
 
         public DumpParser()
         {

@@ -4,8 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
     using static Numeric;
+    using static Refs;
+    using static ScalarCast;
 
     partial class gmath
     {

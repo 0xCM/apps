@@ -10,7 +10,7 @@
     <ProjectReference Include="$(Native)" />
     <ProjectReference Include="$(Numbers)" />
     <ProjectReference Include="$(Files)" />
-
+    <ProjectReference Include="$(MemoryModels)" />
   </ItemGroup>
 
 </Project>

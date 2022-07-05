@@ -10,7 +10,7 @@ namespace Z0
     /// Defines potential values for machine-aligned data widths
     /// </summary>
     [DataWidth(8)]
-    public readonly struct AlignedWidth : IComparable<AlignedWidth>, IEquatable<AlignedWidth>
+    public readonly struct AlignedWidth : IFormattableDataType<AlignedWidth>
     {
         readonly byte Data;
 
@@ -43,6 +43,18 @@ namespace Z0
             => Pow2.test(src);
 
         const byte StateBit = 7;
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => this == None;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => this != None;
+        }
 
         readonly Log2x64 Code
         {
@@ -169,6 +181,11 @@ namespace Z0
             get => Value;
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Log2;
+        }
         public ByteSize Size
         {
             [MethodImpl(Inline)]
@@ -193,7 +210,7 @@ namespace Z0
             => src is AlignedWidth a && Equals(a);
 
         public override int GetHashCode()
-            => Log2;
+            => Hash;
 
         public string Format()
             => Value.ToString();
@@ -333,29 +350,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public static bool operator !=(AlignedWidth a, AlignedWidth b)
             => a.Code != b.Code;
-
-        // [MethodImpl(Inline)]
-        // public static BitMask operator |(AlignedWidth a, AlignedWidth b)
-        //     => BitMask.mask((byte)math.max(a.Bits, b.Bits), a.Value | b.Value);
-
-        // [MethodImpl(Inline)]
-        // public static BitMask operator ^(AlignedWidth a, AlignedWidth b)
-        //     => BitMask.mask((byte)math.max(a.Bits, b.Bits), a.Value ^ b.Value);
-
-        // [MethodImpl(Inline)]
-        // public static BitMask operator &(AlignedWidth a, AlignedWidth b)
-        //     => BitMask.mask((byte)math.max(a.Bits, b.Bits), a.Value & b.Value);
-
-        // [MethodImpl(Inline)]
-        // public static BitMask operator ~(AlignedWidth a)
-        //     => BitMask.mask((byte)a.Bits, ~a.Value);
-
-        // [MethodImpl(Inline)]
-        // public static BitMask operator <<(AlignedWidth a, int count)
-        //     => BitMask.mask((byte)a.Bits, a.Value << count);
-
-        // [MethodImpl(Inline)]
-        // public static BitMask operator >>(AlignedWidth a, int count)
-        //     => BitMask.mask((byte)a.Bits, a.Value >> count);
     }
 }

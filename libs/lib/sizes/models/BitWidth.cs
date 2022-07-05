@@ -84,6 +84,18 @@ namespace Z0
             get => Content/8;
         }
 
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Content == 0;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Content != 0;
+        }
+
         public string Format()
             => Content.ToString();
 

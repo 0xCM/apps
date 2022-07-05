@@ -199,18 +199,6 @@ namespace Z0
         public static bool IsInt(string src)
             => ushort.TryParse(src, out _);
 
-        public static bool number(string src, out byte dst)
-        {
-            var result = false;
-            dst = 0;
-            if(IsHexLiteral(src))
-                result = NumericParser.num8<Hex8>(src, out var value);
-            else if(IsBinaryLiteral(src))
-                result = NumericParser.num8<uint8b>(src, out var value);
-            else
-                result = NumericParser.num8(src, out var value);
-            return result;
-        }
 
         public static bool parse(string src, out bit dst)
             => BitParser.parse(src, out dst);
@@ -532,7 +520,7 @@ namespace Z0
             => RegFlags.Parse(src, out dst);
 
         public static bool parse(string src, out byte dst)
-            => NumericParser.num8(src, out dst);
+            => Numbers.num8(src, out dst);
 
         public static bool parse(string src, out ushort dst)
             => ushort.TryParse(src, out dst);

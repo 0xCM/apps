@@ -22,7 +22,13 @@ namespace Z0
             get => Numeric.force<T,ulong>(Location);
         }
 
-        public bool NonZero
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => HashCodes.hash(Location);
+        }
+
+        public bool IsNonZero
         {
             [MethodImpl(Inline)]
             get => Location64 != 0;

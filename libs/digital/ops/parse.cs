@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Spans;
 
     using C = AsciCode;
 
@@ -32,7 +32,7 @@ namespace Z0
             var storage = CharBlock16.Null;
             var buffer = storage.Data;
             Asci.convert(src, buffer);
-            return ScalarParser.parse(@base, buffer, out dst);
+            return NumericParser.parse(@base, buffer, out dst);
         }
 
         [Op]
@@ -74,6 +74,5 @@ namespace Z0
             }
             return false;
         }
-
     }
 }

@@ -11,6 +11,34 @@ namespace Z0
 
     partial class HashCodes
     {
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static Hash32 hash<T>(T src)
+            where T : unmanaged
+                => Generic.hash(src);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static Hash32 hash<T>(T x, T y)
+            => Generic.combine(x,y);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static Hash32 hash<T>(T x, T y, T z)
+            => Generic.hash(x,y,z,z);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static Hash32 hash<T>(T a, T b, T c, T d)
+            => Generic.hash(a,b,c,d);
+
+        /// <summary>
+        /// Creates a 64-bit calccode over a pair
+        /// </summary>
+        /// <param name="x">The first member</param>
+        /// <param name="y">The second member</param>
+        /// <typeparam name="X">The first member type</typeparam>
+        /// <typeparam name="Y">The second member type</typeparam>
+        [MethodImpl(Inline)]
+        public static ulong hash64<X,Y>(X x, Y y)
+            => Generic.hash(x) | (Generic.hash(y) << 32);
+
         partial class Generic
         {
             /// <summary>
@@ -31,17 +59,6 @@ namespace Z0
             public static uint bytehash<C>(C src)
                 where C : struct
                     => hash<byte>(Refs.bytes(src));
-
-            /// <summary>
-            /// Creates a 64-bit calccode over a pair
-            /// </summary>
-            /// <param name="x">The first member</param>
-            /// <param name="y">The second member</param>
-            /// <typeparam name="X">The first member type</typeparam>
-            /// <typeparam name="Y">The second member type</typeparam>
-            [MethodImpl(Inline)]
-            public static ulong hash<X,Y>(X x, Y y)
-                => hash(x) | (hash(y) << 32);
 
             /// <summary>
             /// Creates a 32-bit calc code predicated on a type parameter

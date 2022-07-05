@@ -7,25 +7,28 @@ namespace Z0
     using static core;
     using static Settings;
 
-    using EN = SettingNames;
+    using Names = SettingNames;
 
     public class AppDb : IAppDb
     {
         public static AppDb Service => Instance;
 
-        readonly WsArchives Archives;
+        readonly WsArchives WsArchives;
+
+        public IDbSources Archives()
+            => new DbSources(setting(WsArchives.Path(Names.Archives), FS.dir));
 
         public IDbSources LlvmRoot()
-            => new DbSources(setting(Archives.Path(EN.LlvmRoot), FS.dir));
+            => new DbSources(setting(WsArchives.Path(Names.LlvmRoot), FS.dir));
 
         public IDbSources LlvmDist()
-            => new DbSources(setting(Archives.Path(EN.LlvmDist), FS.dir));
+            => new DbSources(setting(WsArchives.Path(Names.LlvmDist), FS.dir));
 
         public IDbTargets DbOut()
-            => new DbTargets(setting(Archives.Path(EN.DbTargets), FS.dir));
+            => new DbTargets(setting(WsArchives.Path(Names.DbTargets), FS.dir));
 
         public EnvVars<string> LoadEnv(string name)
-            => AsciLines.env(Archives.EnvPath(name));
+            => AsciLines.env(WsArchives.EnvPath(name));
 
         public IDbTargets DbOut(string scope)
             => DbOut().Targets(scope);
@@ -46,10 +49,10 @@ namespace Z0
             => App(part).Targets(scope);
 
         public IDbSources DbIn()
-            => new DbSources(setting(Archives.Path(EN.DbSources), FS.dir));
+            => new DbSources(setting(WsArchives.Path(Names.DbSources), FS.dir));
 
         public IDbSources DbCapture()
-            => new DbSources(setting(Archives.Path(EN.DbCapture), FS.dir));
+            => new DbSources(setting(WsArchives.Path(Names.DbCapture), FS.dir));
 
         public IDbSources DbIn(string scope)
             => DbIn().Sources(scope);
@@ -58,7 +61,7 @@ namespace Z0
             => DbOut("logs");
 
         public IDbSources DbRoot()
-            => new DbSources(setting(Archives.Path(EN.DbRoot), FS.dir));
+            => new DbSources(setting(WsArchives.Path(Names.DbRoot), FS.dir));
 
         public IDbTargets Logs(string scope)
             => DbOut($"logs/{scope}");
@@ -68,13 +71,13 @@ namespace Z0
                 => DbOut(scope).Table<T>();
 
         public IDbSources Control()
-            => new DbSources(setting(Archives.Path(EN.Control), FS.dir));
+            => new DbSources(setting(WsArchives.Path(Names.Control), FS.dir));
 
         public IDbSources Toolbase()
-            => new DbSources(setting(Archives.Path(EN.Toolbase), FS.dir));
+            => new DbSources(setting(WsArchives.Path(Names.Toolbase), FS.dir));
 
         public IDbSources DevRoot()
-            => new DbSources(setting(Archives.Path(EN.DevRoot), FS.dir));
+            => new DbSources(setting(WsArchives.Path(Names.DevRoot), FS.dir));
 
         public IWsProjects DevProjects()
             => new WsProjects(DevRoot().Root, "dev");
@@ -83,13 +86,13 @@ namespace Z0
             => DevProjects().Projects(scope);
 
         public IDbTargets CgRoot()
-            => new DbTargets(setting(Archives.Path(EN.CgRoot), FS.dir));
+            => new DbTargets(setting(WsArchives.Path(Names.CgRoot), FS.dir));
 
         public IDbTargets Capture()
-            => new DbTargets(setting(Archives.Path(EN.DbCapture), FS.dir));
+            => new DbTargets(setting(WsArchives.Path(Names.DbCapture), FS.dir));
 
         public IDbSources EnvConfig()
-            => new DbSources(setting(Archives.Path(EN.EnvConfig), FS.dir));
+            => new DbSources(setting(WsArchives.Path(Names.EnvConfig), FS.dir));
 
         public IWsProject DevProject(ProjectId src)
             => new WsProject(DevProjects().Sources(src).Root, src);
@@ -101,11 +104,11 @@ namespace Z0
             => new WsProject(DevProjects("llvm.models"), src);
 
         public IDbTargets DbProjects(ProjectId src)
-            => new DbTargets(setting(Archives.Path(EN.DbProjects),FS.dir), src.Format());
+            => new DbTargets(setting(WsArchives.Path(Names.DbProjects),FS.dir), src.Format());
 
         public IDbTargets DbProjects(IWsProject src)
         {
-            var path = Archives.Path(EN.DbProjects);
+            var path = WsArchives.Path(Names.DbProjects);
             term.inform(Events.status(GetType(), $"Loading {src.Project} from {path}"));
             var home = setting(path, FS.dir);
             return new DbTargets(home, src.Name);
@@ -132,7 +135,7 @@ namespace Z0
 
         AppDb()
         {
-            Archives = WsArchives.load();
+            WsArchives = WsArchives.load();
         }
 
         static AppDb Instance;

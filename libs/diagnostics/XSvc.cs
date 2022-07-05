@@ -8,9 +8,6 @@ namespace Z0
     {
         sealed class Svc : AppServices<Svc>
         {
-            public SymbolArchive SymbolArchives(IWfRuntime wf)
-                => Service<SymbolArchive>(wf);
-
             public Runtime Runtime(IWfRuntime wf)
                 => Service<Runtime>(wf);
 
@@ -20,17 +17,11 @@ namespace Z0
             public AsmObjects AsmObjects(IWfRuntime wf)
                 => Service<AsmObjects>(wf);
 
-            public DotNetSymbols DotNetSymbols(IWfRuntime wf)
-                => Service<DotNetSymbols>(wf);
-
             public DumpParser DumpParser(IWfRuntime wf)
                 => Service<DumpParser>(wf);
         }
 
         static Svc Services => Svc.Instance;
-
-        public static SymbolArchive SymbolArchives(this IWfRuntime wf)
-            => Services.SymbolArchives(wf);
 
         public static Runtime Runtime(this IWfRuntime wf)
             => Services.Runtime(wf);
@@ -40,9 +31,6 @@ namespace Z0
 
         public static AsmObjects AsmObjects(this IWfRuntime wf)
             => Services.AsmObjects(wf);
-
-        public static DotNetSymbols DotNetSymbols(this IWfRuntime wf)
-            => Services.DotNetSymbols(wf);
 
         public static DumpParser DumpParser(this IWfRuntime wf)
             => Services.DumpParser(wf);

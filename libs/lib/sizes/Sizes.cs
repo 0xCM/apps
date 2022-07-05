@@ -5,7 +5,10 @@
 namespace Z0
 {
     using static ScalarCast;
-    using static core;
+    using static Spans;
+    using static Refs;
+    using static Arrays;
+    using static Sized;
 
     [ApiHost]
     public readonly struct Sizes
@@ -28,7 +31,7 @@ namespace Z0
         public static bool parse(string src, out DataSize dst)
         {
             dst = DataSize.Empty;
-            var parts = text.split(text.trim(text.despace(src)),Chars.Space);
+            var parts = text.split(text.trim(text.despace(src)), Chars.Space);
             var result = parts.Length == 2;
             if(result)
             {
@@ -38,7 +41,6 @@ namespace Z0
             }
             return result;
         }
-
 
         [MethodImpl(Inline)]
         public static NativeSize native<T>()
@@ -318,7 +320,7 @@ namespace Z0
         {
             if(NumericParser.parse<ulong>(src, out var x))
             {
-                dst = new Size<T>(generic<T>(x));
+                dst = new Size<T>(Refs.@as<T>(x));
                 return true;
             }
             else

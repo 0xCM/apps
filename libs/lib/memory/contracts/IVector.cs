@@ -28,7 +28,7 @@ namespace Z0
 
         Span<T> Cells {get;}
 
-        T IValue<T>.Value
+        T IValued<T>.Value
             => default;
     }
 }

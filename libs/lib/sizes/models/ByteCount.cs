@@ -7,7 +7,7 @@ namespace Z0
     using api = Sizes;
     using V = ByteCount;
 
-    public readonly record struct ByteCount : IComparable<ByteCount>
+    public readonly record struct ByteCount : IDataType<ByteCount>
     {
         readonly ulong Count;
 
@@ -81,6 +81,18 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => alg.hash.calc(Count);
+        }
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Count == 0;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Count != 0;
         }
 
         public override int GetHashCode()

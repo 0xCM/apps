@@ -4,12 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
 
-    using static Root;
-
-    partial class XNKind
+    partial class XTend
     {
         /// <summary>
         /// Convers a source value, which is hopefully a supported kind, to a target kind

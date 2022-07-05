@@ -7,7 +7,7 @@ namespace Z0.Asm
     using static core;
     using static SdmModels;
 
-    using SP = ScalarParser;
+    using SP = NumericParser;
 
     partial struct SdmOps
     {
@@ -65,7 +65,7 @@ namespace Z0.Asm
 
             var a = text.left(src,i);
             var b = text.right(src,i);
-            if(ScalarParser.uint8(base10, a, out var cn) && ScalarParser.uint16(base10, b, out var pn))
+            if(NumericParser.uint8(base10, a, out var cn) && NumericParser.uint16(base10, b, out var pn))
             {
                 dst = page(chapter(cn), pn);
                 return true;

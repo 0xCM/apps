@@ -14,7 +14,7 @@ namespace Z0
 
         static MsgPattern<Count,Count> LocatedSegments => "Computed {0} segment entries for {0} methods";
 
-        DumpArchive Dumps => Wf.DumpArchive();
+        IDumpArchive Dumps => DumpArchive.Service;
 
         public ProcAddresses EmitSegments(Timestamp ts)
             => EmitSegments(ts, ImageMemory.regions());

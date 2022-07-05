@@ -4,10 +4,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static System.Runtime.CompilerServices.Unsafe;
+    using static ScalarCast;
 
     partial struct Numeric
     {
+        /// <summary>
+        /// Presents a parametric reference as a <see cref='char'/> reference
+        /// </summary>
+        /// <param name="src">The source reference</param>
+        /// <typeparam name="T">The source type</typeparam>
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        static ref char c16<T>(in T src)
+            => ref Refs.@as<T,char>(src);
+
         /// <summary>
         /// Unconditionally converts the source values to values of parametric numeric type
         /// </summary>
@@ -18,11 +28,9 @@ namespace Z0
             where T : unmanaged
             where S : unmanaged
         {
-            var input = span(src);
-            var count = input.Length;
-            var target = span(dst);
+            var count = src.Length;
             for(var i=0; i<count; i++)
-                seek(target,(uint)i) = force<S,T>(skip(input,(uint)i));
+                Arrays.seek(dst,(uint)i) = force<S,T>(Arrays.skip(src,(uint)i));
             return dst;
         }
 
@@ -36,13 +44,10 @@ namespace Z0
             where T : unmanaged
             where S : unmanaged
         {
-            var input = span(src);
-            var count = input.Length;
-            var buffer = alloc<T>(count);
-            var dst = buffer.ToSpan();
-            for(var i=0; i<count; i++)
-                seek(dst,(uint)i) = force<S,T>(skip(input,(uint)i));
-            return buffer;
+            var dst = sys.alloc<T>(src.Length);
+            for(var i=0; i<src.Length; i++)
+                Arrays.seek(dst,(uint)i) = force<S,T>(Arrays.skip(src,(uint)i));
+            return dst;
         }
 
         /// <summary>

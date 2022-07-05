@@ -6,7 +6,7 @@ namespace Z0
 {
     using System;
 
-    public interface IConstExpr<T> : IValue<T>, ITerm<T>
+    public interface IConstExpr<T> : IValued<T>, ITerm<T>
     {
 
     }

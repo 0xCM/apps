@@ -6,21 +6,27 @@ namespace Z0
 {
     using static EnvFolders;
 
-    public class SymbolArchive : AppService<SymbolArchive>
+    public interface ISymbolArchive : IRootedArchive
     {
-        public IDbSources Sources()
-            => new DbSources(Env.CacheRoot, symbols);
-
-        public IDbSources Sources(string scope)
-            => new DbSources(Sources(), scope);
-
-        public IDbSources DotNet()
+        IDbSources DotNet()
             => Sources(dotnet);
 
-        public IDbSources DotNet(string name)
+        IDbSources DotNet(string name)
             => DotNet().Sources(name);
 
-        public FS.FolderPath DotNet(byte major, byte minor, byte revision)
+        FS.FolderPath DotNet(byte major, byte minor, byte revision)
             => DotNet(FS.FolderName.version(major, minor, revision).Format()).Root;
+    }
+
+    public readonly struct SymbolArchive : ISymbolArchive
+    {
+        public static ISymbolArchive Service => new SymbolArchive();
+
+        public FS.FolderPath Root {get;}
+
+        public SymbolArchive()
+        {
+            Root = AppDb.Service.Archives().Sources(symbols).Root;
+        }
     }
 }

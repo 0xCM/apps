@@ -13,12 +13,80 @@ namespace Z0
     [ApiHost]
     public class Settings : IIndex<Setting>, ILookup<string,Setting>
     {
+        public static Outcome numeric(string src, Type type, out dynamic dst)
+        {
+            Outcome result = (false, string.Format("The {0} type is unsupported", type.Name));
+            dst = 0;
+            if(type.IsUInt8())
+            {
+                result = DP.parse(src, out byte x);
+                if(result)
+                    dst = x;
+            }
+            else if(type.IsInt8())
+            {
+                result = DP.parse(src, out sbyte x);
+                if(result)
+                    dst = x;
+            }
+            else if(type.IsInt16())
+            {
+                result = DP.parse(src, out short x);
+                if(result)
+                    dst = x;
+            }
+            else if(type.IsUInt16())
+            {
+                result = DP.parse(src, out ushort x);
+                if(result)
+                    dst = x;
+            }
+            else if(type.IsUInt32())
+            {
+                result = DP.parse(src, out uint x);
+                if(result)
+                    dst = x;
+            }
+            else if(type.IsInt32())
+            {
+                result = DP.parse(src, out int x);
+                if(result)
+                    dst = x;
+            }
+            else if(type.IsUInt64())
+            {
+                result = DP.parse(src, out ulong x);
+                if(result)
+                    dst = x;
+            }
+            else if(type.IsInt64())
+            {
+                result = DP.parse(src, out long x);
+                if(result)
+                    dst = x;
+            }
+            else if(type.IsFloat32())
+            {
+                result = DP.parse(src, out float x);
+                if(result)
+                    dst = x;
+            }
+            else if(type.IsFloat64())
+            {
+                result = DP.parse(src, out double x);
+                if(result)
+                    dst = x;
+            }
+            return result;
+        }
+        public static Setting<T> setting<T>(Setting src, Func<string,T> parser)
+            => new Setting<T>(src.Name, parser(src.ValueText));
+
         public static FS.FilePath path()
             => FS.path(ExecutingPart.Component.Location).FolderPath + FS.file($"{ExecutingPart.Id.Format()}.settings", FileKind.Csv);
 
         public static FS.FilePath path(PartId part)
             => FS.path(ExecutingPart.Component.Location).FolderPath + FS.file($"{part.Format()}.settings", FileKind.Csv);
-
 
         [Parser]
         public static Outcome parse(string src, out Setting<string> dst)
@@ -46,9 +114,6 @@ namespace Z0
                 }
             }
         }
-
-        public static Setting<T> setting<T>(Setting src, Func<string,T> parser)
-            => new Setting<T>(src.Name, parser(src.ValueText));
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static Setting<T> setting<T>(Name name, T value)
@@ -138,7 +203,7 @@ namespace Z0
                 }
                 else if(type.IsPrimalNumeric())
                 {
-                    if(DP.numeric(input, type, out var n))
+                    if(numeric(input, type, out var n))
                     {
                         type.ClrPrimitiveKind();
                         dst = setting(name, SettingType.Integer, n);
@@ -149,7 +214,6 @@ namespace Z0
                 {
                     if(Enums.parse(type, src, out object o))
                     {
-                        //type.GetEnumUnderlyingType().ClrPrimitiveKind()
                         dst = setting(name, SettingType.Enum, o);
                         return true;
                     }

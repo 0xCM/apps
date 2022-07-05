@@ -6,9 +6,10 @@ global using System;
 global using System.Collections.Generic;
 global using System.Collections.Concurrent;
 global using System.Collections;
+global using System.Reflection.Metadata;
+global using System.Reflection.Metadata.Ecma335;
 
 global using System.Reflection;
-global using System.Reflection.Metadata;
 global using System.Reflection.Emit;
 global using System.Runtime.Intrinsics;
 global using System.Runtime.CompilerServices;

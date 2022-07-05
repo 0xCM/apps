@@ -14,35 +14,20 @@ namespace Z0
             public HexCsv HexCsv(IWfRuntime wf)
                 => Service<HexCsv>(wf);
 
-            public MemoryEmitter MemoryEmitter(IWfRuntime wf)
-                => Service<MemoryEmitter>(wf);
-
-           public ImageRegions ImageRegions(IWfRuntime wf)
+            public ImageRegions ImageRegions(IWfRuntime wf)
                 => Service<ImageRegions>(wf);
 
             public ProcessMemory ProcessMemory(IWfRuntime wf)
                 => Service<ProcessMemory>(wf);
 
-            public ImageSegments ImageSegments(IWfRuntime wf)
-                => Service<ImageSegments>(wf);
-
             public HexDataReader HexDataReader(IWfRuntime wf)
                 => Service<HexDataReader>(wf);
-
-            public HexEmitter HexEmitter(IWfRuntime wf)
-                => Service<HexEmitter>(wf);
-
-            public DumpArchive DumpArchive(IWfRuntime wf)
-                => Service<DumpArchive>(wf);
 
             public ModuleArchives ModuleArchives(IWfRuntime wf)
                 => Service<ModuleArchives>(wf);
         }
 
         static Svc Services => Svc.Instance;
-
-        public static HexCsv HexCsv(this IWfRuntime wf)
-            => Services.HexCsv(wf);
 
         public static ImageRegions ImageRegions(this IWfRuntime wf)
             => Services.ImageRegions(wf);
@@ -58,9 +43,6 @@ namespace Z0
 
         public static ModuleArchives ModuleArchives(this IWfRuntime wf)
             => Services.ModuleArchives(wf);
-
-        public static DumpArchive DumpArchive(this IWfRuntime wf)
-            => Services.DumpArchive(wf);
 
         public static ApiHex ApiHex(this IWfRuntime wf)
             => Services.ApiHex(wf);

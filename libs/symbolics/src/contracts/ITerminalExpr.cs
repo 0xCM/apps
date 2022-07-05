@@ -5,13 +5,13 @@
 namespace Z0
 {
     [Free]
-    public interface ITerminalExpr : IValue
+    public interface ITerminalExpr : IValued
     {
 
     }
 
     [Free]
-    public interface ITerminalExpr<T> : ITerminalExpr, IValue<T>
+    public interface ITerminalExpr<T> : ITerminalExpr, IValued<T>
     {
     }
 }

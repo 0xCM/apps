@@ -4,30 +4,25 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct EnumLiteralInfo<E,T>
         where E : unmanaged, Enum
         where T : unmanaged
     {
-        public CliToken Token {get;}
+        public readonly CliToken Token;
 
-        public uint Position {get;}
+        public readonly uint Position;
 
-        public NameOld Name {get;}
+        public readonly string Name;
 
-        public E Literal {get;}
+        public readonly E Literal;
 
-        public T Scalar {get;}
+        public readonly T Scalar;
 
         [MethodImpl(Inline)]
-        public EnumLiteralInfo(CliToken id, uint index, string name, E literal, T scalar)
+        public EnumLiteralInfo(CliToken token, uint pos, string name, E literal, T scalar)
         {
-            Token = id;
-            Position = index;
+            Token = token;
+            Position = pos;
             Name = name;
             Literal = literal;
             Scalar = scalar;

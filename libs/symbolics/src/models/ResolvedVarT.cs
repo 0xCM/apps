@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct ResolvedVar<T> : IValue<T>, ITerm<T>
+    public readonly struct ResolvedVar<T> : IValued<T>, ITerm<T>
     {
         public readonly T Value;
 
@@ -14,7 +14,7 @@ namespace Z0
             Value = value;
         }
 
-        T IValue<T>.Value
+        T IValued<T>.Value
             => Value;
 
         public bool IsEmpty

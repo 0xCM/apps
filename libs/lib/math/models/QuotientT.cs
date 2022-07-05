@@ -8,7 +8,7 @@ namespace Z0
     /// Defines a datatype that represents a rational number
     /// </summary>
     [DataType("quotient<{T}>")]
-    public struct Quotient<T> : IRational<Quotient<T>,T>
+    public struct Quotient<T> : IRatio<Quotient<T>,T>
     {
         public T Over {get;}
 

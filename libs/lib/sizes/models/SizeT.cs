@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     using api = Sizes;
 
     public readonly struct Size<T> : IEquatable<Size<T>>
@@ -61,7 +59,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public Size<T> Align(T factor)
-            => Untyped.Align(bw64(factor));
+            => Untyped.Align(Sized.bw64(factor));
 
         [MethodImpl(Inline)]
         public bool Equals(Size<T> src)
@@ -86,7 +84,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator Size<T>(ByteSize src)
-            => new Size<T>(@as<T>((ulong)src));
+            => new Size<T>(Refs.@as<T>((ulong)src));
 
         [MethodImpl(Inline)]
         public static implicit operator ByteSize(Size<T> src)

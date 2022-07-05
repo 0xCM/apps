@@ -7,7 +7,7 @@ namespace Z0
     [ApiHost]
     public static class XPart
     {
-        const NumericKind Closure = UnsignedInts;
+        const NumericKind Closure = NumericKind.UnsignedInts;
 
         [MethodImpl(Inline), Op]
         public static PartId Id(this Assembly src)
@@ -100,15 +100,6 @@ namespace Z0
                 var name = new PartName(id, symbol);
                 IdNames.TryAdd(id,name);
                 SymbolIds.TryAdd(symbol,id);
-
-                //var symbol = f.Name;
-                // if(PartResolution.tag<SymbolAttribute>(f, out var a))
-                // {
-                //     if(!string.IsNullOrEmpty(a.Symbol))
-                //         symbol = a.Symbol;
-                // }
-                //symbol = PartResolution.tag<SymbolAttribute>(f).MapValueOrElse(a => a.Symbol, () => f.Name);
-
             }
         }
     }

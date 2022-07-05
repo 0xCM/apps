@@ -11,8 +11,8 @@ namespace Z0
     [ApiHost]
     public readonly partial struct Cil
     {
-        // public static ILVisualizer visualizer()
-        //     => ILVisualizer.service();
+        public static MetadataVisualizer mdv(MetadataReader src, StreamWriter dst)
+            => new MetadataVisualizer(src,dst);
 
         [Op]
         public static string format(CliSig src)

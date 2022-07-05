@@ -12,7 +12,7 @@ namespace Z0
     public readonly struct Hex8 : IHexNumber<H,W,K>
     {
         [Parser]
-        public static Outcome parse(string src, out Hex8 dst)
+        public static bool parse(string src, out Hex8 dst)
         {
             var outcome = HexParser.parse8u(src, out var x);
             dst = x;
@@ -20,7 +20,7 @@ namespace Z0
         }
 
         [Parser]
-        public static Outcome parse(ReadOnlySpan<char> src, out Hex8 dst)
+        public static bool parse(ReadOnlySpan<char> src, out Hex8 dst)
         {
             var outcome = HexParser.parse8u(src, out var x);
             dst = x;
@@ -101,7 +101,7 @@ namespace Z0
             get => ((byte)Value).FormatHex(specifier:false, zpad:true, uppercase:true);
         }
 
-        K IHexNumber<K>.Value
+        K IValued<K>.Value
             => Value;
 
         [MethodImpl(Inline)]

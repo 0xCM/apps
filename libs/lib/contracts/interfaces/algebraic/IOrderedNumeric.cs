@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IOrderedNumeric<S> :  IStepwise<S>,  IOrdered<S>,  INumeric<S>
+    public interface IOrderedNumeric<S> :  IStepwise<S>,  IOrdered<S>,  IRational<S>
         where S : IOrderedNumeric<S>, new() {}
 
     /// <summary>

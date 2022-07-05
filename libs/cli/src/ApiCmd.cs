@@ -57,58 +57,18 @@ namespace Z0
         void ApiEmit()
         {
             ApiMd.EmitDatasets();
+            CliEmitter.Emit(CliEmitOptions.@default(), timestamp());
         }
 
-        public void EmitCliDatasets(Timestamp ts)
+        [CmdOp("api/emit/mdhex")]
+        void EmitMdHex()
         {
-
+            CliEmitter.EmitMetadataHex();
         }
 
         [CmdOp("api/emit/pdb/info")]
         void EmitApiPdbInfo()
             => PdbSvc.EmitPdbDocInfo(PartId.AsmOperands);
-
-        [CmdOp("api/emit/cli")]
-        void EmitMetadataCli()
-        {
-            CliEmitter.Emit(CliEmitOptions.@default());
-            Cli.EmitMsil();
-        }
-
-        void EmitMetadata(WorkflowOptions options)
-        {
-            var cli = Wf.CliEmitter();
-            if(options.EmitAssemblyRefs)
-                cli.EmitAssemblyRefs();
-
-            if(options.EmitFieldMetadata)
-                cli.EmitFieldMetadata();
-
-            if(options.EmitApiMetadump)
-                cli.EmitApiMetadump();
-
-            if(options.EmitSectionHeaders)
-                cli.EmitSectionHeaders();
-
-            if(options.EmitMsilMetadata)
-                cli.EmitMsilMetadata();
-
-            if(options.EmitCliStrings)
-            {
-                cli.EmitUserStrings();
-                cli.EmitSystemStringInfo();
-            }
-
-            if(options.EmitCliConstants)
-                cli.EmitConstants();
-
-            if(options.EmitCliBlobs)
-                cli.EmitBlobs();
-
-            if(options.EmitImageContent)
-                cli.EmitImageContent();
-        }
-
 
         [CmdOp("api/emit/pdb/index")]
         void IndexApiPdbFiles()

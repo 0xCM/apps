@@ -9,7 +9,7 @@ namespace Z0
 
     }
 
-    public interface ILiteralType<V> : ILiteralType, IValue<V>
+    public interface ILiteralType<V> : ILiteralType, IValued<V>
     {
 
     }

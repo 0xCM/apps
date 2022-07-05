@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     [ApiHost]
@@ -16,22 +12,22 @@ namespace Z0
         [MethodImpl(Inline), Op,Closures(Integers)]
         public static string format<T>(T src, Base2 b, int? digits = null)
             where T : unmanaged
-                => Format_u(src,b, digits);
+                => format_u(src,b, digits);
 
         [MethodImpl(Inline), Op, Closures(Integers)]
         public static string format<T>(T src, Base8 b, int? digits = null)
             where T : unmanaged
-                => Format_u(src,b, digits);
+                => format_u(src,b, digits);
 
         [MethodImpl(Inline), Op, Closures(Integers)]
         public static string format<T>(T src, Base16 b, int? digits = null)
             where T : unmanaged
-                => Format_u(src,b, digits);
+                => format_u(src,b, digits);
 
         [MethodImpl(Inline), Op, Closures(Integers)]
         public static string format<T>(T src, Base10 b, int? digits = null)
             where T : unmanaged
-                => Format_u(src,b, digits);
+                => format_u(src,b, digits);
 
         [MethodImpl(Inline), Op]
         public static string format(sbyte src, Base2 b, int? digits = null)
@@ -110,7 +106,7 @@ namespace Z0
             => src.ToString();
 
         [MethodImpl(Inline), Op]
-        public static string Format(int src, Base16 @base, int? digits = null)
+        public static string format(int src, Base16 @base, int? digits = null)
             => src.FormatHex(false, false);
 
         [MethodImpl(Inline), Op]
@@ -134,15 +130,15 @@ namespace Z0
             => BitRender.gformat(src,digits);
 
         [MethodImpl(Inline), Op]
-        public static string Format(long src, Base8 @base, int? digits = null)
+        public static string format(long src, Base8 @base, int? digits = null)
             => Convert.ToString(src,8);
 
         [MethodImpl(Inline), Op]
-        public static string Format(long src, Base10 @base, int? digits = null)
+        public static string format(long src, Base10 @base, int? digits = null)
             => src.ToString();
 
         [MethodImpl(Inline), Op]
-        public static string Format(long src, Base16 @base, int? digits = null)
+        public static string format(long src, Base16 @base, int? digits = null)
             => src.FormatHex(false, false);
 
         [MethodImpl(Inline), Op]
@@ -218,7 +214,7 @@ namespace Z0
            => @base switch{
                NumericBaseKind.Base2 => format(src, base2, digits),
                NumericBaseKind.Base8 => Format(src, base8, digits),
-               NumericBaseKind.Base16 => Format(src, base16, digits),
+               NumericBaseKind.Base16 => format(src, base16, digits),
                 _ => Format(src, base10, digits),
             };
 
@@ -235,9 +231,9 @@ namespace Z0
         public static string format(long src, NumericBaseKind @base, int? digits = null)
            => @base switch{
                NumericBaseKind.Base2 => Format(src, base2, digits),
-               NumericBaseKind.Base8 => Format(src, base8, digits),
-               NumericBaseKind.Base16 => Format(src, base16, digits),
-                _ => Format(src, base10, digits),
+               NumericBaseKind.Base8 => format(src, base8, digits),
+               NumericBaseKind.Base16 => format(src, base16, digits),
+                _ => format(src, base10, digits),
             };
 
         [MethodImpl(Inline), Op]
@@ -259,7 +255,7 @@ namespace Z0
             };
 
         [MethodImpl(Inline)]
-        static string Format_u<T>(T src, Base10 b, int? digits = null)
+        static string format_u<T>(T src, Base10 b, int? digits = null)
             where T : unmanaged
         {
             if(typeof(T) == typeof(byte))
@@ -271,11 +267,11 @@ namespace Z0
             else if(typeof(T) == typeof(ulong))
                 return format(uint64(src),b, digits);
             else
-                return Format_i(src,b, digits);
+                return format_i(src,b, digits);
         }
 
         [MethodImpl(Inline)]
-        static string Format_i<T>(T src, Base10 b, int? digits = null)
+        static string format_i<T>(T src, Base10 b, int? digits = null)
             where T : unmanaged
         {
             if(typeof(T) == typeof(sbyte))
@@ -285,13 +281,13 @@ namespace Z0
             else if(typeof(T) == typeof(int))
                 return Format(int32(src), b, digits);
             else if(typeof(T) == typeof(long))
-                return Format(int64(src), b, digits);
+                return format(int64(src), b, digits);
             else
                 throw no<T>();
         }
 
         [MethodImpl(Inline)]
-        static string Format_u<T>(T src, Base16 b, int? digits = null)
+        static string format_u<T>(T src, Base16 b, int? digits = null)
             where T : unmanaged
         {
             if(typeof(T) == typeof(byte))
@@ -303,11 +299,11 @@ namespace Z0
             else if(typeof(T) == typeof(ulong))
                 return format(uint64(src),b, digits);
             else
-                return Format_i(src, b, digits);
+                return format_i(src, b, digits);
         }
 
         [MethodImpl(Inline)]
-        static string Format_i<T>(T src, Base16 n, int? digits = null)
+        static string format_i<T>(T src, Base16 n, int? digits = null)
             where T : unmanaged
         {
             if(typeof(T) == typeof(sbyte))
@@ -315,15 +311,15 @@ namespace Z0
             else if(typeof(T) == typeof(short))
                 return Format(int16(src), n, digits);
             else if(typeof(T) == typeof(int))
-                return Format(int32(src), n, digits);
+                return format(int32(src), n, digits);
             else if(typeof(T) == typeof(long))
-                return Format(int64(src), n, digits);
+                return format(int64(src), n, digits);
             else
                 throw no<T>();
         }
 
         [MethodImpl(Inline)]
-        static string Format_u<T>(T src, Base2 n, int? digits = null)
+        static string format_u<T>(T src, Base2 n, int? digits = null)
             where T : unmanaged
         {
             if(typeof(T) == typeof(byte))
@@ -335,11 +331,11 @@ namespace Z0
             else if(typeof(T) == typeof(ulong))
                 return format(uint64(src),n, digits);
             else
-                return Format_i(src, n, digits);
+                return format_i(src, n, digits);
         }
 
         [MethodImpl(Inline)]
-        static string Format_i<T>(T src, Base2 n, int? digits = null)
+        static string format_i<T>(T src, Base2 n, int? digits = null)
             where T : unmanaged
         {
             if(typeof(T) == typeof(sbyte))
@@ -355,7 +351,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        static string Format_u<T>(T src, Base8 n, int? digits = null)
+        static string format_u<T>(T src, Base8 n, int? digits = null)
             where T : unmanaged
         {
             if(typeof(T) == typeof(byte))
@@ -367,11 +363,11 @@ namespace Z0
             else if(typeof(T) == typeof(ulong))
                 return format(uint64(src),n, digits);
             else
-                return Format_i(src,n, digits);
+                return format_i(src,n, digits);
         }
 
         [MethodImpl(Inline)]
-        static string Format_i<T>(T src, Base8 n, int? digits = null)
+        static string format_i<T>(T src, Base8 n, int? digits = null)
             where T : unmanaged
         {
             if(typeof(T) == typeof(sbyte))
@@ -381,7 +377,7 @@ namespace Z0
             else if(typeof(T) == typeof(int))
                 return Format(int32(src), n, digits);
             else if(typeof(T) == typeof(long))
-                return Format(int64(src), n, digits);
+                return format(int64(src), n, digits);
             else
                 throw no<T>();
         }

@@ -35,7 +35,7 @@ namespace Z0
         public override bool Equals(object src)
             => src is num<T> x && Equals(x);
 
-        T IValue<T>.Value
+        T IValued<T>.Value
             => Value;
 
         BitWidth ISizedValue.ContentWidth

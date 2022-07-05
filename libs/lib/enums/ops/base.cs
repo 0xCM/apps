@@ -4,10 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     using NK = NumericKind;
-    using BK = ClrEnumKind;
+    using EK = ClrEnumKind;
 
     partial struct Enums
     {
@@ -35,26 +33,17 @@ namespace Z0
         public static ClrEnumKind @base(Type et)
             => @base(et.GetEnumUnderlyingType().NumericKind());
 
-        [MethodImpl(Inline)]
-        public static ClrEnumKind kind<E>()
-            where E : unmanaged
-                => kind(typeof(E));
-
-        [Op]
-        public static ClrEnumKind kind(Type e)
-            => (ClrEnumKind)PrimalBits.kind(Type.GetTypeCode(e.GetEnumUnderlyingType()));
-
         [Op]
         public static ClrEnumKind @base(NumericKind src)
              => src switch{
-                NK.U8 => BK.U8,
-                NK.I8 => BK.I8,
-                NK.U16 => BK.U16,
-                NK.I16 => BK.I16,
-                NK.U32 => BK.U32,
-                NK.I32 => BK.I32,
-                NK.I64 => BK.I64,
-                NK.U64 => BK.U64,
+                NK.U8 => EK.U8,
+                NK.I8 => EK.I8,
+                NK.U16 => EK.U16,
+                NK.I16 => EK.I16,
+                NK.U32 => EK.U32,
+                NK.I32 => EK.I32,
+                NK.I64 => EK.I64,
+                NK.U64 => EK.U64,
                 _ => ClrEnumKind.None,
             };
     }

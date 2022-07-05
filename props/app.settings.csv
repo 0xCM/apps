@@ -4,6 +4,7 @@
 | WinSdkVer      | 10.0.19041.0                           |
 | MsvcVer        | 14.32.31326                            |
 | Views          | d:/views                               |
+| Archives       | d:/views/archives                      |
 | Projects       | d:/drives/z/dev                        |
 | DevRoot        | d:/drives/z                            |
 | z0             | d:/views/z0                            |
@@ -17,7 +18,6 @@
 | Logs           | d:/views/db/logs                       |
 | EnvConfig      | d:/views/db/env                        |
 | RepoDeps       | d:/views/repos                         |
-| Archives       | d:/views/archives                      |
 | LlvmRoot       | d:/repos/llvm                          |
 | LlvmData       | d:/views/dev/dev/llvm.data             |
 | LlvmDist       | d:/views/llvm                          |

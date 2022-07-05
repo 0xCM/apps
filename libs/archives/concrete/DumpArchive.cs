@@ -8,47 +8,47 @@ namespace Z0
 
     using static EnvFolders;
 
-    public class DumpArchive : AppService<DumpArchive>, IDbTargets<DumpArchive>
+    public interface IDumpArchive : IRootedArchive
     {
-        public FS.FolderPath Root => FS.dir("j:/") + FS.folder(dumps);
+        IDbTargets DumpTargets(string scope)
+            => new DbTargets(Root, scope);
 
-        public FS.FilePath Table<T>()
-            where T : struct
-                => Root + Tables.filename<T>();
+        IDbTargets DotNetTargets()
+            => DumpTargets(dotnet);
 
-        public FS.FilePath Table<T>(ProcDumpName id)
+        FS.FolderPath DotNetTargets(byte major, byte minor, byte revision)
+            => DotNetTargets().Targets(FS.FolderName.version(major, minor, revision).Format()).Root;
+
+        FS.Files MiniDumps()
+            => Root.Files(FS.Dmp);
+
+        FS.FilePath MiniDump(string name)
+            => Root + FS.file(name, FS.Dmp);
+
+        FS.FileName DumpFile(Process process, Timestamp ts)
+            => FS.file(ProcDumpName.create(process,ts).Format(), FS.Dmp);
+
+        FS.FilePath DumpPath(Process process, Timestamp ts)
+            => Root + DumpFile(process, ts);
+
+        FS.FilePath Table<T>(ProcDumpName id)
             where T : struct
                 => Root + Tables.filename<T>(id.Format());
 
-        public FS.FilePath Table<T>(string name, Timestamp ts)
+        FS.FilePath Table<T>(string name, Timestamp ts)
             where T : struct
                 => Root + Tables.filename<T>(ProcDumpName.create(name,ts).Format());
+    }
 
-        public FS.FolderPath DumpRoot()
-            => Root;
+    public class DumpArchive : AppService<DumpArchive>, IDumpArchive
+    {
+        public static IDumpArchive Service => new DumpArchive();
 
-        public IDbTargets DumpTargets()
-            => new DbTargets(Root);
+        public DumpArchive()
+        {
+            Root = AppDb.Service.Archives().Sources(dumps).Root;
+        }
 
-        public IDbTargets DumpTargets(string scope)
-            => new DbTargets(Root, scope);
-
-        public IDbTargets DotNetTargets()
-            => DumpTargets(dotnet);
-
-        public FS.FolderPath DotNetTargets(byte major, byte minor, byte revision)
-            => DotNetTargets().Targets(FS.FolderName.version(major, minor, revision).Format()).Root;
-
-        public FS.Files Dumps()
-            => DumpRoot().Files(FS.Dmp);
-
-        public FS.FilePath DumpPath(string id)
-            => DumpRoot() + FS.file(id, FS.Dmp);
-
-        public FS.FileName DumpFile(Process process, Timestamp ts)
-            => FS.file(ProcDumpName.create(process,ts).Format(), FS.Dmp);
-
-        public FS.FilePath DumpPath(Process process, Timestamp ts)
-            => DumpRoot() + DumpFile(process, ts);
+        public FS.FolderPath Root {get;}
     }
 }

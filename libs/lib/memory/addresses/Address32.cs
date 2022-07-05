@@ -8,13 +8,8 @@ namespace Z0
     using W = W32;
     using T = System.UInt32;
 
-    [DataType(TypeSyntax.Address32)]
     public readonly struct Address32 : IAddress<A,T>
     {
-        [MethodImpl(Inline), Op]
-        public static Outcome parse(string src, out Address32 dst)
-            => AddressParser.parse(src, out dst);
-
         public const NativeSizeCode StorageSize = NativeSizeCode.W32;
 
         public T Location {get;}
@@ -49,6 +44,13 @@ namespace Z0
             get => Location != 0;
         }
 
+
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => HashCodes.hash(Location);
+        }
+
         public Address16 Lo
         {
             [MethodImpl(Inline)]
@@ -80,9 +82,6 @@ namespace Z0
         public string Format()
             => HexFormatter.format(Location, W, true);
 
-        public string FormatMinimal()
-            => Location.FormatTrimmedAsmHex();
-
         public string FormatTrimmed(bool prespec = false, bool postspec = false)
             => Location.FormatTrimmedHex(prespec, postspec);
 
@@ -90,7 +89,7 @@ namespace Z0
             => Format();
 
         public override int GetHashCode()
-            => Location.GetHashCode();
+            => Hash;
 
         [MethodImpl(Inline)]
         public static implicit operator MemoryAddress(Address32 src)

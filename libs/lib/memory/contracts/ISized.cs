@@ -18,9 +18,9 @@ namespace Z0
         where T : unmanaged
     {
         ByteSize ISized.Size
-            => core.size<T>();
+            => Sized.size<T>();
 
         BitWidth ISized.Width
-            => core.width<T>();
+            => Sized.width<T>();
     }
 }

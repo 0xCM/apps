@@ -13,15 +13,17 @@ namespace Z0
         bool INullity.IsNonEmpty
             => false;
 
-        string IExpr.Format()
-            => "";
     }
 
     [Free]
     public interface IScalarValue<T> : IScalarValue, ISizedValue<T>, IScalarExpr
         where T : unmanaged
     {
-        T IValue<T>.Value
+        T IValued<T>.Value
             => core.@as<IScalarValue<T>,T>(this);
+
+        string IExpr.Format()
+            => $"{Value}";
+
     }
 }

@@ -11,7 +11,7 @@ namespace Z0
     [Free]
     public class ImageRegions : WfSvc<ImageRegions>
     {
-        DumpArchive Dumps => Wf.DumpArchive();
+        IDumpArchive Dumps => DumpArchive.Service;
 
         public ProcessTargets ContextPaths {get; private set;}
 

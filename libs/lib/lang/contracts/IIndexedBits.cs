@@ -13,7 +13,7 @@ namespace Z0
     public interface IIndexedBits<T> : IIndexedBits, ISizedValue<T>
         where T : unmanaged
     {
-        T IValue<T>.Value
+        T IValued<T>.Value
             => core.@as<IIndexedBits<T>,T>(this);
     }
 }

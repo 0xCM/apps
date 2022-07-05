@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Spans;
 
     partial struct Digital
     {
@@ -18,8 +18,8 @@ namespace Z0
         {
             const int width = 4;
             var packed = 0ul;
-            packed |= (Digital.u64(@base, c0) << 0*width);
-            packed |= (Digital.u64(@base, c1) << 1*width);
+            packed |= (u64(@base, c0) << 0*width);
+            packed |= (u64(@base, c1) << 1*width);
             return packed;
         }
 

@@ -13,6 +13,8 @@ namespace Z0
 
         public bool EmitMsilMetadata;
 
+        public bool EmitMsilCode;
+
         public bool EmitCliStrings;
 
         public bool EmitCliBlobs;
@@ -29,7 +31,7 @@ namespace Z0
 
         public bool EmitCliRowStats;
 
-        public bool EmitMetaBlocks;
+        public bool EmitMetadataHex;
 
         public static CliEmitOptions @default()
         {
@@ -45,7 +47,8 @@ namespace Z0
             dst.EmitAssemblyRefs = true;
             dst.EmitMethodDefs = true;
             dst.EmitCliRowStats = true;
-            dst.EmitMetaBlocks = true;
+            dst.EmitMetadataHex = true;
+            dst.EmitMsilCode = true;
             return dst;
         }
     }

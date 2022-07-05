@@ -8,13 +8,8 @@ namespace Z0
     using W = W16;
     using T = System.UInt16;
 
-    [DataType(TypeSyntax.Address16)]
     public readonly struct Address16 : IAddress<A,T>
     {
-        [MethodImpl(Inline), Op]
-        public static Outcome parse(string src, out Address16 dst)
-            => AddressParser.parse(src, out dst);
-
         public const NativeSizeCode StorageSize = NativeSizeCode.W16;
 
         public T Location {get;}
@@ -24,7 +19,6 @@ namespace Z0
             => Location = offset;
 
         public static W W => default;
-
 
         public NativeSize Capacity
         {
@@ -46,7 +40,7 @@ namespace Z0
 
         public bool IsNonZero
         {
-             [MethodImpl(Inline)]
+            [MethodImpl(Inline)]
             get => Location != 0;
         }
 
@@ -60,6 +54,12 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => (byte)(Location >> 8);
+        }
+
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Location;
         }
 
         [MethodImpl(Inline)]
@@ -85,7 +85,7 @@ namespace Z0
             => Format();
 
         public override int GetHashCode()
-            => Location.GetHashCode();
+            => Hash;
 
         public override bool Equals(object src)
             => src is A a && Equals(a);
@@ -125,10 +125,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public static explicit operator ulong(A src)
             => src.Location;
-
-        // [MethodImpl(Inline)]
-        // public static A operator+(A x, T y)
-        //     => new A((T)(x.Location + y));
 
         [MethodImpl(Inline)]
         public static A operator-(A a, A b)

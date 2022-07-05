@@ -12,7 +12,7 @@ namespace Z0
     public readonly struct Hex16 : IHexNumber<H,W,K>
     {
         [Parser]
-        public static Outcome parse(string src, out Hex16 dst)
+        public static bool parse(string src, out Hex16 dst)
         {
             var outcome = HexParser.parse16u(src, out var x);
             dst = x;
@@ -20,7 +20,7 @@ namespace Z0
         }
 
         [Parser]
-        public static Outcome parse(ReadOnlySpan<char> src, out Hex16 dst)
+        public static bool parse(ReadOnlySpan<char> src, out Hex16 dst)
         {
             var outcome = HexParser.parse16u(src, out var x);
             dst = x;
@@ -77,7 +77,7 @@ namespace Z0
         public override int GetHashCode()
             => Hash;
 
-        ushort IHexNumber<ushort>.Value
+        K IValued<K>.Value
             => Value;
 
         [MethodImpl(Inline)]
@@ -98,7 +98,6 @@ namespace Z0
 
         public override string ToString()
             => Format();
-
 
         [MethodImpl(Inline)]
         public static H operator+(H x, K y)

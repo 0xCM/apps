@@ -4,13 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static NumericKinds;
 
-    partial class XNKind
+    partial class XTend
     {
         [MethodImpl(Inline), Op]
         public static TypeCode ToTypeCode(this NumericKind src)

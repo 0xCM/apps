@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     public unsafe readonly struct MemoryAddress : IAddress<MemoryAddress,ulong>
     {
         public const NativeSizeCode StorageSize = NativeSizeCode.W64;
@@ -95,7 +93,7 @@ namespace Z0
         public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => hash(Location);
+            get => HashCodes.hash(Location);
         }
 
         [MethodImpl(Inline)]
@@ -124,7 +122,7 @@ namespace Z0
         public ref T As<T>()
         {
             var pSrc = Pointer();
-            return ref @as<T>(pSrc);
+            return ref Refs.@as<T>(pSrc);
         }
 
         [MethodImpl(Inline)]

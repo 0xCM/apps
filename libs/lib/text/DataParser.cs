@@ -397,17 +397,6 @@ namespace Z0
             return true;
         }
 
-        public static Outcome numeric(string src, Type type, out dynamic dst)
-            => Numeric.parse(src, type, out dst);
-
-        public static Outcome parse(string s, out GridDim dst)
-            => GridDim.parse(s, out dst);
-
-        // public static Outcome setting(string src, Type type, out Setting dst, char delimiter = Chars.Colon)
-        //     => Settings.parse(src,type, out dst, delimiter);
-
-        // public static Outcome setting<T>(string src, out Setting<T> dst, char delimiter = Chars.Colon)
-        //     => Settings.parse(src, out dst, delimiter);
      }
 
      partial struct Msg

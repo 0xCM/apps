@@ -8,13 +8,8 @@ namespace Z0
     using W = W64;
     using T = System.UInt64;
 
-    [DataType(TypeSyntax.Address64)]
     public readonly struct Address64 : IAddress<A,T>
     {
-        [MethodImpl(Inline), Op]
-        public static Outcome parse(string src, out Address64 dst)
-            => AddressParser.parse(src, out dst);
-
         public const NativeSizeCode StorageSize = NativeSizeCode.W64;
 
         public T Location {get;}
@@ -59,6 +54,12 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => (uint)(Location >> 32);
+        }
+
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => HashCodes.hash(Location);
         }
 
         [MethodImpl(Inline)]
