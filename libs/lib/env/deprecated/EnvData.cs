@@ -18,7 +18,7 @@ namespace Z0
             => Source.ZDev;
 
         public FS.FolderPath Db
-            => Source.Db;
+            => FS.dir("d:/views/db");
 
         public FS.FolderPath Control
             => Source.Control;
