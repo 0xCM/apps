@@ -1,7 +1,5 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <ZLibVersion>0.0.110</ZLibVersion>
-    <ZLibName>z0.lib</ZLibName>
     <TargetFramework>$(FrameworkMoniker)</TargetFramework>
     <Platforms>x64</Platforms>
     <TieredCompilation>false</TieredCompilation>

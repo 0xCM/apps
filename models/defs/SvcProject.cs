@@ -4,14 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     using Abstractions;
 
 
-    public sealed partial class Models
+    partial class Models
     {
+        public record class SvcProject : Project<SvcProject>
+        {
 
 
+        }
     }
-
 }

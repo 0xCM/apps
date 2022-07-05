@@ -2,16 +2,13 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Models
+namespace Z0
 {
-    public interface ISln : IComponent
+    partial class Models
     {
+        public class ProjectTypes
+        {
 
-    }
-
-    public interface ISln<S> : ISln, IComponent<S>
-        where S : ISln<S>, new()
-    {
-
+        }
     }
 }

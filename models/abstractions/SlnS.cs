@@ -2,16 +2,11 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.Abstractions
 {
-
-    using Abstractions;
-
-
-    public sealed partial class Models
+    public abstract record class Sln<S> : Entity<S>, ISln<S>
+        where S : Sln<S>, new()
     {
 
-
     }
-
 }

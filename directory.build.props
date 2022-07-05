@@ -39,7 +39,6 @@
   </PropertyGroup>
 
   <PropertyGroup>
-
     <ZLibPath>$(SlnBin)z0.lib\$(Configuration)\$(TargetFramework)\z0.lib.dll</ZLibPath>
     <ChecksPath>$(SlnBin)z0.test.checks\$(Configuration)\$(TargetFramework)\z0.test.checks.dll</ChecksPath>
     <ZTestPath>$(SlnBin)z0.test.units\$(Configuration)\$(TargetFramework)\z0.test.units.dll</ZTestPath>

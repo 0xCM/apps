@@ -2,10 +2,19 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Models
+namespace Z0.Abstractions
 {
-    public sealed record class Sln : Sln<Sln>
+    public interface ILink : IModel
     {
 
+    }
+
+    public interface ILink<S,T> : ILink
+        where S : INode<S>, new()
+        where T : INode<T>, new()
+    {
+        S Source {get;}
+
+        T Target {get;}
     }
 }

@@ -2,17 +2,10 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Models
+namespace Z0.Abstractions
 {
-    public interface IComponent : IModel
+    public interface INode<V> : IModel
     {
-        string Name {get;}
-
-    }
-
-    public interface IComponent<C> : IComponent
-        where C : IComponent<C>, new()
-    {
-
+        V Value {get;}
     }
 }

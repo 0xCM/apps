@@ -2,10 +2,10 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Models
+namespace Z0.Abstractions
 {
-    public abstract record class Sln<S> : Component<S>, ISln<S>
-        where S : Sln<S>, new()
+    public abstract record class Workspace<W> : Entity<W>
+        where W : Workspace<W>, new()
     {
 
     }

@@ -2,11 +2,17 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Models
+namespace Z0
 {
-    public abstract record class SvcProject<P> : Project<P>
-        where P : SvcProject<P>, new()
-    {
+    using Abstractions;
 
+    partial class Models
+    {
+        public record class ShellProject : Project<ShellProject>
+        {
+
+
+        }
     }
+
 }

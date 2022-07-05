@@ -14,13 +14,14 @@ global using System.Runtime.Intrinsics;
 global using System.Runtime.CompilerServices;
 global using System.Runtime.InteropServices;
 
-global using static Z0.Root;
 global using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 global using CallerName = System.Runtime.CompilerServices.CallerMemberNameAttribute;
 global using CallerFile = System.Runtime.CompilerServices.CallerFilePathAttribute;
 global using CallerLine = System.Runtime.CompilerServices.CallerLineNumberAttribute;
 global using System.Diagnostics;
 global using System.IO;
+
+global using static Z0.Root;
 
 [assembly: PartId(PartId.Lib)]
 
@@ -29,15 +30,5 @@ namespace Z0.Parts
     public sealed partial class Models : Part<Models>
     {
 
-    }
-}
-
-namespace Z0
-{
-    class Root
-    {
-        public const MethodImplOptions Inline = MethodImplOptions.AggressiveInlining;
-
-        public const string EmptyString = "";
     }
 }

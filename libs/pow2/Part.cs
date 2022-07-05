@@ -18,8 +18,6 @@ global using System.Threading;
 global using System.Threading.Tasks;
 global using System.IO;
 
-global using static Z0.Root;
-
 global using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 global using CallerName = System.Runtime.CompilerServices.CallerMemberNameAttribute;
 global using CallerFile = System.Runtime.CompilerServices.CallerFilePathAttribute;
@@ -33,27 +31,3 @@ global using NBK = Z0.NumericBaseKind;
 
 
 [assembly: PartId(PartId.Pow2)]
-
-namespace Z0.Parts
-{
-    public sealed class Pow2 : Part<Pow2>
-    {
-    }
-}
-
-
-namespace Z0
-{
-    class Root
-    {
-        public const string EmptyString = "";
-
-        public const MethodImplOptions Inline = MethodImplOptions.AggressiveInlining;
-
-        /// <summary>
-        /// Specifies unsigned integral types of widths <see cref='NumericWidths'/>
-        /// </summary>
-        public const NumericKind UnsignedInts = NumericKind.UnsignedInts;
-
-    }
-}

@@ -2,22 +2,22 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Models
+namespace Z0.Abstractions
 {
-    public abstract record class Component<C> : Model<C>, IComponent<C>
-        where C : Component<C>, new()
+    public abstract record class Entity<E> : Model<E>, IEntity<E>
+        where E : Entity<E>, new()
     {
         public string Name;
 
-        string IComponent.Name
+        string IEntity.Name
             => Name;
 
-        protected Component(string name)
+        protected Entity(string name)
         {
             Name = name;
         }
 
-        protected Component()
+        protected Entity()
         {
             Name = EmptyString;
         }

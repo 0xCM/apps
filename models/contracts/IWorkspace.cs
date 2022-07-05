@@ -2,16 +2,16 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.Abstractions
 {
-
-    using Abstractions;
-
-
-    public sealed partial class Models
+    public interface IWorkspace : IEntity
     {
-
 
     }
 
+    public interface IWorkspace<W> : IWorkspace, IEntity<W>
+        where W : IEntity<W>, new()
+    {
+
+    }
 }

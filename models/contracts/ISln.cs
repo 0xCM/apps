@@ -2,12 +2,16 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Models
+namespace Z0.Abstractions
 {
-    public record class Project<P> : Component<P>
-        where P : Project<P>, new()
+    public interface ISln : IEntity
     {
 
     }
 
+    public interface ISln<S> : ISln, IEntity<S>
+        where S : ISln<S>, new()
+    {
+
+    }
 }

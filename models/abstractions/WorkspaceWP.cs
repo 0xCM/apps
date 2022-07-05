@@ -2,12 +2,12 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Models
+namespace Z0.Abstractions
 {
-    public record class CmdProject<P> : Project<P>
-        where P : CmdProject<P>, new()
+    public abstract record class Workspace<W,P> : Workspace<W>
+        where W : Workspace<W,P>,new()
+        where P : IProject, new()
     {
 
     }
-
 }

@@ -2,11 +2,15 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Models
+namespace Z0
 {
-    public sealed record class CmdProject : CmdProject<CmdProject>
+    using Abstractions;
+
+    partial class Models
     {
+        public sealed record class Project : Project<Project>
+        {
 
-
+        }
     }
 }
