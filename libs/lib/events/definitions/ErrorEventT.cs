@@ -56,7 +56,7 @@ namespace Z0
             if(Exception.IsSome())
                 format(Exception.Value, this, dst);
             else
-                dst.AppendFormat(string.Format(RP.PSx3, EventId, Payload, Origin));
+                dst.AppendFormat(string.Format(RpOps.PSx3, EventId, Payload, Origin));
             return dst.Emit();
 
         }

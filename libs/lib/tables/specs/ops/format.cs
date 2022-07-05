@@ -64,7 +64,7 @@ namespace Z0
             {
                 ref readonly var section = ref src.FirstPartition;
                 dst.AppendLine(string.Format("{0} ", src.Index));
-                dst.AppendLine(RP.PageBreak40);
+                dst.AppendLine(RpOps.PageBreak40);
 
                 for(var i=0; i<count; i++)
                 {
@@ -72,7 +72,7 @@ namespace Z0
                     render(skip(section,i), dst);
                 }
 
-                dst.AppendLine(RP.PageBreak40);
+                dst.AppendLine(RpOps.PageBreak40);
             }
         }
     }

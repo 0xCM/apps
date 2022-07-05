@@ -49,10 +49,10 @@ namespace Z0
             => Wf.Data(HostType, content, flair);
 
         void Write<T>(string name, T value)
-            => Wf.Data(HostType, RP.attrib(name, value));
+            => Wf.Data(HostType, RpOps.attrib(name, value));
 
         void Write<T>(string name, T value, FlairKind flair)
-            => Wf.Data(HostType, RP.attrib(name, value), flair);
+            => Wf.Data(HostType, RpOps.attrib(name, value), flair);
 
         void Row<T>(T content)
             => Wf.Row(content);
@@ -86,6 +86,9 @@ namespace Z0
 
         ExecToken EmittedFile(WfFileWritten flow, Count count)
             => Wf.EmittedFile(HostType, flow, count);
+
+        ExecToken EmittedFile<T>(WfFileWritten flow, T msg)
+            => Wf.EmittedFile(flow, msg);
 
         WfTableFlow<T> EmittingTable<T>(FS.FilePath dst)
             where T : struct

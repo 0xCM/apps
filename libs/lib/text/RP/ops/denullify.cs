@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct RP
+    partial struct RpOps
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static string denullify<T>(T src)

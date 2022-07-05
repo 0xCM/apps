@@ -28,6 +28,6 @@ namespace Z0
         }
 
         public string Format()
-            => string.Format(RP.Adjacent4, C0, C1, C2, C3);
+            => string.Format(RpOps.Adjacent4, C0, C1, C2, C3);
     }
 }

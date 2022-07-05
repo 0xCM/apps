@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct RP
+    partial struct RpOps
     {
         [RenderPattern(2, "{0}/{1}")]
         public const string SlashSlot2 = "{0}/{1}";

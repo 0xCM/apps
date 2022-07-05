@@ -26,7 +26,7 @@ namespace Z0.Asm
             Require.invariant(DataParser.parse(source, out dst.Source), () => source);
             dst.Statment = statement;
             dst.Encoding = AsmHexCode.parse(encoding);
-            dst.Disp = AsmRel32.disp(dst.Encoding.Bytes);
+            dst.Disp = AsmRel.disp32(dst.Encoding.Bytes);
             Require.invariant(DataParser.parse(target, out dst.RelativeTarget), () => target);
             return dst;
         }

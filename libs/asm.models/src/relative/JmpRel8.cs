@@ -7,10 +7,6 @@ namespace Z0.Asm
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly struct JmpRel8 : IAsmRelInst<Disp8>
     {
-        [MethodImpl(Inline), Op]
-        public static bool test(ReadOnlySpan<byte> encoding)
-            => encoding.Length >= JmpRel8.InstSize && core.first(encoding) == JmpRel8.OpCode;
-
         public const byte OpCode = 0xEB;
 
         public const byte InstSize = 2;
@@ -41,13 +37,13 @@ namespace Z0.Asm
         public Disp8 Disp
         {
             [MethodImpl(Inline)]
-            get => AsmRel8.disp(SourceAddress, TargetAddress);
+            get => AsmRel.disp8(SourceAddress, TargetAddress);
         }
 
         public AsmHexCode Encoding
         {
             [MethodImpl(Inline)]
-            get => AsmRel8.encode(this);
+            get => AsmRel.encode(this);
         }
 
         public AsmMnemonic Mnemonic

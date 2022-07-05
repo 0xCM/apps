@@ -77,7 +77,7 @@ namespace Z0
             var payload = HexFormatter.array<byte>(bytes);
             dst.Append("public");
             dst.Append(Chars.Space);
-            dst.Append(src.IsStatic ? RP.rspace("static") : EmptyString);
+            dst.Append(src.IsStatic ? RpOps.rspace("static") : EmptyString);
             dst.Append(ReadOnlySpanTypePattern.Format(src.CellType));
             dst.Append(Chars.Space);
             dst.Append(src.Name);
@@ -91,7 +91,7 @@ namespace Z0
         {
             dst.Append("public");
             dst.Append(Chars.Space);
-            dst.Append(src.IsStatic ? RP.rspace("static") : EmptyString);
+            dst.Append(src.IsStatic ? RpOps.rspace("static") : EmptyString);
             dst.Append(ReadOnlySpanTypePattern.Format(src.CellType));
             dst.Append(Chars.Space);
             dst.Append(src.Name);
@@ -116,7 +116,7 @@ namespace Z0
             var tmp = text.buffer();
             tmp.Append("public");
             tmp.Append(Chars.Space);
-            tmp.Append(src.IsStatic ? RP.rspace("static") : EmptyString);
+            tmp.Append(src.IsStatic ? RpOps.rspace("static") : EmptyString);
             tmp.Append(ReadOnlySpanTypePattern.Format(src.CellType));
             tmp.Append(Chars.Space);
             tmp.Append(src.Name);
@@ -131,7 +131,7 @@ namespace Z0
         {
             dst.Append("public");
             dst.Append(Chars.Space);
-            dst.Append(src.IsStatic ? RP.rspace("static") : EmptyString);
+            dst.Append(src.IsStatic ? RpOps.rspace("static") : EmptyString);
             dst.Append(ReadOnlySpanTypePattern.Format(src.CellType));
             dst.Append(Chars.Space);
             dst.Append(src.Name);

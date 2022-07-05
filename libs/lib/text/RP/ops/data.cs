@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct RP
+    partial struct RpOps
     {
         [MethodImpl(Inline), Op, Closures(UnsignedInts)]
         public static DataSlot<T> dataslot<T>(byte index, short pad)

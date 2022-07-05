@@ -61,14 +61,19 @@ namespace Z0
         {
             var buffer = alloc<AsmRoutine>(src.Count);
             var emitter = text.emitter();
+            var flow = EmittingFile(dst);
+            var size = ByteSize.Zero;
+            using var writer = dst.AsciWriter();
             for(var i=0; i<src.Count; i++)
             {
                 var routine = AsmDecoder.Decode(src[i]);
                 seek(buffer,i) = routine;
-                emitter.AppendLine(routine.AsmRender(routine));
+                var asm = routine.AsmRender(routine);
+                size += (ulong)asm.Length;
+                writer.AppendLine(asm);
             }
-
-            FileEmit(emitter.Emit(), src.Count, dst);
+            EmittedFile(flow, $"Emitted {size} bytes to {dst.ToUri()}");
+            //FileEmit(emitter.Emit(), src.Count, dst);
             return buffer;
         }
     }

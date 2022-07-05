@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct RP
+    partial struct RpOps
     {
         [MethodImpl(Inline), Op]
         public static string squote(object src)

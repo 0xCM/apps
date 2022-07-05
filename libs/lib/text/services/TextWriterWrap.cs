@@ -164,22 +164,22 @@ namespace Z0
 
         public void Delimit<T>(T content, char delimiter, int pad)
         {
-            Target.Write(RP.rspace(delimiter));
+            Target.Write(RpOps.rspace(delimiter));
             Target.Write($"{content}".PadRight((int)pad));
         }
 
         public void Delimit<F,T>(F label, T content, int pad = 0, char delimiter = '|')
         {
-            Target.Write(RP.rspace(delimiter));
-            Target.Write(string.Format(RP.pad(pad), label));
-            Target.Write(content?.ToString() ?? RP.Null);
+            Target.Write(RpOps.rspace(delimiter));
+            Target.Write(string.Format(RpOps.pad(pad), label));
+            Target.Write(content?.ToString() ?? RpOps.Null);
         }
 
         public void AppendPadded<T,W>(T value, W width, string delimiter = EmptyString)
         {
             if(nonempty(delimiter))
                 Target.Write(delimiter);
-            Target.Write(string.Format(RP.pad(-i16(width)), value));
+            Target.Write(string.Format(RpOps.pad(-i16(width)), value));
         }
 
         public void Close()

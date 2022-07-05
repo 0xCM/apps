@@ -103,7 +103,7 @@ namespace Z0
             Status($"Length = {src.Size} | Pages={pages} | Base={src.Min} | End = {src.Max}");
 
             var formatter = HexDataFormatter.create(src.Min, bpl);
-            dst.WriteLine(text.concat($"Address".PadRight(12), RP.SpacedPipe, "Data"));
+            dst.WriteLine(text.concat($"Address".PadRight(12), RpOps.SpacedPipe, "Data"));
             for(var i=0; i<pages; i++)
             {
                 var size = reader.Read((int)offset, PageSize, buffer);

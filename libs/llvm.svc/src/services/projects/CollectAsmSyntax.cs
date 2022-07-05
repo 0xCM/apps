@@ -79,7 +79,7 @@ namespace Z0
                 Lines.parse(locator, out FilePoint point);
                 var srcpath = point.Path;
                 var syntax = text.right(a, m + EntryMarker.Length);
-                syntax = Fenced.unfence(syntax, Brackets, out var semantic) ? RP.parenthetical(semantic) : syntax;
+                syntax = Fenced.unfence(syntax, Brackets, out var semantic) ? RpOps.parenthetical(semantic) : syntax;
                 var body = b.Replace(Chars.Tab, Chars.Space);
                 var record = new AsmSyntaxRow();
                 var orign = context.Root(src);
@@ -100,7 +100,7 @@ namespace Z0
                 if (ci > 0)
                     AsmExpr.parse(text.left(body, ci), out record.Asm);
                 else
-                    record.Asm = RP.Empty;
+                    record.Asm = RpOps.Empty;
 
                 var xi = text.index(body, EncodingMarker);
                 if(xi > 0)

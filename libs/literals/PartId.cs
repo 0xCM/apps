@@ -119,6 +119,9 @@ public enum PartId : byte
     [Symbol("text.sized")]
     SizedText,
 
+    [Symbol("text")]
+    Text,
+
     [Symbol("dynamic")]
     Dynamic,
 

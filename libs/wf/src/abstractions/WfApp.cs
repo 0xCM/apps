@@ -13,9 +13,9 @@ namespace Z0
             using var app = new A();
             app.Init(wf);
             var name = typeof(A).Name;
-            var flow = wf.Running(RP.msg("Running application {0}", name));
+            var flow = wf.Running(RpOps.msg("Running application {0}", name));
             app.Run(args);
-            wf.Ran(flow, RP.msg("Ran application {0}", name));
+            wf.Ran(flow, RpOps.msg("Ran application {0}", name));
         }
 
         protected abstract void Run();

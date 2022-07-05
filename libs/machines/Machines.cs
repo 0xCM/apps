@@ -83,25 +83,25 @@ namespace Z0
             var count = entries.Length;
             const sbyte Pad = -16;
 
-            Write(RP.attrib(nameof(dispenser.EntryCount), count));
+            Write(RpOps.attrib(nameof(dispenser.EntryCount), count));
             for(ushort i=0; i<count; i++)
             {
                 ref readonly var entry = ref dispenser.Entry(i);
                 var desc = entry.Descriptor();
                 var capacity = desc.Capacity;
-                Write(RP.PageBreak32);
-                Write(RP.attrib(Pad, nameof(desc.Index), desc.Index));
-                Write(RP.attrib(Pad, nameof(desc.BaseAddress), desc.BaseAddress));
-                Write(RP.attrib(Pad, nameof(desc.EndAddress), desc.EndAddress));
-                Write(RP.attrib(Pad, nameof(capacity.Indicator), capacity.Indicator));
-                Write(RP.attrib(Pad, nameof(capacity.CellSize), capacity.CellSize));
-                Write(RP.attrib(Pad, nameof(capacity.CellsPerSeg), capacity.CellsPerSeg));
-                Write(RP.attrib(Pad, nameof(capacity.SegSize), capacity.SegSize));
-                Write(RP.attrib(Pad, nameof(capacity.SegCount), capacity.SegCount));
-                Write(RP.attrib(Pad, nameof(capacity.SegsPerBlock), capacity.SegsPerBlock));
-                Write(RP.attrib(Pad, nameof(capacity.BlockCount), capacity.BlockCount));
-                Write(RP.attrib(Pad, nameof(capacity.BlockSize), capacity.BlockSize));
-                Write(RP.attrib(Pad, nameof(capacity.TotalSize), capacity.TotalSize));
+                Write(RpOps.PageBreak32);
+                Write(RpOps.attrib(Pad, nameof(desc.Index), desc.Index));
+                Write(RpOps.attrib(Pad, nameof(desc.BaseAddress), desc.BaseAddress));
+                Write(RpOps.attrib(Pad, nameof(desc.EndAddress), desc.EndAddress));
+                Write(RpOps.attrib(Pad, nameof(capacity.Indicator), capacity.Indicator));
+                Write(RpOps.attrib(Pad, nameof(capacity.CellSize), capacity.CellSize));
+                Write(RpOps.attrib(Pad, nameof(capacity.CellsPerSeg), capacity.CellsPerSeg));
+                Write(RpOps.attrib(Pad, nameof(capacity.SegSize), capacity.SegSize));
+                Write(RpOps.attrib(Pad, nameof(capacity.SegCount), capacity.SegCount));
+                Write(RpOps.attrib(Pad, nameof(capacity.SegsPerBlock), capacity.SegsPerBlock));
+                Write(RpOps.attrib(Pad, nameof(capacity.BlockCount), capacity.BlockCount));
+                Write(RpOps.attrib(Pad, nameof(capacity.BlockSize), capacity.BlockSize));
+                Write(RpOps.attrib(Pad, nameof(capacity.TotalSize), capacity.TotalSize));
             }
 
             return result;

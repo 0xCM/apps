@@ -26,7 +26,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public string Format()
-            => string.Format(RP.PSx2, EventId, SourcePath.ToUri());
+            => string.Format(RpOps.PSx2, EventId, SourcePath.ToUri());
 
         public override string ToString()
             => Format();

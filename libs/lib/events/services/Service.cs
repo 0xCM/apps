@@ -93,6 +93,6 @@ namespace Z0
             => Signal.Data(src, flair);
 
         protected void Write<T>(string name, T value, FlairKind flair)
-            => Signal.Data(RP.attrib(name, value), flair);
+            => Signal.Data(RpOps.attrib(name, value), flair);
     }
 }

@@ -116,9 +116,9 @@ namespace Z0
 
             const string OptionValue = "-{0}:{1}";
 
-            const string QuotedOptionAssign ="-{0}:{1}=" + RP.QuotedSlot2;
+            const string QuotedOptionAssign ="-{0}:{1}=" + RpOps.QuotedSlot2;
 
-            const string QuotedPropertySpec = "/p:{0}=" + RP.QuotedSlot1;
+            const string QuotedPropertySpec = "/p:{0}=" + RpOps.QuotedSlot1;
 
             dst.Append("dotnet build");
 

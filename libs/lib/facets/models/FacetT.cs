@@ -34,10 +34,10 @@ namespace Z0
 
         public string Format()
         {
-            var k = RP.format("{0}", Key);
-            var v = RP.format("{0}", Value);
+            var k = RpOps.format("{0}", Key);
+            var v = RpOps.format("{0}", Value);
             if(text.nonempty(v))
-                return RP.facet(k, v);
+                return RpOps.facet(k, v);
             else
                 return k;
         }

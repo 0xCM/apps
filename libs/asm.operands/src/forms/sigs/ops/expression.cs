@@ -17,13 +17,13 @@ namespace Z0.Asm
                     if(_Datasets.Modifers.MapKind(src.Modifier, out var mod))
                         return string.Format("{0} {1}", xpr, mod.Expr);
                     else
-                        return RP.Error;
+                        return RpOps.Error;
                 }
                 else
                     return xpr;
             }
             else
-                return RP.Error;
+                return RpOps.Error;
         }
 
         public static AsmSigOpExpr expression(in AsmSigToken src)
@@ -31,7 +31,7 @@ namespace Z0.Asm
             if(_Datasets.Expressions.Find(src.Id, out var x))
                 return x;
 
-            return RP.Error;
+            return RpOps.Error;
         }
 
         public static AsmSigExpr expression(string src)

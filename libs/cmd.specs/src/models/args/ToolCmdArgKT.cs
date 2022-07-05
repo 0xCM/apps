@@ -23,7 +23,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public string Format()
-            => string.Format(RP.Assign, Kind, Value);
+            => string.Format(RpOps.Assign, Kind, Value);
 
         public override string ToString()
             => Format();

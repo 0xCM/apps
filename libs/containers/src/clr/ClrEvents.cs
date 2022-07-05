@@ -25,7 +25,7 @@ namespace Z0
         static void render(EventWrittenEventArgs src, ITextBuffer dst)
         {
             dst.AppendLine(src.EventName);
-            dst.AppendLine(RP.PageBreak80);
+            dst.AppendLine(RpOps.PageBreak80);
             var count = src.Payload.Count;
             for(int i = 0; i<count; i++)
             {

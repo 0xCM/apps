@@ -18,7 +18,7 @@ namespace Z0
         public uint InstructionCount;
 
         public string Format()
-            => RP.format(RP.PSx4, PartCount, HostCount, MemberCount, InstructionCount);
+            => RpOps.format(RpOps.PSx4, PartCount, HostCount, MemberCount, InstructionCount);
 
         public override string ToString()
             => Format();

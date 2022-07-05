@@ -55,7 +55,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public string Format()
-            => string.Format(RP.Assign, Name, Value);
+            => string.Format(RpOps.Assign, Name, Value);
 
         public override string ToString()
             => Format();

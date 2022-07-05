@@ -11,18 +11,6 @@ namespace Z0
 
         public readonly byte ArgCount;
 
-        // public RenderPatternAttribute(string pattern)
-        // {
-        //     PatternText = pattern;
-        //     ArgCount = 0;
-        // }
-
-        // public RenderPatternAttribute(byte args)
-        // {
-        //     ArgCount = args;
-        //     PatternText = "";
-        // }
-
         public RenderPatternAttribute(byte args, string pattern)
         {
             PatternText = pattern;

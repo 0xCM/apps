@@ -57,7 +57,7 @@ namespace Z0
         }
 
         public string Format()
-            => string.Format(RP.SlotDot4, A, B, C, D);
+            => string.Format(RpOps.SlotDot4, A, B, C, D);
 
         public override string ToString()
             => Format();

@@ -21,7 +21,7 @@ namespace Z0.Asm
             if(Datasets.Expressions.Find(src.Id, out var x))
                 return x;
 
-            return RP.Error;
+            return RpOps.Error;
         }
 
         [MethodImpl(Inline), Op]

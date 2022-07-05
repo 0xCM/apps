@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    partial struct RP
+    partial struct RpOps
     {
         [MethodImpl(Inline), Op]
         public static string substring(string src, int startidx)

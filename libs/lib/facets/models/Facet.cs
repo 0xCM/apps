@@ -33,7 +33,7 @@ namespace Z0
             var v = (Value ?? EmptyString).ToString();
 
             if(text.nonempty(v))
-                return RP.facet(k, v);
+                return RpOps.facet(k, v);
             else
                 return k;
         }

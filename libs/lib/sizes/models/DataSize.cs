@@ -78,7 +78,7 @@ namespace Z0
             => Hash;
 
         public string Format(byte pN, byte nN)
-            => string.Format(string.Format("{0} {1}", RP.digits(0,pN), RP.digits(1, nN)), Packed, Native);
+            => string.Format(string.Format("{0} {1}", RpOps.digits(0,pN), RpOps.digits(1, nN)), Packed, Native);
 
         public string Format()
             => Format(4,4);

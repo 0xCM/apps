@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct RP
+    partial struct RpOps
     {
         /// <summary>
         /// Formats the content with a space on either side

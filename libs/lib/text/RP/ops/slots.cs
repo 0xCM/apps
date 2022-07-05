@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    partial struct RP
+    partial struct RpOps
     {
         public static string[] slots(byte i0, byte count, short pad)
         {

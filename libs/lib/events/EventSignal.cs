@@ -112,6 +112,13 @@ namespace Z0
             return ev;
         }
 
+        public EmittedFileEvent<T> EmittedFile<T>(FS.FilePath dst, T msg)
+        {
+            var ev = emittedFile(Source.Type, dst, msg);
+            Raise(ev);
+            return ev;
+        }
+
         public StatusEvent<T> Status<T>(T data, FlairKind flair = FlairKind.Status)
         {
             var ev = status(Source.Type, data, flair);

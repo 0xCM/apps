@@ -85,7 +85,7 @@ namespace Z0
             term.print(
                 (Eol, FlairKind.Data),
                 (name, FlairKind.StatusData),
-                (RP.PageBreak120, FlairKind.StatusData),
+                (RpOps.PageBreak120, FlairKind.StatusData),
                 (Eol, FlairKind.Data),
                 (data + (e == null ? EmptyString :  Eol + e.ToString()), e == null ? FlairKind.Data : FlairKind.Error)
                 );

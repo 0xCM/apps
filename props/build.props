@@ -4,9 +4,9 @@
     <ZLibName>z0.lib</ZLibName>
     <TargetFramework>$(FrameworkMoniker)</TargetFramework>
     <Platforms>x64</Platforms>
-    <TieredCompilation>false</TieredCompilation>
+    <!-- <TieredCompilation>false</TieredCompilation>
     <TieredCompilationQuickJit>false</TieredCompilationQuickJit>
-    <TieredCompilationQuickJitForLoops>false</TieredCompilationQuickJitForLoops>
+    <TieredCompilationQuickJitForLoops>false</TieredCompilationQuickJitForLoops> -->
     <Configuration>Release</Configuration>
     <Deterministic>true</Deterministic>
     <Optimize>true</Optimize>

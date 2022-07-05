@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
 
     [AttributeUsage(AttributeTargets.Field)]
     public class RenderLiteralAttribute : Attribute

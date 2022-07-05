@@ -21,7 +21,7 @@ namespace Z0
         }
 
         public string Format()
-            => string.Format(RP.pad(-(int)ColWidth), Name);
+            => string.Format(RpOps.pad(-(int)ColWidth), Name);
 
         public override string ToString()
             => Format();

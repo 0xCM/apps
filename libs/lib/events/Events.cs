@@ -70,6 +70,10 @@ namespace Z0
             => new EmittedFileEvent(host, path, count);
 
         [Op]
+        public static EmittedFileEvent<T> emittedFile<T>(Type host, FS.FilePath path, T msg)
+            => new EmittedFileEvent<T>(host, path, msg);
+
+        [Op]
         public static EmittingTableEvent emittingTable(Type host, Type src, FS.FilePath dst)
             => new EmittingTableEvent(host, src, dst);
 

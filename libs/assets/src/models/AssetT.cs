@@ -71,7 +71,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public string Format()
-            => string.Format(RP.PSx3, Address, Size, Name);
+            => string.Format(RpOps.PSx3, Address, Size, Name);
 
         public override string ToString()
             => Format();

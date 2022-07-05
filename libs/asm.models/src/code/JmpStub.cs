@@ -18,14 +18,24 @@ namespace Z0.Asm
         public readonly MemoryAddress Target;
 
         [MethodImpl(Inline)]
-        public JmpStub(MemoryAddress src, MemoryAddress dst, bool rel32 = true)
+        internal JmpStub(byte opcode, int disp, byte size, MemoryAddress src, MemoryAddress dst)
         {
-            OpCode = rel32 ? JmpRel32.OpCode : JmpRel8.InstSize;
-            DispData = rel32 ? (int)AsmRel32.disp((src,  JmpRel32.InstSize),dst) : (sbyte)AsmRel8.disp((src,JmpRel8.InstSize) ,dst);
-            SizeData = rel32 ? JmpRel32.InstSize : JmpRel8.InstSize;
+            OpCode = opcode;
+            DispData = disp;
+            SizeData = size;
             Source = src;
             Target = dst;
         }
+
+        // [MethodImpl(Inline)]
+        // public JmpStub(MemoryAddress src, MemoryAddress dst, bool rel32 = true)
+        // {
+        //     OpCode = rel32 ? JmpRel32.OpCode : JmpRel8.InstSize;
+        //     DispData = rel32 ? (int)AsmRel.disp32((src,  JmpRel32.InstSize),dst) : (sbyte)AsmRel.disp8((src,JmpRel8.InstSize) ,dst);
+        //     SizeData = rel32 ? JmpRel32.InstSize : JmpRel8.InstSize;
+        //     Source = src;
+        //     Target = dst;
+        // }
 
         public Disp32 Disp
         {

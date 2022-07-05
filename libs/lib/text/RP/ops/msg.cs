@@ -4,11 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    partial struct RP
+    partial struct RpOps
     {
         [MethodImpl(Inline)]
         static string msgarg<T>(T src)

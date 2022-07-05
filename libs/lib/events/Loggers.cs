@@ -15,7 +15,7 @@ namespace Z0
 
         [Op]
         public static string format(IWfLogConfig src)
-           => string.Format(RP.Settings4,
+           => string.Format(RpOps.Settings4,
                 nameof(src.LogRoot), src.LogRoot.Format(),
                 nameof(src.StatusPath), src.StatusPath.Format(),
                 nameof(src.ErrorPath), src.ErrorPath.Format()

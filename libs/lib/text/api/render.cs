@@ -52,7 +52,7 @@ namespace Z0
         {
             dst.Append(src);
             if(eol)
-                dst.Append(RP.Eol);
+                dst.Append(RpOps.Eol);
         }
 
         [Op]

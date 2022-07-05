@@ -6,7 +6,7 @@ namespace Z0
 {
     using VCK = VarContextKind;
 
-    partial struct RP
+    partial struct RpOps
     {
          public static string pattern(VarContextKind vck)
             => vck switch

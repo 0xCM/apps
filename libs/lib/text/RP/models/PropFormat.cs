@@ -27,12 +27,12 @@ namespace Z0
 
         public string Format(char sep)
             => string.Format("{0}{1}{2}",
-                string.Format(RP.pad(Pad), Name),
+                string.Format(RpOps.pad(Pad), Name),
                 string.Format("{0} ", sep),
                     Value);
 
         public string Format()
-            => Format(RP.PropertySep);
+            => Format(RpOps.PropertySep);
 
         public override string ToString()
             => Format();
@@ -59,17 +59,17 @@ namespace Z0
         {
             Name = name;
             Value = value;
-            Pad = RP.PropertyPad;
+            Pad = RpOps.PropertyPad;
         }
 
         public string Format(char sep)
             => string.Format("{0}{1}{2}",
-                string.Format(RP.pad(Pad), Name),
+                string.Format(RpOps.pad(Pad), Name),
                 string.Format("{0} ",sep),
                     Value);
 
         public string Format()
-            => Format(RP.PropertySep);
+            => Format(RpOps.PropertySep);
 
         public override string ToString()
             => Format();

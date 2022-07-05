@@ -60,7 +60,7 @@ namespace Z0
                         continue;
 
                     emitter.AppendLine(src.Header(form));
-                    emitter.WriteLine(RP.PageBreak120);
+                    emitter.WriteLine(RpOps.PageBreak120);
                     emitter.AppendLine(src.Description(form));
                     emitter.WriteLine();
                 }

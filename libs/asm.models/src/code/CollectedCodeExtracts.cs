@@ -29,5 +29,7 @@ namespace Z0
             [MethodImpl(Inline)]
             get => (uint)Data.Count;
         }
+
+        public static CollectedCodeExtracts Empty => new (sys.empty<CollectedCodeExtract>());
     }
 }

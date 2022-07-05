@@ -15,12 +15,12 @@ namespace Z0
             var data = src.Data.ToString();
             var content = data switch
             {
-                RP.WinEol => "<weol>",
-                RP.LinuxEol => "<leol>",
-                RP.AsciNull => "<ascinull>",
+                RpOps.WinEol => "<weol>",
+                RpOps.LinuxEol => "<leol>",
+                RpOps.AsciNull => "<ascinull>",
                 _ => data
             };
-            return RP.ticks(content);
+            return RpOps.ticks(content);
         }
 
         public static string format<T>(LiteralSeq<T> src)

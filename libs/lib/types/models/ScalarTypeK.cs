@@ -39,7 +39,7 @@ namespace Z0
         }
 
         public virtual string Format()
-            => IsEmpty ? RP.Empty : Name;
+            => IsEmpty ? RpOps.Empty : Name;
 
         public override string ToString()
             => Format();

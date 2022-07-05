@@ -25,7 +25,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public string Format()
-            => RP.rpad(Name, Width);
+            => RpOps.rpad(Name, Width);
 
         [MethodImpl(Inline)]
         public int CompareTo(HeaderCell src)

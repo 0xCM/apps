@@ -73,7 +73,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var arg = ref src.Args[i];
-                buffer.AppendFormat(RP.Assign, arg.Name, arg.Value);
+                buffer.AppendFormat(RpOps.Assign, arg.Name, arg.Value);
                 if(i != count - 1)
                     buffer.Append(", ");
             }

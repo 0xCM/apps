@@ -50,10 +50,10 @@ namespace Z0
         }
 
         public string Format()
-            => string.Format(RP.Setting, Name, Value);
+            => string.Format(RpOps.Setting, Name, Value);
 
         public string Json()
-            => string.Format(RP.JsonProp, Name, Value);
+            => string.Format(RpOps.JsonProp, Name, Value);
         public int CompareTo(Setting<T> src)
             => Name.CompareTo(src.Name);
 

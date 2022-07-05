@@ -6,7 +6,7 @@ namespace Z0
 {
     using Asm;
 
-    public class CollectedCodeExtract
+    public record class CollectedCodeExtract
     {
         public ApiToken Token;
 
@@ -16,6 +16,14 @@ namespace Z0
 
         public BinaryCode TargetExtract;
 
+        public CollectedCodeExtract()
+        {
+            Token = ApiToken.Empty;
+            StubCode = AsmHexCode.Empty;
+            Disp = 0;
+            TargetExtract = BinaryCode.Empty;
+        }
+
         public CollectedCodeExtract(in RawMemberCode raw, BinaryCode extracted)
         {
             Token = raw.Token;
@@ -23,5 +31,7 @@ namespace Z0
             Disp = raw.Disp;
             TargetExtract = extracted;
         }
+
+        public static CollectedCodeExtract Empty => new();
     }
 }

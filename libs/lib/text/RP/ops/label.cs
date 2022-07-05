@@ -8,7 +8,7 @@ namespace Z0
 
     using static Root;
 
-    partial struct RP
+    partial struct RpOps
     {
         /// <summary>
         /// Creates a string of the form "name: content"

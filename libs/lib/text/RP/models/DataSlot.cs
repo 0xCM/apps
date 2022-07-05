@@ -23,7 +23,7 @@ namespace Z0
         }
 
         public string Format()
-            => string.Format(RP.slot(Index,Pad));
+            => string.Format(RpOps.slot(Index,Pad));
 
         public override string ToString()
             => Format();

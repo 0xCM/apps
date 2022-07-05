@@ -34,6 +34,6 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public string Format()
-            => RP.format(RP.PSx3, EventId, Data, SourcePath.ToUri());
+            => RpOps.format(RpOps.PSx3, EventId, Data, SourcePath.ToUri());
     }
 }

@@ -25,7 +25,7 @@ namespace Z0
         }
 
         public string Format()
-            => string.Format(RP.PSx2, EventId, string.Format("Creating {0}", HostType.Name));
+            => string.Format(RpOps.PSx2, EventId, string.Format("Creating {0}", HostType.Name));
 
         public override string ToString()
             => Format();

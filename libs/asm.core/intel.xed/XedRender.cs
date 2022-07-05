@@ -354,7 +354,7 @@ namespace Z0
         public static void describe(in DetailBlockRow src, ITextEmitter dst)
         {
             const sbyte Pad = -XedFields.FieldRender.ColWidth;
-            var pattern = RP.slot(0,Pad) + " | " + RP.slot(1);
+            var pattern = RpOps.slot(0,Pad) + " | " + RpOps.slot(1);
 
             dst.AppendLineFormat(pattern, nameof(src.InstructionId), src.InstructionId);
             dst.AppendLineFormat(pattern, nameof(src.Asm), src.Asm);
@@ -586,7 +586,7 @@ namespace Z0
             if(index < bcasts.Length)
                 return bcasts[index].Symbol.Format();
             else
-                return RP.Error;
+                return RpOps.Error;
         }
 
         public static string format(in TableCriteria src)
@@ -846,7 +846,7 @@ namespace Z0
                 src.Offsets.HasDisp ? src.Disp.Format() : EmptyString,
                 src.Offsets.HasImm1 ? src.Imm1.Format() : EmptyString
                 );
-            return string.Format("{0}{1}{2}",header, RP.Eol, content);
+            return string.Format("{0}{1}{2}",header, RpOps.Eol, content);
         }
 
         static string nsize<T>(T src)

@@ -144,7 +144,7 @@ namespace Z0
                     {
                         var statement = text.left(LineContent, (char)asmcomment.Marker).Trim();
                         if(statement.Length != 0)
-                            statement = RP.Spaced4 + statement;
+                            statement = RpOps.Spaced4 + statement;
 
                         var comment = asmcomment.Content;
                         if(comment.Contains(InstructionMarker))
@@ -166,18 +166,18 @@ namespace Z0
                         if(comment.Contains(EncodingMarker))
                         {
                             SourceLines.Add(LineNumber, new AsmSourceLine(LineNumber, LineClass, Label, statement));
-                            Encodings.Add(LineNumber, new AsmSourceLine(LineNumber, LineClass, Label, "#" + RP.Spaced2 + comment));
+                            Encodings.Add(LineNumber, new AsmSourceLine(LineNumber, LineClass, Label, "#" + RpOps.Spaced2 + comment));
                         }
                         else if(comment.Contains(InstructionMarker) && statement.Length != 0)
                         {
                             SourceLines.Add(LineNumber, new AsmSourceLine(LineNumber, LineClass, Label, statement));
-                            Syntax.Add(LineNumber, new AsmSourceLine(LineNumber, LineClass, Label, "#" + RP.Spaced2 + comment));
+                            Syntax.Add(LineNumber, new AsmSourceLine(LineNumber, LineClass, Label, "#" + RpOps.Spaced2 + comment));
                         }
                         else
                             SourceLines.Add(LineNumber, new AsmSourceLine(LineNumber, LineClass, Label, statement, comment));
                     }
                     else
-                        SourceLines.Add(LineNumber, new AsmSourceLine(LineNumber, LineClass, Label, RP.Spaced4 + LineContent));
+                        SourceLines.Add(LineNumber, new AsmSourceLine(LineNumber, LineClass, Label, RpOps.Spaced4 + LineContent));
                 break;
             }
         }

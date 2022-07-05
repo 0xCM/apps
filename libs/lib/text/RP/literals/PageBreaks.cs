@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct RP
+    partial struct RpOps
     {
         [RenderLiteral(PageBreak4)]
         public const string PageBreak2 = Dash2;

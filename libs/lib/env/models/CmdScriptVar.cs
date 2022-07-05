@@ -45,7 +45,7 @@ namespace Z0
             => Format();
 
         public string Resolve(VarContextKind vck)
-            => string.Format(RP.pattern(vck), VarValue);
+            => string.Format(RpOps.pattern(vck), VarValue);
 
         [MethodImpl(Inline)]
         public static implicit operator CmdScriptVar((Name symbol, string value) src)

@@ -29,7 +29,7 @@ namespace Z0.Asm
         public void Emit(ReadOnlySpan<CapturedApiRes> src, FS.FilePath dst)
         {
             const ulong Cut = 0x55005500550;
-            const string Sep = RP.SpacePipe;
+            const string Sep = RpOps.SpacePipe;
             const string StartMsg = "Emitting captured resource disassembly";
             const string Col0 = "Addresses";
             const string Col1 = "Accessor";

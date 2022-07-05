@@ -62,7 +62,7 @@ namespace Z0
         {
             dst = default;
             if(text.length(src) < 3)
-                return (false,RP.Empty);
+                return (false,RpOps.Empty);
 
             var result = Outcome.Success;
             var data = span(src);

@@ -31,7 +31,7 @@ namespace Z0
                 case SigFormatStyle.CSharp:
                     return cstyle(src);
                 default:
-                    return RP.Error;
+                    return RpOps.Error;
             }
         }
 
@@ -45,7 +45,7 @@ namespace Z0
                 case SigFormatStyle.CSharp:
                     return cstyle(src);
                 default:
-                    return RP.Error;
+                    return RpOps.Error;
             }
         }
 
@@ -76,7 +76,7 @@ namespace Z0
             var mod = src.Mod;
             var index = patternidx(src.Mod);
             if(index < 0)
-                return RP.Error;
+                return RpOps.Error;
 
             var pattern = EmptyString;
             switch(style)
@@ -91,7 +91,7 @@ namespace Z0
             }
 
             if(text.empty(pattern))
-                return RP.Error;
+                return RpOps.Error;
 
             return string.Format(pattern, src.Type, src.Name);
         }
@@ -101,7 +101,7 @@ namespace Z0
             var mod = src.Mod;
             var index = patternidx(src.Mod);
             if(index < 0)
-                return RP.Error;
+                return RpOps.Error;
 
             var pattern = EmptyString;
             switch(style)
@@ -116,7 +116,7 @@ namespace Z0
             }
 
             if(text.empty(pattern))
-                return RP.Error;
+                return RpOps.Error;
 
             return string.Format(pattern, src.Type, src.Name);
         }

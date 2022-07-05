@@ -24,7 +24,7 @@ namespace Z0.Asm
         {
             var i=0;
             seek(dst, i++) = JmpRel32.OpCode;
-            var disp = AsmRel32.disp(rip,target);
+            var disp = AsmRel.disp32(rip,target);
             @as<Disp32>(slice(dst,1, 4)) = disp;
         }
 
@@ -79,7 +79,7 @@ namespace Z0.Asm
         public Disp32 Disp
         {
             [MethodImpl(Inline)]
-            get => AsmRel32.disp(Rip, TargetAddress);
+            get => AsmRel.disp32(Rip, TargetAddress);
         }
 
         public Rip Rip

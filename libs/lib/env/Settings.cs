@@ -64,7 +64,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static string format<K,V>(K key, V value)
-            => string.Format(RP.Setting, key, value);
+            => string.Format(RpOps.Setting, key, value);
 
         public static Outcome single<T>(FS.FilePath src, char sep, out T dst)
             where T : new()
@@ -343,7 +343,7 @@ namespace Z0
             for(var i = 0; i<count; i++)
             {
                 ref readonly var setting = ref skip(settings,i);
-                dst.WriteLine(string.Format(RP.Setting, setting.Name, setting.Value));
+                dst.WriteLine(string.Format(RpOps.Setting, setting.Name, setting.Value));
             }
             return count;
         }

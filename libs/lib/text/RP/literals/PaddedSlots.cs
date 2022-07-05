@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct RP
+    partial struct RpOps
     {
         [RenderSlot(0, Slot0x8)]
         public const string Slot0x8 = "{0,-8}";

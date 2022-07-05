@@ -25,7 +25,7 @@ namespace Z0
                     if(i != 0)
                         dst.Append(Chars.Space);
 
-                    dst.AppendFormat(RP.Slot0, skip(terms,i));
+                    dst.AppendFormat(RpOps.Slot0, skip(terms,i));
 
                     if(i != count - 1)
                     {
@@ -111,7 +111,7 @@ namespace Z0
                     if(i != 0)
                         dst.Append(Chars.Space);
 
-                    dst.AppendFormat(RP.Slot0, skip(terms,i));
+                    dst.AppendFormat(RpOps.Slot0, skip(terms,i));
 
                     if(i != count - 1)
                     {

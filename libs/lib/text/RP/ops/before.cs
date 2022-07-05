@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct RP
+    partial struct RpOps
     {
         /// <summary>
         /// Selects the substring prior to the first occurrence of a specified character if it is found in the string; otherwise,

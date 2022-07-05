@@ -53,6 +53,6 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public string Format()
-            => string.Format(RP.Tuple3, Key, First, Second);
+            => string.Format(RpOps.Tuple3, Key, First, Second);
     }
 }

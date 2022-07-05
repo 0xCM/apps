@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct RP
+    partial struct RpOps
     {
         /// <summary>
         /// Renders an attribute '{name}:{value};
@@ -22,6 +22,6 @@ namespace Z0
         /// <param name="value">The attribute value</param>
         [Op, Closures(Closure)]
         public static string attrib<T>(int pad, string name, T value)
-            => string.Format(Attrib, string.Format(RP.pad(pad), name), denullify(value));
+            => string.Format(Attrib, string.Format(RpOps.pad(pad), name), denullify(value));
     }
 }

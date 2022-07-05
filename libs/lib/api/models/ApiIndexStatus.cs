@@ -21,7 +21,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public string Format()
-            => string.Format(RP.PSx5, Parts.Length, Hosts.Length, MemberCount, Addresses.Length, Encoded.Count);
+            => string.Format(RpOps.PSx5, Parts.Length, Hosts.Length, MemberCount, Addresses.Length, Encoded.Count);
 
         public override string ToString()
             => Format();

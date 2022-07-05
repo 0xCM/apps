@@ -147,7 +147,7 @@ namespace Z0
                                 Lookup[kind] = render<CellExpr>(x => XedRender.format((CellExpr)x));
                                 break;
                             default:
-                                Lookup[kind] = render(() => RP.Error);
+                                Lookup[kind] = render(() => RpOps.Error);
                             break;
                         }
                     }

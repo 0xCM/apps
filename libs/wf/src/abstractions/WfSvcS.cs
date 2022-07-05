@@ -189,7 +189,16 @@ namespace Z0
             => WfMsg.EmittingFile(dst);
 
         public new ExecToken EmittedFile(WfFileWritten flow, Count count)
-            => WfMsg.EmittedFile(flow,count);
+            => WfMsg.EmittedFile(flow, count);
+
+        public ExecToken EmittedFile(WfFileWritten flow, int count)
+            => WfMsg.EmittedFile(flow, count);
+
+        public ExecToken EmittedFile(WfFileWritten flow, uint count)
+            => WfMsg.EmittedFile(flow, count);
+
+        public ExecToken EmittedFile<T>(WfFileWritten flow, T msg)
+            => WfMsg.EmittedFile(flow, msg);
 
         public new WfTableFlow<T> EmittingTable<T>(FS.FilePath dst)
             where T : struct

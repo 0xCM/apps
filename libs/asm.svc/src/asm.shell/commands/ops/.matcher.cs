@@ -59,8 +59,8 @@ namespace Z0.Asm
                 var dst = targets.Path(input.FileName.ChangeExtension(FS.ext("terms")));
                 var emitting = EmittingFile(dst);
                 using var writer = dst.Utf8Writer();
-                var s0 = RP.slot(0,math.negate((short)(max)));
-                var s1 = RP.slot(1);
+                var s0 = RpOps.slot(0,math.negate((short)(max)));
+                var s1 = RpOps.slot(1);
                 var pattern = string.Concat(s0," | ", s1);
                 iter(sorted, s => writer.WriteLine(string.Format(pattern, s.Key, s.Value)));
                 EmittedFile(emitting, sorted.Length);

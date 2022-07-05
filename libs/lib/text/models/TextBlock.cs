@@ -65,7 +65,7 @@ namespace Z0
             => Text;
 
         public string Format(int? pad)
-            => pad != null ? string.Format(RP.pad(pad.Value), Data) : Data;
+            => pad != null ? string.Format(RpOps.pad(pad.Value), Data) : Data;
 
         [MethodImpl(Inline)]
         public TextBlock ToLower()

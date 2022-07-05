@@ -213,6 +213,21 @@ namespace Z0
             return completed;
         }
 
+        ExecToken EmittedFile(WfFileWritten flow, int count)
+            => EmittedFile(flow, (Count)count);
+
+        ExecToken EmittedFile(WfFileWritten flow, uint count)
+            => EmittedFile(flow, (Count)count);
+
+        ExecToken EmittedFile<T>(WfFileWritten flow, T msg)
+        {
+            var completed = Completed(flow);
+            var counted = flow.WithToken(completed);
+            signal(this).EmittedFile(counted.Target, msg);
+            Emissions.LogEmission(counted);
+            return completed;
+        }
+
         ExecToken EmittedFile(WfHost host, WfFileWritten flow, Count count)
         {
             var completed = Completed(flow);

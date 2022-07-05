@@ -65,7 +65,7 @@ namespace Z0
             {
                 result = Dispatcher.Dispatch(cmd.Name, cmd.Args);
                 if(result.Fail)
-                    Error(result.Message ?? RP.Null);
+                    Error(result.Message ?? RpOps.Null);
                 else
                 {
                     if(text.nonempty(result.Message))

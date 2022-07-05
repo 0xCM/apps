@@ -20,8 +20,8 @@ namespace Z0
             dst.TargetAddress = token.TargetAddress;
             if(token.EntryAddress != token.TargetAddress)
             {
-                dst.Disp = AsmRel32.disp((token.EntryAddress, JmpRel32.InstSize), token.TargetAddress);
-                dst.StubAsm = string.Format("jmp near ptr {0:x}h", (int)AsmRel32.reltarget(dst.Disp));
+                dst.Disp = AsmRel.disp32((token.EntryAddress, JmpRel32.InstSize), token.TargetAddress);
+                dst.StubAsm = string.Format("jmp near ptr {0:x}h", (int)AsmRel.target(dst.Disp));
             }
             dst.CodeSize = (ushort)src.Code.Size;
             dst.Sig = token.Sig.Format();

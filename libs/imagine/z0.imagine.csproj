@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="$(Sys)" />
+    <ProjectReference Include="$(Text)" />
   </ItemGroup>
 
 </Project>

@@ -27,7 +27,7 @@ namespace Z0
                 => TableDir(typeof(T));
 
         FS.FilePath Table(FS.FolderPath dir, string subject, PartId part)
-            => dir + FS.file(string.Format(RP.SlotDot2, subject, part.Format()), DefaultTableExt);
+            => dir + FS.file(string.Format(RpOps.SlotDot2, subject, part.Format()), DefaultTableExt);
 
         FS.FilePath Table<T>(FS.FolderName subject)
             where T : struct

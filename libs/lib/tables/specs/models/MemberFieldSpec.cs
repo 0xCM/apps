@@ -39,7 +39,7 @@ namespace Z0
         }
 
         public string Format()
-            =>  string.Format(RP.PSx4, FieldName, Position, Offset, DataType);
+            =>  string.Format(RpOps.PSx4, FieldName, Position, Offset, DataType);
 
 
         public override string ToString()

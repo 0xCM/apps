@@ -15,7 +15,7 @@ namespace Z0.llvm
         [MethodImpl(Inline)]
         public LlvmEntitySet(LlvmEntity[] src)
         {
-            Name = RP.Empty;
+            Name = RpOps.Empty;
             Data = new(src);
         }
 

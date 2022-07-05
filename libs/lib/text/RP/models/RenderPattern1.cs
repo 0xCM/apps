@@ -18,7 +18,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public RenderCapture Capture(in T src)
-            => RP.capture(this, src);
+            => RpOps.capture(this, src);
 
         [MethodImpl(Inline)]
         public static implicit operator RenderPattern<T>(string src)

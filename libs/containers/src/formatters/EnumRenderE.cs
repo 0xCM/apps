@@ -49,7 +49,7 @@ namespace Z0
             else if(Syms.MapValue(core.bw64(src), out var b))
                 return b.Expr.Text;
             else
-                return RP.Error;
+                return RpOps.Error;
         }
 
         public string Format(E src, bool name)
@@ -61,7 +61,7 @@ namespace Z0
                 else if(Syms.MapValue(core.bw64(src), out var b))
                     return b.Name;
                 else
-                    return RP.Error;
+                    return RpOps.Error;
             }
             else
                 return Format(src);
@@ -72,7 +72,7 @@ namespace Z0
             if(mode.Test(M.EmptyZero)  && core.bw64(src) == 0)
                 return EmptyString;
 
-            var dst = RP.Error;
+            var dst = RpOps.Error;
             Syms.MapKind(src, out var e);
 
             switch((EnumFormatMode)((byte)mode & 0b111111))

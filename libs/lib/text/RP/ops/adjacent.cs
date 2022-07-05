@@ -4,26 +4,26 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct RP
+    partial struct RpOps
     {
         [Op]
         public static string adjacent(dynamic a, dynamic b)
-            => string.Format(RP.Adjacent2, a, b);
+            => string.Format(RpOps.Adjacent2, a, b);
 
         [Op]
         public static string adjacent(dynamic a, dynamic b, dynamic c)
-            => string.Format(RP.Adjacent3, a, b, c);
+            => string.Format(RpOps.Adjacent3, a, b, c);
 
         [Op]
         public static string adjacent(dynamic a, dynamic b, dynamic c, dynamic d)
-            => string.Format(RP.Adjacent4, a, b, c, d);
+            => string.Format(RpOps.Adjacent4, a, b, c, d);
 
         [Op]
         public static string adjacent(dynamic a, dynamic b, dynamic c, dynamic d, dynamic e)
-            => string.Format(RP.Adjacent5, a, b, c, d, e);
+            => string.Format(RpOps.Adjacent5, a, b, c, d, e);
 
         [Op]
         public static string adjacent(dynamic a, dynamic b, dynamic c, dynamic d, dynamic e, dynamic f)
-            => string.Format(RP.Adjacent6, a, b, c, d, e, f);
+            => string.Format(RpOps.Adjacent6, a, b, c, d, e, f);
     }
 }

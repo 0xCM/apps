@@ -4,8 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [ApiHost, LiteralProvider]
-    public readonly partial struct RP
+    [ApiHost]
+    public readonly partial struct RpOps
     {
         const NumericKind Closure = UnsignedInts;
 

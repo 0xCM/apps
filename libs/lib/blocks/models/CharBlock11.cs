@@ -90,7 +90,7 @@ namespace Z0
 
         public static B Null => default;
 
-        public static B Empty => RP.Spaced11;
+        public static B Empty => RpOps.Spaced11;
 
     }
 }

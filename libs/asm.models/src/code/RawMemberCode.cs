@@ -4,8 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    public struct RawMemberCode
+    [StructLayout(LayoutKind.Sequential,Pack=1), Record(TableId)]
+    public record struct RawMemberCode
     {
+        const string TableId = "member.code.raw";
+
         public ApiToken Token;
 
         public Disp32 Disp;
@@ -19,5 +22,7 @@ namespace Z0.Asm
         public MemoryAddress Entry;
 
         public MemoryAddress Target;
+
+        public static RawMemberCode Empty => default;
     }
 }

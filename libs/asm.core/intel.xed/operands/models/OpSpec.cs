@@ -19,7 +19,7 @@ namespace Z0
                 const sbyte Pad = -XedFields.FieldRender.ColWidth;
 
                 var dst = text.buffer();
-                dst.AppendFormat(RP.slot(0, Pad), src.Index);
+                dst.AppendFormat(RpOps.slot(0, Pad), src.Index);
                 dst.Append(" | ");
                 dst.AppendFormat("{0,-4}", XedRender.format(src.Name));
                 dst.AppendFormat(OpSepSlot, XedRender.format(src.Action));

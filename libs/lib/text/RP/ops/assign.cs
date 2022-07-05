@@ -4,10 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct RP
+    partial struct RpOps
     {
         [Op]
         public static string assign(object lhs, object rhs, bool spaced = true)
-            => string.Format(spaced ? RP.SpacedAssign : RP.Assign, lhs, rhs);
+            => string.Format(spaced ? RpOps.SpacedAssign : RpOps.Assign, lhs, rhs);
     }
 }

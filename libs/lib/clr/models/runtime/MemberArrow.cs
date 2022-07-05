@@ -28,7 +28,7 @@ namespace Z0
         const string MemberFormat = "{0}[{1}]";
 
         public string IdentityText
-            => string.Format(RP.Arrow,
+            => string.Format(RpOps.Arrow,
                 string.Format(MemberFormat, Source.Name, Source.Token),
                 string.Format(MemberFormat, Target.Name, Target.Token)
                 );

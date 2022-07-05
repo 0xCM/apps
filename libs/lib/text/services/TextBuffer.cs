@@ -71,7 +71,7 @@ namespace Z0
             => AppendLine(string.Format(pattern, args));
 
         public void AppendLine<T>(T src)
-            => Target.AppendLine(src?.ToString() ?? RP.Null);
+            => Target.AppendLine(src?.ToString() ?? RpOps.Null);
 
         public void Indent<T>(uint margin, T src)
             => Target.Append(string.Format("{0}{1}", new string(Chars.Space, (int)margin), src));
@@ -89,7 +89,7 @@ namespace Z0
         {
             if(nonempty(delimiter))
                 Target.Append(delimiter);
-            Target.Append(string.Format(RP.pad(-i16(width)), value));
+            Target.Append(string.Format(RpOps.pad(-i16(width)), value));
         }
 
         public void Delimit(string delimiter, params object[] src)
@@ -103,14 +103,14 @@ namespace Z0
 
         public void Delimit<T>(T content, char delimiter, int pad)
         {
-            Target.Append(RP.rspace(delimiter));
+            Target.Append(RpOps.rspace(delimiter));
             Target.Append($"{content}".PadRight((int)pad));
         }
 
         public void Delimit<F,T>(F label, T content, int pad = 0, char delimiter = FieldDelimiter)
         {
-            Target.Append(RP.rspace(delimiter));
-            Target.AppendFormat(RP.pad(pad), label);
+            Target.Append(RpOps.rspace(delimiter));
+            Target.AppendFormat(RpOps.pad(pad), label);
             Target.Append(content);
         }
 

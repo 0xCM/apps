@@ -112,7 +112,7 @@ namespace Z0
                 buffer.WriteLine();
                 if(text.nonempty(cols.TableName))
                     buffer.AppendLineFormat("# {0}", cols.TableName);
-                buffer.AppendLine(RP.PageBreak160);
+                buffer.AppendLine(RpOps.PageBreak160);
                 buffer.AppendLine(cols.Header);
                 var type = first(rows)?.GetType() ?? typeof(void);
                 if(type.IsNonEmpty())

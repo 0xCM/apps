@@ -17,7 +17,7 @@ namespace Z0
             => Value.ToString();
 
         public string Pattern()
-            => RP.pad(-(int)Value);
+            => RpOps.pad(-(int)Value);
 
         [MethodImpl(Inline)]
         public static implicit operator RenderWidth(int src)

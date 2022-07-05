@@ -4,17 +4,45 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     partial class text
     {
+        /// <summary>
+        /// Produces the literal '{<paramref name='index'/>}
+        /// </summary>
+        /// <param name="index">The slot index value</param>
+        [MethodImpl(Inline), Op]
+        public static string slot(byte index)
+            => string.Concat("{", index, "}");
+
+        /// <summary>
+        /// Produces the literal '{<paramref name='index'/>,<paramref name='pad'/>}
+        /// </summary>
+        /// <param name="index">The slot index value</param>
+        [MethodImpl(Inline), Op]
+        public static string slot(byte index, short pad)
+            => string.Concat("{", index, ",", pad, "}");
+
+        /// <summary>
+        /// Produces the literal '{<paramref name='index'/>}
+        /// </summary>
+        /// <param name="index">The slot index value</param>
+        [MethodImpl(Inline), Op]
+        public static string slot(uint index)
+            => string.Concat("{", index, "}");
+
+        /// <summary>
+        /// Produces the literal '{<paramref name='index'/>,<paramref name='pad'/>}
+        /// </summary>
+        /// <param name="index">The slot index value</param>
+        [MethodImpl(Inline), Op]
+        public static string slot(uint index, short pad)
+            => string.Concat("{", index, ",", pad, "}");
+
         [MethodImpl(Inline), Op]
         public static ReadOnlySpan<char> slot(ReadOnlySpan<byte> widths, byte index)
-            => RP.slot(index, (sbyte)(-(sbyte)skip(widths, index)));
+            => slot(index, (sbyte)(-(sbyte)skip(widths, index)));
 
         [Op]
         public static uint slot(ReadOnlySpan<byte> widths, char sep, Span<char> dst)

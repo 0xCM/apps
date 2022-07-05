@@ -36,7 +36,7 @@ namespace Z0
             => Artifact = artifact;
 
         public string Format()
-            => string.Format(RP.PSx3, Kind, Token, Name);
+            => string.Format(RpOps.PSx3, Kind, Token, Name);
 
         public override string ToString()
             => Format();

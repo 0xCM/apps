@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using static RP;
+    using static RpOps;
 
     public readonly struct AsmSemanticDefaults
     {

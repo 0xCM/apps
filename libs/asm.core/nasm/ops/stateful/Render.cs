@@ -8,7 +8,7 @@ namespace Z0
 
     partial class Nasm
     {
-        const string RenderDelimiter = RP.SpacedPipe;
+        const string RenderDelimiter = RpOps.SpacedPipe;
 
         public string FormatBitstring(in BinaryCode src)
             => BitFormat.Format(src.Storage.Reverse());

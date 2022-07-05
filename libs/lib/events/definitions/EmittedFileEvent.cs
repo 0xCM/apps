@@ -25,8 +25,8 @@ namespace Z0
 
         public string Format()
             => LineCount != 0
-            ? RP.format(EventId, AppMsg.EmittedFileLines.Capture(LineCount,Path))
-            : RP.format(EventId, AppMsg.EmittedFile.Capture(Path));
+            ? RpOps.format(EventId, AppMsg.EmittedFileLines.Capture(LineCount,Path))
+            : RpOps.format(EventId, AppMsg.EmittedFile.Capture(Path));
 
         public override string ToString()
             => Format();

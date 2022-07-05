@@ -78,7 +78,7 @@ namespace Z0
 
         public static string format<T>(in v2<T> src)
             where T : unmanaged
-                => string.Format(RP.V2, src[0], src[1]);
+                => string.Format(RpOps.V2, src[0], src[1]);
 
         /// <summary>
         /// Creates a vector of specifield length and parametric type
@@ -126,7 +126,7 @@ namespace Z0
 
         public static string format<T>(in v3<T> src)
             where T : unmanaged
-                => string.Format(RP.V3,
+                => string.Format(RpOps.V3,
                     src[0], src[1], src[2]);
 
         /// <summary>
@@ -184,7 +184,7 @@ namespace Z0
 
         public static string format<T>(in v4<T> src)
             where T : unmanaged
-                => string.Format(RP.V4, src[0], src[1], src[2], src[3]);
+                => string.Format(RpOps.V4, src[0], src[1], src[2], src[3]);
 
         /// <summary>
         /// Creates a vector of specifield length and parametric type
@@ -222,7 +222,7 @@ namespace Z0
 
         public static string format<T>(in v5<T> src)
             where T : unmanaged
-                => string.Format(RP.V5,
+                => string.Format(RpOps.V5,
                     src[0], src[1], src[2], src[3], src[4]);
 
         /// <summary>
@@ -262,7 +262,7 @@ namespace Z0
 
         public static string format<T>(in v6<T> src)
             where T : unmanaged
-                => string.Format(RP.V6,
+                => string.Format(RpOps.V6,
                     src[0], src[1], src[2], src[3], src[4], src[5]);
 
         /// <summary>
@@ -303,7 +303,7 @@ namespace Z0
 
         public static string format<T>(in v7<T> src)
             where T : unmanaged
-                => string.Format(RP.V7,
+                => string.Format(RpOps.V7,
                     src[0], src[1], src[2], src[3], src[4], src[5], src[7]);
 
         /// <summary>
@@ -355,7 +355,7 @@ namespace Z0
 
         public static string format<T>(in v8<T> src)
             where T : unmanaged
-                => string.Format(RP.V8,
+                => string.Format(RpOps.V8,
                     src[0], src[1], src[2], src[3], src[4], src[5], src[6], src[7]);
 
         /// <summary>
@@ -399,7 +399,7 @@ namespace Z0
 
         public static string format<T>(in v9<T> src)
             where T : unmanaged
-                => string.Format(RP.V9,
+                => string.Format(RpOps.V9,
                     src[0], src[1], src[2], src[3], src[4], src[5], src[6], src[7], src[8]);
 
         /// <summary>
@@ -414,7 +414,7 @@ namespace Z0
 
         public static string format<T>(in v10<T> src)
             where T : unmanaged
-                => string.Format(RP.V8,
+                => string.Format(RpOps.V8,
                     src[0], src[1], src[2], src[3], src[4], src[5], src[6], src[7],
                     src[8], src[9]);
 
@@ -440,7 +440,7 @@ namespace Z0
 
         public static string format<T>(in v11<T> src)
             where T : unmanaged
-                => string.Format(RP.V8,
+                => string.Format(RpOps.V8,
                     src[0], src[1], src[2], src[3], src[4], src[5], src[6], src[7],
                     src[8], src[9], src[10]);
 
@@ -465,7 +465,7 @@ namespace Z0
                 => default;
         public static string format<T>(in v12<T> src)
             where T : unmanaged
-                => string.Format(RP.V8,
+                => string.Format(RpOps.V8,
                     src[0], src[1], src[2], src[3], src[4], src[5], src[6], src[7],
                     src[8], src[9]);
 
@@ -507,7 +507,7 @@ namespace Z0
 
         public static string format<T>(in v16<T> src)
             where T : unmanaged
-                => string.Format(RP.V16,
+                => string.Format(RpOps.V16,
                     src[0],  src[1],  src[2],  src[3],  src[4],  src[5],  src[6],  src[7],
                     src[8],  src[9],  src[10], src[11], src[12], src[13], src[14], src[15]
                     );
@@ -545,7 +545,7 @@ namespace Z0
 
         public static string format<T>(in v32<T> src)
             where T : unmanaged
-                => string.Format(RP.V32,
+                => string.Format(RpOps.V32,
                     src[0],  src[1],  src[2],  src[3],  src[4],  src[5],  src[6],  src[7],  src[8], src[9],
                     src[10], src[11], src[12], src[13], src[14], src[15], src[16], src[17], src[18], src[19],
                     src[20], src[21], src[22], src[23], src[24], src[25], src[26], src[27], src[28], src[29],
@@ -585,11 +585,11 @@ namespace Z0
 
         public static string format<T>(in v1<T> src)
             where T : unmanaged
-                => string.Format(RP.V1, src[0]);
+                => string.Format(RpOps.V1, src[0]);
 
         public static string format<T>(in v64<T> src)
             where T : unmanaged
-                => string.Format(RP.V64,
+                => string.Format(RpOps.V64,
                     src[0],  src[1],  src[2],  src[3],  src[4],  src[5],  src[6],  src[7],  src[8], src[9],
                     src[10], src[11], src[12], src[13], src[14], src[15], src[16], src[17], src[18], src[19],
                     src[20], src[21], src[22], src[23], src[24], src[25], src[26], src[27], src[28], src[29],

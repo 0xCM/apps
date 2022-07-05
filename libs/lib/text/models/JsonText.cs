@@ -59,7 +59,7 @@ namespace Z0
             dst = EmptyString;
             var result = Outcome.Success;
             if(src == null)
-                return Outcome.fail(RP.Null);
+                return Outcome.fail(RpOps.Null);
 
             var buffer = new StringBuilder();
             int startIndex = 0, count = 0;

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct RP
+    partial struct RpOps
     {
         /// <summary>
         /// Formats the operands as a facet 'k:v'
@@ -25,6 +25,6 @@ namespace Z0
         /// <typeparam name="K">The the type</typeparam>
         /// <typeparam name="V">The value type</typeparam>
         public static string facet<K,V>(K key, V value, int pad)
-            => string.Format(Attrib, string.Format(RP.pad(pad),key), value);
+            => string.Format(Attrib, string.Format(RpOps.pad(pad),key), value);
     }
 }

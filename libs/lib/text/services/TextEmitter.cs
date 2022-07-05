@@ -173,7 +173,7 @@ namespace Z0
             => Target.WriteLine(src);
 
         public void AppendLine<T>(T src)
-            => Target.WriteLine(src?.ToString() ?? RP.Null);
+            => Target.WriteLine(src?.ToString() ?? RpOps.Null);
 
         public void IndentLine<T>(uint margin, T src)
             => Target.WriteLine(string.Format("{0}{1}", new string(Chars.Space, (int)margin), src));

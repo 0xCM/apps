@@ -25,30 +25,30 @@ namespace Z0.Asm
 
         public static string header(in MemberEncoding src)
         {
-            const string PageBreak = "#" + CharText.Space + RP.PageBreak160;
+            const string PageBreak = "#" + CharText.Space + RpOps.PageBreak160;
             const AsmCommentMarker CommentMarker = AsmCommentMarker.Hash;
             const sbyte Pad = -14;
             var dst = text.buffer();
             dst.AppendLine(PageBreak);
             dst.AppendLine(new AsmInlineComment(CommentMarker, $"{src.Sig}::{src.Uri}"));
             dst.AppendLine(AsmInlineComment.array(src.Data).Format());
-            dst.AppendLine(new AsmInlineComment(CommentMarker, RP.attrib(Pad, nameof(src.EntryAddress), src.EntryAddress)));
-            dst.AppendLine(new AsmInlineComment(CommentMarker, RP.attrib(Pad, nameof(src.TargetAddress), src.TargetAddress)));
+            dst.AppendLine(new AsmInlineComment(CommentMarker, RpOps.attrib(Pad, nameof(src.EntryAddress), src.EntryAddress)));
+            dst.AppendLine(new AsmInlineComment(CommentMarker, RpOps.attrib(Pad, nameof(src.TargetAddress), src.TargetAddress)));
             dst.Append(PageBreak);
             return dst.Emit();
         }
 
         public static string header(in CollectedEncoding src)
         {
-            const string PageBreak = "#" + CharText.Space + RP.PageBreak160;
+            const string PageBreak = "#" + CharText.Space + RpOps.PageBreak160;
             const AsmCommentMarker CommentMarker = AsmCommentMarker.Hash;
             const sbyte Pad = -14;
             var dst = text.buffer();
             dst.AppendLine(PageBreak);
             dst.AppendLine(new AsmInlineComment(CommentMarker, $"{src.Sig}::{src.Uri}"));
             dst.AppendLine(AsmInlineComment.array(src.Code).Format());
-            dst.AppendLine(new AsmInlineComment(CommentMarker, RP.attrib(Pad, nameof(src.Token.EntryAddress), src.Token.EntryAddress)));
-            dst.AppendLine(new AsmInlineComment(CommentMarker, RP.attrib(Pad, nameof(src.Token.TargetAddress), src.Token.TargetAddress)));
+            dst.AppendLine(new AsmInlineComment(CommentMarker, RpOps.attrib(Pad, nameof(src.Token.EntryAddress), src.Token.EntryAddress)));
+            dst.AppendLine(new AsmInlineComment(CommentMarker, RpOps.attrib(Pad, nameof(src.Token.TargetAddress), src.Token.TargetAddress)));
             dst.Append(PageBreak);
             return dst.Emit();
         }
@@ -105,15 +105,15 @@ namespace Z0.Asm
 
         static byte render(in ApiCodeBlockHeader src, Span<string> dst)
         {
-            const string PageBreak = "#" + CharText.Space + RP.PageBreak160;
+            const string PageBreak = "#" + CharText.Space + RpOps.PageBreak160;
             const AsmCommentMarker CommentMarker = AsmCommentMarker.Hash;
             var i = z8;
             seek(dst, i++) = PageBreak;
             seek(dst, i++) = comment(CommentMarker, $"{src.DisplaySig}::{src.Uri}");
             seek(dst, i++) = bytespan(src.Uri, src.CodeBlock);
             seek(dst, i++) = hexarray(src.CodeBlock);
-            seek(dst, i++) = comment(CommentMarker, string.Concat(nameof(CodeBlock.Address), RP.spaced(Chars.Eq), src.CodeBlock.Address));
-            seek(dst, i++) = comment(CommentMarker, string.Concat(nameof(src.TermCode), RP.spaced(Chars.Eq), src.TermCode.ToString()));
+            seek(dst, i++) = comment(CommentMarker, string.Concat(nameof(CodeBlock.Address), RpOps.spaced(Chars.Eq), src.CodeBlock.Address));
+            seek(dst, i++) = comment(CommentMarker, string.Concat(nameof(src.TermCode), RpOps.spaced(Chars.Eq), src.TermCode.ToString()));
             seek(dst, i++) = PageBreak;
             return i;
         }

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct RP
+    partial struct RpOps
     {
         [RenderPattern(2, Attrib)]
         public const string Attrib = "{0}:{1}";

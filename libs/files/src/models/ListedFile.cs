@@ -58,7 +58,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public string Format()
-            => RP.format("{0,-10} | {1}", Seq, Path);
+            => RpOps.format("{0,-10} | {1}", Seq, Path);
 
         public override string ToString()
             => Format();

@@ -17,7 +17,7 @@ namespace Z0
             var data = src.Cells.View;
 
             dst.AppendLine(string.Format("{0,-32} {1}", src.Rule.Format(), src.TablePath));
-            dst.AppendLine(RP.PageBreak260);
+            dst.AppendLine(RpOps.PageBreak260);
             for(var i=0; i<src.RowCount; i++)
             {
                 var offset = i*src.ColCount;

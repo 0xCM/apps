@@ -13,6 +13,6 @@ namespace Z0
     {
         [MethodImpl(Inline), TextUtility]
         public static string TakeBefore(this string src, char match)
-            => RP.before(src, match);
+            => RpOps.before(src, match);
     }
 }

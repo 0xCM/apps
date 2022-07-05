@@ -69,7 +69,7 @@ namespace Z0
         }
 
         public string FormatPadded(int padding = DefaultPadding)
-            => string.Format(RP.pad(padding), Content);
+            => string.Format(RpOps.pad(padding), Content);
 
         [MethodImpl(Inline)]
         public bool Equals(AsmExpr src)

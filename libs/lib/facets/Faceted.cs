@@ -72,7 +72,7 @@ namespace Z0
             var k = string.Format("{0}", src.Key);
             var v = string.Format("{0}", src.Value);
             if(nonempty(v))
-                return RP.facet(k, v);
+                return RpOps.facet(k, v);
             else
                 return k;
         }

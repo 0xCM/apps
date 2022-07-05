@@ -28,7 +28,7 @@ namespace Z0
                 ref readonly var row = ref doc[i];
                 ref readonly var detail = ref row.DetailRow;
                 var inst = detail.Instruction;
-                dst.AppendLine(RP.PageBreak80);
+                dst.AppendLine(RpOps.PageBreak80);
                 XedRender.describe(detail, dst);
                 ref readonly var ops = ref detail.Ops;
                 dst.AppendLine("Operands");

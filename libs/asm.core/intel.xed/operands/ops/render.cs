@@ -14,7 +14,7 @@ namespace Z0
         public static void render(Index<OpSpec> src, ITextEmitter dst)
         {
             dst.AppendLineFormat(FieldRender.Columns, "Operands", EmptyString);
-            dst.AppendLine(RP.PageBreak80);
+            dst.AppendLine(RpOps.PageBreak80);
             for(var i=0; i<src.Count; i++)
                 dst.AppendLine(src[i].Format());
         }

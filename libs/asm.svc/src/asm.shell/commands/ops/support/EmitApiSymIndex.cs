@@ -28,7 +28,7 @@ namespace Z0.Asm
                 var symbol = literal.Symbol.Format();
                 ref readonly var value = ref literal.Value;
                 var @class = literal.Component.IsNonEmpty ? literal.Component.Format() : EmptyString;
-                var type =  empty(@class) ? literal.Type.Format() : (literal.Type.Format() + RP.embrace(@class));
+                var type =  empty(@class) ? literal.Type.Format() : (literal.Type.Format() + RpOps.embrace(@class));
                 var desc = EmptyString;
                 desc = string.Format("[{0:D5}:{1:D5}:{2}:{3}] = '{4}'", i, pos, type, name, symbol);;
                 writer.WriteLine(desc);

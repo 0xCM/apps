@@ -44,7 +44,7 @@ namespace Z0
             using var stream = path.Utf8Reader();
             using var reader = stream.BinaryReader();
             using var writer = dst.Writer();
-            writer.WriteLine(string.Concat($"Address".PadRight(12), RP.SpacedPipe, "Data"));
+            writer.WriteLine(string.Concat($"Address".PadRight(12), RpOps.SpacedPipe, "Data"));
             var buffer = alloc<byte>(bpl);
             var k = Read(reader, buffer);
             var offset = MemoryAddress.Zero;

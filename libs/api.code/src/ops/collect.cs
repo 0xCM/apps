@@ -33,6 +33,28 @@ namespace Z0
             return code;
         }
 
+        public static ReadOnlySpan<byte> parse(in RawMemberCode src, Span<byte> dst)
+        {
+            if(src.StubCode != src.Stub.Encoding)
+                Errors.Throw("Stub code mismatch");
+            return slice(dst,0, Bytes.readz(ZeroLimit, src.Target, dst));
+        }
+
+        public static MemoryAddress stub(MemoryAddress src, out AsmHexCode stub)
+        {
+            stub = AsmHexCode.Empty;
+            var target = src;
+            var buffer = Cells.alloc(w64).Bytes;
+            ref var data = ref src.Ref<byte>();
+            ByteReader.read5(data, buffer);
+            if(JmpRel32.test(buffer))
+            {
+                stub = AsmHexCode.load(slice(buffer,0,5));
+                target = AsmRel.target((src, 5), stub.Bytes);
+            }
+            return target;
+        }
+
         static void collect(ICompositeDispenser symbols, MethodEntryPoint entry, out RawMemberCode dst)
         {
             dst = new RawMemberCode();
@@ -42,15 +64,16 @@ namespace Z0
             dst.Target = target;
             if(target != entry.Location)
             {
-                dst.Disp = AsmRel32.disp(dst.StubCode.Bytes);
-                dst.Stub = new JmpStub(entry.Location, target);
+                dst.Disp = AsmRel.disp32(dst.StubCode.Bytes);
+                dst.Stub = AsmRel.stub32(entry.Location, target);
                 dst.Token = token(symbols, entry, target);
             }
             else
                 dst.Token = token(symbols, entry);
         }
 
-        static Index<CollectedEncoding> divine(ReadOnlySpan<RawMemberCode> src, WfEventLogger log)
+
+        static Index<CollectedEncoding> original(ReadOnlySpan<RawMemberCode> src, WfEventLogger log)
         {
             var count = src.Length;
             var buffer = span<byte>(Pow2.T16);
@@ -77,6 +100,58 @@ namespace Z0
                     extracts.Include(extracted);
                 else
                     dst[host] = new CollectedCodeExtracts(extracted);
+            }
+
+            return lookup(dst, log).Emit();
+        }
+
+        static Outcome extract(in RawMemberCode raw, Span<byte> buffer, out CollectedCodeExtract dst)
+        {
+            var result = Outcome.Success;
+            var uri = raw.Uri;
+            if(raw.StubCode != raw.Stub.Encoding)
+            {
+                result = (false,$"Stub code mismatch for ${uri}: neq(stub:{raw.StubCode}, stub.encoding:{raw.Stub.Encoding}");
+                dst = CollectedCodeExtract.Empty;
+            }
+            else
+            {
+                var code = slice(buffer, 0, Bytes.readz(ZeroLimit, raw.Target, buffer));
+                dst = new CollectedCodeExtract(raw, code.ToArray());
+            }
+
+            return result;
+        }
+
+        static Index<CollectedEncoding> divine(ReadOnlySpan<RawMemberCode> src, WfEventLogger log)
+        {
+            var count = src.Length;
+            var buffer = span<byte>(Pow2.T16);
+            var host = ApiHostUri.Empty;
+            var dst = dict<ApiHostUri,CollectedCodeExtracts>();
+            var max = ByteSize.Zero;
+            for(var i=0; i<count; i++)
+            {
+                buffer.Clear();
+                var extracted = CollectedCodeExtract.Empty;
+                var extracts = CollectedCodeExtracts.Empty;
+                ref readonly var raw = ref skip(src,i);
+                var result = ApiCode.extract(raw, buffer, out extracted);
+                if(result.Fail)
+                {
+                    log(Events.error("StubCodeMismatch", result.Message));
+                }
+                else
+                {
+                    ref readonly var uri = ref raw.Uri;
+                    if(uri.Host != host)
+                        host = uri.Host;
+
+                    if(dst.TryGetValue(host, out extracts))
+                        extracts.Include(extracted);
+                    else
+                        dst[host] = new CollectedCodeExtracts(extracted);
+                }
             }
 
             return lookup(dst, log).Emit();

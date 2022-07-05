@@ -188,7 +188,7 @@ namespace Z0
         {
             var statement = skip(parts,0).Remove(RexRemove);
             var comment = skip(parts,1);
-            var bitstring = RP.Error;
+            var bitstring = RpOps.Error;
             var formatted = FormatBytes(comment, out var count);
             if(Hex.hexdata(formatted, out var parsed))
                 bitstring = asm.asmhex(parsed).BitString;
@@ -332,7 +332,7 @@ namespace Z0
 
         const string RexRemove = "rex ";
 
-        const string PageBreak = RP.PageBreak160;
+        const string PageBreak = RpOps.PageBreak160;
 
         const string StatementCommentPattern = "{0,-20} | {1,-6} | [{2} <-> {3}]";
 

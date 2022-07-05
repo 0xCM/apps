@@ -91,6 +91,8 @@
     <Symbols>$(LibsRoot)symbols/z0.symbols.csproj</Symbols>
     <Sys>$(LibsRoot)sys/z0.sys.csproj</Sys>
 
+    <Text>$(LibsRoot)text/z0.text.csproj</Text>
+
     <Validity>$(LibsRoot)validity/z0.validity.csproj</Validity>
 
     <Tools>$(LibsRoot)tools/z0.tools.csproj</Tools>

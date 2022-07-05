@@ -88,7 +88,7 @@ namespace Z0
 
         public static B Null => default;
 
-        public static CharBlock6 Empty => RP.Spaced6;
+        public static CharBlock6 Empty => RpOps.Spaced6;
 
         /// <summary>
         /// The block capacity

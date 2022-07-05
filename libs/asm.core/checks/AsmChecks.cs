@@ -149,13 +149,13 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var expect = ref cases[i];
-                var disp = AsmRel32.disp(expect.Encoding.Bytes);
+                var disp = AsmRel.disp32(expect.Encoding.Bytes);
                 Require.equal(disp, expect.Disp);
                 var source = expect.Source;
                 Rip rip = (source, JmpRel32.InstSize);
                 MemoryAddress target = (MemoryAddress)((long)rip + (int)disp);
-                Require.equal(AsmRel32.disp(rip, target), disp);
-                Require.equal(AsmRel32.target(rip, expect.Encoding.Bytes), target);
+                Require.equal(AsmRel.disp32(rip, target), disp);
+                Require.equal(AsmRel.target(rip, expect.Encoding.Bytes), target);
                 var encoding = JmpRel32.encode(rip, target);
                 Require.equal(encoding, expect.Encoding);
                 var relTarget = (int)disp + (int)JmpRel32.InstSize;
@@ -176,7 +176,7 @@ namespace Z0
             var label0 = 0x005a;
             var ip0 = @base + label0;
 
-            var dx0 = AsmRel32.disp((ip0, sz), @return);
+            var dx0 = AsmRel.disp32((ip0, sz), @return);
 
             var code0 = JmpRel32.encode((ip0,sz), @return);
             var code1 = AsmHexCode.parse("e9 58 10 00 00");
@@ -186,7 +186,7 @@ namespace Z0
 
             var label1 = 0x0065;
             var ip1 = @base + label1;
-            var dx1 = AsmRel32.disp((ip1,sz), @return);
+            var dx1 = AsmRel.disp32((ip1,sz), @return);
             var actual1 = JmpRel32.encode((ip1,sz), @return);
             var expect1 = AsmHexCode.parse("e9 4d 10 00 00");
             if(!actual1.Equals(expect1))
@@ -194,7 +194,7 @@ namespace Z0
 
             var label2 = 0x0070;
             var ip2 = @base + label2;
-            var dx2 = AsmRel32.disp((ip2,sz), @return);
+            var dx2 = AsmRel.disp32((ip2,sz), @return);
             var actual2 = JmpRel32.encode((ip2,sz), @return);
             var expect2 = AsmHexCode.parse("e9 42 10 00 00");
             if(!actual2.Equals(expect2))
@@ -202,7 +202,7 @@ namespace Z0
 
             var label3 = 0x007b;
             var ip3 = @base + label3;
-            var dx3 = AsmRel32.disp((ip3,sz), @return);
+            var dx3 = AsmRel.disp32((ip3,sz), @return);
             var actual3 = JmpRel32.encode((ip3,sz), @return);
             var expect3 = AsmHexCode.parse("e9 37 10 00 00");
             if(!actual3.Equals(expect3))
@@ -222,7 +222,7 @@ namespace Z0
             var rip = AsmRel.rip(Source,InstSize);
 
             Hex.hexbytes(Encoding, out var enc1);
-            var dx = AsmRel32.disp(enc1);
+            var dx = AsmRel.disp32(enc1);
 
             var enc2 = CallRel32.encode(rip, Target);
             if(enc1 != enc2)
@@ -237,7 +237,7 @@ namespace Z0
             if(target1 != Target)
                 Error("Computed target did not match expected target");
 
-            var target2 = AsmRel32.target(rip, enc1);
+            var target2 = AsmRel.target(rip, enc1);
             if(target2 != Target)
                 Error("Computed target did not match expected target");
         }
@@ -377,7 +377,7 @@ namespace Z0
                 const uint Disp = 0xfc632176;
                 const ulong IP = Base + Offset;
                 var rip = AsmRel.rip(IP, 5);
-                var call = CallRel32.define(rip, (Disp32)Disp);
+                var call = AsmRel.call(rip, (Disp32)Disp);
                 Write(call.Format());
             }
 
@@ -396,7 +396,7 @@ namespace Z0
 
                 Hex.hexbytes(Encoding, out var code);
 
-                var disp1 = AsmRel32.disp(code);
+                var disp1 = AsmRel.disp32(code);
                 var disp2 = asm.disp(code.View,1, NativeSizeCode.W32);
                 Require.equal(disp1,disp2);
                 var target = (MemoryAddress)(RIP + disp1);

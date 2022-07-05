@@ -32,6 +32,6 @@ namespace Z0
         }
 
         public string Format()
-            => RP.format(EventId, AppMsg.EmittingFile.Capture(Target));
+            => RpOps.format(EventId, AppMsg.EmittingFile.Capture(Target));
     }
 }

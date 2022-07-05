@@ -25,6 +25,6 @@ namespace Z0
         }
 
         public string Format()
-            => string.Format(RP.PSx3, Address, Source, Name);
+            => string.Format(RpOps.PSx3, Address, Source, Name);
     }
 }

@@ -26,7 +26,7 @@ namespace Z0
         static Outcome empty(string src, out T dst)
         {
             dst = default;
-            return (false, RP.Empty);
+            return (false, RpOps.Empty);
         }
 
         public static ParseFunction<T> Empty => new ParseFunction<T>(empty);

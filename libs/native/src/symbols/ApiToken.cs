@@ -5,7 +5,7 @@
 namespace Z0
 {
     [StructLayout(LayoutKind.Sequential,Pack=1)]
-    public readonly record struct ApiToken
+    public readonly record struct ApiToken : IDataType<ApiToken>
     {
         readonly LocatedSymbol Entry;
 
@@ -16,6 +16,18 @@ namespace Z0
         {
             Entry = entry;
             Target = impl;
+        }
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Entry.IsEmpty || Target.IsEmpty;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => !IsEmpty;
         }
 
         public Hex64 Id
@@ -88,6 +100,14 @@ namespace Z0
 
         public override int GetHashCode()
             => Hash;
+
+        public int CompareTo(ApiToken src)
+        {
+            var result = Entry.CompareTo(src.Entry);
+            if(result == 0)
+                result = Target.CompareTo(src.Target);
+            return result;
+        }
 
         public static ApiToken Empty => default;
     }

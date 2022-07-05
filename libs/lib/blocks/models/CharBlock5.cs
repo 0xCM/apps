@@ -95,7 +95,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator B(ReadOnlySpan<char> src)
             => api.init(src, out B dst);
-        public static CharBlock5 Empty => RP.Spaced5;
+        public static CharBlock5 Empty => RpOps.Spaced5;
 
         public static B Null => default;
 

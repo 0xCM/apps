@@ -13,10 +13,10 @@ namespace Z0
     {
         [MethodImpl(Inline), TextUtility]
         public static string TakeAfter(this string src, char match)
-            => RP.after(src,match);
+            => RpOps.after(src,match);
 
         [MethodImpl(Inline), TextUtility]
         public static string TakeAfter(this string s, string match)
-            => RP.after(s,match);
+            => RpOps.after(s,match);
     }
 }

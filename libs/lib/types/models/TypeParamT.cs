@@ -22,7 +22,7 @@ namespace Z0
         }
 
         public string Format()
-            => string.Format(RP.Attrib, Name, Value);
+            => string.Format(RpOps.Attrib, Name, Value);
 
         public override string ToString()
             => Format();

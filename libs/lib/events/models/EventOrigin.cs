@@ -23,7 +23,7 @@ namespace Z0
         }
 
         public string Format()
-            => RP.piped(OriginName, Caller);
+            => RpOps.piped(OriginName, Caller);
 
         public override string ToString()
             => Format();

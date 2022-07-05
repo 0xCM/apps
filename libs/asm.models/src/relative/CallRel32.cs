@@ -9,19 +9,11 @@ namespace Z0.Asm
     public readonly struct CallRel32 : IAsmRelInst<Disp32>
     {
         [MethodImpl(Inline), Op]
-        public static bool test(ReadOnlySpan<byte> encoding)
-            => encoding.Length >= CallRel32.InstSize && core.first(encoding) == CallRel32.OpCode;
-
-        [MethodImpl(Inline), Op]
-        public static CallRel32 define(Rip rip, Disp32 disp)
-            => new CallRel32(rip, AsmRel32.target(rip,disp));
-
-        [MethodImpl(Inline), Op]
         public static byte encode(Rip src, MemoryAddress dst, ref byte hex)
         {
             const byte Size = 5;
             seek(hex, 0) = CallRel32.OpCode;
-            i32(seek(hex, 1)) = AsmRel32.disp(src, dst);
+            i32(seek(hex, 1)) = AsmRel.disp32(src, dst);
             return CallRel32.InstSize;
         }
 
@@ -32,17 +24,6 @@ namespace Z0.Asm
             var bytes = encoded.Bytes;
             seek(bytes,15) = encode(rip, dst, ref first(bytes));
             return encoded;
-        }
-
-        [MethodImpl(Inline), Op]
-        public static AsmHexCode encode(CallRel32 spec)
-        {
-            var encoding = AsmHexCode.Empty;
-            var buffer = encoding.Bytes;
-            seek(buffer,0) = CallRel32.OpCode;
-            @as<Disp32>(seek(buffer,1)) = AsmRel32.disp(spec.Rip, spec.TargetAddress);
-            seek(buffer,15) = CallRel32.InstSize;
-            return encoding;
         }
 
         public const byte OpCode = 0xE8;
@@ -88,13 +69,13 @@ namespace Z0.Asm
         public Disp32 Disp
         {
             [MethodImpl(Inline)]
-            get => AsmRel32.disp(Rip, TargetAddress);
+            get => AsmRel.disp32(Rip, TargetAddress);
         }
 
         public AsmHexCode Encoding
         {
             [MethodImpl(Inline)]
-            get => encode(this);
+            get => AsmRel.encode(this);
         }
 
         public AsmMnemonic Mnemonic

@@ -16,7 +16,7 @@ namespace Z0
             => string.Format(PatternText, $"<{src}>");
 
         public MsgCapture Capture(in T src)
-            => RP.msgcap(this, $"<{src}>");
+            => RpOps.msgcap(this, $"<{src}>");
 
 
         [MethodImpl(Inline)]
