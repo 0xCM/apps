@@ -86,21 +86,17 @@ namespace Z0
         public static Outcome parse(ReadOnlySpan<char> src, out Hex64 dst)
             => Hex64.parse(src, out dst);
 
-        [Parser]
         public static Outcome parse(string src, out Hash8 dst)
-            => HashCodes.parse(src, out dst);
+            => Hex.parse(src, out dst);
 
-        [Parser]
         public static Outcome parse(string src, out Hash16 dst)
-            => HashCodes.parse(src, out dst);
+            => Hex.parse(src, out dst);
 
-        [Parser]
         public static Outcome parse(string src, out Hash32 dst)
-            => HashCodes.parse(src, out dst);
+            => Hex.parse(src, out dst);
 
-        [Parser]
         public static Outcome parse(string src, out Hash64 dst)
-            => HashCodes.parse(src, out dst);
+            => Hex.parse(src, out dst);
 
         public static Outcome parse(string src, out SymKey dst)
             => SymKey.parse(src, out dst);

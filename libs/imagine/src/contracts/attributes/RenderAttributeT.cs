@@ -4,16 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class RenderWidthAttribute : Attribute
-    {
-        public RenderWidthAttribute(uint width)
-        {
-            Width = width;
-        }
-
-        public readonly uint Width;
-    }
-
     public class RenderAttribute<T> : RenderAttribute
         where T : unmanaged
     {

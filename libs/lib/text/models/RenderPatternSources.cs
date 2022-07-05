@@ -13,7 +13,7 @@ namespace Z0
         {
             var values = src.LiteralFieldValues<string>(out var fields);
             var count = values.Length;
-            var buffer = alloc<RenderPatternSource>(count);
+            var buffer = sys.alloc<RenderPatternSource>(count);
             var dst = span(buffer);
             for(var i=0u; i<count; i++)
                 seek(dst,i) = new RenderPatternSource(skip(fields,i), skip(values,i));

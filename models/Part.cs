@@ -16,7 +16,6 @@ global using System.Runtime.InteropServices;
 
 global using static Z0.Root;
 global using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-global using SQ = Z0.SymbolicQuery;
 global using CallerName = System.Runtime.CompilerServices.CallerMemberNameAttribute;
 global using CallerFile = System.Runtime.CompilerServices.CallerFilePathAttribute;
 global using CallerLine = System.Runtime.CompilerServices.CallerLineNumberAttribute;
@@ -37,7 +36,8 @@ namespace Z0
 {
     class Root
     {
+        public const MethodImplOptions Inline = MethodImplOptions.AggressiveInlining;
 
-
+        public const string EmptyString = "";
     }
 }

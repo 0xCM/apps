@@ -8,8 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="$(Literals)" />
-    <ProjectReference Include="$(Nats)" />
-    <ProjectReference Include="$(Imagine)" />
   </ItemGroup>
 
 </Project>

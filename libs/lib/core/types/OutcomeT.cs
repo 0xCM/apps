@@ -114,7 +114,7 @@ namespace Z0
         }
 
         public T Require()
-            => Ok ? Data : @throw<T>();
+            => Ok ? Data : core.@throw<T>();
 
         [MethodImpl(Inline)]
         public Either<Y,Z> Map<Y,Z>(Func<Outcome<T>,Y> success, Func<Outcome<T>,Z> failure)

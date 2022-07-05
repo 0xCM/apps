@@ -31,9 +31,9 @@ using NK = Z0.NumericKind;
 
 namespace Z0.Parts
 {
-    public sealed class Monadic : Part<Monadic>
-    {
-    }
+    // public sealed class Monadic : Part<Monadic>
+    // {
+    // }
 }
 
 

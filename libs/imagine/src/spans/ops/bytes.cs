@@ -10,6 +10,14 @@ namespace Z0
     partial class Spans
     {
         /// <summary>
+        /// Converts a string to bytespan
+        /// </summary>
+        /// <param name="src">The source string</param>
+        [MethodImpl(Inline), Op]
+        public static ReadOnlySpan<byte> bytes(string src)
+            => recover<char,byte>(span(src));
+
+        /// <summary>
         /// Presents a span of generic values as bytespan
         /// </summary>
         /// <param name="src">The source span</param>

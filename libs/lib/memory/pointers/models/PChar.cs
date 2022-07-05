@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     using api = memory;
@@ -15,7 +11,6 @@ namespace Z0
     /// <summary>
     /// Captures a <see cref="char"/> pointer
     /// </summary>
-    [DataType("pchar")]
     public unsafe struct PChar : IPtr<char>
     {
         public char* P;

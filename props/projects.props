@@ -1,6 +1,8 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <PropertyGroup>
+    <Models>$(SlnRoot)models/z0.models.csproj</Models>
+
     <ApiCode>$(LibsRoot)api.code/z0.api.code.csproj</ApiCode>
     <ApiContracts>$(LibsRoot)api.contracts/z0.api.contracts.csproj</ApiContracts>
     <Assets>$(LibsRoot)assets/z0.assets.csproj</Assets>
@@ -66,7 +68,6 @@
     <Linq>$(LibsRoot)linq/z0.linq.csproj</Linq>
 
     <Machines>$(LibsRoot)machines/z0.machines.csproj</Machines>
-    <Models>$(LibsRoot)models/z0.models.csproj</Models>
     <Monadic>$(LibsRoot)monadic/z0.monadic.csproj</Monadic>
 
     <Memory>$(LibsRoot)memory/z0.memory.csproj</Memory>

@@ -6,7 +6,10 @@ namespace Z0.Models
 {
     public interface IModel
     {
+        string ToString();
 
+        string Format()
+            => ToString();
     }
 
     public interface IModel<M> : IModel
@@ -14,5 +17,4 @@ namespace Z0.Models
     {
 
     }
-
 }

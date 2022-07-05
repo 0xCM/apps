@@ -21,10 +21,10 @@ namespace Z0
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static unsafe ref char @char(string src)
-            =>  ref @ref(pchar(src));
+            =>  ref @ref(Pointers.pchar(src));
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static unsafe ref char @char(string src, int index)
-            => ref seek(@ref(pchar(src)), index);
+            => ref seek(@ref(Pointers.pchar(src)), index);
     }
 }

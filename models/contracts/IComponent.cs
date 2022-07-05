@@ -6,7 +6,7 @@ namespace Z0.Models
 {
     public interface IComponent : IModel
     {
-
+        string Name {get;}
 
     }
 

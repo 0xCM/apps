@@ -252,6 +252,9 @@ public enum PartId : byte
     [Symbol("api.checks")]
     ApiChecks,
 
+    [Symbol("api.contracts")]
+    ApiContracts,
+
     [Symbol("rules")]
     Rules,
 

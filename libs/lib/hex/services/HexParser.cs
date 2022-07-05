@@ -21,7 +21,7 @@ namespace Z0
     public readonly struct HexParser
     {
         public static Outcome parse8i(string src, out sbyte dst)
-            =>sbyte.TryParse(clear(src), NumberStyles.HexNumber, null,  out dst);
+            => sbyte.TryParse(clear(src), NumberStyles.HexNumber, null,  out dst);
 
         public static Outcome parse8u(string src, out byte dst)
             => byte.TryParse(clear(src), NumberStyles.HexNumber, null,  out dst);

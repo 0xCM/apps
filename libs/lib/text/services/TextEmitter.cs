@@ -24,16 +24,6 @@ namespace Z0
         public static ITextEmitter cover(StringBuilder src)
             => new TextEmitter(text.buffer(src), false);
 
-        // [MethodImpl(Inline)]
-        // public static ITextEmitter cover(ITextBuffer src)
-        //     => new TextEmitter(src,false);
-
-        // public static ITextEmitter cover(TextWriter src)
-        //     => new TextEmitter(src,false);
-
-        // public static ITextEmitter own(TextWriter src)
-        //     => new TextEmitter(src,true);
-
         readonly bool Owns;
 
         readonly ITextBuffer Target;
@@ -43,13 +33,6 @@ namespace Z0
             Owns = owns;
             Target = dst;
         }
-
-        // TextEmitter(TextWriter dst, bool owns)
-        // {
-        //     Owns = owns;
-        //     Target = dst.Emitter();
-        // }
-
 
         void IDisposable.Dispose()
         {
@@ -77,7 +60,6 @@ namespace Z0
 
         public string Emit(bool clear = true)
             => Target.Emit(clear);
-            //Target is ITextBuffer t ? t.Emit(clear) : EmptyString;
 
         public override void Flush()
         {

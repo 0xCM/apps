@@ -6,8 +6,6 @@ namespace Z0
 {
     using System.Text;
 
-    using static core;
-
     public class TextBuffer : ITextBuffer
     {
         readonly StringBuilder Target;
@@ -87,18 +85,18 @@ namespace Z0
 
         public void AppendPadded<T,W>(T value, W width, string delimiter = EmptyString)
         {
-            if(nonempty(delimiter))
+            if(text.nonempty(delimiter))
                 Target.Append(delimiter);
-            Target.Append(string.Format(RpOps.pad(-i16(width)), value));
+            Target.Append(string.Format(RpOps.pad(-Scalars.int16(width)), value));
         }
 
         public void Delimit(string delimiter, params object[] src)
         {
             var count = src.Length;
-            var terms = @readonly(src);
+            var terms = src;
             var sep = string.Format("{0} ", delimiter);
             for(var i=0; i<src.Length; i++)
-                Target.Append(string.Format("{0}{1}", sep, skip(terms,i)));
+                Target.Append(string.Format("{0}{1}", sep, Arrays.skip(terms,i)));
         }
 
         public void Delimit<T>(T content, char delimiter, int pad)

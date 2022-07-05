@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct N62 : INativeNatural, INatSeq<N62,N6,N2>
     {
         public const ulong Value = 62;
