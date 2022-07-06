@@ -4,14 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Reflection;
-
-    using static Root;
-
-    using File = System.Runtime.CompilerServices.CallerFilePathAttribute;
     using Caller = System.Runtime.CompilerServices.CallerMemberNameAttribute;
+    using File = System.Runtime.CompilerServices.CallerFilePathAttribute;
     using Line = System.Runtime.CompilerServices.CallerLineNumberAttribute;
 
     [ApiHost]
@@ -21,7 +15,6 @@ namespace Z0
 
         public static AppException missing([Caller] string caller = null, [File] string file = null, [Line] int? line = null)
             => new AppException(ErrorMsg.NotImplemented(caller,file,line));
-
 
         [MethodImpl(Inline), Op, Closures(UInt64k)]
         public static string neq<T>(T lhs, T rhs)

@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    [SymSource(events)]
     public enum MsgFlair : byte
     {
         None = LogLevel.None,

@@ -13,7 +13,17 @@ namespace Z0
 
     public readonly struct CsData
     {
-        static readonly Index<string> Data = new string[77]{"abstract","as","base","bool","break","byte","case","catch","char","checked","class","const","continue","decimal","default","delegate","do","double","else","enum","event","explicit","extern","false","finally","fixed","float","for","foreach","goto","if","implicit","in","int","interface","internal","is","lock","long","namespace","new","null","object","operator","out","override","params","private","protected","public","readonly","ref","return","sbyte","sealed","short","sizeof","stackalloc","static","string","struct","switch","this","throw","true","try","typeof","uint","ulong","unchecked","unsafe","ushort","using","virtual","void","volatile","while",};
+        static readonly Index<string> Data = new string[78]{
+            "","abstract","as","base","bool","break","byte",
+            "case","catch","char","checked","class","const","continue",
+            "decimal","default","delegate","do","double","else","enum","event","explicit","extern",
+            "false","finally","fixed","float","for","foreach","goto",
+            "if","implicit","in","int","interface","internal","is","lock","long","namespace","new","null",
+            "object","operator","out","override","params","private","protected","public","readonly","ref","return",
+            "sbyte","sealed","short","sizeof","stackalloc","static","string","struct","switch",
+            "this","throw","true","try","typeof","uint","ulong","unchecked","unsafe","ushort","using",
+            "virtual","void","volatile","while",
+            };
 
         public static ReadOnlySpan<string> View => Data;
 
@@ -33,18 +43,30 @@ namespace Z0
         }
 
         [Op]
-        public static Label keyword(EK src)
-            => src switch {
-                EK.U8 => U8,
-                EK.U16 => U16,
-                EK.U32 => U32,
-                EK.U64 => U64,
-                EK.I8 => I8,
-                EK.I16 => I16,
-                EK.I32 => I32,
-                EK.I64 => I64,
-                _ => EmptyString
-            };
+        public static string keyword(EK src)
+        {
+            var dst = EmptyString;
+            switch(src)
+            {
+                case EK.U8: dst = U16;
+                break;
+                case EK.U16: dst = U16;
+                break;
+                case EK.U32 : dst = U32;
+                break;
+                case EK.U64 : dst = U64;
+                break;
+                case EK.I8 : dst = I8;
+                break;
+                case EK.I16 : dst = I16;
+                break;
+                case EK.I32 : dst = I32;
+                break;
+                case EK.I64 : dst = I64;
+                break;
+            }
+            return dst;
+        }
 
         [Op]
         public static Label keyword(AK kind)
@@ -151,6 +173,5 @@ namespace Z0
             else
                 return EmptyString;
         }
-
     }
 }

@@ -4,17 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    public interface IChronic
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
+    public class OptionAttribute : Attribute
     {
-        Timestamp Ts
-            => DateTime.Now;
-    }
 
-    public interface IChronic<F> : IChronic
-        where F : struct, IChronic
-    {
 
     }
 }

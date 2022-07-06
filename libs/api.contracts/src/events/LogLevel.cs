@@ -4,11 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     /// <summary>
     /// Classifier for application messages
     /// </summary>
+    [SymSource(events)]
     public enum LogLevel : byte
     {
         /// <summary>

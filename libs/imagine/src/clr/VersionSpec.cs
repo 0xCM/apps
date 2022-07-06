@@ -7,6 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines a version schema that supports 2, 3 or 4 32-bit segments
     /// </summary>
+    [StructLayout(StructLayout)]
     public readonly record struct ApiVersion : IDataType<ApiVersion>
     {
         /// <summary>
@@ -41,7 +42,7 @@ namespace Z0
         public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => core.hash(A, B, C, D);
+            get => HashCodes.hash(A, B, C, D);
         }
 
         public bool IsEmpty
@@ -57,7 +58,7 @@ namespace Z0
         }
 
         public string Format()
-            => string.Format(RpOps.SlotDot4, A, B, C, D);
+            => string.Format(RP.SlotDot4, A, B, C, D);
 
         public override string ToString()
             => Format();

@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     public interface IEventBroker : ISink<IWfEvent> , ISink<IAppEvent>, ISink<IAppMsg>,  IDisposable
     {
         Outcome Subscribe<E>(Action<E> receiver, E model = default)

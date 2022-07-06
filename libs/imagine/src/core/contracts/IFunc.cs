@@ -21,7 +21,7 @@ namespace Z0
         /// The operation identity
         /// </summary>
         OpIdentity Id
-            => ApiUri.opid_define(Name);
+            => OpIdentity.define(Name);
     }
 
     /// <summary>

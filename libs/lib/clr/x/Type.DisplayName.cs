@@ -56,7 +56,7 @@ namespace Z0
         }
 
         [Op]
-        static string FormatGeneric(this Type src)
+        public static string FormatGeneric(this Type src)
         {
             var name = src.Name;
             var args = src.GetGenericArguments();

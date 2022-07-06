@@ -4,11 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Collections.Generic;
     using System.Collections;
-
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     [Free]
     public interface IDeferredSource<T> : ISource<IEnumerable<T>>, IEnumerable<T>

@@ -9,6 +9,12 @@ namespace Z0
     /// </summary>
     public class OpIdentity : IMethodIdentity<OpIdentity>
     {
+        static string safe(string src)
+            => (src ?? EmptyString).Replace(Chars.Lt, IDI.TypeArgsOpen).Replace(Chars.Gt, IDI.TypeArgsClose).Replace(Chars.Pipe, Chars.Caret);
+
+        public static OpIdentity define(string src)
+            => new OpIdentity(safe(src));
+
         /// <summary>
         /// The operation identifier
         /// </summary>

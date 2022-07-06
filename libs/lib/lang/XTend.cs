@@ -7,7 +7,7 @@ namespace Z0
     partial class XTend
     {
         [MethodImpl(Inline), Op]
-        public static Label CsKeyword(this ClrEnumKind kind)
+        public static string CsKeyword(this ClrEnumKind kind)
             => CsData.keyword(kind);
 
         [MethodImpl(Inline), Op]

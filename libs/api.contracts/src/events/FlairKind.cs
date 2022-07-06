@@ -4,8 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
+    [SymSource(events)]
     public enum FlairKind : byte
     {
         None = LogLevel.None,

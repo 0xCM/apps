@@ -59,7 +59,7 @@ namespace Z0
         public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => alg.hash.calc(Ticks);
+            get => HashCodes.hash(Ticks);
         }
 
         public override int GetHashCode()

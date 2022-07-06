@@ -50,7 +50,9 @@ set DllShellPath=%DllShellBin%\z0.%ProjectId%.exe
 set LibName=z0.%ProjectId%.dll
 set LibPath=%FrameworkBuildRoot%\%LibName%
 
-set LibProject=%LibsRoot%\%ProjectId%\%CsProjectFile%
+set LibProjectRoot=%LibsRoot%\%ProjectId%
+set LibProject=%LibProjectRoot%\%CsProjectFile%
+set LibWsFile=%LibProjectRoot%\%ProjectId%.code-workspace
 set BuildLib=dotnet build %LibProject% %BuildProps% -fl -flp:logfile=%BuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 set BuildLibs=dotnet build %LibsRoot%\z0.libs.csproj %BuildProps% -fl -flp:logfile=%BuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 
