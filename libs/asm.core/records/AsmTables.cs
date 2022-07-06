@@ -176,7 +176,7 @@ namespace Z0.Asm
 
         public Index<AsmDetailRow> LoadAsmDetails(FS.Files src)
         {
-            var records = DataList.create<AsmDetailRow>(Pow2.T18);
+            var records = Lists.list<AsmDetailRow>(Pow2.T18);
             var paths = src;
             var flow = Running(string.Format("Loading {0} asm recordsets", paths.Length));
             var count = paths.Length;
@@ -199,7 +199,7 @@ namespace Z0.Asm
             if(file.IsEmpty)
                 return array<AsmDetailRow>();
 
-            var records = DataList.create<AsmDetailRow>(Pow2.T12);
+            var records = Lists.list<AsmDetailRow>(Pow2.T12);
             var count = LoadDetails(file, records);
             return records.Emit();
         }

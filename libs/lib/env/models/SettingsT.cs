@@ -9,6 +9,9 @@ namespace Z0
     {
         readonly ConstLookup<K,V> Lookup;
 
+        public static Settings<K,V> load(params Setting<K,V>[] src)
+            => new Settings<K,V>(src);
+
         public Settings()
         {
             Lookup = ConstLookup<K,V>.Empty;
@@ -17,7 +20,9 @@ namespace Z0
         public Settings(Setting<K,V>[] data)
             : base(data)
         {
-            Lookup = data.Select(x => (x.Name,x.Value)).ToDictionary();
+            var dst = core.dict<K,V>();
+            core.iter(data, s => dst.TryAdd(s.Name,s.Value));
+            Lookup = dst;
         }
 
         public Settings(Setting<K,V>[] data, Dictionary<K,V> lookup)
@@ -35,5 +40,11 @@ namespace Z0
 
         public bool Find(K name, out V dst)
             => Lookup.Find(name, out dst);
+
+        public override string Delimiter => "\n";
+
+        public override Fence<char>? Fence => null;
+
+        public static new Settings<K,V> Empty => new Settings<K,V>();
     }
 }

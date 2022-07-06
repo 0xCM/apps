@@ -13,6 +13,183 @@ namespace Z0
     [ApiHost]
     public class Settings : IIndex<Setting>, ILookup<string,Setting>
     {
+        [MethodImpl(Inline), Op]
+        public static Setting<Name,V> asci<V>(Name name, V value)
+            where V : IAsciSeq<V>
+                => new Setting<Name,V>(name,value);
+
+        [MethodImpl(Inline)]
+        public static Settings<Name,V> asci<V>(params Setting<Name,V>[] src)
+            where V : IAsciSeq<V>
+                => new Settings<Name,V>(src);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static Settings<Name,T> empty<T>()
+            => Settings<Name,T>.Empty;
+
+        [MethodImpl(Inline)]
+        public static Setting empty()
+            => Setting.Empty;
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static Setting<T> setting<T>(Name name, T value)
+            => new Setting<T>(name,value);
+
+
+        [MethodImpl(Inline), Op]
+        public static Settings define(params Setting[] src)
+            => new Settings(src);
+
+        [MethodImpl(Inline)]
+        public static Settings<Name,V> define<V>(params Setting<Name,V>[] src)
+            => new Settings<Name,V>(src);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static Setting<T> setting<T>(Name name, SettingType type, T value)
+            => new Setting<T>(name, type, value);
+
+        [MethodImpl(Inline), Op]
+        public static Setting setting(Name name, SettingType type, string value)
+            => new Setting(name, type, value);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static Settings<Name,T> settings<T>(params Setting<Name,T>[] src)
+            => new Settings<Name,T>(src);
+
+        public static Settings from<T>(T src)
+        {
+            var _fields = typeof(T).PublicInstanceFields();
+            var _props = typeof(T).PublicInstanceProperties();
+            var _fieldValues = from f in _fields
+                                let value = f.GetValue(src)
+                                where f != null
+                                select setting(f.Name, value);
+
+            var _propValues = from f in _props
+                                let value = f.GetValue(src)
+                                where f != null
+                                select setting(f.Name, value);
+
+            return _fieldValues.Union(_propValues).Array();
+        }
+
+        public static string format<T>(T src)
+        {
+            var fields = typeof(T).PublicInstanceFields();
+            var count = fields.Length;
+            var dst = text.buffer();
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var field = ref skip(fields,i);
+                dst.AppendLineFormat("{0}:{1}",field.Name, field.GetValue(src));
+            }
+            return dst.Emit();
+        }
+
+        [Op]
+        public static uint save(in Settings src, StreamWriter dst)
+        {
+            var settings = src.View;
+            var count = (uint)settings.Length;
+            if(count == 0)
+                return count;
+
+            for(var i = 0; i<count; i++)
+            {
+                ref readonly var setting = ref skip(settings,i);
+                dst.WriteLine(string.Format(RpOps.Setting, setting.Name, setting.Value));
+            }
+            return count;
+        }
+
+        public static void render(Settings src, ITextEmitter dst)
+            => Tables.emit(src.View, dst);
+
+        public static Setting<T> setting<T>(Setting src, Func<string,T> parser)
+            => new Setting<T>(src.Name, parser(src.ValueText));
+
+        public static Settings load(FS.FilePath src)
+        {
+            var formatter = Tables.formatter<Setting>();
+            var data = src.ReadLines(true);
+            var dst = alloc<Setting>(data.Length - 1);
+            for(var i=1; i<data.Length; i++)
+            {
+                ref readonly var line = ref data[i];
+                var parts = text.split(line,Chars.Pipe);
+                Require.equal(parts.Length,2);
+                seek(dst,i-1)= new Setting(text.trim(skip(parts,0)), text.trim(skip(parts,1)));
+            }
+            return new Settings(src,dst);
+        }
+
+        public static void store(ReadOnlySpan<Setting> src, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
+        {
+            var emitter = text.emitter();
+            Tables.emit(src,emitter);
+            using var writer = dst.Writer(encoding);
+            writer.Write(emitter.Emit());
+        }
+
+        public static void store<T>(ReadOnlySpan<Setting<T>> src, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
+        {
+            var emitter = text.emitter();
+            Tables.emit(src,emitter);
+            using var writer = dst.Writer(encoding);
+            writer.Write(emitter.Emit());
+        }
+
+        public static FS.FilePath path()
+            => FS.path(ExecutingPart.Component.Location).FolderPath + FS.file($"{ExecutingPart.Id.Format()}.settings", FileKind.Csv);
+
+        public static FS.FilePath path(FS.FolderPath dir, string name, FileKind kind)
+            => dir + FS.file(name, kind);
+
+        [Op]
+        public static Settings parse(ReadOnlySpan<string> src)
+        {
+            var count = src.Length;
+
+            var buffer = alloc<Setting>(count);
+            ref var dst = ref first(buffer);
+            for(var i=0; i<count; i++)
+                seek(dst, i) = parse(skip(src,i));
+            return buffer;
+        }
+
+        public static Setting parse(string src)
+        {
+            var i = text.index(src, Chars.Colon);
+            var setting = Setting.Empty;
+            if(i > 0)
+            {
+                setting = new Setting(text.trim(text.left(src, i)), text.trim(text.right(src, i)));
+            }
+            return setting;
+        }
+
+        [Op]
+        public static Settings parse(ReadOnlySpan<TextLine> src)
+        {
+            var count = src.Length;
+            var buffer = span<Setting>(count);
+            ref var dst = ref first(buffer);
+            var counter = 0u;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var line = ref skip(src,i);
+                var content = line.Content;
+                var j = text.index(content, Chars.Colon);
+                if(j > 0)
+                {
+                    var name = text.left(content, j).Trim();
+                    var value = text.right(content, j).Trim();
+                    seek(dst, counter++) = new Setting(name, value);
+                }
+            }
+            return slice(buffer,0,counter).ToArray();
+        }
+
         public static Outcome numeric(string src, Type type, out dynamic dst)
         {
             Outcome result = (false, string.Format("The {0} type is unsupported", type.Name));
@@ -79,15 +256,6 @@ namespace Z0
             }
             return result;
         }
-        public static Setting<T> setting<T>(Setting src, Func<string,T> parser)
-            => new Setting<T>(src.Name, parser(src.ValueText));
-
-        public static FS.FilePath path()
-            => FS.path(ExecutingPart.Component.Location).FolderPath + FS.file($"{ExecutingPart.Id.Format()}.settings", FileKind.Csv);
-
-        public static FS.FilePath path(PartId part)
-            => FS.path(ExecutingPart.Component.Location).FolderPath + FS.file($"{part.Format()}.settings", FileKind.Csv);
-
         [Parser]
         public static Outcome parse(string src, out Setting<string> dst)
         {
@@ -114,18 +282,6 @@ namespace Z0
                 }
             }
         }
-
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Setting<T> setting<T>(Name name, T value)
-            => new Setting<T>(name,value);
-
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Setting<T> setting<T>(Name name, SettingType primitive, T value)
-            => new Setting<T>(name, primitive, value);
-
-        [MethodImpl(Inline), Op]
-        public static Setting setting(Name name, SettingType type, string value)
-            => new Setting(name, type, value);
 
         [MethodImpl(Inline)]
         public static string format<K,V>(K key, V value)
@@ -229,7 +385,7 @@ namespace Z0
 
         public static Outcome parse<T>(string src, out Setting<T> dst, char delimiter = Chars.Colon)
         {
-            dst = Settings.empty<T>();
+            dst = Setting<T>.Empty;
             if(nonempty(src))
             {
                 var name = EmptyString;
@@ -283,14 +439,6 @@ namespace Z0
             return false;
         }
 
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Setting<T> empty<T>()
-            => Setting<T>.Empty;
-
-        [MethodImpl(Inline)]
-        public static Setting empty()
-            => Setting.Empty;
-
         public static string format(Index<Setting> src, char sep)
         {
             var dst = text.buffer();
@@ -301,119 +449,7 @@ namespace Z0
         public static string json(Setting src)
             => string.Concat(text.enquote(src.Name), Chars.Colon, Chars.Space, src.Value.Enquote());
 
-        public static Settings load(FS.FilePath src)
-        {
-            var formatter = Tables.formatter<Setting>();
-            var data = src.ReadLines(true);
-            var dst = alloc<Setting>(data.Length - 1);
-            for(var i=1; i<data.Length; i++)
-            {
-                ref readonly var line = ref data[i];
-                var parts = text.split(line,Chars.Pipe);
-                Require.equal(parts.Length,2);
-                seek(dst,i-1)= new Setting(text.trim(skip(parts,0)), text.trim(skip(parts,1)));
-            }
-            return new Settings(src,dst);
-        }
-
-        public static void store(ReadOnlySpan<Setting> src, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
-        {
-            var emitter = text.emitter();
-            Tables.emit(src,emitter);
-            using var writer = dst.Writer(encoding);
-            writer.Write(emitter.Emit());
-        }
-
-        public static void store<T>(ReadOnlySpan<Setting<T>> src, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
-        {
-            var emitter = text.emitter();
-            Tables.emit(src,emitter);
-            using var writer = dst.Writer(encoding);
-            writer.Write(emitter.Emit());
-        }
-
-        [Op]
-        public static Settings parse(ReadOnlySpan<string> src)
-        {
-            var count = src.Length;
-
-            var buffer = alloc<Setting>(count);
-            ref var dst = ref first(buffer);
-            for(var i=0; i<count; i++)
-                seek(dst, i) = parse(skip(src,i));
-            return buffer;
-        }
-
-        public static Setting parse(string src)
-        {
-            var i = text.index(src, Chars.Colon);
-            var setting = Setting.Empty;
-            if(i > 0)
-            {
-                setting = new Setting(text.trim(text.left(src, i)), text.trim(text.right(src, i)));
-            }
-            return setting;
-        }
-
-        [Op]
-        public static Settings parse(ReadOnlySpan<TextLine> src)
-        {
-            var count = src.Length;
-            var buffer = span<Setting>(count);
-            ref var dst = ref first(buffer);
-            var counter = 0u;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var line = ref skip(src,i);
-                var content = line.Content;
-                var j = text.index(content, Chars.Colon);
-                if(j > 0)
-                {
-                    var name = text.left(content, j).Trim();
-                    var value = text.right(content, j).Trim();
-                    seek(dst, counter++) = new Setting(name, value);
-                }
-            }
-            return slice(buffer,0,counter).ToArray();
-        }
-
-        public static Settings from<T>(T src)
-        {
-            var _fields = typeof(T).PublicInstanceFields();
-            var _props = typeof(T).PublicInstanceProperties();
-            var _fieldValues = from f in _fields
-                                let value = f.GetValue(src)
-                                where f != null
-                                select setting(f.Name, value);
-
-            var _propValues = from f in _props
-                                let value = f.GetValue(src)
-                                where f != null
-                                select setting(f.Name, value);
-
-            return _fieldValues.Union(_propValues).Array();
-        }
-
         const NumericKind Closure = UnsignedInts;
-
-        [Op]
-        public static uint save(in Settings src, StreamWriter dst)
-        {
-            var settings = src.View;
-            var count = (uint)settings.Length;
-            if(count == 0)
-                return count;
-
-            for(var i = 0; i<count; i++)
-            {
-                ref readonly var setting = ref skip(settings,i);
-                dst.WriteLine(string.Format(RpOps.Setting, setting.Name, setting.Value));
-            }
-            return count;
-        }
-
-        public static void render(Settings src, ITextEmitter dst)
-            => Tables.emit(src.View, dst);
 
         [Op]
         public static bool search(in Settings src, Name key, out Setting value)
@@ -430,19 +466,6 @@ namespace Z0
                 }
             }
             return result;
-        }
-
-        public static string format<T>(in T src)
-        {
-            var fields = typeof(T).PublicInstanceFields();
-            var count = fields.Length;
-            var dst = text.buffer();
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var field = ref skip(fields,i);
-                dst.AppendLineFormat("{0}:{1}",field.Name, field.GetValue(src));
-            }
-            return dst.Emit();
         }
 
         readonly Index<Setting> Data;
@@ -490,6 +513,7 @@ namespace Z0
 
         public int Length
         {
+            [MethodImpl(Inline)]
             get => Data.Length;
         }
 

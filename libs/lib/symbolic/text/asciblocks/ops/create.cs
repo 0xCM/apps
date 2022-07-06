@@ -4,13 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Free]
-    public interface ICounted<T> : ICounted
-        where T : unmanaged
-    {
-        new T Count {get;}
+    using S = AsciSymbol;
 
-        uint ICounted.Count
-            => Refs.@as<T,uint>(Count);
+    partial struct AsciBlocks
+    {
+        public static AsciBlock<N> alloc<N>(N n = default)
+            where N : unmanaged, ITypeNat
+                => new AsciBlock<N>(sys.alloc<S>(Typed.value<N>()));
     }
 }

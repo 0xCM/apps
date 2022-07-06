@@ -4,14 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
-    public class CmdService
-    {
-        public static ActionDispatcher dispatcher<T>(T svc, CmdActions actions)
-            where T : ICmdService
-                => Cmd.dispatcher(actions);
-    }
+    using static ApiGranules;
 
     public class CmdService<S> : WfSvc<CmdService<S>>, ICmdService
         where S : CmdService<S>, new()
@@ -45,18 +38,9 @@ namespace Z0
             Dispatcher.Dispatch(name, args);
         }
 
-        [CmdOp("commands")]
+        [CmdOp(commands)]
         protected void EmitCommands()
-            => EmitCommands(AppDb.ApiTargets().Path(FS.file($"api.commands.shell.{controller().Id().Format()}", FS.Csv)));
-
-        protected void EmitCommands(FS.FilePath dst)
-        {
-            var actions = Dispatcher.Commands.Specs.Index().Sort();
-            var emitter = text.emitter();
-            iter(actions, cmd => emitter.AppendLine(cmd));
-            iter(actions, cmd => Write(cmd));
-            FileEmit(emitter.Emit(), actions.Count, dst);
-        }
+            => EmitCommands(Dispatcher, ExecutingPart.Id);
 
         public bool Dispatch(ShellCmdSpec cmd)
         {

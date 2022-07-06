@@ -211,5 +211,8 @@ namespace Z0
 
         [Symbol(dot, "A .dot graph file")]
         Dot,
+
+        [Symbol(kvp, "A text file where each line defines a key-value pair")]
+        Kvp,
     }
 }

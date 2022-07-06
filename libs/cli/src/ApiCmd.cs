@@ -49,8 +49,14 @@ namespace Z0
         [CmdOp("api/deps")]
         void ShowDependencies()
         {
-            var deps = JsonDeps.load(ExecutingPart.Component);
-            iter(deps.RuntimeLibs(), lib => Write(lib));
+            var src = ExecutingPart.Component;
+            var name = src.GetSimpleName();
+            var deps = JsonDeps.load(src);
+            var dst = list<string>();
+            iteri(deps.RuntimeLibs(), (i,lib) => dst.Add(string.Format("{0:D4}:{1}",i,lib)));
+            var emitter = text.emitter();
+            iter(dst, line => emitter.AppendLine(line));
+            FileEmit(emitter.Emit(), dst.Count, AppDb.Apps().Path($"{name}.deps",FileKind.List));
         }
 
         [CmdOp("api/etl")]

@@ -9,11 +9,11 @@ namespace Z0
     [Free]
     public class DelimitedSeq<S,T> : ReadOnlySeq<DelimitedSeq<S,T>,T>
     {
-        public readonly string Delimiter;
+        public override string Delimiter {get;}
 
-        public readonly int CellPad;
+        public override Fence<char>? Fence {get;}
 
-        public readonly Fence<char>? Fence;
+        public override int CellPad {get;}
 
         public DelimitedSeq()
         {
@@ -49,18 +49,17 @@ namespace Z0
             Fence = null;
         }
 
+        // [MethodImpl(Inline)]
+        // public override string Format()
+        // {
+        //     var content = text.delimit(Data.View, Delimiter, CellPad);
+        //     if(Fence != null && text.nonempty(content))
+        //         return text.enclose(content, Fence.Value);
+        //     else
+        //         return content;
+        // }
 
-        [MethodImpl(Inline)]
-        public override string Format()
-        {
-            var content = text.delimit(Data.View, Delimiter, CellPad);
-            if(Fence != null && text.nonempty(content))
-                return text.enclose(content, Fence.Value);
-            else
-                return content;
-        }
-
-        public override string ToString()
-            => Format();
+        // public override string ToString()
+        //     => Format();
     }
 }

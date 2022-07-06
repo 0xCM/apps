@@ -9,6 +9,10 @@ namespace Z0
     [ApiHost]
     public readonly struct Events
     {
+        [Op]
+        public static StackFrame frame(int index)
+            => new StackFrame(index);
+
         const NumericKind Closure = UInt64k;
 
         const string HandlerNotFound = "Handler for {0} not found";
@@ -62,8 +66,12 @@ namespace Z0
             => originate(typeof(T), caller, file, line);
 
         [Op, Closures(Closure)]
-        public static EmittingFileEvent emittingFile(Type host, FS.FilePath dst)
-            => new EmittingFileEvent(host, dst);
+        public static EmittingFileEvent emittingFile(FS.FilePath dst)
+            => new EmittingFileEvent(frame(2).GetType(), dst);
+
+        [Op]
+        public static EmittedFileEvent emittedFile(FS.FilePath path, Count count = default)
+            => new EmittedFileEvent(frame(2).GetType(), path, count);
 
         [Op]
         public static EmittedFileEvent emittedFile(Type host, FS.FilePath path, Count count = default)

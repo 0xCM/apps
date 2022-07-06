@@ -13,8 +13,7 @@ namespace Z0
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static Hash32 hash<T>(T src)
-            where T : unmanaged
-                => Generic.hash(src);
+            => Generic.hash(src);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static Hash32 hash<T>(T x, T y)

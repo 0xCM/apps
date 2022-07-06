@@ -6,6 +6,7 @@
 namespace Z0
 {
     using static core;
+    using static ApiGranules;
 
     public abstract class WfSvc<S> : AppService<S>
         where S : WfSvc<S>, new()
@@ -52,6 +53,9 @@ namespace Z0
             _Project = Require.notnull(ws);
             ProjectFiles = WsCatalog.load(ws);
         }
+
+        protected void EmitCommands(IDispatcher src, PartName part)
+            => Cmd.emit(src, Settings.path(AppDb.ApiTargets(commands).Root, $"{part}.{commands}", FileKind.Kvp), EventLog);
 
 
         [MethodImpl(Inline)]
@@ -270,6 +274,6 @@ namespace Z0
             TextEncodingKind encoding = TextEncodingKind.Asci, ushort rowpad = 0, RecordFormatKind fk = RecordFormatKind.Tablular)
                 where T : struct
                     => TableEmit(@readonly(rows), dst, encoding, rowpad, fk);
-    }
 
+    }
 }

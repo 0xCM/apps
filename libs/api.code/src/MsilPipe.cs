@@ -30,7 +30,7 @@ namespace Z0
             var flow = Wf.Running($"Loading cil data rows");
             var input = CapturesFiles().View;
             var count = input.Length;
-            var dst = DataList.create<MsilCapture>();
+            var dst = Lists.list<MsilCapture>();
             var row = default(MsilCapture);
             for(var i=0; i<count; i++)
             {
@@ -62,7 +62,7 @@ namespace Z0
         public Index<MsilRow> LoadMetadata(FS.FilePath src)
         {
             var flow = Wf.Running(src.ToUri());
-            var dst = DataList.create<MsilRow>();
+            var dst = Lists.list<MsilRow>();
             using var reader = src.Utf8Reader();
             var fields = reader.ReadLine().SplitClean(Chars.Pipe);
             if(fields.Length != MsilRow.FieldCount)

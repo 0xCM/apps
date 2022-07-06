@@ -11,5 +11,7 @@ namespace Z0
         Outcome Dispatch(string action);
 
         ref readonly CmdActions Commands {get;}
+
+        PartName Controller => ExecutingPart.Id;
     }
 }

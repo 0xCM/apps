@@ -82,8 +82,20 @@ namespace Z0
         public void Iter(Action<T> f)
             => Seq.iter(View, f);
 
+        public virtual string Delimiter => "\r\n\t";
+
+        public virtual Fence<char>? Fence => (Chars.LBrace,Chars.RBrace);
+
+        public virtual int CellPad => 0;
+
         public virtual string Format()
-            => text.embrace(string.Join("\r\n  ", Data.Storage));
+        {
+            var content = text.delimit(Data.View, Delimiter, CellPad);
+            var dst = content;
+            if(Fence != null)
+                dst = text.enclose(content, Fence.Value);
+            return dst;
+        }
 
         public override string ToString()
             => Format();

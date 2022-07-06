@@ -4,13 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Free]
-    public interface ICounted<T> : ICounted
-        where T : unmanaged
+    partial class XTend
     {
-        new T Count {get;}
-
-        uint ICounted.Count
-            => Refs.@as<T,uint>(Count);
+        public static ReadOnlySpan<T> ViewDeposited<T>(this List<T> src)
+            => Lists.view(src);
     }
 }

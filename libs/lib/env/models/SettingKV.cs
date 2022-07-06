@@ -18,11 +18,26 @@ namespace Z0
             Value = value;
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => HashCodes.combine(Name.Hash, HashCodes.hash(Value));
+        }
+
         public string Format(char sep)
             => $"{Name}{sep}{Value}";
 
         public int CompareTo(Setting<K,V> src)
             => Name.CompareTo(src.Name);
+
+        public override int GetHashCode()
+            => Hash;
+
+        public string Format()
+            => Format(Chars.Eq);
+
+        public override string ToString()
+            => Format();
 
         K ISetting<K,V>.Name
             => Name;

@@ -48,6 +48,8 @@ namespace Z0
 
         public const string dot = nameof(dot);
 
+        public const string kvp = nameof(kvp);
+
         public const string log = nameof(log);
 
         public const string release = nameof(release);

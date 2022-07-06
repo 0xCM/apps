@@ -5,12 +5,12 @@
 namespace Z0
 {
     [Free]
-    public interface ICounted<T> : ICounted
-        where T : unmanaged
+    public interface IAsciBlock<A> : IStorageBlock<A>
+        where A : unmanaged, IAsciBlock<A>
     {
-        new T Count {get;}
+        ref byte First {get;}
 
-        uint ICounted.Count
-            => Refs.@as<T,uint>(Count);
+        BlockKind IStorageBlock.Kind
+            => BlockKind.Char8;
     }
 }

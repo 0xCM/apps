@@ -17,7 +17,7 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static unsafe Span<T> cover<T>(void* pSrc, uint count)
-            => cover(Refs.@as<T>(pSrc), count);
+            => Refs.cover(Refs.@as<T>(pSrc), count);
 
         /// <summary>
         /// Creates a <see cref='Span{T}'/> over a <typeparamref name='T'/> measured memory segment sourced from a pointer
@@ -27,7 +27,7 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static unsafe Span<T> cover<T>(void* pSrc, int count)
-            => cover(Refs.@as<T>(pSrc), count);
+            => Refs.cover(Refs.@as<T>(pSrc), count);
 
         /// <summary>
         /// Creates a <see cref='Span{T}'/> over a <typeparamref name='T'/> measured memory segment sourced from a pointer
@@ -37,7 +37,7 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static unsafe Span<T> cover<T>(void* pSrc, long count)
-            => cover(Refs.@as<T>(pSrc), count);
+            => Refs.cover(Refs.@as<T>(pSrc), count);
 
         /// <summary>
         /// Creates a <see cref='Span{T}'/> over a <typeparamref name='T'/> measured memory segment sourced from a pointer
@@ -47,7 +47,7 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static unsafe Span<T> cover<T>(void* pSrc, ulong count)
-            => cover(Refs.@as<T>(pSrc), count);
+            => Refs.cover(Refs.@as<T>(pSrc), count);
 
         /// <summary>
         /// Covers a pointer-identified T-counted buffer with a span

@@ -4,13 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Free]
-    public interface ICounted<T> : ICounted
-        where T : unmanaged
+    [ApiHost]
+    public readonly partial struct AsciBlocks
     {
-        new T Count {get;}
-
-        uint ICounted.Count
-            => Refs.@as<T,uint>(Count);
+        const NumericKind Closure = UnsignedInts;
     }
 }
