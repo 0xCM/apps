@@ -6,14 +6,14 @@ namespace Z0
 {
     partial struct CaSymbolModels
     {
-        public readonly struct SymbolicAssembly : ICaSymbolArtifact<ClrAssemblyAdapter,AssemblySymbol>
+        public readonly struct SymbolicAssembly : ICaSymbolArtifact<ClrAssembly,AssemblySymbol>
         {
-            public ClrAssemblyAdapter Artifact {get;}
+            public ClrAssembly Artifact {get;}
 
             public AssemblySymbol Symbol {get;}
 
             [MethodImpl(Inline)]
-            public SymbolicAssembly(ClrAssemblyAdapter a, AssemblySymbol s)
+            public SymbolicAssembly(ClrAssembly a, AssemblySymbol s)
             {
                 Artifact = a;
                 Symbol = s;

@@ -13,11 +13,11 @@ namespace Z0
 
         static ConcurrentDictionary<FS.FilePath,MemoryFile> _MemoryFiles = new();
 
-        public static MemoryFile MemoryFile(FS.FilePath src)
-            => _MemoryFiles.GetOrAdd(src, path => path.MemoryMap(true));
-
         static FS.FilePath InstDumpSource()
             => Paths.Sources() + FS.file("xed-dump", FileKind.Txt.Ext());
+
+        public static MemoryFile MemoryFile(FS.FilePath src)
+            => _MemoryFiles.GetOrAdd(src, path => path.MemoryMap(true));
 
         public static MemoryFile InstDumpFile()
             => MemoryFile(InstDumpSource());

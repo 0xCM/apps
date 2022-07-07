@@ -21,7 +21,7 @@ namespace Z0
         public ref readonly DumpFileHeader Header
         {
             [MethodImpl(Inline)]
-            get => ref Source.Skip<DumpFileHeader>(0);
+            get => ref Source.First<DumpFileHeader>();
         }
 
         public void Dispose()

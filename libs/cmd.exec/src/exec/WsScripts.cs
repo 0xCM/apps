@@ -13,28 +13,23 @@ namespace Z0
         public FS.FolderPath CleanOutDir(IWsProject project)
             => project.OutDir().Clear(true);
 
-        public FS.Files SourceFiles(IWsProject src, Subject? scope)
-        {
-            if(scope != null)
-                return src.SrcFiles(scope.Value.Format());
-            else
-                return src.SrcFiles();
-        }
+        public FS.Files SourceFiles(IWsProject src, FileKind kind, bool recurse = false)
+            => src.SrcFiles(kind, recurse);
+
+        FS.FilePath Script(IWsProject src, string name)
+            => src.Script(name);
 
         public Outcome<Index<CmdFlow>> BuildAsm(IWsProject src)
-            => RunBuildScripts(src, "build", "asm", false);
-
-        public Outcome<Index<CmdFlow>> BuildScoped(IWsProject src, ScriptId script, string scope)
-            => RunBuildScripts(src, script, scope, false);
+            => RunBuildScripts(src, FileKind.Asm, Script(src,"build-asm"), false);
 
         public Outcome<Index<CmdFlow>> BuildC(IWsProject src, bool runexe = false)
-            => RunBuildScripts(src, "c-build", "c", runexe);
+            => RunBuildScripts(src, FileKind.C, Script(src,"build-c"), runexe);
 
         public Outcome<Index<CmdFlow>> BuildCpp(IWsProject src, bool runexe = false)
-            => RunBuildScripts(src, "cpp-build", "cpp", runexe);
+            => RunBuildScripts(src, FileKind.Cpp, Script(src,"build-cpp"), runexe);
 
-        public Outcome<Index<CmdFlow>> RunBuildScripts(IWsProject project, ScriptId scriptid, Subject? scope, bool runexe)
-            => RunBuildScripts(project, scriptid, scope, flow => HandleBuildResponse(flow, runexe));
+        public Outcome<Index<CmdFlow>> RunBuildScripts(IWsProject project ,FileKind kind, FS.FilePath script, bool runexe)
+            => RunBuildScript(project, kind, script, flow => HandleBuildResponse(flow, runexe));
 
         void RunExe(CmdFlow flow)
         {
@@ -57,32 +52,27 @@ namespace Z0
                 RunExe(flow);
         }
 
-        public Outcome<Index<CmdFlow>> RunBuildScripts(IWsProject project, ScriptId scriptid, Subject? scope, Action<CmdFlow> receiver)
+        public Outcome<Index<CmdFlow>> RunBuildScript(IWsProject project, FileKind kind, FS.FilePath script, Action<CmdFlow> receiver)
         {
             var result = Outcome<Index<CmdFlow>>.Success;
             var cmdflows = list<CmdFlow>();
-            if(nonempty(scriptid))
+            var files = SourceFiles(project,kind);
+            int length = files.Length;
+            for(var i=0; i<length; i++)
             {
-                var files = SourceFiles(project, scope);
-                int length = files.Length;
-                for(var i=0; i<length; i++)
+                var path = files[i];
+                var srcid = path.FileName.WithoutExtension.Format();
+                result = OmniScript.RunScript(project, script, srcid);
+                if(result)
                 {
-                    var path = files[i];
-                    var srcid = path.FileName.WithoutExtension.Format();
-                    result = OmniScript.RunScript(project, scriptid, srcid);
-                    if(result)
+                    cmdflows.AddRange(result.Data);
+                    foreach(var flow in result.Data)
                     {
-                        cmdflows.AddRange(result.Data);
-                        foreach(var flow in result.Data)
-                        {
-                            Status(flow.Format());
-                            receiver?.Invoke(flow);
-                        }
+                        Status(flow.Format());
+                        receiver?.Invoke(flow);
                     }
                 }
             }
-            else
-                result = (false, "Script specification unknown");
 
             if(cmdflows.Count != 0)
             {

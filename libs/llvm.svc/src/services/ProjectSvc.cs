@@ -43,8 +43,7 @@ namespace Z0
                 Avx512 => "llc-build-avx512",
                 _ => EmptyString
             };
-
-            return Scripts.RunBuildScripts(project, scriptid, EmptyString, runexe);
+            return Scripts.RunBuildScripts(project, FileKind.Llir, project.Script(scriptid), runexe);
         }
    }
 }

@@ -10,7 +10,7 @@ namespace Z0
     {
         public static unsafe void decode(MemoryFile src, Action<CharBlock32> receiver)
         {
-            var size = src.Size;
+            var size = src.FileSize;
             var blocks = (uint)size/32;
             var remainder = (uint)size%32;
             decode(src, blocks, remainder, receiver);

@@ -6,6 +6,10 @@ namespace Z0
 {
     public readonly struct WsProjects : IWsProjects
     {
+        [MethodImpl(Inline)]
+        public static IWsProjects load(IRootedArchive src)
+            => new WsProjects(src.Root);
+
         public FS.FolderPath Root {get;}
 
         [MethodImpl(Inline)]

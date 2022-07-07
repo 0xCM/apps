@@ -42,7 +42,7 @@ namespace Z0
         public ulong Capacity
         {
             [MethodImpl(Inline)]
-            get => DbMap.Size;
+            get => DbMap.FileSize;
         }
 
         public MemDb(FS.FilePath store)

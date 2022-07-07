@@ -52,9 +52,9 @@ namespace Z0
         public ClrMethodArtifact()
         {
             Id = CliToken.Empty;
-            MethodName = NameOld.Empty;
+            MethodName = EmptyString;
             DefiningAssembly = ClrAssemblyName.Empty;
-            DefiningModule = NameOld.Empty;
+            DefiningModule = EmptyString;
             DeclaringType = ClrTypeSigInfo.Empty;
             ReturnType = ClrTypeSigInfo.Empty;
             Args = sys.empty<ClrParamInfo>();
@@ -63,11 +63,11 @@ namespace Z0
 
         public CliToken Id;
 
-        public NameOld MethodName;
+        public @string MethodName;
 
         public ClrAssemblyName DefiningAssembly;
 
-        public NameOld DefiningModule;
+        public @string DefiningModule;
 
         public ClrTypeSigInfo DeclaringType;
 

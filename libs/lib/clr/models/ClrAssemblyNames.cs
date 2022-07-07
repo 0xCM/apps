@@ -24,7 +24,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public static string format(AssemblyName src, AssemblyNameKind kind = AssemblyNameKind.Simple)
-            => kind == AssemblyNameKind.Full ? src.FullName : src.Name;
+        public static string format(ClrAssemblyName src, AssemblyNameKind kind = AssemblyNameKind.Simple)
+            => kind == AssemblyNameKind.Full ? src.FullName : src.SimpleName;
     }
 }

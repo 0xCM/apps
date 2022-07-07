@@ -4,8 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Free]
-    public unsafe class QueueCmd : CmdService<QueueCmd>
+    public interface IAssemblyRef<T> : IArrow<T,T>
     {
 
     }

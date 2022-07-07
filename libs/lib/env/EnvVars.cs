@@ -11,13 +11,10 @@ namespace Z0
 
     public readonly struct EnvVars : IIndex<EnvVar>
     {
-        public static FS.FolderPath dir(string name)
-            => FS.dir(Environment.GetEnvironmentVariable(name));
-
         public static Settings<Name,string> settings(Name name, EnvVar[] src)
         {
             var count = src.Length;
-            var settings = alloc<Setting<Name,string>>(src.Length);
+            var settings = sys.alloc<Setting<Name,string>>(src.Length);
             var lookup = dict<Name,string>();
             for(var i=0; i<count; i++)
             {

@@ -284,7 +284,7 @@ namespace Z0
             lock(_ApiLocker)
             {
                 if(_ApiCatalog == null)
-                    _ApiCatalog = ApiRuntimeLoader.catalog(true);
+                    _ApiCatalog = ApiLoader.catalog(true);
             }
             return _ApiCatalog;
         }

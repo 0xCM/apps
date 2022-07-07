@@ -24,19 +24,9 @@ namespace Z0
 
         AsmRegSets Regs => Service(AsmRegSets.create);
 
-        ApiCode ApiCode => Wf.ApiCode();
-
         ApiCodeFiles CodeFiles => Wf.ApiCodeFiles();
 
         StanfordAsmCatalog StanfordCatalog => Wf.StanfordCatalog();
-
-        ToolBox Tooling => Wf.ToolBox();
-
-        protected override void Initialized()
-        {
-
-            //ProjectLoad("canonical");
-        }
 
         Outcome LoadStanfordForms()
         {
@@ -60,12 +50,6 @@ namespace Z0
             return true;
         }
 
-
-        [CmdOp("asm/codegen")]
-        void GenAmsCode()
-        {
-            AsmCodeGen.Emit();
-        }
 
         [CmdOp("asm/refs/import")]
         void ImportAsmRefs()

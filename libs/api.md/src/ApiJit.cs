@@ -56,7 +56,7 @@ namespace Z0
         }
 
         public static ApiMembers jit(Assembly src, WfEventLogger log)
-            => jit(ApiRuntimeLoader.catalog(src), log);
+            => jit(ApiLoader.catalog(src), log);
 
         public static Index<ApiMember> complete(Type src, WfEventLogger log)
             => Members(ApiQuery.complete(src, CommonExclusions).Select(m => new JittedMethod(src.ApiHostUri(), m, ClrJit.jit(m))));
@@ -99,7 +99,7 @@ namespace Z0
         {
             var flow = Wf.Running(Msg.JittingPart.Format(src.Id));
             var buffer = list<ApiMember>();
-            var catalog = ApiRuntimeLoader.catalog(src.Owner);
+            var catalog = ApiLoader.catalog(src.Owner);
             var types = catalog.ApiTypes;
             var hosts = catalog.ApiHosts;
 

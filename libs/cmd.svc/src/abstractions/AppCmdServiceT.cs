@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Windows;
-
-    using static core;
 
     [CmdProvider]
     public abstract class AppCmdService<T> : CmdService<T>, IAppCmdService
@@ -25,27 +22,11 @@ namespace Z0
             PromptTitle = "cmd";
         }
 
-        IWorkerLog Witness;
-
-        Option<IToolCmdShell> Shell;
-
         public override IDispatcher Dispatcher => GlobalServices.Instance.Injected<ActionDispatcher>();
-
-        protected override void OnInit()
-        {
-            Witness = Loggers.worker(controller().Id(), ProjectDb.Home(), typeof(T).Name);
-        }
 
         protected OmniScript OmniScript => Wf.OmniScript();
 
         protected AppSvcOps AppSvc => Wf.AppSvc();
-
-        [CmdOp("runtime/cpucore")]
-        protected Outcome ShowCurrentCore(CmdArgs args)
-        {
-            Write(string.Format("Cpu:{0}", Kernel32.GetCurrentProcessorNumber()));
-            return true;
-        }
 
         [CmdOp("jobs/run")]
         Outcome RunJobs(CmdArgs args)
@@ -76,21 +57,6 @@ namespace Z0
                 Warn(string.Format("No jobs identified by '{0}'", match));
         }
 
-        protected void DisplayCmdResponse(ReadOnlySpan<string> src)
-        {
-            for(var i=0; i<src.Length; i++)
-            {
-                if(CmdResponse.parse(skip(src,i), out CmdResponse response))
-                    Write(response);
-            }
-        }
-
-        protected override void Disposing()
-        {
-            base.Disposing();
-            Witness?.Dispose();
-        }
-
         protected virtual string PromptTitle {get;}
 
         string Prompt()
@@ -108,20 +74,7 @@ namespace Z0
             while(input.Name != ".exit")
             {
                 if(input.IsNonEmpty)
-                {
-                    if(input.Name == ".tool")
-                    {
-                        var result = SelectTool(arg(input.Args,0).Value);
-                        if(result.Fail)
-                            Error(result.Message);
-                    }
-                    else
-                    {
-                        Witness.LogStatus(string.Format("{0} {1}", Prompt(), input.Format()));
-                        Dispatch(input);
-                    }
-                }
-
+                    Dispatch(input);
                 input = Next();
             }
         }

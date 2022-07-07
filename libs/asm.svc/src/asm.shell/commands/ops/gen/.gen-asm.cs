@@ -59,7 +59,6 @@ namespace Z0.Asm
             var r0 = RegSets.GpRegs(w0);
             var r1 = RegSets.GpRegs(w1);
             var dst = AppDb.DevProject("llvm.models/mc.models").Path(asmid,FileKind.Asm);
-            //var dst = Ws.Projects().Targets("asm").Path(asmid, FileKind.Asm);
             var indent = 0u;
             var buffer = text.buffer();
             buffer.AppendLine(string.Format(SectionPattern, TextSection));

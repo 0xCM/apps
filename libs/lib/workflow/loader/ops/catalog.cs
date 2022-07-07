@@ -6,8 +6,7 @@ namespace Z0
 {
     using static core;
 
-
-    partial struct ApiRuntimeLoader
+    partial struct ApiLoader
     {
         public static IApiCatalog catalog(bool libonly)
             => catalog(location(), libonly);
@@ -32,12 +31,6 @@ namespace Z0
         public static IApiCatalog catalog(FS.Files paths)
             => catalog(paths.Storage.Select(part).Where(x => x.IsSome()).Select(x => x.Value).OrderBy(x => x.Id));
 
-        public static IApiCatalog catalog(PartLoadContext context)
-            => catalog(FindParts(context));
-
-        public static IApiCatalog catalog(Index<IPart> parts)
-            => catalog(parts.Storage);
-
         public static ApiPartCatalog catalog(Assembly src)
             => new ApiPartCatalog(src.Id(), src, complete(src), apihosts(src), SvcHostTypes(src));
 
@@ -56,12 +49,6 @@ namespace Z0
 
         static Type[] SvcHostTypes(Assembly src)
             => src.GetTypes().Where(t => t.Tagged<FunctionalServiceAttribute>());
-
-        static IPart[] FindParts(PartLoadContext context)
-            => from component in context.Assemblies.Array().Where(x => x.Id() != 0)
-                let part = TryLoadPart(component)
-                where part.IsSome()
-                select part.Value;
 
         static IPart[] LoadParts(FS.FolderPath dir, ReadOnlySpan<PartId> parts, bool libonly)
         {

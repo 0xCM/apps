@@ -23,7 +23,8 @@ namespace Z0.Asm
             result = BuildAsmExe(id);
             if(result.Fail)
                 return result;
-            var exe = AsmWs.ExePath(id);
+            //var exe = AsmWs.ExePath(id);
+            var exe = FS.FilePath.Empty;
             var clock = Time.counter(true);
             var process = Process.Start(exe.Format());
             process.WaitForExit();

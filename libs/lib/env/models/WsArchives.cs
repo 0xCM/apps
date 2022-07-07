@@ -6,24 +6,6 @@ namespace Z0
 {
     using EN = SettingNames;
 
-    public class ConfigPaths
-    {
-        public static FS.FilePath app()
-            => FS.path(ExecutingPart.Component.Location).FolderPath + FS.file("app.settings", FileKind.Csv);
-
-        public static FS.FilePath cmd()
-            => Settings.path();
-    }
-
-    public class ConfigSets
-    {
-        public static Settings app()
-            => Settings.load(ConfigPaths.app());
-
-        public static Settings cmd()
-            => Settings.load(ConfigPaths.cmd());
-    }
-
     public class WsArchives
     {
         public static WsArchives load()

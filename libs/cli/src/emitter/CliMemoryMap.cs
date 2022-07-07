@@ -30,8 +30,8 @@ namespace Z0
             Require.invariant(src.IsNonEmpty);
             Source = MemoryFiles.map(src);
             BasePointer = Source.BaseAddress.Pointer<byte>();
-            PE = new PEReader(BasePointer, (int)Source.Size);
-            ImageSize = Source.Size;
+            PE = new PEReader(BasePointer, (int)Source.FileSize);
+            ImageSize = Source.FileSize;
             MD = PE.GetMetadataReader();
             MtadataBlock = PE.GetMetadata();
         }

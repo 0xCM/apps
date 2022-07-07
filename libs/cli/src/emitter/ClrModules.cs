@@ -33,11 +33,11 @@ namespace Z0
             => Assembly.Load(image.ReadBytes(), pdb.ReadBytes());
 
         [MethodImpl(Inline), Op]
-        public static FS.FilePath location(ClrAssemblyAdapter src)
+        public static FS.FilePath location(ClrAssembly src)
             => FS.path(src.Definition.Location);
 
         [Op]
-        public static ref readonly FS.FilePath xmlpath(ClrAssemblyAdapter src, out FS.FilePath dst)
+        public static ref readonly FS.FilePath xmlpath(ClrAssembly src, out FS.FilePath dst)
         {
             var candidate = FS.path(Path.ChangeExtension(src.Definition.Location, FS.Xml.Name));
             dst = candidate.Exists ? candidate : FS.FilePath.Empty;
@@ -45,7 +45,7 @@ namespace Z0
         }
 
         [Op]
-        public static ref readonly FS.FilePath pdbpath(ClrAssemblyAdapter src, out FS.FilePath dst)
+        public static ref readonly FS.FilePath pdbpath(ClrAssembly src, out FS.FilePath dst)
         {
             var candidate = FS.path(Path.ChangeExtension(src.Definition.Location, FS.Pdb.Name));
             dst = candidate.Exists ? candidate : FS.FilePath.Empty;

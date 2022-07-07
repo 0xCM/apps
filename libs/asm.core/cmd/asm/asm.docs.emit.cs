@@ -37,6 +37,7 @@ namespace Z0
             Write(dst.Emit());
 
         }
+
         void vlut(W128 w)
         {
             // lut := <0,1,2,...,15> ; defines 16 indicies in a table with up to 255 entries

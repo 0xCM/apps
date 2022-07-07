@@ -10,53 +10,109 @@ namespace Z0
 
     using api = MemoryFiles;
 
+    unsafe class MemoryFileOwner : IMemoryFile
+    {
+        readonly MemoryMappedFile File;
+
+        readonly MemoryMappedViewAccessor ViewAccessor;
+
+        byte* Base;
+
+        public readonly ByteSize FileSize;
+
+        public readonly MemoryAddress BaseAddress;
+
+        MemoryAddress IMemoryFile.BaseAddress
+            => BaseAddress;
+
+        ByteSize ISized.Size
+            => FileSize;
+
+        BitWidth ISized.Width
+            => FileSize.Bits;
+
+        internal MemoryFileOwner(MemoryMappedFile file, ByteSize size)
+        {
+            FileSize = size;
+            File = file;
+            ViewAccessor = File.CreateViewAccessor(0, (long)FileSize);
+            ViewAccessor.SafeMemoryMappedViewHandle.AcquirePointer(ref Base);
+            BaseAddress = Base;
+        }
+
+        public void Dispose()
+        {
+            ViewAccessor?.Dispose();
+            File?.Dispose();
+        }
+
+        public ReadOnlySpan<byte> View(ulong offset, ByteSize size)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ReadOnlySpan<byte> View()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ReadOnlySpan<T> View<T>()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ref readonly T Skip<T>(uint tOffset)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     public unsafe class MemoryFile : IMemoryFile<MemoryFile>
     {
-        byte* Base;
+        readonly MemoryFileSpec Spec;
+
+        public readonly FS.FilePath Path;
 
         readonly MemoryMappedFile File;
 
-        readonly MemoryMappedViewAccessor Accessor;
+        byte* Base;
+
+        public readonly ByteSize FileSize;
+
+        readonly MemoryMappedViewAccessor ViewAccessor;
 
         readonly MemoryMappedViewStream ViewStream;
 
         public readonly MemoryAddress BaseAddress;
 
-        public readonly FS.FilePath Path;
-
-        public readonly ulong Size;
-
         public readonly MemoryFileInfo Description;
-
-        readonly MemoryFileSpec Spec;
 
         public MemoryFile(MemoryFileSpec spec)
         {
             Spec = spec;
             Path = spec.Path;
+            FileSize = (ulong)Path.Info.Length;
             File = MemoryMappedFile.CreateFromFile(spec.Path.Name, spec.Mode, spec.MapName, spec.Capacity, spec.Access);
-            Size = (ulong)Path.Info.Length;
-            Accessor = File.CreateViewAccessor(0, (long)Size);
-            Accessor.SafeMemoryMappedViewHandle.AcquirePointer(ref Base);
-            BaseAddress = Base;
             Description = api.describe(this);
+            ViewAccessor = File.CreateViewAccessor(0, (long)FileSize);
+            ViewAccessor.SafeMemoryMappedViewHandle.AcquirePointer(ref Base);
+            BaseAddress = Base;
             if(spec.Stream)
                 ViewStream = File.CreateViewStream();
             else
                 ViewStream = null;
-
         }
 
         internal MemoryFile(FS.FilePath path, bool stream = false)
         {
-            Require.invariant(path.IsNonEmpty);
             Path = path;
-            Size = (ulong)Path.Info.Length;
+            FileSize = (ulong)Path.Info.Length;
             File = MemoryMappedFile.CreateFromFile(path.Name);
-            Accessor = File.CreateViewAccessor(0, Path.Info.Length);
-            Accessor.SafeMemoryMappedViewHandle.AcquirePointer(ref Base);
-            BaseAddress = Base;
+            Base = File.SafeMemoryMappedFileHandle.ToPointer<byte>();
             Description = api.describe(this);
+            ViewAccessor = File.CreateViewAccessor(0, Path.Info.Length);
+            ViewAccessor.SafeMemoryMappedViewHandle.AcquirePointer(ref Base);
+            BaseAddress = Base;
             if(stream)
                 ViewStream = File.CreateViewStream();
             else
@@ -65,9 +121,28 @@ namespace Z0
 
         public void Dispose()
         {
-            Accessor?.Dispose();
-            File?.Dispose();
+            ViewAccessor?.Dispose();
             Stream?.Dispose();
+            File?.Dispose();
+        }
+
+        public ref readonly MemoryAddress EndAddress
+        {
+            [MethodImpl(Inline)]
+            get => ref Description.EndAddress;
+        }
+
+        public void Accessor(Action<MemoryMappedViewAccessor> f)
+        {
+            using var accessor = File.CreateViewAccessor();
+            f(accessor);
+        }
+
+        public void Accessor(Action<MemoryMappedViewAccessor> f, uint offset)
+        {
+            var size = EndAddress - (BaseAddress + offset);
+            using var accessor = File.CreateViewAccessor(offset,size);
+            f(accessor);
         }
 
         public ref readonly MemoryMappedViewStream Stream
@@ -89,7 +164,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public MemorySeg Segment()
-            => new MemorySeg(Base,Size);
+            => new MemorySeg(Base,FileSize);
 
         [MethodImpl(Inline)]
         public Span<byte> Edit(ulong offset, ByteSize size)
@@ -181,6 +256,10 @@ namespace Z0
         public ref readonly T Skip<T>(uint index)
             => ref first(View<T>(index));
 
+        [MethodImpl(Inline)]
+        public ref readonly T First<T>()
+            => ref first(View<T>(0));
+
         /// <summary>
         /// Presents file content segment as a readonly sequence of <typeparamref name='T'/> cells beginning
         /// at a <typeparamref name='T'/> measured offset and continuing to the end of the file
@@ -206,16 +285,13 @@ namespace Z0
         public int CompareTo(MemoryFile src)
             => BaseAddress.CompareTo(src.BaseAddress);
 
-        MemoryFileInfo IMemoryFile.Description
-            => Description;
-
         MemoryAddress IMemoryFile.BaseAddress
             => BaseAddress;
 
-        ByteSize IMemoryFile.Size
-            => Size;
+        ByteSize ISized.Size
+            => FileSize;
 
-        FS.FilePath IMemoryFile.Path
-            => Path;
+        BitWidth ISized.Width
+            => FileSize.Bits;
     }
 }

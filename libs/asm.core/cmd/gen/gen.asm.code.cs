@@ -4,10 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class ProjectCmd
+     using Asm;
+
+    partial class AsmCoreCmd
     {
-        [CmdOp("project/build/builtins")]
-        Outcome BuildBuiltIns(CmdArgs args)
-            => Scripts.BuildScoped(Project(), "build-builtins", "builtins");
+       [CmdOp("gen/asm/code")]
+        void GenAmsCode()
+            => AsmCodeGen.Emit();
     }
+
 }

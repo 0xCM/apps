@@ -9,11 +9,11 @@ namespace Z0
     partial struct Clr
     {
         /// <summary>
-        /// Defines a <see cref='ClrAssemblyAdapter'/> over an <see cref='Assembly'/>
+        /// Defines a <see cref='ClrAssembly'/> over an <see cref='Assembly'/>
         /// </summary>
         /// <param name="src">The source module</param>
         [MethodImpl(Inline), Op]
-        public static ClrAssemblyAdapter adapt(Assembly src)
+        public static ClrAssembly adapt(Assembly src)
             => src;
 
         /// <summary>
@@ -49,8 +49,8 @@ namespace Z0
             => src;
 
         [MethodImpl(Inline), Op]
-        public static ReadOnlySpan<ClrAssemblyAdapter> adapt(Assembly[] src)
-            => adapt<Assembly,ClrAssemblyAdapter>(src);
+        public static ReadOnlySpan<ClrAssembly> adapt(Assembly[] src)
+            => adapt<Assembly,ClrAssembly>(src);
 
         [MethodImpl(Inline), Op]
         public static ReadOnlySpan<ClrTypeAdapter> adapt(Type[] src)

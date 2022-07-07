@@ -6,40 +6,46 @@ namespace Z0
 {
     using api = ClrAssemblyNames;
 
-    public readonly record struct ClrAssemblyName : IDataType<ClrAssemblyName>
+    public sealed record class ClrAssemblyName : IDataType<ClrAssemblyName>
     {
-        readonly AssemblyName Subject;
+        public readonly FS.FileUri CodeBase;
+
+        public readonly string FullName;
+
+        public readonly string SimpleName;
+
+        public readonly AssemblyVersion Version;
+
+        ClrAssemblyName()
+        {
+            CodeBase = FS.FilePath.Empty;
+            FullName = EmptyString;
+            SimpleName = EmptyString;
+            Version = default;
+        }
 
         [MethodImpl(Inline)]
         public ClrAssemblyName(AssemblyName src)
-            => Subject = src;
+        {
+            CodeBase = FS.path(src.CodeBase ?? EmptyString);
+            FullName = src.FullName;
+            SimpleName = src.SimpleName();
+            Version = api.version(src);
+        }
 
         [MethodImpl(Inline)]
         public ClrAssemblyName(Assembly src)
-            => Subject = src.GetName();
-
-        public string FullName
         {
-            [MethodImpl(Inline)]
-            get => Subject.FullName;
-        }
-
-        public string SimpleName
-        {
-            [MethodImpl(Inline)]
-            get => Subject.Name;
-        }
-
-        public AssemblyVersion Version
-        {
-            [MethodImpl(Inline)]
-            get => api.version(Subject);
+            CodeBase = FS.path(src.GetName().CodeBase ?? EmptyString);
+            FullName = src.GetName().FullName;
+            SimpleName = src.GetName().SimpleName();
+            Version = api.version(src.GetName());
         }
 
         public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => core.hash(FullName);
+            get => HashCodes.hash(FullName);
         }
 
         public override int GetHashCode()
@@ -47,7 +53,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public string Format()
-            => api.format(Subject);
+            => SimpleName;
 
         public override string ToString()
             => Format();
@@ -57,30 +63,26 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public string Format(AssemblyNameKind kind)
-            => api.format(Subject, kind);
+            => api.format(this, kind);
 
         public bool Equals(ClrAssemblyName src)
-            => Subject?.Equals(src.Subject) ?? false;
+            => FullName.Equals(src.FullName);
 
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => Subject is null;
+            get => sys.empty(FullName);
         }
 
         public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
-            get => !(Subject is null);
+            get => sys.nonempty(FullName);
         }
 
         [MethodImpl(Inline)]
         public static implicit operator ClrAssemblyName(AssemblyName src)
             => new ClrAssemblyName(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator AssemblyName(ClrAssemblyName src)
-            => src.Subject;
 
         [MethodImpl(Inline)]
         public static implicit operator ClrAssemblyName(Assembly src)
@@ -89,7 +91,7 @@ namespace Z0
         public static ClrAssemblyName Empty
         {
             [MethodImpl(Inline)]
-            get => new ClrAssemblyName(new AssemblyName());
+            get => new ClrAssemblyName();
         }
     }
 }

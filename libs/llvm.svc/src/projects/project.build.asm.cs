@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial class ProjectCmd
     {
         [CmdOp("project/build/asm")]

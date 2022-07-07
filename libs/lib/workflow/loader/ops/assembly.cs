@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct ApiRuntimeLoader
+    partial struct ApiLoader
     {
         /// <summary>
         /// Loads an assembly from a potential part path

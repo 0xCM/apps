@@ -8,12 +8,6 @@ namespace Z0
 
     public readonly struct WfLogConfig : IWfLogConfig
     {
-        public static FS.FilePath path(Assembly src, FS.FolderPath root, string name, FileKind kind, Timestamp? ts = null)
-        {
-            var id = text.empty(name) ? src.Id().Format() : $"{src.Id().Format()}.{name}";
-            return root + FS.file($"{id}.{ts ?? core.timestamp()}", kind.Ext());
-        }
-
         public string LogId {get;}
 
         /// <summary>
@@ -43,7 +37,7 @@ namespace Z0
             Control = control;
             LogRoot = root;
             var ts = core.timestamp();
-            StatusPath = LogRoot + FS.folder(control.Format()) + FS.file($"{LogId}.status.{ts}", FS.Log);
+            StatusPath = LogRoot + FS.folder($"{control.Format()}/status") + FS.file($"{LogId}.status.{ts}", FS.Log);
             ErrorPath = LogRoot + FS.folder(control.Format()) + FS.file($"{LogId}.errors.{ts}", FS.Log);
         }
 

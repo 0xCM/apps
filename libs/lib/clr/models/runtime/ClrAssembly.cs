@@ -4,12 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct ClrAssemblyAdapter : IRuntimeObject<ClrAssemblyAdapter,Assembly>
+    public readonly struct ClrAssembly : IRuntimeObject<ClrAssembly,Assembly>
     {
-        public Assembly Definition {get;}
+        public readonly Assembly Definition;
 
         [MethodImpl(Inline)]
-        public ClrAssemblyAdapter(Assembly src)
+        public ClrAssembly(Assembly src)
             => Definition = src;
 
         public ClrArtifactKind Kind
@@ -72,12 +72,15 @@ namespace Z0
         string IClrArtifact.Name
             => Definition.FullName;
 
+        Assembly IRuntimeObject<Assembly>.Definition
+            => Definition;
+
         [MethodImpl(Inline)]
-        public static implicit operator Assembly(ClrAssemblyAdapter src)
+        public static implicit operator Assembly(ClrAssembly src)
             => src.Definition;
 
         [MethodImpl(Inline)]
-        public static implicit operator ClrAssemblyAdapter(Assembly src)
-            => new ClrAssemblyAdapter(src);
+        public static implicit operator ClrAssembly(Assembly src)
+            => new ClrAssembly(src);
     }
 }

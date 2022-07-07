@@ -4,9 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Free]
-    public unsafe class QueueCmd : CmdService<QueueCmd>
+    public readonly partial struct ApiLoader
     {
-
+        const PartId FirstShell = PartId.CgShell;
     }
 }

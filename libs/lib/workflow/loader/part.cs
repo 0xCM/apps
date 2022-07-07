@@ -6,7 +6,7 @@ namespace Z0
 {
     using System.Linq;
 
-    partial struct ApiRuntimeLoader
+    partial struct ApiLoader
     {
        /// <summary>
         /// Attempts to resolve a part from an assembly file path

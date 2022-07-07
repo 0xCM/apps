@@ -28,7 +28,7 @@ namespace Z0
             return result;
         }
 
-        public Outcome<Index<CmdFlow>> RunScript(IWsProject project, ScriptId script, string srcid)
+        public Outcome<Index<CmdFlow>> RunScript(IWsProject project, FS.FilePath script, string srcid)
         {
             var cmdflows = list<CmdFlow>();
             var result = RunProjectScript(project, srcid, script, true, out var flows);
@@ -65,13 +65,12 @@ namespace Z0
             return result;
         }
 
-        public Outcome RunProjectScript(IWsProject project, string srcid, ScriptId script, bool quiet, out ReadOnlySpan<CmdFlow> flows)
+        public Outcome RunProjectScript(IWsProject project, string srcid, FS.FilePath script, bool quiet, out ReadOnlySpan<CmdFlow> flows)
         {
-            var path = project.Script(script, FileKind.Cmd);
             var result = Outcome.Success;
             var vars = WsCmdVars.create();
             vars.SrcId = srcid;
-            return RunToolScript(path, vars.ToCmdVars(), quiet, out flows);
+            return RunToolScript(script, vars.ToCmdVars(), quiet, out flows);
         }
 
         public Outcome Run(FS.FilePath src, CmdVars vars, bool quiet, out ReadOnlySpan<TextLine> response)

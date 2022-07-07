@@ -14,7 +14,7 @@ namespace Z0
 
         internal WfEmissionLog(Assembly src, FS.FolderPath root, Timestamp? ts = null, string name = null)
         {
-            Target = WfLogConfig.path(src, root, name ?? "emissions", FileKind.Csv, ts);
+            Target = Loggers.config(src, root, name ?? "emissions", FileKind.Csv, ts);
             Target.EnsureParentExists().Delete();
             Emissions = Target.Stream();
         }

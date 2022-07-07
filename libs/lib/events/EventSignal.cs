@@ -8,9 +8,9 @@ namespace Z0
 
     public class EventSignal
     {
-        readonly IEventSink Sink;
-
         readonly WfHost Source;
+
+        readonly IEventSink Sink;
 
         [MethodImpl(Inline)]
         internal EventSignal(IEventSink sink, WfHost src)

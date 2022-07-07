@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static ApiGranules;
-
     public class CmdService<S> : WfSvc<CmdService<S>>, ICmdService
         where S : CmdService<S>, new()
     {
@@ -28,6 +26,7 @@ namespace Z0
 
         public void RunCmd(string name)
         {
+            //var running = Running($"Executing {name}");
             var result = Dispatcher.Dispatch(name);
             if(result.Fail)
                 Error(result.Message);
@@ -38,7 +37,7 @@ namespace Z0
             Dispatcher.Dispatch(name, args);
         }
 
-        [CmdOp(commands)]
+        [CmdOp("commands")]
         protected void EmitCommands()
             => EmitCommands(Dispatcher, ExecutingPart.Id);
 

@@ -4,9 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Free]
-    public unsafe class QueueCmd : CmdService<QueueCmd>
+    public class ConfigSets
     {
+        public static Settings app()
+            => Settings.load(ConfigPaths.app());
 
+        public static Settings cmd()
+            => Settings.load(ConfigPaths.cmd());
     }
 }

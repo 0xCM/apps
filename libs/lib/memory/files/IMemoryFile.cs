@@ -4,13 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IMemoryFile : IDisposable
+    public interface IMemoryFile : IDisposable, ISized, IAddressable
     {
-        FS.FilePath Path {get;}
-
-        ByteSize Size {get;}
-
         MemoryAddress BaseAddress {get;}
+
+        MemoryAddress IAddressable.Address
+            => BaseAddress;
 
         ReadOnlySpan<byte> View(ulong offset, ByteSize size);
 
@@ -18,12 +17,10 @@ namespace Z0
 
         ReadOnlySpan<T> View<T>();
 
-        ReadOnlySpan<T> View<T>(uint tOffset, uint tCount);
+        ref readonly T Skip<T>(uint cells);
 
-        ref readonly T Skip<T>(uint tOffset);
-
-
-        MemoryFileInfo Description {get;}
+        ref readonly T First<T>()
+            => ref Skip<T>(0);
     }
 
     public interface IMemoryFile<F> : IMemoryFile, IComparable<F>

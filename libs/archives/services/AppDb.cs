@@ -80,10 +80,10 @@ namespace Z0
             => new DbSources(setting(WsArchives.Path(Names.DevRoot), FS.dir));
 
         public IWsProjects DevProjects()
-            => new WsProjects(DevRoot().Root, "dev");
+            => WsProjects.load(DevRoot());
 
-        public IWsProjects DevProjects(string scope)
-            => DevProjects().Projects(scope);
+        public IWsProjects DevProject(string name)
+            => new WsProjects(DevProjects().Sources(name).Root);
 
         public IDbTargets CgRoot()
             => new DbTargets(setting(WsArchives.Path(Names.CgRoot), FS.dir));
@@ -94,14 +94,8 @@ namespace Z0
         public IDbSources EnvConfig()
             => new DbSources(setting(WsArchives.Path(Names.EnvConfig), FS.dir));
 
-        public IWsProject DevProject(ProjectId src)
-            => new WsProject(DevProjects().Sources(src).Root, src);
-
-        public IWsProject DevProject(string scope, ProjectId src)
-            => new WsProject(DevProjects(scope).Root, src);
-
         public IWsProject LlvmModel(ProjectId src)
-            => new WsProject(DevProjects("llvm.models"), src);
+            => WsProject.load(DevProject("llvm.models"), src);
 
         public IDbTargets DbProjects(ProjectId src)
             => new DbTargets(setting(WsArchives.Path(Names.DbProjects),FS.dir), src.Format());

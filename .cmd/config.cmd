@@ -26,7 +26,7 @@ set ShellRoot=%SlnRoot%\shells
 set LibsRoot=%SlnRoot%\libs
 set TestRoot=%SlnRoot%\test
 
-set BuildTool=dotnet build --verbosity normal
+set BuildTool=dotnet build
 
 mkdir %WsLogs% 1>nul 2>nul
 set BuldLogs=%WsLogs%

@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     /// <summary>
     /// Defines a nonparametric environment variable
     /// </summary>
@@ -53,7 +51,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public string Format()
-            => nonempty(VarValue) ? string.Format("{0}={1}", VarName, VarValue) : VarName.Format();
+            => sys.nonempty(VarValue) ? string.Format("{0}={1}", VarName, VarValue) : VarName.Format();
 
 
         public override string ToString()

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct ApiRuntimeLoader
+    partial struct ApiLoader
     {
         public static FS.FolderPath location()
             => FS.path(core.controller().Location).FolderPath;

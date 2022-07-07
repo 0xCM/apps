@@ -54,7 +54,7 @@ namespace Z0
         }
 
         [Op]
-        public static ModuleBuilder module(ClrAssemblyName name)
+        public static ModuleBuilder module(AssemblyName name)
         {
             var ab = AssemblyBuilder.DefineDynamicAssembly(name, AssemblyBuilderAccess.Run);
             return ab.DefineDynamicModule("Primary");
@@ -85,7 +85,7 @@ namespace Z0
         /// </summary>
         /// <param name="spec">The record definition</param>
         [MethodImpl(NotInline),Op]
-        public static Type type(ClrAssemblyName assname, RecordSpec spec)
+        public static Type type(AssemblyName assname, RecordSpec spec)
             => build(module(assname), spec);
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace Z0
         /// </summary>
         /// <param name="spec">The record definition</param>
         [MethodImpl(NotInline), Op]
-        public static Type[] types(ClrAssemblyName assname, params RecordSpec[] specs)
+        public static Type[] types(AssemblyName assname, params RecordSpec[] specs)
         {
             var count = specs.Length;
             var buffer = alloc<Type>(count);

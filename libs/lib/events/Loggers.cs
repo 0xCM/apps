@@ -7,11 +7,20 @@ namespace Z0
     [ApiHost]
     public readonly struct Loggers
     {
-        public static IWfEmissionLog emission(Assembly src, Timestamp? ts = null, string name = null)
-            => new WfEmissionLog(src, FS.dir("d:/views/db/logs") + FS.folder(src.Id().Format()), ts, name);
+        public static FS.FolderPath logs(Assembly src)
+            => FS.dir($"d:/views/db/logs/{src.Id().Format()}");
+
+        public static IWfEmissionLog emission(Assembly src, Timestamp? ts = null)
+            => new WfEmissionLog(src, logs(src) + FS.folder("emissions"), ts);
 
         public static IWfEmissionLog emission(Assembly src, FS.FolderPath dst, Timestamp ts, string name)
-            => new WfEmissionLog(src, FS.dir("d:/views/db/logs") + FS.folder(src.Id().Format()), ts, name);
+            => new WfEmissionLog(src, dst, ts, name);
+
+        internal static FS.FilePath config(Assembly src, FS.FolderPath root, string name, FileKind kind, Timestamp? ts = null)
+        {
+            var id = text.empty(name) ? src.Id().Format() : $"{src.Id().Format()}.{name}";
+            return root + FS.file($"{id}.{ts ?? core.timestamp()}", kind.Ext());
+        }
 
         [Op]
         public static string format(IWfLogConfig src)
@@ -26,10 +35,6 @@ namespace Z0
             => new WorkerLog(config);
 
         [MethodImpl(Inline), Op]
-        public static IWorkerLog worker(PartId control, FS.FolderPath root, string name = EmptyString)
-            => worker(configure(control, root, name));
-
-        [MethodImpl(Inline), Op]
         public static IWfEventLog events(WfLogConfig config)
             => new WfEventLog(config);
 
@@ -40,9 +45,5 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static WfLogConfig configure(string name = EmptyString)
             => new WfLogConfig(core.controller().Id(), FS.dir("d:/views/db/logs"), name);
-
-        [MethodImpl(Inline), Op]
-        public static WfLogConfig configure(PartId part, FS.FolderPath root, string name = EmptyString)
-            => new WfLogConfig(part, root, name);
     }
 }

@@ -111,7 +111,7 @@ namespace Z0
         }
 
         public ApiHostCatalog HostCatalog(Type src)
-            => HostCatalog(ApiRuntimeLoader.apihost(src));
+            => HostCatalog(ApiLoader.apihost(src));
 
         Index<ComponentAssets> CalcApiAssets()
             => Assets.extract(Components);

@@ -31,10 +31,9 @@ namespace Z0
             Row(files.Format());
         }
 
-        [CmdOp("app/settings")]
+        [CmdOp("settings")]
         void Setings()
             => AppSettings.Iter(setting => Write(setting.Format(Chars.Eq)));
-
 
         [CmdOp("app/setting")]
         Outcome Setting(CmdArgs args)

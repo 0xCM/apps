@@ -19,7 +19,7 @@ namespace Z0
         {
             Home = home;
             ManagedSources = ma;
-            Catalog = ApiRuntimeLoader.catalog(home, parts, true);
+            Catalog = ApiLoader.catalog(home, parts, true);
         }
 
         internal ApiParts(Assembly control, FS.FolderPath home, FolderFiles ma, IApiCatalog catalog)

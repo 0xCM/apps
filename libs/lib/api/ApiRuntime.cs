@@ -130,7 +130,7 @@ namespace Z0
                return new ApiParts(control, folder, sources, ids);
             else
             {
-                return new ApiParts(control, folder, sources, ApiRuntimeLoader.catalog(sources));
+                return new ApiParts(control, folder, sources, ApiLoader.catalog(sources));
             }
         }
 

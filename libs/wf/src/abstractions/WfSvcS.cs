@@ -5,8 +5,29 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Windows;
+
     using static core;
     using static ApiGranules;
+
+    public class WfSvc
+    {
+        static IWsProject Project;
+
+        public static ref readonly IWsProject project()
+        {
+            if(Project == null)
+                Errors.Throw("Project is null");
+            return ref Project;
+        }
+
+        [MethodImpl(Inline)]
+        public static ref readonly IWsProject project(IWsProject src)
+        {
+            Project = src;
+            return ref Project;
+        }
+    }
 
     public abstract class WfSvc<S> : AppService<S>
         where S : WfSvc<S>, new()
@@ -14,22 +35,6 @@ namespace Z0
         public static IDbArchive DbArchive() => Archives.archive(FS.dir(AppSettings.Find(SettingNames.DbRoot)));
 
         ConcurrentDictionary<ProjectId,WsContext> _Context = new();
-
-        IWsProject _Project;
-
-        Option<IToolCmdShell> Shell;
-
-        protected Outcome SelectTool(ToolIdOld tool)
-        {
-            var result = Outcome.Success;
-            if(Shell.IsNone())
-            {
-                result = (false, "Target shell unspecified");
-                return result;
-            }
-
-            return Shell.Value.SelectTool(tool);
-        }
 
         public WsCatalog ProjectFiles {get; protected set;}
 
@@ -43,35 +48,30 @@ namespace Z0
 
         protected static AppDb AppDb => AppDb.Service;
 
-        protected ToolWs ToolWs => new ToolWs(AppDb.Toolbase().Root);
+        protected ToolWs ToolWs
+            => new ToolWs(AppDb.Toolbase().Root);
 
         public Settings ShellSettings()
             => AsciLines.settings(Settings.path());
 
-        protected void LoadProjectInner(IWsProject ws)
-        {
-            _Project = Require.notnull(ws);
-            ProjectFiles = WsCatalog.load(ws);
-        }
-
         protected void EmitCommands(IDispatcher src, PartName part)
             => Cmd.emit(src, Settings.path(AppDb.ApiTargets(commands).Root, $"{part}.{commands}", FileKind.Kvp), EventLog);
 
-
         [MethodImpl(Inline)]
         public IWsProject Project()
-        {
-            if(_Project == null)
-            {
-                Errors.Throw("Project is null");
-            }
-            return _Project;
-        }
+            => WfSvc.project();
 
         protected WsContext Context()
         {
             var project = Project();
             return _Context.GetOrAdd(project.Id, _ => WsContext.load(project));
+        }
+
+        [CmdOp("runtime/cpucore")]
+        protected Outcome ShowCurrentCore(CmdArgs args)
+        {
+            Write(string.Format("Cpu:{0}", Kernel32.GetCurrentProcessorNumber()));
+            return true;
         }
 
         [CmdOp("project/home")]
@@ -99,12 +99,13 @@ namespace Z0
             else
             {
                 Status($"Loading project from {ws.Home()}");
-
-                LoadProjectInner(ws);
-
+                WfSvc.project(ws);
+                ProjectFiles = WsCatalog.load(WfSvc.project());
                 var dir = ws.Home();
                 if(dir.Exists)
                     Files(ws.SrcFiles());
+                Status($"Project={WfSvc.project()}");
+                //result =  (true,$"Project={_Project.Name}");
             }
             return result;
         }
@@ -274,6 +275,5 @@ namespace Z0
             TextEncodingKind encoding = TextEncodingKind.Asci, ushort rowpad = 0, RecordFormatKind fk = RecordFormatKind.Tablular)
                 where T : struct
                     => TableEmit(@readonly(rows), dst, encoding, rowpad, fk);
-
     }
 }

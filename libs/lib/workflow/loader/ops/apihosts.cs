@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    partial struct ApiRuntimeLoader
+    partial struct ApiLoader
     {
         /// <summary>
         /// Describes an api host

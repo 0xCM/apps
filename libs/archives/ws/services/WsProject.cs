@@ -9,6 +9,9 @@ namespace Z0
         public static IWsProject load(FS.FolderPath root, ProjectId id)
             => new WsProject(root, id);
 
+        public static IWsProject load(IRootedArchive root, ProjectId id)
+            => new WsProject(root, id);
+
         public ProjectId Id {get;}
 
         public FS.FolderPath Root {get;}

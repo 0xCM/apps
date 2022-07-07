@@ -14,6 +14,21 @@ namespace Z0
             where T : unmanaged
                 => (T*)AsPointer(ref Refs.edit(src));
 
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public unsafe static T* gptr<T>(SafeHandle src)
+            where T : unmanaged
+                =>  src.DangerousGetHandle().ToPointer<T>();
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public unsafe static T* gptr<T>(RuntimeFieldHandle src)
+            where T : unmanaged
+                =>  src.Value.ToPointer<T>();
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static unsafe T* gptr<T>(IntPtr src)
+            where T : unmanaged
+                => (T*)src.ToPointer();
+
         /// <summary>
         /// Presents a readonly reference to an unmanaged value as a pointer displaced by a specified element offset
         /// </summary>
