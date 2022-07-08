@@ -342,6 +342,8 @@ namespace Z0
 
         public const string msil = nameof(msil);
 
+        public const string ildat = il + Dot + csv;
+
         public const string queries = nameof(queries);
 
         public const string tokens = nameof(tokens);

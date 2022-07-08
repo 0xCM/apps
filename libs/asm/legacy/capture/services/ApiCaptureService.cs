@@ -14,8 +14,6 @@ namespace Z0
 
     public sealed class ApiCaptureService : WfSvc<ApiCaptureService>
     {
-        ApiCaptureArchive CaptureArchive => Service(Wf.ApiCaptureArchive);
-
         ApiCaptureEmitter Emitter => Service(Wf.CaptureEmitter);
 
         ApiMemberExtractor Extractor => Service(ApiMemberExtractor.create);
@@ -25,109 +23,32 @@ namespace Z0
         public Index<ApiMemberExtract> ExtractHostOps(IApiHost host)
             => Extractor.Extract(Jit.JitHost(host));
 
-        public Index<ApiMemberExtract> ExtractMembers(ApiHostMembers src)
-            => Extractor.Extract(src.Members);
-
-        /// <summary>
-        /// Root capture routine that traverses and captures the apiset
-        /// </summary>
-        public Index<AsmHostRoutines> CaptureParts()
+        public Index<AsmHostRoutines> CaptureParts(Index<PartId> parts, IApiPack dst)
         {
             using var flow = Running();
-            ClearArchive();
-            var captured = RunCapture();
+            var captured = RunCapture(parts, dst);
             Ran(flow);
             return captured;
-        }
-
-        public Index<AsmHostRoutines> CaptureParts(Index<PartId> parts)
-        {
-            using var flow = Running();
-            ClearArchive(parts);
-            var captured = RunCapture(parts);
-            Ran(flow);
-            return captured;
-        }
-
-        public AsmHostRoutines CaptureHost(ApiHostUri host, ApiMembers members, FS.FolderPath dst)
-        {
-            using var flow = Running();
-            var extracted = Extractor.Extract(members);
-            var count = extracted.Length;
-            var routines = Emitter.Emit(host, extracted, dst);
-            Ran(flow);
-            return routines;
-        }
-
-        public ReadOnlySpan<ApiHostMembers> HostGroups(in ApiMembers src)
-        {
-            var dst = list<ApiHostMembers>();
-            var groups = src.Storage.GroupBy(x => x.Host);
-            foreach(var g in groups)
-            {
-                var host = g.Key;
-                var members = g.ToArray();
-                dst.Add(new ApiHostMembers(host, ApiMembers.create(members)));
-            }
-            return dst.ViewDeposited();
-        }
-
-        public ReadOnlySpan<AsmHostRoutines> CaptureMembers(ApiMembers src, FS.FolderPath dst)
-        {
-            var hosted = HostGroups(src);
-            var count = hosted.Length;
-            var collected = list<AsmHostRoutines>();
-            for(var i=0; i<count; i++)
-                CaptureMembers(skip(hosted,i), dst, collected);
-            return collected.ViewDeposited();
-        }
-
-        public void CaptureMembers(ApiHostMembers src, FS.FolderPath path, List<AsmHostRoutines> dst)
-        {
-            var routines = AsmHostRoutines.Empty;
-            var flow = Running(src.Host);
-            try
-            {
-                routines = Emitter.Emit(src.Host, ExtractMembers(src), path);
-                dst.Add(routines);
-            }
-            catch(Exception e)
-            {
-                Error(e);
-            }
-            Ran(flow, src.Host);
-        }
-
-        public ReadOnlySpan<AsmHostRoutines> CaptureCatalog(IApiCatalog catalog)
-        {
-            var dst = list<AsmHostRoutines>();
-            var flow = Running();
-            var catalogs = catalog.Catalogs.View;
-            var count = catalogs.Length;
-            for(var i=0; i<count; i++)
-                dst.AddRange(CaptureCatalog(skip(catalogs,i)));
-            Ran(flow, count);
-            return dst.ViewDeposited();
         }
 
         /// <summary>
         /// Captures a catalog-specified part
         /// </summary>
         /// <param name="src">The part catalog</param>
-        public Index<AsmHostRoutines> CaptureCatalog(IApiPartCatalog src)
+        public Index<AsmHostRoutines> CaptureCatalog(IApiPartCatalog src, IApiPack dst)
         {
             if(src.IsEmpty)
                 return array<AsmHostRoutines>();
 
-            var dst = list<AsmHostRoutines>();
-            dst.Add(CaptureTypes(src.ApiTypes));
-            dst.AddRange(CaptureHosts(src.OperationHosts));
-            return dst.ToArray();
+            var buffer = list<AsmHostRoutines>();
+            buffer.Add(CaptureTypes(src.ApiTypes, dst));
+            buffer.AddRange(CaptureHosts(src.OperationHosts, dst));
+            return buffer.ToArray();
         }
 
-        public Index<AsmHostRoutines> CaptureHosts(ReadOnlySpan<ApiHostUri> src)
+        public Index<AsmHostRoutines> CaptureHosts(ReadOnlySpan<ApiHostUri> src, IApiPack dst)
         {
-            var dst = list<AsmHostRoutines>();
+            var buffer = list<AsmHostRoutines>();
             try
             {
                 var hosts = Wf.ApiCatalog.FindHosts(src);
@@ -136,7 +57,7 @@ namespace Z0
                 for(var i=0; i<count; i++)
                 {
                     var host = skip(view,i);
-                    dst.Add(CaptureHost(host));
+                    buffer.Add(CaptureHost(host, dst));
                 }
             }
             catch(IOException e)
@@ -148,19 +69,10 @@ namespace Z0
                 Wf.Error(e);
             }
 
-            return dst.ToArray();
+            return buffer.ToArray();
         }
 
-        public Index<AsmHostRoutines> CaptureHosts(ReadOnlySpan<IApiHost> src)
-        {
-            var count = src.Length;
-            var collected = list<AsmHostRoutines>();
-            for(var i=0; i<count; i++)
-                collected.Add(CaptureHost(skip(src, i)));
-            return collected.ToArray();
-        }
-
-        public Index<AsmHostRoutines> CaptureHosts(ReadOnlySpan<IApiHost> src, FS.FolderPath dst)
+        public Index<AsmHostRoutines> CaptureHosts(ReadOnlySpan<IApiHost> src, IApiPack dst)
         {
             var count = src.Length;
             var collected = list<AsmHostRoutines>();
@@ -169,14 +81,14 @@ namespace Z0
             return collected.ToArray();
         }
 
-        public AsmHostRoutines CaptureHost(IApiHost src)
+        public AsmHostRoutines CaptureHost(IApiHost src, IApiPack dst)
         {
             src = require(src);
             var routines = AsmHostRoutines.Empty;
             var flow = Running(string.Format("Capturing {0} routines", src.HostName));
             try
             {
-                routines = Emitter.Emit(src.HostUri, ExtractHostOps(src));
+                routines = Emitter.Emit(src.HostUri, ExtractHostOps(src), dst);
             }
             catch(Exception e)
             {
@@ -203,17 +115,17 @@ namespace Z0
             return routines;
         }
 
-        public AsmHostRoutines CaptureTypes(Index<ApiCompleteType> src)
+        public AsmHostRoutines CaptureTypes(Index<ApiCompleteType> src, IApiPack dst)
         {
-            var dst = list<AsmMemberRoutine>();
+            var buffer = list<AsmMemberRoutine>();
             var extracted = @readonly(ExtractTypes(src).GroupBy(x => x.Host).Select(x => kvp(x.Key, x.Array())).Array());
             var count = extracted.Length;
             for(var i=0; i<count; i++)
             {
                 ref readonly var extracts = ref skip(extracted,i);
-                dst.AddRange(Emitter.Emit(extracts.Key, extracts.Value));
+                buffer.AddRange(Emitter.Emit(extracts.Key, extracts.Value, dst));
             }
-            return dst.ToArray();
+            return buffer.ToArray();
         }
 
         Index<ApiMemberExtract> ExtractTypes(Index<ApiCompleteType> types)
@@ -229,38 +141,28 @@ namespace Z0
             }
         }
 
-        Index<AsmHostRoutines> RunCapture()
+        Index<AsmHostRoutines> RunCapture(IApiPack dst)
         {
-            var dst = list<AsmHostRoutines>();
+            var buffer = list<AsmHostRoutines>();
             using var flow = Wf.Running(nameof(RunCapture));
             var catalogs = Wf.ApiCatalog.Catalogs.View;
             var count = catalogs.Length;
             for(var i=0; i<count; i++)
-                dst.AddRange(CaptureCatalog(skip(catalogs,i)));
+                buffer.AddRange(CaptureCatalog(skip(catalogs,i),dst));
             Ran(flow, count);
-            return dst.ToArray();
+            return buffer.ToArray();
         }
 
-        Index<AsmHostRoutines> RunCapture(Index<PartId> parts)
+        Index<AsmHostRoutines> RunCapture(Index<PartId> parts, IApiPack dst)
         {
-            var dst = list<AsmHostRoutines>();
+            var buffer = list<AsmHostRoutines>();
             using var flow = Running();
             var catalogs = Wf.ApiCatalog.PartCatalogs(parts).View;
             var count = catalogs.Length;
             for(var i=0; i<count; i++)
-                dst.AddRange(CaptureCatalog(skip(catalogs,i)));
+                buffer.AddRange(CaptureCatalog(skip(catalogs,i),dst));
             Ran(flow);
-            return dst.ToArray();
-        }
-
-        void ClearArchive()
-        {
-            CaptureArchive.Clear();
-        }
-
-        void ClearArchive(Index<PartId> parts)
-        {
-            CaptureArchive.Clear(parts);
+            return buffer.ToArray();
         }
     }
 }

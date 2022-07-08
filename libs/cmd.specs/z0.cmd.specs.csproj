@@ -9,7 +9,8 @@
 
   <ItemGroup>
     <ProjectReference Include="$(Symbolics)" />
-    <ProjectReference Include="$(Tools)" />
+    <ProjectReference Include="$(CmdTools)" />
+
   </ItemGroup>
 
 </Project>

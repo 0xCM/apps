@@ -8,16 +8,7 @@
   <Import Project="$(ImportDefs)shells.common.props"/>
 
   <ItemGroup>
-    <ProjectReference Include="$(CmdExec)" />
     <ProjectReference Include="$(CmdSvc)" />
-    <ProjectReference Include="$(CmdSpecs)" />
-    <ProjectReference Include="$(Agents)" />
-    <ProjectReference Include="$(Archives)" />
-    <ProjectReference Include="$(Native)" />
-    <ProjectReference Include="$(Wf)" />
-    <ProjectReference Include="$(Libs)" />
-    <ProjectReference Include="$(Literals)" />
-    <ProjectReference Include="$(Tools)" />
   </ItemGroup>
 
 </Project>

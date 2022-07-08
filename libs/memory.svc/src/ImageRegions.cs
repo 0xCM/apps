@@ -20,7 +20,7 @@ namespace Z0
             ContextPaths = new ProcessTargets(AppDb.DbCapture().Root);
         }
 
-        public void EmitRegions(Timestamp ts, Index<ProcessMemoryRegion> src)
+        public void EmitRegions(Timestamp ts, ReadOnlySeq<ProcessMemoryRegion> src)
             => TableEmit(src, Dumps.Table<ProcessMemoryRegion>("regions", ts));
 
         public Index<ProcessMemoryRegion> LoadRegions()
@@ -76,14 +76,14 @@ namespace Z0
             return (true,buffer);
         }
 
-        public Index<ProcessMemoryRegion> EmitRegions(Process process, FS.FilePath dst)
+        public ReadOnlySeq<ProcessMemoryRegion> EmitRegions(Process process, FS.FilePath dst)
         {
             var regions = ImageMemory.regions(process);
             EmitRegions(regions,dst);
             return regions;
         }
 
-        public Index<ProcessMemoryRegion> EmitRegions(Process process, Timestamp ts)
+        public ReadOnlySeq<ProcessMemoryRegion> EmitRegions(Process process, Timestamp ts)
         {
             var regions = ImageMemory.regions(process);
             var dst = ContextPaths.MemoryRegionPath(process,ts);
@@ -91,7 +91,7 @@ namespace Z0
             return regions;
         }
 
-        public Index<ProcessMemoryRegion> EmitRegions(Process process, Timestamp ts, FS.FolderPath dir)
+        public ReadOnlySeq<ProcessMemoryRegion> EmitRegions(Process process, Timestamp ts, FS.FolderPath dir)
         {
             var regions = ImageMemory.regions(process);
             var dst = ContextPaths.MemoryRegionPath(process, ts, dir);
@@ -99,14 +99,14 @@ namespace Z0
             return regions;
         }
 
-        public Index<ProcessMemoryRegion> EmitRegions(FS.FilePath dst)
+        public ReadOnlySeq<ProcessMemoryRegion> EmitRegions(FS.FilePath dst)
         {
             var regions = ImageMemory.regions();
             EmitRegions(regions,dst);
             return regions;
         }
 
-        public Count EmitRegions(Index<ProcessMemoryRegion> src, FS.FilePath dst)
+        public Count EmitRegions(ReadOnlySeq<ProcessMemoryRegion> src, FS.FilePath dst)
         {
             var flow = Wf.EmittingTable<ProcessMemoryRegion>(dst);
             var count = Tables.emit(src.View,dst);

@@ -7,11 +7,50 @@ namespace Z0
     using static EnvFolders;
 
     [ApiHost]
-    public sealed class ApiPacks : AppService<ApiPacks>
+    public sealed class ApiPacks : WfSvc<ApiPacks>
     {
+        public static bool timestamp(FS.FolderPath src, out Timestamp dst)
+        {
+            dst = default;
+            var fmt = src.Format(PathSeparator.FS);
+            var idx = fmt.LastIndexOf(Chars.FSlash);
+            if(idx == NotFound)
+                return false;
+            return Time.parse(fmt.RightOfIndex(idx), out dst);
+        }
+
+        public Index<LineCount> CountLines()
+        {
+            var pack = Current();
+            var files = pack.Files(FS.Csv).View;
+            var counting = Running(string.Format("Counting lines in {0} files from {1}", files.Length, pack.Root));
+            var counts = AsciLines.count(files);
+            core.iter(counts, c => Row(c.Format()));
+            Ran(counting, string.Format("Counted lines in {0} files", files.Length));
+            return counts;
+        }
+
+        public static bool parse(FS.FolderPath src, out ApiPack dst)
+        {
+            dst = default;
+            var fmt = src.Format(PathSeparator.FS);
+            var idx = fmt.LastIndexOf(Chars.FSlash);
+            if(idx == NotFound)
+                return false;
+            var result =Time.parse(fmt.RightOfIndex(idx), out var ts);
+            if(result)
+                dst = new ApiPack(src,ts);
+            else
+                dst = new ApiPack(FS.FolderPath.Empty, Timestamp.Zero);
+            return result;
+        }
+
+        public static IApiPack create(Timestamp ts, string label = EmptyString)
+            => new ApiPack(AppDb.Service.Capture().Targets(ts.Format()).Root, ts, label);
+
         public IApiPack Create(FS.FolderPath root)
         {
-            ApiPack.parse(root, out var pack);
+            parse(root, out var pack);
             return pack;
         }
 

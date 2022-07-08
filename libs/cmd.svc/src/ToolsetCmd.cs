@@ -8,7 +8,7 @@ namespace Z0
     using static ApiGranules;
 
     [ApiHost]
-    public class ToolsetCmd : CmdService<ToolsetCmd>
+    public class ToolsetCmd : AppCmdService<ToolsetCmd>
     {
         Toolsets Toolsets => Wf.Toolsets();
 

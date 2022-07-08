@@ -1,0 +1,23 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "..\\cmd.exec"
+		},
+		{
+			"path": "..\\cmd.specs"
+		},
+		{
+			"path": "..\\cmd.svc"
+		},
+		{
+			"path": "..\\cmd.tools"
+		},
+		{
+			"path": "..\\tools"
+		}
+	],
+	"settings": {}
+}

@@ -32,9 +32,6 @@ namespace Z0
             public AsmRowBuilder AsmRowBuilder(IWfRuntime wf)
                 => Service<AsmRowBuilder>(wf);
 
-            public AsmAnalyzer AsmAnalyzer(IWfRuntime wf)
-                => Service<AsmAnalyzer>(wf);
-
             public ImmSpecializer ImmSpecializer(IWfRuntime wf)
                 => Service<ImmSpecializer>(wf);
 
@@ -66,9 +63,6 @@ namespace Z0
         public static AsmCallPipe AsmCallPipe(this IWfRuntime wf)
             => Services.AsmCallPipe(wf);
 
-        public static AsmAnalyzer AsmAnalyzer(this IWfRuntime wf)
-            => Services.AsmAnalyzer(wf);
-
         public static ImmSpecializer ImmSpecializer(this IWfRuntime wf)
             => Services.ImmSpecializer(wf);
 
@@ -80,9 +74,6 @@ namespace Z0
 
         public static ApiCaptureRunner CaptureRunner(this IWfRuntime wf)
             => ApiCaptureRunner.create(wf);
-
-        public static AsmStatementProducer AsmStatementProducer(this IWfRuntime wf)
-            => Asm.AsmStatementProducer.create(wf);
 
         public static ApiCaptureEmitter CaptureEmitter(this IWfRuntime wf)
             => ApiCaptureEmitter.create(wf);

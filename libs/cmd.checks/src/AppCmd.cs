@@ -11,16 +11,11 @@ namespace Z0
                 wf.EnvCmd(),
                 wf.DbCmd(),
                 wf.ToolsetCmd(),
-                wf.MemCmd()
+                //wf.MemCmd()
             };
 
         public static AppCmd commands(IWfRuntime wf)
             => create(wf, providers(wf));
 
-        [CmdOp("cmd/check")]
-        void RunChecks()
-        {
-
-        }
     }
 }

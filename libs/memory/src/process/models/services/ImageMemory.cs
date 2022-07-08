@@ -4,13 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     using PCK = ProcessContextFlag;
 
     [ApiHost,Free]
     public partial class ImageMemory
     {
+        public static PEReader pe(Stream src)
+            => new PEReader(src);
+
         [MethodImpl(Inline)]
         public static bit enabled(PCK src, PCK flag)
             => (src & flag) != 0;

@@ -77,7 +77,7 @@ namespace Z0
         public static CmdArgs Empty
         {
             [MethodImpl(Inline)]
-            get => new CmdArgs(core.array<CmdArg>());
+            get => new CmdArgs(sys.empty<CmdArg>());
         }
 
         public string Format()

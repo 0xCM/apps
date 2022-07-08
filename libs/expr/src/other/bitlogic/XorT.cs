@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Ops.Scalar
 {
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
-
     [StructLayout(LayoutKind.Sequential)]
     public readonly struct Xor<T> : IBinaryBitLogicOp<Xor<T>,T>
         where T : IExprDeprecated
@@ -16,7 +11,6 @@ namespace Z0.Ops.Scalar
         public T Left {get;}
 
         public T Right {get;}
-
 
         [MethodImpl(Inline)]
         public Xor(T a, T b)

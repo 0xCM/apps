@@ -23,8 +23,8 @@ namespace Z0
         public SortedIndex<ApiCodeBlock> LoadBlocks()
             => blocks(Files.HexFiles());
 
-        public MemoryBlocks LoadMemoryBlocks(FS.FolderPath src)
-            => ApiHex.LoadMemoryBlocks(src);
+        // public MemoryBlocks LoadMemoryBlocks(FS.FolderPath src)
+        //     => ApiHex.LoadMemoryBlocks(src);
 
         [Op]
         public ByteSize Emit(in MemoryBlock src, FS.FilePath dst)
@@ -90,26 +90,25 @@ namespace Z0
             return collected;
         }
 
-        [Op]
-        public static MemoryBlocks pack(ReadOnlySpan<ApiCodeBlock> src)
-        {
-            var count = src.Length;
-            var buffer = alloc<MemoryBlock>(count);
-            return pack(src, buffer);
-        }
+        // [Op]
+        // public static MemoryBlocks pack(ReadOnlySpan<ApiCodeBlock> src)
+        // {
+        //     var count = src.Length;
+        //     var buffer = alloc<MemoryBlock>(count);
+        //     return pack(src, buffer);
+        // }
 
-        [Op]
-        public static MemoryBlocks pack(ReadOnlySpan<ApiCodeBlock> src, Index<MemoryBlock> dst)
-        {
-            for(var i=0; i<src.Length; i++)
-            {
-                ref readonly var code = ref skip(src,i);
-                dst[i] = new MemoryBlock(code.BaseAddress, code.Size, code.Data);
-            }
+        // [Op]
+        // public static MemoryBlocks pack(ReadOnlySpan<ApiCodeBlock> src, Index<MemoryBlock> dst)
+        // {
+        //     for(var i=0; i<src.Length; i++)
+        //     {
+        //         ref readonly var code = ref skip(src,i);
+        //         dst[i] = new MemoryBlock(code.BaseAddress, code.Size, code.Data);
+        //     }
 
-            return new MemoryBlocks(dst.Sort());
-        }
-
+        //     return new MemoryBlocks(dst.Sort());
+        // }
 
         public Index<CollectedEncoding> Collect(ICompositeDispenser symbols, PartId src)
         {

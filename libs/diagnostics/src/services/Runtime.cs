@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     using PCK = ProcessContextFlag;
 
     public partial class Runtime : WfSvc<Runtime>
@@ -15,6 +13,8 @@ namespace Z0
         ImageRegions Regions => Wf.ImageRegions();
 
         ProcessMemory ProcessMemory => Wf.ProcessMemory();
+
+        ApiPacks ApiPacks => Wf.ApiPacks();
 
         public ProcessTargets ContextPaths {get; private set;}
 
@@ -32,18 +32,18 @@ namespace Z0
             EmitDump(process, archive.DumpPath(process, ts));
         }
 
-        void CollectMemStats()
+        public void CollectMemStats(Timestamp ts)
         {
-            var dst = Db.ProcessContextRoot();
             var pipe = Wf.Runtime();
-            var ts = core.timestamp();
             var flags = ProcessContextFlag.Detail | ProcessContextFlag.Summary | ProcessContextFlag.Hashes;
-            var prejit = pipe.Emit(ts, "prejit", flags);
+            var pre = ApiPacks.create(ts,"prejit");
+            var prejit = Emit(flags, pre);
             var members = Wf.ApiJit().JitCatalog();
-            var postjit = pipe.Emit(ts, "postjit", flags);
+            var post = ApiPacks.create(ts,"prejit");
+            var postjit = Emit(flags, post);
         }
 
-        ProcessContext Emit(Timestamp ts, string label = default, PCK flag = PCK.All)
+        ProcessContext Emit(PCK flag, IApiPack dst)
         {
             var selection = ImageMemory.flags(flag);
             if(selection.IsEmpty)
@@ -58,41 +58,39 @@ namespace Z0
             var name = process.ProcessName;
             context.ProcessId = process.Id;
             context.ProcessName = process.ProcessName;
-            context.Timestamp = ts;
-            context.Subject = label;
+            context.Timestamp = dst.Timestamp;
+            context.Subject = dst.Label;
             if(selection.EmitSummary)
             {
-                context.PartitionPath = ContextPaths.ProcessPartitionPath(process, ts);
+                context.PartitionPath = dst.ProcessPartitionPath(process);
                 context.Partitions = ProcessMemory.EmitPartitions(process, context.PartitionPath);
             }
             if(selection.EmitDetail)
             {
-                context.RegionPath = ContextPaths.MemoryRegionPath(process, ts);
+                context.RegionPath = dst.MemoryRegionPath(process);
                 context.Regions = Regions.EmitRegions(process, context.RegionPath);
             }
             if(selection.EmitDump)
             {
-                context.DumpPath = Dumps.DumpPath(process, ts);
+                context.DumpPath = Dumps.DumpPath(process, dst.Timestamp);
                 EmitDump(process, context.DumpPath);
             }
             if(selection.EmitHashes)
             {
-                ProcessMemory.EmitHashes(context, ContextPaths.Root);
+                ProcessMemory.EmitHashes(context, dst);
             }
 
             Ran(flow,"Emitted process context");
             return context;
         }
 
-        public void EmitProcessContext(IApiPack pack)
+        public void EmitProcessContext(IApiPack dst)
         {
             var flow = Running("Emitting process context");
-            var ts = pack.Timestamp;
-            var dst = pack.Archive().ContextRoot();
             var process = Process.GetCurrentProcess();
-            var procparts = ProcessMemory.EmitPartitions(process, ts, dst.Root);
-            var regions = Regions.EmitRegions(process, ts, dst.Root);
-            EmitDump(process, pack.ProcDumpPath(process));
+            var procparts = ProcessMemory.EmitPartitions(process, dst.Timestamp, dst.Root);
+            var regions = Regions.EmitRegions(process, dst.Timestamp, dst.Root);
+            EmitDump(process, dst.ProcDumpPath(process));
             Ran(flow);
         }
 

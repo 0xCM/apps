@@ -9,15 +9,15 @@ namespace Z0
     partial class ImageMemory
     {
         [Op]
-        public static Index<ProcessMemoryRegion> regions()
+        public static ReadOnlySeq<ProcessMemoryRegion> regions()
             => pages(MemoryNode.snapshot().Describe());
 
         [Op]
-        public static Index<ProcessMemoryRegion> regions(int procid)
+        public static ReadOnlySeq<ProcessMemoryRegion> regions(int procid)
             => pages(MemoryNode.snapshot(procid).Describe());
 
         [Op]
-        public static Index<ProcessMemoryRegion> regions(Process src)
+        public static ReadOnlySeq<ProcessMemoryRegion> regions(Process src)
             => pages(MemoryNode.snapshot(src.Id).Describe());
 
         public static Outcome parse(string src, out ProcessMemoryRegion dst)

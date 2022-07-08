@@ -4,25 +4,24 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Linq;
-
     partial class ImageMemory
     {
-        public static LocatedImageInfo image()
-            => image(Process.GetCurrentProcess().MainModule);
+        public static ImageLocation location()
+            => location(Process.GetCurrentProcess().MainModule);
 
         [Op]
-        public static Index<LocatedImageInfo> images(Process src)
-            => src.Modules.Cast<System.Diagnostics.ProcessModule>().Map(image).OrderBy(x => x.BaseAddress);
+        public static ReadOnlySeq<ImageLocation> locations(Process src)
+            => src.Modules.ToSeq<ProcessModule>().Map(location).Sort();
 
         [Op]
-        public static LocatedImageInfo image(System.Diagnostics.ProcessModule src)
+        public static ImageLocation location(ProcessModule src)
         {
-            var part = ApiParsers.partFromFile(src.FileName);
-            var entry = (MemoryAddress)src.EntryPointAddress;
-            var @base = src.BaseAddress;
-            var size = (uint)src.ModuleMemorySize;
-            return new LocatedImageInfo(FS.path(src.FileName), part, entry, @base, size);
+            return new ImageLocation(src.Path,
+                src.Path.FileName.WithoutExtension.Format(),
+                (MemoryAddress)src.EntryPointAddress,
+                src.BaseAddress,
+                (uint)src.ModuleMemorySize
+                );
         }
     }
 }

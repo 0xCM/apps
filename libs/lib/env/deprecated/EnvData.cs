@@ -14,9 +14,6 @@ namespace Z0
             Source = src;
         }
 
-        public FS.FolderPath ZDev
-            => Source.ZDev;
-
         public FS.FolderPath Db
             => FS.dir("d:/views/db");
 
@@ -28,9 +25,6 @@ namespace Z0
 
         public FS.FolderPath Tools
             => Source.Tools;
-
-        public FS.FolderPath Logs
-            => Source.Logs;
 
         public FS.FolderPath CacheRoot
             => Source.CacheRoot;
@@ -46,8 +40,5 @@ namespace Z0
 
         public FS.FolderPath DevWs
             => Source.DevWs;
-
-        public FS.FolderPath ToolWs
-            => DevWs + FS.folder("tools");
     }
 }

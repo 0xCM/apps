@@ -14,11 +14,11 @@ namespace Z0
 
         public Timestamp Timestamp;
 
-        public Index<ProcessPartition> Partitions;
+        public ReadOnlySeq<ProcessPartition> Partitions;
 
         public FS.FilePath PartitionPath;
 
-        public Index<ProcessMemoryRegion> Regions;
+        public ReadOnlySeq<ProcessMemoryRegion> Regions;
 
         public FS.FilePath RegionPath;
 

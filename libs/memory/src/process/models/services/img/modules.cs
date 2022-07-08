@@ -11,11 +11,11 @@ namespace Z0
     partial class ImageMemory
     {
         [Op]
-        public static ReadOnlySpan<ProcessModule> modules()
+        public static ReadOnlySeq<ProcessModule> modules()
             => modules((ProcessAdapter)Process.GetCurrentProcess());
 
         [Op]
-        public static ReadOnlySpan<ProcessModule> modules(ProcessAdapter src)
+        public static ReadOnlySeq<ProcessModule> modules(ProcessAdapter src)
             => src.Modules.OrderBy(x => x.BaseAddress).Array();
 
         public static Index<ProcessModuleRow> modules(FS.FilePath src)
@@ -30,6 +30,7 @@ namespace Z0
 
             return default;
         }
+
         [Op]
         public static ReadOnlySeq<ProcessModuleRow> modules(Process src)
         {

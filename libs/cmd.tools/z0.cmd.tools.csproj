@@ -8,7 +8,7 @@
   <Import Project="$(ImportDefs)common.props"/>
 
   <ItemGroup>
-    <ProjectReference Include="$(CmdSpecs)" />
+    <ProjectReference Include="$(ZLib)" />
   </ItemGroup>
 
 </Project>

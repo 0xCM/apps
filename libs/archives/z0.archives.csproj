@@ -5,6 +5,7 @@
     <DebugSymbols>true</DebugSymbols>
 
   </PropertyGroup>
+  <Import Project="$(ImportDefs)microsoft.extensions.props"/>
 
   <ItemGroup>
     <ProjectReference Include="$(Containers)" />

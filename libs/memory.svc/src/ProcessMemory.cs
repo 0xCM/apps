@@ -54,14 +54,14 @@ namespace Z0
 
         public Index<ProcessPartition> EmitPartitions(Process process, FS.FilePath dst)
         {
-            var summaries = ImageMemory.partitions(ImageMemory.images(process));
+            var summaries = ImageMemory.partitions(ImageMemory.locations(process));
             EmitPartitions(summaries, dst);
             return summaries;
         }
 
         public Index<ProcessPartition> EmitPartitions(Process process, Timestamp ts)
         {
-            var memory = ImageMemory.images(process);
+            var memory = ImageMemory.locations(process);
             var summaries = ImageMemory.partitions(memory);
             var dst = ContextPaths.ProcessPartitionPath(process, ts);
             EmitPartitions(summaries, dst);
@@ -70,8 +70,8 @@ namespace Z0
 
         public Index<ProcessPartition> EmitPartitions(Process process, Timestamp ts, FS.FolderPath dir)
         {
-            var memory = ImageMemory.images(process);
-            var summaries = ImageMemory.partitions(ImageMemory.images(process));
+            var memory = ImageMemory.locations(process);
+            var summaries = ImageMemory.partitions(ImageMemory.locations(process));
             var dst = ContextPaths.ProcessPartitionPath(dir, process, ts);
             EmitPartitions(summaries, dst);
             return summaries;
@@ -97,7 +97,7 @@ namespace Z0
         }
 
         [Op]
-        public static Index<ProcessPartition> emit(Index<LocatedImageInfo> src, FS.FilePath dst)
+        public static Index<ProcessPartition> emit(Index<ImageLocation> src, FS.FilePath dst)
         {
             var records = ImageMemory.partitions(src);
             var target = records.Edit;
@@ -122,17 +122,6 @@ namespace Z0
             return dst;
         }
 
-        [MethodImpl(Inline), Op]
-        public static ref ProcessModuleRow fill(System.Diagnostics.ProcessModule src, ref ProcessModuleRow dst)
-        {
-            dst.ImageName = src.ModuleName;
-            dst.BaseAddress = src.BaseAddress;
-            dst.EntryAddress = src.EntryPointAddress;
-            dst.ImagePath = FS.path(src.FileName);
-            dst.MemorySize = src.ModuleMemorySize;
-            dst.Version = ((uint)src.FileVersionInfo.FileMajorPart, (uint)src.FileVersionInfo.FileMinorPart);
-            return ref dst;
-        }
 
         [Op]
         public static ref ProcessMemoryState fill(Process src, ref ProcessMemoryState dst)
@@ -155,9 +144,9 @@ namespace Z0
             return ref dst;
         }
 
-        public static void EmitHashes(in ProcessContext src, FS.FolderPath dir)
+        public static void EmitHashes(in ProcessContext src, IApiPack pack)
         {
-            ProcessTargets dst = dir;
+            ProcessTargets dst = pack.Root;
             ProcessMemory.EmitHashes(MemoryStores.summarize(src).Addresses,
                 dst.ProcessPartitionHashPath(src.ProcessName, src.Timestamp, src.Subject));
             ProcessMemory.EmitHashes(MemoryStores.load(src).Addresses,

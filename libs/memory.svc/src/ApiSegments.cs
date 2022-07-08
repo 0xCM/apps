@@ -19,7 +19,7 @@ namespace Z0
         public ProcAddresses EmitSegments(Timestamp ts)
             => EmitSegments(ts, ImageMemory.regions());
 
-        public ProcAddresses EmitSegments(Timestamp ts, Index<ProcessMemoryRegion> src)
+        public ProcAddresses EmitSegments(Timestamp ts, ReadOnlySeq<ProcessMemoryRegion> src)
         {
             var addresses = ImageRegions.addresses(src);
             TableEmit(addresses.Segments, Dumps.Table<ProcessSegment>("segments", ts));

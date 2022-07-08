@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Ops.Scalar
 {
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
-
     [StructLayout(LayoutKind.Sequential)]
     public readonly struct And<T> : IBinaryBitLogicOp<And<T>,T>
         where T : IExprDeprecated

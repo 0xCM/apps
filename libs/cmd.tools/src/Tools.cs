@@ -15,7 +15,7 @@ namespace Z0
 
     }
 
-    partial class XTend
+    public static partial class XTend
     {
         [MethodImpl(Inline)]
         public static ref readonly Xed xed(this ITools tools)

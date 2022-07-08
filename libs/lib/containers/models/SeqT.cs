@@ -4,6 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    partial class XTend
+    {
+        public static Seq<T> ToSeq<T>(this ICollection src)
+        {
+            var dst = core.alloc<T>(src.Count);
+            src.CopyTo(dst,0);
+            return dst;
+        }
+    }
+
+
     public class Seq<T> : Seq<Seq<T>,T>
     {
         public Seq()

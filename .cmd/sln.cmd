@@ -15,6 +15,7 @@ dotnet sln %SlnPath% add %CgRoot%/cg.shell/z0.cg.shell.csproj
 dotnet sln %SlnPath% add %LibsRoot%/api.checks/z0.api.checks.csproj
 dotnet sln %SlnPath% add %LibsRoot%/asm.checks/z0.asm.checks.csproj
 
+dotnet sln %SlnPath% add %LibsRoot%/cmd.checks/z0.cmd.checks.csproj
 dotnet sln %SlnPath% add %LibsRoot%/llvm.checks/z0.llvm.checks.csproj
 dotnet sln %SlnPath% add %LibsRoot%/queues.checks/z0.queues.checks.csproj
 dotnet sln %SlnPath% add %LibsRoot%/containers.checks/z0.containers.checks.csproj

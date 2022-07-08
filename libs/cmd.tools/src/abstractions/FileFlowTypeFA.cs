@@ -4,11 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public abstract class FileFlowType<F,A> : FileFlowType<F,A,FileKind>, IFileFlowType<F>
-        where F : FileFlowType<F,A>,new()
+    public abstract class FileFlow<F,A> : FileFlowType<F,A,FileKind>, IFileFlowType<F>
+        where F : FileFlow<F,A>,new()
         where A : IActor
     {
-        protected FileFlowType(A actor, FileKind src, FileKind dst)
+        protected FileFlow(A actor, FileKind src, FileKind dst)
             : base(actor,src,dst)
         {
 

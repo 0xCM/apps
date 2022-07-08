@@ -160,7 +160,7 @@ namespace Z0
             return dst;
         }
 
-        public Index<string> LoadDocs(Actor tool)
+        public Index<string> LoadDocs(string tool)
         {
             var src = ToolWs.ToolDocs(tool);
             var dst = bag<string>();
@@ -180,48 +180,6 @@ namespace Z0
             var path = ToolWs.Home + FS.file("tools", FileKind.Env);
             return Settings.parse(path.ReadNumberedLines());
         }
-
-        // public Outcome EmitCatalog()
-        // {
-        //     var subdirs = ToolWs.Root.SubDirs();
-        //     var counter = 0u;
-        //     var formatter = Tables.formatter<ToolConfig>(16,RecordFormatKind.KeyValuePairs);
-        //     var dst = ToolWs.Inventory();
-        //     var emitting = EmittingFile(dst);
-        //     using var writer = dst.AsciWriter();
-        //     foreach(var dir in subdirs)
-        //     {
-        //         var configCmd = dir + FS.file(WsAtoms.config, FS.Cmd);
-        //         if(configCmd.Exists)
-        //         {
-        //             var config =  dir + FS.folder(WsAtoms.logs) + FS.file(WsAtoms.config, FS.Log);
-        //             if(config.Exists)
-        //             {
-        //                 var result = ToolWs.parse(config.ReadText(), out var c);
-        //                 if(result.Fail)
-        //                 {
-        //                     Error(string.Format("{0}:{1}", config.ToUri(), result.Message));
-        //                     continue;
-        //                 }
-
-        //                 var settings = formatter.Format(c);
-        //                 var title = string.Format("# {0}", c.ToolId);
-        //                 var sep = string.Format("# {0}", RP.PageBreak80);
-
-        //                 Write(title, FlairKind.Status);
-        //                 Write(sep);
-        //                 Write(settings);
-        //                 writer.WriteLine(title);
-        //                 writer.WriteLine(sep);
-        //                 writer.WriteLine(settings);
-        //                 counter++;
-        //             }
-        //         }
-        //     }
-
-        //     EmittedFile(emitting, counter);
-        //     return true;
-        // }
 
         void LoadProfiles(FS.FilePath src, Lookup<Actor,ToolProfile> dst)
         {

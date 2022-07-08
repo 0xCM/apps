@@ -176,9 +176,6 @@ namespace Z0
         public static SdmOpCodes AsmOpCodes(this IWfRuntime wf)
             => Services.AsmOpCodes(wf);
 
-        public static IntelSdmPaths SdmPaths(this IWfRuntime wf)
-            => Services.SdmPaths(wf);
-
         public static X86Dispatcher X86Dispatcher(this IWfRuntime wf)
             => Services.X86Dispatcher(wf);
 
@@ -208,11 +205,5 @@ namespace Z0
 
         public static FileSplitter FileSplitter(this IWfRuntime wf)
             => Services.FileSplitter(wf);
-
-        public static TypeParser TypeParser(this IWfRuntime wf)
-            => Services.TypeParser(wf);
-
-        public static ApiCaptureArchive ApiCaptureArchive(this IWfRuntime wf)
-            => Z0.ApiCaptureArchive.create(wf);
    }
 }

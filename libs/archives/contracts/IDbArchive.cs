@@ -14,9 +14,6 @@ namespace Z0
 
         FS.FilePath Log(string name, FileKind kind)
             => Logs().Path(name,kind);
-
-        FS.FilePath Log(string scope, string name, FileKind kind)
-            => Logs(scope).Path(name,kind);
     }
 
     public interface IDbArchive<A> : IDbArchive

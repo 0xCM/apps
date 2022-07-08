@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public readonly struct ArgPrefix : IEquatable<ArgPrefix>
+    public readonly record struct ArgPrefix : IDataType<ArgPrefix>
     {
         [MethodImpl(Inline), Op]
         public static ArgPrefix prefix(string src)
@@ -18,10 +18,12 @@ namespace Z0
 
         readonly asci8 Spec;
 
+        [MethodImpl(Inline)]
         internal ArgPrefix(ReadOnlySpan<char> src)
         {
             Spec = src;
         }
+
         [MethodImpl(Inline)]
         internal ArgPrefix(AsciCode c0)
         {
@@ -61,9 +63,6 @@ namespace Z0
         public bool Equals(ArgPrefix src)
             => Spec == src.Spec;
 
-        public override bool Equals(object src)
-            => src is ArgPrefix x && Equals(x);
-
         public override int GetHashCode()
             => (int)Hash;
 
@@ -75,20 +74,16 @@ namespace Z0
             => Format();
 
         [MethodImpl(Inline)]
+        public int CompareTo(ArgPrefix src)
+            => Spec.CompareTo(src.Spec);
+
+        [MethodImpl(Inline)]
         public static implicit operator string(ArgPrefix src)
             => src.Format();
 
         [MethodImpl(Inline)]
         public static implicit operator ArgPrefix(string src)
             => prefix(src);
-
-        [MethodImpl(Inline)]
-        public static bool operator ==(ArgPrefix a, ArgPrefix b)
-            => a.Equals(b);
-
-        [MethodImpl(Inline)]
-        public static bool operator !=(ArgPrefix a, ArgPrefix b)
-            => !a.Equals(b);
 
         public static ArgPrefix Empty
             => default;

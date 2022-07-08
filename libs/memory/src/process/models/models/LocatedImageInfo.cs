@@ -8,19 +8,19 @@ namespace Z0
     /// Describes a PE image from the perspective of process entry point
     /// </summary>
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct LocatedImageInfo
+    public struct ImageLocation : IComparable<ImageLocation>
     {
         const string TableId = "image.located";
 
         /// <summary>
         /// The image source path
         /// </summary>
-        public FS.FilePath ImagePath;
+        public FS.FilePath Path;
 
         /// <summary>
         /// The image part identifier, if any
         /// </summary>
-        public PartId PartId;
+        public string Name;
 
         /// <summary>
         /// The image's memory base
@@ -38,22 +38,13 @@ namespace Z0
         public ByteSize Size;
 
         [MethodImpl(Inline)]
-        public LocatedImageInfo(FS.FilePath path, PartId part, MemoryAddress entry, MemoryAddress @base, uint size)
+        public ImageLocation(FS.FilePath path, string name, MemoryAddress entry, MemoryAddress @base, uint size)
         {
-            ImagePath = path;
-            PartId = part;
+            Path = path;
+            Name = name;
             EntryAddress = entry;
             BaseAddress = @base;
             Size = size;
-        }
-
-        /// <summary>
-        /// The <see cref='ImagePath'/> filename without the extension
-        /// </summary>
-        public string Name
-        {
-            [MethodImpl(Inline)]
-            get => ImagePath.FileName.WithoutExtension.Name;
         }
 
         /// <summary>
@@ -74,7 +65,8 @@ namespace Z0
             get => (BaseAddress, EndAddress);
         }
 
-        public int CompareTo(LocatedImageInfo src)
+        [MethodImpl(Inline)]
+        public int CompareTo(ImageLocation src)
             => BaseAddress.CompareTo(src.BaseAddress);
     }
 }

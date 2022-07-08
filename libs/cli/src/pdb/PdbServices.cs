@@ -22,12 +22,12 @@ namespace Z0
         public void IndexPdbSymbols(ReadOnlySpan<ResolvedPart> src, FS.FilePath dst)
         {
             var count = src.Length;
-            var emitting = Wf.EmittingFile(dst);
+            var emitting = EmittingFile(dst);
             var counter = 0u;
             using var writer = dst.Writer();
             for(var i=0; i<count; i++)
                 counter += IndexPdbMethods(skip(src,i),writer);
-            Wf.EmittedFile(emitting, counter);
+            EmittedFile(emitting, counter);
         }
 
         public uint IndexPdbMethods(in ResolvedPart src, StreamWriter dst)
@@ -89,7 +89,6 @@ namespace Z0
 
             EmittedFile(emitting, counter);
             return dst;
-
         }
 
         public PdbSymbolSource SymbolSource(FileModule src)

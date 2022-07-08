@@ -57,7 +57,7 @@ namespace Z0
             var ts = core.timestamp();
             var dst = ApiCode.ApiPack(ts);
             Status(Seq.enclose(parts.Storage));
-            var captured = CaptureParts(parts);
+            var captured = CaptureParts(parts, dst);
 
             if((options & CaptureWorkflowOptions.EmitImm) != 0)
                 EmitImm(parts, dst);
@@ -102,10 +102,10 @@ namespace Z0
             Ran(flow);
         }
 
-        Index<AsmHostRoutines> CaptureParts(Index<PartId> parts)
+        Index<AsmHostRoutines> CaptureParts(Index<PartId> parts, IApiPack dst)
         {
             var flow = Running();
-            var captured = ApiCapture.CaptureParts(parts);
+            var captured = ApiCapture.CaptureParts(parts, dst);
             Ran(flow);
             return captured;
         }
@@ -113,7 +113,7 @@ namespace Z0
         Index<AsmHostRoutines> CaptureHosts(ReadOnlySpan<ApiHostUri> src, IApiPack dst)
         {
             var flow = Running();
-            var captured = ApiCapture.CaptureHosts(src);
+            var captured = ApiCapture.CaptureHosts(src, dst);
             Ran(flow);
             return captured;
         }

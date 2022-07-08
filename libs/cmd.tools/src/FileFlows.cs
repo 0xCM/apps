@@ -7,12 +7,13 @@ namespace Z0
     using static Tools;
 
     using K = FileKind;
+
     public class FileFlows
     {
         /// <summary>
         /// *.asm -> *.mc.asm
         /// </summary>
-        public class AsmToMcAsm : FileFlowType<AsmToMcAsm,LlvmMc>
+        public class AsmToMcAsm : FileFlow<AsmToMcAsm,LlvmMc>
         {
             public AsmToMcAsm()
                 : base(llvm_mc, K.Asm, K.McAsm)
@@ -24,7 +25,7 @@ namespace Z0
         /// <summary>
         /// *.ll -> *ll.asm
         /// </summary>
-        public class LlToAsm : FileFlowType<LlToAsm,Llc>
+        public class LlToAsm : FileFlow<LlToAsm,Llc>
         {
             public LlToAsm()
                 : base(llc, K.Llir, K.LlAsm)
@@ -36,7 +37,7 @@ namespace Z0
         /// <summary>
         /// *.ll -> *.bc
         /// </summary>
-        public class LlToBc : FileFlowType<LlToBc,LlvmAs>
+        public class LlToBc : FileFlow<LlToBc,LlvmAs>
         {
             public LlToBc()
                 : base(llvm_as, K.Llir, K.Bc)
@@ -48,7 +49,7 @@ namespace Z0
         /// <summary>
         /// *.ll -> *.obj
         /// </summary>
-        public class LlToObj : FileFlowType<LlToObj,Llc>
+        public class LlToObj : FileFlow<LlToObj,Llc>
         {
             public LlToObj()
                 : base(llc, K.Llir, K.Obj)
@@ -60,7 +61,7 @@ namespace Z0
         /// <summary>
         /// *.obj -> *.exe
         /// </summary>
-        public class ObjToExe : FileFlowType<ObjToExe,LlvmLld>
+        public class ObjToExe : FileFlow<ObjToExe,LlvmLld>
         {
             public ObjToExe()
                 : base(llvm_lld, K.Obj, K.Exe)
@@ -72,7 +73,7 @@ namespace Z0
         /// <summary>
         /// *.obj -> *.exe
         /// </summary>
-        public class ObjToObjAsm : FileFlowType<ObjToObjAsm,LlvmObjDump>
+        public class ObjToObjAsm : FileFlow<ObjToObjAsm,LlvmObjDump>
         {
             public ObjToObjAsm()
                 : base(llvm_objdump, K.Obj, K.ObjAsm)
@@ -84,7 +85,7 @@ namespace Z0
         /// <summary>
         /// *.obj -> *.hex.dat
         /// </summary>
-        public class ObjToHexDat : FileFlowType<ObjToHexDat,ZTool>
+        public class ObjToHexDat : FileFlow<ObjToHexDat,ZTool>
         {
             public ObjToHexDat()
                 : base(ztool, K.Obj, K.HexDat)
@@ -96,7 +97,7 @@ namespace Z0
         /// <summary>
         /// *.obj -> *.hex.dat
         /// </summary>
-        public class OToHexDat : FileFlowType<OToHexDat,ZTool>
+        public class OToHexDat : FileFlow<OToHexDat,ZTool>
         {
             public OToHexDat()
                 : base(ztool, K.O, K.HexDat)
@@ -108,7 +109,7 @@ namespace Z0
         /// <summary>
         /// *.bc -> *.ll.bc
         /// </summary>
-        public class BcToLlBc : FileFlowType<BcToLlBc,LlvmDis>
+        public class BcToLlBc : FileFlow<BcToLlBc,LlvmDis>
         {
             public BcToLlBc()
                 : base(llvm_dis, K.Bc, K.LlBc)
@@ -120,7 +121,7 @@ namespace Z0
         /// <summary>
         /// *ll.asm -> *.encoding.asm
         /// </summary>
-        public class LlAsmToAsmEncoding : FileFlowType<LlAsmToAsmEncoding,LlvmMc>
+        public class LlAsmToAsmEncoding : FileFlow<LlAsmToAsmEncoding,LlvmMc>
         {
             public LlAsmToAsmEncoding()
                 : base(llvm_mc, K.Asm, K.EncAsm)
@@ -132,7 +133,7 @@ namespace Z0
         /// <summary>
         /// *ll.asm -> *.mc.asm
         /// </summary>
-        public class LlasmToMcAsm : FileFlowType<LlasmToMcAsm,LlvmMc>
+        public class LlasmToMcAsm : FileFlow<LlasmToMcAsm,LlvmMc>
         {
             public LlasmToMcAsm()
                 : base(llvm_mc, K.Asm, K.McAsm)
@@ -145,7 +146,7 @@ namespace Z0
         /// <summary>
         /// *.enc.asm -> *.syn.asm
         /// </summary>
-        public class EncAsmToSynAsm : FileFlowType<EncAsmToSynAsm,LlvmMc>
+        public class EncAsmToSynAsm : FileFlow<EncAsmToSynAsm,LlvmMc>
         {
             public EncAsmToSynAsm()
                 : base(llvm_mc, K.EncAsm, K.SynAsm)
@@ -157,7 +158,7 @@ namespace Z0
         /// <summary>
         /// *.enc.asm -> *.syn.asm.log
         /// </summary>
-        public class EncAsmToSynLog : FileFlowType<EncAsmToSynLog, LlvmMc>
+        public class EncAsmToSynLog : FileFlow<EncAsmToSynLog, LlvmMc>
         {
             public EncAsmToSynLog()
                 : base(llvm_mc, K.EncAsm, K.SynAsmLog)
@@ -169,7 +170,7 @@ namespace Z0
         /// <summary>
         /// *.asm -> *.enc.asm
         /// </summary>
-        public class AsmToEncAsm : FileFlowType<AsmToEncAsm,LlvmMc>
+        public class AsmToEncAsm : FileFlow<AsmToEncAsm,LlvmMc>
         {
             public AsmToEncAsm()
                 : base(llvm_mc, K.Asm, K.EncAsm)
@@ -181,7 +182,7 @@ namespace Z0
         /// <summary>
         /// *.obj -> *.xed.disam.txt
         /// </summary>
-        public class ObjToXedDisasm : FileFlowType<ObjToXedDisasm,Xed>
+        public class ObjToXedDisasm : FileFlow<ObjToXedDisasm,Xed>
         {
             public ObjToXedDisasm()
                 : base(xed, FileKind.Obj, FileKind.XedRawDisasm)
@@ -193,7 +194,7 @@ namespace Z0
         /// <summary>
         /// *.s -> *.asm
         /// </summary>
-        public class SToAsm : FileFlowType<SToAsm,LlvmMc>
+        public class SToAsm : FileFlow<SToAsm,LlvmMc>
         {
             public SToAsm()
                 :base(llvm_mc, FileKind.S, FileKind.Asm)

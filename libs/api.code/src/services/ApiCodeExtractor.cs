@@ -48,18 +48,6 @@ namespace Z0
             return buffer;
         }
 
-        public Index<ApiHostCode> ExtractPartCode(ResolvedPart src, IApiPack pack, IApiPackArchive dst)
-        {
-            var hosts = src.Hosts.View;
-            var count = (uint)hosts.Length;
-            if(count == 0)
-                return sys.empty<ApiHostCode>();
-            var code = list<ApiHostCode>();
-            for(var i=0; i<count; i++)
-                code.Add(ExtractHostCode(skip(hosts,i), pack, dst));
-            return code.ToArray();
-        }
-
         ApiHostExtracts ExtractHost(in ResolvedHost src)
         {
             var buffer = core.alloc<byte>(Pow2.T14 + Pow2.T08);

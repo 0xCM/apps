@@ -23,22 +23,15 @@ namespace Z0
             ExtractParser = ApiExtractParser.create();
         }
 
-        public AsmHostRoutines Emit(ApiHostUri host, Index<ApiMemberExtract> src)
+        public AsmHostRoutines Emit(ApiHostUri host, Index<ApiMemberExtract> src, IApiPack dst)
         {
             var routines = AsmHostRoutines.Empty;
             try
             {
-                var flow = Wf.Running(Msg.RunningHostEmissionWorkflow.Format(host,src.Count));
-                EmitExtracts(host, src, Db.RawExtractPath(host));
-                var parsed = ParseExtracts(host, src);
-                if(parsed.Length != 0)
-                {
-                    EmitApiHex(host, parsed, Db.ParsedExtractPath(host));
-                    EmitMsilData(host, parsed, Db.CilPaths.CilDataPath(host));
-                    EmitMsilCode(host, parsed, Db.CilPaths.CilCodePath(host));
-                    routines = DecodeMembers(host, parsed, src);
-                }
-                Wf.Ran(flow);
+                // EmitApiHex(host, parsed, Db.ParsedExtractPath(host));
+                // EmitMsilData(host, parsed, dst.Path(host,FileKind.Msil));
+                // EmitMsilCode(host, parsed, dst.Path(host,FileKind.MsilDat));
+                // routines = DecodeMembers(host, parsed, src);
             }
             catch(Exception e)
             {
@@ -59,8 +52,8 @@ namespace Z0
                 if(parsed.Length != 0)
                 {
                     EmitApiHex(host, parsed, dst);
-                    EmitMsilData(host, parsed, cilpaths.CilDataPath(dst, host));
-                    EmitMsilCode(host, parsed, cilpaths.CilCodePath(dst, host));
+                    EmitMsilData(host, parsed, dst + FS.file(host,FileKind.MsilDat));
+                    EmitMsilCode(host, parsed, dst + FS.file(host,FileKind.Msil));
                     routines = DecodeMembers(host, parsed, src, Db.AsmCapturePath(dst,host));
                 }
                 Ran(flow);

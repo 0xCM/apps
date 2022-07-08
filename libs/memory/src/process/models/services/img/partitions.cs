@@ -9,7 +9,7 @@ namespace Z0
     partial class ImageMemory
     {
         [Op]
-        public static Index<ProcessPartition> partitions(Index<LocatedImageInfo> src)
+        public static Index<ProcessPartition> partitions(ReadOnlySeq<ImageLocation> src)
         {
             var count = src.Count;
             var images = src.View;

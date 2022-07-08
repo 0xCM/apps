@@ -11,9 +11,6 @@ namespace Z0
     {
         sealed class Svc : AppServices<Svc>
         {
-            public ApiExtractor ApiExtractor(IWfRuntime wf)
-                => Service<ApiExtractor>(wf);
-
             public ApiCapture ApiCapture(IWfRuntime wf)
                 => Service<ApiCapture>(wf);
 
@@ -34,8 +31,5 @@ namespace Z0
 
         public static CaptureCmd CaptureCmd(this IWfRuntime wf)
             => Services.CaptureCmd(wf);
-
-        public static ApiExtractor ApiExtractor(this IWfRuntime wf)
-            => Services.ApiExtractor(wf);
     }
 }

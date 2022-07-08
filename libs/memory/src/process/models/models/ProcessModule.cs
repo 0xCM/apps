@@ -99,5 +99,9 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Subject.ModuleName;
         }
+
+        [MethodImpl(Inline)]
+       public static implicit operator ProcessModule(D.ProcessModule src)
+            => new ProcessModule(src);
     }
 }

@@ -8,7 +8,7 @@ namespace Z0
     {
         public uint Index {get;}
 
-        public NameOld Name {get;}
+        public string Name {get;}
 
         public string Value {get;}
 
@@ -39,17 +39,17 @@ namespace Z0
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => Name.IsEmpty;
+            get => text.empty(Name);
         }
 
         public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
-            get => Name.IsNonEmpty;
+            get => text.nonempty(Name);
         }
 
         public override string ToString()
-            => text.empty(Value) ? Name.Format() : string.Format("{0}={1}", Name, Value);
+            => text.empty(Value) ? Name : string.Format("{0}={1}", Name, Value);
 
         [MethodImpl(Inline)]
         public static implicit operator string(CmdArg arg)

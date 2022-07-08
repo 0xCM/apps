@@ -8,10 +8,12 @@ namespace Z0
 
     partial class ImageMemory
     {
-        [Op]
+        public static ProcessImageMap map()
+            => map(Process.GetCurrentProcess());
+
         public static ProcessImageMap map(Process process)
         {
-            var src = images(process);
+            var src = locations(process);
             ref readonly var image = ref src.First;
             var count = src.Count;
             Index<MemoryAddress> addresses = alloc<MemoryAddress>(count);

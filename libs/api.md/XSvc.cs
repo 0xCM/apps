@@ -20,9 +20,6 @@ namespace Z0
 
             public ApiJit ApiJit(IWfRuntime wf)
                 => Service<ApiJit>(wf);
-
-
-
         }
 
         static Svc Services => Svc.Instance;
