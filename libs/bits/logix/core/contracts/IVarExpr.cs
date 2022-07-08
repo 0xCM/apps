@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Characterizes a variable
     /// </summary>
-    public interface IVarExpr : IExprDeprecated
+    public interface ILogixVarExpr : IExprDeprecated
     {
         /// <summary>
         /// The name of the variable
@@ -18,7 +18,7 @@ namespace Z0
     /// <summary>
     /// Characterizes a typed variable
     /// </summary>
-    public interface IVarExpr<T> : IVarExpr, ILogixExpr<T>
+    public interface ILogixVarExpr<T> : ILogixVarExpr, ILogixExpr<T>
     {
         /// <summary>
         /// Updates the variable

@@ -12,7 +12,7 @@ namespace Z0
     /// <summary>
     /// Defines 16 bytes of storage
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Size = (int)Size, Pack=1), DataType("block<n:16,t:u8>")]
+    [StructLayout(LayoutKind.Sequential, Size = (int)Size, Pack=1), DataTypeAttributeD("block<n:16,t:u8>")]
     [DataWidth(Width)]
     public struct ByteBlock16 : IStorageBlock<B>, IEquatable<B>
     {

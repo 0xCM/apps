@@ -4,12 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Refs;
+    using static Spans;
 
     partial class Algs
     {
         [Op, Closures(Integers)]
-        public static Index<T> points<T>(T x0, T x1, T step)
+        public static T[] points<T>(T x0, T x1, T step)
             where T : unmanaged
         {
             var min = @as<T,ulong>(x0);

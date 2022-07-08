@@ -6,7 +6,7 @@ namespace Z0.Asm
 {
     using static core;
 
-    [ApiComplete,DataType("asm.opcode.bits")]
+    [ApiComplete,DataTypeAttributeD("asm.opcode.bits")]
     public struct AsmOpCodeBits
     {
         const ulong CountSegClear = 0xFF_FF_FF_FF_FF_00_FF_FF;

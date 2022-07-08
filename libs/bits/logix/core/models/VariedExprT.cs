@@ -19,7 +19,7 @@ namespace Z0
         /// <summary>
         /// The variables upon which the expression depends
         /// </summary>
-        public IVarExpr<T>[] Vars {get;}
+        public ILogixVarExpr<T>[] Vars {get;}
 
         [MethodImpl(Inline)]
         public VariedExpr(ILogixExpr<T> baseExpr, params VariableExpr<T>[] variables)
@@ -40,7 +40,7 @@ namespace Z0
             => string.Empty;
 
         [MethodImpl(Inline)]
-        public void SetVars(params IVarExpr<T>[] values)
+        public void SetVars(params ILogixVarExpr<T>[] values)
             => VariedExpr.Set(this,values);
     }
 }

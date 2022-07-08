@@ -7,11 +7,11 @@ namespace Z0
     /// <summary>
     /// Represents a type parameter in a generic artifact definition
     /// </summary>
-    public readonly struct ApiOpenSigParam : IOpenSigParam
+    public sealed record class ApiOpenSigParam : IOpenSigParam
     {
-        public ushort Position {get;}
+        public readonly ushort Position;
 
-        public NameOld Name {get;}
+        public readonly string Name;
 
         [MethodImpl(Inline)]
         public ApiOpenSigParam(ushort position, string name)
@@ -19,5 +19,11 @@ namespace Z0
             Position = position;
             Name = name;
         }
+
+        ushort ISigTypeParam.Position
+            => Position;
+
+        string ISigTypeParam.Name
+            => Name;
     }
 }

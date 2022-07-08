@@ -18,7 +18,7 @@ namespace Z0
                     return x.Value;
                 case IVariedExpr<T> x:
                     return eval(x.BaseExpr);
-                case IVarExpr<T> x:
+                case ILogixVarExpr<T> x:
                     return eval(x.Value);
                 case IOperatorExpr<T> x:
                     return eval(x);

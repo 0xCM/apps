@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Free]
-    public interface IAsciVarExpr
+    public interface IVarExpr
     {
         /// <summary>
         /// Specifies the variable fence, if any
@@ -28,10 +28,9 @@ namespace Z0
         bool IsFenced => Fence.Left != AsciNull.Literal && Fence.Right != AsciNull.Literal;
     }
 
-    public interface IAsciVarExpr<A> : IAsciVarExpr
+    public interface IVarExpr<A> : IVarExpr
         where A : unmanaged, IAsciSeq<A>
     {
-        VarName<A> VarName {get;}
-
+        Name<A> VarName {get;}
     }
 }

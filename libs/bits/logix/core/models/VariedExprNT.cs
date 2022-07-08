@@ -15,10 +15,10 @@ namespace Z0
     {
         public ILogixExpr<T> BaseExpr {get;}
 
-        public IVarExpr<T>[] Vars {get;}
+        public ILogixVarExpr<T>[] Vars {get;}
 
         [MethodImpl(Inline)]
-        public VariedExpr(ILogixExpr<T> baseExpr, params IVarExpr<T>[] variables)
+        public VariedExpr(ILogixExpr<T> baseExpr, params ILogixVarExpr<T>[] variables)
         {
             BaseExpr = baseExpr;
             Vars = variables;

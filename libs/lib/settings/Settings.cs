@@ -59,6 +59,19 @@ namespace Z0
         public static Settings<Name,T> settings<T>(params Setting<Name,T>[] src)
             => new Settings<Name,T>(src);
 
+        public static string format<T>(in T src)
+        {
+            var fields = typeof(T).PublicInstanceFields();
+            var count = fields.Length;
+            var dst = text.buffer();
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var field = ref skip(fields,i);
+                dst.AppendLineFormat("{0}:{1}",field.Name, field.GetValue(src));
+            }
+            return dst.Emit();
+        }
+
         public static Settings from<T>(T src)
         {
             var _fields = typeof(T).PublicInstanceFields();
@@ -74,19 +87,6 @@ namespace Z0
                                 select setting(f.Name, value);
 
             return _fieldValues.Union(_propValues).Array();
-        }
-
-        public static string format<T>(T src)
-        {
-            var fields = typeof(T).PublicInstanceFields();
-            var count = fields.Length;
-            var dst = text.buffer();
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var field = ref skip(fields,i);
-                dst.AppendLineFormat("{0}:{1}",field.Name, field.GetValue(src));
-            }
-            return dst.Emit();
         }
 
         [Op]

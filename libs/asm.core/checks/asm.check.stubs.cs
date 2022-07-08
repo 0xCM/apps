@@ -139,13 +139,10 @@ namespace Z0
 
             void Search()
             {
-                using var symbols = Dispense.symbols();
-                var host = typeof(Calc64);
-                var contract = typeof(ICalc64);
                 //var stubs = CodeCollector.CollectLive(symbols,host);
                 //Write(stubs.View, LiveMemberCode.RenderWidths);
-                var imap = Clr.imap(host,contract);
-                Write(imap.Format());
+                using var symbols = Dispense.symbols();
+                Write(Clr.impl(typeof(Calc64),typeof(ICalc64)).Format());
             }
 
             Api();

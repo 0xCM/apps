@@ -4,27 +4,33 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    [AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class)]
+    public class DataTypeAttribute : Attribute
+    {
+
+    }
+
     /// <summary>
     /// Applied to a type to denote inclusion as a datatype within the DSL
     /// </summary>
     [AttributeUsage(AttributeTargets.Struct | AttributeTargets.Delegate | AttributeTargets.Class | AttributeTargets.Field)]
-    public class DataTypeAttribute : Attribute
+    public class DataTypeAttributeD : Attribute
     {
-        public DataTypeAttribute()
+        public DataTypeAttributeD()
         {
             Group = EmptyString;
             Name = EmptyString;
             Kind = EmptyString;
         }
 
-        public DataTypeAttribute(string group)
+        public DataTypeAttributeD(string group)
         {
             Group = group;
             Name = group;
             Kind = group;
         }
 
-        public DataTypeAttribute(NumericKind closures)
+        public DataTypeAttributeD(NumericKind closures)
         {
             Group = EmptyString;
             Closures = closures;
@@ -32,7 +38,7 @@ namespace Z0
             Name = EmptyString;
         }
 
-        public DataTypeAttribute(string group, NumericKind closures)
+        public DataTypeAttributeD(string group, NumericKind closures)
         {
             Group = group;
             Closures = closures;
@@ -40,7 +46,7 @@ namespace Z0
             Kind = group;
         }
 
-        public DataTypeAttribute(string name, bool @virtual)
+        public DataTypeAttributeD(string name, bool @virtual)
         {
             Name = name;
             Group = name;

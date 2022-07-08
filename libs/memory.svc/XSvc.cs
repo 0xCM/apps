@@ -11,9 +11,6 @@ namespace Z0
             public ApiHex ApiHex(IWfRuntime wf)
                 => Service<ApiHex>(wf);
 
-            public HexCsv HexCsv(IWfRuntime wf)
-                => Service<HexCsv>(wf);
-
             public ImageRegions ImageRegions(IWfRuntime wf)
                 => Service<ImageRegions>(wf);
 

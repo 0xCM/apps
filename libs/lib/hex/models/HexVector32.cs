@@ -13,7 +13,7 @@ namespace Z0
     /// <summary>
     /// Defines a sequence of 32-bit cells
     /// </summary>
-    [DataType("vhex<w:32>")]
+    [DataTypeAttributeD("vhex<w:32>")]
     public readonly struct HexVector32
     {
         readonly Index<Hex32> Data;

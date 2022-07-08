@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm.Operands
 {
-    [DataType(TypeSyntax.Mem256), StructLayout(LayoutKind.Sequential, Pack=1)]
+    [DataTypeAttributeD(TypeSyntax.Mem256), StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly struct m256 : IMemOp256<m256>
     {
         public readonly NativeSize TargetSize;

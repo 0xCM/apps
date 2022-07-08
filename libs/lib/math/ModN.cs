@@ -13,7 +13,7 @@ namespace Z0
     /// Implements basic arithmetic operations relative to a fixed modulus
     /// </summary>
     /// <remarks>See https://arxiv.org/pdf/1902.01961.pdf</remarks>
-    [ApiComplete, DataType("modN")]
+    [ApiComplete, DataTypeAttributeD("modN")]
     public readonly struct ModN
     {
         readonly ulong _N;

@@ -4,10 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Refs;
+    using static Spans;
+    using static Scalars;
     using static value;
 
-    public struct value<T> : IEquatable<value<T>>, IComparable<value<T>>
+    public struct value<T> : IDataType<value<T>>
         where T : unmanaged
     {
         public T Data;
@@ -28,6 +30,24 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => !eq(this,Zero);
+        }
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => IsZero;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => IsNonZero;
+        }
+
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => HashCodes.hash(Data);
         }
 
         public Span<byte> Bytes
@@ -53,7 +73,7 @@ namespace Z0
             => src is value<T> x && Equals(x);
 
         public override int GetHashCode()
-            => hash(this);
+            => Hash;
 
         [MethodImpl(Inline)]
         public static explicit operator value<T>(ReadOnlySpan<byte> src)
@@ -104,27 +124,27 @@ namespace Z0
             => vector(w256, src);
 
         [MethodImpl(Inline)]
-        public static bit operator ==(value<T> a, value<T> b)
+        public static bool operator ==(value<T> a, value<T> b)
             => eq(a,b);
 
         [MethodImpl(Inline)]
-        public static bit operator !=(value<T> a, value<T> b)
+        public static bool operator !=(value<T> a, value<T> b)
             => !eq(a,b);
 
         [MethodImpl(Inline)]
-        public static bit operator >(value<T> a, value<T> b)
+        public static bool operator >(value<T> a, value<T> b)
             => gt(a,b);
 
         [MethodImpl(Inline)]
-        public static bit operator <(value<T> a, value<T> b)
+        public static bool operator <(value<T> a, value<T> b)
             => lt(a,b);
 
         [MethodImpl(Inline)]
-        public static bit operator >=(value<T> a, value<T> b)
+        public static bool operator >=(value<T> a, value<T> b)
             => gteq(a,b);
 
         [MethodImpl(Inline)]
-        public static bit operator <=(value<T> a, value<T> b)
+        public static bool operator <=(value<T> a, value<T> b)
             => lteq(a,b);
 
         [MethodImpl(Inline)]

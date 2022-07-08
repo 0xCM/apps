@@ -4,10 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    /// <summary>
-    /// Defines a <see cref='ITextVar'/> that has a prefixed identifier
-    /// </summary>
-    public class PrefixedTextVar : ITextVar
+    public class PrefixedVar : ITextVar
     {
         public string Value;
 
@@ -27,14 +24,14 @@ namespace Z0
         ITextVarExpr ITextVar.Expr
             => Kind;
 
-        public PrefixedTextVar(char prefix, string name)
+        public PrefixedVar(char prefix, string name)
         {
             Name = name;
             Kind = new VarKind(prefix);
             Value = EmptyString;
         }
 
-        public PrefixedTextVar(char prefix, string name, string value)
+        public PrefixedVar(char prefix, string name, string value)
             : this(prefix,name)
         {
             Name = name;

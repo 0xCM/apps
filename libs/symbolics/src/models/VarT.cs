@@ -10,17 +10,29 @@ namespace Z0
     /// Defines a variable
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public class Var<T> : IVar<Value<T>>
+    public class Var<T> : IVar<T>
     {
-        public NameOld Name {get;}
+        public Name Name {get;}
 
         readonly Func<T> Resolver;
 
         [MethodImpl(Inline)]
-        public Var(NameOld name, Func<T> resolver)
+        public Var(Name name, Func<T> resolver)
         {
             Name = name;
             Resolver = resolver;
+        }
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Name.IsEmpty;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Name.IsNonEmpty;
         }
 
         public Hash32 Hash
@@ -29,7 +41,10 @@ namespace Z0
             get => Name.Hash;
         }
 
-        public Value<T> Value
+        public override int GetHashCode()
+            => Hash;
+
+        public T Value
             => Resolver();
         public string Format()
             => api.format(this);

@@ -8,7 +8,7 @@ namespace Z0
     /// Represents one or more occurrence of a value within an interval
     /// </summary>
     /// <typeparam name="T">The value domain</typeparam>
-    [DataType("bin<t:{0}>")]
+    [DataTypeAttributeD("bin<t:{0}>")]
     public struct Bin<T>
         where T : unmanaged, IEquatable<T>, IComparable<T>
     {

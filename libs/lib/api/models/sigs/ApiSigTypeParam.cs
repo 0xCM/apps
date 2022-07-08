@@ -11,7 +11,7 @@ namespace Z0
     {
         public ushort Position {get;}
 
-        public NameOld Name {get;}
+        public string Name {get;}
 
         public ApiTypeSig Closure {get;}
 

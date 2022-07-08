@@ -18,5 +18,6 @@ namespace Z0
         public ByteSize DataSize;
 
         public BinaryCode Data;
+
     }
 }

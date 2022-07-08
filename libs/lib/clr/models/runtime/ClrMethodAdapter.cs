@@ -28,6 +28,9 @@ namespace Z0
             get => Definition;
         }
 
+        public string DisplayName()
+            => Definition.DisplayName();
+
         public Assembly Assembly
         {
             [MethodImpl(Inline)]
@@ -46,7 +49,7 @@ namespace Z0
             get => Definition.CallingConvention;
         }
 
-        public RuntimeMethodHandle MethodHandle
+        public HandleAdapter MethodHandle
         {
             [MethodImpl(Inline)]
             get => Definition.MethodHandle;
@@ -55,13 +58,13 @@ namespace Z0
         public MemoryAddress HandleAddress
         {
             [MethodImpl(Inline)]
-            get => Definition.MethodHandle.Value;
+            get => MethodHandle.Address;
         }
 
-        public MemoryAddress PointerAddress
+        public FPtr FunctionPointer
         {
             [MethodImpl(Inline)]
-            get => MethodHandle.GetFunctionPointer();
+            get => MethodHandle.FunctionPointer;
         }
 
         public MethodDisplaySig DisplaySig

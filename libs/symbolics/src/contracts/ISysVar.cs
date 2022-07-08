@@ -8,18 +8,13 @@ namespace Z0
     public interface ISysVar : IHashed
     {
         Name Name {get;}
-
-        dynamic Value {get;}
     }
 
     [Free]
     public interface ISysVar<V> : ISysVar
         where V : IEquatable<V>, IComparable<V>, new()
     {
-        new V Value {get;}
-
-        dynamic ISysVar.Value
-            => Value;
+        V Value {get;}
     }
 
     [Free]

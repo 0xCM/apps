@@ -9,7 +9,7 @@ namespace Z0
     /// <summary>
     /// Defines a sequence of 16-bit cells
     /// </summary>
-    [DataType("vhex<w:16>")]
+    [DataTypeAttributeD("vhex<w:16>")]
     public readonly struct HexVector16
     {
         readonly Index<Hex16> Data;

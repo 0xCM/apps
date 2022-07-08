@@ -6,7 +6,7 @@ namespace Z0
 {
     partial class ClrTypeSystem
     {
-        [DataType("clr.bool",true)]
+        [DataTypeAttributeD("clr.bool",true)]
         public readonly struct Bool : IType<PrimalKind>
         {
             public Identifier Name => nameof(Bool);

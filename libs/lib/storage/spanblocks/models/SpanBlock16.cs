@@ -9,7 +9,7 @@ namespace Z0
     /// <summary>
     /// Defines a span of contiguous memory that can be evenly partitioned into 8 and 16-bit segments
     /// </summary>
-    [SpanBlock(NativeTypeWidth.W16, SpanBlockKind.Sb16), DataType("spanblock<w:16,t:{0}>")]
+    [SpanBlock(NativeTypeWidth.W16, SpanBlockKind.Sb16), DataTypeAttributeD("spanblock<w:16,t:{0}>")]
     public readonly ref struct SpanBlock16<T>
         where T : unmanaged
     {

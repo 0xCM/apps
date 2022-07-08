@@ -43,7 +43,7 @@ namespace Z0
         /// <summary>
         /// Variables upon which the expression depends
         /// </summary>
-        IVarExpr<T>[] Vars {get;}
+        ILogixVarExpr<T>[] Vars {get;}
 
         /// <summary>
         /// The sort of comparison to be applied

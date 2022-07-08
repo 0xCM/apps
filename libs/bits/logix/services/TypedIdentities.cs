@@ -142,12 +142,12 @@ namespace Z0
                 => NotOverXOr<Vector256<T>>();
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        static (IVarExpr<T> a, IVarExpr<T> b) vars2<T>()
+        static (ILogixVarExpr<T> a, ILogixVarExpr<T> b) vars2<T>()
             where T : unmanaged
                 => (TLS.variable<T>('a'), TLS.variable<T>('b'));
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        static (IVarExpr<T> a, IVarExpr<T> b, IVarExpr<T> c) vars3<T>()
+        static (ILogixVarExpr<T> a, ILogixVarExpr<T> b, ILogixVarExpr<T> c) vars3<T>()
             where T : unmanaged
                 => (TLS.variable<T>('a'), TLS.variable<T>('b'), TLS.variable<T>('c'));
     }

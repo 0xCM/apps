@@ -30,10 +30,10 @@ namespace Z0
         /// <summary>
         /// The variables upon which the operands depend
         /// </summary>
-        Index<IVarExpr<T>> _Vars {get;}
+        Index<ILogixVarExpr<T>> _Vars {get;}
 
         [MethodImpl(Inline)]
-        public ComparisonExpr(ApiComparisonClass kind, ILogixExpr<T> lhs, ILogixExpr<T> rhs, params IVarExpr<T>[] vars)
+        public ComparisonExpr(ApiComparisonClass kind, ILogixExpr<T> lhs, ILogixExpr<T> rhs, params ILogixVarExpr<T>[] vars)
         {
             ComparisonKind = kind;
             Left = lhs;
@@ -47,7 +47,7 @@ namespace Z0
             get => _Vars.Count;
         }
 
-        public IVarExpr<T>[] Vars
+        public ILogixVarExpr<T>[] Vars
         {
             [MethodImpl(Inline)]
             get => _Vars.Storage;

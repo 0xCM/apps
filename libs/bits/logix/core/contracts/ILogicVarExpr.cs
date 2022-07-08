@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Characterizes a logical variable
     /// </summary>
-    public interface ILogicVarExpr : IVarExpr, ILogicExpr
+    public interface ILogicVarExpr : ILogixVarExpr, ILogicExpr
     {
         /// <summary>
         /// Updates the variable

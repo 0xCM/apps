@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines a datatype that represents a rational number
     /// </summary>
-    [DataType("quotient<{T}>")]
+    [DataTypeAttributeD("quotient<{T}>")]
     public struct Quotient<T> : IRatio<Quotient<T>,T>
     {
         public T Over {get;}

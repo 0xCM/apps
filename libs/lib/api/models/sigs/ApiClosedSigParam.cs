@@ -7,13 +7,13 @@ namespace Z0
     /// <summary>
     /// Represents a type parameter in a generic artifact definition
     /// </summary>
-    public class ApiClosedSigParam : IClosedSigParam
+    public sealed record class ApiClosedSigParam : IClosedSigParam
     {
-        public ushort Position {get;}
+        public readonly ushort Position;
 
-        public NameOld Name {get;}
+        public readonly string Name;
 
-        public ApiTypeSig Closure {get;}
+        public readonly ApiTypeSig Closure;
 
         [MethodImpl(Inline)]
         public ApiClosedSigParam(ushort position, string name, ApiTypeSig closure)
@@ -22,5 +22,11 @@ namespace Z0
             Name = name;
             Closure = closure;
         }
+
+        ushort ISigTypeParam.Position
+            => Position;
+
+        string ISigTypeParam.Name
+            => Name;
     }
 }

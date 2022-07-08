@@ -8,7 +8,7 @@ namespace Z0
     sealed class App : AppCmdShell<App>
     {
         static IAppCmdService commands(IWfRuntime wf)
-            => AppCmd.create(wf);
+            => AppCmd.commands(wf);
 
         public static void Main(params string[] args)
             => run(commands, args);

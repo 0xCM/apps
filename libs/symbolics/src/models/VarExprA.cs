@@ -4,17 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct AsciVarExpr<A> : IAsciVarExpr<A>
+    public readonly struct VarExpr<A> : IVarExpr<A>
         where A : unmanaged, IAsciSeq<A>
     {
-        public readonly VarName<A> VarName;
+        public readonly Name<A> VarName;
 
         public readonly AsciFence Fence;
 
         public readonly AsciSymbol Prefix;
 
         [MethodImpl(Inline)]
-        public AsciVarExpr(A name)
+        public VarExpr(A name)
         {
             VarName = name;
             Fence = AsciFence.Empty;
@@ -22,7 +22,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public AsciVarExpr(A name, AsciSymbol prefix)
+        public VarExpr(A name, AsciSymbol prefix)
         {
             VarName = name;
             Prefix = prefix;
@@ -30,7 +30,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public AsciVarExpr(A name, AsciFence fence)
+        public VarExpr(A name, AsciFence fence)
         {
             VarName = name;
             Fence = fence;
@@ -38,20 +38,20 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public AsciVarExpr(A name, AsciSymbol prefix, AsciFence fence)
+        public VarExpr(A name, AsciSymbol prefix, AsciFence fence)
         {
             VarName = name;
             Prefix = prefix;
             Fence = fence;
         }
 
-        VarName<A> IAsciVarExpr<A>.VarName
+        Name<A> IVarExpr<A>.VarName
             => VarName;
 
-        AsciFence IAsciVarExpr.Fence
+        AsciFence IVarExpr.Fence
             => Fence;
 
-        AsciSymbol IAsciVarExpr.Prefix
+        AsciSymbol IVarExpr.Prefix
             => Prefix;
     }
 

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [DataType(TypeSyntax.Lookup)]
+    [DataTypeAttributeD(TypeSyntax.Lookup)]
     public class ConstLookup<K,V> : ILookupData<K,V>
     {
         readonly ConcurrentDictionary<K,V> Storage;

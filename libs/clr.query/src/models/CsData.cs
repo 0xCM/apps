@@ -11,9 +11,36 @@ namespace Z0
     using EK = ClrEnumKind;
     using IK = ClrIntegerKind;
 
+    partial class XTend
+    {
+        [MethodImpl(Inline), Op]
+        public static string CsKeyword(this ClrEnumKind kind)
+            => CsData.keyword(kind);
+
+        [MethodImpl(Inline), Op]
+        public static char ToChar(this SymNotKind src)
+            => (char)src;
+
+        [MethodImpl(Inline), Op]
+        public static string Format(this SymNotKind src)
+            => ((char)src).ToString();
+
+        [Op]
+        public static string CsKeyword(this ClrLiteralKind src)
+            => CsData.keyword(src);
+
+        [Op]
+        public static string CsKeyword(this ClrAccessKind src)
+            => CsData.keyword(src);
+
+        [Op]
+        public static ReadOnlySpan<string> CsKeywords(this ClrModifierKind src)
+           => CsData.keywords(src);
+    }
+
     public readonly struct CsData
     {
-        static readonly Index<string> Data = new string[78]{
+        static readonly string[] Data = new string[78]{
             "","abstract","as","base","bool","break","byte",
             "case","catch","char","checked","class","const","continue",
             "decimal","default","delegate","do","double","else","enum","event","explicit","extern",
@@ -27,14 +54,14 @@ namespace Z0
 
         public static ReadOnlySpan<string> View => Data;
 
-        static readonly ConstLookup<string,string> Lookup = Data.Select(x => (x, "@" + x)).ToDictionary();
+        static readonly Dictionary<string,string> Lookup = Data.Select(x => (x, "@" + x)).ToDictionary();
 
         public static bool test(string src)
             => Lookup.ContainsKey(src);
 
         public static Identifier identifier(string src)
         {
-            if(Lookup.Find(src, out var value))
+            if(Lookup.TryGetValue(src, out var value))
             {
                 return value;
             }
@@ -69,32 +96,31 @@ namespace Z0
         }
 
         [Op]
-        public static Label keyword(AK kind)
+        public static string keyword(AK kind)
             => kind switch{
                 AK.Public => Public,
                 AK.Private => Private,
                 AK.ProtectedInternal => ProtectedInternal,
                 AK.Protected => Protected,
                 AK.Internal => Internal,
-                _ => Label.Empty
+                _ => EmptyString
             };
 
         [Op]
-        public static Index<Label> keywords(MK kind)
+        public static ReadOnlySpan<string> keywords(MK kind)
         {
-            var dst = core.list<Label>();
+            var dst = Lists.list<string>(6);
             if((MK.Const & kind) != 0)
                 dst.Add(Const);
             if((MK.ReadOnly & kind) != 0)
                 dst.Add(ReadOnly);
             if((MK.Static & kind) != 0)
                 dst.Add(Static);
-
-            return dst.ToArray();
+            return dst.View();
         }
 
         [Op]
-        public static Label keyword(IK src)
+        public static string keyword(IK src)
             => src switch {
                 IK.U8 => U8,
                 IK.U16 => U16,
@@ -108,7 +134,7 @@ namespace Z0
             };
 
         [Op]
-        public static Label keyword(LK kind)
+        public static string keyword(LK kind)
             => kind switch
             {
                 LK.C16 => Char,
@@ -125,7 +151,7 @@ namespace Z0
                 LK.U32 => U32,
                 LK.U64 => U64,
                 LK.U8 => U8,
-                _ => Label.Empty
+                _ => EmptyString
             };
 
         /// <summary>

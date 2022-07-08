@@ -6,7 +6,6 @@ namespace Z0
 {
     using XF = ExprPatterns;
 
-    using static core;
 
     [ApiHost]
     public class Vars
@@ -17,7 +16,7 @@ namespace Z0
             => bind ? src.Resolve().Format() : string.Format(XF.UntypedVar, src);
 
         public static string format<T>(Var<T> src, bool bind = true)
-            => bind ? src.Value.Format() : string.Format(XF.TypedVar, src);
+            => bind ? src.Value.ToString() : string.Format(XF.TypedVar, src);
 
         [MethodImpl(Inline), Op]
         public static ExprVar var(NameOld name)

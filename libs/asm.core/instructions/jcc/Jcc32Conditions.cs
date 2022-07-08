@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    [StructLayout(LayoutKind.Sequential, Pack=1), DataType("asm.conditions.jcc32")]
+    [StructLayout(LayoutKind.Sequential, Pack=1), DataTypeAttributeD("asm.conditions.jcc32")]
     public struct Jcc32Conditions : IConditional
     {
         public JccInfo<Jcc32Code> Primary;

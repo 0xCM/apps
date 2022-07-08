@@ -20,7 +20,6 @@ namespace Z0
 
         public static Index<ProcessModuleRow> modules(FS.FilePath src)
         {
-
             using var reader = src.AsciLineReader();
             var line = AsciLineCover.Empty;
             reader.Next(out line);
@@ -32,13 +31,13 @@ namespace Z0
             return default;
         }
         [Op]
-        public static Index<ProcessModuleRow> modules(Process src)
+        public static ReadOnlySeq<ProcessModuleRow> modules(Process src)
         {
-            var modules = @readonly(src.Modules.Cast<System.Diagnostics.ProcessModule>().Array());
+            var modules = src.Modules.Cast<System.Diagnostics.ProcessModule>().Array();
             var count = modules.Length;
             var buffer = alloc<ProcessModuleRow>(count);
             fill(modules, buffer);
-            return buffer;
+            return buffer.Sort();
         }
 
         [MethodImpl(Inline), Op]

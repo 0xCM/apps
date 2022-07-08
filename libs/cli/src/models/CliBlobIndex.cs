@@ -4,8 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-    using System.Reflection.Metadata;
+    using static Refs;
 
     public readonly struct CliBlobIndex : ICliHeapKey<CliBlobIndex>
     {

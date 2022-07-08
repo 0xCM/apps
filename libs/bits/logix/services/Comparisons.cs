@@ -25,7 +25,7 @@ namespace Z0
         /// <param name="rhs">The right expression</param>
         /// <typeparam name="T">The operand type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static ComparisonExpr<T> define<T>(BCK kind, ILogixExpr<T> lhs, ILogixExpr<T> rhs, params IVarExpr<T>[] vars)
+        public static ComparisonExpr<T> define<T>(BCK kind, ILogixExpr<T> lhs, ILogixExpr<T> rhs, params ILogixVarExpr<T>[] vars)
             where T : unmanaged
                 => new ComparisonExpr<T>(kind,lhs,rhs,vars);
 
@@ -50,7 +50,7 @@ namespace Z0
         /// <param name="rhs">The right expression</param>
         /// <typeparam name="T">The operand type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static ComparisonExpr<T> equals<T>(ILogicExpr<T> lhs, ILogicExpr<T> rhs, params IVarExpr<T>[] variables)
+        public static ComparisonExpr<T> equals<T>(ILogicExpr<T> lhs, ILogicExpr<T> rhs, params ILogixVarExpr<T>[] variables)
             where T : unmanaged
                 => define(ApiComparisonClass.Eq, lhs,rhs, variables);
 

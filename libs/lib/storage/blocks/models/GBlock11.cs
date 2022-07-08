@@ -9,7 +9,7 @@ namespace Z0
     /// <summary>
     /// Defines storage for contiguous sequence of 11 T-cells
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack=1), DataType("block<n:11,t:{0}>")]
+    [StructLayout(LayoutKind.Sequential, Pack=1), DataTypeAttributeD("block<n:11,t:{0}>")]
     public struct GBlock11<T> : IStorageBlock<GBlock11<T>>, ICellBlock<T>
         where T : unmanaged
     {

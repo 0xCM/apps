@@ -4,13 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     public readonly struct CliBlobHeap : ICliHeap<CliBlobHeap>
     {
-        public readonly MemoryAddress BaseAddress {get;}
+        public readonly MemoryAddress BaseAddress;
 
-        public readonly ByteSize Size {get;}
+        public readonly ByteSize Size;
 
         [MethodImpl(Inline)]
         public CliBlobHeap(MemoryAddress @base, ByteSize size)
@@ -28,8 +26,14 @@ namespace Z0
         public unsafe ReadOnlySpan<byte> Data
         {
             [MethodImpl(Inline)]
-            get => cover<byte>(BaseAddress, Size);
+            get => core.cover<byte>(BaseAddress, Size);
         }
+
+        MemoryAddress ICliHeap.BaseAddress
+            => BaseAddress;
+
+        ByteSize ICliHeap.Size
+            => Size;
 
         public string Format()
             => string.Format(MemoryRange.define(BaseAddress, Size).Format());

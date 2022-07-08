@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    [DataType("asm.nearptr")]
+    [DataTypeAttributeD("asm.nearptr")]
     public readonly struct NearPtr
     {
         public MemoryAddress Address {get;}

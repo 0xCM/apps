@@ -4,14 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static ApiGranules;
-
     sealed class AppCmd : AppCmdService<AppCmd>
     {
-        [CmdOp("mem/check")]
-        void Hello()
-        {
+        public static ICmdProvider[] providers(IWfRuntime wf)
+            => new ICmdProvider[]{
+                wf.EnvCmd(),
+                wf.MemCmd()
+            };
 
-        }
+        public static AppCmd commands(IWfRuntime wf)
+            => create(wf, providers(wf));
     }
 }

@@ -12,7 +12,7 @@ namespace Z0
 
     using api = BitSpans;
 
-    [DataType("bitspan")]
+    [DataTypeAttributeD("bitspan")]
     public readonly ref struct BitSpan
     {
         public static Outcome parse(string src, out BitSpan dst)

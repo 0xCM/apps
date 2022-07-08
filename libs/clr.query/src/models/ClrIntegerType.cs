@@ -10,9 +10,8 @@ namespace Z0
 
     public readonly record struct ClrIntegerType
     {
-
         [MethodImpl(Inline), Op]
-        public static Label keyword(C src)
+        public static string keyword(C src)
             => CsData.keyword(src.Kind);
 
         public static C I8 => K.I8;
@@ -129,7 +128,7 @@ namespace Z0
             Kind = kind;
         }
 
-        public Label Keyword
+        public string Keyword
         {
             [MethodImpl(Inline)]
             get => keyword(this);

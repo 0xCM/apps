@@ -4,13 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Reflection;
-    using System.Reflection.Metadata;
-    using System.Reflection.Metadata.Ecma335;
-
-    using static core;
+    using static Scalars;
 
     partial struct Clr
     {
@@ -34,6 +28,6 @@ namespace Z0
 
         [Op]
         public static uint row(EntityHandle handle)
-            => u32(handle) & 0xFFFFFF;
+            => uint32(handle) & 0xFFFFFF;
     }
 }

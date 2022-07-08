@@ -9,7 +9,7 @@ namespace Z0
     using B = ByteBlock4;
     using api = Storage;
 
-    [StructLayout(LayoutKind.Sequential, Size = Size, Pack=1), DataType("block<n:4,t:u8>")]
+    [StructLayout(LayoutKind.Sequential, Size = Size, Pack=1), DataTypeAttributeD("block<n:4,t:u8>")]
     [DataWidth(Width)]
     public struct ByteBlock4 : IStorageBlock<B>, IEquatable<B>
     {

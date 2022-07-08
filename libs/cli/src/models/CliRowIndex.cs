@@ -4,8 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
-    public struct CliRowIndex : IRecord<CliRowIndex>
+    public struct CliRowIndex
     {
         public CliToken Token {get;}
 

@@ -7,7 +7,7 @@ namespace Z0.Expr
     using static expr;
     using static core;
 
-    [StructLayout(LayoutKind.Sequential, Pack=1), DataType("g2x2<t:{0}>")]
+    [StructLayout(LayoutKind.Sequential, Pack=1), DataTypeAttributeD("g2x2<t:{0}>")]
     public struct g2x2<T> : IGrid<g2x2<T>,N2,T>
         where T : unmanaged
     {

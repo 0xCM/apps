@@ -555,7 +555,7 @@ namespace Z0
             }
             else
             {
-                var tag = src.Tag<DataTypeAttribute>();
+                var tag = src.Tag<DataTypeAttributeD>();
                 if(tag)
                     spec = tag.Require().Name;
             }

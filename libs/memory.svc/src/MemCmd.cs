@@ -38,17 +38,31 @@ namespace Z0
         {
             var src = ImageMemory.modules(ExecutingPart.Process);
             var dst = AppDb.App().Targets(tables).Table<ProcessModuleRow>();
-            TableEmit(src, dst);
-            //var src = ImageMemory.modules();
+            var formatter = Tables.formatter<ProcessModuleRow>();
             for(var i=0; i<src.Length; i++)
-            {
-                ref readonly var module = ref src[i];
-
-
-                // var @base = module.BaseAddress;
-                // var size = module.ModuleMemorySize;
-                // Write(string.Format("{0:D3} | {1,-16} | {2,-16} | {3}",i,  @base, size, module.Path.ToUri()));
-            }
+                Row(formatter.Format(src[i]));
+            TableEmit(src, dst);
         }
+
+        [CmdOp("api/deps/corelib")]
+        void LoadCorLib()
+        {
+            var src = Clr.corlib();
+            src.References();
+
+        }
+
+        [CmdOp("api/impls")]
+        void EmitImplMaps()
+        {
+            var src = Clr.impls(Parts.Lib.Assembly, Parts.Lib.Assembly);
+            using var writer = AppDb.ApiTargets().Path("api.impl.maps",FileKind.Map).Utf8Writer();
+            for(var i=0; i<src.Count; i++)
+            {
+                src[i].Render(s => writer.WriteLine(s));
+            }
+
+        }
+
     }
 }

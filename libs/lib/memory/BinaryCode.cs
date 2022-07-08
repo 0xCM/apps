@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static Arrays;
+
     public readonly record struct BinaryCode : IDataType<BinaryCode>
     {
         /// <summary>
@@ -24,13 +26,13 @@ namespace Z0
         public ref byte First
         {
             [MethodImpl(Inline)]
-            get => ref Arrays.first(Data);
+            get => ref first(Data);
         }
 
         public ref byte Last
         {
             [MethodImpl(Inline)]
-            get => ref Arrays.seek(Data, Length - 1);
+            get => ref seek(Data, Length - 1);
         }
 
         /// <summary>
@@ -95,13 +97,13 @@ namespace Z0
         public ref byte this[long index]
         {
             [MethodImpl(Inline)]
-            get => ref Arrays.seek(Data,index);
+            get => ref seek(Data,index);
         }
 
         public ref byte this[ulong index]
         {
             [MethodImpl(Inline)]
-            get => ref Arrays.seek(Data,index);
+            get => ref seek(Data,index);
         }
 
         [MethodImpl(Inline)]

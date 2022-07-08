@@ -5,13 +5,13 @@
 namespace Z0
 {
     [Free]
-    public interface IVar : IExprDeprecated, ITerm
+    public interface IVar : IExpr
     {
 
     }
 
     [Free]
-    public interface IVar<T> : IVar, ITerm
+    public interface IVar<T> : IVar
     {
         T Value {get;}
     }

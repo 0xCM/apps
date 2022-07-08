@@ -6,7 +6,7 @@ namespace Z0
 {
     partial class ClrTypeSystem
     {
-        [DataType("clr.i64",true)]
+        [DataTypeAttributeD("clr.i64",true)]
         public readonly struct Int64 : IType<PrimalKind>
         {
             public Identifier Name => nameof(Int64);

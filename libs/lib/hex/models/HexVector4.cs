@@ -9,7 +9,7 @@ namespace Z0
     /// <summary>
     /// Defines a natural sequence of 4-bit cells
     /// </summary>
-    [DataType("vhex<w:4>")]
+    [DataTypeAttributeD("vhex<w:4>")]
     public readonly struct HexVector4
     {
         readonly Index<byte> Data;

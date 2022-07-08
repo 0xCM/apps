@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Reflection;
-
-    using static Root;
     using static core;
 
     public readonly struct ClrTypeAdapter : IRuntimeType<ClrTypeAdapter>
@@ -57,6 +52,9 @@ namespace Z0
             [MethodImpl(Inline)]
             get => !IsEmpty;
         }
+
+        public string DisplayName()
+            => Definition.DisplayName();
 
         string IClrArtifact.Name
             => Definition.Name;

@@ -19,6 +19,5 @@ namespace Z0
 
         public static AssemblyName[] PartReferenceNames(this Assembly src)
             => Clr.refs(src).Where(n => n.IsPart());
-
     }
 }

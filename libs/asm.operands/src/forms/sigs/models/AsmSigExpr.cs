@@ -8,7 +8,7 @@ namespace Z0
 
     using static core;
 
-    [StructLayout(LayoutKind.Sequential, Pack=1), DataType("asm.sig.expr")]
+    [StructLayout(LayoutKind.Sequential, Pack=1), DataTypeAttributeD("asm.sig.expr")]
     public struct AsmSigExpr : IEquatable<AsmSigExpr>
     {
         public const byte MaxOpCount = 5;

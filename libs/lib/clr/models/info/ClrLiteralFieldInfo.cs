@@ -16,7 +16,7 @@ namespace Z0
             {
                 Name = name;
                 LiteralKind = kind;
-                FieldType = kind.CsKeyword().Format();
+                FieldType = kind.CsKeyword();
                 Value = value;
                 Description = desc;
                 Access = ClrAccessKind.Public;

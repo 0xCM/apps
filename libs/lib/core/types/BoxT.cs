@@ -8,7 +8,7 @@ namespace Z0
 
     using static Root;
 
-    [DataType("box<t:{0}>")]
+    [DataTypeAttributeD("box<t:{0}>")]
     public sealed class Box<T> : StrongBox<T>
         //where T : struct
     {

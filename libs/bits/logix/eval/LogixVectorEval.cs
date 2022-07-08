@@ -16,7 +16,7 @@ namespace Z0
             {
                 case ILogixLiteral<Vector128<T>> x:
                     return x.Value;
-                case IVarExpr<Vector128<T>> x:
+                case ILogixVarExpr<Vector128<T>> x:
                     return eval(x.Value);
                 case IVariedExpr<Vector128<T>> x:
                     return eval(x.BaseExpr);
@@ -36,7 +36,7 @@ namespace Z0
             {
                 case ILogixLiteral<Vector256<T>> x:
                     return x.Value;
-                case IVarExpr<Vector256<T>> x:
+                case ILogixVarExpr<Vector256<T>> x:
                     return eval(x.Value);
                 case IVariedExpr<Vector256<T>> x:
                     return eval(x.BaseExpr);

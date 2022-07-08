@@ -4,7 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Refs;
+    using static Spans;
+    using static Sized;
+    using static Scalars;
 
     using M = math;
 
@@ -39,7 +42,7 @@ namespace Z0
             else if(size<T>() == 32)
                 return uint32(src.Data);
             else
-                return alg.hash.marvin(src.Bytes);
+                return HashCodes.hash(src.Bytes);
         }
 
         [MethodImpl(Inline), Op, Closures(Closure)]

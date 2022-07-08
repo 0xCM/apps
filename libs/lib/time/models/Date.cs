@@ -45,7 +45,7 @@ namespace System
     [DebuggerDisplay("{ToString()}")]
     [XmlSchemaProvider("GetSchema")]
     [DebuggerStepThrough]
-    [DataType("date")]
+    [DataTypeAttributeD("date")]
     public partial struct Date : IEquatable<Date>, IComparable<Date>, IComparable, IFormattable, IXmlSerializable
     {
         /// <summary>

@@ -17,7 +17,7 @@ namespace Z0
             => bind ? src.Resolve().Format() : string.Format(XF.UntypedVar, src);
 
         public static string format<T>(Var<T> src, bool bind = true)
-            => bind ? src.Value.Format() : string.Format(XF.TypedVar, src);
+            => bind ? src.Value.ToString() : string.Format(XF.TypedVar, src);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static Atom<K> atom<K>(K value)

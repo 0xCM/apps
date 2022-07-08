@@ -8,7 +8,7 @@ namespace Z0
 
     partial struct FS
     {
-        [DataType(TypeSyntax.FileName)]
+        [DataTypeAttributeD(TypeSyntax.FileName)]
         public readonly struct FileName : IFsEntry<FileName>
         {
             public PathPart Name {get;}

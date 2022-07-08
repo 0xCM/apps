@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Reflection.Metadata;
-    using System.Reflection.Metadata.Ecma335;
-
     partial struct Clr
     {
         [Parser]

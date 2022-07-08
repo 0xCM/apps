@@ -21,7 +21,7 @@ namespace Z0
     {
         ILogixExpr<T> BaseExpr {get;}
 
-        IVarExpr<T>[] Vars {get;}
+        ILogixVarExpr<T>[] Vars {get;}
 
         void SetVars(params ILogixExpr<T>[] values);
 

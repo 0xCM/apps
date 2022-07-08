@@ -12,10 +12,10 @@ namespace Z0
 
         public readonly Index<MemoryAddress> Locations;
 
-        public readonly Index<ProcessModuleRow> Modules;
+        public readonly ReadOnlySeq<ProcessModuleRow> Modules;
 
         [MethodImpl(Inline)]
-        public ProcessImageMap(ProcessMemoryState state, LocatedImageInfo[] images, Index<MemoryAddress> locations, ProcessModuleRow[] modules)
+        public ProcessImageMap(ProcessMemoryState state, LocatedImageInfo[] images, Index<MemoryAddress> locations, ReadOnlySeq<ProcessModuleRow> modules)
         {
             Process = state;
             Images = images;

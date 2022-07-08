@@ -278,5 +278,13 @@ namespace Z0
             TextEncodingKind encoding = TextEncodingKind.Asci, ushort rowpad = 0, RecordFormatKind fk = RecordFormatKind.Tablular)
                 where T : struct
                     => TableEmit(@readonly(rows), dst, encoding, rowpad, fk);
+
+        public void TableEmit<T>(ReadOnlySeq<T> src, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
+            where T : struct
+                => TableEmit(src.View, dst, encoding);
+
+        public void TableEmit<T>(Seq<T> src, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
+            where T : struct
+                => TableEmit(src.View, dst, encoding);
     }
 }

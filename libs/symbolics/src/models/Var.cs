@@ -12,29 +12,41 @@ namespace Z0
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly struct Var : IVar
     {
-        public NameOld Name {get;}
+        public Name Name {get;}
 
-        readonly Func<dynamic> Resolver;
+        readonly Func<object> Resolver;
 
         public Type ValueType {get;}
 
         [MethodImpl(Inline)]
-        public Var(NameOld name, Type t, Func<dynamic> resolver)
+        public Var(Name name, Type t, Func<object> resolver)
         {
             Name = name;
             ValueType = t;
             Resolver = resolver;
         }
 
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Name.IsEmpty;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Name.IsNonEmpty;
+        }
+
         public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => Name.Hash;
+            get => HashCodes.hash(Name);
         }
 
         [MethodImpl(Inline)]
-        public Value<dynamic> Resolve()
-            => new Value<dynamic>(Resolver());
+        public Value<object> Resolve()
+            => new Value<object>(Resolver());
 
         public string Format()
             => api.format(this);

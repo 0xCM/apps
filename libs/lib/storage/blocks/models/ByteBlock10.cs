@@ -12,7 +12,7 @@ namespace Z0
     /// <summary>
     /// 10 bytes of storage
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Size = (int)Size, Pack=1), DataType("block<n:10,t:u8>")]
+    [StructLayout(LayoutKind.Sequential, Size = (int)Size, Pack=1), DataTypeAttributeD("block<n:10,t:u8>")]
     [DataWidth(Size*8,Size*8)]
     public struct ByteBlock10 : IStorageBlock<B>
     {

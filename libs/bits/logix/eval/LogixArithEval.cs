@@ -23,7 +23,7 @@ namespace Z0
             {
                 case ILogixLiteral<T> x:
                     return x.Value;
-                case IVarExpr<T> x:
+                case ILogixVarExpr<T> x:
                     return eval(x);
                 case IArithmeticOpExpr<T> x:
                     return eval(x);
@@ -44,7 +44,7 @@ namespace Z0
         }
 
        [Op, Closures(Closure)]
-       static LogixLiteral<T> eval<T>(IVarExpr<T> expr)
+       static LogixLiteral<T> eval<T>(ILogixVarExpr<T> expr)
             where T : unmanaged
         {
             switch(expr.Value)
