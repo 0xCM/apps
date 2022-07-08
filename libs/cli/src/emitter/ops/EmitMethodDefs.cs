@@ -18,7 +18,7 @@ namespace Z0
             for(var i=0; i<src.Length; i++)
             {
                 ref readonly var a = ref skip(src,i);
-                var reader = CliReader.read(a);
+                var reader = CliReader.create(a);
                 var records = reader.ReadMethodDefInfo();
                 var count = records.Length;
                 for(var j=0; j<count; j++)

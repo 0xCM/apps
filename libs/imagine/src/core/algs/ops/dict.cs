@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct core
+    partial class Algs
     {
         /// <summary>
         /// Initializes an empty dictionary

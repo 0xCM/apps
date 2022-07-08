@@ -37,7 +37,7 @@ namespace Z0
         {
             var dst = FieldMetadataPath(src);
             var flow = EmittingTable<MemberFieldInfo>(dst);
-            var reader = CliReader.read(src);
+            var reader = CliReader.create(src);
             var fields = reader.ReadFieldInfo();
             var count = (uint)fields.Length;
             var formatter = Tables.formatter<MemberFieldInfo>(MemberFieldInfo.RenderWidths);

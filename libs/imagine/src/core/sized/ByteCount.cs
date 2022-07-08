@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using api = Sizes;
+    using api = Sized;
     using V = ByteCount;
 
     public readonly record struct ByteCount : IDataType<ByteCount>
@@ -80,7 +80,7 @@ namespace Z0
         public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => alg.hash.calc(Count);
+            get => HashCodes.hash(Count);
         }
 
         public bool IsEmpty
@@ -142,7 +142,7 @@ namespace Z0
         /// <param name="y">The right operand</param>
         [MethodImpl(Inline)]
         public static V operator +(V x, V y)
-            => math.add(x.Count, y.Count);
+            => x.Count + y.Count;
 
         /// <summary>
         /// Subtracts the second operand from the first.
@@ -151,7 +151,7 @@ namespace Z0
         /// <param name="y">The right operand</param>
         [MethodImpl(Inline)]
         public static V operator - (V x, V y)
-            => math.sub(x.Count, y.Count);
+            => x.Count - y.Count;
 
         /// <summary>
         /// Computes the product of the operands.
@@ -160,7 +160,7 @@ namespace Z0
         /// <param name="y">The right operand</param>
         [MethodImpl(Inline)]
         public static V operator *(in V x, in V y)
-            => math.mul(x.Count,y.Count);
+            => x.Count * y.Count;
 
         /// <summary>
         /// Computes the quotient of the operands.
@@ -169,7 +169,7 @@ namespace Z0
         /// <param name="y">The right operand</param>
         [MethodImpl(Inline)]
         public static V operator /(in V x, in V y)
-            => math.mul(x.Count,y.Count);
+            => x.Count / y.Count;
 
         /// <summary>
         /// Computes the scalar product of the operands
@@ -178,17 +178,15 @@ namespace Z0
         /// <param name="y">The right operand</param>
         [MethodImpl(Inline)]
         public static V operator %(V x, V y)
-            => math.mod(x.Count,y.Count);
+            => x.Count % y.Count;
 
         /// <summary>
-        /// Computes operand difference
+        /// Negates the source operand
         /// </summary>
         /// <param name="x">The left operand</param>
-        /// <param name="y">The right operand</param>
         [MethodImpl(Inline)]
         public static V operator -(in V src)
-            => math.negate(src.Count);
-
+            => 0 - src;
 
         /// <summary>
         /// Determines whether the left operand is less than the second
@@ -196,8 +194,8 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
-        public static bit operator <(V x, V y)
-            => math.lt(x.Count,y.Count);
+        public static bool operator <(V x, V y)
+            => x.Count < y.Count;
 
         /// <summary>
         /// Determines whether the left operand is greater than than the second
@@ -205,8 +203,8 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
-        public static bit operator >(V x, V y)
-            => math.gt(x.Count,y.Count);
+        public static bool operator >(V x, V y)
+            => x.Count > y.Count;
 
         /// <summary>
         /// Determines whether the left operand is less than or equal to the second
@@ -214,8 +212,8 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
-        public static bit operator <=(V x, V y)
-            => math.lteq(x.Count,y.Count);
+        public static bool operator <=(V x, V y)
+            => x.Count <= y.Count;
 
         /// <summary>
         /// Determines whether the left operand is arithmetically greater than or equal to the second
@@ -223,7 +221,7 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
-        public static bit operator >=(V x, V y)
-            => math.gteq(x.Count,y.Count);
+        public static bool operator >=(V x, V y)
+            => x.Count >= y.Count;
     }
 }

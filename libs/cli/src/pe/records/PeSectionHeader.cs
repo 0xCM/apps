@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct PeSectionHeader : IRecord<PeSectionHeader>
+    public struct PeSectionHeader
     {
         public const string TableId = "section.headers";
 

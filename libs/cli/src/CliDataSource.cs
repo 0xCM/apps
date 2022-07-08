@@ -10,22 +10,22 @@ namespace Z0
 
         internal CliDataSource(Assembly src)
         {
-            Reader = CliReader.read(src);
+            Reader = CliReader.create(src);
         }
 
         internal CliDataSource(MetadataReader src)
         {
-            Reader = CliReader.read(src);
+            Reader = CliReader.create(src);
         }
 
         internal CliDataSource(MemorySeg src)
         {
-            Reader = CliReader.read(src);
+            Reader = CliReader.create(src);
         }
 
         internal CliDataSource(PEMemoryBlock src)
         {
-            Reader = CliReader.read(src);
+            Reader = CliReader.create(src);
         }
 
         public CliTableSource<T> TableSouce<T>()

@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.Intrinsics;
-
-    using static Root;
-
     public readonly struct Vec128Kind<T> : IVectorType<Vec128Kind<T>,W128,T>
         where T : unmanaged
     {

@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct Vec512Kind<T> : IVectorType<Vec512Kind<T>,W512,T>
         where T : unmanaged
     {

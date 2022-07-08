@@ -8,24 +8,30 @@ namespace Z0
     public unsafe partial class CliReader
     {
         [Op]
-        public static CliReader read(Assembly src)
+        public static CliReader create(Assembly src)
             => new CliReader(src);
 
         [Op]
-        public static CliReader read(MetadataReader src)
+        public static CliReader create(MetadataReader src)
             => new CliReader(src);
 
         [Op]
-        public static CliReader read(MemorySeg src)
+        public static CliReader create(MemorySeg src)
             => new CliReader(src);
 
         [Op]
-        public static CliReader read(PEMemoryBlock src)
+        public static CliReader create(PEMemoryBlock src)
             => new CliReader(src);
 
         const byte TableCount = (byte)TableIndex.CustomDebugInformation + 1;
 
         readonly MetadataReader MD;
+
+        public ref readonly MetadataReader MetadataReader
+        {
+            [MethodImpl(Inline)]
+            get => ref MD;
+        }
 
         readonly MemorySeg Segment;
 

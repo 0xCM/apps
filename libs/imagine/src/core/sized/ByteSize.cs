@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using api = Sizes;
+    using api = Sized;
 
     /// <summary>
     /// Specifies data size in bytes

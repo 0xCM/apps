@@ -11,11 +11,11 @@ namespace Z0
         FS.FolderPath FieldLiteralTarget
             => ProjectDb.Subdir(CliScope) + FS.folder(MemberFieldName.TableId);
 
-        ReadOnlySpan<Paired<FieldRef,string>> EmitFieldLiterals(ApiPartTypes src)
+        ReadOnlySpan<Paired<FieldRef,string>> EmitFieldLiterals(Assembly src)
         {
-            var fields = ClrFields.literals(src.Types);
+            var fields = ClrFields.literals(src.Types());
             if(fields.Length != 0)
-                return Emit(fields, FieldLiteralTarget + FS.file(src.Part.Format(), FS.Csv));
+                return Emit(fields, FieldLiteralTarget + FS.file(src.GetSimpleName(), FS.Csv));
             else
                 return Index<Paired<FieldRef,string>>.Empty;
         }
@@ -23,18 +23,7 @@ namespace Z0
         public void EmitReflectedLiterals()
         {
             FieldLiteralTarget.Clear();
-            var parts = span(ApiRuntimeCatalog.Parts.Map(part => ApiPartTypes.from(part)));
-            foreach(var part in parts)
-            {
-                try
-                {
-                    EmitFieldLiterals(part);
-                }
-                catch(Exception e)
-                {
-                    Wf.Error(e);
-                }
-            }
+            iter(ApiMd.Components, c => EmitFieldLiterals(c),true);
         }
 
         ReadOnlySpan<Paired<FieldRef,string>> Emit(FieldRef[] src, FS.FilePath dst)

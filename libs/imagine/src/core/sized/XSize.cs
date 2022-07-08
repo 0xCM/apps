@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Sizes;
+    using static Sized;
 
     public static class XDataSize
     {
@@ -16,9 +16,9 @@ namespace Z0
         public static DataSize Sum(this DataSize[] src)
             => sum(src);
 
-        [MethodImpl(Inline), Op]
-        public static DataSize Sum(this Index<DataSize> src)
-            => sum(src);
+        // [MethodImpl(Inline), Op]
+        // public static DataSize Sum(this Index<DataSize> src)
+        //     => sum(src);
 
         [MethodImpl(Inline), Op]
         public static DataSize Sum(this Span<DataSize> src)
@@ -32,9 +32,13 @@ namespace Z0
         public static DataSize Max(this DataSize[] src)
             => max(src);
 
-        [MethodImpl(Inline), Op]
-        public static DataSize Max(this Index<DataSize> src)
-            => max(src);
+        // [MethodImpl(Inline), Op]
+        // public static DataSize Max(this Index<DataSize> src)
+        //     => max(src);
+
+        // [MethodImpl(Inline), Op]
+        // public static DataSize Min(this Index<DataSize> src)
+        //     => min(src);
 
         [MethodImpl(Inline), Op]
         public static DataSize Max(this Span<DataSize> src)
@@ -48,9 +52,6 @@ namespace Z0
         public static DataSize Min(this DataSize[] src)
             => min(src);
 
-        [MethodImpl(Inline), Op]
-        public static DataSize Min(this Index<DataSize> src)
-            => min(src);
 
         [MethodImpl(Inline), Op]
         public static DataSize Min(this Span<DataSize> src)

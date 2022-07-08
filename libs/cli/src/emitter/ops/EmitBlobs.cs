@@ -9,30 +9,25 @@ namespace Z0
     partial class CliEmitter
     {
         IDbTargets BlobTargets()
-            => AppDb.ApiTargets("api.blobs");
+            => AppDb.ApiTargets("metadata/api.blobs");
 
         public void EmitBlobs()
         {
             BlobTargets().Clear();
-            iter(ApiMd.Components, c => EmitBlobs(c),true);
+            iter(ApiMd.Components, c => EmitBlobs(c, BlobTargets().Table<CliBlob>(c.GetSimpleName())), true);
         }
 
-        public ExecToken EmitBlobs(FS.FilePath src, FS.FilePath dst)
+        public void EmitBlobs(Assembly src, FS.FilePath dst)
         {
             var flow = EmittingTable<CliBlob>(dst);
-            using var reader = PeReader.create(src);
-            var rows = reader.ReadBlobInfo();
-            var count = (uint)rows.Length;
-            var formatter = Tables.formatter<CliBlob>(16);
+            var reader = CliReader.create(src);
+            var blobs = reader.ReadBlobs();
             using var writer = dst.Writer();
+            var formatter = Tables.formatter<CliBlob>(16);
             writer.WriteLine(formatter.FormatHeader());
-            for(var i=0; i<count; i++)
-                writer.WriteLine(formatter.Format(skip(rows,i)));
-
-            return EmittedTable<CliBlob>(flow, rows.Length);
+            for(var i=0; i<blobs.Length; i++)
+                writer.WriteLine(formatter.Format(skip(blobs,i)));
+            EmittedTable(flow, blobs.Length);
         }
-
-        public ExecToken EmitBlobs(Assembly src)
-            => EmitBlobs(FS.path(src.Location), BlobTargets().Table<CliBlob>(src.GetSimpleName()));
     }
 }

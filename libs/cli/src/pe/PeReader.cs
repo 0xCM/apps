@@ -51,7 +51,7 @@ namespace Z0
         }
 
         CliReader CliReader()
-            => Z0.CliReader.read(MetadataBlock);
+            => Z0.CliReader.create(MetadataBlock);
 
         public PeReader(FS.FilePath src)
         {
@@ -60,9 +60,6 @@ namespace Z0
             PE = new PEReader(Stream);
         }
 
-        [MethodImpl(Inline)]
-        public unsafe ReadOnlySpan<byte> Read(PEMemoryBlock src)
-            => cover<byte>(src.Pointer, src.Length);
 
         public void Dispose()
         {

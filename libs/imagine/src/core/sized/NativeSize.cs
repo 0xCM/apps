@@ -29,13 +29,13 @@ namespace Z0
         public BitWidth Width
         {
             [MethodImpl(Inline)]
-            get => Sizes.width(Code);
+            get => Sized.width(Code);
         }
 
         public ByteSize ByteCount
         {
             [MethodImpl(Inline)]
-            get => Sizes.bytes(Code);
+            get => Sized.bytes(Code);
         }
 
         [MethodImpl(Inline)]
@@ -56,7 +56,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator NativeSize(NativeTypeWidth src)
-            => Sizes.native((uint)src);
+            => Sized.native((uint)src);
 
         [MethodImpl(Inline)]
         public static implicit operator NativeSizeCode(NativeSize src)

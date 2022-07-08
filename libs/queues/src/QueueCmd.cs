@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Free]
-    public unsafe class QueueCmd : CmdService<QueueCmd>
+    public unsafe class QueueCmd : AppCmdService<QueueCmd>
     {
 
     }

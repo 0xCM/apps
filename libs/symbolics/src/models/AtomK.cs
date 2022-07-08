@@ -9,13 +9,14 @@ namespace Z0
     /// </summary>
     public readonly struct Atom<K> : IAtom<K>
     {
-        public K Value {get;}
+        public readonly K Value {get;}
 
         [MethodImpl(Inline)]
         public Atom(K value)
         {
             Value = value;
         }
+
         public string Format()
             => Value.ToString();
 

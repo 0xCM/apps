@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Reflection;
-
-    using static Root;
     using static core;
 
     /// <summary>
@@ -16,9 +11,9 @@ namespace Z0
     /// </summary>
     public readonly struct FieldRef : INullity
     {
-        public MemorySeg Segment {get;}
+        public readonly MemorySeg Segment;
 
-        public FieldInfo Field {get;}
+        public readonly FieldInfo Field;
 
         [MethodImpl(Inline)]
         public FieldRef(FieldInfo field, MemorySeg seg)

@@ -111,6 +111,23 @@ namespace Z0
             TableEmit(Cil.opcodes(), AppDb.DbOut("clr").Path("cil.opcodes", FileKind.Csv));
         }
 
+        [CmdOp("api/emit/corelib")]
+        void EmitCorLib()
+        {
+            var src = Clr.corlib();
+            var reader = CliReader.create(src);
+            var blobs = reader.ReadBlobs();
+            for(var i=0; i<blobs.Length; i++)
+            {
+                ref readonly var blob = ref skip(blobs,i);
+                Write(string.Format("{0,-8} | {1,-8} | {2,-8}", blob.Seq, blob.Offset, blob.DataSize));
+            }
+
+            // var dst = AppDb.ApiTargets("metadata").Path(src.GetSimpleName(),FileKind.Txt);
+            // CliEmitter.EmitMetadump(src,dst);
+        }
+
+
         [CmdOp("api/emit/index")]
         void EmitRuntimeMembers()
             => ApiMd.EmitIndex(ApiMd.CalcRuntimeMembers());

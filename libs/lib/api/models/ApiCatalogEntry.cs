@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct ApiCatalogEntry : IRecord<ApiCatalogEntry>
+    public struct ApiCatalogEntry
     {
         public const string TableId = "api.catalog";
 
@@ -23,9 +23,9 @@ namespace Z0
 
         public ByteSize MaxSize;
 
-        public NameOld PartName;
+        public string PartName;
 
-        public NameOld HostName;
+        public string HostName;
 
         public OpUri OpUri;
     }

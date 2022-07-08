@@ -18,25 +18,25 @@ namespace Z0
         [MethodImpl(Inline)]
         internal CliTableSource(Assembly src)
         {
-            Reader = CliReader.read(src);
+            Reader = CliReader.create(src);
         }
 
         [MethodImpl(Inline)]
         internal CliTableSource(MetadataReader src)
         {
-            Reader = CliReader.read(src);
+            Reader = CliReader.create(src);
         }
 
         [MethodImpl(Inline)]
         internal CliTableSource(MemorySeg src)
         {
-            Reader = CliReader.read(src);
+            Reader = CliReader.create(src);
         }
 
         [MethodImpl(Inline)]
         internal CliTableSource(PEMemoryBlock src)
         {
-            Reader = CliReader.read(src);
+            Reader = CliReader.create(src);
         }
     }
 }

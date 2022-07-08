@@ -44,24 +44,13 @@ namespace Z0
             TableEmit(src, dst);
         }
 
-        [CmdOp("api/deps/corelib")]
-        void LoadCorLib()
-        {
-            var src = Clr.corlib();
-            src.References();
-
-        }
-
         [CmdOp("api/impls")]
         void EmitImplMaps()
         {
             var src = Clr.impls(Parts.Lib.Assembly, Parts.Lib.Assembly);
             using var writer = AppDb.ApiTargets().Path("api.impl.maps",FileKind.Map).Utf8Writer();
             for(var i=0; i<src.Count; i++)
-            {
                 src[i].Render(s => writer.WriteLine(s));
-            }
-
         }
 
     }

@@ -102,7 +102,7 @@ namespace Z0
         {
             if(ApiMd.Catalog.FindComponent(part, out var component))
             {
-                dst = CliReader.read(component);
+                dst = CliReader.create(component);
                 return true;
             }
             else
@@ -318,7 +318,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var component = ref skip(src,i);
-                var reader = CliReader.read(component);
+                var reader = CliReader.create(component);
                 seek(dst,i) = reader.BlobHeap();
             }
             return buffer;
@@ -332,7 +332,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var component = ref skip(src,i);
-                var reader = CliReader.read(component);
+                var reader = CliReader.create(component);
                 seek(dst,i) = reader.GuidHeap();
             }
             return buffer;
@@ -347,7 +347,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var component = ref skip(src,i);
-                var reader = CliReader.read(component);
+                var reader = CliReader.create(component);
                 seek(dst,j++) = reader.StringHeap(CliStringKind.System);
                 seek(dst,j++) = reader.StringHeap(CliStringKind.User);
             }

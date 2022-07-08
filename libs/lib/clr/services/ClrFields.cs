@@ -4,7 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Spans;
+    using static Arrays;
+    using static Refs;
+    using static Algs;
+    using static Pointers;
     using static ReflectionFlags;
 
     [ApiHost]
@@ -45,7 +49,7 @@ namespace Z0
             where T : struct
         {
             var fields = span(typeof(T).DeclaredFields());
-            var dst = alloc<ClrFieldValue>(fields.Length);
+            var dst = sys.alloc<ClrFieldValue>(fields.Length);
             values(src, fields, dst);
             return dst;
         }
@@ -62,7 +66,7 @@ namespace Z0
             where S : struct
         {
             var fields = @readonly(typeof(S).DeclaredInstanceFields());
-            var buffer = alloc<StructField<S>>(fields.Length);
+            var buffer = sys.alloc<StructField<S>>(fields.Length);
             var dst = span(buffer);
             ref var target = ref first(dst);
             var tRef = __makeref(src);
@@ -167,13 +171,13 @@ namespace Z0
         [Op]
         public static FieldRef[] literals(ReadOnlySpan<Type> src)
         {
-            var dst = list<FieldRef>();
+            var dst = Lists.list<FieldRef>();
             var count = src.Length;
             for(var i=0u; i<count; i++)
             {
                 var type = skip(src,i);
                 var fields = ClrLiterals.search(type);
-                var @base = address(type);
+                var @base = core.address(type);
                 var offset = MemoryAddress.Zero;
                 for(var j=0u; j<fields.Length; j++)
                 {

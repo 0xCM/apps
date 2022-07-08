@@ -20,7 +20,7 @@ namespace Z0
             {
                 ref readonly var a = ref skip(src,i);
                 var assname = a.GetSimpleName();
-                var reader = CliReader.read(a);
+                var reader = CliReader.create(a);
                 var handles = reader.FieldDefHandles();
                 var count = handles.Length;
                 for(var j=0; j<count; j++)

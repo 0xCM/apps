@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using api = Sizes;
+    using api = Sized;
 
     public readonly struct Kb
     {
@@ -47,7 +47,6 @@ namespace Z0
 
         public string Format()
             => string.Format("{0} {1}", Count != 0 ? Count.ToString("#,#") : "0", UOM);
-
 
         public override string ToString()
             => Format();
