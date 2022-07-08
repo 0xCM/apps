@@ -7,7 +7,7 @@ namespace Z0
     using W = W8;
     using T = Rel8;
 
-    public readonly record struct Rel8 : IRelOp<byte>
+    public readonly record struct Rel8 : IRelOp<byte>, IDataType<Rel8>
     {
         public readonly byte Value;
 

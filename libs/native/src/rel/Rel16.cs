@@ -7,7 +7,7 @@ namespace Z0
     using W = W32;
     using T = Rel16;
 
-    public readonly record struct Rel16 : IRelOp<ushort>
+    public readonly record struct Rel16 : IRelOp<ushort>, IDataType<Rel16>
     {
         public readonly ushort Value;
 

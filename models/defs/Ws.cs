@@ -4,15 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Free]
-    public interface IVar : IExprDeprecated, ITerm
-    {
+    using Abstractions;
 
-    }
-
-    [Free]
-    public interface IVar<T> : IVar, ITerm
+    partial class Models
     {
-        T Value {get;}
+        public sealed record class Ws : Ws<Ws>
+        {
+
+        }
+
     }
 }

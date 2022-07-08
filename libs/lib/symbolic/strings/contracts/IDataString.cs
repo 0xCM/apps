@@ -2,10 +2,17 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Abstractions
+namespace Z0
 {
-    public abstract record class Workspace<W> : Entity<W>
-        where W : Workspace<W>, new()
+    [Free]
+    public interface IDataString : IDataType, IExpr
+    {
+
+    }
+
+    [Free]
+    public interface IDataString<K> : IDataString
+        where K : IExpr, IDataType<K>
     {
 
     }

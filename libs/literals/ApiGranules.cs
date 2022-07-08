@@ -447,5 +447,7 @@ namespace Z0
         public const string xeddisasm_detail = xed + Dot + disasm + Dot + detail;
 
         public const string yamltok = yaml + Dot + tok;
+
+        public const string cmdkvp = cmd + Dot + kvp;
     }
 }

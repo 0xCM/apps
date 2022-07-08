@@ -24,7 +24,7 @@ namespace Z0
 
     [Free]
     public interface ISysVar<N,V> : ISysVar<V>
-        where N : unmanaged, INamed<N>
+        where N : unmanaged, IDataType<N>, IExpr
         where V : IEquatable<V>, IComparable<V>, new()
     {
         new N Name {get;}
@@ -35,7 +35,7 @@ namespace Z0
 
     [Free]
     public interface ISysVar<S,N,V> : IEquatable<S>, IComparable<S>
-        where N : unmanaged, INamed<N>
+        where N : unmanaged, IDataType<N>, IExpr
         where V : IEquatable<V>, IComparable<V>, new()
     {
 

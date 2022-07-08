@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly record struct VarName<T> : INamed<VarName<T>>
+    public readonly record struct VarName<T>
         where T : unmanaged, IAsciSeq<T>
     {
         public readonly T Data;

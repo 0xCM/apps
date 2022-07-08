@@ -10,7 +10,7 @@ namespace Z0
     /// Defines potential values for machine-aligned data widths
     /// </summary>
     [DataWidth(8)]
-    public readonly struct AlignedWidth : IFormattableDataType<AlignedWidth>
+    public readonly struct AlignedWidth : IDataString<AlignedWidth>, IDataType<AlignedWidth>
     {
         readonly byte Data;
 

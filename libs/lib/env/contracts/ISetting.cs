@@ -7,13 +7,8 @@ namespace Z0
     /// <summary>
     /// Characterizes a nonparametric application setting
     /// </summary>
-    public interface ISetting
+    public interface ISetting : INamed
     {
-        /// <summary>
-        /// The setting name
-        /// </summary>
-        Name Name {get;}
-
         /// <summary>
         /// The setting value
         /// </summary>
@@ -31,12 +26,9 @@ namespace Z0
             => Value.ToString();
     }
 
-    public interface ISetting<K,V> : ISetting<V>
-        where K : unmanaged, INamed<K>
+    public interface ISetting<K,V> : ISetting<V>, INamed<K>
+        where K : IExpr, IDataType<K>
     {
-        new K Name {get;}
 
-        Name ISetting.Name
-            => Name.Format();
     }
 }

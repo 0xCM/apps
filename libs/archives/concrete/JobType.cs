@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly record struct JobType : INamed<JobType>
+    public readonly record struct JobType
     {
         public readonly asci16 Name;
 

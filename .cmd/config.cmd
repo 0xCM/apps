@@ -88,6 +88,11 @@ set BuildCgSln=%BuildTool% %CgRoot%\z0.cg.sln %BuildProps% -fl -flp:logfile=%Sln
 set MainSln=%WsRoot%\z0.sln
 set BuildMain=%BuildTool% %MainSln% %BuildProps% -fl -flp:logfile=%SlnBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 
+set ModelWs=%WsRoot%\models
+: set ModelBuildLog=%WsLogs%\z0.models.build.log
+set ModelProject=%ModelWs%\z0.models.csproj
+set BuildModels=%BuildTool% %ModelProject% %BuildProps% -fl -flp:logfile=%BuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
+
 set CmdShellRoot=%WsRoot%\cmd
 set CmdProject=%CmdShellRoot%\z0.cmd.csproj
 set BuildCmdShell=%BuildTool% %CmdProject% %BuildProps% -fl -flp:logfile=%BuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24

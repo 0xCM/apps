@@ -4,24 +4,26 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+
     /// <summary>
     /// Characterizes something with a name
     /// </summary>
-    public interface INamed : ITextual, IDataType
+    public interface INamed : IDataString
     {
-        NameOld Name {get;}
+        Name Name {get;}
 
-        string ToString()
-            => Name.ToString();
+        string IExpr.Format()
+            => Name.Format();
 
-        string ITextual.Format()
-            => Name;
     }
 
     [Free]
-    public interface INamed<T> : IDataType<T>
-        where T : unmanaged, INamed<T>
+    public interface INamed<T> : INamed, IDataString<T>
+        where T : IExpr, IDataType<T>
     {
-        string Format();
+        new T Name {get;}
+
+        Name INamed.Name
+            => new Name(Name.Format());
     }
 }

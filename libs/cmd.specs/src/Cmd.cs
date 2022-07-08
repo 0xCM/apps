@@ -11,9 +11,37 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
+        public static CmdSource source(IDispatcher src)
+        {
+            var actions = src.Commands.Specs.Index().Sort().Index();
+            var part = src.Controller;
+            var count = actions.Count;
+            var buffer = sys.alloc<Setting64>(count);
+            var dst = Settings64.load(buffer);
+            for(var i=0; i<actions.Count; i++)
+                seek(buffer,i) = Settings.setting(string.Format("{0}[{1:D3}]", part, i), (asci64)actions[i]);
+            return new CmdSource("", dst);
+        }
+
         public static ActionDispatcher dispatcher<T>(T svc, CmdActions actions)
             where T : ICmdService
                 => Cmd.dispatcher(actions);
+
+        public static void emit(ICmdSource src, FS.FilePath dst, WfEventLogger log)
+        {
+            log(Events.emittingFile(dst));
+            var commands = src.Commands;
+            using var writer = dst.AsciWriter();
+            for(var i=0; i<src.Count; i++)
+            {
+                ref readonly var cmd = ref commands[i];
+                var fmt = cmd.Format();
+                log(Events.row(fmt));
+                writer.WriteLine(fmt);
+            }
+
+            log(Events.emittedFile(dst, src.Count));
+        }
 
         public static void emit(IDispatcher dispatcher, FS.FilePath dst, WfEventLogger log)
         {

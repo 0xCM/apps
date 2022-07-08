@@ -6,7 +6,7 @@ namespace Z0
 {
     public abstract class SysVar<S,N,V> : ISysVar<N,V>
         where S : SysVar<S,N,V>
-        where N : unmanaged, INamed<N>
+        where N : unmanaged, IDataType<N>, IExpr
         where V : IEquatable<V>, IComparable<V>, new()
     {
         public N Name  {get; private set;}

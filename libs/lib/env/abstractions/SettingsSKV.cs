@@ -4,31 +4,24 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class Settings<K,V> : ReadOnlySeq<Setting<K,V>>, ILookup<K,V>
+    public abstract class Settings<S,K,V> : ReadOnlySeq<S,Setting<K,V>>, ILookup<K,V>
         where K : unmanaged, IExpr, IDataType<K>
+        where S : Settings<S,K,V>, new()
     {
-        readonly ConstLookup<K,V> Lookup;
 
-        public static Settings<K,V> load(params Setting<K,V>[] src)
-            => new Settings<K,V>(src);
+        readonly ConstLookup<K,V> Lookup;
 
         public Settings()
         {
             Lookup = ConstLookup<K,V>.Empty;
         }
 
-        public Settings(Setting<K,V>[] data)
+        protected Settings(Setting<K,V>[] data)
             : base(data)
         {
             var dst = core.dict<K,V>();
             core.iter(data, s => dst.TryAdd(s.Name,s.Value));
             Lookup = dst;
-        }
-
-        public Settings(Setting<K,V>[] data, Dictionary<K,V> lookup)
-            : base(data)
-        {
-            Lookup = lookup;
         }
 
         public V Find(K name, V @default)
@@ -45,6 +38,6 @@ namespace Z0
 
         public override Fence<char>? Fence => null;
 
-        public static new Settings<K,V> Empty => new Settings<K,V>();
+        public static new S Empty => new S();
     }
 }

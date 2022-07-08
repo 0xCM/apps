@@ -14,6 +14,10 @@ namespace Z0
     public class Settings : IIndex<Setting>, ILookup<string,Setting>
     {
         [MethodImpl(Inline), Op]
+        public static Setting64 setting(Name name, asci64 value)
+            => new Setting64(name,value);
+
+        [MethodImpl(Inline), Op]
         public static Setting<Name,V> asci<V>(Name name, V value)
             where V : IAsciSeq<V>
                 => new Setting<Name,V>(name,value);
@@ -34,7 +38,6 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static Setting<T> setting<T>(Name name, T value)
             => new Setting<T>(name,value);
-
 
         [MethodImpl(Inline), Op]
         public static Settings define(params Setting[] src)

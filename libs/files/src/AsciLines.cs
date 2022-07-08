@@ -295,7 +295,7 @@ namespace Z0
 
         [Op]
         public static bool search<K,T>(in Settings<K,T> src, K key, out Setting<K,T> value)
-            where K : unmanaged, INamed<K>, IEquatable<K>
+            where K : unmanaged, IDataType<K>, IExpr
         {
             value = Setting<K,T>.Empty;
             var result = false;

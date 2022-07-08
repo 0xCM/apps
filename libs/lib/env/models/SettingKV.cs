@@ -5,7 +5,7 @@
 namespace Z0
 {
     public readonly struct Setting<K,V> : ISetting<K,V>, IComparable<Setting<K,V>>
-        where K : unmanaged, INamed<K>
+        where K : unmanaged, IExpr, IDataType<K>
     {
         public readonly K Name;
 
@@ -16,6 +16,18 @@ namespace Z0
         {
             Name = name;
             Value = value;
+        }
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Name.IsEmpty;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Name.IsEmpty;
         }
 
         public Hash32 Hash
@@ -39,7 +51,7 @@ namespace Z0
         public override string ToString()
             => Format();
 
-        K ISetting<K,V>.Name
+        K INamed<K>.Name
             => Name;
 
         V ISetting<V>.Value

@@ -5,7 +5,7 @@
 namespace Z0
 {
     public sealed class SysVar<N,V> : SysVar<SysVar<N,V>, N,V>
-        where N : unmanaged, INamed<N>
+        where N : unmanaged, IDataType<N>, IExpr
         where V : IEquatable<V>, IComparable<V>, new()
     {
         public SysVar(N name)

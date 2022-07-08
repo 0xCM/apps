@@ -27,7 +27,7 @@ namespace Z0
     /// <summary>
     /// Defines a cli signature
     /// </summary>
-    public readonly struct CliSig : IFormattableDataType<CliSig>
+    public readonly struct CliSig : IDataString<CliSig>, IDataType<CliSig>
     {
         [Op]
         public static string format(CliSig src)

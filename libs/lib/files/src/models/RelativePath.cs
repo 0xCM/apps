@@ -6,7 +6,7 @@ namespace Z0
 {
     partial struct FS
     {
-        public readonly struct RelativePath : IFsEntry<RelativePath>
+        public readonly struct RelativePath :  IDataType<RelativePath>, IFsEntry<RelativePath>
         {
             public PathPart Name {get;}
 

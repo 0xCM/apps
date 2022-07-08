@@ -2,15 +2,15 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Abstractions
+namespace Z0
 {
-    public interface IWorkspace : IEntity
+    public interface IName : IDataString
     {
 
     }
 
-    public interface IWorkspace<W> : IWorkspace, IEntity<W>
-        where W : IEntity<W>, new()
+    public interface IName<T> : IName, IDataString<T>
+        where T : IDataType<T>, IExpr
     {
 
     }

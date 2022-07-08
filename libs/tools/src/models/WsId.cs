@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly record struct WsId : IDataType<WsId>, INamed<WsId>
+    public readonly record struct WsId : IDataType<WsId>, IExpr
     {
         readonly asci32 Data;
 

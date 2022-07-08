@@ -26,7 +26,6 @@ namespace Z0
 
         public void RunCmd(string name)
         {
-            //var running = Running($"Executing {name}");
             var result = Dispatcher.Dispatch(name);
             if(result.Fail)
                 Error(result.Message);
@@ -39,7 +38,9 @@ namespace Z0
 
         [CmdOp("commands")]
         protected void EmitCommands()
-            => EmitCommands(Dispatcher, ExecutingPart.Id);
+        {
+            EmitCommands(Cmd.source(Dispatcher), ExecutingPart.Id);
+        }
 
         public bool Dispatch(ShellCmdSpec cmd)
         {

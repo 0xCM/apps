@@ -6,7 +6,7 @@ namespace Z0
 {
     using static FS;
 
-    public interface IFsEntry : IFormattableDataType
+    public interface IFsEntry : IDataString
     {
         PathPart Name {get;}
 
@@ -26,7 +26,7 @@ namespace Z0
             => Hash;
     }
 
-    public interface IFsEntry<F> : IFsEntry, IFormattableDataType<F>
+    public interface IFsEntry<F> : IFsEntry, IDataString<F>, IDataType<F>
         where F : struct, IFsEntry<F>
     {
         bool IEquatable<F>.Equals(F src)

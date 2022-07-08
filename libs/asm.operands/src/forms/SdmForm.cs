@@ -5,7 +5,7 @@
 namespace Z0
 {
     [StructLayout(LayoutKind.Sequential,Pack=1)]
-    public readonly record struct SdmForm : IFormattableDataType<SdmForm>
+    public readonly record struct SdmForm : IDataType<SdmForm>, IExpr
     {
         public readonly Hex32 Id;
 

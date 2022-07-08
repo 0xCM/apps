@@ -54,8 +54,11 @@ namespace Z0
         public Settings ShellSettings()
             => AsciLines.settings(Settings.path());
 
-        protected void EmitCommands(IDispatcher src, PartName part)
-            => Cmd.emit(src, Settings.path(AppDb.ApiTargets(commands).Root, $"{part}.{commands}", FileKind.Kvp), EventLog);
+        // protected void EmitCommands(IDispatcher src, PartName part)
+        //     => Cmd.emit(src, Settings.path(AppDb.ApiTargets(commands).Root, $"{part}", FileKind.Kvp), EventLog);
+
+        protected void EmitCommands(CmdSource src, PartName part)
+            => Cmd.emit(src, Settings.path(AppDb.ApiTargets(commands).Root, $"{part}", FileKind.CmdKvp), EventLog);
 
         [MethodImpl(Inline)]
         public IWsProject Project()

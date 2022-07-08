@@ -7,7 +7,7 @@ namespace Z0
     using W = W32;
     using I = Rel32;
 
-    public readonly record struct Rel32 : IRelOp<uint>, IFormattableDataType<Rel32>
+    public readonly record struct Rel32 : IRelOp<uint>, IDataString<Rel32>, IDataType<Rel32>
     {
         public readonly uint Value;
 

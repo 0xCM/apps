@@ -52,7 +52,7 @@ namespace Z0
             get => core.hash(Name) | (Hash32)(Value?.GetHashCode() ?? 0);
         }
 
-        Name ISetting.Name
+        Name INamed.Name
             => Name;
 
         string ISetting.Value
@@ -78,5 +78,7 @@ namespace Z0
             [MethodImpl(Inline)]
             get => new (EmptyString, 0, EmptyString);
         }
+
+
     }
 }

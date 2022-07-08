@@ -4,9 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Abstractions
 {
-    public abstract record class Workspace<W,P> : Workspace<W>
-        where W : Workspace<W,P>,new()
-        where P : IProject, new()
+    public abstract record class Ws<W> : Entity<W>
+        where W : Ws<W>, new()
     {
 
     }
