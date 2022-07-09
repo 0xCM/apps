@@ -52,8 +52,8 @@ namespace Z0
                 if(options.CollectApiDocs)
                     Wf.ApiComments().Collect();
 
-                if(options.ProcessCultFiles)
-                    Wf.CultProcessor().RunEtl();
+                // if(options.ProcessCultFiles)
+                //     Wf.CultProcessor().RunEtl();
 
                 //Wf.CliEmitter().Emit(options,ts);
 

@@ -21,7 +21,6 @@ namespace Z0
 
         string ITextual.Format()
             => ICmdSpecImpl.format(this);
-
     }
 
     static class ICmdSpecImpl
@@ -46,11 +45,10 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var field = ref skip(fields,i);
-                dst.AppendFormat(RpOps.Assign, field.Name, field.GetValueDirect(src));
+                dst.AppendFormat(RP.Assign, field.Name, field.GetValueDirect(src));
                 if(i != count - 1)
                     dst.Append(", ");
             }
         }
-
     }
 }

@@ -12,6 +12,34 @@ namespace Z0
         public Identifier ScriptId(CmdName cmd, FS.FileExt ext)
             => string.Format("{0}.{1}.{2}", Id, ext.Name, CmdSymbols[cmd].Expr);
 
+
+
+
+        public void ParseDisassembly()
+        {
+            var src = FS.path(@"C:\Data\zdb\tools\dumpbin\output\xxhsum.exe.disasm.asm");
+            var dir = Db.AppLogRoot();
+            var processor = AsmProcessor();
+            var dst = dir + FS.file("xxhsum", FS.Asm);
+            processor.ParseDisassembly(src,dst);
+        }
+
+        [CmdOp("asm/refs/import")]
+        void ImportAsmRefs()
+        {
+            ImportNasmCatalog();
+            ImportCultData();
+        }
+
+        [CmdOp("asm/nasm/import")]
+        void ImportNasmCatalog()
+            => Wf.NasmCatalog().ImportInstructions();
+
+        [CmdOp("asm/cult/import")]
+        void ImportCultData()
+            => Wf.CultProcessor().RunEtl();
+
+
         public DumpBinProcessor AsmProcessor()
             => DumpBinProcessor.create(Wf);
 

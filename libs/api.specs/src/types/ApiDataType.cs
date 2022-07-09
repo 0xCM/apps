@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static HashCodes;
 
-    public readonly record struct ApiDataType : IComparable<ApiDataType>
+    public readonly record struct ApiDataType : IDataType<ApiDataType>
     {
         public readonly Type Definition;
 
@@ -22,9 +22,13 @@ namespace Z0
         public string Name
         {
             [MethodImpl(Inline)]
-            get => Definition.DisplayName();
+            get => Definition.Name;
         }
 
+        public bool IsEmpty
+        {
+            get => false;
+        }
         public Assembly Assembly
         {
             [MethodImpl(Inline)]

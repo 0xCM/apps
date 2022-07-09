@@ -10,19 +10,14 @@ namespace Z0
     [AttributeUsage(AttributeTargets.Struct)]
     public class CmdAttribute : Attribute
     {
-        public CmdAttribute()
-        {
-            Name = "";
-        }
-
-        public CmdAttribute(string name)
+        public CmdAttribute(string name, string desc = EmptyString)
         {
             Name = name;
+            Description = desc;
         }
 
-        /// <summary>
-        /// The commoan name that serves as a contextual identifier
-        /// </summary>
         public string Name {get;}
+
+        public string Description {get;}
     }
 }

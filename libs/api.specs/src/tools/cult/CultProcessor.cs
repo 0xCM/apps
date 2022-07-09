@@ -122,10 +122,10 @@ namespace Z0
                 if(src.RecordKind == CultRecordKind.Statement)
                 {
                     AsmExpr.parse(src.Statement, out var expr);
-                    AsmLines.Add(new AsmSourceLine(src.LineNumber, AsmLineClass.AsmSource, EmptyString, expr, asm.comment(src.Comment)));
+                    AsmLines.Add(new AsmSourceLine(src.LineNumber, AsmLineClass.AsmSource, EmptyString, expr, new AsmComment(src.Comment)));
                 }
                 else if(src.RecordKind == CultRecordKind.Label)
-                    AsmLines.Add(new AsmSourceLine(src.LineNumber, AsmLineClass.Label, src.Label.Format(), EmptyString, asm.comment(src.Comment)));
+                    AsmLines.Add(new AsmSourceLine(src.LineNumber, AsmLineClass.Label, src.Label.Format(), EmptyString, new AsmComment(src.Comment)));
                 else if(src.RecordKind == CultRecordKind.Summary)
                 {
                     var summary = Summarize(src);
@@ -191,7 +191,7 @@ namespace Z0
             var bitstring = RpOps.Error;
             var formatted = FormatBytes(comment, out var count);
             if(Hex.hexdata(formatted, out var parsed))
-                bitstring = asm.asmhex(parsed).BitString;
+                bitstring = AsmHexCode.load(parsed).BitString;
 
             if(count != 0)
                 comment = string.Format(StatementCommentPattern, comment, count, formatted, bitstring);
@@ -269,8 +269,8 @@ namespace Z0
             var path = DetailPath(summary.Mnemonic);
             using var writer = path.Writer(true);
             writer.WriteLine();
-            writer.WriteLine(asm.comment(summary.Id));
-            writer.WriteLine(asm.comment(PageBreak));
+            writer.WriteLine(new AsmComment(summary.Id.Format()));
+            writer.WriteLine(new AsmComment(PageBreak));
 
             if(AsmLines.IsNonEmpty)
             {

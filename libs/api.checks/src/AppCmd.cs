@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Free]
-    unsafe class AppCmd : AppCmdService<AppCmd>
+    partial class AppCmd : AppCmdService<AppCmd>
     {
         public static ICmdProvider[] providers(IWfRuntime wf)
             => new ICmdProvider[]{

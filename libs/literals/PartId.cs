@@ -19,6 +19,9 @@ public enum PartId : byte
     [Symbol("asm.svc")]
     AsmSvc,
 
+    [Symbol("api.specs")]
+    ApiSpecs,
+
     [Symbol("asm.prototypes")]
     AsmPrototypes,
 

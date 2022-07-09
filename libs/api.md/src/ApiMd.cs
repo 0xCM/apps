@@ -56,9 +56,6 @@ namespace Z0
         public Index<ComponentAssets> ApiAssets
             => data(K.ApiAssets, () => CalcApiAssets());
 
-        public Index<ApiTypeInfo> ApiTypes
-            => data(K.ApiType, () => ApiDataTypes.describe(ApiDataTypes.discover(Components)));
-
         public Index<ApiCmdRow> ApiCommands
             => data(K.ApiCommands, CalcApiCommands);
 
@@ -223,7 +220,9 @@ namespace Z0
             => Emit(DataFlows);
 
         void EmitDataTypes()
-            => Emit(ApiTypes);
+        {
+
+        }
 
         void EmitApiTables()
             => Emit(ApiTableFields);

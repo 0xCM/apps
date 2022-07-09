@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     using System.IO;
 
     using static core;
@@ -47,16 +46,12 @@ namespace Z0
                     seek(buffer,i++) = Chars.D0;
                     seek(buffer,i++) = Chars.x;
                     Hex.render(LowerCase, (Hex64)current, ref i, buffer);
-                    //i += Hex.hexchars((Hex64)current, LowerCase, ref i, buffer);
                     seek(buffer,i++) = Chars.Space;
-                    //line.Append(string.Format("0x{0} ", current.Format()));
                     restart = false;
                 }
 
                 i += Hex.hexchars(*pSrc, LowerCase, ref i, buffer);
                 seek(buffer, i++) = Chars.Space;
-                // var @string = text.format(slice(buffer,0, counter));
-                // line.Append($"{@string} ");
 
                 if(offset % bpl == 0)
                 {

@@ -8,13 +8,13 @@ namespace Z0
     using static Root;
 
     [ApiHost]
-    public sealed partial class BdDisasm : ToolService<BdDisasm>
+    public sealed partial class BdDisasm : AppService<BdDisasm>
     {
-        public BdDisasm()
-         : base(Tools.bddisasm)
-         {
+        // public BdDisasm()
+        //  : base(Tools.bddisasm)
+        //  {
 
-         }
+        //  }
 
         [Op]
         public static uint render(Bitness src, ref uint i, Span<char> dst)

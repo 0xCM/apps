@@ -8,7 +8,7 @@ namespace Z0
 
     public readonly struct ClrFieldAdapter : IRuntimeMember<ClrFieldAdapter,FieldInfo>
     {
-        public FieldInfo Definition {get;}
+        public readonly FieldInfo Definition {get;}
 
         [MethodImpl(Inline)]
         public ClrFieldAdapter(FieldInfo src)

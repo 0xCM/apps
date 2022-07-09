@@ -7,6 +7,8 @@
 
   <ItemGroup>
     <ProjectReference Include="$(AsmCore)" />
+    <ProjectReference Include="$(ApiSpecs)" />
+
   </ItemGroup>
 
 </Project>

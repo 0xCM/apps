@@ -134,14 +134,5 @@ namespace Z0.Asm
             Wf.EmittedFile(flow,projects.Length);
         }
 
-        public void ParseDisassembly()
-        {
-            var src = FS.path(@"C:\Data\zdb\tools\dumpbin\output\xxhsum.exe.disasm.asm");
-            var dir = Db.AppLogRoot();
-            var processor = Wf.DumpBin().AsmProcessor();
-            var dst = dir + FS.file("xxhsum", FS.Asm);
-            processor.ParseDisassembly(src,dst);
-        }
-
     }
 }

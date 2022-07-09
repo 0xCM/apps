@@ -11,6 +11,7 @@
     <ApiMd>$(LibsRoot)api.md/z0.api.md.csproj</ApiMd>
     <ApiCmd>$(LibsRoot)api.cmd/z0.api.cmd.csproj</ApiCmd>
     <ApiChecks>$(LibsRoot)api.checks/z0.api.checks.csproj</ApiChecks>
+    <ApiSpecs>$(LibsRoot)api.specs/z0.api.specs.csproj</ApiSpecs>
 
     <Asm>$(LibsRoot)asm/z0.asm.csproj</Asm>
     <AsmCore>$(LibsRoot)asm.core/z0.asm.core.csproj</AsmCore>

@@ -5,10 +5,12 @@
     <TargetFramework>$(FrameworkMoniker)</TargetFramework>
   </PropertyGroup>
 
-
   <ItemGroup>
-    <ProjectReference Include="$(AsmCore)" />
-    <ProjectReference Include="$(ApiSpecs)" />
+    <ProjectReference Include="$(CmdSpecs)" />
+    <ProjectReference Include="$(CmdTools)" />
+    <ProjectReference Include="$(CmdSvc)" />
+    <ProjectReference Include="$(AsmModels)" />
+    <ProjectReference Include="$(Wf)" />
   </ItemGroup>
 
 </Project>

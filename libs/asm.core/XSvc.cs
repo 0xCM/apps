@@ -43,9 +43,6 @@ namespace Z0
             public AsmTables AsmTables(IWfRuntime wf)
                 => Service<AsmTables>(wf);
 
-            public XedTool XedTool(IWfRuntime wf)
-                => Service<XedTool>(wf);
-
             public XedPaths XedPaths(IWfRuntime wf)
                 => Z0.XedPaths.Service;
 
@@ -61,9 +58,6 @@ namespace Z0
             public ApiResPackEmitter ResPackEmitter(IWfRuntime wf)
                 => Service<ApiResPackEmitter>(wf);
 
-            public DumpBin DumpBin(IWfRuntime wf)
-                => Service<DumpBin>(wf);
-
             public AsmDocs AsmDocs(IWfRuntime wf)
                 => Service<AsmDocs>(wf);
 
@@ -76,26 +70,10 @@ namespace Z0
             public XedDisasm.Analyzer DisasmAnalyzer(IWfRuntime wf)
                 => Service<XedDisasm.Analyzer>(wf);
 
-            public NasmCatalog NasmCatalog(IWfRuntime wf)
-                => Service<NasmCatalog>(wf);
-
             public AsmCoreCmd AsmCoreCmd(IWfRuntime wf)
                 => Service<AsmCoreCmd>(wf);
-
-            public Nasm Nasm(IWfRuntime wf)
-                => Service<Nasm>(wf);
-
-            public NDisasm NDisasm(IWfRuntime wf)
-                => Service<NDisasm>(wf);
-
-            public CultProcessor CultProcessor(IWfRuntime wf)
-                => Service<CultProcessor>(wf);
-
             public StanfordAsmCatalog StanfordCatalog(IWfRuntime wf)
                 => Service<StanfordAsmCatalog>(wf);
-
-            public BdDisasm BdDisasm(IWfRuntime wf)
-                => Service<BdDisasm>(wf);
 
             public Parsers Parsers(IWfRuntime wf)
                 => Service<Parsers>(wf);
@@ -152,9 +130,6 @@ namespace Z0
         public static XedDisasm.Analyzer DisasmAnalyser(this IWfRuntime wf)
             => Services.DisasmAnalyzer(wf);
 
-        public static XedTool XedTool(this IWfRuntime wf)
-            => Services.XedTool(wf);
-
         public static XedPaths XedPaths(this IWfRuntime wf)
             => Services.XedPaths(wf);
 
@@ -170,32 +145,14 @@ namespace Z0
         public static AsmDocs AsmDocs(this IWfRuntime wf)
             => Services.AsmDocs(wf);
 
-        public static DumpBin DumpBin(this IWfRuntime wf)
-            => Services.DumpBin(wf);
-
         public static SdmOpCodes AsmOpCodes(this IWfRuntime wf)
             => Services.AsmOpCodes(wf);
 
         public static X86Dispatcher X86Dispatcher(this IWfRuntime wf)
             => Services.X86Dispatcher(wf);
 
-        public static NasmCatalog NasmCatalog(this IWfRuntime wf)
-            => Services.NasmCatalog(wf);
-
-        public static Nasm Nasm(this IWfRuntime wf)
-            => Services.Nasm(wf);
-
-        public static CultProcessor CultProcessor(this IWfRuntime wf)
-            => Services.CultProcessor(wf);
-
-        public static NDisasm NDisasm(this IWfRuntime wf)
-            => Services.NDisasm(wf);
-
         public static StanfordAsmCatalog StanfordCatalog(this IWfRuntime wf)
             => Services.StanfordCatalog(wf);
-
-        public static BdDisasm BdDisasm(this IWfRuntime wf)
-            => Services.BdDisasm(wf);
 
          public static Parsers Parsers(this IWfRuntime wf)
             => Services.Parsers(wf);

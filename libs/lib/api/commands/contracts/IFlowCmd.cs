@@ -12,7 +12,7 @@ namespace Z0
 
     [Free]
     public interface IFlowCmd<C> : IFlowCmd
-        where C : struct, IFlowCmd<C>
+        where C : IFlowCmd<C>, new()
     {
         IActor IFlowCmd.Actor
             => new Tool(typeof(C).Tag<CmdAttribute>().MapValueOrDefault(x => x.Name, GetType().Name));
@@ -21,8 +21,9 @@ namespace Z0
     [Free]
     public interface IFlowCmd<A,B> : IFlowCmd
     {
-        A Source {get;}
+        A Source => default;
 
-        B Target {get;}
+        B Target => default;
     }
+
 }

@@ -4,13 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IFlowCommands
+    public partial class ApiCmdSpecs
     {
 
-    }
 
-    public readonly struct FlowCommands : IFlowCommands
-    {
-        public static IFlowCommands Service => new FlowCommands();
     }
 }

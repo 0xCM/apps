@@ -51,25 +51,10 @@ namespace Z0
         }
 
 
-        [CmdOp("asm/refs/import")]
-        void ImportAsmRefs()
-        {
-            ImportNasmCatalog();
-            ImportStanfordCatalog();
-            ImportCultData();
-        }
-
-        [CmdOp("asm/nasm/import")]
-        void ImportNasmCatalog()
-            => Wf.NasmCatalog().ImportInstructions();
-
         [CmdOp("asm/stanford/import")]
         void ImportStanfordCatalog()
             => StanfordCatalog.Import();
 
-        [CmdOp("asm/cult/import")]
-        void ImportCultData()
-            => Wf.CultProcessor().RunEtl();
 
         ref readonly Index<InstPattern> Patterns
             => ref Xed.Views.Patterns;
