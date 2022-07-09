@@ -18,7 +18,7 @@ namespace Z0
                 wf.CaptureCmd(),
                 wf.AsmCoreCmd(),
                 wf.LlvmCmd(),
-                wf.XedTool(),
+                //wf.XedTool(),
                 wf.Machines(),
                 wf.ApiCmd(),
                 wf.SourceSymbolic(),

@@ -11,7 +11,7 @@ namespace Z0.llvm
     public sealed class LlvmConfigSvc : ToolService<LlvmConfigSvc>
     {
         public LlvmConfigSvc()
-            : base(Tools.llvm_config)
+            : base(ToolNames.llvm_config)
         {
 
         }

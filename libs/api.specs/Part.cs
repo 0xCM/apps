@@ -55,6 +55,10 @@ namespace Z0
                 => Service<DumpBin>(wf);
 
 
+            public AsmFlowCommands AsmFlows(IWfRuntime wf)
+                => Service<AsmFlowCommands>(wf);
+
+
             public XedTool XedTool(IWfRuntime wf)
                 => Service<XedTool>(wf);
 
@@ -73,6 +77,10 @@ namespace Z0
 
 
        static AppSvcCache Services => AppSvcCache.Instance;
+
+       public static AsmFlowCommands AsmFlows(this IWfRuntime wf)
+            => Services.AsmFlows(wf);
+
 
         public static BdDisasm BdDisasm(this IWfRuntime wf)
             => Services.BdDisasm(wf);

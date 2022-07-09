@@ -1,3 +1,3 @@
 @echo off
-set ProjectId=llvm.data
+set ProjectId=llvm.svc
 call %Views%\z0\.cmd\config.cmd

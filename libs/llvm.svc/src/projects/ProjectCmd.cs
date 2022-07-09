@@ -22,9 +22,7 @@ namespace Z0
 
         AsmRegSets Regs => Service(AsmRegSets.create);
 
-        DumpBin DumpBin => Wf.DumpBin();
-
-        AsmFlowCommands AsmFlows => Wf.AsmFlows();
+        //DumpBin DumpBin => Wf.DumpBin();
 
         Dictionary<string,string> BuildCmdNames {get;}
             = new (string project, string cmd)[]{

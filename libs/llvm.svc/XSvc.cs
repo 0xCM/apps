@@ -38,9 +38,6 @@ namespace Z0
             public LlvmCodeGen LlvmCodeGen(IWfRuntime wf)
                 => llvm.LlvmCodeGen.create(wf);
 
-            public AsmFlowCommands AsmFlows(IWfRuntime wf)
-                => Service<AsmFlowCommands>(wf);
-
             public ProjectCmd ProjectCmd(IWfRuntime wf)
                 => Service<ProjectCmd>(wf);
 
@@ -88,9 +85,6 @@ namespace Z0
 
         public static LlvmPaths LlvmPaths(this IWfRuntime wf)
             => Services.LlvmPaths(wf);
-
-        public static AsmFlowCommands AsmFlows(this IWfRuntime wf)
-            => Services.AsmFlows(wf);
 
         public static LlvmConfigSvc LlvmConfig(this IWfRuntime wf)
             => Services.LlvmConfig(wf);
