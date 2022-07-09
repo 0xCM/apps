@@ -1,0 +1,32 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "..\\asm.models"
+		},
+		{
+			"path": "..\\cmd.specs"
+		},
+		{
+			"path": "..\\cmd.svc"
+		},
+		{
+			"path": "..\\cmd.tools"
+		},
+		{
+			"path": "..\\lib"
+		},
+		{
+			"path": "..\\literals"
+		},
+		{
+			"path": "..\\wf"
+		},
+		{
+			"path": "..\\imagine"
+		}
+	],
+	"settings": {}
+}

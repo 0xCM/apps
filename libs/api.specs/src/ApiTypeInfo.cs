@@ -10,10 +10,10 @@ namespace Z0
         const string TableId = "api.datatype";
 
         [Render(32)]
-        public PartName Part;
+        public Name Name;
 
         [Render(32)]
-        public string Name;
+        public PartName Part;
 
         [Render(12)]
         public bool Concrete;

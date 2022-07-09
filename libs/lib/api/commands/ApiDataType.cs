@@ -19,15 +19,16 @@ namespace Z0
             Size = size;
         }
 
-        public string Name
+        public Name Name
         {
             [MethodImpl(Inline)]
-            get => Definition.Name;
+            get => Definition?.DisplayName() ?? asci64.Null;
         }
 
         public bool IsEmpty
         {
-            get => false;
+            [MethodImpl(Inline)]
+            get => Definition is null;
         }
         public Assembly Assembly
         {
@@ -49,9 +50,9 @@ namespace Z0
 
         public int CompareTo(ApiDataType src)
         {
-            var result = Part.Format().CompareTo(src.Part.Format());
+            var result = Name.CompareTo(src.Name);
             if(result == 0)
-                Name.CompareTo(src.Name);
+                Part.Format().CompareTo(src.Part.Format());
             return result;
         }
 

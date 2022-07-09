@@ -20,6 +20,12 @@
 		},
 		{
 			"path": "..\\cli"
+		},
+		{
+			"path": "..\\api.specs"
+		},
+		{
+			"path": "..\\..\\props"
 		}
 	],
 	"settings": {}

@@ -11,6 +11,7 @@
     <ProjectReference Include="$(CmdSvc)" />
     <ProjectReference Include="$(AsmModels)" />
     <ProjectReference Include="$(Wf)" />
+    <ProjectReference Include="$(ApiMd)" />
   </ItemGroup>
 
 </Project>

@@ -10,12 +10,7 @@
   <Import Project="$(ImportDefs)shell.settings.props"/>
 
   <ItemGroup>
-    <ProjectReference Include="$(ApiCmd)" />
-    <ProjectReference Include="$(ApiCode)" />
-    <ProjectReference Include="$(ApiMd)" />
-    <ProjectReference Include="$(Archives)" />
-    <ProjectReference Include="$(Cli)" />
-
+    <ProjectReference Include="$(ZLibs)" />
   </ItemGroup>
 
 </Project>

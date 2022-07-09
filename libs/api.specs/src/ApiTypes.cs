@@ -4,14 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Arrays;
 
-    public class ApiDataTypes
+    class ApiTypes
     {
-        public static Index<ApiTypeInfo> describe(Index<ApiDataType> types)
+        public static Index<ApiTypeInfo> describe(ReadOnlySeq<ApiDataType> types)
         {
             var count = types.Count;
-            var dst = alloc<ApiTypeInfo>(count);
+            var dst = sys.alloc<ApiTypeInfo>(count);
             for(var i=0; i<count; i++)
             {
                 ref var record = ref seek(dst,i);
@@ -27,16 +27,13 @@ namespace Z0
             return dst;
         }
 
-        public static Index<ApiDataType> discover(Assembly[] src)
+        public static ReadOnlySeq<ApiDataType> types(Assembly[] src)
         {
-            var types = src.Types().Where(t => t.IsEnum || t.IsStruct()).Ignore().Index();
+            var types = src.Types().Where(t => (t.IsStruct() || t.IsClass)  && t.Reifies<IDataType>()).Ignore().Index();
             var count = types.Count;
-            var dst = alloc<ApiDataType>(count);
+            var dst = sys.alloc<ApiDataType>(count);
             for(var i=0; i<count; i++)
-            {
-                ref readonly var type = ref types[i];
-                seek(dst,i) = new ApiDataType(type, Sizes.measure(type));
-            }
+                seek(dst,i) = new ApiDataType(types[i], Sizes.measure(types[i]));
             return dst.Sort();
         }
     }
