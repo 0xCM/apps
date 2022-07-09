@@ -4,10 +4,22 @@
 			"path": "."
 		},
 		{
-			"path": "..\\cmd.svc"
+			"path": "..\\api.cmd"
 		},
 		{
-			"path": "..\\..\\props"
+			"path": "..\\api.code"
+		},
+		{
+			"path": "..\\api.md"
+		},
+		{
+			"path": "..\\archives"
+		},
+		{
+			"path": "..\\wf"
+		},
+		{
+			"path": "..\\cli"
 		}
 	],
 	"settings": {}

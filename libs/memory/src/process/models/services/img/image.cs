@@ -11,7 +11,14 @@ namespace Z0
 
         [Op]
         public static ReadOnlySeq<ImageLocation> locations(Process src)
-            => src.Modules.ToSeq<ProcessModule>().Map(location).Sort();
+        {
+            var dst = core.list<ImageLocation>();
+            foreach(var module in src.Modules)
+                if(module is ProcessModule pm)
+                    dst.Add(location(pm));
+            return dst.ToArray();
+        }
+            //=> src.Modules.Cast<.Map(location).Sort();
 
         [Op]
         public static ImageLocation location(ProcessModule src)

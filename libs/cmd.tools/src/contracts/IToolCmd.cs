@@ -13,15 +13,4 @@ namespace Z0
 
         ToolCmdArgs Args {get;}
     }
-
-    [Free]
-    public interface IToolCmd<C> : IToolCmd
-        where C : struct, IToolCmd<C>
-    {
-        CmdId IToolCmd.CmdId
-            => CmdTypes.identify<C>();
-
-        ToolCmdArgs IToolCmd.Args
-            => ToolCmd.args((C)this);
-    }
 }

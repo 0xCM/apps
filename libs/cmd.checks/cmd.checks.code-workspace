@@ -16,7 +16,10 @@
 			"path": "..\\cmd.tools"
 		},
 		{
-			"path": "..\\tools"
+			"path": "..\\archives"
+		},
+		{
+			"path": "..\\lib"
 		}
 	],
 	"settings": {}

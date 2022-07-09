@@ -10,33 +10,17 @@ namespace Z0
 
     partial class CliEmitter
     {
-        public void ClearImageContent()
-        {
-            var dir = ImageHexDir;
-            var flow = Wf.Running($"Clearing content from <{dir}>");
-            var dst = list<FS.FilePath>();
-            dir.Clear(dst);
-            Wf.Ran(flow, $"Cleared <{dst.Count}> files from <{dir}>");
-        }
-
-        FS.FolderPath ImageHexDir
-            => ProjectDb.Subdir(ImageHexScope);
-
-        FS.FilePath ImageHexPath(string id)
-            => ProjectDb.TablePath<HexCsvRow>(ImageHexScope, id);
-
-        public void EmitImageContent()
+        public void EmitImageContent(IApiPack dst)
         {
             var flow = Running(nameof(EmitImageContent));
-            ClearImageContent();
-            iter(ApiRuntimeCatalog.Components, c => EmitImageContent(c));
+            iter(ApiRuntimeCatalog.Components, c => EmitImageContent(c,dst));
             Ran(flow);
         }
 
         [Op]
-        public MemoryRange EmitImageContent(Assembly src, byte bpl = HexCsvRow.BPL)
+        public MemoryRange EmitImageContent(Assembly src, IApiPack pack, byte bpl = HexCsvRow.BPL)
         {
-            var dst =  ImageHexPath(src.GetSimpleName());
+            var dst =  pack.Metadata("image.content").Table<HexCsvRow>(src.GetSimpleName());
             var flow = EmittingTable<HexCsvRow>(dst);
             var @base = ProcessMemory.@base(src);
             var formatter = HexDataFormatter.create(@base, bpl);

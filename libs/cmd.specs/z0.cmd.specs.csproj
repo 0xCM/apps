@@ -9,8 +9,6 @@
 
   <ItemGroup>
     <ProjectReference Include="$(Symbolics)" />
-    <ProjectReference Include="$(CmdTools)" />
-
   </ItemGroup>
 
 </Project>

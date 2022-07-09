@@ -9,6 +9,8 @@
 
   <ItemGroup>
     <ProjectReference Include="$(ZLib)" />
+    <ProjectReference Include="$(CmdSpecs)" />
+    <ProjectReference Include="$(Symbolics)" />
   </ItemGroup>
 
 </Project>

@@ -7,7 +7,7 @@ namespace Z0
     [Record(TableId)]
     public struct CliUserString : IRecord<CliUserString>
     {
-        public const string TableId = "cli.strings.user";
+        const string TableId = "cli.strings.user";
 
         public Count Sequence;
 

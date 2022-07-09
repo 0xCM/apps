@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="$(CmdSvc)" />
+    <ProjectReference Include="$(CmdSpecs)" />
   </ItemGroup>
 
 </Project>

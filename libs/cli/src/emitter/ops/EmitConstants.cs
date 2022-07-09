@@ -8,14 +8,9 @@ namespace Z0
 
     partial class CliEmitter
     {
-        public void EmitConstants()
+        public void EmitConstants(IApiPack dst)
         {
-            EmitConstants(ProjectDb.Subdir(FieldScope));
-        }
-
-        public void EmitConstants(FS.FolderPath dir)
-        {
-            var target = Tables.path<ConstantFieldInfo>(dir);
+            var target = dst.Table<ConstantFieldInfo>();
             var flow = Wf.EmittingTable<ConstantFieldInfo>(target);
             var formatter = Tables.formatter<ConstantFieldInfo>(16);
             var counter = 0u;

@@ -8,22 +8,22 @@ namespace Z0
 
     partial class CliEmitter
     {
-        public uint EmitMsilMetadata()
-            => EmitMsilMetadata(ApiRuntimeCatalog.Components);
+        public uint EmitMsilMetadata(IApiPack dst)
+            => EmitMsilMetadata(ApiMd.Components, dst.Metadata("msil"));
 
-        public uint EmitMsilMetadata(ReadOnlySpan<Assembly> src)
+        public uint EmitMsilMetadata(ReadOnlySpan<Assembly> src, IDbTargets dst)
         {
             var total = 0u;
             var count = src.Length;
             for(var i=0; i<count; i++)
-                EmitMsilMetadata(skip(src,i));
+                EmitMsilMetadata(skip(src,i), MsilMetadataPath(skip(src,i), dst.Root));
             return total;
         }
 
-        public FS.FilePath MsilPath(Assembly src)
-            => ProjectDb.TablePath<MsilRow>(MsilScope, src.GetSimpleName());
+        public FS.FilePath MsilMetadataPath(Assembly src, FS.FolderPath dst)
+            => dst +  FS.file(src.GetSimpleName(), FileKind.Csv);
 
-        public ReadOnlySpan<MsilRow> EmitMsilMetadata(Assembly src)
+        public ReadOnlySpan<MsilRow> EmitMsilMetadata(Assembly src, FS.FilePath dst)
         {
             var methods = ReadOnlySpan<MsilRow>.Empty;
             var srcPath = FS.path(src.Location);
@@ -35,7 +35,6 @@ namespace Z0
                 var count = (uint)methods.Length;
                 if(count != 0)
                 {
-                    var dst = MsilPath(src);
                     var flow = EmittingTable<MsilRow>(dst);
                     Tables.emit(methods, dst);
                     EmittedTable<MsilRow>(flow, count);

@@ -7,23 +7,24 @@ namespace Z0
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct MemberFieldInfo : IRecord<MemberFieldInfo>
     {
-        public const byte FieldCount = 6;
+        const string TableId = "cli.metadata.fields";
 
-        public const string TableId = "cli.metadata.fields";
-
+        [Render(10)]
         public CliToken Token;
 
+        [Render(10)]
         public uint Offset;
 
+        [Render(10)]
         public Address32 Rva;
 
-        public NameOld FieldName;
+        [Render(56)]
+        public string FieldName;
 
+        [Render(56)]
         public FieldAttributes Attribs;
 
+        [Render(1)]
         public BinaryCode Sig;
-
-        public static ReadOnlySpan<byte> RenderWidths
-            => new byte[FieldCount]{10,10,10,56,56,64};
     }
 }

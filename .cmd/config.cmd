@@ -9,29 +9,35 @@ set BuildVerbosity=normal
 set BuildProps=/p:Configuration=%BuildKind% /p:Platform=%BuildPlatform%
 
 set EnvId=app.settings
-set WsId=z0
-set SlnFile=z0.%SlnId%.sln
 set ProjectSlnFile=z0.%ProjectId%.sln
-set WsRoot=%DevRoot%\dev\%WsId%
-set WsBuild=%WsRoot%\.build
+set SlnRoot=%DevRoot%\dev\z0
+set CgRoot=%SlnRoot%\cg
+set ShellRoot=%SlnRoot%\shells
+set LibsRoot=%SlnRoot%\libs
+set TestRoot=%SlnRoot%\test
+set LibsWs=%LibsRoot%
+set LibWs=%SlnRoot%\libs\%WsId%
+
+set WsBuild=%SlnRoot%\.build
 set WsLogs=%WsBuild%\logs
 set WsBin=%WsBuild%\bin
 set WsObj=%WsBuild%\obj
 set TestLog=%WsLogs%\z0.%ProjectId%.tests.trx
 set BuildLogs=%WsLogs%
 
-set SlnRoot=%DevRoot%\dev\z0
-set CgRoot=%SlnRoot%\cg
-set ShellRoot=%SlnRoot%\shells
-set LibsRoot=%SlnRoot%\libs
-set TestRoot=%SlnRoot%\test
-
 set BuildTool=dotnet build
+set SlnTool=dotnet sln
+
+set SlnFile=%WsId%.sln
+set SlnPath=%SlnRoot%\%WsArea%\%WsId%\%SlnFile%
+set SlnLog=%WsLogs%\%SlnId%.build.log
+set BuildSln=%BuildTool% %SlnPath% %BuildProps% -fl -flp:logfile=%SlnLog%;verbosity=%BuildVerbosity% -graph:true -m:24
+
 
 mkdir %WsLogs% 1>nul 2>nul
 set BuldLogs=%WsLogs%
 
-set ImportDefs=%WsRoot%\props\
+set ImportDefs=%SlnRoot%\props\
 set AppSettings=%ImportDefs%app.settings.csv
 set ControlScripts=%Views%\control\.cmd
 
@@ -58,17 +64,13 @@ set LibWsFile=%LibProjectRoot%\%ProjectId%.code-workspace
 set BuildLib=%BuildTool% %LibProject% %BuildProps% -fl -flp:logfile=%BuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 set BuildLibs=%BuildTool% %LibsRoot%\z0.libs.csproj %BuildProps% -fl -flp:logfile=%BuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 
-set SlnPath=%WsRoot%\%WsId%\%SlnFile%
-set SlnBuildLog=%WsLogs%\z0.%SlnId%.build.log
-set BuildSln=%BuildTool% %SlnPath% %BuildProps% -fl -flp:logfile=%SlnBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
-
-set ProjectPath=%WsRoot%\%WsArea%\%WsId%\%CsProjectFile%
+set ProjectPath=%SlnRoot%\%WsArea%\%WsId%\%CsProjectFile%
 set BuildProject=%BuildTool% %ProjectPath% %BuildProps% -fl -flp:logfile=%BuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 
 set ShellProject=%ShellRoot%\%ProjectId%\%CsProjectFile%
 set BuildShell=%BuildTool% %ShellProject% %BuildProps% -fl -flp:logfile=%BuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 
-set WsShellProject=%WsRoot%\%WsArea%\%WsId%\%CsProjectFile%
+set WsShellProject=%SlnRoot%\%WsArea%\%WsId%\%CsProjectFile%
 set BuildWsShell=%BuildTool% %WsShellProject% %BuildProps% -fl -flp:logfile=%BuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 set shell=%WsBin%\z0.%ProjectId%\%BuildKind%\%TargetFramework%\%RuntimeMoniker%\%ShellName%
 
@@ -85,15 +87,15 @@ set BuildCgLlvm=%BuildTool% %CgRoot%\cg.xed\z0.cg.llvm.csproj %BuildProps% -fl -
 set BuildCg=%BuildTool% %CgRoot%\cg.libs\z0.cg.libs.csproj %BuildProps% -fl -flp:logfile=%BuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 set BuildCgSln=%BuildTool% %CgRoot%\z0.cg.sln %BuildProps% -fl -flp:logfile=%SlnBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 
-set MainSln=%WsRoot%\z0.sln
+set MainSln=%SlnRoot%\z0.sln
 set BuildMain=%BuildTool% %MainSln% %BuildProps% -fl -flp:logfile=%SlnBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 
-set ModelWs=%WsRoot%\models
+set ModelWs=%SlnRoot%\models
 : set ModelBuildLog=%WsLogs%\z0.models.build.log
 set ModelProject=%ModelWs%\z0.models.csproj
 set BuildModels=%BuildTool% %ModelProject% %BuildProps% -fl -flp:logfile=%BuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 
-set CmdShellRoot=%WsRoot%\cmd
+set CmdShellRoot=%SlnRoot%\cmd
 set CmdProject=%CmdShellRoot%\z0.cmd.csproj
 set BuildCmdShell=%BuildTool% %CmdProject% %BuildProps% -fl -flp:logfile=%BuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 set CmdShellPath=%FrameworkBuildRoot%\%RuntimeMoniker%\%ShellName%

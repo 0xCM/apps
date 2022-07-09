@@ -33,6 +33,12 @@ namespace Z0
         IDbTargets Extracts()
             => Targets("extracts");
 
+        IDbTargets Metadata()
+            => Targets("meta");
+
+        IDbTargets Metadata(string scope)
+            => Metadata().Targets(scope);
+
         IApiPackArchive Archive()
             => ApiPackArchive.create(Root);
 

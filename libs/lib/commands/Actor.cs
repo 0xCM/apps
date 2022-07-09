@@ -6,42 +6,30 @@ namespace Z0
 {
     public readonly record struct Actor : IDataType<Actor>, IActor
     {
-        readonly asci64 Data;
+        public readonly Name Name;
 
         [MethodImpl(Inline)]
-        public Actor(asci64 name)
+        public Actor(Name name)
         {
-            Data = name;
-        }
-
-        [MethodImpl(Inline)]
-        public Actor(Name<asci64> name)
-        {
-            Data = name.Data;
-        }
-
-        public Name<asci64> Name
-        {
-            [MethodImpl(Inline)]
-            get => Data;
+            Name = name;
         }
 
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => Data.IsEmpty;
+            get => Name.IsEmpty;
         }
 
         public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
-            get => Data.IsNonEmpty;
+            get => Name.IsNonEmpty;
         }
 
         public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => Data.Hash;
+            get => Name.Hash;
         }
 
         public override int GetHashCode()
@@ -49,14 +37,14 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public int CompareTo(Actor src)
-            => Data.CompareTo(src.Data);
+            => Name.CompareTo(src.Name);
 
         [MethodImpl(Inline)]
         public bool Equals(Actor src)
-            => Data.Equals(src.Data);
+            => Name.Equals(src.Name);
 
         public string Format()
-            => Data.Format();
+            => Name.Format();
 
         public override string ToString()
             => Format();
@@ -66,9 +54,12 @@ namespace Z0
             => new Actor(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator Actor(asci64 src)
+        public static implicit operator Actor(Name src)
             => new Actor(src);
 
         public static Actor Empty => default;
+
+        Name IActor.Name
+            => Name;
     }
 }

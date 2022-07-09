@@ -9,11 +9,12 @@ namespace Z0
 
     partial class CliEmitter
     {
-        public uint EmitFieldDefs(ReadOnlySpan<Assembly> src, FS.FilePath dst)
+        public uint EmitFieldDefs(ReadOnlySpan<Assembly> src, IApiPack dst)
         {
             var counter = 0u;
-            var flow = EmittingTable<FieldDefInfo>(dst);
-            using var writer = dst.Writer();
+            var path = dst.Metadata("fields.defs").Table<FieldDefInfo>();
+            var flow = EmittingTable<FieldDefInfo>(path);
+            using var writer = path.Writer();
             var formatter = Tables.formatter<FieldDefInfo>(FieldDefInfo.RenderWidths);
             writer.WriteLine(formatter.FormatHeader());
             for(var i=0; i<src.Length; i++)

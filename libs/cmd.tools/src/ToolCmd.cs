@@ -6,6 +6,17 @@ namespace Z0
 {
     using static core;
 
+    [Free]
+    public interface IToolCmd<C> : IToolCmd
+        where C : struct, IToolCmd<C>
+    {
+        CmdId IToolCmd.CmdId
+            => CmdTypes.identify<C>();
+
+        ToolCmdArgs IToolCmd.Args
+            => ToolCmd.args((C)this);
+    }
+
     public class ToolCmd
     {
         const NumericKind Closure = UnsignedInts;

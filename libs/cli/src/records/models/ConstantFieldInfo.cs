@@ -7,7 +7,7 @@ namespace Z0
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct ConstantFieldInfo : IRecord<ConstantFieldInfo>
     {
-        public const string TableId = "cli.metadata.constfield";
+        public const string TableId = "constants.fields";
 
         public Count Sequence;
 

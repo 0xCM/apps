@@ -69,19 +69,19 @@ namespace Z0
         [CmdOp("api/emit/hex")]
         void EmitApiHex()
         {
-            CliEmitter.EmitApiHex();
+            //CliEmitter.
         }
 
         [CmdOp("api/emit/refs")]
         void EmitApiRefs()
         {
-            CliEmitter.EmitAssemblyRefs();
+            //CliEmitter.EmitAssemblyRefs();
         }
 
         [CmdOp("api/emit/blobs")]
         void EmitBlobs()
         {
-            CliEmitter.EmitBlobs();
+            //CliEmitter.EmitBlobs();
         }
 
         [CmdOp("api/emit/pdb/info")]
@@ -106,9 +106,9 @@ namespace Z0
         [CmdOp("api/emit/msil")]
         void EmitMsil()
         {
-            var targets = AppDb.ApiTargets(msil);
-            Cli.EmitMsil(ApiMd.ApiHosts, targets.Targets(il));
-            TableEmit(Cil.opcodes(), AppDb.DbOut("clr").Path("cil.opcodes", FileKind.Csv));
+            // var targets = AppDb.ApiTargets(msil);
+            // Cli.EmitMsil(ApiMd.ApiHosts, targets.Targets(il));
+            // TableEmit(Cil.opcodes(), AppDb.DbOut("clr").Path("cil.opcodes", FileKind.Csv));
         }
 
         [CmdOp("api/emit/corelib")]

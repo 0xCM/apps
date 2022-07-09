@@ -8,13 +8,10 @@ namespace Z0
 
     partial class CliEmitter
     {
-        IDbTargets BlobTargets()
-            => AppDb.ApiTargets("metadata/api.blobs");
-
-        public void EmitBlobs()
+        public void EmitBlobs(IApiPack dst)
         {
-            BlobTargets().Clear();
-            iter(ApiMd.Components, c => EmitBlobs(c, BlobTargets().Table<CliBlob>(c.GetSimpleName())), true);
+            var targets = dst.Metadata("blobs");
+            iter(ApiMd.Components, c => EmitBlobs(c, targets.Table<CliBlob>(c.GetSimpleName())), true);
         }
 
         public void EmitBlobs(Assembly src, FS.FilePath dst)

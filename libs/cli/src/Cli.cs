@@ -15,8 +15,8 @@ namespace Z0
 
         ApiMd ApiMd => Wf.ApiMetadata();
 
-        public ConstLookup<ApiHostUri,FS.FilePath> EmitMsil()
-            => EmitMsil(ApiMd.ApiHosts);
+        public ConstLookup<ApiHostUri,FS.FilePath> EmitMsil(IApiPack dst)
+            => EmitMsil(ApiMd.ApiHosts, dst);
 
         MsilPipe MsilSvc => Wf.MsilSvc();
 
@@ -38,7 +38,7 @@ namespace Z0
         }
 
 
-        public ConstLookup<ApiHostUri,FS.FilePath> EmitMsil(ReadOnlySpan<IApiHost> hosts, IDbTargets dst)
+        public ConstLookup<ApiHostUri,FS.FilePath> EmitMsil(ReadOnlySpan<IApiHost> hosts, IApiPack dst)
         {
             var buffer = text.buffer();
             var k = 0u;

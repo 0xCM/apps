@@ -8,70 +8,58 @@ namespace Z0
     {
         const string CliScope = "api/cli";
 
-        const string BlobScope = CliScope + "/blobs";
-
-        const string MetadumpScope = CliScope + "/metadump";
-
-        const string MsilScope = CliScope + "/msil";
-
-        const string FieldScope = CliScope + "/fields";
-
-        const string MethodScope = CliScope + "/methods";
-
-        const string StringScope = CliScope + "/strings";
-
-        const string ImageHexScope = CliScope + "/image.hex";
-
         ApiMd ApiMd => Wf.ApiMetadata();
 
         Cli Cli => Wf.Cli();
 
         public void Emit(CliEmitOptions options, Timestamp ts)
         {
+            var dst = ApiPacks.create(ts);
+
             if(options.EmitAssemblyRefs)
-                EmitAssemblyRefs();
+                EmitAssemblyRefs(dst);
 
             if(options.EmitFieldMetadata)
             {
-                EmitFieldMetadata();
-                EmitFieldDefs(ApiMd.Components, ProjectDb.TablePath<FieldDefInfo>(FieldScope));
+                EmitFieldMetadata(dst);
+                EmitFieldDefs(ApiMd.Components, dst);
             }
 
             if(options.EmitApiMetadump)
-                EmitApiMetadump();
+                EmitApiMetadump(dst);
 
             if(options.EmitSectionHeaders)
                 EmitSectionHeaders();
 
             if(options.EmitMsilMetadata)
-                EmitMsilMetadata();
+                EmitMsilMetadata(dst);
 
             if(options.EmitMsilCode)
-                Cli.EmitMsil();
+                Cli.EmitMsil(dst);
 
             if(options.EmitCliStrings)
             {
-                EmitUserStrings();
-                EmitSystemStringInfo();
+                EmitUserStrings(dst);
+                EmitSystemStringInfo(dst);
             }
 
             if(options.EmitMetadataHex)
-                EmitApiHex();
+                EmitApiHex(dst);
 
             if(options.EmitCliConstants)
-                EmitConstants();
+                EmitConstants(dst);
 
             if(options.EmitCliBlobs)
-                EmitBlobs();
+                EmitBlobs(dst);
 
             if(options.EmitImageContent)
-                EmitImageContent();
+                EmitImageContent(dst);
 
             if(options.EmitMethodDefs)
-                EmitMethodDefs(ApiRuntimeCatalog.Components, ProjectDb.TablePath<MethodDefInfo>(MethodScope));
+                EmitMethodDefs(ApiMd.Components, dst.Metadata().Table<MethodDefInfo>());
 
             if(options.EmitCliRowStats)
-                EmitRowStats(ApiRuntimeCatalog.Components, ProjectDb.TablePath<CliRowStats>(CliScope));
+                EmitRowStats(ApiMd.Components, dst.Metadata().Table<CliRowStats>());
         }
     }
 }

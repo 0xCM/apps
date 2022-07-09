@@ -16,8 +16,8 @@ namespace Z0
         public void EmitAssemblyRefs(FS.Files src)
             => EmitAssemblyRefs(src, ProjectDb.TablePath<AssemblyRefInfo>(CliScope));
 
-        public void EmitAssemblyRefs()
-            => EmitAssemblyRefs(ApiMd.Components);
+        public void EmitAssemblyRefs(IApiPack dst)
+            => EmitAssemblyRefs(ApiMd.Components, dst);
 
         public void EmitAssemblyRefs(ReadOnlySpan<Assembly> src, FS.FilePath dst)
         {
@@ -32,8 +32,8 @@ namespace Z0
             EmittedTable(flow, counter);
         }
 
-        public void EmitAssemblyRefs(ReadOnlySpan<Assembly> src)
-            => EmitAssemblyRefs(src, ProjectDb.TablePath<AssemblyRefInfo>(CliScope));
+        public void EmitAssemblyRefs(ReadOnlySpan<Assembly> src, IApiPack dst)
+            => EmitAssemblyRefs(src, dst.Metadata().Table<AssemblyRefInfo>());
 
         void EmitAssemblyRefs(FS.Files input, FS.FilePath dst)
         {

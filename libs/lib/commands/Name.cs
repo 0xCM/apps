@@ -55,15 +55,15 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator Name(@string src)
-            => new Name(src.Format());
+            => new Name(src.Value);
 
         [MethodImpl(Inline)]
         public static implicit operator Name(Identifier src)
-            => new Name(src.Format());
+            => new Name(src.Content);
 
         [MethodImpl(Inline)]
-        public static implicit operator Name(NameOld src)
-            => new Name(src.Format());
+        public static implicit operator Name(asci64 src)
+            => new Name(src);
 
         [MethodImpl(Inline)]
         public static implicit operator string(Name src)

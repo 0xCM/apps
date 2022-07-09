@@ -50,9 +50,9 @@ namespace Z0
             }
         }
 
-        public void EmitApiMetadump()
+        public void EmitApiMetadump(IApiPack dst)
         {
-            EmitApiMetadump(ProjectDb.Subdir(MetadumpScope));
+            EmitApiMetadump(dst.Metadata("metadump"));
         }
 
         public void EmitMetadump(ReadOnlySpan<Assembly> src, FS.FolderPath dst, bool clear = true)
@@ -69,7 +69,7 @@ namespace Z0
             }
         }
 
-        public void EmitApiMetadump(FS.FolderPath dst)
-            => EmitMetadump(ApiMd.Components, dst);
+        public void EmitApiMetadump(IDbTargets dst)
+            => EmitMetadump(ApiMd.Components, dst.Root);
     }
 }

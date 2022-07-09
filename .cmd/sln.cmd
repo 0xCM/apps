@@ -1,16 +1,13 @@
 @echo off
-set SlnName=z0.sln
+set WsId=z0
 call %~dp0config.cmd
 
-set SlnTool=dotnet sln
-set SlnPath=%SlnRoot%/z0.sln
 
 dotnet sln %SlnPath% add %LibsRoot%/z0.libs.csproj
 dotnet sln %SlnPath% add %SlnRoot%/cmd/z0.cmd.csproj
 
 dotnet sln %SlnPath% add %CgRoot%/cg.libs/z0.cg.libs.csproj
 dotnet sln %SlnPath% add %CgRoot%/cg.shell/z0.cg.shell.csproj
-: dotnet sln %SlnPath% add %CgRoot%/cg.test/z0.cg.test.csproj
 
 dotnet sln %SlnPath% add %LibsRoot%/api.checks/z0.api.checks.csproj
 dotnet sln %SlnPath% add %LibsRoot%/asm.checks/z0.asm.checks.csproj
@@ -27,7 +24,6 @@ dotnet sln %SlnPath% add %LibsRoot%/asm.checks/z0.asm.checks.csproj
 
 dotnet sln %SlnPath% add %SlnRoot%/shells/calcs.check/z0.calcs.check.csproj
 dotnet sln %SlnPath% add %SlnRoot%/shells/intel/z0.intel.csproj
-@REM dotnet sln %SlnPath% add %SlnRoot%/shells/workers/z0.workers.csproj
 
 dotnet sln %SlnPath% add %SlnRoot%/test/test.units/z0.test.units.csproj
 dotnet sln %SlnPath% add %SlnRoot%/test/test.checks/z0.test.checks.csproj

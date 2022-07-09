@@ -37,6 +37,8 @@ namespace Z0
             return new Settings(dst.ToArray());
         }
 
+        // public static FS.Files inventory(IToolWs src)
+        //     =>
         public static IToolWs configure(IToolWs src)
         {
             var subdirs = src.Root.SubDirs();
@@ -98,7 +100,7 @@ namespace Z0
         public FS.FilePath Script(Actor tool, string name)
             => Scripts(tool) + FS.file(name, FS.Cmd);
 
-        public FS.FilePath Inventory()
+        public  FS.FilePath Inventory()
             => Root + FS.folder(admin) + FS.file(inventory, FS.Txt);
 
         public ReadOnlySpan<ToolConfig> Configured

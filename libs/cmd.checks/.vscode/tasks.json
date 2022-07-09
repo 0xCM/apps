@@ -3,8 +3,26 @@
     "tasks": [
         {
             "label": "build",
-            "command": "${workspaceFolder}/../../.cmd/build.cmd",
+            "command": "dotnet",
             "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/z0.cmd.checks.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "publish",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "publish",
+                "${workspaceFolder}/z0.cmd.checks.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
             "problemMatcher": "$msCompile"
         },
         {

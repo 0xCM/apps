@@ -14,6 +14,8 @@ namespace Z0
 
         ApiCodeFiles CodeFiles => Wf.ApiCodeFiles();
 
+        CliEmitter CliEmitter => Wf.CliEmitter();
+
         ApiCode ApiCode => Wf.ApiCode();
 
         Runtime Runtime => Wf.Runtime();
@@ -22,10 +24,11 @@ namespace Z0
         {
             var parts = ApiPartCapture.create(Wf);
             var ts = core.timestamp();
-            using var observer = RuntimeObservers.MethodLoad.observe(AppDb.App().Path($"clr.events.methodload.{ts}", FileKind.Csv));
+            //using var observer = RuntimeObservers.MethodLoad.observe(AppDb.App().Path($"clr.events.methodload.{ts}", FileKind.Csv));
             //using var log = OpenEventLog(ts);
             parts.Capture(ts);
-            //Runtime.EmitContext(ts);
+            Runtime.EmitContext(ts);
+            CliEmitter.Emit(CliEmitOptions.@default(), ts);
         }
 
         public void Run(PartId id)

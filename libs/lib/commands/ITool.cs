@@ -9,7 +9,7 @@ namespace Z0
     {
         Actor ToolId {get;}
 
-        Name<asci64> IActor.Name
+        Name IActor.Name
             => ToolId.Name;
     }
 }

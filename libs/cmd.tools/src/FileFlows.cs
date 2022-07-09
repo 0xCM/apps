@@ -224,7 +224,7 @@ namespace Z0
         {
             public static EmptyActor Instance = new();
 
-            public Name<asci64> Name => asci64.Null;
+            public Name Name => asci64.Null;
         }
     }
 }

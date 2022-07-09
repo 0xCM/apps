@@ -47,8 +47,6 @@ namespace Z0
         public bool IsFlag
             => true;
 
-        [MethodImpl(Inline)]
-        public static implicit operator ToolCmdArg(CmdArgDef src)
-            => new ToolCmdArg(src.Position, src.Name, src.Value, true);
+
     }
 }

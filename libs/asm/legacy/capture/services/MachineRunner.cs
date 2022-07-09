@@ -4,12 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     using static Msg;
     using static core;
 
-    public class WfMachine : AppService<WfMachine>
+    public class WfMachine : WfSvc<WfMachine>
     {
         ApiMd ApiMd => Wf.ApiMetadata();
 
@@ -29,18 +27,14 @@ namespace Z0
             if(options.EmitHexIndex)
                 ApiCode.EmitIndex(sorted, Db.IndexFile("api.hex.index"));
 
-            // if(options.EmitHexPack)
-            //     ApiCode.EmitHexPack(sorted);
-
             if(options.EmitResBytes)
                 Wf.ResPackEmitter().Emit(sorted.View);
         }
 
         public void Run(WorkflowOptions options)
         {
-            var parts = Wf.ApiCatalog.PartIdentities;
-            var partCount = parts.Length;
-            var flow = Wf.Running(RunningMachine.Format(partCount, parts.Delimit()));
+            var flow = Running();
+            var ts = core.timestamp();
             try
             {
                 EmitCode(options);
@@ -55,53 +49,22 @@ namespace Z0
                 if(options.EmitSymbolicLiterals)
                     ApiMd.Emit(ApiMd.SymLits);
 
-                // if(options.EmitApiBitMasks)
-                //     ApiMd.Emit(ApiMd.ApiBitMasks);
-
                 if(options.CollectApiDocs)
                     Wf.ApiComments().Collect();
 
                 if(options.ProcessCultFiles)
                     Wf.CultProcessor().RunEtl();
 
-                var cli = Wf.CliEmitter();
-                if(options.EmitAssemblyRefs)
-                    cli.EmitAssemblyRefs();
+                //Wf.CliEmitter().Emit(options,ts);
 
-                if(options.EmitFieldMetadata)
-                    cli.EmitFieldMetadata();
-
-                if(options.EmitApiMetadump)
-                    cli.EmitApiMetadump();
-
-                if(options.EmitSectionHeaders)
-                    cli.EmitSectionHeaders();
-
-                if(options.EmitMsilMetadata)
-                    cli.EmitMsilMetadata();
-
-                if(options.EmitCliStrings)
-                {
-                    cli.EmitUserStrings();
-                    cli.EmitSystemStringInfo();
-                }
-
-                if(options.EmitCliConstants)
-                    cli.EmitConstants();
-
-                if(options.EmitCliBlobs)
-                    cli.EmitBlobs();
-
-                if(options.EmitImageContent)
-                    cli.EmitImageContent();
 
             }
             catch(Exception e)
             {
-                Wf.Error(e);
+                Error(e);
             }
 
-            Wf.Ran(flow, partCount);
+            Ran(flow);
         }
     }
 }
