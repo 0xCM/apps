@@ -7,7 +7,7 @@ namespace Z0
     using static core;
 
     [Free, ApiHost]
-    public partial class Heaps : WfSvc<Heaps>
+    public partial class Heaps : AppService<Heaps>
     {
         const NumericKind Closure = UnsignedInts;
 
@@ -28,12 +28,6 @@ namespace Z0
         public static ReadOnlyHeap<T> create<T>(ReadOnlySpan<T> src, uint[] offsets)
             => new ReadOnlyHeap<T>(src, offsets);
 
-        public static asci16 id(SymHeap src)
-            => string.Format("H{0:X4}x{1:X4}x{2:X6}",src.SymbolCount, src.EntryCount, src.ExprLengths.Storage.Sum());
-
-        [MethodImpl(Inline), Op]
-        public static Span<char> expr(SymHeap src, uint index)
-            => core.slice(src.Expr.Edit, src.ExprOffsets[index], src.ExprLengths[index]);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static BinaryHeap<T> retype<T>(in BinaryHeap src)
@@ -45,14 +39,12 @@ namespace Z0
             where T : unmanaged
                 => src;
 
-        Index<SymHeapRecord> CalcHeapEntries(SymHeap src)
-            => Data(Heaps.id(src),() => Heaps.records(src));
+        public static asci16 id(SymHeap src)
+            => string.Format("H{0:X4}x{1:X4}x{2:X6}",src.SymbolCount, src.EntryCount, src.ExprLengths.Storage.Sum());
 
-        public void Emit(SymHeap src, FS.FilePath dst)
-            => TableEmit(CalcHeapEntries(src), dst);
-
-        public void Emit(SymHeap src)
-            => TableEmit(CalcHeapEntries(src), ApiTargets().Table<SymHeapRecord>(), TextEncodingKind.Unicode);
+        [MethodImpl(Inline), Op]
+        public static Span<char> expr(SymHeap src, uint index)
+            => core.slice(src.Expr.Edit, src.ExprOffsets[index], src.ExprLengths[index]);
 
         [MethodImpl(Inline)]
         public static ReadOnlySpan<byte> serialize<K,O,L>(in HeapEntry<K,O,L> src)
@@ -70,8 +62,5 @@ namespace Z0
             dst = @as<HeapEntry<K,O,L>>(src);
             return ref dst;
         }
-
-        IDbTargets ApiTargets()
-            => AppDb.DbOut("api");
    }
 }

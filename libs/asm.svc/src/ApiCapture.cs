@@ -23,12 +23,10 @@ namespace Z0
         public void Run()
         {
             var parts = ApiPartCapture.create(Wf);
-            var ts = core.timestamp();
-            //using var observer = RuntimeObservers.MethodLoad.observe(AppDb.App().Path($"clr.events.methodload.{ts}", FileKind.Csv));
-            //using var log = OpenEventLog(ts);
-            parts.Capture(ts);
-            Runtime.EmitContext(ts);
-            CliEmitter.Emit(CliEmitOptions.@default(), ts);
+            var dst = ApiPacks.create();
+            parts.Capture(dst);
+            Runtime.EmitContext(dst);
+            CliEmitter.Emit(CliEmitOptions.@default(), dst);
         }
 
         public void Run(PartId id)

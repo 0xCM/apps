@@ -4,10 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using api = Heaps;
-
     public class SymHeap
     {
+        public static asci16 id(SymHeap src)
+            => string.Format("H{0:X4}x{1:X4}x{2:X6}",src.SymbolCount, src.EntryCount, src.ExprLengths.Storage.Sum());
+
+        [MethodImpl(Inline), Op]
+        public static Span<char> expr(SymHeap src, uint index)
+            => core.slice(src.Expr.Edit, src.ExprOffsets[index], src.ExprLengths[index]);
+
         internal Index<Identifier> Sources;
 
         internal Index<Identifier> Names;
@@ -52,6 +57,6 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public Span<char> Symbol(uint index)
-            => api.expr(this, index);
+            => expr(this, index);
     }
 }

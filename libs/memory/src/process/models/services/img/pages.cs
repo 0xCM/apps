@@ -8,6 +8,8 @@ namespace Z0
 
     partial class ImageMemory
     {
+        static FS.FileUri Nul => FS.FolderPath.Empty +  FS.file("dev",FS.ext("null"));
+
         public static Index<ProcessMemoryRegion> pages(ReadOnlySpan<MemoryRangeInfo> src)
         {
             var count = src.Length;
@@ -20,20 +22,20 @@ namespace Z0
 
         static ref ProcessMemoryRegion fill(in MemoryRangeInfo src, uint index, out ProcessMemoryRegion dst)
         {
-            var identity = src.Owner;
+            var owner = src.Owner;
             dst.Index = index;
-            if(text.nonempty(identity))
+            if(text.nonempty(owner))
             {
-                dst.FullIdentity = identity;
-                if(identity.Contains("."))
-                    dst.Identity = Path.GetFileName(identity);
+                dst.Path = FS.path(owner);
+                if(owner.Contains("."))
+                    dst.Name = Path.GetFileName(owner);
                 else
-                    dst.Identity = identity.Substring(0, min(identity.Length, 12));
+                    dst.Name = owner.Substring(0, min(owner.Length, 12));
             }
             else
             {
-                dst.Identity = "unknown";
-                dst.FullIdentity = "unknown";
+                dst.Name = "unknown";
+                dst.Path = Nul;
             }
 
             dst.StartAddress = src.StartAddress;

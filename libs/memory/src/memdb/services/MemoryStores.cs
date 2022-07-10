@@ -9,30 +9,28 @@ namespace Z0
     [ApiHost]
     public class MemoryStores
     {
-        public static MemoryStores load(in ProcessContext src)
+        public static MemoryStores load(ReadOnlySpan<ProcessMemoryRegion> src)
         {
-            var details = src.Regions.View;
-            var count = details.Length;
+            var count = src.Length;
             var symbols = MemoryStores.create(count);
             for(var i=0; i<count; i++)
             {
-                ref readonly var detail = ref skip(details,i);
-                symbols.Deposit(detail.StartAddress, detail.Size, detail.Identity.Format());
+                ref readonly var region = ref skip(src,i);
+                symbols.Deposit(region.StartAddress, region.Size, region.Name);
             }
             return symbols;
         }
 
-        public static MemoryStores summarize(in ProcessContext src)
+        public static MemoryStores stores(ReadOnlySpan<ProcessPartition> src)
         {
-            var summaries = src.Partitions.View;
-            var count = summaries.Length;
-            var symbols = MemoryStores.create(count);
+            var count = src.Length;
+            var dst = MemoryStores.create(count);
             for(var i=0; i<count; i++)
             {
-                ref readonly var summary = ref skip(summaries,i);
-                symbols.Deposit(summary.BaseAddress, summary.Size, summary.ImageName.Format());
+                ref readonly var part = ref skip(src,i);
+                dst.Deposit(part.BaseAddress, part.Size, part.ImageName);
             }
-            return symbols;
+            return dst;
         }
 
         public static bool perfect(ReadOnlySpan<MemorySymbol> src, out Index<HashEntry<MemorySymbol>> dst)

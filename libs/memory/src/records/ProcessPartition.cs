@@ -7,7 +7,7 @@ namespace Z0
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct ProcessPartition
     {
-        public const string TableId = "image.process.partitions";
+        const string TableId = "process.partitions";
 
         public MemoryAddress BaseAddress;
 
@@ -15,8 +15,6 @@ namespace Z0
 
         public ByteSize Size;
 
-        public ByteSize Gap;
-
-        public NameOld ImageName;
+        public string ImageName;
     }
 }

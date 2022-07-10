@@ -43,10 +43,10 @@ namespace Z0
 
         void Include(uint index, in ProcessMemoryRegion src)
         {
-            var id = src.Identity.Format();
+            var id = src.Name;
 
             if(text.empty(id))
-                id = src.FullIdentity;
+                id = src.Path.Format();
 
             if(id.StartsWith(HostProcessName))
                 id = string.Format("host::{0}", id);

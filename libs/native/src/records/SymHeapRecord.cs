@@ -7,7 +7,7 @@ namespace Z0
     [Record(TableId), StructLayout(StructLayout,Pack=1)]
     public struct SymHeapRecord
     {
-        public const string TableId = "api.symbols.heap";
+        const string TableId = "api.symbols.heap";
 
         [Render(8)]
         public uint Key;
@@ -22,13 +22,13 @@ namespace Z0
         public Hex32 Remains;
 
         [Render(64)]
-        public Identifier Source;
+        public string Source;
 
         [Render(16)]
         public SymVal Value;
 
         [Render(64)]
-        public Identifier Name;
+        public string Name;
 
         [Render(1)]
         public SymExpr Expression;

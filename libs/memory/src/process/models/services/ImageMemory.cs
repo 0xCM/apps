@@ -4,28 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using PCK = ProcessContextFlag;
-
     [ApiHost,Free]
     public partial class ImageMemory
     {
         public static PEReader pe(Stream src)
             => new PEReader(src);
-
-        [MethodImpl(Inline)]
-        public static bit enabled(PCK src, PCK flag)
-            => (src & flag) != 0;
-
-        [MethodImpl(Inline)]
-        public static ProcessContextFlags flags(PCK src)
-        {
-            var options = new ProcessContextFlags();
-            options.EmitSummary = enabled(src,PCK.Summary);
-            options.EmitDetail= enabled(src,PCK.Detail);
-            options.EmitDump= enabled(src,PCK.Dump);
-            options.EmitHashes = enabled(src,PCK.Hashes);
-            return options;
-        }
 
         [MethodImpl(Inline), Op]
         public static ref ProcessSegment segment(in ProcessMemoryRegion src, ref ProcessSegment dst)
@@ -38,7 +21,7 @@ namespace Z0
             dst.Range = (src.StartAddress, src.EndAddress);
             dst.Type = src.Type;
             dst.Protection = src.Protection;
-            dst.Label = src.Identity.Format();
+            dst.Label = src.Name;
             return ref dst;
         }
     }

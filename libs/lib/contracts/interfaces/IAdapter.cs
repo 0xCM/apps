@@ -19,7 +19,7 @@ namespace Z0
     /// <typeparam name="H">The reifying type</typeparam>
     /// <typeparam name="S">The subject</typeparam>
     public interface IAdapter<H,S> : IAdapter<S>
-        where H : IAdapter<H,S>, new()
+        where H : IAdapter<H,S>
     {
         H Adapt(S subject);
     }

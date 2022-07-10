@@ -11,17 +11,12 @@ namespace Z0
     [Free]
     public class ImageRegions : WfSvc<ImageRegions>
     {
-        IDumpArchive Dumps => DumpArchive.Service;
-
         public ProcessTargets ContextPaths {get; private set;}
 
         protected override void OnInit()
         {
             ContextPaths = new ProcessTargets(AppDb.DbCapture().Root);
         }
-
-        public void EmitRegions(Timestamp ts, ReadOnlySeq<ProcessMemoryRegion> src)
-            => TableEmit(src, Dumps.Table<ProcessMemoryRegion>("regions", ts));
 
         public Index<ProcessMemoryRegion> LoadRegions()
         {
@@ -83,11 +78,10 @@ namespace Z0
             return regions;
         }
 
-        public ReadOnlySeq<ProcessMemoryRegion> EmitRegions(Process process, Timestamp ts)
+        public ReadOnlySeq<ProcessMemoryRegion> EmitRegions(Process process, IApiPack dst)
         {
             var regions = ImageMemory.regions(process);
-            var dst = ContextPaths.MemoryRegionPath(process,ts);
-            EmitRegions(regions,dst);
+            EmitRegions(regions, dst.RegionPath(process));
             return regions;
         }
 
@@ -108,9 +102,9 @@ namespace Z0
 
         public Count EmitRegions(ReadOnlySeq<ProcessMemoryRegion> src, FS.FilePath dst)
         {
-            var flow = Wf.EmittingTable<ProcessMemoryRegion>(dst);
+            var flow = EmittingTable<ProcessMemoryRegion>(dst);
             var count = Tables.emit(src.View,dst);
-            Wf.EmittedTable(flow,count);
+            EmittedTable(flow,count);
             return count;
         }
 

@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     public interface ILiteralSeq<T> : IReadOnlySeq<Literal<T>>
         where T : IEquatable<T>, IComparable<T>
     {

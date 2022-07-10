@@ -4,21 +4,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     partial class ImageMemory
     {
         public static ImageLocation location()
             => location(Process.GetCurrentProcess().MainModule);
 
         [Op]
-        public static ReadOnlySeq<ImageLocation> locations(Process src)
+        public static ReadOnlySeq<ImageLocation> locations(ProcessAdapter src)
         {
             var dst = core.list<ImageLocation>();
-            foreach(var module in src.Modules)
-                if(module is ProcessModule pm)
-                    dst.Add(location(pm));
+            iter(src.Modules, m => dst.Add(location(m)));
             return dst.ToArray();
         }
-            //=> src.Modules.Cast<.Map(location).Sort();
 
         [Op]
         public static ImageLocation location(ProcessModule src)

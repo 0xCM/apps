@@ -8,7 +8,7 @@ namespace Z0
 
     using static core;
 
-    class ApiPartCapture : WfSvc<ApiPartCapture>, IPartCapture
+    class ApiPartCapture : WfSvc<ApiPartCapture>
     {
         AsmDecoder AsmDecoder => Wf.AsmDecoder();
 
@@ -16,22 +16,19 @@ namespace Z0
 
         ApiCode ApiCode => Wf.ApiCode();
 
-        public void Capture(Timestamp ts)
+        public void Capture(IApiPack dst)
         {
             using var dispenser = Dispense.composite();
-            Capture(ts,ApiRuntimeCatalog, dispenser, true);
+            Capture(ApiRuntimeCatalog, dispenser, true, dst);
         }
 
-        public Timestamp Capture()
+        public void Capture()
         {
-            var ts = core.timestamp();
-            Capture(ts);
-            return ts;
+            Capture(ApiPacks.create());
         }
 
-        public Index<CollectedEncoding> Capture(Timestamp ts, IApiCatalog src, ICompositeDispenser dispenser, bool pll)
+        public Index<CollectedEncoding> Capture(IApiCatalog src, ICompositeDispenser dispenser, bool pll, IApiPack pack)
         {
-            var pack = CodeFiles.ApiPack(ts);
             var dst = bag<CollectedEncoding>();
             iter(src.PartCatalogs(),
                 part => Collected(part.PartId, ApiCode.collect(part, EventLog, dispenser), pack, dispenser, dst), pll);

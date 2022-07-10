@@ -19,16 +19,16 @@ namespace Z0
             => string.Format("{0}: {1}", Timestamp, Root);
 
         FS.FileName DumpFile(Process process)
-            => FS.file(ProcDumpName.create(process,Timestamp).Format(), FS.Dmp);
-
-        FS.FilePath ProcDumpPath(Process process)
-            => Root + DumpFile(process);
+            => FS.file(ProcDumpName.create(process,Timestamp).Format(), FileKind.Dmp);
 
         IImmArchive ImmArchive()
             => new ImmArchive(Root + FS.folder("imm"));
 
+        FS.FilePath DumpPath(Process process)
+            => Targets().Path(DumpFile(process)).CreateParentIfMissing();
+
         FS.FilePath Path(PartId part, FileKind kind)
-            => Extracts().Path(FS.file(part.Format(), kind.Ext()));
+            => Extracts().Path(FS.file(part.Format(), kind));
 
         IDbTargets Extracts()
             => Targets("extracts");
@@ -51,35 +51,25 @@ namespace Z0
         FS.FilePath AsmPath(PartId part)
             => Path(part, FileKind.Asm);
 
-        FS.FileName ProcessPartitionHashFile(string process, Identifier subject)
-            => FS.file(string.Format("{0}.{1}.{2}.hashes", "image.process.partitions", process, Timestamp.Format()), FS.Csv);
+        FS.FileName RegionHashFile(Process process)
+            => FS.file(string.Format("{0}.{1}", "process.partitions.hash", process.ProcessName), FileKind.Csv);
 
-        FS.FilePath ProcessPartitionHashPath(string process, Identifier subject)
-            => Root + ProcessPartitionHashFile(process, subject);
+        FS.FileName PartitionFile(Process process)
+            => FS.file(string.Format("{0}.{1}", "process.partitions", process.ProcessName), FileKind.Csv);
 
-        FS.FileName ProcessPartitionFile(Process process)
-            => FS.file(string.Format("{0}.{1}.{2}", "image.process.partitions", process.ProcessName, Timestamp.Format()), FS.Csv);
+        FS.FileName RegionFile(Process process)
+            => FS.file(string.Format("{0}.{1}", "memory.regions", process.ProcessName), FileKind.Csv);
 
-        FS.FilePath ProcessPartitionPath(Process process)
-            => Root + ProcessPartitionFile(process);
+        FS.FilePath PartitionPath(Process process)
+            => Targets().Path(PartitionFile(process));
 
-        FS.FilePath ProcessPartitionPath(FS.FolderPath dir, Process process)
-            => dir + ProcessPartitionFile(process);
+        FS.FilePath RegionPath(Process process)
+            => Targets().Path(RegionFile(process));
 
-        FS.FileName MemoryRegionHashFile(string process, Identifier subject)
-            => FS.file(string.Format("memory.hash.detail.{0}.{1}", process, Timestamp.Format()), FS.Csv);
+        FS.FilePath RegionHashPath(Process process)
+            => Targets().Path(RegionHashFile(process));
 
-        FS.FileName MemoryRegionFile(Process process)
-            => FS.file(string.Format("{0}.{1}.{2}", "image.memory.regions", process.ProcessName, Timestamp.Format()), FS.Csv);
-
-        FS.FilePath MemoryRegionPath(Process process)
-            => Root + MemoryRegionFile(process);
-
-        FS.FilePath MemoryRegionPath(Process process, FS.FolderPath dir)
-            => dir + MemoryRegionFile(process);
-
-        FS.FilePath MemoryRegionHashPath(string process, Identifier subject)
-            => Root + MemoryRegionHashFile(process, subject);
-
+        FS.FilePath PartitionHashPath(Process process)
+            => Targets().Path(RegionHashFile(process));
     }
 }

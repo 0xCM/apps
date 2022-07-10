@@ -9,6 +9,19 @@ namespace Z0
     [ApiHost]
     public sealed class ApiPacks : WfSvc<ApiPacks>
     {
+        static Timestamp ts;
+
+        public static IApiPack create(Timestamp ts, string label = EmptyString)
+            => new ApiPack(AppDb.Service.Capture().Targets(ts.Format()).Root, ts, label);
+
+        public static IApiPack create(string label = EmptyString)
+            => new ApiPack(AppDb.Service.Capture().Targets(ts.Format()).Root, ts, label);
+
+        static ApiPacks()
+        {
+            ts = core.now();
+        }
+
         public static bool timestamp(FS.FolderPath src, out Timestamp dst)
         {
             dst = default;
@@ -45,8 +58,6 @@ namespace Z0
             return result;
         }
 
-        public static IApiPack create(Timestamp ts, string label = EmptyString)
-            => new ApiPack(AppDb.Service.Capture().Targets(ts.Format()).Root, ts, label);
 
         public IApiPack Create(FS.FolderPath root)
         {

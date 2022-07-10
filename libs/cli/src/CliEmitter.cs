@@ -12,10 +12,8 @@ namespace Z0
 
         Cli Cli => Wf.Cli();
 
-        public void Emit(CliEmitOptions options, Timestamp ts)
+        public void Emit(CliEmitOptions options, IApiPack dst)
         {
-            var dst = ApiPacks.create(ts);
-
             if(options.EmitAssemblyRefs)
                 EmitAssemblyRefs(dst);
 

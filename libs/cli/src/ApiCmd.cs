@@ -23,6 +23,8 @@ namespace Z0
 
         PdbIndexBuilder PdbIndexBuilder => Wf.PdbIndexBuilder();
 
+        Runtime Runtime => Wf.Runtime();
+
         CsLang CsLang => Wf.CsLang();
 
         PdbSvc PdbSvc => Wf.PdbSvc();
@@ -64,8 +66,12 @@ namespace Z0
         void ApiEmit()
         {
             ApiMd.EmitDatasets();
-            CliEmitter.Emit(CliEmitOptions.@default(), timestamp());
+            CliEmitter.Emit(CliEmitOptions.@default(), ApiPacks.create());
         }
+
+        [CmdOp("api/emit/context")]
+        void EmitContext()
+            => Runtime.EmitContext(ApiPacks.create());
 
         [CmdOp("api/emit/hex")]
         void EmitApiHex()
@@ -96,9 +102,9 @@ namespace Z0
             PdbIndexBuilder.IndexComponents(ApiMd.Components, dst);
         }
 
-        [CmdOp("api/emit/heaps")]
-        void ApiEmitHeaps()
-            => Heaps.Emit(Heaps.symbols(ApiMd.SymLits));
+        // [CmdOp("api/emit/heaps")]
+        // void ApiEmitHeaps()
+        //     => Heaps.Emit(Heaps.symbols(ApiMd.SymLits));
 
         [CmdOp("api/emit/msil-host")]
         void EmitHostMsil(CmdArgs args)

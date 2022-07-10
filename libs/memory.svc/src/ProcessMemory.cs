@@ -12,6 +12,18 @@ namespace Z0
     {
         public ProcessTargets ContextPaths {get; private set;}
 
+        Index<SymHeapRecord> CalcHeapEntries(SymHeap src)
+            => Data(Heaps.id(src),() => Heaps.records(src));
+
+        public void EmitSymHeap(SymHeap src, FS.FilePath dst)
+            => TableEmit(CalcHeapEntries(src), dst);
+
+        public void EmitSymHeap(SymHeap src)
+            => TableEmit(CalcHeapEntries(src), ApiTargets().Table<SymHeapRecord>(), TextEncodingKind.Unicode);
+
+        IDbTargets ApiTargets()
+            => AppDb.DbOut("api");
+
         protected override void OnInit()
         {
             ContextPaths = new ProcessTargets(AppDb.DbCapture().Root);
@@ -59,12 +71,11 @@ namespace Z0
             return summaries;
         }
 
-        public Index<ProcessPartition> EmitPartitions(Process process, Timestamp ts)
+        public Index<ProcessPartition> EmitPartitions(Process process, IApiPack dst)
         {
             var memory = ImageMemory.locations(process);
             var summaries = ImageMemory.partitions(memory);
-            var dst = ContextPaths.ProcessPartitionPath(process, ts);
-            EmitPartitions(summaries, dst);
+            EmitPartitions(summaries, dst.PartitionPath(process));
             return summaries;
         }
 
@@ -122,7 +133,6 @@ namespace Z0
             return dst;
         }
 
-
         [Op]
         public static ref ProcessMemoryState fill(Process src, ref ProcessMemoryState dst)
         {
@@ -144,16 +154,13 @@ namespace Z0
             return ref dst;
         }
 
-        public static void EmitHashes(in ProcessContext src, IApiPack pack)
-        {
-            ProcessTargets dst = pack.Root;
-            ProcessMemory.EmitHashes(MemoryStores.summarize(src).Addresses,
-                dst.ProcessPartitionHashPath(src.ProcessName, src.Timestamp, src.Subject));
-            ProcessMemory.EmitHashes(MemoryStores.load(src).Addresses,
-                dst.MemoryRegionHashPath(src.ProcessName, src.Timestamp, src.Subject));
-        }
+        public void EmitHashes(Process process, ReadOnlySpan<ProcessPartition> src, IApiPack dst)
+            => ProcessMemory.hash(MemoryStores.stores(src).Addresses, dst.PartitionHashPath(process));
 
-        public static Index<AddressHash> EmitHashes(ReadOnlySpan<MemoryAddress> addresses, FS.FilePath dst)
+        public void EmitHashes(Process process, ReadOnlySpan<ProcessMemoryRegion> src, IApiPack dst)
+            => ProcessMemory.hash(MemoryStores.load(src).Addresses, dst.RegionHashPath(process));
+
+        public static ReadOnlySeq<AddressHash> hash(ReadOnlySpan<MemoryAddress> addresses, FS.FilePath dst)
         {
             var count = (uint)addresses.Length;
             var buffer = alloc<AddressHash>(count);

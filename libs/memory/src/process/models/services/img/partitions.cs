@@ -17,7 +17,7 @@ namespace Z0
             var summaries = span(buffer);
             for(var i=0u; i<count; i++)
             {
-                ref readonly var image = ref skip(images, i);
+                ref readonly var image = ref src[i];
                 ref var dst = ref seek(summaries,i);
                 dst.BaseAddress = image.BaseAddress;
                 dst.EndAddress = image.EndAddress;
@@ -28,7 +28,7 @@ namespace Z0
                 {
                     ref readonly var prior = ref skip(images, i - 1);
                     var gap = (ulong)(image.BaseAddress - prior.EndAddress);
-                    dst.Gap = gap;
+                    //dst.Gap = gap;
                 }
             }
 

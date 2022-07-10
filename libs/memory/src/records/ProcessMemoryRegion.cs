@@ -9,14 +9,14 @@ namespace Z0
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct ProcessMemoryRegion : IComparable<ProcessMemoryRegion>
     {
-        public const string TableId = "image.memory.regions";
+        public const string TableId = "memory.regions";
 
         public const byte FieldCount = 9;
 
         public uint Index;
 
         [Render(16)]
-        public NameOld Identity;
+        public string Name;
 
         [Render(16)]
         public MemoryAddress StartAddress;
@@ -37,10 +37,7 @@ namespace Z0
         public MemState State;
 
         [Render(1)]
-        public TextBlock FullIdentity;
-
-        public MemoryRange Range
-            => (StartAddress, EndAddress);
+        public FS.FileUri Path;
 
         public int CompareTo(ProcessMemoryRegion src)
             => StartAddress.CompareTo(src.StartAddress);

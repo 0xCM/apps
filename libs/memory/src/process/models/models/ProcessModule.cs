@@ -8,7 +8,7 @@ namespace Z0
     using D = System.Diagnostics;
     using A = ProcessModule;
 
-    public readonly struct ProcessModule : IAdapter<A,S>
+    public class ProcessModule : IAdapter<A,S>
     {
         [MethodImpl(Inline)]
         public static A adapt(S subject)
