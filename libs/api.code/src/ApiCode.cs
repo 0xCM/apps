@@ -23,9 +23,6 @@ namespace Z0
         public SortedIndex<ApiCodeBlock> LoadBlocks()
             => blocks(Files.HexFiles());
 
-        // public MemoryBlocks LoadMemoryBlocks(FS.FolderPath src)
-        //     => ApiHex.LoadMemoryBlocks(src);
-
         [Op]
         public ByteSize Emit(in MemoryBlock src, FS.FilePath dst)
         {
@@ -43,10 +40,10 @@ namespace Z0
             return total;
         }
 
-        public Index<MethodEntryPoint> CalcEntryPoints()
+        public ReadOnlySeq<MethodEntryPoint> CalcEntryPoints()
             => MethodEntryPoints.create(ApiJit.JitCatalog(ApiRuntimeCatalog));
 
-        public Index<MethodEntryPoint> CalcEntryPoints(ApiHostUri src)
+        public ReadOnlySeq<MethodEntryPoint> CalcEntryPoints(ApiHostUri src)
         {
             var dst = sys.empty<MethodEntryPoint>();
             if(ApiRuntimeCatalog.FindHost(src, out var host))
@@ -54,7 +51,7 @@ namespace Z0
             return dst;
         }
 
-        public Index<MethodEntryPoint> CalcEntryPoints(PartId part)
+        public ReadOnlySeq<MethodEntryPoint> CalcEntryPoints(PartId part)
         {
             var dst = sys.empty<MethodEntryPoint>();
             if(ApiRuntimeCatalog.FindPart(part, out var src))
@@ -62,24 +59,24 @@ namespace Z0
             return dst;
         }
 
-        public Index<CollectedEncoding> Collect(ICompositeDispenser dst)
+        public ReadOnlySeq<CollectedEncoding> Collect(ICompositeDispenser dst)
         {
             var collected = collect(CalcEntryPoints(), EventLog, dst);
             Emit(collected, Files.Path(FS.Csv), Files.Path(FS.Hex));
             return collected;
         }
 
-        public Index<CollectedEncoding> Collect(IPart part, ICompositeDispenser symbols, IApiPack dst)
+        public ReadOnlySeq<CollectedEncoding> Collect(IPart part, ICompositeDispenser symbols, IApiPack dst)
         {
             var collected = Collect(symbols, part);
             Emit(part.Id, collected, dst);
             return collected;
         }
 
-        public Index<CollectedEncoding> Collect(ICompositeDispenser symbols, ApiHostUri src)
+        public ReadOnlySeq<CollectedEncoding> Collect(ICompositeDispenser symbols, ApiHostUri src)
         {
             var entries = CalcEntryPoints(src);
-            var collected = sys.empty<CollectedEncoding>();
+            var collected = ReadOnlySeq<CollectedEncoding>.Empty;
             if(entries.IsNonEmpty)
             {
                 collected = collect(entries, EventLog, symbols);
@@ -90,30 +87,10 @@ namespace Z0
             return collected;
         }
 
-        // [Op]
-        // public static MemoryBlocks pack(ReadOnlySpan<ApiCodeBlock> src)
-        // {
-        //     var count = src.Length;
-        //     var buffer = alloc<MemoryBlock>(count);
-        //     return pack(src, buffer);
-        // }
-
-        // [Op]
-        // public static MemoryBlocks pack(ReadOnlySpan<ApiCodeBlock> src, Index<MemoryBlock> dst)
-        // {
-        //     for(var i=0; i<src.Length; i++)
-        //     {
-        //         ref readonly var code = ref skip(src,i);
-        //         dst[i] = new MemoryBlock(code.BaseAddress, code.Size, code.Data);
-        //     }
-
-        //     return new MemoryBlocks(dst.Sort());
-        // }
-
-        public Index<CollectedEncoding> Collect(ICompositeDispenser symbols, PartId src)
+        public ReadOnlySeq<CollectedEncoding> Collect(ICompositeDispenser symbols, PartId src)
         {
             var entries = CalcEntryPoints(src);
-            var collected = sys.empty<CollectedEncoding>();
+            var collected = ReadOnlySeq<CollectedEncoding>.Empty;
             if(entries.IsNonEmpty)
             {
                 collected = collect(entries, EventLog, symbols);
@@ -125,7 +102,7 @@ namespace Z0
             return collected;
         }
 
-        public Index<CollectedEncoding> Collect()
+        public ReadOnlySeq<CollectedEncoding> Collect()
         {
             using var symbols = Dispense.composite();
             var collected = collect(CalcEntryPoints(), EventLog, symbols);
@@ -133,9 +110,9 @@ namespace Z0
             return collected;
         }
 
-        public Index<CollectedEncoding> Collect(ICompositeDispenser symbols, string spec)
+        public ReadOnlySeq<CollectedEncoding> Collect(ICompositeDispenser symbols, string spec)
         {
-            var emitted = Index<CollectedEncoding>.Empty;
+            var emitted = ReadOnlySeq<CollectedEncoding>.Empty;
             if(text.nonempty(spec))
             {
                 var i = text.index(spec, Chars.FSlash);
@@ -150,21 +127,21 @@ namespace Z0
             return emitted;
         }
 
-        public Index<CollectedEncoding> Collect(ApiHostUri src)
+        public ReadOnlySeq<CollectedEncoding> Collect(ApiHostUri src)
         {
             using var symbols = Dispense.composite();
             return Collect(symbols, src);
         }
 
-        public Index<CollectedEncoding> Collect(PartId src)
+        public ReadOnlySeq<CollectedEncoding> Collect(PartId src)
         {
             using var symbols = Dispense.composite();
             return Collect(symbols, src);
         }
 
-        public Index<CollectedEncoding> Collect(string spec)
+        public ReadOnlySeq<CollectedEncoding> Collect(string spec)
         {
-            var emitted = Index<CollectedEncoding>.Empty;
+            var emitted = ReadOnlySeq<CollectedEncoding>.Empty;
             if(text.nonempty(spec))
             {
                 var i = text.index(spec, Chars.FSlash);
@@ -179,10 +156,21 @@ namespace Z0
             return emitted;
         }
 
-        public Index<EncodedMember> Emit(PartId part, Index<CollectedEncoding> src, IApiPack dst)
+        public void Emit(PartId part, ReadOnlySeq<ApiHostCode> src, IApiPack dst)
+        {
+            iter(src, code => Emit(code,dst), true);
+        }
+
+        void Emit(ApiHostCode src, IApiPack dst)
+        {
+            EmitHex(src.Blocks, dst.HexPath(src.Host));
+            EmitCsv(src.Blocks, dst.CsvPath(src.Host));
+        }
+
+        public ReadOnlySeq<EncodedMember> Emit(PartId part, ReadOnlySeq<CollectedEncoding> src, IApiPack dst)
             => Emit(src, dst.HexPath(part), dst.CsvPath(part));
 
-        public ByteSize EmitHex(Index<CollectedEncoding> src, FS.FilePath dst)
+        public ByteSize EmitHex(ReadOnlySeq<CollectedEncoding> src, FS.FilePath dst)
         {
             var count = src.Count;
             var emitting = EmittingFile(dst);
@@ -191,7 +179,7 @@ namespace Z0
             return size;
         }
 
-        public Index<EncodedMember> EmitCsv(Index<CollectedEncoding> collected, FS.FilePath dst)
+        public ReadOnlySeq<EncodedMember> EmitCsv(ReadOnlySeq<CollectedEncoding> collected, FS.FilePath dst)
         {
             var count = collected.Count;
             var buffer = alloc<EncodedMember>(count);
@@ -208,15 +196,15 @@ namespace Z0
             return buffer;
         }
 
-        void Load(out Index<EncodedMember> index, out BinaryCode data)
+        void Load(out Seq<EncodedMember> index, out BinaryCode data)
         {
             ApiCode.hex(Files.Path(FS.Hex), out data).Require();
             ApiCode.index(Files.Path(FS.Csv), out index).Require();
         }
 
-        Index<EncodedMember> LoadMember(PartId src)
+        Seq<EncodedMember> LoadMember(PartId src)
         {
-            var dst = Index<EncodedMember>.Empty;
+            var dst = Seq<EncodedMember>.Empty;
             var result = index(Files.Path(src, FS.Csv), out dst);
             if(result.Fail)
             {
@@ -238,21 +226,21 @@ namespace Z0
             return dst;
         }
 
-        void Load(PartId src, out Index<EncodedMember> index, out BinaryCode data)
+        void Load(PartId src, out Seq<EncodedMember> index, out BinaryCode data)
         {
             index = LoadMember(src);
             data = LoadCode(src);
         }
 
-        void Load(ApiHostUri src, out Index<EncodedMember> index, out BinaryCode data)
+        void Load(ApiHostUri src, out Seq<EncodedMember> index, out BinaryCode data)
         {
             ApiCode.hex(Files.HexPath(src), out data).Require();
             ApiCode.index(Files.CsvPath(src), out index).Require();
         }
 
-        Index<EncodedMember> Emit(Index<CollectedEncoding> src, FS.FilePath hex, FS.FilePath csv)
+        ReadOnlySeq<EncodedMember> Emit(ReadOnlySeq<CollectedEncoding> src, FS.FilePath hex, FS.FilePath csv)
         {
-            var collected = src.Sort();
+            var collected = src;
             var count = collected.Count;
             var emitting = EmittingFile(hex);
             var size = ApiCode.hex(collected, hex);
@@ -272,11 +260,11 @@ namespace Z0
         }
 
         [Op]
-        public ReadOnlySpan<ApiHexIndexRow> EmitIndex(SortedIndex<ApiCodeBlock> src, FS.FilePath dst)
+        public ReadOnlySeq<ApiHexIndexRow> EmitIndex(SortedIndex<ApiCodeBlock> src, FS.FilePath dst)
             => EmitIndex(SortedSpans.define(src.Storage), dst);
 
         [Op]
-        ReadOnlySpan<ApiHexIndexRow> EmitIndex(SortedReadOnlySpan<ApiCodeBlock> src, FS.FilePath dst)
+        ReadOnlySeq<ApiHexIndexRow> EmitIndex(SortedReadOnlySpan<ApiCodeBlock> src, FS.FilePath dst)
         {
             var flow = EmittingTable<ApiHexIndexRow>(dst);
             var blocks = src.View;

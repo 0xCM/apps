@@ -12,6 +12,9 @@ namespace Z0
     {
         public readonly AppMsgData Data;
 
+        public static MsgPattern<ByteSize,FS.FileUri> EmittedBytes
+            => "Emitted {0} bytes to {1}";
+
         public static MsgPattern<Count,Count> FieldCountMismatch
             => "The target requires {0} fields but {1} were found in the source";
 

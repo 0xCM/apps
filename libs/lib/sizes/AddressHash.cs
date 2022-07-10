@@ -9,10 +9,13 @@ namespace Z0
     {
         public const string TableId = "addresses.hashed";
 
+        [Render(8)]
         public uint Index;
 
-        public uint HashCode;
+        [Render(16)]
+        public Hash32 HashCode;
 
+        [Render(16)]
         public MemoryAddress Address;
 
         [MethodImpl(Inline)]

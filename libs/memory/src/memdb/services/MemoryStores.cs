@@ -28,7 +28,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var part = ref skip(src,i);
-                dst.Deposit(part.BaseAddress, part.Size, part.ImageName);
+                dst.Deposit(part.MinAddress, part.Size, part.ImageName);
             }
             return dst;
         }

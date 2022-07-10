@@ -6,12 +6,8 @@ namespace Z0
 {
     using static core;
 
-    using System.Linq;
-
     public partial class ProcessMemory : WfSvc<ProcessMemory>
     {
-        public ProcessTargets ContextPaths {get; private set;}
-
         Index<SymHeapRecord> CalcHeapEntries(SymHeap src)
             => Data(Heaps.id(src),() => Heaps.records(src));
 
@@ -24,17 +20,12 @@ namespace Z0
         IDbTargets ApiTargets()
             => AppDb.DbOut("api");
 
-        protected override void OnInit()
-        {
-            ContextPaths = new ProcessTargets(AppDb.DbCapture().Root);
-        }
-
         ImageRegions Regions => Wf.ImageRegions();
 
-        public ReadOnlySpan<AddressBankEntry> LoadContextAddresses()
+        public ReadOnlySpan<AddressBankEntry> LoadContextAddresses(IApiPack src)
         {
             var worker = new RegionProcessor();
-            worker.Include(Regions.LoadRegions());
+            worker.Include(Regions.LoadRegions(src));
             var product = worker.Complete();
             var count = product.SelectorCount;
             var dst = list<AddressBankEntry>();
@@ -64,108 +55,25 @@ namespace Z0
         public void Emit(ReadOnlySpan<AddressBankEntry> src, FS.FilePath dst)
             => TableEmit(src,dst);
 
-        public Index<ProcessPartition> EmitPartitions(Process process, FS.FilePath dst)
+        public ReadOnlySeq<ProcessPartition> EmitPartitions(Process process, IApiPack dst)
         {
             var summaries = ImageMemory.partitions(ImageMemory.locations(process));
-            EmitPartitions(summaries, dst);
+            TableEmit(summaries, dst.PartitionPath());
             return summaries;
-        }
-
-        public Index<ProcessPartition> EmitPartitions(Process process, IApiPack dst)
-        {
-            var memory = ImageMemory.locations(process);
-            var summaries = ImageMemory.partitions(memory);
-            EmitPartitions(summaries, dst.PartitionPath(process));
-            return summaries;
-        }
-
-        public Index<ProcessPartition> EmitPartitions(Process process, Timestamp ts, FS.FolderPath dir)
-        {
-            var memory = ImageMemory.locations(process);
-            var summaries = ImageMemory.partitions(ImageMemory.locations(process));
-            var dst = ContextPaths.ProcessPartitionPath(dir, process, ts);
-            EmitPartitions(summaries, dst);
-            return summaries;
-        }
-
-        public Count EmitPartitions(Index<ProcessPartition> src, FS.FilePath dst)
-        {
-            var flow = Wf.EmittingTable<ProcessPartition>(dst);
-            var count = Tables.emit(src.View,dst);
-            Wf.EmittedTable(flow,count);
-            return count;
-        }
-
-        [Op]
-        public static MemoryAddress @base(Assembly src)
-            => @base(Path.GetFileNameWithoutExtension(src.Location));
-
-        [MethodImpl(Inline), Op]
-        public static MemoryAddress @base(string procname)
-        {
-            var module = ImageMemory.modules(Process.GetCurrentProcess()).Where(m => Path.GetFileNameWithoutExtension(m.ImagePath.Name) == procname).First();
-            return module.BaseAddress;
-        }
-
-        [Op]
-        public static Index<ProcessPartition> emit(Index<ImageLocation> src, FS.FilePath dst)
-        {
-            var records = ImageMemory.partitions(src);
-            var target = records.Edit;
-            var formatter = Tables.formatter<ProcessPartition>(16);
-            var count = records.Length;
-            using var writer = dst.Writer();
-            writer.WriteLine(formatter.FormatHeader());
-            for(var i=0; i<count; i++)
-                writer.WriteLine(formatter.Format(skip(target,i)));
-            return records;
-        }
-
-        /// <summary>
-        /// Captures state information about a specified process
-        /// </summary>
-        /// <param name="src">The source process</param>
-        [MethodImpl(Inline), Op]
-        public static ProcessMemoryState state(Process src)
-        {
-            var dst = new ProcessMemoryState();
-            fill(src, ref dst);
-            return dst;
-        }
-
-        [Op]
-        public static ref ProcessMemoryState fill(Process src, ref ProcessMemoryState dst)
-        {
-            dst.ImageName = src.ProcessName;
-            dst.ProcessId = (uint)src.Id;
-            dst.BaseAddress = src.MainModule.BaseAddress;
-            dst.MinWorkingSet =(ulong)src.MinWorkingSet;
-            dst.MaxWorkingSet = (ulong)src.MaxWorkingSet;
-            dst.Affinity = (ulong)src.ProcessorAffinity;
-            dst.StartTime = src.StartTime;
-            dst.TotalRuntime = src.TotalProcessorTime;
-            dst.UserRuntime = src.UserProcessorTime;
-            dst.ImagePath = FS.path(src.MainModule.FileName);
-            dst.MemorySize = src.MainModule.ModuleMemorySize;
-            dst.ImageVersion = ((uint)src.MainModule.FileVersionInfo.FileMajorPart, (uint)src.MainModule.FileVersionInfo.FileMinorPart);
-            dst.EntryAddress = src.MainModule.EntryPointAddress;
-            dst.VirtualSize = src.VirtualMemorySize64;
-            dst.MaxVirtualSize = src.PeakVirtualMemorySize64;
-            return ref dst;
         }
 
         public void EmitHashes(Process process, ReadOnlySpan<ProcessPartition> src, IApiPack dst)
-            => ProcessMemory.hash(MemoryStores.stores(src).Addresses, dst.PartitionHashPath(process));
+            => EmitHashes(MemoryStores.stores(src).Addresses, dst.PartitionHashPath());
 
         public void EmitHashes(Process process, ReadOnlySpan<ProcessMemoryRegion> src, IApiPack dst)
-            => ProcessMemory.hash(MemoryStores.load(src).Addresses, dst.RegionHashPath(process));
+            => EmitHashes(MemoryStores.load(src).Addresses, dst.RegionHashPath());
 
-        public static ReadOnlySeq<AddressHash> hash(ReadOnlySpan<MemoryAddress> addresses, FS.FilePath dst)
+        ReadOnlySeq<AddressHash> EmitHashes(ReadOnlySpan<MemoryAddress> addresses, FS.FilePath dst)
         {
             var count = (uint)addresses.Length;
             var buffer = alloc<AddressHash>(count);
-            MemoryStores.hash(addresses,buffer);
-            Tables.emit(@readonly(buffer), dst);
+            MemoryStores.hash(addresses, buffer);
+            TableEmit(buffer, dst);
             return buffer;
         }
     }

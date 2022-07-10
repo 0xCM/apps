@@ -4,28 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    public readonly struct ApiHostMembers
+    public class ApiHostMembers
     {
-        public ApiHostUri Host {get;}
+        public readonly ApiHostUri Host;
 
-        public ApiMembers Members {get;}
+        public readonly ApiMembers Members;
 
         [MethodImpl(Inline)]
         public ApiHostMembers(ApiHostUri host, ApiMembers members)
         {
             Host = host;
             Members = members;
-        }
-
-        public ReadOnlySpan<ApiMember> View
-        {
-            [MethodImpl(Inline)]
-            get => Members.View;
         }
     }
 }

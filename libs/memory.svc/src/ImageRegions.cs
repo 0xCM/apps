@@ -11,26 +11,10 @@ namespace Z0
     [Free]
     public class ImageRegions : WfSvc<ImageRegions>
     {
-        public ProcessTargets ContextPaths {get; private set;}
-
-        protected override void OnInit()
+        public Index<ProcessMemoryRegion> LoadRegions(IApiPack src)
         {
-            ContextPaths = new ProcessTargets(AppDb.DbCapture().Root);
-        }
-
-        public Index<ProcessMemoryRegion> LoadRegions()
-        {
-            var paths = ContextPaths.MemoryRegionPaths();
-            if(paths.Length != 0)
-            {
-                var path = paths[paths.Length - 1];
-                var result = LoadRegions(path);
-                if(result)
-                    return result.Data;
-                else
-                    Error(result.Message);
-            }
-            return sys.empty<ProcessMemoryRegion>();
+            var paths = src.RegionPath();
+            return LoadRegions(src.RegionPath());
         }
 
         public Outcome<Index<ProcessMemoryRegion>> LoadRegions(FS.FilePath src)
@@ -71,32 +55,10 @@ namespace Z0
             return (true,buffer);
         }
 
-        public ReadOnlySeq<ProcessMemoryRegion> EmitRegions(Process process, FS.FilePath dst)
-        {
-            var regions = ImageMemory.regions(process);
-            EmitRegions(regions,dst);
-            return regions;
-        }
-
         public ReadOnlySeq<ProcessMemoryRegion> EmitRegions(Process process, IApiPack dst)
         {
             var regions = ImageMemory.regions(process);
-            EmitRegions(regions, dst.RegionPath(process));
-            return regions;
-        }
-
-        public ReadOnlySeq<ProcessMemoryRegion> EmitRegions(Process process, Timestamp ts, FS.FolderPath dir)
-        {
-            var regions = ImageMemory.regions(process);
-            var dst = ContextPaths.MemoryRegionPath(process, ts, dir);
-            EmitRegions(regions,dst);
-            return regions;
-        }
-
-        public ReadOnlySeq<ProcessMemoryRegion> EmitRegions(FS.FilePath dst)
-        {
-            var regions = ImageMemory.regions();
-            EmitRegions(regions,dst);
+            EmitRegions(regions, dst.RegionPath());
             return regions;
         }
 

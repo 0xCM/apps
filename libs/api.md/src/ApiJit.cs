@@ -61,11 +61,10 @@ namespace Z0
         public static Index<ApiMember> complete(Type src, WfEventLogger log)
             => Members(ApiQuery.complete(src, CommonExclusions).Select(m => new JittedMethod(src.ApiHostUri(), m, ClrJit.jit(m))));
 
-        public static ApiMembers jit(IApiHost src, WfEventLogger log)
+        public static ApiHostMembers jit(IApiHost src, WfEventLogger log)
         {
-            var direct = JitDirect(src);
-            var generic = JitGeneric(src, log);
-            return ApiMembers.create(direct.Concat(generic).Array());
+            var dst = list<ApiMember>();
+            return new (src.HostUri, jit(src.HostType, log));
         }
 
         public static ApiMembers jit(Type src, WfEventLogger log)
@@ -97,7 +96,7 @@ namespace Z0
 
         public ApiMembers JitPart(IPart src)
         {
-            var flow = Wf.Running(Msg.JittingPart.Format(src.Id));
+            var flow = Running(Msg.JittingPart.Format(src.Id));
             var buffer = list<ApiMember>();
             var catalog = ApiLoader.catalog(src.Owner);
             var types = catalog.ApiTypes;
@@ -110,13 +109,13 @@ namespace Z0
                 buffer.AddRange(JitHost(h));
 
             var members = ApiMembers.create(buffer.ToArray());
-            Wf.Ran(flow, Msg.JittedPart.Format(members.Count, src.Id));
+            Ran(flow, Msg.JittedPart.Format(members.Count, src.Id));
 
             return members;
         }
 
-        public Index<ApiMember> Jit(ApiCompleteType src)
-            => jit(src, EventLog);
+        // public Index<ApiMember> Jit(ApiCompleteType src)
+        //     => jit(src, EventLog);
 
         public IDictionary<MethodInfo,Type> ClosureProviders(IEnumerable<Type> src)
         {
@@ -138,13 +137,11 @@ namespace Z0
             return new ApiMember(uri, src, address, ClrDynamic.msil(address, uri, src));
         }
 
-
         public static ApiMember member(MethodInfo src, OpUri uri)
         {
             var address = ClrJit.jit(src);
             return new ApiMember(uri, src, address, ClrDynamic.msil(address, uri, src));
         }
-
 
         static ApiMember[] JitDirect(Type src)
         {
@@ -154,12 +151,7 @@ namespace Z0
             var buffer = alloc<ApiMember>(count);
             var diviner = MultiDiviner.Service;
             for(var i=0; i<count; i++)
-            {
-                var m = methods[i];
-                //seek(buffer,i) = new ApiMember(ApiUri.define(ApiUriScheme.Located, uri, m.Method.Name, diviner.Identify(m.Method)), m.Method, ClrJit.jit(m.Method));
-                seek(buffer,i) = member(m.Method, uri);
-
-            }
+                seek(buffer,i) = member(methods[i].Method, uri);
             return buffer;
         }
 

@@ -7,7 +7,7 @@ namespace Z0
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct AddressBankEntry
     {
-        public const string TableId = "address-bank.entry";
+        public const string TableId = "addresses.entries";
 
         [Render(16)]
         public AddressBankIndex Index;

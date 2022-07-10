@@ -12,25 +12,25 @@ namespace Z0
 
         ApiCode ApiCode => Wf.ApiCode();
 
-        public ApiHostCode ExtractHostCode(in ResolvedHost src, IApiPack pack, IApiPackArchive dst)
-        {
-            var host = src.Host;
-            var rawPath = dst.RawHexPath(host);
-            var raw = ExtractHost(src).Sort();
-            EmitRawHex(host, raw.View,rawPath);
-            var parsed = ParseBlocks(raw.View);
-            var packedPath = dst.ParsedHexPath(host);
-            var parsedPath = dst.ParsedExtractPath(host);
-            EmitParsedHex(host, parsed.View, pack, packedPath, parsedPath);
-            var result = new ApiHostCode();
-            result.Resolved = src;
-            result.RawPath =rawPath;
-            result.PackedPath = packedPath;
-            result.ParsedPath = parsedPath;
-            result.Raw = raw;
-            result.Parsed = parsed;
-            return result;
-        }
+        // public ApiHostCode ExtractHostCode(in ResolvedHost src, IApiPack pack, IApiPackArchive dst)
+        // {
+        //     var host = src.Host;
+        //     var rawPath = dst.RawHexPath(host);
+        //     var raw = ExtractHost(src).Sort();
+        //     EmitRawHex(host, raw.View,rawPath);
+        //     var parsed = ParseBlocks(raw.View);
+        //     var packedPath = dst.ParsedHexPath(host);
+        //     var parsedPath = dst.ParsedExtractPath(host);
+        //     EmitParsedHex(host, parsed.View, pack, packedPath, parsedPath);
+        //     var result = new ApiHostCode();
+        //     result.Resolved = src;
+        //     result.RawPath =rawPath;
+        //     result.PackedPath = packedPath;
+        //     result.ParsedPath = parsedPath;
+        //     result.Raw = raw;
+        //     result.Parsed = parsed;
+        //     return result;
+        // }
 
         ApiMemberBlocks ParseBlocks(ReadOnlySpan<ApiMemberExtract> src)
         {

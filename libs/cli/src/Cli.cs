@@ -22,7 +22,7 @@ namespace Z0
 
         ApiJit Jit => Wf.ApiJit();
 
-        public void EmitHostMsil(string hostid)
+        public void EmitHostMsil(string hostid, IApiPack dst)
         {
             var result = Outcome.Success;
             result = ApiParsers.host(hostid, out var uri);
@@ -36,7 +36,6 @@ namespace Z0
             if(result.Fail)
                 Errors.Throw(result.Message);
         }
-
 
         public ConstLookup<ApiHostUri,FS.FilePath> EmitMsil(ReadOnlySpan<IApiHost> hosts, IApiPack dst)
         {

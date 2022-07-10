@@ -8,7 +8,7 @@ namespace Z0
 
     partial class ApiCode
     {
-        public static Outcome index(FS.FilePath src, out Index<EncodedMember> dst)
+        public static Outcome index(FS.FilePath src, out Seq<EncodedMember> dst)
         {
             var result = Outcome.Success;
             var lines = src.ReadLines(true);

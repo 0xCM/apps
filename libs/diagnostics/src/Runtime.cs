@@ -4,18 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public partial class Runtime : WfSvc<Runtime>
+    public class Runtime : WfSvc<Runtime>
     {
         ImageRegions Regions => Wf.ImageRegions();
 
         ProcessMemory ProcessMemory => Wf.ProcessMemory();
-
-        public ProcessTargets ContextPaths {get; private set;}
-
-        protected override void OnInit()
-        {
-            ContextPaths = new ProcessTargets(AppDb.DbCapture().Root);
-        }
 
         public void EmitContext(Timestamp ts)
             => EmitContext(ApiPacks.create(ts));
@@ -34,8 +27,8 @@ namespace Z0
         {
             var flow = Running("Emiting process context");
             var process = Process.GetCurrentProcess();
-            var parts = ProcessMemory.EmitPartitions(process, dst.PartitionPath(process));
-            var regions = Regions.EmitRegions(process, dst.RegionPath(process));
+            var parts = ProcessMemory.EmitPartitions(process, dst);
+            var regions = Regions.EmitRegions(process, dst);
             ProcessMemory.EmitHashes(process, parts, dst);
             ProcessMemory.EmitHashes(process, regions, dst);
             EmitDump(process, dst.DumpPath(process));
@@ -46,7 +39,7 @@ namespace Z0
         {
             var dumping = EmittingFile(dst);
             DumpEmitter.emit(process, dst.Format(PathSeparator.BS), DumpTypeOption.Full);
-            EmittedFile(dumping,1);
+            EmittedBytes(dumping, dst.Size);
         }
    }
 }

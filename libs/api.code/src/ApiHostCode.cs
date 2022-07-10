@@ -6,16 +6,20 @@ namespace Z0
 {
     public class ApiHostCode
     {
-        public ResolvedHost Resolved;
+        public ApiHostMembers Resolved;
 
-        public ApiHostExtracts Raw;
+        public ReadOnlySeq<CollectedEncoding> Blocks;
 
-        public FS.FilePath RawPath;
+        public ApiHostCode(ApiHostMembers resolved, ReadOnlySeq<CollectedEncoding> blocks)
+        {
+            Resolved = resolved;
+            Blocks = blocks;
+        }
 
-        public ApiMemberBlocks Parsed;
-
-        public FS.FilePath PackedPath;
-
-        public FS.FilePath ParsedPath;
+        public ApiHostUri Host
+        {
+            [MethodImpl(Inline)]
+            get => Resolved.Host;
+        }
     }
 }

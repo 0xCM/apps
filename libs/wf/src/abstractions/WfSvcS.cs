@@ -10,25 +10,6 @@ namespace Z0
     using static core;
     using static ApiGranules;
 
-    public class WfSvc
-    {
-        static IWsProject Project;
-
-        public static ref readonly IWsProject project()
-        {
-            if(Project == null)
-                Errors.Throw("Project is null");
-            return ref Project;
-        }
-
-        [MethodImpl(Inline)]
-        public static ref readonly IWsProject project(IWsProject src)
-        {
-            Project = src;
-            return ref Project;
-        }
-    }
-
     public abstract class WfSvc<S> : AppService<S>
         where S : WfSvc<S>, new()
     {
@@ -204,6 +185,9 @@ namespace Z0
 
         public ExecToken EmittedFile<T>(WfFileWritten flow, T msg)
             => WfMsg.EmittedFile(flow, msg);
+
+        public ExecToken EmittedBytes(WfFileWritten flow, ByteSize size)
+            => EmittedFile(flow, AppMsg.EmittedBytes.Capture(size, flow.Target));
 
         public new WfTableFlow<T> EmittingTable<T>(FS.FilePath dst)
             where T : struct

@@ -9,30 +9,21 @@ namespace Z0
     partial class ImageMemory
     {
         [Op]
-        public static Index<ProcessPartition> partitions(ReadOnlySeq<ImageLocation> src)
+        public static ReadOnlySeq<ProcessPartition> partitions(ReadOnlySeq<ImageLocation> src)
         {
             var count = src.Count;
-            var images = src.View;
             var buffer = alloc<ProcessPartition>(count);
-            var summaries = span(buffer);
             for(var i=0u; i<count; i++)
             {
                 ref readonly var image = ref src[i];
-                ref var dst = ref seek(summaries,i);
-                dst.BaseAddress = image.BaseAddress;
-                dst.EndAddress = image.EndAddress;
+                ref var dst = ref seek(buffer,i);
+                dst.MinAddress = image.BaseAddress;
+                dst.MaxAddress = image.EndAddress;
                 dst.Size = image.Size;
                 dst.ImageName = image.Name;
-
-                if(i != 0)
-                {
-                    ref readonly var prior = ref skip(images, i - 1);
-                    var gap = (ulong)(image.BaseAddress - prior.EndAddress);
-                    //dst.Gap = gap;
-                }
             }
 
-            return buffer;
+            return buffer.Sort();
         }
     }
 }

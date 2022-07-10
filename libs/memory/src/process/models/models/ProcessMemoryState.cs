@@ -29,7 +29,7 @@ namespace Z0
         /// <summary>
         /// The process name
         /// </summary>
-        public NameOld ImageName;
+        public string ImageName;
 
         /// <summary>
         /// The minimum working set size

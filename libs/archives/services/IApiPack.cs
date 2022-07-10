@@ -28,10 +28,10 @@ namespace Z0
             => Targets().Path(DumpFile(process)).CreateParentIfMissing();
 
         FS.FilePath Path(PartId part, FileKind kind)
-            => Extracts().Path(FS.file(part.Format(), kind));
+            => Targets().Path(FS.file(part.Format(), kind));
 
-        IDbTargets Extracts()
-            => Targets("extracts");
+        FS.FilePath Path(ApiHostUri host, FileKind kind)
+            => Targets().Path(FS.file(host, kind));
 
         IDbTargets Metadata()
             => Targets("meta");
@@ -51,25 +51,37 @@ namespace Z0
         FS.FilePath AsmPath(PartId part)
             => Path(part, FileKind.Asm);
 
-        FS.FileName RegionHashFile(Process process)
-            => FS.file(string.Format("{0}.{1}", "process.partitions.hash", process.ProcessName), FileKind.Csv);
+        FS.FilePath HexPath(ApiHostUri src)
+            => Path(src, FileKind.HexDat);
 
-        FS.FileName PartitionFile(Process process)
-            => FS.file(string.Format("{0}.{1}", "process.partitions", process.ProcessName), FileKind.Csv);
+        FS.FilePath CsvPath(ApiHostUri src)
+            => Path(src, FileKind.Csv);
 
-        FS.FileName RegionFile(Process process)
-            => FS.file(string.Format("{0}.{1}", "memory.regions", process.ProcessName), FileKind.Csv);
+        FS.FilePath AsmPath(ApiHostUri src)
+            => Path(src, FileKind.Asm);
 
-        FS.FilePath PartitionPath(Process process)
-            => Targets().Path(PartitionFile(process));
+        FS.FileName RegionFile()
+            => FS.file("memory.regions", FileKind.Csv);
 
-        FS.FilePath RegionPath(Process process)
-            => Targets().Path(RegionFile(process));
+        FS.FileName RegionHashFile()
+            => FS.file("memory.regions.hash", FileKind.Csv);
 
-        FS.FilePath RegionHashPath(Process process)
-            => Targets().Path(RegionHashFile(process));
+        FS.FileName PartitionFile()
+            => FS.file("process.partitions", FileKind.Csv);
 
-        FS.FilePath PartitionHashPath(Process process)
-            => Targets().Path(RegionHashFile(process));
+        FS.FileName PartitionHashFile()
+            => FS.file("process.partitions.hash", FileKind.Csv);
+
+        FS.FilePath PartitionPath()
+            => Targets().Path(PartitionFile());
+
+        FS.FilePath RegionPath()
+            => Targets().Path(RegionFile());
+
+        FS.FilePath RegionHashPath()
+            => Targets().Path(RegionHashFile());
+
+        FS.FilePath PartitionHashPath()
+            => Targets().Path(PartitionHashFile());
     }
 }

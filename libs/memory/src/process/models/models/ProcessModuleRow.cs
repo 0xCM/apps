@@ -7,7 +7,7 @@ namespace Z0
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct ProcessModuleRow : IComparable<ProcessModuleRow>
     {
-        const string TableId = "image.process.modules";
+        const string TableId = "process.modules";
 
         [Render(16)]
         public MemoryAddress BaseAddress;
@@ -25,7 +25,7 @@ namespace Z0
         public ApiVersion Version;
 
         [Render(1)]
-        public FS.FilePath ImagePath;
+        public FS.FileUri ImagePath;
 
         [MethodImpl(Inline)]
         public int CompareTo(ProcessModuleRow src)

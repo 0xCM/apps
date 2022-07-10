@@ -11,27 +11,6 @@ namespace Z0
     partial class ImageMemory
     {
         [Op]
-        public static ReadOnlySeq<ProcessModule> modules()
-            => modules((ProcessAdapter)Process.GetCurrentProcess());
-
-        [Op]
-        public static ReadOnlySeq<ProcessModule> modules(ProcessAdapter src)
-            => src.Modules.OrderBy(x => x.BaseAddress).Array();
-
-        public static Index<ProcessModuleRow> modules(FS.FilePath src)
-        {
-            using var reader = src.AsciLineReader();
-            var line = AsciLineCover.Empty;
-            reader.Next(out line);
-            while(reader.Next(out line))
-            {
-
-            }
-
-            return default;
-        }
-
-        [Op]
         public static ReadOnlySeq<ProcessModuleRow> modules(Process src)
         {
             var modules = src.Modules.Cast<System.Diagnostics.ProcessModule>().Array();

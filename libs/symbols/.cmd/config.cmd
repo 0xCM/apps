@@ -1,4 +1,4 @@
 @echo off
 set ProjectId=symbols
-call %ZDev%\.cmd\config.cmd
+call %Views%\z0\.cmd\config.cmd
 

@@ -32,7 +32,6 @@ namespace Z0
 
         readonly Index<ApiMember> Data;
 
-
         [MethodImpl(Inline)]
         ApiMembers(MemoryAddress @base, Index<ApiMember> src)
         {

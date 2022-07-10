@@ -10,14 +10,30 @@ namespace Z0
 
     partial class ApiCode
     {
-        public Index<CollectedEncoding> Collect(ICompositeDispenser symbols, IPart src)
+        public ReadOnlySeq<CollectedEncoding> Collect(ICompositeDispenser symbols, IPart src)
             => collect(MethodEntryPoints.create(ApiJit.JitPart(src)), EventLog, symbols);
 
-        public static Index<CollectedEncoding> collect(IApiPartCatalog src, WfEventLogger log, ICompositeDispenser dst)
+        public static ReadOnlySeq<CollectedEncoding> collect(IApiPartCatalog src, WfEventLogger log, ICompositeDispenser dst)
             => collect(MethodEntryPoints.create(ApiJit.jit(src, log)), log, dst);
 
-        public static Index<CollectedEncoding> collect(ReadOnlySpan<MethodEntryPoint> src, WfEventLogger log, ICompositeDispenser dispenser)
-            => divine(collect(dispenser, src), log);
+        public static ReadOnlySeq<ApiHostCode> collect2(IApiPartCatalog src, WfEventLogger log, ICompositeDispenser dst)
+        {
+            var members = list<ApiHostMembers>();
+            var collected = list<ApiHostCode>();
+            iter(src.ApiHosts, host => members.Add(ApiJit.jit(host,log)));
+            iter(src.ApiTypes, t => members.Add(new ApiHostMembers(t.HostUri, ApiMembers.create(ApiJit.jit(t,log)))));
+            iter(members, m => collected.Add(collect(m,log,dst)));
+            return collected.ToArray();
+        }
+
+        public static ApiHostCode collect(ApiHostMembers src, WfEventLogger log, ICompositeDispenser dst)
+        {
+            var collected = collect(MethodEntryPoints.create(src.Members), log, dst);
+            return new ApiHostCode(src,collected);
+        }
+
+        public static ReadOnlySeq<CollectedEncoding> collect(ReadOnlySpan<MethodEntryPoint> src, WfEventLogger log, ICompositeDispenser dispenser)
+            => divine(collect(dispenser, src), log).Sort();
 
         static Index<RawMemberCode> collect(ICompositeDispenser symbols, ReadOnlySpan<MethodEntryPoint> entries)
         {
@@ -70,39 +86,6 @@ namespace Z0
             }
             else
                 dst.Token = token(symbols, entry);
-        }
-
-
-        static Index<CollectedEncoding> original(ReadOnlySpan<RawMemberCode> src, WfEventLogger log)
-        {
-            var count = src.Length;
-            var buffer = span<byte>(Pow2.T16);
-            var host = ApiHostUri.Empty;
-            var dst = dict<ApiHostUri,CollectedCodeExtracts>();
-            var max = ByteSize.Zero;
-            for(var i=0; i<count; i++)
-            {
-                buffer.Clear();
-                ref readonly var raw = ref skip(src,i);
-                var uri = raw.Uri;
-                if(raw.StubCode != raw.Stub.Encoding)
-                {
-                    Errors.Throw("Stub code mismatch");
-                    break;
-                }
-
-                if(uri.Host != host)
-                    host = uri.Host;
-
-                var extract = slice(buffer,0, Bytes.readz(ZeroLimit, raw.Target, buffer));
-                var extracted = new CollectedCodeExtract(raw, extract.ToArray());
-                if(dst.TryGetValue(host, out var extracts))
-                    extracts.Include(extracted);
-                else
-                    dst[host] = new CollectedCodeExtracts(extracted);
-            }
-
-            return lookup(dst, log).Emit();
         }
 
         static Outcome extract(in RawMemberCode raw, Span<byte> buffer, out CollectedCodeExtract dst)

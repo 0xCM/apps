@@ -8,15 +8,12 @@ namespace Z0
     {
         public ResolvedPart Resolved;
 
-        public readonly Index<ApiHostCode> Code;
+        public readonly Index<ApiHostMembers> Code;
 
-        public readonly IApiPack Archive;
-
-        public ApiPartCode(ResolvedPart resolved, ApiHostCode[] code, IApiPack archive)
+        public ApiPartCode(ResolvedPart resolved, ApiHostMembers[] code)
         {
             Resolved = resolved;
             Code = code;
-            Archive = archive;
         }
     }
 }

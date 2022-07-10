@@ -9,7 +9,7 @@ namespace Z0
     [Free]
     public unsafe class MemCmd : CmdService<MemCmd>
     {
-        [CmdOp("mem/show")]
+        [CmdOp("memory")]
         Outcome ShowMemHex(CmdArgs args)
         {
             var address = MemoryAddress.Zero;
@@ -33,11 +33,11 @@ namespace Z0
             return result;
         }
 
-        [CmdOp("mem/modules")]
+        [CmdOp("modules")]
         void ListModules()
         {
             var src = ImageMemory.modules(ExecutingPart.Process);
-            var dst = AppDb.App().Targets(tables).Table<ProcessModuleRow>();
+            var dst = AppDb.App().Targets(tables).Path($"process.modules.{timestamp()}", FileKind.Csv);
             var formatter = Tables.formatter<ProcessModuleRow>();
             for(var i=0; i<src.Length; i++)
                 Row(formatter.Format(src[i]));
@@ -48,10 +48,9 @@ namespace Z0
         void EmitImplMaps()
         {
             var src = Clr.impls(Parts.Lib.Assembly, Parts.Lib.Assembly);
-            using var writer = AppDb.ApiTargets().Path("api.impl.maps",FileKind.Map).Utf8Writer();
+            using var writer = AppDb.ApiTargets().Path("api.impl.maps", FileKind.Map).Utf8Writer();
             for(var i=0; i<src.Count; i++)
                 src[i].Render(s => writer.WriteLine(s));
         }
-
     }
 }

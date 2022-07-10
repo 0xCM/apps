@@ -29,6 +29,16 @@ namespace Z0
             CliEmitter.Emit(CliEmitOptions.@default(), dst);
         }
 
+        public void Run2()
+        {
+            var parts = ApiPartCapture.create(Wf);
+            var dst = ApiPacks.create();
+            parts.Capture2(dst);
+            Runtime.EmitContext(dst);
+            CliEmitter.Emit(CliEmitOptions.@default(), dst);
+
+        }
+
         public void Run(PartId id)
         {
             if(ApiRuntimeCatalog.FindPart(id, out var src))
@@ -53,7 +63,7 @@ namespace Z0
                     Run(ApiParsers.part(spec));
             }
             else
-                Run();
+                Run2();
         }
 
         public void Run(ApiHostUri src)
@@ -65,20 +75,20 @@ namespace Z0
         void Run(ICompositeDispenser symbols, ApiHostUri src)
         {
             var collected = ApiCode.Collect(src);
-            var size = ApiCode.EmitHex(collected, CodeFiles.HexPath(src));
-            var csv = ApiCode.EmitCsv(collected, CodeFiles.CsvPath(src));
-            var asm = EmitAsm(symbols, src, collected);
+            ApiCode.EmitHex(collected, CodeFiles.HexPath(src));
+            ApiCode.EmitCsv(collected, CodeFiles.CsvPath(src));
+            EmitAsm(symbols, src, collected);
         }
 
         void Run(ICompositeDispenser symbols, IPart src)
         {
-            var collected = ApiCode.Collect(symbols,src).Sort();
-            var size = ApiCode.EmitHex(collected, CodeFiles.HexPath(src.Id));
-            var csv = ApiCode.EmitCsv(collected, CodeFiles.CsvPath(src.Id));
-            var asm = EmitAsm(symbols, src.Id, collected);
+            var collected = ApiCode.Collect(symbols,src);
+            ApiCode.EmitHex(collected, CodeFiles.HexPath(src.Id));
+            ApiCode.EmitCsv(collected, CodeFiles.CsvPath(src.Id));
+            EmitAsm(symbols, src.Id, collected);
         }
 
-        Index<AsmRoutine> EmitAsm(ICompositeDispenser symbols, PartId part, Index<CollectedEncoding> src)
+        ReadOnlySeq<AsmRoutine> EmitAsm(ICompositeDispenser symbols, PartId part, ReadOnlySeq<CollectedEncoding> src)
         {
             var dst = alloc<AsmRoutine>(src.Count);
             var emitter = text.emitter();
@@ -93,7 +103,7 @@ namespace Z0
             return dst;
         }
 
-        Index<AsmRoutine> EmitAsm(ICompositeDispenser symbols, ApiHostUri host, Index<CollectedEncoding> src)
+        ReadOnlySeq<AsmRoutine> EmitAsm(ICompositeDispenser symbols, ApiHostUri host, ReadOnlySeq<CollectedEncoding> src)
         {
             var dst = alloc<AsmRoutine>(src.Count);
             var emitter = text.emitter();

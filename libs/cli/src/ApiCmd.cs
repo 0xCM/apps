@@ -108,15 +108,11 @@ namespace Z0
 
         [CmdOp("api/emit/msil-host")]
         void EmitHostMsil(CmdArgs args)
-            => Cli.EmitHostMsil(arg(args,0));
+            => Cli.EmitHostMsil(arg(args,0), ApiPacks.create());
 
         [CmdOp("api/emit/msil")]
         void EmitMsil()
-        {
-            // var targets = AppDb.ApiTargets(msil);
-            // Cli.EmitMsil(ApiMd.ApiHosts, targets.Targets(il));
-            // TableEmit(Cil.opcodes(), AppDb.DbOut("clr").Path("cil.opcodes", FileKind.Csv));
-        }
+            => Cli.EmitMsil(ApiPacks.create());
 
         [CmdOp("api/emit/corelib")]
         void EmitCorLib()

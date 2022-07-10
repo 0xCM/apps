@@ -14,14 +14,14 @@ namespace Z0
 
         public EncodedMembers LoadEncoded(PartId src)
         {
-            Load(src, out var index, out var code);
-            return members(Dispense.composite(), index, code);
+            Load(src, out var seq, out var code);
+            return members(Dispense.composite(), seq, code);
         }
 
         EncodedMembers LoadEncoded(ICompositeDispenser symbols)
         {
-            Load(out var index, out var code);
-            return members(symbols, index, code);
+            Load(out var seq, out var code);
+            return members(symbols, seq, code);
         }
 
         EncodedMembers LoadEncoded(ICompositeDispenser symbols, string spec)
@@ -40,14 +40,14 @@ namespace Z0
 
         EncodedMembers LoadEncoded(ICompositeDispenser symbols, ApiHostUri src)
         {
-            Load(src, out var index, out var code);
-            return members(symbols, index, code);
+            Load(src, out var seq, out var code);
+            return members(symbols, seq, code);
         }
 
         EncodedMembers LoadEncoded(ICompositeDispenser symbols, PartId src)
         {
-            Load(src, out var index, out var code);
-            return members(symbols, index, code);
+            Load(src, out var seq, out var code);
+            return members(symbols, seq, code);
         }
     }
 }
