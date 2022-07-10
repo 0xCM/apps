@@ -6,25 +6,16 @@ namespace Z0
 {
     public class ToolCmdArg : IToolCmdArg
     {
-        /// <summary>
-        /// The argument's relative position
-        /// </summary>
         public ushort Position {get;}
 
-        /// <summary>
-        /// The argument name, if any
-        /// </summary>
         public string Name {get;}
 
-        /// <summary>
-        /// The argument value
-        /// </summary>
-        public dynamic Value {get;}
+        public string Value {get;}
 
         public bool IsFlag {get;}
 
         [MethodImpl(Inline)]
-        public ToolCmdArg(ushort pos, string name, dynamic value, bool flag = false)
+        public ToolCmdArg(ushort pos, string name, string value, bool flag = false)
         {
             Position = pos;
             Name = name;
@@ -33,7 +24,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public ToolCmdArg(string name, dynamic value, bool flag = false)
+        public ToolCmdArg(string name, string value, bool flag = false)
         {
             Position = 0;
             Name = name;

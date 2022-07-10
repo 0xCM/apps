@@ -26,6 +26,15 @@
 		},
 		{
 			"path": "..\\..\\props"
+		},
+		{
+			"path": "..\\cmd.svc"
+		},
+		{
+			"path": "..\\cmd.tools"
+		},
+		{
+			"path": "..\\cmd.exec"
 		}
 	],
 	"settings": {}

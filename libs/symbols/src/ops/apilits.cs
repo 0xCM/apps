@@ -8,7 +8,7 @@ namespace Z0
 
     public partial class Symbolic
     {
-        public static Index<ApiLiteral> apilits(Assembly[] src)
+        public static ReadOnlySeq<ApiLiteral> apilits(Assembly[] src)
         {
             var providers = src.Types().Tagged<LiteralProviderAttribute>()
                   .Select(x => (Type:x, Attrib:x.Tag<LiteralProviderAttribute>().Require()))

@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="$(Numbers)" />
     <ProjectReference Include="$(Cli)" />
   </ItemGroup>
 </Project>

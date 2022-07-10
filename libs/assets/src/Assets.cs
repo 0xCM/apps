@@ -25,10 +25,10 @@ namespace Z0
         public static AssetCatalog catalog(Index<Asset> src)
         {
             var count = src.Length;
-            var dst = new AssetCatalog(alloc<AssetCatalogEntry>(count));
+            var dst = alloc<AssetCatalogEntry>(count);
             for(var i=0; i<count; i++)
-                dst[i] = entry(src[i]);
-            return dst;
+                seek(dst,i) = entry(src[i]);
+            return new AssetCatalog(dst);
         }
 
         [MethodImpl(Inline), Op]

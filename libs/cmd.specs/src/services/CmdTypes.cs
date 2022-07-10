@@ -9,23 +9,23 @@ namespace Z0
     [ApiHost]
     public class CmdTypes
     {
-        public static CmdId identify<T>()
+        public static Name identify<T>()
             => identify(typeof(T));
 
         [Op]
-        public static CmdId identify(Type spec)
+        public static Name identify(Type spec)
         {
             var tag = spec.Tag<CmdAttribute>();
             if(tag)
             {
                 var name = tag.Value.Name;
                 if(empty(name))
-                    return new CmdId(spec.Name);
+                    return spec.Name;
                 else
-                    return new CmdId(name);
+                    return name;
             }
             else
-                return new CmdId(spec.Name);
+                return spec.Name;
         }
 
 
@@ -71,7 +71,7 @@ namespace Z0
         public static Index<CmdTypeInfo> discover(Assembly[] src)
             => tagged(src).Select(describe).Sort();
 
-        public static Index<ApiCmdRow> rows(ReadOnlySpan<CmdTypeInfo> src)
+        public static ReadOnlySeq<ApiCmdRow> rows(ReadOnlySpan<CmdTypeInfo> src)
         {
             var count = src.Select(x => x.FieldCount).Sum();
             var dst = alloc<ApiCmdRow>(count);
@@ -85,7 +85,7 @@ namespace Z0
                 {
                     ref var row = ref seek(dst,k);
                     ref readonly var field = ref type.Fields[j];
-                    row.CmdName = type.CmdId;
+                    row.CmdName = type.CmdName;
                     row.FieldIndex = field.Index;
                     row.CmdType = type.Source.DisplayName();
                     row.FieldName = field.Source.Name;

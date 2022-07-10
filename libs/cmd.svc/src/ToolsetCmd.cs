@@ -24,25 +24,4 @@ namespace Z0
 
         }
     }
-
-    public struct ToolsetConfig
-    {
-        public asci16 WsId;
-
-        public FS.FolderPath Root;
-
-        public FS.FolderPath Docs;
-
-        public FS.FolderPath Help;
-
-        public FS.FolderPath Lists;
-
-        public FS.FilePath ToolList;
-
-        public FS.FilePath LibList;
-
-        public FS.FilePath IncludeList;
-
-        public FS.FilePath HelpList;
-    }
 }

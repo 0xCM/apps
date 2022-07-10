@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <Import Project="$(ImportDefs)shell.settings.props"/>
+  <Import Project="$(ImportDefs)usings.props"/>
 
   <ItemGroup>
     <ProjectReference Include="$(ZLibs)" />

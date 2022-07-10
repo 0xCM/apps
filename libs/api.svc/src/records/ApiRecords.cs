@@ -11,22 +11,4 @@ namespace Z0
 
     }
 
-    public interface IApiRecordSpec
-    {
-
-
-    }
-
-    public interface IApiRecordSpec<R> : IApiRecordSpec
-        where R : IApiRecordSpec<R>, new()
-    {
-
-
-    }
-
-    public abstract record class ApiRecordSpec<R> : IApiRecordSpec<R>
-        where R : ApiRecordSpec<R>, new()
-    {
-
-    }
 }

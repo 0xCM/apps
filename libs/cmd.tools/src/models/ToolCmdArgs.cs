@@ -4,57 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct ToolCmdArgs : IIndex<ToolCmdArg>
+    public class ToolCmdArgs : Seq<ToolCmdArg>
     {
-        readonly Index<ToolCmdArg> Data;
-
         [MethodImpl(Inline)]
         public ToolCmdArgs(ToolCmdArg[] src)
-            => Data = src;
-
-        public ref ToolCmdArg this[int index]
+            :base(src)
         {
-            [MethodImpl(Inline)]
-            get => ref Data[index];
-        }
 
-        public ref ToolCmdArg this[uint index]
-        {
-            [MethodImpl(Inline)]
-            get => ref Data[index];
         }
-
-        public ToolCmdArg[] Storage
-        {
-            [MethodImpl(Inline)]
-            get => Data.Storage;
-        }
-
-        public Span<ToolCmdArg> Terms
-        {
-            [MethodImpl(Inline)]
-            get => Data.Storage;
-        }
-
-        public uint Count
-        {
-            [MethodImpl(Inline)]
-            get => (uint)Data.Length;
-        }
-
-        public bool IsEmpty
-        {
-            [MethodImpl(Inline)]
-            get => Data.IsEmpty;
-        }
-
-        public bool IsNonEmpty
-        {
-            [MethodImpl(Inline)]
-            get => Data.IsNonEmpty;
-        }
-
-        public string Format()
+        public override string Format()
         {
             var dst = text.emitter();
             for(var i=0; i<Data.Count; i++)
@@ -68,11 +26,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator ToolCmdArgs(ToolCmdArg[] src)
             => new ToolCmdArgs(src);
-
-        public static ToolCmdArgs Empty
-        {
-            [MethodImpl(Inline)]
-            get => new ToolCmdArgs(sys.empty<ToolCmdArg>());
-        }
     }
 }

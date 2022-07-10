@@ -7,7 +7,7 @@ namespace Z0
     [Free]
     public interface ICmdTypeInfo
     {
-        CmdId CmdId {get;}
+        Name CmdName {get;}
 
         Type Source {get;}
 

@@ -2,18 +2,17 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-global using System.IO;
-
-[assembly: PartId(PartId.Archives)]
-
-namespace Z0.Parts
-{
-    public sealed partial class Archives : Part<Archives>
-    {
-
-    }
-}
-
 namespace Z0
 {
+    partial class ApiCmdSpecs
+    {
+        public struct EmitToolHelp
+        {
+            public Actor ToolId;
+
+            public asci32 HelpKind;
+
+            public ToolCmdArgs Args;
+        }
+    }
 }

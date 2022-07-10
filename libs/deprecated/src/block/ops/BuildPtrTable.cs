@@ -5,9 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     partial class SRM
     {
         unsafe partial struct MemoryBlock

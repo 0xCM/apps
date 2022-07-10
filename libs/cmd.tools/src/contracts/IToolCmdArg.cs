@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Free]
-    public interface IToolCmdArg : ITextual
+    public interface IToolCmdArg : IExpr
     {
         /// <summary>
         /// The argument's relative position
@@ -20,14 +20,20 @@ namespace Z0
         /// <summary>
         /// The (required) argument value
         /// </summary>
-        dynamic Value {get;}
+        string Value {get;}
 
         /// <summary>
         /// Specifies whether the argument is a flag and thus the name is the value and conversely
         /// </summary>
         bool IsFlag => false;
 
-        string ITextual.Format()
+        bool INullity.IsEmpty
+            => sys.empty(Value);
+
+        bool INullity.IsNonEmpty
+            => sys.nonempty(Value);
+
+        string IExpr.Format()
             => Settings.format(Name, Value);
     }
 
@@ -36,7 +42,7 @@ namespace Z0
     {
         new T Value {get;}
 
-        dynamic IToolCmdArg.Value
-            => Value;
+        string  IToolCmdArg.Value
+            => Value.ToString();
     }
 }

@@ -67,27 +67,6 @@ namespace Z0
         void EmitMachineEnv()
             => EnvVars.emit();
 
-        [CmdOp("tools/env")]
-        void ShowToolEnv()
-            => iter(ToolBox.LoadEnv(), s => Write(s));
 
-        [CmdOp("tool/script")]
-        Outcome ToolScript(CmdArgs args)
-            => ToolBox.RunScript(arg(args,0).Value, arg(args,1).Value);
-
-        [CmdOp("tool/configure")]
-        void ConfigureTool(CmdArgs args)
-            => iter(ToolBox.Configure(tool(args)), entry => Write(entry));
-
-        static Actor tool(CmdArgs args, byte index = 0)
-            => arg(args,index).Value;
-
-        [CmdOp("tool/config")]
-        void ShowToolSettings(CmdArgs args)
-            => iter(ToolBox.LoadConfig(tool(args)), entry => Write(entry));
-
-        [CmdOp("tool/docs")]
-        void ToolDocs(CmdArgs args)
-            => iter(ToolBox.LoadDocs(arg(args,0).Value), doc => Write(doc));
     }
 }

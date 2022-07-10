@@ -53,16 +53,16 @@ namespace Z0
         public Index<IApiHost> ApiHosts
             => data(K.ApiHosts, () => Catalog.ApiHosts.Index());
 
-        public Index<ComponentAssets> ApiAssets
+        public ReadOnlySeq<ComponentAssets> ApiAssets
             => data(K.ApiAssets, () => CalcApiAssets());
 
-        public Index<ApiCmdRow> ApiCommands
+        public ReadOnlySeq<ApiCmdRow> ApiCommands
             => data(K.ApiCommands, CalcApiCommands);
 
-        public Index<ApiLiteral> ApiLiterals
+        public ReadOnlySeq<ApiLiteral> ApiLiterals
             => data(nameof(K.ApiLiterals), () => Symbolic.apilits(Components));
 
-        public Index<ApiFlowSpec> DataFlows
+        public ReadOnlySeq<ApiFlowSpec> DataFlows
             => data(K.DataFlows, CalcDataFlows);
 
         public ConstLookup<string,Index<SymInfo>> ApiTokens
@@ -113,19 +113,13 @@ namespace Z0
         Index<ComponentAssets> CalcApiAssets()
             => Assets.extract(Components);
 
-        AssetCatalog EmitAssets()
+        void EmitAssets()
         {
             AssetTargets.Delete();
-            var catalog = Emit(ApiAssets);
-            Emit(catalog);
-            // var entries = list<AssetCatalogEntry>();
-            // iter(Components, x => Emit(Assets.extract(x), entries), true);
-            // var catalog = new AssetCatalog(entries.ToArray().Sort().Resequence());
-            // Emit(catalog);
-            return catalog;
+            Emit(Emit(ApiAssets));
         }
 
-        public AssetCatalog Emit(Index<ComponentAssets> src)
+        public AssetCatalog Emit(ReadOnlySeq<ComponentAssets> src)
         {
             var counter = 0u;
             for(var i=0; i<src.Count; i++)
@@ -141,7 +135,7 @@ namespace Z0
                 }
             }
 
-            return new AssetCatalog(src.SelectMany(x => x).Select(e => Assets.entry(e)));
+            return new AssetCatalog(src.SelectMany(x => x).Select(e => Assets.entry(e)).Array());
         }
 
         public void Emit(ComponentAssets src, List<AssetCatalogEntry> entries)
@@ -157,7 +151,7 @@ namespace Z0
         }
 
         public void Emit(AssetCatalog src)
-            => TableEmit(src.Entries, AppDb.ApiTargets().Table<AssetCatalogEntry>());
+            => TableEmit(src, AppDb.ApiTargets().Table<AssetCatalogEntry>());
 
         public ApiHostCatalog HostCatalog(IApiHost src)
         {
@@ -280,7 +274,7 @@ namespace Z0
         public void Emit(ReadOnlySpan<ClrEnumRecord> src)
             => TableEmit(src, AppDb.ApiTargets().Table<ClrEnumRecord>(), TextEncodingKind.Unicode);
 
-        Index<ApiFlowSpec> CalcDataFlows()
+        ReadOnlySeq<ApiFlowSpec> CalcDataFlows()
         {
             var src = ApiDataFlow.discover(Components);
             var count = src.Length;
@@ -297,10 +291,8 @@ namespace Z0
             return buffer.Sort();
         }
 
-
-        Index<ApiCmdRow> CalcApiCommands()
+        ReadOnlySeq<ApiCmdRow> CalcApiCommands()
             => CmdTypes.rows(CmdTypes.discover(Components));
-
 
         ConstLookup<string,Index<SymInfo>> CalcApiTokens()
         {

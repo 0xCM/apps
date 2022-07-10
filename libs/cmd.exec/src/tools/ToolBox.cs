@@ -9,31 +9,6 @@ namespace Z0
     [ApiHost]
     public class ToolBox : WfSvc<ToolBox>
     {
-        public static Settings config(FS.FilePath src)
-        {
-            var dst = list<Setting>();
-            using var reader = src.LineReader(TextEncodingKind.Asci);
-            while(reader.Next(out var line))
-            {
-                var content = span(line.Content);
-                var length = content.Length;
-                if(length != 0)
-                {
-                    if(SQ.hash(first(content)))
-                        continue;
-
-                    var i = SQ.index(content, Chars.Colon);
-                    if(i > 0)
-                    {
-                        var name = text.format(SQ.left(content,i));
-                        var value = text.format(SQ.right(content,i));
-                        dst.Add(new Setting(name,value));
-                    }
-                }
-            }
-            return new Settings(dst.ToArray());
-        }
-
         const byte FieldCount = ToolProfile.FieldCount;
 
         OmniScript OmniScript => Wf.OmniScript();
@@ -113,7 +88,7 @@ namespace Z0
                 return FS.FilePath.Empty;
         }
 
-        public ReadOnlySpan<string> Configure(Actor tool)
+        public ReadOnlySpan<string> Setup(Actor tool)
         {
             var script = ToolWs.ConfigScript(tool);
             var result = OmniScript.Run(script, out _);
@@ -149,15 +124,6 @@ namespace Z0
             libs.Iter(lib => writer.WriteLine(string.Format("{0,-8} {1,-8} {2}", "Lib", lib.Exists ? "Found" : "Mising", lib)));
 
             EmittedFile(emitting, 2);
-        }
-
-        public Settings LoadConfig(Actor tool)
-        {
-            var dst = Settings.Empty;
-            var src = ToolWs.ConfigPath(tool);
-            if(src.Exists)
-                dst = config(src);
-            return dst;
         }
 
         public Index<string> LoadDocs(string tool)

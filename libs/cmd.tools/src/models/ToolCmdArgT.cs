@@ -5,12 +5,12 @@
 namespace Z0
 {
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public struct ToolCmdArg<T>
+    public struct ToolCmdArg<T> : IToolCmdArg<T>
     {
         /// <summary>
         /// The argument's relative position
         /// </summary>
-        public readonly int Position {get;}
+        public readonly ushort Position {get;}
 
         /// <summary>
         /// The argument name
@@ -27,11 +27,7 @@ namespace Z0
         public readonly bool IsFlag {get;}
 
         [MethodImpl(Inline)]
-        public ToolCmdArg Untype()
-            => new ToolCmdArg(Name, Value);
-
-        [MethodImpl(Inline)]
-        public ToolCmdArg(int pos, T value, bool flag = false)
+        public ToolCmdArg(ushort pos, T value, bool flag = false)
         {
             Position = pos;
             Name = EmptyString;
@@ -43,7 +39,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public ToolCmdArg(string name, T value, bool flag = false)
         {
-            Position = -1;
+            Position = ushort.MaxValue;
             Name = name;
             Value = value;
             Protocol = (ArgPrefix.Space, ArgQualifier.Space);
@@ -60,9 +56,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator ToolCmdArg<T>((string name, T value) src)
             => new ToolCmdArg<T>(src.name, src.value);
-
-        [MethodImpl(Inline)]
-        public static implicit operator ToolCmdArg(ToolCmdArg<T> src)
-            => new ToolCmdArg(src.Name, src.Value);
     }
 }

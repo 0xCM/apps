@@ -6,6 +6,9 @@ namespace Z0
 {
     public readonly struct Fail
     {
+        public static void @false([CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
+            => Errors.Throw($"A value which ought to have been true was false: [{caller}] {FS.path(file).ToUri().LineRef((uint)line.Value)}");
+
         public static void empty<T>(T src, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => Errors.Throw($"Empty value from: [{caller}] {FS.path(file).ToUri().LineRef((uint)line.Value)}");
 
@@ -32,6 +35,5 @@ namespace Z0
 
         public static void gt<T>(string name, T a, T b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => Errors.Throw($"{name}({a} > {b}): [{caller}] {FS.path(file).ToUri()}:{line}");
-
     }
 }

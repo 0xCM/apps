@@ -3,9 +3,10 @@
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <DebugSymbols>true</DebugSymbols>
-
   </PropertyGroup>
+
   <Import Project="$(ImportDefs)microsoft.extensions.props"/>
+  <Import Project="$(ImportDefs)usings.props"/>
 
   <ItemGroup>
     <ProjectReference Include="$(Containers)" />

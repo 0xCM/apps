@@ -6,6 +6,13 @@ namespace Z0
 {
     public readonly struct Demand
     {
+        public static bool @true(bool src, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
+        {
+            if(!src)
+                Fail.@false(caller,file,line);
+            return src;
+        }
+
         public static T nonempty<T>(T src, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             where T : INullity
         {

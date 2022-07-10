@@ -5,10 +5,13 @@
     <TargetFramework>$(FrameworkMoniker)</TargetFramework>
   </PropertyGroup>
 
-  <Import Project="$(ImportDefs)usings.props"/>
-
   <ItemGroup>
-    <ProjectReference Include="$(ZLib)" />
+    <ProjectReference Include="$(CmdSpecs)" />
+    <ProjectReference Include="$(CmdTools)" />
+    <ProjectReference Include="$(CmdSvc)" />
+    <ProjectReference Include="$(AsmModels)" />
+    <ProjectReference Include="$(Wf)" />
+    <ProjectReference Include="$(ApiMd)" />
   </ItemGroup>
 
 </Project>

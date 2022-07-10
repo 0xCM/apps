@@ -10,7 +10,7 @@ namespace Z0
         const string TableId = "api.commands.typed";
 
         [Render(22)]
-        public CmdId CmdName;
+        public Name CmdName;
 
         [Render(22)]
         public string CmdType;

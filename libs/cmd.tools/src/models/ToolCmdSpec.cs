@@ -7,27 +7,22 @@ namespace Z0
     /// <summary>
     /// Defines a tool execution specification
     /// </summary>
-    public struct ToolCmdSpec : IToolCmd
+    public class ToolCmdSpec : IToolCmd
     {
-        public readonly Actor Tool {get;}
+        public readonly Actor Tool;
 
-        public readonly CmdId CmdId {get;}
+        public readonly Name CmdName;
 
-        public readonly ToolCmdArgs Args {get;}
+        public readonly ToolCmdArgs Args;
 
         [MethodImpl(Inline)]
-        public ToolCmdSpec(Actor tool, CmdId cmd, params ToolCmdArg[] args)
+        public ToolCmdSpec(Actor tool, Name cmd, params ToolCmdArg[] args)
         {
             Tool = tool;
-            CmdId = cmd;
+            CmdName = cmd;
             Args = args;
         }
 
-        public string CmdName
-        {
-            [MethodImpl(Inline)]
-            get => CmdId.Format();
-        }
 
         public string Format()
             => ToolCmd.format(this);
@@ -38,7 +33,13 @@ namespace Z0
         public static ToolCmdSpec Empty
         {
             [MethodImpl(Inline)]
-            get => new ToolCmdSpec(Actor.Empty, CmdId.Empty);
+            get => new ToolCmdSpec(Actor.Empty, EmptyString);
         }
+
+        Name IToolCmd.CmdName
+            => CmdName;
+
+        ToolCmdArgs IToolCmd.Args
+            => Args;
     }
 }

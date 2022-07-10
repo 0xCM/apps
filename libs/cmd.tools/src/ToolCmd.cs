@@ -10,7 +10,7 @@ namespace Z0
     public interface IToolCmd<C> : IToolCmd
         where C : struct, IToolCmd<C>
     {
-        CmdId IToolCmd.CmdId
+        Name IToolCmd.CmdName
             => CmdTypes.identify<C>();
 
         ToolCmdArgs IToolCmd.Args
@@ -80,7 +80,7 @@ namespace Z0
         {
             var count = src.Args.Count;
             var buffer = text.buffer();
-            buffer.AppendFormat("{0}{1}", src.CmdId.Format(), Chars.LParen);
+            buffer.AppendFormat("{0}{1}", src.CmdName.Format(), Chars.LParen);
             for(var i=0; i<count; i++)
             {
                 ref readonly var arg = ref src.Args[i];

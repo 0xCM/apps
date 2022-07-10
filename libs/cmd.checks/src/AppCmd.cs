@@ -11,11 +11,9 @@ namespace Z0
                 wf.EnvCmd(),
                 wf.DbCmd(),
                 wf.ToolsetCmd(),
-                //wf.MemCmd()
             };
 
         public static AppCmd commands(IWfRuntime wf)
             => create(wf, providers(wf));
-
     }
 }

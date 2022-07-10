@@ -37,8 +37,6 @@ namespace Z0
             return new Settings(dst.ToArray());
         }
 
-        // public static FS.Files inventory(IToolWs src)
-        //     =>
         public static IToolWs configure(IToolWs src)
         {
             var subdirs = src.Root.SubDirs();

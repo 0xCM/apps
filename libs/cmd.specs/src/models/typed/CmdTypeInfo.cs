@@ -6,16 +6,16 @@ namespace Z0
 {
     public class CmdTypeInfo : ICmdTypeInfo, IComparable<CmdTypeInfo>
     {
-        public readonly CmdId CmdId;
+        public readonly Name CmdName;
 
         public readonly Type Source;
 
         public readonly Index<CmdField> Fields;
 
         [MethodImpl(Inline)]
-        public CmdTypeInfo(CmdId name, Type type, CmdField[] fields)
+        public CmdTypeInfo(Name name, Type type, CmdField[] fields)
         {
-            CmdId = name;
+            CmdName = name;
             Source = Require.notnull(type);
             Fields = fields;
         }
@@ -32,17 +32,17 @@ namespace Z0
             get => Fields.Count;
         }
 
-        CmdId ICmdTypeInfo.CmdId
-            => CmdId;
-
         Type ICmdTypeInfo.Source
             => Source;
 
         Index<CmdField> ICmdTypeInfo.Fields
             => Fields;
 
+        Name ICmdTypeInfo.CmdName
+            => CmdName;
+
         public int CompareTo(CmdTypeInfo src)
-            => CmdId.CompareTo(src.CmdId);
+            => CmdName.CompareTo(src.CmdName);
 
         public string Format()
             => CmdTypes.format(this);

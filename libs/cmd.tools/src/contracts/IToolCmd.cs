@@ -7,9 +7,7 @@ namespace Z0
     [Free]
     public interface IToolCmd : IExecCmd
     {
-        CmdId CmdId {get;}
-
-        string CmdName {get;}
+        Name CmdName {get;}
 
         ToolCmdArgs Args {get;}
     }

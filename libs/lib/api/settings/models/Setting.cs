@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Record(TableId)]
-    public readonly record struct Setting : ISetting, IComparable<Setting>
+    public readonly record struct Setting : ISetting, IDataType<Setting>
     {
         const string TableId = "settings";
 
@@ -62,7 +62,13 @@ namespace Z0
             => Hash;
 
         public bool Equals(Setting src)
-            => Object.Equals(Value, src.Value) && Name == src.Name;
+            => Value == src.Value && Name == src.Name;
+
+        public string Format()
+            => Format(Chars.Colon);
+
+        public override string ToString()
+            => Format();
 
         public string Json()
             => Settings.json(this);
@@ -78,7 +84,5 @@ namespace Z0
             [MethodImpl(Inline)]
             get => new (EmptyString, 0, EmptyString);
         }
-
-
     }
 }

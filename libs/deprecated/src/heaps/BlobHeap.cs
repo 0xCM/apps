@@ -50,7 +50,6 @@ namespace Z0
 
             VirtualHeap? _lazyVirtualHeap;
 
-
             internal MemoryBlock GetMemoryBlock(BlobHandle handle)
             {
                 if (handle.IsVirtual())
