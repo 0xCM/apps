@@ -21,8 +21,8 @@ namespace Z0
                 => Service<AsmFlowCommands>(wf);
 
 
-            public XedTool XedTool(IWfRuntime wf)
-                => Service<XedTool>(wf);
+            public XedToolSvc XedTool(IWfRuntime wf)
+                => Service<XedToolSvc>(wf);
 
             public NasmCatalog NasmCatalog(IWfRuntime wf)
                 => Service<NasmCatalog>(wf);
@@ -52,7 +52,7 @@ namespace Z0
         public static BdDisasm BdDisasm(this IWfRuntime wf)
             => Services.BdDisasm(wf);
 
-        public static XedTool XedTool(this IWfRuntime wf)
+        public static XedToolSvc XedTool(this IWfRuntime wf)
             => Services.XedTool(wf);
 
         public static DumpBin DumpBin(this IWfRuntime wf)

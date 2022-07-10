@@ -14,7 +14,6 @@ namespace Z0
         }
     }
 
-
     public class Seq<T> : Seq<Seq<T>,T>
     {
         public Seq()

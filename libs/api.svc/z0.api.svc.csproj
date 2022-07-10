@@ -7,11 +7,11 @@
 
   <ItemGroup>
     <ProjectReference Include="$(CmdSpecs)" />
-    <ProjectReference Include="$(CmdTools)" />
     <ProjectReference Include="$(CmdSvc)" />
     <ProjectReference Include="$(AsmModels)" />
     <ProjectReference Include="$(Wf)" />
     <ProjectReference Include="$(ApiMd)" />
+    <ProjectReference Include="$(ApiSpecs)" />
   </ItemGroup>
 
 </Project>
