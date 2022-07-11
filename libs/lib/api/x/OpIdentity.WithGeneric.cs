@@ -18,7 +18,7 @@ namespace Z0
             if(src.Components.Skip(1).First()[0] == IDI.Generic)
                 return src;
             else
-               return ApiUri.opid(
+               return ApiIdentity.opid(
                    string.Concat(src.IdentityText.LeftOfFirst(IDI.PartSep), IDI.PartSep, IDI.Generic,  src.IdentityText.RightOfFirst(IDI.PartSep)));
         }
     }

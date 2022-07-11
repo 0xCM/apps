@@ -29,7 +29,7 @@ namespace Z0
         public ApiHostUri(PartId owner, string name)
         {
             Part = owner;
-            HostName = text.ifempty(ApiUri.safe(name),  "__empty__");
+            HostName = text.ifempty(ApiIdentity.safe(name),  "__empty__");
             UriText = owner != 0 ? string.Format("{0}{1}{2}", Part.Format(), IDI.UriPathSep, HostName) : HostName;
         }
 

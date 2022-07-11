@@ -20,15 +20,15 @@ namespace Z0
         /// Compute a Marvin hash and collapse it into a 32-bit hash.
         /// </summary>
         [MethodImpl(Inline), Op]
-        public static uint marvin(ReadOnlySpan<byte> src, ulong seed = DefaultMarvivSeed)
-            => (uint)ComputeHash32(ref Spans.edit(src), (uint)src.Length, (uint)seed, (uint)(seed >> 32));
+        internal static Hash32 marvin(ReadOnlySpan<char> src, ulong seed = DefaultMarvivSeed)
+            => marvin(Spans.recover<char,byte>(src), seed);
 
         /// <summary>
         /// Compute a Marvin hash and collapse it into a 32-bit hash.
         /// </summary>
         [MethodImpl(Inline), Op]
-        public static uint marvin(ReadOnlySpan<char> src, ulong seed = DefaultMarvivSeed)
-            => marvin(Spans.recover<char,byte>(src), seed);
+        internal static Hash32 marvin(ReadOnlySpan<byte> src, ulong seed = DefaultMarvivSeed)
+            => ComputeHash32(ref Spans.edit(src), (uint)src.Length, (uint)seed, (uint)(seed >> 32));
 
         /// <summary>
         /// Compute a Marvin hash and collapse it into a 32-bit hash.

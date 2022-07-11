@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly record struct MethodDisplaySig
+    public readonly record struct MethodDisplaySig : IDataType<MethodDisplaySig>
     {
         readonly string Content;
 
@@ -18,6 +18,24 @@ namespace Z0
             get => Content ?? EmptyString;
         }
 
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => sys.empty(Text);
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => sys.nonempty(Text);
+        }
+
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => HashCodes.hash(Text);
+        }
+
         [MethodImpl(Inline)]
         public string Format()
             => Text;
@@ -29,8 +47,10 @@ namespace Z0
             => Text == src.Text;
 
         public override int GetHashCode()
-            => core.hash(Text);
+            => Hash;
 
+        public int CompareTo(MethodDisplaySig src)
+            => Text.CompareTo(src.Text);
 
         public static MethodDisplaySig Empty
         {

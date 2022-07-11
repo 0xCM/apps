@@ -79,6 +79,5 @@ namespace Z0
             [MethodImpl(Inline)]
             get => ref Source.Token;
         }
-
     }
 }

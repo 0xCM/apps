@@ -20,14 +20,14 @@ namespace Z0
 
         Runtime Runtime => Wf.Runtime();
 
-        public void Run_Old()
-        {
-            var parts = ApiPartCapture.create(Wf);
-            var dst = ApiPacks.create();
-            parts.Capture_Old(dst);
-            Runtime.EmitContext(dst);
-            CliEmitter.Emit(CliEmitOptions.@default(), dst);
-        }
+        // public void Run_Old()
+        // {
+        //     var parts = ApiPartCapture.create(Wf);
+        //     var dst = ApiPacks.create();
+        //     parts.Capture_Old(dst);
+        //     Runtime.EmitContext(dst);
+        //     CliEmitter.Emit(CliEmitOptions.@default(), dst);
+        // }
 
         public void Run()
         {
@@ -38,14 +38,14 @@ namespace Z0
             CliEmitter.Emit(CliEmitOptions.@default(), dst);
         }
 
-        public void Run_Old(PartId id)
-        {
-            if(ApiRuntimeCatalog.FindPart(id, out var src))
-            {
-                using var symbols = Dispense.composite();
-                Run_Old(symbols, src);
-            }
-        }
+        // public void Run_Old(PartId id)
+        // {
+        //     if(ApiRuntimeCatalog.FindPart(id, out var src))
+        //     {
+        //         using var symbols = Dispense.composite();
+        //         Run_Old(symbols, src);
+        //     }
+        // }
 
         ClrEventListener OpenEventLog(Timestamp ts)
             => ClrEventListener.create(AppDb.App().Path($"clr.events.{ts}", FileKind.Log));
@@ -65,27 +65,27 @@ namespace Z0
             //    Run();
         }
 
-        public void Run_Old(ApiHostUri src)
-        {
-            using var symbols = Dispense.composite();
-            Run_Old(symbols, src);
-        }
+        // public void Run_Old(ApiHostUri src)
+        // {
+        //     using var symbols = Dispense.composite();
+        //     Run_Old(symbols, src);
+        // }
 
-        void Run_Old(ICompositeDispenser symbols, ApiHostUri src)
-        {
-            var collected = ApiCode.Collect(src);
-            ApiCode.EmitHex(collected, CodeFiles.HexPath(src));
-            ApiCode.EmitCsv(collected, CodeFiles.CsvPath(src));
-            EmitAsm_Old(symbols, src, collected);
-        }
+        // void Run_Old(ICompositeDispenser symbols, ApiHostUri src)
+        // {
+        //     var collected = ApiCode.Collect(src);
+        //     ApiCode.EmitHex(collected, CodeFiles.HexPath(src));
+        //     ApiCode.EmitCsv(collected, CodeFiles.CsvPath(src));
+        //     EmitAsm_Old(symbols, src, collected);
+        // }
 
-        void Run_Old(ICompositeDispenser symbols, IPart src)
-        {
-            var collected = ApiCode.Collect(symbols,src);
-            ApiCode.EmitHex(collected, CodeFiles.HexPath(src.Id));
-            ApiCode.EmitCsv(collected, CodeFiles.CsvPath(src.Id));
-            EmitAsm(symbols, src.Id, collected);
-        }
+        // void Run_Old(ICompositeDispenser symbols, IPart src)
+        // {
+        //     var collected = ApiCode.Collect(symbols,src);
+        //     ApiCode.EmitHex(collected, CodeFiles.HexPath(src.Id));
+        //     ApiCode.EmitCsv(collected, CodeFiles.CsvPath(src.Id));
+        //     EmitAsm(symbols, src.Id, collected);
+        // }
 
         ReadOnlySeq<AsmRoutine> EmitAsm(ICompositeDispenser symbols, PartId part, ReadOnlySeq<CollectedEncoding> src)
         {
@@ -102,19 +102,19 @@ namespace Z0
             return dst;
         }
 
-        ReadOnlySeq<AsmRoutine> EmitAsm_Old(ICompositeDispenser symbols, ApiHostUri host, ReadOnlySeq<CollectedEncoding> src)
-        {
-            var dst = alloc<AsmRoutine>(src.Count);
-            var emitter = text.emitter();
-            for(var i=0; i<src.Count; i++)
-            {
-                var routine = AsmDecoder.Decode(src[i]);
-                seek(dst,i) = routine;
-                emitter.AppendLine(routine.AsmRender(routine));
-            }
+        // ReadOnlySeq<AsmRoutine> EmitAsm_Old(ICompositeDispenser symbols, ApiHostUri host, ReadOnlySeq<CollectedEncoding> src)
+        // {
+        //     var dst = alloc<AsmRoutine>(src.Count);
+        //     var emitter = text.emitter();
+        //     for(var i=0; i<src.Count; i++)
+        //     {
+        //         var routine = AsmDecoder.Decode(src[i]);
+        //         seek(dst,i) = routine;
+        //         emitter.AppendLine(routine.AsmRender(routine));
+        //     }
 
-            FileEmit(emitter.Emit(), src.Count, CodeFiles.AsmPath(host));
-            return dst;
-        }
+        //     FileEmit(emitter.Emit(), src.Count, CodeFiles.AsmPath(host));
+        //     return dst;
+        // }
     }
 }

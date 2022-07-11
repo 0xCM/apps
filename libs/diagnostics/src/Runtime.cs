@@ -23,10 +23,16 @@ namespace Z0
             EmitContext(post);
         }
 
+        public void EmitProcessModules(Process src, IApiPack dst)
+        {
+            TableEmit(ImageMemory.modules(src), dst.ProcessModules());
+        }
+
         public void EmitContext(IApiPack dst)
         {
             var flow = Running("Emiting process context");
             var process = Process.GetCurrentProcess();
+            EmitProcessModules(process, dst);
             var parts = ProcessMemory.EmitPartitions(process, dst);
             var regions = Regions.EmitRegions(process, dst);
             ProcessMemory.EmitHashes(process, parts, dst);

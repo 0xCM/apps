@@ -87,6 +87,9 @@ namespace Z0
         FS.FilePath PartitionHashPath()
             => ProcessContext().Path(PartitionHashFile());
 
+        FS.FilePath ProcessModules()
+            => ProcessContext().Path("process.modules", FileKind.Csv);
+
         FS.FileName DumpFile(Process process)
             => FS.file(ProcDumpName.create(process,Timestamp).Format(false), FileKind.Dmp);
 

@@ -16,11 +16,11 @@ namespace Z0
                 var target = identify(src.ReturnType);
 
                 if(src.IsImplicitConverter())
-                    return ApiUri.opid(string.Format(FormatPattern, "implicit", source, target));
+                    return opid(string.Format(FormatPattern, "implicit", source, target));
                 else if(src.IsExplicitConverter())
-                    return ApiUri.opid(string.Format(FormatPattern, "explicit", source, target));
+                    return opid(string.Format(FormatPattern, "explicit", source, target));
             }
-            return ApiUri.opid("!!Error!!");
+            return opid("!!Error!!");
         }
     }
 }

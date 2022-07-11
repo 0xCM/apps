@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     partial class XApi
     {
         /// <summary>
@@ -17,7 +15,7 @@ namespace Z0
             var perhaps = src.ExtractImm8();
             if(!perhaps)
                 return src;
-            return ApiUri.opid(src.IdentityText.Remove(ApiUri.Imm8Suffix(perhaps.Value)));
+            return ApiIdentity.opid(src.IdentityText.Remove(ApiIdentity.Imm8Suffix(perhaps.Value)));
         }
     }
 }

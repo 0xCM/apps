@@ -62,10 +62,10 @@ namespace Z0
         public static BinaryOperators<byte> arithmetic()
         {
             var dst = index<byte>();
-            dst[I.Add] = BinaryOpDynamics.create<byte>(ApiUri.opid_define(nameof(C.add_ᐤ8iㆍ8iᐤ)), C.add_ᐤ8iㆍ8iᐤ);
-            dst[I.Sub] = BinaryOpDynamics.create<byte>(ApiUri.opid_define(nameof(C.sub_ᐤ8uㆍ8uᐤ)), C.sub_ᐤ8uㆍ8uᐤ);
-            dst[I.Mul] = BinaryOpDynamics.create<byte>(ApiUri.opid_define(nameof(C.mul_ᐤ8uㆍ8uᐤ)), C.mul_ᐤ8uㆍ8uᐤ);
-            dst[I.Div] = BinaryOpDynamics.create<byte>(ApiUri.opid_define(nameof(C.div_ᐤ8uㆍ8uᐤ)), C.div_ᐤ8uㆍ8uᐤ);
+            dst[I.Add] = BinaryOpDynamics.create<byte>(ApiIdentity.opid_define(nameof(C.add_ᐤ8iㆍ8iᐤ)), C.add_ᐤ8iㆍ8iᐤ);
+            dst[I.Sub] = BinaryOpDynamics.create<byte>(ApiIdentity.opid_define(nameof(C.sub_ᐤ8uㆍ8uᐤ)), C.sub_ᐤ8uㆍ8uᐤ);
+            dst[I.Mul] = BinaryOpDynamics.create<byte>(ApiIdentity.opid_define(nameof(C.mul_ᐤ8uㆍ8uᐤ)), C.mul_ᐤ8uㆍ8uᐤ);
+            dst[I.Div] = BinaryOpDynamics.create<byte>(ApiIdentity.opid_define(nameof(C.div_ᐤ8uㆍ8uᐤ)), C.div_ᐤ8uㆍ8uᐤ);
             return dst;
         }
 

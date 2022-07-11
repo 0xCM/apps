@@ -4,23 +4,21 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
     using System.Collections;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Defines a collection of directed member associations
     /// </summary>
     /// <typeparam name="S">The source type</typeparam>
     /// <typeparam name="T">The target type</typeparam>
-    public sealed class MemberArrows<S,T> : IEnumerable<MemberArrow>
+    public sealed class MemberRelations<S,T> : IEnumerable<MemberRelation>
     {
-        HashSet<MemberArrow> Associations {get;}
+        HashSet<MemberRelation> Associations {get;}
 
-        public MemberArrows(IEnumerable<MemberArrow> associations)
+        public MemberRelations(IEnumerable<MemberRelation> associations)
             => Associations = associations.ToHashSet();
 
-        public IEnumerator<MemberArrow> GetEnumerator()
+        public IEnumerator<MemberRelation> GetEnumerator()
             => Associations.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator()

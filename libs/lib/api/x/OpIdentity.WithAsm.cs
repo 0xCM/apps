@@ -16,7 +16,7 @@ namespace Z0
             if(src.IdentityText.Contains(IDI.AsmLocator))
                 return src;
             else
-                return ApiUri.opid(src.IdentityText + IDI.AsmLocator);
+                return ApiIdentity.opid(src.IdentityText + IDI.AsmLocator);
         }
     }
 }

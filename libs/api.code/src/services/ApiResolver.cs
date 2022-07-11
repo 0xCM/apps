@@ -9,7 +9,7 @@ namespace Z0
     partial class XTend
     {
         public static OpUri Uri(this MethodInfo src)
-            => ApiUri.from(src);
+            => ApiIdentity.from(src);
     }
 
     [ApiHost]
@@ -341,6 +341,6 @@ namespace Z0
         }
 
         OpUri MemberUri(ApiHostUri host, MethodInfo method)
-            => ApiUri.define(ApiUriScheme.Located, host, method.Name, Identity.Identify(method));
+            => ApiIdentity.define(ApiUriScheme.Located, host, method.Name, Identity.Identify(method));
     }
 }

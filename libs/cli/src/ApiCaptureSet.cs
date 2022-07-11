@@ -17,7 +17,7 @@ namespace Z0
         [Op]
         public static ApiCaptureSet create(OpIdentity id, MethodInfo method, CodeBlock hex, AsmSourceBlock asm)
         {
-            var uri = ApiUri.hex(method.DeclaringType.ApiHostUri(), method.Name, id);
+            var uri = ApiIdentity.hex(method.DeclaringType.ApiHostUri(), method.Name, id);
             return new (uri,ClrDynamic.msil(hex.Address, uri, method), hex, asm);
         }
 

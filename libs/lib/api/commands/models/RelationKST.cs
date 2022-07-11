@@ -34,17 +34,17 @@ namespace Z0
         K IRelation<K,S,T>.Kind
             => Kind;
 
-        S IRelation<K,S,T>.Source
-            => Source;
-
-        T IRelation<K,S,T>.Target
-            => Target;
-
         public Hash32 Hash
         {
             [MethodImpl(Inline)]
             get => Id.Hash;
         }
+
+        S IRelation<S, T>.Source
+            => Source;
+
+        T IRelation<S, T>.Target
+            => Target;
 
         public override int GetHashCode()
             => Hash;

@@ -106,3 +106,5 @@ set CleanObj=rmdir %WsObj% /s/q
 set CleanBuild=rmdir %WsBuild% /s/q
 
 set AddSln=%~dp0sln-add.cmd
+
+set PublishShell=dotnet publish %CmdProject%

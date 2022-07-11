@@ -34,7 +34,7 @@ namespace Z0
         /// The globally-unique operation uri
         /// </summary>
         OpUri OpUri
-            => ApiUri.hex(Host, Method.Name, Id);
+            => ApiIdentity.hex(Host, Method.Name, Id);
 
         ClrMethodArtifact Metadata
             => Method.Artifact();

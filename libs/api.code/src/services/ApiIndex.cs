@@ -30,7 +30,7 @@ namespace Z0
                     dst = blocks.Where(i => !duplicates.Contains(i.OpId.IdentityText)).ToDictionary();
                 else
                     dst = blocks.ToDictionary();
-                return new ApiOpIndex<ApiCodeBlock>(dst, duplicates.Select(d => ApiUri.opid(d)).Array());
+                return new ApiOpIndex<ApiCodeBlock>(dst, duplicates.Select(d => ApiIdentity.opid(d)).Array());
             }
             catch(Exception e)
             {
@@ -54,7 +54,7 @@ namespace Z0
             else
                 dst = src.ToDictionary();
 
-            return new ApiOpIndex<ApiMember>(dst, duplicates.Select(d => ApiUri.opid(d)).Array());
+            return new ApiOpIndex<ApiMember>(dst, duplicates.Select(d => ApiIdentity.opid(d)).Array());
         }
     }
 }

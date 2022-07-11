@@ -76,11 +76,11 @@ namespace Z0
             var w = (CpuCellWidth)tw;
             var g = generic ? $"{IDI.Generic}" : EmptyString;
             if(generic && k == 0)
-                return ApiUri.opid(string.Concat(opname, IDI.PartSep, IDI.Generic));
+                return ApiIdentity.opid(string.Concat(opname, IDI.PartSep, IDI.Generic));
             else if(w.IsSome())
-                return ApiUri.opid(string.Concat(opname, IDI.PartSep, $"{g}{w.FormatValue()}{IDI.SegSep}{k.Format()}"));
+                return ApiIdentity.opid(string.Concat(opname, IDI.PartSep, $"{g}{w.FormatValue()}{IDI.SegSep}{k.Format()}"));
             else
-                return ApiUri.opid(string.Concat($"{opname}_{g}{k.Format()}"));
+                return ApiIdentity.opid(string.Concat($"{opname}_{g}{k.Format()}"));
         }
 
         /// <summary>

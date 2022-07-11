@@ -4,34 +4,45 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IRelation
+    public interface IRelation : IExpr
     {
-        dynamic Kind {get;}
-
         dynamic Source {get;}
 
         dynamic Target {get;}
+
+        string IExpr.Format()
+            => $"{Source} -> {Target}";
+
+        bool INullity.IsEmpty
+            => Source == null || Target == null;
+
+        bool INullity.IsNonEmpty
+            => Source != null && Target != null;
     }
 
-    public interface IRelation<K,S,T> : IRelation
-        where K : unmanaged
-        where S : unmanaged
-        where T : unmanaged
+    [Free]
+    public interface IRelation<S,T> : IRelation
     {
-        new K Kind {get;}
-
-
         new S Source {get;}
 
         new T Target {get;}
-
-        dynamic IRelation.Kind
-            => Kind;
 
         dynamic IRelation.Source
             => Source;
 
         dynamic IRelation.Target
             => Target;
+    }
+
+    [Free]
+    public interface IRelation<T> : IRelation<T,T>
+    {
+
+    }
+
+    [Free]
+    public interface IRelation<K,S,T> : IRelation<S,T>
+    {
+        K Kind {get;}
     }
 }

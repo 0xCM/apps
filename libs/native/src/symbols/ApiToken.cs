@@ -76,7 +76,7 @@ namespace Z0
         {
             get
             {
-                if(ApiUri.parse(Uri.Format(), out var uri))
+                if(ApiIdentity.parse(Uri.Format(), out var uri))
                     return uri.Host;
                 else
                     return ApiHostUri.Empty;

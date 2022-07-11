@@ -32,7 +32,7 @@ namespace Z0
         {
             Host = host;
             OpId = opid;
-            UriText = ApiUri.safe(Require.notnull(uritext));
+            UriText = ApiIdentity.safe(Require.notnull(uritext));
         }
 
         /// <summary>

@@ -132,7 +132,7 @@ namespace Z0
 
         public static ApiMember member(MethodInfo src, ApiHostUri host)
         {
-            var uri = ApiUri.define(ApiUriScheme.Located, host, src.Name, MultiDiviner.Service.Identify(src));
+            var uri = ApiIdentity.define(ApiUriScheme.Located, host, src.Name, MultiDiviner.Service.Identify(src));
             var address = ClrJit.jit(src);
             return new ApiMember(uri, src, address, ClrDynamic.msil(address, uri, src));
         }
@@ -185,7 +185,7 @@ namespace Z0
                     var constructed = src.Method.MakeGenericMethod(t);
                     //var address = ClrJit.jit(constructed);
                     //var id = diviner.Identify(constructed);
-                    var uri = ApiUri.define(ApiUriScheme.Located, src.Host, method.Name, diviner.Identify(constructed));
+                    var uri = ApiIdentity.define(ApiUriScheme.Located, src.Host, method.Name, diviner.Identify(constructed));
                     //seek(dst,i) = new ApiMember(uri, constructed, address);
                     seek(dst,i) = member(constructed, uri);
                 }
@@ -213,7 +213,7 @@ namespace Z0
                 var member = src[i];
                 var method = member.Method;
                 var id = diviner.Identify(method);
-                var uri = ApiUri.define(ApiUriScheme.Located, member.Host, method.Name, id);
+                var uri = ApiIdentity.define(ApiUriScheme.Located, member.Host, method.Name, id);
                 dst[i] = new ApiMember(uri, method, member.Location, ClrDynamic.msil(member.Location, uri, method));
             }
 

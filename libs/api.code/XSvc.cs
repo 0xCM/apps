@@ -14,9 +14,6 @@ namespace Z0
             public ApiCodeFiles ApiCodeFiles(IWfRuntime wf)
                 => Service<ApiCodeFiles>(wf);
 
-            public ApiCodeExtractor CodeExtractor(IWfRuntime wf)
-                => Service<ApiCodeExtractor>(wf);
-
             public ApiResolver ApiResolver(IWfRuntime wf)
                 => Service<ApiResolver>(wf);
 
@@ -34,9 +31,6 @@ namespace Z0
 
         public static ApiCodeFiles ApiCodeFiles(this IWfRuntime wf)
             => Services.ApiCodeFiles(wf);
-
-        public static ApiCodeExtractor CodeExtractor(this IWfRuntime wf)
-            => Services.CodeExtractor(wf);
 
         public static ApiResolver ApiResolver(this IWfRuntime wf)
             => Services.ApiResolver(wf);

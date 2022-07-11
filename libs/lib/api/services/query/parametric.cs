@@ -36,7 +36,7 @@ namespace Z0
         [Op]
         static ApiGroupNG[] GroupNongeneric(IApiHost src)
             => (from d in DirectOpSpecs(src).GroupBy(op => op.Method.Name)
-                select new ApiGroupNG(ApiUri.opid(d.Key), src, d)).Array();
+                select new ApiGroupNG(ApiIdentity.opid(d.Key), src, d)).Array();
 
         static IMultiDiviner Diviner
             => MultiDiviner.Service;

@@ -21,7 +21,7 @@ namespace Z0
     public interface ISFxProjector<A,B> : ISFxProjector, IFunc<A,B>
     {
         OpIdentity IFunc.Id
-            => ApiUri.opid_define(string.Format("map<{0},{1}>", typeof(A).Name, typeof(B).Name));
+            => ApiIdentity.opid_define(string.Format("map<{0},{1}>", typeof(A).Name, typeof(B).Name));
 
         dynamic ISFxProjector.Invoke(dynamic src)
             => Invoke((A)src);

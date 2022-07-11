@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial class XApi
     {
         /// <summary>
@@ -17,6 +12,6 @@ namespace Z0
         /// <param name="src">The source identity</param>
         [MethodImpl(Inline), Op]
         public static Option<byte> ExtractImm8(this OpIdentity src)
-            => ApiUri.imm8(src);
+            => ApiIdentity.imm8(src);
     }
 }

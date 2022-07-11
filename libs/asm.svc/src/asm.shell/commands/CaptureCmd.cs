@@ -20,20 +20,6 @@ namespace Z0
 
         AsmTables AsmTables => Wf.AsmTables();
 
-        ApiResPackEmitter ResPackEmitter => Service(Wf.ResPackEmitter);
-
-        void RunApiMachine()
-        {
-            using var machine = WfMachine.create(Wf);
-            machine.Run(WorkflowOptions.@default());
-        }
-
-        Outcome EmitResPack(CmdArgs args)
-        {
-            ResPackEmitter.Emit(ApiCode.LoadBlocks().Storage, false);
-            return true;
-        }
-
         ReadOnlySeq<HostAsmRecord> HostAsm()
         {
             var pack = ApiPacks.Current();

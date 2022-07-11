@@ -45,7 +45,7 @@ namespace Z0.Asm
                 var code = captured.Code;
                 var host = captured.ApiHost;
                 var accessor = captured.Accessor;
-                var uri = ApiUri.hex(host, accessor.OpName, code.Code.MemberId);
+                var uri = ApiIdentity.hex(host, accessor.OpName, code.Code.MemberId);
                 var movements = moves(code.Routine);
                 var movecount = movements.Length;
                 for(var j=0u; j<movecount; j++)

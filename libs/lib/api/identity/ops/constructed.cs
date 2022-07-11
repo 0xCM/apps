@@ -23,7 +23,7 @@ namespace Z0
             id += IDI.Generic;
             id += TypeArgIdentity(src);
             id += ValueParamIdentity(src);
-            return ApiUri.opid(id);
+            return opid(id);
         }
     }
 }

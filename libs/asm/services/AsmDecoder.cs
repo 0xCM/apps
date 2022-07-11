@@ -27,35 +27,35 @@ namespace Z0.Asm
             IceFormatter = formatter(AsmFormat);
         }
 
-        public Outcome Decode(in CodeBlock src, out IceInstructions dst)
-        {
-            try
-            {
-                var decoded = new Iced.InstructionList();
-                var decoder = idecoder(src, src.Address, out var reader);
-                var @base = src.Address;
-                var buffer = list<Asm.IceInstruction>();
-                var pos = 0u;
-                while(reader.CanReadByte)
-                {
-                    ref var iced = ref decoded.AllocUninitializedElement();
-                    decoder.Decode(out iced);
-                    var size = (uint)iced.ByteLength;
-                    var encoded = slice(src.View, pos, size).ToArray();
-                    var instruction = extract(iced, IceFormatter.FormatInstruction(iced, @base), encoded);
-                    buffer.Add(instruction);
-                    pos += size;
+        // public Outcome Decode(in CodeBlock src, out IceInstructions dst)
+        // {
+        //     try
+        //     {
+        //         var decoded = new Iced.InstructionList();
+        //         var decoder = idecoder(src, src.Address, out var reader);
+        //         var @base = src.Address;
+        //         var buffer = list<Asm.IceInstruction>();
+        //         var pos = 0u;
+        //         while(reader.CanReadByte)
+        //         {
+        //             ref var iced = ref decoded.AllocUninitializedElement();
+        //             decoder.Decode(out iced);
+        //             var size = (uint)iced.ByteLength;
+        //             var encoded = slice(src.View, pos, size).ToArray();
+        //             var instruction = extract(iced, IceFormatter.FormatInstruction(iced, @base), encoded);
+        //             buffer.Add(instruction);
+        //             pos += size;
 
-                }
-                dst = new IceInstructions(buffer,src);
-                return true;
-            }
-            catch(Exception e)
-            {
-                dst = IceInstructions.Empty;
-                return e;
-            }
-        }
+        //         }
+        //         dst = new IceInstructions(buffer,src);
+        //         return true;
+        //     }
+        //     catch(Exception e)
+        //     {
+        //         dst = IceInstructions.Empty;
+        //         return e;
+        //     }
+        // }
 
         public Option<AsmRoutine> Decode(ApiCaptureBlock src)
         {
@@ -151,7 +151,7 @@ namespace Z0.Asm
 
         public AsmRoutine Decode(CollectedEncoding src)
         {
-            ApiUri.parse(src.Token.Uri.Format(), out var uri).Require();
+            ApiIdentity.parse(src.Token.Uri.Format(), out var uri).Require();
             var code = new ApiCodeBlock(src.Token.TargetAddress, uri, src.Code);
             Decode(code, out var instructions);
             var asm = new ApiBlockAsm(code, instructions);
@@ -233,7 +233,7 @@ namespace Z0.Asm
 
         public Outcome DecodeRoutine(in MemberEncoding src, out AsmRoutine dst)
         {
-            var result = ApiUri.parse(src.Uri.Format(), out var uri);
+            var result = ApiIdentity.parse(src.Uri.Format(), out var uri);
             dst = AsmRoutine.Empty;
             if(result.Fail)
                 return result;

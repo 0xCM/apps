@@ -7,35 +7,32 @@ namespace Z0
     /// <summary>
     /// Defines a directed association between two data members
     /// </summary>
-    public class MemberArrow : IArrow<ClrMember>
+    public readonly struct MemberRelation : IRelation<ClrMember>
     {
         /// <summary>
         /// The supplier member
         /// </summary>
-        public ClrMember Source {get;}
+        public readonly ClrMember Source {get;}
 
         /// <summary>
         /// The client member
         /// </summary>
-        public ClrMember Target {get;}
-
-        const string MemberFormat = "{0}[{1}]";
-
-        public string IdentityText
-            => string.Format(RpOps.Arrow,
-                string.Format(MemberFormat, Source.Name, Source.Token),
-                string.Format(MemberFormat, Target.Name, Target.Token)
-                );
+        public readonly ClrMember Target {get;}
 
         [MethodImpl(Inline)]
-        public MemberArrow(ClrMember s, ClrMember t)
+        public MemberRelation(ClrMember s, ClrMember t)
         {
             Source = s;
             Target = t;
         }
 
+        const string MemberFormat = "{0}[{1}]";
+
         public string Format()
-            => IdentityText;
+            => string.Format(RpOps.Arrow,
+                string.Format(MemberFormat, Source.Name, Source.Token),
+                string.Format(MemberFormat, Target.Name, Target.Token)
+                );
 
 
         public override string ToString()
@@ -43,7 +40,7 @@ namespace Z0
 
 
         [MethodImpl(Inline)]
-        public static implicit operator MemberArrow((MemberInfo src, MemberInfo dst) a)
-            => new MemberArrow(a.src, a.dst);
+        public static implicit operator MemberRelation((MemberInfo src, MemberInfo dst) a)
+            => new MemberRelation(a.src, a.dst);
     }
 }

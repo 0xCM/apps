@@ -33,7 +33,7 @@ namespace Z0
                     return (false, $"components = {parts.Length} != 3");
 
                 var address = HexNumericParser.parse64u(parts[(byte)ApiExtractField.Base]).ValueOrDefault();
-                var uri = ApiUri.parse(parts[(byte)ApiExtractField.Uri].Trim()).ValueOrDefault();
+                var uri = ApiIdentity.parse(parts[(byte)ApiExtractField.Uri].Trim()).ValueOrDefault();
                 var bytes = parts[(byte)ApiExtractField.Encoded].SplitClean(HexFormatSpecs.DataDelimiter).Select(parse8u);
                 dst = new ApiExtractBlock(address, uri.Format(), bytes);
                 return true;

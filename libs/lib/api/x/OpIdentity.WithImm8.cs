@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     partial class XApi
     {
         /// <summary>
@@ -15,6 +13,6 @@ namespace Z0
         /// <param name="immval">The immediate value to attach</param>
         [Op]
         public static OpIdentity WithImm8(this OpIdentity src, byte immval)
-            => ApiUri.opid(string.Concat(src.WithoutImm8().IdentityText, ApiUri.Imm8Suffix(immval)));
+            => ApiIdentity.opid(string.Concat(src.WithoutImm8().IdentityText, ApiIdentity.Imm8Suffix(immval)));
     }
 }

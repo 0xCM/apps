@@ -13,20 +13,10 @@ namespace Z0
     {
         const string ProjId = "codegen.respack";
 
-        FS.FolderPath ProjectDir => AppDb.CgRoot().Targets(ProjId).Targets("src").Root;
-
-
-        ApiCode ApiCode => Wf.ApiCode();
-
         ScriptRunner ScriptRunner => Wf.ScriptRunner();
 
         protected override void OnInit()
         {
-        }
-
-        public ReadOnlySpan<ApiHostRes> Emit(bool build = true)
-        {
-            return Emit(ApiCode.LoadBlocks().Storage);
         }
 
         static FS.FileName BuildRespack => FS.file("build-respack", FS.Cmd);
@@ -40,12 +30,6 @@ namespace Z0
             var pack = ScriptRunner.RunControlScript(PackRespack);
             iter(pack, line => Write(line));
         }
-
-        public ReadOnlySpan<ApiHostRes> Emit(ReadOnlySpan<ApiCodeBlock> blocks, bool build = true)
-            => Emit(blocks, ProjectDir, build);
-
-        public ReadOnlySpan<ApiHostRes> Emit(ReadOnlySpan<ApiCodeBlock> blocks, FS.FolderPath dst, bool build = true)
-            => Emit(ApiCode.hosted(blocks), dst, build);
 
         ReadOnlySpan<ApiHostRes> Emit(ReadOnlySpan<ApiHostBlocks> src, FS.FolderPath dst, bool build = true)
         {
