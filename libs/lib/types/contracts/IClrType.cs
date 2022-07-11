@@ -9,24 +9,21 @@ namespace Z0
 
     }
 
-    public interface IClrEnumType : IClrType, IScalarType<ClrEnumKind>
+    public interface IClrEnumType : IClrType
     {
         ClrEnumKind EnumKind {get;}
 
         PrimalKind ScalarKind
             => (PrimalKind)EnumKind;
 
-        BitWidth ISizedType.ContentWidth
+        BitWidth ContentWidth
             => PrimalBits.width(EnumKind);
 
-        BitWidth ISizedType.StorageWidth
+        BitWidth StorageWidth
             => PrimalBits.width(EnumKind);
 
         PrimalKind IType<PrimalKind>.Kind
             => ScalarKind;
-
-        ClrEnumKind IType<ClrEnumKind>.Kind
-            => EnumKind;
 
         ulong IType.Kind
             => (ulong)PrimalBits.width(EnumKind);

@@ -4,12 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    public class ScalarType<K> : IScalarType<K>, IEquatable<ScalarType<K>>
+    public class ScalarTypeInfo<K> : IEquatable<ScalarTypeInfo<K>>
         where K : unmanaged, ISizedType, IEquatable<K>
     {
         public Identifier Name {get;}
@@ -23,11 +18,10 @@ namespace Z0
         public BitWidth StorageWidth {get;}
 
         [MethodImpl(Inline)]
-        public ScalarType(Identifier name, NativeClass @class, K kind)
+        public ScalarTypeInfo(Identifier name, NativeClass @class, K kind)
         {
             Name = name;
             Kind = kind;
-
             ContentWidth = kind.ContentWidth;
             StorageWidth = kind.StorageWidth;
         }
@@ -44,11 +38,11 @@ namespace Z0
         public override string ToString()
             => Format();
 
-        public bool Equals(ScalarType<K> src)
+        public bool Equals(ScalarTypeInfo<K> src)
             => Name.Equals(src.Name) && ContentWidth == src.ContentWidth && Kind.Equals(src.Kind);
 
         [MethodImpl(Inline)]
-        public static implicit operator ScalarType(ScalarType<K> src)
+        public static implicit operator ScalarType(ScalarTypeInfo<K> src)
             => new ScalarType(src.Name, src.NativeClass, src.ContentWidth, src.StorageWidth);
 
         public static ScalarType Empty

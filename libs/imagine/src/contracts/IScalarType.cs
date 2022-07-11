@@ -16,6 +16,6 @@ namespace Z0
         where K : unmanaged
     {
         ulong IType.Kind
-            => core.bw64(Kind);
+            => Sized.bw64(Kind);
     }
 }

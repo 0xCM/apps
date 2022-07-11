@@ -15,4 +15,11 @@ namespace Z0
     {
 
     }
+
+    [Free]
+    public interface INullaryType<T> : IDataType<T>
+        where T : INullaryType<T>
+    {
+
+    }
 }

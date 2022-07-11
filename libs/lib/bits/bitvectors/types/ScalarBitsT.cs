@@ -5,7 +5,6 @@
 namespace Z0
 {
     using static core;
-    using api = BitVectors;
 
     /// <summary>
     /// Defines a generic bitvector over a primal cell
@@ -50,10 +49,16 @@ namespace Z0
         /// <summary>
         /// The number of bits represented by the vector
         /// </summary>
-        public readonly int Width
+        public readonly BitWidth Width
         {
             [MethodImpl(Inline)]
-            get => (int)width<T>();
+            get => width<T>();
+        }
+
+        public readonly ByteSize Size
+        {
+            [MethodImpl(Inline)]
+            get => size<T>();
         }
 
         /// <summary>
@@ -68,7 +73,7 @@ namespace Z0
         /// <summary>
         /// Specifies whether all bits are disabled
         /// </summary>
-        public bit Empty
+        public bit IsZero
         {
             [MethodImpl(Inline)]
             get => !gmath.nonz(Data);
@@ -77,7 +82,7 @@ namespace Z0
         /// <summary>
         /// Specifies whether at least one bit is enabled
         /// </summary>
-        public readonly bit NonEmpty
+        public readonly bit IsNonZero
         {
             [MethodImpl(Inline)]
             get => gmath.nonz(Data);
@@ -211,7 +216,7 @@ namespace Z0
         /// <param name="src">The source vector</param>
         [MethodImpl(Inline)]
         public static bool operator true(ScalarBits<T> src)
-            => src.NonEmpty;
+            => src.IsNonZero;
 
         /// <summary>
         /// Returns false if the source vector is the zero vector, false otherwise
@@ -219,7 +224,7 @@ namespace Z0
         /// <param name="src">The source vector</param>
         [MethodImpl(Inline)]
         public static bool operator false(ScalarBits<T> src)
-            => src.Empty;
+            => src.IsZero;
 
         /// <summary>
         /// Increments the vector arithmetically

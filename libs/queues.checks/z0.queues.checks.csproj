@@ -12,6 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="$(Queues)" />
     <ProjectReference Include="$(CmdSvc)" />
+    <ProjectReference Include="$(Graphs)" />
   </ItemGroup>
 
 </Project>

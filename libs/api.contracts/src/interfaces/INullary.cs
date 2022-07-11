@@ -22,9 +22,12 @@ namespace Z0
         T Zero {get;}
     }
 
+    [Free]
     public interface INullary
     {
         bool IsZero => false;
+
+        bool IsNonZero => !IsZero;
     }
 
     /// <summary>

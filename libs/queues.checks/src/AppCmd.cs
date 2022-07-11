@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    sealed class AppCmd : AppCmdService<AppCmd>
+    sealed partial class AppCmd : AppCmdService<AppCmd>
     {
         public static ICmdProvider[] providers(IWfRuntime wf)
             => new ICmdProvider[]{
