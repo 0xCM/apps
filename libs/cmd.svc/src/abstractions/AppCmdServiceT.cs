@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     [CmdProvider]
     public abstract class AppCmdService<T> : CmdService<T>, IAppCmdService
         where T : AppCmdService<T>, new()

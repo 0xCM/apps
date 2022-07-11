@@ -10,30 +10,22 @@ namespace Z0
     {
         public void EmitConstants(IApiPack dst)
         {
-            var target = dst.Table<ConstantFieldInfo>();
-            var flow = Wf.EmittingTable<ConstantFieldInfo>(target);
-            var formatter = Tables.formatter<ConstantFieldInfo>(16);
+            iter(ApiMd.Components, c => EmitConstants(c, dst), true);
+        }
+
+        public void EmitConstants(Assembly src, IApiPack dst)
+        {
             var counter = 0u;
+            var target = dst.Metadata("contstants").Table<ConstantFieldInfo>(src.GetSimpleName());
+            var flow = Wf.EmittingTable<ConstantFieldInfo>(target);
+            var formatter = Tables.formatter<ConstantFieldInfo>();
             using var writer = target.Writer();
             writer.WriteLine(formatter.FormatHeader());
-            var parts = ApiRuntimeCatalog.Parts;
-
-            foreach(var part in parts)
-            {
-                try
-                {
-                    using var reader = PeTableReader.open(part.PartPath());
-                    var constants = reader.Constants(ref counter);
-                    var count = constants.Length;
-                    for(var i=0; i<count; i++)
-                        writer.WriteLine(formatter.Format(skip(constants,i)));
-                }
-                catch(Exception e)
-                {
-                    Error(e);
-                }
-            }
-
+            using var reader = PeTableReader.open(src.Path());
+            var constants = reader.Constants(ref counter);
+            var count = constants.Length;
+            for(var i=0; i<count; i++)
+                writer.WriteLine(formatter.Format(skip(constants,i)));
             EmittedTable(flow, counter);
         }
     }

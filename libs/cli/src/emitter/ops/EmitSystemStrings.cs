@@ -8,19 +8,19 @@ namespace Z0
 
     partial class CliEmitter
     {
-        public ReadOnlySpan<CliSystemString> EmitSystemStringInfo(IApiPack dst)
+        public ReadOnlySpan<CliString> EmitSystemStringInfo(IApiPack dst)
             => EmitSystemStringInfo(ApiMd.Components, dst);
 
-        public ReadOnlySpan<CliSystemString> EmitSystemStringInfo(ReadOnlySpan<Assembly> src, IApiPack dst)
+        public ReadOnlySpan<CliString> EmitSystemStringInfo(ReadOnlySpan<Assembly> src, IApiPack dst)
         {
             var count = src.Length;
-            var buffer = list<CliSystemString>(16404);
+            var buffer = list<CliString>(16404);
             for(var i=0; i<count; i++)
-                EmitSystemStringInfo(skip(src,i), buffer, dst.Metadata("strings").Table<CliSystemString>(skip(src,i).GetSimpleName()));
+                EmitSystemStringInfo(skip(src,i), buffer, dst.Metadata("strings.system").Table<CliString>(skip(src,i).GetSimpleName()));
             return buffer.ViewDeposited();
         }
 
-        public uint EmitSystemStringInfo(Assembly src, List<CliSystemString> buffer, FS.FilePath dst)
+        public uint EmitSystemStringInfo(Assembly src, List<CliString> buffer, FS.FilePath dst)
         {
             var srcPath = FS.path(src.Location);
             using var reader = PeTableReader.open(srcPath);

@@ -13,10 +13,10 @@ namespace Z0
         public ReadOnlySeq<CollectedEncoding> Collect(ICompositeDispenser symbols, IPart src)
             => collect(MethodEntryPoints.create(ApiJit.JitPart(src)), EventLog, symbols);
 
-        public static ReadOnlySeq<CollectedEncoding> collect(IApiPartCatalog src, WfEventLogger log, ICompositeDispenser dst)
+        public static ReadOnlySeq<CollectedEncoding> collect_old(IApiPartCatalog src, WfEventLogger log, ICompositeDispenser dst)
             => collect(MethodEntryPoints.create(ApiJit.jit(src, log)), log, dst);
 
-        public static ReadOnlySeq<ApiHostCode> collect2(IApiPartCatalog src, WfEventLogger log, ICompositeDispenser dst)
+        public static ReadOnlySeq<ApiHostCode> collect(IApiPartCatalog src, WfEventLogger log, ICompositeDispenser dst)
         {
             var members = list<ApiHostMembers>();
             var collected = list<ApiHostCode>();

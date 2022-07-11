@@ -51,7 +51,7 @@ namespace Z0
             return values.ViewDeposited();
         }
 
-        public ReadOnlySpan<CliUserString> ReadUserStringInfo()
+        public ReadOnlySpan<CliString> ReadUserStringInfo()
         {
             var reader = MD;
             int size = MD.GetHeapSize(HeapIndex.UserString);
@@ -60,11 +60,11 @@ namespace Z0
 
             var handle = MetadataTokens.UserStringHandle(0);
             var counter=0u;
-            var dst = list<CliUserString>();
+            var dst = list<CliString>();
 
             do
             {
-                dst.Add(new CliUserString(seq: counter++, size, HeapOffset(handle), Read(handle)));
+                dst.Add(new CliString(seq: counter++, size, HeapOffset(handle), Read(handle)));
                 handle = MD.GetNextHandle(handle);
             }
             while (!handle.IsNil);

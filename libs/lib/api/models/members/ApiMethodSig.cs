@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     public static partial class ApiMethodSigs
     {
         public abstract class ApiSig<S,K>

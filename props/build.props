@@ -1,5 +1,8 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
+    <OptimizeImplicitlyTriggeredBuild>True</OptimizeImplicitlyTriggeredBuild>
+    <PublishRelease>true</PublishRelease>
+    <PackRelease>true</PackRelease>
     <TargetFramework>$(FrameworkMoniker)</TargetFramework>
     <Platforms>x64</Platforms>
     <TieredCompilation>false</TieredCompilation>
@@ -9,10 +12,15 @@
     <Deterministic>true</Deterministic>
     <Optimize>true</Optimize>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DebugType>pdbonly</DebugType>
     <ImplicitUsings>enable</ImplicitUsings>
+    <FileAlignment>4096</FileAlignment>
+
+    <DebugType>pdbonly</DebugType>
     <DebugSymbols>true</DebugSymbols>
     <IncludeSymbols>true</IncludeSymbols>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+
     <EnablePreviewFeatures>true</EnablePreviewFeatures>
     <LangVersion>preview</LangVersion>
     <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>

@@ -4,6 +4,9 @@
 			"path": "."
 		},
 		{
+			"path": "..\\..\\.cmd"
+		},
+		{
 			"path": "..\\asm.models"
 		},
 		{
@@ -20,9 +23,6 @@
 		},
 		{
 			"path": "..\\asm.prototypes"
-		},
-		{
-			"path": "..\\tools"
 		},
 		{
 			"path": "..\\..\\props"
@@ -56,6 +56,9 @@
 		},
 		{
 			"path": "..\\lib"
+		},
+		{
+			"path": "..\\..\\docs"
 		}
 	],
 	"settings": {}

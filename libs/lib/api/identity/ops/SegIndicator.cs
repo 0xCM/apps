@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     partial struct ApiIdentity
     {
         [Op]
@@ -18,6 +16,5 @@ namespace Z0
             else
                 return Option.none<TypeIndicator>();
         }
-
     }
 }

@@ -89,7 +89,7 @@ namespace Z0
                 var parent = PeReader.index(Stream, entry.Parent);
                 var blob = reader.GetBlobBytes(entry.Value);
                 ref var target = ref seek(dst, i - 1u);
-                target.Sequence = counter++;
+                target.Seq = counter++;
                 target.ParentId = parent.Token;
                 target.Source = parent.Table.ToString();
                 target.DataType = entry.TypeCode;
@@ -102,19 +102,19 @@ namespace Z0
         public static int ConstantCount(in PeStream state)
             => state.Reader.GetTableRowCount(I.Constant);
 
-        public Index<CliSystemString> ReadSystemStringInfo()
+        public Index<CliString> ReadSystemStringInfo()
         {
             var reader = Stream.Reader;
             int size = reader.GetHeapSize(HeapIndex.String);
             if (size == 0)
-                return array<CliSystemString>();
+                return array<CliString>();
 
-            var values = list<CliSystemString>();
+            var values = list<CliString>();
             var handle = MetadataTokens.StringHandle(0);
             var i=0;
             do
             {
-                values.Add(new CliSystemString(seq: i++, size, (Address32)reader.GetHeapOffset(handle), reader.GetString(handle)));
+                values.Add(new CliString(seq: i++, size, (Address32)reader.GetHeapOffset(handle), reader.GetString(handle)));
                 handle = reader.GetNextHandle(handle);
             }
             while (!handle.IsNil);

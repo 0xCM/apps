@@ -6,7 +6,7 @@ namespace Z0
 {
     using A = WsAtoms;
 
-    [LiteralProvider]
+    [LiteralProvider(ws)]
     public readonly struct WsNames
     {
         public const string tools = A.tools;

@@ -53,6 +53,8 @@ namespace Z0
         public Identifier Identifier
             => IdentityText;
 
+        public string Format(bool ts)
+            => ts ? Identifier : ProcessName;
         public string Format()
             => Identifier;
 

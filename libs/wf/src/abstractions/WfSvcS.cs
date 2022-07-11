@@ -108,6 +108,15 @@ namespace Z0
             return result;
         }
 
+        [CmdOp("thread")]
+        Outcome ShowThread(CmdArgs args)
+        {
+            var id = Kernel32.GetCurrentThreadId();
+            Wf.Data(string.Format("ThreadId:{0}", id));
+            return true;
+        }
+
+
         public void Babble<T>(T content)
             => WfMsg.Babble(content);
 

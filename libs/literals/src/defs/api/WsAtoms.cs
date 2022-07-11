@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [LiteralProvider]
+    [LiteralProvider(ws)]
     public readonly struct WsAtoms
     {
         const string dot = ".";

@@ -163,12 +163,12 @@ namespace Z0
 
         void Emit(ApiHostCode src, IApiPack dst)
         {
-            EmitHex(src.Blocks, dst.HexPath(src.Host));
-            EmitCsv(src.Blocks, dst.CsvPath(src.Host));
+            EmitHex(src.Blocks, dst.HexExtractPath(src.Host));
+            EmitCsv(src.Blocks, dst.CsvExtractPath(src.Host));
         }
 
         public ReadOnlySeq<EncodedMember> Emit(PartId part, ReadOnlySeq<CollectedEncoding> src, IApiPack dst)
-            => Emit(src, dst.HexPath(part), dst.CsvPath(part));
+            => Emit(src, dst.HexExtractPath(part), dst.CsvExtractPath(part));
 
         public ByteSize EmitHex(ReadOnlySeq<CollectedEncoding> src, FS.FilePath dst)
         {

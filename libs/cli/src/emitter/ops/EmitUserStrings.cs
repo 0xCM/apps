@@ -23,11 +23,11 @@ namespace Z0
             return counter;
         }
 
-        public ReadOnlySpan<CliUserString> EmitUserStrings(Assembly src, IApiPack dst)
+        public ReadOnlySpan<CliString> EmitUserStrings(Assembly src, IApiPack dst)
         {
             var reader = CliReader.create(src);
             var records = reader.ReadUserStringInfo();
-            TableEmit(records, dst.Metadata("strings").Table<CliUserString>(src.GetSimpleName()), unicode);
+            TableEmit(records, dst.Metadata("strings.user").Table<CliString>(src.GetSimpleName()), unicode);
             return records;
         }
     }

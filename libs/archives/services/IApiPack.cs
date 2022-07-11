@@ -18,47 +18,50 @@ namespace Z0
         string IExpr.Format()
             => string.Format("{0}: {1}", Timestamp, Root);
 
-        FS.FileName DumpFile(Process process)
-            => FS.file(ProcDumpName.create(process,Timestamp).Format(), FileKind.Dmp);
-
         IImmArchive ImmArchive()
             => new ImmArchive(Root + FS.folder("imm"));
 
-        FS.FilePath DumpPath(Process process)
-            => Targets().Path(DumpFile(process)).CreateParentIfMissing();
+        IDbTargets ProcessContext()
+            => Targets("context");
 
-        FS.FilePath Path(PartId part, FileKind kind)
-            => Targets().Path(FS.file(part.Format(), kind));
-
-        FS.FilePath Path(ApiHostUri host, FileKind kind)
-            => Targets().Path(FS.file(host, kind));
+        IDbTargets Extracts()
+            => Targets("extracts");
 
         IDbTargets Metadata()
-            => Targets("meta");
+            => Targets("metadata");
+
+        FS.FilePath IlPath(ApiHostUri host)
+            => Extracts().Path(FS.hostfile(host,FileKind.Msil.Ext()));
 
         IDbTargets Metadata(string scope)
             => Metadata().Targets(scope);
 
+        FS.FilePath ExtractPath(PartId part, FileKind kind)
+            => Extracts().Path(FS.file(part.Format(), kind));
+
+        FS.FilePath ExtractPath(ApiHostUri host, FileKind kind)
+            => Extracts().Path(FS.file(host, kind));
+
         IApiPackArchive Archive()
             => ApiPackArchive.create(Root);
 
-        FS.FilePath HexPath(PartId src)
-            => Path(src, FileKind.HexDat);
+        FS.FilePath HexExtractPath(PartId src)
+            => ExtractPath(src, FileKind.HexDat);
 
-        FS.FilePath CsvPath(PartId part)
-            => Path(part, FileKind.Csv);
+        FS.FilePath CsvExtractPath(PartId part)
+            => ExtractPath(part, FileKind.Csv);
 
-        FS.FilePath AsmPath(PartId part)
-            => Path(part, FileKind.Asm);
+        FS.FilePath AsmExtractPath(PartId part)
+            => ExtractPath(part, FileKind.Asm);
 
-        FS.FilePath HexPath(ApiHostUri src)
-            => Path(src, FileKind.HexDat);
+        FS.FilePath HexExtractPath(ApiHostUri src)
+            => ExtractPath(src, FileKind.HexDat);
 
-        FS.FilePath CsvPath(ApiHostUri src)
-            => Path(src, FileKind.Csv);
+        FS.FilePath CsvExtractPath(ApiHostUri src)
+            => ExtractPath(src, FileKind.Csv);
 
-        FS.FilePath AsmPath(ApiHostUri src)
-            => Path(src, FileKind.Asm);
+        FS.FilePath AsmExtractPath(ApiHostUri src)
+            => ExtractPath(src, FileKind.Asm);
 
         FS.FileName RegionFile()
             => FS.file("memory.regions", FileKind.Csv);
@@ -73,15 +76,21 @@ namespace Z0
             => FS.file("process.partitions.hash", FileKind.Csv);
 
         FS.FilePath PartitionPath()
-            => Targets().Path(PartitionFile());
+            => ProcessContext().Path(PartitionFile());
 
         FS.FilePath RegionPath()
-            => Targets().Path(RegionFile());
+            => ProcessContext().Path(RegionFile());
 
         FS.FilePath RegionHashPath()
-            => Targets().Path(RegionHashFile());
+            => ProcessContext().Path(RegionHashFile());
 
         FS.FilePath PartitionHashPath()
-            => Targets().Path(PartitionHashFile());
+            => ProcessContext().Path(PartitionHashFile());
+
+        FS.FileName DumpFile(Process process)
+            => FS.file(ProcDumpName.create(process,Timestamp).Format(false), FileKind.Dmp);
+
+        FS.FilePath DumpPath(Process process)
+            => ProcessContext().Path(DumpFile(process)).CreateParentIfMissing();
     }
 }

@@ -5,15 +5,21 @@
     <TargetFramework>$(FrameworkMoniker)</TargetFramework>
     <ShellId>asm.checks</ShellId>
     <ShellRoot>$(LibsRoot)</ShellRoot>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>true</SelfContained>
   </PropertyGroup>
 
   <Import Project="$(ImportDefs)shell.settings.props"/>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
+
+    <ProjectReference Include="$(AsmSvc)" />
     <ProjectReference Include="$(TestChecks)" />
     <ProjectReference Include="$(TestUnits)" />
     <ProjectReference Include="$(CmdSvc)" />
-    <ProjectReference Include="$(AsmSvc)" />
+    <ProjectReference Include="$(AsmModels)" />
+    <ProjectReference Include="$(Archives)" />
     <ProjectReference Include="$(LlvmSvc)" />
     <ProjectReference Include="$(Machines)" />
     <ProjectReference Include="$(IntelIntrinsics)" />

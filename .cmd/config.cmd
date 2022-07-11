@@ -33,7 +33,6 @@ set SlnPath=%SlnRoot%\%WsArea%\%WsId%\%SlnFile%
 set SlnLog=%WsLogs%\%SlnId%.build.log
 set BuildSln=%BuildTool% %SlnPath% %BuildProps% -fl -flp:logfile=%SlnLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 
-
 mkdir %WsLogs% 1>nul 2>nul
 set BuldLogs=%WsLogs%
 
@@ -91,7 +90,6 @@ set MainSln=%SlnRoot%\z0.sln
 set BuildMain=%BuildTool% %MainSln% %BuildProps% -fl -flp:logfile=%SlnBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 
 set ModelWs=%SlnRoot%\models
-: set ModelBuildLog=%WsLogs%\z0.models.build.log
 set ModelProject=%ModelWs%\z0.models.csproj
 set BuildModels=%BuildTool% %ModelProject% %BuildProps% -fl -flp:logfile=%BuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 
@@ -101,6 +99,7 @@ set BuildCmdShell=%BuildTool% %CmdProject% %BuildProps% -fl -flp:logfile=%BuildL
 set CmdShellPath=%FrameworkBuildRoot%\%RuntimeMoniker%\%ShellName%
 
 set zcmd=%WsBin%\z0.cmd\%BuildKind%\%TargetFramework%\%RuntimeMoniker%\zcmd.exe
+set zcmd-pub=%WsBin%\z0.cmd\%BuildKind%\%TargetFramework%\%RuntimeMoniker%\publish\zcmd.exe
 
 set CleanBin=rmdir %WsBin% /s/q
 set CleanObj=rmdir %WsObj% /s/q

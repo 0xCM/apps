@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct ApiIdentifier : IEquatable<ApiIdentifier>
     {
         public Cell128 Data {get;}

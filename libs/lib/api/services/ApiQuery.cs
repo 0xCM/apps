@@ -11,10 +11,6 @@ namespace Z0
 
         Index<IApiClass> _Classes;
 
-        // Index<ApiClassifier> _Classifiers;
-
-        // Index<SymLiteralRow> _ClassLiterals;
-
         object locker;
 
         public ApiQuery()
@@ -32,26 +28,6 @@ namespace Z0
             }
             return _Classes;
         }
-
-        // public Index<SymLiteralRow> ApiClassLiterals()
-        // {
-        //     lock(locker)
-        //     {
-        //         if(_ClassLiterals.IsEmpty)
-        //             _ClassLiterals = SymLiterals.ClassLiterals();
-        //     }
-        //     return _ClassLiterals;
-        // }
-
-        // public Index<ApiClassifier> ApiClassifiers()
-        // {
-        //     lock(locker)
-        //     {
-        //         if(_Classifiers.IsEmpty)
-        //             _Classifiers = SymLiterals.Classifiers();
-        //     }
-        //     return _Classifiers;
-        // }
 
         [Op]
         public static MethodInfo[] complete(Type src, HashSet<string> exclusions)

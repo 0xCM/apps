@@ -12,8 +12,6 @@ namespace Z0
     {
         AsmDecoder AsmDecoder => Wf.AsmDecoder();
 
-        ApiCodeFiles CodeFiles => Wf.ApiCodeFiles();
-
         ApiCode ApiCode => Wf.ApiCode();
 
         public void Capture(IApiPack dst)
@@ -22,59 +20,32 @@ namespace Z0
             Capture(ApiRuntimeCatalog, dispenser, true, dst);
         }
 
-        public void Capture2(IApiPack dst)
-        {
-            using var dispenser = Dispense.composite();
-            Capture2(ApiRuntimeCatalog, dispenser, true, dst);
-        }
-
-        public ReadOnlySeq<CollectedEncoding> Capture(IApiCatalog src, ICompositeDispenser dispenser, bool pll, IApiPack pack)
-        {
-            var dst = bag<CollectedEncoding>();
-            iter(src.PartCatalogs(),
-                part => Collected(part.PartId, ApiCode.collect(part, EventLog, dispenser), pack, dispenser, dst), pll);
-            return dst.ToIndex().Sort();
-        }
-
-        public ReadOnlySeq<ApiHostCode> Capture2(IApiCatalog src, ICompositeDispenser dispenser, bool pll, IApiPack pack)
+        public ReadOnlySeq<ApiHostCode> Capture(IApiCatalog src, ICompositeDispenser dispenser, bool pll, IApiPack pack)
         {
             var dst = bag<ApiHostCode>();
             iter(src.PartCatalogs(),
-                part => Collected2(part.PartId, ApiCode.collect2(part, EventLog, dispenser), pack, dispenser, dst), pll);
+                part => {
+                    var code = ApiCode.collect(part, EventLog, dispenser);
+                    ApiCode.Emit(part.PartId, code, pack);
+                    EmitAsm(dispenser, code, pack);
+                },
+            pll);
+
             return dst.ToIndex().Sort();
         }
 
-        ReadOnlySeq<CollectedEncoding> Collected(PartId part, ReadOnlySeq<CollectedEncoding> src, IApiPack pack, ICompositeDispenser dispenser, ConcurrentBag<CollectedEncoding> dst)
-        {
-            var members = ApiCode.Emit(part, src, pack);
-            var asm = EmitAsm(dispenser, part, src, pack.AsmPath(part));
-            return src;
-        }
-
-        void Collected2(PartId part, ReadOnlySeq<ApiHostCode> src, IApiPack pack, ICompositeDispenser dispenser, ConcurrentBag<ApiHostCode> dst)
-        {
-            ApiCode.Emit(part, src, pack);
-            EmitAsm(dispenser, src, pack);
-        }
-
-        public void Capture(ReadOnlySpan<IPart> src, ICompositeDispenser dst, bool pll)
-        {
-            var pack = CodeFiles.ApiPack(core.timestamp());
-            iter(src, part => Capture(part, pack, dst), pll);
-        }
-
-        void Capture(IPart src, IApiPack pack, ICompositeDispenser dst)
-        {
-            var collected = ApiCode.Collect(src, dst, pack);
-            var asm = EmitAsm(dst, src.Id, collected, pack.AsmPath(src.Id));
-        }
+        // void Collected(PartId part, ReadOnlySeq<ApiHostCode> src, IApiPack pack, ICompositeDispenser dispenser, ConcurrentBag<ApiHostCode> dst)
+        // {
+        //     ApiCode.Emit(part, src, pack);
+        //     EmitAsm(dispenser, src, pack);
+        // }
 
         void EmitAsm(ICompositeDispenser symbols, ReadOnlySeq<ApiHostCode> src, IApiPack dst)
         {
             for(var i=0; i<src.Count; i++)
             {
                 ref readonly var host = ref src[i];
-                var path = dst.AsmPath(host.Host);
+                var path = dst.AsmExtractPath(host.Host);
                 var flow = EmittingFile(path);
                 var size = ByteSize.Zero;
                 using var writer = path.AsciWriter();
@@ -90,7 +61,41 @@ namespace Z0
             }
         }
 
-        Index<AsmRoutine> EmitAsm(ICompositeDispenser symbols, PartId part, ReadOnlySeq<CollectedEncoding> src, FS.FilePath dst)
+        public void Capture_Old(IApiPack dst)
+        {
+            using var dispenser = Dispense.composite();
+            Capture_Old(ApiRuntimeCatalog, dispenser, true, dst);
+        }
+
+        public ReadOnlySeq<CollectedEncoding> Capture_Old(IApiCatalog src, ICompositeDispenser dispenser, bool pll, IApiPack pack)
+        {
+            var dst = bag<CollectedEncoding>();
+            iter(src.PartCatalogs(),
+                part => Collected_Old(part.PartId, ApiCode.collect_old(part, EventLog, dispenser), pack, dispenser, dst), pll);
+            return dst.ToIndex().Sort();
+        }
+
+        ReadOnlySeq<CollectedEncoding> Collected_Old(PartId part, ReadOnlySeq<CollectedEncoding> src, IApiPack pack, ICompositeDispenser dispenser, ConcurrentBag<CollectedEncoding> dst)
+        {
+            var members = ApiCode.Emit(part, src, pack);
+            var asm = EmitAsm_Old(dispenser, part, src, pack.AsmExtractPath(part));
+            return src;
+        }
+
+        public void Capture_Old(ReadOnlySpan<IPart> src, ICompositeDispenser dst, bool pll)
+        {
+            var code = Wf.ApiCodeFiles();
+            var pack = code.ApiPack(core.timestamp());
+            iter(src, part => Capture_Old(part, pack, dst), pll);
+        }
+
+        void Capture_Old(IPart src, IApiPack pack, ICompositeDispenser dst)
+        {
+            var collected = ApiCode.Collect(src, dst, pack);
+            var asm = EmitAsm_Old(dst, src.Id, collected, pack.AsmExtractPath(src.Id));
+        }
+
+        Index<AsmRoutine> EmitAsm_Old(ICompositeDispenser symbols, PartId part, ReadOnlySeq<CollectedEncoding> src, FS.FilePath dst)
         {
             var buffer = alloc<AsmRoutine>(src.Count);
             var emitter = text.emitter();
