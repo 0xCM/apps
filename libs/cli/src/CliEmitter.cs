@@ -27,7 +27,7 @@ namespace Z0
                 EmitApiMetadump(dst);
 
             if(options.EmitSectionHeaders)
-                EmitSectionHeaders();
+                EmitSectionHeaders(dst);
 
             if(options.EmitMsilMetadata)
                 EmitMsilMetadata(dst);
@@ -54,7 +54,7 @@ namespace Z0
                 EmitImageContent(dst);
 
             if(options.EmitMethodDefs)
-                EmitMethodDefs(ApiMd.Components, dst.Metadata().Table<MethodDefInfo>());
+                EmitMethodDefs(ApiMd.Components, dst);
 
             if(options.EmitCliRowStats)
                 EmitRowStats(ApiMd.Components, dst.Metadata().Table<CliRowStats>());

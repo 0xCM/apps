@@ -134,7 +134,7 @@ namespace Z0
             var offset = 0u;
             for(var i=0; i<count; i++)
                 offset += Describe(skip(src,i), slice(dst,offset));
-            TableEmit(@readonly(dst), Db.IndexTable<ApiMemberInfo>());
+            TableEmit(@readonly(dst), FS.FilePath.Empty);
         }
 
         public uint Describe(in ResolvedPart src, Span<ApiMemberInfo> dst)

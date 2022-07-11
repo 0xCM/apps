@@ -9,6 +9,8 @@ namespace Z0
     [Free]
     public unsafe class MemCmd : CmdService<MemCmd>
     {
+        ApiMemory ApiMemory => Wf.ApiMemory();
+
         [CmdOp("memory")]
         Outcome ShowMemHex(CmdArgs args)
         {
@@ -32,7 +34,6 @@ namespace Z0
             }
             return result;
         }
-
 
         [CmdOp("modules")]
         void ListModules()

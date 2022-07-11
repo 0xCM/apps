@@ -88,8 +88,8 @@ namespace Z0
             var segs = BitPatterns.segs(src);
             for(var i=0; i<src.Length; i++)
                 seek(specs,i) = skip(src,i).Spec;
-            AppSvc.TableEmit(segs, Targets.Table<BpSeg>(name));
-            AppSvc.TableEmit(specs, Targets.Table<BpSpec>(name));
+            AppSvc.TableEmit(segs, Targets.PrefixedTable<BpSeg>(name));
+            AppSvc.TableEmit(specs, Targets.PrefixedTable<BpSpec>(name));
         }
 
         public static ByteSpanSpec GenBits(W8 w, byte start = 0, byte end = byte.MaxValue)

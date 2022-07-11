@@ -28,7 +28,7 @@ namespace Z0
             var src = input.Files(FS.Bin);
             var _scripts = scripts(mode, src, output);
             var count = _scripts.Length;
-            var scriptDir = Db.JobRoot() + FS.folder(Id.Format());
+            var scriptDir = FS.FolderPath.Empty + FS.folder(Id.Format());
             scriptDir.Clear();
 
             var paths = span<FS.FilePath>(count);

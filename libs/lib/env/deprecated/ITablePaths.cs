@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     public interface ITablePaths
     {
         FS.FileExt DefaultTableExt
@@ -21,20 +19,15 @@ namespace Z0
 
         FS.FileName TableFile<T>()
             where T : struct
-                => FS.file(TableId<T>(), DefaultTableExt);
+                => FS.file(TableId<T>(), FileKind.Csv);
 
-        FS.FileName TableFile<T>(string suffix)
+        FS.FileName SuffixedTable<T>(string suffix)
             where T : struct
-                => FS.file(string.Format("{0}.{1}", TableId<T>(), suffix), DefaultTableExt);
+                => FS.file(string.Format("{0}.{1}", TableId<T>(), suffix), FileKind.Csv);
 
         FS.FileName TableFile<T>(string prefix, string suffix)
             where T : struct
-                => FS.file(string.Format("{0}.{1}.{2}",prefix, TableId<T>(), suffix), DefaultTableExt);
+                => FS.file(string.Format("{0}.{1}.{2}",prefix, TableId<T>(), suffix), FileKind.Csv);
 
-        FS.FileName TableFile(TableId id)
-            => FS.file(id.Format(), DefaultTableExt);
-
-        FS.FileName TableName(string id)
-            => FS.file(id, FS.Csv);
     }
 }

@@ -16,7 +16,7 @@ namespace Z0
             var count = src.Length;
             var buffer = list<CliString>(16404);
             for(var i=0; i<count; i++)
-                EmitSystemStringInfo(skip(src,i), buffer, dst.Metadata("strings.system").Table<CliString>(skip(src,i).GetSimpleName()));
+                EmitSystemStringInfo(skip(src,i), buffer, dst.Metadata("strings.system").PrefixedTable<CliString>(skip(src,i).GetSimpleName()));
             return buffer.ViewDeposited();
         }
 

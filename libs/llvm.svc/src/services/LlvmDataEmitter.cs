@@ -23,7 +23,7 @@ namespace Z0.llvm
             => TableEmit(src, LlvmPaths.DbTable<LineRelations>("llvm.defs"));
 
         public void Emit(string name, Index<TestResult> src)
-            => TableEmit(src, LlvmPaths.TestResultTargets().Table<TestResult>(name));
+            => TableEmit(src, LlvmPaths.TestResultTargets().PrefixedTable<TestResult>(name));
 
         public void Emit(ReadOnlySpan<LlvmInstDef> src)
             => TableEmit(src, LlvmPaths.DbTable<LlvmInstDef>());

@@ -27,7 +27,7 @@ namespace Z0
         {
             var reader = CliReader.create(src);
             var records = reader.ReadUserStringInfo();
-            TableEmit(records, dst.Metadata("strings.user").Table<CliString>(src.GetSimpleName()), unicode);
+            TableEmit(records, dst.Metadata("strings.user").PrefixedTable<CliString>(src.GetSimpleName()), unicode);
             return records;
         }
     }

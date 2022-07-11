@@ -47,13 +47,13 @@ namespace Z0
 
         public ApiBlockIndex IndexApiBlocks()
         {
-            var src = Db.ParsedExtractPaths().View;
+            var src = FS.Files.Empty;
             var count = src.Length;
             var flow = Running(Msg.IndexingPartFiles.Format(count));
 
             for(var i=0; i<count; i++)
             {
-                ref readonly var path = ref skip(src,i);
+                ref readonly var path = ref src[i];
                 var inner = Running(Msg.IndexingCodeBlocks.Format(path));
                 var blocks = ReadRows(path);
                 if(blocks.Length != 0)

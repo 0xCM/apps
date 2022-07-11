@@ -35,7 +35,7 @@ namespace Z0.llvm
 
         public FS.FilePath DbTable<T>(string prefix)
             where T : struct
-                => Tables().Table<T>(prefix);
+                => Tables().PrefixedTable<T>(prefix);
 
         public FS.FilePath DbTable(string id)
             => Tables().Path(FS.file(id, FS.Csv));

@@ -10,9 +10,6 @@ namespace Z0
 
     partial interface IEnvPaths
     {
-        FS.FolderPath TableRoot(FS.FolderPath root)
-            => root + FS.folder(tables);
-
         FS.FolderPath TableDir(string subject)
             => Env.Db + FS.folder(tables) + FS.folder(subject);
 
@@ -39,16 +36,6 @@ namespace Z0
 
         FS.FilePath Table<S>(FS.FolderPath dir, S subject)
             => dir + FS.file(subject.ToString(), DefaultTableExt);
-
-        FS.FilePath IndexTable(string id)
-            => IndexRoot() + FS.file(id, DefaultTableExt);
-
-        FS.FilePath IndexTable(Type t)
-            => t.Tag<RecordAttribute>().MapValueOrElse(a => IndexTable(a.TableId), () => IndexTable(t.Name));
-
-        FS.FilePath IndexTable<T>()
-            where T : struct
-                => IndexTable(typeof(T));
 
         FS.FolderPath AppTableRoot
             => AppLogRoot() + FS.folder(tables);

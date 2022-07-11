@@ -6,6 +6,7 @@ namespace Z0
 {
     using static core;
 
+    using static EnvFolders;
     using System.IO;
 
     public readonly struct HexLine
@@ -122,6 +123,9 @@ namespace Z0
             return new MemoryBlocks(buffer.ToArray());
         }
 
+        FS.FilePath ParsedExtractPath(FS.FolderPath root, ApiHostUri host)
+            => root +  FS.file(host, FileKind.PCsv);
+
         [Op]
         public Index<ApiHexRow> EmitRows(ApiHostUri uri, ReadOnlySpan<ApiMemberCode> src, FS.FolderPath dst)
         {
@@ -132,23 +136,7 @@ namespace Z0
                 for(var i=0u; i<count; i++)
                     seek(buffer, i) = ApiHex.row(skip(src, i), i);
 
-                TableEmit(buffer, Db.ParsedExtractPath(dst, uri));
-                return buffer;
-            }
-            else
-                return array<ApiHexRow>();
-        }
-
-        public Index<ApiHexRow> EmitRows(ApiHostUri uri, ReadOnlySpan<ApiMemberCode> src, FS.FilePath dst)
-        {
-            var count = src.Length;
-            if(count != 0)
-            {
-                var buffer = alloc<ApiHexRow>(count);
-                for(var i=0u; i<count; i++)
-                    seek(buffer, i) = ApiHex.row(skip(src, i), i);
-
-                TableEmit(buffer, dst);
+                TableEmit(buffer, ParsedExtractPath(dst, uri));
                 return buffer;
             }
             else

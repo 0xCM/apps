@@ -8,14 +8,6 @@ namespace Z0
 
     public partial class ProcessMemory : WfSvc<ProcessMemory>
     {
-        Index<SymHeapRecord> CalcHeapEntries(SymHeap src)
-            => Data(Heaps.id(src),() => Heaps.records(src));
-
-        public void EmitSymHeap(SymHeap src, FS.FilePath dst)
-            => TableEmit(CalcHeapEntries(src), dst);
-
-        public void EmitSymHeap(SymHeap src)
-            => TableEmit(CalcHeapEntries(src), ApiTargets().Table<SymHeapRecord>(), TextEncodingKind.Unicode);
 
         IDbTargets ApiTargets()
             => AppDb.DbOut("api");

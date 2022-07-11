@@ -6,7 +6,7 @@ namespace Z0
 {
     partial class DumpBin
     {
-        public static CmdScript script<T>(DumpBin tool, string script, CmdName name, Index<T> src, FS.FolderPath outdir)
+        public static CmdScript script<T>(DumpBin tool, string script, CmdName name, ReadOnlySeq<T> src, FS.FolderPath outdir)
             where T : IFileModule
         {
             var buffer = text.buffer();

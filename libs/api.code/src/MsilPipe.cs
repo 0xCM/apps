@@ -25,16 +25,15 @@ namespace Z0
             IlViz = ILVisualizer.service();
         }
 
-        public Index<MsilCapture> LoadCaptured()
+        public Index<MsilCapture> LoadCaptured(IApiPack src)
         {
-            var flow = Wf.Running($"Loading cil data rows");
-            var input = CapturesFiles().View;
+            var input = src.Files(FileKind.Csv);
             var count = input.Length;
             var dst = Lists.list<MsilCapture>();
             var row = default(MsilCapture);
             for(var i=0; i<count; i++)
             {
-                ref readonly var path = ref skip(input,i);
+                ref readonly var path = ref input[i];
                 using var reader = path.Utf8Reader();
                 while(!reader.EndOfStream)
                 {
@@ -49,15 +48,11 @@ namespace Z0
                     }
                 }
             }
-            Wf.Ran(flow,$"Loaded {dst.Count} cil rows");
             return dst.Emit();
         }
 
-        public FS.Files MetadataFiles()
-            => Db.TableDir<MsilRow>().AllFiles;
-
-        public FS.Files CapturesFiles()
-            => Db.CilPaths.CilDataPaths();
+        public FS.Files MetadataFiles(IApiPack src)
+            => src.Metadata().Files(FileKind.MsilDat);
 
         public Index<MsilRow> LoadMetadata(FS.FilePath src)
         {

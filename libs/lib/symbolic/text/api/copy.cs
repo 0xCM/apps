@@ -18,6 +18,13 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
+        public static uint copy(char src, ref uint i, Span<char> dst)
+        {
+            seek(dst,i++) = src;
+            return 1;
+        }
+
+        [MethodImpl(Inline), Op]
         public static uint copy(ReadOnlySpan<char> src, ref uint i, Span<char> dst)
         {
             var count = src.Length;

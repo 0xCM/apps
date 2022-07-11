@@ -29,7 +29,7 @@ namespace Z0
 
         public uint EmitFieldMetadata(Assembly src, IApiPack dst)
         {
-            var path = dst.Metadata("fields.members").Table<MemberFieldInfo>(src.GetSimpleName());
+            var path = dst.Metadata("fields.members").PrefixedTable<MemberFieldInfo>(src.GetSimpleName());
             var flow = EmittingTable<MemberFieldInfo>(path);
             var reader = CliReader.create(src);
             var fields = reader.ReadFieldInfo();

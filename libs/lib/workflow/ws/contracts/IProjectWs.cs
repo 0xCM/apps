@@ -46,7 +46,7 @@ namespace Z0
 
         FS.FilePath IFileArchive.TablePath<T>(string scope, string suffix)
             where T : struct
-                => Subdir(scope) + TableFile<T>(suffix);
+                => Subdir(scope) + SuffixedTable<T>(suffix);
 
         FS.Files IFileArchive.Files()
             => ProjectFiles();

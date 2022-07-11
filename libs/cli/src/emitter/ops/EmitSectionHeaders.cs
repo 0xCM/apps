@@ -8,31 +8,18 @@ namespace Z0
 
     partial class CliEmitter
     {
-        static ReadOnlySpan<byte> SectionHeaderWidths
-            => new byte[9]{60,16,16,12,12,60,16,16,16};
+        public void EmitSectionHeaders(IApiPack dst)
+            => EmitSectionHeaders(controller().RuntimeArchive(), dst);
 
-        public void EmitSectionHeaders()
-        {
-            EmitSectionHeaders(controller().RuntimeArchive(), ProjectDb.Subdir(CliScope));
-        }
+        public void EmitSectionHeaders(IRuntimeArchive src, IApiPack dst)
+            => EmitSectionHeaders(src.Files(FileKind.Dll, FileKind.Exe, FileKind.Obj), dst.Table<PeSectionHeader>());
 
-        public void EmitSectionHeaders(FS.FolderPath dir)
-        {
-            EmitSectionHeaders(controller().RuntimeArchive(), dir);
-        }
-
-        public void EmitSectionHeaders(IRuntimeArchive src, FS.FolderPath dir)
-        {
-            EmitSectionHeaders(src.DllFiles.View, ProjectDb.TablePath<PeSectionHeader>(CliScope,"dll"));
-            EmitSectionHeaders(src.ExeFiles.View, ProjectDb.TablePath<PeSectionHeader>(CliScope,"exe"));
-        }
-
-        public Outcome<Count> EmitSectionHeaders(ReadOnlySpan<FS.FilePath> src, FS.FilePath dst)
+        public void EmitSectionHeaders(ReadOnlySpan<FS.FilePath> src, FS.FilePath dst)
         {
             var total = Count.Zero;
-            var formatter = Tables.formatter<PeSectionHeader>(SectionHeaderWidths);
+            var formatter = Tables.formatter<PeSectionHeader>();
             var flow = EmittingTable<PeSectionHeader>(dst);
-            using var writer = dst.Writer();
+            using var writer = dst.AsciWriter();
             writer.WriteLine(formatter.FormatHeader());
             foreach(var file in src)
             {
@@ -45,8 +32,6 @@ namespace Z0
                 total += count;
             }
             EmittedTable(flow, total);
-
-            return total;
         }
     }
 }

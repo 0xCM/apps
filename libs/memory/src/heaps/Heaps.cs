@@ -11,6 +11,13 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
+        public static asci16 id(SymHeap src)
+            => string.Format("H{0:X4}x{1:X4}x{2:X6}", src.SymbolCount, src.EntryCount, src.ExprLengths.Storage.Sum());
+
+        [MethodImpl(Inline), Op]
+        public static Span<char> expr(SymHeap src, uint index)
+            => core.slice(src.Expr.Edit, src.ExprOffsets[index], src.ExprLengths[index]);
+
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static Heap<T> create<T>(T[] src, uint[] offsets)
             => new Heap<T>(src, offsets);
@@ -37,13 +44,6 @@ namespace Z0
         public static BinaryHeap untype<T>(in BinaryHeap<T> src)
             where T : unmanaged
                 => src;
-
-        public static asci16 id(SymHeap src)
-            => string.Format("H{0:X4}x{1:X4}x{2:X6}",src.SymbolCount, src.EntryCount, src.ExprLengths.Storage.Sum());
-
-        [MethodImpl(Inline), Op]
-        public static Span<char> expr(SymHeap src, uint index)
-            => core.slice(src.Expr.Edit, src.ExprOffsets[index], src.ExprLengths[index]);
 
         [MethodImpl(Inline)]
         public static ReadOnlySpan<byte> serialize<K,O,L>(in HeapEntry<K,O,L> src)

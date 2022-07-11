@@ -7,24 +7,33 @@ namespace Z0
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct PeSectionHeader
     {
-        public const string TableId = "section.headers";
+        const string TableId = "section.headers";
 
+        [Render(64)]
         public FS.FileName File;
 
+        [Render(16)]
         public string SectionName;
 
+        [Render(16)]
         public Address32 CodeBase;
 
+        [Render(16)]
         public Address32 GptRva;
 
+        [Render(16)]
         public ByteSize GptSize;
 
-        public SectionCharacteristics SectionFlags;
-
+        [Render(16)]
         public Address32 RawDataAddress;
 
+        [Render(16)]
         public ByteSize RawDataSize;
 
+        [Render(16)]
         public Address32 EntryPoint;
+
+        [Render(1)]
+        public SectionCharacteristics SectionFlags;
     }
 }

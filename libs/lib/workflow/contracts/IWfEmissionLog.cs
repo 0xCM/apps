@@ -4,10 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     public interface IWfEmissionLog : IDisposable
     {
+        void Close();
+
         ref readonly WfTableFlow<T> LogEmission<T>(in WfTableFlow<T> flow)
             where T : struct;
 

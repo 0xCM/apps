@@ -40,8 +40,5 @@ namespace Z0
 
         public static ApiPacks ApiPacks(this IWfRuntime wf)
             => Services.ApiPacks(wf);
-
-        public static ApiPackages ApiPackages(this IEnvPaths src)
-            => src.PackageRoot();
    }
 }

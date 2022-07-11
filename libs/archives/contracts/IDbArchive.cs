@@ -6,19 +6,5 @@ namespace Z0
 {
     public interface IDbArchive : IDbSources, IDbTargets
     {
-        IDbTargets Logs()
-            => Targets("logs");
-
-        IDbTargets Logs(string scope)
-            => Targets($"logs/{scope}");
-
-        FS.FilePath Log(string name, FileKind kind)
-            => Logs().Path(name,kind);
-    }
-
-    public interface IDbArchive<A> : IDbArchive
-        where A : IDbArchive, new()
-    {
-
     }
 }

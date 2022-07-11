@@ -38,11 +38,11 @@ namespace Z0
 
         FS.FilePath TablePath<R>()
             where R : struct
-                => AppDb.Logs("checks").Table<R>(SvcName);
+                => AppDb.Logs("checks").PrefixedTable<R>(SvcName);
 
         FS.FilePath TablePath<R>(string label)
             where R : struct
-                => AppDb.Logs("checks").Table<R>(SvcName + $".{label}");
+                => AppDb.Logs("checks").PrefixedTable<R>(SvcName + $".{label}");
 
         protected new void Write<X>(X src, FlairKind flair = FlairKind.Data)
             => Raise(Events.data(src, flair));

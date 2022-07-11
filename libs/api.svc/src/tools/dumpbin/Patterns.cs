@@ -34,7 +34,7 @@ namespace Z0
             return FS.Log;
         }
 
-        public CmdScript Script<T>(string name, CmdName id, Index<T> src, FS.FolderPath outdir)
+        public CmdScript Script<T>(string name, CmdName id, ReadOnlySeq<T> src, FS.FolderPath outdir)
             where T : IFileModule
                 => script(this, name, id, src, outdir);
 

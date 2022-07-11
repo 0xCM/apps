@@ -57,10 +57,7 @@ namespace Z0
 
         [CmdOp("api/etl")]
         void ApiEmit()
-        {
-            ApiMd.EmitDatasets(AppDb.apipack());
-            //CliEmitter.Emit(CliEmitOptions.@default(), ApiPacks.create());
-        }
+            => ApiMd.EmitDatasets(AppDb.apipack());
 
         [CmdOp("api/emit/context")]
         void EmitContext()
@@ -84,20 +81,17 @@ namespace Z0
             //CliEmitter.EmitBlobs();
         }
 
-        [CmdOp("api/emit/pdb/info")]
+        [CmdOp("api/emit/pdb-info")]
         void EmitApiPdbInfo()
             => PdbSvc.EmitPdbInfo(ApiMd.Components.Single(c => c.GetSimpleName().Contains("z0.circuits")));
 
-        [CmdOp("api/emit/pdb/index")]
+        [CmdOp("api/emit/pdb-index")]
         void IndexApiPdbFiles()
-        {
-            var dst = new PdbIndex();
-            PdbIndexBuilder.IndexComponents(ApiMd.Components, dst);
-        }
+            => PdbIndexBuilder.IndexComponents(ApiMd.Components, new PdbIndex());
 
-        // [CmdOp("api/emit/heaps")]
-        // void ApiEmitHeaps()
-        //     => Heaps.Emit(Heaps.symbols(ApiMd.SymLits));
+        [CmdOp("api/emit/heaps")]
+        void ApiEmitHeaps()
+            => Heaps.symbols(ApiMd.SymLits);
 
         [CmdOp("api/emit/msil-host")]
         void EmitHostMsil(CmdArgs args)

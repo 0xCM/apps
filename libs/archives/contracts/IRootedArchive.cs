@@ -8,7 +8,16 @@ namespace Z0
     {
         FS.FolderPath Root {get;}
 
+        // IDbSources Ancestor()
+        //     => new DbArchive(Root.)
+
         DbArchive DbFiles => Root;
+
+        IDbTargets Logs()
+            => Targets("logs");
+
+        FS.FilePath Log(string name, FileKind kind)
+            => Logs().Path(name,kind);
 
         IDbSources Sources()
             => DbFiles.Sources();
@@ -22,6 +31,9 @@ namespace Z0
         IDbTargets Targets(string scope)
             => DbFiles.Targets(scope);
 
+        FS.FileName HostFile(ApiHostUri host, FileKind kind)
+            => FS.file(string.Format("{0}.{1}", host.Part.Format(), host.HostName), kind);
+
         FS.FilePath Table<T>()
             where T : struct
                 => DbFiles.Table<T>();
@@ -30,9 +42,17 @@ namespace Z0
             where T : struct
                 => DbFiles.Table<T>(id);
 
-        FS.FilePath Table<T>(string prefix)
+        FS.FilePath PrefixedTable<T>(string prefix)
             where T : struct
-                => DbFiles.Table<T>(prefix);
+                => DbFiles.PrefixedTable<T>(prefix);
+
+        FS.FileName SuffixedTable<T>(string suffix)
+            where T : struct
+                => FS.file(string.Format("{0}.{1}", DbFiles.Table<T>(), suffix), FileKind.Csv);
+
+        FS.FileName TableFile<T>(string prefix, string suffix)
+            where T : struct
+                => FS.file(string.Format("{0}.{1}.{2}",prefix, DbFiles.Table<T>(), suffix), FileKind.Csv);
 
         FS.Files Files()
             => DbFiles.Files(true);

@@ -10,12 +10,6 @@ namespace Z0
 
         ProcessMemory ProcessMemory => Wf.ProcessMemory();
 
-        public void EmitContext(Timestamp ts)
-            => EmitContext(AppDb.apipack(ts));
-
-        public void EmitContext()
-            => EmitContext(AppDb.apipack());
-
         public void CollectMemStats(Timestamp ts)
         {
             var pipe = Wf.Runtime();
@@ -27,18 +21,14 @@ namespace Z0
         }
 
         public void EmitProcessModules(Process src, IApiPack dst)
-        {
-            TableEmit(ImageMemory.modules(src), dst.ProcessModules());
-        }
+            => TableEmit(ImageMemory.modules(src), dst.ProcessModules());
 
         public void EmitContext(IApiPack dst)
         {
             var flow = Running("Emiting process context");
             var process = Process.GetCurrentProcess();
             EmitProcessModules(process, dst);
-            var parts = ProcessMemory.EmitPartitions(process, dst);
             var regions = Regions.EmitRegions(process, dst);
-            ProcessMemory.EmitHashes(process, parts, dst);
             ProcessMemory.EmitHashes(process, regions, dst);
             EmitDump(process, dst.DumpPath(process));
             Ran(flow,"Emitted process context");

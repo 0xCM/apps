@@ -15,7 +15,6 @@ namespace Z0
             return dst;
         }
 
-
         protected Index<T> Data;
 
         [MethodImpl(Inline)]
@@ -95,6 +94,9 @@ namespace Z0
 
         public void Iter(Action<T> f)
             => Seq.iter(View, f);
+
+        public Seq<T> Unwrap()
+            => Data;
 
         public virtual string Delimiter => "\r\n\t";
 

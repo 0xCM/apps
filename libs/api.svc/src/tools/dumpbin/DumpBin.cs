@@ -12,9 +12,6 @@ namespace Z0
         public Identifier ScriptId(CmdName cmd, FS.FileExt ext)
             => string.Format("{0}.{1}.{2}", Id, ext.Name, CmdSymbols[cmd].Expr);
 
-
-
-
         public void ParseDisassembly()
         {
             var src = FS.path(@"C:\Data\zdb\tools\dumpbin\output\xxhsum.exe.disasm.asm");
@@ -169,7 +166,7 @@ namespace Z0
             return paths.ToArray();
         }
 
-        FS.FilePath EmitScript<T>(CmdName cmd, Index<T> src, FS.FileExt ext, FS.FolderPath dst)
+        FS.FilePath EmitScript<T>(CmdName cmd, ReadOnlySeq<T> src, FS.FileExt ext, FS.FolderPath dst)
             where T : IFileModule
         {
             var sid = ScriptId(cmd, ext);

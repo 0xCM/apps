@@ -35,25 +35,8 @@ namespace Z0
         }
 
 
-        public void EmitMetadadump(FS.FolderPath src, FS.FolderPath dst, bool clear = true)
-        {
-            if(clear)
-                dst.Clear();
-
-            var srcpaths = src.AllFiles.Where(f => f.Is(FS.Exe) || f.Is(FS.Dll)).Where(f => ClrModules.valid(f));
-            var count = srcpaths.Count;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var srcpath =ref srcpaths[i];
-                var dstpath = dst + FS.file(srcpath.FileName.Format(), FS.Txt);
-                EmitMetadump(srcpath, dstpath);
-            }
-        }
-
         public void EmitApiMetadump(IApiPack dst)
-        {
-            EmitApiMetadump(dst.Metadata("metadump"));
-        }
+            => EmitApiMetadump(dst.Metadata("metadump"));
 
         public void EmitMetadump(ReadOnlySpan<Assembly> src, FS.FolderPath dst, bool clear = true)
         {

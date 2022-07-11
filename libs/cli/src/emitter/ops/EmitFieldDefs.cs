@@ -47,7 +47,7 @@ namespace Z0
         public void EmitFieldDefs(Assembly src, IApiPack dst)
         {
             var name = src.GetSimpleName();
-            var path = dst.Metadata("fields.defs").Table<FieldDefInfo>(name);
+            var path = dst.Metadata("fields.defs").PrefixedTable<FieldDefInfo>(name);
             var flow = EmittingTable<FieldDefInfo>(path);
             var reader = CliReader.create(src);
             var handles = reader.FieldDefHandles();

@@ -109,7 +109,7 @@ namespace Z0
             => Correlate(ApiRuntimeCatalog.PartCatalogs(), dst);
 
         public Index<ApiMemberCode> Correlate(ReadOnlySpan<IApiPartCatalog> src)
-            => Correlate(src, Db.IndexTable<ApiCorrelationEntry>());
+            => Correlate(src, FS.FilePath.Empty);
 
         public Index<ApiMemberCode> Correlate(ReadOnlySpan<IApiPartCatalog> src, FS.FilePath path)
         {
@@ -125,7 +125,8 @@ namespace Z0
                 for(var j=0; j<hosts.Length; j++)
                 {
                     ref readonly var srcHost = ref skip(hosts,j);
-                    var hexpath = Db.ParsedExtractPath(srcHost.HostUri);
+                    //var hexpath = Db.ParsedExtractPath(srcHost.HostUri);
+                    var hexpath = FS.FilePath.Empty;
                     if(hexpath.Exists)
                     {
                         Require.invariant(ApiRuntimeCatalog.FindHost(srcHost.HostUri, out var host));

@@ -12,8 +12,6 @@ namespace Z0
 
         IApiParts ApiParts {get;}
 
-        PartToken Ct {get;}
-
         string[] Args {get;}
 
         string AppName {get;}
@@ -56,20 +54,13 @@ namespace Z0
             return Flow(msg);
         }
 
-        WfExecFlow<string> Running(WfHost host, [CallerName] string operation = null)
+        WfExecFlow<string> Running(WfHost host, [CallerName] string caller = null)
         {
-            signal(this, host).Running(operation);
-            return Flow(operation);
+            signal(this, host).Running(caller);
+            return Flow(caller);
         }
 
         ExecToken Ran<T>(WfExecFlow<T> src)
-        {
-            var token = Completed(src);
-            WfEvents.signal(this).Ran(src.Data);
-            return token;
-        }
-
-        ExecToken Ran<T>(WfExecFlow<T> src, FlairKind flair)
         {
             var token = Completed(src);
             WfEvents.signal(this).Ran(src.Data);
@@ -108,9 +99,6 @@ namespace Z0
 
         IWfDb Db()
             => new WfDb(this, FS.dir(@"d:\views\db\apps"));
-        // IWfDb Db()
-        //     => new WfDb(this, Env.Db);
-
 
         EventId Raise<E>(in E e)
             where E : IWfEvent

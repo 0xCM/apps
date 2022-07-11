@@ -14,25 +14,25 @@ namespace Z0
             Root = root;
         }
 
-        public Index<ManagedDllFile> ManagedDll()
+        public ReadOnlySeq<ManagedDllFile> ManagedDll()
             => ManagedDllFiles().Array();
 
-        public Index<NativeDllFile> NativeDll()
+        public ReadOnlySeq<NativeDllFile> NativeDll()
             => NativeDllFiles().Array();
 
-        public Index<ManagedExeFile> ManagedExe()
+        public ReadOnlySeq<ManagedExeFile> ManagedExe()
             => ManagedExeFiles().Array();
 
-        public Index<NativeExeFile> NativeExe()
+        public ReadOnlySeq<NativeExeFile> NativeExe()
             => NativeExeFiles().Array();
 
-        public Index<NativeLibFile> Lib()
+        public ReadOnlySeq<NativeLibFile> Lib()
             => NativeLibFiles().Array();
 
-        public Index<FileModule> Members()
+        public ReadOnlySeq<FileModule> Members()
             => Modules().Array();
 
-        public Index<ObjFile> Obj()
+        public ReadOnlySeq<ObjFile> Obj()
             => ObjFiles().Array();
 
         public bool IsManaged(FS.FilePath src, out AssemblyName name)

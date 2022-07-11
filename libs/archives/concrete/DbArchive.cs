@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public readonly record struct DbArchive : IDbArchive<DbArchive>
+    public readonly record struct DbArchive : IDbArchive
     {
         public FS.FolderPath Root {get;}
 
@@ -33,6 +33,12 @@ namespace Z0
 
         public override string ToString()
             => Format();
+
+        public IDbTargets Logs()
+            => Targets("logs");
+
+        public FS.FilePath Log(string name, FileKind kind)
+            => Logs().Path(name,kind);
 
         public int CompareTo(DbArchive src)
             => Root.CompareTo(src.Root);
@@ -105,7 +111,7 @@ namespace Z0
             where T : struct
                 => Root + Tables.filename<T>(id.Format());
 
-        public FS.FilePath Table<T>(string prefix)
+        public FS.FilePath PrefixedTable<T>(string prefix)
             where T : struct
                 => Root + Tables.filename<T>(prefix);
 

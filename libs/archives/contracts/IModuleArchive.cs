@@ -6,18 +6,18 @@ namespace Z0
 {
     public interface IModuleArchive : IFileArchive
     {
-        Index<ManagedDllFile> ManagedDll();
+        ReadOnlySeq<ManagedDllFile> ManagedDll();
 
-        Index<NativeDllFile> NativeDll();
+        ReadOnlySeq<NativeDllFile> NativeDll();
 
-        Index<ManagedExeFile> ManagedExe();
+        ReadOnlySeq<ManagedExeFile> ManagedExe();
 
-        Index<NativeExeFile> NativeExe();
+        ReadOnlySeq<NativeExeFile> NativeExe();
 
-        Index<NativeLibFile> Lib();
+        ReadOnlySeq<NativeLibFile> Lib();
 
-        Index<ObjFile> Obj();
+        ReadOnlySeq<ObjFile> Obj();
 
-        Index<FileModule> Members();
+        ReadOnlySeq<FileModule> Members();
     }
 }

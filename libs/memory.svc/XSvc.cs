@@ -23,6 +23,9 @@ namespace Z0
             public ModuleArchives ModuleArchives(IWfRuntime wf)
                 => Service<ModuleArchives>(wf);
 
+            public ApiMemory ApiMemory(IWfRuntime wf)
+                => Service<ApiMemory>(wf);
+
         }
 
         static Svc Services => Svc.Instance;
@@ -44,5 +47,9 @@ namespace Z0
 
         public static ApiHex ApiHex(this IWfRuntime wf)
             => Services.ApiHex(wf);
+
+        public static ApiMemory ApiMemory(this IWfRuntime wf)
+            => Services.ApiMemory(wf);
+
     }
 }

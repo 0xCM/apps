@@ -5,49 +5,24 @@
 namespace Z0
 {
     using System.IO;
-    using System.Diagnostics;
 
     using static core;
 
     partial class CliEmitter
     {
-        [Op]
-        public static MemoryAddress @base(Assembly src)
-            => @base(Path.GetFileNameWithoutExtension(src.Location));
-
-        [MethodImpl(Inline), Op]
-        public static MemoryAddress @base(string procname)
-        {
-            var module = ImageMemory.modules(Process.GetCurrentProcess()).Where(m => Path.GetFileNameWithoutExtension(m.ImagePath.Name) == procname).First();
-            return module.BaseAddress;
-        }
-
-        [Op]
-        public static ReadOnlySeq<ProcessPartition> emit(Index<ImageLocation> src, FS.FilePath dst)
-        {
-            var records = ImageMemory.partitions(src);
-            var formatter = Tables.formatter<ProcessPartition>(16);
-            var count = records.Length;
-            using var writer = dst.Writer();
-            writer.WriteLine(formatter.FormatHeader());
-            for(var i=0; i<count; i++)
-                writer.WriteLine(formatter.Format(records[i]));
-            return records;
-        }
-
         public void EmitImageContent(IApiPack dst)
         {
-            var flow = Running(nameof(EmitImageContent));
-            iter(ApiRuntimeCatalog.Components, c => EmitImageContent(c,dst));
+            var flow = Running();
+            iter(ApiMd.Components, c => EmitImageContent(c,dst));
             Ran(flow);
         }
 
         [Op]
         public MemoryRange EmitImageContent(Assembly src, IApiPack pack, byte bpl = HexCsvRow.BPL)
         {
-            var dst =  pack.Metadata("image.content").Table<HexCsvRow>(src.GetSimpleName());
+            var dst =  pack.Metadata("image.content").PrefixedTable<HexCsvRow>(src.GetSimpleName());
             var flow = EmittingTable<HexCsvRow>(dst);
-            var @base = CliEmitter.@base(src);
+            var @base = ImageMemory.@base(src);
             var formatter = HexDataFormatter.create(@base, bpl);
             var path = FS.path(src.Location);
             using var stream = path.Utf8Reader();

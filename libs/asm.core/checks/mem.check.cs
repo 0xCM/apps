@@ -107,7 +107,7 @@ namespace Z0
 
             var lookup = symbols.ToLookup();
             var entries = slice(lookup.Symbols, 0,symbols.EntryCount);
-            AppSvc.TableEmit(entries, AppDb.ApiTargets().Table<MemorySymbol>("api.addresses"));
+            AppSvc.TableEmit(entries, AppDb.ApiTargets().PrefixedTable<MemorySymbol>("api.addresses"));
             var found = 0;
             var hashes = entries.Map(x => x.HashCode).ToHashSet();
             if(hashes.Count != count)

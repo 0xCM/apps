@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Diagnostics;
-
     using static EnvFolders;
 
     public interface IDumpArchive : IRootedArchive
@@ -18,18 +16,6 @@ namespace Z0
 
         FS.FolderPath DotNetTargets(byte major, byte minor, byte revision)
             => DotNetTargets().Targets(FS.FolderName.version(major, minor, revision).Format()).Root;
-
-        FS.Files MiniDumps()
-            => Root.Files(FS.Dmp);
-
-        FS.FilePath MiniDump(string name)
-            => Root + FS.file(name, FS.Dmp);
-
-        FS.FileName DumpFile(Process process, Timestamp ts)
-            => FS.file(ProcDumpName.create(process,ts).Format(), FS.Dmp);
-
-        FS.FilePath DumpPath(Process process, Timestamp ts)
-            => Root + DumpFile(process, ts);
 
         FS.FilePath Table<T>(ProcDumpName id)
             where T : struct

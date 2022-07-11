@@ -11,6 +11,17 @@ namespace Z0
     partial class ImageMemory
     {
         [Op]
+        public static MemoryAddress @base(Assembly src)
+            => @base(Path.GetFileNameWithoutExtension(src.Location));
+
+        [MethodImpl(Inline), Op]
+        public static MemoryAddress @base(string procname)
+        {
+            var module = ImageMemory.modules(Process.GetCurrentProcess()).Where(m => Path.GetFileNameWithoutExtension(m.ImagePath.Name) == procname).First();
+            return module.MinAddress;
+        }
+
+        [Op]
         public static ReadOnlySeq<ProcessModuleRow> modules(Process src)
         {
             var modules = src.Modules.Cast<System.Diagnostics.ProcessModule>().Array();
@@ -32,11 +43,12 @@ namespace Z0
         static ref ProcessModuleRow fill(System.Diagnostics.ProcessModule src, ref ProcessModuleRow dst)
         {
             dst.ImageName = src.ModuleName;
-            dst.BaseAddress = src.BaseAddress;
+            dst.MinAddress = src.BaseAddress;
             dst.EntryAddress = src.EntryPointAddress;
-            dst.ImagePath = FS.path(src.FileName);
+            dst.MaxAddress = dst.MinAddress + src.ModuleMemorySize;
             dst.MemorySize = src.ModuleMemorySize;
             dst.Version = ((uint)src.FileVersionInfo.FileMajorPart, (uint)src.FileVersionInfo.FileMinorPart);
+            dst.ImagePath = FS.path(src.FileName);
             return ref dst;
         }
     }

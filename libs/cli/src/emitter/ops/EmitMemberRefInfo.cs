@@ -10,7 +10,7 @@ namespace Z0
     {
         public void EmitMemberRefInfo()
         {
-            var components = ApiRuntimeCatalog.Components.View;
+            var components = ApiMd.Components;
             var count = components.Length;
             var counter = 0u;
             for(var i=0; i<count; i++)

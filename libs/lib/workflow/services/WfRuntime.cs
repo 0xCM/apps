@@ -7,8 +7,6 @@ namespace Z0
     [ApiHost]
     public partial class WfRuntime : IWfRuntime
     {
-        public PartId Id {get;}
-
         public IApiParts ApiParts {get;}
 
         public IEventBroker EventBroker {get;}
@@ -18,8 +16,6 @@ namespace Z0
         public IAppPaths AppPaths {get;}
 
         public IJsonSettings Settings {get;}
-
-        public PartToken Ct {get;}
 
         public IApiCatalog ApiCatalog {get;}
 
@@ -42,8 +38,6 @@ namespace Z0
         {
             Tokens = init.Tokens;
             Env = init.Env;
-            Id = init.ControlId;
-            Ct = init.Ct;
             EventBroker = init.EventBroker;
             Host = init.Host;
             Verbosity = LogLevel.Status;
@@ -65,7 +59,7 @@ namespace Z0
 
         public void RedirectEmissions(IWfEmissionLog dst)
         {
-            Emissions?.Dispose();
+            Emissions.Close();
             Emissions = dst;
         }
 

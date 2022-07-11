@@ -14,8 +14,12 @@ namespace Z0
 
         ApiCode ApiCode => Wf.ApiCode();
 
+        void RedirectEmissions(IApiPack dst)
+            => Wf.RedirectEmissions(Loggers.emission(ExecutingPart.Component, dst.Path("capture.emissions", FileKind.Log)));
+
         public void Capture(IApiPack dst)
         {
+            RedirectEmissions(dst);
             using var dispenser = Dispense.composite();
             Capture(ApiRuntimeCatalog, dispenser, true, dst);
         }

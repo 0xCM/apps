@@ -12,7 +12,7 @@ namespace Z0
             => Env.Db + FS.folder(tables) + FS.folder("asm.statements");
 
         FS.FolderPath AsmStatementRoot(FS.FolderPath root)
-            => TableRoot(root) + FS.folder("asm.statements");
+            => root + FS.folder("asm.statements");
 
         FS.FolderPath AsmStatementDir(PartId part)
             => AsmStatementRoot() + PartFolder(part);

@@ -31,8 +31,7 @@ namespace Z0.Asm
         }
 
         public Index<AsmDetailRow> Emit(ReadOnlySpan<ApiCodeBlock> src)
-            => Emit(src, Db.TableDir<AsmDetailRow>());
-
+            => Emit(src, FS.FolderPath.Empty);
 
         [MethodImpl(Inline), Op, Closures(UInt64k)]
         public static AsmRowSet<T> rowset<T>(T key, AsmDetailRow[] src)

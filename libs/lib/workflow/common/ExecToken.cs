@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     public struct ExecToken
     {
         public ulong StartSeq;
@@ -31,12 +33,6 @@ namespace Z0
             return this;
         }
 
-        public bool IsEmpty
-        {
-            [MethodImpl(Inline)]
-            get => StartSeq == 0 || StartSeq == ulong.MaxValue;
-        }
-
         public static ExecToken Empty
         {
             [MethodImpl(Inline)]
@@ -44,7 +40,26 @@ namespace Z0
         }
 
         public string Format()
-            => string.Format("{0} | {1} | {2}", string.Format("{0:D4}:{1:D4}", StartSeq, EndSeq), Started, Finished ?? Timestamp.Zero);
+        {
+            var i=0u;
+            Span<char> dst = stackalloc char[82];
+            text.copy(string.Format("{0:D5}", StartSeq), ref i, dst);
+            text.copy(Chars.Colon, ref i, dst);
+            text.copy(string.Format("{0:D5}", EndSeq), ref i, dst);
+            text.copy(Chars.Space, ref i, dst);
+            text.copy(Chars.Pipe, ref i, dst);
+            text.copy(Chars.Space, ref i, dst);
+            text.copy(Started.Format(), ref i, dst);
+            text.copy(Chars.Space, ref i, dst);
+            text.copy(Chars.Pipe, ref i, dst);
+            text.copy(Chars.Space, ref i, dst);
+            if(Finished != null)
+                text.copy(Finished.Value.Format(), ref i, dst);
+
+            return text.format(slice(dst,0,i));
+
+            //return string.Format("{0} | {1} | {2}", string.Format("{0:D5}:{1:D5}", StartSeq, EndSeq), Started, Finished ?? Timestamp.Zero);
+        }
 
         public override string ToString()
             => Format();

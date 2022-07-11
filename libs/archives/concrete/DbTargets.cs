@@ -4,15 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct DbTargets : IDbTargets<DbTargets>
+    public readonly struct DbTargets : IDbTargets
     {
         public readonly DbArchive DbFiles {get;}
-
-        [MethodImpl(Inline)]
-        public DbTargets(IRootedArchive src, string scope)
-        {
-            DbFiles = new DbArchive(src.Root + FS.folder(scope));
-        }
 
         [MethodImpl(Inline)]
         public DbTargets(FS.FolderPath root, string scope)
@@ -26,11 +20,6 @@ namespace Z0
             DbFiles = root;
         }
 
-        [MethodImpl(Inline)]
-        public DbTargets(IRootedArchive src)
-        {
-            DbFiles = new DbArchive(src.Root);
-        }
 
         public FS.FolderPath Root
             => DbFiles;

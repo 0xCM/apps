@@ -76,7 +76,7 @@ namespace Z0
             => typeof(ReadOnlySpan<char>);
 
         public FS.FilePath ResPackPath()
-            => Db.ApiPackages().ResPackLib();
+            => FS.FilePath.Empty;
 
         public MemoryFile MapResPack()
             => MemoryFiles.map(ResPackPath());

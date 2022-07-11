@@ -8,27 +8,21 @@ namespace Z0
 
     partial class CliEmitter
     {
-        public uint EmitMethodDefs(ReadOnlySpan<Assembly> src, FS.FilePath dst)
+        public void EmitMethodDefs(ReadOnlySpan<Assembly> src, IApiPack pack)
+            => iter(src, a => EmitMethodDefs(a, pack.Metadata("methods.defs").PrefixedTable<MethodDefInfo>(a.GetSimpleName())), true);
+
+        void EmitMethodDefs(Assembly src, FS.FilePath dst)
         {
-            var counter = 0u;
+            var formatter = Tables.formatter<MethodDefInfo>();
             var flow = EmittingTable<MethodDefInfo>(dst);
             using var writer = dst.Writer();
-            var formatter = Tables.formatter<MethodDefInfo>(MethodDefInfo.RenderWidths);
             writer.WriteLine(formatter.FormatHeader());
-            for(var i=0; i<src.Length; i++)
-            {
-                ref readonly var a = ref skip(src,i);
-                var reader = CliReader.create(a);
-                var records = reader.ReadMethodDefInfo();
-                var count = records.Length;
-                for(var j=0; j<count; j++)
-                {
-                    writer.WriteLine(formatter.Format(skip(records, j)));
-                    counter++;
-                }
-            }
-            EmittedTable(flow, counter);
-            return counter;
+            var reader = CliReader.create(src);
+            var records = reader.ReadMethodDefInfo();
+            var count = records.Length;
+            for(var j=0; j<count; j++)
+                writer.WriteLine(formatter.Format(skip(records, j)));
+            EmittedTable(flow, count);
         }
     }
 }

@@ -17,9 +17,6 @@ namespace Z0
         public Index<ApiHexRow> EmitApiHex(ApiHostUri uri, ReadOnlySpan<ApiMemberCode> src, FS.FolderPath dst)
             => ApiHex.EmitRows(uri, src, dst);
 
-        public Index<ApiHexRow> EmitApiHex(ApiHostUri uri, ReadOnlySpan<ApiMemberCode> src, FS.FilePath dst)
-            => ApiHex.EmitRows(uri, src, dst);
-
         public SortedIndex<ApiCodeBlock> LoadBlocks()
             => blocks(Files.HexFiles());
 

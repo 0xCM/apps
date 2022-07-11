@@ -9,7 +9,7 @@ namespace Z0
     partial class Heaps
     {
         [Op]
-        public static Index<SymHeapRecord> records(SymHeap src)
+        public static Index<SymHeapRecord> entries(SymHeap src)
         {
             var count = src.SymbolCount;
             var entries = alloc<SymHeapRecord>(count);

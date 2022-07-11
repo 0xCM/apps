@@ -14,6 +14,10 @@ namespace Z0
             => new Files(src);
 
         [MethodImpl(Inline), Op]
+        public static Deferred<FilePath> files(FolderPath root, FileKind kind, bool recurse)
+            => files(root, recurse, kind.Ext());
+
+        [MethodImpl(Inline), Op]
         public static Deferred<FilePath> files(FolderPath src, bool recurse)
             => files(src, "*.*", recurse);
 

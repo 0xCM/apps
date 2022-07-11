@@ -16,7 +16,7 @@ namespace Z0
         public void EmitConstants(Assembly src, IApiPack dst)
         {
             var counter = 0u;
-            var target = dst.Metadata("contstants").Table<ConstantFieldInfo>(src.GetSimpleName());
+            var target = dst.Metadata("contstants").PrefixedTable<ConstantFieldInfo>(src.GetSimpleName());
             var flow = Wf.EmittingTable<ConstantFieldInfo>(target);
             var formatter = Tables.formatter<ConstantFieldInfo>();
             using var writer = target.Writer();

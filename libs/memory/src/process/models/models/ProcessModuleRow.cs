@@ -10,15 +10,18 @@ namespace Z0
         const string TableId = "process.modules";
 
         [Render(16)]
-        public MemoryAddress BaseAddress;
+        public MemoryAddress MinAddress;
 
         [Render(16)]
         public MemoryAddress EntryAddress;
 
         [Render(16)]
+        public MemoryAddress MaxAddress;
+
+        [Render(16)]
         public ByteSize MemorySize;
 
-        [Render(48)]
+        [Render(64)]
         public string ImageName;
 
         [Render(12)]
@@ -30,7 +33,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public int CompareTo(ProcessModuleRow src)
         {
-            var result = BaseAddress.CompareTo(src.BaseAddress);
+            var result = MinAddress.CompareTo(src.MinAddress);
             if(result == 0)
                 result = EntryAddress.CompareTo(src.EntryAddress);
             return result;

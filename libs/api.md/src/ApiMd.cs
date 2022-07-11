@@ -30,8 +30,13 @@ namespace Z0
         public IApiCatalog Catalog
             => ApiRuntimeCatalog;
 
+        Assembly[] CalcComponents()
+        {
+            return Modules.PartArchive().ManagedDll().Where(x => x.FileName.StartsWith("z0")).Select(x => x.Load()).Unwrap();
+        }
+
         public Assembly[] Components
-            => data(K.Components,() => Modules.PartArchive().ManagedDll().Where(x => x.FileName.StartsWith("z0")).Select(x => x.Load()));
+            => data(K.Components, CalcComponents);
 
         public Index<IPart> Parts
             => data(K.ApiParts, () => Catalog.Parts);
@@ -78,22 +83,7 @@ namespace Z0
             => Data(src.GetSimpleName() + nameof(ClrEnumRecord), () => Enums.records(src));
 
         public void EmitDatasets(IApiPack dst)
-        {
-            var emitter = ApiMdEmitter.create(Wf,this);
-            emitter.Emit(dst);
-            // exec(true,
-            //     EmitDataFlows,
-            //     EmitTypeLists,
-            //     EmitApiLiterals,
-            //     () => EmitComments(),
-            //     () => EmitAssets(),
-            //     () => EmitSymLits(SymLits),
-            //     EmitParsers,
-            //     EmitApiTables,
-            //     EmitApiCommands,
-            //     () => EmitApiTokens()
-            // );
-        }
+            => ApiMdEmitter.create(Wf,this).Emit(dst);
 
         public Index<SymLiteralRow> LoadSymLits(FS.FilePath src)
         {
@@ -130,7 +120,7 @@ namespace Z0
             return lookup;
 
             void EmitApiTokens(string name, Index<SymInfo> src)
-                => TableEmit(src, ApiTargets(tokens).Table<SymInfo>(name), TextEncodingKind.Unicode);
+                => TableEmit(src, ApiTargets(tokens).PrefixedTable<SymInfo>(name), TextEncodingKind.Unicode);
         }
 
         internal ApiHostCatalog HostCatalog(Type src)
@@ -352,7 +342,7 @@ namespace Z0
 
         public Index<SymInfo> LoadTokens(string name)
         {
-            var src = ApiTargets().Table<SymInfo>(tokens + "." +  name.ToLower());
+            var src = ApiTargets().PrefixedTable<SymInfo>(tokens + "." +  name.ToLower());
             using var reader = src.TableReader<SymInfo>(SymInfo.parse);
             var header = reader.Header.Split(Chars.Pipe);
             if(header.Length != SymInfo.FieldCount)
@@ -383,7 +373,7 @@ namespace Z0
 
         internal Index<SymLiteralRow> EmitSymLits<E>()
             where E : unmanaged, Enum
-                => EmitSymLits<E>(ApiTargets().Table<SymLiteralRow>(typeof(E).FullName));
+                => EmitSymLits<E>(ApiTargets().PrefixedTable<SymLiteralRow>(typeof(E).FullName));
 
         internal Index<SymLiteralRow> EmitSymLits(FS.FilePath dst)
             => EmitSymLits(Components, dst);
@@ -470,7 +460,7 @@ namespace Z0
         {
             var syms = Symbols.syminfo(src);
             var name = src.Name.ToLower();
-            var dst = ApiTargets().Table<SymInfo>(tokens + "." +  name);
+            var dst = ApiTargets().PrefixedTable<SymInfo>(tokens + "." +  name);
             TableEmit(syms, dst, TextEncodingKind.Unicode);
             return syms;
         }

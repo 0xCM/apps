@@ -144,9 +144,6 @@ namespace Z0
             where T : struct
                 => DbProjects(project).Table<T>(project);
 
-        public IDbTargets RuntimeLogs()
-            => Logs("runtime");
-
         public IDbTargets ApiTargets()
             => DbOut().Targets("api");
 

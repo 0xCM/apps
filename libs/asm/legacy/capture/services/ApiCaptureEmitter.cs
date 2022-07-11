@@ -45,7 +45,6 @@ namespace Z0
             var routines = AsmHostRoutines.Empty;
             try
             {
-                var cilpaths = Db.CilPaths;
                 var flow = Running(Msg.RunningHostEmissionWorkflow.Format(host,src.Count));
                 var extracts = EmitExtracts(host, src, Db.RawExtractPath(dst, host));
                 var parsed = ParseExtracts(host, src);
@@ -65,8 +64,8 @@ namespace Z0
             return routines;
         }
 
-        public Index<ApiHexRow> EmitApiHex(ApiHostUri host, ReadOnlySeq<ApiMemberCode> src, FS.FilePath dst)
-            => ApiCode.EmitApiHex(host, src, dst);
+        // public Index<ApiHexRow> EmitApiHex(ApiHostUri host, ReadOnlySeq<ApiMemberCode> src, FS.FilePath dst)
+        //     => ApiCode.EmitApiHex(host, src, dst);
 
         public Index<ApiHexRow> EmitApiHex(ApiHostUri host, Index<ApiMemberCode> src, FS.FolderPath dst)
             => ApiCode.EmitApiHex(host, src.View, dst);
@@ -103,9 +102,6 @@ namespace Z0
             else
                 return Index<ApiMemberCode>.Empty;
         }
-
-        AsmHostRoutines DecodeMembers(ApiHostUri host, Index<ApiMemberCode> src, Index<ApiMemberExtract> extracts)
-            => DecodeMembers(host,src,extracts, Wf.Db().AsmCapturePath(host));
 
         AsmHostRoutines DecodeMembers(ApiHostUri host, Index<ApiMemberCode> src, Index<ApiMemberExtract> extracts, FS.FilePath dst)
         {

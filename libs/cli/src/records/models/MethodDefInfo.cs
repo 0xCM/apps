@@ -5,27 +5,29 @@
 namespace Z0
 {
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct MethodDefInfo : IRecord<MethodDefInfo>
+    public struct MethodDefInfo
     {
-        public const string TableId = "cli.metadata.methoddef";
+        const string TableId = "cli.methoddef";
 
-        public const byte FieldCount = 7;
-
-        public string Component;
-
-        public CliToken Token;
-
+        [Render(32)]
         public string Name;
 
+        [Render(12)]
+        public CliToken Token;
+
+        [Render(8)]
         public Address32 Rva;
 
+        [Render(32)]
         public CliSig CliSig;
 
+        [Render(32)]
+        public string Component;
+
+        [Render(32)]
         public MethodImplAttributes ImplAttributes;
 
+        [Render(1)]
         public MethodAttributes Attributes;
-
-        public static ReadOnlySpan<byte> RenderWidths
-            => new byte[FieldCount]{16,16,48,16,56,24,24};
     }
 }
