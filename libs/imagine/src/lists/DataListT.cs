@@ -6,8 +6,6 @@ namespace Z0
 {
     using static Spans;
 
-    using api = Lists;
-
     public class DataList<T> : IEnumerable<T>
     {
         internal readonly List<T> Storage;

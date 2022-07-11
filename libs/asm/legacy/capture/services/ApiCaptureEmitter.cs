@@ -65,8 +65,8 @@ namespace Z0
             return routines;
         }
 
-        public Index<ApiHexRow> EmitApiHex(ApiHostUri host, Index<ApiMemberCode> src, FS.FilePath dst)
-            => ApiCode.EmitApiHex(host, src.View, dst);
+        public Index<ApiHexRow> EmitApiHex(ApiHostUri host, ReadOnlySeq<ApiMemberCode> src, FS.FilePath dst)
+            => ApiCode.EmitApiHex(host, src, dst);
 
         public Index<ApiHexRow> EmitApiHex(ApiHostUri host, Index<ApiMemberCode> src, FS.FolderPath dst)
             => ApiCode.EmitApiHex(host, src.View, dst);

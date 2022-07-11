@@ -12,57 +12,6 @@ namespace Z0
         public IApiPack ApiPack(Timestamp ts)
             => ApiPack(AppDb.Capture().Targets(ts.Format()).Root, ts);
 
-        // public FS.FilePath Path(Timestamp ts, PartId part, FileKind kind)
-        //     => ApiPack(ts).Path(part, kind);
-
-        // public FS.FilePath Path(Timestamp ts, ApiHostUri host, FileKind kind)
-        //     => ApiPack(ts).Path(host, kind);
-
-        // public FS.FilePath HexPath(Timestamp ts, PartId src)
-        //     => ApiPack(ts).HexPath(src);
-
-        // public FS.FilePath HexPath(Timestamp ts, ApiHostUri src)
-        //     => ApiPack(ts).HexPath(src);
-
-        // public FS.Files HexFiles(Timestamp ts)
-        //     => ApiPack(ts).Files(FileKind.HexDat);
-
-        // public FS.Files HexFiles(Timestamp ts, PartId src)
-        //     => ApiPack(ts).HexFiles(src);
-
-        // public FS.FilePath CsvPath(Timestamp ts, PartId src)
-        //     => ApiPack(ts).CsvPath(src);
-
-        // public FS.FilePath CsvPath(Timestamp ts, ApiHostUri src)
-        //     => ApiPack(ts).CsvPath(src);
-
-        // public FS.FilePath AsmPath(Timestamp ts, PartId src)
-        //     => ApiPack(ts).AsmPath(src);
-
-        // public FS.FilePath AsmPath(Timestamp ts, ApiHostUri src)
-        //     => ApiPack(ts).AsmPath(src);
-
-        // public FS.Files AsmFiles(Timestamp ts)
-        //     => ApiPack(ts).Files(FileKind.Asm);
-
-        // public FS.Files AsmFiles(Timestamp ts, PartId src)
-        //     => ApiPack(ts).AsmFiles(src);
-
-        // public FS.Files CsvFiles(Timestamp ts)
-        //     => ApiPack(ts).Files(FileKind.Csv);
-
-        // public FS.Files CsvFiles(Timestamp ts, PartId src)
-        //     => ApiPack(ts).CsvFiles(src);
-
-        // public IDbTargets MemoryBlocks(Timestamp ts)
-        //     => new DbTargets(ApiPack(ts).Root);
-
-        // public ApiPartFiles PartFiles(Timestamp ts, PartId src)
-        //     => new ApiPartFiles(src, ApiPack(ts).Root);
-
-        // public IDbTargets MemoryBlocks()
-        //     => AppDb.Capture();
-
         public FS.Files HexFiles()
             => AppDb.Capture().Files(FileKind.Hex);
 

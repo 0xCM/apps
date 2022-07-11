@@ -11,15 +11,18 @@ namespace Z0
         ProcessMemory ProcessMemory => Wf.ProcessMemory();
 
         public void EmitContext(Timestamp ts)
-            => EmitContext(ApiPacks.create(ts));
+            => EmitContext(AppDb.apipack(ts));
+
+        public void EmitContext()
+            => EmitContext(AppDb.apipack());
 
         public void CollectMemStats(Timestamp ts)
         {
             var pipe = Wf.Runtime();
-            var pre = ApiPacks.create(ts,"prejit");
+            var pre = AppDb.apipack(ts,"prejit");
             EmitContext(pre);
             var members = Wf.ApiJit().JitCatalog();
-            var post = ApiPacks.create(ts,"prejit");
+            var post = AppDb.apipack(ts,"prejit");
             EmitContext(post);
         }
 

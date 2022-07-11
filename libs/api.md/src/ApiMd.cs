@@ -10,7 +10,7 @@ namespace Z0
 
     using K = ApiMdKind;
 
-    public sealed class ApiMd : WfSvc<ApiMd>
+    public sealed partial class ApiMd : WfSvc<ApiMd>
     {
         ApiComments Comments => Wf.ApiComments();
 
@@ -77,24 +77,50 @@ namespace Z0
         public Index<ClrEnumRecord> EnumRecords(Assembly src)
             => Data(src.GetSimpleName() + nameof(ClrEnumRecord), () => Enums.records(src));
 
-        public void EmitDatasets()
+        public void EmitDatasets(IApiPack dst)
         {
-            exec(true,
-                EmitDataFlows,
-                EmitTypeLists,
-                EmitApiLiterals,
-                EmitDataTypes,
-                () => EmitComments(),
-                () => EmitAssets(),
-                () => Emit(SymLits),
-                EmitParsers,
-                EmitApiTables,
-                EmitApiCommands,
-                () => EmitApiTokens()
-            );
+            var emitter = ApiMdEmitter.create(Wf,this);
+            emitter.Emit(dst);
+            // exec(true,
+            //     EmitDataFlows,
+            //     EmitTypeLists,
+            //     EmitApiLiterals,
+            //     () => EmitComments(),
+            //     () => EmitAssets(),
+            //     () => EmitSymLits(SymLits),
+            //     EmitParsers,
+            //     EmitApiTables,
+            //     EmitApiCommands,
+            //     () => EmitApiTokens()
+            // );
         }
 
-        public ConstLookup<string,Index<SymInfo>> EmitApiTokens()
+        public Index<SymLiteralRow> LoadSymLits(FS.FilePath src)
+        {
+            using var reader = src.TableReader<SymLiteralRow>(SymLiteralRow.parse);
+            var header = reader.Header.Split(Chars.Tab);
+            if(header.Length != SymLiteralRow.FieldCount)
+            {
+                Error(AppMsg.FieldCountMismatch.Format(SymLiteralRow.FieldCount, header.Length));
+                return Index<SymLiteralRow>.Empty;
+            }
+
+            var dst = list<SymLiteralRow>();
+            while(!reader.Complete)
+            {
+                var outcome = reader.ReadRow(out var row);
+                if(!outcome)
+                {
+                    Error(outcome.Message);
+                    break;
+                }
+                dst.Add(row);
+            }
+
+            return dst.ToArray();
+        }
+
+        internal ConstLookup<string,Index<SymInfo>> EmitApiTokens()
         {
             ApiTargets(tokens).Clear();
             var lookup = ApiTokens;
@@ -107,19 +133,19 @@ namespace Z0
                 => TableEmit(src, ApiTargets(tokens).Table<SymInfo>(name), TextEncodingKind.Unicode);
         }
 
-        public ApiHostCatalog HostCatalog(Type src)
+        internal ApiHostCatalog HostCatalog(Type src)
             => HostCatalog(ApiLoader.apihost(src));
 
-        Index<ComponentAssets> CalcApiAssets()
+        internal Index<ComponentAssets> CalcApiAssets()
             => Assets.extract(Components);
 
-        void EmitAssets()
+        internal void EmitAssets()
         {
             AssetTargets.Delete();
             Emit(Emit(ApiAssets));
         }
 
-        public AssetCatalog Emit(ReadOnlySeq<ComponentAssets> src)
+        internal AssetCatalog Emit(ReadOnlySeq<ComponentAssets> src)
         {
             var counter = 0u;
             for(var i=0; i<src.Count; i++)
@@ -138,7 +164,7 @@ namespace Z0
             return new AssetCatalog(src.SelectMany(x => x).Select(e => Assets.entry(e)).Array());
         }
 
-        public void Emit(ComponentAssets src, List<AssetCatalogEntry> entries)
+        internal void Emit(ComponentAssets src, List<AssetCatalogEntry> entries)
         {
             var count = src.Count;
             var targets = AssetTargets.Targets(src.Source.GetSimpleName());
@@ -150,7 +176,7 @@ namespace Z0
             }
         }
 
-        public void Emit(AssetCatalog src)
+        internal void Emit(AssetCatalog src)
             => TableEmit(src, AppDb.ApiTargets().Table<AssetCatalogEntry>());
 
         public ApiHostCatalog HostCatalog(IApiHost src)
@@ -159,7 +185,7 @@ namespace Z0
             return members.Length == 0 ? ApiHostCatalog.Empty : new ApiHostCatalog(src, members);
         }
 
-        Index<ApiHostCatalog> HostCatalogs(IApiPartCatalog src)
+        internal Index<ApiHostCatalog> HostCatalogs(IApiPartCatalog src)
         {
             var running = Running($"Computing {src.PartId.Format()} members");
             var catalogs = src.ApiHosts.Map(HostCatalog);
@@ -167,7 +193,7 @@ namespace Z0
             return catalogs;
         }
 
-        ConcurrentDictionary<PartId,Index<ApiHostCatalog>> HostCatalogs()
+        internal ConcurrentDictionary<PartId,Index<ApiHostCatalog>> HostCatalogs()
         {
             var dst = cdict<PartId, Index<ApiHostCatalog>>();
             iter(Catalog.PartCatalogs(), part => dst.TryAdd(part.PartId, HostCatalogs(part)), true);
@@ -198,30 +224,25 @@ namespace Z0
         public void EmitIndex(Index<ApiRuntimeMember> src)
             => TableEmit(src, AppDb.ApiTargets().Table<ApiRuntimeMember>(), TextEncodingKind.Utf8);
 
-        void EmitApiCommands()
+        internal void EmitApiCommands()
             => Emit(ApiCommands);
 
-        void EmitApiLiterals()
+        internal void EmitApiLiterals()
             => Emit(ApiLiterals);
 
-        void EmitTypeLists()
+        internal void EmitTypeLists()
         {
             EmitTypeList("api.types.enums", EnumTypes);
             EmitTypeList("api.types.records", ApiTableTypes);
         }
 
-        void EmitDataFlows()
+        internal void EmitDataFlows()
             => Emit(DataFlows);
 
-        void EmitDataTypes()
-        {
-
-        }
-
-        void EmitApiTables()
+        internal void EmitApiTables()
             => Emit(ApiTableFields);
 
-        void EmitParsers()
+        internal void EmitParsers()
         {
             const string RenderPattern = "{0,-8} | {1,-8} | {2}";
             var cols = new string[]{"Seq", "Returns", "Target"};
@@ -253,28 +274,13 @@ namespace Z0
             return path;
         }
 
-        public void Emit(ReadOnlySpan<SymKindRow> src)
-            => TableEmit(src, AppDb.ApiTargets().Table<SymKindRow>());
-
-        public void Emit(ReadOnlySpan<ApiCmdRow> src)
-            => TableEmit(src, AppDb.ApiTargets().Table<ApiCmdRow>());
-
-        public void Emit(ReadOnlySpan<TableField> src)
-            => TableEmit(src, AppDb.ApiTargets().Table<TableField>());
-
-        public void Emit(ReadOnlySpan<SymLiteralRow> src)
+        internal void EmitSymLits(ReadOnlySpan<SymLiteralRow> src)
             => TableEmit(src, AppDb.ApiTargets().Path("api.symbols", FileKind.Csv), TextEncodingKind.Unicode);
 
-        public void Emit(ReadOnlySpan<ApiLiteral> src)
-            => TableEmit(src, AppDb.ApiTargets().Table<ApiLiteral>(), TextEncodingKind.Unicode);
-
-        public void Emit(ReadOnlySpan<ApiFlowSpec> src)
-            => TableEmit(src, AppDb.ApiTargets().Table<ApiFlowSpec>());
-
-        public void Emit(ReadOnlySpan<ClrEnumRecord> src)
+        internal void EmitEnums(ReadOnlySpan<ClrEnumRecord> src)
             => TableEmit(src, AppDb.ApiTargets().Table<ClrEnumRecord>(), TextEncodingKind.Unicode);
 
-        ReadOnlySeq<ApiFlowSpec> CalcDataFlows()
+        internal ReadOnlySeq<ApiFlowSpec> CalcDataFlows()
         {
             var src = ApiDataFlow.discover(Components);
             var count = src.Length;
@@ -291,10 +297,10 @@ namespace Z0
             return buffer.Sort();
         }
 
-        ReadOnlySeq<ApiCmdRow> CalcApiCommands()
+        internal ReadOnlySeq<ApiCmdRow> CalcApiCommands()
             => CmdTypes.rows(CmdTypes.discover(Components));
 
-        ConstLookup<string,Index<SymInfo>> CalcApiTokens()
+        internal ConstLookup<string,Index<SymInfo>> CalcApiTokens()
         {
             var types = EnumTypes.Tagged<SymSourceAttribute>();
             var groups = dict<string,List<Type>>();
@@ -344,9 +350,6 @@ namespace Z0
             return dst;
         }
 
-        public void Emit(ReadOnlySpan<ClrEnumRecord> src, FS.FilePath dst)
-            => TableEmit(src,dst);
-
         public Index<SymInfo> LoadTokens(string name)
         {
             var src = ApiTargets().Table<SymInfo>(tokens + "." +  name.ToLower());
@@ -372,17 +375,20 @@ namespace Z0
             return dst.ToArray();
         }
 
-        public Index<SymLiteralRow> EmitSymLits()
+        internal void EmitEnums(ReadOnlySpan<ClrEnumRecord> src, FS.FilePath dst)
+            => TableEmit(src,dst);
+
+        internal Index<SymLiteralRow> EmitSymLits()
             => EmitSymLits(ApiTargets().Table<SymLiteralRow>());
 
-        public Index<SymLiteralRow> EmitSymLits<E>()
+        internal Index<SymLiteralRow> EmitSymLits<E>()
             where E : unmanaged, Enum
                 => EmitSymLits<E>(ApiTargets().Table<SymLiteralRow>(typeof(E).FullName));
 
-        Index<SymLiteralRow> EmitSymLits(FS.FilePath dst)
+        internal Index<SymLiteralRow> EmitSymLits(FS.FilePath dst)
             => EmitSymLits(Components, dst);
 
-        Index<SymLiteralRow> EmitSymLits<E>(FS.FilePath dst)
+        internal Index<SymLiteralRow> EmitSymLits<E>(FS.FilePath dst)
             where E : unmanaged, Enum
         {
             var flow = EmittingTable<SymLiteralRow>(dst);
@@ -397,14 +403,17 @@ namespace Z0
             return rows;
         }
 
-        Index<SymLiteralRow> EmitSymLits(Assembly[] src, FS.FilePath dst)
+        internal void Emit(ReadOnlySpan<SymKindRow> src)
+            => TableEmit(src, AppDb.ApiTargets().Table<SymKindRow>());
+
+        internal Index<SymLiteralRow> EmitSymLits(Assembly[] src, FS.FilePath dst)
         {
             var data = Symbolic.symlits(src);
             TableEmit(data, dst, TextEncodingKind.Unicode);
             return data;
         }
 
-        public Index<SymDetailRow> EmitDetails<E>(Symbols<E> src, FS.FilePath dst)
+        internal Index<SymDetailRow> EmitSymDetails<E>(Symbols<E> src, FS.FilePath dst)
             where E : unmanaged, Enum
         {
             var count = src.Count;
@@ -415,7 +424,7 @@ namespace Z0
             return buffer;
         }
 
-        static uint FieldCount(Index<Type> tables)
+        internal static uint CountFields(Index<Type> tables)
         {
             var counter = 0u;
             for(var i=0; i<tables.Count; i++)
@@ -423,10 +432,10 @@ namespace Z0
             return counter;
         }
 
-        Index<TableField> CalcTableFields()
+        internal Index<TableField> CalcTableFields()
         {
             var tables = ApiTableTypes;
-            var count = FieldCount(tables);
+            var count = CountFields(tables);
             var buffer = alloc<TableField>(count);
             var k=0u;
             for(var i=0; i<tables.Count; i++)
@@ -457,32 +466,7 @@ namespace Z0
             return buffer;
         }
 
-        public Index<SymLiteralRow> LoadSymLits(FS.FilePath src)
-        {
-            using var reader = src.TableReader<SymLiteralRow>(SymLiteralRow.parse);
-            var header = reader.Header.Split(Chars.Tab);
-            if(header.Length != SymLiteralRow.FieldCount)
-            {
-                Error(AppMsg.FieldCountMismatch.Format(SymLiteralRow.FieldCount, header.Length));
-                return Index<SymLiteralRow>.Empty;
-            }
-
-            var dst = list<SymLiteralRow>();
-            while(!reader.Complete)
-            {
-                var outcome = reader.ReadRow(out var row);
-                if(!outcome)
-                {
-                    Error(outcome.Message);
-                    break;
-                }
-                dst.Add(row);
-            }
-
-            return dst.ToArray();
-        }
-
-        public Index<SymInfo> EmitApiTokens(Type src)
+        internal Index<SymInfo> EmitApiTokens(Type src)
         {
             var syms = Symbols.syminfo(src);
             var name = src.Name.ToLower();
@@ -491,11 +475,23 @@ namespace Z0
             return syms;
         }
 
-        public Index<SymInfo> EmitApiTokens(ITokenGroup src, FS.FilePath dst)
+        internal Index<SymInfo> EmitApiTokens(ITokenGroup src, FS.FilePath dst)
         {
             var data = Symbols.syminfo(src.TokenTypes);
             TableEmit(data, dst, TextEncodingKind.Unicode);
             return data;
         }
+
+        void Emit(ReadOnlySpan<ApiCmdRow> src)
+            => TableEmit(src, AppDb.ApiTargets().Table<ApiCmdRow>());
+
+        void Emit(ReadOnlySpan<TableField> src)
+            => TableEmit(src, AppDb.ApiTargets().Table<TableField>());
+
+        void Emit(ReadOnlySpan<ApiLiteral> src)
+            => TableEmit(src, AppDb.ApiTargets().Table<ApiLiteral>(), TextEncodingKind.Unicode);
+
+        void Emit(ReadOnlySpan<ApiFlowSpec> src)
+            => TableEmit(src, AppDb.ApiTargets().Table<ApiFlowSpec>());
     }
 }

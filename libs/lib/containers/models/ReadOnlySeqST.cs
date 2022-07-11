@@ -15,6 +15,7 @@ namespace Z0
             return dst;
         }
 
+
         protected Index<T> Data;
 
         [MethodImpl(Inline)]
@@ -69,6 +70,12 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => ref Data[index];
+        }
+
+        public ref readonly T Last
+        {
+            [MethodImpl(Inline)]
+            get => ref Data.Last;
         }
 
         public ReadOnlySpan<T>.Enumerator GetEnumerator()

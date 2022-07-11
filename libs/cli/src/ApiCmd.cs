@@ -4,10 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     using static core;
-
-    using static ApiGranules;
 
     using K = ApiMdKind;
 
@@ -15,11 +12,7 @@ namespace Z0
     {
         ApiMd ApiMd => Wf.ApiMetadata();
 
-        CliEmitter CliEmitter => Wf.CliEmitter();
-
         Cli Cli => Wf.Cli();
-
-        Heaps Heaps => Wf.Heaps();
 
         PdbIndexBuilder PdbIndexBuilder => Wf.PdbIndexBuilder();
 
@@ -65,13 +58,13 @@ namespace Z0
         [CmdOp("api/etl")]
         void ApiEmit()
         {
-            ApiMd.EmitDatasets();
-            CliEmitter.Emit(CliEmitOptions.@default(), ApiPacks.create());
+            ApiMd.EmitDatasets(AppDb.apipack());
+            //CliEmitter.Emit(CliEmitOptions.@default(), ApiPacks.create());
         }
 
         [CmdOp("api/emit/context")]
         void EmitContext()
-            => Runtime.EmitContext(ApiPacks.create());
+            => Runtime.EmitContext(AppDb.apipack());
 
         [CmdOp("api/emit/hex")]
         void EmitApiHex()
@@ -108,11 +101,11 @@ namespace Z0
 
         [CmdOp("api/emit/msil-host")]
         void EmitHostMsil(CmdArgs args)
-            => Cli.EmitHostMsil(arg(args,0), ApiPacks.create());
+            => Cli.EmitHostMsil(arg(args,0), AppDb.apipack());
 
         [CmdOp("api/emit/msil")]
         void EmitMsil()
-            => Cli.EmitMsil(ApiPacks.create());
+            => Cli.EmitMsil(AppDb.apipack());
 
         [CmdOp("api/emit/corelib")]
         void EmitCorLib()
@@ -146,8 +139,6 @@ namespace Z0
         [CmdOp("api/emit/comments")]
         void ApiEmitComments()
             => ApiMd.EmitComments();
-
-        const string il = nameof(il);
 
         [CmdOp("gen/replicants")]
         Outcome GenEnums(CmdArgs args)

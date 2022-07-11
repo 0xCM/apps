@@ -51,7 +51,6 @@ namespace Z0
             var result = Outcome.Success;
             const string qid = "process-asm.rex";
             var counter = 0u;
-
             var src = ProcessAsmBuffers.records(ApiPacks.Current());
             var buffer = span<ProcessAsmRecord>(src.Count);
             buffer.Clear();

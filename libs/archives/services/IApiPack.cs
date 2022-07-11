@@ -15,6 +15,9 @@ namespace Z0
         bool INullity.IsEmpty
             => Timestamp == 0;
 
+        ReadOnlySeq<LineCount> CountLines(FileKind kind)
+            => AsciLines.count(Files(kind));
+
         string IExpr.Format()
             => string.Format("{0}: {1}", Timestamp, Root);
 
@@ -23,6 +26,12 @@ namespace Z0
 
         IDbTargets ProcessContext()
             => Targets("context");
+
+        IDbTargets Comments()
+            => Metadata().Targets("comments");
+
+        IDbTargets Tokens()
+            => Metadata().Targets("tokens");
 
         IDbTargets Extracts()
             => Targets("extracts");

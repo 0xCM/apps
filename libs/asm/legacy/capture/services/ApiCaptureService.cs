@@ -6,7 +6,6 @@ namespace Z0
 {
     using System;
     using System.Linq;
-    using System.IO;
 
     using Z0.Asm;
 
@@ -23,13 +22,13 @@ namespace Z0
         public Index<ApiMemberExtract> ExtractHostOps(IApiHost host)
             => Extractor.Extract(Jit.JitHost(host));
 
-        public Index<AsmHostRoutines> CaptureParts(Index<PartId> parts, IApiPack dst)
-        {
-            using var flow = Running();
-            var captured = RunCapture(parts, dst);
-            Ran(flow);
-            return captured;
-        }
+        // public Index<AsmHostRoutines> CaptureParts(Index<PartId> parts, IApiPack dst)
+        // {
+        //     using var flow = Running();
+        //     var captured = RunCapture(parts, dst);
+        //     Ran(flow);
+        //     return captured;
+        // }
 
         /// <summary>
         /// Captures a catalog-specified part
@@ -46,31 +45,31 @@ namespace Z0
             return buffer.ToArray();
         }
 
-        public Index<AsmHostRoutines> CaptureHosts(ReadOnlySpan<ApiHostUri> src, IApiPack dst)
-        {
-            var buffer = list<AsmHostRoutines>();
-            try
-            {
-                var hosts = Wf.ApiCatalog.FindHosts(src);
-                var count = hosts.Length;
-                var view = hosts.View;
-                for(var i=0; i<count; i++)
-                {
-                    var host = skip(view,i);
-                    buffer.Add(CaptureHost(host, dst));
-                }
-            }
-            catch(IOException e)
-            {
-                Wf.Error(string.Format("IOException: {0}", e.Message));
-            }
-            catch(Exception e)
-            {
-                Wf.Error(e);
-            }
+        // public Index<AsmHostRoutines> CaptureHosts(ReadOnlySpan<ApiHostUri> src, IApiPack dst)
+        // {
+        //     var buffer = list<AsmHostRoutines>();
+        //     try
+        //     {
+        //         var hosts = Wf.ApiCatalog.FindHosts(src);
+        //         var count = hosts.Length;
+        //         var view = hosts.View;
+        //         for(var i=0; i<count; i++)
+        //         {
+        //             var host = skip(view,i);
+        //             buffer.Add(CaptureHost(host, dst));
+        //         }
+        //     }
+        //     catch(IOException e)
+        //     {
+        //         Wf.Error(string.Format("IOException: {0}", e.Message));
+        //     }
+        //     catch(Exception e)
+        //     {
+        //         Wf.Error(e);
+        //     }
 
-            return buffer.ToArray();
-        }
+        //     return buffer.ToArray();
+        // }
 
         public Index<AsmHostRoutines> CaptureHosts(ReadOnlySpan<IApiHost> src, IApiPack dst)
         {
@@ -98,22 +97,22 @@ namespace Z0
             return routines;
         }
 
-        public AsmHostRoutines CaptureHost(IApiHost src, FS.FolderPath dst)
-        {
-            src = require(src);
-            var routines = AsmHostRoutines.Empty;
-            var flow = Running(string.Format("Capturing {0} routines", src.HostName));
-            try
-            {
-                routines = Emitter.Emit(src.HostUri, ExtractHostOps(src), dst);
-            }
-            catch(Exception e)
-            {
-                Error(e);
-            }
-            Ran(flow, string.Format("Captured {0} {1} routines",routines.Count, src.HostName));
-            return routines;
-        }
+        // public AsmHostRoutines CaptureHost(IApiHost src, FS.FolderPath dst)
+        // {
+        //     src = require(src);
+        //     var routines = AsmHostRoutines.Empty;
+        //     var flow = Running(string.Format("Capturing {0} routines", src.HostName));
+        //     try
+        //     {
+        //         routines = Emitter.Emit(src.HostUri, ExtractHostOps(src), dst);
+        //     }
+        //     catch(Exception e)
+        //     {
+        //         Error(e);
+        //     }
+        //     Ran(flow, string.Format("Captured {0} {1} routines",routines.Count, src.HostName));
+        //     return routines;
+        // }
 
         public AsmHostRoutines CaptureTypes(Index<ApiCompleteType> src, IApiPack dst)
         {

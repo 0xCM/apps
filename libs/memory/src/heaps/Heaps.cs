@@ -7,7 +7,7 @@ namespace Z0
     using static core;
 
     [Free, ApiHost]
-    public partial class Heaps : AppService<Heaps>
+    public partial class Heaps
     {
         const NumericKind Closure = UnsignedInts;
 
@@ -27,7 +27,6 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static ReadOnlyHeap<T> create<T>(ReadOnlySpan<T> src, uint[] offsets)
             => new ReadOnlyHeap<T>(src, offsets);
-
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static BinaryHeap<T> retype<T>(in BinaryHeap src)

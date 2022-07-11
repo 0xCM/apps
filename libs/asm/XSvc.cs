@@ -41,7 +41,6 @@ namespace Z0
 
         static Svc Services => Svc.Instance;
 
-
         public static AsmEtl AsmEtl(this IWfRuntime wf)
             => Services.AsmEtl(wf);
 
@@ -71,9 +70,6 @@ namespace Z0
 
         public static ApiCaptureService ApiCaptureLegacy(this IWfRuntime wf)
             => Z0.ApiCaptureService.create(wf);
-
-        public static ApiCaptureRunner CaptureRunner(this IWfRuntime wf)
-            => ApiCaptureRunner.create(wf);
 
         public static ApiCaptureEmitter CaptureEmitter(this IWfRuntime wf)
             => ApiCaptureEmitter.create(wf);

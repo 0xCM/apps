@@ -17,6 +17,59 @@ namespace Z0
     public partial class ApiHex : WfSvc<ApiHex>
     {
         [MethodImpl(Inline), Op]
+        public static ByteSize size(ReadOnlySpan<HexDataRow> src)
+        {
+            var dst = 0ul;
+            for(var i=0; i<src.Length; i++)
+                dst += skip(src,i).Data.Count;
+            return dst;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static ByteSize size(ReadOnlySpan<BinaryCode> src)
+        {
+            var dst = 0ul;
+            for(var i=0; i<src.Length; i++)
+                dst += skip(src,i).Count;
+            return dst;
+        }
+
+        public static BinaryCode compact(ReadOnlySpan<HexDataRow> src)
+        {
+            var count = src.Length;
+            if(count == 0)
+                return BinaryCode.Empty;
+
+            var size = ApiHex.size(src);
+            var dst = alloc<byte>(size);
+            var offset = 0u;
+            for(var i=0; i<count; i++)
+            {
+                var data = skip(src,i).Data.View;
+                for(var j=0; j<data.Length; j++)
+                    seek(dst, offset++) = skip(data,j);
+
+            }
+            return dst;
+        }
+
+        public static BinaryCode compact(ReadOnlySpan<BinaryCode> src)
+        {
+            var count = src.Length;
+            if(count == 0)
+                return BinaryCode.Empty;
+            var dst = alloc<byte>(size(src));
+            var k = 0u;
+            for(var i=0u; i<count; i++)
+            {
+                var data = skip(src,i).View;
+                for(var j=0u; j<data.Length; j++, k++)
+                    seek(dst, k) = skip(data, j);
+            }
+            return dst;
+        }
+
+        [MethodImpl(Inline), Op]
         public static ApiHexRow row(in ApiMemberCode src, uint seq)
         {
             var dst = ApiHexRow.Empty;
@@ -60,13 +113,9 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var entry = ref skip(entries,i);
-                ref readonly var pack = ref entry.Value;
-                var blocks = pack.View;
+                var blocks = entry.Value.View;
                 for(var j=0; j<blocks.Length; j++)
-                {
-                    ref readonly var block = ref skip(blocks,j);
-                    buffer.Add(block);
-                }
+                    buffer.Add(skip(blocks,j));
             }
 
             buffer.Sort();
@@ -83,8 +132,7 @@ namespace Z0
                 for(var i=0u; i<count; i++)
                     seek(buffer, i) = ApiHex.row(skip(src, i), i);
 
-                var path = Db.ParsedExtractPath(dst, uri);
-                TableEmit(buffer, path);
+                TableEmit(buffer, Db.ParsedExtractPath(dst, uri));
                 return buffer;
             }
             else
@@ -165,8 +213,7 @@ namespace Z0
         }
 
         /// <summary>
-        /// Materializes a <see cref='MemoryBlock'/> sequence from a file with lines of the form
-        /// x7ffb651869e0[00012:00017]=<c5f8776690c5f857c0c5f91101488bc1c3>
+        /// Materializes a <see cref='MemoryBlock'/> sequence from a file with lines of the form x7ffb651869e0[00012:00017]=<c5f8776690c5f857c0c5f91101488bc1c3>
         /// </summary>
         /// <param name="src"></param>
         public static MemoryBlocks memory(FS.FilePath src)
@@ -206,9 +253,7 @@ namespace Z0
             var count = rows.Count;
             var dst = alloc<ApiCodeBlock>(count);
             for(var j=0; j<count; j++)
-            {
                 seek(dst,j) = code(rows[j]);
-            }
             return dst;
         }
 
