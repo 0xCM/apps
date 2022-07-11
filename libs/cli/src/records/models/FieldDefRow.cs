@@ -6,18 +6,25 @@ namespace Z0
 {
     partial struct CliRows
     {
-        [CliRecord(CliTableKind.Field), StructLayout(LayoutKind.Sequential)]
-        public struct FieldDefRow : ICliRecord<FieldDefRow>
+        [Record(TableId), StructLayout(LayoutKind.Sequential)]
+        public struct FieldDefRow
         {
-            public FieldAttributes Attributes;
+            const string TableId = "field.defs";
 
+            [Render(12)]
             public CliStringIndex Name;
 
-            public CliBlobIndex Signature;
+            [Render(12)]
+            public CliBlobIndex Sig;
 
-            public uint Offset;
+            [Render(12)]
+            public Address32 Offset;
 
+            [Render(12)]
             public CliBlobIndex Marshal;
+
+            [Render(1)]
+            public FieldAttributes Attributes;
         }
     }
 }

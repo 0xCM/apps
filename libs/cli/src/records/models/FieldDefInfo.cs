@@ -7,21 +7,21 @@ namespace Z0
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct FieldDefInfo
     {
-        public const string TableId = "image.field-defs";
+        const string TableId = "fields.defs";
 
-        public const byte FieldCount = 5;
-
-        public string Component;
-
+        [Render(12)]
         public CliToken Token;
 
+        [Render(48)]
         public string Name;
 
+        [Render(32)]
         public CliSig CliSig;
 
-        public FieldAttributes Attributes;
+        [Render(64)]
+        public string Component;
 
-        public static ReadOnlySpan<byte> RenderWidths
-            => new byte[FieldCount]{24,16,48,48,12};
+        [Render(1)]
+        public FieldAttributes Attributes;
     }
 }

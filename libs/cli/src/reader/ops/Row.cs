@@ -46,7 +46,7 @@ namespace Z0
             var src = MD.GetFieldDefinition(handle);
             dst.Attributes = src.Attributes;
             dst.Name = src.Name;
-            dst.Signature = src.Signature;
+            dst.Sig = src.Signature;
             dst.Offset = (uint)src.GetOffset();
             dst.Marshal = src.GetMarshallingDescriptor();
             return ref dst;

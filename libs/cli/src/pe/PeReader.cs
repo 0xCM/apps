@@ -7,8 +7,6 @@ namespace Z0
     using System.IO;
     using System.Linq;
 
-    using static core;
-
     public partial class PeReader : IDisposable
     {
         public static CliRowIndex index(in PeStream state, Handle handle)

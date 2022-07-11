@@ -30,12 +30,12 @@ namespace Z0
         public ref MethodDefRow Read(MethodDefinitionHandle handle, ref MethodDefRow dst)
         {
             var src = MD.GetMethodDefinition(handle);
-            dst.Key = Clr.token(handle);
+            dst.Token = Clr.token(handle);
             dst.Attributes = src.Attributes;
             dst.ImplAttributes  = src.ImplAttributes;
             dst.Rva = src.RelativeVirtualAddress;
             dst.Name = src.Name;
-            dst.Signature = src.Signature;
+            dst.Sig = src.Signature;
             var keys = Keys(src.GetParameters());
             var count = keys.Count;
             if(count != 0)
@@ -56,12 +56,12 @@ namespace Z0
             {
                 ref readonly var row = ref skip(rows,i);
                 ref var info = ref seek(dst,i);
-                info.Token = row.Key;
+                info.Token = row.Token;
                 info.Component = MD.GetAssemblyDefinition().GetAssemblyName().SimpleName();
                 info.Attributes = row.Attributes;
                 info.ImplAttributes = row.ImplAttributes;
                 info.Rva = row.Rva;
-                info.CliSig = Read(row.Signature);
+                info.CliSig = Read(row.Sig);
                 info.Name = Read(row.Name);
             }
             return dst;

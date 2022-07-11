@@ -55,9 +55,6 @@ namespace Z0
             return rows.ToArray();
         }
 
-        public ReadOnlySpan<ApiCatalogEntry> LoadApiCatalog()
-            => LoadApiCatalog(Db.CaptureContextRoot());
-
         public Index<ApiCatalogEntry> LoadApiCatalog(FS.FolderPath dir)
         {
             var files = dir.Files(FS.Csv).Where(f => f.FileName.StartsWith(ApiCatalogEntry.TableId)).OrderBy(f => f.Name).ToReadOnlySpan();

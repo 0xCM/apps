@@ -7,7 +7,7 @@ namespace Z0
     partial struct CliRows
     {
         [CliRecord(CliTableKind.MethodSemantics), StructLayout(LayoutKind.Sequential)]
-        public struct MethodSemanticsRow : ICliRecord<MethodSemanticsRow>
+        public struct MethodSemanticsRow
         {
             public MethodSemanticsAttributes Semantic;
 

@@ -11,7 +11,6 @@ namespace Z0.Asm
 
     using E = SpecializedImmEvent;
 
-
     public class ApiImmEmitter :  WfSvc<ApiImmEmitter>
     {
         const uint BufferSize = Pow2.T16;

@@ -5,18 +5,12 @@
 namespace Z0.Asm
 {
     using System.IO;
-    using System.Linq;
 
     using static core;
 
     public sealed class HostAsmEmitter : AppService<HostAsmEmitter>
     {
         AsmDecoder Decoder => Service(Wf.AsmDecoder);
-
-        AsmEtl AsmEtl => Service(Wf.AsmEtl);
-
-        public AsmHostRoutines EmitHostRoutines(ApiHostUri host, ReadOnlySpan<ApiMemberCode> src)
-            => EmitHostRoutines(host,src, Db.AsmCapturePath(host));
 
         public AsmHostRoutines EmitHostRoutines(ApiHostUri host, ReadOnlySpan<ApiMemberCode> src, FS.FilePath dst)
         {
@@ -149,13 +143,13 @@ namespace Z0.Asm
                     EmittedFile(asmFlow, counter);
 
                     host = statement.OpUri.Host;
-                    tablePath = Db.AsmStatementPath(root, host,FS.Csv);
+                    tablePath = FS.FilePath.Empty;
 
                     tableWriter = tablePath.Writer();
                     tableWriter.WriteLine(formatter.FormatHeader());
                     tableFlow = EmittingTable<HostAsmRecord>(tablePath);
 
-                    asmPath = Db.AsmStatementPath(root, host, FS.Asm);
+                    asmPath =  FS.FilePath.Empty;
                     asmWriter = asmPath.Writer();
                     asmFlow = EmittingFile(asmPath);
 
@@ -171,8 +165,7 @@ namespace Z0.Asm
                 counter++;
             }
 
-            AsmEtl.EmitThumbprints(thumbprints.ToArray(), ThumbprintPath(root));
-            //AsmEtl.emit(thumbprints.ToArray().ToSortedSpan(), ThumbprintPath(root));
+            //AsmEtl.EmitThumbprints(thumbprints.ToArray(), ThumbprintPath(root));
             tableWriter.Dispose();
             EmittedTable(tableFlow, counter);
 
@@ -190,7 +183,7 @@ namespace Z0.Asm
 
         void EmitHostAsmDoc(ApiHostUri host, ReadOnlySpan<HostAsmRecord> src)
         {
-            var dst = Db.AsmStatementPath(host, FS.Asm);
+            var dst = FS.FilePath.Empty;
             var flow = EmittingFile(dst);
             var count = src.Length;
             using var asmwriter = dst.Writer();
@@ -209,7 +202,7 @@ namespace Z0.Asm
 
         void EmitHostAsmRecords(ApiHostUri host, ReadOnlySpan<HostAsmRecord> src)
         {
-            var dst = Db.AsmStatementPath(host, FS.Csv);
+            var dst = FS.FilePath.Empty;
             var flow = EmittingTable<HostAsmRecord>(dst);
             EmittedTable(flow, Tables.emit(src, HostAsmRecord.RenderWidths, dst));
         }
@@ -226,14 +219,11 @@ namespace Z0.Asm
             }
         }
 
-        FS.FilePath ThumbprintPath(FS.FolderPath root)
-            => root + FS.file("thumbprints", FS.Asm);
-
         FS.FilePath AsmSrcPath(ApiHostUri host, FS.FolderPath root)
-            => Db.AsmStatementPath(root, host, FS.Asm);
+            => FS.FilePath.Empty;
 
         FS.FilePath AsmTablePath(ApiHostUri host, FS.FolderPath root)
-            => Db.AsmStatementPath(root, host,FS.Csv);
+            => FS.FilePath.Empty;
 
         uint BuildHostAsm(in ApiHostBlocks src, List<HostAsmRecord> dst)
         {

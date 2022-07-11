@@ -16,8 +16,6 @@ namespace Z0
         }
 
         public void EmitApiHex(IApiPack dst, uint bpl = 64)
-        {
-            iter(ApiMd.Components, c => EmitMetadataHex(c, bpl, dst.Metadata("api.hex").Path(c.GetSimpleName(), FileKind.Hex)), true);
-        }
+            => iter(ApiMd.Components, c => EmitMetadataHex(c, bpl, dst.Metadata("api.hex").Path(c.GetSimpleName(), FileKind.Hex)), true);
     }
 }

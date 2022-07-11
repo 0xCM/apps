@@ -5,18 +5,23 @@
 namespace Z0
 {
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct MemberRefInfo : IRecord<MemberRefInfo>
+    public struct MemberRefInfo
     {
-        public const string TableId = "api.members.refs";
+        const string TableId = "refs.members";
 
+        [Render(12)]
         public CliToken Token;
 
-        public MemberRefKind RefKind;
-
+        [Render(12)]
         public CliToken Parent;
 
+        [Render(48)]
         public string Name;
 
+        [Render(12)]
+        public MemberRefKind RefKind;
+
+        [Render(1)]
         public CliSig Sig;
     }
 

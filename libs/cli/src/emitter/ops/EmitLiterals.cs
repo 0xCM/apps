@@ -8,25 +8,17 @@ namespace Z0
 
     partial class CliEmitter
     {
-        FS.FolderPath FieldLiteralTarget
-            => ProjectDb.Subdir(CliScope) + FS.folder(MemberFieldName.TableId);
+        public void EmitLiterals(IApiPack dst)
+            => iter(ApiMd.Components, c => EmitFieldLiterals(c, dst), true);
 
-        ReadOnlySpan<Paired<FieldRef,string>> EmitFieldLiterals(Assembly src)
+        void EmitFieldLiterals(Assembly src, IApiPack dst)
         {
             var fields = ClrFields.literals(src.Types());
             if(fields.Length != 0)
-                return Emit(fields, FieldLiteralTarget + FS.file(src.GetSimpleName(), FS.Csv));
-            else
-                return Index<Paired<FieldRef,string>>.Empty;
+                Emit(fields, dst.Metadata("literals").Path(FS.file(src.GetSimpleName(), FileKind.Csv)));
         }
 
-        public void EmitReflectedLiterals()
-        {
-            FieldLiteralTarget.Clear();
-            iter(ApiMd.Components, c => EmitFieldLiterals(c),true);
-        }
-
-        ReadOnlySpan<Paired<FieldRef,string>> Emit(FieldRef[] src, FS.FilePath dst)
+        void Emit(FieldRef[] src, FS.FilePath dst)
         {
             const string Sep = "| ";
 
@@ -79,7 +71,6 @@ namespace Z0
             }
 
             EmittedFile(flow, count);
-            return buffer;
         }
     }
 }

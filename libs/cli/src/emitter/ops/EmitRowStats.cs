@@ -43,7 +43,7 @@ namespace Z0
                 if(rowcount != 0)
                 {
                     var entry = new CliRowStats();
-                    entry.Sequence = seq++;
+                    entry.Seq = seq++;
                     entry.Component = a.GetSimpleName();
                     entry.TableName = table.ToString();
                     entry.TableIndex = j;

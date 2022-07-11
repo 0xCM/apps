@@ -6,24 +6,34 @@ namespace Z0
 {
     partial struct CliRows
     {
-        [CliRecord(CliTableKind.MethodDef), StructLayout(LayoutKind.Sequential)]
-        public struct MethodDefRow : ICliRecord<MethodDefRow>
+        [Record(TableId), StructLayout(LayoutKind.Sequential)]
+        public struct MethodDefRow
         {
-            public CliToken Key;
+            const string TableId = "method.defs";
 
+            [Render(12)]
+            public CliToken Token;
+
+            [Render(12)]
             public Address32 Rva;
 
-            public MethodImplAttributes ImplAttributes;
-
-            public MethodAttributes Attributes;
-
+            [Render(12)]
             public CliStringIndex Name;
 
-            public CliBlobIndex Signature;
+            [Render(12)]
+            public CliBlobIndex Sig;
 
+            [Render(12)]
             public CliRowKey FirstParam;
 
+            [Render(12)]
             public ushort ParamCount;
+
+            [Render(32)]
+            public MethodImplAttributes ImplAttributes;
+
+            [Render(1)]
+            public MethodAttributes Attributes;
         }
     }
 }

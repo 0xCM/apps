@@ -5,9 +5,9 @@
 namespace Z0
 {
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct MemberFieldInfo : IRecord<MemberFieldInfo>
+    public struct MemberFieldInfo
     {
-        const string TableId = "cli.metadata.fields";
+        const string TableId = "fields";
 
         [Render(10)]
         public CliToken Token;

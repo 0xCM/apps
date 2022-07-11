@@ -29,9 +29,15 @@ namespace Z0
         void DefineCaseScript(CmdArgs args)
             => DefineCaseScript(arg(args,0));
 
+        FS.FolderPath CaseDir<T>(T subject)
+            => Env.Db + FS.folder(ApiGranules.cases) + FS.folder(string.Format("{0}", subject));
+
+        FS.FolderPath CaseDir<T,D>(T subject, D discriminator)
+            => CaseDir(subject) + FS.folder(string.Format("{0}", discriminator));
+
         public string DefineCaseScript(string opcode)
         {
-            var dir = Db.CaseDir("asm.assembled", opcode);
+            var dir = CaseDir("asm.assembled", opcode);
             var dst = dir + FS.file(string.Format("{0}.{1}", opcode, Id), FS.Cmd);
             var @case = DefineScript(opcode.ToString(), dir);
             var content = CreateScript(@case);

@@ -7,7 +7,7 @@ namespace Z0
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct MethodDefInfo
     {
-        const string TableId = "cli.methoddef";
+        const string TableId = "method.defs";
 
         [Render(32)]
         public string Name;

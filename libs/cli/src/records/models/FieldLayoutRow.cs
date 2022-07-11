@@ -7,7 +7,7 @@ namespace Z0
     partial struct CliRows
     {
         [CliRecord(CliTableKind.FieldLayout), StructLayout(LayoutKind.Sequential)]
-        public struct FieldLayoutRow : ICliRecord<FieldLayoutRow>
+        public struct FieldLayoutRow
         {
             public uint Offset;
 

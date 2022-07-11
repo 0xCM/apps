@@ -53,7 +53,7 @@ namespace Z0
                     EmitApiHex(host, parsed, dst);
                     EmitMsilData(host, parsed, dst + FS.file(host,FileKind.MsilDat));
                     EmitMsilCode(host, parsed, dst + FS.file(host,FileKind.Msil));
-                    routines = DecodeMembers(host, parsed, src, Db.AsmCapturePath(dst,host));
+                    routines = DecodeMembers(host, parsed, src, FS.FilePath.Empty);
                 }
                 Ran(flow);
             }
@@ -63,9 +63,6 @@ namespace Z0
             }
             return routines;
         }
-
-        // public Index<ApiHexRow> EmitApiHex(ApiHostUri host, ReadOnlySeq<ApiMemberCode> src, FS.FilePath dst)
-        //     => ApiCode.EmitApiHex(host, src, dst);
 
         public Index<ApiHexRow> EmitApiHex(ApiHostUri host, Index<ApiMemberCode> src, FS.FolderPath dst)
             => ApiCode.EmitApiHex(host, src.View, dst);

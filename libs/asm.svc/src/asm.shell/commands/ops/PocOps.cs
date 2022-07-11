@@ -545,7 +545,7 @@ namespace Z0.Asm
             var srcPath = dir + file;
             var buffer = text.buffer();
 
-            var dstPath = Db.AppDataFile(file.WithExtension(FS.Log));
+            var dstPath = FS.FilePath.Empty;
             using var writer = dstPath.Writer();
 
             const string Pattern = "{0}/{1}:{2}";

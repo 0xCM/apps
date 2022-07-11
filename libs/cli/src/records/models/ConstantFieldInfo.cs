@@ -7,7 +7,7 @@ namespace Z0
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct ConstantFieldInfo
     {
-        public const string TableId = "constants.fields";
+        const string TableId = "fields.const";
 
         [Render(8)]
         public uint Seq;

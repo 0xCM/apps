@@ -9,14 +9,12 @@ namespace Z0
     partial class CliEmitter
     {
         public void EmitConstants(IApiPack dst)
-        {
-            iter(ApiMd.Components, c => EmitConstants(c, dst), true);
-        }
+            => iter(ApiMd.Components, c => EmitConstants(c, dst), true);
 
         public void EmitConstants(Assembly src, IApiPack dst)
         {
             var counter = 0u;
-            var target = dst.Metadata("contstants").PrefixedTable<ConstantFieldInfo>(src.GetSimpleName());
+            var target = dst.Metadata("fields.const").PrefixedTable<ConstantFieldInfo>(src.GetSimpleName());
             var flow = Wf.EmittingTable<ConstantFieldInfo>(target);
             var formatter = Tables.formatter<ConstantFieldInfo>();
             using var writer = target.Writer();

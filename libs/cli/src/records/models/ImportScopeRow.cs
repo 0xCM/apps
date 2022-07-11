@@ -7,8 +7,9 @@ namespace Z0
     partial struct CliRows
     {
         [CliRecord(CliTableKind.ImportScope), StructLayout(LayoutKind.Sequential)]
-        public struct ImportScopeRow : ICliRecord<ImportScopeRow>
+        public struct ImportScopeRow
         {
+            [Render(12)]
             public CliBlobIndex Imports;
         }
     }
