@@ -20,14 +20,14 @@ namespace Z0
         FS.FilePath Path(string id, FS.FileExt ext)
             => Root + FS.file(id,ext);
 
-        FS.Files Files(FileKind kind, bool recurse = true)
-            => FS.files(Root, kind, recurse).ToIndex();
+        Deferred<FS.FilePath> Files(FileKind k1, bool recurse = true)
+            => Root.EnumerateFiles(recurse).Where(path => path.Is(k1));
 
-        FS.Files Files(FileKind k1, FileKind k2, bool recurse = true)
-            => FS.files(Root, k1, recurse).Union(FS.files(Root, k2, recurse)).ToIndex();
+        Deferred<FS.FilePath> Files(FileKind k1, FileKind k2, bool recurse = true)
+            => Root.EnumerateFiles(recurse).Where(path => path.Is(k1) || path.Is(k2));
 
-        FS.Files Files(FileKind k1, FileKind k2, FileKind k3, bool recurse = true)
-            => Root.Files(recurse, k1, k2, k3);
+        Deferred<FS.FilePath> Files(FileKind k1, FileKind k2, FileKind k3, bool recurse = true)
+            => Root.EnumerateFiles(recurse).Where(path => path.Is(k1) || path.Is(k2) || path.Is(k3));
 
         string ITextual.Format()
             => Root.Format();

@@ -15,7 +15,7 @@ namespace Z0
         ApiCode ApiCode => Wf.ApiCode();
 
         void RedirectEmissions(IApiPack dst)
-            => Wf.RedirectEmissions(Loggers.emission(ExecutingPart.Component, dst.Path("capture.emissions", FileKind.Log)));
+            => Wf.RedirectEmissions(Loggers.emission(ExecutingPart.Component, dst.Path("capture.emissions", FileKind.Csv)));
 
         public void Capture(IApiPack dst)
         {
@@ -38,12 +38,6 @@ namespace Z0
             return dst.ToIndex().Sort();
         }
 
-        // void Collected(PartId part, ReadOnlySeq<ApiHostCode> src, IApiPack pack, ICompositeDispenser dispenser, ConcurrentBag<ApiHostCode> dst)
-        // {
-        //     ApiCode.Emit(part, src, pack);
-        //     EmitAsm(dispenser, src, pack);
-        // }
-
         void EmitAsm(ICompositeDispenser symbols, ReadOnlySeq<ApiHostCode> src, IApiPack dst)
         {
             for(var i=0; i<src.Count; i++)
@@ -63,40 +57,6 @@ namespace Z0
                 }
                 EmittedFile(flow, AppMsg.EmittedBytes.Capture(size,path));
             }
-        }
-
-        public void Capture_Old(IApiPack dst)
-        {
-            using var dispenser = Dispense.composite();
-            Capture_Old(ApiRuntimeCatalog, dispenser, true, dst);
-        }
-
-        public ReadOnlySeq<CollectedEncoding> Capture_Old(IApiCatalog src, ICompositeDispenser dispenser, bool pll, IApiPack pack)
-        {
-            var dst = bag<CollectedEncoding>();
-            iter(src.PartCatalogs(),
-                part => Collected_Old(part.PartId, ApiCode.collect_old(part, EventLog, dispenser), pack, dispenser, dst), pll);
-            return dst.ToIndex().Sort();
-        }
-
-        ReadOnlySeq<CollectedEncoding> Collected_Old(PartId part, ReadOnlySeq<CollectedEncoding> src, IApiPack pack, ICompositeDispenser dispenser, ConcurrentBag<CollectedEncoding> dst)
-        {
-            var members = ApiCode.Emit(part, src, pack);
-            var asm = EmitAsm_Old(dispenser, part, src, pack.AsmExtractPath(part));
-            return src;
-        }
-
-        public void Capture_Old(ReadOnlySpan<IPart> src, ICompositeDispenser dst, bool pll)
-        {
-            var code = Wf.ApiCodeFiles();
-            var pack = code.ApiPack(core.timestamp());
-            iter(src, part => Capture_Old(part, pack, dst), pll);
-        }
-
-        void Capture_Old(IPart src, IApiPack pack, ICompositeDispenser dst)
-        {
-            var collected = ApiCode.Collect(src, dst, pack);
-            var asm = EmitAsm_Old(dst, src.Id, collected, pack.AsmExtractPath(src.Id));
         }
 
         Index<AsmRoutine> EmitAsm_Old(ICompositeDispenser symbols, PartId part, ReadOnlySeq<CollectedEncoding> src, FS.FilePath dst)
