@@ -13,7 +13,7 @@ namespace Z0
             if(src.IsEmpty)
                 sys.@throw(EmptyArgList.Format());
 
-            var count = src.Length;
+            var count = src.Count;
             if(count < index - 1)
                 sys.@throw(ArgSpecError.Format());
             return src[(ushort)index];
@@ -38,7 +38,7 @@ namespace Z0
 
             var dst = text.buffer();
             dst.Append(src.Name);
-            var count = src.Args.Length;
+            var count = src.Args.Count;
             for(ushort i=0; i<count; i++)
             {
                 ref readonly var arg = ref src.Args[i];

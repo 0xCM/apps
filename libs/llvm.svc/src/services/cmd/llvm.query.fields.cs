@@ -12,7 +12,7 @@ namespace Z0.llvm
         Outcome QueryDefFields(CmdArgs args)
         {
             var result = Outcome.Success;
-            if(args.Length == 2)
+            if(args.Count == 2)
             {
                 result = DataParser.parse(arg(args,0).Value, out uint offset);
                 if(result.Fail)

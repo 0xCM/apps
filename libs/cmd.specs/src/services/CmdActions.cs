@@ -4,49 +4,37 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     /// <summary>
     /// Correlates command names with command realizations
     /// </summary>
     public class CmdActions : ICmdActions
     {
-        public static CmdActions discover<T>(T src)
-        {
-            var dst = dict<string,ICmdActionInvoker>();
-            var methods = typeof(T).DeclaredInstanceMethods().Where(x => x.Tagged<CmdOpAttribute>());
-            foreach(var m in methods)
-            {
-                var tag = m.Tag<CmdOpAttribute>().Require();
-                dst.TryAdd(tag.CommandName, new ActionInvoker(tag.CommandName, src, m));
-            }
-            return new CmdActions(dst);
-        }
+        internal readonly Dictionary<string,ICmdActionInvoker> Lookup;
 
-        public static CmdActions join(CmdActions[] src)
-        {
-            var dst = dict<string,ICmdActionInvoker>();
-            foreach(var a in src)
-                iter(a.Invokers,  a => dst.TryAdd(a.Key,a.Value));
-            return new CmdActions(dst);
-        }
+        readonly ReadOnlySeq<ShellCmdDef> CmdDefs;
 
-        readonly Dictionary<string,ICmdActionInvoker> Invokers;
-
-        CmdActions(Dictionary<string,ICmdActionInvoker> src)
+        internal CmdActions(Dictionary<string,ICmdActionInvoker> src)
         {
-            Invokers = src;
+            Lookup = src;
+            CmdDefs = src.Values.Select(x => x.Def).ToSeq();
         }
 
         public bool Find(string spec, out ICmdActionInvoker runner)
-        {
-            return Invokers.TryGetValue(spec, out runner);
-        }
+            => Lookup.TryGetValue(spec, out runner);
 
         public IEnumerable<string> Specs
         {
             [MethodImpl(Inline)]
-            get => Invokers.Keys;
+            get => Lookup.Keys;
+        }
+
+        public ICollection<ICmdActionInvoker> Invokers
+            => Lookup.Values;
+
+        public ref readonly ReadOnlySeq<ShellCmdDef> Defs
+        {
+            [MethodImpl(Inline)]
+            get => ref CmdDefs;
         }
     }
 }

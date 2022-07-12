@@ -8,7 +8,7 @@ namespace Z0
 
     public readonly struct CmdArgs : IIndex<CmdArg>
     {
-        readonly Index<CmdArg> Data;
+        readonly Seq<CmdArg> Data;
 
         [MethodImpl(Inline)]
         public CmdArgs(CmdArg[] src)
@@ -40,12 +40,6 @@ namespace Z0
             get => Data.IsNonEmpty;
         }
 
-        public int Length
-        {
-            [MethodImpl(Inline)]
-            get => Data.Length;
-        }
-
         public ref CmdArg First
         {
             [MethodImpl(Inline)]
@@ -60,7 +54,7 @@ namespace Z0
         public CmdArg[] Storage
         {
             [MethodImpl(Inline)]
-            get => Data.Storage;
+            get => Data;
         }
 
         public ReadOnlySpan<CmdArg> View

@@ -6,10 +6,7 @@ namespace Z0
 {
     public sealed class ShellCmdDef : CmdDef<ShellCmdDef>
     {
-        public override CmdKind CmdKind
-            => CmdKind.ShellCmd;
-
-        public asci32 CmdName {get;}
+        public readonly asci32 CmdName;
 
         public readonly CmdActionKind Kind;
 
@@ -17,13 +14,22 @@ namespace Z0
 
         public readonly MethodInfo Method;
 
+        public readonly CmdUri Uri;
+
         [MethodImpl(Inline)]
         public ShellCmdDef(asci32 name, CmdActionKind kind, MethodInfo method, object host)
         {
             CmdName = name;
             Kind = kind;
-            Host = host;
-            Method = method;
+            Host = Require.notnull(host);
+            Method = Require.notnull(method);
+            Uri = CmdUri.define(host.GetType().Assembly.PartName(), host.GetType().DisplayName(), CmdName);
         }
+
+        public string Format()
+            => Uri.Format();
+
+        public override string ToString()
+            => Format();
     }
 }

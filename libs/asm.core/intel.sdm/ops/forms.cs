@@ -8,7 +8,7 @@ namespace Z0.Asm
 
     partial struct SdmOps
     {
-        public static Index<SdmForm> forms(ReadOnlySpan<SdmOpCodeDetail> src)
+        public static ReadOnlySeq<SdmForm> forms(ReadOnlySpan<SdmOpCodeDetail> src)
         {
             var count = src.Length;
             var dst = alloc<SdmForm>(count);

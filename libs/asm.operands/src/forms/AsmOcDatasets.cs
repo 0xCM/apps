@@ -10,9 +10,7 @@ namespace Z0.Asm
 
     public class AsmOcDatasets
     {
-        public static readonly AsmOcDatasets Instance;
-
-        static AsmOcDatasets load()
+        public static AsmOcDatasets load()
         {
             var dst = new AsmOcDatasets();
             dst.TokenKinds = Symbols.index<AsmOcTokenKind>();
@@ -67,14 +65,5 @@ namespace Z0.Asm
         public ConstLookup<Type,K> TypeKinds {get; private set;}
 
         public Symbols<AsmOcTokenKind> TokenKinds {get; private set;}
-
-        AsmOcDatasets()
-        {
-        }
-
-        static AsmOcDatasets()
-        {
-            Instance = load();
-        }
     }
 }

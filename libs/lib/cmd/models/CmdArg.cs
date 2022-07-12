@@ -6,11 +6,11 @@ namespace Z0
 {
     public readonly struct CmdArg
     {
-        public uint Index {get;}
+        public readonly uint Index;
 
-        public string Name {get;}
+        public readonly string Name;
 
-        public string Value {get;}
+        public readonly string Value;
 
         [MethodImpl(Inline)]
         public CmdArg(string name)
@@ -39,17 +39,17 @@ namespace Z0
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => text.empty(Name);
+            get => sys.empty(Name);
         }
 
         public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
-            get => text.nonempty(Name);
+            get => sys.nonempty(Name);
         }
 
         public override string ToString()
-            => text.empty(Value) ? Name : string.Format("{0}={1}", Name, Value);
+            => sys.empty(Value) ? Name : string.Format("{0}={1}", Name, Value);
 
         [MethodImpl(Inline)]
         public static implicit operator string(CmdArg arg)

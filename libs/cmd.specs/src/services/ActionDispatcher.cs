@@ -6,20 +6,30 @@ namespace Z0
 {
     public class ActionDispatcher : IDispatcher
     {
-        CmdActions _Actions;
+        ICmdActions _Actions;
 
         Func<string,CmdArgs,Outcome> Fallback;
 
         readonly WfEventLogger Log;
 
-        public ActionDispatcher(CmdActions lookup, WfEventLogger log)
+        readonly asci32 Provider;
+
+        [MethodImpl(Inline)]
+        public ActionDispatcher(asci32 provider, ICmdActions lookup, WfEventLogger log)
         {
+            Provider = provider;
             _Actions = lookup;
             Fallback = NotFound;
             Log = log;
         }
 
-        public ref readonly CmdActions Commands => ref _Actions;
+        public ref readonly asci32 ProviderName
+        {
+            [MethodImpl(Inline)]
+            get => ref Provider;
+        }
+
+        public ICmdActions Commands => _Actions;
 
         static Outcome NotFound(string cmd, CmdArgs args)
             => (false, string.Format("Handler for '{0}' not found", cmd));

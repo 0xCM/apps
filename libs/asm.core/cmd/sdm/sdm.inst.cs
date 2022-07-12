@@ -5,37 +5,24 @@
 namespace Z0
 {
     using static core;
+    using Asm;
 
     partial class AsmCoreCmd
     {
         [CmdOp("sdm/inst")]
-        Outcome ShowInstInfo(CmdArgs args)
+        void ShowInstInfo(CmdArgs args)
         {
             var details = Sdm.LoadOcDetails();
-            var selected = args.Length > 0 ? arg(args,0).Value : EmptyString;
-            var count = details.Count;
-            for(var i=0; i<count; i++)
+            var forms  = SdmOps.forms(details);
+            for(var i=0; i<forms.Count; i++)
             {
-                ref readonly var detail = ref details[i];
-                if(empty(selected))
-                    Write(format(detail));
-                else
-                {
-                    var sig = detail.AsmSig.Format();
-                    if(text.contains(sig, selected,false))
-                        Write(format(detail));
-                }
-            }
+                ref readonly var form = ref forms[i];
+                ref readonly var opcode = ref details[i];
 
-           return true;
+                Write(string.Format("{0,-16} | {1,-64} | {2}", form.Mnemonic, form.Sig, form.OpCode));
+
+            }
         }
 
-        static string format(in SdmOpCodeDetail src)
-            => string.Format("{0,-18} | {1,-32} | {2}\n    {3}",
-                    src.Mnemonic,
-                    text.trim(src.AsmSig),
-                    text.trim(src.OpCodeExpr),
-                    text.trim(src.Description)
-                    );
     }
 }

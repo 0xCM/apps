@@ -10,7 +10,7 @@ namespace Z0.llvm
         void Tool(CmdArgs args)
         {
             var result = Outcome.Success;
-            if(args.Length == 0)
+            if(args.Count == 0)
             {
                 if(SelectedTool.IsNonEmpty)
                     Write(SelectedTool.Format());

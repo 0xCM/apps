@@ -24,7 +24,7 @@ namespace Z0
         public AsmOcValue OpCodeValue;
 
         [Render(64)]
-        public CharBlock64 AsmSig;
+        public NativeString<char,ByteBlock128> AsmSig;
 
         [Render(8)]
         public CharBlock8 EncXRef;

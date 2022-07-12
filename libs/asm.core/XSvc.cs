@@ -52,18 +52,6 @@ namespace Z0
             public InstBlockImporter BlockImporter(IWfRuntime wf)
                 => Service<InstBlockImporter>(wf);
 
-            public IntelSdmPaths SdmPaths(IWfRuntime wf)
-                => Service<IntelSdmPaths>(wf);
-
-            public ApiResPackEmitter ResPackEmitter(IWfRuntime wf)
-                => Service<ApiResPackEmitter>(wf);
-
-            public AsmDocs AsmDocs(IWfRuntime wf)
-                => Service<AsmDocs>(wf);
-
-            public SdmOpCodes AsmOpCodes(IWfRuntime wf)
-                => Service<SdmOpCodes>(wf);
-
             public X86Dispatcher X86Dispatcher(IWfRuntime wf)
                 => Service<X86Dispatcher>(wf);
 
@@ -132,17 +120,8 @@ namespace Z0
         public static CpuIdSvc CpuId(this IWfRuntime wf)
             => Services.CpuId(wf);
 
-        public static ApiResPackEmitter ResPackEmitter(this IWfRuntime wf)
-            => Services.ResPackEmitter(wf);
-
         public static AsmCodeGen AsmCodeGen(this IWfRuntime wf)
             => Services.Service<AsmCodeGen>(wf);
-
-        public static AsmDocs AsmDocs(this IWfRuntime wf)
-            => Services.AsmDocs(wf);
-
-        public static SdmOpCodes AsmOpCodes(this IWfRuntime wf)
-            => Services.AsmOpCodes(wf);
 
         public static X86Dispatcher X86Dispatcher(this IWfRuntime wf)
             => Services.X86Dispatcher(wf);
@@ -150,13 +129,10 @@ namespace Z0
         public static StanfordAsmCatalog StanfordCatalog(this IWfRuntime wf)
             => Services.StanfordCatalog(wf);
 
-         public static Parsers Parsers(this IWfRuntime wf)
+        public static Parsers Parsers(this IWfRuntime wf)
             => Services.Parsers(wf);
 
         public static CharMapper CharMapper(this IWfRuntime wf)
             => Services.CharMapper(wf);
-
-        public static FileSplitter FileSplitter(this IWfRuntime wf)
-            => Services.FileSplitter(wf);
    }
 }

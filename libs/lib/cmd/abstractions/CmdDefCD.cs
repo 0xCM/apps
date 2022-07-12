@@ -4,10 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface ICmdActions
+    public abstract class CmdDef : ICmdDef
     {
-        IEnumerable<string> Specs {get;}
 
-        bool Find(string spec, out ICmdActionInvoker runner);
+    }
+
+    public abstract class CmdDef<D> : CmdDef
+        where D : CmdDef<D>
+    {
+
     }
 }

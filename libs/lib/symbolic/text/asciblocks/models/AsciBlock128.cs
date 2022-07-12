@@ -33,6 +33,10 @@ namespace Z0
         public A Zero => zero();
 
         [MethodImpl(Inline)]
+        public static string format(in A src)
+            => api.format(src);
+
+        [MethodImpl(Inline)]
         public static A load(ReadOnlySpan<C> src)
             => api.load(src, out A _);
 
@@ -84,10 +88,28 @@ namespace Z0
             get => ref first(Bytes);
         }
 
+        public ref H Lo
+        {
+            [MethodImpl(Inline)]
+            get => ref @as<H>(First);
+        }
+
+        public ref H Hi
+        {
+            [MethodImpl(Inline)]
+            get => ref seek(@as<H>(First), 1);
+        }
+
         [MethodImpl(Inline)]
         public Span<T> Storage<T>()
             where T : unmanaged
                 => recover<T>(Bytes);
+
+        public string Format()
+            => format(this);
+
+        public override string ToString()
+            => Format();
 
         [MethodImpl(Inline)]
         public static implicit operator B(A src)

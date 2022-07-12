@@ -4,14 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     public class CmdSource : ICmdSource
     {
         public readonly Name Name;
 
         readonly Settings64 Data;
 
+        [MethodImpl(Inline)]
         public CmdSource(Name name, Settings64 src)
         {
             Name = name;

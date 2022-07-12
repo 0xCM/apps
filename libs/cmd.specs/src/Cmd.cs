@@ -11,7 +11,28 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
-        public static CmdSource source(IDispatcher src)
+        public static CmdActions actions<T>(T src)
+        {
+            var dst = dict<string,ICmdActionInvoker>();
+            var methods = typeof(T).DeclaredInstanceMethods().Where(x => x.Tagged<CmdOpAttribute>());
+            foreach(var m in methods)
+            {
+                var tag = m.Tag<CmdOpAttribute>().Require();
+                dst.TryAdd(tag.CommandName, new ActionInvoker(tag.CommandName, src, m));
+            }
+            return new CmdActions(dst);
+        }
+
+        public static CmdActions join(ICmdActions[] src)
+        {
+            var dst = dict<string,ICmdActionInvoker>();
+            foreach(var a in src)
+                iter(a.Invokers,  a => dst.TryAdd(a.CmdName, a));
+            return new CmdActions(dst);
+        }
+
+        public static CmdSource source<S>(S provider, IDispatcher src)
+            where S : ICmdProvider, new()
         {
             var actions = src.Commands.Specs.Index().Sort().Index();
             var part = src.Controller;
@@ -20,12 +41,24 @@ namespace Z0
             var dst = Settings64.load(buffer);
             for(var i=0; i<actions.Count; i++)
                 seek(buffer,i) = Settings.setting(string.Format("{0}[{1:D3}]", part, i), (asci64)actions[i]);
-            return new CmdSource("", dst);
+            return new CmdSource(provider.GetType().DisplayName(), dst);
         }
 
-        public static ActionDispatcher dispatcher<T>(T svc, WfEventLogger log, CmdActions actions)
+        public static CmdCatalog catalog<S>(S provider, IDispatcher dispatcher)
+            where S : ICmdProvider, new()
+        {
+            ref readonly var defs = ref dispatcher.Commands.Defs;
+            var count = defs.Count;
+            var dst = alloc<ShellCmdDef>(count);
+            for(var i=0; i<count; i++)
+                seek(dst,i) = defs[i];
+            var type = provider.GetType();
+            return new CmdCatalog(type.Assembly.Id(), type.DisplayName(), dst);
+        }
+
+        public static ActionDispatcher dispatcher<T>(T svc, WfEventLogger log, ICmdActions actions)
             where T : ICmdService
-                => Cmd.dispatcher(actions, log);
+                => Cmd.dispatcher(svc.GetType().DisplayName(), actions, log);
 
         public static void emit(ICmdSource src, FS.FilePath dst, WfEventLogger log)
         {
@@ -43,20 +76,21 @@ namespace Z0
             log(Events.emittedFile(dst, src.Count));
         }
 
-        public static void emit(IDispatcher dispatcher, FS.FilePath dst, WfEventLogger log)
+        public static void emit(CmdCatalog src, FS.FilePath dst, WfEventLogger log)
         {
             log(Events.emittingFile(dst));
-            var src = commands(dispatcher);
             using var writer = dst.AsciWriter();
-            for(var i=0; i<src.Count; i++)
+            ref readonly var commands = ref src.ShellCommands;
+            for(var i=0; i<commands.Count; i++)
             {
-                ref readonly var cmd = ref src[i];
-                var fmt = cmd.Format();
-                log(Events.row(fmt));
-                writer.WriteLine(fmt);
+                ref readonly var def = ref commands[i];
+                ref readonly var uri = ref def.Uri;
+                var kvp = string.Format("{0}[{1:D3}]:{2}", src.Host, i, uri);
+                log(Events.row(kvp));
+                writer.WriteLine(kvp);
             }
 
-            log(Events.emittedFile(dst, src.Count));
+            log(Events.emittedFile(dst, commands.Count));
         }
 
         public static Settings<Name,asci64> commands(IDispatcher src)
@@ -78,7 +112,6 @@ namespace Z0
 
         public static CmdLogger logger(IEnvPaths paths, string name)
             => new CmdLogger(paths.CmdLogRoot() + FS.file(name, FS.StatusLog));
-
 
         [MethodImpl(Inline)]
         public static DataFlow<Actor,S,T> flow<S,T>(Tool tool, S src, T dst)
@@ -123,8 +156,8 @@ namespace Z0
             return slice(dst,0,counter);
         }
 
-        public static ActionDispatcher dispatcher(CmdActions actions, WfEventLogger log)
-            => new ActionDispatcher(actions, log);
+        public static ActionDispatcher dispatcher(asci32 provider, ICmdActions actions, WfEventLogger log)
+            => new ActionDispatcher(provider, actions, log);
 
         public static Index<ICmdReactor> reactors(IWfRuntime wf)
         {
@@ -137,10 +170,10 @@ namespace Z0
         public static ActionDispatcher dispatcher<T>(T svc, WfEventLogger log,  Index<ICmdProvider> providers)
         {
             var dst = dict<string,ActionInvoker>();
-            var _dst = bag<CmdActions>();
-            _dst.Add(CmdActions.discover(svc));
+            var _dst = bag<ICmdActions>();
+            _dst.Add(actions(svc));
             iter(providers, x => _dst.Add(x.Actions));
-            return dispatcher(CmdActions.join(_dst.ToArray()), log);
+            return dispatcher(svc.GetType().DisplayName(), Cmd.join(_dst.ToArray()), log);
         }
 
         [Op]

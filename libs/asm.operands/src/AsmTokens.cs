@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     using Asm;
+
+    using static core;
 
     public class AsmTokens
     {
@@ -91,7 +91,7 @@ namespace Z0
         {
             var dst = new AsmTokens();
             var sigs = AsmSigDatasets.Instance.Records;
-            var opcodes = AsmOcDatasets.Instance.Records;
+            var opcodes = SdmOpCodes.Datasets.Records;
             dst._OcTokenDefs = opcodes;
             dst._SigTokenDefs = sigs;
             dst.SigTokens = sigs.Select(s => (s.Expr.Text, s)).ToDictionary();

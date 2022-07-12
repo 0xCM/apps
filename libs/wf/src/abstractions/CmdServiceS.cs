@@ -4,24 +4,24 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class CmdService<S> : WfSvc<CmdService<S>>, ICmdService
+    public class CmdService<S> : WfSvc<CmdService<S>>, ICmdProvider<S>, ICmdService
         where S : CmdService<S>, new()
     {
         public new static S create(IWfRuntime wf)
         {
             var svc = new S();
-            svc.Dispatcher = Cmd.dispatcher(svc.Actions, wf.EventLog);
+            svc.Dispatcher = Cmd.dispatcher(svc, wf.EventLog, svc.Actions);
             svc.Init(wf);
             return svc;
         }
 
         public virtual IDispatcher Dispatcher {get;protected set;}
 
-        public CmdActions Actions {get;}
+        public ICmdActions Actions {get;}
 
         public CmdService()
         {
-           Actions = CmdActions.discover((S)this);
+           Actions = Cmd.actions((S)this);
         }
 
         public void RunCmd(string name)
@@ -39,7 +39,10 @@ namespace Z0
         [CmdOp("commands")]
         protected void EmitCommands()
         {
-            EmitCommands(Cmd.source(Dispatcher), ExecutingPart.Id);
+            var host = (S)this;
+            var catalog = Cmd.catalog(host, Dispatcher);
+            Cmd.emit(catalog, AppDb.ApiTargets("commands").Path(ExecutingPart.Id.PartName().Format(), FileKind.Kvp), EventLog);
+            //EmitCommands(Cmd.source((S)this, Dispatcher), ExecutingPart.Id);
         }
 
         public bool Dispatch(ShellCmdSpec cmd)

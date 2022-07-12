@@ -6,8 +6,8 @@ namespace Z0
 {
     using static core;
 
-    [ApiHost]
-    public readonly partial struct CharBlocks
+    [ApiHost,Free]
+    public class CharBlocks
     {
         [MethodImpl(Inline)]
         public static ref T init<T>(ReadOnlySpan<char> src, out T dst)
@@ -53,7 +53,5 @@ namespace Z0
 
             return text.trim(new string(dst));
         }
-
-        const NumericKind Closure = UnsignedInts;
     }
 }

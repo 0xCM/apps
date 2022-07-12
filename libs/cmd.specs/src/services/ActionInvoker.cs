@@ -1,3 +1,4 @@
+
 //-----------------------------------------------------------------------------
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
@@ -41,21 +42,49 @@ namespace Z0
             return dst;
         }
 
-        public string ActionName {get;}
+        public readonly ShellCmdDef Def;
 
-        public object Host {get;}
-
-        public MethodInfo Method {get;}
-
-        public CmdActionKind ActionKind {get;}
-
-        public ActionInvoker(string name, object host, MethodInfo method)
+        public ActionInvoker(asci32 name, object host, MethodInfo method)
         {
-            ActionName = Require.nonempty(name);
-            Host = Require.notnull(host);
-            Method = Require.notnull(method);
-            ActionKind = classify(method);
+            Def = new ShellCmdDef(name, classify(method), Require.notnull(method), Require.notnull(host));
+            // ActionName = Require.nonempty(name);
+            // Host = Require.notnull(host);
+            // Method = Require.notnull(method);
+            // ActionKind = classify(method);
         }
+
+        public ref readonly asci32 CmdName
+        {
+            [MethodImpl(Inline)]
+            get => ref Def.CmdName;
+        }
+
+        public ref readonly object Host
+        {
+            [MethodImpl(Inline)]
+            get => ref Def.Host;
+        }
+
+        public ref readonly MethodInfo Method
+        {
+            [MethodImpl(Inline)]
+            get => ref Def.Method;
+        }
+
+        public ref readonly CmdActionKind ActionKind
+        {
+            [MethodImpl(Inline)]
+            get => ref Def.Kind;
+        }
+
+        public ref readonly CmdUri Uri
+        {
+            [MethodImpl(Inline)]
+            get => ref Def.Uri;
+        }
+
+        ShellCmdDef ICmdActionInvoker.Def
+            => Def;
 
         public Outcome Invoke(CmdArgs args)
         {
@@ -103,8 +132,8 @@ namespace Z0
             catch(Exception e)
             {
                 var type = Host.GetType();
-                var uri = $"cmd://{type.Assembly.PartName()}/{type.DisplayName()}/{Method.DisplayName()}/{ActionName}";
-                var header = $"{uri} invocation error";
+                //var uri = $"cmd://{type.Assembly.PartName()}/{type.DisplayName()}/{Method.DisplayName()}/{ActionName}";
+                var header = $"{Uri} invocation error";
                 var message = AppMsg.format(header, e.InnerException);
                 result = Outcome.fail(message);
             }

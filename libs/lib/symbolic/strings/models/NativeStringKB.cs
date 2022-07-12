@@ -98,6 +98,10 @@ namespace Z0
         public static implicit operator NativeString<K,B>(ReadOnlySpan<char> src)
             => api.load<K,B>(src);
 
+        [MethodImpl(Inline)]
+        public static implicit operator ReadOnlySpan<K>(NativeString<K,B> src)
+            => src.Cells;
+
         public static NativeString<K,B> Empty => default;
     }
 }

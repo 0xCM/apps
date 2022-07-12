@@ -4,8 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    [Free]
     public interface ICmdProvider
     {
-        CmdActions Actions {get;}
+        ICmdActions Actions {get;}
+    }
+
+    [Free]
+    public interface ICmdProvider<S> : ICmdProvider
+        where S : ICmdProvider, new()
+    {
+
     }
 }

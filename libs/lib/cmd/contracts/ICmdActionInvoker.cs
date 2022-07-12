@@ -4,14 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public abstract class CmdDef : ICmdDef
+    [Free]
+    public interface IActionInvoker<S,T>
     {
-        public abstract CmdKind CmdKind {get;}
+        T Invoke(S src);
     }
 
-    public abstract class CmdDef<D> : CmdDef
-        where D : CmdDef<D>
+    [Free]
+    public interface ICmdActionInvoker : IActionInvoker<CmdArgs,Outcome>
     {
+        ShellCmdDef Def {get;}
 
+        ref readonly asci32 CmdName
+            => ref Def.CmdName;
     }
 }

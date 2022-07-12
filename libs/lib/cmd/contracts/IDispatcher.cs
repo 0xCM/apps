@@ -10,8 +10,10 @@ namespace Z0
 
         Outcome Dispatch(string action);
 
-        ref readonly CmdActions Commands {get;}
+        ICmdActions Commands {get;}
 
         PartName Controller => ExecutingPart.Id;
+
+        ref readonly asci32 ProviderName {get;}
     }
 }

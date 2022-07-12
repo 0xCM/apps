@@ -5,13 +5,21 @@
 namespace Z0
 {
     [Free]
-    public interface IActionInvoker<S,T>
+    public interface ICmdDef
     {
-        T Invoke(S src);
     }
 
     [Free]
-    public interface ICmdActionInvoker : IActionInvoker<CmdArgs,Outcome>
+    public interface ICmdDef<D> : ICmdDef
+        where D : struct, ICmdDef<D>
+    {
+
+
+    }
+
+    [Free]
+    public interface IShellCmd<D> : ICmdDef<D>
+        where D : struct, IShellCmd<D>
     {
 
     }

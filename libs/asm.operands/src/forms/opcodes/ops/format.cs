@@ -21,7 +21,6 @@ namespace Z0.Asm
         {
             if(src.IsEmpty)
                 return EmptyString;
-
             var dst = text.buffer();
             var count = src.TokenCount;
             for(var i=0; i<count; i++)

@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     public class CmdDispatch : AppService<CmdDispatch>, ICmdRouter
     {
         ICmdRouter Router;

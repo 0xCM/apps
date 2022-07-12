@@ -12,7 +12,7 @@ namespace Z0
     /// <summary>
     /// Defines a character block b with capacity(b) = 64x16u
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack=2)]
+    [StructLayout(LayoutKind.Sequential, Pack=2, Size = Size)]
     public struct CharBlock64 : ICharBlock<B>
     {
         /// <summary>
@@ -23,11 +23,7 @@ namespace Z0
         /// <summary>
         /// The size of the block, in bytes
         /// </summary>
-        public const uint Size = CharCount * 2;
-
-        CharBlock32 Lo;
-
-        CharBlock32 Hi;
+        public const ushort Size = CharCount * 2;
 
         public Span<char> Data
         {
@@ -72,34 +68,6 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => api.length(this);
-        }
-
-        [MethodImpl(Inline)]
-        public ref CharBlock16 Block(N0 n, N16 w)
-        {
-            ref var c = ref seek(Data,0);
-            return ref @as<char,CharBlock16>(c);
-        }
-
-        [MethodImpl(Inline)]
-        public ref CharBlock16 Block(N1 n, N16 w)
-        {
-            ref var c = ref seek(Data,16);
-            return ref @as<char,CharBlock16>(c);
-        }
-
-        [MethodImpl(Inline)]
-        public ref CharBlock16 Block(N2 n, N16 w)
-        {
-            ref var c = ref seek(Data,32);
-            return ref @as<char,CharBlock16>(c);
-        }
-
-        [MethodImpl(Inline)]
-        public ref CharBlock16 Block(N3 n, N16 w)
-        {
-            ref var c = ref seek(Data,48);
-            return ref @as<char,CharBlock16>(c);
         }
 
         public string Format()

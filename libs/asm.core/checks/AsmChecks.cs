@@ -14,8 +14,6 @@ namespace Z0
     [ApiHost]
     public partial class AsmCheckCmd : CheckRunner<AsmCheckCmd>
     {
-        SdmOpCodes OpCodes => Wf.AsmOpCodes();
-
         X86Dispatcher Jumps => Wf.X86Dispatcher();
 
         ApiCode ApiCode => Wf.ApiCode();
@@ -86,7 +84,7 @@ namespace Z0
             Write($"{asm0}");
 
             var opcode = SdmOpCode.Empty;
-            var result = OpCodes.Parse(Oc0, out opcode);
+            var result = SdmOpCodes.parse(Oc0, out opcode);
             Write($"{Oc0} -> {opcode}");
 
             // if(result)
