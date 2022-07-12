@@ -28,19 +28,10 @@ namespace Z0
             where K : unmanaged
                 => string.Format(pattern.Pattern, args.Select(a => a.Format()));
 
-        /// <summary>
-        /// Creates a <see cref='ToolCmdArgs'/> collection from an array
-        /// </summary>
-        /// <param name="src">The source array</param>
         [MethodImpl(Inline), Op]
         public static CmdScriptPattern pattern(string name, string content)
             => new CmdScriptPattern(name, content);
 
-        /// <summary>
-        /// Creates an identifiable <see cref='CmdScript'/> from a <see cref='CmdScriptExpr'/> sequence
-        /// </summary>
-        /// <param name="id">The identifier to assign</param>
-        /// <param name="src">The source expressions</param>
         [MethodImpl(Inline), Op]
         public static CmdScript create(string id, CmdScriptExpr src)
             => new CmdScript(id, src);
@@ -77,19 +68,10 @@ namespace Z0
         public static CmdArg arg(uint index, string name, string value)
             => new CmdArg(index, name, value);
 
-        /// <summary>
-        /// Creates a non-valued <see cref='CmdScriptVar'/>
-        /// </summary>
-        /// <param name="name">The variable symbol</param>
         [MethodImpl(Inline), Op]
         public static CmdScriptVar var(Name name)
             => new CmdScriptVar(name);
 
-        /// <summary>
-        /// Creates a valued <see cref='CmdScriptVar'/>
-        /// </summary>
-        /// <param name="name">The variable symbol</param>
-        /// <param name="value">The variable value</param>
         [MethodImpl(Inline), Op]
         public static CmdVar var(Name name, string value)
             => new CmdVar(name, value);

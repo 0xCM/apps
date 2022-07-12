@@ -4,87 +4,29 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
-    public readonly struct CmdArgs : IIndex<CmdArg>
+    public sealed class CmdArgs : Seq<CmdArgs,CmdArg>
     {
-        readonly Seq<CmdArg> Data;
+        public CmdArgs()
+        {
+
+        }
 
         [MethodImpl(Inline)]
         public CmdArgs(CmdArg[] src)
+            : base(src)
         {
             Data = src;
         }
 
-        public uint Count
+        public override string Format()
         {
-            [MethodImpl(Inline)]
-            get => Data.Count;
-        }
-
-        public ref CmdArg this[ushort i]
-        {
-            [MethodImpl(Inline)]
-            get => ref Data[i];
-        }
-
-        public bool IsEmpty
-        {
-            [MethodImpl(Inline)]
-            get => Data.IsEmpty;
-        }
-
-        public bool IsNonEmpty
-        {
-            [MethodImpl(Inline)]
-            get => Data.IsNonEmpty;
-        }
-
-        public ref CmdArg First
-        {
-            [MethodImpl(Inline)]
-            get => ref Data.First;
-        }
-        public Span<CmdArg> Edit
-        {
-            [MethodImpl(Inline)]
-            get => Data.Edit;
-        }
-
-        public CmdArg[] Storage
-        {
-            [MethodImpl(Inline)]
-            get => Data;
-        }
-
-        public ReadOnlySpan<CmdArg> View
-        {
-            [MethodImpl(Inline)]
-            get => Data.View;
-        }
-
-
-        [MethodImpl(Inline)]
-        public static implicit operator CmdArgs(CmdArg[] src)
-            => new CmdArgs(src);
-
-        public static CmdArgs Empty
-        {
-            [MethodImpl(Inline)]
-            get => new CmdArgs(sys.empty<CmdArg>());
-        }
-
-        public string Format()
-        {
-            var args = View;
-            var count = args.Length;
-            if(count > 0)
+            if(Count > 0)
             {
-                var dst = text.buffer();
-                for(var i=0; i<count; i++)
+                var dst = text.emitter();
+                for(var i=0; i<Count; i++)
                 {
-                    dst.Append(skip(args,i).Value);
-                    if(i != count - 1)
+                    dst.Append(this[i].Value);
+                    if(i != Count - 1)
                         dst.Append(Chars.Space);
                 }
                 return dst.Emit();
@@ -95,7 +37,8 @@ namespace Z0
             }
         }
 
-        public override string ToString()
-            => Format();
+        [MethodImpl(Inline)]
+        public static implicit operator CmdArgs(CmdArg[] src)
+            => new CmdArgs(src);
     }
 }

@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public abstract class Interpreter<S> : WfSvc<S>, ITaskRunner
+    public abstract class Interpreter<S> : WfSvc<S>
         where S : Interpreter<S>, new()
     {
         public static S create()
@@ -68,7 +68,7 @@ namespace Z0
 
         protected abstract FS.FilePath ExePath {get;}
 
-        public Task Run()
+        public Task RunAsync()
         {
             if(!_Initialized)
                 Errors.Throw("Not Initialized");

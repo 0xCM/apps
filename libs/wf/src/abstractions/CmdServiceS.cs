@@ -42,7 +42,6 @@ namespace Z0
             var host = (S)this;
             var catalog = Cmd.catalog(host, Dispatcher);
             Cmd.emit(catalog, AppDb.ApiTargets("commands").Path(ExecutingPart.Id.PartName().Format(), FileKind.Kvp), EventLog);
-            //EmitCommands(Cmd.source((S)this, Dispatcher), ExecutingPart.Id);
         }
 
         public bool Dispatch(ShellCmdSpec cmd)

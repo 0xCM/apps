@@ -4,13 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Threading.Tasks;
+    [Free]
+    public interface IActionRunner<S,T>
+    {
+        T Run(S src);
+    }
 
     [Free]
-    public interface ITaskRunner
+    public interface IActionRunner : IActionRunner<CmdArgs,Outcome>
     {
-        Task Run();
+        ShellCmdDef Def {get;}
 
-        void Submit(string command);
+        ref readonly asci32 CmdName
+            => ref Def.CmdName;
     }
 }

@@ -7,7 +7,7 @@ namespace Z0
 {
     using static CmdActionKind;
 
-    public class ActionInvoker : ICmdActionInvoker
+    public class ActionInvoker : IActionRunner
     {
         public static CmdActionKind classify(MethodInfo src)
         {
@@ -47,10 +47,6 @@ namespace Z0
         public ActionInvoker(asci32 name, object host, MethodInfo method)
         {
             Def = new ShellCmdDef(name, classify(method), Require.notnull(method), Require.notnull(host));
-            // ActionName = Require.nonempty(name);
-            // Host = Require.notnull(host);
-            // Method = Require.notnull(method);
-            // ActionKind = classify(method);
         }
 
         public ref readonly asci32 CmdName
@@ -83,10 +79,10 @@ namespace Z0
             get => ref Def.Uri;
         }
 
-        ShellCmdDef ICmdActionInvoker.Def
+        ShellCmdDef IActionRunner.Def
             => Def;
 
-        public Outcome Invoke(CmdArgs args)
+        public Outcome Run(CmdArgs args)
         {
             var output = default(object);
             var result = Outcome.Success;

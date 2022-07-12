@@ -9,10 +9,10 @@ namespace Z0
     {
         IEnumerable<string> Specs {get;}
 
-        bool Find(string spec, out ICmdActionInvoker runner);
+        bool Find(string spec, out IActionRunner runner);
 
         ref readonly ReadOnlySeq<ShellCmdDef> Defs {get;}
 
-        ICollection<ICmdActionInvoker> Invokers {get;}
+        ICollection<IActionRunner> Invokers {get;}
     }
 }

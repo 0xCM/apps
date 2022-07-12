@@ -4,18 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     using api = ShellCmd;
 
-    public readonly struct ShellCmdSpec
+    public record class ShellCmdSpec
     {
-        public readonly string Name;
+        public readonly asci32 Name;
 
         public readonly CmdArgs Args;
 
         [MethodImpl(Inline)]
-        public ShellCmdSpec(string name, CmdArgs args)
+        public ShellCmdSpec(asci32 name, CmdArgs args)
         {
             Name = name;
             Args = args;
@@ -24,13 +22,13 @@ namespace Z0
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => empty(Name);
+            get => Name.IsEmpty;
         }
 
         public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
-            get => nonempty(Name);
+            get => Name.IsNonEmpty;
         }
 
         public string Format()
@@ -39,14 +37,14 @@ namespace Z0
         public override string ToString()
             => Format();
 
+        [MethodImpl(Inline)]
+        public static implicit operator ShellCmdSpec((string name, CmdArgs args) src)
+            => new ShellCmdSpec(src.name, src.args);
+
         public static ShellCmdSpec Empty
         {
             [MethodImpl(Inline)]
             get => new ShellCmdSpec(default, CmdArgs.Empty);
         }
-
-        [MethodImpl(Inline)]
-        public static implicit operator ShellCmdSpec((string name, CmdArgs args) src)
-            => new ShellCmdSpec(src.name, src.args);
     }
 }

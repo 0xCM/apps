@@ -13,7 +13,7 @@ namespace Z0
 
         public static CmdActions actions<T>(T src)
         {
-            var dst = dict<string,ICmdActionInvoker>();
+            var dst = dict<string,IActionRunner>();
             var methods = typeof(T).DeclaredInstanceMethods().Where(x => x.Tagged<CmdOpAttribute>());
             foreach(var m in methods)
             {
@@ -25,7 +25,7 @@ namespace Z0
 
         public static CmdActions join(ICmdActions[] src)
         {
-            var dst = dict<string,ICmdActionInvoker>();
+            var dst = dict<string,IActionRunner>();
             foreach(var a in src)
                 iter(a.Invokers,  a => dst.TryAdd(a.CmdName, a));
             return new CmdActions(dst);
@@ -56,7 +56,7 @@ namespace Z0
             return new CmdCatalog(type.Assembly.Id(), type.DisplayName(), dst);
         }
 
-        public static ActionDispatcher dispatcher<T>(T svc, WfEventLogger log, ICmdActions actions)
+        public static CmdDispatcher dispatcher<T>(T svc, WfEventLogger log, ICmdActions actions)
             where T : ICmdService
                 => Cmd.dispatcher(svc.GetType().DisplayName(), actions, log);
 
@@ -156,8 +156,8 @@ namespace Z0
             return slice(dst,0,counter);
         }
 
-        public static ActionDispatcher dispatcher(asci32 provider, ICmdActions actions, WfEventLogger log)
-            => new ActionDispatcher(provider, actions, log);
+        public static CmdDispatcher dispatcher(asci32 provider, ICmdActions actions, WfEventLogger log)
+            => new CmdDispatcher(provider, actions, log);
 
         public static Index<ICmdReactor> reactors(IWfRuntime wf)
         {
@@ -167,7 +167,7 @@ namespace Z0
             return reactors;
         }
 
-        public static ActionDispatcher dispatcher<T>(T svc, WfEventLogger log,  Index<ICmdProvider> providers)
+        public static CmdDispatcher dispatcher<T>(T svc, WfEventLogger log,  Index<ICmdProvider> providers)
         {
             var dst = dict<string,ActionInvoker>();
             var _dst = bag<ICmdActions>();

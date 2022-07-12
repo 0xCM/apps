@@ -21,7 +21,7 @@ namespace Z0
             PromptTitle = "cmd";
         }
 
-        public override IDispatcher Dispatcher => GlobalServices.Instance.Injected<ActionDispatcher>();
+        public override IDispatcher Dispatcher => GlobalServices.Instance.Injected<CmdDispatcher>();
 
         protected OmniScript OmniScript => Wf.OmniScript();
 

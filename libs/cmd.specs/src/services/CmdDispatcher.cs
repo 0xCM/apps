@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class ActionDispatcher : IDispatcher
+    public class CmdDispatcher : IDispatcher
     {
         ICmdActions _Actions;
 
@@ -15,7 +15,7 @@ namespace Z0
         readonly asci32 Provider;
 
         [MethodImpl(Inline)]
-        public ActionDispatcher(asci32 provider, ICmdActions lookup, WfEventLogger log)
+        public CmdDispatcher(asci32 provider, ICmdActions lookup, WfEventLogger log)
         {
             Provider = provider;
             _Actions = lookup;
@@ -40,10 +40,10 @@ namespace Z0
         public Outcome Dispatch(string name, CmdArgs args)
         {
             var result = Outcome.Success;
-            var invoker = default(ICmdActionInvoker);
+            var invoker = default(IActionRunner);
             if(_Actions.Find(name, out invoker))
             {
-                result = invoker.Invoke(args);
+                result = invoker.Run(args);
             }
             else
             {
