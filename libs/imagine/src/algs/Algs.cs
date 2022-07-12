@@ -9,6 +9,8 @@ namespace Z0
     [ApiHost]
     public partial class Algs
     {
+        const NumericKind Closure = UnsignedInts;
+
         [Op]
         public static unsafe int intersect(ushort* rcx, int rdx,  ushort* r8, int r9, ushort* dst)
         {

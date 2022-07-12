@@ -6,10 +6,12 @@
   </PropertyGroup>
 
   <Import Project="$(ImportDefs)shells.common.props"/>
+  <Import Project="$(ImportDefs)microsoft.cmdline.props"/>
 
   <ItemGroup>
     <ProjectReference Include="$(CmdSvc)" />
     <ProjectReference Include="$(CmdSpecs)" />
+    <ProjectReference Include="$(ApiSvc)" />
   </ItemGroup>
 
 </Project>

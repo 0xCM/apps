@@ -19,13 +19,6 @@ namespace Z0
             return dst;
         }
 
-        // public static T[] mapi<S,T>(T[] src, Func<int,S,T> f)
-        // {
-        //     var dst = sys.alloc<T>(src.Length);
-        //     mapi<T,S>(@readonly(src), f, @span(dst));
-        //     return dst;
-        // }
-
         /// <summary>
         /// Projects a sequence of <typeparamref name='S'/> cells into an allocated <typeparamref name='T'/> indexed cell receiver
         /// </summary>

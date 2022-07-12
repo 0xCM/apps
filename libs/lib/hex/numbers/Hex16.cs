@@ -77,9 +77,6 @@ namespace Z0
         public override int GetHashCode()
             => Hash;
 
-        K IValued<K>.Value
-            => Value;
-
         [MethodImpl(Inline)]
         public bool Equals(H src)
             => Value == src.Value;

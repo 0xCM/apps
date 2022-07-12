@@ -4,10 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct Hex<K> : IHexNumber<K>, IEquatable<Hex<K>>, IComparable<Hex<K>>
-        where K : unmanaged, IHexNumber<K>, IEquatable<K>, IComparable<K>, ITextual
+    public readonly struct Hex<K> : IHexNumber<Hex<K>,K>
+        where K : unmanaged, INumeric<K>
     {
-        public K Value {get;}
+        public readonly K Value;
 
         [MethodImpl(Inline)]
         public Hex(K value)

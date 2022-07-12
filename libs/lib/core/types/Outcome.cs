@@ -19,8 +19,13 @@ namespace Z0
         public static Outcome fail(string msg)
             => (false,msg);
 
-        public static Outcome success(dynamic data)
-            => new Outcome(data);
+        [MethodImpl(Inline)]
+        public static Outcome success(dynamic data, string msg = EmptyString)
+            => new Outcome(true, data, msg ?? EmptyString);
+
+        [MethodImpl(Inline)]
+        public static Outcome define(bool success, dynamic data, string msg = EmptyString)
+            => new Outcome(success, data, msg ?? EmptyString);
 
         public bool Ok {get;}
 
@@ -32,13 +37,6 @@ namespace Z0
 
         public bool Fail => !Ok;
 
-        Outcome(dynamic data)
-        {
-            Ok = true;
-            Message = EmptyString;
-            Data = data;
-            MessageCode = 0;
-        }
         public Outcome(bool success)
         {
             Ok = success;
@@ -53,6 +51,15 @@ namespace Z0
             Message = message;
             MessageCode = api.u8(Ok);
             Data = message ?? EmptyString;
+        }
+
+        Outcome(bool success, dynamic data, string message)
+        {
+            Ok = success;
+            Message = message;
+            Data = data;
+            MessageCode = api.u8(Ok);
+            Data = message;
         }
 
         public Outcome(Exception e)

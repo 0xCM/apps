@@ -5,7 +5,6 @@
 namespace Z0
 {
     using static CmdActionKind;
-    using static core;
 
     public class ActionInvoker : ICmdActionInvoker
     {
@@ -84,23 +83,33 @@ namespace Z0
                         result = new Outcome(false, $"Unsupported {Method}");
                     break;
                 }
+
+                if(output != null)
+                {
+                    if(output is bool x)
+                    {
+                        result = Outcome.define(x, output, x ? "Win" : "Fail");
+                    }
+                    else if(output is Outcome y)
+                    {
+                        result = Outcome.success(y.Data, y.Message);
+                    }
+                    else
+                    {
+                        result = Outcome.success(output);
+                    }
+                }
             }
             catch(Exception e)
             {
-                result = e;
+                var type = Host.GetType();
+                var uri = $"cmd://{type.Assembly.PartName()}/{type.DisplayName()}/{Method.DisplayName()}/{ActionName}";
+                var header = $"{uri} invocation error";
+                var message = AppMsg.format(header, e.InnerException);
+                result = Outcome.fail(message);
             }
 
-            if(output != null)
-            {
-                if(output is bool x)
-                    result = x ? Outcome.Success : Outcome.Failure;
-                else if(output is Outcome y)
-                    result = y;
-                else
-                    result = Outcome.success(output);
-            }
-
-            return result;
+           return result;
         }
     }
 }

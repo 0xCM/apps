@@ -15,11 +15,4 @@ namespace Z0
 
         CmdResult Dispatch(ICmd cmd, string msg);
     }
-
-    [Free]
-    public interface ICmdRouter<H> : ICmdRouter
-        where H : ICmdRouter<H>, new()
-    {
-
-    }
 }

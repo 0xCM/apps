@@ -83,10 +83,6 @@ namespace Z0
 
             public FileSplitter FileSplitter(IWfRuntime wf)
                 => Service<FileSplitter>(wf);
-
-            public TypeParser TypeParser(IWfRuntime wf)
-                => Service<TypeParser>(wf);
-
         }
 
         static Svc Services => Svc.Instance;

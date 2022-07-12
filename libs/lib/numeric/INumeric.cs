@@ -8,7 +8,7 @@ namespace Z0
     using static Refs;
 
     [Free]
-    public interface INumeric : IHashed, ISized, INullity
+    public interface INumeric : ISized, IDataType
     {
         bool IsZero {get;}
 
@@ -22,8 +22,8 @@ namespace Z0
     }
 
     [Free]
-    public interface INumeric<T> : INumeric, ISized<T>, IComparable<T>, IEquatable<T>, IValued<T>, IAdditive<T>
-        where T : unmanaged
+    public interface INumeric<T> : INumeric, ISized<T>, IDataType<T>, IValued<T>, IAdditive<T>
+        where T : unmanaged, IDataType<T>
     {
 
         T IAdditive<T>.Add(T src)

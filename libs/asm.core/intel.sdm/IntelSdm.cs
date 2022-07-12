@@ -31,7 +31,7 @@ namespace Z0.Asm
 
         void Clear()
         {
-            SdmPaths.Targets().Clear();
+            SdmPaths.Output().Clear();
             ClearCache();
         }
 
@@ -39,53 +39,45 @@ namespace Z0.Asm
         {
             var result = Outcome.Success;
 
-            try
-            {
-                Clear();
+            Clear();
 
-                result = EmitCharMaps();
-                if(result.Fail)
-                    return result;
+            result = EmitCharMaps();
+            if(result.Fail)
+                return result;
 
-                result = ImportVolume(1);
-                if(result.Fail)
-                    return result;
+            result = ImportVolume(1);
+            if(result.Fail)
+                return result;
 
-                result = ImportVolume(2);
-                if(result.Fail)
-                    return result;
+            result = ImportVolume(2);
+            if(result.Fail)
+                return result;
 
-                result = ImportVolume(3);
-                if(result.Fail)
-                    return result;
+            result = ImportVolume(3);
+            if(result.Fail)
+                return result;
 
-                result = ImportVolume(4);
-                if(result.Fail)
-                    return result;
+            result = ImportVolume(4);
+            if(result.Fail)
+                return result;
 
-                result = EmitSdmSplits();
-                if(result.Fail)
-                    return result;
+            result = EmitSdmSplits();
+            if(result.Fail)
+                return result;
 
-                result = EmitCombinedToc();
-                if(result.Fail)
-                    return result;
+            result = EmitCombinedToc();
+            if(result.Fail)
+                return result;
 
-                result = EmitTocRecords();
-                if(result.Fail)
-                    return result;
+            result = EmitTocRecords();
+            if(result.Fail)
+                return result;
 
-                EmitTokens();
-                var details = CalcOcDetails();
-                Emit(details);
+            EmitTokens();
+            var details = CalcOcDetails();
+            Emit(details);
 
-                EmitSigOps(EmitForms(details));
-
-            }
-            catch(Exception e)
-            {
-                result = e;
-            }
+            EmitSigOps(EmitForms(details));
 
             return result;
         }

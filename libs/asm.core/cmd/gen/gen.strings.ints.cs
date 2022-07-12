@@ -8,7 +8,7 @@ namespace Z0
 
     partial class AsmCoreCmd
     {
-        [CmdOp("gen/int-strings")]
+        [CmdOp("gen/strings/ints")]
         Outcome GenIntStrings(CmdArgs args)
         {
             var result = Outcome.Success;

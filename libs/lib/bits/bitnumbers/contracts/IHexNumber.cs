@@ -9,13 +9,24 @@ namespace Z0
 
     }
 
-    public interface IHexNumber<K> : IHexNumber, INumeric<K>
-        where K : unmanaged
+    public interface IHexNumber<K> : IHexNumber
+        where K : unmanaged, INumeric<K>
     {
 
     }
 
-    public interface IHexNumber<F,W,K> : IHexNumber<K>
+    public interface IHexNumber<F,K> : IHexNumber<K>, IDataType<F>
+        where K : unmanaged, INumeric<K>
+        where F : unmanaged, IHexNumber<F,K>
+    {
+        BitWidth ISized.Width
+            => Sized.width<F>();
+
+        ByteSize ISized.Size
+            => Sized.size<F>();
+    }
+
+    public interface IHexNumber<F,W,K> : IHexNumber, IDataType<F>
         where F : unmanaged, IHexNumber<F,W,K>
         where K : unmanaged
         where W : unmanaged, IDataWidth

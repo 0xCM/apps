@@ -10,10 +10,13 @@ namespace Z0
 
         Func<string,CmdArgs,Outcome> Fallback;
 
-        public ActionDispatcher(CmdActions lookup, Func<string,CmdArgs,Outcome> fallback = null)
+        readonly WfEventLogger Log;
+
+        public ActionDispatcher(CmdActions lookup, WfEventLogger log)
         {
             _Actions = lookup;
-            Fallback = fallback ?? NotFound;
+            Fallback = NotFound;
+            Log = log;
         }
 
         public ref readonly CmdActions Commands => ref _Actions;
@@ -26,22 +29,22 @@ namespace Z0
 
         public Outcome Dispatch(string name, CmdArgs args)
         {
-            try
+            var result = Outcome.Success;
+            var invoker = default(ICmdActionInvoker);
+            if(_Actions.Find(name, out invoker))
             {
-                if(_Actions.Find(name, out var invoker))
-                    return invoker.Invoke(args);
+                result = invoker.Invoke(args);
+            }
+            else
+            {
+                if(Fallback != null)
+                    result = Fallback(name, args);
                 else
-                {
-                    if(Fallback != null)
-                        return Fallback(name, args);
-                    else
-                        return (false, string.Format("Command '{0}' unrecognized", name));
-                }
+                    result = (false, string.Format("Command '{0}' unrecognized", name));
+
             }
-            catch(Exception e)
-            {
-                return e;
-            }
+
+            return result;
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Z0
 
     partial class AsmCoreCmd
     {
-        [CmdOp("asm/gen/sigmatch")]
+        [CmdOp("gen/asm/sigmatch")]
         Outcome Matcher(CmdArgs args)
         {
             var forms = Sdm.LoadSigs();

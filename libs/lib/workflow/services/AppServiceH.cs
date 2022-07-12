@@ -153,23 +153,8 @@ namespace Z0
             return Files();
         }
 
-        protected bool Check<T>(Outcome<T> outcome, out T payload)
-        {
-            if(outcome.Fail)
-            {
-                Error(outcome.Message ?? "Null error message at Check");
-                payload = default;
-                return false;
-            }
-            else
-            {
-                payload = outcome.Data;
-                return true;
-            }
-        }
 
         protected IApiCatalog ApiRuntimeCatalog => GetApiCatalog();
-
 
         protected void Babble(string pattern, params object[] args)
             => WfMsg.Babble(pattern, args);

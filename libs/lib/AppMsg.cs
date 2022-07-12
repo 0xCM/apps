@@ -69,6 +69,19 @@ namespace Z0
         public static StatusMsg<T> status<T>(T data)
             => new StatusMsg<T>(data);
 
+        public static string format(string header, Exception e)
+        {
+            var message = $"{header}{Eol}";
+            message += $"Summary: {e.Message}{Eol}";
+            message += $"Detail: {Eol}";
+            message += $"{e}{Eol}";
+            return message;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static AppMsgSource orginate([CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
+            => new AppMsgSource(caller, file, line);
+
         [MethodImpl(Inline), Op]
         public static AppMsg called(object content, LogLevel kind, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => new AppMsg(content, kind, (FlairKind)kind, caller, file, line);

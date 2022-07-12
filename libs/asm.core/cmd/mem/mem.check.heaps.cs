@@ -36,9 +36,7 @@ namespace Z0
         {
             var src = CodeFiles.PartFiles(PartId.Assets);
             var hex = src.Hex.ReadLines();
-
         }
-        [CmdOp("assets/check")]
         void CheckAssets2()
         {
             var src = TextAssets.strings(typeof(AsciText));

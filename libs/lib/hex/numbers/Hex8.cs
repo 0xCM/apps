@@ -101,9 +101,6 @@ namespace Z0
             get => ((byte)Value).FormatHex(specifier:false, zpad:true, uppercase:true);
         }
 
-        K IValued<K>.Value
-            => Value;
-
         [MethodImpl(Inline)]
         public string Format()
             => Text;

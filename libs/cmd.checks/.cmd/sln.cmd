@@ -1,6 +1,7 @@
 @echo off
 call %~dp0config.cmd
-set SlnPath=%WsRoot%\%WsId%.sln
+
+dotnet new sln
 
 dotnet sln %SlnPath% add %WsRoot%/z0.%WsId%.csproj
 
@@ -11,9 +12,6 @@ set ProjectId=cmd.specs
 dotnet sln %SlnPath% add %LibsWs%/%ProjectId%/z0.%ProjectId%.csproj
 
 set ProjectId=cmd.svc
-dotnet sln %SlnPath% add %LibsWs%/%ProjectId%/z0.%ProjectId%.csproj
-
-set ProjectId=cmd.tools
 dotnet sln %SlnPath% add %LibsWs%/%ProjectId%/z0.%ProjectId%.csproj
 
 set ProjectId=archives

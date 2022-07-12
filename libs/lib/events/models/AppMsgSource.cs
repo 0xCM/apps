@@ -15,10 +15,6 @@ namespace Z0
     public readonly struct AppMsgSource : ITextual
     {
         [MethodImpl(Inline), Op]
-        public static AppMsgSource capture([CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
-            => new AppMsgSource(caller, file, line);
-
-        [MethodImpl(Inline), Op]
         public static AppMsgSource define(string caller, string file, int? line)
             => new AppMsgSource(caller, file, line);
 

@@ -10,7 +10,7 @@ namespace Z0
 
     partial class AsmCoreCmd
     {
-        [CmdOp("asm/gen/specs")]
+        [CmdOp("gen/asm/specs")]
         Outcome GenInstData(CmdArgs args)
         {
             var g = AsmGen.generator();

@@ -84,13 +84,13 @@ namespace Z0
             => DbIn().Sources(scope);
 
         public IDbTargets Logs()
-            => DbOut("logs");
+            => new DbTargets(setting(WsArchives.Path(Names.Logs), FS.dir));
 
         public IDbSources DbRoot()
             => new DbSources(setting(WsArchives.Path(Names.DbRoot), FS.dir));
 
         public IDbTargets Logs(string scope)
-            => DbOut($"logs/{scope}");
+            => Logs().Targets(scope);
 
         public FS.FilePath DbTable<T>(string scope)
             where T : struct

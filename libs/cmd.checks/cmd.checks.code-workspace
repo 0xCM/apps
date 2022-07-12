@@ -1,26 +1,29 @@
 {
 	"folders": [
-		{
-			"path": "."
-		},
-		{
-			"path": "..\\cmd.exec"
-		},
-		{
-			"path": "..\\cmd.specs"
-		},
-		{
-			"path": "..\\cmd.svc"
-		},
-		{
-			"path": "..\\cmd.tools"
-		},
-		{
-			"path": "..\\archives"
-		},
-		{
-			"path": "..\\lib"
-		}
-	],
+        {
+            "path": "."
+        },
+        {
+            "path": "..\\cmd.exec"
+        },
+        {
+            "path": "..\\cmd.specs"
+        },
+        {
+            "path": "..\\cmd.svc"
+        },
+        {
+            "path": "..\\archives"
+        },
+        {
+            "path": "..\\lib"
+        },
+        {
+            "path": "..\\api.svc"
+        },
+        {
+            "path": "..\\..\\props"
+        }
+    ],
 	"settings": {}
 }

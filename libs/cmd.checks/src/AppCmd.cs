@@ -11,6 +11,7 @@ namespace Z0
                 wf.EnvCmd(),
                 wf.DbCmd(),
                 wf.ToolsetCmd(),
+                wf.ApiSpecs()
             };
 
         public static AppCmd commands(IWfRuntime wf)

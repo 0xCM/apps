@@ -23,9 +23,9 @@ namespace Z0
             return new CmdSource("", dst);
         }
 
-        public static ActionDispatcher dispatcher<T>(T svc, CmdActions actions)
+        public static ActionDispatcher dispatcher<T>(T svc, WfEventLogger log, CmdActions actions)
             where T : ICmdService
-                => Cmd.dispatcher(actions);
+                => Cmd.dispatcher(actions, log);
 
         public static void emit(ICmdSource src, FS.FilePath dst, WfEventLogger log)
         {
@@ -123,9 +123,8 @@ namespace Z0
             return slice(dst,0,counter);
         }
 
-
-        public static ActionDispatcher dispatcher(CmdActions actions, Func<string,CmdArgs,Outcome> fallback = null)
-            => new ActionDispatcher(actions, fallback);
+        public static ActionDispatcher dispatcher(CmdActions actions, WfEventLogger log)
+            => new ActionDispatcher(actions, log);
 
         public static Index<ICmdReactor> reactors(IWfRuntime wf)
         {
@@ -135,13 +134,13 @@ namespace Z0
             return reactors;
         }
 
-        public static ActionDispatcher dispatcher<T>(T svc, Index<ICmdProvider> providers)
+        public static ActionDispatcher dispatcher<T>(T svc, WfEventLogger log,  Index<ICmdProvider> providers)
         {
             var dst = dict<string,ActionInvoker>();
             var _dst = bag<CmdActions>();
             _dst.Add(CmdActions.discover(svc));
             iter(providers, x => _dst.Add(x.Actions));
-            return dispatcher(CmdActions.join(_dst.ToArray()));
+            return dispatcher(CmdActions.join(_dst.ToArray()), log);
         }
 
         [Op]

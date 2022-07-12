@@ -21,9 +21,6 @@ namespace Z0
 
         string IExpr.Format()
             => Name.Format();
-
-        int GetHashCode()
-            => Hash;
     }
 
     public interface IFsEntry<F> : IFsEntry, IDataString<F>, IDataType<F>

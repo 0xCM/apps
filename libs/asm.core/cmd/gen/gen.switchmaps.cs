@@ -60,41 +60,5 @@ namespace Z0
             return true;
         }
 
-        [CmdOp("gen/records")]
-        Outcome GenRecords(CmdArgs args)
-        {
-            var g = CsLang.Records();
-            var dst = text.buffer();
-            iter(ApiRuntimeCatalog.TableDefs, src => g.Emit(0u,src,dst));
-            Write(dst.Emit());
-            return true;
-        }
-
-        [CmdOp("gen/asci/bytes")]
-        Outcome EmitAsciBytes(CmdArgs args)
-        {
-            var name = "Uppercase";
-            var content = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            var dst = text.buffer();
-            var bytes = CsLang.AsciLookups().Emit(8u, name,content, dst);
-            Write(dst.Emit());
-            return true;
-        }
-
-        [CmdOp("gen/vex-tokens")]
-        Outcome GenTokenSpecs(CmdArgs args)
-        {
-            var result = Outcome.Success;
-            var src = Symbols.concat(Symbols.index<AsmOcTokens.VexToken>());
-            var name = "VexTokens";
-            var dst = AppDb.CgStage().Path("literals", name, FileKind.Cs);
-            using var writer = dst.Writer();
-            writer.WriteLine(string.Format("public readonly struct {0}", name));
-            writer.WriteLine("{");
-            CsLang.StringLits().Emit("Data", src, writer);
-            writer.WriteLine("}");
-            return result;
-        }
-
-    }
+   }
 }

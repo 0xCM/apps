@@ -17,7 +17,7 @@ namespace Z0.Asm
 
         void EmitForms(SdmFormDescriptors src)
         {
-            var path = SdmPaths.FormDetailPath();
+            var path = SdmPaths.FormDetailDst();
             var lookup = dict<Identifier,SdmFormDetail>();
             var keys = src.Keys;
             var count = keys.Length;
@@ -46,7 +46,7 @@ namespace Z0.Asm
 
             //Require.invariant(buffer.Select(x => x.Id).Distinct().Length == count);
 
-            AppSvc.TableEmit(buffer, SdmPaths.FormDetailPath());
+            AppSvc.TableEmit(buffer, SdmPaths.FormDetailDst());
         }
     }
 }

@@ -4,11 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
-    [Free]
-    sealed class App : AppCmdShell<App>
+    partial class XTend
     {
-        public static void Main(int a = 4, int b = 5)
-            => run(wf => AppCmd.commands(wf), sys.empty<string>());
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static Seq<T> ToSeq<T>(this IEnumerable<T> src)
+            => sys.array(src);
     }
 }

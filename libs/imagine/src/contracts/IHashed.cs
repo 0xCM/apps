@@ -13,10 +13,13 @@ namespace Z0
         /// The hash code as an unsigned 32-bit integer
         /// </summary>
         Hash32 Hash {get;}
+
+        int GetHashCode()
+            => Hash;
     }
 
-    public interface IHashed<H> : IHashed
-        where H : IHashCode
+    public interface IHashed<T> : IHashed
+        where T : IHashed<T>
     {
 
     }

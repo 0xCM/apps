@@ -8,9 +8,9 @@ namespace Z0.Asm
     {
         public void EmitTokens()
         {
-            TableEmit(AsmTokens.OcTokenDefs.View, SdmPaths.Tokens("sdm.tokens.opcodes"), unicode);
-            TableEmit(AsmTokens.SigTokenDefs.View, SdmPaths.Tokens("sdm.tokens.sigs"), unicode);
-            TableEmit(AsmTokens.TokenDefs.View, SdmPaths.Tokens("sdm.tokens"), unicode);
+            TableEmit(AsmTokens.OcTokenDefs.View, SdmPaths.TokensDst("sdm.tokens.opcodes"), unicode);
+            TableEmit(AsmTokens.SigTokenDefs.View, SdmPaths.TokensDst("sdm.tokens.sigs"), unicode);
+            TableEmit(AsmTokens.TokenDefs.View, SdmPaths.TokensDst("sdm.tokens"), unicode);
         }
     }
 }

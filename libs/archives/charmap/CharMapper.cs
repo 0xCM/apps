@@ -8,10 +8,10 @@ namespace Z0
 
     public sealed class CharMapper : AppService<CharMapper>
     {
-        public SortedSpan<Paired<Hex16,char>> Unmapped(FS.FilePath src, in CharMap<char> map)
+        ReadOnlySeq<CharMapEntry<char>> Unmapped(FS.FilePath src, in CharMap<char> map)
             => Unmapped(src, TextEncodings.Asci);
 
-        public SortedSpan<Paired<Hex16,char>> Unmapped(FS.FilePath src, AsciPoints target)
+        ReadOnlySeq<CharMapEntry<char>> Unmapped(FS.FilePath src, AsciPoints target)
         {
             var map = CharMaps.create(TextEncodings.Unicode, target);
             var flow = Running(string.Format("Searching {0} for unmapped characters", src.ToUri()));
@@ -19,13 +19,12 @@ namespace Z0
             using var reader = src.LineReader(TextEncodingKind.Utf8);
             while(reader.Next(out var line))
                 CharMaps.unmapped(map, line.Data, unmapped);
-            var pairs = unmapped.Map(x => paired((Hex16)x,x)).OrderBy(x => x.Left);
-            var data = SortedSpans.define(pairs);
-            Ran(flow, string.Format("Found {0} unmapped characters", data.Length));
-            return data;
+            var pairs = unmapped.Map(x => CharMaps.entry((Hex16)x,x)).OrderBy(x => x.Source).ToSeq();
+            Ran(flow, string.Format("Found {0} unmapped characters", pairs.Count));
+            return pairs;
         }
 
-        public SortedSpan<Paired<Hex16,char>> LogUnmapped(in CharMap<char> map, FS.FilePath src, FS.FilePath dst)
+        public void LogUnmapped(in CharMap<char> map, FS.FilePath src, FS.FilePath dst)
         {
             var unmapped = Unmapped(src, map);
             var pairs = unmapped.View.Map(CharMaps.format);
@@ -33,7 +32,6 @@ namespace Z0
             using var writer = dst.Writer();
             for(var i=0; i<count; i++)
                 writer.WriteLine(skip(pairs,i));
-            return unmapped;
         }
 
         public void Emit(in CharMap<char> src, FS.FilePath dst)

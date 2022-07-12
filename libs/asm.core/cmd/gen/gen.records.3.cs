@@ -4,11 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
 
-    [Free]
-    sealed class App : AppCmdShell<App>
+    using static core;
+
+    partial class AsmCoreCmd
     {
-        public static void Main(int a = 4, int b = 5)
-            => run(wf => AppCmd.commands(wf), sys.empty<string>());
+
     }
 }

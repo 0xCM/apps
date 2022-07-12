@@ -74,9 +74,6 @@ namespace Z0
             get => Value;
         }
 
-        K IValued<K>.Value
-            => Value;
-
         public override int GetHashCode()
             => Hash;
 

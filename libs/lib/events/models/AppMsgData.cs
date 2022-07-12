@@ -4,36 +4,32 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct AppMsgData : ITextual
     {
         /// <summary>
         /// The message payload
         /// </summary>
-        public object Content {get;}
+        public readonly object Content {get;}
 
         /// <summary>
         /// Defines a content render pattern, if applicable
         /// </summary>
-        public string Pattern {get;}
+        public readonly string Pattern {get;}
 
         /// <summary>
         /// The message classification
         /// </summary>
-        public LogLevel Kind {get;}
+        public readonly LogLevel Kind {get;}
 
         /// <summary>
         /// The message foreground color when rendered for display
         /// </summary>
-        public FlairKind Flair {get;}
+        public readonly FlairKind Flair {get;}
 
         /// <summary>
         /// Specifies the emitting executable part
         /// </summary>
-        public AppMsgSource Source {get;}
+        public readonly AppMsgSource Source {get;}
 
         [MethodImpl(Inline)]
         public AppMsgData(object content, string pattern, LogLevel kind, FlairKind color, AppMsgSource origin)

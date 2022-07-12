@@ -12,5 +12,4 @@ namespace Z0
         void GenAmsCode()
             => AsmCodeGen.Emit();
     }
-
 }

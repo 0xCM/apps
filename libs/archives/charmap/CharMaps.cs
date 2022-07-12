@@ -13,7 +13,7 @@ namespace Z0
     {
         [MethodImpl(Inline), Op, Closures(UInt8x16k)]
         public static CharMapEntry<T> entry<T>(Hex16 src, T dst)
-            where T : unmanaged
+            where T : unmanaged, IComparable<T>, IEquatable<T>
                 => new CharMapEntry<T>(src, dst);
 
         public static CharMapEditor<T> editor<T>()
@@ -40,14 +40,14 @@ namespace Z0
             return i-i0;
         }
 
-        [Op]
-        public static string format(Paired<Hex16,char> src)
-        {
-            Span<char> dst = stackalloc char[16];
-            var i=0u;
-            var count = render(src,ref i, dst);
-            return text.format(slice(dst,0,count));
-        }
+        // [Op]
+        // public static string format(Paired<Hex16,char> src)
+        // {
+        //     Span<char> dst = stackalloc char[16];
+        //     var i=0u;
+        //     var count = render(src,ref i, dst);
+        //     return text.format(slice(dst,0,count));
+        // }
 
         [Op]
         public static string format(CharMapEntry<char> src)

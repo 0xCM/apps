@@ -44,9 +44,6 @@ namespace Z0
         public static W W
             => default;
 
-        K IValued<K>.Value
-            => Value;
-
         public bool IsZero
         {
              [MethodImpl(Inline)]

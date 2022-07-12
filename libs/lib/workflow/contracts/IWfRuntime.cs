@@ -36,6 +36,9 @@ namespace Z0
 
         void RedirectEmissions(IWfEmissionLog dst);
 
+        WfEventLogger EventLog
+            => x => Raise(x);
+
         void Disposed()
         {
             if(Verbosity.IsBabble())

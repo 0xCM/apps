@@ -49,6 +49,15 @@ namespace Z0
             get => bytes(this);
         }
 
+        [MethodImpl(Inline)]
+        public Span<T> Segment(uint i0, uint i1)
+            => core.segment(Cells, i0, i1);
+
+
+        [MethodImpl(Inline)]
+        public Span<T> Segment(int i0, int i1)
+            => core.segment(Cells, i0, i1);
+
         public ByteSize Size
             => CellCount*size<T>();
 

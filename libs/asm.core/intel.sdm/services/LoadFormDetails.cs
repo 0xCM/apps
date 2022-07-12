@@ -13,7 +13,7 @@ namespace Z0.Asm
             const byte FieldCount = SdmFormDetail.FieldCount;
             var result = Outcome.Success;
             var buffer = list<SdmFormDetail>();
-            var path = SdmPaths.FormDetailPath();
+            var path = SdmPaths.FormDetailDst();
             using var reader = path.Utf8LineReader();
             reader.Next(out _);
             while(reader.Next(out var line))

@@ -14,7 +14,7 @@ namespace Z0
             var entries = list<CliRowStats>();
             var seq = 0u;
             var flow = Wf.EmittingTable<CliRowStats>(dst);
-            var formatter = Tables.formatter<CliRowStats>(16);
+            var formatter = Tables.formatter<CliRowStats>();
             using var writer = dst.Writer();
             writer.WriteLine(formatter.FormatHeader());
 

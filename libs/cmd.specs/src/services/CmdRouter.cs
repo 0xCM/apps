@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public sealed class CmdRouter : AppService<CmdRouter>, ICmdRouter<CmdRouter>
+    public sealed class CmdRouter : AppService<CmdRouter>, ICmdRouter
     {
         ConcurrentDictionary<CmdId,ICmdReactor> Nodes;
 
@@ -19,11 +19,6 @@ namespace Z0
             : base(wf)
         {
             Nodes = new ConcurrentDictionary<CmdId,ICmdReactor>();
-        }
-
-        protected override void OnInit()
-        {
-
         }
 
         public ReadOnlySpan<CmdId> SupportedCommands
@@ -47,7 +42,6 @@ namespace Z0
             {
                 if(Nodes.TryGetValue(cmd.CmdId, out var node))
                 {
-
                     Status(DispatchingCmd.Format(cmd.CmdId, node.GetType().Name));
                     var result = node.Invoke(cmd);
                     if(result.Succeeded)

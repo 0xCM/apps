@@ -10,7 +10,7 @@ namespace Z0
         public new static S create(IWfRuntime wf)
         {
             var svc = new S();
-            svc.Dispatcher = Cmd.dispatcher(svc.Actions);
+            svc.Dispatcher = Cmd.dispatcher(svc.Actions, wf.EventLog);
             svc.Init(wf);
             return svc;
         }
@@ -45,21 +45,13 @@ namespace Z0
         public bool Dispatch(ShellCmdSpec cmd)
         {
             var result = Outcome.Success;
-            try
+            result = Dispatcher.Dispatch(cmd.Name, cmd.Args);
+            if(result.Fail)
+                Error(result.Message);
+            else
             {
-                result = Dispatcher.Dispatch(cmd.Name, cmd.Args);
-                if(result.Fail)
-                    Error(result.Message ?? RpOps.Null);
-                else
-                {
-                    if(text.nonempty(result.Message))
-                        Status(result.Message);
-                }
-            }
-            catch(Exception e)
-            {
-                Error(e);
-                result = e;
+                if(text.nonempty(result.Message))
+                    Status(result.Message);
             }
             return result;
         }
