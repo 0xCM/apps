@@ -65,7 +65,7 @@ namespace Z0.Asm
             return SortedSpans.define(records);
         }
 
-        public ExecToken EmitProcessAsm(SortedReadOnlySpan<ProcessAsmRecord> src, FS.FilePath dst)
+        public void EmitProcessAsm(SortedReadOnlySpan<ProcessAsmRecord> src, FS.FilePath dst)
             => AppSvc.TableEmit(src.View, dst, rowpad: ProcessAsmRecord.RowPad);
 
         public ReadOnlySpan<ProcessAsmRecord> EmitProcessAsm(ReadOnlySpan<AsmRoutine> src, FS.FilePath dst)

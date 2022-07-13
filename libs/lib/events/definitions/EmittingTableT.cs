@@ -16,6 +16,8 @@ namespace Z0
 
         public FS.FilePath Target {get;}
 
+        public readonly string HostName;
+
         public FlairKind Flair => FlairKind.Running;
 
         public TableId Table => TableId.identify<T>();
@@ -23,17 +25,10 @@ namespace Z0
         [MethodImpl(Inline)]
         public EmittingTableEvent(Type host, FS.FilePath dst)
         {
+            HostName = host.DisplayName();
             EventId = EventId.define(host, Kind);
             Target = dst;
         }
-
-        [MethodImpl(Inline)]
-        public EmittingTableEvent(WfStepId step, FS.FilePath target)
-        {
-            EventId = EventId.define(EventName, step);
-            Target = target;
-        }
-
 
         [MethodImpl(Inline)]
         public string Format()

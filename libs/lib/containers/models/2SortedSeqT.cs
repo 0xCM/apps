@@ -5,7 +5,7 @@
 namespace Z0
 {
     public class SortedSeq<T> : Seq<T>, ISortedSeq<T>
-        where T : IComparable<T>
+        where T : IComparable<T>, ISequential<T>
     {
         public SortedSeq()
         {
@@ -13,7 +13,7 @@ namespace Z0
         }
 
         public SortedSeq(T[] src)
-            : base(src.Sort())
+            : base(src.Sort().Resequence())
         {
 
         }

@@ -11,6 +11,21 @@ namespace Z0
 
     partial struct Tables
     {
+        public static void emit<T>(Type host, ReadOnlySpan<T> rows, FS.FilePath dst, TextEncodingKind encoding,
+            ushort rowpad, RecordFormatKind fk, WfEventLogger log)
+                where T : struct
+        {
+            var emitting = Events.emittingTable<T>(host, dst);
+            log(emitting);
+            var formatter = RecordFormatters.create(typeof(T), rowpad, fk);
+            using var writer = dst.Writer(encoding);
+            writer.WriteLine(formatter.FormatHeader());
+            for(var i=0; i<rows.Length; i++)
+                writer.WriteLine(formatter.Format(skip(rows,i)));
+             var emitted = Events.emittedTable<T>(host, rows.Length, dst);
+             log(emitted);
+        }
+
         public static void emit<T>(ReadOnlySpan<T> src, ITextEmitter dst, TextEncodingKind encoding = TextEncodingKind.Asci, ushort rowpad = 0, RecordFormatKind fk = RecordFormatKind.Tablular, string delimiter = Tables.DefaultDelimiter)
             where T : struct
         {

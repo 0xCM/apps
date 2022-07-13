@@ -21,7 +21,7 @@ namespace Z0
         void Emit(ProcDumpName id, ReadOnlySpan<DR.ModuleInfo> src)
             => TableEmit(src, Archive.Table<DR.ModuleInfo>(id));
 
-        ExecToken Emit(ProcDumpName id, ReadOnlySpan<DR.MethodTableToken> src)
+        void Emit(ProcDumpName id, ReadOnlySpan<DR.MethodTableToken> src)
             => TableEmit(src, Archive.Table<DR.MethodTableToken>(id));
 
         void Emit(ProcDumpName id, ModuleProcessPresult src)

@@ -42,6 +42,56 @@ namespace Z0
         public void Emit(Index<BitMaskInfo> src)
             => TableEmit(src, ProjectDb.ApiTablePath<BitMaskInfo>());
 
+        [CmdOp("api/packs/list")]
+        void ListApiPacks()
+        {
+            var src = AppDb.apipacks();
+            for(var i=0; i<src.Count; i++)
+            {
+                ref readonly var pack = ref src[i];
+                Write($"{i}", pack.Timestamp);
+            }
+
+        }
+
+        [CmdOp("api/pack/list")]
+        Outcome ListApiPack(CmdArgs args)
+        {
+            var result = Outcome.Failure;
+            var src = AppDb.apipacks();
+            var pack = default(IApiPack);
+            if(args.Count > 0)
+            {
+                result = DataParser.parse(arg(args,0), out int i);
+                if(result)
+                {
+                    var count = src.Length;
+                    if(i<count-1)
+                    {
+                        pack = src[i];
+                        result = true;
+                    }
+                }
+            }
+            else
+            {
+                if(src.Count >= 0)
+                {
+                    pack = src.Last;
+                    result = true;
+                }
+            }
+
+            if(result)
+            {
+                var listing = FS.listing(pack.Files());
+                var dst = AppDb.App().PrefixedTable<ListedFile>($"api.pack.{pack.Timestamp}");
+                TableEmit(listing, dst);
+            }
+
+            return result;
+        }
+
         [CmdOp("api/deps")]
         void ShowDependencies()
         {

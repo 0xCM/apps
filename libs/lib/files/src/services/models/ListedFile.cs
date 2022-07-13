@@ -4,33 +4,40 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static Algs;
+
     /// <summary>
     /// Defines an entry in list of files
     /// </summary>
-    [Record(TableId)]
-    public record struct ListedFile : IDataString<ListedFile>, ISequential<ListedFile>, IDataType<ListedFile>
+    [Record(TableId),StructLayout(LayoutKind.Sequential,Pack=1)]
+    public record struct ListedFile : IDataType<ListedFile>, IDataString<ListedFile>, ISequential<ListedFile>
     {
         public const string TableId = "files";
 
         [Render(8)]
+
         public uint Seq;
 
-        [Render(1)]
+        [Render(24)]
+        public FS.FileName Name;
+
+        [Render(16)]
+        public Kb Size;
+
+        [Render(16)]
+        public Timestamp CreateTS;
+
+        [Render(16)]
+        public Timestamp UpdateTS;
+
+        [Render(24)]
+        public string FolderName;
+
+        [Render(128)]
         public FS.FileUri Path;
 
-        [MethodImpl(Inline)]
-        public ListedFile(uint index, FS.FilePath path)
-        {
-            Seq = index;
-            Path = path;
-        }
-
-        [MethodImpl(Inline)]
-        public ListedFile(int index, FS.FilePath path)
-        {
-            Seq = (uint)index;
-            Path = path;
-        }
+        [Render(1)]
+        public FileAttributeSet Attributes;
 
         public bool IsEmpty
         {
@@ -47,11 +54,14 @@ namespace Z0
         public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => Path.Hash;
+            get => hash(Size,CreateTS,UpdateTS,Attributes);
         }
 
         uint ISequential.Seq
-            { get => Seq; set => Seq = value; }
+        {
+             get => Seq;
+             set => Seq = value;
+        }
 
         public override int GetHashCode()
             => Hash;
@@ -67,14 +77,6 @@ namespace Z0
             => Path.CompareTo(src.Path);
 
         public bool Equals(ListedFile src)
-            => Path == src.Path;
-
-        [MethodImpl(Inline)]
-        public static implicit operator ListedFile((uint index, FS.FilePath path) src)
-            => new ListedFile(src.index, src.path);
-
-        [MethodImpl(Inline)]
-        public static implicit operator ListedFile((int index, FS.FilePath path) src)
-            => new ListedFile(src.index, src.path);
+            => Path == src.Path && Size == src.Size && CreateTS == src.CreateTS && UpdateTS == src.UpdateTS;
     }
 }

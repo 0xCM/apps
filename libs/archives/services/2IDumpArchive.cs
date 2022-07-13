@@ -25,16 +25,4 @@ namespace Z0
             where T : struct
                 => Root + Tables.filename<T>(ProcDumpName.create(name,ts).Format());
     }
-
-    public class DumpArchive : AppService<DumpArchive>, IDumpArchive
-    {
-        public static IDumpArchive Service => new DumpArchive();
-
-        public DumpArchive()
-        {
-            Root = AppDb.Service.Archives().Sources(dumps).Root;
-        }
-
-        public FS.FolderPath Root {get;}
-    }
 }

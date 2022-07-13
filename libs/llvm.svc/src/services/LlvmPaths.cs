@@ -53,10 +53,10 @@ namespace Z0.llvm
             => Sources("records").Path($"{project}.{kind}", FileKind.Txt);
 
         public ListedFiles RecordFiles()
-            => ListedFiles.list(Sources("records").Files());
+            => FS.listing(Sources("records").Files());
 
         public ListedFiles RecordFiles(string project)
-            => ListedFiles.list(Sources("records").Sources(project).Files());
+            => FS.listing(Sources("records").Sources(project).Files());
 
         public IDbTargets QueryOut()
             => Targets(queries);

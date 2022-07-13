@@ -91,10 +91,6 @@ namespace Z0
              => HashCodes.combine(x,y,z);
 
         [MethodImpl(Inline)]
-        public static Hash32 hash<T>(T src)
-            => HashCodes.Generic.hash(src);
-
-        [MethodImpl(Inline)]
         public static Hash32 hash(ReadOnlySpan<byte> src)
             => HashCodes.hash(src);
 
@@ -105,21 +101,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public static Hash32 hash(ReadOnlySpan<char> src)
             => HashCodes.hash(src);
-
-        [MethodImpl(Inline)]
-        public static Hash32 hash<T>(ReadOnlySpan<T> src)
-            => HashCodes.Generic.hash(src);
-
-        [MethodImpl(Inline)]
-        public static Hash32 hash<T>(T x, T y)
-            => HashCodes.Generic.combine(x,y);
-
-        [MethodImpl(Inline)]
-        public static Hash32 hash<T>(T x, T y, T z)
-            => HashCodes.Generic.hash(x, y, z, z);
-
-        [MethodImpl(Inline)]
-        public static Hash32 hash<T>(T a, T b, T c, T d)
-            => HashCodes.Generic.hash(a,b,c,d);
     }
 }

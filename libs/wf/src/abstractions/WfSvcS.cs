@@ -201,9 +201,6 @@ namespace Z0
             where T : struct
                 => WfMsg.EmittedTable(flow,count, dst);
 
-        public void TableEmit<T>(ReadOnlySpan<T> src, ReadOnlySpan<byte> widths, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
-            where T : struct
-                => WfEmit.TableEmit(src, widths, encoding, dst);
 
         public void FileEmit<T>(T src, Count count, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
         {
@@ -230,7 +227,7 @@ namespace Z0
             Write(string.Format("{0,-12} | {1}", "Description", msg), FlairKind.Ran);
         }
 
-        public ExecToken FileEmit<T>(ReadOnlySpan<T> lines, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
+        public void FileEmit<T>(ReadOnlySpan<T> lines, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
         {
             var emitting = EmittingFile(dst);
             using var writer = dst.Writer(encoding);
@@ -238,28 +235,35 @@ namespace Z0
             for(var i=0; i<count; i++)
                 writer.AppendLine(skip(lines,i));
             var emitted = EmittedFile(emitting, count);
-            return emitted;
         }
 
-        public ExecToken TableEmit<T>(ReadOnlySpan<T> rows, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci,
+        public void TableEmit<T>(ReadOnlySpan<T> src, ReadOnlySpan<byte> widths, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
+            where T : struct
+                => WfEmit.TableEmit(src, widths, encoding, dst);
+
+        public void TableEmit<T>(ReadOnlySpan<T> rows, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci,
             ushort rowpad = 0, RecordFormatKind fk = RecordFormatKind.Tablular)
                 where T : struct
         {
-            var emitting = EmittingTable<T>(dst);
-            var formatter = RecordFormatters.create(typeof(T), rowpad, fk);
-            using var writer = dst.Writer(encoding);
-            writer.WriteLine(formatter.FormatHeader());
-            for(var i=0; i<rows.Length; i++)
-                writer.WriteLine(formatter.Format(skip(rows,i)));
-            return EmittedTable(emitting, rows.Length, dst);
+
+            Tables.emit(GetType(), rows, dst, encoding, rowpad, fk, EventLog);
+            // var emitting = EmittingTable<T>(dst);
+            // var formatter = RecordFormatters.create(typeof(T), rowpad, fk);
+            // using var writer = dst.Writer(encoding);
+            // writer.WriteLine(formatter.FormatHeader());
+            // for(var i=0; i<rows.Length; i++)
+            //     writer.WriteLine(formatter.Format(skip(rows,i)));
+
+
+            //return EmittedTable(emitting, rows.Length, dst);
         }
 
-        public ExecToken TableEmit<T>(Index<T> rows, FS.FilePath dst,
+        public void TableEmit<T>(Index<T> rows, FS.FilePath dst,
             TextEncodingKind encoding = TextEncodingKind.Asci, ushort rowpad = 0, RecordFormatKind fk = RecordFormatKind.Tablular)
                 where T : struct
                     => TableEmit(rows.View, dst, encoding, rowpad, fk);
 
-        public ExecToken TableEmit<T>(T[] rows, FS.FilePath dst,
+        public void TableEmit<T>(T[] rows, FS.FilePath dst,
             TextEncodingKind encoding = TextEncodingKind.Asci, ushort rowpad = 0, RecordFormatKind fk = RecordFormatKind.Tablular)
                 where T : struct
                     => TableEmit(@readonly(rows), dst, encoding, rowpad, fk);

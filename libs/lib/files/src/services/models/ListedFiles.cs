@@ -6,9 +6,6 @@ namespace Z0
 {
     public class ListedFiles : SortedSeq<ListedFile>
     {
-        public static ListedFiles list(FS.Files src)
-            => new ListedFiles(new ListedFiles(src.Storage.Mapi((i,x) => new ListedFile(i,x))));
-
         [Op]
         public static string format(ListedFiles src)
         {
@@ -36,6 +33,13 @@ namespace Z0
         [MethodImpl(Inline)]
         public ListedFiles(ListedFile[] src)
             : base(src)
+        {
+
+        }
+
+        [MethodImpl(Inline)]
+        public ListedFiles(ReadOnlySeq<ListedFile> src)
+            : base(src.Unwrap())
         {
 
         }

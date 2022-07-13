@@ -21,14 +21,14 @@ namespace Z0
         [CmdOp("dir")]
         void Dir(CmdArgs args)
         {
-            var src = Archives.archive(FS.dir(arg(args,0)));
-            var files = ListedFiles.Empty;
-            if(args.Count >= 2)
-                files = src.List(arg(args,1));
-            else
-                files = src.List();
+            // var src = Archives.archive(FS.dir(arg(args,0)));
+            // var files = ListedFiles.Empty;
+            // if(args.Count >= 2)
+            //     files = src.List(arg(args,1));
+            // else
+            //     files = src.List();
 
-            Row(files.Format());
+            // Row(files.Format());
         }
 
         [CmdOp("settings")]

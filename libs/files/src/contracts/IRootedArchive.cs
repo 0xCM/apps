@@ -8,9 +8,6 @@ namespace Z0
     {
         FS.FolderPath Root {get;}
 
-        // IDbSources Ancestor()
-        //     => new DbArchive(Root.)
-
         DbArchive DbFiles => Root;
 
         IDbTargets Logs()
@@ -86,12 +83,6 @@ namespace Z0
 
         FS.FilePath Path(string @class, string name, FileKind kind)
             => DbFiles.Path(@class, name, kind);
-
-        ListedFiles List()
-            => DbFiles.List();
-
-        ListedFiles List(string pattern, bool recurse = true)
-            => DbArchive.list(Root,pattern,recurse);
 
         string Format()
             => DbFiles.Format();

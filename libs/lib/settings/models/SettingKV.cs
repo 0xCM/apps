@@ -58,6 +58,5 @@ namespace Z0
             => Value;
 
         public static Setting<K,V> Empty => default;
-
     }
 }

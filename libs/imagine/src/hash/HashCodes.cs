@@ -6,7 +6,6 @@ namespace Z0
 {
     using static MarvinHash;
 
-
     [Free,ApiHost]
     public partial class HashCodes
     {

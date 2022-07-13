@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
 
     public readonly record struct DbArchive : IDbArchive
     {
@@ -82,9 +82,6 @@ namespace Z0
         public FS.Files Files(FS.FileExt ext, bool recurse = true)
             => Root.Files(ext, recurse);
 
-        public ListedFiles List()
-            => new ListedFiles(Root.EnumerateFiles(true).Array().Mapi((i,x) => new ListedFile(i,x)));
-
         public Deferred<FS.FilePath> Enumerate(bool recursive = true)
             => Root.EnumerateFiles(recursive);
 
@@ -148,9 +145,6 @@ namespace Z0
         public static IFilteredArchive filter(FS.FolderPath root, params FS.FileExt[] ext)
             => new FilteredArchive(root, ext);
 
-        public static Index<FileDescription> describe(FS.Files src)
-            => src.Storage.Select(path => describe(path));
-
         public static FS.Files search(FS.FolderPath src, FS.FileExt[] ext, uint limit = 0)
             => limit != 0 ? match(src, limit, ext) : match(src, ext);
 
@@ -167,43 +161,6 @@ namespace Z0
             Array.Sort(files);
             return files;
         }
-
-        public static ListedFiles list(FS.FilePath[] src)
-            => new ListedFiles(src.Mapi((i,x) => new ListedFile(i,x)));
-
-        public static ListedFiles list(FS.Files src)
-            => new ListedFiles(src.Storage.Mapi((i,x) => new ListedFile((uint)i,x)));
-
-        public static ListedFiles list(FS.FolderPath src, FS.FileExt ext, bool recurse = false)
-            => src.Files(ext,recurse).Mapi((i,x) => new ListedFile((uint)i, x));
-
-        public static ListedFiles list(FS.FolderPath src, bool recurse = false)
-            => src.Files(recurse).Storage.Mapi((i,x) =>new ListedFile((uint)i, x));
-
-        public static ListedFiles list(FS.FolderPath src, string pattern, bool recurse)
-            => list(Directory.EnumerateFiles(src.Name, pattern, option(recurse)).Array().Select(FS.path));
-
-        [MethodImpl(Inline)]
-        internal static SearchOption option(bool recurse)
-            => recurse ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
-
-        public static FileDescription describe(FS.FilePath src)
-        {
-            var dst = new FileDescription();
-            var info = new FileInfo(src.Name);
-            dst.Path = src;
-            dst.Attributes = info.Attributes;
-            dst.CreateTS = info.CreationTime;
-            dst.UpdateTS = info.LastWriteTime;
-            dst.Size = info.Length;
-            return dst;
-        }
-
-        public ListedFiles List(bool recurse)
-            => list(Root,recurse);
-
-        public ListedFiles List(string pattern, bool recurse = true)
-            => list(Root,pattern, recurse);
 
         [MethodImpl(Inline)]
         public static implicit operator DbArchive(FS.FolderPath src)

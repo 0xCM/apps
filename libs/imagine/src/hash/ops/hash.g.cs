@@ -67,6 +67,11 @@ namespace Z0
             public static uint hash<T>()
                 => H.hash(typeof(T));
 
+            [MethodImpl(Inline)]
+            public static Hash32 native<T>(T src)
+                where T : unmanaged
+                    => hash(src);
+
             /// <summary>
             /// Creates a 64-bit calc code 7predicated on two type parameters
             /// </summary>
