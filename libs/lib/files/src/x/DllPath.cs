@@ -12,12 +12,7 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static AssemblyName[] ReferenceNames(this Assembly src)
-            => Clr.refs(src);
+            => Clr.refnames(src);
 
-        public static Assembly[] References(this Assembly src)
-            => Clr.refs(src).Select(a => Assembly.Load(a));
-
-        public static AssemblyName[] PartReferenceNames(this Assembly src)
-            => Clr.refs(src).Where(n => n.IsPart());
     }
 }

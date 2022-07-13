@@ -8,6 +8,6 @@ namespace Z0.Ops
         where F : OpExpr<F,K>
         where K : unmanaged
     {
-        public abstract NameOld OpName {get;}
+        public abstract Identifier OpName {get;}
     }
 }

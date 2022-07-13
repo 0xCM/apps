@@ -7,13 +7,13 @@
 			"path": "..\\asm.models"
 		},
 		{
+			"path": "..\\api.specs"
+		},
+		{
 			"path": "..\\cmd.specs"
 		},
 		{
 			"path": "..\\cmd.svc"
-		},
-		{
-			"path": "..\\cmd.tools"
 		},
 		{
 			"path": "..\\lib"
@@ -26,6 +26,9 @@
 		},
 		{
 			"path": "..\\imagine"
+		},
+		{
+			"path": "..\\..\\.cmd"
 		}
 	],
 	"settings": {}

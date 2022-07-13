@@ -7,6 +7,13 @@ namespace Z0
     partial struct sys
     {
         [MethodImpl(Options), Op]
+        public static T @throw<T>([CallerName] string caller = null, [CallerLine] int? line = null, [CallerFile] string? path = null)
+        {
+            proxy.@throw("Something bad happened", caller, line, path);
+            return default;
+        }
+
+        [MethodImpl(Options), Op]
         public static void @throw(string msg)
             => proxy.@throw(msg);
 

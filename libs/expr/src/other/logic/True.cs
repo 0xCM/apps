@@ -11,7 +11,7 @@ namespace Z0
     {
         public class True : OpExpr<True,LogicExprKind>, ILogicOp
         {
-            public override NameOld OpName
+            public override Identifier OpName
                 => "true";
 
             public override LogicExprKind Kind

@@ -69,18 +69,18 @@ namespace Z0.Asm
             return records.ViewDeposited();
         }
 
-        public ReadOnlySpan<HostAsmRecord> EmitHostAsm(ReadOnlySpan<ApiCodeBlock> src, FS.FolderPath dst)
-        {
-            var count = src.Length;
-            var buffer = list<HostAsmRecord>();
-            for(var i=0; i<count; i++)
-                ApiInstructions.hostasm(Decode(skip(src,i)), buffer);
-            buffer.Sort();
+        // public ReadOnlySpan<HostAsmRecord> EmitHostAsm(ReadOnlySpan<ApiCodeBlock> src, FS.FolderPath dst)
+        // {
+        //     var count = src.Length;
+        //     var buffer = list<HostAsmRecord>();
+        //     for(var i=0; i<count; i++)
+        //         ApiInstructions.hostasm(Decode(skip(src,i)), buffer);
+        //     buffer.Sort();
 
-            var statements = buffer.ViewDeposited();
-            EmitHostAsm(statements, dst);
-            return statements;
-        }
+        //     var statements = buffer.ViewDeposited();
+        //     EmitHostAsm(statements, dst);
+        //     return statements;
+        // }
 
         public Index<HostAsmRecord> EmitHostAsm(ReadOnlySpan<AsmRoutine> src, IApiPackArchive dst)
         {

@@ -9,6 +9,8 @@
 
   <ItemGroup>
     <ProjectReference Include="$(ZLib)" />
+    <ProjectReference Include="$(Files)" />
+    <ProjectReference Include="$(Digital)" />
   </ItemGroup>
 
 </Project>

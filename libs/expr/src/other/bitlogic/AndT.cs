@@ -19,7 +19,7 @@ namespace Z0.Ops.Scalar
             Right = b;
         }
 
-        public NameOld OpName => "and<{0}>";
+        public Identifier OpName => "and<{0}>";
 
         public BinaryBitLogicKind Kind
             => BinaryBitLogicKind.And;

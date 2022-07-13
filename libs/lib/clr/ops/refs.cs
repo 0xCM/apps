@@ -6,8 +6,9 @@ namespace Z0
 {
     partial struct Clr
     {
-        [MethodImpl(Inline), Op]
-        public static AssemblyName[] refs(Assembly src)
-            => src.GetReferencedAssemblies();
+        [Op]
+        public static Assembly[] refs(Assembly src)
+            => refnames(src).Select(Assembly.Load);
+
     }
 }

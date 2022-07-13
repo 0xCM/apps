@@ -6,7 +6,7 @@
 namespace Z0
 {
     using static core;
-    using static XedTool;
+    using static XedToolDomain;
 
     public sealed partial class XedToolSvc : ToolService<XedToolSvc>
     {

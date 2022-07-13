@@ -36,14 +36,14 @@ namespace Z0.Asm
                 Traverse(skip(blocks,i), dst);
         }
 
-        [Op]
-        public void Traverse(ReadOnlySpan<ApiCodeBlock> src, AsmReceiverModel dst)
-        {
-            var blocks = src;
-            var count = blocks.Length;
-            for(var i=0u; i<count; i++)
-                Traverse(skip(blocks,i), dst);
-        }
+        // [Op]
+        // public void Traverse(ReadOnlySpan<ApiCodeBlock> src, AsmReceiverModel dst)
+        // {
+        //     var blocks = src;
+        //     var count = blocks.Length;
+        //     for(var i=0u; i<count; i++)
+        //         Traverse(skip(blocks,i), dst);
+        // }
 
         [Op]
         public void Traverse(ReadOnlySpan<ApiCodeBlock> src, IReceiver<ApiCodeBlock> dst)

@@ -18,7 +18,7 @@ namespace Z0
             foreach(var m in methods)
             {
                 var tag = m.Tag<CmdOpAttribute>().Require();
-                dst.TryAdd(tag.CommandName, new ActionInvoker(tag.CommandName, src, m));
+                dst.TryAdd(tag.CommandName, new ActionRunner(tag.CommandName, src, m));
             }
             return new CmdActions(dst);
         }
@@ -169,7 +169,7 @@ namespace Z0
 
         public static CmdDispatcher dispatcher<T>(T svc, WfEventLogger log,  Index<ICmdProvider> providers)
         {
-            var dst = dict<string,ActionInvoker>();
+            var dst = dict<string,ActionRunner>();
             var _dst = bag<ICmdActions>();
             _dst.Add(actions(svc));
             iter(providers, x => _dst.Add(x.Actions));
@@ -177,19 +177,19 @@ namespace Z0
         }
 
         [Op]
-        public static ActionInvoker invoker(string name, object host, MethodInfo method)
-            => new ActionInvoker(name,host,method);
+        public static ActionRunner invoker(string name, object host, MethodInfo method)
+            => new ActionRunner(name,host,method);
 
         [Op]
-        public static Index<ActionInvoker> invokers(object host)
+        public static Index<ActionRunner> invokers(object host)
         {
             var methods = host.GetType().Methods().Tagged<CmdOpAttribute>();
-            var buffer = alloc<ActionInvoker>(methods.Length);
+            var buffer = alloc<ActionRunner>(methods.Length);
             actions(host, methods,buffer);
             return buffer;
         }
 
-        static void actions(object host, ReadOnlySpan<MethodInfo> src, Span<ActionInvoker> dst)
+        static void actions(object host, ReadOnlySpan<MethodInfo> src, Span<ActionRunner> dst)
         {
             var count = src.Length;
             for(var i=0; i<count; i++)

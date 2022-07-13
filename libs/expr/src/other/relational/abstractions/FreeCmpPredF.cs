@@ -19,7 +19,7 @@ namespace Z0
 
             public override uint Size {get;}
 
-            public override NameOld OpName
+            public override Identifier OpName
                 => typeof(F).Name;
         }
     }

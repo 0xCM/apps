@@ -13,9 +13,9 @@ namespace Z0
             where T : unmanaged
         {
             var tmp = a;
-            ref var x = ref edit(a);
+            ref var x = ref Refs.edit(a);
             x = b;
-            ref var y = ref edit(b);
+            ref var y = ref Refs.edit(b);
             y = tmp;
         }
 
@@ -46,7 +46,7 @@ namespace Z0
         /// <typeparam name="T">The element type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static IEnumerable<T> stream<T>(T head, IEnumerable<T> tail)
-            => array(head).Concat(tail);
+            => Arrays.array(head).Concat(tail);
 
         /// <summary>
         /// Procduces an output stream by concatenating three input streams
@@ -63,8 +63,8 @@ namespace Z0
         public static IEnumerable<T> stream<T>(T min, T max)
             where T : unmanaged
         {
-            var _min = bw64(min);
-            var _max = bw64(max);
+            var _min = Sized.bw64(min);
+            var _max = Sized.bw64(max);
             var current = _min;
             var storage = z64;
             var dst = default(T);
@@ -72,7 +72,7 @@ namespace Z0
             while(current < _max)
             {
                 storage = current++;
-                dst = @as<ulong,T>(storage);
+                dst = Refs.@as<ulong,T>(storage);
                 yield return dst;
             }
         }

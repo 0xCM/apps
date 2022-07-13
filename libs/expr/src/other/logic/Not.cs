@@ -19,7 +19,7 @@ namespace Z0
             public override LogicExprKind Kind
                 => LogicExprKind.Not;
 
-            public override NameOld OpName
+            public override Identifier OpName
                 => "not";
 
             public override Not Create(IExprDeprecated a)

@@ -13,7 +13,6 @@ namespace Z0
 
         const BindingFlags BF = ReflectionFlags.BF_All;
 
-
         [Op, Closures(Closure)]
         public static void values<T>(in T src, ReadOnlySpan<ClrFieldAdapter> fields, Span<ClrFieldValue> dst)
             where T : struct

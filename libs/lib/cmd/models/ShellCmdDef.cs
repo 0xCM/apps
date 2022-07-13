@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public sealed class ShellCmdDef : CmdDef<ShellCmdDef>
+    public sealed class ShellCmdDef : ICmdDef
     {
         public readonly asci32 CmdName;
 

@@ -4,30 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedTool;
-
-    [StructLayout(LayoutKind.Sequential, Pack=1), Cmd(CmdName)]
-    public struct XedToolCmd : IToolFlowCmd<XedToolCmd>
-    {
-        const string CmdName = "xedtool.cmd";
-
-        [CmdArg("<src>")]
-        public FS.FilePath Source;
-
-        [CmdArg("<dst>")]
-        public FS.FilePath Target;
-
-        [CmdArg("-{0}")]
-        public InputKind InputKind;
-
-        [CmdArg("-v {0}")]
-        public Verbosity Verbosity;
-
-        [CmdArg("-{0}")]
-        public Mode Mode;
-
-    }
-
     [Cmd(ToolNames.llvm_readobj), StructLayout(LayoutKind.Sequential, Pack=1)]
     public struct ReadObjCmd : IToolFlowCmd<ReadObjCmd>
     {
@@ -81,5 +57,11 @@ namespace Z0
 
         [CmdFlag("--version-info")]
         public bit VersionInfo;
+
+        FS.FilePath IFlowCmd<FS.FilePath, FS.FilePath>.Source
+            => Source;
+
+        FS.FilePath IFlowCmd<FS.FilePath, FS.FilePath>.Target
+            => Target;
     }
 }

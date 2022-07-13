@@ -4,11 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public sealed class ToolCmdDef : CmdDef<ToolCmdDef>
+    public sealed class ToolCmdDef : ICmdDef
     {
-        public asci32 CmdName {get;}
+        public Name CmdName {get;}
 
-        public ToolIdOld Tool {get;}
+        public Actor Tool {get;}
 
         public FS.FilePath ExePath {get;}
 

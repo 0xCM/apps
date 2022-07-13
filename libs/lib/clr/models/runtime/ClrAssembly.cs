@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static Spans;
+
     public readonly struct ClrAssembly : IRuntimeObject<ClrAssembly,Assembly>
     {
         public readonly Assembly Definition;
@@ -54,8 +56,11 @@ namespace Z0
         public ClrAssemblyName Name
             => Definition;
 
+        static ReadOnlySpan<ClrAssemblyName> references(Assembly src)
+            => recover<AssemblyName, ClrAssemblyName>(src.GetReferencedAssemblies().ToSpan());
+
         public ReadOnlySpan<ClrAssemblyName> ReferencedAssemblies
-            => Clr.references(Definition);
+            => references(Definition);
 
         public CliToken Token
         {

@@ -21,9 +21,9 @@ namespace Z0
     [Free]
     public interface IFlowCmd<A,B> : IFlowCmd
     {
-        A Source => default;
+        A Source {get;}
 
-        B Target => default;
+        B Target {get;}
     }
 
 }

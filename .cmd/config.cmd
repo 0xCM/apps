@@ -17,6 +17,7 @@ set LibsRoot=%SlnRoot%\libs
 set TestRoot=%SlnRoot%\test
 set LibsWs=%LibsRoot%
 set LibWs=%SlnRoot%\libs\%WsId%
+set LibSlnPath=%LibWs%\%WsId%.sln
 
 set WsBuild=%SlnRoot%\.build
 set WsLogs=%WsBuild%\logs
@@ -58,9 +59,11 @@ set LibName=z0.%ProjectId%.dll
 set LibPath=%FrameworkBuildRoot%\%LibName%
 
 set LibProjectRoot=%LibsRoot%\%ProjectId%
+set CsProjectFile=z0.%ProjectId%.csproj
+set CsProjectPath=%LibProjectRoot%\%CsProjectFile%
 set LibProject=%LibProjectRoot%\%CsProjectFile%
 set LibWsFile=%LibProjectRoot%\%ProjectId%.code-workspace
-set BuildLib=%BuildTool% %LibProject% %BuildProps% -fl -flp:logfile=%BuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
+set BuildLib=%BuildTool% %CsProjectPath% %BuildProps% -fl -flp:logfile=%BuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 set BuildLibs=%BuildTool% %LibsRoot%\z0.libs.csproj %BuildProps% -fl -flp:logfile=%BuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 
 set ProjectPath=%SlnRoot%\%WsArea%\%WsId%\%CsProjectFile%
@@ -97,6 +100,7 @@ set CmdShellRoot=%SlnRoot%\cmd
 set CmdProject=%CmdShellRoot%\z0.cmd.csproj
 set BuildCmdShell=%BuildTool% %CmdProject% %BuildProps% -fl -flp:logfile=%BuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 set CmdShellPath=%FrameworkBuildRoot%\%RuntimeMoniker%\%ShellName%
+
 
 set zcmd=%WsBin%\z0.cmd\%BuildKind%\%TargetFramework%\%RuntimeMoniker%\zcmd.exe
 set zcmd-pub=%WsBin%\z0.cmd\%BuildKind%\%TargetFramework%\%RuntimeMoniker%\publish\zcmd.exe

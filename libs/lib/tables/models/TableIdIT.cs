@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
 
     public readonly struct TableId<I,T> : ITableId
         where T : struct, IRecord<T>
@@ -24,7 +20,7 @@ namespace Z0
             Index = index;
         }
 
-        public NameOld Identifier
+        public Identifier Identifier
             => Value.Identifier;
 
         [MethodImpl(Inline)]
