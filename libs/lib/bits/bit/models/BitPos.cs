@@ -4,13 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
-
-    using api = BitPosCalcs;
+    using api = gbits;
 
     [StructLayout(LayoutKind.Sequential, Pack =1)]
     public struct BitPos
@@ -44,7 +38,7 @@ namespace Z0
 		public uint LinearIndex
 		{
 			[MethodImpl(Inline)]
-			get => api.linearIndex(this);
+			get => api.linearize(this);
 		}
 
 		[MethodImpl(Inline)]

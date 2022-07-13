@@ -120,29 +120,24 @@ namespace Z0
         public IDbSources EnvConfig()
             => new DbSources(setting(WsArchives.Path(Names.EnvConfig), FS.dir));
 
-        public IWsProject LlvmModel(ProjectId src)
-            => WsProject.load(DevProject("llvm.models"), src);
+        public IWsProject Project(ProjectId src)
+            => WsProject.load(DevProject($"llvm.models/{src}"), src);
 
-        public IDbTargets DbProjects(ProjectId src)
-            => new DbTargets(setting(WsArchives.Path(Names.DbProjects),FS.dir), src.Format());
+        public IDbTargets BuildTargets(ProjectId src)
+            => new DbTargets(Project(src).Home(), ".out");
 
-        public IDbTargets DbProjects(IWsProject src)
-        {
-            var path = WsArchives.Path(Names.DbProjects);
-            term.inform(Events.status(GetType(), $"Loading {src.Project} from {path}"));
-            var home = setting(path, FS.dir);
-            return new DbTargets(home, src.Name);
-        }
+        public IDbTargets EtlTargets(ProjectId src)
+            => new DbTargets(DbOut($"projects/{src}").Root);
+
+        public FS.FilePath EtlTable<T>(ProjectId project)
+            where T : struct
+                => EtlTargets(project).Table<T>();
 
         public IDbTargets CgStage()
             => DbOut("cgstage");
 
         public IDbTargets CgStage(string scope)
             => DbOut("cgstage").Targets(scope);
-
-        public FS.FilePath ProjectTable<T>(ProjectId project)
-            where T : struct
-                => DbProjects(project).Table<T>(project);
 
         public IDbTargets ApiTargets()
             => DbOut().Targets("api");

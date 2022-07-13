@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Spans;
 
     [ApiHost]
     public readonly struct ByteSpanProvider
@@ -19,7 +19,7 @@ namespace Z0
 
         public MemorySeg[] SegRefs()
         {
-            var buffer = alloc<MemorySeg>(SegCount);
+            var buffer = sys.alloc<MemorySeg>(SegCount);
             Span<MemorySeg> dst = buffer;
             SegRefs(dst);
             return buffer;

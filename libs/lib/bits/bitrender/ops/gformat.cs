@@ -6,9 +6,8 @@ namespace Z0
 {
     using System.Text;
 
-    using static core;
-
-    using C = AsciCode;
+    using static Refs;
+    using static Spans;
 
     partial struct BitRender
     {

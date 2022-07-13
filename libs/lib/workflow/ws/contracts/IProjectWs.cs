@@ -11,7 +11,7 @@ namespace Z0
         ProjectId Project {get;}
 
         FS.FolderPath Home()
-            => Root + FS.folder(Project.Format());
+            => Root;
 
         FS.FolderPath IFileArchive.Datasets()
             => Root + FS.folder("db/projects") + FS.folder(Project.Id);
@@ -31,10 +31,10 @@ namespace Z0
         FS.FolderPath IWorkspace.SrcDir(string scope)
             => SrcDir() + FS.folder(scope);
 
-        FS.FolderPath IWorkspace.OutDir()
+        FS.FolderPath IWorkspace.BuildOut()
             => Out();
 
-        FS.FolderPath IWorkspace.OutDir(string scope)
+        FS.FolderPath IWorkspace.BuildOut(string scope)
             => Out(scope);
 
         FS.FolderPath IWorkspace.ScriptDir()
@@ -69,6 +69,9 @@ namespace Z0
 
         FS.Files OutFiles(FS.FileExt ext)
             => Out().Files(ext, true);
+
+        FS.Files OutFiles(FileKind kind)
+            => Out().Files(kind.Ext(), true);
 
         FS.FolderPath Logs()
             => Out() + FS.folder(logs);

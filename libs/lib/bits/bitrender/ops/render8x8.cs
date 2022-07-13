@@ -4,15 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
-    using C = AsciCode;
+    using static Spans;
 
     partial struct BitRender
     {
         public static Index<char> render8x8(ReadOnlySpan<byte> src)
         {
-            var dst = alloc<char>(src.Length*8);
+            var dst = sys.alloc<char>(src.Length*8);
             render8x8(src, dst);
             return dst;
         }

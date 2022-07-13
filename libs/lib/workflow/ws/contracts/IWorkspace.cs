@@ -22,11 +22,11 @@ namespace Z0
         FS.FolderPath SrcDir(string scope)
             => SrcDir() + FS.folder(scope);
 
-        FS.FolderPath OutDir()
-            => Root + FS.folder(output);
+        FS.FolderPath BuildOut()
+            => Root + FS.folder(".out");
 
-        FS.FolderPath OutDir(string scope)
-            => OutDir() + FS.folder(scope);
+        FS.FolderPath BuildOut(string scope)
+            => BuildOut() + FS.folder(scope);
 
         FS.FolderPath ScriptDir()
             => Root + FS.folder(scripts);

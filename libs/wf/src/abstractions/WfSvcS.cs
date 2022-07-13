@@ -8,7 +8,6 @@ namespace Z0
     using Windows;
 
     using static core;
-    using static ApiGranules;
 
     public abstract class WfSvc<S> : AppService<S>
         where S : WfSvc<S>, new()
@@ -34,9 +33,6 @@ namespace Z0
 
         public Settings ShellSettings()
             => AsciLines.settings(Settings.path());
-
-        // protected void EmitCommands(CmdSource src, PartName part)
-        //     => Cmd.emit(src, Settings.path(AppDb.ApiTargets(commands).Root, $"{part}", FileKind.CmdKvp), EventLog);
 
         [MethodImpl(Inline)]
         public IWsProject Project()
@@ -70,7 +66,7 @@ namespace Z0
 
         [CmdOp("project")]
         public Outcome LoadProject(CmdArgs args)
-            => LoadProjectSources(AppDb.LlvmModel(arg(args,0).Value));
+            => LoadProjectSources(AppDb.Project(arg(args,0).Value));
 
         protected Outcome LoadProjectSources(IWsProject ws)
         {
@@ -86,7 +82,6 @@ namespace Z0
                 if(dir.Exists)
                     Files(ws.SrcFiles());
                 Status($"Project={WfSvc.project()}");
-                //result =  (true,$"Project={_Project.Name}");
             }
             return result;
         }

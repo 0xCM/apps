@@ -16,8 +16,6 @@ namespace Z0
 
         public FS.FolderPath Root {get;}
 
-        public Settings ProjectSettings => Settings.Empty;
-
         [MethodImpl(Inline)]
         public WsProject(FS.FolderPath src, ProjectId id)
         {

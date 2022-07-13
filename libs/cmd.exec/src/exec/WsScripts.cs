@@ -11,7 +11,7 @@ namespace Z0
         OmniScript OmniScript => Wf.OmniScript();
 
         public FS.FolderPath CleanOutDir(IWsProject project)
-            => project.OutDir().Clear(true);
+            => project.BuildOut().Clear(true);
 
         public FS.Files SourceFiles(IWsProject src, FileKind kind, bool recurse = false)
             => src.SrcFiles(kind, recurse);
@@ -76,8 +76,8 @@ namespace Z0
 
             if(cmdflows.Count != 0)
             {
-                Index<CmdFlow> records = cmdflows.ToArray();
-                TableEmit(records.View, Flows.flow(project.Project));
+                var records = cmdflows.ToArray();
+                TableEmit(records, project.BuildFlows());
                 result = (true,records);
             }
 

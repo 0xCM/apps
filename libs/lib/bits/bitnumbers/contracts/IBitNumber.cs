@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     public interface IBitNumber : IHashed, IBits
     {
         Span<bit> _Bits

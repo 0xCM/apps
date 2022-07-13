@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Spans;
+    using static Pointers;
+    using static Refs;
 
     [ApiHost]
     public readonly struct ByteReader
@@ -238,8 +240,8 @@ namespace Z0
             var dst = ByteBlock16.Empty;
             var buffer = dst.Bytes;
             var i=0u;
-            seek64(buffer,i++) = skip64(src,i);
-            seek64(buffer,i++) = skip64(src,i);
+            core.seek64(buffer,i++) = core.skip64(src,i);
+            core.seek64(buffer,i++) = core.skip64(src,i);
             return dst;
         }
     }

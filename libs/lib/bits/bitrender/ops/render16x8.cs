@@ -4,10 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Spans;
+    using static Refs;
     using static bit;
-
-    using C = AsciCode;
 
     partial struct BitRender
     {

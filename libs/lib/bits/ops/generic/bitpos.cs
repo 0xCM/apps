@@ -4,14 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
+    using static Sized;
 
-    using static Root;
-    using static core;
-    using static BitPosCalcs;
-
-    partial struct bit
+    partial class gbits
     {
 		/// <summary>
 		/// Defines a bit position predicated on the width and container-relative index of a storage cell and a cell-relative bit offset
@@ -41,7 +36,7 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static BitPos<T> bitpos<T>(uint index)
             where T : unmanaged
-				=> new BitPos<T>(linearIndex(width<T>(), index), offsetMod(width<T>(), index));
+				=> new BitPos<T>(linearize(width<T>(), index), bits.offmod(width<T>(), index));
 
         /// <summary>
         /// Defines a bit position, relative to a T-valued sequence, predicated on a linear index
@@ -54,9 +49,9 @@ namespace Z0
 		public static void bitpos<T>(uint index, out uint cell, out uint offset)
             where T : unmanaged
         {
-            var w = width<T>(w16);
-			cell = linearIndex(w, index);
-            offset = offsetMod(w, index);
+            var w = (ushort)width<T>();
+			cell = linearize(w, index);
+            offset = bits.offmod(w, index);
         }
 
 		/// <summary>
@@ -66,6 +61,6 @@ namespace Z0
 		/// <param name="index">The linear bit index</param>
 		[MethodImpl(Inline), Op]
 		public static BitPos bitpos(uint w, uint index)
-			=> new BitPos(w, linearIndex(w, index), offsetMod(w, index));
+			=> new BitPos(w, gbits.linearize(w, index), bits.offmod(w, index));
     }
 }

@@ -4,24 +4,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct BitRecordSchema
     {
-        public text15 Scope {get;}
+        public readonly asci16 Scope;
 
         /// <summary>
         /// Specifies record type name
         /// </summary>
-        public text15 EntityName {get;}
+        public readonly asci16 EntityName;
 
         readonly Index<BitRecordField> _Fields;
 
         [MethodImpl(Inline)]
-        public BitRecordSchema(text15 scope, text15 name, BitRecordField[] fields)
+        public BitRecordSchema(asci16 scope, asci16 name, BitRecordField[] fields)
         {
             Scope = scope;
             EntityName = name;

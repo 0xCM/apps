@@ -8,6 +8,15 @@ namespace Z0
 
     partial class ProjectCmd
     {
+        [CmdOp("project/context")]
+        void EmitProjectContext()
+        {
+             var context = Context();
+             var project = context.Project;
+             Write(string.Format("{0,-18}:{1}", "Project", project.Id));
+             iter(project.OutFiles(FileKind.Obj), file => Write(file));
+        }
+
         [CmdOp("project/asm/map")]
         void CreateCodeMap()
         {
@@ -24,4 +33,4 @@ namespace Z0
         AsmCodeMap MapAsmCode(IWsProject src, Alloc dst)
             => AsmObjects.MapAsm(src, dst);
     }
-}
+};

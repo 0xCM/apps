@@ -4,8 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
     using Asm;
+
+    using static Spans;
+    using static Sized;
 
     [ApiComplete]
     public class AsmHexWriter
@@ -13,6 +15,11 @@ namespace Z0
         [MethodImpl(Inline)]
         public static AsmHexWriter create()
             => new AsmHexWriter();
+
+        [MethodImpl(Inline), Op, Closures(Int8x64k)]
+        static ref T cell<T>(Span<byte> src, uint offset)
+            where T : unmanaged
+                => ref first<T>(slice(src, offset));
 
         AsmHexCode Dst;
 
@@ -43,7 +50,7 @@ namespace Z0
         public ref readonly AsmHexCode Write<T>(in T src)
             where T : unmanaged
         {
-            var size = (byte)core.size<T>();
+            var size = (byte)size<T>();
             Dst.Size = (byte)(Dst.Size + size);
             cell<T>(Dst.Bytes, Offset) = src;
             Offset += size;

@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Sized;
 
-    using api = BitPosCalcs;
+    using api = gbits;
 
 	/// <summary>
 	/// Identifies a bit position within a contiguous sequence of T-element values together with their cell index/bit offsets
@@ -44,7 +44,7 @@ namespace Z0
 		public uint LinearIndex
 		{
 			[MethodImpl(Inline)]
-			get => api.linearIndex(this);
+			get => api.linearize(this);
 		}
 
 		[MethodImpl(Inline)]
@@ -73,7 +73,7 @@ namespace Z0
 
 		[MethodImpl(Inline)]
 		public bool Equals(BitPos<T> src)
-            => BitPosCalcs.eq(this, src);
+            => api.eq(this, src);
 
 		public string Format()
 			=> string.Format("({0},{1}/{2})", LinearIndex, CellIndex, BitOffset);

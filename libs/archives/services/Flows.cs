@@ -13,19 +13,16 @@ namespace Z0
 
         const NumericKind Closure = UnsignedInts;
 
-        public static FS.FilePath flow(IWsProject src)
-            => AppDb.DbProjects(src).Path(FS.file(string.Format("{0}.build.flows", src.Id), FS.Csv));
-
-        public static FS.FilePath flow(ProjectId src)
-            => AppDb.DbProjects(src).Path(FS.file(string.Format("{0}.build.flows", src), FS.Csv));
+        public static FS.FilePath path(IWsProject src)
+            => src.BuildOut() + FS.file($"{src.Id}.build.flows",FileKind.Csv);
 
         public static FS.FilePath table<T>(ProjectId src)
             where T : struct
-                => AppDb.DbProjects(src).Path(FS.file(string.Format("{0}.{1}", src, TableId.identify<T>()),FS.Csv));
+                => AppDb.EtlTargets(src).Path(FS.file(string.Format("{0}.{1}", src, TableId.identify<T>()),FS.Csv));
 
         public static FS.FilePath table<T>(ProjectId src, string scope)
             where T : struct
-                => AppDb.DbProjects(src).Targets(scope).Path(FS.file(string.Format("{0}.{1}", src, TableId.identify<T>()),FS.Csv));
+                => AppDb.EtlTargets(src).Targets(scope).Path(FS.file(string.Format("{0}.{1}", src, TableId.identify<T>()),FS.Csv));
 
         [Parser]
         public static Outcome parse(string src, out Tool dst)
@@ -36,7 +33,7 @@ namespace Z0
 
         public static WsDataFlows load(IWsProject src)
         {
-            var path = flow(src);
+            var path = Flows.path(src);
             var lines = path.ReadLines(TextEncodingKind.Asci,true);
             var buffer = alloc<CmdFlow>(lines.Length - 1);
             var reader = lines.Reader();

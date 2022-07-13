@@ -113,7 +113,7 @@ namespace Z0
         }
 
         public IDbTargets DisasmTargets(IProjectWs project)
-            => AppDb.DbProjects(project.Project).Targets("xed.disasm");
+            => AppDb.EtlTargets(project.Project).Targets("xed.disasm");
 
         public FS.FilePath DisasmFieldsPath(IProjectWs project, in FileRef src)
             => DisasmTargets(project).Path(FS.file(string.Format("{0}.fields", src.Path.FileName.WithoutExtension), FS.Txt));

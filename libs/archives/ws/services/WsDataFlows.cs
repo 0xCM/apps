@@ -16,6 +16,36 @@ namespace Z0
 
         public readonly WsCatalog Catalog;
 
+        public WsDataFlows(WsCatalog files, ReadOnlySpan<CmdFlow> src)
+        {
+            Catalog = files;
+            var count = src.Length;
+            var flows = alloc<FileFlow>(count);
+            var lookup = dict<FS.FileUri,List<FS.FileUri>>();
+            var lineage = dict<FS.FileUri,FS.FileUri>();
+
+            for(var i=0; i<count; i++)
+            {
+                ref var dst = ref seek(flows,i);
+                dst = flow(skip(src,i));
+                if(lookup.TryGetValue(dst.Source, out var targets))
+                {
+                    targets.Add(dst.Target);
+                    lineage[dst.Target] = dst.Source;
+
+                }
+                else
+                {
+                    lookup[dst.Source] = new();
+                    lookup[dst.Source].Add(dst.Target);
+                    lineage[dst.Target] = dst.Source;
+                }
+            }
+
+            Lookup = lookup;
+            Data = flows;
+            Ancestors = lineage;
+        }
         public ref readonly Index<FileFlow> Completed
         {
             [MethodImpl(Inline)]
@@ -130,37 +160,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public static FileFlow flow(in CmdFlow src)
             => new FileFlow(flow(src.Tool, src.SourcePath.ToUri(), src.TargetPath.ToUri()));
-
-
-        public WsDataFlows(WsCatalog files, ReadOnlySpan<CmdFlow> src)
-        {
-            Catalog = files;
-            var count = src.Length;
-            var flows = alloc<FileFlow>(count);
-            var lookup = dict<FS.FileUri,List<FS.FileUri>>();
-            var lineage = dict<FS.FileUri,FS.FileUri>();
-
-            for(var i=0; i<count; i++)
-            {
-                ref var dst = ref seek(flows,i);
-                dst = flow(skip(src,i));
-                if(lookup.TryGetValue(dst.Source, out var targets))
-                {
-                    targets.Add(dst.Target);
-                    lineage[dst.Target] = dst.Source;
-
-                }
-                else
-                {
-                    lookup[dst.Source] = new();
-                    lookup[dst.Source].Add(dst.Target);
-                    lineage[dst.Target] = dst.Source;
-                }
-            }
-
-            Lookup = lookup;
-            Data = flows;
-            Ancestors = lineage;
-        }
     }
 }

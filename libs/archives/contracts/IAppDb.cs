@@ -20,9 +20,9 @@ namespace Z0
 
         IDbTargets Logs(string scope);
 
-        IDbTargets DbProjects(ProjectId name);
-
-        FS.FilePath ProjectTable<T>(ProjectId project)
+        FS.FilePath EtlTable<T>(ProjectId project)
             where T : struct;
+
+        IDbTargets EtlTargets(ProjectId src);
     }
 }

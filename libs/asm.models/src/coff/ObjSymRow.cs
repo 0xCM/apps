@@ -7,7 +7,7 @@ namespace Z0
     [Record(TableId)]
     public struct ObjSymRow
     {
-        public const string TableId = "objsyms";
+        const string TableId = "objsyms";
 
         public const byte FieldCount = 8;
 

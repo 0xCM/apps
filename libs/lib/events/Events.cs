@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
 
     [ApiHost]
     public readonly struct Events
@@ -67,11 +66,11 @@ namespace Z0
 
         [Op, Closures(Closure)]
         public static EmittingFileEvent emittingFile(FS.FilePath dst)
-            => new EmittingFileEvent(frame(2).GetType(), dst);
+            => new EmittingFileEvent(frame(4).GetType(), dst);
 
         [Op]
         public static EmittedFileEvent emittedFile(FS.FilePath path, Count count = default)
-            => new EmittedFileEvent(frame(2).GetType(), path, count);
+            => new EmittedFileEvent(frame(4).GetType(), path, count);
 
         [Op]
         public static EmittedFileEvent emittedFile(Type host, FS.FilePath path, Count count = default)

@@ -249,7 +249,7 @@ namespace Z0
             => ws.ScriptDir() + FS.folder(tool.Format()) + FS.folder(scripts);
 
         FS.FolderPath ToolOutDir(IToolWs ws, Actor tool)
-            => ws.OutDir() + FS.folder(tools) + FS.folder(tool.Format()) + FS.folder(output);
+            => ws.BuildOut() + FS.folder(tools) + FS.folder(tool.Format()) + FS.folder(output);
 
         FS.FilePath ToolScript(IToolWs ws, Actor tool, ScriptId script, FS.FileExt? ext = null)
             => ToolScripts(ws, tool) + FS.file(script.Format(), ext ?? FS.Cmd);

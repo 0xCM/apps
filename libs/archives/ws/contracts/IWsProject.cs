@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static ApiGranules;
-
     public interface IEtlService : IAppService
     {
         void RunEtl();
@@ -16,7 +14,7 @@ namespace Z0
         ProjectId Id
             => Project;
 
-        FS.FilePath Script(ScriptId id, FileKind kind)
-            => Sources(scripts).Path(id, kind);
+        FS.FilePath BuildFlows()
+            => Flows.path(this);
     }
 }

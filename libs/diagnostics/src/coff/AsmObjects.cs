@@ -17,7 +17,7 @@ namespace Z0
         public AsmCodeMap MapAsm(IWsProject ws, Alloc dst)
         {
             var entries = map(ws, LoadRows(ws.Project), dst);
-            TableEmit(entries, AppDb.ProjectTable<AsmCodeMapEntry>(ws.Project));
+            TableEmit(entries, AppDb.EtlTable<AsmCodeMapEntry>(ws.Project));
             return new AsmCodeMap(entries);
         }
 
@@ -25,7 +25,7 @@ namespace Z0
             => Coff.Collect(context);
 
         public Index<ObjSymRow> LoadObjSyms(IWsProject project)
-            => LoadObjSyms(AppDb.DbProjects(project.Project).Table<ObjSymRow>());
+            => LoadObjSyms(AppDb.EtlTable<ObjSymRow>(project.Project));
 
         public Index<ObjSymRow> LoadObjSyms(FS.FilePath src)
         {
@@ -86,21 +86,21 @@ namespace Z0
         }
 
         public void Emit(WsContext context, ReadOnlySpan<ObjSymRow> src)
-            => TableEmit(src, ProjectDb.ProjectTable<ObjSymRow>(context.Project));
+            => TableEmit(src, AppDb.EtlTargets(context.Project.Id).Table<ObjSymRow>());
 
         public CoffSymIndex LoadSymbols(ProjectId id)
             => Coff.LoadSymIndex(id);
 
         public Index<ObjDumpRow> LoadRows(ProjectId id)
-            => rows(AppDb.ProjectTable<ObjDumpRow>(id));
+            => rows(AppDb.EtlTable<ObjDumpRow>(id));
 
         public Index<ObjBlock> LoadBlocks(ProjectId id)
-            => blocks(AppDb.ProjectTable<ObjBlock>(id));
+            => blocks(AppDb.EtlTable<ObjBlock>(id));
 
         public Index<AsmInstructionRow> LoadInstructions(ProjectId project)
         {
             const byte FieldCount = AsmInstructionRow.FieldCount;
-            var src = AppDb.ProjectTable<AsmInstructionRow>(project);
+            var src = AppDb.EtlTable<AsmInstructionRow>(project);
             var lines = slice(src.ReadNumberedLines().View,1);
             var count = lines.Length;
             var buffer = alloc<AsmInstructionRow>(count);
@@ -145,7 +145,7 @@ namespace Z0
 
         public Index<AsmCodeBlocks> EmitAsmCodeTables(WsContext context, Alloc alloc)
         {
-            ObjPaths.AsmCsv(context.Project.Project).Clear();
+            //ObjPaths.AsmCsv(context.Project.Project).Clear();
             var files = context.Catalog.Entries(FileKind.ObjAsm);
             var count = files.Count;
             var seq = 0u;
@@ -232,22 +232,20 @@ namespace Z0
             EmittedFile(emitting,counter);
         }
 
-        public ObjDumpBlocks CollectObjects(WsContext context)
+        public ObjDumpBlocks CollectObjects(WsContext context, bool pll)
         {
-            var rows = ConsolidateRows(context);
+            var rows = ConsolidateRows(context, pll);
             var blocks = AsmObjects.blocks(rows);
-            TableEmit(blocks.View, AppDb.ProjectTable<ObjBlock>(context.Project.Project));
+            TableEmit(blocks.View, AppDb.EtlTable<ObjBlock>(context.Project.Id));
             EmitRecoded(context);
             return new ObjDumpBlocks(blocks,rows);
         }
 
-
-        public Index<ObjDumpRow> ConsolidateRows(WsContext context)
+        public Index<ObjDumpRow> ConsolidateRows(WsContext context, bool pll)
         {
             var project = context.Project;
-            var src = project.OutFiles(FileKind.ObjAsm.Ext()).Storage.Sort();
+            var src = project.OutFiles(FileKind.ObjAsm.Ext()).Storage.Sort().Index();
             var result = Outcome.Success;
-            var count = src.Length;
             var formatter = Tables.formatter<ObjDumpRow>();
             var buffer = bag<ObjDumpRow>();
 
@@ -260,7 +258,7 @@ namespace Z0
                 }
 
                 var docseq = 0u;
-                for(var j=0; j<records.Length; j++)
+                for(var j=0; j<records.Count; j++)
                 {
                     ref var record = ref records[j];
                     if(record.IsBlockStart)
@@ -268,13 +266,13 @@ namespace Z0
 
                     buffer.Add(record);
                 }
-            }, true);
+            }, pll);
 
             var data = buffer.ToArray().Sort();
             for(var i=0u; i<data.Length; i++)
                 seek(data,i).Seq = i;
 
-            TableEmit(data, AppDb.ProjectTable<ObjDumpRow>(project.Project));
+            TableEmit(data, AppDb.EtlTable<ObjDumpRow>(project.Project));
             return data;
         }
 

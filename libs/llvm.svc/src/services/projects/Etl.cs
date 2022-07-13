@@ -4,14 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static Algs;
+
     partial class ProjectSvc
     {
-        public void Etl(IWsProject project)
+        public void Etl(IWsProject project,bool pll)
         {
             var context = WsContext.load(project);
-            AsmObjects.CollectObjects(context);
+            AsmObjects.CollectObjects(context,pll);
             AsmObjects.Emit(context, AsmObjects.CalcObjSyms(context));
-            //AsmObjects.CollectObjSyms(context);
             AsmObjects.CollectCoffData(context);
             CollectAsmSyntax(context);
             CollectMcInstructions(context);

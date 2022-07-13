@@ -17,7 +17,7 @@ namespace Z0
         }
 
         IDbTargets EtlTargets(ProjectId id, string scope)
-            => AppDb.DbProjects(id).Targets(scope);
+            => AppDb.EtlTargets(id).Targets(scope);
 
         public IDbTargets AsmCsv(ProjectId id)
             => EtlTargets(id, G.asmcsv);

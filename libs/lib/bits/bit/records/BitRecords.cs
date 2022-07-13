@@ -4,11 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-    using static core;
+    using static Refs;
+    using static Spans;
+    using static Sized;
 
     [ApiHost]
     public readonly partial struct BitRecords
@@ -16,15 +14,15 @@ namespace Z0
         const NumericKind Closure = UnsignedInts;
 
         [MethodImpl(Inline), Op]
-        public static BitRecordField field(text15 name, byte index, uint offset, byte width)
+        public static BitRecordField field(asci16 name, byte index, uint offset, byte width)
             => new BitRecordField(name, index, offset, width);
 
         [MethodImpl(Inline), Op]
-        public static BitRecordSchema schema(text15 name, BitRecordField[] fields)
-            => new BitRecordSchema(text15.Empty, name, fields);
+        public static BitRecordSchema schema(asci16 name, BitRecordField[] fields)
+            => new BitRecordSchema(asci16.Null, name, fields);
 
         [MethodImpl(Inline), Op]
-        public static BitRecordSchema schema(text15 scope, text15 name, BitRecordField[] fields)
+        public static BitRecordSchema schema(asci16 scope, asci16 name, BitRecordField[] fields)
             => new BitRecordSchema(scope, name, fields);
 
         [MethodImpl(Inline), Op]
@@ -51,7 +49,7 @@ namespace Z0
         [Op]
         static uint store(ReadOnlySpan<byte> src, Span<byte> dst)
         {
-            var size = (uint)min(src.Length, dst.Length);
+            var size = (uint)core.min(src.Length, dst.Length);
             var rem = 0u;
             var dep = 0u;
             if(size >= Align32)

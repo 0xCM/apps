@@ -36,7 +36,7 @@ namespace Z0
 
         protected override void Initialized()
         {
-            RunCmd("project", new CmdArg[]{new CmdArg(EmptyString, "canonical")});
+            RunCmd("project", new CmdArg[]{new CmdArg(EmptyString, "mc.models")});
         }
     }
 }

@@ -4,7 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static memory;
+    using static Refs;
+    using static Sized;
+    using static Spans;
+    using static Arrays;
+    using static Pointers;
 
     [ApiHost]
     public readonly struct MemorySegs
@@ -65,7 +70,7 @@ namespace Z0
         /// <param name="bytes">The number of reference bytes</param>
         [MethodImpl(Inline), Op]
         public static MemorySeg define(MemoryAddress @base, ByteSize bytes)
-            => new MemorySeg(@base,bytes);
+            => new MemorySeg(@base, bytes);
 
         /// <summary>
         /// Defines a memory <see cref='MemorySeg'/> over source span content
@@ -89,7 +94,7 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static ulong sib(MemorySeg n, int i, byte scale, ushort offset)
-            => ((ulong)scale)*core.cell(n.Load(),i) + (ulong)offset;
+            => ((ulong)scale)*skip(n.Load(),i) + (ulong)offset;
 
         [MethodImpl(Inline), Op]
         public static ulong sib(ReadOnlySpan<MemorySeg> refs, in MemorySlot n, int i, byte scale, ushort offset)
@@ -121,7 +126,7 @@ namespace Z0
         /// <param name="src">The source string</param>
         [MethodImpl(Inline), Op]
         public static unsafe SegRef<char> segref(string src)
-            => new SegRef<char>(new SegRef(core.address(src), (uint)src.Length*2));
+            => new SegRef<char>(new SegRef(memory.address(src), (uint)src.Length*2));
 
         /// <summary>
         /// Captures a segment reference
@@ -131,7 +136,7 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static SegRef<T> segref<T>(in T src, uint count)
-            => new SegRef(core.address(src), count*core.size<T>());
+            => new SegRef(memory.address(src), count*Sized.size<T>());
 
         /// <summary>
         /// Captures a segment reference
@@ -141,7 +146,7 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static SegRef<T> segref<T>(in T src, int count)
-            => new SegRef<T>(core.address(src), core.size<T>((uint)count));
+            => new SegRef<T>(memory.address(src), Sized.size<T>((uint)count));
 
         /// <summary>
         /// Captures an untyped sized reference
@@ -150,7 +155,7 @@ namespace Z0
         /// <param name="size">The data size</param>
         [MethodImpl(Inline), Op]
         public static unsafe SegRef segref(void* pSrc, ByteSize size)
-            => new SegRef(core.address(pSrc), size);
+            => new SegRef(memory.address(pSrc), size);
 
         /// <summary>
         /// Captures a pointer-identified segment reference of a specified size
@@ -208,7 +213,7 @@ namespace Z0
         public static SegRef<T>[] segrefs<T>(ReadOnlySpan<T> src)
             where T : struct
         {
-            var dst = alloc<SegRef<T>>(src.Length);
+            var dst = sys.alloc<SegRef<T>>(src.Length);
             segrefs(src, dst);
             return dst;
         }
@@ -223,7 +228,7 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static ref readonly MemorySeg segment(ReadOnlySpan<MemorySeg> refs, MemorySlot n)
-            => ref core.cell(refs, n);
+            => ref skip(refs, n);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static ReadOnlySpan<T> load<T>(MemorySeg src)
@@ -241,6 +246,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ReadOnlySpan<byte> slice(ReadOnlySpan<MemorySeg> refs, MemorySlot n, int offset, int length)
             => core.slice(load(refs,n), offset, length);
+
         [Op]
         public static void materialize(ReadOnlySpan<SegRef> src, Span<byte> dst, byte? delimiter = null)
         {
@@ -254,7 +260,7 @@ namespace Z0
                 var p = c.Length;
 
                 for(var j=0u; j<p && o<n; j++, o++)
-                    seek(dst,o) = core.skip(c,j);
+                    seek(dst,o) = skip(c,j);
 
                 if(delimiter != null)
                     seek(dst, ++o) = d;
@@ -264,12 +270,12 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static ref readonly T cell<T>(ReadOnlySpan<MemorySeg> src, MemorySlot n, long offset)
              where T : struct
-                => ref core.cell<T>(load<T>(segment(src,n)), offset);
+                => ref skip<T>(load<T>(segment(src,n)), offset);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static ref readonly T cell<T>(ReadOnlySpan<MemorySeg> src, MemorySlot n, ulong offset)
              where T : struct
-                => ref core.cell<T>(load<T>(segment(src,n)), offset);
+                => ref skip<T>(load<T>(segment(src,n)), offset);
 
         [MethodImpl(Inline), Op]
         public static ref readonly byte cell(ReadOnlySpan<MemorySeg> src, MemorySlot n, long i)
