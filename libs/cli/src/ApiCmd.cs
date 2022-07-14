@@ -14,13 +14,10 @@ namespace Z0
 
         Cli Cli => Wf.Cli();
 
-        PdbIndexBuilder PdbIndexBuilder => Wf.PdbIndexBuilder();
-
         Runtime Runtime => Wf.Runtime();
 
         CsLang CsLang => Wf.CsLang();
 
-        PdbSvc PdbSvc => Wf.PdbSvc();
 
         public Index<BitMaskInfo> ApiBitMasks
             => Data(K.BitMasks, () => BitMask.masks(typeof(BitMaskLiterals)));
@@ -131,13 +128,6 @@ namespace Z0
             //CliEmitter.EmitBlobs();
         }
 
-        [CmdOp("api/emit/pdb-info")]
-        void EmitApiPdbInfo()
-            => PdbSvc.EmitPdbInfo(ApiMd.Components.Single(c => c.GetSimpleName().Contains("z0.circuits")));
-
-        [CmdOp("api/emit/pdb-index")]
-        void IndexApiPdbFiles()
-            => PdbIndexBuilder.IndexComponents(ApiMd.Components, new PdbIndex());
 
         [CmdOp("api/emit/heaps")]
         void ApiEmitHeaps()

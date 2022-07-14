@@ -15,7 +15,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <ImplicitUsings>enable</ImplicitUsings>
     <FileAlignment>4096</FileAlignment>
-
+    <DebugSymbols>true</DebugSymbols>
     <DebugType>pdbonly</DebugType>
     <DebugSymbols>true</DebugSymbols>
     <IncludeSymbols>true</IncludeSymbols>

@@ -15,4 +15,17 @@
     <ProjectReference Include="$(Files)" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <ContentWithTargetPath Include="$(ZPack)\diagnostics\sos.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>sos.dll</TargetPath>
+    </ContentWithTargetPath>
+
+    <ContentWithTargetPath Include="$(ZPack)\diagnostics\sos.pdb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>sos.pdb</TargetPath>
+    </ContentWithTargetPath>
+  </ItemGroup>
+
 </Project>

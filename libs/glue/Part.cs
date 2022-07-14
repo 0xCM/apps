@@ -20,7 +20,6 @@ global using Microsoft.CodeAnalysis;
 global using Microsoft.CodeAnalysis.CSharp;
 global using Microsoft.CodeAnalysis.Emit;
 global using Microsoft.DiaSymReader;
-global using Microsoft.DiaSymReader.PortablePdb;
 global using System.Diagnostics;
 global using static Z0.Root;
 global using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;

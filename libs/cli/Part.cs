@@ -17,8 +17,6 @@ global using System.Threading.Tasks;
 global using System.Globalization;
 global using System.Threading;
 global using Microsoft.CodeAnalysis;
-global using Microsoft.DiaSymReader;
-global using Microsoft.DiaSymReader.PortablePdb;
 
 global using static Z0.Root;
 global using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;

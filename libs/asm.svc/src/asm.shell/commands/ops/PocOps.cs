@@ -8,11 +8,6 @@ namespace Z0.Asm
 
     partial class AsmCmdService
     {
-        void ReadSymbols()
-        {
-            var reader = SOS.SymbolReader.create();
-            reader.ShowSymbolStore(data => Wf.Data(data));
-        }
 
         Outcome AsmExe(CmdArgs args)
         {
@@ -374,21 +369,6 @@ namespace Z0.Asm
             return result;
         }
 
-        void GetMethodInfo()
-        {
-            var path = Parts.Lib.Assembly.Location;
-            var catalog = Wf.ApiCatalog.PartCatalogs(PartId.Lib).Single();
-            var methods = catalog.Methods;
-            SOS.SymbolReader.InitializeSymbolReader("");
-            foreach(var method in methods)
-            {
-                if(SOS.SymbolReader.GetInfoForMethod(path, method.MetadataToken, out var info))
-                {
-                    var size = info.size;
-                    Wf.Data($"{method.Name} | {size}");
-                }
-            }
-        }
 
         void DescribeHeaps()
         {

@@ -42,6 +42,7 @@ namespace Z0
             AsmCalls.EmitRows(AsmDecoder.Decode(blocks.Storage), ProjectDb.Subdir("api/asm/calls"));
         }
 
+
         [CmdOp("cli/options")]
         void CliOptions()
         {

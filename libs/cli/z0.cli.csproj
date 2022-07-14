@@ -2,12 +2,10 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <DebugSymbols>true</DebugSymbols>
     <TargetFramework>$(FrameworkMoniker)</TargetFramework>
   </PropertyGroup>
 
   <Import Project="$(ImportDefs)diagnostics.props"/>
-  <Import Project="$(ImportDefs)microsoft.dia.props"/>
 
   <ItemGroup>
     <ProjectReference Include="$(Diagnostics)"/>
