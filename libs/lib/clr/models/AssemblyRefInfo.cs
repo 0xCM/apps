@@ -8,9 +8,9 @@ namespace Z0
     /// Captures a dependency relationship between two assemblies
     /// </summary>
     [StructLayout(StructLayout), Record(TableId)]
-    public struct AssemblyRefInfo : IComparableRecord<AssemblyRefInfo>
+    public struct AssemblyRefInfo : IComparable<AssemblyRefInfo>
     {
-        const string TableId = "clr.assembly.references";
+        const string TableId = "clr.assembly.refs";
 
         [Render(48)]
         public ClrAssemblyName Source;

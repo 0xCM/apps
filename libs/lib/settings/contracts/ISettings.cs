@@ -7,13 +7,19 @@ namespace Z0
     using api = Settings;
 
     [Free]
-    public interface ISettings : ITextual
+    public interface ISettings : IExpr
     {
         Identifier Name {get;}
 
         Settings Settings {get;}
 
-        string ITextual.Format()
+        bool INullity.IsEmpty
+            => Settings.IsEmpty;
+
+        bool INullity.IsNonEmpty
+            => Settings.IsNonEmpty;
+
+        string IExpr.Format()
             => Settings.Format();
     }
 
@@ -25,6 +31,6 @@ namespace Z0
             => typeof(S).Name;
 
         Settings ISettings.Settings
-            => api.from((S)this);
+            => api.settings((S)this);
     }
 }

@@ -4,17 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Arrays;
 
     partial class XTend
     {
         [MethodImpl(Inline)]
         public static ArrayReader<T> Reader<T>(this T[] src)
             => src;
-
-        [MethodImpl(Inline)]
-        public static ArrayReader<T> Reader<T>(this Index<T> src)
-            => src.Storage;
     }
 
     public struct ArrayReader<T> : ICachedReader<T>

@@ -24,11 +24,4 @@ namespace Z0
         [Render(1)]
         public CliSig Sig;
     }
-
-    public enum MemberRefKind : byte
-    {
-        Method,
-
-        Field = 1,
-    }
 }

@@ -4,6 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static Algs;
+
+    using api = Settings;
+
     [Record(TableId)]
     public readonly record struct Setting : ISetting, IDataType<Setting>
     {
@@ -15,27 +19,23 @@ namespace Z0
         public readonly Name Name;
 
         [Render(1)]
-        public readonly string Value;
+        public readonly object Value;
 
         [MethodImpl(Inline)]
-        public Setting(Name name, string value)
+        public Setting(Name name, object value)
         {
-            Type = 0;
+            Type = api.type(value);
             Name = name;
             Value = value;
         }
 
         [MethodImpl(Inline)]
-        public Setting(Name name, SettingType type, string value)
+        public Setting(Name name, SettingType type, object value)
         {
             Name = name;
-            Type = type;
+            Type = api.type(value);
             Value = value ?? EmptyString;
         }
-
-        [MethodImpl(Inline)]
-        public Setting<T> Convert<T>(Func<string,T> f)
-            => new Setting<T>(Name, f(ValueText));
 
         public string ValueText
             => Value?.ToString() ?? EmptyString;
@@ -49,14 +49,14 @@ namespace Z0
         public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => core.hash(Name) | (Hash32)(Value?.GetHashCode() ?? 0);
+            get => hash(Name) | (Hash32)(Value?.GetHashCode() ?? 0);
         }
 
         Name INamed.Name
             => Name;
 
         string ISetting.Value
-            => Value;
+            => ValueText;
 
         public override int GetHashCode()
             => Hash;

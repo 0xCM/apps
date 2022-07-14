@@ -193,10 +193,6 @@ namespace Z0
         public static uint count(ReadOnlySpan<AsciCode> src)
             => count(recover<AsciCode,byte>(src));
 
-        // static uint count(ReadOnlySpan<byte> src, List<byte> dst)
-        // {
-
-        // }
         /// <summary>
         /// Counts the number of asci-encoded lines represented in the source
         /// </summary>

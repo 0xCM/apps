@@ -5,9 +5,9 @@
 namespace Z0
 {
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct MemberFieldName
+    public struct CliFieldName
     {
-        public const string TableId = "fields";
+        public const string TableId = "cli.fields.names";
 
         [Render(8)]
         public uint Seq;
@@ -25,7 +25,7 @@ namespace Z0
         public string Value;
 
         [MethodImpl(Inline)]
-        public MemberFieldName(Count seq, ByteSize heap, Address32 offset, string value)
+        public CliFieldName(Count seq, ByteSize heap, Address32 offset, string value)
         {
             Seq = seq;
             HeapSize = heap;

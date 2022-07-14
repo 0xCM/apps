@@ -33,7 +33,10 @@ namespace Z0
         [Render(16)]
         public Address32 EntryPoint;
 
-        [Render(1)]
+        [Render(48)]
         public SectionCharacteristics SectionFlags;
+
+        [Render(1)]
+        public FS.FileUri FullPath;
     }
 }

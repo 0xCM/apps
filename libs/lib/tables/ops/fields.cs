@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Arrays;
 
     partial struct Tables
     {
@@ -26,18 +26,20 @@ namespace Z0
         {
             var fields = src.DeclaredPublicInstanceFields().Ignore().Index();
             var count = fields.Count;
-            var dst = alloc<ClrTableField>(count);
-            for(var i=z16; i<count; i++)
+            var dst = sys.alloc<ClrTableField>(count);
+            for(var i=z32; i<count; i++)
             {
                 ref readonly var field = ref fields[i];
-                var render = field.Tag<RenderAttribute>();
-                if(render)
+                var tag = field.Tag<RenderAttribute>();
+                if(tag)
                 {
-                    var tag = render.Require();
-                    seek(dst,i) = new ClrTableField(new RenderSpec(i, tag.Width, tag.Style, text.Formatter(field.FieldType, (ushort)tag.Style)), field);
+                    var tv = tag.Value;
+                    seek(dst,i) = new ClrTableField(new CellRenderSpec(i, tv.Width, text.Formatter(field.FieldType, (ushort)tv.Style)), field);
                 }
                 else
-                    seek(dst, i) = new ClrTableField(i, field);
+                {
+                    seek(dst,i) = new ClrTableField(new CellRenderSpec(i, 16, text.Formatter(field.FieldType)), field);
+                }
 
             }
             return dst;

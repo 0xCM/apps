@@ -8,7 +8,7 @@ namespace Z0
 
     partial class CliReader
     {
-        public ref AssemblyRefRow Row(AssemblyReferenceHandle handle, ref AssemblyRefRow dst)
+        public ref CliAssemblyRef Row(AssemblyReferenceHandle handle, ref CliAssemblyRef dst)
         {
             var src = MD.GetAssemblyReference(handle);
             dst.Culture = src.Culture;
@@ -31,7 +31,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public ref CustomAttributeRow Row(CustomAttribute src, ref CustomAttributeRow dst)
+        public ref CliAttribute Row(CustomAttribute src, ref CliAttribute dst)
         {
             dst.Parent = src.Parent;
             dst.Constructor = src.Constructor;
@@ -41,7 +41,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public ref FieldDefRow Row(FieldDefinitionHandle handle, ref FieldDefRow dst)
+        public ref CliFieldDef Row(FieldDefinitionHandle handle, ref CliFieldDef dst)
         {
             var src = MD.GetFieldDefinition(handle);
             dst.Attributes = src.Attributes;

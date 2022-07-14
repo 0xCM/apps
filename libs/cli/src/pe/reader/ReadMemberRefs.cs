@@ -27,7 +27,7 @@ namespace Z0
                 ReadMemberRef(skip(src,i), ref seek(dst,i));
         }
 
-        public ReadOnlySpan<MemberRefInfo> ReadMemberRefs()
+        public ReadOnlySeq<MemberRefInfo> ReadMemberRefs()
         {
             var handles = MemberRefHandles;
             var dst = alloc<MemberRefInfo>(handles.Length);

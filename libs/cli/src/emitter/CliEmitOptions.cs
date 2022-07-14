@@ -5,7 +5,7 @@
 namespace Z0
 {
     [StructLayout(LayoutKind.Sequential,Pack=1)]
-    public struct CliEmitOptions
+    public struct CliEmitOptions : ISettings<CliEmitOptions>
     {
         public bool EmitImageContent;
 
@@ -36,19 +36,19 @@ namespace Z0
         public static CliEmitOptions @default()
         {
             var dst = new CliEmitOptions();
-            dst.EmitImageContent = true;
+            dst.EmitImageContent = false;
             dst.EmitSectionHeaders = true;
-            dst.EmitMsilMetadata = true;
+            dst.EmitMsilMetadata = false;
             dst.EmitCliStrings = true;
-            dst.EmitCliBlobs = true;
-            dst.EmitCliConstants = true;
-            dst.EmitFieldMetadata = true;
-            dst.EmitApiMetadump = true;
-            dst.EmitAssemblyRefs = true;
-            dst.EmitMethodDefs = true;
-            dst.EmitCliRowStats = true;
-            dst.EmitMetadataHex = true;
-            dst.EmitMsilCode = true;
+            dst.EmitCliBlobs = false;
+            dst.EmitCliConstants = false;
+            dst.EmitFieldMetadata = false;
+            dst.EmitApiMetadump = false;
+            dst.EmitAssemblyRefs = false;
+            dst.EmitMethodDefs = false;
+            dst.EmitCliRowStats = false;
+            dst.EmitMetadataHex = false;
+            dst.EmitMsilCode = false;
             return dst;
         }
     }

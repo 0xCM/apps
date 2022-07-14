@@ -8,7 +8,7 @@ namespace Z0
 
     partial class CliEmitter
     {
-        public ReadOnlySpan<AssemblyRefInfo> ReadAssemblyRefs(Assembly src)
+        public ReadOnlySeq<AssemblyRefInfo> ReadAssemblyRefs(Assembly src)
         {
             var path = FS.path(src.Location);
             if(ClrModules.valid(path))
@@ -17,12 +17,12 @@ namespace Z0
                 return reader.ReadAssemblyRefs();
             }
             else
-                return Index<AssemblyRefInfo>.Empty;
+                return ReadOnlySeq<AssemblyRefInfo>.Empty;
         }
 
-        public ReadOnlySpan<AssemblyRefInfo> ReadAssemblyRefs()
+        public ReadOnlySeq<AssemblyRefInfo> ReadAssemblyRefs()
         {
-            var components = ApiRuntimeCatalog.Components.View;
+            var components = ApiMd.Components;
             var count = components.Length;
             var dst = list<AssemblyRefInfo>();
             for(var i=0; i<count; i++)
@@ -37,7 +37,7 @@ namespace Z0
                 }
             }
             dst.Sort();
-            return dst.ViewDeposited();
+            return dst.ToArray();
         }
     }
 }

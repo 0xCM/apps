@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Arrays;
 
     /// <summary>
     /// Defines the content of a row
@@ -24,6 +24,13 @@ namespace Z0
         {
             Fields = fields;
             Cells = cells;
+        }
+
+        public string Format(string pattern, RenderBuffers buffers)
+        {
+            for(var i=0; i<CellCount; i++)
+                buffers[i] = Fields.FormatFieldValue(i, this[i]);
+            return string.Format(pattern, buffers.CellStorage);
         }
 
         public string Format(string pattern, object[] buffer)

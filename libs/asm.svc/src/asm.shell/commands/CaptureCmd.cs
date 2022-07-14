@@ -42,6 +42,14 @@ namespace Z0
             AsmCalls.EmitRows(AsmDecoder.Decode(blocks.Storage), ProjectDb.Subdir("api/asm/calls"));
         }
 
+        [CmdOp("cli/options")]
+        void CliOptions()
+        {
+            var src = CliEmitOptions.@default();
+            var settings = Settings.settings(src);
+            Row(settings.Format());
+        }
+
         [CmdOp("api/capture")]
         void Capture(CmdArgs args)
             => Wf.ApiCapture().Run();

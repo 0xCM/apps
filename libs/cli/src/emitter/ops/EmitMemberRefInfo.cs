@@ -17,11 +17,8 @@ namespace Z0
             {
                 var component = skip(components,i);
                 var dst = MemberRefsPath(component);
-                var flow = EmittingTable<MemberRefInfo>(dst);
                 using var reader = PeReader.create(FS.path(component.Location));
-                var emitted = Tables.emit(reader.ReadMemberRefs(), dst);
-                EmittedTable(flow,emitted);
-                counter += emitted;
+                TableEmit(reader.ReadMemberRefs(), dst);
             }
         }
     }

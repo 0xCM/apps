@@ -88,10 +88,10 @@ namespace Z0
             return dst;
         }
 
-        public Z0.CoffHeader ReadCoffInfo()
+        public CoffHeader ReadCoffInfo()
         {
             var src = PeHeaders.CoffHeader;
-            var dst = new Z0.CoffHeader();
+            var dst = new CoffHeader();
             dst.Characteristics = src.Characteristics;
             dst.Machine = src.Machine;
             dst.NumberOfSections = (ushort)src.NumberOfSections;
@@ -101,6 +101,9 @@ namespace Z0
             dst.TimeDateStamp = (uint)src.TimeDateStamp;
             return dst;
         }
+
+        public FileModuleInfo Describe()
+            => new FileModuleInfo(ReadPeInfo(), ReadCoffInfo(), ReadHeaders());
 
         public PEHeaders PeHeaders
         {

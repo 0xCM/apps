@@ -14,7 +14,7 @@ namespace Z0
         }
 
         public AppSettings(Setting[] settings)
-            : base(settings.Select(x => new Setting<Name, string>(x.Name,x.Value)))
+            : base(settings.Select(x => new Setting<Name, string>(x.Name,x.ValueText)))
         {
 
         }

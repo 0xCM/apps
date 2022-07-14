@@ -4,31 +4,32 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Spans;
+    using static Arrays;
 
     partial class PeReader
     {
-        public ReadOnlySpan<PeSectionHeader> ReadHeaderInfo()
+        public ReadOnlySeq<PeSectionHeader> ReadHeaders()
         {
             var headers = PeHeaders;
             var pe = headers.PEHeader;
             var sections = SectionHeaders;
             var count = sections.Length;
-            var buffer = alloc<PeSectionHeader>(count);
-            ref var target = ref first(buffer);
+            var buffer = sys.alloc<PeSectionHeader>(count);
             for(var i=0; i<count; i++)
             {
                 ref readonly var section = ref skip(sections,i);
-                ref var record = ref seek(target,i);
-                record.File = Source.FileName;
-                record.EntryPoint = (Address32)pe.AddressOfEntryPoint;
-                record.CodeBase = (Address32)pe.BaseOfCode;
-                record.GptRva = (Address32)pe.GlobalPointerTableDirectory.RelativeVirtualAddress;
-                record.GptSize = (ByteSize)pe.GlobalPointerTableDirectory.Size;
-                record.SectionFlags = section.SectionCharacteristics;
-                record.SectionName = section.Name;
-                record.RawDataAddress = (Address32)section.PointerToRawData;
-                record.RawDataSize = (uint)section.SizeOfRawData;
+                ref var dst = ref seek(buffer,i);
+                dst.File = Source.FileName;
+                dst.EntryPoint = (Address32)pe.AddressOfEntryPoint;
+                dst.CodeBase = (Address32)pe.BaseOfCode;
+                dst.GptRva = (Address32)pe.GlobalPointerTableDirectory.RelativeVirtualAddress;
+                dst.GptSize = (ByteSize)pe.GlobalPointerTableDirectory.Size;
+                dst.SectionFlags = section.SectionCharacteristics;
+                dst.SectionName = section.Name;
+                dst.RawDataAddress = (Address32)section.PointerToRawData;
+                dst.RawDataSize = (uint)section.SizeOfRawData;
+                dst.FullPath = Source;
             }
             return buffer;
         }

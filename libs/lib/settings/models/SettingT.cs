@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using api = Settings;
+
     /// <summary>
     /// Defines a value-parametric application setting
     /// </summary>
@@ -11,6 +13,9 @@ namespace Z0
     public readonly struct Setting<T> : IComparable<Setting<T>>
     {
         const string TableId = "settings";
+
+        [Render(12)]
+        public readonly SettingType Type;
 
         /// <summary>
         /// The setting name
@@ -24,15 +29,12 @@ namespace Z0
         [Render(1)]
         public readonly T Value;
 
-        [Ignore]
-        public readonly SettingType Type;
-
         [MethodImpl(Inline)]
         public Setting(Name name, T value)
         {
             Name = name;
             Value = value;
-            Type = SettingType.String;
+            Type = api.type(value);
         }
 
         [MethodImpl(Inline)]
@@ -40,13 +42,13 @@ namespace Z0
         {
             Name = name;
             Value = value;
-            Type = type;
+            Type = api.type(value);
         }
 
         public Setting NonGeneric
         {
             [MethodImpl(Inline)]
-            get => new (Name, Value.ToString());
+            get => new (Name, Value);
         }
 
         public string Format()

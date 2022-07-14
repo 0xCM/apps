@@ -6,6 +6,14 @@ namespace Z0
 {
     partial class XTend
     {
+        [MethodImpl(Inline)]
+        public static ArrayWriter<T> Writer<T>(this Index<T> src)
+            => new ArrayWriter<T>(src);
+
+        [MethodImpl(Inline)]
+        public static ArrayReader<T> Reader<T>(this Index<T> src)
+            => new ArrayReader<T>(src);
+
         /// <summary>
         /// Applies a function to an input sequence to yield a transformed output sequence
         /// </summary>

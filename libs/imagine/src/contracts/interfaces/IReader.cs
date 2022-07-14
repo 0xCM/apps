@@ -4,14 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct CliRows
+    public interface IReader<T>
     {
-        [CliRecord(CliTableKind.FieldLayout), StructLayout(LayoutKind.Sequential)]
-        public struct FieldLayoutRow
-        {
-            public uint Offset;
+        bool Next(out T dst);
 
-            public CliRowKey Field;
-        }
+        ref readonly T Next();
+
+        bool HasNext();
+
+        bool Advance();
     }
 }

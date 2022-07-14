@@ -4,18 +4,23 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    [StructLayout(StructLayout)]
     public readonly struct CliHeapKey<K> : ICliHeapKey<CliHeapKey<K>>
         where K : unmanaged, ICliHeapKey
     {
         public CliHeapKind HeapKind => default(K).HeapKind;
 
-        public uint Value {get;}
+        public readonly uint Value;
 
         [MethodImpl(Inline)]
         public CliHeapKey(uint value)
         {
             Value = value;
         }
+
+        uint ICliHeapKey.Value
+            => Value;
+
 
         [MethodImpl(Inline)]
         public bool Equals(CliHeapKey<K> src)

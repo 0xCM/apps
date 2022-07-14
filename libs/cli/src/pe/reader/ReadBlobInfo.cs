@@ -6,7 +6,7 @@ namespace Z0
 {
     partial class PeReader
     {
-        public ReadOnlySpan<CliBlob> ReadBlobInfo()
+        public ReadOnlySpan<CliBlob> ReadBlobs()
         {
             var size = (uint)MD.GetHeapSize(HeapIndex.Blob);
             if (size == 0)

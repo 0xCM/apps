@@ -25,7 +25,6 @@ namespace Z0
             dst.Size = ((ByteSize)info.Length).Kb;
             dst.CreateTS = info.CreationTime;
             dst.UpdateTS = info.LastWriteTime;
-            dst.FolderName = info.DirectoryName;
             dst.Path = src;
             dst.Attributes = info.Attributes;
             return dst;

@@ -8,11 +8,21 @@ namespace Z0
 
     partial class CliEmitter
     {
-        public void EmitMetadataHex(Assembly src, uint bpl, FS.FilePath dst)
+        public void EmitMetadataHex(Assembly src, uint bpl, FS.FilePath path)
         {
-            var flow = EmittingFile(dst);
-            ByteSize size = MemoryEmitter.emit(Clr.metadata(src), 64, dst);
-            EmittedFile(flow, $"Emitted {size} bytes from {src.GetSimpleName()} to {dst.ToUri()}");
+            try
+            {
+                if(path.Exists)
+                    Errors.ThrowWithOrigin(AppMsg.FileExists.Format(path));
+
+                var flow = EmittingFile(path);
+                ByteSize size = MemoryEmitter.emit(Clr.metadata(src), 64, path);
+                EmittedFile(flow, $"Emitted {size} bytes from {src.GetSimpleName()} to {path.ToUri()}");
+            }
+            catch(Exception e)
+            {
+                Error(e);
+            }
         }
 
         public void EmitApiHex(IApiPack dst, uint bpl = 64)

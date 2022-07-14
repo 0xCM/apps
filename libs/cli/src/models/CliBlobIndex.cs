@@ -6,11 +6,12 @@ namespace Z0
 {
     using static Refs;
 
+    [StructLayout(StructLayout, Pack=1)]
     public readonly struct CliBlobIndex : ICliHeapKey<CliBlobIndex>
     {
         public CliHeapKind HeapKind => CliHeapKind.Blob;
 
-        public uint Value {get;}
+        public readonly uint Value;
 
         [MethodImpl(Inline)]
         public CliBlobIndex(uint src)
@@ -23,6 +24,9 @@ namespace Z0
         {
             Value = u32(src);
         }
+
+        uint ICliHeapKey.Value
+            => Value;
 
         public string Format()
             => Value.ToString("X");

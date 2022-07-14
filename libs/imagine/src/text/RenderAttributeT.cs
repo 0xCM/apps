@@ -7,11 +7,6 @@ namespace Z0
     public class RenderAttribute<T> : RenderAttribute
         where T : unmanaged
     {
-        public RenderAttribute(uint width)
-            : base(width,0)
-        {
-        }
-
         public RenderAttribute(uint width, T style)
             : base(width, Sized.bw64(style))
         {

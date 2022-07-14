@@ -50,7 +50,7 @@ namespace Z0
                 var data = reader.ReadAssemblyRefs();
                 var count = data.Length;
                 for(var i=0; i<count; i++)
-                    writer.WriteLine(formatter.Format(skip(data,i)));
+                    writer.WriteLine(formatter.Format(data[i]));
             }
         }
 
@@ -65,7 +65,7 @@ namespace Z0
                 var count = refs.Length;
                 for(var i=0; i<count; i++)
                 {
-                    dst.WriteLine(formatter.Format(skip(refs,i)));
+                    dst.WriteLine(formatter.Format(refs[i]));
                     counter++;
                 }
 

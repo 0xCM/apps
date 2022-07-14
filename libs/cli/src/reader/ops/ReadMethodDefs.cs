@@ -9,16 +9,16 @@ namespace Z0
 
     partial class CliReader
     {
-        public ReadOnlySpan<MethodDefRow> ReadMethodDefRows()
+        public ReadOnlySpan<MethodDefRelations> ReadMethodDefRows()
         {
             var src = MethodDefHandles();
             var count = src.Length;
-            var dst = alloc<MethodDefRow>(count);
+            var dst = alloc<MethodDefRelations>(count);
             Read(src,dst);
             return dst;
         }
 
-        public uint Read(ReadOnlySpan<MethodDefinitionHandle> src, Span<MethodDefRow> dst)
+        public uint Read(ReadOnlySpan<MethodDefinitionHandle> src, Span<MethodDefRelations> dst)
         {
             var count = (uint)min(src.Length, dst.Length);
             for(var i=0; i<count; i++)
@@ -27,15 +27,15 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public ref MethodDefRow Read(MethodDefinitionHandle handle, ref MethodDefRow dst)
+        public ref MethodDefRelations Read(MethodDefinitionHandle handle, ref MethodDefRelations dst)
         {
             var src = MD.GetMethodDefinition(handle);
             dst.Token = Clr.token(handle);
             dst.Attributes = src.Attributes;
             dst.ImplAttributes  = src.ImplAttributes;
             dst.Rva = src.RelativeVirtualAddress;
-            dst.Name = src.Name;
-            dst.Sig = src.Signature;
+            dst.NameKey = src.Name;
+            dst.SigKey = src.Signature;
             var keys = Keys(src.GetParameters());
             var count = keys.Count;
             if(count != 0)
@@ -61,8 +61,8 @@ namespace Z0
                 info.Attributes = row.Attributes;
                 info.ImplAttributes = row.ImplAttributes;
                 info.Rva = row.Rva;
-                info.CliSig = Read(row.Sig);
-                info.Name = Read(row.Name);
+                info.CliSig = Read(row.SigKey);
+                info.Name = Read(row.NameKey);
             }
             return dst;
         }

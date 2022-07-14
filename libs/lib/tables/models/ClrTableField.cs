@@ -22,12 +22,12 @@ namespace Z0
         /// <summary>
         /// The external field name
         /// </summary>
-        public readonly NameOld FieldName;
+        public readonly Identifier FieldName;
 
         /// <summary>
         /// A render specification, if any
         /// </summary>
-        public readonly RenderSpec RenderSpec;
+        public readonly CellRenderSpec RenderSpec;
 
         /// <summary>
         /// The field width, if available
@@ -35,17 +35,7 @@ namespace Z0
         public readonly ushort FieldWidth;
 
         [MethodImpl(Inline)]
-        public ClrTableField(ushort index, FieldInfo def)
-        {
-            RenderSpec = RenderSpec.Default(index);
-            FieldIndex = index;
-            Definition = def;
-            FieldName = Tables.name(def);
-            FieldWidth = 0;
-        }
-
-        [MethodImpl(Inline)]
-        public ClrTableField(RenderSpec spec, FieldInfo def)
+        public ClrTableField(CellRenderSpec spec, FieldInfo def)
         {
             RenderSpec = spec;
             Require.invariant(spec.Width > 0);
@@ -70,10 +60,10 @@ namespace Z0
         /// <summary>
         /// The member field name
         /// </summary>
-        public NameOld MemberName
+        public Identifier MemberName
         {
             [MethodImpl(Inline)]
-            get => IsNonEmpty ? Definition.Name : NameOld.Empty;
+            get => IsNonEmpty ? Definition.Name : Identifier.Empty;
         }
 
         /// <summary>

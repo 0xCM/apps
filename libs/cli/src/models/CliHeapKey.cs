@@ -4,11 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    [StructLayout(StructLayout, Pack=1)]
     public readonly struct CliHeapKey : ICliHeapKey<CliHeapKey>
     {
-        public readonly CliHeapKind HeapKind {get;}
+        public readonly CliHeapKind HeapKind;
 
-        public readonly uint Value {get;}
+        public readonly uint Value;
 
         [MethodImpl(Inline)]
         public CliHeapKey(CliHeapKind heap, uint value)
@@ -16,5 +17,11 @@ namespace Z0
             HeapKind = heap;
             Value = value;
         }
+
+        CliHeapKind ICliHeapKey.HeapKind
+            => HeapKind;
+
+        uint ICliHeapKey.Value
+            => Value;
     }
 }

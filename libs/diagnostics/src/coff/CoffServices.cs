@@ -192,7 +192,7 @@ namespace Z0
             var lines = src.ReadLines(true);
             var count = lines.Count - 1;
             var buffer = alloc<CoffSection>(count);
-            var docreader = lines.Reader();
+            var docreader = lines.Storage.Reader();
             docreader.Next();
             var i=0u;
             while(docreader.Next(out var line))

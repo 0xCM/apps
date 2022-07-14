@@ -8,7 +8,7 @@ namespace Z0
     {
         public readonly Name Name;
 
-        string _Value;
+        object _Value;
 
         [MethodImpl(Inline)]
         public CmdVar(string name)
@@ -18,7 +18,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public CmdVar(string name, string value)
+        public CmdVar(string name, object value)
         {
             Name = name;
             _Value = value;
@@ -27,14 +27,7 @@ namespace Z0
         public string Value
         {
             [MethodImpl(Inline)]
-            get => _Value ?? EmptyString;
-        }
-
-        [MethodImpl(Inline)]
-        public CmdVar Set(string value)
-        {
-            _Value = value ?? EmptyString;
-            return this;
+            get => _Value?.ToString() ?? EmptyString;
         }
 
         public bool IsNonEmpty

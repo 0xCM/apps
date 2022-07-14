@@ -36,7 +36,7 @@ namespace Z0
             var path = Flows.path(src);
             var lines = path.ReadLines(TextEncodingKind.Asci,true);
             var buffer = alloc<CmdFlow>(lines.Length - 1);
-            var reader = lines.Reader();
+            var reader = lines.Storage.Reader();
             reader.Next(out _);
             var i = 0u;
             while(reader.Next(out var line))

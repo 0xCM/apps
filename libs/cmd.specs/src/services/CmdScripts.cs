@@ -37,7 +37,7 @@ namespace Z0
             => new CmdScript(id, src);
 
         [MethodImpl(Inline), Op]
-        public static CmdVar var(string name, string value)
+        public static CmdVar var(string name, object value)
             => new CmdVar(name, value);
 
         public static CmdVar<K> var<K>(string name, K kind, string value)

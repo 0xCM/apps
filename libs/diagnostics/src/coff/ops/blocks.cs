@@ -108,7 +108,7 @@ namespace Z0
         public static Index<ObjBlock> blocks(FS.FilePath path)
         {
             var lines = path.ReadLines(true);
-            var reader = lines.Reader();
+            var reader = lines.Storage.Reader();
             reader.Next();
             var buffer = alloc<ObjBlock>(lines.Length - 1);
             var i=0u;

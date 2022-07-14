@@ -18,10 +18,7 @@ namespace Z0
                 EmitAssemblyRefs(dst);
 
             if(options.EmitFieldMetadata)
-            {
                 EmitFieldMetadata(dst);
-                EmitFieldDefs(ApiMd.Components, dst);
-            }
 
             if(options.EmitApiMetadump)
                 EmitApiMetadump(dst);

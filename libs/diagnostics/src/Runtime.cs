@@ -28,8 +28,8 @@ namespace Z0
             var flow = Running("Emiting process context");
             var process = Process.GetCurrentProcess();
             EmitProcessModules(process, dst);
-            var regions = Regions.EmitRegions(process, dst);
-            ProcessMemory.EmitHashes(process, regions, dst);
+            //var regions = Regions.EmitRegions(process, dst);
+            //ProcessMemory.EmitHashes(process, regions, dst);
             EmitDump(process, dst.DumpPath(process));
             Ran(flow,"Emitted process context");
         }

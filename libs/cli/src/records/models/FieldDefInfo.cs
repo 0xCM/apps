@@ -7,7 +7,7 @@ namespace Z0
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct FieldDefInfo
     {
-        const string TableId = "fields.defs";
+        public const string TableId = "fields.defs";
 
         [Render(12)]
         public CliToken Token;

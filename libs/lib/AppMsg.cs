@@ -12,6 +12,9 @@ namespace Z0
     {
         public readonly AppMsgData Data;
 
+        public static MsgPattern<FS.FileUri> FileExists
+            => "The path {0} exists and yet it shold not";
+
         public static MsgPattern<ByteSize,FS.FileUri> EmittedBytes
             => "Emitted {0} bytes to {1}";
 

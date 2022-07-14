@@ -9,7 +9,7 @@ namespace Z0
 
     partial class CliReader
     {
-        public uint Rows(ReadOnlySpan<FieldDefinitionHandle> src, Span<FieldDefRow> dst)
+        public uint Rows(ReadOnlySpan<FieldDefinitionHandle> src, Span<CliFieldDef> dst)
         {
             var count = (uint)min(src.Length, dst.Length);
             for(var i=0; i<count; i++)
@@ -17,10 +17,10 @@ namespace Z0
             return count;
         }
 
-        public ReadOnlySpan<FieldDefRow> Rows(ReadOnlySpan<FieldDefinitionHandle> src)
+        public ReadOnlySpan<CliFieldDef> Rows(ReadOnlySpan<FieldDefinitionHandle> src)
         {
             var count = (uint)src.Length;
-            var dst = span<FieldDefRow>(count);
+            var dst = span<CliFieldDef>(count);
             Rows(src,dst);
             return dst;
         }

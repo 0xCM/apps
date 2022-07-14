@@ -9,7 +9,7 @@ namespace Z0
     partial class PeReader
     {
         [Op]
-        public ReadOnlySpan<AssemblyRefInfo> ReadAssemblyRefs()
+        public ReadOnlySeq<AssemblyRefInfo> ReadAssemblyRefs()
         {
             var src = CliReader().AssemblyRefHandles();
             var dst = alloc<AssemblyRefInfo>(src.Length);

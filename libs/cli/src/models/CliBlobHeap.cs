@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    [StructLayout(StructLayout, Pack=1)]
     public readonly struct CliBlobHeap : ICliHeap<CliBlobHeap>
     {
         public readonly MemoryAddress BaseAddress;

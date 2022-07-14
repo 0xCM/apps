@@ -4,17 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Arrays;
 
     partial class XTend
     {
         [MethodImpl(Inline)]
         public static ArrayWriter<T> Writer<T>(this T[] src)
             => src;
-
-        [MethodImpl(Inline)]
-        public static ArrayWriter<T> Writer<T>(this Index<T> src)
-            => src.Storage;
     }
 
     public struct ArrayWriter<T>

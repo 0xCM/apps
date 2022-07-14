@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System.Reflection.PortableExecutable;
+
     [StructLayout(LayoutKind.Sequential), Record(TableId)]
     public struct PeFileInfo
     {

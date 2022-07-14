@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    [StructLayout(StructLayout, Pack=1)]
     public readonly struct CliGuidHeap : ICliHeap<CliGuidHeap>
     {
         public readonly MemoryAddress BaseAddress;

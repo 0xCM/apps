@@ -480,7 +480,7 @@ namespace Z0.Asm
             writer.WriteLine(string.Format("label={0}", text.enquote("Assembly Dependencies")));
             for(var i=0; i<count; i++)
             {
-                ref readonly var x = ref skip(refs,i);
+                ref readonly var x = ref refs[i];
                 if(parts.Contains(x.Target.Format()))
                 {
                     var source = x.Source.Format().Replace(Chars.Dot, Chars.Underscore);

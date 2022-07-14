@@ -23,8 +23,8 @@ namespace Z0
             var parts = ApiPartCapture.create(Wf);
             var dst = AppDb.apipack();
             parts.Capture(dst);
-            Runtime.EmitContext(dst);
             CliEmitter.Emit(CliEmitOptions.@default(), dst);
+            Runtime.EmitContext(dst);
         }
 
         ClrEventListener OpenEventLog(Timestamp ts)

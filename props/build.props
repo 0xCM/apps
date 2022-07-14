@@ -1,5 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
+    <FrameworkMoniker>net6.0</FrameworkMoniker>
     <OptimizeImplicitlyTriggeredBuild>True</OptimizeImplicitlyTriggeredBuild>
     <PublishRelease>true</PublishRelease>
     <PackRelease>true</PackRelease>

@@ -8,12 +8,12 @@ namespace Z0
 
     partial class CliReader
     {
-        public ReadOnlySpan<MemberFieldInfo> ReadFieldInfo()
+        public ReadOnlySpan<CliMemberField> ReadFieldInfo()
         {
             var reader = MD;
             var handles = reader.FieldDefinitions.ToReadOnlySpan();
             var count = handles.Length;
-            var dst = span<MemberFieldInfo>(count);
+            var dst = span<CliMemberField>(count);
             for(var i=0u; i<count; i++)
             {
                 ref readonly var handle = ref skip(handles,i);
@@ -29,12 +29,12 @@ namespace Z0
             return dst;
         }
 
-        MemberFieldName ReadFieldName(StringHandle handle, Count seq)
+        CliFieldName ReadFieldName(StringHandle handle, Count seq)
         {
             var value = MD.GetString(handle);
             var offset = MD.GetHeapOffset(handle);
             var size = MD.GetHeapSize(HeapIndex.String);
-            return new MemberFieldName(seq, size, (Address32)offset, value);
+            return new CliFieldName(seq, size, (Address32)offset, value);
         }
     }
 }
