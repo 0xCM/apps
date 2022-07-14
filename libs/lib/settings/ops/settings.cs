@@ -10,6 +10,7 @@ namespace Z0
         {
             var _fields = typeof(T).PublicInstanceFields();
             var _props = typeof(T).PublicInstanceProperties();
+
             var _fieldValues = from f in _fields
                                 let value = f.GetValue(src)
                                 where f != null
@@ -22,6 +23,5 @@ namespace Z0
 
             return _fieldValues.Union(_propValues).Array();
         }
-
     }
 }

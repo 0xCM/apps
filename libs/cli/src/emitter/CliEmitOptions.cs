@@ -4,9 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [StructLayout(LayoutKind.Sequential,Pack=1)]
+    [StructLayout(LayoutKind.Sequential,Pack=1), Config(ConfigId)]
     public struct CliEmitOptions : ISettings<CliEmitOptions>
     {
+        const string ConfigId = "cli.options";
+
         public bool EmitImageContent;
 
         public bool EmitSectionHeaders;

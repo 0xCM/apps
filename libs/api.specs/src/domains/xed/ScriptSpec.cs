@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedToolDomain
+    partial class XedDomain
     {
         [Record(TableId)]
         public struct ScriptSpec

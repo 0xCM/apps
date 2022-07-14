@@ -23,17 +23,6 @@ namespace Z0
                 writer.WriteLine(skip(src,i).Format());
         }
 
-        public static Index<LineStats> stats(FS.FilePath src)
-        {
-            var data = src.ReadBytes();
-            var count = AsciLines.count(data);
-            var dst = alloc<LineStats>(count);
-            for(var i=0; i<count; i++)
-            {
-
-            }
-            return dst;
-        }
         public static ReadOnlySpan<LineStats> stats(ReadOnlySpan<byte> data, uint buffer = 0)
         {
             var dst = span<LineStats>(buffer);
@@ -231,80 +220,6 @@ namespace Z0
                 dst.Add(new (_name, _value));
             }
             return dst.ToArray().Sort();
-        }
-
-        public static Settings settings(FS.FilePath src)
-        {
-            const char sep = Chars.Pipe;
-            using var reader = src.AsciLineReader();
-            var dst = list<Setting>();
-            var line = AsciLineCover.Empty;
-            if(reader.Next(out line))
-            {
-                while(reader.Next(out line))
-                {
-                    var content = line.Codes;
-                    if(first(content) == AsciCode.Pipe)
-                        content = slice(content,1);
-                    var length = content.Length;
-                    if(length != 0)
-                    {
-                        var i = SQ.index(content, sep);
-                        if(i > 0)
-                        {
-                            var name = text.trim(text.format(SQ.left(content,i)));
-                            var value = text.trim(text.format(SQ.right(content,i)));
-                            dst.Add(new Setting(name, value));
-                        }
-                    }
-
-                }
-            }
-            return new Settings(dst.ToArray());
-        }
-
-        public static Settings config(FS.FilePath src, char sep = Chars.Colon)
-        {
-            var dst = list<Setting>();
-            var line = AsciLineCover.Empty;
-            using var reader = src.AsciLineReader();
-            while(reader.Next(out line))
-            {
-                var content = line.Codes;
-                var length = content.Length;
-                if(length != 0)
-                {
-                    if(SQ.hash(first(content)))
-                        continue;
-
-                    var i = SQ.index(content, sep);
-                    if(i > 0)
-                    {
-                        var name = text.format(SQ.left(content,i));
-                        var value = text.format(SQ.right(content,i));
-                        dst.Add(new Setting(name,value));
-                    }
-                }
-            }
-            return new Settings(dst.ToArray());
-        }
-
-        [Op]
-        public static bool search<K,T>(in Settings<K,T> src, K key, out Setting<K,T> value)
-            where K : unmanaged, IDataType<K>, IExpr
-        {
-            value = Setting<K,T>.Empty;
-            var result = false;
-            for(var i=0; i<src.Count; i++)
-            {
-                ref readonly var setting = ref src[i];
-                if(setting.Name.Equals(key))
-                {
-                    value = setting;
-                    result = true;
-                }
-            }
-            return result;
         }
 
         [MethodImpl(Inline), Op]

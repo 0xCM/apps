@@ -24,5 +24,7 @@ namespace Z0
             where T : struct;
 
         IDbTargets EtlTargets(ProjectId src);
+
+        IDbSources Configs();
     }
 }

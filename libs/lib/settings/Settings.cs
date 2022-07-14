@@ -7,13 +7,15 @@ namespace Z0
     [ApiHost]
     public partial class Settings : IIndex<Setting>, ILookup<string,Setting>
     {
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Settings<Name,T> empty<T>()
-            => Settings<Name,T>.Empty;
-
         [MethodImpl(Inline)]
         public static Setting empty()
             => Setting.Empty;
+
+        public static Name name(Type src)
+            => src.Tag<ConfigAttribute>().MapValueOrElse(tag => tag.Name, () => (Name)src.DisplayName());
+
+        public static Name name<T>()
+            => name(typeof(T));
 
         public static FS.FilePath path()
             => FS.path(ExecutingPart.Component.Location).FolderPath + FS.file($"{ExecutingPart.Id.Format()}.settings", FileKind.Csv);

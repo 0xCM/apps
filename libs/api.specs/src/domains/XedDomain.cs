@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public partial class XedToolDomain
+    public partial class XedDomain
     {
         const string group = "xedtool";
 

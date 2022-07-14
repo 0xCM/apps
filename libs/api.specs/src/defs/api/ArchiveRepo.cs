@@ -6,25 +6,25 @@ namespace Z0
 {
     partial class ApiCmdDefs
     {
-        public struct PubFolderCmd : IFlowCmd<FS.FolderPath,FS.FolderPath>
+        [Cmd(CmdId)]
+        public struct RepoArchive : IFlowCmd<FS.FolderPath,FS.FilePath>
         {
-            const string CmdId = "pub/folder";
+            const string CmdId = "repo/archive";
 
             public Actor Actor;
 
             public FS.FolderPath Source;
 
-            public FS.FolderPath Target;
+            public FS.FilePath Target;
+
+            FS.FolderPath IFlowCmd<FS.FolderPath, FS.FilePath>.Source
+                => Source;
+
+            FS.FilePath IFlowCmd<FS.FolderPath, FS.FilePath>.Target
+                => Target;
 
             IActor IFlowCmd.Actor
                 => Actor;
-
-            FS.FolderPath IFlowCmd<FS.FolderPath, FS.FolderPath>.Source
-                => Source;
-
-            FS.FolderPath IFlowCmd<FS.FolderPath, FS.FolderPath>.Target
-                => Target;
         }
-
     }
 }

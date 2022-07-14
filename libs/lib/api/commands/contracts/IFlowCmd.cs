@@ -25,5 +25,4 @@ namespace Z0
 
         B Target {get;}
     }
-
 }

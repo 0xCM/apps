@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedToolDomain;
+    using static XedDomain;
 
     [StructLayout(LayoutKind.Sequential, Pack=1), Cmd(CmdName)]
     public struct XedToolCmd : IToolFlowCmd<XedToolCmd>

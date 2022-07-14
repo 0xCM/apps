@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedToolDomain
+    partial class XedDomain
     {
         [LiteralProvider]
         public struct EncodeRequests

@@ -41,6 +41,18 @@ namespace Z0
 
         readonly WsArchives WsArchives;
 
+        public IDbSources Configs()
+            => new DbSources(DbRoot().Root + FS.folder("settings"));
+
+        public IDbSources Configs(string scope)
+            => Configs().Sources(scope);
+
+        public FS.FilePath ConfigPath<S>()
+            => Configs().Path(Z0.Settings.name<S>(), FileKind.Config);
+
+        public FS.FilePath ConfigPath<S>(string prefix)
+            => Configs().Path($"{prefix}.{Z0.Settings.name<S>()}", FileKind.Config);
+
         public IDbSources Archives()
             => new DbSources(setting(WsArchives.Path(Names.Archives), FS.dir));
 

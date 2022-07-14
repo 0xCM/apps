@@ -7,9 +7,9 @@ namespace Z0
     public class ConfigSets
     {
         public static Settings app()
-            => Settings.load(ConfigPaths.app());
+            => Settings.rows(ConfigPaths.app());
 
         public static Settings cmd()
-            => Settings.load(ConfigPaths.cmd());
+            => Settings.rows(ConfigPaths.cmd());
     }
 }

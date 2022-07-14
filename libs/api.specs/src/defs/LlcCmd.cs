@@ -8,14 +8,6 @@ namespace Z0
 
     partial class XTend
     {
-        [MethodImpl(Inline)]
-        public static LlcCmd Command(this Llc tool, FS.FilePath src, FS.FilePath dst)
-        {
-            var cmd = new LlcCmd();
-            cmd.Source = src;
-            cmd.Target = dst;
-            return cmd;
-        }
     }
 
     [Cmd(ToolNames.llc), StructLayout(LayoutKind.Sequential, Pack=1)]

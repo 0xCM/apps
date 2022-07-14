@@ -81,6 +81,7 @@ namespace Z0
             }
             return slice(buffer,0,counter).ToArray();
         }
+
         public static Outcome parse(string src, Type type, out Setting dst, char delimiter = Chars.Colon)
         {
             dst = Settings.empty();
@@ -141,7 +142,7 @@ namespace Z0
             return false;
         }
 
-        public static Outcome parse<T>(string src, out Setting<T> dst, char delimiter = Chars.Colon)
+        public static Outcome parse<T>(string src, out T dst, char delimiter = Chars.Colon)
         {
             dst = Setting<T>.Empty;
             if(nonempty(src))
@@ -156,14 +157,14 @@ namespace Z0
 
                 if(typeof(T) == typeof(string))
                 {
-                    dst = (name, generic<T>(input));
+                    dst = generic<T>(input);
                     return true;
                 }
                 else if (typeof(T) == typeof(bool))
                 {
                     if(DP.parse(input, out bool value))
                     {
-                        dst = (name, generic<T>(value));
+                        dst = generic<T>(value);
                         return true;
                     }
                 }
@@ -171,32 +172,31 @@ namespace Z0
                 {
                     if(DP.parse(input, out bit u1))
                     {
-                        dst = (name, generic<T>((bool)u1));
+                        dst = generic<T>((bool)u1);
                         return true;
                     }
                 }
                 else if(DP.numeric(input, out T g))
                 {
-                    dst = (name, g);
+                    dst = g;
                     return true;
                 }
                 else if(typeof(T).IsEnum)
                 {
                     if(Enums.parse(typeof(T), src, out object o))
                     {
-                        dst = (name, (T)o);
+                        dst =(T)o;
                         return true;
                     }
                 }
                 else if(src.Length == 1 && typeof(T) == typeof(char))
                 {
-                    dst = (name, generic<T>(name[0]));
+                    dst = generic<T>(name[0]);
                     return true;
                 }
             }
             return false;
         }
-
 
         static Outcome numeric(string src, Type type, out dynamic dst)
         {

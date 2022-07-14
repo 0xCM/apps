@@ -46,8 +46,14 @@ namespace Z0
         void CliOptions()
         {
             var src = CliEmitOptions.@default();
-            var settings = Settings.settings(src);
+            //var settings = Settings.settings(src);
+            var path = AppDb.ConfigPath<CliEmitOptions>();
+            var settings = Settings.config(path);
             Row(settings.Format());
+            // Row(settings.Format());
+
+            // Row(settings.Format());
+            // FileEmit(settings.Format(),path);
         }
 
         [CmdOp("api/capture")]

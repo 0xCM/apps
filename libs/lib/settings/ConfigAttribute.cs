@@ -4,11 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [ApiHost]
-    public class ApiRecords
+    public class ConfigAttribute : Attribute
     {
+        public ConfigAttribute(string name)
+        {
+            Name = name;
+        }
 
-
+        public Name Name {get;}
     }
-
 }

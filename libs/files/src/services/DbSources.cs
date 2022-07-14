@@ -21,12 +21,6 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public DbSources(IRootedArchive root, string scope)
-        {
-            DbFiles = new DbArchive(root.Root + FS.folder(scope));
-        }
-
-        [MethodImpl(Inline)]
         public DbSources(IRootedArchive root)
         {
             DbFiles = new DbArchive(root.Root);

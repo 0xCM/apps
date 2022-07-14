@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class CmdDispatch : AppService<CmdDispatch>, ICmdRouter
+    public class CmdDispatch : ICmdRouter
     {
         ICmdRouter Router;
 

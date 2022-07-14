@@ -6,9 +6,7 @@ namespace Z0
 {
     using N = ToolNames;
 
-    using static Tools;
-
-    public partial class XedToolDomain
+    public partial class XedDomain
     {
 
     }
@@ -18,38 +16,6 @@ namespace Z0
     {
 
 
-    }
-
-    public static partial class XTend
-    {
-        [MethodImpl(Inline)]
-        public static ref readonly Xed xed(this ITools tools)
-            => ref Tools.xed;
-
-        [MethodImpl(Inline)]
-        public static ref readonly LlvmTableGen tablgen(this ITools tools)
-            => ref Tools.llvm_tblgen;
-
-        [MethodImpl(Inline)]
-        public static ref readonly Llc llc(this ITools tools)
-            => ref Tools.llc;
-
-        [MethodImpl(Inline)]
-        public static ref readonly LlvmMc llvm_mc(this ITools tools)
-            => ref Tools.llvm_mc;
-
-        [MethodImpl(Inline)]
-        public static ref readonly LlvmObjDump objdump(this ITools tools)
-            => ref Tools.llvm_objdump;
-
-        [MethodImpl(Inline)]
-        public static ref readonly Clang clang(this ITools tools)
-            => ref Tools.clang;
-
-        [MethodImpl(Inline)]
-        public static ref readonly T Tool<T>(this ITools tools)
-            where T : Tool<T>, new()
-                => ref Tools.tool<T>();
     }
 
     [ApiHost]

@@ -8,7 +8,7 @@ namespace Z0
 
     partial class Settings
     {
-        public static Settings load(FS.FilePath src)
+        public static Settings rows(FS.FilePath src)
         {
             var formatter = Tables.formatter<Setting>();
             var data = src.ReadLines(true);

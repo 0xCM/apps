@@ -8,23 +8,6 @@ namespace Z0
     {
         None,
 
-        [Symbol("string")]
-        String,
-
-        [Symbol("folder")]
-        Folder,
-
-        [Symbol("file")]
-        File,
-
-        [Symbol("bool")]
-        Bool,
-
-        Bit,
-
-        [Symbol("int")]
-        Integer,
-
         [Symbol("asci16")]
         Asci16,
 
@@ -34,6 +17,25 @@ namespace Z0
         [Symbol("asci64")]
         Asci64,
 
+        [Symbol("bit")]
+        Bit,
+
+        [Symbol("bool")]
+        Bool,
+
+        [Symbol("string")]
+        String,
+
+        [Symbol("folder")]
+        Folder,
+
+        [Symbol("file")]
+        File,
+
+        [Symbol("int")]
+        Integer,
+
+        [Symbol("version")]
         Version,
 
         [Symbol("enum")]

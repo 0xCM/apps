@@ -13,7 +13,7 @@ namespace Z0
     {
         public static void emit(string name = null)
         {
-            var archives = WsArchives.load(Settings.load(AppSettings.path()));
+            var archives = WsArchives.load(Settings.rows(AppSettings.path()));
             var dir = Settings.setting(archives.Path(EN.EnvConfig), FS.dir).Value;
             var dst = dir + Tables.filename<EnvVarRow>(name ?? G.machine);
             var src = records(machine(), name ?? G.machine).View;

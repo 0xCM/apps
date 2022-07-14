@@ -13,7 +13,7 @@ namespace Z0
         OmniScript OmniScript => Wf.OmniScript();
 
         public Settings Config(FS.FilePath src)
-            => AsciLines.config(src);
+            => Settings.config(src);
 
         public ConstLookup<ToolIdOld,ToolHelpDoc> LoadHelpDocs(IDbSources src)
         {
