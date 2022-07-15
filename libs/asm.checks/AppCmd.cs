@@ -20,7 +20,7 @@ namespace Z0
                 wf.LlvmCmd(),
                 //wf.XedTool(),
                 wf.Machines(),
-                wf.ApiCmd(),
+                //wf.ApiCmd(),
                 wf.SourceSymbolic(),
                 wf.IntelIntrinsicsCmd(),
                 wf.AsmCmdSvc(),

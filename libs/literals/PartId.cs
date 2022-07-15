@@ -270,6 +270,9 @@ public enum PartId : byte
     [Symbol("containers")]
     Containers,
 
+    [Symbol("containers.checks")]
+    ContainerChecks,
+
     [Symbol("emath")]
     EMath,
 

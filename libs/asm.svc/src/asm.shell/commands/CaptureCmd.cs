@@ -57,7 +57,7 @@ namespace Z0
             // FileEmit(settings.Format(),path);
         }
 
-        [CmdOp("api/capture")]
+        [CmdOp("capture")]
         void Capture(CmdArgs args)
             => Wf.ApiCapture().Run();
 

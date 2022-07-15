@@ -9,12 +9,17 @@ namespace Z0
 
     public static class XSvc
     {
-        sealed class Svc : AppServices<Svc>
+        sealed class ServiceCache : AppServices<ServiceCache>
         {
+            public ApiCmd ApiCmd(IWfRuntime wf)
+                => Service<ApiCmd>(wf);
+
         }
 
-        static Svc Services = Svc.Instance;
+        static ServiceCache Services = ServiceCache.Instance;
 
+        public static ApiCmd ApiCmd(this IWfRuntime wf)
+            => Services.ApiCmd(wf);
 
     }
 }

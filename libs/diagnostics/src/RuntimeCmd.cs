@@ -4,11 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    sealed class AppCmd : AppCmdService<AppCmd>
-    {
-        void RunChecks()
-        {
 
-        }
+    public class RuntimeCmd : AppCmdService<RuntimeCmd>
+    {
+        Runtime Runtime => Wf.Runtime();
+
+
+        [CmdOp("runtime/emit/context")]
+        void EmitContext()
+            => Runtime.EmitContext(AppDb.apipack());
+
     }
 }

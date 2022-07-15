@@ -6,9 +6,9 @@ namespace Z0
 {
     using static FileFlows;
 
-    public class AsmFlowCommands : AppCmdService<AsmFlowCommands>
+    public class AsmFlowCmd : AppCmdService<AsmFlowCmd>
     {
-        AsmFlowCommands AsmFlows => Wf.AsmFlows();
+        AsmFlowCmd AsmFlows => Wf.AsmFlowCmd();
 
         [CmdOp("mc/cleanse")]
         Outcome ExecMcCleanse(CmdArgs args)

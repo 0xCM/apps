@@ -6,7 +6,7 @@
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
 
-  <Import Project="$(ImportDefs)shells.common.props"/>
+  <Import Project="$(ImportDefs)shells.props"/>
 
   <ItemGroup>
     <ProjectReference Include="$(TestChecks)" />

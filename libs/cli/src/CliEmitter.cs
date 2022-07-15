@@ -6,8 +6,6 @@ namespace Z0
 {
     public sealed partial class CliEmitter : WfSvc<CliEmitter>
     {
-        const string CliScope = "api/cli";
-
         ApiMd ApiMd => Wf.ApiMetadata();
 
         Cli Cli => Wf.Cli();

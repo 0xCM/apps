@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
     public class ApiMemory : WfSvc<ApiMemory>
     {
         public void EmitSymHeap(SymHeap src, FS.FilePath dst)

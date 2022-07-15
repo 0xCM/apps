@@ -5,6 +5,9 @@
     <TargetFramework>$(FrameworkMoniker)</TargetFramework>
   </PropertyGroup>
 
+  <Import Project="$(ImportDefs)shells.props"/>
+  <Import Project="$(ImportDefs)usings.props"/>
+
   <ItemGroup>
     <ProjectReference Include="$(Containers)" />
     <ProjectReference Include="$(CmdSvc)" />

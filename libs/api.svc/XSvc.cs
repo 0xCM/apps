@@ -12,14 +12,11 @@ namespace Z0
             public BdDisasm BdDisasm(IWfRuntime wf)
                 => Service<BdDisasm>(wf);
 
-
             public DumpBin DumpBin(IWfRuntime wf)
                 => Service<DumpBin>(wf);
 
-
-            public AsmFlowCommands AsmFlows(IWfRuntime wf)
-                => Service<AsmFlowCommands>(wf);
-
+            public AsmFlowCmd AsmFlowCmd(IWfRuntime wf)
+                => Service<AsmFlowCmd>(wf);
 
             public XedToolSvc XedTool(IWfRuntime wf)
                 => Service<XedToolSvc>(wf);
@@ -36,18 +33,18 @@ namespace Z0
             public CultProcessor CultProcessor(IWfRuntime wf)
                 => Service<CultProcessor>(wf);
 
-            public IApiSpecs ApiSpecs(IWfRuntime wf)
-                => Service<ApiSpecs>(wf);
+            public IApiSpecs ApiSpecsCmd(IWfRuntime wf)
+                => Service<ApiSpecsCmd>(wf);
         }
 
 
        static AppSvcCache Services => AppSvcCache.Instance;
 
-        public static AsmFlowCommands AsmFlows(this IWfRuntime wf)
-            => Services.AsmFlows(wf);
+        public static AsmFlowCmd AsmFlowCmd(this IWfRuntime wf)
+            => Services.AsmFlowCmd(wf);
 
-        public static IApiSpecs ApiSpecs(this IWfRuntime wf)
-            => Services.ApiSpecs(wf);
+        public static IApiSpecs ApiSpecsCmd(this IWfRuntime wf)
+            => Services.ApiSpecsCmd(wf);
 
         public static BdDisasm BdDisasm(this IWfRuntime wf)
             => Services.BdDisasm(wf);

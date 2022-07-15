@@ -12,12 +12,51 @@ namespace Z0
     {
         ApiMd ApiMd => Wf.ApiMetadata();
 
-        Cli Cli => Wf.Cli();
+        ToolBox ToolBox => Wf.ToolBox();
 
-        Runtime Runtime => Wf.Runtime();
+        [CmdOp("archives/memory/check")]
+        void CheckMemoryArchives()
+        {
 
-        CsLang CsLang => Wf.CsLang();
+        }
 
+        [CmdOp("tools/env")]
+        void ShowToolEnv()
+            => iter(ToolBox.LoadEnv(), s => Write(s));
+
+        [CmdOp("tool/script")]
+        Outcome ToolScript(CmdArgs args)
+            => ToolBox.RunScript(arg(args,0).Value, arg(args,1).Value);
+
+        [CmdOp("tool/setup")]
+        void ConfigureTool(CmdArgs args)
+            => iter(ToolBox.Setup(tool(args)), entry => Write(entry));
+
+        static Actor tool(CmdArgs args, byte index = 0)
+            => arg(args,index).Value;
+
+        [CmdOp("tool/docs")]
+        void ToolDocs(CmdArgs args)
+            => iter(ToolBox.LoadDocs(arg(args,0).Value), doc => Write(doc));
+
+        [CmdOp("tool/config")]
+        void ToolConfig(CmdArgs args)
+        {
+            var tool = arg(args,0);
+            var src = AppDb.Toolbase().Sources(tool).Path(tool, FileKind.Config);
+            Write($"{tool}:{src.ToUri()}");
+            var settings = ToolWs.config(src);
+            var count = settings.Count;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var setting = ref settings[i];
+                Write($"{setting}");
+            }
+        }
+
+        //CsLang CsLang => Wf.CsLang();
+
+        ApiMemory ApiMemory => Wf.ApiMemory();
 
         public Index<BitMaskInfo> ApiBitMasks
             => Data(K.BitMasks, () => BitMask.masks(typeof(BitMaskLiterals)));
@@ -26,15 +65,15 @@ namespace Z0
         void EmitApiBitMasks()
             => Emit(ApiBitMasks);
 
-        [CmdOp("api/emit/classes")]
-        Outcome EmitApiClasses(CmdArgs args)
-        {
-            var classifier = Classifiers.classifier<AsmSigTokens.GpRmToken,byte>();
-            var dst = text.emitter();
-            Classifiers.render(classifier,dst);
-            Write(dst.Emit());
-            return true;
-        }
+        // [CmdOp("api/emit/classes")]
+        // Outcome EmitApiClasses(CmdArgs args)
+        // {
+        //     var classifier = Classifiers.classifier<AsmSigTokens.GpRmToken,byte>();
+        //     var dst = text.emitter();
+        //     Classifiers.render(classifier,dst);
+        //     Write(dst.Emit());
+        //     return true;
+        // }
 
         public void Emit(Index<BitMaskInfo> src)
             => TableEmit(src, ProjectDb.ApiTablePath<BitMaskInfo>());
@@ -48,7 +87,6 @@ namespace Z0
                 ref readonly var pack = ref src[i];
                 Write($"{i}", pack.Timestamp);
             }
-
         }
 
         [CmdOp("api/pack/list")]
@@ -106,56 +144,9 @@ namespace Z0
         void ApiEmit()
             => ApiMd.EmitDatasets(AppDb.apipack());
 
-        [CmdOp("api/emit/context")]
-        void EmitContext()
-            => Runtime.EmitContext(AppDb.apipack());
-
-        [CmdOp("api/emit/hex")]
-        void EmitApiHex()
-        {
-            //CliEmitter.
-        }
-
-        [CmdOp("api/emit/refs")]
-        void EmitApiRefs()
-        {
-            //CliEmitter.EmitAssemblyRefs();
-        }
-
-        [CmdOp("api/emit/blobs")]
-        void EmitBlobs()
-        {
-            //CliEmitter.EmitBlobs();
-        }
-
-
-        [CmdOp("api/emit/heaps")]
+        [CmdOp("api/emit/heap")]
         void ApiEmitHeaps()
-            => Heaps.symbols(ApiMd.SymLits);
-
-        [CmdOp("api/emit/msil-host")]
-        void EmitHostMsil(CmdArgs args)
-            => Cli.EmitHostMsil(arg(args,0), AppDb.apipack());
-
-        [CmdOp("api/emit/msil")]
-        void EmitMsil()
-            => Cli.EmitMsil(AppDb.apipack());
-
-        [CmdOp("api/emit/corelib")]
-        void EmitCorLib()
-        {
-            var src = Clr.corlib();
-            var reader = CliReader.create(src);
-            var blobs = reader.ReadBlobs();
-            for(var i=0; i<blobs.Length; i++)
-            {
-                ref readonly var blob = ref skip(blobs,i);
-                Write(string.Format("{0,-8} | {1,-8} | {2,-8}", blob.Seq, blob.Offset, blob.DataSize));
-            }
-
-            // var dst = AppDb.ApiTargets("metadata").Path(src.GetSimpleName(),FileKind.Txt);
-            // CliEmitter.EmitMetadump(src,dst);
-        }
+            => ApiMemory.EmitSymHeap(Heaps.symbols(ApiMd.SymLits));
 
 
         [CmdOp("api/emit/index")]
@@ -174,15 +165,15 @@ namespace Z0
         void ApiEmitComments()
             => ApiMd.EmitComments();
 
-        [CmdOp("gen/replicants")]
-        Outcome GenEnums(CmdArgs args)
-        {
-            const string Name = "api.types.enums";
-            var src = AppDb.ApiTargets().Path(Name, FileKind.List);
-            var types = ApiMd.LoadTypes(src);
-            var name = "EnumDefs";
-            CsLang.EmitReplicants(CsLang.replicant(AppDb.CgStage(name).Root, out var spec), types, AppDb.CgStage(name).Root);
-            return true;
-        }
+        // [CmdOp("gen/replicants")]
+        // Outcome GenEnums(CmdArgs args)
+        // {
+        //     const string Name = "api.types.enums";
+        //     var src = AppDb.ApiTargets().Path(Name, FileKind.List);
+        //     var types = ApiMd.LoadTypes(src);
+        //     var name = "EnumDefs";
+        //     CsLang.EmitReplicants(CsLang.replicant(AppDb.CgStage(name).Root, out var spec), types, AppDb.CgStage(name).Root);
+        //     return true;
+        // }
     }
 }

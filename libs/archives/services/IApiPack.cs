@@ -27,6 +27,10 @@ namespace Z0
         IDbTargets ProcessContext()
             => Targets("context");
 
+        FS.FilePath SectionTable<T>(string section,string prefix)
+            where T : struct
+                => ProcessContext().Targets(section).Table<T>(prefix);
+
         IDbTargets Comments()
             => Metadata().Targets("comments");
 

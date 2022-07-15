@@ -2,13 +2,11 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+[assembly: PartId(PartId.ContainerChecks)]
+namespace Z0.Parts
 {
-    sealed class AppCmd : AppCmdService<AppCmd>
+    public sealed partial class ContainerChecks : Part<ContainerChecks>
     {
-        void RunChecks()
-        {
 
-        }
     }
 }

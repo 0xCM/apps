@@ -8,18 +8,19 @@ namespace Z0
 
     partial class CliEmitter
     {
-        public void EmitMemberRefInfo()
+        public void EmitMemberRefs(IApiPack dst)
         {
             var components = ApiMd.Components;
             var count = components.Length;
             var counter = 0u;
-            for(var i=0; i<count; i++)
-            {
-                var component = skip(components,i);
-                var dst = MemberRefsPath(component);
-                using var reader = PeReader.create(FS.path(component.Location));
-                TableEmit(reader.ReadMemberRefs(), dst);
-            }
+            iter(ApiMd.Components, c => EmitMemberRefs(c,dst), true);
+        }
+
+        public void EmitMemberRefs(Assembly src, IApiPack dst)
+        {
+            var path = dst.SectionTable<MemberRefInfo>("member.refs", src.GetSimpleName());
+            using var reader = PeReader.create(FS.path(src.Location));
+            TableEmit(reader.ReadMemberRefs(), path);
         }
     }
 }

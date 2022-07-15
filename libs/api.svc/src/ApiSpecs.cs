@@ -6,7 +6,7 @@ namespace Z0
 {
     using static ApiTypes;
 
-    sealed class ApiSpecs : AppCmdService<ApiSpecs>, IApiSpecs
+    sealed class ApiSpecsCmd : AppCmdService<ApiSpecsCmd>, IApiSpecs
     {
         ApiMd ApiMd => Wf.ApiMetadata();
 

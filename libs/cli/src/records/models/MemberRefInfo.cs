@@ -7,7 +7,7 @@ namespace Z0
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct MemberRefInfo
     {
-        const string TableId = "refs.members";
+        const string TableId = "refs";
 
         [Render(12)]
         public CliToken Token;

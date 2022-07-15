@@ -10,14 +10,11 @@ namespace Z0
 
     partial class CliEmitter
     {
-        public FS.FilePath MemberRefsPath(Assembly src)
-            => ProjectDb.TablePath<MemberRefInfo>(CliScope, src.GetSimpleName());
-
-        public void EmitAssemblyRefs(FS.Files src)
-            => EmitAssemblyRefs(src, ProjectDb.TablePath<AssemblyRefInfo>(CliScope));
-
         public void EmitAssemblyRefs(IApiPack dst)
             => EmitAssemblyRefs(ApiMd.Components, dst);
+
+        public void EmitAssemblyRefs(ReadOnlySpan<Assembly> src, IApiPack dst)
+            => EmitAssemblyRefs(src, dst.Metadata().Table<AssemblyRefInfo>());
 
         public void EmitAssemblyRefs(ReadOnlySpan<Assembly> src, FS.FilePath dst)
         {
@@ -30,28 +27,6 @@ namespace Z0
             for(var i=0; i<count; i++)
                 counter += EmitAssemblyRefs(skip(src,i), formatter, writer);
             EmittedTable(flow, counter);
-        }
-
-        public void EmitAssemblyRefs(ReadOnlySpan<Assembly> src, IApiPack dst)
-            => EmitAssemblyRefs(src, dst.Metadata().Table<AssemblyRefInfo>());
-
-        void EmitAssemblyRefs(FS.Files input, FS.FilePath dst)
-        {
-            var sources = input.View;
-            var srcCount = sources.Length;
-            using var writer = dst.Writer();
-            var formatter = Tables.formatter<AssemblyRefInfo>(48);
-            writer.WriteLine(formatter.FormatHeader());
-            for(var k=0u; k<srcCount; k++)
-            {
-                ref readonly var source = ref skip(sources,k);
-                Wf.Status(string.Format("Emitting {0} assembly references", source.Name));
-                using var reader = PeReader.create(source);
-                var data = reader.ReadAssemblyRefs();
-                var count = data.Length;
-                for(var i=0; i<count; i++)
-                    writer.WriteLine(formatter.Format(data[i]));
-            }
         }
 
         uint EmitAssemblyRefs(Assembly src, IRecordFormatter formatter, StreamWriter dst)
