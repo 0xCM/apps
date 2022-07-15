@@ -4,14 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct EnvPaths : IEnvPaths
-    {
-        public EnvData Env {get;}
+    using static core;
 
-        [MethodImpl(Inline)]
-        public EnvPaths(EnvData env)
-        {
-            Env = env;
-        }
+    public class CmdExec : WfSvc<CmdExec>
+    {
+
+
     }
+
 }

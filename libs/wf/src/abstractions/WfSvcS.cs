@@ -44,13 +44,6 @@ namespace Z0
             return _Context.GetOrAdd(project.Id, _ => WsContext.load(project));
         }
 
-        [CmdOp("runtime/cpucore")]
-        protected Outcome ShowCurrentCore(CmdArgs args)
-        {
-            Write(string.Format("Cpu:{0}", Kernel32.GetCurrentProcessorNumber()));
-            return true;
-        }
-
         [CmdOp("project/home")]
         protected void ProjectHome()
             => Write(Context().Project.Home());
@@ -103,13 +96,6 @@ namespace Z0
             return result;
         }
 
-        [CmdOp("thread")]
-        Outcome ShowThread(CmdArgs args)
-        {
-            var id = Kernel32.GetCurrentThreadId();
-            Wf.Data(string.Format("ThreadId:{0}", id));
-            return true;
-        }
 
 
         public void Babble<T>(T content)

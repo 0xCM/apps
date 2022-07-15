@@ -6,39 +6,22 @@ namespace Z0
 {
     public readonly struct EnvData
     {
-        readonly Env Source;
-
-        [MethodImpl(Inline)]
-        internal EnvData(Env src)
-        {
-            Source = src;
-        }
-
         public FS.FolderPath Db
             => FS.dir("d:/views/db");
 
         public FS.FolderPath Control
-            => Source.Control;
-
-        public FS.FolderPath Packages
-            => Source.Packages;
+            => FS.dir("C:\\tmp");
 
         public FS.FolderPath Tools
-            => Source.Tools;
+            => FS.dir("C:\\tmp");
 
         public FS.FolderPath CacheRoot
-            => Source.CacheRoot;
-
-        public FS.FolderPath Libs
-            => Source.Libs;
-
-        public FS.FolderPath CapturePacks
-            => Source.CapturePacks;
+            => FS.dir("C:\\tmp");
 
         public FS.FolderPath LlvmRoot
-            => Source.LlvmRoot;
+            => FS.dir("C:\\tmp");
 
         public FS.FolderPath DevWs
-            => Source.DevWs;
+            => FS.dir("C:\\tmp");
     }
 }

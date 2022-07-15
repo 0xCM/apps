@@ -65,6 +65,15 @@ namespace Z0
         public IDbTargets DbOut()
             => new DbTargets(setting(WsArchives.Path(Names.DbTargets), FS.dir));
 
+        public IDbSources Repos()
+            => new DbSources(setting(WsArchives.Path(Names.Repos), FS.dir));
+
+        public IDbSources Repos(string scope)
+            => Repos().Sources(scope);
+
+        public IDbSources Repo(string scope, string name)
+            => Repos(scope).Sources(name);
+
         public EnvVars<string> LoadEnv(string name)
             => AsciLines.env(WsArchives.EnvPath(name));
 
@@ -73,6 +82,12 @@ namespace Z0
 
         public IDbTargets Apps()
             => DbRoot().Targets("apps");
+
+        public IDbTargets Commands()
+            => DbRoot().Targets("commands");
+
+        public IDbTargets Commands(string scope)
+            => Commands().Targets(scope);
 
         public IDbTargets App(PartId part)
             => Apps().Targets(part.Format());

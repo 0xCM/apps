@@ -24,18 +24,6 @@ namespace Z0
 
         }
 
-        [MethodImpl(Inline)]
-        public static implicit operator ProcessAdapter(AdapterHost<A,S> src)
-            => new ProcessAdapter(src.Subject);
-
-        [MethodImpl(Inline)]
-        public static implicit operator ProcessAdapter(S subject)
-            => new ProcessAdapter(subject);
-
-        [MethodImpl(Inline)]
-        public static implicit operator S(A src)
-            => src.Subject;
-
         public MemoryAddress BaseAddress
         {
             [MethodImpl(Inline)]
@@ -1039,5 +1027,17 @@ namespace Z0
         [MethodImpl(Inline)]
         public bool WaitForInputIdle(int milliseconds)
             => Subject.WaitForInputIdle(milliseconds);
+
+        [MethodImpl(Inline)]
+        public static implicit operator ProcessAdapter(AdapterHost<A,S> src)
+            => new ProcessAdapter(src.Subject);
+
+        [MethodImpl(Inline)]
+        public static implicit operator ProcessAdapter(S subject)
+            => new ProcessAdapter(subject);
+
+        [MethodImpl(Inline)]
+        public static implicit operator S(A src)
+            => src.Subject;
     }
 }

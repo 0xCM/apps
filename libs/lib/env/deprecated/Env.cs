@@ -10,8 +10,26 @@ namespace Z0
 
     public class Env
     {
-        public static Env load()
-            => new Env();
+        public static EnvVars<string> env(FS.FilePath src, char sep = Chars.Eq)
+        {
+            var k = z16;
+            var dst = list<EnvVar<string>>();
+            var line = AsciLineCover.Empty;
+            var buffer = alloc<char>(1024*4);
+            using var reader = src.AsciLineReader();
+            while(reader.Next(out line))
+            {
+                var content = line.Codes;
+                var i = SQ.index(content, sep);
+                if(i == NotFound)
+                    continue;
+
+                var _name = text.format(SQ.left(content,i), buffer);
+                var _value = text.format(SQ.right(content,i), buffer);
+                dst.Add(new (_name, _value));
+            }
+            return dst.ToArray().Sort();
+        }
 
         [Op]
         static EnvDirVar dir(string name)
@@ -23,46 +41,8 @@ namespace Z0
             return (name, FS.dir(value));
         }
 
-        Env()
-        {
-            var dst = this;
-            dst.ZDev = dir(N.ZDev);
-            dst.Db = dir(N.Db);
-            dst.Control = dir(N.Control);
-            dst.Packages = dir(N.Packages);
-            dst.Tools = dir(N.Tools);
-            dst.Logs = dir(N.Logs);
-            dst.CacheRoot = dir(N.CacheRoot);
-            dst.Libs = dir(N.Libs);
-            dst.CapturePacks = dir(N.CapturePacks);
-            dst.DevWs = dir(N.DevWs);
-            dst.LlvmRoot = dir(N.LlvmRoot);
-        }
-
-        public EnvDirVar ZDev;
-
-        public EnvDirVar Db;
-
-        public EnvDirVar Control;
-
-        public EnvDirVar Packages;
-
-        public EnvDirVar Tools;
-
-        public EnvDirVar Logs;
-
-        public EnvDirVar CacheRoot;
-
-        public EnvDirVar Libs;
-
-        public EnvDirVar CapturePacks;
-
-        public EnvDirVar LlvmRoot;
-
-        public EnvDirVar DevWs;
-
         public EnvData Data
-            => new EnvData(this);
+            => default;
 
         public string Format()
         {
@@ -72,18 +52,6 @@ namespace Z0
             iter(vars, var => dst.AppendLine(var.Format()));
             return dst.Emit();
         }
-
-        public string Format(VarContextKind vck)
-        {
-            var dst = text.buffer();
-            var vars = Provided;
-            var count = vars.Length;
-            iter(vars, var => dst.AppendLine(var.Format(vck)));
-            return dst.Emit();
-        }
-
-        public override string ToString()
-            => Format();
 
         public ReadOnlySpan<IEnvVar> Provided
             => Members(this);

@@ -37,7 +37,7 @@ namespace Z0
 
         public const string Toolbase = nameof(Toolbase);
 
-        public const string RepoDeps = nameof(RepoDeps);
+        public const string Repos = nameof(Repos);
 
         public const string Tools = nameof(Tools);
 

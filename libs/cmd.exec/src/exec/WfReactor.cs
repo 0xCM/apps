@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public sealed class WfReactor: CmdReactor<WfReactor,CmdExec,CmdResult>
+    public sealed class WfReactor: CmdReactor<WfReactor,RunWf,CmdResult>
     {
         static ConcurrentDictionary<string,Action> _Lookup = new ConcurrentDictionary<string, Action>();
 
@@ -24,19 +24,11 @@ namespace Z0
                 @throw(string.Format("{0}:Unable to include {1}", "Cmd", name));
         }
 
-        public static CmdExec<K> assign<K>(K kind, Action handler)
-            where K : unmanaged
-        {
-            CmdExec<K> cmd = (kind, new CmdExec(kind.ToString()));
-            assign(cmd.Enclosed.WorkflowName, handler);
-            return cmd;
-        }
-
-        public static bool find(CmdExec cmd, out Action handler)
+        public static bool find(RunWf cmd, out Action handler)
             => _Lookup.TryGetValue(cmd.WorkflowName, out handler);
 
         [Op]
-        public static bool find(NameOld name, out CmdExec cmd)
+        public static bool find(NameOld name, out RunWf cmd)
         {
             if(_Lookup.ContainsKey(name))
             {
@@ -45,27 +37,12 @@ namespace Z0
             }
             else
             {
-                cmd = CmdExec.Empty;
+                cmd = RunWf.Empty;
                 return false;
             }
         }
 
-        public static bool find<K>(K kind, out CmdExec<K> cmd)
-            where K : unmanaged
-        {
-            if(find(kind.ToString(), out var c))
-            {
-                cmd = (kind,c);
-                return true;
-            }
-            else
-            {
-                cmd = (kind, CmdExec.Empty);
-                return false;
-            }
-        }
-
-        protected override CmdResult Run(CmdExec cmd)
+        protected override CmdResult Run(RunWf cmd)
         {
             if(find(cmd, out var handler))
             {

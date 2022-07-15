@@ -85,9 +85,6 @@ namespace Z0
         public ReadOnlySpan<TextLine> RunToolCmd(IToolWs ws, Actor tool, ScriptId script, CmdVars? vars = null)
             => RunToolScript(ws, tool, script, ScriptKind.Cmd, vars);
 
-        // public ReadOnlySpan<TextLine> RunToolPs(Actor tool, ScriptId script, CmdVars? vars = null)
-        //     => RunToolScript(tool, script, ScriptKind.Ps, vars);
-
         ReadOnlySpan<TextLine> RunToolScript(IToolWs ws, Actor tool, ScriptId script, ScriptKind kind, CmdVars? vars)
             => Run(CmdLine(ScriptFile(ws, tool, script, kind), kind), script, vars);
 
@@ -99,7 +96,6 @@ namespace Z0
             try
             {
                 var count = args.Length;
-                var paths = EnvPaths.create();
                 for(var i=0; i<count; i++)
                 {
                     var name = FS.file(args[i]);
@@ -108,12 +104,10 @@ namespace Z0
                     if(!name.HasExtension)
                         name = name.WithExtension(FS.Cmd);
 
-                    var script = paths.ControlScript(name);
+                    var script = AppDb.Control().Path(name);
                     if(script.Exists)
                     {
                         var output = RunControlScript(name);
-                        //var processor = CmdResultProcessor.create(script, handlers);
-                        term.inform("Response");
                         iter(output, x => processor.Process(x));
                     }
                     else

@@ -11,6 +11,9 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
+        public static CmdLine cmd(string spec)
+            => string.Format("cmd.exe /c {0}", spec);
+
         public static CmdActions actions<T>(T src)
         {
             var dst = dict<string,IActionRunner>();
@@ -76,24 +79,12 @@ namespace Z0
 
         public static void emit(CmdCatalog src, FS.FilePath dst, WfEventLogger log)
         {
-
             log(Events.emittingFile(dst));
             using var writer = dst.AsciWriter();
             var data = src.ShellCommands.Format();
             log(Events.row(data));
             writer.Write(data);
             log(Events.emittedFile(dst, src.ShellCommands.Count));
-
-            // ref readonly var commands = ref src.ShellCommands;
-            // for(var i=0; i<commands.Count; i++)
-            // {
-            //     ref readonly var def = ref commands[i];
-            //     var spec = string.Format("[{0:D3}]({1})", i, def.Uri);
-            //     log(Events.row(spec));
-            //     writer.WriteLine(spec);
-            // }
-
-            //log(Events.emittedFile(dst, commands.Count));
         }
 
         public static Settings<Name,asci64> commands(IDispatcher src)

@@ -5,40 +5,40 @@
 namespace Z0
 {
     [Cmd(CmdName)]
-    public struct CmdExec : ICmd<CmdExec>
+    public struct RunWf : ICmd<RunWf>
     {
-        public const string CmdName = "exec-wf";
+        public const string CmdName = "run-wf";
 
         public NameOld WorkflowName;
 
         [MethodImpl(Inline)]
-        public CmdExec(NameOld name)
+        public RunWf(NameOld name)
             => WorkflowName = name;
 
         [MethodImpl(Inline)]
-        public bool Equals(CmdExec src)
+        public bool Equals(RunWf src)
             => WorkflowName.Equals(src.WorkflowName);
 
         public override int GetHashCode()
             => WorkflowName.GetHashCode();
 
         public override bool Equals(object src)
-            => src is CmdExec c && Equals(c);
+            => src is RunWf c && Equals(c);
 
         [MethodImpl(Inline)]
-        public static implicit operator CmdExec(string name)
-            => new CmdExec(name);
+        public static implicit operator RunWf(string name)
+            => new RunWf(name);
 
         [MethodImpl(Inline)]
-        public static implicit operator CmdExec(NameOld name)
-            => new CmdExec(name);
+        public static implicit operator RunWf(NameOld name)
+            => new RunWf(name);
 
-        public static bool operator ==(CmdExec a, CmdExec b)
+        public static bool operator ==(RunWf a, RunWf b)
             => a.Equals(b);
 
-        public static bool operator !=(CmdExec a, CmdExec b)
+        public static bool operator !=(RunWf a, RunWf b)
             => !a.Equals(b);
 
-        public static CmdExec Empty => new CmdExec(NameOld.Empty);
+        public static RunWf Empty => new RunWf(NameOld.Empty);
     }
 }

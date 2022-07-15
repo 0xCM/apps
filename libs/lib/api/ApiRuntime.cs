@@ -31,7 +31,6 @@ namespace Z0
             var id = control.Id();
             var paths = AppPaths.create();
             var dst = new WfInit();
-            dst.Env = Env.load().Data;
             dst.Ct = PartToken.create(id);
             dst.Tokens = TokenDispenser.create();
             dst.Settings = JsonSettings.load(control);
@@ -187,7 +186,6 @@ namespace Z0
             var id = control.Id();
             var paths = AppPaths.create();
             var dst = new WfInit();
-            dst.Env = Env.load().Data;
             dst.Ct = PartToken.create(id);
             dst.Tokens = TokenDispenser.create();
             dst.Settings = JsonSettings.load(control);

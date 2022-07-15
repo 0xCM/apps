@@ -38,7 +38,7 @@ namespace Z0
 
         [CmdOp("commands")]
         protected void EmitCommands()
-            => Cmd.emit(Cmd.catalog(Dispatcher), AppDb.ApiTargets("commands").Path(ExecutingPart.Id.PartName().Format(), FileKind.Md), EventLog);
+            => Cmd.emit(Cmd.catalog(Dispatcher), AppDb.Commands("defs").Path(ExecutingPart.Id.PartName().Format(), FileKind.Md), EventLog);
 
         public bool Dispatch(ShellCmdSpec cmd)
         {

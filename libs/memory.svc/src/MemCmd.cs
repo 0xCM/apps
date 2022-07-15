@@ -6,6 +6,7 @@ namespace Z0
 {
     using static core;
     using static ApiGranules;
+    using Windows;
     [Free]
     public unsafe class MemCmd : CmdService<MemCmd>
     {
@@ -35,7 +36,27 @@ namespace Z0
             return result;
         }
 
-        [CmdOp("modules")]
+        [CmdOp("sys/pid")]
+        void ShowPID()
+            => Write(Environment.ProcessId);
+
+        [CmdOp("sys/cpucore")]
+        protected Outcome ShowCurrentCore(CmdArgs args)
+        {
+            Write(string.Format("Cpu:{0}", Kernel32.GetCurrentProcessorNumber()));
+            return true;
+        }
+
+        [CmdOp("sys/thread")]
+        Outcome ShowThread(CmdArgs args)
+        {
+            var id = Kernel32.GetCurrentThreadId();
+            Wf.Data(string.Format("ThreadId:{0}", id));
+            return true;
+        }
+
+
+        [CmdOp("sys/modules")]
         void ListModules()
         {
             var src = ImageMemory.modules(ExecutingPart.Process);

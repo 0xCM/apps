@@ -98,7 +98,7 @@ namespace Z0
 
         protected IProjectDb ProjectDb;
 
-        public EnvData Env => data("Env", () => Z0.Env.load().Data);
+        public EnvData Env => default;
 
         protected IEnvPaths Paths => new EnvPaths(Env);
 

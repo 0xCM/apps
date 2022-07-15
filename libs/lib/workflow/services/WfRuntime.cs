@@ -27,8 +27,6 @@ namespace Z0
 
         public LogLevel Verbosity {get; private set;}
 
-        public EnvData Env {get;}
-
         public IWfEmissionLog Emissions {get; private set;}
 
         TokenDispenser Tokens;
@@ -37,7 +35,6 @@ namespace Z0
         public WfRuntime(WfInit init)
         {
             Tokens = init.Tokens;
-            Env = init.Env;
             EventBroker = init.EventBroker;
             Host = init.Host;
             Verbosity = LogLevel.Status;

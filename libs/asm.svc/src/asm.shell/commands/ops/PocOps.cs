@@ -48,12 +48,14 @@ namespace Z0.Asm
             return result;
         }
 
-        public void ProcessMsDocs()
+
+        [CmdOp("msdocs/check")]
+        void ProcessMsDocs()
         {
-            var src = FS.dir(@"D:\views\repos\MicrosoftDocs\sdk-api\sdk-api-src\content\dbghelp");
-            var dst = Db.AppLog("dbghelp", FS.ext("yml"));
+            var src = AppDb.Repo("MicrosoftDocs", "sdk-api").Sources("sdk-api-src/content/dbghelp");
+            var dst = AppDb.App().Path("dbghelp", FileKind.Yaml);
             var tool = Wf.MsDocs();
-            tool.Process(src,dst);
+            tool.Process(src.Root, dst);
         }
 
         void CheckMullo(IBoundSource Source)

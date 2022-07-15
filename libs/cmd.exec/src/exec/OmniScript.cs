@@ -97,7 +97,7 @@ namespace Z0
         }
 
         public Outcome Run(string content, out ReadOnlySpan<TextLine> response)
-            => CmdRunner.Run(WinCmd.cmd(content), ReceiveCmdStatusQuiet, ReceiveCmdError, out response);
+            => CmdRunner.Run(Cmd.cmd(content), ReceiveCmdStatusQuiet, ReceiveCmdError, out response);
 
         public Outcome Run(FS.FilePath src, out ReadOnlySpan<TextLine> response)
             => ScriptRunner.RunCmd(CmdScripts.cmdline(src.Format(PathSeparator.BS)), CmdVars.Empty, ReceiveCmdStatusQuiet, ReceiveCmdError, out response);

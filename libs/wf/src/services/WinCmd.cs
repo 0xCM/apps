@@ -8,7 +8,7 @@ namespace Z0
     {
         [Op]
         public static CmdLine dir(FS.FolderPath src)
-            => string.Format("cmd /c dir {0}", src.Format(PathSeparator.BS));
+            => string.Format("cmd /c dir {0} /s/b", src.Format(PathSeparator.BS));
 
         [Op]
         public static CmdLine script(FS.FilePath src)
@@ -20,7 +20,5 @@ namespace Z0
         public static CmdLine dir(string src)
             => dir(FS.dir(src));
 
-        public static CmdLine cmd(string spec)
-            => string.Format("cmd.exe /c {0}", spec);
     }
 }

@@ -8,9 +8,6 @@ namespace Z0
 
     public sealed class DevWs : IWorkspace<DevWs>
     {
-        public static DevWs create()
-            => create(Env.load().DevWs.VarValue);
-
         [MethodImpl(Inline)]
         public static DevWs create(FS.FolderPath root)
             => new DevWs(root);
@@ -19,14 +16,11 @@ namespace Z0
 
         FS.FolderPath _OutRoot;
 
-        EnvData EnvData;
-
         [MethodImpl(Inline)]
         DevWs(FS.FolderPath root)
         {
             _WsRoot = root;
             _OutRoot = FS.dir("j:/ws/.out");
-            EnvData = Env.load().Data;
         }
 
         public FS.FolderPath Root

@@ -25,8 +25,6 @@ namespace Z0
 
         public PartName AppName;
 
-        public EnvData Env;
-
         public TokenDispenser Tokens;
 
         public PartToken Ct;
@@ -36,6 +34,5 @@ namespace Z0
         public WfHost Host;
 
         public IWfEmissionLog EmissionLog;
-
     }
 }

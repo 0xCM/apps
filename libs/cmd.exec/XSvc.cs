@@ -22,13 +22,15 @@ namespace Z0
 
             public  Toolsets Toolsets(IWfRuntime wf)
                 => Service<Toolsets>(wf);
+
+            public CmdExec CmdExec(IWfRuntime wf)
+                => Service<CmdExec>(wf);
         }
 
         static ServiceCache Services => ServiceCache.Instance;
 
         public static WsScripts WsScripts(this IWfRuntime wf)
             => Services.WsScripts(wf);
-
 
         public static CmdLineRunner CmdLineRunner(this IWfRuntime wf)
             => Services.CmdLineRunner(wf);
@@ -42,5 +44,7 @@ namespace Z0
         public static Toolsets Toolsets(this IWfRuntime wf)
             => Services.Toolsets(wf);
 
+        public static CmdExec CmdExec(this IWfRuntime wf)
+            => Services.CmdExec(wf);
     }
 }

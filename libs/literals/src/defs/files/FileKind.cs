@@ -215,6 +215,9 @@ namespace Z0
         [Symbol(kvp, "A text file where each line defines a key-value pair")]
         Kvp,
 
+        [Symbol(yaml)]
+        Yaml,
+
         [Symbol(cmdkvp, "A file with KVP semantics/syntax refined to specify a sequence of application commands")]
         CmdKvp
     }
