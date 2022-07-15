@@ -9,7 +9,7 @@ namespace Z0
     partial class CliEmitter
     {
         public void EmitMethodDefs(ReadOnlySpan<Assembly> src, IApiPack pack)
-            => iter(src, a => EmitMethodDefs(a, pack.Metadata("methods.defs").PrefixedTable<MethodDefInfo>(a.GetSimpleName())), true);
+            => iter(src, a => EmitMethodDefs(a, pack.Metadata(CliSections.Methods).PrefixedTable<MethodDefInfo>(a.GetSimpleName())), true);
 
         void EmitMethodDefs(Assembly src, FS.FilePath dst)
         {

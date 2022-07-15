@@ -14,12 +14,44 @@ namespace Z0
 
         ApiMd ApiMd => Wf.ApiMetadata();
 
-        public ConstLookup<ApiHostUri,FS.FilePath> EmitMsil(IApiPack dst)
+        public void EmitIl(IApiPack dst)
             => EmitMsil(ApiMd.ApiHosts, dst);
 
         MsilPipe MsilSvc => Wf.MsilSvc();
 
         ApiJit Jit => Wf.ApiJit();
+
+        public ReadOnlySeq<AssemblyRefInfo> ReadAssemblyRefs(Assembly src)
+        {
+            var path = FS.path(src.Location);
+            if(ClrModules.valid(path))
+            {
+                using var reader = PeReader.create(path);
+                return reader.ReadAssemblyRefs();
+            }
+            else
+                return ReadOnlySeq<AssemblyRefInfo>.Empty;
+        }
+
+        public ReadOnlySeq<AssemblyRefInfo> ReadAssemblyRefs()
+        {
+            var components = ApiMd.Components;
+            var count = components.Length;
+            var dst = list<AssemblyRefInfo>();
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var assembly = ref skip(components,i);
+                var path = FS.path(assembly.Location);
+                if(ClrModules.valid(path))
+                {
+                    using var reader = PeReader.create(path);
+                    var refs = reader.ReadAssemblyRefs();
+                    iter(refs,r => dst.Add(r));
+                }
+            }
+            dst.Sort();
+            return dst.ToArray();
+        }
 
         public void EmitHostMsil(string hostid, IApiPack dst)
         {
@@ -36,14 +68,14 @@ namespace Z0
                 Errors.Throw(result.Message);
         }
 
-        public ConstLookup<ApiHostUri,FS.FilePath> EmitMsil(ReadOnlySpan<IApiHost> hosts, IApiPack dst)
+        public void EmitMsil(ReadOnlySpan<IApiHost> src, IApiPack dst)
         {
             var buffer = text.buffer();
             var k = 0u;
             var emitted = cdict<ApiHostUri,FS.FilePath>();
-            for(var i=0; i<hosts.Length; i++)
+            for(var i=0; i<src.Length; i++)
             {
-                ref readonly var host = ref skip(hosts, i);
+                ref readonly var host = ref skip(src, i);
                 var members = Jit.JitHost(host);
                 var count = members.Length;
                 if(members.Count == 0)
@@ -59,7 +91,6 @@ namespace Z0
                 FileEmit(buffer.Emit(), members.Count, path, TextEncodingKind.Unicode);
                 emitted[host.HostUri] = path;
             }
-            return emitted;
         }
 
         public ReadOnlySpan<string> ReadUserStrings(PartId part)
@@ -276,7 +307,6 @@ namespace Z0
 
             return length;
         }
-
 
         public static string heapinfo<T>(T src)
             where T : ICliHeap

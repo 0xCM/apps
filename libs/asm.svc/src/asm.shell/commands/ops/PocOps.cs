@@ -449,10 +449,12 @@ namespace Z0.Asm
             Wf.Data(formatter.Format(info));
         }
 
+        Cli Cli => Wf.Cli();
+
         void EmitDependencyGraph()
         {
             var svc = Wf.CliEmitter();
-            var refs = svc.ReadAssemblyRefs();
+            var refs = Cli.ReadAssemblyRefs();
             var dst = Db.AppLog("dependencies", FS.Dot);
             var flow = Wf.EmittingFile(dst);
             var count = refs.Length;

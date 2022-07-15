@@ -13,10 +13,10 @@ namespace Z0
             => MD.ManifestResources.ToReadOnlySpan();
 
         [MethodImpl(Inline), Op]
-        public ReadOnlySpan<ManifestResourceInfo> ReadResInfo()
+        public ReadOnlySeq<ManifestResourceInfo> ReadResInfo()
         {
             var handles = ResourceHandles();
-            return ReadResInfo(handles, alloc<ManifestResourceInfo>(handles.Length));
+            return ReadResInfo(handles, sys.alloc<ManifestResourceInfo>(handles.Length));
         }
 
         [MethodImpl(Inline), Op]
@@ -24,18 +24,18 @@ namespace Z0
             => MetadataTokens.ManifestResourceHandle((int)row);
 
         [MethodImpl(Inline), Op]
-        public Span<ManifestResourceInfo> ReadResInfo(ReadOnlySpan<ManifestResourceHandle> src, Span<ManifestResourceInfo> dst)
+        public ReadOnlySeq<ManifestResourceInfo> ReadResInfo(ReadOnlySpan<ManifestResourceHandle> src, Seq<ManifestResourceInfo> dst)
         {
             var count = src.Length;
             for(var i=0u; i<count; i++)
-                ReadResInfo(ReadResource(skip(src,i), out var _), ref seek(dst,i));
+                ReadResInfo(ReadResource(skip(src,i), out var _), ref dst[i]);
             return dst;
         }
 
         [MethodImpl(Inline), Op]
         public ref ManifestResource ReadResource(ManifestResourceHandle src, out ManifestResource dst)
         {
-            dst = Read(src);
+            dst = MD.GetManifestResource(src);
             return ref dst;
         }
 

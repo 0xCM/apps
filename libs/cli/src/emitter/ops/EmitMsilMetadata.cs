@@ -8,8 +8,8 @@ namespace Z0
 
     partial class CliEmitter
     {
-        public uint EmitMsilMetadata(IApiPack dst)
-            => EmitMsilMetadata(ApiMd.Components, dst.Metadata("msil"));
+        public uint EmitIlDat(IApiPack dst)
+            => EmitMsilMetadata(ApiMd.Components, dst.Metadata(CliSections.IlData));
 
         public uint EmitMsilMetadata(ReadOnlySpan<Assembly> src, IDbTargets dst)
         {
@@ -34,11 +34,7 @@ namespace Z0
                 var view = methods;
                 var count = (uint)methods.Length;
                 if(count != 0)
-                {
-                    var flow = EmittingTable<MsilRow>(dst);
-                    Tables.emit(methods, dst);
-                    EmittedTable<MsilRow>(flow, count);
-                }
+                    TableEmit(methods, dst);
             }
             return methods;
         }

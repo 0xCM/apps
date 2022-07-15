@@ -23,9 +23,6 @@ namespace Z0.Asm
             OutWs = Ws.Output();
         }
 
-        public FS.FolderPath OutRoot()
-            => OutWs.Root;
-
         Outcome BuildAsmExe(string id)
         {
             const string ScriptId = "build-exe";

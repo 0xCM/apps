@@ -40,17 +40,17 @@ namespace Z0
             var dst = new CliEmitOptions();
             dst.EmitImageContent = false;
             dst.EmitSectionHeaders = true;
-            dst.EmitMsilMetadata = false;
+            dst.EmitMsilMetadata = true;
             dst.EmitCliStrings = true;
-            dst.EmitCliBlobs = false;
-            dst.EmitCliConstants = false;
-            dst.EmitFieldMetadata = false;
+            dst.EmitCliBlobs = true;
+            dst.EmitCliConstants = true;
+            dst.EmitFieldMetadata = true;
             dst.EmitApiMetadump = false;
-            dst.EmitAssemblyRefs = false;
-            dst.EmitMethodDefs = false;
-            dst.EmitCliRowStats = false;
-            dst.EmitMetadataHex = false;
-            dst.EmitMsilCode = false;
+            dst.EmitAssemblyRefs = true;
+            dst.EmitMethodDefs = true;
+            dst.EmitCliRowStats = true;
+            dst.EmitMetadataHex = true;
+            dst.EmitMsilCode = true;
             return dst;
         }
     }

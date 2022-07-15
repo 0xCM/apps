@@ -15,7 +15,7 @@ namespace Z0
         {
             var fields = ClrFields.literals(src.Types());
             if(fields.Length != 0)
-                Emit(fields, dst.Metadata("literals").Path(FS.file(src.GetSimpleName(), FileKind.Csv)));
+                Emit(fields, dst.Metadata(CliSections.Literals).Path(FS.file(src.GetSimpleName(), FileKind.Csv)));
         }
 
         void Emit(FieldRef[] src, FS.FilePath dst)

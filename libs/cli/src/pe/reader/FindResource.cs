@@ -4,21 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial class PeReader
     {
         [Op]
         public unsafe bool FindResource(string name, out ResSeg dst)
         {
             dst = default;
-
             var directory = ReadSectionData(ResourcesDirectory);
             var descriptions = CliReader().ReadResInfo();
             var count = descriptions.Length;
             for(var i=0; i<count; i++)
             {
-                ref readonly var description = ref skip(descriptions, i);
+                ref readonly var description = ref descriptions[i];
                 if(description.Name.Equals(name))
                 {
                     var blobReader = directory.GetReader((int)description.Offset, directory.Length - (int)description.Offset);

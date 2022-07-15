@@ -23,8 +23,8 @@ namespace Z0
             writer.WriteLine(formatter.FormatHeader());
             foreach(var file in src)
             {
-                using var reader = PeReader.create(file);
-                var headers = reader.ReadHeaders();
+                using var reader = PeTables.open(file);
+                var headers = reader.Headers();
                 var count = headers.Length;
                 for(var i=0u; i<count; i++)
                     writer.WriteLine(formatter.Format(headers[i]));

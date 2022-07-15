@@ -4,6 +4,30 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    public class CliSections
+    {
+        public const string ApiHex = "api.hex";
+
+        public const string Fields = "fields";
+
+        public const string ConstFields = "fields.const";
+
+        public const string Image = "image";
+
+        public const string Methods = "methods";
+
+        public const string Blobs = "blobs";
+
+        public const string UserStrings = "strings.user";
+
+        public const string SystemStrings = "strings.system";
+
+        public const string Literals = "literals";
+
+        public const string IlData ="ildata";
+
+    }
+
     public sealed partial class CliEmitter : WfSvc<CliEmitter>
     {
         ApiMd ApiMd => Wf.ApiMetadata();
@@ -25,22 +49,22 @@ namespace Z0
                 EmitSectionHeaders(dst);
 
             if(options.EmitMsilMetadata)
-                EmitMsilMetadata(dst);
+                EmitIlDat(dst);
 
             if(options.EmitMsilCode)
-                Cli.EmitMsil(dst);
+                Cli.EmitIl(dst);
 
             if(options.EmitCliStrings)
             {
                 EmitUserStrings(dst);
-                EmitSystemStringInfo(dst);
+                EmitSystemStrings(dst);
             }
 
             if(options.EmitMetadataHex)
                 EmitApiHex(dst);
 
             if(options.EmitCliConstants)
-                EmitConstants(dst);
+                EmitConstFields(dst);
 
             if(options.EmitCliBlobs)
                 EmitBlobs(dst);

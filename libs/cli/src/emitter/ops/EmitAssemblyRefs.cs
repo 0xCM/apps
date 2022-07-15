@@ -10,6 +10,12 @@ namespace Z0
 
     partial class CliEmitter
     {
+        public void EmitRefs(IApiPack dst)
+        {
+            EmitAssemblyRefs(AppDb.apipack());
+            EmitMemberRefs(AppDb.apipack());
+        }
+
         public void EmitAssemblyRefs(IApiPack dst)
             => EmitAssemblyRefs(ApiMd.Components, dst);
 

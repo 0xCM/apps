@@ -12,17 +12,20 @@ namespace Z0
 
         CliEmitter CliEmitter => Wf.CliEmitter();
 
+        public static unsafe PEReader PeReader(MemorySeg src)
+            => new PEReader(src.BaseAddress.Pointer<byte>(), src.Size);
+
         [CmdOp("cli/emit/hex")]
         void EmitApiHex()
             => CliEmitter.EmitApiHex(AppDb.apipack());
 
-        [CmdOp("cli/emit/asmrefs")]
-        void EmitAssemblyRefs()
-            => CliEmitter.EmitAssemblyRefs(AppDb.apipack());
-
-        [CmdOp("cli/emit/memrefs")]
+        [CmdOp("cli/emit/refs")]
         void EmitMemberRefs()
-            => CliEmitter.EmitMemberRefs(AppDb.apipack());
+            => CliEmitter.EmitRefs(AppDb.apipack());
+
+        [CmdOp("cli/emit/strings")]
+        void EmitStrings()
+            => CliEmitter.EmitStrings(AppDb.apipack());
 
         [CmdOp("cli/emit/blobs")]
         void EmitBlobs()
@@ -30,11 +33,23 @@ namespace Z0
 
         [CmdOp("cli/emit/msil")]
         void EmitMsil()
-            => Cli.EmitMsil(AppDb.apipack());
+            => Cli.EmitIl(AppDb.apipack());
+
+        [CmdOp("cli/emit/ildat")]
+        void EmitIlDat()
+            => CliEmitter.EmitIlDat(AppDb.apipack());
 
         [CmdOp("cli/emit/fields")]
         void EmitFields()
             => CliEmitter.EmitFieldMetadata(AppDb.apipack());
+
+        [CmdOp("cli/emit/literals")]
+        void EmitLiterals()
+            => CliEmitter.EmitLiterals(AppDb.apipack());
+
+        [CmdOp("cli/emit/headers")]
+        void EmitHeaders()
+            => CliEmitter.EmitSectionHeaders(AppDb.apipack());
 
         [CmdOp("api/emit/corelib")]
         void EmitCorLib()
@@ -47,11 +62,6 @@ namespace Z0
                 ref readonly var blob = ref skip(blobs,i);
                 Write(string.Format("{0,-8} | {1,-8} | {2,-8}", blob.Seq, blob.Offset, blob.DataSize));
             }
-
-            // var dst = AppDb.ApiTargets("metadata").Path(src.GetSimpleName(),FileKind.Txt);
-            // CliEmitter.EmitMetadump(src,dst);
         }
-
-
     }
 }

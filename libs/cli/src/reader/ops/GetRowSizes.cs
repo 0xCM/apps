@@ -11,20 +11,12 @@ namespace Z0
         [Op]
         public Index<TableIndex,byte> GetRowSizes()
         {
-            var buffer = alloc<byte>(TableCount);
-            ref var dst = ref first(buffer);
+            var dst = sys.alloc<byte>(TableCount);
             for(byte i=0; i<TableCount; i++)
             {
-               try
-               {
-                    seek(dst,i) = (byte)MD.GetTableRowSize((TableIndex)i);
-               }
-               catch(Exception)
-               {
-
-               }
+                seek(dst,i) = (byte)MD.GetTableRowSize((TableIndex)i);
             }
-            return buffer;
+            return dst;
         }
     }
 }

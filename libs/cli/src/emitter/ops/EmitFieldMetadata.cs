@@ -20,22 +20,18 @@ namespace Z0
 
         void EmitFieldMetadata(Assembly src, IApiPack dst)
         {
-            iter(ApiMd.Components, part =>
-                {
-                    EmitMemberFields(part,dst);
-                    EmitFieldDefs(part,dst);
-
-                }, true);
-
+            core.exec(true,
+            () => EmitConstFields(src, dst),
+            () => EmitMemberFields(src, dst),
+            () => EmitFieldDefs(src, dst)
+            );
         }
+
         void EmitMemberFields(Assembly src, IApiPack dst)
         {
             try
             {
-                var path = dst.Metadata(CliMemberField.TableId).PrefixedTable<CliMemberField>(src.GetSimpleName());
-                if(path.Exists)
-                    Errors.ThrowWithOrigin(AppMsg.FileExists.Format(path));
-
+                var path = dst.Metadata(CliSections.Fields).PrefixedTable<CliMemberField>(src.GetSimpleName());
                 var flow = EmittingTable<CliMemberField>(path);
                 var reader = CliReader.create(src);
                 var fields = reader.ReadFieldInfo();

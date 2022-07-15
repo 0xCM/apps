@@ -7,10 +7,23 @@ namespace Z0
     using System.IO;
     using System.Linq;
 
+    using static core;
+
+    using I = System.Reflection.Metadata.Ecma335.TableIndex;
+
     public partial class PeReader : IDisposable
     {
         public static CliRowIndex index(in PeStream state, Handle handle)
             => new CliToken(state.Reader.GetToken(handle));
+
+        [MethodImpl(Inline), Op]
+        public static PeDirInfo directory(Address32 rva, uint size)
+        {
+            var dst = new PeDirInfo();
+            dst.Rva = rva;
+            dst.Size = size;
+            return dst;
+        }
 
         [Op]
         public static PeReader create(FS.FilePath src)
@@ -20,7 +33,32 @@ namespace Z0
 
         readonly FileStream Stream;
 
-        public PEReader PE {get;}
+        public ReadOnlySpan<ConstantFieldInfo> Constants(ref uint counter)
+        {
+            var reader = MD;
+            var count = ConstantCount();
+            var dst = core.span<ConstantFieldInfo>(count);
+            for(var i=1u; i<=count; i++)
+            {
+                var k = MetadataTokens.ConstantHandle((int)i);
+                var entry = reader.GetConstant(k);
+                var parent = new CliRowIndex(MD.GetToken(entry.Parent));
+                var blob = reader.GetBlobBytes(entry.Value);
+                ref var target = ref seek(dst, i - 1u);
+                target.Seq = counter++;
+                target.ParentId = parent.Token;
+                target.Source = parent.Table.ToString();
+                target.DataType = entry.TypeCode;
+                target.Content = blob;
+            }
+            return dst;
+        }
+
+        [MethodImpl(Inline), Op]
+        public int ConstantCount()
+            => MD.GetTableRowCount(I.Constant);
+
+        PEReader PE {get;}
 
         public MetadataReader MD
         {
@@ -58,17 +96,16 @@ namespace Z0
             PE = new PEReader(Stream);
         }
 
-
         public void Dispose()
         {
             PE?.Dispose();
             Stream?.Dispose();
         }
 
-        public PeFileInfo ReadPeInfo()
+        public static PeFileInfo ReadPeInfo(PEReader src)
         {
-            var pe = PE.PEHeaders.PEHeader;
-            var coff = PE.PEHeaders.CoffHeader;
+            var pe = src.PEHeaders.PEHeader;
+            var coff = src.PEHeaders.CoffHeader;
             var dst = new PeFileInfo();
             dst.Machine = coff.Machine;
             dst.ImageBase = pe.ImageBase;
@@ -88,9 +125,9 @@ namespace Z0
             return dst;
         }
 
-        public CoffHeader ReadCoffInfo()
+        public static CoffHeader ReadCoffInfo(PEReader pe)
         {
-            var src = PeHeaders.CoffHeader;
+            var src = pe.PEHeaders.CoffHeader;
             var dst = new CoffHeader();
             dst.Characteristics = src.Characteristics;
             dst.Machine = src.Machine;
@@ -102,8 +139,8 @@ namespace Z0
             return dst;
         }
 
-        public FileModuleInfo Describe()
-            => new FileModuleInfo(ReadPeInfo(), ReadCoffInfo(), ReadHeaders());
+        public static FileModuleInfo describe(PEReader reader)
+            => new FileModuleInfo(ReadPeInfo(reader), ReadCoffInfo(reader), headers(reader, FS.FilePath.Empty));
 
         public PEHeaders PeHeaders
         {

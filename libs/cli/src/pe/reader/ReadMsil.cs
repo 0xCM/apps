@@ -13,14 +13,14 @@ namespace Z0
         public ReadOnlySpan<MsilRow> ReadMsil()
         {
             var dst = list<MsilRow>();
-            var types = @readonly(MD.TypeDefinitions.ToArray());
+            var types = MD.TypeDefinitions.ToArray();
             var typeCount = types.Length;
             for(var k=0u; k<typeCount; k++)
             {
                  var hType = skip(types, k);
-                 var methods = @readonly(MD.GetTypeDefinition(hType).GetMethods().Array());
+                 var methods = MD.GetTypeDefinition(hType).GetMethods().Array();
                  var methodCount = methods.Length;
-                 var definitions = @readonly(map(methods, m=> MD.GetMethodDefinition(m)));
+                 var definitions = map(methods, m=> MD.GetMethodDefinition(m));
                  for(var i=0u; i<methodCount; i++)
                  {
                     ref readonly var method = ref skip(methods,i);

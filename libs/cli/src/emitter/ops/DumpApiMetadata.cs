@@ -34,7 +34,6 @@ namespace Z0
             }
         }
 
-
         public void EmitApiMetadump(IApiPack dst)
             => EmitApiMetadump(dst.Metadata("metadump"));
 

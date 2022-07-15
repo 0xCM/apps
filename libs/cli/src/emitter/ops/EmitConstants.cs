@@ -8,18 +8,18 @@ namespace Z0
 
     partial class CliEmitter
     {
-        public void EmitConstants(IApiPack dst)
-            => iter(ApiMd.Components, c => EmitConstants(c, dst), true);
+        public void EmitConstFields(IApiPack dst)
+            => iter(ApiMd.Components, c => EmitConstFields(c, dst), true);
 
-        public void EmitConstants(Assembly src, IApiPack dst)
+        public void EmitConstFields(Assembly src, IApiPack dst)
         {
             var counter = 0u;
-            var target = dst.Metadata("fields.const").PrefixedTable<ConstantFieldInfo>(src.GetSimpleName());
-            var flow = Wf.EmittingTable<ConstantFieldInfo>(target);
+            var target = dst.Metadata(CliSections.ConstFields).PrefixedTable<ConstantFieldInfo>(src.GetSimpleName());
+            var flow = EmittingTable<ConstantFieldInfo>(target);
             var formatter = Tables.formatter<ConstantFieldInfo>();
             using var writer = target.Writer();
             writer.WriteLine(formatter.FormatHeader());
-            using var reader = PeTableReader.open(src.Path());
+            using var reader = PeReader.create(src.Path());
             var constants = reader.Constants(ref counter);
             var count = constants.Length;
             for(var i=0; i<count; i++)
