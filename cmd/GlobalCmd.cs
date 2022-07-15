@@ -29,7 +29,6 @@ namespace Z0
                 wf.AsmChecks()
                 };
 
-
         public static AppCmd commands(IWfRuntime wf)
         {
             var xed = GlobalServices.Instance.Inject(wf.XedRuntime());

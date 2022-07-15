@@ -8,12 +8,7 @@ namespace Z0
     public interface ICmdProvider
     {
         ICmdActions Actions {get;}
-    }
 
-    [Free]
-    public interface ICmdProvider<S> : ICmdProvider
-        where S : ICmdProvider, new()
-    {
-
+        Name Name => GetType().DisplayName();
     }
 }

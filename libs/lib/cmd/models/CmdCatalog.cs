@@ -6,22 +6,19 @@ namespace Z0
 {
     public class CmdCatalog
     {
-        readonly ReadOnlySeq<ShellCmdDef> ShellCmdSeq;
-
-        public readonly asci32 Host;
+        readonly CmdUriSeq ShellCmdSeq;
 
         public readonly PartId Part;
 
-        public ref readonly ReadOnlySeq<ShellCmdDef> ShellCommands
+        public ref readonly CmdUriSeq ShellCommands
         {
             [MethodImpl(Inline)]
             get => ref ShellCmdSeq;
         }
 
-        public CmdCatalog(PartId part, asci32 host, ShellCmdDef[] defs)
+        public CmdCatalog(PartId part, CmdUri[] defs)
         {
             Part = part;
-            Host = host;
             ShellCmdSeq =  defs;
         }
     }

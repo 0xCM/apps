@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class CmdService<S> : WfSvc<CmdService<S>>, ICmdProvider<S>, ICmdService
+    public class CmdService<S> : WfSvc<CmdService<S>>, ICmdProvider, ICmdService
         where S : CmdService<S>, new()
     {
         public new static S create(IWfRuntime wf)
@@ -38,11 +38,7 @@ namespace Z0
 
         [CmdOp("commands")]
         protected void EmitCommands()
-        {
-            var host = (S)this;
-            var catalog = Cmd.catalog(host, Dispatcher);
-            Cmd.emit(catalog, AppDb.ApiTargets("commands").Path(ExecutingPart.Id.PartName().Format(), FileKind.Kvp), EventLog);
-        }
+            => Cmd.emit(Cmd.catalog(Dispatcher), AppDb.ApiTargets("commands").Path(ExecutingPart.Id.PartName().Format(), FileKind.Md), EventLog);
 
         public bool Dispatch(ShellCmdSpec cmd)
         {

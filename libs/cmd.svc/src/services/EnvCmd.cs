@@ -51,7 +51,7 @@ namespace Z0
             return result;
         }
 
-        [CmdOp("env/emit/includes")]
+        [CmdOp("env/includes")]
         void LoadToolEnv()
             => ToolBox.EmitIncludePaths();
 
@@ -59,14 +59,12 @@ namespace Z0
         void LoadEnv(CmdArgs args)
             => iter(EnvDb.vars(args.Count != 0 ? arg(args,0).Value : null).View, member => Write(member.Format()));
 
-        [CmdOp("env/machine/list")]
+        [CmdOp("env/list")]
         void ListMachineEnv()
             => EnvVars.machine().Iter(v => Write(v.Format()));
 
-        [CmdOp("env/machine/emit")]
+        [CmdOp("env")]
         void EmitMachineEnv()
             => EnvVars.emit();
-
-
     }
 }

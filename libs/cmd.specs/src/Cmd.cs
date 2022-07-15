@@ -41,19 +41,17 @@ namespace Z0
             var dst = Settings64.load(buffer);
             for(var i=0; i<actions.Count; i++)
                 seek(buffer,i) = Settings.setting(string.Format("{0}[{1:D3}]", part, i), (asci64)actions[i]);
-            return new CmdSource(provider.GetType().DisplayName(), dst);
+            return new CmdSource(provider.Name, dst);
         }
 
-        public static CmdCatalog catalog<S>(S provider, IDispatcher dispatcher)
-            where S : ICmdProvider, new()
+        public static CmdCatalog catalog(IDispatcher dispatcher)
         {
             ref readonly var defs = ref dispatcher.Commands.Defs;
             var count = defs.Count;
-            var dst = alloc<ShellCmdDef>(count);
+            var dst = alloc<CmdUri>(count);
             for(var i=0; i<count; i++)
-                seek(dst,i) = defs[i];
-            var type = provider.GetType();
-            return new CmdCatalog(type.Assembly.Id(), type.DisplayName(), dst);
+                seek(dst,i) = defs[i].Uri;
+            return new CmdCatalog(ExecutingPart.Id, dst);
         }
 
         public static CmdDispatcher dispatcher<T>(T svc, WfEventLogger log, ICmdActions actions)
@@ -78,19 +76,24 @@ namespace Z0
 
         public static void emit(CmdCatalog src, FS.FilePath dst, WfEventLogger log)
         {
+
             log(Events.emittingFile(dst));
             using var writer = dst.AsciWriter();
-            ref readonly var commands = ref src.ShellCommands;
-            for(var i=0; i<commands.Count; i++)
-            {
-                ref readonly var def = ref commands[i];
-                ref readonly var uri = ref def.Uri;
-                var kvp = string.Format("{0}[{1:D3}]:{2}", src.Host, i, uri);
-                log(Events.row(kvp));
-                writer.WriteLine(kvp);
-            }
+            var data = src.ShellCommands.Format();
+            log(Events.row(data));
+            writer.Write(data);
+            log(Events.emittedFile(dst, src.ShellCommands.Count));
 
-            log(Events.emittedFile(dst, commands.Count));
+            // ref readonly var commands = ref src.ShellCommands;
+            // for(var i=0; i<commands.Count; i++)
+            // {
+            //     ref readonly var def = ref commands[i];
+            //     var spec = string.Format("[{0:D3}]({1})", i, def.Uri);
+            //     log(Events.row(spec));
+            //     writer.WriteLine(spec);
+            // }
+
+            //log(Events.emittedFile(dst, commands.Count));
         }
 
         public static Settings<Name,asci64> commands(IDispatcher src)
