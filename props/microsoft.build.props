@@ -1,8 +1,8 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Build.Runtime" Version="16.9.0" />
-    <PackageReference Include="MSBuild.StructuredLogger" Version="2.1.404" />
+    <PackageReference Include="Microsoft.Build.Runtime" Version="17.2.0" />
+    <PackageReference Include="MSBuild.StructuredLogger" Version="2.1.669" />
   </ItemGroup>
 
 </Project>

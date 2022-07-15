@@ -11,6 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="$(TestChecks)" />
     <ProjectReference Include="$(TestUnits)" />
+    <ProjectReference Include="$(Cli)" />
     <ProjectReference Include="$(CgLibs)" />
     <ProjectReference Include="$(ZLibs)" />
   </ItemGroup>

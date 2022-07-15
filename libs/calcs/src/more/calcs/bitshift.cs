@@ -79,6 +79,5 @@ namespace Z0
         public static VSllv256<T> vsllv<T>(W256 w, T t = default)
             where T : unmanaged
                 => default(VSllv256<T>);
-
     }
 }

@@ -8,17 +8,16 @@ namespace Z0
 
     partial class CliEmitter
     {
-        public void EmitRowStats(ReadOnlySpan<Assembly> src, FS.FilePath dst)
+        public void EmitRowStats(IApiPack dst)
         {
-            var count = src.Length;
-            var entries = list<CliRowStats>();
+            var src = ApiMd.Components;
             var seq = 0u;
-            var flow = Wf.EmittingTable<CliRowStats>(dst);
+            var path = dst.Metadata().Table<CliRowStats>();
+            var flow = EmittingTable<CliRowStats>(path);
             var formatter = Tables.formatter<CliRowStats>();
-            using var writer = dst.Writer();
+            using var writer = path.Writer();
             writer.WriteLine(formatter.FormatHeader());
-
-            for(var i=0; i<count; i++)
+            for(var i=0; i<src.Length; i++)
             {
                 ref readonly var a = ref skip(src,i);
                 var rows = CollectRowStats(a,ref seq);
@@ -26,7 +25,7 @@ namespace Z0
                     writer.WriteLine(formatter.Format(skip(rows,j)));
             }
 
-            Wf.EmittedTable(flow,seq);
+            EmittedTable(flow,seq);
         }
 
         public ReadOnlySpan<CliRowStats> CollectRowStats(Assembly a, ref uint seq)

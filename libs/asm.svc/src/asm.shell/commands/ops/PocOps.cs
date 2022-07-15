@@ -49,15 +49,6 @@ namespace Z0.Asm
         }
 
 
-        [CmdOp("msdocs/check")]
-        void ProcessMsDocs()
-        {
-            var src = AppDb.Repo("MicrosoftDocs", "sdk-api").Sources("sdk-api-src/content/dbghelp");
-            var dst = AppDb.App().Path("dbghelp", FileKind.Yaml);
-            var tool = Wf.MsDocs();
-            tool.Process(src.Root, dst);
-        }
-
         void CheckMullo(IBoundSource Source)
         {
             var @class = ApiClassKind.MulLo;

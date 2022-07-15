@@ -149,6 +149,31 @@ namespace Z0
                 => (byte)(x&y);
         }
 
+
+        void Display1()
+        {
+            var x = ScalarCast.uint8(4);
+            var y = ScalarCast.uint8(16);
+            var f = K.mul();
+
+            var expect = Managed.eval(f, x, y);
+            var actual = Native.eval(f, x, y);
+            var message = describe(f, x,y, expect, actual);
+
+            term.print(message);
+        }
+
+        void Display2()
+        {
+            var slots = ClrDynamic.slots(typeof(Slots));
+            for(var i=0; i<slots.Length; i++)
+            {
+                ref readonly var slot = ref slots[i];
+                term.print(slot);
+            }
+        }
+
+
         public static string apply<K,T>(K k, T x, T y)
             where K : IApiClass
                 => $"{k.Format()}({x},{y})";
@@ -171,28 +196,6 @@ namespace Z0
             where T : IEquatable<T>
                 => expect.Equals(actual) ? success(k, x, y, actual) : failure(k, x, y, expect, actual);
 
-        void Display1()
-        {
-            var x = ScalarCast.uint8(4);
-            var y = ScalarCast.uint8(16);
-            var f = K.mul();
-
-            var expect = Managed.eval(f, x, y);
-            var actual = Native.eval(f, x, y);
-            var message = describe(f, x,y, expect, actual);
-
-            term.print(message);
-        }
-
-        void Display2()
-        {
-            var slots = ClrDynamic.slots(typeof(Slots));
-            for(var i=0; i<slots.Length; i++)
-            {
-                ref readonly var slot = ref skip(slots,i);
-                term.print(slot);
-            }
-        }
 
         public static byte compute()
         {

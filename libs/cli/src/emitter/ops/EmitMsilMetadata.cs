@@ -9,19 +9,19 @@ namespace Z0
     partial class CliEmitter
     {
         public uint EmitIlDat(IApiPack dst)
-            => EmitMsilMetadata(ApiMd.Components, dst.Metadata(CliSections.IlData));
+            => EmitMsilMetadata(ApiMd.Components, dst);
 
-        public uint EmitMsilMetadata(ReadOnlySpan<Assembly> src, IDbTargets dst)
+        public uint EmitMsilMetadata(ReadOnlySpan<Assembly> src, IApiPack dst)
         {
             var total = 0u;
             var count = src.Length;
             for(var i=0; i<count; i++)
-                EmitMsilMetadata(skip(src,i), MsilMetadataPath(skip(src,i), dst.Root));
+                EmitMsilMetadata(skip(src,i), dst.Metadata().Path(CliSections.IlData, FileKind.Csv));
             return total;
         }
 
-        public FS.FilePath MsilMetadataPath(Assembly src, FS.FolderPath dst)
-            => dst +  FS.file(src.GetSimpleName(), FileKind.Csv);
+        // public FS.FilePath MsilMetadataPath(Assembly src, FS.FolderPath dst)
+        //     => dst +  FS.file(src.GetSimpleName(), FileKind.Csv);
 
         public ReadOnlySpan<MsilRow> EmitMsilMetadata(Assembly src, FS.FilePath dst)
         {

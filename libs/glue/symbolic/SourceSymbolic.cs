@@ -32,11 +32,11 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var item = ref skip(items,i);
-                var doc = item.Docs;
-                var summary = doc != null ? doc.SummaryText.Trim() : EmptyString;
-                if(nonempty(summary))
-                    writer.WriteLine(string.Format("// {0}",summary));
-                writer.WriteLine(item.Format());
+                // var doc = item.Docs;
+                // var summary = doc != null ? doc.SummaryText.Trim() : EmptyString;
+                // if(nonempty(summary))
+                //     writer.WriteLine(string.Format("// {0}",summary));
+                // writer.WriteLine(item.Format());
             }
             EmittedFile(emitting, count);
         }
@@ -58,11 +58,11 @@ namespace Z0
                 for(var i=0; i<count; i++)
                 {
                     ref readonly var item =ref skip(items,i);
-                    var doc = item.Docs;
-                    var summary = doc != null ? doc.SummaryText.Trim() : EmptyString;
-                    if(nonempty(summary))
-                        writer.WriteLine(string.Format("// {0}",summary));
-                    writer.WriteLine(item.Format());
+                    // var doc = item.Docs;
+                    // var summary = doc != null ? doc.SummaryText.Trim() : EmptyString;
+                    // if(nonempty(summary))
+                    //     writer.WriteLine(string.Format("// {0}",summary));
+                    // writer.WriteLine(item.Format());
                 }
             }
         }

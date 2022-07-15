@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Reflection.Emit;
-
     using static core;
 
     [ApiHost]
@@ -76,19 +74,18 @@ namespace Z0
                 => new MethodSlots<I>(slots(src));
 
         [Op]
-        public static Index<MethodSlot> slots(Type src)
+        public static ReadOnlySeq<MethodSlot> slots(Type src)
         {
-            var methods = @readonly(src.DeclaredMethods());
+            var methods = src.DeclaredMethods();
             var count = methods.Length;
-            var buffer = alloc<MethodSlot>(count);
-            ref var dst = ref first(buffer);
+            var dst = alloc<MethodSlot>(count);
             for(var i=0; i<count; i++)
             {
-                var method = skip(methods,i);
+                ref readonly var method = ref methods[i];
                 RuntimeHelpers.PrepareMethod(method.MethodHandle);
                 seek(dst,i) = new MethodSlot(method.Name, method.MethodHandle.GetFunctionPointer());
             }
-            return buffer;
+            return dst;
         }
 
         /// <summary>

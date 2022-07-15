@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     public readonly struct EqualityClaim
     {
         public static EqualityClaim<C> define<C>(C a, C b)

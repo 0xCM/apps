@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using OmniSharp.Models.TypeLookup;
+    //using OmniSharp.Models.TypeLookup;
 
     using api = CaSymbols;
     using CA = Microsoft.CodeAnalysis;
@@ -33,8 +33,8 @@ namespace Z0
                 get => Source != null;
             }
 
-            public DocumentationComment Docs
-                => api.docs(Source);
+            // public DocumentationComment Docs
+            //     => api.docs(Source);
 
             public CA.TypeKind TypeKind
                 => Source.TypeKind;

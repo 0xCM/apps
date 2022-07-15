@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using OmniSharp.Models.TypeLookup;
+    //using OmniSharp.Models.TypeLookup;
 
     using static core;
 
@@ -40,11 +40,11 @@ namespace Z0
                 get=> Source.Locations.AsSpan();
             }
 
-            public DocumentationComment Docs
-            {
-                [MethodImpl(Inline)]
-                get => api.docs(Source);
-            }
+            // public DocumentationComment Docs
+            // {
+            //     [MethodImpl(Inline)]
+            //     get => api.docs(Source);
+            // }
 
             public MethodKind MethodKind
             {

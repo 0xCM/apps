@@ -10,12 +10,12 @@ namespace Z0
     {
         public static unsafe void slots(WfEventLogger log)
         {
-            var slots = ClrDynamic.slots(typeof(SlotBox64)).View;
+            var slots = ClrDynamic.slots(typeof(SlotBox64));
             var box = new SlotBox64();
             var code = GetArg;
             for(byte i=0; i<slots.Length; i++)
             {
-                ref readonly var slot = ref skip(slots,i);
+                ref readonly var slot = ref slots[i];
                 var pDst = slot.Address.Pointer<byte>();
                 var length = code.Length;
                 for(var j=0; j<length; j++)
@@ -32,7 +32,7 @@ namespace Z0
                     };
 
                 var @return = Dispatch(i,i);
-                log(edata(string.Format("{0}: {1}", i, @return)));
+                log(Events.data(string.Format("{0}: {1}", i, @return)));
             }
         }
 
@@ -46,18 +46,19 @@ namespace Z0
             Log = log;
         }
 
-        public void RunAlgs(object[] args)
+        public void RunAlgs()
         {
-            AlgDynamic.runA(result => Log(edata(result)));
-            AlgDynamic.runB(result => Log(edata(result)));
-            AlgDynamic.runC(result => Log(edata(result)));
+            AlgDynamic.runA(result => Log(Events.data(result)));
+            AlgDynamic.runB(result => Log(Events.data(result)));
+            AlgDynamic.runC(result => Log(Events.data(result)));
+
+            ExecDemo();
         }
 
         public void Dispose()
         {
             CodeBuffer.Dispose();
         }
-
 
         uint LoadBuffer(uint offset, ReadOnlySpan<byte> src)
         {
@@ -113,7 +114,5 @@ namespace Z0
 
         static ReadOnlySpan<byte> min64u_64u_64u
             => new byte[18]{0x0f,0x1f,0x44,0x00,0x00,0x48,0x3b,0xca,0x72,0x04,0x48,0x8b,0xc2,0xc3,0x48,0x8b,0xc1,0xc3};
-
-
     }
 }

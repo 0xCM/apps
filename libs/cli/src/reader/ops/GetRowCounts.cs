@@ -11,13 +11,10 @@ namespace Z0
         [Op]
         public Index<TableIndex,uint> GetRowCounts()
         {
-            var buffer = alloc<uint>(TableCount);
-            ref var dst = ref first(buffer);
+            var dst = sys.alloc<uint>(TableCount);
             for(byte i=0; i<TableCount; i++)
-            {
                seek(dst,i) = (uint)MD.GetTableRowCount((TableIndex)i);
-            }
-            return buffer;
+            return dst;
         }
     }
 }

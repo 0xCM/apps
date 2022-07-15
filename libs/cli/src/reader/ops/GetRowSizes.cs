@@ -13,9 +13,7 @@ namespace Z0
         {
             var dst = sys.alloc<byte>(TableCount);
             for(byte i=0; i<TableCount; i++)
-            {
                 seek(dst,i) = (byte)MD.GetTableRowSize((TableIndex)i);
-            }
             return dst;
         }
     }

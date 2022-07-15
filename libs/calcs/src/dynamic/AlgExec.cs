@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     using static core;
 
     using C = AlgDynamic.CalcBytes;
@@ -15,13 +13,13 @@ namespace Z0
     {
         public static void runA(Action<string> emitter)
         {
-            var src = dynops().View;
-            var count = src.Length;
+            var src = dynops();
+            var count = src.Count;
             var buffer = alloc<MsilCompilation>(count);
             ref var dst = ref first(buffer);
             for(var i=0; i<count; i++)
             {
-                ref readonly var op = ref skip(src,i);
+                ref readonly var op = ref src[i];
                 ref var result = ref seek(dst,i);
                 result = ClrDynamic.compilation(op.Definition);
                 emitter(string.Format("{0}: {1}", result.EntryPoint, result.Msil.Encoded.Format()));

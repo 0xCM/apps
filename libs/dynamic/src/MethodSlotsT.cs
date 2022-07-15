@@ -12,15 +12,15 @@ namespace Z0
     public readonly struct MethodSlots<K>
         where K : unmanaged
     {
-        readonly MethodSlot[] Data;
+        readonly ReadOnlySeq<MethodSlot> Data;
 
         [MethodImpl(Inline)]
-        public MethodSlots(MethodSlot[] slots)
+        public MethodSlots(ReadOnlySeq<MethodSlot> slots)
             => Data = slots;
 
         [MethodImpl(Inline)]
         public ref readonly MethodSlot Lookup(K index)
-            => ref skip(Data, uint32(index));
+            => ref Data[uint32(index)];
 
         public ref readonly MethodSlot this[K index]
         {
@@ -28,19 +28,13 @@ namespace Z0
             get => ref Lookup(index);
         }
 
-        public ref MethodSlot First
+        public ref readonly MethodSlot First
         {
             [MethodImpl(Inline)]
-            get => ref first(Data);
+            get => ref Data.First;
         }
 
-        public MethodSlot[] Storage
-        {
-            [MethodImpl(Inline)]
-            get => Data;
-        }
-
-        public ref MethodSlot this[uint index]
+        public ref readonly MethodSlot this[uint index]
         {
             [MethodImpl(Inline)]
             get => ref Data[index];

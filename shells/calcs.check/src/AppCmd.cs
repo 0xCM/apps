@@ -6,10 +6,17 @@ namespace Z0
 {
     using static ApiGranules;
 
+
     sealed class AppCmd : AppCmdService<AppCmd>
     {
-        [CmdOp("calcs/check")]
-        void Hello()
+        void CheckHexExec()
+        {
+            HexCodeRunner.slots(EventLog);
+            var runner = new HexCodeRunner(Wf,EventLog);
+            runner.RunAlgs();
+        }
+
+        void EmitBitMasks()
         {
             var dst = AppDb.App(logs).Path("bitmasks", FileKind.Csv);
             var src = BitMask.masks(typeof(BitMaskLiterals));
@@ -21,6 +28,13 @@ namespace Z0
                 Write(mask.Text);
             }
             TableEmit(src,dst,TextEncodingKind.Unicode);
+
+        }
+
+        [CmdOp("calcs/check")]
+        void Hello()
+        {
+            CheckHexExec();
         }
     }
 }

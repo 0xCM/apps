@@ -9,8 +9,8 @@ namespace Z0
 
     using static XmlParts;
 
-    using OmniSharp.Roslyn.CSharp.Services.Documentation;
-    using OmniSharp.Models.TypeLookup;
+    // using OmniSharp.Roslyn.CSharp.Services.Documentation;
+    // using OmniSharp.Models.TypeLookup;
 
     [ApiHost]
     public sealed class Roslyn : AppService<Roslyn>
@@ -19,10 +19,10 @@ namespace Z0
         public CaCompilation<CSharpCompilation> Compilation(string name, params MetadataReference[] refs)
             => CSharpCompilation.Create(name, references: refs);
 
-        public DocumentationComment GetDocs(XmlText xml)
-            => DocumentationConverter.GetStructuredDocumentation(xml.Value, "\n");
+        // public DocumentationComment GetDocs(XmlText xml)
+        //     => DocumentationConverter.GetStructuredDocumentation(xml.Value, "\n");
 
-        public DocumentationComment GetDocs(ISymbol src)
-            => DocumentationConverter.GetStructuredDocumentation(src);
+        // public DocumentationComment GetDocs(ISymbol src)
+        //     => DocumentationConverter.GetStructuredDocumentation(src);
     }
 }

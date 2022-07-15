@@ -1,12 +1,16 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-  <ItemGroup>
-    <PackageReference Include="OmniSharp.Abstractions" Version="1.37.6" />
-    <PackageReference Include="OmniSharp.Shared" Version="1.37.6" />
-    <PackageReference Include="OmniSharp.Roslyn" Version="1.37.6" />
-    <PackageReference Include="OmniSharp.Roslyn.CSharp" Version="1.37.6" />
-    <PackageReference Include="OmniSharp.MSBuild" Version="1.37.6" />
-    <PackageReference Include="OmniSharp.Host" Version="1.37.6" />
-  </ItemGroup>
+  <!-- <ItemGroup>
+    <PackageReference Include="OmniSharp.Abstractions" Version="1.39.0" />
+    <PackageReference Include="OmniSharp.Shared" Version="1.39.0" />
+    <PackageReference Include="OmniSharp.Roslyn" Version="1.39.0" />
+    <PackageReference Include="OmniSharp.Roslyn.CSharp" Version="1.39.0" />
+    <PackageReference Include="OmniSharp.MSBuild" Version="1.39.0" />
+    <PackageReference Include="OmniSharp.Host" Version="1.39.0" />
+  </ItemGroup> -->
+
+  <!-- <ItemGroup>
+    <PackageReference Include="OmniSharp.Roslyn.CSharp" Version="1.38.0" />
+  </ItemGroup> -->
 
 </Project>

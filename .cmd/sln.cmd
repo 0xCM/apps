@@ -24,6 +24,7 @@ dotnet sln %SlnPath% add %LibWs%/clr.checks/z0.clr.checks.csproj
 dotnet sln %SlnPath% add %LibWs%/api.checks/z0.api.checks.csproj
 dotnet sln %SlnPath% add %LibWs%/asm.checks/z0.asm.checks.csproj
 dotnet sln %SlnPath% add %LibWs%/sos.checks/z0.sos.checks.csproj
+dotnet sln %SlnPath% add %LibWs%/cli/z0.cli.csproj
 
 dotnet sln %SlnPath% add %SlnRoot%/shells/calcs.check/z0.calcs.check.csproj
 dotnet sln %SlnPath% add %SlnRoot%/shells/intel/z0.intel.csproj

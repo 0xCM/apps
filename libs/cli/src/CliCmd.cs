@@ -27,6 +27,10 @@ namespace Z0
         void EmitStrings()
             => CliEmitter.EmitStrings(AppDb.apipack());
 
+        [CmdOp("cli/emit/stats")]
+        void EmitStats()
+            => CliEmitter.EmitRowStats(AppDb.apipack());
+
         [CmdOp("cli/emit/blobs")]
         void EmitBlobs()
             => CliEmitter.EmitBlobs(AppDb.apipack());

@@ -26,8 +26,5 @@ namespace Z0
 
         public static SourceSymbolic SourceSymbolic(this IWfRuntime wf)
             => Services.SourceSymbolic(wf);
-
-        public static MsDocsService MsDocs(this IWfRuntime wf)
-            => Z0.MsDocsService.create(wf);
     }
 }

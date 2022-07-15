@@ -7,9 +7,11 @@
 
   <Import Project="$(ImportDefs)microsoft.codeanalysis.props"/>
   <Import Project="$(ImportDefs)omnisharp.props"/>
+
+  <!-- <Import Project="$(ImportDefs)omnisharp.props"/>
   <Import Project="$(ImportDefs)diagnostics.props"/>
   <Import Project="$(ImportDefs)nuget.props"/>
-  <Import Project="$(ImportDefs)microsoft.build.props"/>
+  <Import Project="$(ImportDefs)microsoft.build.props"/> -->
 
   <ItemGroup>
       <ProjectReference Include="$(AsmCore)"/>
@@ -17,16 +19,5 @@
       <ProjectReference Include="$(CsLang)"/>
       <ProjectReference Include="$(Cli)"/>
   </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" />
-    <PackageReference Include="System.IO.Pipes" Version="4.3.0" />
-    <PackageReference Include="System.IO.Pipes.AccessControl" Version="4.5.1" />
-    <PackageReference Include="System.Reflection.MetadataLoadContext" Version="5.0.0" />
-    <PackageReference Include="System.Reflection.Metadata" Version="5.0.0" />
-    <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation" Version="4.3.0" />
-    <PackageReference Include="YamlDotNet" Version="11.1.1" />
-  </ItemGroup>
-
 
 </Project>

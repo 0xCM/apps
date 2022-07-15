@@ -69,14 +69,11 @@ namespace Z0
             if(options.EmitCliBlobs)
                 EmitBlobs(dst);
 
-            if(options.EmitImageContent)
-                EmitImageContent(dst);
-
             if(options.EmitMethodDefs)
                 EmitMethodDefs(ApiMd.Components, dst);
 
-            if(options.EmitCliRowStats)
-                EmitRowStats(ApiMd.Components, dst.Metadata().Table<CliRowStats>());
+            // if(options.EmitCliRowStats)
+            //     EmitRowStats(dst);
         }
     }
 }
