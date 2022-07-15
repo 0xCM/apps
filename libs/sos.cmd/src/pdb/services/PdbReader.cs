@@ -4,6 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Microsoft.CodeAnalysis.Debugging;
+    using Microsoft.CodeAnalysis.Emit;
+    using Microsoft.DiaSymReader;
+    using Microsoft.DiaSymReader.PortablePdb;
     public ref struct PdbReader
     {
         [MethodImpl(Inline), Op]
@@ -41,7 +45,8 @@ namespace Z0
             => SymUnmanagedReaderFactory.CreateSymReaderMetadataImport(SymMetadataProvider.create(src));
 
         static ISymUnmanagedReader5 portable(in PdbSymbolSource src)
-            => (ISymUnmanagedReader5)new SymBinder().GetReaderFromStream(src.PdbStream, importer(src));
+            => null;
+            //(ISymUnmanagedReader5)new  SymBinder().GetReaderFromStream(src.PdbStream, importer(src));
 
         static ISymUnmanagedReader5 legacy(in PdbSymbolSource src)
             => SymUnmanagedReaderFactory.CreateReader<ISymUnmanagedReader5>(src.PdbStream, SymMetadataProvider.create(src));

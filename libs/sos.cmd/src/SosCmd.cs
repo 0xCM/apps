@@ -16,9 +16,9 @@ namespace Z0
 
         PdbSvc PdbSvc => Wf.PdbSvc();
 
-        // [CmdOp("api/emit/pdb-info")]
-        // void EmitApiPdbInfo()
-        //     => PdbSvc.EmitPdbInfo(ApiMd.Components.Single(c => c.GetSimpleName().Contains("z0.circuits")));
+        [CmdOp("api/emit/pdb-info")]
+        void EmitApiPdbInfo()
+            => PdbSvc.EmitPdbInfo(ApiMd.Components.Index().First);
 
         [CmdOp("api/emit/pdb-index")]
         void IndexApiPdbFiles()
@@ -46,7 +46,5 @@ namespace Z0
                 }
             }
         }
-
-
     }
 }

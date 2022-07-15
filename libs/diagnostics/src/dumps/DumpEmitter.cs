@@ -16,30 +16,25 @@ namespace Z0
                 MinidumpType dumpType = MinidumpType.MiniDumpNormal;
                 switch (type)
                 {
-                    case DumpTypeOption.Full:
+                    case DumpTypeOption.Everything:
                         dumpType = MinidumpType.MiniDumpWithFullMemory |
                                    MinidumpType.MiniDumpWithDataSegs |
                                    MinidumpType.MiniDumpWithHandleData |
-                                   MinidumpType.MiniDumpWithUnloadedModules |
+                                   // MinidumpType.MiniDumpWithUnloadedModules |
                                    MinidumpType.MiniDumpWithFullMemoryInfo |
                                    MinidumpType.MiniDumpWithThreadInfo |
-                                    MinidumpType.MiniDumpWithTokenInformation |
                                     MinidumpType.MiniDumpWithModuleHeaders |
                                     MinidumpType.MiniDumpWithAvxXStateContext |
-                                    MinidumpType.MiniDumpWithIptTrace
-                                    ;
-                        break;
-                    case DumpTypeOption.Heap:
-                        dumpType = MinidumpType.MiniDumpWithPrivateReadWriteMemory |
-                                    MinidumpType.MiniDumpWithDataSegs |
-                                    MinidumpType.MiniDumpWithHandleData |
-                                    MinidumpType.MiniDumpWithUnloadedModules |
-                                    MinidumpType.MiniDumpWithFullMemoryInfo |
-                                    MinidumpType.MiniDumpWithThreadInfo |
+                                    MinidumpType.MiniDumpWithIptTrace |
+                                    MinidumpType.MiniDumpWithPrivateReadWriteMemory |
+                                    // MinidumpType.MiniDumpScanMemory |
+                                    // MinidumpType.MiniDumpWithIndirectlyReferencedMemory |
+                                    MinidumpType.MiniDumpWithProcessThreadData |
+                                    // MinidumpType.MiniDumpWithFullAuxiliaryState |
+                                    MinidumpType.MiniDumpWithPrivateWriteCopyMemory |
+                                    MinidumpType.MiniDumpIgnoreInaccessibleMemory |
+                                    // MinidumpType.MiniDumpFilterTriage |
                                     MinidumpType.MiniDumpWithTokenInformation;
-                        break;
-                    case DumpTypeOption.Mini:
-                        dumpType = MinidumpType.MiniDumpWithThreadInfo;
                         break;
                 }
 

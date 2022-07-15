@@ -37,7 +37,7 @@ namespace Z0
         public void EmitDump(Process process, FS.FilePath dst)
         {
             var dumping = EmittingFile(dst);
-            DumpEmitter.emit(process, dst.Format(PathSeparator.BS), DumpTypeOption.Full);
+            DumpEmitter.emit(process, dst.Format(PathSeparator.BS), DumpTypeOption.Everything);
             EmittedBytes(dumping, dst.Size);
         }
    }

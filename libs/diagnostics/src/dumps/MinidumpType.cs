@@ -89,7 +89,9 @@ namespace Z0
         MiniDumpNormal = 0x00000000,
 
         /// <summary>
-        ///
+        /// Include the data sections from all loaded modules. This results in the inclusion of global variables,
+        /// which can make the minidump file significantly larger. For per-module control, use the ModuleWriteDataSeg
+        /// enumeration value from MODULE_WRITE_FLAGS.
         /// </summary>
         MiniDumpWithDataSegs = 0x00000001,
 
@@ -99,17 +101,19 @@ namespace Z0
         MiniDumpWithFullMemory = 0x00000002,
 
         /// <summary>
-        ///
+        /// Include high-level information about the operating system handles that are active when the minidump is made
         /// </summary>
         MiniDumpWithHandleData = 0x00000004,
 
         /// <summary>
-        ///
+        /// Stack and backing store memory written to the minidump file should be filtered to remove all but the pointer values necessary to reconstruct a stack trace.
         /// </summary>
         MiniDumpFilterMemory = 0x00000008,
 
         /// <summary>
-        ///
+        /// Stack and backing store memory should be scanned for pointer references to modules
+        /// in the module list. If a module is referenced by stack or backing store memory, the ModuleWriteFlags member
+        /// of the MINIDUMP_CALLBACK_OUTPUT structure is set to ModuleReferencedByMemory.
         /// </summary>
         MiniDumpScanMemory = 0x00000010,
 
@@ -129,27 +133,31 @@ namespace Z0
         MiniDumpFilterModulePaths = 0x00000080,
 
         /// <summary>
-        ///
+        /// Include complete per-process and per-thread information from the operating system.
         /// </summary>
         MiniDumpWithProcessThreadData = 0x00000100,
 
         /// <summary>
-        ///
+        /// Scan the virtual address space for PAGE_READWRITE memory to be include
         /// </summary>
         MiniDumpWithPrivateReadWriteMemory = 0x00000200,
 
         /// <summary>
-        ///
+        /// Reduce the data that is dumped by eliminating memory regions that are not essential to meet criteria
+        /// specified for the dump. This can avoid dumping memory that may contain data that is private to the user.
+        /// However, it is not a guarantee that no private information will be present
         /// </summary>
         MiniDumpWithoutOptionalData = 0x00000400,
 
         /// <summary>
-        ///
+        /// Include all accessible memory in the process. The raw memory data is included at the end, so that the
+        /// initial structures can be mapped directly without the raw memory information. This option can result in a very
+        /// large file.
         /// </summary>
         MiniDumpWithFullMemoryInfo = 0x00000800,
 
         /// <summary>
-        ///
+        /// Include thread state information
         /// </summary>
         MiniDumpWithThreadInfo = 0x00001000,
 
@@ -164,12 +172,13 @@ namespace Z0
         MiniDumpWithoutAuxiliaryState = 0x00004000,
 
         /// <summary>
-        ///
+        /// Requests that auxiliary data providers include their state in the dump image; the state data that is
+        /// included is provider dependent. This option can result in a large dump image.
         /// </summary>
         MiniDumpWithFullAuxiliaryState = 0x00008000,
 
         /// <summary>
-        ///
+        /// Scans the virtual address space for PAGE_WRITECOPY memory to be included.
         /// </summary>
         MiniDumpWithPrivateWriteCopyMemory = 0x00010000,
 
@@ -189,17 +198,17 @@ namespace Z0
         MiniDumpWithModuleHeaders = 0x00080000,
 
         /// <summary>
-        ///
+        /// Adds filter triage related data
         /// </summary>
         MiniDumpFilterTriage = 0x00100000,
 
         /// <summary>
-        ///
+        /// Adds AVX crash state context registers
         /// </summary>
         MiniDumpWithAvxXStateContext = 0x00200000,
 
         /// <summary>
-        ///
+        /// dds Intel Processor Trace related data.
         /// </summary>
         MiniDumpWithIptTrace = 0x00400000,
 
@@ -210,4 +219,5 @@ namespace Z0
 
         MiniDumpValidTypeFlags = 0x00ffffff,
     }
+
 }

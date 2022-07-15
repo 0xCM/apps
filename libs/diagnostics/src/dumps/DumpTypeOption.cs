@@ -9,7 +9,7 @@ namespace Z0
     /// </summary>
     public enum DumpTypeOption
     {
-        Full,       // The largest dump containing all memory including the module images.
+        Everything,
 
         Heap,       // A large and relatively comprehensive dump containing module lists, thread lists, all
                     // stacks, exception information, handle information, and all memory except for mapped images.

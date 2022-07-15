@@ -5,8 +5,10 @@
 namespace Z0
 {
     [Free]
-    partial class AppCmd : AppCmdService<AppCmd>
+    class AppCmd : AppCmdService<AppCmd>
     {
+        SosCmd SosCmd => Wf.SosCmd();
+
         public static ICmdProvider[] providers(IWfRuntime wf)
             => new ICmdProvider[]{
                 wf.EnvCmd(),
