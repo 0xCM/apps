@@ -88,11 +88,13 @@
     <ProjectReference Include="$(Render)" />
 
     <ProjectReference Include="$(SizedText)" />
-    <ProjectReference Include="$(Text)" />
 
     <ProjectReference Include="$(Symbols)" />
+    <ProjectReference Include="$(SosCmd)" />
     <ProjectReference Include="$(Symbolics)" />
     <ProjectReference Include="$(Sys)" />
+
+    <ProjectReference Include="$(Text)" />
 
 
     <ProjectReference Include="$(Validity)" />

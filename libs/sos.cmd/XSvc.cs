@@ -8,8 +8,6 @@ namespace Z0
     {
         sealed class Svc : AppServices<Svc>
         {
-            public CliEmitter CliEmitter(IWfRuntime wf)
-                => Service<CliEmitter>(wf);
 
             public PdbIndexBuilder PdbIndexBuilder(IWfRuntime wf)
                 => Service<PdbIndexBuilder>(wf);
@@ -21,20 +19,14 @@ namespace Z0
             public PdbSvc PdbSvc(IWfRuntime wf)
                 => Service<PdbSvc>(wf);
 
-            public Cli Cli(IWfRuntime wf)
-                => Service<Cli>(wf);
-
-            public ApiCmd ApiCmd(IWfRuntime wf)
-                => Service<ApiCmd>(wf);
-
-            public MsilPipe MsilSvc(IWfRuntime wf)
-                => Service<MsilPipe>(wf);
+            public SosCmd SosCmd(IWfRuntime wf)
+                => Service<SosCmd>(wf);
         }
 
         static Svc Services => Svc.Instance;
 
-        public static CliEmitter CliEmitter(this IWfRuntime wf)
-            => Services.CliEmitter(wf);
+        public static SosCmd SosCmd(this IWfRuntime wf)
+            => Services.SosCmd(wf);
 
         public static PdbIndexBuilder PdbIndexBuilder(this IWfRuntime wf)
             => Services.PdbIndexBuilder(wf);
@@ -48,13 +40,5 @@ namespace Z0
         public static PdbReader PdbReader(this IWfRuntime wf, in PdbSymbolSource src)
             => Z0.PdbReader.create(wf,src);
 
-        public static ApiCmd ApiCmd(this IWfRuntime wf)
-            => Services.ApiCmd(wf);
-
-        public static MsilPipe MsilSvc(this IWfRuntime wf)
-            => Services.MsilSvc(wf);
-
-        public static Cli Cli(this IWfRuntime wf)
-            => Services.Cli(wf);
     }
 }

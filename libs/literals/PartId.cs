@@ -297,6 +297,12 @@ public enum PartId : byte
     [Symbol("linq")]
     Linq,
 
+    [Symbol("sos.cmd")]
+    SosCmd,
+
+    [Symbol("sos.checks")]
+    SosChecks,
+
     // ~ Generated 100 .. 127
     // ~ -------------------------------------------------------------------------------
 

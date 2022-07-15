@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "..\\sos.cmd"
+		},
+		{
+			"path": "..\\..\\props"
+		},
+		{
+			"path": "..\\api.md"
+		}
+	],
+	"settings": {}
+}

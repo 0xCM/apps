@@ -6,16 +6,12 @@ global using System.IO;
 global using Microsoft.DiaSymReader;
 global using Microsoft.DiaSymReader.PortablePdb;
 
-[assembly: PartId(PartId.Archives)]
+[assembly: PartId(PartId.SosCmd)]
 
 namespace Z0.Parts
 {
-    public sealed partial class Archives : Part<Archives>
+    public sealed class SosCmd : Part<SosCmd>
     {
 
     }
-}
-
-namespace Z0
-{
 }

@@ -25,31 +25,6 @@ namespace SOS
 
     public class SymbolReader
     {
-
-        // [CmdOp("sos/symbols")]
-        // void ReadSymbols()
-        // {
-        //     var reader = SOS.SymbolReader.create();
-        //     reader.ShowSymbolStore(data => Wf.Data(data));
-        // }
-
-        // void GetMethodInfo()
-        // {
-        //     var path = Parts.Lib.Assembly.Location;
-        //     var catalog = Wf.ApiCatalog.PartCatalogs(PartId.Lib).Single();
-        //     var methods = catalog.Methods;
-        //     SOS.SymbolReader.InitializeSymbolReader("");
-        //     foreach(var method in methods)
-        //     {
-        //         if(SOS.SymbolReader.GetInfoForMethod(path, method.MetadataToken, out var info))
-        //         {
-        //             var size = info.size;
-        //             Wf.Data($"{method.Name} | {size}");
-        //         }
-        //     }
-        // }
-
-
         public static SymbolReader create()
         {
             var result = InitializeSymbolReader("");

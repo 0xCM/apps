@@ -89,6 +89,8 @@
     <Render>$(LibsRoot)render/z0.render.csproj</Render>
 
     <SizedText>$(LibsRoot)text.sized/z0.text.sized.csproj</SizedText>
+    <SosCmd>$(LibsRoot)sos.cmd/z0.sos.cmd.csproj</SosCmd>
+
     <Symbolics>$(LibsRoot)symbolics/z0.symbolics.csproj</Symbolics>
     <Symbols>$(LibsRoot)symbols/z0.symbols.csproj</Symbols>
     <Sys>$(LibsRoot)sys/z0.sys.csproj</Sys>

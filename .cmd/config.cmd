@@ -8,9 +8,8 @@ set RuntimeMoniker=win-x64
 set BuildVerbosity=normal
 set BuildProps=/p:Configuration=%BuildKind% /p:Platform=%BuildPlatform%
 
-set EnvId=app.settings
 set ProjectSlnFile=z0.%ProjectId%.sln
-set SlnRoot=%DevRoot%\dev\z0
+set SlnRoot=%Views%\dev\z0
 set CgRoot=%SlnRoot%\cg
 set ShellRoot=%SlnRoot%\shells
 set LibsRoot=%SlnRoot%\libs
