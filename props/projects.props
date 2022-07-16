@@ -112,7 +112,7 @@
     <CgTest>$(CgRoot)cg.shell/z0.cg.shell.csproj</CgTest>
 
     <Wf>$(LibsRoot)wf/z0.wf.csproj</Wf>
-    <Workspace>$(LibsRoot)workspace/z0.workspace.csproj</Workspace>
+    <Ws>$(LibsRoot)ws/z0.ws.csproj</Ws>
 
     <ZLibs>$(LibsRoot)z0.libs.csproj</ZLibs>
     <Literals>$(LibsRoot)literals/z0.literals.csproj</Literals>

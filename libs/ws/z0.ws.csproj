@@ -12,8 +12,6 @@
     <ProjectReference Include="$(Files)" />
     <ProjectReference Include="$(ZLib)" />
     <ProjectReference Include="$(Containers)" />
-    <ProjectReference Include="$(CmdSpecs)" />
-
   </ItemGroup>
 
 </Project>

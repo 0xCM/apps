@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "..\\workspace"
+		},
+		{
+			"path": "..\\..\\props"
+		},
+		{
+			"path": "..\\lib"
+		}
+	],
+	"settings": {}
+}

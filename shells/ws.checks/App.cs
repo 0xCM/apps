@@ -4,10 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
-    public interface IWsProject : IRootedArchive, IProjectWs
+    [Free]
+    sealed class App : AppCmdShell<App>
     {
-        ProjectId Id
-            => Project;
+        static IAppCmdService commands(IWfRuntime wf)
+            => AppCmd.create(wf);
+
+        public static void Main(params string[] args)
+            => run(commands, args);
     }
 }

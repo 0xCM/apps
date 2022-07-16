@@ -11,6 +11,18 @@
 		},
 		{
 			"path": "..\\archives"
+		},
+		{
+			"path": "..\\cmd.specs"
+		},
+		{
+			"path": "..\\symbolics"
+		},
+		{
+			"path": "..\\wf"
+		},
+		{
+			"path": "..\\..\\props"
 		}
 	],
 	"settings": {}

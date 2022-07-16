@@ -306,8 +306,12 @@ public enum PartId : byte
     [Symbol("sos.checks")]
     SosChecks,
 
-    [Symbol("workspace")]
-    Workspace,
+    [Symbol("ws")]
+    Ws,
+
+    [Symbol("ws.checks")]
+    WsChecks,
+
     // ~ Generated 100 .. 127
     // ~ -------------------------------------------------------------------------------
 
