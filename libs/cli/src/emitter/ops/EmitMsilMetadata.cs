@@ -16,27 +16,28 @@ namespace Z0
             var total = 0u;
             var count = src.Length;
             for(var i=0; i<count; i++)
-                EmitMsilMetadata(skip(src,i), dst.Metadata().Path(CliSections.IlData, FileKind.Csv));
+                EmitMsilMetadata(skip(src,i), dst);
             return total;
         }
 
-        // public FS.FilePath MsilMetadataPath(Assembly src, FS.FolderPath dst)
-        //     => dst +  FS.file(src.GetSimpleName(), FileKind.Csv);
-
-        public ReadOnlySpan<MsilRow> EmitMsilMetadata(Assembly src, FS.FilePath dst)
+        public void EmitMsilMetadata(Assembly src, IApiPack dst)
         {
-            var methods = ReadOnlySpan<MsilRow>.Empty;
-            var srcPath = FS.path(src.Location);
-            if(ClrModules.valid(srcPath))
+            void Exec()
             {
-                using var reader = PeReader.create(srcPath);
-                methods = reader.ReadMsil();
-                var view = methods;
-                var count = (uint)methods.Length;
-                if(count != 0)
-                    TableEmit(methods, dst);
+                var path = dst.Metadata(CliSections.IlData).Table<MsilRow>(src.GetSimpleName());
+                var methods = ReadOnlySpan<MsilRow>.Empty;
+                var srcPath = FS.path(src.Location);
+                if(ClrModules.valid(srcPath))
+                {
+                    using var reader = PeReader.create(srcPath);
+                    methods = reader.ReadMsil();
+                    var view = methods;
+                    var count = (uint)methods.Length;
+                    if(count != 0)
+                        TableEmit(methods, path);
+                }
             }
-            return methods;
+            Try(Exec);
         }
     }
 }

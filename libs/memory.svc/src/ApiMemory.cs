@@ -11,6 +11,5 @@ namespace Z0
 
         public void EmitSymHeap(SymHeap src)
             => TableEmit(Heaps.entries(src), AppDb.ApiTargets().Table<SymHeapRecord>(), TextEncodingKind.Unicode);
-
     }
 }

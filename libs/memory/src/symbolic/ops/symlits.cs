@@ -8,7 +8,7 @@ namespace Z0
 
     partial class Symbolic
     {
-        public static Index<SymLiteralRow> symlits<E>()
+        public static ReadOnlySeq<SymLiteralRow> symlits<E>()
             where E : unmanaged, Enum
         {
             var symbols = Symbols.index<E>().View;
@@ -18,7 +18,7 @@ namespace Z0
         }
 
         [Op]
-        public static Index<SymLiteralRow> symlits(Type src)
+        public static ReadOnlySeq<SymLiteralRow> symlits(Type src)
         {
             var fields = @readonly(src.LiteralFields());
             var dst = alloc<SymLiteralRow>(fields.Length);
@@ -27,7 +27,7 @@ namespace Z0
         }
 
         [Op]
-        public static Index<SymLiteralRow> symlits(Index<Type> src)
+        public static ReadOnlySeq<SymLiteralRow> symlits(Index<Type> src)
         {
             var dst = list<SymLiteralRow>();
             var kTypes = src.Count;
@@ -37,7 +37,7 @@ namespace Z0
         }
 
         [Op]
-        public static Index<SymLiteralRow> symlits(Index<Assembly> src)
+        public static ReadOnlySeq<SymLiteralRow> symlits(Index<Assembly> src)
             => symlits(Enums.types(src).Ignore().OrderBy(src => src.Name));
 
         [MethodImpl(Inline), Op, Closures(Closure)]

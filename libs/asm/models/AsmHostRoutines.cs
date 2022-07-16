@@ -6,14 +6,6 @@ namespace Z0.Asm
 {
     public readonly struct AsmHostRoutines : IIndex<AsmMemberRoutine>
     {
-        public static ApiMembers members(Index<AsmHostRoutines> src)
-        {
-            if(src.Length == 0)
-                return ApiMembers.Empty;
-            else
-                return ApiMembers.create(src.SelectMany(x => x.Storage).Select(x => x.Member));
-        }
-
         readonly Index<AsmMemberRoutine> Data;
 
         [MethodImpl(Inline)]

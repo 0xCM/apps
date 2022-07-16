@@ -14,6 +14,8 @@ namespace Z0
 
         ApiCode ApiCode => Wf.ApiCode();
 
+        ApiCatalogs ApiCatalogs => Wf.ApiCatalogs();
+
         void RedirectEmissions(IApiPack dst)
             => Wf.RedirectEmissions(Loggers.emission(ExecutingPart.Component, dst.Path("capture.emissions", FileKind.Csv)));
 
@@ -21,10 +23,11 @@ namespace Z0
         {
             RedirectEmissions(dst);
             using var dispenser = Dispense.composite();
-            Capture(ApiRuntimeCatalog, dispenser, true, dst);
+            var code = Capture(ApiRuntimeCatalog, dispenser, true, dst);
+            //ApiCatalogs.Rebase(ApiMembers.create(code.SelectMany(x => x.Resolved.Members)),dst);
         }
 
-        public ReadOnlySeq<ApiHostCode> Capture(IApiCatalog src, ICompositeDispenser dispenser, bool pll, IApiPack pack)
+        public Index<ApiHostCode> Capture(IApiCatalog src, ICompositeDispenser dispenser, bool pll, IApiPack pack)
         {
             var dst = bag<ApiHostCode>();
             iter(src.PartCatalogs(),
@@ -57,25 +60,6 @@ namespace Z0
                 }
                 EmittedFile(flow, AppMsg.EmittedBytes.Capture(size,path));
             }
-        }
-
-        Index<AsmRoutine> EmitAsm_Old(ICompositeDispenser symbols, PartId part, ReadOnlySeq<CollectedEncoding> src, FS.FilePath dst)
-        {
-            var buffer = alloc<AsmRoutine>(src.Count);
-            var emitter = text.emitter();
-            var flow = EmittingFile(dst);
-            var size = ByteSize.Zero;
-            using var writer = dst.AsciWriter();
-            for(var i=0; i<src.Count; i++)
-            {
-                var routine = AsmDecoder.Decode(src[i]);
-                seek(buffer,i) = routine;
-                var asm = routine.AsmRender(routine);
-                size += (ulong)asm.Length;
-                writer.AppendLine(asm);
-            }
-            EmittedFile(flow, AppMsg.EmittedBytes.Capture(size,dst));
-            return buffer;
         }
     }
 }

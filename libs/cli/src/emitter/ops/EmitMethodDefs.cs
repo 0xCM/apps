@@ -8,21 +8,27 @@ namespace Z0
 
     partial class CliEmitter
     {
-        public void EmitMethodDefs(ReadOnlySpan<Assembly> src, IApiPack pack)
-            => iter(src, a => EmitMethodDefs(a, pack.Metadata(CliSections.Methods).PrefixedTable<MethodDefInfo>(a.GetSimpleName())), true);
+        public void EmitMethodDefs(ReadOnlySpan<Assembly> src, IApiPack dst)
+            => iter(src, a => EmitMethodDefs(a, dst), true);
 
-        void EmitMethodDefs(Assembly src, FS.FilePath dst)
+        void EmitMethodDefs(Assembly src, IApiPack dst)
         {
-            var formatter = Tables.formatter<MethodDefInfo>();
-            var flow = EmittingTable<MethodDefInfo>(dst);
-            using var writer = dst.Writer();
-            writer.WriteLine(formatter.FormatHeader());
-            var reader = CliReader.create(src);
-            var records = reader.ReadMethodDefInfo();
-            var count = records.Length;
-            for(var j=0; j<count; j++)
-                writer.WriteLine(formatter.Format(skip(records, j)));
-            EmittedTable(flow, count);
+            void Exec()
+            {
+                var path = dst.Metadata(CliSections.Methods).PrefixedTable<MethodDefInfo>(src.GetSimpleName());
+                var formatter = Tables.formatter<MethodDefInfo>();
+                var flow = EmittingTable<MethodDefInfo>(path);
+                using var writer = path.Writer();
+                writer.WriteLine(formatter.FormatHeader());
+                var reader = CliReader.create(src);
+                var records = reader.ReadMethodDefInfo();
+                var count = records.Length;
+                for(var j=0; j<count; j++)
+                    writer.WriteLine(formatter.Format(skip(records, j)));
+                EmittedTable(flow, count);
+            }
+
+            Try(Exec);
         }
     }
 }

@@ -31,27 +31,28 @@ namespace Z0
             using var writer = dst.Writer();
             writer.WriteLine(formatter.FormatHeader());
             for(var i=0; i<count; i++)
-                counter += EmitAssemblyRefs(skip(src,i), formatter, writer);
+                EmitAssemblyRefs(skip(src,i), formatter, writer);
             EmittedTable(flow, counter);
         }
 
-        uint EmitAssemblyRefs(Assembly src, IRecordFormatter formatter, StreamWriter dst)
+        void EmitAssemblyRefs(Assembly src, IRecordFormatter formatter, StreamWriter dst)
         {
-            var path = FS.path(src.Location);
-            var counter = 0u;
-            if(ClrModules.valid(path))
+            try
             {
-                using var reader = PeReader.create(path);
-                var refs = reader.ReadAssemblyRefs();
-                var count = refs.Length;
-                for(var i=0; i<count; i++)
+                var path = FS.path(src.Location);
+                if(ClrModules.valid(path))
                 {
-                    dst.WriteLine(formatter.Format(refs[i]));
-                    counter++;
+                    using var reader = PeReader.create(path);
+                    var refs = reader.ReadAssemblyRefs();
+                    var count = refs.Length;
+                    for(var i=0; i<count; i++)
+                        dst.WriteLine(formatter.Format(refs[i]));
                 }
-
             }
-            return counter;
+            catch(Exception e)
+            {
+                Error(e);
+            }
         }
     }
 }

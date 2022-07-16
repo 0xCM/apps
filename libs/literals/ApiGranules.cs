@@ -8,7 +8,7 @@ namespace Z0
     [LiteralProvider(api)]
     public readonly struct ApiGranules
     {
-        public const string Dot = ".";
+        const string Dot = ".";
 
         public const string Dash = "-";
 
@@ -162,6 +162,15 @@ namespace Z0
 
         public const string dotout = Dot + "out";
 
+        public const string digits = nameof(digits);
+
+
+        public const string @decimal = nameof(@decimal);
+
+        public const string binary = nameof(binary);
+
+        public const string octal = nameof(octal);
+
         public const string input = nameof(input);
 
         public const string imm = nameof(imm);
@@ -270,6 +279,8 @@ namespace Z0
 
         public const string error = nameof(error);
 
+        public const string lang = nameof(lang);
+
         public const string i = nameof(i);
 
         public const string ii = nameof(ii);
@@ -373,6 +384,30 @@ namespace Z0
         public const string files = nameof(files);
 
         public const string kinds = nameof(kinds);
+
+        public const string numeric = nameof(numeric);
+
+        public const string bitmasks = nameof(bitmasks);
+
+        public const string perms =  nameof(perms);
+
+        public const string blends = nameof(blends);
+
+        public const string pow2 = nameof(pow2);
+
+        public const string chars = nameof(chars);
+
+        public const string clr = nameof(clr);
+
+        public const string arrangements = nameof(arrangements);
+
+        public const string decimal_digits = @decimal + Dot + digits;
+
+        public const string hex_digits = digits + Dot + hex;
+
+        public const string binary_digits = digits + Dot + binary;
+
+        public const string octal_digits =  octal + Dot + digits;
 
         public const string api_classes = api + Dot + classes;
 

@@ -38,6 +38,18 @@ namespace Z0
         public IWsProject Project()
             => WfSvc.project();
 
+        protected void Try(Action f, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
+        {
+            try
+            {
+                f();
+            }
+            catch(Exception e)
+            {
+                Error(e, caller, file, line);
+            }
+        }
+
         protected WsContext Context()
         {
             var project = Project();

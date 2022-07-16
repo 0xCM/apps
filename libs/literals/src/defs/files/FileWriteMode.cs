@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines the available stream-writer modes
     /// </summary>
-    [SymSource("files")]
+    [SymSource(files)]
     public enum FileWriteMode
     {
         Overwrite = 0,

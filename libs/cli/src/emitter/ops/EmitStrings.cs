@@ -24,8 +24,12 @@ namespace Z0
 
         public void EmitUserStrings(Assembly src, IApiPack dst)
         {
-            var reader = CliReader.create(src);
-            TableEmit(reader.ReadUserStringDetail(), dst.Metadata(CliSections.UserStrings).PrefixedTable<CliString>(src.GetSimpleName()), unicode);
+            void Exec()
+            {
+                var reader = CliReader.create(src);
+                TableEmit(reader.ReadUserStringDetail(), dst.Metadata(CliSections.UserStrings).PrefixedTable<CliString>(src.GetSimpleName()), unicode);
+            }
+            Try(Exec);
         }
 
         public void EmitSystemStrings(IApiPack dst)
@@ -36,9 +40,13 @@ namespace Z0
 
         public void EmitSystemStrings(Assembly src, IApiPack dst)
         {
-            var path = dst.Metadata(CliSections.SystemStrings).PrefixedTable<CliString>(src.GetSimpleName());
-            using var reader = PeReader.create(FS.path(src.Location));
-            TableEmit(reader.ReadSystemStringDetail(), path, unicode);
+            void Exec()
+            {
+                var path = dst.Metadata(CliSections.SystemStrings).PrefixedTable<CliString>(src.GetSimpleName());
+                using var reader = PeReader.create(FS.path(src.Location));
+                TableEmit(reader.ReadSystemStringDetail(), path, unicode);
+            }
+            Try(Exec);
         }
     }
 }

@@ -101,6 +101,11 @@ set BuildCmdShell=%BuildTool% %CmdProject% %BuildProps% -fl -flp:logfile=%BuildL
 set CmdShellPath=%FrameworkBuildRoot%\%RuntimeMoniker%\%ShellName%
 
 
+set SlnLibs=%SlnRoot%/libs
+set SlnShells=%SlnRoot%/shells
+set SlnCg=%SlnRoot%/cg
+set SlnTests=%SlnRoot%/test
+
 set zcmd=%WsBin%\z0.cmd\%BuildKind%\%TargetFramework%\%RuntimeMoniker%\zcmd.exe
 set zcmd-pub=%WsBin%\z0.cmd\%BuildKind%\%TargetFramework%\%RuntimeMoniker%\publish\zcmd.exe
 

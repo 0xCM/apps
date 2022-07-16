@@ -18,11 +18,14 @@ namespace Z0
 
         Runtime Runtime => Wf.Runtime();
 
+        ApiMd ApiMd => Wf.ApiMetadata();
+
         public void Run()
         {
             var parts = ApiPartCapture.create(Wf);
             var dst = AppDb.apipack();
             parts.Capture(dst);
+            ApiMd.EmitDatasets(dst);
             CliEmitter.Emit(CliEmitOptions.@default(), dst);
             Runtime.EmitContext(dst);
         }

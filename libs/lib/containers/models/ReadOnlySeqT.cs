@@ -34,7 +34,6 @@ namespace Z0
             get => ref Data[i];
         }
 
-
         public ReadOnlySeq<T> Reverse()
             => new ReadOnlySeq<T>(Data.Reverse());
 

@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Spans;
+    using static Refs;
 
     [Free, ApiHost]
     public partial class Heaps
@@ -19,23 +20,6 @@ namespace Z0
             => core.slice(src.Expr.Edit, src.ExprOffsets[index], src.ExprLengths[index]);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Heap<T> create<T>(T[] src, uint[] offsets)
-            => new Heap<T>(src, offsets);
-
-        [MethodImpl(Inline)]
-        public static Heap<K,T> create<K,T>(T[] src, Index<K,uint> offsets)
-            where K : unmanaged
-                => new Heap<K,T>(src, offsets);
-
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static SpanHeap<T> create<T>(Span<T> src, uint[] offsets)
-            => new SpanHeap<T>(src, offsets);
-
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static ReadOnlyHeap<T> create<T>(ReadOnlySpan<T> src, uint[] offsets)
-            => new ReadOnlyHeap<T>(src, offsets);
-
-        [MethodImpl(Inline), Op, Closures(Closure)]
         public static BinaryHeap<T> retype<T>(in BinaryHeap src)
             where T : unmanaged
                 => src;
@@ -46,14 +30,7 @@ namespace Z0
                 => src;
 
         [MethodImpl(Inline)]
-        public static ReadOnlySpan<byte> serialize<K,O,L>(in HeapEntry<K,O,L> src)
-            where K : unmanaged
-            where O : unmanaged
-            where L : unmanaged
-                => bytes(src);
-
-        [MethodImpl(Inline)]
-        public static ref HeapEntry<K,O,L> materialize<K,O,L>(ReadOnlySpan<byte> src, out HeapEntry<K,O,L> dst)
+        public static ref HeapEntry<K,O,L> convert<K,O,L>(ReadOnlySpan<byte> src, out HeapEntry<K,O,L> dst)
             where K : unmanaged
             where O : unmanaged
             where L : unmanaged

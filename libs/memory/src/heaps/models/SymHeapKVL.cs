@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Spans;
+    using static Refs;
+    using static Sized;
 
     /// <summary>
     /// Covers a contiguous <see cref='char'/> sequence

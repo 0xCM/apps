@@ -29,13 +29,6 @@ namespace Z0
             Ran(flow);
         }
 
-        public void Rebase(ApiMembers members, IApiPack dst)
-        {
-            var flow = Running("Rebasing members");
-            var entries = ApiCatalogs.Rebase(members, dst.Table<ApiCatalogEntry>());
-            Ran(flow);
-        }
-
         void EmitImm(ReadOnlySpan<ApiHostUri> hosts, IApiPack dst)
         {
             var flow = Running();

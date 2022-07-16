@@ -22,13 +22,13 @@ namespace Z0
             return dst;
         }
 
-        public static AssetCatalog catalog(Index<Asset> src)
+        public static ReadOnlySeq<AssetCatalogEntry> entries(Index<Asset> src)
         {
             var count = src.Length;
             var dst = alloc<AssetCatalogEntry>(count);
             for(var i=0; i<count; i++)
                 seek(dst,i) = entry(src[i]);
-            return new AssetCatalog(dst);
+            return dst;
         }
 
         [MethodImpl(Inline), Op]

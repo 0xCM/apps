@@ -6,7 +6,7 @@ namespace Z0
 {
     using static ApiGranules;
 
-    [SymSource(api)]
+    [SymSource(files)]
     public enum FileKind : uint
     {
         None = 0,

@@ -7,10 +7,12 @@ namespace Z0
     using FF = AsciLetterUpSym;
     using ff = AsciLetterLoSym;
 
+    using static ApiGranules;
+
     /// <summary>
     /// Defines symbols for file system drive letters
     /// </summary>
-    [SymSource("files")]
+    [SymSource(files)]
     public enum DriveLetter : ushort
     {
         a = ff.a,

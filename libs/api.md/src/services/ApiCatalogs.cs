@@ -14,17 +14,11 @@ namespace Z0
 
         ApiHex ApiHex => Wf.ApiHex();
 
-        public Index<SymLiteralRow> EmitApiClasses()
-            => EmitApiClasses(ProjectDb.Api() +  FS.file("api.classes", FS.Csv));
-
-        static Index<SymLiteralRow> ClassLiterals()
-            => Symbolic.symlits(Parts.Lib.Assembly.Enums().Tagged<ApiClassAttribute>());
-
-        public Index<SymLiteralRow> EmitApiClasses(FS.FilePath dst)
+        public void Rebase(ApiMembers members, IApiPack dst)
         {
-            var literals = ClassLiterals();
-            TableEmit(literals, dst);
-            return literals;
+            var flow = Running("Rebasing members");
+            var entries = Rebase(members, dst.Table<ApiCatalogEntry>());
+            Ran(flow);
         }
 
         public Index<ApiCatalogEntry> Rebase(ApiMembers src, FS.FilePath dst)
@@ -55,7 +49,7 @@ namespace Z0
             return rows.ToArray();
         }
 
-        public Index<ApiCatalogEntry> LoadApiCatalog(FS.FolderPath dir)
+        public Index<ApiCatalogEntry> Load(FS.FolderPath dir)
         {
             var files = dir.Files(FS.Csv).Where(f => f.FileName.StartsWith(ApiCatalogEntry.TableId)).OrderBy(f => f.Name).ToReadOnlySpan();
             var count = files.Length;

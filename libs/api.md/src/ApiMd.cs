@@ -52,13 +52,13 @@ namespace Z0
         public Index<TableField> ApiTableFields
             => data(K.ApiTableFields, CalcTableFields);
 
-        public Index<SymLiteralRow> SymLits
+        public ReadOnlySeq<SymLiteralRow> SymLits
             => data(nameof(SymLiteralRow), () => Symbolic.symlits(Components));
 
         public Index<IApiHost> ApiHosts
             => data(K.ApiHosts, () => Catalog.ApiHosts.Index());
 
-        public ReadOnlySeq<ComponentAssets> ApiAssets
+        public ReadOnlySeq<ComponentAssets> ComponentAssets
             => data(K.ApiAssets, () => CalcApiAssets());
 
         public ReadOnlySeq<ApiCmdRow> ApiCommands
@@ -132,10 +132,10 @@ namespace Z0
         internal void EmitAssets()
         {
             AssetTargets.Delete();
-            Emit(Emit(ApiAssets));
+            Emit(Emit(ComponentAssets));
         }
 
-        internal AssetCatalog Emit(ReadOnlySeq<ComponentAssets> src)
+        internal ReadOnlySeq<AssetCatalogEntry> Emit(ReadOnlySeq<ComponentAssets> src)
         {
             var counter = 0u;
             for(var i=0; i<src.Count; i++)
@@ -151,22 +151,22 @@ namespace Z0
                 }
             }
 
-            return new AssetCatalog(src.SelectMany(x => x).Select(e => Assets.entry(e)).Array());
+            return src.SelectMany(x => x).Select(e => Assets.entry(e));
         }
 
-        internal void Emit(ComponentAssets src, List<AssetCatalogEntry> entries)
-        {
-            var count = src.Count;
-            var targets = AssetTargets.Targets(src.Source.GetSimpleName());
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var asset = ref src[i];
-                FileEmit(Assets.utf8(asset), targets.Path(asset.Name.ShortFileName), TextEncodingKind.Utf8);
-                entries.Add(Assets.entry(asset));
-            }
-        }
+        // internal void Emit(ComponentAssets src, List<AssetCatalogEntry> entries)
+        // {
+        //     var count = src.Count;
+        //     var targets = AssetTargets.Targets(src.Source.GetSimpleName());
+        //     for(var i=0; i<count; i++)
+        //     {
+        //         ref readonly var asset = ref src[i];
+        //         FileEmit(Assets.utf8(asset), targets.Path(asset.Name.ShortFileName), TextEncodingKind.Utf8);
+        //         entries.Add(Assets.entry(asset));
+        //     }
+        // }
 
-        internal void Emit(AssetCatalog src)
+        internal void Emit(ReadOnlySeq<AssetCatalogEntry> src)
             => TableEmit(src, AppDb.ApiTargets().Table<AssetCatalogEntry>());
 
         public ApiHostCatalog HostCatalog(IApiHost src)
@@ -368,17 +368,17 @@ namespace Z0
         internal void EmitEnums(ReadOnlySpan<ClrEnumRecord> src, FS.FilePath dst)
             => TableEmit(src,dst);
 
-        internal Index<SymLiteralRow> EmitSymLits()
+        internal ReadOnlySeq<SymLiteralRow> EmitSymLits()
             => EmitSymLits(ApiTargets().Table<SymLiteralRow>());
 
-        internal Index<SymLiteralRow> EmitSymLits<E>()
+        internal ReadOnlySeq<SymLiteralRow> EmitSymLits<E>()
             where E : unmanaged, Enum
                 => EmitSymLits<E>(ApiTargets().PrefixedTable<SymLiteralRow>(typeof(E).FullName));
 
-        internal Index<SymLiteralRow> EmitSymLits(FS.FilePath dst)
+        internal ReadOnlySeq<SymLiteralRow> EmitSymLits(FS.FilePath dst)
             => EmitSymLits(Components, dst);
 
-        internal Index<SymLiteralRow> EmitSymLits<E>(FS.FilePath dst)
+        internal ReadOnlySeq<SymLiteralRow> EmitSymLits<E>(FS.FilePath dst)
             where E : unmanaged, Enum
         {
             var flow = EmittingTable<SymLiteralRow>(dst);
@@ -396,14 +396,14 @@ namespace Z0
         internal void Emit(ReadOnlySpan<SymKindRow> src)
             => TableEmit(src, AppDb.ApiTargets().Table<SymKindRow>());
 
-        internal Index<SymLiteralRow> EmitSymLits(Assembly[] src, FS.FilePath dst)
+        internal ReadOnlySeq<SymLiteralRow> EmitSymLits(Assembly[] src, FS.FilePath dst)
         {
             var data = Symbolic.symlits(src);
             TableEmit(data, dst, TextEncodingKind.Unicode);
             return data;
         }
 
-        internal Index<SymDetailRow> EmitSymDetails<E>(Symbols<E> src, FS.FilePath dst)
+        internal ReadOnlySeq<SymDetailRow> EmitSymDetails<E>(Symbols<E> src, FS.FilePath dst)
             where E : unmanaged, Enum
         {
             var count = src.Count;

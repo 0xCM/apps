@@ -83,34 +83,6 @@ namespace Z0.Asm
         }
 
 
-        Index<SymLiteralRow> SymLiterals()
-            => Symbolic.symlits(ApiRuntimeCatalog.Components.Storage.Enums());
-
-        Outcome EmitApiSymIndex(CmdArgs args)
-        {
-            var result = Outcome.Success;
-            var literals = SymLiterals();
-            var count = literals.Length;
-            var counter = 0u;
-            var dst = Ws.Tables().Subdir(WsAtoms.machine) + FS.file("symliterals", FS.Txt);
-            using var writer = dst.UnicodeWriter();
-            for(var i=0u; i<count; i++)
-            {
-                ref readonly var literal = ref literals[i];
-                var name = literal.Name.Format();
-                ref readonly var pos = ref literal.Index;
-                var symbol = literal.Symbol.Format();
-                ref readonly var value = ref literal.Value;
-                var @class = literal.Component.IsNonEmpty ? literal.Component.Format() : EmptyString;
-                var type =  empty(@class) ? literal.Type.Format() : (literal.Type.Format() + RpOps.embrace(@class));
-                var desc = EmptyString;
-                desc = string.Format("[{0:D5}:{1:D5}:{2}:{3}] = '{4}'", i, pos, type, name, symbol);;
-                writer.WriteLine(desc);
-            }
-
-            return result;
-        }
-
         Outcome EmitTokenStrings(CmdArgs args)
         {
             // "----\0----\0----\0"
@@ -393,33 +365,6 @@ namespace Z0.Asm
             resolver.ResolveParts(parts);
         }
 
-        void CheckHeap()
-        {
-            const string Seg0 = "This";
-            const string Seg1 = "is";
-            const string Seg2 = "a";
-            const string Seg3 = "HeapString";
-            const string segments = "This" + "is" + "a" + "HeapString";
-
-            var s0 = (uint)Seg0.Length;
-            var s1 = (uint)Seg1.Length;
-            var s2 = (uint)Seg2.Length;
-            var s3 = (uint)Seg3.Length;
-
-            var offsets = array<uint>(
-                0,
-                s0,
-                s0 + s1,
-                s0 + s1 + s2
-                );
-
-            var heap = Heaps.create(text.span(segments), offsets);
-            for(var i=0u; i<offsets.Length; i++)
-            {
-                var seg = text.format(heap.Segment(i));
-                Wf.Data(seg);
-            }
-        }
 
         void CorrelateApi()
         {

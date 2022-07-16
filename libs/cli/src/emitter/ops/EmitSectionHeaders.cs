@@ -16,22 +16,29 @@ namespace Z0
 
         public void EmitSectionHeaders(ReadOnlySpan<FS.FilePath> src, FS.FilePath dst)
         {
-            var total = Count.Zero;
-            var formatter = Tables.formatter<PeSectionHeader>();
-            var flow = EmittingTable<PeSectionHeader>(dst);
-            using var writer = dst.AsciWriter();
-            writer.WriteLine(formatter.FormatHeader());
-            foreach(var file in src)
+            try
             {
-                using var reader = PeTables.open(file);
-                var headers = reader.Headers();
-                var count = headers.Length;
-                for(var i=0u; i<count; i++)
-                    writer.WriteLine(formatter.Format(headers[i]));
+                var total = Count.Zero;
+                var formatter = Tables.formatter<PeSectionHeader>();
+                var flow = EmittingTable<PeSectionHeader>(dst);
+                using var writer = dst.AsciWriter();
+                writer.WriteLine(formatter.FormatHeader());
+                foreach(var file in src)
+                {
+                    using var reader = PeTables.open(file);
+                    var headers = reader.Headers();
+                    var count = headers.Length;
+                    for(var i=0u; i<count; i++)
+                        writer.WriteLine(formatter.Format(headers[i]));
 
-                total += count;
+                    total += count;
+                }
+                EmittedTable(flow, total);
             }
-            EmittedTable(flow, total);
+            catch(Exception e)
+            {
+                Error(e);
+            }
         }
     }
 }

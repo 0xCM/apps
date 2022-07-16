@@ -6,7 +6,7 @@ namespace Z0
 {
     using api = Heaps;
 
-    public class Heap<T>
+    internal class Heap<T>
     {
         readonly Index<T> Data;
 

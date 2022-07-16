@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [LiteralProvider]
+    using static ApiGranules;
+
+    [LiteralProvider(files)]
     public readonly struct FileKindNames
     {
         const string Dot = ".";

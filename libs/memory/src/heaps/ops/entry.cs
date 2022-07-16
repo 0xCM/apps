@@ -6,7 +6,7 @@ namespace Z0
 {
     partial class Heaps
     {
-        [MethodImpl(Inline)]
+        [MethodImpl(Inline), Op]
         public static HeapEntry entry(uint index, uint offset, uint length)
             => new HeapEntry(index, offset, length);
 

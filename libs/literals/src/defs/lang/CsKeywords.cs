@@ -6,7 +6,7 @@ namespace Z0
 {
     using TC = System.TypeCode;
 
-    [LiteralProvider]
+    [LiteralProvider(lang)]
     public class CsKeywords
     {
         /// <summary>
