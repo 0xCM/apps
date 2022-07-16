@@ -12,6 +12,8 @@ namespace Z0
 
         ApiMd Md;
 
+        ApiMemory ApiMemory => Wf.ApiMemory();
+
         public void Emit(IApiPack dst)
         {
             Target = dst;
@@ -20,19 +22,20 @@ namespace Z0
 
         void Emit()
         {
+            var symlits = Md.SymLits;
             exec(true,
                 Md.EmitDataFlows,
                 Md.EmitTypeLists,
                 Md.EmitApiLiterals,
                 () => Md.EmitComments(),
                 () => Md.EmitAssets(),
-                () => Md.EmitSymLits(Md.SymLits),
+                () => Md.EmitSymLits(symlits),
                 Md.EmitParsers,
                 Md.EmitApiTables,
                 Md.EmitApiCommands,
+                () => ApiMemory.EmitSymHeap(Heaps.load(symlits),Target),
                 () => Md.EmitApiTokens()
             );
-
         }
 
         public static ApiMdEmitter create(IWfRuntime wf, ApiMd md)

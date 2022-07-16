@@ -9,7 +9,7 @@ namespace Z0
         public void EmitSymHeap(SymHeap src, FS.FilePath dst)
             => TableEmit(Heaps.entries(src), dst);
 
-        public void EmitSymHeap(SymHeap src)
-            => TableEmit(Heaps.entries(src), AppDb.ApiTargets().Table<SymHeapRecord>(), TextEncodingKind.Unicode);
+        public void EmitSymHeap(SymHeap src, IApiPack dst)
+            => TableEmit(Heaps.entries(src), dst.Metadata().Table<SymHeapRecord>(), TextEncodingKind.Unicode);
     }
 }

@@ -146,7 +146,7 @@ namespace Z0
 
         [CmdOp("api/emit/heap")]
         void ApiEmitHeaps()
-            => ApiMemory.EmitSymHeap(Heaps.load(ApiMd.SymLits));
+            => ApiMemory.EmitSymHeap(Heaps.load(ApiMd.SymLits), AppDb.apipack());
 
 
         [CmdOp("api/emit/index")]

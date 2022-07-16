@@ -10,21 +10,6 @@ namespace Z0
     partial class Heaps
     {
         /// <summary>
-        /// Reconstitutes a <see cref='SymHeap{K,O,L}'/> indexed by <typeparamref name='K'> values with <typeparamref name='O'>-measured offsets and <typeparamref name='L'>-measured lengths
-        /// </summary>
-        /// <param name="entries"></param>
-        /// <param name="data"></param>
-        /// <typeparam name="K">The linear index type</typeparam>
-        /// <typeparam name="O">The offset type</typeparam>
-        /// <typeparam name="L">The length type</typeparam>
-        [MethodImpl(Inline)]
-        public static SymHeap<K,O,L> load<K,O,L>(ReadOnlySpan<byte> entries, ReadOnlySpan<char> data)
-            where K : unmanaged
-            where O : unmanaged
-            where L : unmanaged
-                => new SymHeap<K,O,L>(recover<HeapEntry<K,O,L>>(entries), data);
-
-        /// <summary>
         /// Creates a <see cref='SymHeap'/> from a specified <see cref='SymLiteralRow'/> sequence
         /// </summary>
         /// <param name="src">The data source</param>
@@ -61,5 +46,20 @@ namespace Z0
 
             return dst;
         }
+
+        /// <summary>
+        /// Reconstitutes a <see cref='SymHeap{K,O,L}'/> indexed by <typeparamref name='K'> values with <typeparamref name='O'>-measured offsets and <typeparamref name='L'>-measured lengths
+        /// </summary>
+        /// <param name="entries"></param>
+        /// <param name="data"></param>
+        /// <typeparam name="K">The linear index type</typeparam>
+        /// <typeparam name="O">The offset type</typeparam>
+        /// <typeparam name="L">The length type</typeparam>
+        [MethodImpl(Inline)]
+        public static SymHeap<K,O,L> load<K,O,L>(ReadOnlySpan<byte> entries, ReadOnlySpan<char> data)
+            where K : unmanaged
+            where O : unmanaged
+            where L : unmanaged
+                => new SymHeap<K,O,L>(recover<HeapEntry<K,O,L>>(entries), data);
     }
 }
