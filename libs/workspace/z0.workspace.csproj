@@ -6,8 +6,14 @@
     <TargetFramework>$(FrameworkMoniker)</TargetFramework>
   </PropertyGroup>
 
+  <Import Project="$(ImportDefs)usings.props"/>
+
   <ItemGroup>
+    <ProjectReference Include="$(Files)" />
     <ProjectReference Include="$(ZLib)" />
+    <ProjectReference Include="$(Containers)" />
+    <ProjectReference Include="$(CmdSpecs)" />
+
   </ItemGroup>
 
 </Project>

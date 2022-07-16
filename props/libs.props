@@ -96,10 +96,10 @@
 
     <ProjectReference Include="$(Text)" />
 
-
     <ProjectReference Include="$(Validity)" />
 
     <ProjectReference Include="$(Wf)" />
+    <ProjectReference Include="$(Workspace)" />
 
     <ProjectReference Include="$(ZLib)" />
 

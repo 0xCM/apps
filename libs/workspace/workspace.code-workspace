@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "..\\files"
+		},
+		{
+			"path": "..\\lib"
+		},
+		{
+			"path": "..\\archives"
+		}
+	],
+	"settings": {}
+}

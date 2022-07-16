@@ -12,7 +12,7 @@
     <ProjectReference Include="$(Digital)" />
     <ProjectReference Include="$(Symbolics)" />
     <ProjectReference Include="$(CmdSpecs)" />
-    <ProjectReference Include="$(Files)" />
+    <ProjectReference Include="$(Workspace)" />
   </ItemGroup>
 
 </Project>

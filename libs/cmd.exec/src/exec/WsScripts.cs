@@ -10,6 +10,9 @@ namespace Z0
     {
         OmniScript OmniScript => Wf.OmniScript();
 
+        FS.FilePath BuildFlows(IWsProject project)
+            => Flows.path(project);
+
         public FS.FolderPath CleanOutDir(IWsProject project)
             => project.BuildOut().Clear(true);
 
@@ -77,7 +80,7 @@ namespace Z0
             if(cmdflows.Count != 0)
             {
                 var records = cmdflows.ToArray();
-                TableEmit(records, project.BuildFlows());
+                TableEmit(records, BuildFlows(project));
                 result = (true,records);
             }
 

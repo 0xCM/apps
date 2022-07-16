@@ -2,10 +2,11 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-[assembly: PartId(PartId.Workspace)]
-namespace Z0.Parts
+
+namespace Z0
 {
-    public sealed partial class Workspace : Part<Workspace>
+    partial struct Msg
     {
+        const NumericKind Closure = Root.UnsignedInts;
     }
 }
