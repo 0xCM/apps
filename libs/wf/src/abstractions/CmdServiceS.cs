@@ -29,6 +29,7 @@ namespace Z0
             var result = Dispatcher.Dispatch(name);
             if(result.Fail)
                 Error(result.Message);
+
         }
 
         public void RunCmd(string name, CmdArgs args)
@@ -41,18 +42,7 @@ namespace Z0
             => Cmd.emit(Cmd.catalog(Dispatcher), AppDb.Commands("defs").Path(ExecutingPart.Id.PartName().Format(), FileKind.Md), EventLog);
 
         public bool Dispatch(ShellCmdSpec cmd)
-        {
-            var result = Outcome.Success;
-            result = Dispatcher.Dispatch(cmd.Name, cmd.Args);
-            if(result.Fail)
-                Error(result.Message);
-            else
-            {
-                if(text.nonempty(result.Message))
-                    Status(result.Message);
-            }
-            return result;
-        }
+            => Dispatcher.Dispatch(cmd.Name, cmd.Args);
 
         public void DispatchJobs(FS.FilePath src)
         {
@@ -63,6 +53,6 @@ namespace Z0
         }
 
         protected void LoadProject(string name)
-            => Dispatcher?.Dispatch("project", new CmdArg[]{new CmdArg(EmptyString, name)});
+            => Dispatcher?.Dispatch("project", CmdArgs.create(new CmdArg[]{new CmdArg(EmptyString, name)}));
     }
 }

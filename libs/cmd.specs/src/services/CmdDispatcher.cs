@@ -43,7 +43,7 @@ namespace Z0
             var invoker = default(IActionRunner);
             if(_Actions.Find(name, out invoker))
             {
-                result = invoker.Run(args);
+                result = invoker.Run(args, Log);
             }
             else
             {
@@ -51,7 +51,6 @@ namespace Z0
                     result = Fallback(name, args);
                 else
                     result = (false, string.Format("Command '{0}' unrecognized", name));
-
             }
 
             return result;

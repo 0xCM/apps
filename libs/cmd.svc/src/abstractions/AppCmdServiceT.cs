@@ -8,6 +8,8 @@ namespace Z0
     public abstract class AppCmdService<T> : CmdService<T>, IAppCmdService
         where T : AppCmdService<T>, new()
     {
+        protected CmdLineRunner CmdLines => Wf.CmdLines();
+
         public static T create(IWfRuntime wf, params ICmdProvider[] src)
         {
             var service = new T();
@@ -33,6 +35,24 @@ namespace Z0
             var result = Outcome.Success;
             RunJobs(arg(args,0));
             return result;
+        }
+
+        [CmdOp("cmd")]
+        protected void RunCmd(CmdArgs args)
+        {
+            var result = Outcome.Success;
+            var count = Demand.gt(args.Count,0u);
+            var spec = text.emitter();
+            for(var i=0; i<args.Count; i++)
+            {
+                if(i != 0)
+                    spec.Append(Chars.Space);
+                spec.Append(args[i].Value);
+            }
+
+            var cmd = Cmd.cmd(spec.Emit());
+            Status($"Executing '{cmd}'");
+            CmdLines.Start(cmd);
         }
 
         public virtual void RunJobs(string match)

@@ -37,7 +37,7 @@ namespace Z0
 
         protected override void Initialized()
         {
-            RunCmd("project", new CmdArg[]{new CmdArg(EmptyString, "mc.models")});
+            RunCmd("project", CmdArgs.create(new CmdArg[]{new CmdArg(EmptyString, "mc.models")}));
         }
     }
 }

@@ -4,9 +4,6 @@ call %~dp0config.cmd
 
 set SlnPath=%SlnRoot%/z0.sln
 
-dotnet sln %SlnPath% add %SlnRoot%/libs/z0.libs.csproj
-dotnet sln %SlnPath% add %SlnLibs%/lib/z0.lib.csproj
-
 dotnet sln %SlnPath% add %SlnRoot%/cmd/z0.cmd.csproj
 
 dotnet sln %SlnPath% add %SlnCg%/cg.libs/z0.cg.libs.csproj

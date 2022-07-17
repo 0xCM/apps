@@ -100,13 +100,13 @@ set CmdProject=%CmdShellRoot%\z0.cmd.csproj
 set BuildCmdShell=%BuildTool% %CmdProject% %BuildProps% -fl -flp:logfile=%BuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 set CmdShellPath=%FrameworkBuildRoot%\%RuntimeMoniker%\%ShellName%
 
-
 set SlnLibs=%SlnRoot%/libs
 set SlnShells=%SlnRoot%/shells
 set SlnCg=%SlnRoot%/cg
 set SlnTests=%SlnRoot%/test
 
-set zcmd=%WsBin%\z0.cmd\%BuildKind%\%TargetFramework%\%RuntimeMoniker%\zcmd.exe
+set ZCmdDir=%WsBin%\z0.cmd\%BuildKind%\%TargetFramework%\%RuntimeMoniker%
+set zcmd=%ZCmdDir%\zcmd.exe
 set zcmd-pub=%WsBin%\z0.cmd\%BuildKind%\%TargetFramework%\%RuntimeMoniker%\publish\zcmd.exe
 
 set CleanBin=rmdir %WsBin% /s/q

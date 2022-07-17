@@ -13,16 +13,16 @@ namespace Z0
         {
             var dst = CmdActionKind.None;
             var arity = src.ArityValue();
-            var @void = (byte)(bit)src.HasVoidReturn();
+            var @void = src.HasVoidReturn();
             switch(arity)
             {
                 case 0:
                     switch(@void)
                     {
-                        case 0:
+                        case false:
                             dst = CmdActionKind.Pure;
                         break;
-                        case 1:
+                        case true:
                             dst = CmdActionKind.Emitter;
                         break;
                     }
@@ -30,10 +30,10 @@ namespace Z0
                 case 1:
                     switch(@void)
                     {
-                        case 0:
+                        case true:
                             dst = CmdActionKind.Receiver;
                         break;
-                        case 1:
+                        case false:
                             dst = CmdActionKind.Func;
                         break;
                     }
@@ -79,10 +79,16 @@ namespace Z0
             get => ref Def.Uri;
         }
 
+        public Type HostType
+        {
+            [MethodImpl(Inline)]
+            get => Def.Host.GetType();
+        }
+
         ShellCmdDef IActionRunner.Def
             => Def;
 
-        public Outcome Run(CmdArgs args)
+        public Outcome Run(CmdArgs args, WfEventLogger log)
         {
             var output = default(object);
             var result = Outcome.Success;
@@ -114,14 +120,25 @@ namespace Z0
                     if(output is bool x)
                         result = Outcome.define(x, output, x ? "Win" : "Fail");
                     else if(output is Outcome y)
+                    {
                         result = Outcome.success(y.Data, y.Message);
+                        if(sys.nonempty(y.Message))
+                        {
+                            if(y.Fail)
+                                log(Events.error(Method, y.Message));
+                            else
+                                log(Events.babble(HostType, y.Message));
+                        }
+                    }
                     else
                         result = Outcome.success(output);
                 }
             }
             catch(Exception e)
             {
-                result = Outcome.fail(AppMsg.format($"{Uri} invocation error", e.InnerException));
+                var inner = e.InnerException;
+                result = Outcome.fail(AppMsg.format($"{Uri} invocation error", inner));
+                log(Events.error(Host.GetType(), e));
             }
 
            return result;

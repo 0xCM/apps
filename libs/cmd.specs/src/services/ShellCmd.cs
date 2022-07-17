@@ -28,7 +28,7 @@ namespace Z0
             var dst = alloc<CmdArg>(src.Length);
             for(ushort i=0; i<src.Length; i++)
                 seek(dst,i) = new CmdArg(skip(src,i));
-            return dst;
+            return CmdArgs.create(dst);
         }
 
         public static string format(in ShellCmdSpec src)

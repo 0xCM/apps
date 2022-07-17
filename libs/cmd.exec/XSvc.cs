@@ -32,7 +32,7 @@ namespace Z0
         public static WsScripts WsScripts(this IWfRuntime wf)
             => Services.WsScripts(wf);
 
-        public static CmdLineRunner CmdLineRunner(this IWfRuntime wf)
+        public static CmdLineRunner CmdLines(this IWfRuntime wf)
             => Services.CmdLineRunner(wf);
 
         public static OmniScript OmniScript(this IWfRuntime wf)

@@ -52,7 +52,7 @@ namespace Z0
         }
 
         [Op]
-        public static ScriptProcess create(CmdLine cmd, Receiver<string> status, Receiver<string> error)
+        public static ScriptProcess start(CmdLine cmd, Receiver<string> status, Receiver<string> error)
         {
             var options = new ScriptProcessOptions();
             options.WithReceivers(status, error);

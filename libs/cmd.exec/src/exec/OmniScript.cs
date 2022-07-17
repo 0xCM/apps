@@ -10,7 +10,7 @@ namespace Z0
     {
         ScriptRunner ScriptRunner => Wf.ScriptRunner();
 
-        CmdLineRunner CmdRunner => Wf.CmdLineRunner();
+        CmdLineRunner CmdRunner => Wf.CmdLines();
 
         public Outcome Run(ITool tool, FS.FilePath src, FS.FolderPath dst)
         {

@@ -40,6 +40,10 @@ namespace Z0
         public static ErrorEvent<string> error(Type host, Exception e, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => new ErrorEvent<string>(host, e, e.Message, originate(caller, caller,file, line ?? 0));
 
+        [Op, Closures(Closure)]
+        public static ErrorEvent<string> error(MethodInfo src, string msg)
+            => new ErrorEvent<string>(src.DeclaringType, msg, originate(src.DeclaringType, src.DisplayName(), EmptyString, 0));
+
         [Op]
         public static EventOrigin originate(Type type,[CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => originate(type.Name, caller, file, line);

@@ -66,7 +66,7 @@ namespace Z0
             try
             {
                 var flow = Running($"Executing process '{src.ToCmdLine()}'");
-                var process = ScriptProcess.create(src.ToCmdLine(), OnStatus, OnError).Wait();
+                var process = ScriptProcess.start(src.ToCmdLine(), OnStatus, OnError).Wait();
                 Ran(flow);
             }
             catch(Exception e)

@@ -16,22 +16,27 @@ namespace Z0
             Status(output);
         }
 
-        public ReadOnlySpan<TextLine> Run(CmdLine cmd, FS.FilePath log)
+        public Task<FS.FilePath> Start(CmdLine cmd)
         {
-            using var writer = log.AsciWriter();
-            try
+            FS.FilePath Run()
             {
-                var process = ScriptProcess.create(cmd, OnStatusEvent, OnErrorEvent).Wait();
-                var lines =  Lines.read(process.Output);
-                iter(lines, line => writer.WriteLine(line));
-                return lines;
+                var log = AppDb.Logs("procs").Path(timestamp().Format(),FileKind.Log);
+                using var writer = log.AsciWriter();
+                try
+                {
+                    var process = ScriptProcess.start(cmd, OnStatusEvent, OnErrorEvent).Wait();
+                    var lines =  Lines.read(process.Output);
+                    iter(lines, line => writer.WriteLine(line));
+
+                }
+                catch(Exception e)
+                {
+                    Error(e);
+                    writer.WriteLine(e.ToString());
+                }
+                return log;
             }
-            catch(Exception e)
-            {
-                Error(e);
-                writer.WriteLine(e.ToString());
-                return default;
-            }
+            return run(Run);
         }
 
         public Outcome Run(CmdLine cmd, Receiver<string> status, Receiver<string> error, out ReadOnlySpan<TextLine> dst)
@@ -42,7 +47,7 @@ namespace Z0
             using var writer = log.AsciWriter();
             try
             {
-                var process = ScriptProcess.create(cmd, status, error).Wait();
+                var process = ScriptProcess.start(cmd, status, error).Wait();
                 var lines =  Lines.read(process.Output);
                 core.iter(lines, line => writer.WriteLine(line));
                 dst = lines;
@@ -54,9 +59,6 @@ namespace Z0
                 return e;
             }
         }
-
-        // public ReadOnlySpan<TextLine> RunScript(FS.FilePath src, FS.FilePath log)
-        //     => Run(WinCmd.script(src), log);
 
         void OnErrorEvent(in string src)
             => Error(src);

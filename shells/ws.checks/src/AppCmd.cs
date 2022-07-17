@@ -4,14 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
 
     sealed class AppCmd : AppCmdService<AppCmd>
     {
-
-        [CmdOp("Ws/check")]
-        void Hello()
-        {
-
-        }
     }
 }

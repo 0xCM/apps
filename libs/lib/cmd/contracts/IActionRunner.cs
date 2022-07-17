@@ -7,7 +7,7 @@ namespace Z0
     [Free]
     public interface IActionRunner<S,T>
     {
-        T Run(S src);
+        T Run(S src, WfEventLogger log);
     }
 
     [Free]
