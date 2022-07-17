@@ -17,25 +17,18 @@ namespace Z0.Asm
 
         public readonly MemoryAddress Target;
 
+        public readonly AsmHexCode Encoding;
+
         [MethodImpl(Inline)]
-        internal JmpStub(byte opcode, int disp, byte size, MemoryAddress src, MemoryAddress dst)
+        public JmpStub(byte opcode, int disp, byte size, MemoryAddress src, MemoryAddress dst, AsmHexCode encoding)
         {
             OpCode = opcode;
             DispData = disp;
             SizeData = size;
             Source = src;
             Target = dst;
+            Encoding = encoding;
         }
-
-        // [MethodImpl(Inline)]
-        // public JmpStub(MemoryAddress src, MemoryAddress dst, bool rel32 = true)
-        // {
-        //     OpCode = rel32 ? JmpRel32.OpCode : JmpRel8.InstSize;
-        //     DispData = rel32 ? (int)AsmRel.disp32((src,  JmpRel32.InstSize),dst) : (sbyte)AsmRel.disp8((src,JmpRel8.InstSize) ,dst);
-        //     SizeData = rel32 ? JmpRel32.InstSize : JmpRel8.InstSize;
-        //     Source = src;
-        //     Target = dst;
-        // }
 
         public Disp32 Disp
         {
@@ -47,12 +40,6 @@ namespace Z0.Asm
         {
             [MethodImpl(Inline)]
             get => SizeData;
-        }
-
-        public AsmHexCode Encoding
-        {
-            [MethodImpl(Inline)]
-            get => JmpRel32.encode((Source, JmpRel32.InstSize), Target);
         }
     }
 }

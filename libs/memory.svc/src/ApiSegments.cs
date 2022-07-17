@@ -14,26 +14,19 @@ namespace Z0
 
         static MsgPattern<Count,Count> LocatedSegments => "Computed {0} segment entries for {0} methods";
 
-        IDumpArchive Dumps => DumpArchive.Service;
+        public void EmitSegments(IApiPack dst)
+            => EmitSegments(dst, ImageMemory.regions());
 
-        public ProcAddresses EmitSegments(Timestamp ts)
-            => EmitSegments(ts, ImageMemory.regions());
+        public void EmitSegments(IApiPack dst, ReadOnlySeq<ProcessMemoryRegion> src)
+            => TableEmit(ImageRegions.addresses(src).Segments, dst.Context().Table<ProcessSegment>());
 
-        public ProcAddresses EmitSegments(Timestamp ts, ReadOnlySeq<ProcessMemoryRegion> src)
-        {
-            var addresses = ImageRegions.addresses(src);
-            TableEmit(addresses.Segments, Dumps.Table<ProcessSegment>("segments", ts));
-            return addresses;
-        }
-
-        public ReadOnlySpan<ProcessSegment> LocateSegments(ProcAddresses src, ReadOnlySpan<ApiMemberInfo> methods, FS.FolderPath dir)
+        public ReadOnlySpan<ProcessSegment> EmitMethodSegments(ProcAddresses src, ReadOnlySpan<ApiMemberInfo> methods, IApiPack dst)
         {
             var count = methods.Length;
             var flow = Running(LocatingSegments.Format(count));
             var buffer = alloc<MethodSegment>(count);
             var locations = hashset<ProcessSegment>();
             var segments  = src.Segments;
-            ref var dst = ref first(buffer);
             for(var i=0u; i<count; i++)
             {
                 ref readonly var method = ref skip(methods,i);
@@ -46,7 +39,7 @@ namespace Z0
                     break;
                 }
 
-                ref var entry = ref seek(dst,i);
+                ref var entry = ref seek(buffer,i);
                 entry.MethodIndex = i;
                 entry.EntryPoint = address;
                 entry.SegSelector = selector;
@@ -78,7 +71,7 @@ namespace Z0
                 }
             }
 
-            TableEmit(@readonly(buffer), Db.Table<MethodSegment>(dir));
+            TableEmit(@readonly(buffer), dst.Context().Table<MethodSegment>());
             Ran(flow, LocatedSegments.Format(buffer.Length, count));
             return locations.Array().Sort();
         }

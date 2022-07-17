@@ -14,6 +14,18 @@ namespace Z0
             get => Value?.ToString() ?? EmptyString;
         }
 
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => sys.empty(UriText);
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => sys.nonempty(UriText);
+        }
+
         [MethodImpl(Inline)]
         public ApiUri(T value)
             => Value = value;

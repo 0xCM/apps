@@ -27,20 +27,11 @@ namespace Z0
         public readonly MemoryAddress BaseAddress;
 
         [MethodImpl(Inline)]
-        public ApiMsil(MsilCode code, MemoryAddress @base, MethodDisplaySig dispSig, OpUri uri)
-        {
-            Source = code;
-            BaseAddress = @base;
-            Uri = uri;
-            DisplaySig = dispSig;
-        }
-
-        [MethodImpl(Inline)]
         public ApiMsil(CliToken token, MemoryAddress @base, MethodDisplaySig dispSig, OpUri uri, CliSig cliSig, BinaryCode data, MethodImplAttributes impl)
         {
             Source = MsilCode.define(token,cliSig, data, impl);
             BaseAddress = @base;
-            Uri = uri;
+            Uri = Require.notnull(uri);
             DisplaySig = dispSig;
         }
 
@@ -79,5 +70,8 @@ namespace Z0
             [MethodImpl(Inline)]
             get => ref Source.Token;
         }
+
+        public static ApiMsil Empty
+            => new ApiMsil(CliToken.Empty, MemoryAddress.Zero, MethodDisplaySig.Empty, OpUri.Empty, CliSig.Empty, BinaryCode.Empty, 0);
     }
 }

@@ -136,9 +136,9 @@ namespace Z0
             }
         }
 
-        public Dictionary<FS.FilePath, Dictionary<string,string>> Collect()
+        public Dictionary<FS.FilePath, Dictionary<string,string>> Collect(IApiPack pack)
         {
-            var targets = AppDb.ApiTargets("comments");
+            var targets = pack.Comments();
             targets.Clear();
             var src = Pull();
             var dst = new Dictionary<FS.FilePath, Dictionary<string,ApiComment>>();

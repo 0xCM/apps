@@ -14,18 +14,13 @@ namespace Z0
     }
 
     [ApiHost]
-    public partial class ApiHex : WfSvc<ApiHex>
+    public class ApiHex : WfSvc<ApiHex>
     {
         public static void read(FS.FilePath src, Receiver<HexCsvRow> dst)
         {
             var pos = 0u;
-
-            if(!src.Exists)
-                core.@throw(new FileNotFoundException(src.ToUri().Format()));
-
-            using var reader = src.Utf8Reader();
+            using var reader = src.AsciReader();
             var size = src.Size;
-            var header = reader.ReadLine();
             var record = default(HexCsvRow);
             var @continue = true;
             while(@continue)
@@ -55,28 +50,27 @@ namespace Z0
             return true;
         }
 
-        public static ByteSize write(ReadOnlySpan<byte> src, MemoryAddress @base, FS.FilePath dst, byte bpl = HexCsvRow.BPL)
-        {
-            const string Header = "Address      | Data";
-            var formatter = HexDataFormatter.create(@base, bpl);
-            using var writer = dst.AsciWriter();
-            writer.WriteLine(Header);
-            var offset = MemoryAddress.Zero;
-            var lines = 0;
-            var blocks = src.Length/bpl;
-            var cells = src.Length%bpl;
-            for(var i=0; i<blocks; i++)
-            {
-                var data = slice(src,offset,bpl);
-                writer.WriteLine(formatter.FormatLine(data, offset, Chars.Pipe));
-                offset += bpl;
-            }
+        // public static ByteSize write(ReadOnlySpan<byte> src, MemoryAddress @base, FS.FilePath dst, byte bpl = HexCsvRow.BPL)
+        // {
+        //     const string Header = "Address      | Data";
+        //     var formatter = HexDataFormatter.create(@base, bpl);
+        //     using var writer = dst.AsciWriter();
+        //     writer.WriteLine(Header);
+        //     var offset = MemoryAddress.Zero;
+        //     var lines = 0;
+        //     var blocks = src.Length/bpl;
+        //     var cells = src.Length%bpl;
+        //     for(var i=0; i<blocks; i++)
+        //     {
+        //         var data = slice(src,offset,bpl);
+        //         writer.WriteLine(formatter.FormatLine(data, offset, Chars.Pipe));
+        //         offset += bpl;
+        //     }
 
-            writer.WriteLine(formatter.FormatLine(slice(src,offset,cells), offset, Chars.Pipe));
-            offset += cells;
-            return (ulong)offset;
-        }
-
+        //     writer.WriteLine(formatter.FormatLine(slice(src, offset, cells), offset, Chars.Pipe));
+        //     offset += cells;
+        //     return (ulong)offset;
+        // }
 
         [MethodImpl(Inline), Op]
         public static ByteSize size(ReadOnlySpan<HexDataRow> src)
@@ -132,9 +126,9 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public static ApiHexRow row(in ApiMemberCode src, uint seq)
+        public static ApiCodeRow row(in ApiMemberCode src, uint seq)
         {
-            var dst = ApiHexRow.Empty;
+            var dst = ApiCodeRow.Empty;
             dst.Seq = seq;
             dst.SourceSeq = src.Sequence;
             dst.Address = src.Address;
@@ -145,12 +139,12 @@ namespace Z0
             return dst;
         }
 
-        public static Index<ApiHexRow> rows(FS.FilePath src)
+        public static Index<ApiCodeRow> rows(FS.FilePath src)
         {
             var result = Outcome.Success;
             var data = src.ReadLines().Storage.Skip(1);
             var count = data.Length;
-            var dst = list<ApiHexRow>();
+            var dst = list<ApiCodeRow>();
             var j=0;
             for(var i=0; i<count; i++)
             {
@@ -188,12 +182,12 @@ namespace Z0
             => root +  FS.file(host, FileKind.PCsv);
 
         [Op]
-        public Index<ApiHexRow> EmitRows(ApiHostUri uri, ReadOnlySpan<ApiMemberCode> src, FS.FolderPath dst)
+        public Index<ApiCodeRow> EmitApiCode(ApiHostUri uri, ReadOnlySpan<ApiMemberCode> src, FS.FolderPath dst)
         {
             var count = src.Length;
             if(count != 0)
             {
-                var buffer = alloc<ApiHexRow>(count);
+                var buffer = alloc<ApiCodeRow>(count);
                 for(var i=0u; i<count; i++)
                     seek(buffer, i) = ApiHex.row(skip(src, i), i);
 
@@ -201,7 +195,7 @@ namespace Z0
                 return buffer;
             }
             else
-                return array<ApiHexRow>();
+                return array<ApiCodeRow>();
         }
 
         public ConstLookup<FS.FilePath,MemoryBlocks> LoadMemoryBlocks(FS.Files src)
@@ -230,29 +224,29 @@ namespace Z0
             return result;
         }
 
-        public Index<ApiHexPack> EmitPacks(SortedIndex<ApiCodeBlock> src, FS.FilePath? dst = null, bool validate = false)
-        {
-            var _dst = dst ?? Env.Db + FS.folder(EnvFolders.tables) + FS.file("apihex", FS.ext("xpack"));
-            var result = pack(src, validate);
-            var packed = result.View;
-            var emitting = EmittingFile(_dst);
-            using var writer = _dst.Writer();
-            var count = packed.Length;
-            for(var i=0; i<count; i++)
-                writer.WriteLine(skip(packed,i).Format());
-            EmittedFile(emitting, count);
-            return result;
-        }
+        // public Index<ApiHexPack> EmitPacks(SortedIndex<ApiCodeBlock> src, FS.FilePath? dst = null, bool validate = false)
+        // {
+        //     var _dst = dst ?? Env.Db + FS.folder(EnvFolders.tables) + FS.file("apihex", FS.ext("xpack"));
+        //     var result = pack(src, validate);
+        //     var packed = result.View;
+        //     var emitting = EmittingFile(_dst);
+        //     using var writer = _dst.Writer();
+        //     var count = packed.Length;
+        //     for(var i=0; i<count; i++)
+        //         writer.WriteLine(skip(packed,i).Format());
+        //     EmittedFile(emitting, count);
+        //     return result;
+        // }
 
         [MethodImpl(Inline), Op]
-        public static ApiCodeBlock code(in ApiHexRow src)
+        public static ApiCodeBlock block(in ApiCodeRow src)
             => new ApiCodeBlock(src.Address, src.Uri, src.Data);
 
         [MethodImpl(Inline), Op]
-        public static MemoryBlock memory(in ApiHexRow src)
+        public static MemoryBlock memory(in ApiCodeRow src)
             => new MemoryBlock(new MemoryRange(src.Address, src.Address + src.Data.Size), src.Data);
 
-        public static MemoryBlocks memory(ReadOnlySpan<ApiHexRow> src)
+        public static MemoryBlocks memory(ReadOnlySpan<ApiCodeRow> src)
         {
             var count = src.Length;
             var dst = alloc<MemoryBlock>(count);
@@ -302,17 +296,17 @@ namespace Z0
             var count = rows.Count;
             var dst = alloc<ApiCodeBlock>(count);
             for(var j=0; j<count; j++)
-                seek(dst,j) = code(rows[j]);
+                seek(dst,j) = block(rows[j]);
             return dst;
         }
 
         [Op]
-        public static Index<ApiHexRow> hex(FS.FilePath src)
+        public static Index<ApiCodeRow> hex(FS.FilePath src)
         {
             var result = Outcome.Success;
             var data = src.ReadLines().Storage.Skip(1);
             var count = data.Length;
-            var dst = list<ApiHexRow>();
+            var dst = list<ApiCodeRow>();
             var j=0;
             for(var i=0; i<count; i++)
             {
@@ -329,9 +323,9 @@ namespace Z0
         }
 
         [Parser]
-        public static Outcome parse(string src, out ApiHexRow dst)
+        public static Outcome parse(string src, out ApiCodeRow dst)
         {
-            dst = new ApiHexRow();
+            dst = new ApiCodeRow();
             var result = Outcome.Success;
             try
             {
@@ -340,8 +334,8 @@ namespace Z0
 
                 var fields = src.SplitClean(FieldDelimiter);
                 var count = fields.Length;
-                if(count !=  (uint)ApiHexRow.FieldCount)
-                    return (false,Tables.FieldCountMismatch.Format(ApiHexRow.FieldCount, count));
+                if(count !=  (uint)ApiCodeRow.FieldCount)
+                    return (false,Tables.FieldCountMismatch.Format(ApiCodeRow.FieldCount, count));
 
                 var index = 0;
                 result = DataParser.parse(fields[index++], out dst.Seq);

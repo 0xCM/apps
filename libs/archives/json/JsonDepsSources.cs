@@ -5,6 +5,7 @@
 namespace Z0
 {
     using M = Microsoft.Extensions.DependencyModel;
+    using D = JsonDepsModel;
 
     using static core;
     using static JsonDepsModel;
@@ -25,17 +26,31 @@ namespace Z0
 
         internal JsonDepsSources(M.DependencyContext src)
         {
-            Source = src;
-            _CompilationLibraries = src.CompileLibraries.Array();
-            _RuntimeLibraries = src.RuntimeLibraries.Array();
-            _Options = src.CompilationOptions;
-            RuntimeGraph = src.RuntimeGraph.Array();
+            if(src != null)
+            {
+                Source = src;
+                _CompilationLibraries = src.CompileLibraries.Array();
+                _RuntimeLibraries = src.RuntimeLibraries.Array();
+                _Options = src.CompilationOptions;
+                RuntimeGraph = src.RuntimeGraph.Array();
+            }
+            else
+            {
+                _CompilationLibraries = sys.empty<M.CompilationLibrary>();
+                _RuntimeLibraries = sys.empty<M.RuntimeLibrary>();
+                RuntimeGraph = sys.empty<M.RuntimeFallbacks>();
+            }
         }
 
         public Options Options()
         {
-            var dst = new Options();
-            return api.extract(_Options, ref dst);
+            if(_Options != null)
+            {
+                var dst = new Options();
+                return api.extract(_Options, ref dst);
+            }
+            else
+                return D.Options.Empty;
         }
 
         public TargetInfo Target()

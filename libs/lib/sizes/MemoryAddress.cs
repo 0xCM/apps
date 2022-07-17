@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using A=MemoryAddress;
     public unsafe readonly struct MemoryAddress : IAddress<MemoryAddress,ulong>
     {
         public const NativeSizeCode StorageSize = NativeSizeCode.W64;
@@ -170,138 +171,138 @@ namespace Z0
             => (void*)src.Location;
 
         [MethodImpl(Inline)]
-        public static implicit operator MemoryAddress(IntPtr src)
-            => new MemoryAddress((ulong)src.ToInt64());
+        public static implicit operator A(IntPtr src)
+            => new A((ulong)src.ToInt64());
 
         [MethodImpl(Inline)]
-        public static implicit operator MemoryAddress(UIntPtr src)
-            => new MemoryAddress(src.ToUInt64());
+        public static implicit operator A(UIntPtr src)
+            => new A(src.ToUInt64());
 
         [MethodImpl(Inline)]
-        public static implicit operator IntPtr(MemoryAddress src)
+        public static implicit operator IntPtr(A src)
             => (IntPtr)src.Location;
 
         [MethodImpl(Inline)]
-        public static implicit operator long(MemoryAddress src)
+        public static implicit operator long(A src)
             => (long)src.Location;
 
         [MethodImpl(Inline)]
-        public static implicit operator ulong(MemoryAddress src)
+        public static implicit operator ulong(A src)
             => src.Location;
 
         [MethodImpl(Inline)]
-        public static implicit operator MemoryAddress(ulong src)
-            => new MemoryAddress(src);
+        public static implicit operator A(ulong src)
+            => new A(src);
 
         [MethodImpl(Inline)]
-        public static explicit operator MemoryAddress(long src)
-            => new MemoryAddress((ulong)src);
+        public static explicit operator A(long src)
+            => new A((ulong)src);
 
         [MethodImpl(Inline)]
-        public static explicit operator MemoryAddress(int src)
-            => new MemoryAddress((uint)src);
+        public static explicit operator A(int src)
+            => new A((uint)src);
 
         [MethodImpl(Inline)]
-        public static explicit operator MemoryAddress(ushort src)
-            => new MemoryAddress(src);
+        public static explicit operator A(ushort src)
+            => new A(src);
 
         [MethodImpl(Inline)]
-        public static explicit operator MemoryAddress(short src)
-            => new MemoryAddress((ushort)src);
+        public static explicit operator A(short src)
+            => new A((ushort)src);
 
         [MethodImpl(Inline)]
-        public static explicit operator ushort(MemoryAddress src)
+        public static explicit operator ushort(A src)
             => (ushort)src.Location;
 
         [MethodImpl(Inline)]
-        public static explicit operator uint(MemoryAddress src)
+        public static explicit operator uint(A src)
             => (uint)src.Location;
 
         [MethodImpl(Inline)]
-        public static explicit operator ByteSize(MemoryAddress src)
+        public static explicit operator ByteSize(A src)
             => new ByteSize((ulong)src.Location);
 
         [MethodImpl(Inline)]
-        public static bool operator==(MemoryAddress a, MemoryAddress b)
+        public static bool operator==(A a, A b)
             => a.Equals(b);
 
         [MethodImpl(Inline)]
-        public static bool operator!=(MemoryAddress a, MemoryAddress b)
+        public static bool operator!=(A a, A b)
             => !a.Equals(b);
 
         [MethodImpl(Inline)]
-        public static bool operator<(MemoryAddress a, MemoryAddress b)
+        public static bool operator<(A a, A b)
             => a.Location < b.Location;
 
         [MethodImpl(Inline)]
-        public static bool operator>(MemoryAddress a, MemoryAddress b)
+        public static bool operator>(A a, A b)
             => a.Location > b.Location;
 
         [MethodImpl(Inline)]
-        public static bool operator<=(MemoryAddress a, MemoryAddress b)
+        public static bool operator<=(A a, A b)
             => a.Location <= b.Location;
 
         [MethodImpl(Inline)]
-        public static bool operator>=(MemoryAddress a, MemoryAddress b)
+        public static bool operator>=(A a, A b)
             => a.Location >= b.Location;
 
         [MethodImpl(Inline)]
-        public static MemoryAddress operator+(MemoryAddress a, MemoryAddress b)
-            => new MemoryAddress(a.Location + b.Location);
+        public static A operator+(A a, A b)
+            => new A(a.Location + b.Location);
 
         [MethodImpl(Inline)]
-        public static MemoryAddress operator+(MemoryAddress a, byte* b)
-            => new MemoryAddress(a.Location + (ulong)b);
+        public static A operator+(A a, byte* b)
+            => new A(a.Location + (ulong)b);
 
         [MethodImpl(Inline)]
-        public static MemoryAddress operator+(MemoryAddress a, ushort* b)
-            => new MemoryAddress(a.Location + (ulong)b);
+        public static A operator+(A a, ushort* b)
+            => new A(a.Location + (ulong)b);
 
         [MethodImpl(Inline)]
-        public static MemoryAddress operator+(MemoryAddress a, uint* b)
-            => new MemoryAddress(a.Location + (ulong)b);
+        public static A operator+(A a, uint* b)
+            => new A(a.Location + (ulong)b);
 
         [MethodImpl(Inline)]
-        public static MemoryAddress operator+(MemoryAddress a, ulong* b)
-            => new MemoryAddress(a.Location + (ulong)b);
+        public static A operator+(A a, ulong* b)
+            => new A(a.Location + (ulong)b);
 
         [MethodImpl(Inline)]
-        public static MemoryAddress operator+(MemoryAddress a, void* b)
-            => new MemoryAddress(a.Location + (ulong)b);
+        public static A operator+(A a, void* b)
+            => new A(a.Location + (ulong)b);
 
         [MethodImpl(Inline)]
-        public static MemoryAddress operator+(MemoryAddress a, ByteSize b)
-            => new MemoryAddress(a.Location + (ulong)b);
+        public static A operator+(A a, ByteSize b)
+            => new A(a.Location + (ulong)b);
 
         [MethodImpl(Inline)]
-        public static MemoryAddress operator+(MemoryAddress a, byte size)
-            => new MemoryAddress(a.Location + size);
+        public static A operator+(A a, byte size)
+            => new A(a.Location + size);
 
         [MethodImpl(Inline)]
-        public static MemoryAddress operator+(MemoryAddress a, ushort size)
-            => new MemoryAddress(a.Location + size);
+        public static A operator+(A a, ushort size)
+            => new A(a.Location + size);
 
         [MethodImpl(Inline)]
-        public static MemoryAddress operator++(MemoryAddress a)
-            => new MemoryAddress(a.Location + 1);
+        public static A operator++(A a)
+            => new A(a.Location + 1);
 
         [MethodImpl(Inline)]
-        public static MemoryAddress operator--(MemoryAddress a)
-            => new MemoryAddress(a.Location - 1);
+        public static A operator--(A a)
+            => new A(a.Location - 1);
 
         [MethodImpl(Inline)]
-        public static MemoryAddress operator+(MemoryAddress a, uint size)
-            => new MemoryAddress(a.Location + size);
+        public static A operator+(A a, uint size)
+            => new A(a.Location + size);
 
         [MethodImpl(Inline)]
-        public static MemoryAddress operator+(MemoryAddress a, ulong size)
-            => new MemoryAddress(a.Location + size);
+        public static A operator+(A a, ulong size)
+            => new A(a.Location + size);
 
         [MethodImpl(Inline)]
-        public static MemoryAddress operator-(MemoryAddress a, MemoryAddress b)
-            => new MemoryAddress(a.Location - b.Location);
+        public static A operator-(A a, A b)
+            => new A(a.Location - b.Location);
 
-        public static MemoryAddress Zero
-            => new MemoryAddress(0);
+        public static A Zero
+            => new A(0);
     }
 }

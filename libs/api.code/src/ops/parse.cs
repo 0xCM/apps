@@ -37,7 +37,6 @@ namespace Z0
         }
     }
 
-
     partial class XTend
     {
         public static ReadOnlySeq<EncodedMember> EncodedMemberTable(this FS.FilePath src)

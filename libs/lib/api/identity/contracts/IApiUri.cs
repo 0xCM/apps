@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Free]
-    public interface IApiUri : IIdentified
+    public interface IApiUri : IIdentified, INullity
     {
         string UriText {get;}
 

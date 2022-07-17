@@ -12,7 +12,7 @@ namespace Z0
             => new ApiHostBlocks(host, blocks(src));
 
         [MethodImpl(Inline), Op]
-        public static ApiCodeBlock block(in ApiHexRow src)
+        public static ApiCodeBlock block(in ApiCodeRow src)
             => new ApiCodeBlock(src.Address, src.Uri, src.Data);
 
         public static Index<ApiHostBlocks> blocks(FS.FolderPath src, ReadOnlySpan<ApiHostUri> hosts, bool pll = true)

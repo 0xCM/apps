@@ -14,8 +14,8 @@ namespace Z0
 
         new ApiCodeFiles Files => Wf.ApiCodeFiles();
 
-        public Index<ApiHexRow> EmitApiHex(ApiHostUri uri, ReadOnlySpan<ApiMemberCode> src, FS.FolderPath dst)
-            => ApiHex.EmitRows(uri, src, dst);
+        public Index<ApiCodeRow> EmitApiHex(ApiHostUri uri, ReadOnlySpan<ApiMemberCode> src, FS.FolderPath dst)
+            => ApiHex.EmitApiCode(uri, src, dst);
 
         public SortedIndex<ApiCodeBlock> LoadBlocks()
             => blocks(Files.HexFiles());
@@ -153,12 +153,12 @@ namespace Z0
             return emitted;
         }
 
-        public void Emit(PartId part, ReadOnlySeq<ApiHostCode> src, IApiPack dst)
+        public void Emit(PartId part, ReadOnlySeq<CollectedHost> src, IApiPack dst)
         {
             iter(src, code => Emit(code,dst), true);
         }
 
-        void Emit(ApiHostCode src, IApiPack dst)
+        void Emit(CollectedHost src, IApiPack dst)
         {
             EmitHex(src.Blocks, dst.HexExtractPath(src.Host));
             EmitCsv(src.Blocks, dst.CsvExtractPath(src.Host));

@@ -14,12 +14,6 @@ namespace Z0
 
         ToolBox ToolBox => Wf.ToolBox();
 
-        [CmdOp("archives/memory/check")]
-        void CheckMemoryArchives()
-        {
-
-        }
-
         [CmdOp("tools/env")]
         void ShowToolEnv()
             => iter(ToolBox.LoadEnv(), s => Write(s));
@@ -54,9 +48,9 @@ namespace Z0
             }
         }
 
-        //CsLang CsLang => Wf.CsLang();
-
         ApiMemory ApiMemory => Wf.ApiMemory();
+
+        IApiPack ApiPack => AppDb.apipack();
 
         public Index<BitMaskInfo> ApiBitMasks
             => Data(K.BitMasks, () => BitMask.masks(typeof(BitMaskLiterals)));
@@ -64,16 +58,6 @@ namespace Z0
         [CmdOp("api/emit/bitmasks")]
         void EmitApiBitMasks()
             => Emit(ApiBitMasks);
-
-        // [CmdOp("api/emit/classes")]
-        // Outcome EmitApiClasses(CmdArgs args)
-        // {
-        //     var classifier = Classifiers.classifier<AsmSigTokens.GpRmToken,byte>();
-        //     var dst = text.emitter();
-        //     Classifiers.render(classifier,dst);
-        //     Write(dst.Emit());
-        //     return true;
-        // }
 
         public void Emit(Index<BitMaskInfo> src)
             => TableEmit(src, ProjectDb.ApiTablePath<BitMaskInfo>());
@@ -84,8 +68,7 @@ namespace Z0
             var src = AppDb.apipacks();
             for(var i=0; i<src.Count; i++)
             {
-                ref readonly var pack = ref src[i];
-                Write($"{i}", pack.Timestamp);
+                Write($"{i}", src[i].Timestamp);
             }
         }
 
@@ -128,26 +111,16 @@ namespace Z0
         }
 
         [CmdOp("api/deps")]
-        void ShowDependencies()
-        {
-            var src = ExecutingPart.Component;
-            var name = src.GetSimpleName();
-            var deps = JsonDeps.load(src);
-            var dst = list<string>();
-            iteri(deps.RuntimeLibs(), (i,lib) => dst.Add(string.Format("{0:D4}:{1}",i,lib)));
-            var emitter = text.emitter();
-            iter(dst, line => emitter.AppendLine(line));
-            FileEmit(emitter.Emit(), dst.Count, AppDb.Apps().Path($"{name}.deps",FileKind.List));
-        }
+        void EmitApiDeps()
+            => ApiMd.Emitter(ApiPack).EmitApiDeps(sys.array(ExecutingPart.Component));
 
         [CmdOp("api/etl")]
         void ApiEmit()
-            => ApiMd.EmitDatasets(AppDb.apipack());
+            => ApiMd.EmitDatasets(ApiPack);
 
         [CmdOp("api/emit/heap")]
         void ApiEmitHeaps()
-            => ApiMemory.EmitSymHeap(Heaps.load(ApiMd.SymLits), AppDb.apipack());
-
+            => ApiMemory.EmitSymHeap(Heaps.load(ApiMd.SymLits), ApiPack);
 
         [CmdOp("api/emit/index")]
         void EmitRuntimeMembers()
@@ -163,7 +136,7 @@ namespace Z0
 
         [CmdOp("api/emit/comments")]
         void ApiEmitComments()
-            => ApiMd.EmitComments();
+            => ApiMd.Emitter(ApiPack).EmitComments();
 
         // [CmdOp("gen/replicants")]
         // Outcome GenEnums(CmdArgs args)

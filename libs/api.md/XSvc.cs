@@ -17,9 +17,6 @@ namespace Z0
 
             public ApiCatalogs ApiCatalogs(IWfRuntime wf)
                 => Service<ApiCatalogs>(wf);
-
-            public ApiJit ApiJit(IWfRuntime wf)
-                => Service<ApiJit>(wf);
         }
 
         static Svc Services => Svc.Instance;
@@ -32,9 +29,5 @@ namespace Z0
 
         public static ApiCatalogs ApiCatalogs(this IWfRuntime wf)
             => Services.ApiCatalogs(wf);
-
-        [Op]
-        public static ApiJit ApiJit(this IWfRuntime wf)
-            => Services.ApiJit(wf);
     }
 }

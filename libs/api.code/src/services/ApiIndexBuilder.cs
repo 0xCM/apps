@@ -20,11 +20,11 @@ namespace Z0
 
         ApiCodeLookup UriCode;
 
-        public static ReadOnlySpan<ApiHexRow> ReadRows(FS.FilePath src)
+        public static ReadOnlySpan<ApiCodeRow> ReadRows(FS.FilePath src)
         {
             var data = src.ReadLines().Storage.ToReadOnlySpan();
             var count = data.Length - 1;
-            var dst = alloc<ApiHexRow>(count);
+            var dst = alloc<ApiCodeRow>(count);
             for(var i=0; i<count; i++)
             {
                 var result = ApiHex.parse(skip(data, i + 1), out seek(dst,i));
@@ -72,7 +72,7 @@ namespace Z0
             return Product;
         }
 
-        void Include(in ApiHexRow src)
+        void Include(in ApiCodeRow src)
         {
             if(src.Address.IsEmpty)
             {
@@ -93,7 +93,7 @@ namespace Z0
             return triple(a,b,c);
         }
 
-        void Include(ReadOnlySpan<ApiHexRow> src)
+        void Include(ReadOnlySpan<ApiCodeRow> src)
         {
             var count = src.Length;
             for(var i=0; i<count; i++)

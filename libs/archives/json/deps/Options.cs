@@ -31,6 +31,16 @@ namespace Z0
             public bool? EmitEntryPoint;
 
             public bool? GenerateXmlDocumentation;
+
+            public static Options Empty
+            {
+                get
+                {
+                    var dst = default(Options);
+                    dst.Defines = sys.empty<string>();
+                    return dst;
+                }
+            }
         }
     }
 }

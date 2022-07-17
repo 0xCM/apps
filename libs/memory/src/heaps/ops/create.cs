@@ -7,7 +7,7 @@ namespace Z0
     partial class Heaps
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static SpanHeap<T> create<T>(Span<T> src, uint[] offsets)
+        public static SpanHeap<T> create<T>(Span<T> src, ReadOnlySpan<uint> offsets)
             => new SpanHeap<T>(src, offsets);
 
         [MethodImpl(Inline), Op, Closures(Closure)]

@@ -49,7 +49,6 @@ namespace Z0
             }
         }
 
-
         [MethodImpl(Inline), Op]
         public static LibDep lib(string assembly, string version)
         {

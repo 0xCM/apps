@@ -59,7 +59,7 @@ namespace Z0
 
         [CmdOp("capture")]
         void Capture(CmdArgs args)
-            => Wf.ApiCapture().Run();
+            => Wf.ApiCapture().Run(AppDb.apipack());
 
         Outcome AsmQueryRex(CmdArgs args)
         {

@@ -13,23 +13,20 @@ namespace Z0
         public ReadOnlySeq<CollectedEncoding> Collect(ICompositeDispenser symbols, IPart src)
             => collect(MethodEntryPoints.create(ApiJit.JitPart(src)), EventLog, symbols);
 
-        public static ReadOnlySeq<CollectedEncoding> collect_old(IApiPartCatalog src, WfEventLogger log, ICompositeDispenser dst)
-            => collect(MethodEntryPoints.create(ApiJit.jit(src, log)), log, dst);
-
-        public static ReadOnlySeq<ApiHostCode> collect(IApiPartCatalog src, WfEventLogger log, ICompositeDispenser dst)
+        public static ReadOnlySeq<CollectedHost> collect(IApiPartCatalog src, WfEventLogger log, ICompositeDispenser dst)
         {
             var members = list<ApiHostMembers>();
-            var collected = list<ApiHostCode>();
+            var collected = list<CollectedHost>();
             iter(src.ApiHosts, host => members.Add(ApiJit.jit(host,log)));
             iter(src.ApiTypes, t => members.Add(new ApiHostMembers(t.HostUri, ApiMembers.create(ApiJit.jit(t,log)))));
-            iter(members, m => collected.Add(collect(m,log,dst)));
+            iter(members, m => collected.Add(collect(m, log, dst)));
             return collected.ToArray();
         }
 
-        public static ApiHostCode collect(ApiHostMembers src, WfEventLogger log, ICompositeDispenser dst)
+        public static CollectedHost collect(ApiHostMembers src, WfEventLogger log, ICompositeDispenser dst)
         {
             var collected = collect(MethodEntryPoints.create(src.Members), log, dst);
-            return new ApiHostCode(src,collected);
+            return new CollectedHost(src,collected);
         }
 
         public static ReadOnlySeq<CollectedEncoding> collect(ReadOnlySpan<MethodEntryPoint> src, WfEventLogger log, ICompositeDispenser dispenser)

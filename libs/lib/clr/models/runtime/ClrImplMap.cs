@@ -88,20 +88,6 @@ namespace Z0
 
         }
 
-        // public void Format(ITextBuffer dst)
-        // {
-        //     dst.AppendLine(string.Format("{0} -> {1}", SpecType.Name, ImplType.Name));
-        //     var count = OperationCount;
-        //     for(var i=0u; i<count; i++)
-        //     {
-        //         ClrMethodAdapter spec = Specs[i];
-        //         ClrMethodAdapter impl = Impl[i];
-        //         dst.AppendLine($"   {spec.DeclaringType.DisplayName()}::{spec.DisplayName()} --> {impl.DeclaringType.DisplayName()}::{impl.DisplayName()}");
-        //         dst.AppendLineFormat("       Spec(MethodHandle) {0} --> Impl(MethodHandle) {1}", spec.HandleAddress, impl.HandleAddress);
-        //         dst.AppendLineFormat("       Spec(FunctionPtr) {0} --> Impl(FunctionPtr)  {1}", spec.FunctionPointer, impl.FunctionPointer);
-        //     }
-        // }
-
         public override string ToString()
             => Format();
     }

@@ -10,12 +10,12 @@ namespace Z0
     {
         internal readonly Span<T> Segments;
 
-        internal readonly Span<uint> Offsets;
+        internal readonly ReadOnlySpan<uint> Offsets;
 
         internal readonly uint LastSegment;
 
         [MethodImpl(Inline)]
-        internal SpanHeap(Span<T> segs, Span<uint> offsets)
+        internal SpanHeap(Span<T> segs, ReadOnlySpan<uint> offsets)
         {
             Segments = segs;
             Offsets = offsets;

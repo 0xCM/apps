@@ -5,9 +5,9 @@
 namespace Z0
 {
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct ApiHexRow
+    public struct ApiCodeRow
     {
-        const string TableId = "api.hex";
+        const string TableId = "api.code";
 
         public const byte FieldCount = 7;
 
@@ -25,6 +25,6 @@ namespace Z0
 
         public BinaryCode Data;
 
-        public static ApiHexRow Empty => default;
+        public static ApiCodeRow Empty => default;
     }
 }

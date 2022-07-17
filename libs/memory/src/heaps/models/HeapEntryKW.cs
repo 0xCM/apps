@@ -5,18 +5,18 @@
 namespace Z0
 {
     [StructLayout(LayoutKind.Sequential,Pack=1)]
-    public readonly struct HeapEntry<K,L>
+    public readonly struct HeapEntry<K,W>
         where K : unmanaged
-        where L : unmanaged
+        where W : unmanaged
     {
         public readonly K Index;
 
         public readonly uint Offset;
 
-        public readonly L Length;
+        public readonly W Length;
 
         [MethodImpl(Inline)]
-        public HeapEntry(K index, uint offset, L length)
+        public HeapEntry(K index, uint offset, W length)
         {
             Index = index;
             Offset = offset;

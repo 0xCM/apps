@@ -21,10 +21,10 @@ namespace Z0
 
         public ApiMember(OpUri uri, MethodInfo method, MemoryAddress address, ApiMsil msil)
         {
-            OpUri = uri;
-            ApiClass = method.ApiClass();
+            OpUri =  Require.notnull(uri);
             Method = Require.notnull(method);
-            Msil = msil;
+            ApiClass = method.ApiClass();
+            Msil = Require.notnull(msil);
             Metadata = method.Artifact();
         }
 
@@ -32,12 +32,6 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => OpUri.OpId;
-        }
-
-        public string Group
-        {
-            [MethodImpl(Inline)]
-            get => Method.ApiGroup();
         }
 
         public MemoryAddress BaseAddress
@@ -81,7 +75,7 @@ namespace Z0
             => BaseAddress.CompareTo(src.BaseAddress);
 
         public static ApiMember Empty
-            => new ApiMember(OpUri.Empty, EmptyVessels.EmptyMethod, 0, default);
+            => new ApiMember(OpUri.Empty, EmptyVessels.EmptyMethod, 0, ApiMsil.Empty);
 
         ApiMsil IApiMember.Msil
             => Msil;

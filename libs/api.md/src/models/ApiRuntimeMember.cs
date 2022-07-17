@@ -31,7 +31,6 @@ namespace Z0
         public int CompareTo(ApiRuntimeMember src)
             => Address.CompareTo(src.Address);
 
-
         MemoryAddress IAddressable.Address
             => Address;
 

@@ -24,15 +24,18 @@ namespace Z0
         IImmArchive ImmArchive()
             => new ImmArchive(Root + FS.folder("imm"));
 
-        IDbTargets ProcessContext()
+        IDbTargets Context()
             => Targets("context");
 
         FS.FilePath SectionTable<T>(string section,string prefix)
             where T : struct
-                => ProcessContext().Targets(section).Table<T>(prefix);
+                => Context().Targets(section).Table<T>(prefix);
+
+        IDbTargets Docs()
+            => Targets("docs");
 
         IDbTargets Comments()
-            => Metadata().Targets("comments");
+            => Docs().Targets("comments");
 
         IDbTargets Tokens()
             => Metadata().Targets("tokens");
@@ -42,6 +45,12 @@ namespace Z0
 
         IDbTargets Metadata()
             => Targets("metadata");
+
+        IDbTargets Runtime()
+            => Targets("runtime");
+
+        IDbTargets Runtime(string scope)
+            => Runtime().Targets(scope);
 
         FS.FilePath IlPath(ApiHostUri host)
             => Extracts().Path(FS.hostfile(host,FileKind.Msil.Ext()));
@@ -89,24 +98,24 @@ namespace Z0
             => FS.file("process.partitions.hash", FileKind.Csv);
 
         FS.FilePath PartitionPath()
-            => ProcessContext().Path(PartitionFile());
+            => Context().Path(PartitionFile());
 
         FS.FilePath RegionPath()
-            => ProcessContext().Path(RegionFile());
+            => Context().Path(RegionFile());
 
         FS.FilePath RegionHashPath()
-            => ProcessContext().Path(RegionHashFile());
+            => Context().Path(RegionHashFile());
 
         FS.FilePath PartitionHashPath()
-            => ProcessContext().Path(PartitionHashFile());
+            => Context().Path(PartitionHashFile());
 
         FS.FilePath ProcessModules()
-            => ProcessContext().Path("process.modules", FileKind.Csv);
+            => Context().Path("process.modules", FileKind.Csv);
 
         FS.FileName DumpFile(Process process)
             => FS.file(ProcDumpName.create(process,Timestamp).Format(false), FileKind.Dmp);
 
         FS.FilePath DumpPath(Process process)
-            => ProcessContext().Path(DumpFile(process)).CreateParentIfMissing();
+            => Context().Path(DumpFile(process)).CreateParentIfMissing();
     }
 }

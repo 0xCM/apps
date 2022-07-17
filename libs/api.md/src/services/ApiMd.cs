@@ -12,8 +12,6 @@ namespace Z0
 
     public sealed partial class ApiMd : WfSvc<ApiMd>
     {
-        ApiComments Comments => Wf.ApiComments();
-
         ModuleArchives Modules => Wf.ModuleArchives();
 
         ApiJit ApiJit => Service(Wf.ApiJit);
@@ -64,17 +62,11 @@ namespace Z0
         public ReadOnlySeq<ApiCmdRow> ApiCommands
             => data(K.ApiCommands, CalcApiCommands);
 
-        public ReadOnlySeq<ApiLiteral> ApiLiterals
-            => data(nameof(K.ApiLiterals), () => Symbolic.apilits(Components));
-
         public ReadOnlySeq<ApiFlowSpec> DataFlows
             => data(K.DataFlows, CalcDataFlows);
 
         public ConstLookup<Name,ReadOnlySeq<SymInfo>> ApiTokens
             => data(K.ApiTokens, CalcApiTokens);
-
-        public CommentDataset ApiComments
-            => data(K.ApiComments, () => Comments.Calc());
 
         public ApiParserLookup Parsers
             => data(K.Parsers, () => Z0.Parsers.contracted(Components));
@@ -82,8 +74,11 @@ namespace Z0
         public Index<ClrEnumRecord> EnumRecords(Assembly src)
             => Data(src.GetSimpleName() + nameof(ClrEnumRecord), () => Enums.records(src));
 
+        public ApiMdEmitter Emitter(IApiPack dst)
+            => ApiMdEmitter.create(Wf, this, dst);
+
         public void EmitDatasets(IApiPack dst)
-            => ApiMdEmitter.create(Wf,this).Emit(dst);
+            => Emitter(dst).Emit();
 
         public Index<SymLiteralRow> LoadSymLits(FS.FilePath src)
         {
@@ -123,12 +118,7 @@ namespace Z0
 
         internal void EmitApiTokens()
         {
-            ApiTargets(tokens).Clear();
             EmitApiTokens(ApiTokens);
-            // var lookup = ApiTokens;
-            // var names = lookup.Keys;
-            // for(var i=0; i<names.Length; i++)
-            //     EmitApiTokens(skip(names,i), lookup[skip(names,i)]);
         }
 
         internal ApiHostCatalog HostCatalog(Type src)
@@ -161,18 +151,6 @@ namespace Z0
 
             return src.SelectMany(x => x).Select(e => Assets.entry(e));
         }
-
-        // internal void Emit(ComponentAssets src, List<AssetCatalogEntry> entries)
-        // {
-        //     var count = src.Count;
-        //     var targets = AssetTargets.Targets(src.Source.GetSimpleName());
-        //     for(var i=0; i<count; i++)
-        //     {
-        //         ref readonly var asset = ref src[i];
-        //         FileEmit(Assets.utf8(asset), targets.Path(asset.Name.ShortFileName), TextEncodingKind.Utf8);
-        //         entries.Add(Assets.entry(asset));
-        //     }
-        // }
 
         internal void EmitAssetEntries(ReadOnlySeq<AssetCatalogEntry> src)
             => TableEmit(src, AppDb.ApiTargets().Table<AssetCatalogEntry>());
@@ -225,15 +203,6 @@ namespace Z0
         internal void EmitApiCommands()
             => Emit(ApiCommands);
 
-        internal void EmitApiLiterals()
-            => Emit(ApiLiterals);
-
-        internal void EmitTypeLists()
-        {
-            EmitTypeList("api.types.enums", EnumTypes);
-            EmitTypeList("api.types.records", ApiTableTypes);
-        }
-
         internal void EmitDataFlows()
             => Emit(DataFlows);
 
@@ -256,24 +225,6 @@ namespace Z0
                     ));
             FileEmit(emitter.Emit(), parsers.Count, AppDb.ApiTargets().Path("api.parsers", FileKind.Csv));
         }
-
-        public void EmitComments()
-        {
-            Comments.Collect();
-        }
-
-        public FS.FilePath EmitTypeList(string name, ReadOnlySpan<Type> src)
-        {
-            var path = AppDb.ApiTargets().Path(name, FileKind.List);
-            var dst = text.emitter();
-            for(var i=0; i<src.Length; i++)
-                dst.AppendLine(skip(src,i).AssemblyQualifiedName);
-            FileEmit(dst.Emit(), src.Length, path);
-            return path;
-        }
-
-        internal void EmitSymLits(ReadOnlySpan<SymLiteralRow> src)
-            => TableEmit(src, AppDb.ApiTargets().Path("api.symbols", FileKind.Csv), TextEncodingKind.Unicode);
 
         internal void EmitEnums(ReadOnlySpan<ClrEnumRecord> src)
             => TableEmit(src, AppDb.ApiTargets().Table<ClrEnumRecord>(), TextEncodingKind.Unicode);
@@ -521,7 +472,7 @@ namespace Z0
         void Emit(ReadOnlySpan<TableField> src)
             => TableEmit(src, AppDb.ApiTargets().Table<TableField>());
 
-        void Emit(ReadOnlySpan<ApiLiteral> src)
+        internal void EmitApiLiterals(ReadOnlySpan<ApiLiteral> src)
             => TableEmit(src, AppDb.ApiTargets().Table<ApiLiteral>(), TextEncodingKind.Unicode);
 
         void Emit(ReadOnlySpan<ApiFlowSpec> src)

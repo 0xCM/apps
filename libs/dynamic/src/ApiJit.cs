@@ -78,11 +78,7 @@ namespace Z0
             => Members(ApiQuery.complete(src.HostType, CommonExclusions).Select(m => new JittedMethod(src.HostUri, m, ClrJit.jit(m))));
 
         public ApiMembers JitHost(IApiHost src)
-        {
-            var direct = JitDirect(src);
-            var generic = JitGeneric(src, EventLog);
-            return ApiMembers.create(direct.Concat(generic).Array());
-        }
+            => ApiMembers.create(JitDirect(src).Concat(JitGeneric(src, EventLog)).Array());
 
         public ApiMembers Jit(Index<ApiCompleteType> src)
         {

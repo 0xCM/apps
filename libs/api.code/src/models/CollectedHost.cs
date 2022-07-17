@@ -4,13 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class ApiHostCode
+    public class CollectedHost
     {
-        public ApiHostMembers Resolved;
+        public readonly ApiHostMembers Resolved;
 
-        public ReadOnlySeq<CollectedEncoding> Blocks;
+        public readonly ReadOnlySeq<CollectedEncoding> Blocks;
 
-        public ApiHostCode(ApiHostMembers resolved, ReadOnlySeq<CollectedEncoding> blocks)
+        public CollectedHost(ApiHostMembers resolved, ReadOnlySeq<CollectedEncoding> blocks)
         {
             Resolved = resolved;
             Blocks = blocks;

@@ -14,34 +14,32 @@ namespace Z0
 
         ApiCode ApiCode => Wf.ApiCode();
 
-        ApiCatalogs ApiCatalogs => Wf.ApiCatalogs();
-
         void RedirectEmissions(IApiPack dst)
             => Wf.RedirectEmissions(Loggers.emission(ExecutingPart.Component, dst.Path("capture.emissions", FileKind.Csv)));
 
-        public void Capture(IApiPack dst)
+        public CollectedHosts Capture(IApiPack dst)
         {
             RedirectEmissions(dst);
             using var dispenser = Dispense.composite();
-            var code = Capture(ApiRuntimeCatalog, dispenser, true, dst);
-            //ApiCatalogs.Rebase(ApiMembers.create(code.SelectMany(x => x.Resolved.Members)),dst);
+            return Capture(ApiRuntimeCatalog, dispenser, true, dst);
+
         }
 
-        public Index<ApiHostCode> Capture(IApiCatalog src, ICompositeDispenser dispenser, bool pll, IApiPack pack)
+        public CollectedHosts Capture(IApiCatalog src, ICompositeDispenser dispenser, bool pll, IApiPack dst)
         {
-            var dst = bag<ApiHostCode>();
+            var buffer = bag<CollectedHost>();
             iter(src.PartCatalogs(),
                 part => {
                     var code = ApiCode.collect(part, EventLog, dispenser);
-                    ApiCode.Emit(part.PartId, code, pack);
-                    EmitAsm(dispenser, code, pack);
+                    ApiCode.Emit(part.PartId, code, dst);
+                    EmitAsm(dispenser, code, dst);
                 },
             pll);
 
-            return dst.ToIndex().Sort();
+            return buffer.ToIndex().Sort();
         }
 
-        void EmitAsm(ICompositeDispenser symbols, ReadOnlySeq<ApiHostCode> src, IApiPack dst)
+        void EmitAsm(ICompositeDispenser symbols, ReadOnlySeq<CollectedHost> src, IApiPack dst)
         {
             for(var i=0; i<src.Count; i++)
             {

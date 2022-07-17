@@ -17,7 +17,7 @@ namespace Z0
         public void Rebase(ApiMembers members, IApiPack dst)
         {
             var flow = Running("Rebasing members");
-            var entries = Rebase(members, dst.Table<ApiCatalogEntry>());
+            Rebase(members, dst.Table<ApiCatalogEntry>());
             Ran(flow);
         }
 

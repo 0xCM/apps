@@ -16,15 +16,18 @@ namespace Z0
 
         CliEmitter CliEmitter => Wf.CliEmitter();
 
+        ApiCatalogs ApiCatalogs => Wf.ApiCatalogs();
+
         Runtime Runtime => Wf.Runtime();
 
         ApiMd ApiMd => Wf.ApiMetadata();
 
-        public void Run()
+        public void Run(IApiPack dst)
         {
             var parts = ApiPartCapture.create(Wf);
-            var dst = AppDb.apipack();
-            parts.Capture(dst);
+            var captured = parts.Capture(dst);
+            var members = ApiMembers.create(captured.SelectMany(x => x.Resolved.Members).Array());
+            //ApiCatalogs.Rebase(members,dst);
             ApiMd.EmitDatasets(dst);
             CliEmitter.Emit(CliEmitOptions.@default(), dst);
             Runtime.EmitContext(dst);

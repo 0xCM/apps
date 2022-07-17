@@ -144,10 +144,6 @@ namespace Z0
             => (short)src.Location;
 
         [MethodImpl(Inline)]
-        public static A operator+(A x, T y)
-            => new A((T)(x.Location + y));
-
-        [MethodImpl(Inline)]
         public static bool operator <(A a, A b)
             => a.Location < b.Location;
 
@@ -170,6 +166,26 @@ namespace Z0
         [MethodImpl(Inline)]
         public static bool operator!=(A x, A y)
             => x.Location != y.Location;
+
+       [MethodImpl(Inline)]
+        public static A operator++(A a)
+            => new A(a.Location + 1);
+
+        [MethodImpl(Inline)]
+        public static A operator--(A a)
+            => new A(a.Location - 1);
+
+        [MethodImpl(Inline)]
+        public static A operator+(A x, T y)
+            => new A((T)(x.Location + y));
+
+        [MethodImpl(Inline)]
+        public static A operator+(A a, A b)
+            => new A(a.Location + b.Location);
+
+        [MethodImpl(Inline)]
+        public static A operator-(A a, A b)
+            => new A(a.Location - b.Location);
 
         public static A Empty
             => new A(0);

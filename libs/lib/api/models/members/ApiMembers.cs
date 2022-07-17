@@ -36,7 +36,6 @@ namespace Z0
         ApiMembers(MemoryAddress @base, Index<ApiMember> src)
         {
             BaseAddress = @base;
-
             Data = src;
         }
 

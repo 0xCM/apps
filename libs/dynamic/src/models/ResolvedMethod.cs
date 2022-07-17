@@ -75,9 +75,6 @@ namespace Z0
             get => Method.DeclaringType;
         }
 
-        // public ApiMember ToApiMember()
-        //     => new ApiMember(Uri, Method, EntryPoint);
-
         public string Format()
             => format(this);
 

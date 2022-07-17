@@ -6,13 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="$(AsmModels)" />
     <ProjectReference Include="$(Wf)" />
     <ProjectReference Include="$(Graphs)" />
     <ProjectReference Include="$(MemorySvc)" />
     <ProjectReference Include="$(Dynamic)" />
-    <ProjectReference Include="$(ApiMd)" />
-    <ProjectReference Include="$(Queues)" />
+    <ProjectReference Include="$(AsmModels)" />
   </ItemGroup>
 
 </Project>

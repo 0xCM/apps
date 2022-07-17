@@ -95,11 +95,11 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static JmpStub stub32(MemoryAddress src, MemoryAddress dst)
-            => new (JmpRel32.OpCode, AsmRel.disp32((src, JmpRel32.InstSize), dst), JmpRel32.InstSize, src, dst);
+            => new (JmpRel32.OpCode, AsmRel.disp32((src, JmpRel32.InstSize), dst), JmpRel32.InstSize, src, dst, JmpRel32.encode((src, JmpRel32.InstSize), dst));
 
         [MethodImpl(Inline), Op]
         public static JmpStub stub8(MemoryAddress src, MemoryAddress dst)
-            => new (JmpRel8.OpCode, AsmRel.disp8((src, JmpRel8.InstSize) ,dst), JmpRel8.InstSize, src, dst);
+            => new (JmpRel8.OpCode, AsmRel.disp8((src, JmpRel8.InstSize) ,dst), JmpRel8.InstSize, src, dst, default);
 
         [MethodImpl(Inline)]
         public static Rip rip(MemoryAddress callsite, byte instsize)
