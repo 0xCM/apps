@@ -22,6 +22,27 @@ namespace Z0
 
         ApiMd ApiMd => Wf.ApiMetadata();
 
+        public static MemoryHeap heap(FS.FilePath src)
+        {
+            var dst = alloc<byte>(src.Size);
+            using var reader = src.AsciLineReader();
+            var line = AsciLineCover.Empty;
+            var offset = 0u;
+            var result = true;
+            while(reader.Next(out line) && result)
+            {
+                var data = line.Codes;
+                var i = SQ.index(data, Chars.Space);
+                if(i > 0)
+                {
+                    result = Hex.parse(SQ.left(data,i), out ulong a);
+                    result &= Hex.parse(SQ.right(data,i), ref offset, dst);
+                }
+
+            }
+            return default;
+        }
+
         public void Run(IApiPack dst)
         {
             var parts = ApiPartCapture.create(Wf);
