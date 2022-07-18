@@ -79,7 +79,7 @@ namespace Z0
 
         [CmdOp("project")]
         public Outcome LoadProject(CmdArgs args)
-            => LoadProjectSources(AppDb.Project(arg(args,0).Value));
+            => LoadProjectSources(AppDb.LlvmModels(arg(args,0).Value));
 
         protected Outcome LoadProjectSources(IWsProject ws)
         {

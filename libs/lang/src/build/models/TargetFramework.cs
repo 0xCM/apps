@@ -23,14 +23,7 @@ namespace Z0
             public TargetFramework(dynamic value, Version ver)
                 => Value = value.ToString() + ver.Format();
 
-            public string Format()
-                => format(this);
 
-            public override string ToString()
-                => Format();
-
-            public static implicit operator Property(TargetFramework src)
-                =>  property(src.Name, src.Value);
         }
     }
 }

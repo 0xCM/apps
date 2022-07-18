@@ -47,9 +47,6 @@ namespace Z0
         public IDbSources Repos(string scope)
             => Repos().Sources(scope);
 
-        public IDbSources Repo(string scope, string name)
-            => Repos(scope).Sources(name);
-
         public EnvVars<string> LoadEnv(string name)
             => AsciLines.env(WsArchives.EnvPath(name));
 
@@ -105,14 +102,11 @@ namespace Z0
         public IDbSources Toolbase()
             => new DbSources(setting(WsArchives.Path(Names.Toolbase), FS.dir));
 
-        public IDbSources DevRoot()
+        public IDbSources Dev()
             => new DbSources(setting(WsArchives.Path(Names.DevRoot), FS.dir));
 
-        public IWsProjects DevProjects()
-            => WsProjects.load(DevRoot());
-
-        public IWsProjects DevProject(string name)
-            => new WsProjects(DevProjects().Sources(name).Root);
+        public IDbSources Dev(string scope)
+            => Dev().Sources(scope);
 
         public IDbTargets CgRoot()
             => new DbTargets(setting(WsArchives.Path(Names.CgRoot), FS.dir));
@@ -123,8 +117,8 @@ namespace Z0
         public IDbSources EnvConfig()
             => new DbSources(setting(WsArchives.Path(Names.EnvConfig), FS.dir));
 
-        public IWsProject Project(ProjectId src)
-            => WsProject.load(DevProject($"llvm.models/{src}"), src);
+        public IWsProject LlvmModels(ProjectId src)
+            => WsProject.load(Dev($"llvm.models/{src}"), src);
 
         public IDbTargets EtlTargets(ProjectId src)
             => new DbTargets(DbOut($"projects/{src}").Root);

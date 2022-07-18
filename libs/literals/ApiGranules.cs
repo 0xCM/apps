@@ -165,6 +165,8 @@ namespace Z0
         public const string digits = nameof(digits);
 
 
+        public const string props = nameof(props);
+
         public const string @decimal = nameof(@decimal);
 
         public const string binary = nameof(binary);

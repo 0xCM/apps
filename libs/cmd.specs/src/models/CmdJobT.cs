@@ -4,10 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct CmdJob<T> : ITextual
+    public readonly struct CmdJob<T>
         where T : struct
     {
-        public readonly NameOld Name {get;}
+        public readonly Name Name {get;}
 
         public readonly T Spec {get;}
 

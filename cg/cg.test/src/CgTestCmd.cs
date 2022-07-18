@@ -4,11 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     using llvm;
     using Asm;
-    using static core;
+
 
     public sealed partial class CgTestCmd : AppCmdService<CgTestCmd>
     {
@@ -16,10 +14,10 @@ namespace Z0
 
         AsmWriterChecks AsmChecks => Service(() => AsmWriterChecks.create(Wf));
 
-        [CmdOp("build/check")]
+        [CmdOp("projects")]
         void CheckMsBuild()
         {
-            var src = FS.path(@"D:\Drives\Z\dev\z0\cg\cg.test\z0.cg.test.csproj");
+            var src = FS.path(@"D:\drives\z\dev\z0\props\projects.props");
             var project = MsBuild.project(src);
             Write(project.Format());
         }

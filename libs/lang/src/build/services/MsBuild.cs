@@ -9,10 +9,15 @@ namespace Z0
     using C = Microsoft.Build.Construction;
 
     using static core;
+
     [ApiHost]
     public partial class MsBuild
     {
         const NumericKind Closure = UnsignedInts;
+
+        [MethodImpl(Inline), Op]
+        internal static Property property(E.ProjectProperty src)
+            => new Property(src);
 
         readonly struct MsBuildImports
         {
@@ -25,6 +30,7 @@ namespace Z0
             public Assembly MsBuildUtilities
                 => typeof(Microsoft.Build.Utilities.MuxLogger).Assembly;
         }
+
         [Op]
         public static Project resbytes()
         {
@@ -35,8 +41,8 @@ namespace Z0
             seek(items,2) = MsBuild.resource("index/**/*.csv");
             seek(items,3) = MsBuild.resource("metadata/**/*.csv");
             var props = alloc<IProjectProperty>(4);
-            seek(props,0) = MsBuild.library();
-            seek(props,1) = MsBuild.netcoreapp(n3);
+            // seek(props,0) = MsBuild.library();
+            // seek(props,1) = MsBuild.netcoreapp(n3);
 
             return default;
 
@@ -152,75 +158,29 @@ namespace Z0
             return ref dst;
         }
 
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Property<T> property<T>(Identifier name, T value)
-            => new Property<T>(name, value);
-
         [MethodImpl(Inline), Op]
         public static Sdk sdk(string name)
             => new Sdk(name);
-
-        [MethodImpl(Inline), Op]
-        public static OutputType library()
-            => new OutputType(OutputTypes.Library);
-
-        [MethodImpl(Inline), Op]
-        public static OutputType exe()
-            => new OutputType(OutputTypes.Exe);
-
-        [MethodImpl(Inline), Op]
-        public static TargetFramework netcoreapp(N3 major)
-            => TargetFrameworks.netcoreapp3_0;
-
-        [MethodImpl(Inline), Op]
-        public static TargetFramework netcoreapp(N3 major, N1 minor)
-            => TargetFrameworks.netcoreapp3_1;
 
         [MethodImpl(Inline), Op]
         public static PropertyGroup properties(Property[] src)
             => new PropertyGroup(src);
 
         [MethodImpl(Inline), Op]
-        public static PropertyGroup properties<T>(T[] src)
-            where T : IProjectProperty
-                => new PropertyGroup(src.Map(x => new Property(x.Name, x.Value)));
-
-        [MethodImpl(Inline), Op]
-        public static ItemGroup items<T>(T[] src)
-            where T : IProjectItem
-                => new ItemGroup(src.Select(x => x as IProjectItem));
-
-        [MethodImpl(Inline), Op]
         public static ItemGroup items(ProjectItem[] src)
             => new ItemGroup(src);
 
         [MethodImpl(Inline), Op]
-        public static ProjectItem<EmbeddedResourceSpec> resource(string include)
+        public static EmbeddedResourceSpec resource(string include)
             => new EmbeddedResourceSpec(include);
 
         [MethodImpl(Inline), Op]
         public static TargetFramework framework(string value)
             => new TargetFramework(value);
 
-        [MethodImpl(Inline)]
-        public static ProjectItem<T> item<T>(T src)
-            where T : struct, IProjectItem<T>
-                => new ProjectItem<T>(src);
-
         [MethodImpl(Inline), Op]
         public static ProjectProperty<T> property<T>(T src)
             where T : struct, IProjectProperty<T>
                 => new ProjectProperty<T>(src);
-
-        [MethodImpl(Inline)]
-        public static string format<T>(T src)
-            where T : struct, IProjectElement<T>
-                => src.ToString();
-
-        public static string format(Property src)
-            => string.Format("<{0}>{1}</{0}>", src.Name, src.Value);
-
-        public static string format<T>(Property<T> src)
-            => string.Format("<{0}>{1}</{0}>", src.Name, src.Value);
     }
 }

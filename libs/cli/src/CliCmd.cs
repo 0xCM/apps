@@ -17,6 +17,23 @@ namespace Z0
 
         static IApiPack Dst
             => ApiPack.create();
+
+        [CmdOp("projects")]
+        void CheckMsBuild()
+        {
+            var src =  AppDb.Dev("z0/props").Path(FS.file("projects.props", FileKind.Props));
+            var project = MsBuild.project(src);
+            Write(project.Format());
+        }
+
+        [CmdOp("build/props")]
+        void BuildProps(CmdArgs args)
+        {
+            var src =  AppDb.Dev("z0/props").Path(FS.file(arg(args,0), FileKind.Props));
+            var project = MsBuild.project(src);
+            Write(project.Format());
+        }
+
         [CmdOp("cli/emit/hex")]
         void EmitApiHex()
             => CliEmitter.EmitApiHex(Dst);

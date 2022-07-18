@@ -4,50 +4,25 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using E = Microsoft.Build.Evaluation;
+
     partial class MsBuild
     {
-        public readonly struct Property : IProjectProperty
+        public readonly struct Property
         {
-            public Identifier Name {get;}
-
-            public dynamic Value {get;}
+            readonly E.ProjectProperty Data;
 
             [MethodImpl(Inline)]
-            public Property(Identifier name, dynamic value)
+            internal Property(E.ProjectProperty src)
             {
-                Name = name;
-                Value = value;
+                Data = src;
             }
 
             public string Format()
-                => string.Format("<{0}>{1}</{0}>", Name, Value);
+                => $"{Data.Name}={Data.EvaluatedValue}";
 
             public override string ToString()
                 => Format();
-        }
-
-        public readonly struct Property<T> : IProjectProperty<T>
-        {
-            public readonly Identifier Name {get;}
-
-            public readonly T Value {get;}
-
-            [MethodImpl(Inline)]
-            public Property(Identifier name, T value)
-            {
-                Name = name;
-                Value = value;
-            }
-
-            public string Format()
-                => string.Format("<{0}>{1}</{0}>", Name, Value);
-
-            public override string ToString()
-                => Format();
-
-            [MethodImpl(Inline)]
-            public static implicit operator Property(Property<T> src)
-                => new Property(src.Name, src.Value);
         }
     }
 }

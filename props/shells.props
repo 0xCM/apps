@@ -2,7 +2,4 @@
   <ItemGroup>
     <EmbeddedResource Include="$(ImportDefs)app.settings.csv"  CopyToOutputDirectory="Always" />
   </ItemGroup>
-
-    <!-- <EmbeddedResource Include="$(ShellRoot)$(ShellId)\$(ShellId).settings.csv"  CopyToOutputDirectory="Always" /> -->
-
 </Project>

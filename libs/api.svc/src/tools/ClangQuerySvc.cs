@@ -27,7 +27,7 @@ namespace Z0.llvm
         }
 
         FS.FilePath NextOutFile()
-            => AppDb.Project("llvm.data").Subdir(".out") + FS.file(string.Format("QueryOut{0}", Sequence++), FS.ext("tree"));
+            => AppDb.LlvmModels("llvm.data").Subdir(".out") + FS.file(string.Format("QueryOut{0}", Sequence++), FS.ext("tree"));
 
         void CloseQuery()
         {

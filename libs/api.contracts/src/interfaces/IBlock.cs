@@ -4,15 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class MsBuild
+    [Free]
+    public interface IBlock
     {
-        public sealed class RuntimeIdentifier : ProjectProperty
-        {
-            public RuntimeIdentifier(string value)
-                :base(nameof(RuntimeIdentifier), value)
-            {
+        dynamic Content {get;}
+    }
 
-            }
-        }
+    [Free]
+    public interface IBlock<B> : IBlock
+    {
+        new B Content {get;}
+
+        dynamic IBlock.Content
+            => Content;
     }
 }

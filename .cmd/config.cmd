@@ -12,10 +12,8 @@ set ProjectSlnFile=z0.%ProjectId%.sln
 set SlnRoot=%~dp0..
 set CgRoot=%SlnRoot%\cg
 set ShellRoot=%SlnRoot%\shells
-set LibsRoot=%SlnRoot%\libs
 set TestRoot=%SlnRoot%\test
-set LibsWs=%LibsRoot%
-set LibWs=%SlnRoot%\libs\%WsId%
+set LibWs=%SlnRoot%\libs
 set LibSlnPath=%LibWs%\%WsId%.sln
 
 set WsBuild=%SlnRoot%\.build
@@ -57,55 +55,19 @@ set DllShellPath=%DllShellBin%\z0.%ProjectId%.exe
 set LibName=z0.%ProjectId%.dll
 set LibPath=%FrameworkBuildRoot%\%LibName%
 
-set LibProjectRoot=%LibsRoot%\%ProjectId%
+set LibProject=%LibWs%\%ProjectId%
 set CsProjectFile=z0.%ProjectId%.csproj
-set CsProjectPath=%LibProjectRoot%\%CsProjectFile%
-set LibProject=%LibProjectRoot%\%CsProjectFile%
-set LibWsFile=%LibProjectRoot%\%ProjectId%.code-workspace
+set CsProjectPath=%LibProject%\%CsProjectFile%
 set BuildLib=%BuildTool% %CsProjectPath% %BuildProps% -fl -flp:logfile=%BuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
-set BuildLibs=%BuildTool% %LibsRoot%\z0.libs.csproj %BuildProps% -fl -flp:logfile=%BuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
-
-set ProjectPath=%SlnRoot%\%WsArea%\%WsId%\%CsProjectFile%
-set BuildProject=%BuildTool% %ProjectPath% %BuildProps% -fl -flp:logfile=%BuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
-
-set ShellProject=%ShellRoot%\%ProjectId%\%CsProjectFile%
-set BuildShell=%BuildTool% %ShellProject% %BuildProps% -fl -flp:logfile=%BuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
-
-set AreaShellProject=%SlnRoot%\%Area%\%ProjectId%\%CsProjectFile%
-set BuildAreaShell=%BuildTool% %AreaShellProject% %BuildProps% -fl -flp:logfile=%BuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
-
-set WsShellProject=%SlnRoot%\%WsArea%\%WsId%\%CsProjectFile%
-set BuildWsShell=%BuildTool% %WsShellProject% %BuildProps% -fl -flp:logfile=%BuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
-set shell=%WsBin%\z0.%ProjectId%\%BuildKind%\%TargetFramework%\%RuntimeMoniker%\%ShellName%
-
-set TestSln=%TestRoot%\z0.test.sln
-set TestBuildLog=%BuildLogs%\z0.test.build.log
-set BuildTests=%BuildTool% %TestSln% %BuildProps% -fl -flp:logfile=%TestBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
-set ztest=%WsBin%\z0.test.shell\%BuildKind%\%TargetFramework%\%RuntimeMoniker%\ztest.exe
-
-set BuildCgShell=%BuildTool% %CgRoot%\cg.shell\z0.cg.shell.csproj %BuildProps% -fl -flp:logfile=%BuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
-set BuildCgIntel=%BuildTool% %CgRoot%\cg.intel\z0.cg.intel.csproj %BuildProps% -fl -flp:logfile=%BuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
-set BuildCgCommon=%BuildTool% %CgRoot%\cg.common\z0.cg.common.csproj %BuildProps% -fl -flp:logfile=%BuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
-set BuildCgIntel=%BuildTool% %CgRoot%\cg.intel\z0.cg.intel.csproj %BuildProps% -fl -flp:logfile=%BuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
-set BuildCgLlvm=%BuildTool% %CgRoot%\cg.xed\z0.cg.llvm.csproj %BuildProps% -fl -flp:logfile=%BuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
-set BuildCg=%BuildTool% %CgRoot%\cg.libs\z0.cg.libs.csproj %BuildProps% -fl -flp:logfile=%BuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
-set BuildCgSln=%BuildTool% %CgRoot%\z0.cg.sln %BuildProps% -fl -flp:logfile=%SlnBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
-
-set MainSln=%SlnRoot%\z0.sln
-set BuildMain=%BuildTool% %MainSln% %BuildProps% -fl -flp:logfile=%SlnBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
-
-set ModelWs=%SlnRoot%\models
-set ModelProject=%ModelWs%\z0.models.csproj
-set BuildModels=%BuildTool% %ModelProject% %BuildProps% -fl -flp:logfile=%BuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 
 set CmdShellRoot=%SlnRoot%\cmd
 set CmdProject=%CmdShellRoot%\z0.cmd.csproj
 set BuildCmdShell=%BuildTool% %CmdProject% %BuildProps% -fl -flp:logfile=%BuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 set CmdShellPath=%FrameworkBuildRoot%\%RuntimeMoniker%\%ShellName%
 
-set SlnLibs=%SlnRoot%/libs
-set SlnShells=%SlnRoot%/shells
-set SlnCg=%SlnRoot%/cg
+set SlnLibs=%SlnRoot%\libs
+set SlnShells=%SlnRoot%\shells
+set SlnCg=%SlnRoot%\cg
 set SlnTests=%SlnRoot%/test
 
 set ZCmdDir=%WsBin%\z0.cmd\%BuildKind%\%TargetFramework%\%RuntimeMoniker%
@@ -117,5 +79,4 @@ set CleanObj=rmdir %WsObj% /s/q
 set CleanBuild=rmdir %WsBuild% /s/q
 
 set AddSln=%~dp0sln-add.cmd
-
 set PublishShell=dotnet publish %CmdProject%

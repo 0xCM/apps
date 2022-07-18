@@ -12,12 +12,7 @@
     <SlnBin>$(SlnBuild)bin\</SlnBin>
     <LogRoot>$(SlnBuild)logs\</LogRoot>
     <TestLogRoot>$(LogRoot)test\</TestLogRoot>
-
     <ShellCommon>$(SlnRoot)shells\</ShellCommon>
-
-    <AppsRoot>$(SlnRoot)apps\</AppsRoot>
-    <AppLibs>$(SlnRoot)libs\</AppLibs>
-    <LibsRoot>$(SlnRoot)libs\</LibsRoot>
     <CgRoot>$(SlnRoot)cg\</CgRoot>
     <TestRoot>$(SlnRoot)test\</TestRoot>
 
@@ -27,6 +22,9 @@
     <IntermediateBuildDir>$(IntermediateRoot)</IntermediateBuildDir>
     <BaseIntermediateOutputPath>$(IntermediateRoot)</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(IntermediateRoot)</IntermediateOutputPath>
+
+    <SlnLibs>$(SlnRoot)libs\</SlnLibs>
+
   </PropertyGroup>
 
   <Import Project="props/projects.props"/>

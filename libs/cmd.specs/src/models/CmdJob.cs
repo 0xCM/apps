@@ -4,14 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct CmdJob
+    public readonly record struct CmdJob
     {
-        public readonly NameOld Name;
+        public readonly Name Name;
 
         public readonly TextBlock Spec;
 
         [MethodImpl(Inline)]
-        public CmdJob(NameOld name, TextBlock spec)
+        public CmdJob(Name name, TextBlock spec)
         {
             Name = name;
             Spec = spec;

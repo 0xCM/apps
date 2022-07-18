@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+     using E = Microsoft.Build.Evaluation;
+
     partial class MsBuild
     {
         public class NetCoreProject
@@ -19,7 +21,6 @@ namespace Z0
             public NetCoreProject(string project, string ass)
             {
                 PropertyGroups = new();
-                PropertyGroups.Add(new PropertyGroup().WithAssemblyName(ass));
                 ItemGroups = new();
                 ItemGroups.Add(new ItemGroup());
                 ProjectName = project;
@@ -30,33 +31,6 @@ namespace Z0
 
             public ItemGroup Items => ItemGroups[0];
 
-            public NetCoreProject WithProp(ProjectProperty src)
-            {
-                Props.Members.Add(src);
-                return this;
-            }
-
-            public NetCoreProject WithItem(ProjectItem src)
-            {
-                Items.Members.Add(src);
-                return this;
-            }
-
-            public string Format()
-            {
-                var dst = text.buffer();
-                dst.AppendLine(ProjectOpen);
-
-                foreach(var g in PropertyGroups)
-                    g.Render(2u,dst);
-
-                foreach(var g in ItemGroups)
-                    g.Render(2u,dst);
-
-                dst.AppendLine(ProjectClose);
-
-                return dst.Emit();
-            }
 
             const string ProjectOpen = "<Project Sdk=\"Microsoft.NET.Sdk\" xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003\">";
 

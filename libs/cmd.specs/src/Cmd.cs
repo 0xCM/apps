@@ -11,6 +11,10 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
+        [MethodImpl(Inline), Op]
+        public static CmdVarInfo varinfo(Name name, TextBlock purpose)
+            => new (name,purpose);
+
         public static CmdLine cmd(string spec)
             => string.Format("cmd.exe /c {0}", spec);
 
