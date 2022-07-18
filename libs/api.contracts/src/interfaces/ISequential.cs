@@ -4,16 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     [Free]
-    public interface IProject
+    public interface ISequential
     {
-        ProjectId Id {get;}
+        uint Seq {get; set;}
     }
 
     [Free]
-    public interface IProject<T> : IProject
-        where T : IProject<T>, new()
+    public interface ISequential<T> : ISequential
+        where T : ISequential<T>
     {
 
     }

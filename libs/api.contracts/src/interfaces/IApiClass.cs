@@ -4,17 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
-    [Free]
-    public interface ISequential
+    public interface IApiClass : ITextual
     {
-        uint Seq {get; set;}
+        ApiClassKind ClassId {get;}
+
+        string ITextual.Format()
+            => ClassId.ToString().ToLower();
     }
 
-    [Free]
-    public interface ISequential<T> : ISequential
-        where T : ISequential<T>
-    {
-
-    }
 }

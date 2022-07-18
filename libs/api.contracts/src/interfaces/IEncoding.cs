@@ -5,14 +5,19 @@
 namespace Z0
 {
     [Free]
-    public interface IDynamicRow
+    public interface IEncoder<S,T>
     {
-        dynamic[] Cells {get;}
+        uint Encode(ReadOnlySpan<S> src, Span<T> dst);
     }
 
     [Free]
-    public interface IDynamicRow<T> : IDynamicRow
-        where T : struct
+    public interface IDecoder<T,S>
+    {
+        void Decode(ReadOnlySpan<T> src, Span<S> dst);
+    }
+
+    [Free]
+    public interface IEncoding<S,T> : IEncoder<S,T>, IDecoder<T,S>
     {
 
     }

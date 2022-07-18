@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static FreeExpr;
-
     partial class Relations
     {
         public readonly struct CmpPred : IFreeCmpPred<CmpPred>

@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     public interface IBitFormatter
     {
         string Format(ReadOnlySpan<byte> src);
@@ -27,7 +25,6 @@ namespace Z0
         where T : struct
     {
         string Format(T src);
-
     }
 
     public interface IFixedBitFormatter : ITargetedBitFormatter

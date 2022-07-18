@@ -4,23 +4,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static FreeExpr;
-
     partial class Relations
     {
-        public abstract class FreeCmpPred<F> : FreeBinOp<F,CmpPredKind>
-            where F : FreeCmpPred<F>
+        public class Sll : FreeBinOp<Sll,BinaryBitLogicKind>
         {
-            protected FreeCmpPred(IFreeExpr a, IFreeExpr b)
+            public Sll(IFreeExpr a, IFreeExpr b)
                 : base(a,b)
             {
-                Size = a.Size;
             }
 
-            public override uint Size {get;}
+            public override BinaryBitLogicKind Kind
+                => BinaryBitLogicKind.And;
 
-            public override Identifier OpName
-                => typeof(F).Name;
+            public override Sll Create(IFreeExpr a, IFreeExpr b)
+                => new Sll(a,b);
         }
     }
 }

@@ -5,64 +5,56 @@
 namespace Z0
 {
     using static core;
-    using static Relations;
-
-    //using api = OpCodes;
 
     [ApiHost]
-    public readonly struct OcExpr
+    public readonly struct AppCodes
     {
         const NumericKind Closure = UnsignedInts;
 
         const byte DomainWidth = 16;
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static OpCode<K> encode<K>(Domain domain, text31 name, Hex32 code)
+        public static AppCode<K> encode<K>(asci32 domain, asci32 name, Hex32 code)
             where K : unmanaged
-        {
-            return new OpCode<K>(domain, name, @as<ulong,K>((ulong)code));
-        }
+                => new AppCode<K>(domain, name, @as<ulong,K>((ulong)code));
 
         [MethodImpl(Inline), Op]
-        public static OpCode encode(text31 name, Domain domain, Hex32 code)
-        {
-            return new OpCode(domain, name, code);
-        }
+        public static AppCode encode(asci32 name, asci32 domain, Hex32 code)
+            => new AppCode(domain, name, code);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Hex32 code<K>(OpCode<K> src)
+        public static Hex32 decode<K>(AppCode<K> src)
             where K : unmanaged
                 => (uint)(bw64(src.Data) >> DomainWidth);
 
         [MethodImpl(Inline), Op]
-        public static Hex32 code(OpCode src)
+        public static Hex32 decode(in AppCode src)
             => (uint)(src.Data >> DomainWidth);
 
-
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static OpCode untype<K>(OpCode<K> src)
+        public static AppCode untype<K>(in AppCode<K> src)
             where K : unmanaged
-                => new OpCode(src.Domain, src.Name, bw64(src.Data));
+                => new AppCode(src.Domain, src.Name, bw64(src.Data));
 
-        public static string format(OpCode src)
+        public static string format(in AppCode src)
         {
-            var val = code(src).Format();
+            var val = decode(src).Format();
             var tbl = src.Domain;
             var name = src.Name;
             return string.Format("{0} {1} {2}:{3}",name, (char)LogicSym.Def, tbl, val);
         }
 
-        public readonly struct OpCode<K>
+        public readonly struct AppCode<K>
             where K : unmanaged
         {
-            public Domain Domain {get;}
+            public readonly asci32 Domain;
 
-            public text31 Name {get;}
+            public readonly asci32 Name;
 
-            internal readonly K Data;
+            public readonly K Data;
 
             [MethodImpl(Inline)]
-            public OpCode(Domain domain, text31 name, K data)
+            public AppCode(asci32 domain, asci32 name, K data)
             {
                 Domain = domain;
                 Name = name;
@@ -72,7 +64,7 @@ namespace Z0
             public Hex32 Code
             {
                 [MethodImpl(Inline)]
-                get => code(this);
+                get => decode(this);
             }
 
             public string Format()
@@ -82,20 +74,20 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public static implicit operator OpCode(OpCode<K> src)
+            public static implicit operator AppCode(AppCode<K> src)
                 => untype(src);
         }
 
-        public readonly struct OpCode
+        public readonly struct AppCode
         {
-            public Domain Domain {get;}
+            public readonly asci32 Domain;
 
-            public text31 Name {get;}
+            public readonly asci32 Name;
 
-            internal readonly ulong Data;
+            public readonly ulong Data;
 
             [MethodImpl(Inline)]
-            public OpCode(Domain domain, text31 name, ulong data)
+            public AppCode(asci32 domain, asci32 name, ulong data)
             {
                 Domain = domain;
                 Data = data;
@@ -105,7 +97,7 @@ namespace Z0
             public Hex32 Code
             {
                 [MethodImpl(Inline)]
-                get => code(this);
+                get => decode(this);
             }
 
             public string Format()

@@ -6,14 +6,6 @@ namespace Z0
 {
     using static Refs;
 
-    public interface IApiClass : ITextual
-    {
-        ApiClassKind ClassId {get;}
-
-        string ITextual.Format()
-            => ClassId.ToString().ToLower();
-    }
-
     public interface IApiClass<K> : IApiClass
         where K : unmanaged
     {

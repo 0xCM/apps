@@ -4,22 +4,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static FreeExpr;
-
     partial class Relations
     {
-        public class Eq : FreeCmpPred<Eq>
+        public class Ge : FreeCmpPred<Ge>
         {
-            public Eq(IFreeExpr a, IFreeExpr b)
+            public Ge(IFreeExpr a, IFreeExpr b)
                 : base(a,b)
             {
-                Kind = CmpPredKind.EQ;
             }
 
-            public override CmpPredKind Kind {get;}
+            public override CmpPredKind Kind
+                => CmpPredKind.GE;
 
-            public override Eq Create(IFreeExpr a, IFreeExpr b)
-                => new Eq(a,b);
+            public override Ge Create(IFreeExpr a, IFreeExpr b)
+                => new Ge(a,b);
         }
     }
 }

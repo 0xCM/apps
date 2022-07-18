@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     public interface ILexical : ITextual
     {
         int CompareTo(ILexical src)

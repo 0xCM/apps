@@ -7,14 +7,14 @@ namespace Z0
     public readonly struct NamedEdge<V> : IEdge<V>, IEquatable<NamedEdge<V>>
         where V : IEquatable<V>, IVertex<V>
     {
-        public NameOld Name {get;}
+        public Name Name {get;}
 
         public V Source {get;}
 
         public V Target {get;}
 
         [MethodImpl(Inline)]
-        public NamedEdge(NameOld name, V src, V dst)
+        public NamedEdge(Name name, V src, V dst)
         {
             Name = name;
             Source = src;

@@ -4,22 +4,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static FreeExpr;
-
     partial class Relations
     {
-        public class Sll : FreeBinOp<Sll,BinaryBitLogicKind>
+        public class Eq : FreeCmpPred<Eq>
         {
-            public Sll(IFreeExpr a, IFreeExpr b)
+            public Eq(IFreeExpr a, IFreeExpr b)
                 : base(a,b)
             {
+                Kind = CmpPredKind.EQ;
             }
 
-            public override BinaryBitLogicKind Kind
-                => BinaryBitLogicKind.And;
+            public override CmpPredKind Kind {get;}
 
-            public override Sll Create(IFreeExpr a, IFreeExpr b)
-                => new Sll(a,b);
+            public override Eq Create(IFreeExpr a, IFreeExpr b)
+                => new Eq(a,b);
         }
     }
 }

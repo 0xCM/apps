@@ -5,7 +5,6 @@
 namespace Z0
 {
     public readonly struct ProjectId<T>
-        where T : IProject
     {
         public ProjectId Id {get;}
 

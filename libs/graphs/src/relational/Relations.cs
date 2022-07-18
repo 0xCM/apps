@@ -4,13 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     [ApiHost]
     public partial class Relations
     {
         const NumericKind Closure = UnsignedInts;
 
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static ScalarValue<T> scalar<T>(T src, BitWidth content = default)
+            where T : unmanaged, IEquatable<T>
+                => new ScalarValue<T>(src,content);
         [Op]
         public static Sym<CmpPredKind> symbol(CmpPredKind kind)
             => Symbols.index<CmpPredKind>()[kind];

@@ -29,7 +29,7 @@ namespace Z0
             T IFreeCmpPred<CmpPred<T>, T>.Right
                 => Right;
 
-            CmpPredKind IFreeCmpPred<CmpPred<T>, T>.Kind
+            CmpPredKind IKinded<CmpPredKind>.Kind
                 => Kind;
 
             public CmpPred<T> Create(T a, T b)

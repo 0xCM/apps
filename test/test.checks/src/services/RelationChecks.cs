@@ -5,24 +5,21 @@
 namespace Z0
 {
     [ApiHost]
-    public class VarChecks
+    public class RelationChecks
     {
         const NumericKind Closure = UnsignedInts;
 
-        public static Checks create(IWfRuntime wf)
-            => Checks.create(wf);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static ScalarValue<T> scalar<T>(T src, BitWidth content = default)
             where T : unmanaged, IEquatable<T>
                 => new ScalarValue<T>(src,content);
 
-        public class Checks : Checker<Checks>
+        public class Checks
         {
             Outcome Check()
             {
                 var result = Outcome.Success;
-
                 var v1 = Vars.var("a");
                 var v2 = Vars.var("b");
                 var a1 = scalar((byte)22);
