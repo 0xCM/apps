@@ -31,7 +31,8 @@ namespace Z0
         {
             try
             {
-                var path = dst.Metadata(CliSections.Fields).PrefixedTable<CliMemberField>(src.GetSimpleName());
+                var name = src.GetSimpleName();
+                var path = dst.Metadata(CliSections.MemberFields).PrefixedTable<CliMemberField>(name);
                 var flow = EmittingTable<CliMemberField>(path);
                 var reader = CliReader.create(src);
                 var fields = reader.ReadFieldInfo();
@@ -54,7 +55,7 @@ namespace Z0
             try
             {
                 var name = src.GetSimpleName();
-                var path = dst.Metadata(FieldDefInfo.TableId).PrefixedTable<FieldDefInfo>(name);
+                var path = dst.Metadata(CliSections.FieldDefs).PrefixedTable<FieldDefInfo>(name);
                 if(path.Exists)
                     Errors.ThrowWithOrigin(AppMsg.FileExists.Format(path));
 

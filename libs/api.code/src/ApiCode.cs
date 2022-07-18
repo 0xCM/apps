@@ -20,7 +20,6 @@ namespace Z0
         public SortedIndex<ApiCodeBlock> LoadBlocks()
             => blocks(Files.HexFiles());
 
-
         [Op]
         public ByteSize Emit(in MemoryBlock src, FS.FilePath dst)
         {

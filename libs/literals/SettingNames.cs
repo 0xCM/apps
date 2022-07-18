@@ -41,18 +41,8 @@ namespace Z0
 
         public const string Tools = nameof(Tools);
 
-        public const string Views = nameof(Views);
-
         public const string Logs = nameof(Logs);
 
-        public const string VsRoot = nameof(VsRoot);
-
         public const string LlvmDist = nameof(LlvmDist);
-
-        public const string Msvc = nameof(Msvc);
-
-        public const string WinSdk = nameof(WinSdk);
-
-        public const string XedRoot = nameof(XedRoot);
     }
 }

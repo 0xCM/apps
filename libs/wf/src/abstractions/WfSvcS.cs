@@ -5,8 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Windows;
-
     using static core;
 
     public abstract class WfSvc<S> : AppService<S>

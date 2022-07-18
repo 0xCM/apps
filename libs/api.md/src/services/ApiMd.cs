@@ -30,7 +30,7 @@ namespace Z0
 
         Assembly[] CalcComponents()
         {
-            return Modules.PartArchive().ManagedDll().Where(x => x.FileName.StartsWith("z0")).Select(x => x.Load()).Unwrap();
+            return Modules.PartArchive().ManagedDll().Where(x => x.FileName.StartsWith("z0")).Select(x => x.Load()).Unwrap().Distinct().ToArray();
         }
 
         public Assembly[] Components

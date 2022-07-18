@@ -9,7 +9,9 @@ namespace Z0
     {
         public const string ApiHex = "api.hex";
 
-        public const string Fields = "fields";
+        public const string MemberFields = "members.fields";
+
+        public const string FieldDefs = "feilds.defs";
 
         public const string ConstFields = "fields.const";
 
