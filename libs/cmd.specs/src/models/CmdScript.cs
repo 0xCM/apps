@@ -6,7 +6,7 @@ namespace Z0
 {
     public readonly struct CmdScript
     {
-        public Identifier Id {get;}
+        public readonly Identifier Id;
 
         readonly CmdScriptExpr Data;
 

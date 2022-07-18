@@ -16,8 +16,6 @@ namespace Z0
 
         public WsCatalog ProjectFiles {get; protected set;}
 
-        public DevWs Ws {get; private set;}
-
         protected IProjectDb ProjectDb;
 
         protected static AppSettings AppSettings => data(nameof(Settings), AppSettings.load);
@@ -25,16 +23,14 @@ namespace Z0
         protected WfSvc()
         {
 
-
         }
 
         protected override void OnInit()
         {
             base.OnInit();
-            Ws = DevWs.create(Env.DevWs);
-            ProjectDb = Ws.ProjectDb();
-
+            ProjectDb = ProjectDbWs.create(FS.dir("d:/drives/z/db/targets"));
         }
+
         protected static CmdArg arg(in CmdArgs src, int index)
             => ShellCmd.arg(src, index);
 
@@ -210,7 +206,6 @@ namespace Z0
         public new ExecToken EmittedTable<T>(WfTableFlow<T> flow, Count count, FS.FilePath? dst = null)
             where T : struct
                 => WfMsg.EmittedTable(flow,count, dst);
-
 
         public void FileEmit<T>(T src, Count count, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
         {

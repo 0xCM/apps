@@ -33,7 +33,7 @@ namespace Z0
         string IWorkspaceObselete.Name
             => Id.Format();
 
-        ProjectId IProjectWs.Project
+        ProjectId IProjectWsObsolete.Project
             => Id;
     }
 }

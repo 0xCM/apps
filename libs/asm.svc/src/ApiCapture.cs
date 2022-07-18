@@ -16,8 +16,6 @@ namespace Z0
 
         CliEmitter CliEmitter => Wf.CliEmitter();
 
-        ApiCatalogs ApiCatalogs => Wf.ApiCatalogs();
-
         ApiPacks ApiPacks => Wf.ApiPacks();
 
         Runtime Runtime => Wf.Runtime();

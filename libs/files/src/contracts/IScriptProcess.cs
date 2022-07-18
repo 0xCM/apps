@@ -50,12 +50,6 @@ namespace Z0
         string Output {get;}
 
         /// <summary>
-        /// Wait for a started process to complete (HasExited will be <see langword="true"/> on return)
-        /// </summary>
-        /// <returns>Wait returns that 'this' pointer.</returns>
-        ScriptProcess Wait();
-
-        /// <summary>
         /// Throw a error if the command exited with a non-zero exit code
         /// printing useful diagnostic information along with the thrown message.
         /// This is useful when NoThrow is specified, and after post-processing
@@ -72,5 +66,16 @@ namespace Z0
         /// then dies itself.   This is reasonably uncommon, however.
         /// </summary>
         void Kill();
+    }
+
+    [Free]
+    public interface IScriptProcess<P> : IScriptProcess
+        where P : IScriptProcess<P>
+    {
+        /// <summary>
+        /// Wait for a started process to complete (HasExited will be <see langword="true"/> on return)
+        /// </summary>
+        /// <returns>Wait returns that 'this' pointer.</returns>
+        P Wait();
     }
 }

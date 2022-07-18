@@ -50,7 +50,7 @@ namespace Z0
 
         ApiMemory ApiMemory => Wf.ApiMemory();
 
-        IApiPack ApiPack => AppDb.apipack();
+        IApiPack ApiPack => Z0.ApiPack.create();
 
         public Index<BitMaskInfo> ApiBitMasks
             => Data(K.BitMasks, () => BitMask.masks(typeof(BitMaskLiterals)));
@@ -65,7 +65,7 @@ namespace Z0
         [CmdOp("api/packs/list")]
         void ListApiPacks()
         {
-            var src = AppDb.apipacks();
+            var src = Z0.ApiPack.discover();
             for(var i=0; i<src.Count; i++)
             {
                 Write($"{i}", src[i].Timestamp);
@@ -76,7 +76,7 @@ namespace Z0
         Outcome ListApiPack(CmdArgs args)
         {
             var result = Outcome.Failure;
-            var src = AppDb.apipacks();
+            var src = Z0.ApiPack.discover();
             var pack = default(IApiPack);
             if(args.Count > 0)
             {

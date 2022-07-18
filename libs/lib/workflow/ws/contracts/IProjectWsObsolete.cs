@@ -6,7 +6,7 @@ namespace Z0
 {
     using static WsAtoms;
 
-    public interface IProjectWs : IWorkspaceObselete
+    public interface IProjectWsObsolete : IWorkspaceObselete
     {
         ProjectId Project {get;}
 

@@ -4,19 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Diagnostics;
-
     public interface IApiPack : IRootedArchive, IExpr
     {
         Timestamp Timestamp {get;}
 
-        string Label {get;}
-
         bool INullity.IsEmpty
             => Timestamp == 0;
-
-        ReadOnlySeq<LineCount> CountLines(FileKind kind)
-            => AsciLines.count(Files(kind));
 
         string IExpr.Format()
             => string.Format("{0}: {1}", Timestamp, Root);

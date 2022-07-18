@@ -20,6 +20,12 @@ namespace Z0
 
         AsmTables AsmTables => Wf.AsmTables();
 
+        ImageRegions Regions => Wf.ImageRegions();
+
+        Runtime Runtime => Wf.Runtime();
+
+        IApiPack Dst => ApiPack.create();
+
         ReadOnlySeq<HostAsmRecord> HostAsm()
         {
             var pack = ApiPacks.Current();
@@ -42,7 +48,6 @@ namespace Z0
             AsmCalls.EmitRows(AsmDecoder.Decode(blocks.Storage), ProjectDb.Subdir("api/asm/calls"));
         }
 
-
         [CmdOp("cli/options")]
         void CliOptions()
         {
@@ -59,7 +64,19 @@ namespace Z0
 
         [CmdOp("capture")]
         void Capture(CmdArgs args)
-            => Wf.ApiCapture().Run(AppDb.apipack());
+            => Wf.ApiCapture().Run(Dst);
+
+        [CmdOp("capture/regions")]
+        void CaptureRegions()
+        {
+            var process = Process.GetCurrentProcess();
+            var regions = Regions.EmitRegions(process, Dst);
+            //ProcessMemory.EmitHashes(process, regions, dst);
+        }
+
+        [CmdOp("capture/context")]
+        void CaptureContext()
+            => Runtime.EmitContext(Dst);
 
         Outcome AsmQueryRex(CmdArgs args)
         {

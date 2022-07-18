@@ -28,7 +28,7 @@ namespace Z0
                 Write(msg, FlairKind.Warning);
         }
 
-        public void Execute(IProjectWs project, ReadOnlySpan<CmdLine> commands, CmdDescriptor descriptor, bool clean = false)
+        public void Execute(IProjectWsObsolete project, ReadOnlySpan<CmdLine> commands, CmdDescriptor descriptor, bool clean = false)
         {
             if(clean)
                 project.Out().Delete();

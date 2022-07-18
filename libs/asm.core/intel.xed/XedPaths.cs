@@ -112,16 +112,16 @@ namespace Z0
             };
         }
 
-        public IDbTargets DisasmTargets(IProjectWs project)
+        public IDbTargets DisasmTargets(IProjectWsObsolete project)
             => AppDb.EtlTargets(project.Project).Targets("xed.disasm");
 
-        public FS.FilePath DisasmFieldsPath(IProjectWs project, in FileRef src)
+        public FS.FilePath DisasmFieldsPath(IProjectWsObsolete project, in FileRef src)
             => DisasmTargets(project).Path(FS.file(string.Format("{0}.fields", src.Path.FileName.WithoutExtension), FS.Txt));
 
-        public FS.FilePath DisasmChecksPath(IProjectWs project, in FileRef src)
+        public FS.FilePath DisasmChecksPath(IProjectWsObsolete project, in FileRef src)
             => DisasmTargets(project).Path(FS.file(string.Format("{0}.checks", src.Path.FileName.WithoutExtension), FS.Txt));
 
-        public FS.FilePath DisasmOpsPath(IProjectWs project, in FileRef src)
+        public FS.FilePath DisasmOpsPath(IProjectWsObsolete project, in FileRef src)
             => DisasmTargets(project).Path(FS.file(string.Format("{0}.ops", src.Path.FileName.WithoutExtension.Format()), FS.Txt));
 
         public FS.FileUri RulePage(RuleSig sig)

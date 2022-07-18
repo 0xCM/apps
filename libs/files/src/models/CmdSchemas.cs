@@ -5,7 +5,7 @@
 namespace Z0
 {
 
-    public class CmdSchemas : WfSvc<CmdSchemas>
+    public class CmdSchemas
     {
 
     }

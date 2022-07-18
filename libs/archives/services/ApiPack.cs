@@ -4,8 +4,34 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static Spans;
+    using static Arrays;
+
     public class ApiPack : IApiPack
     {
+        public static ReadOnlySeq<IApiPack> discover()
+        {
+            var src = AppDb.Service.Capture().Root.SubDirs(false);
+            var dst = Lists.list<IApiPack>();
+            var counter = 0u;
+            for(var i=0; i<src.Count; i++)
+            {
+                ref readonly var source = ref src[i];
+                if(ApiPack.parse(source, out ApiPack pack))
+                {
+                    dst.Add(pack);
+                    counter++;
+                }
+            }
+
+            return slice(@readonly(dst.Seal()),0,counter).ToArray();
+        }
+
+        public static IApiPack create()
+            => new ApiPack(AppDb.Service.Capture().Targets(AppDb.Ts.Format()).Root, AppDb.Ts);
+
+        public static IApiPack create(Timestamp ts)
+            => new ApiPack(AppDb.Service.Capture().Targets(ts.Format()).Root, ts);
 
         public static bool timestamp(FS.FolderPath src, out Timestamp dst)
         {
@@ -36,13 +62,10 @@ namespace Z0
 
         public Timestamp Timestamp {get;}
 
-        public string Label {get;}
-
-        public ApiPack(FS.FolderPath root, Timestamp ts, string label = EmptyString)
+        public ApiPack(FS.FolderPath root, Timestamp ts)
         {
             Root = root;
             Timestamp = ts;
-            Label = label;
         }
 
         public string Format()

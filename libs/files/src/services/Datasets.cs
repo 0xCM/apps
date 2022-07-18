@@ -16,7 +16,7 @@ namespace Z0
         static void AppendLine(TableColumns cols, object[] args, ITextBuffer dst)
             => dst.AppendLine(cols.Format(args));
 
-        public static (Count count, FS.FileUri path) emit<T>(TableColumns cols, T[] rows, FS.FilePath dst)
+        public static void emit<T>(TableColumns cols, T[] rows, FS.FilePath dst)
         {
             var count = rows.Length;
             if(count != 0)
@@ -31,7 +31,6 @@ namespace Z0
                 }
                 dst.Overwrite(buffer.Emit());
             }
-            return (count,dst);
         }
 
         public struct ColumnBuffer

@@ -30,7 +30,7 @@ namespace Z0
 
             readonly XedMachine Machine;
 
-            readonly IProjectWs Ws;
+            readonly IProjectWsObsolete Ws;
 
             readonly FS.FolderPath OutDir;
 

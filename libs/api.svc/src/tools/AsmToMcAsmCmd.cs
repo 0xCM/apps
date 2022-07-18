@@ -8,7 +8,7 @@ namespace Z0
 
     public sealed class AsmToMcAsmCmd : ScriptBuilder<AsmToMcAsmCmd,McCmd,AsmToMcAsm>
     {
-        public override McCmd BuildCmd(IProjectWs project, string scope, FS.FilePath src)
+        public override McCmd BuildCmd(IProjectWsObsolete project, string scope, FS.FilePath src)
         {
             var cmd = McCmd.Empty;
             cmd.Source = src;

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IWsProject : IRootedArchive, IProjectWs
+    public interface IWsProject : IRootedArchive, IProjectWsObsolete
     {
         ProjectId Id
             => Project;

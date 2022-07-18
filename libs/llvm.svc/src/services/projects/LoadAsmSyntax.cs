@@ -10,7 +10,7 @@ namespace Z0
 
     partial class ProjectSvc
     {
-        public Index<AsmSyntaxRow> LoadAsmSyntax(IProjectWs project)
+        public Index<AsmSyntaxRow> LoadAsmSyntax(IProjectWsObsolete project)
             => LoadSyntaxRows(AsmSyntaxTable(project.Project));
 
         Index<AsmSyntaxRow> LoadSyntaxRows(FS.FilePath src)

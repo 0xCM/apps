@@ -19,8 +19,11 @@ namespace Z0
     /// of System.Diagnostics.Process, and knows how to capture output and otherwise
     /// makes calling commands very easy.
     /// </summary>
-    public sealed class ScriptProcess : IScriptProcess
+    public sealed class ScriptProcess : IScriptProcess<ScriptProcess>
     {
+        public static ScriptProcess launch(FS.FilePath path, ScriptKind kind, string args)
+            => ScriptProcess.create(Scripts.script(path,kind,args));
+
         /// <summary>
         /// Creates a command process
         /// </summary>

@@ -55,7 +55,7 @@ namespace Z0
 
         readonly RuleTables RuleTables;
 
-        readonly IProjectWs Ws;
+        readonly IProjectWsObsolete Ws;
 
         readonly Emitter _Emitter;
 

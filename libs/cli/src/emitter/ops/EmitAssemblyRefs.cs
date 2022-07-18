@@ -12,8 +12,8 @@ namespace Z0
     {
         public void EmitRefs(IApiPack dst)
         {
-            EmitAssemblyRefs(AppDb.apipack());
-            EmitMemberRefs(AppDb.apipack());
+            EmitAssemblyRefs(dst);
+            EmitMemberRefs(dst);
         }
 
         public void EmitAssemblyRefs(IApiPack dst)

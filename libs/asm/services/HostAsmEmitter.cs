@@ -92,7 +92,7 @@ namespace Z0.Asm
             for(var i=0; i<count; i++)
                 offset += ApiInstructions.hostasm(skip(src,i), slice(buffer.Edit, offset));
             Ran(running, Msg.CreatedStatements.Format(total));
-            EmitHostAsm(buffer, dst.Targets().Root);
+            EmitHostAsm(buffer, dst.Tables().Root);
             return buffer;
         }
 

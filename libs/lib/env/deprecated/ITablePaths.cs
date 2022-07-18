@@ -20,14 +20,5 @@ namespace Z0
         FS.FileName TableFile<T>()
             where T : struct
                 => FS.file(TableId<T>(), FileKind.Csv);
-
-        FS.FileName SuffixedTable<T>(string suffix)
-            where T : struct
-                => FS.file(string.Format("{0}.{1}", TableId<T>(), suffix), FileKind.Csv);
-
-        FS.FileName TableFile<T>(string prefix, string suffix)
-            where T : struct
-                => FS.file(string.Format("{0}.{1}.{2}",prefix, TableId<T>(), suffix), FileKind.Csv);
-
     }
 }

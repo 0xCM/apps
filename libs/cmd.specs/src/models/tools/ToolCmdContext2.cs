@@ -14,6 +14,6 @@ namespace Z0
         /// <summary>
         /// Environment variables to use, if any
         /// </summary>
-        public NamedValues<string> EnvVars;
+        public EnvVars<string> EnvVars;
     }
 }

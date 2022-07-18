@@ -206,7 +206,7 @@ namespace Z0
                 RecodeBlocks(context.Project, code[i]);
         }
 
-        void RecodeBlocks(in IProjectWs ws, in AsmCodeBlocks src)
+        void RecodeBlocks(in IProjectWsObsolete ws, in AsmCodeBlocks src)
         {
             const string intel_syntax = ".intel_syntax noprefix";
             var asmpath = ObjPaths.RecodedPath(ws.Project, src.OriginName.Format());

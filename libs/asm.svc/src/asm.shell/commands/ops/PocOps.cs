@@ -117,7 +117,7 @@ namespace Z0.Asm
             const byte CellWidth = 8;
             const uint CellCount = 512;
             Span<char> buffer = stackalloc char[CellWidth];
-            var dst = Ws.Gen().Root + FS.file("bitseq", FS.Cs);
+            var dst = AppDb.CgStage().Root + FS.file("bitseq", FS.Cs);
             var flow = EmittingFile(dst);
             using var writer = dst.AsciWriter();
             writer.WriteLine("    public readonly struct GeneratedBits");

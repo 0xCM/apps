@@ -13,30 +13,6 @@ namespace Z0
     {
         public static readonly Timestamp Ts = core.now();
 
-        public static ReadOnlySeq<IApiPack> apipacks()
-        {
-            var src = Service.Capture().Root.SubDirs(false);
-            var dst = Lists.list<IApiPack>();
-            var counter = 0u;
-            for(var i=0; i<src.Count; i++)
-            {
-                ref readonly var source = ref src[i];
-                if(ApiPack.parse(source, out ApiPack pack))
-                {
-                    dst.Add(pack);
-                    counter++;
-                }
-            }
-
-            return slice(@readonly(dst.Seal()),0,counter).ToArray();
-        }
-
-        public static IApiPack apipack(Timestamp ts, string label = EmptyString)
-            => new ApiPack(Service.Capture().Targets(ts.Format()).Root, ts, label);
-
-        public static IApiPack apipack(string label = EmptyString)
-            => new ApiPack(Service.Capture().Targets(AppDb.Ts.Format()).Root, AppDb.Ts, label);
-
         public static AppDb Service => Instance;
 
         readonly WsArchives WsArchives;
@@ -67,7 +43,6 @@ namespace Z0
 
         public IDbSources Repos()
             => new DbSources(setting(WsArchives.Path(Names.Repos), FS.dir));
-
 
         public IDbSources Repos(string scope)
             => Repos().Sources(scope);
@@ -150,9 +125,6 @@ namespace Z0
 
         public IWsProject Project(ProjectId src)
             => WsProject.load(DevProject($"llvm.models/{src}"), src);
-
-        public IDbTargets BuildTargets(ProjectId src)
-            => new DbTargets(Project(src).Home(), ".out");
 
         public IDbTargets EtlTargets(ProjectId src)
             => new DbTargets(DbOut($"projects/{src}").Root);

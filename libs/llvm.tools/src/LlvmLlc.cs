@@ -18,7 +18,7 @@ namespace Z0.llvm
 
         }
 
-        Outcome BuildLlc(IProjectWs project, Paired<FS.FilePath,Index<string>> spec)
+        Outcome BuildLlc(IProjectWsObsolete project, Paired<FS.FilePath,Index<string>> spec)
         {
             var isets = spec.Right;
             var path = spec.Left;
@@ -47,7 +47,7 @@ namespace Z0.llvm
             return result;
         }
 
-        FS.Files Sources(IProjectWs project)
+        FS.Files Sources(IProjectWsObsolete project)
         {
             var result = Outcome.Success;
             var dir = project.Subdir("src");
@@ -64,7 +64,7 @@ namespace Z0.llvm
             return files;
         }
 
-        public void BuildLlc(IProjectWs project)
+        public void BuildLlc(IProjectWsObsolete project)
         {
             var result = Outcome.Success;
             var src = Sources(project);

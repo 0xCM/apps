@@ -8,20 +8,6 @@ namespace Z0
 
     public class Scripts
     {
-/*
-        public ScriptProcess Launch(FS.FilePath path, string args)
-        {
-            var cmd = new CmdLine(string.Format("{0} \"{1}\"", path.Format(PathSeparator.BS), args));
-            var flow = Running(string.Format("Launching {0}", cmd.Format()));
-            var process = ScriptProcess.create(cmd);
-            Ran(flow, string.Format("Launched {0}", process.ProcessId));
-            return process;
-        }
-
-*/
-        public static ScriptProcess launch(FS.FilePath path, ScriptKind kind, string args)
-            => ScriptProcess.create(script(path,kind,args));
-
         public static CmdLine script(FS.FilePath path, ScriptKind kind)
         {
             return kind switch{
@@ -59,12 +45,10 @@ namespace Z0
                 _ => FileKind.None
             });
 
-
         static FS.FilePath tool(IToolWs ws, Actor tool, ScriptId script, FileKind kind)
             => home(ws, tool) + FS.file(script.Format(), kind);
 
         static FS.FolderPath home(IToolWs ws, Actor tool)
             => ws.ScriptDir() + FS.folder(tool.Format()) + FS.folder(scripts);
-
     }
 }

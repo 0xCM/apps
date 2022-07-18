@@ -87,7 +87,7 @@ namespace Z0
             return new CmdScript(dst.Emit());
         }
 
-        public Index<CmdLine> BuildCmdLines(IProjectWs project, string scope, string cmdname)
+        public Index<CmdLine> BuildCmdLines(IProjectWsObsolete project, string scope, string cmdname)
         {
             var ext = Flow.SourceKind.Ext();
             var files = project.SrcFiles(recurse:false).Where(f => f.Is(ext));
@@ -109,9 +109,9 @@ namespace Z0
             return buffer.Array();
         }
 
-        public abstract C BuildCmd(IProjectWs project, string scope, FS.FilePath src);
+        public abstract C BuildCmd(IProjectWsObsolete project, string scope, FS.FilePath src);
 
-        protected FS.FilePath GetTargetPath(IProjectWs project, string scope, FS.FilePath src)
+        protected FS.FilePath GetTargetPath(IProjectWsObsolete project, string scope, FS.FilePath src)
             => project.Out(scope).Create() + src.FileName.ChangeExtension(Flow.TargetKind);
 
         static ScriptBuilder()

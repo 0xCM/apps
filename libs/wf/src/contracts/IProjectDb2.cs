@@ -4,15 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IProjectDb : IProjectWs
+    public interface IProjectDb : IProjectWsObsolete
     {
-        ProjectId IProjectWs.Project
+        ProjectId IProjectWsObsolete.Project
             => "db";
 
-        FS.FolderPath IProjectWs.Home()
+        FS.FolderPath IProjectWsObsolete.Home()
             => Root;
 
-        FS.FolderPath IProjectWs.Logs()
+        FS.FolderPath IProjectWsObsolete.Logs()
             => Subdir("logs");
 
         FS.FolderPath Api()
@@ -48,14 +48,14 @@ namespace Z0
         FS.FolderPath ProjectData()
             => Home() + FS.folder("projects");
 
-        FS.FolderPath ProjectData(IProjectWs project)
+        FS.FolderPath ProjectData(IProjectWsObsolete project)
             => ProjectData() + FS.folder(project.Name);
 
-        FS.FileName TableFileName<T>(IProjectWs project)
+        FS.FileName TableFileName<T>(IProjectWsObsolete project)
             where T : struct
                 => FS.file(string.Format("{0}.{1}", project.Name, Z0.Tables.identify<T>()), FS.Csv);
 
-        FS.FilePath ProjectTable<T>(IProjectWs project)
+        FS.FilePath ProjectTable<T>(IProjectWsObsolete project)
             where T : struct
                 => ProjectData(project) + TableFileName<T>(project);
     }

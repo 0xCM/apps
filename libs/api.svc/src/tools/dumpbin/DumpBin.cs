@@ -95,7 +95,7 @@ namespace Z0
             return result;
         }
 
-        public Outcome DumpModules(IProjectWs project, FileModuleKind kind)
+        public Outcome DumpModules(IProjectWsObsolete project, FileModuleKind kind)
         {
             var result = Outcome.Success;
             var script = kind switch{

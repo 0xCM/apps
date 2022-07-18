@@ -8,7 +8,7 @@ namespace Z0
 
     partial class ProjectSvc
     {
-        public Index<AsmSyntaxOps> CalcSyntaxOps(IProjectWs src)
+        public Index<AsmSyntaxOps> CalcSyntaxOps(IProjectWsObsolete src)
         {
             var rows = LoadAsmSyntax(src);
             var count = rows.Count;

@@ -20,14 +20,5 @@ namespace Z0
 
         FS.FolderPath IFileArchive.Root
             => Root;
-
-        public FS.FolderPath HexPackRoot()
-            => Root;
-
-        public FS.FilePath RawHexPath(ApiHostUri host)
-            => HexPackRoot() + FS.file(host, "extracts.raw", FS.XPack);
-
-        public FS.FilePath ParsedHexPath(ApiHostUri host)
-            => HexPackRoot() + FS.file(host, "extracts.parsed", FS.XPack);
     }
 }

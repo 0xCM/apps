@@ -15,45 +15,47 @@ namespace Z0
         public static unsafe PEReader PeReader(MemorySeg src)
             => new PEReader(src.BaseAddress.Pointer<byte>(), src.Size);
 
+        static IApiPack Dst
+            => ApiPack.create();
         [CmdOp("cli/emit/hex")]
         void EmitApiHex()
-            => CliEmitter.EmitApiHex(AppDb.apipack());
+            => CliEmitter.EmitApiHex(Dst);
 
         [CmdOp("cli/emit/refs")]
         void EmitMemberRefs()
-            => CliEmitter.EmitRefs(AppDb.apipack());
+            => CliEmitter.EmitRefs(Dst);
 
         [CmdOp("cli/emit/strings")]
         void EmitStrings()
-            => CliEmitter.EmitStrings(AppDb.apipack());
+            => CliEmitter.EmitStrings(Dst);
 
         [CmdOp("cli/emit/stats")]
         void EmitStats()
-            => CliEmitter.EmitRowStats(AppDb.apipack());
+            => CliEmitter.EmitRowStats(Dst);
 
         [CmdOp("cli/emit/blobs")]
         void EmitBlobs()
-            => CliEmitter.EmitBlobs(AppDb.apipack());
+            => CliEmitter.EmitBlobs(Dst);
 
         [CmdOp("cli/emit/msil")]
         void EmitMsil()
-            => Cli.EmitIl(AppDb.apipack());
+            => Cli.EmitIl(Dst);
 
         [CmdOp("cli/emit/ildat")]
         void EmitIlDat()
-            => CliEmitter.EmitIlDat(AppDb.apipack());
+            => CliEmitter.EmitIlDat(Dst);
 
         [CmdOp("cli/emit/fields")]
         void EmitFields()
-            => CliEmitter.EmitFieldMetadata(AppDb.apipack());
+            => CliEmitter.EmitFieldMetadata(Dst);
 
         [CmdOp("cli/emit/literals")]
         void EmitLiterals()
-            => CliEmitter.EmitLiterals(AppDb.apipack());
+            => CliEmitter.EmitLiterals(Dst);
 
         [CmdOp("cli/emit/headers")]
         void EmitHeaders()
-            => CliEmitter.EmitSectionHeaders(AppDb.apipack());
+            => CliEmitter.EmitSectionHeaders(Dst);
 
         [CmdOp("api/emit/corelib")]
         void EmitCorLib()
