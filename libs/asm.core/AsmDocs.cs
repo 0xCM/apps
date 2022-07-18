@@ -7,7 +7,7 @@ namespace Z0.Asm
     using static core;
     using static AsmOcTokens;
 
-    public class AsmDocs : AppService<AsmDocs>
+    public class AsmDocs : WfSvc<AsmDocs>
     {
         AsmRegSets Regs => Service(AsmRegSets.create);
 

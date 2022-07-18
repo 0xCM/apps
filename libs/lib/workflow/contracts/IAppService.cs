@@ -11,8 +11,6 @@ namespace Z0
 
         IWfRuntime Wf {get;}
 
-        DevWs Ws {get;}
-
         T Service<T>(Func<T> factory);
 
         IWfMsg WfMsg {get;}

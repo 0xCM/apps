@@ -18,11 +18,25 @@ namespace Z0
 
         public WsCatalog ProjectFiles {get; protected set;}
 
+        public DevWs Ws {get; private set;}
+
+        protected IProjectDb ProjectDb;
+
+        protected static AppSettings AppSettings => data(nameof(Settings), AppSettings.load);
+
         protected WfSvc()
         {
 
+
         }
 
+        protected override void OnInit()
+        {
+            base.OnInit();
+            Ws = DevWs.create(Env.DevWs);
+            ProjectDb = Ws.ProjectDb();
+
+        }
         protected static CmdArg arg(in CmdArgs src, int index)
             => ShellCmd.arg(src, index);
 
@@ -242,19 +256,7 @@ namespace Z0
         public void TableEmit<T>(ReadOnlySpan<T> rows, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci,
             ushort rowpad = 0, RecordFormatKind fk = RecordFormatKind.Tablular)
                 where T : struct
-        {
-
-            Tables.emit(GetType(), rows, dst, encoding, rowpad, fk, EventLog);
-            // var emitting = EmittingTable<T>(dst);
-            // var formatter = RecordFormatters.create(typeof(T), rowpad, fk);
-            // using var writer = dst.Writer(encoding);
-            // writer.WriteLine(formatter.FormatHeader());
-            // for(var i=0; i<rows.Length; i++)
-            //     writer.WriteLine(formatter.Format(skip(rows,i)));
-
-
-            //return EmittedTable(emitting, rows.Length, dst);
-        }
+                    => Tables.emit(GetType(), rows, dst, encoding, rowpad, fk, EventLog);
 
         public void TableEmit<T>(Index<T> rows, FS.FilePath dst,
             TextEncodingKind encoding = TextEncodingKind.Asci, ushort rowpad = 0, RecordFormatKind fk = RecordFormatKind.Tablular)

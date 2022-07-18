@@ -29,8 +29,6 @@ namespace Z0
             return service;
         }
 
-        protected static AppSettings AppSettings => data(nameof(Settings), AppSettings.load);
-
         public virtual Type EffectiveHost {get;}
 
         static ConcurrentDictionary<Type,object> ServiceCache {get;}
@@ -96,7 +94,6 @@ namespace Z0
 
         public IWfDb Db {get; private set;}
 
-        protected IProjectDb ProjectDb;
 
         public EnvData Env => default;
 
@@ -112,7 +109,6 @@ namespace Z0
 
         FS.Files _Files;
 
-        public DevWs Ws {get; private set;}
 
         public IWfMsg WfMsg {get; private set;}
 
@@ -123,8 +119,6 @@ namespace Z0
             WfEmit = new WfEmitters(Wf, EffectiveHost, Env);
             var flow = WfMsg.Creating(EffectiveHost);
             Db = new WfDb(Wf, Env.Db);
-            Ws = DevWs.create(Env.DevWs);
-            ProjectDb = Ws.ProjectDb();
             OnInit();
             Initialized();
             WfMsg.Created(flow);

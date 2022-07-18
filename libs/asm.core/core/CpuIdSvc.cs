@@ -6,7 +6,7 @@ namespace Z0.Asm
 {
     using static core;
 
-    public class CpuIdSvc : AppService<CpuIdSvc>
+    public class CpuIdSvc : WfSvc<CpuIdSvc>
     {
         AppSvcOps AppSvc => Service(Wf.AppSvc);
 
