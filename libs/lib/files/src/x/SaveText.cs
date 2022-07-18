@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     partial class XFs
     {
         public static Outcome Save(this FS.FilePath dst, string src)

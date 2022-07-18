@@ -4,5 +4,4 @@
     <PackageReference Include="Microsoft.Build.Runtime" Version="17.2.0" />
     <PackageReference Include="MSBuild.StructuredLogger" Version="2.1.669" />
   </ItemGroup>
-
 </Project>
