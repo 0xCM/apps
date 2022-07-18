@@ -51,8 +51,8 @@ namespace Z0
             var captured = parts.Capture(dst);
             var members = ApiMembers.create(captured.SelectMany(x => x.Resolved.Members).Array());
             // ApiCatalogs.Rebase(members,dst);
-            // ApiMd.EmitDatasets(dst);
-            // CliEmitter.Emit(CliEmitOptions.@default(), dst);
+            ApiMd.EmitDatasets(dst);
+            CliEmitter.Emit(CliEmitOptions.@default(), dst);
             Runtime.EmitContext(dst);
             ApiPacks.Link(dst);
         }

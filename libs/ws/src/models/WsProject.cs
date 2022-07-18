@@ -30,7 +30,7 @@ namespace Z0
             Id = id;
         }
 
-        string IWorkspace.Name
+        string IWorkspaceObselete.Name
             => Id.Format();
 
         ProjectId IProjectWs.Project

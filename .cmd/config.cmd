@@ -9,7 +9,7 @@ set BuildVerbosity=normal
 set BuildProps=/p:Configuration=%BuildKind% /p:Platform=%BuildPlatform%
 
 set ProjectSlnFile=z0.%ProjectId%.sln
-set SlnRoot=%Views%\dev\z0
+set SlnRoot=%~dp0..
 set CgRoot=%SlnRoot%\cg
 set ShellRoot=%SlnRoot%\shells
 set LibsRoot=%SlnRoot%\libs

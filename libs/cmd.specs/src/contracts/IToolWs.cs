@@ -6,7 +6,7 @@ namespace Z0
 {
     using static ApiGranules;
 
-    public interface IToolWs : IWorkspace
+    public interface IToolWs : IWorkspaceObselete
     {
         FS.FolderPath Home {get;}
 

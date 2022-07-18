@@ -203,12 +203,12 @@ namespace Z0.Asm
         }
 
         public void ImportSources()
-            => Emit(CpuIdSvc.import(Ws.Sources().Datasets("sde.cpuid")));
+            => Emit(CpuIdSvc.import(AppDb.DbIn("intel").Root));
 
         void EmitBits(ReadOnlySpan<CpuIdRow> src)
         {
             var result = Outcome.Success;
-            var dst = Ws.Tables().Path("asm.cpuid.bits", FS.Csv);
+            var dst = AppDb.DbOut("sde").Path("sde.cpuid.bits", FileKind.Csv);
             var emitting = EmittingFile(dst);
             EmitBits(src,dst);
             EmittedFile(emitting,src.Length);
@@ -217,7 +217,7 @@ namespace Z0.Asm
         void EmitRows(ReadOnlySpan<CpuIdRow> src)
         {
             var result = Outcome.Success;
-            var dst = Ws.Tables().TablePath<CpuIdRow>("tables");
+            var dst = AppDb.DbOut("sde").Table<CpuIdRow>("records");
             EmitRecords(src,dst);
         }
 

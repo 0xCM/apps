@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public sealed class OutputWs : IWorkspace<OutputWs>
+    public sealed class OutputWs : IWorkspaceObselete<OutputWs>
     {
         [MethodImpl(Inline)]
         public static OutputWs create(FS.FolderPath root)

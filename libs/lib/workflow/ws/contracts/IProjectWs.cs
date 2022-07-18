@@ -6,7 +6,7 @@ namespace Z0
 {
     using static WsAtoms;
 
-    public interface IProjectWs : IWorkspace
+    public interface IProjectWs : IWorkspaceObselete
     {
         ProjectId Project {get;}
 
@@ -19,34 +19,24 @@ namespace Z0
         FS.FolderPath IFileArchive.Datasets(string scope)
             => Datasets() + FS.folder(scope);
 
-        FS.FilePath IFileArchive.Path(string id, FS.FileExt ext)
-            => Home() + FS.file(id,ext);
-
         FS.FolderPath IFileArchive.Subdir(string name)
             => Home() + FS.folder(name);
 
-        FS.FolderPath IWorkspace.SrcDir()
+        FS.FolderPath IWorkspaceObselete.SrcDir()
             => Home() + FS.folder("src");
 
-        FS.FolderPath IWorkspace.SrcDir(string scope)
+        FS.FolderPath IWorkspaceObselete.SrcDir(string scope)
             => SrcDir() + FS.folder(scope);
 
-        FS.FolderPath IWorkspace.BuildOut()
+        FS.FolderPath IWorkspaceObselete.BuildOut()
             => Out();
 
-        FS.FolderPath IWorkspace.BuildOut(string scope)
-            => Out(scope);
-
-        FS.FolderPath IWorkspace.ScriptDir()
+        FS.FolderPath IWorkspaceObselete.ScriptDir()
             => Home() + FS.folder(scripts);
 
         FS.FilePath IFileArchive.TablePath<T>(string scope)
             where T : struct
                 => Subdir(scope) + TableFile<T>();
-
-        FS.FilePath IFileArchive.TablePath<T>(string scope, string suffix)
-            where T : struct
-                => Subdir(scope) + SuffixedTable<T>(suffix);
 
         FS.Files IFileArchive.Files()
             => ProjectFiles();

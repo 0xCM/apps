@@ -8,7 +8,7 @@ namespace Z0
 
     using static core;
 
-    public class CultProcessor : AppService<CultProcessor>, IEtlService
+    public class CultProcessor : WfSvc<CultProcessor>, IEtlService
     {
         public uint BatchSize => Pow2.T16;
 

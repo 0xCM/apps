@@ -10,6 +10,9 @@ namespace Z0
 
         readonly Dictionary<string,Setting> Lookup;
 
+        public static ToolEnv load(Settings src)
+            => new ToolEnv(src);
+
         public ToolEnv(Settings src)
         {
             Data = src;

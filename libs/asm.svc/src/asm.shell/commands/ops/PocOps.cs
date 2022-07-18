@@ -13,7 +13,8 @@ namespace Z0.Asm
         {
             var result = Outcome.Success;
             var id = arg(args,0).Value;
-            result = BuildAsmExe(id);
+            var script = FS.FilePath.Empty;
+            result = BuildAsmExe(id,script);
             if(result.Fail)
                 return result;
             //var exe = AsmWs.ExePath(id);
@@ -28,7 +29,7 @@ namespace Z0.Asm
 
         Outcome AsmConfig(CmdArgs args)
         {
-            var result = OmniScript.Run(AsmWs.Script("log-config"), out var response);
+            var result = OmniScript.Run(FS.FolderPath.Empty + FS.file("log-config",FileKind.Cmd), out var response);
             if(result.Fail)
                 return result;
 
@@ -223,7 +224,7 @@ namespace Z0.Asm
         Outcome UnpackRespack(CmdArgs args)
         {
             var unpacker = ApiResPackUnpacker.create(Wf);
-            var dst = OutWs.Subdir("respack");
+            var dst = FS.FolderPath.Empty;
             unpacker.Emit(dst);
             return true;
         }

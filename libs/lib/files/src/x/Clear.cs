@@ -25,6 +25,17 @@ namespace Z0
         public static List<FS.FilePath> Clear(this FS.FolderPath src, List<FS.FilePath> dst, bool recurse = false)
             => FS.clear(src, dst, recurse);
 
+        public static FS.FilePath CopyTo(this FS.FilePath src, FS.FilePath dst, bool overwrite = true)
+        {
+            var result = FS.FilePath.Empty;
+            if(src.Exists)
+            {
+                File.Copy(src.Name, dst.CreateParentIfMissing().Name, overwrite);
+                result = dst;
+            }
+            return result;
+        }
+
         [Op]
         public static FS.FilePath CopyTo(this FS.FilePath src, FS.FolderPath dst, bool overwrite = true)
         {

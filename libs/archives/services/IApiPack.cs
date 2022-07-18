@@ -34,6 +34,9 @@ namespace Z0
         IDbTargets Docs()
             => Targets("docs");
 
+        IDbTargets Docs(string scope)
+            => Docs().Targets(scope);
+
         IDbTargets Comments()
             => Docs().Targets("comments");
 

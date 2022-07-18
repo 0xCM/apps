@@ -108,7 +108,7 @@ namespace Z0
         {
             var result = Outcome.Success;
             var settings = LoadEnv();
-            var env = EnvDb.tools(settings);
+            var env = ToolEnv.load(settings);
             var dst = ProjectDb.Log("env", FS.Log);
             var emitting = EmittingFile(dst);
             using var writer = dst.AsciWriter();

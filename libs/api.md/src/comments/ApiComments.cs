@@ -7,6 +7,7 @@ namespace Z0
     using System.Xml;
     using System.IO;
     using System.Linq;
+    using static ApiGranules;
 
     using static core;
 
@@ -16,7 +17,7 @@ namespace Z0
     {
         public CommentDataset Calc()
         {
-            var targets = AppDb.ApiTargets("comments");
+            var targets = AppDb.ApiTargets(comments);
             var dllPaths = list<FS.FilePath>();
             var xmlData = new Dictionary<FS.FilePath, Dictionary<string,string>>();
             var archive = core.controller().RuntimeArchive();
@@ -35,7 +36,7 @@ namespace Z0
                 }
             }
 
-            var comments = new Dictionary<FS.FilePath, Dictionary<string,ApiComment>>();
+            var lookup = new Dictionary<FS.FilePath, Dictionary<string,ApiComment>>();
             var csvRowFormat = dict<FS.FilePath,List<string>>();
             var csvRows = dict<FS.FilePath,List<ApiComment>>();
             var formatter = Tables.formatter<ApiComment>();
@@ -44,7 +45,7 @@ namespace Z0
                 var file = FS.file(string.Format("{0}.{1}", "api.comments", part.FileName.WithoutExtension.Name), FS.Csv);
                 var path = targets.Path(file);
                 var docs = dict<string,ApiComment>();
-                comments[part] = docs;
+                lookup[part] = docs;
                 csvRowFormat[path] = new();
                 csvRows[path] = new();
 
@@ -61,7 +62,7 @@ namespace Z0
                 }
             }
 
-            return new(xmlData, comments, csvRows, dllFiles);
+            return new(xmlData, lookup, csvRows, dllFiles);
         }
 
         public void EmitMarkdownDocs(CommentDataset ds, string[] _types)
@@ -117,31 +118,12 @@ namespace Z0
         public static FS.FilePath XmlPath(FS.FolderPath dir, PartId part)
             => dir + XmlFile(part);
 
-        public void Emit(CommentDataset src)
+        public void Collect(IApiPack dst)
         {
-            var targets = AppDb.ApiTargets("comments");
+            var targets = dst.Comments();
             targets.Clear();
-            ref readonly var csv = ref src.CsvLookup;
-            var paths = csv.Keys;
-            for(var i=0; i<paths.Length; i++)
-            {
-                ref readonly var path = ref skip(paths,i);
-                TableEmit(csv[path], path, TextEncodingKind.Utf8);
-            }
-
-            ref readonly var xml = ref src.Xml;
-            for(var i=0; i<xml.Count; i++)
-            {
-
-            }
-        }
-
-        public Dictionary<FS.FilePath, Dictionary<string,string>> Collect(IApiPack pack)
-        {
-            var targets = pack.Comments();
-            targets.Clear();
-            var src = Pull();
-            var dst = new Dictionary<FS.FilePath, Dictionary<string,ApiComment>>();
+            var src = Pull(dst);
+            var lookup = new Dictionary<FS.FilePath, Dictionary<string,ApiComment>>();
             var formatter = Tables.formatter<ApiComment>();
             foreach(var part in src.Keys)
             {
@@ -150,7 +132,7 @@ namespace Z0
                 var path = targets.Path(file);
                 var flow = EmittingTable<ApiComment>(path);
                 var docs = new Dictionary<string, ApiComment>();
-                dst[part] = docs;
+                lookup[part] = docs;
                 using var writer = path.Writer();
                 writer.AppendLine(formatter.FormatHeader());
                 var kvp = src[part];
@@ -163,7 +145,6 @@ namespace Z0
                 }
                 EmittedTable(flow, kvp.Count);
             }
-            return src;
         }
 
         static bool parse(string key, string value, out ApiComment dst)
@@ -225,28 +206,45 @@ namespace Z0
                 _ => ApiCommentTarget.None,
             };
 
-        Dictionary<FS.FilePath, Dictionary<string,string>> Pull()
+        ConstLookup<FS.FilePath, Dictionary<string,string>> Pull(IApiPack dst)
         {
             var archive = core.controller().RuntimeArchive();
-            var targets = AppDb.ApiTargets("comments");
             var paths = archive.XmlFiles;
-            var dst = new Dictionary<FS.FilePath, Dictionary<string,string>>();
+            var lookup = cdict<FS.FilePath, Dictionary<string,string>>();
             var t = default(ApiComment);
-            foreach(var xmlfile in paths)
-            {
-                var loading = Running(string.Format("Loading {0}", xmlfile));
-                var data = xmlfile.ReadText();
-                Ran(loading);
-                var parsed = ParseXmlData(data);
-                if(parsed.Count != 0)
+            iter(paths, path => {
+                var data = ParseXmlFile(path, dst, out var packpath);
+                if(data.Count != 0)
                 {
-                    dst[xmlfile] = parsed;
-                    var file = FS.file(string.Format("{0}.{1}", "api.comments", xmlfile.FileName.WithoutExtension.Name), FS.Xml);
-                    FileEmit(data, parsed.Count, targets.Path(file));
+                    lookup.TryAdd(path,data);
                 }
+                }, true);
+            // foreach(var xmlfile in paths)
+            // {
+            //     var data = xmlfile.ReadText();
+            //     var parsed = ParseXmlData(data);
+            //     if(parsed.Count != 0)
+            //     {
+            //         lookup[xmlfile] = parsed;
+            //         FileEmit(data, parsed.Count, dst.Docs().Path(FS.file(string.Format("{0}.{1}", "api.comments", xmlfile.FileName.WithoutExtension.Name), FS.Xml)));
+            //     }
 
+            // }
+            return lookup;
+        }
+
+        Dictionary<string,string> ParseXmlFile(FS.FilePath src, IApiPack dst, out FS.FilePath target)
+        {
+            var data = src.ReadText();
+            var parsed = ParseXmlData(data);
+            target = FS.FilePath.Empty;
+            if(parsed.Count != 0)
+            {
+                target = dst.Docs(comments).Path(FS.file(string.Format("{0}.{1}", "api.comments", src.FileName.WithoutExtension.Name), FS.Xml));
+                src.CopyTo(target);
+                //FileEmit(data, parsed.Count, dst.Docs().Path(FS.file(string.Format("{0}.{1}", "api.comments", src.FileName.WithoutExtension.Name), FS.Xml)));
             }
-            return dst;
+            return parsed;
         }
 
         static Dictionary<string,string> ParseXmlData(string src)

@@ -7,7 +7,7 @@ namespace Z0
     using static ApiGranules;
     using static core;
 
-    public sealed class ToolWs : Workspace<ToolWs>, IWorkspace
+    public sealed class ToolWs : Workspace<ToolWs>, IWorkspaceObselete
     {
         public static ToolWs create(FS.FolderPath home)
             => new ToolWs(home);

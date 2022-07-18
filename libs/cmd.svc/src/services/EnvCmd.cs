@@ -55,9 +55,12 @@ namespace Z0
         void LoadToolEnv()
             => ToolBox.EmitIncludePaths();
 
+        static EnvVars<string> vars(string name = null)
+            => AppDb.Service.LoadEnv(text.ifempty(name, Environment.MachineName.ToLower()));
+
         [CmdOp("env/load")]
         void LoadEnv(CmdArgs args)
-            => iter(EnvDb.vars(args.Count != 0 ? arg(args,0).Value : null).View, member => Write(member.Format()));
+            => iter(vars(args.Count != 0 ? arg(args,0).Value : null).View, member => Write(member.Format()));
 
         [CmdOp("env/list")]
         void ListMachineEnv()

@@ -399,6 +399,8 @@ namespace Z0
 
         public const string clr = nameof(clr);
 
+        public const string comments = nameof(comments);
+
         public const string arrangements = nameof(arrangements);
 
         public const string decimal_digits = @decimal + Dot + digits;

@@ -9,10 +9,10 @@ namespace Z0
 
     using static Root;
 
-    public sealed class AsmWs : IWorkspace<AsmWs>
+    public sealed class AsmWs : IWorkspaceObselete<AsmWs>
     {
         [MethodImpl(Inline)]
-        public static IWorkspace create(FS.FolderPath root)
+        public static IWorkspaceObselete create(FS.FolderPath root)
             => new AsmWs(root);
 
         public FS.FolderPath Root {get;}

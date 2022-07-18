@@ -6,7 +6,7 @@ namespace Z0
 {
     using static WsAtoms;
 
-    public interface IWorkspace : IFileArchive
+    public interface IWorkspaceObselete : IFileArchive
     {
         string Name {get;}
 
@@ -25,9 +25,6 @@ namespace Z0
         FS.FolderPath BuildOut()
             => Root + FS.folder(".out");
 
-        FS.FolderPath BuildOut(string scope)
-            => BuildOut() + FS.folder(scope);
-
         FS.FolderPath ScriptDir()
             => Root + FS.folder(scripts);
 
@@ -35,13 +32,10 @@ namespace Z0
             => ScriptDir() + FS.file(name, FS.Cmd);
     }
 
-    public interface IWorkspace<T> : IWorkspace
-        where T : IWorkspace<T>
+    public interface IWorkspaceObselete<T> : IWorkspaceObselete
+        where T : IWorkspaceObselete<T>
     {
-        FS.FolderPath WsRoot()
-            => Root;
-
-        string IWorkspace.Name
-            => WsRoot().FolderName.Format();
+        string IWorkspaceObselete.Name
+            => Root.FolderName.Format();
     }
 }
