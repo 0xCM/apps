@@ -4,10 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Free]
-    sealed class App : AppCmdShell<App>
+    public class ScriptCmd : AppCmdService<ScriptCmd>
     {
-        public static void Main(int a = 4, int b = 5)
-            => run(wf => AppCmd.create(wf), sys.empty<string>());
+
+
     }
 }

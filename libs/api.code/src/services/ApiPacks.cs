@@ -4,20 +4,31 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static ApiGranules;
     [ApiHost]
     public sealed class ApiPacks : WfSvc<ApiPacks>
     {
         public IApiPack Current()
             => AppDb.apipacks().Last;
 
-        public Arrow<FS.FolderPath,FS.FolderPath> Link(Timestamp ts)
+        Arrow<FS.FolderPath,FS.FolderPath> Link(Timestamp ts)
         {
-            var src = AppDb.apipacks().Last;
-            var link = src.Root + FS.folder(ApiGranules.current);
-            var target = src.Root + FS.folder(ts);
-            FS.symlink(link, target, true).Require();
-            Status(string.Format("Created symlink {0} -> {1}", link, target));
-            return new Arrow<FS.FolderPath,FS.FolderPath>(link, target);
+            var capture = AppDb.Capture();
+            var src = capture.Root + FS.folder(current);
+            var dst = AppDb.apipacks().Last.Root;
+            FS.symlink(src,dst,true).Require();
+            Status($"symlink:{src} -> {dst}");
+            return (src,dst);
+
+            // var src = AppDb.apipacks().Last;
+            // var link = src.Root + FS.folder(current);
+            // var dst = capture.Root + FS.folder(current);
+            // FS.symlink(link, dst, true).Require();
+            // Status(string.Format("Created symlink {0} -> {1}", link, dst));
+            // return new Arrow<FS.FolderPath,FS.FolderPath>(link, dst);
         }
+
+        public Arrow<FS.FolderPath,FS.FolderPath> Link(IApiPack dst)
+            => Link(dst.Timestamp);
     }
 }

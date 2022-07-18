@@ -26,6 +26,8 @@ namespace Z0
             public ApiMemory ApiMemory(IWfRuntime wf)
                 => Service<ApiMemory>(wf);
 
+            public MemCmd MemCmd(IWfRuntime wf)
+                => Service<MemCmd>(wf);
         }
 
         static Svc Services => Svc.Instance;
@@ -37,7 +39,7 @@ namespace Z0
             => Services.ProcessMemory(wf);
 
         public static MemCmd MemCmd(this IWfRuntime wf)
-            => GlobalServices.CmdSvc<MemCmd>(wf);
+            => Services.MemCmd(wf);
 
         public static HexDataReader HexDataReader(this IWfRuntime wf)
             => Services.HexDataReader(wf);
@@ -50,6 +52,5 @@ namespace Z0
 
         public static ApiMemory ApiMemory(this IWfRuntime wf)
             => Services.ApiMemory(wf);
-
     }
 }

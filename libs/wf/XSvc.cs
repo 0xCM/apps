@@ -16,6 +16,9 @@ namespace Z0
 
             public IWsProvider Ws(IWfRuntime wf, FS.FolderPath home)
                 => Service(wf, $"WsProvider.{WsProvider.id(home)}", wf => WsProvider.create(wf,home));
+
+            public AppCmdServer AppCmdServer(IWfRuntime wf)
+                => Service<AppCmdServer>(wf);
         }
 
         static ServiceCache Services => ServiceCache.Instance;
@@ -28,5 +31,7 @@ namespace Z0
 
         public static IWsProvider Ws(this IWfRuntime wf, FS.FolderPath home)
             => Services.Ws(wf, home);
+
+
     }
 }

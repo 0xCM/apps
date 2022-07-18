@@ -10,11 +10,17 @@ namespace Z0
     {
         protected CmdLineRunner CmdLines => Wf.CmdLines();
 
+        protected virtual void PublishCommands()
+        {
+
+        }
+
         public static T create(IWfRuntime wf, params ICmdProvider[] src)
         {
             var service = new T();
             GlobalServices.Instance.Inject(Cmd.dispatcher(service, wf.EventLog, src));
             service.Init(wf);
+            service.PublishCommands();
             return service;
         }
 

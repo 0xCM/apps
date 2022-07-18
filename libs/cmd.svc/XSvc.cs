@@ -23,6 +23,9 @@ namespace Z0
             public ToolsetCmd ToolsetCmd(IWfRuntime wf)
                 => Service<ToolsetCmd>(wf);
 
+            public ScriptCmd ScriptCmd(IWfRuntime wf)
+                => Service<ScriptCmd>(wf);
+
             public AppSvcOps<T> AppSvc<T>(IWfRuntime wf)
                 where T : IAppService<T>, new()
                     => Service<AppSvcOps<T>>(wf);
@@ -38,6 +41,9 @@ namespace Z0
 
         public static DbCmd DbCmd(this IWfRuntime wf)
             => Services.DbCmd(wf);
+
+        public static ScriptCmd ScriptCmd(this IWfRuntime wf)
+            => Services.ScriptCmd(wf);
 
         public static ToolsetCmd ToolsetCmd(this IWfRuntime wf)
             => Services.ToolsetCmd(wf);

@@ -248,21 +248,11 @@ namespace Z0
         FS.FilePath ToolScript(IToolWs ws, Actor tool, ScriptId script, FS.FileExt? ext = null)
             => ToolScripts(ws, tool) + FS.file(script.Format(), ext ?? FS.Cmd);
 
-        // FS.FilePath ScriptFile(Actor spec, ScriptKind kind)
-        // {
-        //     var x = kind switch{
-        //         ScriptKind.Cmd => FS.Cmd,
-        //         ScriptKind.Ps => FS.Ps1,
-        //         _ => FS.FileExt.Empty
-        //     };
-        //     return ToolScript(spec.Tool, spec.Script, x);
-        // }
-
         CmdLine CmdLine(FS.FilePath path, ScriptKind kind)
         {
             return kind switch{
-                ScriptKind.Cmd => WinCmd.script(path),
-                ScriptKind.Ps => PwshCmd.script(path),
+                ScriptKind.Cmd => Scripts.cmd(path),
+                ScriptKind.Ps => Scripts.pwsh(path),
                 _ => Z0.CmdLine.Empty
             };
         }

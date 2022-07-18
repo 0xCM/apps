@@ -9,22 +9,22 @@ namespace Z0
     partial struct FS
     {
         [Op]
-        public static Outcome symlink(FS.FolderPath link, FS.FolderPath dst, bool deleteExising = false)
+        public static Outcome symlink(FS.FolderPath src, FS.FolderPath dst, bool deleteExising = false)
         {
             try
             {
                 if(deleteExising)
-                    link.Delete();
+                    src.Delete();
 
-                var outcome = Kernel32.CreateSymLink(link.Name, dst.Name, SymLinkKind.Directory);
+                var outcome = Kernel32.CreateSymLink(src.Name, dst.Name, SymLinkKind.Directory);
                 if(outcome)
                     return true;
                 else
-                    return (false, DirectoryLinkCreationFailed.Format(link, dst, EmptyString));
+                    return (false, DirectoryLinkCreationFailed.Format(src, dst, EmptyString));
             }
             catch(Exception e)
             {
-                return (false, DirectoryLinkCreationFailed.Format(link, dst, e.ToString()));
+                return (false, DirectoryLinkCreationFailed.Format(src, dst, e.ToString()));
             }
         }
 

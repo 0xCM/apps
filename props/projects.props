@@ -28,6 +28,7 @@
     <Cli>$(LibsRoot)cli/z0.cli.csproj</Cli>
     <ClrCil>$(LibsRoot)clr.cil/z0.clr.cil.csproj</ClrCil>
     <ClrQuery>$(LibsRoot)clr.query/z0.clr.query.csproj</ClrQuery>
+    <ClrModels>$(LibsRoot)clr.models/z0.clr.models.csproj</ClrModels>
 
     <Commands>$(LibsRoot)commands/z0.commands.csproj</Commands>
     <Calcs>$(LibsRoot)calcs/z0.calcs.csproj</Calcs>

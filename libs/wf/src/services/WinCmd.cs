@@ -14,11 +14,5 @@ namespace Z0
         public static CmdLine script(FS.FilePath src)
             => string.Format("cmd /c {0}", src.Format(PathSeparator.BS));
 
-        public static CmdLine script(string src)
-            => script(FS.path(src));
-
-        public static CmdLine dir(string src)
-            => dir(FS.dir(src));
-
     }
 }

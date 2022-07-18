@@ -10,6 +10,10 @@ namespace Z0
         public static CmdUri define(PartName part, asci32 host, asci32 command)
             => new CmdUri($"cmd://{part}/{host}?name={command}");
 
+        [MethodImpl(Inline)]
+        public static CmdUri define(Name ws, Name group, Name command)
+            => new CmdUri($"cmd://{ws}/{group}?name={command}");
+
         readonly AsciBlock128 Data;
 
         [MethodImpl(Inline)]

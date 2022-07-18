@@ -101,6 +101,9 @@ public enum PartId : byte
     [Symbol("clr.query")]
     ClrQuery,
 
+    [Symbol("clr.models")]
+    ClrModels,
+
     [Symbol("clr.cil")]
     ClrCil,
 

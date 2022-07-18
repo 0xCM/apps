@@ -16,6 +16,10 @@ namespace Z0
             => new Deferred<X>(src);
 
         [MethodImpl(Inline)]
+        public static Deferred<X> cover<X>(ICollection<X> src)
+            => new Deferred<X>(src);
+
+        [MethodImpl(Inline)]
         public static Deferred<T> concat(Deferred<T> head, Deferred<T> tail)
             => head.Concat(tail);
 

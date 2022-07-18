@@ -4,19 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
 
     partial class ClrQuery
     {
         /// <summary>
-        /// Determines whether a type is a reference to a generic type
+        /// If source type is n nullable value type, returns the underlying type; otherwise returns the empty type
         /// </summary>
-        /// <param name="t">The type to examine</param>
+        /// <param name="src">The source type</param>
         [MethodImpl(Inline), Op]
-        public static bool IsGenericRef(this Type t)
-            => t.IsRef() && t.GetElementType().IsGenericType;
+        public static Type TNullableBase(this Type src)
+            => src.IsNullableType() ? Nullable.GetUnderlyingType(src) : typeof(void);
     }
 }

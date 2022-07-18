@@ -4,10 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Free]
-    sealed class App : AppCmdShell<App>
+    public interface IAppCmdServer
     {
-        public static void Main(int a = 4, int b = 5)
-            => run(wf => AppCmd.create(wf), sys.empty<string>());
+        void With(params ICmdProvider[] src);
+
+        Deferred<ICmdProvider> Providers {get;}
     }
 }

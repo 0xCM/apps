@@ -5,13 +5,14 @@
 namespace Z0
 {
     using static CsKeywords;
+
     using LK = ClrLiteralKind;
     using AK = ClrAccessKind;
     using MK = ClrModifierKind;
     using EK = ClrEnumKind;
     using IK = ClrIntegerKind;
 
-    partial class XTend
+    partial class ClrQuery
     {
         [MethodImpl(Inline), Op]
         public static string CsKeyword(this ClrEnumKind kind)

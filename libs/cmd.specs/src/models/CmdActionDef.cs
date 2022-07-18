@@ -4,10 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Free]
-    sealed class App : AppCmdShell<App>
+    public record struct CmdActionDef
     {
-        public static void Main(int a = 4, int b = 5)
-            => run(wf => AppCmd.create(wf), sys.empty<string>());
+        public Name ActionName;
+
+        public Seq<Name> OpNames;
+
+        public Seq<TextBlock> OpDescriptions;
+
     }
 }

@@ -25,6 +25,7 @@ namespace Z0
                 wf.XedCmd(),
                 wf.XedChecks(),
                 wf.CliCmd(),
+                wf.ScriptCmd(),
                 wf.RuntimeCmd(),
                 wf.AsmChecks()
                 };

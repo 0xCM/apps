@@ -56,6 +56,9 @@ namespace Z0
         [Symbol(config, "A text file with colon-delimited key-value lines")]
         Config,
 
+        [Symbol(ps1, "A powershell script")]
+        Ps1,
+
         [Symbol(coffheaders, "A file containing a textual description of the headers in a COFF object file")]
         CoffHeaders,
 

@@ -2,15 +2,12 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
+
+
 namespace Z0
 {
-    public readonly struct PwshCmd
+    public static partial class ClrQuery
     {
-        [Op]
-        public static CmdLine script(FS.FilePath src)
-        {
-            const string Pattern = "pwsh {0}";
-            return string.Format(Pattern, src.Format(PathSeparator.BS));
-        }
+        const NumericKind Closure = UnsignedInts;
     }
 }

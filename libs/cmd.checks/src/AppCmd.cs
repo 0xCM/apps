@@ -6,15 +6,19 @@ namespace Z0
 {
     sealed class AppCmd : AppCmdService<AppCmd>
     {
-        public static ICmdProvider[] providers(IWfRuntime wf)
+        // protected override void PublishCommands()
+        //     => Wf.AppCmdServer().With(providers(Wf));
+
+        static ICmdProvider[] providers(IWfRuntime wf)
             => new ICmdProvider[]{
                 wf.EnvCmd(),
                 wf.DbCmd(),
                 wf.ToolsetCmd(),
+                wf.ScriptCmd(),
                 wf.ApiSpecsCmd()
             };
 
-        public static AppCmd commands(IWfRuntime wf)
+        public static new AppCmd create(IWfRuntime wf)
             => create(wf, providers(wf));
     }
 }
