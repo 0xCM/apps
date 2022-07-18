@@ -32,7 +32,7 @@ namespace Z0
 
     public static partial class XTend
     {
-        public static AsmChecks AsmChecks(this IWfRuntime wf)
-            => Z0.AsmChecks.create(wf);
+        // public static AsmChecks AsmChecks(this IWfRuntime wf)
+        //     => Z0.AsmChecks.create(wf);
     }
 }

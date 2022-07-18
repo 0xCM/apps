@@ -16,6 +16,14 @@ namespace Z0
 
         AsmWriterChecks AsmChecks => Service(() => AsmWriterChecks.create(Wf));
 
+        [CmdOp("build/check")]
+        void CheckMsBuild()
+        {
+            var src = FS.path(@"D:\Drives\Z\dev\z0\cg\cg.test\z0.cg.test.csproj");
+            var project = MsBuild.project(src);
+            Write(project.Format());
+        }
+
         [CmdOp("cg/asm/check")]
         Outcome CheckAsm(CmdArgs args)
         {

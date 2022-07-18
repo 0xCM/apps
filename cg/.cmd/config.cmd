@@ -1,4 +1,5 @@
 @echo off
 set WsId=cg
 set SlnId=cg
-call %Views%\z0\.cmd\config.cmd
+set Area=cg
+call %~dp0..\..\.cmd\config.cmd

@@ -71,6 +71,9 @@ set BuildProject=%BuildTool% %ProjectPath% %BuildProps% -fl -flp:logfile=%BuildL
 set ShellProject=%ShellRoot%\%ProjectId%\%CsProjectFile%
 set BuildShell=%BuildTool% %ShellProject% %BuildProps% -fl -flp:logfile=%BuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 
+set AreaShellProject=%SlnRoot%\%Area%\%ProjectId%\%CsProjectFile%
+set BuildAreaShell=%BuildTool% %AreaShellProject% %BuildProps% -fl -flp:logfile=%BuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
+
 set WsShellProject=%SlnRoot%\%WsArea%\%WsId%\%CsProjectFile%
 set BuildWsShell=%BuildTool% %WsShellProject% %BuildProps% -fl -flp:logfile=%BuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 set shell=%WsBin%\z0.%ProjectId%\%BuildKind%\%TargetFramework%\%RuntimeMoniker%\%ShellName%

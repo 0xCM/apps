@@ -51,7 +51,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline), Op]
         public static void encode(Rip a0, Jcc8 a1, AsmHexWriter dst)
-            => dst.Write(a1.JccCode, AsmRel8.target(a0, a1.Disp));
+            => dst.Write(a1.JccCode, AsmRel.target(a0, a1.Disp));
 
         [MethodImpl(Inline)]
         public static byte pack<A>(A a, uint offset, Span<byte> dst)
