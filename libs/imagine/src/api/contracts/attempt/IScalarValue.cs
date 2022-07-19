@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Free]
-    public interface IScalarValue : ISizedValue, IScalarExpr, INullary
+    public interface IScalarValue : ISizedValue, IExpr
     {
         bool INullity.IsEmpty
             => false;
@@ -16,7 +16,7 @@ namespace Z0
     }
 
     [Free]
-    public interface IScalarValue<T> : IScalarValue, ISizedValue<T>, IScalarExpr
+    public interface IScalarValue<T> : IScalarValue, ISizedValue<T>
         where T : unmanaged
     {
         T IValued<T>.Value
@@ -24,6 +24,5 @@ namespace Z0
 
         string IExpr.Format()
             => $"{Value}";
-
     }
 }

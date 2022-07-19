@@ -21,8 +21,5 @@ namespace Z0.Expr
 
         public Span<T> Cells
             => default;
-
-        BitWidth ISizedValue.ContentWidth
-            => Width;
     }
 }

@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <ProjectReference Include="$(Wf)" />
-    <ProjectReference Include="$(Graphs)" />
+    <ProjectReference Include="$(Rules)" />
     <ProjectReference Include="$(MemorySvc)" />
     <ProjectReference Include="$(Dynamic)" />
     <ProjectReference Include="$(AsmModels)" />

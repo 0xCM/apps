@@ -4,20 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface ISizedValue : IValued
+    public interface ISizedValue : IValued, ISized
     {
-        BitWidth ContentWidth {get;}
-
-        BitWidth StorageWidth {get;}
-
         bool INullity.IsEmpty
-            => ContentWidth == 0;
+            => Width == 0;
     }
 
-    public interface ISizedValue<T> : ISizedValue, IValued<T>
+    public interface ISizedValue<T> : ISizedValue, IValued<T>, ISized<T>
         where T : unmanaged
     {
-        BitWidth ISizedValue.StorageWidth
-            => Sized.size<T>();
+
     }
 }

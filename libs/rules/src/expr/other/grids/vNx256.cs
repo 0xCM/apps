@@ -41,11 +41,5 @@ namespace Z0.Expr
         [MethodImpl(Inline)]
         public ref T Cell(uint index)
             => ref Data[index];
-
-        BitWidth ISizedValue.StorageWidth
-            => Cells.Length*width<T>();
-
-        BitWidth ISizedValue.ContentWidth
-            => Cells.Length*256;
     }
 }

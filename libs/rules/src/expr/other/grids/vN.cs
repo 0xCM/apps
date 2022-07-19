@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Expr
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
     using static expr;
 
@@ -46,12 +42,6 @@ namespace Z0.Expr
 
         public override string ToString()
             => Format();
-
-        BitWidth ISizedValue.StorageWidth
-            => Data.Length*width<T>();
-
-        BitWidth ISizedValue.ContentWidth
-            => Data.Length* Typed.nat32u<N>();
 
         uint IVector.N
             => Typed.nat32u<N>();

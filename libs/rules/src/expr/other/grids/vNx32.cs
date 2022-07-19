@@ -5,7 +5,6 @@
 namespace Z0.Expr
 {
     using static core;
-    using static expr;
 
     /// <summary>
     /// Represents a finite sequence of 32-bit values
@@ -41,11 +40,5 @@ namespace Z0.Expr
         [MethodImpl(Inline)]
         public ref T Cell(uint index)
             => ref Data[index];
-
-        BitWidth ISizedValue.StorageWidth
-            => Data.Length*width<T>();
-
-        BitWidth ISizedValue.ContentWidth
-            => Data.Length*32;
     }
 }

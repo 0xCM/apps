@@ -4,37 +4,37 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
 
     public class ExprContext : IVarResolver
     {
-        ConcurrentDictionary<NameOld,IExprDeprecated> Vars;
+        ConcurrentDictionary<Name,IExpr> Vars;
 
         public ExprContext()
         {
             Vars = new();
         }
 
-        public void Inject(params (ExprVar var, IExprDeprecated value)[] src)
+        public void Inject(params (ExprVar var, IExpr value)[] src)
         {
             iter(src, x => Inject(x.var, x.value));
         }
 
-        public void Inject(ExprVar var, IExprDeprecated value)
+        public void Inject(ExprVar var, IExpr value)
         {
             Vars[var.Name] = value;
         }
 
-        public IExprDeprecated Resolve(NameOld name)
+        public IExpr Resolve(Name name)
         {
             if(Vars.TryGetValue(name, out var expr))
                 return expr;
             else
-                return Errors.Throw<IExprDeprecated>(string.Format("The variable '{0}' cannot be resolved", name));
+                return Errors.Throw<IExpr>(string.Format("The variable '{0}' cannot be resolved", name));
         }
 
-        public T Resolve<T>(NameOld name)
-            where T : IExprDeprecated
+        public T Resolve<T>(Name name)
+            where T : IExpr
         {
             if(Vars.TryGetValue(name, out var expr))
                 return (T)expr;

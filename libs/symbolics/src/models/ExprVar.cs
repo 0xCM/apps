@@ -6,9 +6,9 @@ namespace Z0
 {
     public class ExprVar : IVar
     {
-        public NameOld Name {get;}
+        public readonly Name Name;
 
-        public ExprVar(NameOld name)
+        public ExprVar(Name name)
         {
             Name = name;
         }
@@ -19,11 +19,11 @@ namespace Z0
             get => Name.Hash;
         }
 
-        public IExprDeprecated Eval(IVarResolver context)
+        public IExpr Eval(IVarResolver context)
             => context.Resolve(Name);
 
         public T Eval<T>(IVarResolver context)
-            where T : IExprDeprecated
+            where T : IExpr
                 => context.Resolve<T>(Name);
 
         public bool IsEmpty

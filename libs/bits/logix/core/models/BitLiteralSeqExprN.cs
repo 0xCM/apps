@@ -28,9 +28,6 @@ namespace Z0
         public int Length
             => Terms.Length;
 
-        public LogicExprKind ExprKind
-            => LogicExprKind.Literal;
-
         public string Format()
             => BitRender.gformat(Terms);
 

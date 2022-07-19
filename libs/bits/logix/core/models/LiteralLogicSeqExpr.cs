@@ -15,12 +15,6 @@ namespace Z0
         public LiteralLogicSeqExpr(bit[] src)
             => Terms = src;
 
-        /// <summary>
-        /// The expression classifier
-        /// </summary>
-        public LogicExprKind ExprKind
-            => LogicExprKind.Literal;
-
         public bit this[int index]
         {
             [MethodImpl(Inline)]

@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="$(Graphs)" />
+    <ProjectReference Include="$(Rules)" />
     <ProjectReference Include="$(Wf)" />
     <ProjectReference Include="$(CmdSpecs)" />
   </ItemGroup>

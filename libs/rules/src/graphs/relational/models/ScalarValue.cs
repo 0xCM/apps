@@ -9,17 +9,11 @@ namespace Z0
     {
         public T Value {get;}
 
-        public BitWidth ContentWidth {get;}
-
         [MethodImpl(Inline)]
-        public ScalarValue(T value, BitWidth content = default)
+        public ScalarValue(T value)
         {
             Value = value;
-            ContentWidth = content == 0 ? core.width<T>() : content;
         }
-
-        public TypeSpec ScalarType
-            => TypeSyntax.scalar(TypeSyntax.infer<T>());
 
         [MethodImpl(Inline)]
         public bool Equals(ScalarValue<T> src)

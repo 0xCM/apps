@@ -4,10 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    /// <summary>
-    /// Classifier for logical expressions
-    /// </summary>
-    public enum LogicExprKind : byte
+    public enum _ExprKind : byte
     {
         /// <summary>
         /// Classifies boolean bariables

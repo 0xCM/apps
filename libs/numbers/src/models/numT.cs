@@ -38,9 +38,6 @@ namespace Z0
         T IValued<T>.Value
             => Value;
 
-        BitWidth ISizedValue.ContentWidth
-            => core.width<T>();
-
         [MethodImpl(Inline)]
         public static bool operator ==(num<T> a, num<T> b)
             => eq(a,b);

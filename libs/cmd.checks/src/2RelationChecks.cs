@@ -9,11 +9,10 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
-
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static ScalarValue<T> scalar<T>(T src, BitWidth content = default)
+        public static ScalarValue<T> scalar<T>(T src)
             where T : unmanaged, IEquatable<T>
-                => new ScalarValue<T>(src,content);
+                => new ScalarValue<T>(src);
 
         public class Checks
         {

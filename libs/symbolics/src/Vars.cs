@@ -19,7 +19,7 @@ namespace Z0
             => bind ? src.Value.ToString() : string.Format(XF.TypedVar, src);
 
         [MethodImpl(Inline), Op]
-        public static ExprVar var(NameOld name)
+        public static ExprVar var(Name name)
             => new ExprVar(name);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
