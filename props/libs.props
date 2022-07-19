@@ -42,7 +42,6 @@
     <ProjectReference Include="$(Digital)" />
     <ProjectReference Include="$(Dynamic)" />
 
-    <ProjectReference Include="$(Expr)" />
     <ProjectReference Include="$(EMath)" />
 
     <ProjectReference Include="$(Fsm)" />

@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <ProjectReference Include="$(AsmCore)" />
-    <ProjectReference Include="$(Expr)" />
     <ProjectReference Include="$(Queues)" />
   </ItemGroup>
 

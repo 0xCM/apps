@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Ops
+namespace Z0
 {
     public abstract class UnaryOpExpr<F,K> : OpExpr<F,K>
         where F : UnaryOpExpr<F,K>

@@ -8,9 +8,11 @@ namespace Z0
     {
         Identifier Name {get;}
 
-        bool IsEmpty => Name.IsEmpty;
+        bool INullity.IsEmpty
+            => Name.IsEmpty;
 
-        bool IsNonEmpty => !IsEmpty;
+        bool INullity.IsNonEmpty
+            => !IsEmpty;
 
         string IExpr.Format()
             => Name;

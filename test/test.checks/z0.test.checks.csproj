@@ -9,7 +9,6 @@
   <ItemGroup>
     <ProjectReference Include="$(Bits)" />
     <ProjectReference Include="$(Memory)" />
-    <ProjectReference Include="$(Expr)" />
     <ProjectReference Include="$(Fsm)" />
     <ProjectReference Include="$(AsmModels)" />
     <ProjectReference Include="$(Symbolics)" />

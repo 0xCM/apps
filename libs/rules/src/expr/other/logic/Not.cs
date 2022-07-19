@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Z0.Ops;
-
     partial class LogicOps
     {
         public class Not : UnaryOpExpr<Not,LogicExprKind>, ILogicOp

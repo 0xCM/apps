@@ -9,9 +9,9 @@
   <Import Project="$(ImportDefs)microsoft.build.props"/>
 
   <ItemGroup>
-    <ProjectReference Include="$(Symbols)" />
-    <ProjectReference Include="$(Memory)" />
     <ProjectReference Include="$(Assets)" />
+    <ProjectReference Include="$(Memory)" />
+    <ProjectReference Include="$(Rules)" />
   </ItemGroup>
 
 </Project>

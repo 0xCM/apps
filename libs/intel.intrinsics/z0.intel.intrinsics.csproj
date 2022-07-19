@@ -10,6 +10,5 @@
     <EmbeddedResource Include="assets/**/*.*" />
     <ProjectReference Include="$(AsmCore)" />
     <ProjectReference Include="$(IntelCore)" />
-    <ProjectReference Include="$(Expr)" />
   </ItemGroup>
 </Project>

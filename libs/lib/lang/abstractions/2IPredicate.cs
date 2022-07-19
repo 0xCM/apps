@@ -5,19 +5,19 @@
 namespace Z0
 {
     [Free]
-    public interface IPredicate : IFunc<object,bool>, IExprDeprecated
+    public interface IPredicate : IFunc<object,bool>, IExpr
     {
 
     }
 
     [Free]
-    public interface IPredicate<T> : IFunc<T,bool>, IExprDeprecated
+    public interface IPredicate<T> : IFunc<T,bool>, IExpr
     {
 
     }
 
 
-    public interface IConversionOp<S,T> : IFunc, IExprDeprecated
+    public interface IConversionOp<S,T> : IFunc, IExpr
     {
 
     }

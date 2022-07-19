@@ -46,7 +46,6 @@
     <Digital>$(SlnLibs)\digital\z0.digital.csproj</Digital>
     <Dynamic>$(SlnLibs)\dynamic\z0.dynamic.csproj</Dynamic>
 
-    <Expr>$(SlnLibs)\expr\z0.expr.csproj</Expr>
     <EMath>$(SlnLibs)\emath\z0.emath.csproj</EMath>
 
     <Fsm>$(SlnLibs)\fsm\z0.fsm.csproj</Fsm>
