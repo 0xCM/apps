@@ -5,7 +5,7 @@
 namespace Z0
 {
     public readonly struct IntervalRange<T,W>
-        where W : unmanaged ,IEquatable<W>
+        where W : unmanaged, IEquatable<W>
     {
         public readonly T Name;
 

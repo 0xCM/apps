@@ -4,9 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IFlow
+    public interface IFlow : IExpr
     {
-        string Format();
     }
 
     public interface IFlow<S,T> : IFlow, IArrow<S,T>

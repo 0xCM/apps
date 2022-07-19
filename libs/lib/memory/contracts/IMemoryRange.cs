@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
+
 
     public interface IMemoryRange : IAddressable, ISized
     {
@@ -22,7 +22,7 @@ namespace Z0
             => ((ulong)Max - (ulong)Min)*8;
     }
 
-    public interface IMemoryRange<F> : IMemoryRange, IEquatable<F>, IComparable<F>, ITextual
+    public interface IMemoryRange<F> : IMemoryRange, IEquatable<F>, IComparable<F>
         where F : unmanaged, IMemoryRange<F>
     {
 

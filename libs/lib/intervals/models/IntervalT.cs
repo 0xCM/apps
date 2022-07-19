@@ -282,10 +282,10 @@ namespace Z0
         public bool Equals(Interval<T> src)
             => Kind == src.Kind && Left.Equals(src.Left) && Right.Equals(src.Right);
 
-        T IInterval<T>.Left
+        T IRange<T>.Min
             => Left;
 
-        T IInterval<T>.Right
+        T IRange<T>.Max
             => Right;
 
         string LeftFormat

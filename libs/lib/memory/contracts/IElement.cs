@@ -4,18 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class MemDb
+    [Free]
+    public interface IElement<T> : IEquatable<T>, IComparable<T>
+        where T : IElement<T>
     {
-        [Free]
-        public interface IElement
-        {
-        }
 
-        [Free]
-        public interface IElement<T> : IEquatable<T>, IComparable<T>
-            where T : IElement<T>
-        {
-
-        }
     }
+
 }

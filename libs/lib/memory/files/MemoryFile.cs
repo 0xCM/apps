@@ -10,7 +10,7 @@ namespace Z0
 
     using api = MemoryFiles;
 
-    unsafe class MemoryFileOwner : IMemoryFile
+    unsafe class MemoryFileOwner
     {
         readonly MemoryMappedFile File;
 
@@ -22,14 +22,6 @@ namespace Z0
 
         public readonly MemoryAddress BaseAddress;
 
-        MemoryAddress IMemoryFile.BaseAddress
-            => BaseAddress;
-
-        ByteSize ISized.Size
-            => FileSize;
-
-        BitWidth ISized.Width
-            => FileSize.Bits;
 
         internal MemoryFileOwner(MemoryMappedFile file, ByteSize size)
         {
@@ -46,25 +38,6 @@ namespace Z0
             File?.Dispose();
         }
 
-        public ReadOnlySpan<byte> View(ulong offset, ByteSize size)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ReadOnlySpan<byte> View()
-        {
-            throw new NotImplementedException();
-        }
-
-        public ReadOnlySpan<T> View<T>()
-        {
-            throw new NotImplementedException();
-        }
-
-        public ref readonly T Skip<T>(uint tOffset)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public unsafe class MemoryFile : IMemoryFile<MemoryFile>

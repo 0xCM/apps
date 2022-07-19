@@ -18,7 +18,7 @@ namespace Z0
                 Storage = data;
             }
 
-            T IValue<T>.Storage
+            T IValue<T>.Value
                 => Storage;
 
             [MethodImpl(Inline)]

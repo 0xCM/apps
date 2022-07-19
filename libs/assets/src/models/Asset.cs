@@ -6,10 +6,7 @@ namespace Z0
 {
     using api = Assets;
 
-    /// <summary>
-    /// Describes an embedded resource
-    /// </summary>
-    public readonly record struct Asset : IComparable<Asset>, IAddressable, IHashed
+    public readonly record struct Asset : IAsset<Asset>
     {
         public readonly AssetName Name;
 
@@ -23,6 +20,14 @@ namespace Z0
             Name = name;
             Address = address;
             Size = size;
+        }
+
+        ByteSize ISized.Size
+            => Size;
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Address == 0 || Size == 0;
         }
 
         public Hash32 Hash
@@ -51,12 +56,6 @@ namespace Z0
             [MethodImpl(Inline)]
             get => api.view(this);
         }
-
-        // public AssetCatalogEntry CatalogEntry
-        // {
-        //     [MethodImpl(Inline)]
-        //     get => api.entry(this);
-        // }
 
         [MethodImpl(Inline)]
         public bool NameLike(string match)

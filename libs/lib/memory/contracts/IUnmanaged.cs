@@ -1,29 +1,23 @@
+
 //-----------------------------------------------------------------------------
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    /// <summary>
-    /// Characterizes a value with known size
-    /// </summary>
-    [Free]
-    public interface ISized
+    public interface IUnmanaged : ISized, IValue
     {
-        BitWidth Width {get;}
 
-        ByteSize Size
-            => Width.Bytes;
     }
 
-    [Free]
-    public interface ISized<T> : ISized
+    /// <summary>
+    /// Characterizes an unmanaged value
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public interface IUnmanaged<T> : IUnmanaged, IValue<T>
         where T : unmanaged
     {
         ByteSize ISized.Size
             => Sized.size<T>();
-
-        BitWidth ISized.Width
-            => Sized.width<T>();
     }
 }

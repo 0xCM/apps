@@ -13,7 +13,7 @@ namespace Z0
             [MethodImpl(Inline)]
             public static Value untype<T>(T src)
                 where T : unmanaged, IValue<T>
-                    => new Value(core.bw32(src.Storage));
+                    => new Value(core.bw32(src.Value));
 
             readonly ByteBlock4 Storage;
 
@@ -23,7 +23,7 @@ namespace Z0
                 Storage = data;
             }
 
-            ByteBlock3 IValue<ByteBlock3>.Storage
+            ByteBlock3 IValue<ByteBlock3>.Value
                 => Storage.Cell<ByteBlock3>(0);
 
             public static Value Empty => default;

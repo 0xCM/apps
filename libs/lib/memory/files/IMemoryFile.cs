@@ -21,6 +21,9 @@ namespace Z0
 
         ref readonly T First<T>()
             => ref Skip<T>(0);
+
+        string IExpr.Format()
+            => BaseAddress.Format();
     }
 
     public interface IMemoryFile<F> : IMemoryFile, IComparable<F>

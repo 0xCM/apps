@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines an inclusive address range
     /// </summary>
-    [StructLayout(LayoutKind.Sequential), DataTypeAttributeD("memrange")]
+    [StructLayout(LayoutKind.Sequential)]
     public readonly struct MemoryRange : IMemoryRange<MemoryRange>
     {
         [MethodImpl(Inline)]
@@ -21,12 +21,12 @@ namespace Z0
         /// <summary>
         /// The inclusive address at which the range begins
         /// </summary>
-        public MemoryAddress Min {get;}
+        public readonly MemoryAddress Min {get;}
 
         /// <summary>
         /// The inclusive address at which the range ends
         /// </summary>
-        public MemoryAddress Max {get;}
+        public readonly MemoryAddress Max {get;}
 
         [MethodImpl(Inline)]
         public MemoryRange(MemoryAddress min, MemoryAddress max)

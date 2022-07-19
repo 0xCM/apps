@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Free]
-    public interface IInterval : ITextual
+    public interface IInterval : IExpr
     {
         /// <summary>
         ///  Specifies whether the interval contains its left endpoint
@@ -26,6 +26,18 @@ namespace Z0
         /// The interval width
         /// </summary>
         ulong Width {get;}
+
+        bool IsDegenerate
+            => Width == 0;
+
+        bool IsNonDegenerate
+            => Width != 0;
+
+        bool INullity.IsEmpty
+            => IsDegenerate;
+
+        bool INullity.IsNonEmpty
+            => IsNonDegenerate;
 
         /// <summary>
         ///  Specifies whether the interval is closed
@@ -71,17 +83,24 @@ namespace Z0
     /// Note that extended real numbers may also serve as endpoints,enabling representations such as (-∞,3] and (-3, ∞).
     /// </remarks>
     [Free]
-    public interface IInterval<T> : IInterval
+    public interface IInterval<T> : IInterval, IRange<T>
+        where T : unmanaged
+    {
+
+    }
+
+    [Free]
+    public interface IRange<T>
         where T : unmanaged
     {
         /// <summary>
-        ///  The left endpoint
+        /// The least value
         /// </summary>
-        T Left {get;}
+        T Min {get;}
 
         /// <summary>
-        ///  The right endpoint
+        /// The greatest value
         /// </summary>
-        T Right {get;}
+        T Max {get;}
     }
 }

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly record struct AssetName : IComparable<AssetName>
+    public readonly record struct AssetName : IDataType<AssetName>
     {
         public readonly string FullName;
 
@@ -15,16 +15,21 @@ namespace Z0
         [MethodImpl(Inline)]
         internal AssetName(string full, string @short)
         {
-            FullName = full;
-            ShortName = @short;
+            FullName = full ?? EmptyString;
+            ShortName = @short ?? EmptyString;
             Hash = core.hash(full);
         }
+
+        public bool IsEmpty => sys.empty(FullName) && sys.empty(ShortName);
 
         public ResourceName ManifestName
         {
             [MethodImpl(Inline)]
             get => new ResourceName(FullName);
         }
+
+        Hash32 IHashed.Hash
+            => Hash;
 
         public override int GetHashCode()
             => Hash;

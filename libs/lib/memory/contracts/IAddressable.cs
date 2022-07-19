@@ -5,11 +5,17 @@
 namespace Z0
 {
     /// <summary>
-    /// Characterizes an object that advertises its memory location
+    /// Characterizes a value that is located via a memory address
     /// </summary>
     [Free]
-    public interface IAddressable
+    public interface IAddressable : ILocatable<MemoryAddress>
     {
         MemoryAddress Address {get;}
+
+        string IExpr.Format()
+            => Address.Format();
+
+        MemoryAddress ILocatable<MemoryAddress>.Location
+            => Address;
     }
 }

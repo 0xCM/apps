@@ -20,6 +20,8 @@ namespace Z0
             Target = dst;
         }
 
+        public bool IsEmpty => Source.IsEmpty || Target.IsEmpty;
+
         Asset IArrow<Asset, FS.FilePath>.Source
             => Source;
 

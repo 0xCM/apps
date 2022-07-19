@@ -112,10 +112,10 @@ namespace Z0
             get => @as<T,ulong>(Max);
         }
 
-        T IInterval<T>.Left
+        T IRange<T>.Min
             => Min;
 
-        T IInterval<T>.Right
+        T IRange<T>.Max
             => Max;
 
         bool IInterval.LeftClosed

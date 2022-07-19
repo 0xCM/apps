@@ -9,7 +9,7 @@ namespace Z0
     partial class XedRules
     {
         [StructLayout(StructLayout,Pack=1), DataWidth(Width), Record(TableId)]
-        public readonly struct InstOperand : IUnmanaged<InstOperand>
+        public readonly struct InstOperand
         {
             const string TableId = "xed.inst.opatterns.ops";
 
