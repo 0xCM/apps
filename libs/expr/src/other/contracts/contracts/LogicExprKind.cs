@@ -4,29 +4,26 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class LogicOps
+    public enum LogicExprKind : byte
     {
-        public enum LogicExprKind : byte
-        {
-            False = (byte)BinaryBitLogicKind.False,
+        False = (byte)BinaryBitLogicKind.False,
 
-            And = (byte)BinaryBitLogicKind.And,
+        And = (byte)BinaryBitLogicKind.And,
 
-            CNonImpl = (byte)(BinaryBitLogicKind.CNonImpl),
+        CNonImpl = (byte)(BinaryBitLogicKind.CNonImpl),
 
-            Or = (byte)BinaryBitLogicKind.Or,
+        Or = (byte)BinaryBitLogicKind.Or,
 
-            XOr = (byte)BinaryBitLogicKind.Xor,
+        XOr = (byte)BinaryBitLogicKind.Xor,
 
-            Nor = (byte)BinaryBitLogicKind.Nor,
+        Nor = (byte)BinaryBitLogicKind.Nor,
 
-            Impl = (byte)BinaryBitLogicKind.Impl,
+        Impl = (byte)BinaryBitLogicKind.Impl,
 
-            Not = (byte)BinaryBitLogicKind.LNot,
+        Not = (byte)BinaryBitLogicKind.LNot,
 
-            CImpl = (byte)(BinaryBitLogicKind.CImpl),
+        CImpl = (byte)(BinaryBitLogicKind.CImpl),
 
-            True = (byte)BinaryBitLogicKind.True,
-        }
+        True = (byte)BinaryBitLogicKind.True,
     }
 }

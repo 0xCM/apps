@@ -4,16 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct Rules
+    using static Rules;
+
+    public class SeqProduction : Production<IRuleExpr, SeqExpr>, ISeqProduction<IRuleExpr>
     {
-        public abstract class Rule : IRuleExpr
+        public SeqProduction(IRuleExpr src, SeqExpr dst)
+            : base(src, dst)
         {
-            public abstract string Format();
 
-            public override string ToString()
-                => Format();
-
-            public virtual bool IsTerminal {get; protected set;}
         }
     }
+
 }

@@ -17,7 +17,7 @@ namespace Z0
         where T : unmanaged
     {
         uint IFreeExpr.Size
-        => (uint)SizeOf<T>();
+            => (uint)SizeOf<T>();
     }
 
     /// <summary>

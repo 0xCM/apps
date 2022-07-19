@@ -15,6 +15,8 @@ namespace Z0
 
             public readonly CmpPredKind Kind;
 
+            public bool IsEmpty => core.bw64(Left) == 0 || core.bw64(Right) == 0;
+
             [MethodImpl(Inline)]
             public CmpPred(T a, T b, CmpPredKind kind)
             {

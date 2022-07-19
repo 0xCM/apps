@@ -6,11 +6,11 @@ namespace Z0
 {
     public readonly struct Locatable : ILocatable
     {
-        public dynamic Locator {get;}
+        public dynamic Location {get;}
 
         [MethodImpl(Inline)]
-        public Locatable(dynamic locator)
-            => Locator = locator;
+        public Locatable(dynamic location)
+            => Location = location;
 
         public static Locatable Empty
         {
@@ -19,6 +19,9 @@ namespace Z0
         }
 
         public string Format()
-            => Locator?.ToString() ?? EmptyString;
+            => Location?.ToString() ?? EmptyString;
+
+        public override string ToString()
+            => Format();
     }
 }

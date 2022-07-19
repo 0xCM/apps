@@ -10,7 +10,7 @@ namespace Z0
     {
         public class Not : UnaryOpExpr<Not,LogicExprKind>, ILogicOp
         {
-            public Not(IExprDeprecated a)
+            public Not(IExpr a)
                 : base(a)
             {
 
@@ -22,7 +22,7 @@ namespace Z0
             public override Identifier OpName
                 => "not";
 
-            public override Not Create(IExprDeprecated a)
+            public override Not Create(IExpr a)
                 => new Not(a);
         }
     }

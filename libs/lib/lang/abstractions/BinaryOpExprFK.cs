@@ -8,12 +8,12 @@ namespace Z0.Ops
         where F : BinaryOpExpr<F,K>
         where K : unmanaged
     {
-        public IExprDeprecated A {get;}
+        public IExpr A {get;}
 
-        public IExprDeprecated B {get;}
+        public IExpr B {get;}
 
         [MethodImpl(Inline)]
-        protected BinaryOpExpr(IExprDeprecated a, IExprDeprecated b)
+        protected BinaryOpExpr(IExpr a, IExpr b)
         {
             A = a;
             B = b;
@@ -22,6 +22,6 @@ namespace Z0.Ops
         public override string Format()
             => string.Format("{0}({1},{2})", OpName, A.Format(), B.Format());
 
-        public abstract F Create(IExprDeprecated a0, IExprDeprecated a1);
+        public abstract F Create(IExpr a0, IExpr a1);
     }
 }

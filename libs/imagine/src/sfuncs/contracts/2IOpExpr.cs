@@ -4,20 +4,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IRuleExpr : IExpr
+    [Free]
+    public interface IOpExpr : IExpr
     {
-        bool IsTerminal
-            => false;
-
-        RuleExprKind ExprKind
-            => RuleExprKind.None;
+        Identifier OpName {get;}
 
         bool INullity.IsEmpty
-            => false;
+            => OpName.IsEmpty;
     }
 
-    public interface IRuleExpr<T> : IRuleExpr
+    [Free]
+    public interface IOpExpr<K> : IOpExpr, IKinded<K>
+        where K : unmanaged
     {
-        T Content {get;}
+        bool INullity.IsEmpty
+            => OpName.IsEmpty;
     }
 }

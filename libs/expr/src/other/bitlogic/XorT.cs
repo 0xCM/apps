@@ -6,7 +6,7 @@ namespace Z0.Ops.Scalar
 {
     [StructLayout(LayoutKind.Sequential)]
     public readonly struct Xor<T> : IBinaryBitLogicOp<Xor<T>,T>
-        where T : IExprDeprecated
+        where T : IExpr
     {
         public T Left {get;}
 

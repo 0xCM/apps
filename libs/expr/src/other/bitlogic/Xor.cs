@@ -6,7 +6,7 @@ namespace Z0.Ops.Scalar
 {
     public class Xor : BinaryOpExpr<Xor,BinaryBitLogicKind>
     {
-        public Xor(IExprDeprecated a, IExprDeprecated b)
+        public Xor(IExpr a, IExpr b)
             : base(a,b)
         {
         }
@@ -17,7 +17,7 @@ namespace Z0.Ops.Scalar
         public override BinaryBitLogicKind Kind
             => BinaryBitLogicKind.Xor;
 
-        public override Xor Create(IExprDeprecated a, IExprDeprecated b)
+        public override Xor Create(IExpr a, IExpr b)
             => new Xor(a,b);
     }
 }

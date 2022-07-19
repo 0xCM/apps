@@ -4,33 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public interface IStore
     {
-
+        void Deposit(IArtifact src);
     }
 
     public interface IStore<T> : IStore
+        where T : IArtifact
     {
-        ILocation Deposit(T value);
+        void Store(T value);
 
-        T Retrieve(ILocation key);
-    }
-
-
-
-    public interface ILocation
-    {
-
-    }
-
-    public interface ILocation<S> : ILocation
-        where S : IStore
-    {
-
+        void IStore.Deposit(IArtifact src)
+            => Store((T)src);
     }
 }

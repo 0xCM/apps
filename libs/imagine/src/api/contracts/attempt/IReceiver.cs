@@ -19,14 +19,4 @@ namespace Z0
         void IReceiver.Deposit(dynamic src)
             => Deposit((T)src);
     }
-
-    public interface IReceiver<A,B>
-    {
-        void Deposit(in A a, in B b);
-    }
-
-    public interface IReceiver<A,B,C>
-    {
-        void Deposit(in A a, in B b, in C c);
-    }
 }

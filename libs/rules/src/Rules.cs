@@ -100,13 +100,13 @@ namespace Z0
             {
                 var content = Fenced.unfence(dst, Fenced.Bracketed);
                 var terms = map(text.trim(text.split(content,Chars.Pipe)), x => value(x));
-                return new ListProduction(value(text.trim(src)), new SeqExpr(terms));
+                return new SeqProduction(value(text.trim(src)), new SeqExpr(terms));
             }
             else if(Fenced.test(dst, Fenced.Angled))
             {
                 var content = Fenced.unfence(dst, Fenced.Angled);
                 var terms = map(text.trim(text.split(content,Chars.Pipe)), x => value(x));
-                return new ListProduction(value(text.trim(src)), new SeqExpr(terms));
+                return new SeqProduction(value(text.trim(src)), new SeqExpr(terms));
             }
             else
                 return new Production(value(text.trim(src)), value(text.trim(dst)));

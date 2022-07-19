@@ -14,6 +14,8 @@ namespace Z0
 
             public readonly T Right;
 
+            public bool IsEmpty => core.bw64(Left) == 0 || core.bw64(Right) == 0;
+
             [MethodImpl(Inline)]
             public Neq(T a, T b)
             {

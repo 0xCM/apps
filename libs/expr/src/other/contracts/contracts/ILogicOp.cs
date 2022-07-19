@@ -4,12 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public partial class LogicOps
+    [Free]
+    public interface ILogicOp : IOpExpr
     {
-        [Free]
-        public interface ILogicOp : IOpExpr<LogicExprKind>
-        {
 
-        }
+    }
+
+    [Free]
+    public interface ILogicOp<K> :  ILogicOp, IKinded<K>
+        where K : unmanaged
+    {
+
     }
 }

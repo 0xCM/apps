@@ -9,25 +9,25 @@ namespace Z0
         /// <summary>
         /// Defines a conunction of expressions
         /// </summary>
-        public readonly struct Product : ISeqExpr<IExprDeprecated>
+        public readonly struct Product : ISeqExpr<IExpr>
         {
-            readonly Index<IExprDeprecated> Data;
+            readonly Index<IExpr> Data;
 
             [MethodImpl(Inline)]
-            public Product(IExprDeprecated[] src)
+            public Product(IExpr[] src)
                 => Data = src;
 
             [MethodImpl(Inline)]
             public Product(uint count)
-                => Data = sys.alloc<IExprDeprecated>(count);
+                => Data = sys.alloc<IExpr>(count);
 
-            public ReadOnlySpan<IExprDeprecated> Terms
+            public ReadOnlySpan<IExpr> Terms
             {
                 [MethodImpl(Inline)]
                 get => Data.View;
             }
 
-            public ref IExprDeprecated First
+            public ref IExpr First
             {
                 [MethodImpl(Inline)]
                 get => ref Data.First;
@@ -39,19 +39,19 @@ namespace Z0
                 get => Data.Count;
             }
 
-            public IExprDeprecated[] Storage
+            public IExpr[] Storage
             {
                 [MethodImpl(Inline)]
                 get => Data.Storage;
             }
 
-            public ref IExprDeprecated this[int index]
+            public ref IExpr this[int index]
             {
                 [MethodImpl(Inline)]
                 get => ref Data[index];
             }
 
-            public ref IExprDeprecated this[uint index]
+            public ref IExpr this[uint index]
             {
                 [MethodImpl(Inline)]
                 get => ref Data[index];
@@ -64,7 +64,7 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public static implicit operator Product(IExprDeprecated[] src)
+            public static implicit operator Product(IExpr[] src)
                 => new Product(src);
         }
     }

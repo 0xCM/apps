@@ -4,14 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Free]
-    public interface IExpr<K> : IExprDeprecated, IKinded<K>
-        where K : unmanaged
-    {
-        ulong IExprDeprecated.Kind
-            => core.bw64((this as IKinded<K>).Kind);
-    }
-
     public abstract class Expr<F,K> : IExpr<K>
         where F : Expr<F,K>
         where K : unmanaged

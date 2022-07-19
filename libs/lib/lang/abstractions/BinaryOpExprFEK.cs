@@ -6,7 +6,7 @@ namespace Z0.Ops
 {
     public abstract class BinaryOpExpr<F,E,K> : OpExpr<F,K>
         where F : BinaryOpExpr<F,E,K>
-        where E : IExprDeprecated
+        where E : IExpr
         where K : unmanaged
     {
         public E A {get;}

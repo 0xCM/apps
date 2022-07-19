@@ -2,12 +2,15 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Ops
+namespace Z0
 {
-    public abstract class OpExpr<F,K> : Expr<F,K>, IOpExpr<K>
-        where F : OpExpr<F,K>
-        where K : unmanaged
+    public abstract class Rule : IRuleExpr
     {
-        public abstract Identifier OpName {get;}
+        public abstract string Format();
+
+        public override string ToString()
+            => Format();
+
+        public virtual bool IsTerminal {get; protected set;}
     }
 }

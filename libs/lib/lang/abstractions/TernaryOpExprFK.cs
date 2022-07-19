@@ -4,22 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Ops
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public abstract class TernaryOpExpr<F,K> : OpExpr<F,K>
         where F : TernaryOpExpr<F,K>
         where K : unmanaged
     {
-        public IExprDeprecated A {get;}
+        public IExpr A {get;}
 
-        public IExprDeprecated B {get;}
+        public IExpr B {get;}
 
-        public IExprDeprecated C {get;}
+        public IExpr C {get;}
 
         [MethodImpl(Inline)]
-        protected TernaryOpExpr(IExprDeprecated a, IExprDeprecated b, IExprDeprecated c)
+        protected TernaryOpExpr(IExpr a, IExpr b, IExpr c)
         {
             A = a;
             B = b;

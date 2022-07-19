@@ -8,9 +8,9 @@ namespace Z0.Ops
         where F : UnaryOpExpr<F,K>
         where K : unmanaged
     {
-        public IExprDeprecated A {get;}
+        public IExpr A {get;}
 
-        protected UnaryOpExpr(IExprDeprecated a)
+        protected UnaryOpExpr(IExpr a)
         {
             A = a;
         }
@@ -18,6 +18,6 @@ namespace Z0.Ops
         public override string Format()
             => string.Format("{0}({1})", OpName, A.Format());
 
-        public abstract F Create(IExprDeprecated src);
+        public abstract F Create(IExpr src);
     }
 }

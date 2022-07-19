@@ -2,12 +2,13 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Ops
+namespace Z0
 {
-    public abstract class OpExpr<F,K> : Expr<F,K>, IOpExpr<K>
-        where F : OpExpr<F,K>
-        where K : unmanaged
+    public interface ILocatable : IExpr
     {
-        public abstract Identifier OpName {get;}
+        dynamic Location {get;}
+
+        bool INullity.IsEmpty
+            => Location == null;
     }
 }

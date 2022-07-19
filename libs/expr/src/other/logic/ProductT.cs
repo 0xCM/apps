@@ -10,7 +10,7 @@ namespace Z0
         /// Defines a conunction of expressions
         /// </summary>
         public readonly struct Product<T> : ISeqExpr<T>
-            where T : IExprDeprecated
+            where T : IExpr
         {
             readonly Index<T> Data;
 

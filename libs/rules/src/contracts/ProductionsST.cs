@@ -4,15 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct Rules
+    public class Productions<S,T> : ConstLookup<S,Index<T>>
     {
-        public class ListProduction : Production<IRuleExpr, SeqExpr>, IListProduction<IRuleExpr>
+        public Productions(Dictionary<S,Index<T>> src)
+            : base(src)
         {
-            public ListProduction(IRuleExpr src, SeqExpr dst)
-                : base(src, dst)
-            {
 
-            }
         }
+
+        public static implicit operator Productions<S,T>(Dictionary<S,Index<T>> src)
+            => new Productions<S,T>(src);
     }
+
 }

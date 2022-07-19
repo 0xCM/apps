@@ -5,23 +5,10 @@
 namespace Z0
 {
     [Free]
-    public interface IOpExpr : IExprDeprecated
-    {
-        Identifier OpName {get;}
-    }
-
-    [Free]
-    public interface IOpExpr<K> : IOpExpr
+    public interface IExpr<K> : IExpr, IKinded<K>
         where K : unmanaged
     {
-
-    }
-
-    [Free]
-    public interface IOpExpr<F,K> : IOpExpr<K>
-        where F : IOpExpr<F,K>
-        where K : unmanaged
-    {
-
+        ulong IKinded.Kind
+            => core.bw64((this as IKinded<K>).Kind);
     }
 }

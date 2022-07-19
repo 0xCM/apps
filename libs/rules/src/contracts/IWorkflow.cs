@@ -4,8 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface ILocatable : ITextual
+    public interface IWorkflow<S,T> : IFlow<S,T>
     {
-        dynamic Locator {get;}
+
+
     }
 }

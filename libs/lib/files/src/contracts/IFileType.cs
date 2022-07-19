@@ -12,7 +12,7 @@ namespace Z0
 
         bool IsNonEmpty => !IsEmpty;
 
-        string ITextual.Format()
+        string IExpr.Format()
             => Name;
 
         Index<FS.FileExt> DefaultExtensions {get;}

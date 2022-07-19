@@ -10,7 +10,7 @@ namespace Z0
     {
         public class Or : BinaryOpExpr<Or,LogicExprKind>, ILogicOp
         {
-            public Or(IExprDeprecated a, IExprDeprecated b)
+            public Or(IExpr a, IExpr b)
                 : base(a,b)
             {
             }
@@ -21,7 +21,7 @@ namespace Z0
             public override LogicExprKind Kind
                 => LogicExprKind.Or;
 
-            public override Or Create(IExprDeprecated a, IExprDeprecated b)
+            public override Or Create(IExpr a, IExpr b)
                 => new Or(a,b);
         }
     }

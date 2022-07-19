@@ -5,9 +5,12 @@
 namespace Z0
 {
     [Free]
-    public interface IKinded : ITextual
+    public interface IKinded : IExpr
     {
         ulong Kind {get;}
+
+        bool INullity.IsEmpty
+            => Kind == 0;
     }
 
     /// <summary>
@@ -20,10 +23,13 @@ namespace Z0
     {
         new K Kind {get;}
 
+        bool INullity.IsEmpty
+            => Sized.bw64(Kind) == 0;
+
         ulong IKinded.Kind
             => Sized.bw64(Kind);
 
-        string ITextual.Format()
+        string IExpr.Format()
             => Kind.ToString();
     }
 }

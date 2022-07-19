@@ -41,7 +41,6 @@ namespace Z0
             [Formatter]
             public static string format(Product src)
             {
-                //const char Delimiter = (char)LogicSym.And;
                 const char Delimiter = Chars.Comma;
                 var dst = text.buffer();
                 var count = src.Count;
@@ -57,9 +56,8 @@ namespace Z0
             }
 
             public static string format<T>(Product<T> src)
-                where T : IExprDeprecated
+                where T : IExpr
             {
-                //const char Delimiter = (char)LogicSym.And;
                 const char Delimiter = Chars.Comma;
                 var dst = text.buffer();
                 dst.Append(Chars.LParen);
@@ -76,10 +74,11 @@ namespace Z0
             }
 
             public static string format<T>(Xor<T> src)
+                where T : IExpr
                 => string.Format(XF.BinaryChoice, src.Left, src.Right);
 
             public static string format<T>(Sop<T> src)
-                where T : IExprDeprecated
+                where T : IExpr
             {
                 const char Delimiter = Chars.Pipe;
                 var dst = text.buffer();

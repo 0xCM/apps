@@ -9,7 +9,8 @@ namespace Z0
         /// <summary>
         /// Defines two potential choices
         /// </summary>
-        public readonly struct Xor<T> : IExprDeprecated
+        public readonly struct Xor<T> : IExpr
+            where T : IExpr
         {
             public T Left {get;}
 
@@ -29,7 +30,10 @@ namespace Z0
                 Right = src.Right;
             }
 
-            public NameOld Name
+            public bool IsEmpty
+                => Left.IsEmpty || Right.IsEmpty;
+
+            public string Name
                 => "xor<{0}>";
 
             public string Format()
