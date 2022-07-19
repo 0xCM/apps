@@ -40,6 +40,10 @@ namespace Z0
             => new ErrorEvent<string>(host, e, e.Message, originate(caller, caller,file, line ?? 0));
 
         [Op, Closures(Closure)]
+        public static ErrorEvent<T> error<T>(T msg, EventOrigin origin, Type host)
+            => new ErrorEvent<T>(host, msg, origin);
+
+        [Op, Closures(Closure)]
         public static ErrorEvent<string> error(MethodInfo src, string msg)
             => new ErrorEvent<string>(src.DeclaringType, msg, originate(src.DeclaringType, src.DisplayName(), EmptyString, 0));
 
@@ -72,11 +76,15 @@ namespace Z0
             => new EmittingFileEvent(frame(4).GetType(), dst);
 
         [Op]
-        public static EmittedFileEvent emittedFile(FS.FilePath path, Count count = default)
+        public static EmittedFileEvent emittedFile(FS.FilePath path, Count count)
             => new EmittedFileEvent(frame(4).GetType(), path, count);
 
         [Op]
-        public static EmittedFileEvent emittedFile(Type host, FS.FilePath path, Count count = default)
+        public static EmittedFileEvent emittedFile(ByteSize size, FS.FilePath path)
+            => new EmittedFileEvent(frame(4).GetType(), path, (uint)size);
+
+        [Op]
+        public static EmittedFileEvent emittedFile(Type host, FS.FilePath path, Count count)
             => new EmittedFileEvent(host, path, count);
 
         [Op]

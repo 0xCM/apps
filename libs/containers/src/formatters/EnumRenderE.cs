@@ -11,9 +11,12 @@ namespace Z0
     using F = NumericFormats;
     using K = ClrEnumCode;
 
-
     public class EnumRender
     {
+        public static string format<E>(E src, EnumFormatMode mode = EnumFormatMode.Expr)
+            where E : unmanaged, Enum
+                => EnumRender<E>.Service.Format(src, mode);
+
         public static string format<E>(E src, Base2 n, int? digits = null)
             where E : unmanaged, Enum
                 => ecode<E>() switch {
@@ -113,7 +116,7 @@ namespace Z0
     public readonly struct EnumRender<E> : IFormatter<E>
         where E : unmanaged, Enum
     {
-        public static EnumRender<E> Service => new();
+        public static EnumRender<E> Service = new();
 
         public string Format(E src)
         {

@@ -52,7 +52,6 @@
     <Files>$(SlnLibs)\files\z0.files.csproj</Files>
 
     <Glue>$(SlnLibs)\glue\z0.glue.csproj</Glue>
-    <Graphs>$(SlnLibs)\graphs\z0.graphs.csproj</Graphs>
 
     <IntelIntrinsics>$(SlnLibs)\intel.intrinsics\z0.intel.intrinsics.csproj</IntelIntrinsics>
     <IntelCore>$(SlnLibs)\intel.core\z0.intel.core.csproj</IntelCore>
@@ -91,7 +90,6 @@
     <SosCmd>$(SlnLibs)\sos.cmd\z0.sos.cmd.csproj</SosCmd>
 
     <Symbolics>$(SlnLibs)\symbolics\z0.symbolics.csproj</Symbolics>
-    <Symbols>$(SlnLibs)\symbols\z0.symbols.csproj</Symbols>
     <Sys>$(SlnLibs)\sys\z0.sys.csproj</Sys>
 
     <Text>$(SlnLibs)\text\z0.text.csproj</Text>

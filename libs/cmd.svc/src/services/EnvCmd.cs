@@ -67,7 +67,53 @@ namespace Z0
             => EnvVars.machine().Iter(v => Write(v.Format()));
 
         [CmdOp("env")]
-        void EmitMachineEnv()
-            => EnvVars.emit();
+        Outcome EmitEnv(CmdArgs args)
+        {
+            var result = Outcome.Success;
+            if(args.Count == 0)
+                EnvVars.emit(SysEnvKind.Process);
+            else
+            {
+                var name = arg(args,0);
+                var kind = SysEnvKind.Process;
+                var parser = EnumParser<SysEnvKind>.Service;
+                result = parser.Parse(name, out kind);
+                if(result)
+                    EnvVars.emit(kind);
+            }
+            return result;
+        }
+
+        [CmdOp("env/cwd")]
+        void Cwd()
+            => Write(FS.dir(Environment.CurrentDirectory));
+
+        [CmdOp("process/origin")]
+        void ProcessOrigin()
+            => Write(FS.path(Environment.ProcessPath));
+
+        [CmdOp("process/id")]
+        void ProcessId()
+            => Write(Environment.ProcessId);
+
+        [CmdOp("process/working-set")]
+        void WorkingSet()
+            => Write(Environment.SystemPageSize);
+
+        [CmdOp("process/stack")]
+        void Stack()
+            => Write(Environment.StackTrace);
+
+        [CmdOp("pid")]
+        void PID()
+            => Write(Environment.ProcessId);
+
+        [CmdOp("sys/pagesize")]
+        void PageSize()
+            => Write(Environment.SystemPageSize);
+
+        [CmdOp("sys/ticks")]
+        void Ticks()
+            => Write(Environment.TickCount64);
     }
 }

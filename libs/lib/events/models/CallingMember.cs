@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     using Caller = System.Runtime.CompilerServices.CallerMemberNameAttribute;
     using File = System.Runtime.CompilerServices.CallerFilePathAttribute;
     using Line = System.Runtime.CompilerServices.CallerLineNumberAttribute;
@@ -16,7 +11,7 @@ namespace Z0
     /// <summary>
     /// Captures invocation origin details
     /// </summary>
-    public struct CallingMember : ITextual
+    public struct CallingMember
     {
         [MethodImpl(Inline), Op]
         public static CallingMember define([Caller] string caller = null, [File] string file = null, [Line] int? line = null)
@@ -34,12 +29,12 @@ namespace Z0
         /// <summary>
         /// The originator name
         /// </summary>
-        public NameOld CallerName;
+        public string CallerName;
 
         /// <summary>
         /// The name of the file from which the invocation occurred
         /// </summary>
-        public NameOld CallerFile;
+        public string CallerFile;
 
         /// <summary>
         /// The file-relative invocation line number

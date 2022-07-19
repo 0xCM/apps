@@ -48,7 +48,6 @@
     <ProjectReference Include="$(Files)" />
 
     <ProjectReference Include="$(Glue)" />
-    <ProjectReference Include="$(Graphs)" />
 
     <ProjectReference Include="$(Imagine)" />
     <ProjectReference Include="$(IntelCore)" />
@@ -89,7 +88,6 @@
 
     <ProjectReference Include="$(SizedText)" />
 
-    <ProjectReference Include="$(Symbols)" />
     <ProjectReference Include="$(SosCmd)" />
     <ProjectReference Include="$(Symbolics)" />
     <ProjectReference Include="$(Sys)" />

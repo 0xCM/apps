@@ -6,27 +6,39 @@ namespace Z0
 {
     using static core;
 
-    using G = ApiGranules;
     using EN = SettingNames;
+
 
     public readonly struct EnvVars : IIndex<EnvVar>
     {
-        public static void emit(string name = null)
+        public static EnvVars emit(SysEnvKind kind, bool display = true)
         {
             var archives = WsArchives.load(Settings.rows(AppSettings.path()));
             var dir = Settings.setting(archives.Path(EN.EnvConfig), FS.dir).Value;
-            var dst = dir + Tables.filename<EnvVarRow>(name ?? G.machine);
-            var src = records(machine(), name ?? G.machine).View;
-            Tables.emit(src, dst, TextEncodingKind.Asci);
+            var vars = machine();
+            var name = EnumRender.format(kind);
+            term.write(vars, FlairKind.Babble);
+            Tables.emit(records(vars, name).View, dir + FS.file(name + ".settings", FileKind.Csv), asci7);
+            FS.emit(vars, dir + FS.file(name, FileKind.Env), asci7);
+            return vars;
         }
 
-        public static EnvVars machine()
+        public static EnvVars vars(SysEnvKind kind)
         {
             var dst = list<EnvVar>();
-            foreach(DictionaryEntry kv in Environment.GetEnvironmentVariables())
+            foreach(DictionaryEntry kv in Environment.GetEnvironmentVariables((EnvironmentVariableTarget)kind))
                  dst.Add(new EnvVar(kv.Key?.ToString() ?? EmptyString, kv.Value?.ToString() ?? EmptyString));
             return dst.ToArray().Sort();
         }
+
+        public static EnvVars machine()
+            => vars(SysEnvKind.Machine);
+
+        public static EnvVars user()
+            => vars(SysEnvKind.User);
+
+        public static EnvVars process()
+            => vars(SysEnvKind.Process);
 
         public static Index<EnvVarRow> records(EnvVars src, string name)
         {

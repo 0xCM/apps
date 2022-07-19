@@ -136,9 +136,11 @@ namespace Z0
             }
             catch(Exception e)
             {
-                var inner = e.InnerException;
-                result = Outcome.fail(AppMsg.format($"{Uri} invocation error", inner));
-                log(Events.error(Host.GetType(), e));
+                var msg = AppMsg.format($"{Uri} invocation error", e);
+                var origin = AppMsg.orginate(HostType.DisplayName(), Method.DisplayName(), 12);
+                var error = Events.error(msg, origin, HostType);
+                log(error);
+                result = (e,msg);
             }
 
            return result;

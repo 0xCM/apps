@@ -10,7 +10,7 @@ namespace Z0
     {
         public const TE unicode = TE.Unicode;
 
-        public const TE ASCII = TE.Asci;
+        public const TE asci7 = TE.Asci;
 
         public const TE UTF8 = TE.Utf8;
     }

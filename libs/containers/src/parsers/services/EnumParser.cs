@@ -8,11 +8,6 @@ namespace Z0
 
     public class EnumParser : IParser
     {
-        [MethodImpl(Inline)]
-        public static EnumParser<E> create<E>()
-            where E : unmanaged, Enum
-                => new();
-
         readonly SymIndex Syms;
 
         public EnumParser(Type src)

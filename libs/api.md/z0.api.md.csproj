@@ -8,7 +8,6 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="$(Symbols)" />
     <ProjectReference Include="$(CmdExec)" />
     <ProjectReference Include="$(Archives)" />
     <ProjectReference Include="$(Memory)" />

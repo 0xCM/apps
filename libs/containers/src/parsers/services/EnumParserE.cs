@@ -4,11 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     public readonly struct EnumParser<E> : IParser<E>
         where E : unmanaged, Enum
     {
+        public static EnumParser<E> Service = new();
+
         readonly Symbols<E> Syms;
 
         [MethodImpl(Inline)]

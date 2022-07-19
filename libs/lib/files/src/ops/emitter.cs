@@ -4,11 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.IO;
     using System.Text;
 
     partial struct FS
     {
+        public static void emit<T>(T src, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
+        {
+            using var writer = dst.Writer(encoding);
+            var data = $"{src}";
+            writer.WriteLine(data);
+            term.emit(Events.emittedFile(data.Length, dst));
+        }
+
         public static ITextEmitter emitter(FS.FilePath dst, FileWriteMode mode, TextEncodingKind encoding)
             => writer(dst,mode,encoding).Emitter();
 

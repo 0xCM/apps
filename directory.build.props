@@ -15,14 +15,12 @@
     <ShellCommon>$(SlnRoot)shells\</ShellCommon>
     <CgRoot>$(SlnRoot)cg\</CgRoot>
     <TestRoot>$(SlnRoot)test\</TestRoot>
-
     <OutputPath>$(SlnBuild)bin\$(MsBuildProjectName)\$(Configuration)\</OutputPath>
     <DocumentationFile>$(OutputPath)$(TargetFramework)\$(MsBuildProjectName).xml</DocumentationFile>
     <IntermediateRoot>$(SlnBuild)obj\$(MsBuildProjectName)\$(Configuration)\</IntermediateRoot>
     <IntermediateBuildDir>$(IntermediateRoot)</IntermediateBuildDir>
     <BaseIntermediateOutputPath>$(IntermediateRoot)</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(IntermediateRoot)</IntermediateOutputPath>
-
     <SlnLibs>$(SlnRoot)libs\</SlnLibs>
 
   </PropertyGroup>

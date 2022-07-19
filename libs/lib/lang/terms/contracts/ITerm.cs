@@ -8,9 +8,9 @@ namespace Z0
     /// The idea is to loosely follow https://en.wikipedia.org/wiki/Term_(logic)
     /// </summary>
     [Free]
-    public interface ITerm : IExprDeprecated, INullity
+    public interface ITerm : IExpr
     {
-        Index<IExprDeprecated> Terms => sys.empty<IExprDeprecated>();
+        Index<IExpr> Terms => sys.empty<IExpr>();
     }
 
     [Free]

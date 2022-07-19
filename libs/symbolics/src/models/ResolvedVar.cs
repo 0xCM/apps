@@ -14,6 +14,11 @@ namespace Z0
             Value = value;
         }
 
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Value == null;
+        }
         object IValued<object>.Value
             => Value;
 

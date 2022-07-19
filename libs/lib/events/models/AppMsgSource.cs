@@ -21,17 +21,17 @@ namespace Z0
         /// <summary>
         /// The name of the member that originated the message
         /// </summary>
-        public string Caller {get;}
+        public readonly string Caller;
 
         /// <summary>
         /// The path to the source file in which the message originated
         /// </summary>
-        public string File {get;}
+        public readonly string File;
 
         /// <summary>
         /// The source file line number on which the message originated
         /// </summary>
-        public uint Line {get;}
+        public readonly uint Line;
 
         [MethodImpl(Inline)]
         public AppMsgSource(string caller, string file, int? line)
@@ -51,5 +51,9 @@ namespace Z0
             => new AppMsgSource(EmptyString, EmptyString, 0);
 
         const string RenderPattern = "{0}/{1}?line = {2} | {3}";
+
+        [MethodImpl(Inline)]
+        public static implicit operator EventOrigin(AppMsgSource src)
+            => new EventOrigin(src.Caller, src.File, src.Line);
     }
 }

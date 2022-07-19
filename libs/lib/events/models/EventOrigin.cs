@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct EventOrigin : ITextual
     {
         public NameOld OriginName {get;}
@@ -20,6 +15,12 @@ namespace Z0
         {
             OriginName = name;
             Caller = caller;
+        }
+
+        public EventOrigin(string caller, string file, uint line)
+        {
+            Caller = new (caller,file,(int)line);
+            OriginName = caller;
         }
 
         public string Format()

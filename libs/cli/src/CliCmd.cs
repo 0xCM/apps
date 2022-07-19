@@ -31,7 +31,9 @@ namespace Z0
         {
             var src =  AppDb.Dev("z0/props").Path(FS.file(arg(args,0), FileKind.Props));
             var project = MsBuild.project(src);
-            Write(project.Format());
+            var data = project.Format();
+            Write(data);
+            FileEmit(data, AppDb.App().Path(src.FileName.WithoutExtension.Format(), FileKind.Env), (ByteSize)data.Length);
         }
 
         [CmdOp("cli/emit/hex")]

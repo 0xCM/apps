@@ -18,8 +18,8 @@ namespace Z0
         /// </summary>
         /// <param name="msg">The message to emit</param>
         /// <param name="color">The emission color</param>
-        public static void write(string msg, FlairKind color)
-            => T.Write(msg, color);
+        public static void write<M>(M msg, FlairKind color)
+            => T.Write($"{msg}", color);
 
         /// <summary>
         /// Writes an empty line to the console

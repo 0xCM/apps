@@ -17,6 +17,11 @@ namespace Z0
             Value = value;
         }
 
+        public bool IsEmpty
+        {
+            get => sys.empty(Value.ToString());
+        }
+
         public string Format()
             => Value.ToString();
 

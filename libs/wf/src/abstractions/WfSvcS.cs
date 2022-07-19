@@ -215,6 +215,14 @@ namespace Z0
             EmittedFile(emitting, count);
         }
 
+        public void FileEmit<T>(T src, FS.FilePath dst, ByteSize size, TextEncodingKind encoding = TextEncodingKind.Asci)
+        {
+            var emitting = EmittingFile(dst);
+            using var emitter = dst.Writer(encoding);
+            emitter.Write(src.ToString());
+            EmittedFile(emitting, size);
+        }
+
         public void FileEmit<T>(T src, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
         {
             var emitting = EmittingFile(dst);
