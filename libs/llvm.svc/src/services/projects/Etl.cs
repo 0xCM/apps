@@ -4,19 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Algs;
-
     partial class ProjectSvc
     {
-        public void Etl(IWsProject project,bool pll)
+        public void Etl(IWsProject project, bool pll)
         {
             var context = WsContext.load(project);
-            AsmObjects.CollectObjects(context,pll);
+            AsmObjects.CollectObjects(context, pll);
             AsmObjects.Emit(context, AsmObjects.CalcObjSyms(context));
             AsmObjects.CollectCoffData(context);
             CollectAsmSyntax(context);
             CollectMcInstructions(context);
-            XedDisasm.Collect(context);
+            //XedDisasm.Collect(context);
         }
     }
 }

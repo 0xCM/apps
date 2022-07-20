@@ -10,3 +10,4 @@ test/obj/
 tools/bin/
 tools/obj/
 .vs/
+.ionide/

@@ -1,11 +1,9 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-  <Import Project="props/build.props"/>
-
   <PropertyGroup>
+    <SlnRoot>$(DevRoot)\dev\z0\</SlnRoot>
+    <SlnLibs>$(SlnRoot)libs\</SlnLibs>
     <ZPack>$(DevRoot)\packages\</ZPack>
-    <SlnRoot>$(MSBuildThisFileDirectory)</SlnRoot>
-    <Src>$(MSBuildThisFileDirectory)</Src>
     <ImportDefs>$(SlnRoot)props\</ImportDefs>
     <EnvConfig>$(SlnRoot)env\</EnvConfig>
     <SlnBuild>$(SlnRoot).build\</SlnBuild>
@@ -15,16 +13,18 @@
     <ShellCommon>$(SlnRoot)shells\</ShellCommon>
     <CgRoot>$(SlnRoot)cg\</CgRoot>
     <TestRoot>$(SlnRoot)test\</TestRoot>
+  </PropertyGroup>
+
+  <Import Project="props/build.props"/>
+  <Import Project="props/projects.props"/>
+
+  <PropertyGroup>
     <OutputPath>$(SlnBuild)bin\$(MsBuildProjectName)\$(Configuration)\</OutputPath>
     <DocumentationFile>$(OutputPath)$(TargetFramework)\$(MsBuildProjectName).xml</DocumentationFile>
     <IntermediateRoot>$(SlnBuild)obj\$(MsBuildProjectName)\$(Configuration)\</IntermediateRoot>
     <IntermediateBuildDir>$(IntermediateRoot)</IntermediateBuildDir>
     <BaseIntermediateOutputPath>$(IntermediateRoot)</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(IntermediateRoot)</IntermediateOutputPath>
-    <SlnLibs>$(SlnRoot)libs\</SlnLibs>
-
   </PropertyGroup>
-
-  <Import Project="props/projects.props"/>
 
 </Project>

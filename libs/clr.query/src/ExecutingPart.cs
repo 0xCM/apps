@@ -12,16 +12,21 @@ namespace Z0
 
         public static ref readonly PartId Id => ref _Id;
 
+        public static ref readonly PartName Name => ref _Name;
+
         public static Process Process => Process.GetCurrentProcess();
 
         static PartId _Id;
 
         static Assembly _Component;
 
+        static PartName _Name;
+
         static ExecutingPart()
         {
             _Component = Assembly.GetEntryAssembly();
             _Id = PartIdAttribute.id(_Component);
+            _Name = _Id.PartName();
         }
     }
 }
