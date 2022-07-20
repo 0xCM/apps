@@ -4,17 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     partial struct sys
-    {                
-        [MethodImpl(Options), Op, Closures(Closure)]                
+    {
+        [MethodImpl(Options), Op, Closures(Closure)]
         public static Type type<T>()
-            => proxy.type<T>();
+            => typeof(T);
 
         [MethodImpl(Options), Op]
         public static Type type(object src)
-            => proxy.type(src);
+            => src?.GetType() ?? typeof(void);
     }
 }

@@ -13,14 +13,14 @@ namespace Z0
         /// <typeparam name="T">The source type</typeparam>
         [MethodImpl(Options), Op, Closures(Closure)]
         public static string @string<T>(T src)
-            => proxy.@string(src);
+            => src?.ToString() ?? EmptyString;
 
         [MethodImpl(Options), Op]
         public static unsafe string @string(char* pSrc)
-            => proxy.@string(pSrc);
+            => new string(pSrc);
 
         [MethodImpl(Options), Op]
         public static string @string(ReadOnlySpan<char> src)
-            => proxy.@string(src);
+            => src.ToString();
     }
 }

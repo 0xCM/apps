@@ -9,12 +9,24 @@ namespace Z0
     partial class XTend
     {
         /// <summary>
-        /// Determines whether a numeric kind designates a floating-point type
+        /// Determines whether a numeric kind designates a signed integral type
         /// </summary>
-        /// <param name="T">The type to test</param>
+        /// <param name="src">The source kind</typeparam>
+        [MethodImpl(Inline), Op]
+        public static bool IsSigned(this NumericKind src)
+            => signed(src);
+
         [MethodImpl(Inline)]
-        public static bool IsFloat(this NumericKind src)
-            => floating(src);
+        public static bool IsFloat32(this NumericKind src)
+            => float32(src);
+
+        [MethodImpl(Inline)]
+        public static bool IsFloat64(this NumericKind src)
+            => float64(src);
+
+        [MethodImpl(Inline)]
+        public static bool IsFractional(this NumericKind src)
+            => fractional(src);
 
         /// <summary>
         /// Determines whether a numeric kind is nonempty
@@ -30,5 +42,9 @@ namespace Z0
         [MethodImpl(Inline)]
         public static bool IsUnsigned(this NumericKind src)
             => unsigned(src);
+
+        [MethodImpl(Inline)]
+        public static bool IsInteger(this NumericKind src)
+            => integer(src);
     }
 }

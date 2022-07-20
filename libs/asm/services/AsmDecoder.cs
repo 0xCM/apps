@@ -328,7 +328,7 @@ namespace Z0.Asm
         static void CheckInstructionSize(in IceInstruction instruction, uint offset, in ApiBlockAsm src)
         {
             if(src.Encoded.Length < offset + instruction.ByteLength)
-                core.@throw(SizeMismatch(instruction, offset, src));
+                sys.@throw(SizeMismatch(instruction, offset, src));
         }
 
         static uint size(in ApiBlockAsm src)

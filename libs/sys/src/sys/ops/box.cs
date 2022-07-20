@@ -4,14 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Linq;
-
-    using static ApiOpaqueClass;
-
-    partial struct proxy
+    partial struct sys
     {
-        [MethodImpl(Options), Opaque(GetEnumValues)]
-        public static Enum[] EnumValues(Type src)
-            => Enum.GetValues(src).Cast<Enum>().ToArray();
+        [MethodImpl(Options), Op]
+        public static object box(ValueType src)
+            => RuntimeHelpers.GetObjectValue(src);
     }
 }

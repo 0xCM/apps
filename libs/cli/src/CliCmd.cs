@@ -26,6 +26,18 @@ namespace Z0
             Write(project.Format());
         }
 
+        [CmdOp("cmd/copy")]
+        void Copy(CmdArgs args)
+        {
+            var src = FS.dir(arg(args,0).Value);
+            var dst = FS.dir(arg(args,1).Value);
+            var spec = $"robocopy ${src} ${dst} /e";
+            var cmd = Scripts.cmd(spec);
+            Write($"cmd:{cmd}");
+
+
+        }
+
         [CmdOp("build/props")]
         void BuildProps(CmdArgs args)
         {

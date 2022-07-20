@@ -113,7 +113,7 @@ namespace Z0
             where T : unmanaged
         {
             var dst = blockread<M,N,T>(src);
-            if(NumericKinds.floating<T>())
+            if(NumericKinds.fractional<T>())
                 dst.Apply(x => gfp.round<T>(x,4));
             return dst;
         }
@@ -124,7 +124,7 @@ namespace Z0
             where T : unmanaged
         {
             using var writer = dst.Writer();
-            if(NumericKinds.floating<T>())
+            if(NumericKinds.fractional<T>())
                 src.Apply(x => gfp.round<T>(x,4));
             write(src, writer);
             return src;

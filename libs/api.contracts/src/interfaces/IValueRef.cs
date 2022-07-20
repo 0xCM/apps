@@ -4,14 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static ApiOpaqueClass;
-
-    partial struct proxy
+    [Free]
+    public interface IValueRef<T>
     {
-        public static Process CurrentProcess
-        {
-            [MethodImpl(Options), Opaque(GetCurrentProcess)]
-            get => Process.GetCurrentProcess();
-        }
+        ref T Value {get;}
     }
 }

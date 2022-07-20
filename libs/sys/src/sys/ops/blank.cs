@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     partial struct sys
     {
         /// <summary>
@@ -15,6 +12,6 @@ namespace Z0
         /// <param name="src">The string to evaluate</param>
         [MethodImpl(Options), Op]
         public static bool blank(string src)
-            => proxy.blank(src);
+            => string.IsNullOrWhiteSpace(src);
     }
 }

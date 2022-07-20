@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     partial struct sys
     {
         /// <summary>
@@ -16,7 +13,10 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Options), Op, Closures(Closure)]
         public static Span<T> clear<T>(Span<T> src)
-            => proxy.clear(src);
+        {
+            src.Clear();
+            return src;
+        }
 
         /// <summary>
         /// Fills an array with the element type's default value
@@ -25,6 +25,14 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Options), Op, Closures(Closure)]
         public static T[] clear<T>(T[] dst)
-            => proxy.clear(dst);
+        {
+            if(dst == null)
+                return empty<T>();
+            else
+            {
+                Array.Fill(dst, default(T));
+                return dst;
+            }
+        }
     }
 }

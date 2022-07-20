@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines a reference to a value
     /// </summary>
-    public readonly struct Ref<V> : IRef<V>
+    public readonly struct Ref<V> : IValueRef<V>
         where V : IRefResolver<V>
     {
         readonly V Resolver;

@@ -26,6 +26,10 @@ namespace Z0
             };
         }
 
+
+        public static CmdLine cmd(string spec)
+            => string.Format($"cmd /c {spec}");
+
         public static CmdLine pwsh(FS.FilePath src, string args)
             => string.Format("pwsh {0} {1}", src.Format(PathSeparator.BS), args);
 

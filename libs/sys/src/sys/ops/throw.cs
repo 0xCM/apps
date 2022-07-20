@@ -8,33 +8,31 @@ namespace Z0
     {
         [MethodImpl(Options), Op]
         public static T @throw<T>([CallerName] string caller = null, [CallerLine] int? line = null, [CallerFile] string? path = null)
-        {
-            proxy.@throw("Something bad happened", caller, line, path);
-            return default;
-        }
+            => throw new Exception(string.Format("{0}:{1} {2} {3}","!!<bad>!!", caller, line, path));
 
         [MethodImpl(Options), Op]
         public static void @throw(string msg)
-            => proxy.@throw(msg);
+            => throw new Exception(msg);
 
         [MethodImpl(Options), Op]
         public static void @throw(string msg, string caller, int? line, string path)
-            => proxy.@throw(msg, caller, line, path);
+            => throw new Exception(string.Format("{0}:{1} {2} {3}",msg, caller, line, path));
 
         [MethodImpl(Options), Op]
-        public static void @throw(Exception e)
-            => proxy.@throw(e);
+        public static void @throw<E>(E e)
+            where E : Exception
+                => throw e;
 
         [MethodImpl(Options), Op]
         public static void @throw(Func<string> f)
-            => proxy.@throw(f);
+            => throw new Exception(f());
 
         [MethodImpl(Options), Op, Closures(Closure)]
         public static T @throw<T>(Exception e)
-            => proxy.@throw<T>(e);
+            => throw e;
 
         [MethodImpl(Options), Op]
         public static T @throw<T>(object msg)
-            => proxy.@throw<T>(msg);
+            => throw new Exception(msg?.ToString() ?? EmptyString);
     }
 }

@@ -9,14 +9,6 @@ namespace Z0
     partial class XTend
     {
         /// <summary>
-        /// Determines whether a numeric kind designates a signed integral type
-        /// </summary>
-        /// <param name="src">The source kind</typeparam>
-        [MethodImpl(Inline), Op]
-        public static bool IsSigned(this NumericKind src)
-            => signed(src);
-
-        /// <summary>
         /// Determines the width of a numeric kind
         /// </summary>
         /// <param name="kind">The source kind</param>

@@ -4,12 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Reflection;
-
     partial struct sys
     {
-
+        public static Assembly EntryAssembly
+        {
+            [MethodImpl(Options), Op]
+            get => Assembly.GetCallingAssembly();
+        }
     }
 }

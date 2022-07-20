@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static ApiGranules;
-    using static core;
-
     using G = ApiGranules;
 
     [ApiHost]
@@ -25,6 +22,5 @@ namespace Z0
             cmd.Script = script;
             return cmd;
         }
-
     }
 }

@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     partial struct sys
     {
         /// <summary>
@@ -15,7 +12,7 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Options), Op, Closures(Closure)]
         public static T[] empty<T>()
-            => proxy.empty<T>();
+            => Array.Empty<T>();
 
         /// <summary>
         /// Tests whether a specified <see cref='string'/> is either null or of zero length

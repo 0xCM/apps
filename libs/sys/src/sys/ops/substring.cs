@@ -4,17 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     partial struct sys
     {
         [MethodImpl(Options), Op]
-        public static string substring(string src, int startidx)
-            => proxy.substring(src, startidx);
+        public static string substring(string? src, int startidx)
+            => src?.Substring(startidx) ?? EmptyString;
 
         [MethodImpl(Options), Op]
-        public static string substring(string src, int startidx, int len)
-            => proxy.substring(src, startidx, len);
+        public static string substring(string? src, int startidx, int len)
+            => src?.Substring(startidx, len) ?? EmptyString;
     }
 }

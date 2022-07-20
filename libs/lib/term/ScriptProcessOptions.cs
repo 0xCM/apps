@@ -8,8 +8,6 @@ namespace Z0
 {
     using System.IO;
 
-    using static core;
-
     /// <summary>
     /// CommandOptions is a helper class for the Command class.  It stores options
     /// that affect the behavior of the execution of ETWCommands and is passes as a
@@ -51,13 +49,13 @@ namespace Z0
 
         static void OnStaus(in string src)
         {
-            if(nonempty(src))
+            if(sys.nonempty(src))
                 term.babble(src);
         }
 
         static void OnError(in string src)
         {
-             if(nonempty(src))
+             if(sys.nonempty(src))
                 term.error(src);
         }
 

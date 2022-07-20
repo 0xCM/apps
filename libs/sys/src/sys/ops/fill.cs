@@ -4,8 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
+    using static System.Runtime.CompilerServices.Unsafe;
 
     partial struct sys
     {
@@ -17,7 +16,7 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Options), Op, Closures(Closure)]
         public static void fill<T>(T src, Span<T> dst)
-            => proxy.fill(src,dst);
+            => dst.Fill(src);
 
         /// <summary>
         /// Overwrites a reference-identified memory segment with a specified value
@@ -27,7 +26,10 @@ namespace Z0
         /// <param name="length">The byte-measured segment length</param>
         [MethodImpl(Options), Op]
         public static ref byte fill(byte src, ref byte dst, uint length)
-            => ref proxy.fill(src, ref dst, length);
+        {
+            InitBlock(ref dst, src, length);
+            return ref dst;
+        }
 
         /// <summary>
         /// Fills an array, in-place, with a specified value
@@ -37,6 +39,9 @@ namespace Z0
         /// <typeparam name="T">The element type</typeparam>
         [MethodImpl(Options), Op, Closures(Closure)]
         public static T[] fill<T>(T[] dst, T src)
-            => proxy.fill(dst,src);
+        {
+            Array.Fill(dst, src);
+            return dst;
+        }
     }
 }

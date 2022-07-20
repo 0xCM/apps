@@ -18,7 +18,7 @@ namespace Z0
         /// <typeparam name="T">The interval primal type</typeparam>
         public static Span<T> measured<T>(Interval<T> src, T width)
             where T : unmanaged
-                => NumericKinds.floating<T>() ? floating<T>(src, width) : integral<T>(src,width);
+                => NumericKinds.fractional<T>() ? floating<T>(src, width) : integral<T>(src,width);
 
         /// <summary>
         /// Calculates the points that determine a partitioning predicated on partition count

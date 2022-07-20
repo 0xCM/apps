@@ -6,13 +6,11 @@ namespace Z0
 {
     using System.IO;
 
-    using static Root;
-
     /// <summary>
     /// Specifies application message origination details
     /// </summary>
     [ApiHost]
-    public readonly struct AppMsgSource : ITextual
+    public readonly struct AppMsgSource
     {
         [MethodImpl(Inline), Op]
         public static AppMsgSource define(string caller, string file, int? line)

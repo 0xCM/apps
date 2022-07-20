@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     partial struct sys
     {
         /// <summary>
@@ -15,7 +12,7 @@ namespace Z0
         public static IntPtr CurrentProcessHandle
         {
             [MethodImpl(Options), Op]
-            get => proxy.CurrentProcessHandle;
+            get => Process.GetCurrentProcess().Handle;
         }
     }
 }

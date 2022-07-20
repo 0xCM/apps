@@ -98,7 +98,7 @@ namespace Z0
             => NumericKinds.unsigned(Boxed);
 
         public bool IsFloat
-            => NumericKinds.floating(Boxed);
+            => NumericKinds.fractional(Boxed);
 
         [MethodImpl(Inline)]
         public T Unbox<T>()

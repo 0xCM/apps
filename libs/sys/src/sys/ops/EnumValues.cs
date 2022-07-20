@@ -7,12 +7,12 @@ namespace Z0
     partial struct sys
     {
         [MethodImpl(Options), Op]
-        public static Enum[] EnumValues(Type src)
-            => proxy.EnumValues(src);
+        public static Array EnumValues(Type src)
+            => Enum.GetValues(src);
 
-        // [MethodImpl(Options)]
-        // public static T[] EnumValues<T>()
-        //     where T : unmanaged, Enum
-        //         => proxy.EnumValues(typeof(T)).Cast<T>();
+        [MethodImpl(Options)]
+        public static T[] EnumValues<T>()
+            where T : unmanaged, Enum
+                => Enum.GetValues<T>();
     }
 }

@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines a reference to a value
     /// </summary>
-    public readonly struct Ref<K,V> : IRef<V>
+    public readonly struct Ref<K,V> : IValueRef<V>
         where V : IRefResolver<K,V>
         where K : unmanaged
     {

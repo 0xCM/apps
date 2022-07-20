@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     /// <summary>
     /// Captures the content of a command-line
     /// </summary>
@@ -20,7 +18,7 @@ namespace Z0
         public ReadOnlySpan<CmdLinePart> Parts
         {
             [MethodImpl(Inline)]
-            get => recover<string,CmdLinePart>(Data.Edit);
+            get => Spans.recover<string,CmdLinePart>(Data.Edit);
         }
 
         [MethodImpl(Inline)]

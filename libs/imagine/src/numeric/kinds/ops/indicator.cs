@@ -26,7 +26,7 @@ namespace Z0
                 return NumericIndicator.Unsigned;
             else if(signed(src))
                 return NumericIndicator.Signed;
-            else if(floating(src))
+            else if(float32(src))
                 return NumericIndicator.Float;
             else
                 return NumericIndicator.None;
