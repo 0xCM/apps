@@ -12,7 +12,7 @@ namespace Z0.llvm
 
         new LlvmPaths Paths => Wf.LlvmPaths();
 
-        WsArchive WsArchive => new WsArchive(AppDb.LlvmRoot(), "llvm");
+        LlvmArchive WsArchive => new LlvmArchive(AppDb.LlvmRoot(), "llvm");
 
         LlvmDataProvider DataProvider => Wf.LlvmDataProvider();
 

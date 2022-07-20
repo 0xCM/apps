@@ -68,5 +68,9 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator string(Name src)
             => src.Data;
+
+        [MethodImpl(Inline)]
+        public static implicit operator Name(AsciNull src)
+            => new Name(asci64.Null);
     }
 }

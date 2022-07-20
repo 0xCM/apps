@@ -33,7 +33,7 @@ namespace Z0
         public Deferred(IEnumerable<T> src)
             => E = src;
 
-        public Index<T> Yield()
+        public T[] Yield()
             => E.ToArray();
 
         public readonly IEnumerable<T> Content

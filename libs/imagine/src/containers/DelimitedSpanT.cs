@@ -21,7 +21,7 @@ namespace Z0
         {
             Data = src;
             Delimiter = delimiter;
-            Render = text.delimit;
+            Render = Algs.delimit;
             CellPad = pad;
         }
 

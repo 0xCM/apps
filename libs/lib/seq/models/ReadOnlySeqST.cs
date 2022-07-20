@@ -93,7 +93,7 @@ namespace Z0
             => Seq.where(View, predicate);
 
         public void Iter(Action<T> f)
-            => Seq.iter(View, f);
+            => Algs.iter(View, f);
 
         public Seq<T> Unwrap()
             => Data;

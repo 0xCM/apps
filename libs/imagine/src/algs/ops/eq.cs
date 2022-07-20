@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct Seq
+    partial class Algs
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static bool eq<T>(ReadOnlySpan<T> a, ReadOnlySpan<T> b)

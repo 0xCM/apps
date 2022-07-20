@@ -35,8 +35,8 @@ namespace Z0
         public Index<FileRef> Files(FileKind k0, FileKind k1, FileKind k2)
             => Catalog.Entries(k0,k1,k2);
 
-        public FileRef Ref(FS.FilePath path)
-            => Catalog[path];
+        public FileRef Ref(FS.FilePath src)
+            => Catalog[src];
 
         public FileRef File(uint docid)
             => Catalog[docid];

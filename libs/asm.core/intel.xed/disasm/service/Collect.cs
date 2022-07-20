@@ -17,11 +17,11 @@ namespace Z0
             var project = context.Project.Project;
             ObjPaths.XedDisasm(project).Clear();
 
-            var docs = CalcDocs(context);
-            exec(PllExec,
-                () => EmitConsolidated(context, docs),
-                () => EmitBreakdowns(context, docs)
-                );
+            // var docs = CalcDocs(context);
+            // exec(PllExec,
+            //     () => EmitConsolidated(context, docs),
+            //     () => EmitBreakdowns(context, docs)
+            //     );
         }
     }
 }

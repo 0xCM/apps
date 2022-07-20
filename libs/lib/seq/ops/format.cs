@@ -4,11 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial struct Seq
     {
         public static string format<T>(T[] src, char delimiter = Chars.Comma, int pad = 0)
-            => delimit<T>(delimiter, pad, @readonly(src)).Format();
+            => Algs.delimit<T>(delimiter, pad, Arrays.@readonly(src)).Format();
     }
 }

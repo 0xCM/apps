@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Arrays;
+    using static Spans;
+    using static Algs;
 
     public readonly struct Index<T> : IIndex<T>
     {
@@ -14,10 +16,16 @@ namespace Z0
         public Index(T[] content)
             => Data = content;
 
+        public T[] Storage
+        {
+            [MethodImpl(Inline)]
+            get => Data ?? sys.empty<T>();
+        }
+
         public int Length
         {
             [MethodImpl(Inline)]
-            get => Data?.Length ?? 0;
+            get => Storage.Length;
         }
 
         public Span<T> Edit
@@ -39,12 +47,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public Span<T> Slice(uint offset, uint length)
             => slice(Edit, offset, length);
-
-        public T[] Storage
-        {
-            [MethodImpl(Inline)]
-            get => Data;
-        }
 
         public bool IsEmpty
         {
@@ -85,13 +87,13 @@ namespace Z0
         public ref T Last
         {
             [MethodImpl(Inline)]
-            get => ref Index.last(Data);
+            get => ref last(Data);
         }
 
         public uint Size
         {
             [MethodImpl(Inline)]
-            get => size<T>()*Count;
+            get => Sized.size<T>()*Count;
         }
 
         public Index<T> Sort()
@@ -107,21 +109,21 @@ namespace Z0
             var count = Count;
             var view = View;
             for(var i=0; i<count; i++)
-                if(predicate(skip(view,i)))
+                if(predicate(skip(Data,i)))
                     return true;
             return false;
         }
 
+        [MethodImpl(Inline)]
         public Index<T> Clear()
-        {
-            if(Length !=0)
-                Array.Clear(Data,0,Length);
-            return this;
-        }
+            => new Index<T>(clear(Data));
 
-        public bool Equals<C>(Index<T> src, C comparer)
-            where C : IEqualityComparer<T>
-                => Spans.equal(View, src.View, comparer);
+        // {
+        //     if(Length !=0)
+        //         Array.Clear(Data,0,Length);
+        //     return this;
+        // }
+
         public string Format()
             => IsNonEmpty ? string.Join(Chars.Comma, Data) : EmptyString;
 
@@ -129,24 +131,25 @@ namespace Z0
             => Format();
 
         public Index<T> Reverse()
-            => Index.reverse(Data);
+            => new Index<T>(Arrays.reverse(Data));
 
-        public Index<T> Sort<Y>(Y comparer = default)
-            where Y : unmanaged, IComparer<T>
-        {
-            Array.Sort(Storage,comparer);
-            return this;
-        }
+        public Index<T> Sort(IComparer<T> comparer)
+            => new Index<T>(sort(Data,comparer));
+
+        // {
+        //     Array.Sort(Storage, comparer);
+        //     return this;
+        // }
 
         [MethodImpl(Inline)]
         public bool Search(Func<T,bool> predicate, out T found)
-            => Arrays.first(this, predicate, out found);
+            => first(this, predicate, out found);
 
         public Index<Y> Cast<Y>()
             => new Index<Y>(Data.Select(x => cast<Y>(x)));
 
         public Index<Y> Select<Y>(Func<T,Y> selector)
-             => Index.map(Data, selector);
+             => map(Data, selector);
 
         public Index<Z> SelectMany<Y,Z>(Func<T,Index<Y>> lift, Func<T,Y,Z> project)
              => Index.map(Data, lift, project);
@@ -155,21 +158,21 @@ namespace Z0
              => Index.map(Data, lift);
 
         public Index<T> Where(Func<T,bool> predicate)
-            => Index.filter(Data, predicate);
+            => where(Data, predicate);
 
         public Index<T> Distinct()
-            => Storage.Distinct();
+            => new Index<T>(Data.Distinct());
 
         public T Single()
-            => Count == 1 ? this[0] : throw new Exception("More than one - or perhaps none");
+            => Count == 1 ? First : throw new Exception("More than one - or perhaps none");
 
         [MethodImpl(Inline)]
         public T[] ToArray()
-            => Storage;
+            => Data;
 
         [MethodImpl(Inline)]
         public Span<T> ToSpan()
-            => Storage;
+            => Data;
 
         /// <summary>
         /// Allocates and populates a copy of the underlying storage

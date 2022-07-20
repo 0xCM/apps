@@ -4,8 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IWsArchive : IRootedArchive
+    partial struct Arrays
     {
-        ProjectId ProjectId {get;}
+        [Op,Closures(Closure)]
+        public static T[] where<T>(T[] src, Func<T,bool> predicate)
+            => from x in src where predicate(x) select x;
     }
 }

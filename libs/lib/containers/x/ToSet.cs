@@ -14,7 +14,7 @@ namespace Z0
         [Op, Closures(Closure)]
         public static HashSet<T> ToSet<T>(this Span<T> src)
             where T : unmanaged
-                => Seq.set(src.ReadOnly());
+                => Algs.set(src.ReadOnly());
 
         /// <summary>
         /// Constructs a hash set from span content
@@ -24,7 +24,7 @@ namespace Z0
         [Op, Closures(Closure)]
         public static HashSet<T> ToSet<T>(this ReadOnlySpan<T> src)
             where T : unmanaged
-                => Seq.set(src);
+                => Algs.set(src);
 
         /// <summary>
         /// Constructs a hash set from span content
@@ -34,7 +34,7 @@ namespace Z0
         [Op, Closures(Closure)]
         public static HashSet<T> ToSet<T>(this ReadOnlySpan<T> a, ReadOnlySpan<T> b)
             where T : unmanaged
-                => Seq.set(a,b);
+                => Algs.set(a,b);
 
         /// <summary>
         /// Constructs a hash set from span content

@@ -4,12 +4,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Chars;
+    using static Refs;
 
-    partial struct Seq
+    partial class Algs
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static DelimitedList<T> list<T>(T[] items, char delimiter = Comma, SeqEnclosureKind enclosure = SeqEnclosureKind.Bracketed)
-            => new DelimitedList<T>(items, delimiter, enclosure);
+        public static void swap<T>(in T a, in T b)
+            where T : unmanaged
+        {
+            var tmp = a;
+            ref var x = ref edit(a);
+            x = b;
+            ref var y = ref edit(b);
+            y = tmp;
+        }
     }
 }

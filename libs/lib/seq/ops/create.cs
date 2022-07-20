@@ -8,10 +8,6 @@ namespace Z0
     {
         public static S create<S,T>(uint count)
             where S : ISeq<S,T>, new()
-        {
-            var dst = new S();
-            var buffer = sys.alloc<T>(count);
-            return dst;
-        }
+                => new S().Alloc(count);
     }
 }

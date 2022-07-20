@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Spans;
 
-    partial struct Seq
+    partial class Algs
     {
         /// <summary>
         /// Reduces a stream to a single value via a specified monoid

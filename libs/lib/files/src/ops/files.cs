@@ -34,7 +34,7 @@ namespace Z0
             => EnumerateFiles(src, pattern, recurse);
 
         static Deferred<FilePath> EnumerateFiles(FolderPath src, string pattern, bool recurse, bool casematch = false)
-            => !exists(src) ? Seq.EmptyDeferral<FilePath>() : Seq.defer(from f in Directory.EnumerateFiles(src.Name, pattern, SearchOptions(recurse, casematch)) select path(f));
+            => !exists(src) ? Algs.defer<FilePath>() : Algs.defer(from f in Directory.EnumerateFiles(src.Name, pattern, SearchOptions(recurse, casematch)) select path(f));
 
         [MethodImpl(Inline)]
         static EnumerationOptions SearchOptions(bool recurse, bool casematch = false, FileAttributes? skip = null)

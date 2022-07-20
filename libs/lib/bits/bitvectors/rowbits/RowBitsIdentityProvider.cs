@@ -3,10 +3,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Linq;
-    using System.Collections.Generic;
-
     readonly struct RowBitsIdentityProvider : ITypeIdentityProvider
     {
         public static TypeIdentity NumericClosure(string root, Type arg)
@@ -20,7 +16,7 @@ namespace Z0
         const string @base = "rowbits";
 
         public IEnumerable<Type> Identifiable
-            => Seq.defer(typeof(RowBits<>));
+            => Algs.defer(typeof(RowBits<>));
 
         public TypeIdentity Identify(Type src)
         {

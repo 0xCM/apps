@@ -4,10 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct core
+    partial struct Arrays
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Deferred<T> defer<T>(IEnumerable<T> src)
-            => new Deferred<T>(src);
+        public static T[] clear<T>(T[] src)
+        {
+            if(src.Length !=0)
+                Array.Clear(src,0,src.Length);
+            return src;
+        }
     }
 }

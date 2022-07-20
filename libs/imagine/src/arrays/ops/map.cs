@@ -17,7 +17,7 @@ namespace Z0
         public static T[] map<S,T>(S[] src, Func<S,T> f)
         {
             var count = src.Length;
-            var dst = new T[count];
+            var dst = sys.alloc<T>(count);
             for(var i=0; i<count; i++)
                 seek(dst,i) = f(skip(src,i));
             return dst;
@@ -35,7 +35,7 @@ namespace Z0
         {
             var source = array(src);
             var count = source.Length;
-            var dst = new T[count];
+            var dst = sys.alloc<T>(count);
             for(var i=0; i<count; i++)
                 seek(dst,i) = f(skip(source,i));
             return dst;

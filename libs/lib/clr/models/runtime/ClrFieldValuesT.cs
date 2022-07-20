@@ -43,7 +43,7 @@ namespace Z0
         }
 
         public string Format()
-            => Seq.delimit(Chars.Pipe, 0, View).Format();
+            => Algs.delimit(Chars.Pipe, 0, View).Format();
 
         [MethodImpl(Inline)]
         public static implicit operator ClrFieldValues<T>(ClrFieldValue<T>[] src)

@@ -8,6 +8,14 @@ namespace Z0
 
     partial class XTend
     {
+
+        public static Seq<T> ToSeq<T>(this ICollection src)
+        {
+            var dst = sys.alloc<T>(src.Count);
+            src.CopyTo(dst,0);
+            return dst;
+        }
+
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static Seq<T> ToSeq<T>(this IEnumerable<T> src)
             => sys.array(src);

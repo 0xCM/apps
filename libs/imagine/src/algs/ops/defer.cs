@@ -4,15 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct Seq
+    partial class Algs
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static Deferred<T> defer<T>(IEnumerable<T> src)
             => new Deferred<T>(src);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Deferred<T> EmptyDeferral<T>()
-            => Deferred<T>.Empty;
+        public static Deferred<T> defer<T>()
+            => new Deferred<T>(sys.empty<T>());
 
         /// <summary>
         /// Constructs a nonempty stream

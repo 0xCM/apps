@@ -6,14 +6,14 @@ namespace Z0
 {
     using static ApiGranules;
 
-    public class WsArchive : IWsArchive
+    class LlvmArchive : IRootedArchive
     {
         public readonly IRootedArchive Root;
 
         public readonly ProjectId ProjectId;
 
         [MethodImpl(Inline)]
-        public WsArchive(IRootedArchive root, ProjectId name)
+        public LlvmArchive(IRootedArchive root, ProjectId name)
         {
             Root = root;
             ProjectId = name;
@@ -36,12 +36,6 @@ namespace Z0
 
         public FS.Files Files(FileKind kind)
             => Root.Files(kind);
-
-        ProjectId IWsArchive.ProjectId
-        {
-            [MethodImpl(Inline)]
-            get => ProjectId;
-        }
 
         FS.FolderPath IRootedArchive.Root
         {

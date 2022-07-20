@@ -4,12 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Collections.Generic;
-
     partial struct sys
-    {        
+    {
         /// <summary>
         /// Creates a list from a parameter array
         /// </summary>

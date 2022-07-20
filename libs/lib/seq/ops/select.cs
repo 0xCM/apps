@@ -37,10 +37,10 @@ namespace Z0
 
         public static Seq<Z> map<X,Y,Z>(ReadOnlySpan<X> src, Func<X,ReadOnlySeq<Y>> lift, Func<X,Y,Z> project)
         {
-            var dst = core.list<Z>();
+            var dst = sys.list<Z>();
             for(var i=0; i<src.Length; i++)
             {
-                ref readonly var x = ref Spans.skip(src,i);
+                ref readonly var x = ref skip(src, i);
                 var y = lift(x);
                 for(var j=0; j<y.Count; j++)
                     dst.Add(project(x,y[j]));
@@ -50,10 +50,10 @@ namespace Z0
 
         public static Seq<Z> map<X,Y,Z>(ReadOnlySpan<X> src, Func<X,Seq<Y>> lift, Func<X,Y,Z> project)
         {
-            var dst = core.list<Z>();
+            var dst = sys.list<Z>();
             for(var i=0; i<src.Length; i++)
             {
-                ref readonly var x = ref Spans.skip(src,i);
+                ref readonly var x = ref skip(src,i);
                 var y = lift(x);
                 for(var j=0; j<y.Count; j++)
                     dst.Add(project(x,y[j]));
@@ -61,13 +61,12 @@ namespace Z0
             return dst.ToArray();
         }
 
-
         public static Seq<Y> map<X,Y>(ReadOnlySpan<X> src, Func<X,ReadOnlySeq<Y>> lift)
         {
-            var dst = core.list<Y>();
+            var dst = sys.list<Y>();
             for(var i=0; i<src.Length; i++)
             {
-                ref readonly var x = ref Spans.skip(src,i);
+                ref readonly var x = ref skip(src,i);
                 var y = lift(x);
                 for(var j=0; j<y.Count; j++)
                     dst.Add(y[j]);
@@ -77,10 +76,10 @@ namespace Z0
 
         public static Seq<Y> map<X,Y>(Span<X> src, Func<X,Seq<Y>> lift)
         {
-            var dst = core.list<Y>();
+            var dst = sys.list<Y>();
             for(var i=0; i<src.Length; i++)
             {
-                ref readonly var x = ref Spans.skip(src,i);
+                ref readonly var x = ref skip(src,i);
                 var y = lift(x);
                 for(var j=0; j<y.Count; j++)
                     dst.Add(y[j]);
@@ -91,10 +90,10 @@ namespace Z0
         [Op, Closures(Closure)]
         public static Seq<X> where<X>(ReadOnlySpan<X> src, Func<X,bool> f)
         {
-            var dst = core.list<X>();
+            var dst = sys.list<X>();
             for(var i=0; i<src.Length; i++)
             {
-                ref readonly var x = ref Spans.skip(src,i);
+                ref readonly var x = ref skip(src,i);
                 if(f(x))
                     dst.Add(x);
             }
@@ -104,10 +103,10 @@ namespace Z0
         [Op, Closures(Closure)]
         public static Seq<X> where<X>(Span<X> src, Func<X,bool> f)
         {
-            var dst = core.list<X>();
+            var dst = sys.list<X>();
             for(var i=0; i<src.Length; i++)
             {
-                ref readonly var x = ref Spans.skip(src,i);
+                ref readonly var x = ref skip(src,i);
                 if(f(x))
                     dst.Add(x);
             }
@@ -144,7 +143,7 @@ namespace Z0
         {
             var count = (byte)indices.Length;
             for(byte i=0; i<count; i++)
-                seek(dst,i) = Spans.skip(src, @as<I,byte>(skip(indices,i)));
+                seek(dst,i) = skip(src, @as<I,byte>(skip(indices,i)));
         }
 
         [MethodImpl(Inline)]
@@ -153,7 +152,7 @@ namespace Z0
         {
             var count = (ushort)indices.Length;
             for(ushort i=0; i<count; i++)
-                seek(dst,i) = Spans.skip(src, @as<I,ushort>(skip(indices,i)));
+                seek(dst,i) = skip(src, @as<I,ushort>(skip(indices,i)));
         }
 
         [MethodImpl(Inline)]
@@ -162,7 +161,7 @@ namespace Z0
         {
             var count = (uint)indices.Length;
             for(uint i=0; i<count; i++)
-                Spans.seek(dst,i) = Spans.skip(src, @as<I,uint>(skip(indices,i)));
+                seek(dst,i) = skip(src, @as<I,uint>(skip(indices,i)));
         }
 
         [MethodImpl(Inline)]
@@ -171,7 +170,7 @@ namespace Z0
         {
             var count = (ulong)indices.Length;
             for(ulong i=0; i<count; i++)
-                seek(dst,i) = Spans.skip(src, @as<I,ulong>(skip(indices,i)));
+                seek(dst,i) = skip(src, @as<I,ulong>(skip(indices,i)));
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Z0
             AsmObjects.CollectCoffData(context);
             CollectAsmSyntax(context);
             CollectMcInstructions(context);
-            //XedDisasm.Collect(context);
+            XedDisasm.Collect(context);
         }
     }
 }

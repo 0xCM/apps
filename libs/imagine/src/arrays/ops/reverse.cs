@@ -4,9 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IWorkspace
+    partial struct Arrays
     {
-
-
+        [Op, Closures(Closure)]
+        public static T[] reverse<T>(T[] src)
+        {
+            Array.Reverse(src);
+            return src;
+        }
     }
 }

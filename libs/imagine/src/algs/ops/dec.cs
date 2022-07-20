@@ -4,9 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Threading;
-
-    partial struct core
+    partial class Algs
     {
         /// <summary>
         /// Atomically decrements a value in-place

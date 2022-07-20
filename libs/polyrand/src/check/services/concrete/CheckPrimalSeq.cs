@@ -22,7 +22,7 @@ namespace Z0
         /// <param name="b">The right operand</param>
         [MethodImpl(Inline), Op]
         public static bool TestEq(ReadOnlySpan<char> a, ReadOnlySpan<char> b)
-            => Seq.eq(a, b);
+            => Algs.eq(a, b);
 
         /// <summary>
         /// Returns true if the character spans are equal as strings, false otherwise
@@ -31,7 +31,7 @@ namespace Z0
         /// <param name="b">The right operand</param>
         [MethodImpl(Inline), Op]
         public static bool TestEq(ReadOnlySpan<byte> a, ReadOnlySpan<byte> b)
-            => Seq.eq(a,b);
+            => Algs.eq(a,b);
 
         /// <summary>
         /// Returns true if the spans are equal, false otherwise
@@ -40,7 +40,7 @@ namespace Z0
         /// <param name="b">The right operand</param>
         [MethodImpl(Inline), Op]
         public static bool TestEq(ReadOnlySpan<sbyte> a, ReadOnlySpan<sbyte> b)
-            => Seq.eq(a,b);
+            => Algs.eq(a,b);
 
         /// <summary>
         /// Returns true if the character spans are equal as strings, false otherwise
@@ -49,7 +49,7 @@ namespace Z0
         /// <param name="b">The right operand</param>
         [MethodImpl(Inline), Op]
         public static bool TestEq(ReadOnlySpan<int> a, ReadOnlySpan<int> b)
-            => Seq.eq(a,b);
+            => Algs.eq(a,b);
 
         /// <summary>
         /// Returns true if the character spans are equal as strings, false otherwise
@@ -58,7 +58,7 @@ namespace Z0
         /// <param name="b">The right operand</param>
         [MethodImpl(Inline), Op]
         public static bool TestEq(ReadOnlySpan<uint> a, ReadOnlySpan<uint> b)
-            => Seq.eq(a,b);
+            => Algs.eq(a,b);
 
         /// <summary>
         /// Returns true if the character spans are equal as strings, false otherwise
@@ -67,7 +67,7 @@ namespace Z0
         /// <param name="b">The right operand</param>
         [MethodImpl(Inline), Op]
         public static bool TestEq(ReadOnlySpan<ulong> a, ReadOnlySpan<ulong> b)
-            => Seq.eq(a,b);
+            => Algs.eq(a,b);
 
         /// <summary>
         /// Asserts the equality of two boolean arrays

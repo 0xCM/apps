@@ -29,12 +29,6 @@ namespace Z0
         const string Space = " ";
 
         /// <summary>
-        /// Defines the literal '}'
-        /// </summary>
-        [RenderLiteral(RBrace)]
-        const string RBrace = "}";
-
-        /// <summary>
         /// Defines the literal '"'
         /// </summary>
         [RenderLiteral(DQuote)]

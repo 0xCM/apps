@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static Algs;
     using static CaSymbolModels;
 
     using api = CaSymbols;
@@ -41,7 +42,7 @@ namespace Z0
             => Source.Options;
 
         public Deferred<SyntaxTree> SyntaxTrees
-            => core.defer(Source.SyntaxTrees);
+            => defer(Source.SyntaxTrees);
 
         public ReadOnlySpan<MetadataReference> ExternalReferences
             => Source.ExternalReferences.AsSpan();
@@ -50,10 +51,10 @@ namespace Z0
             => Source.DirectiveReferences.AsSpan();
 
         public Deferred<MetadataReference> References
-            => core.defer(Source.References);
+            => defer(Source.References);
 
         public Deferred<AssemblyIdentity> ReferencedAssemblyNames
-            => core.defer(Source.ReferencedAssemblyNames);
+            => defer(Source.ReferencedAssemblyNames);
 
         public AssemblySymbol GetAssemblySymbol(MetadataReference src)
             => new AssemblySymbol((IAssemblySymbol)Source.GetAssemblyOrModuleSymbol(src));

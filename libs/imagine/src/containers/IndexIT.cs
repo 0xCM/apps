@@ -6,7 +6,7 @@ namespace Z0
 {
     using System.Linq;
 
-    using static core;
+    using static Refs;
 
     public readonly struct Index<I,T> : IIndex<I,T>
         where I : unmanaged
@@ -90,7 +90,7 @@ namespace Z0
             => Data.Format();
 
         public Index<I,Y> Select<Y>(Func<T,Y> selector)
-             => Index.map(Data.Storage, selector);
+             => Arrays.map(Data.Storage, selector);
 
         public Index<I,Z> SelectMany<Y,Z>(Func<T,Index<I,Y>> lift, Func<T,Y,Z> project)
             => load(

@@ -4,8 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
-    partial struct core
+    partial struct Arrays
     {
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static ref T last<T>(T[] src)
+             => ref seek(src, src.Length - 1);
     }
 }

@@ -46,7 +46,7 @@ namespace Z0
         /// Defines the literal '"}'
         /// </summary>
         [RenderLiteral("\"}")]
-        public const string CloseQSlot = RBrace + DQuote;
+        public const string CloseQSlot = "}" + DQuote;
 
         /// <summary>
         /// Defines the literal '"{0}"'

@@ -4,24 +4,31 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Threading;
+    using static Refs;
 
-    partial struct core
+    partial class Algs
     {
         /// <summary>
-        /// Atomically decrements a value in-place
+        /// Atomically increments a value in-place
         /// </summary>
         /// <param name="src">The value to increment in-place</param>
         [MethodImpl(Inline), Op]
-        public static long dec(ref long src)
-            => Interlocked.Decrement(ref src);
+        public static long inc(ref long src)
+            => Interlocked.Increment(ref src);
 
         /// <summary>
-        /// Atomically decrements a value in-place
+        /// Atomically increments a value in-place
         /// </summary>
         /// <param name="src">The value to increment in-place</param>
         [MethodImpl(Inline), Op]
-        public static long dec(ref int src)
-            => Interlocked.Decrement(ref src);
+        public static int inc(ref int src)
+            => Interlocked.Increment(ref src);
+
+        [MethodImpl(Inline)]
+        public static ref uint inc(ref uint dst)
+        {
+            inc(ref @as<int>(dst));
+            return ref dst;
+        }
     }
 }

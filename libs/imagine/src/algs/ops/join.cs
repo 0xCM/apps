@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct Seq
+    partial class Algs
     {
         /// <summary>
         /// All of your streams belong to us

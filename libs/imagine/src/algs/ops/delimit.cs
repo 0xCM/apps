@@ -4,10 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Text;
-
-    partial class text
+    partial class Algs
     {
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static DelimitedSpan<T> delimit<T>(char delimiter, int pad, Span<T> src)
+            => new DelimitedSpan<T>(src, delimiter, pad);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static DelimitedSpan<T> delimit<T>(char delimiter, int pad, ReadOnlySpan<T> src)
+            => new DelimitedSpan<T>(src, delimiter, pad);
+
+        [Op, Closures(Closure)]
         public static string delimit<T>(ReadOnlySpan<T> src, string sep, int pad = 0)
         {
             var dst = new StringBuilder();

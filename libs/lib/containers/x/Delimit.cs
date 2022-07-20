@@ -32,10 +32,10 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static DelimitedSpan<T> Delimit<T>(this ReadOnlySpan<T> src, char delimiter = ListDelimiter, int pad = 0, Fence<char>? fence = null)
-            => Seq.delimit(delimiter, pad, src);
+            => Algs.delimit(delimiter, pad, src);
 
         [MethodImpl(Inline)]
         public static DelimitedSpan<T> Delimit<T>(this Span<T> src, char delimiter = ListDelimiter, int pad = 0, Fence<char>? fence = null)
-            => Seq.delimit(delimiter, pad, src);
+            => Algs.delimit(delimiter, pad, src);
     }
 }

@@ -4,15 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static SeqEnclosureKind;
-    using static Chars;
-
-    partial struct Seq
+    partial class Algs
     {
-        [MethodImpl(Inline)]
-        public static DelimitedList<T> enclose<T>(T[] src)
-            => list(src, Chars.Comma, SeqEnclosureKind.Embraced);
-
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static EnclosedSpan<T> enclose<T>(SeqEnclosureKind kind, char delimiter, ReadOnlySpan<T> src)
             => new EnclosedSpan<T>(src, kind, delimiter);
@@ -28,13 +21,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public static EnclosedSpan<T> enclose<T>(Span<T> src)
             => enclose(SeqEnclosureKind.Embraced, Chars.Comma, src);
-
-        [MethodImpl(Inline), Op]
-        internal static char left(SeqEnclosureKind kind)
-            => kind == Embraced ? LBrace : kind == Bracketed ? LBracket : LParen;
-
-        [MethodImpl(Inline), Op]
-        internal static char right(SeqEnclosureKind kind)
-            => kind == Embraced ? RBrace : kind == Bracketed ? RBracket : RParen;
    }
 }
