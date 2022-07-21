@@ -6,20 +6,20 @@ namespace Z0
 {
     public class ApiCaptureSet
     {
-        [MethodImpl(Inline), Op]
-        public static ApiCaptureSet create(OpUri uri, MsilCode msil, CodeBlock hex, AsmSourceBlock asm, MethodDisplaySig sig)
-            => new ApiCaptureSet(uri, msil, hex, asm,sig);
+        // [MethodImpl(Inline), Op]
+        // public static ApiCaptureSet create(OpUri uri, MsilCode msil, CodeBlock hex, AsmSourceBlock asm, MethodDisplaySig sig)
+        //     => new ApiCaptureSet(uri, msil, hex, asm,sig);
 
-        [MethodImpl(Inline), Op]
-        public static ApiCaptureSet create(in ApiCaptureBlock src, in AsmSourceBlock asm)
-            => new ApiCaptureSet(src.OpUri, src.Msil, src.CodeBlock, asm);
+        // [MethodImpl(Inline), Op]
+        // public static ApiCaptureSet create(in ApiCaptureBlock src, in AsmSourceBlock asm)
+        //     => new ApiCaptureSet(src.OpUri, src.Msil, src.CodeBlock, asm);
 
-        [Op]
-        public static ApiCaptureSet create(OpIdentity id, MethodInfo method, CodeBlock hex, AsmSourceBlock asm)
-        {
-            var uri = ApiIdentity.hex(method.DeclaringType.ApiHostUri(), method.Name, id);
-            return new (uri,ClrDynamic.msil(hex.Address, uri, method), hex, asm);
-        }
+        // [Op]
+        // public static ApiCaptureSet create(OpIdentity id, MethodInfo method, CodeBlock hex, AsmSourceBlock asm)
+        // {
+        //     var uri = ApiIdentity.hex(method.DeclaringType.ApiHostUri(), method.Name, id);
+        //     return new (uri,ClrDynamic.msil(hex.Address, uri, method), hex, asm);
+        // }
 
         public readonly OpUri Id;
 

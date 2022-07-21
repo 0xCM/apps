@@ -50,7 +50,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var region = ref skip(src,i);
-                var @base = region.StartAddress;
+                var @base = region.BaseAddress;
                 if(@base < ProcessBase)
                     continue;
 
@@ -84,7 +84,7 @@ namespace Z0
         {
             var storage = z8;
             var total = ByteSize.Zero;
-            var @base = src.StartAddress;
+            var @base = src.BaseAddress;
             var reader = MemoryReader.create(@base.Pointer<byte>(), src.Size);
             while(reader.Read(ref storage))
             {

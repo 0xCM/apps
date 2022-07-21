@@ -20,15 +20,12 @@ namespace Z0
         static IApiPack Dst
             => ApiPack.create();
 
-
         [CmdOp("cmd/copy")]
         void Copy(CmdArgs args)
         {
             var src = FS.dir(arg(args,0).Value);
             var dst = FS.dir(arg(args,1).Value);
-            var spec = $"robocopy {src} {dst} /e";
-            var cmd = Scripts.cmd(spec);
-            var proc = ScriptProcess.create(cmd);
+            Archives.robocopy(src,dst);
         }
 
         [CmdOp("build/projects")]

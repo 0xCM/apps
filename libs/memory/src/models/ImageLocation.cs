@@ -8,19 +8,14 @@ namespace Z0
     /// Describes a PE image from the perspective of process entry point
     /// </summary>
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct ImageLocation : IComparable<ImageLocation>
+    public record struct ImageLocation : IComparable<ImageLocation>
     {
         const string TableId = "image.located";
 
         /// <summary>
-        /// The image source path
-        /// </summary>
-        public FS.FilePath Path;
-
-        /// <summary>
         /// The image part identifier, if any
         /// </summary>
-        public string Name;
+        public string ImageName;
 
         /// <summary>
         /// The image's memory base
@@ -33,36 +28,29 @@ namespace Z0
         public MemoryAddress EntryAddress;
 
         /// <summary>
+        /// The terminal address as determined by <see cref='BaseAddress'/> + <see cref='Size'/>
+        /// </summary>
+        public MemoryAddress MaxAddress;
+
+        /// <summary>
         /// The image size
         /// </summary>
         public ByteSize Size;
 
+        /// <summary>
+        /// The image source path
+        /// </summary>
+        public FS.FileUri ImagePath;
+
         [MethodImpl(Inline)]
-        public ImageLocation(FS.FilePath path, string name, MemoryAddress entry, MemoryAddress @base, uint size)
+        public ImageLocation(string name, MemoryAddress entry, MemoryAddress @base, ByteSize size, FS.FilePath path)
         {
-            Path = path;
-            Name = name;
+            ImagePath = path;
+            ImageName = name;
             EntryAddress = entry;
             BaseAddress = @base;
             Size = size;
-        }
-
-        /// <summary>
-        /// The terminal address as determined by <see cref='BaseAddress'/> + <see cref='Size'/>
-        /// </summary>
-        public MemoryAddress EndAddress
-        {
-            [MethodImpl(Inline)]
-            get => BaseAddress + Size;
-        }
-
-        /// <summary>
-        /// The memory range occupied by the image
-        /// </summary>
-        public MemoryRange Range
-        {
-            [MethodImpl(Inline)]
-            get => (BaseAddress, EndAddress);
+            MaxAddress = BaseAddress + Size;
         }
 
         [MethodImpl(Inline)]

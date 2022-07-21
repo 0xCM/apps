@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial class ImageMemory
     {
         /// <summary>
@@ -20,7 +18,7 @@ namespace Z0
             return dst;
         }
 
-       [Op]
+        [Op]
         static ref ProcessMemoryState fill(Process src, ref ProcessMemoryState dst)
         {
             dst.ImageName = src.ProcessName;
@@ -40,6 +38,5 @@ namespace Z0
             dst.MaxVirtualSize = src.PeakVirtualMemorySize64;
             return ref dst;
         }
-
     }
 }

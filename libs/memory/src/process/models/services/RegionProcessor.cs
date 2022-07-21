@@ -43,18 +43,18 @@ namespace Z0
 
         void Include(uint index, in ProcessMemoryRegion src)
         {
-            var id = src.Name;
+            var id = src.ImageName;
 
             if(text.empty(id))
-                id = src.Path.Format();
+                id = src.ImagePath.Format();
 
             if(id.StartsWith(HostProcessName))
                 id = string.Format("host::{0}", id);
 
             if(src.Type != 0 && src.Protection != 0)
             {
-                var sidx = (ushort)Index(src.StartAddress.Quadrant(n2));
-                Bases[sidx].Add(paired(src.StartAddress.Lo, (uint)src.Size));
+                var sidx = (ushort)Index(src.BaseAddress.Quadrant(n2));
+                Bases[sidx].Add(paired(src.BaseAddress.Lo, (uint)src.Size));
                 ImageMemory.segment(src, ref Segments[index]);
             }
         }

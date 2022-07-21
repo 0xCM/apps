@@ -36,15 +36,15 @@ namespace Z0
 
             var i=0;
             var j=0;
-            seek(outcomes,i++) = DataParser.parse(skip(parts,j++), out dst.Index);
-            seek(outcomes,i++) = DataParser.parse(skip(parts,j++), out dst.Name);
-            seek(outcomes,i++) = DataParser.parse(skip(parts,j++), out dst.StartAddress);
-            seek(outcomes,i++) = DataParser.parse(skip(parts,j++), out dst.EndAddress);
+            seek(outcomes,i++) = DataParser.parse(skip(parts,j++), out dst.Seq);
+            seek(outcomes,i++) = DataParser.parse(skip(parts,j++), out dst.ImageName);
+            seek(outcomes,i++) = DataParser.parse(skip(parts,j++), out dst.BaseAddress);
+            seek(outcomes,i++) = DataParser.parse(skip(parts,j++), out dst.MaxAddress);
             seek(outcomes,i++) = DataParser.parse(skip(parts,j++), out dst.Size);
             seek(outcomes,i++) = DataParser.eparse(skip(parts,j++), out dst.Type);
             seek(outcomes,i++) = DataParser.eparse(skip(parts,j++), out dst.Protection);
             seek(outcomes,i++) = DataParser.eparse(skip(parts,j++), out dst.State);
-            seek(outcomes,i++) = DataParser.parse(skip(parts,j++), out dst.Path);
+            seek(outcomes,i++) = DataParser.parse(skip(parts,j++), out dst.ImagePath);
             return true;
         }
     }

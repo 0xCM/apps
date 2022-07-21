@@ -7,12 +7,12 @@ namespace Z0
     using Windows;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct ProcessSegment : IComparable<ProcessSegment>
+    public struct ProcessSegment : IComparable<ProcessSegment>, ISequential<ProcessSegment>
     {
         const string TableId = "process.segments";
 
-        [Render(16)]
-        public uint Index;
+        [Render(8)]
+        public uint Seq;
 
         [Render(12)]
         public Address16 Selector;
@@ -37,6 +37,12 @@ namespace Z0
 
         [Render(1)]
         public utf8 Label;
+
+        uint ISequential.Seq
+        {
+            get => Seq;
+            set => Seq = value;
+        }
 
         public int CompareTo(ProcessSegment src)
             => Range.Min.CompareTo(src.Range.Max);

@@ -16,7 +16,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var region = ref skip(src,i);
-                symbols.Deposit(region.StartAddress, region.Size, region.Name);
+                symbols.Deposit(region.BaseAddress, region.Size, region.ImageName);
             }
             return symbols;
         }

@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct MethodSegment : IRecord<MethodSegment>
+    public record struct MethodSegment
     {
         const string TableId = "method.segments";
 

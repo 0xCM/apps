@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class ProcessImageMap
+    public record class ProcessImageMap
     {
         public readonly ProcessMemoryState Process;
 
@@ -22,11 +22,5 @@ namespace Z0
             Addresses = addresses;
             Modules = modules;
         }
-
-        public string Format()
-            => Process.ImageName;
-
-        public override string ToString()
-            => Format();
     }
 }

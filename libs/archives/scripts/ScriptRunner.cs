@@ -4,10 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
 
-    public sealed class ScriptRunner : WfSvc<ScriptRunner>
+    public sealed class ScriptRunner : AppService<ScriptRunner>
     {
+        static AppDb AppDb => AppDb.Service;
+
         FS.FilePath ErrorLog(Timestamp ts, string name)
             => AppDb.Logs("process").Path($"{name}.errors.{ts}", FileKind.Log);
 

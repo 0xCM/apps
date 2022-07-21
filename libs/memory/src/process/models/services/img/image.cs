@@ -22,11 +22,12 @@ namespace Z0
         [Op]
         public static ImageLocation location(ProcessModule src)
         {
-            return new ImageLocation(src.Path,
+            return new ImageLocation(
                 src.Path.FileName.WithoutExtension.Format(),
                 (MemoryAddress)src.EntryPointAddress,
                 src.BaseAddress,
-                (uint)src.ModuleMemorySize
+                src.ModuleMemorySize,
+                src.Path
                 );
         }
     }

@@ -22,8 +22,15 @@ namespace Z0
         void Deps()
         {
             var src = JsonDeps.parse(ExecutingPart.Component);
-
             src.RuntimeLibs().Iter(x => Write(x));
+        }
+
+        [CmdOp("app/deploy")]
+        void Deploy()
+        {
+            var dst = ApiPack.create().Context().Targets("bin");
+            var src = ExecutingPart.Component.Path().FolderPath;
+            Archives.robocopy(src,dst.Root);
         }
     }
 }

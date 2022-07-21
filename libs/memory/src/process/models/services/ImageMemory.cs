@@ -13,15 +13,15 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ref ProcessSegment segment(in ProcessMemoryRegion src, ref ProcessSegment dst)
         {
-            dst.Index = src.Index;
-            dst.Selector = src.StartAddress.Quadrant(n2);
-            dst.Base = src.StartAddress.Lo;
+            dst.Seq = src.Seq;
+            dst.Selector = src.BaseAddress.Quadrant(n2);
+            dst.Base = src.BaseAddress.Lo;
             dst.Size = src.Size;
             dst.PageCount = src.Size/PageSize;
-            dst.Range = (src.StartAddress, src.EndAddress);
+            dst.Range = (src.BaseAddress, src.MaxAddress);
             dst.Type = src.Type;
             dst.Protection = src.Protection;
-            dst.Label = src.Name;
+            dst.Label = src.ImageName;
             return ref dst;
         }
     }

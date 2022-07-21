@@ -5,12 +5,18 @@
 namespace Z0
 {
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct ProcessModuleRow : IComparable<ProcessModuleRow>
+    public record struct ProcessModuleRow : IComparable<ProcessModuleRow>, ISequential<ProcessModuleRow>
     {
-        const string TableId = "process.modules";
+        const string TableId = "image.modules";
+
+        [Render(8)]
+        public uint Seq;
+
+        [Render(64)]
+        public string ImageName;
 
         [Render(16)]
-        public MemoryAddress MinAddress;
+        public MemoryAddress BaseAddress;
 
         [Render(16)]
         public MemoryAddress EntryAddress;
@@ -21,19 +27,22 @@ namespace Z0
         [Render(16)]
         public ByteSize MemorySize;
 
-        [Render(64)]
-        public string ImageName;
-
         [Render(12)]
         public ApiVersion Version;
 
         [Render(1)]
         public FS.FileUri ImagePath;
 
+        uint ISequential.Seq
+        {
+            get => Seq;
+            set => Seq = value;
+        }
+
         [MethodImpl(Inline)]
         public int CompareTo(ProcessModuleRow src)
         {
-            var result = MinAddress.CompareTo(src.MinAddress);
+            var result = BaseAddress.CompareTo(src.BaseAddress);
             if(result == 0)
                 result = EntryAddress.CompareTo(src.EntryAddress);
             return result;

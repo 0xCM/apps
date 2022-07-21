@@ -7,22 +7,23 @@ namespace Z0
     using Windows;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct ProcessMemoryRegion : IComparable<ProcessMemoryRegion>
+    public struct ProcessMemoryRegion : IComparable<ProcessMemoryRegion>, ISequential<ProcessMemoryRegion>
     {
-        public const string TableId = "memory.regions";
+        const string TableId = "image.regions";
 
         public const byte FieldCount = 9;
 
-        public uint Index;
+        [Render(8)]
+        public uint Seq;
+
+        [Render(64)]
+        public string ImageName;
 
         [Render(16)]
-        public string Name;
+        public MemoryAddress BaseAddress;
 
         [Render(16)]
-        public MemoryAddress StartAddress;
-
-        [Render(16)]
-        public MemoryAddress EndAddress;
+        public MemoryAddress MaxAddress;
 
         [Render(16)]
         public ByteSize Size;
@@ -37,13 +38,19 @@ namespace Z0
         public MemState State;
 
         [Render(1)]
-        public FS.FileUri Path;
+        public FS.FileUri ImagePath;
+
+        uint ISequential.Seq
+        {
+            get => Seq;
+            set => Seq = value;
+        }
 
         public int CompareTo(ProcessMemoryRegion src)
-            => StartAddress.CompareTo(src.StartAddress);
+            => BaseAddress.CompareTo(src.BaseAddress);
 
         public string Describe()
-            => string.Format("[{0},{1}]({2})", StartAddress, StartAddress + Size, (ByteSize)Size);
+            => string.Format("[{0},{1}]({2})", BaseAddress, BaseAddress + Size, (ByteSize)Size);
 
         public override string ToString()
             => Describe();

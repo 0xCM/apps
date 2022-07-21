@@ -6,14 +6,14 @@ namespace Z0
 {
     public readonly struct ModuleMemory : ITextual
     {
-        public readonly NameOld ModuleName;
+        public readonly string ModuleName;
 
         public readonly MemoryAddress BaseAddress;
 
         public readonly ByteSize MemorySize;
 
         [MethodImpl(Inline)]
-        public ModuleMemory(NameOld module, MemoryAddress @base, ByteSize size)
+        public ModuleMemory(string module, MemoryAddress @base, ByteSize size)
         {
             ModuleName = module;
             BaseAddress = @base;
@@ -26,7 +26,7 @@ namespace Z0
             get => MemorySegs.define(BaseAddress, MemorySize);
         }
 
-        public MemoryAddress LastAddress
+        public MemoryAddress MaxAddress
         {
             [MethodImpl(Inline)]
             get => BaseAddress + MemorySize;

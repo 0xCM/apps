@@ -7,7 +7,7 @@ namespace Z0
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct ProcessPartition : IComparable<ProcessPartition>
     {
-        const string TableId = "process.partitions";
+        const string TableId = "image.partitions";
 
         [Render(16)]
         public MemoryAddress MinAddress;

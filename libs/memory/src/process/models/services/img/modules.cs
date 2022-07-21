@@ -18,7 +18,7 @@ namespace Z0
         public static MemoryAddress @base(string procname)
         {
             var module = ImageMemory.modules(Process.GetCurrentProcess()).Where(m => Path.GetFileNameWithoutExtension(m.ImagePath.Name) == procname).First();
-            return module.MinAddress;
+            return module.BaseAddress;
         }
 
         [Op]
@@ -28,7 +28,7 @@ namespace Z0
             var count = modules.Length;
             var buffer = alloc<ProcessModuleRow>(count);
             fill(modules, buffer);
-            return buffer.Sort();
+            return buffer.Sort().Resequence();
         }
 
         [MethodImpl(Inline), Op]
@@ -36,16 +36,17 @@ namespace Z0
         {
             var count = min(src.Length, dst.Length);
             for(var i=0u; i<count; i++)
-                fill(skip(src,i), ref seek(dst,i));
+                fill(i,skip(src,i), ref seek(dst,i));
         }
 
         [MethodImpl(Inline), Op]
-        static ref ProcessModuleRow fill(System.Diagnostics.ProcessModule src, ref ProcessModuleRow dst)
+        static ref ProcessModuleRow fill(uint seq, System.Diagnostics.ProcessModule src, ref ProcessModuleRow dst)
         {
+            dst.Seq = seq;
             dst.ImageName = src.ModuleName;
-            dst.MinAddress = src.BaseAddress;
+            dst.BaseAddress = src.BaseAddress;
             dst.EntryAddress = src.EntryPointAddress;
-            dst.MaxAddress = dst.MinAddress + src.ModuleMemorySize;
+            dst.MaxAddress = dst.BaseAddress + src.ModuleMemorySize;
             dst.MemorySize = src.ModuleMemorySize;
             dst.Version = ((uint)src.FileVersionInfo.FileMajorPart, (uint)src.FileVersionInfo.FileMinorPart);
             dst.ImagePath = FS.path(src.FileName);

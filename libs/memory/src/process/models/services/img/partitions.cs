@@ -18,9 +18,9 @@ namespace Z0
                 ref readonly var image = ref src[i];
                 ref var dst = ref seek(buffer,i);
                 dst.MinAddress = image.BaseAddress;
-                dst.MaxAddress = image.EndAddress;
+                dst.MaxAddress = image.MaxAddress;
                 dst.Size = image.Size;
-                dst.ImageName = image.Name;
+                dst.ImageName = image.ImageName;
             }
 
             return buffer.Sort();

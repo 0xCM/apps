@@ -10,36 +10,36 @@ namespace Z0
     {
         static FS.FileUri Nul => FS.FolderPath.Empty +  FS.file("dev",FS.ext("null"));
 
-        public static Index<ProcessMemoryRegion> pages(ReadOnlySpan<MemoryRangeInfo> src)
+        public static ReadOnlySeq<ProcessMemoryRegion> pages(ReadOnlySpan<MemoryRangeInfo> src)
         {
             var count = src.Length;
             var buffer = alloc<ProcessMemoryRegion>(count);
             ref var dst = ref first(buffer);
             for(var i=0u; i<count; i++)
                 fill(skip(src,i), i, out seek(dst,i));
-            return buffer;
+            return buffer.Resequence();
         }
 
         static ref ProcessMemoryRegion fill(in MemoryRangeInfo src, uint index, out ProcessMemoryRegion dst)
         {
             var owner = src.Owner;
-            dst.Index = index;
+            dst.Seq = index;
             if(text.nonempty(owner))
             {
-                dst.Path = FS.path(owner);
+                dst.ImagePath = FS.path(owner);
                 if(owner.Contains("."))
-                    dst.Name = Path.GetFileName(owner);
+                    dst.ImageName = Path.GetFileName(owner);
                 else
-                    dst.Name = owner.Substring(0, min(owner.Length, 12));
+                    dst.ImageName = owner.Substring(0, min(owner.Length, 12));
             }
             else
             {
-                dst.Name = "unknown";
-                dst.Path = Nul;
+                dst.ImageName = "unknown";
+                dst.ImagePath = Nul;
             }
 
-            dst.StartAddress = src.StartAddress;
-            dst.EndAddress = src.EndAddress;
+            dst.BaseAddress = src.StartAddress;
+            dst.MaxAddress = src.EndAddress;
             dst.Size = src.Size;
             dst.Protection = src.Protection;
             dst.Type = src.Type;

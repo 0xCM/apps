@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public struct ProcessContext
+    public record struct ProcessContext
     {
         public int ProcessId;
 
