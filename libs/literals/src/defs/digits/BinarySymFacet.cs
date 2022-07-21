@@ -9,7 +9,7 @@ namespace Z0
     /// <summary>
     /// Defines <see cref='BinaryDigitSym' /> classiefiers
     /// </summary>
-    [SymSource(binary_digits,Base2)]
+    [SymSource(binary_digits,NBK.Base2)]
     public enum BinarySymFacet : ushort
     {
         /// <summary>

@@ -44,4 +44,7 @@ namespace Z0
         public const NK UnsignedInts = NK.UnsignedInts;
 
     }
+
+    public static partial class ClrQuery
+    {}
 }

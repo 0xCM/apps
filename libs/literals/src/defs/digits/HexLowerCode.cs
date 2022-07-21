@@ -9,7 +9,7 @@ namespace Z0
     /// <summary>
     /// Defines identiiers for the ASCI codes that correspond to the lowercase hex digits
     /// </summary>
-    [SymSource(hex_digits, Base16)]
+    [SymSource(hex_digits, NBK.Base16)]
     public enum HexLowerCode : byte
     {
         /// <summary>

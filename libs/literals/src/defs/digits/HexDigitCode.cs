@@ -10,7 +10,7 @@ namespace Z0
     /// <summary>
     /// Defines identifiers for the ASCI codes that correspond to both upper/lower-case hex digits
     /// </summary>
-    [SymSource(hex_digits, Base16)]
+    [SymSource(hex_digits, NBK.Base16)]
     public enum HexDigitCode : byte
     {
         /// <summary>

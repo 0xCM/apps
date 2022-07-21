@@ -9,7 +9,7 @@ namespace Z0
     /// <summary>
     /// Defines log2 literals for each pow^2 defined by <see cref ='P'/>
     /// </summary>
-    [SymSource(pow2, Base16)]
+    [SymSource(pow2, NBK.Base16)]
     public enum Log2x3 : byte
     {
         /// <summary>

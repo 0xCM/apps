@@ -5,7 +5,6 @@
 namespace Z0
 {
     using K = Pow2Scalars;
-    using NBK = NumericBaseKind;
 
     /// <summary>
     /// Defines integers of the form 2^n where n = 0,..,31

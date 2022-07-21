@@ -9,7 +9,7 @@ namespace Z0
     /// <summary>
     /// Defines a literal for each value 2^n - 1, where n = 0,..,64
     /// </summary>
-    [SymSource(pow2, Base16)]
+    [SymSource(pow2, NBK.Base16)]
     public enum Pow2M1 : ulong
     {
         T00m1 = T00 - 1,

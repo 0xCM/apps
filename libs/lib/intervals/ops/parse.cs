@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial struct Intervals
     {
         [Op]
@@ -15,7 +13,7 @@ namespace Z0
             if(!outcome)
                 return false;
 
-            if(!contains(bounds,dst))
+            if(!contains(bounds, dst))
             {
                 outcome = (false, $"The parsed value {dst} is not with the required range {bounds}");
                 return false;

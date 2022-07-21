@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Identifies 4-element permutations
     /// </summary>
-    [SymSource(perms, Base2)]
+    [SymSource(perms, NBK.Base2)]
     public enum Perm4L : byte
     {
         /// <summary>

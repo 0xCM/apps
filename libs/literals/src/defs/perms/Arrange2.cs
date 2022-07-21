@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [SymSource(arrangements, Base2),Flags]
+    [SymSource(arrangements, NBK.Base2),Flags]
     public enum Arrange2L : byte
     {
         A = 0b00,

@@ -6,7 +6,7 @@ namespace Z0
 {
     using S = BinaryDigitSym;
 
-    [SymSource(binary_digits,Base2)]
+    [SymSource(binary_digits, NBK.Base2)]
     public enum BinaryDigitCode : byte
     {
         /// <summary>

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [SymSource(perms, Base2)]
+    [SymSource(perms, NBK.Base2)]
     public enum Perm4Sym : byte
     {
         /// <summary>

@@ -9,7 +9,7 @@ namespace Z0
 
     using L = HexLowerSym;
 
-    [SymSource(hex_digits, Base16)]
+    [SymSource(hex_digits, NBK.Base16)]
     public enum HexSymFacet : ushort
     {
         /// <summary>

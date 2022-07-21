@@ -26,11 +26,11 @@ global using CallerName = System.Runtime.CompilerServices.CallerMemberNameAttrib
 global using CallerFile = System.Runtime.CompilerServices.CallerFilePathAttribute;
 global using CallerLine = System.Runtime.CompilerServices.CallerLineNumberAttribute;
 
-[assembly: PartId(PartId.Templates)]
+[assembly: PartId(PartId.Symbolics)]
 
 namespace Z0.Parts
 {
-    public sealed partial class Templates : Part<Templates>
+    public sealed class Symbolics : Part<Symbolics>
     {
 
     }

@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines literals that correspond to the base-16 digits
     /// </summary>
-    [SymSource(hex_digits, Base16)]
+    [SymSource(hex_digits, NBK.Base16)]
     public enum HexDigitValue : byte
     {
         /// <summary>

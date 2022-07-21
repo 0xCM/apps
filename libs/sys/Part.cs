@@ -28,8 +28,15 @@ global using CallerFile = System.Runtime.CompilerServices.CallerFilePathAttribut
 global using CallerLine = System.Runtime.CompilerServices.CallerLineNumberAttribute;
 using NK = Z0.NumericKind;
 
-
 [assembly: PartId(PartId.Sys)]
+
+namespace Z0.Parts
+{
+    public sealed class Sys : Part<Sys>
+    {
+
+    }
+}
 
 namespace Z0
 {

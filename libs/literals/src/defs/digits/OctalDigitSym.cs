@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines the symbols that represent base-8 digits
     /// </summary>
-    [SymSource(octal_digits, Base8)]
+    [SymSource(octal_digits, NBK.Base8)]
     public enum OctalDigitSym : ushort
     {
         /// <summary>

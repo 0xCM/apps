@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines identifiers corresponding to each value that can be represented with a 4-bit unsigned integer
     /// </summary>
-    [SymSource(hex_digits, Base16), DataWidth(4)]
+    [SymSource(hex_digits, NBK.Base16), DataWidth(4)]
     public enum Hex4Kind : byte
     {
         /// <summary>

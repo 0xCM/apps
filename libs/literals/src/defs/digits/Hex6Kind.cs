@@ -8,7 +8,7 @@ namespace Z0
     /// <summary>
     /// Defines identifiers corresponding to each value that can be represented with a 6-bit unsigned integer
     /// </summary>
-    [SymSource(hex_digits, Base16), DataWidth(6)]
+    [SymSource(hex_digits, NBK.Base16), DataWidth(6)]
     public enum Hex6Kind : byte
     {
         /// <summary>

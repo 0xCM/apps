@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [SymSource(perms, Base2),Flags]
+
+    [SymSource(perms, NBK.Base2),Flags]
     public enum Perm8Sym : byte
     {
         /// <summary>

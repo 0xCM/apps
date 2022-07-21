@@ -279,8 +279,8 @@ public enum PartId : byte
     [Symbol("emath")]
     EMath,
 
-    [Symbol("templates")]
-    Templates,
+    [Symbol("symbolics")]
+    Symbolics,
 
     [Symbol("digital")]
     Digital,
@@ -356,9 +356,6 @@ public enum PartId : byte
 
     [Symbol("calc.checks")]
     CalcChecks,
-
-    [Symbol("run")]
-    Run,
 
     [Symbol("test.runner")]
     TestRunner,

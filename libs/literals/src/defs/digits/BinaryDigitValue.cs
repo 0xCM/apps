@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines literals that correspond to base-2 digits
     /// </summary>
-    [SymSource(binary_digits,Base2)]
+    [SymSource(binary_digits,NBK.Base2)]
     public enum BinaryDigitValue : byte
     {
         /// <summary>

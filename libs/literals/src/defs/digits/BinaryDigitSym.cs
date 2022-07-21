@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines the symbols that represent the base-2 digits
     /// </summary>
-    [SymSource(binary_digits,Base2)]
+    [SymSource(binary_digits,NBK.Base2)]
     public enum BinaryDigitSym : ushort
     {
         /// <summary>

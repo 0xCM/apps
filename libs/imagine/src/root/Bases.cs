@@ -6,7 +6,7 @@ namespace Z0
 {
     partial struct Root
     {
-         /// <summary>
+        /// <summary>
         /// Species the base2 singleton representative
         /// </summary>
         public static Base2 base2 => default;

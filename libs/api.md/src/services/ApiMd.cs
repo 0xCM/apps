@@ -36,8 +36,8 @@ namespace Z0
         public Assembly[] Components
             => data(K.Components, CalcComponents);
 
-        public Index<IPart> Parts
-            => data(K.ApiParts, () => Catalog.Parts);
+        public ReadOnlySeq<IPart> Parts
+            => data(K.ApiParts, () => Catalog.Parts.ToReadOnlySeq());
 
         public Type[] EnumTypes
             => data(K.EnumTypes, () => Components

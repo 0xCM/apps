@@ -9,7 +9,7 @@ namespace Z0
     /// <summary>
     /// Defines <see cref='DecimalDigitSym' /> classifiers
     /// </summary>
-    [SymSource(digits,Base10)]
+    [SymSource(digits,NBK.Base10)]
     public enum DecimalSymFacet : ushort
     {
         /// <summary>

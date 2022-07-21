@@ -6,8 +6,9 @@
     <TargetFramework>$(FrameworkMoniker)</TargetFramework>
   </PropertyGroup>
 
+
   <ItemGroup>
-    <ProjectReference Include="$(Literals)" />
+    <ProjectReference Include="$(Part)" />
   </ItemGroup>
 
 </Project>

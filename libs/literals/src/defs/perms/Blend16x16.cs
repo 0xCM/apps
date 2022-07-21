@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [SymSource(blends, Base2)]
+    [SymSource(blends, NBK.Base2)]
     public enum Blend16x16 : ushort
     {
         LLLLLLLLLLLLLLLL = 0b0000000000000000,

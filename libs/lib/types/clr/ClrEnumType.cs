@@ -6,11 +6,11 @@ namespace Z0
 {
     public readonly struct ClrEnumType : IClrEnumType
     {
-        public Identifier Name {get;}
+        public readonly string Name;
 
-        public ClrEnumKind EnumKind {get;}
+        public readonly ClrEnumKind EnumKind;
 
-        public NativeClass NativeClass {get;}
+        public readonly NativeClass NativeClass;
 
         [MethodImpl(Inline)]
         public ClrEnumType(Identifier name, ClrEnumKind kind)
@@ -19,6 +19,12 @@ namespace Z0
             EnumKind = kind;
             NativeClass = kind.IsSigned() ? NativeClass.I : NativeClass.U;
         }
+
+        ClrEnumKind IClrEnumType.EnumKind
+            => EnumKind;
+
+        Identifier IType.Name
+            => Name;
 
         public string Format()
             => string.Format("enum<{0}:{1}>", Name, EnumKind.CsKeyword());

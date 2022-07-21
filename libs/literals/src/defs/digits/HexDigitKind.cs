@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines a parition over hex digits
     /// </summary>
-    [SymSource(hex_digits, Base16)]
+    [SymSource(hex_digits, NBK.Base16)]
     public enum HexDigitKind : byte
     {
         None = 0,

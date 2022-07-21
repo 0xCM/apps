@@ -28,7 +28,7 @@ global using static Z0.ApiGranules;
 
 [assembly: PartId(PartId.Literals)]
 
-class Root
+partial class Root
 {
     public const string EmptyString = "";
 

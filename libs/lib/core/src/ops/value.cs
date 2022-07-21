@@ -12,6 +12,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public static ulong value<K>(K n = default)
             where K : unmanaged, ITypeNat
-                => NatValues.value(n);
+                => Typed.value(n);
     }
 }

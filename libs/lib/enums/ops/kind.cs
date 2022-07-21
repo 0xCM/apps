@@ -17,7 +17,7 @@ namespace Z0
             where E : unmanaged
                 => kind(typeof(E));
 
-        [Op]
+        [Op, MethodImpl(Inline)]
         public static ClrEnumKind kind(Type e)
             => (ClrEnumKind)PrimalBits.kind(Type.GetTypeCode(e.GetEnumUnderlyingType()));
     }

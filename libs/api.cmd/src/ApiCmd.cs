@@ -128,7 +128,10 @@ namespace Z0
 
         [CmdOp("api/parts")]
         void Parts()
-            => iter(ApiMd.Parts, part => Write(part.Name));
+        {
+
+            iter(ApiMd.Parts, part => Write(part.Name));
+        }
 
         [CmdOp("api/components")]
         void Components()
