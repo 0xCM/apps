@@ -1,4 +1,4 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" IsImplicitlyDefined="true" Version="17.2.0"/>
     <PackageReference Include="NUnit" IsImplicitlyDefined="true" Version="3.13.1" />
