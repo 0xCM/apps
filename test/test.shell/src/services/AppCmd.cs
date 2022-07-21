@@ -9,9 +9,10 @@ namespace Z0
         [CmdOp("units/run")]
         Outcome RunUnits(CmdArgs args)
         {
-            TestRunner.Run(core.array(PartId.Lib, PartId.TestUnits));
+            TestRunner.Run(Arrays.array(PartId.Lib, PartId.TestUnits));
             return true;
         }
+
 
         [CmdOp("ancestors/check")]
         void Ancestors()

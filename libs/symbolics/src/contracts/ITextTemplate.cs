@@ -7,14 +7,14 @@ namespace Z0
     /// <summary>
     /// Characterizes a pararametric text block bound to an arbitrary number of variables
     /// </summary>
-    public interface ITextTemplate : INullity
+    public interface ITextTemplate : IExpr
     {
         TextBlock Pattern {get;}
 
-        Index<object> Parameters {get;}
+        Seq<object> Vars {get;}
 
-        uint ParameterCount
-            => Parameters.Count;
+        uint VarCount
+            => Vars.Count;
 
         bool INullity.IsEmpty
             => Pattern.IsEmpty;

@@ -73,7 +73,7 @@ namespace Z0
             Counts = (SuccessCount, FailureCount);
         }
 
-        protected override void Execute()
+        protected override void Execute(WfEventLogger log)
         {
             Exec();
         }

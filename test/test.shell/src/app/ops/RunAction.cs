@@ -6,11 +6,11 @@ namespace Z0
 {
     partial class TestApp<A>
     {
-        Duration ExecExplicit(IExplicitTest unit, string hostpath, List<TestCaseRecord> results)
+        Duration ExecExplicit(IExplicitTest unit, List<TestCaseRecord> results)
         {
             var clock = Time.counter(false);
             var messages = sys.empty<IAppMsg>();
-            var casename = TestCaseName(unit);
+            var casename = CaseName(unit);
 
             try
             {

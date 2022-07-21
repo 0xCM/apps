@@ -20,17 +20,18 @@ namespace Z0
         /// <summary>
         /// Indicates whether the variable is prefixed
         /// </summary>
-        bool IsPrefixed => Prefix != AsciNull.Literal;
+        bool IsPrefixed
+            => Prefix != AsciNull.Literal;
 
         /// <summary>
         /// Indicates whether the variable is fenced
         /// </summary>
-        bool IsFenced => Fence.Left != AsciNull.Literal && Fence.Right != AsciNull.Literal;
+        bool IsFenced
+            => Fence.Left != AsciNull.Literal && Fence.Right != AsciNull.Literal;
     }
 
-    public interface IVarExpr<A> : IVarExpr
-        where A : unmanaged, IAsciSeq<A>
+    public interface IVarExpr<T> : IVarExpr
     {
-        Name<A> VarName {get;}
+
     }
 }

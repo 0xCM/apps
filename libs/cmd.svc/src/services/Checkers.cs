@@ -49,15 +49,48 @@ namespace Z0
         public static void methods(Type src, ConcurrentBag<MethodInfo> dst)
             => iter(src.DeclaredMethods().WithArity(0), m => dst.Add(m));
 
+        public static void run(ReadOnlySpan<IChecker> checks, WfEventLogger log, bool pll = true)
+        {
+            iter(checks, checker => {
+                var host = checker.GetType();
+                try
+                {
+                    checker.Run(log,pll);
+                }
+                catch(Exception e)
+                {
+                    log(@event(host,EmptyString,e));
+                }
+
+            }, pll);
+        }
+
         public static void run(string name, Action<ITextEmitter> f, bool show = true)
         {
             var log = text.emitter();
             run(name, f, log, show);
         }
 
+        public static void run(Type host, string name, Action<WfEventLogger> f, WfEventLogger log)
+        {
+            try
+            {
+                f(log);
+            }
+            catch(Exception e)
+            {
+                log(Events.error(host,e));
+            }
+        }
+
         public static void run(bool pll, params (string name, Action<ITextEmitter> f)[] checks)
         {
             iter(checks, x => run(x.name, x.f), pll);
+        }
+
+        public static void run(bool pll, Type host, WfEventLogger log, params (string name, Action<WfEventLogger> f)[] checks)
+        {
+            iter(checks, x => run(host, x.name, x.f, log), pll);
         }
 
         static void run(string name, Action<ITextEmitter> f, ITextEmitter log, bool show)
@@ -78,6 +111,14 @@ namespace Z0
                         ShowCheckResult(name, log.Emit(false), e);
                 }
             }
+        }
+
+        static IWfEvent @event(Type host, string data, Exception e = null)
+        {
+            if(e != null)
+                return Events.error(host, e);
+            else
+                return Events.row(data, FlairKind.Babble);
         }
 
         static void ShowCheckResult(string name, string data, Exception e = null)

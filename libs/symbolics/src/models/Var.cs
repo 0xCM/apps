@@ -10,26 +10,43 @@ namespace Z0
     /// Defines a variable
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public readonly struct Var : IVar
+    public class Var : IVar
     {
-        public Name Name {get;}
+        public readonly Name Name;
 
         readonly Func<object> Resolver;
 
-        public Type ValueType {get;}
+        public readonly Type ValueType;
 
         [MethodImpl(Inline)]
-        public Var(Name name, Type t, Func<object> resolver)
+        public Var(Type type, Func<object> resolver)
         {
-            Name = name;
-            ValueType = t;
+            Name = default;
+            ValueType = type;
             Resolver = resolver;
         }
+
+        [MethodImpl(Inline)]
+        public Var(Name name, Type type, Func<object> resolver)
+        {
+            Name = name;
+            ValueType = type;
+            Resolver = resolver;
+        }
+
+        public bool IsNamed
+        {
+            [MethodImpl(Inline)]
+            get => Name.IsEmpty;
+        }
+
+        Name IVar.Name
+            => Name;
 
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => Name.IsEmpty;
+            get => Name.IsNonEmpty;
         }
 
         public bool IsNonEmpty

@@ -28,7 +28,7 @@ namespace Z0
         static string FormatStatus(string status)
             => status.PadRight((int)PassedPad);
 
-        static string TestCaseName(IExplicitTest unit)
+        static string CaseName(IExplicitTest unit)
         {
             var owner = ApiIdentityKinds.owner(unit.GetType());
             var hostname = unit.GetType().Name;
@@ -38,19 +38,19 @@ namespace Z0
 
         static AppMsg PreCase(string testName, DateTime start)
         {
-            var fields = array(
+            var fields = text.join(FieldSep,
                 FormatName(testName),
                 FormatStatus("executing"),
                 DurationPlaceholder,
                 FormatTs(start)
                 );
 
-            return AppMsg.colorize(fields.Join(FieldSep), FlairKind.Status);
+            return AppMsg.colorize(fields, FlairKind.Status);
         }
 
         static AppMsg PostCase(string testName, TimeSpan elapsed, DateTime start, DateTime end)
         {
-            var fields = array(
+            var msg = text.join(FieldSep,
                 FormatName(testName),
                 FormatStatus("executed"),
                 Format(elapsed),
@@ -59,13 +59,13 @@ namespace Z0
                 Format(end - start)
                 );
 
-            return AppMsg.colorize(fields.Join(FieldSep), FlairKind.Status);
+            return AppMsg.colorize(msg, FlairKind.Status);
         }
 
-        static AppMsg PostUnit(string hosturi, TimeSpan elapsed, DateTime start, DateTime end)
+        static AppMsg PostUnit(ApiHostUri host, TimeSpan elapsed, DateTime start, DateTime end)
         {
-            var fields = array(
-                FormatName(hosturi),
+            var msg = text.join(FieldSep,
+                FormatName(host.Format()),
                 FormatStatus("completed"),
                 Format(elapsed),
                 FormatTs(start),
@@ -73,7 +73,7 @@ namespace Z0
                 Format(end - start)
                 );
 
-            return AppMsg.colorize(fields.Join(FieldSep), FlairKind.Status);
+            return AppMsg.colorize(msg, FlairKind.Status);
         }
     }
 }

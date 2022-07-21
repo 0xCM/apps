@@ -6,9 +6,9 @@ namespace Z0
 {
     partial class TextTemplates
     {
-        public class TextTemplate<T0,T1,T2,T3,T4,T5> : TextTemplate<T0,T1,T2,T3,T4>
+        public class TextTemplate<T0> : TextTemplate
         {
-            const byte Arity = 6;
+            const byte Arity = 1;
 
             const byte Index = Arity - 1;
 
@@ -24,18 +24,17 @@ namespace Z0
 
             }
 
-            public ref T5 Param5
+            public ref T0 Param0
             {
                 [MethodImpl(Inline)]
-                get => ref Var<T5>(Index);
+                get => ref Var<T0>(Index);
             }
 
-            public ref T5 this[N5 n]
+            public ref T0 this[N0 n]
             {
                 [MethodImpl(Inline)]
-                get => ref Param5;
+                get => ref Param0;
             }
-
         }
     }
 }

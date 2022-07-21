@@ -4,15 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Collections.Generic;
+    using static Algs;
 
     partial class TestApp<A>
     {
-        public void RunUnit(Type host, IUnitTest unit)
+        public void RunUnit(IUnitTest unit)
         {
             if(DiagnosticMode)
-                term.print($"Executing {host.DisplayName()} cases");
+                term.print($"Executing {unit.Host} cases");
 
             var results = new List<TestCaseRecord>();
             try
@@ -22,17 +21,15 @@ namespace Z0
                 var tsStart = Time.now();
 
                 if(unit is IExplicitTest et)
-                    ExecExplicit(et, host.Name, results);
+                    ExecExplicit(et, results);
                 else
                 {
-                    core.iter(FindTests(host), t =>  execTime += RunCase(unit, t, results));
+                    iter(FindTests(unit.HostType), t =>  execTime += RunCase(unit, t, results));
                     BenchmarkQueue.Enqueue(unit.TakeBenchmarks().Array());
                 }
 
                 clock.Stop();
-
-                var hosturi = ApiIdentity.HostUri(host);
-                term.print(PostUnit(hosturi, clock.Span(), tsStart, Time.now()));
+                term.print(PostUnit(unit.Host, clock.Span(), tsStart, Time.now()));
 
             }
             catch(Exception e)
@@ -48,12 +45,12 @@ namespace Z0
         public void RunUnit(Type host)
         {
             Require.invariant(Wf != null, () => "Wf must not be null");
-            using var unit = host.Instantiate<IUnitTest>();
+            using var unit = host.Activate<IUnitTest>();
             if(unit.Enabled)
             {
                 unit.SetMode(DiagnosticMode);
                 unit.InjectShell(Wf);
-                RunUnit(host, unit);
+                RunUnit(unit);
             }
         }
     }

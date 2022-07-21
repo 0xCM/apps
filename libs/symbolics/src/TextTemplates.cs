@@ -6,10 +6,10 @@ namespace Z0
 {
     public partial class TextTemplates
     {
-        public static TextTemplate template(string pattern, object[] parameters)
-            => new TextTemplate(pattern, parameters);
+        public static TextTemplate template(TextBlock pattern, params object[] vars)
+            => new TextTemplate(pattern, vars);
 
-        public static TextTemplate<T0> template<T0>(string pattern, T0 p0)
+        public static TextTemplate<T0> template<T0>(TextBlock pattern, T0 p0)
         {
             var t = new TextTemplate<T0>(pattern);
             t.Param0 = p0;

@@ -46,7 +46,7 @@ namespace Z0
             var output = subdir + src.FileName.ChangeExtension(x);
             var source = src.Format(PS);
             var target = output.Format(PS);
-            var pattern = CmdScriptPattern.Empty;
+            var pattern = ScriptTemplate.Empty;
             switch(id)
             {
                 case CmdName.EmitAsm:

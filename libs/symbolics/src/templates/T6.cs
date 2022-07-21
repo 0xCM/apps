@@ -6,30 +6,36 @@ namespace Z0
 {
     partial class TextTemplates
     {
-        public class TextTemplate<T0,T1,T2,T3,T4,T5> : TextTemplate<T0,T1,T2,T3,T4>
+        public class TextTemplate<T0,T1,T2,T3,T4,T5,T6> : TextTemplate<T0,T1,T2,T3,T4,T5>
         {
-            public new const byte Arity = 6;
+            const byte Arity = 7;
 
-            public TextTemplate(string src)
-                : base(src)
+            const byte Index = Arity - 1;
+
+            public TextTemplate(TextBlock src)
+                : base(src, Arity)
             {
 
             }
 
-            public T5 Param5;
-
-            public T5 this[N5 n]
+            public TextTemplate(TextBlock src, byte arity)
+                : base(src, Arity)
             {
-                [MethodImpl(Inline)]
-                get => Param5;
-                [MethodImpl(Inline)]
-                set => Param5 = value;
+
             }
 
-            public override uint ParameterCount => Arity;
+            public ref T6 Param6
+            {
+                [MethodImpl(Inline)]
+                get => ref Var<T6>(Index);
+            }
 
-            public override Index<object> Parameters
-                => new object[Arity]{Param0, Param1, Param2, Param3, Param4, Param5};
+            public ref T6 this[N6 n]
+            {
+                [MethodImpl(Inline)]
+                get => ref Param6;
+            }
+
         }
     }
 }

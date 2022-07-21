@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-    using static ApiGranules;
-
     [ApiHost]
     public class ToolsetCmd : AppCmdService<ToolsetCmd>
     {

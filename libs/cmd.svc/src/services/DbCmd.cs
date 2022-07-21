@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     public class DbCmd : AppCmdService<DbCmd>
     {
         [CmdOp("jobs/types")]
@@ -18,13 +16,14 @@ namespace Z0
             Write($"Jobs: {jobs.Root}");
 
             jobs.Root.Folders(true).Iter(f => Write(f.Format()));
-            //iter(jobs.Files(),f => Write(f.ToUri()));
+        }
 
-            // var db = (IDbArchive)DbArchive;
-            // var jobs = db.Sources("jobs");
-            // iter(jobs.Files(), file => Write(file.ToUri()));
+        [CmdOp("app/deps")]
+        void Deps()
+        {
+            var src = JsonDeps.parse(ExecutingPart.Component);
 
-            // iter(FS.dir("d:/views/db/jobs").Files(true), f => Write(f.ToUri()));
+            src.RuntimeLibs().Iter(x => Write(x));
         }
     }
 }

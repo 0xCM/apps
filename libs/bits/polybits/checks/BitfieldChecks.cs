@@ -24,7 +24,7 @@ namespace Z0
             Seg3 = 3
         }
 
-        public void Run(ITextEmitter log)
+        public void Run(WfEventLogger log)
         {
             var segs = array(
                 PolyBits.seg(BF_A.Seg0, 0, 1, Bitfields.mask(Bitfields.segwidth(0,1), 0)),
@@ -33,11 +33,12 @@ namespace Z0
                 PolyBits.seg(BF_A.Seg3, 6, 8, Bitfields.mask(Bitfields.segwidth(6,8), 6))
                 );
 
+            var emitter = text.emitter();
             var s0 = (byte)0b01_11_10_11;
             var field = Bitfields.create(PolyBits.origin(typeof(BF_A)), "test",segs,s0);
             var specs = field.SegSpecs;
             var count = specs.Length;
-            log.Append("[");
+            emitter.Append("[");
             for(byte i=0; i<count; i++)
             {
                 ref readonly var seg = ref skip(specs,i);
@@ -45,16 +46,17 @@ namespace Z0
                 var j=0u;
 
                 var bitstring = BitRender.gformat(state, (byte)seg.Width);
-                log.Append(string.Format("{0}={1}",seg.Format(), bitstring));
+                emitter.Append(string.Format("{0}={1}",seg.Format(), bitstring));
                 if(i !=count -1)
-                    log.Append(" | ");
+                    emitter.Append(" | ");
             }
-            log.Append("]");
+            emitter.Append("]");
+
+            log(Events.row(emitter.Emit()));
         }
 
-        protected override void Execute()
+        protected override void Execute(WfEventLogger log)
         {
-            var log = text.emitter();
             Run(log);
         }
     }

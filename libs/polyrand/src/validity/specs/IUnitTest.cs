@@ -9,5 +9,8 @@ namespace Z0
         void SetMode(bool diagnostic);
 
         void InjectShell(IWfRuntime wf);
+
+        ApiHostUri Host
+            => HostType.ApiHostUri();
     }
 }

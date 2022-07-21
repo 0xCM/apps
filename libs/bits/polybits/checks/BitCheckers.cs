@@ -12,7 +12,7 @@ namespace Z0
         public static void run(IWfRuntime wf, bool pll = true)
         {
             var checkers = new BitCheckers(wf);
-            checkers.Run(pll);
+            checkers.Run(wf.EventLog, pll);
         }
 
         IWfRuntime Wf;
@@ -43,9 +43,9 @@ namespace Z0
             Wf = wf;
         }
 
-        public void Run(bool pll)
+        public void Run(WfEventLogger log, bool pll)
         {
-            Checkers.run(pll,
+            Checkers.run(pll,GetType(), log,
                 (nameof(CheckBitNumbers), CheckBitNumbers),
                 (nameof(CheckBitReplication), CheckBitReplication),
                 (nameof(CheckSegVars), CheckSegVars),
@@ -61,13 +61,13 @@ namespace Z0
             where T : unmanaged
                 => default;
 
-        void CheckBitfields(ITextEmitter log)
+        void CheckBitfields(WfEventLogger log)
         {
             var checks = BitfieldChecks.create(Wf);
             checks.Run(log);
         }
 
-        void CheckBv256(ITextEmitter log)
+        void CheckBv256(WfEventLogger log)
         {
             var width = 256;
             var storage = ByteBlock32.Empty;
@@ -85,11 +85,11 @@ namespace Z0
             {
                 j=0;
                 var count = BitRender.render32x4(Chars.Space, skip(dst,i), ref j, bitstring);
-                log.AppendLine(text.format(slice(bitstring,0,count)));
+                log(Events.row(text.format(slice(bitstring,0,count))));
             }
         }
 
-        void CheckBitReplication(ITextEmitter log)
+        void CheckBitReplication(WfEventLogger log)
         {
             const byte PW = 4;
 
@@ -111,34 +111,36 @@ namespace Z0
 
             var A0 = gbits.replicate(P0, 0, 3, 8/PW);
             var R0 = Require.equal(E0,A0);
-            log.WriteLine(R0.FormatBits());
+            log(Events.row(R0.FormatBits()));
 
             var A1 = gbits.replicate(P1, 0, 3, 16/PW);
             var R1 = Require.equal(E1,A1);
-            log.WriteLine(R1.FormatBits());
+            log(Events.row(R1.FormatBits()));
 
             var A2 = gbits.replicate(P2, 0, 3, 32/PW);
             var R2 = Require.equal(E2,A2);
-            log.WriteLine(R2.FormatBits());
+            log(Events.row(R2.FormatBits()));
 
             var A3 = gbits.replicate(P3, 0, 3, 64/PW);
             var R3 = Require.equal(E3,A3);
-            log.WriteLine(R3.FormatBits());
+            log(Events.row(R3.FormatBits()));
         }
 
-        void CheckBitNumbers(ITextEmitter log)
+        void CheckBitNumbers(WfEventLogger log)
         {
-            BitNumber.validate(n3, (byte)0b0000_0111, log);
-            BitNumber.validate(n6, (byte)0b0011_1000, log);
+            var dst = text.emitter();
+            BitNumber.validate(n3, (byte)0b0000_0111, dst);
+            BitNumber.validate(n6, (byte)0b0011_1000, dst);
 
-            BitNumber.validate(n3, (ushort)0b0000_0111, log);
-            BitNumber.validate(n6, (ushort)0b0011_1000, log);
+            BitNumber.validate(n3, (ushort)0b0000_0111, dst);
+            BitNumber.validate(n6, (ushort)0b0011_1000, dst);
 
-            BitNumber.validate(n3, (uint)0b0000_0111, log);
-            BitNumber.validate(n6, (uint)0b0011_1000, log);
+            BitNumber.validate(n3, (uint)0b0000_0111, dst);
+            BitNumber.validate(n6, (uint)0b0011_1000, dst);
+            log(Events.row(dst.Emit()));
         }
 
-        void CheckSegVars(ITextEmitter log)
+        void CheckSegVars(WfEventLogger log)
         {
             var a = Code.A;
             var b = Code.B;
@@ -148,17 +150,17 @@ namespace Z0
 
             var v0 = new SegVar(a, b, c, _, d);
             var v1 = new SegVar(Code.W, Code.R, Code.X, Code.B);
-            log.WriteLine(v0.Format());
-            log.WriteLine(v1.Format());
+            log(Events.row(v0.Format()));
+            log(Events.row(v1.Format()));
 
             var input = "ss_ii_bbbb";
             var v2 = SegVar.parse(input);
             var output = v2.Format();
             var result = Require.equal(input,output);
-            log.WriteLine(result);
+            log(Events.row(result));
         }
 
-        void CheckUnpack4x1(ITextEmitter log)
+        void CheckUnpack4x1(WfEventLogger log)
         {
             const byte a0 = 0b1111;
             const byte a1 = 0b1110;
@@ -175,6 +177,7 @@ namespace Z0
             var output = 0u;
             var bitstring = EmptyString;
 
+            var emitter = text.emitter();
             Span<char> dst = stackalloc char[RenderWidth];
             var buffer = default(Span<bit>);
 
@@ -183,7 +186,7 @@ namespace Z0
             input = src;
             count = BitRender.render32x4(sep, src, ref i, dst);
             bitstring = text.format(slice(dst, 0, count));
-            log.AppendFormat("{0} => ", bitstring);
+            emitter.AppendFormat("{0} => ", bitstring);
 
             i=0;
             storage = 0;
@@ -193,14 +196,14 @@ namespace Z0
             Require.equal(input,output);
             count = BitRender.render32x4(sep, storage, ref i, dst);
             bitstring = text.format(slice(dst, 0, count));
-            log.AppendLine(bitstring);
+            emitter.AppendLine(bitstring);
 
             i=0;
             src = a1;
             input = src;
             count = BitRender.render32x4(sep, src, ref i, dst);
             bitstring = text.format(slice(dst, 0, count));
-            log.AppendFormat("{0} => ", bitstring);
+            emitter.AppendFormat("{0} => ", bitstring);
 
             i=0;
             storage = 0;
@@ -210,14 +213,14 @@ namespace Z0
             Require.equal(input,output);
             count = BitRender.render32x4(sep, storage, ref i, dst);
             bitstring = text.format(slice(dst, 0, count));
-            log.AppendLine(bitstring);
+            emitter.AppendLine(bitstring);
 
             i=0;
             src = a2;
             input = src;
             count = BitRender.render32x4(sep, src, ref i, dst);
             bitstring = text.format(slice(dst, 0, count));
-            log.AppendFormat("{0} => ", bitstring);
+            emitter.AppendFormat("{0} => ", bitstring);
 
             i=0;
             storage = 0;
@@ -227,14 +230,14 @@ namespace Z0
             Require.equal(input,output);
             count = BitRender.render32x4(sep, storage, ref i, dst);
             bitstring = text.format(slice(dst, 0, count));
-            log.AppendLine(bitstring);
+            emitter.AppendLine(bitstring);
 
             i=0;
             src = a3;
             input = src;
             count = BitRender.render32x4(sep, src, ref i, dst);
             bitstring = text.format(slice(dst, 0, count));
-            log.AppendFormat("{0} => ", bitstring);
+            emitter.AppendFormat("{0} => ", bitstring);
 
             i=0;
             storage = 0;
@@ -244,14 +247,14 @@ namespace Z0
             Require.equal(input,output);
             count = BitRender.render32x4(sep, storage, ref i, dst);
             bitstring = text.format(slice(dst, 0, count));
-            log.AppendLine(bitstring);
+            emitter.AppendLine(bitstring);
 
             i=0;
             src = a4;
             input = src;
             count = BitRender.render32x4(sep, src, ref i, dst);
             bitstring = text.format(slice(dst, 0, count));
-            log.AppendFormat("{0} => ", bitstring);
+            emitter.AppendFormat("{0} => ", bitstring);
 
             i=0;
             storage = 0;
@@ -261,7 +264,8 @@ namespace Z0
             Require.equal(input,output);
             count = BitRender.render32x4(sep, storage, ref i, dst);
             bitstring = text.format(slice(dst, 0, count));
-            log.AppendLine(bitstring);
+            emitter.AppendLine(bitstring);
+            log(Events.row(emitter.Emit()));
         }
 
         static void render(ulong src, W4 seg, ITextEmitter dst)
@@ -285,22 +289,24 @@ namespace Z0
                 Require.equal(packed[i], skip(unpacked,i));
         }
 
-        void CheckPack64x1(ITextEmitter dst)
+        void CheckPack64x1(WfEventLogger dst)
         {
             var a = 0xAAAAAAAAAAAAAAAAul;
+            var emitter = text.emitter();
             CheckPack64x1(a);
-            dst.Append(a.FormatHex(uppercase:true));
-            dst.Append(" => ");
-            render(a, w4, dst);
-            dst.Append(Eol);
+            emitter.Append(a.FormatHex(uppercase:true));
+            emitter.Append(" => ");
+            render(a, w4, emitter);
+            emitter.Append(Eol);
 
             var b = 0xFF00ul;
             CheckPack64x1(b);
 
-            dst.Append(((ulong)b).FormatHex(uppercase:true));
-            dst.Append(" => ");
-            render(b, w4, dst);
-            dst.Append(Eol);
+            emitter.Append(((ulong)b).FormatHex(uppercase:true));
+            emitter.Append(" => ");
+            render(b, w4, emitter);
+            emitter.Append(Eol);
+            dst(Events.row(emitter.Emit()));
         }
     }
 }

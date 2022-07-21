@@ -4,25 +4,46 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct VarExpr<A> : IVarExpr<A>
-        where A : unmanaged, IAsciSeq<A>
+    using api = Vars;
+
+    public class VarExpr<T> : IVarExpr<T>
+        where T : IEquatable<T>, IComparable<T>, new()
     {
-        public readonly Name<A> VarName;
+        public readonly Name VarName;
 
         public readonly AsciFence Fence;
 
         public readonly AsciSymbol Prefix;
 
+        T _Value;
+
+
         [MethodImpl(Inline)]
-        public VarExpr(A name)
+        public VarExpr(AsciSymbol prefix)
         {
-            VarName = name;
+            VarName = default;
+            Prefix = prefix;
             Fence = AsciFence.Empty;
+        }
+
+        [MethodImpl(Inline)]
+        public VarExpr(AsciFence fence)
+        {
+            VarName = default;
+            Fence = fence;
             Prefix = AsciSymbol.Empty;
         }
 
         [MethodImpl(Inline)]
-        public VarExpr(A name, AsciSymbol prefix)
+        public VarExpr(AsciSymbol prefix, AsciFence fence)
+        {
+            VarName = default;
+            Prefix = prefix;
+            Fence = fence;
+        }
+
+        [MethodImpl(Inline)]
+        public VarExpr(Name name, AsciSymbol prefix)
         {
             VarName = name;
             Prefix = prefix;
@@ -30,7 +51,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public VarExpr(A name, AsciFence fence)
+        public VarExpr(Name name, AsciFence fence)
         {
             VarName = name;
             Fence = fence;
@@ -38,46 +59,59 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public VarExpr(A name, AsciSymbol prefix, AsciFence fence)
+        public VarExpr(Name name, AsciSymbol prefix, AsciFence fence)
         {
             VarName = name;
             Prefix = prefix;
             Fence = fence;
         }
-
-        Name<A> IVarExpr<A>.VarName
-            => VarName;
 
         AsciFence IVarExpr.Fence
             => Fence;
 
         AsciSymbol IVarExpr.Prefix
             => Prefix;
-    }
 
-    public abstract class AsciVarExpr<V,A>
-        where A : unmanaged, IAsciSeq
-        where V : AsciVarExpr<V,A>, new()
-    {
-        /// <summary>
-        /// Specifies the variable fence, if any
-        /// </summary>
-        public virtual Fence<AsciSymbol> Fence => Fence<AsciSymbol>.Empty;
+        public bool IsNamed
+        {
+            [MethodImpl(Inline)]
+            get => VarName.IsNonEmpty;
+        }
 
-        /// <summary>
-        /// Specifies the varible prefix, if any
-        /// </summary>
-        public virtual AsciSymbol Prefix => AsciNull.Literal;
+        internal ref T VarValue
+        {
+            [MethodImpl(Inline)]
+            get => ref _Value;
+        }
+
+        [MethodImpl(Inline)]
+        public ref T Assign(in T src)
+        {
+            VarValue = src;
+            return ref VarValue;
+        }
+
+        public string Format(bool name)
+            => api.format(this,name);
+
+        public string Format()
+            => Format(false);
+
+        public override string ToString()
+            => Format();
 
         /// <summary>
         /// Indicates whether the variable is prefixed
         /// </summary>
-        public bool IsPrefixed => Prefix != AsciNull.Literal;
+        public bool IsPrefixed
+            => Prefix != AsciNull.Literal;
 
         /// <summary>
         /// Indicates whether the variable is fenced
         /// </summary>
-        public bool IsFenced => Fence.Left != AsciNull.Literal && Fence.Right != AsciNull.Literal;
+        public bool IsFenced
+            => Fence.Left != AsciNull.Literal && Fence.Right != AsciNull.Literal;
+
 
     }
 }

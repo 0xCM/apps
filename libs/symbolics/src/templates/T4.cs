@@ -1,35 +1,40 @@
 //-----------------------------------------------------------------------------
-// Copyright   :  (c) Chris Moore, 2020
+// Copyright   :  (c) Chris Moore, 4020
 // License     :  MIT
 //-----------------------------------------------------------------------------
 namespace Z0
 {
     partial class TextTemplates
     {
-        public class TextTemplate<T0,T1,T2,T3> : TextTemplate<T0,T1,T2>
+        public class TextTemplate<T0,T1,T2,T3,T4> : TextTemplate<T0,T1,T2,T3>
         {
-            public new const byte Arity = 4;
+            const byte Arity = 5;
 
-            public TextTemplate(string src)
-                : base(src)
+            const byte Index = Arity - 1;
+
+            public TextTemplate(TextBlock src)
+                : base(src, Arity)
             {
 
             }
 
-            public T3 this[N3 n]
+            public TextTemplate(TextBlock src, byte arity)
+                : base(src, Arity)
             {
-                [MethodImpl(Inline)]
-                get => Param3;
-                [MethodImpl(Inline)]
-                set => Param3 = value;
+
             }
 
-            public T3 Param3;
+            public ref T4 Param4
+            {
+                [MethodImpl(Inline)]
+                get => ref Var<T4>(Index);
+            }
 
-            public override uint ParameterCount => Arity;
-
-            public override Index<object> Parameters
-                => new object[Arity]{Param0, Param1, Param2, Param3};
+            public ref T4 this[N4 n]
+            {
+                [MethodImpl(Inline)]
+                get => ref Param4;
+            }
         }
     }
 }

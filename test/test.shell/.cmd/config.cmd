@@ -1,7 +1,5 @@
 @echo off
-set WsArea=test
-set WsId=test.shell
 set ProjectId=test.shell
+set Area=test
 set ShellId=ztest
-call %~dp0..\..\..\.cmd\config.cmd
-
+call %DevRoot%\dev\z0\.cmd\config.cmd

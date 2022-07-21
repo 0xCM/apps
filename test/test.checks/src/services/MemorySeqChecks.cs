@@ -9,10 +9,11 @@ namespace Z0
     {
         ITextEmitter Output;
 
-        protected override void Execute()
+        protected override void Execute(WfEventLogger log)
         {
             Output  = text.emitter();
             Run(Output);
+            log(Events.row(Output.Emit()));
         }
 
         public void Run(ITextEmitter dst)

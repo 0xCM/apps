@@ -31,6 +31,9 @@ namespace Z0
             return path.ReadText();
         }
 
+        public static JsonDepsSources parse(Assembly src)
+            => parse(src.Path().ChangeExtension(FileKind.JsonDeps));
+
         [Op]
         public static JsonDepsSources parse(FS.FilePath src)
             => new JsonDepsSources(context(src.ReadText()));
@@ -80,7 +83,6 @@ namespace Z0
             dst.ResourceAssemblies = sys.alloc<JsonDepsModel.ResourceAssembly>(src.ResourceAssemblies.Count);
             for(var i=0; i<dst.ResourceAssemblies.Count; i++)
             {
-
                 ref var target = ref dst.ResourceAssemblies[i];
                 target.Path = FS.path(src.ResourceAssemblies[i].Path);
                 target.Locale = src.ResourceAssemblies[i].Locale;
@@ -163,7 +165,6 @@ namespace Z0
             public abstract T Map(S src);
         }
 
-
         public sealed class LibInfoProjector : Projector<M.CompilationLibrary,Library>
         {
             public override Library Map(M.CompilationLibrary src)
@@ -204,19 +205,4 @@ namespace Z0
             }
         }
     }
-
-
-    /*
-        public TargetInfo Target { get; }
-
-        public CompilationOptions CompilationOptions { get; }
-
-        public IReadOnlyList<CompilationLibrary> CompileLibraries { get; }
-
-        public IReadOnlyList<RuntimeLibrary> RuntimeLibraries { get; }
-
-        public IReadOnlyList<RuntimeFallbacks> RuntimeGraph { get; }
-
-
-    */
 }

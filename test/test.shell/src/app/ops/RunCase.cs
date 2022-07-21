@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Reflection;
     using static core;
 
     partial class TestApp<A>
@@ -55,7 +52,7 @@ namespace Z0
             }
             finally
             {
-                term.print(messages);
+                iter(messages, term.print);
                 cases.AddRange(outcomes);
             }
 

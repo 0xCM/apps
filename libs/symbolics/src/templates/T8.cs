@@ -4,34 +4,37 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial class TextTemplates
     {
-        public class TextTemplate<T0,T1,T2,T3,T4,T5,T6,T7> : TextTemplate<T0,T1,T2,T3,T4,T5,T6>
+        public class TextTemplate<T0,T1,T2,T3,T4,T5,T6,T7,T8> : TextTemplate<T0,T1,T2,T3,T4,T5,T6,T7>
         {
-            public new const byte Arity = 8;
+            const byte Arity = 9;
 
-            public TextTemplate(string src)
-                : base(src)
+            const byte Index = Arity - 1;
+
+            public TextTemplate(TextBlock src)
+                : base(src, Arity)
             {
 
             }
 
-            public T7 Param7;
-
-            public T7 this[N7 n]
+            public TextTemplate(TextBlock src, byte arity)
+                : base(src, Arity)
             {
-                [MethodImpl(Inline)]
-                get => Param7;
-                [MethodImpl(Inline)]
-                set => Param7 = value;
+
             }
 
-            public override uint ParameterCount => Arity;
+            public ref T8 Param8
+            {
+                [MethodImpl(Inline)]
+                get => ref Var<T8>(Index);
+            }
 
-            public override Index<object> Parameters
-                => new object[Arity]{Param0, Param1, Param2, Param3, Param4, Param5, Param6, Param7};
+            public ref T8 this[N8 n]
+            {
+                [MethodImpl(Inline)]
+                get => ref Param8;
+            }
         }
     }
 }

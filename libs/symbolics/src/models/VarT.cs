@@ -11,17 +11,39 @@ namespace Z0
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public class Var<T> : IVar<T>
+        where T : IEquatable<T>, IComparable<T>, new()
     {
-        public Name Name {get;}
+        public readonly Name Name;
 
         readonly Func<T> Resolver;
+
+        public readonly Type VarType;
+
+        [MethodImpl(Inline)]
+        public Var(Func<T> resolver)
+        {
+            Name = default;
+            Resolver = resolver;
+            VarType = typeof(T);
+        }
 
         [MethodImpl(Inline)]
         public Var(Name name, Func<T> resolver)
         {
             Name = name;
             Resolver = resolver;
+            VarType = typeof(T);
         }
+
+        public bool IsNamed
+        {
+            [MethodImpl(Inline)]
+            get => Name.IsEmpty;
+        }
+
+        Name IVar.Name
+            => Name;
+
 
         public bool IsEmpty
         {
@@ -46,6 +68,7 @@ namespace Z0
 
         public T Value
             => Resolver();
+
         public string Format()
             => api.format(this);
 

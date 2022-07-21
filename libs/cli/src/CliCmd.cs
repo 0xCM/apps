@@ -31,11 +31,9 @@ namespace Z0
         {
             var src = FS.dir(arg(args,0).Value);
             var dst = FS.dir(arg(args,1).Value);
-            var spec = $"robocopy ${src} ${dst} /e";
+            var spec = $"robocopy {src} {dst} /e";
             var cmd = Scripts.cmd(spec);
-            Write($"cmd:{cmd}");
-
-
+            var proc = ScriptProcess.create(cmd);
         }
 
         [CmdOp("build/props")]

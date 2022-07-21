@@ -32,7 +32,7 @@ namespace Z0
             }
         }
 
-        protected override void Execute()
+        protected override void Execute(WfEventLogger log)
         {
             RunValidators();
         }

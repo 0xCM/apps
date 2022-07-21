@@ -14,23 +14,23 @@ namespace Z0
             => new CmdLine(src);
 
         [MethodImpl(Inline), Op]
-        public static CmdScriptExpr expr(CmdScriptPattern src)
+        public static CmdScriptExpr expr(ScriptTemplate src)
             => new CmdScriptExpr(src);
 
         [MethodImpl(Inline), Op]
-        public static CmdScriptExpr expr(CmdScriptPattern src, CmdVars vars)
+        public static CmdScriptExpr expr(ScriptTemplate src, CmdVars vars)
             => new CmdScriptExpr(src, vars);
 
-        public static CmdScriptExpr format(CmdScriptPattern pattern, params CmdVar[] args)
+        public static CmdScriptExpr format(ScriptTemplate pattern, params CmdVar[] args)
             => string.Format(pattern.Pattern, args.Select(a => a.Format()));
 
-        public static CmdScriptExpr format<K>(CmdScriptPattern pattern, params CmdVar<K>[] args)
+        public static CmdScriptExpr format<K>(ScriptTemplate pattern, params CmdVar<K>[] args)
             where K : unmanaged
                 => string.Format(pattern.Pattern, args.Select(a => a.Format()));
 
         [MethodImpl(Inline), Op]
-        public static CmdScriptPattern pattern(string name, string content)
-            => new CmdScriptPattern(name, content);
+        public static ScriptTemplate pattern(string name, string content)
+            => new ScriptTemplate(name, content);
 
         [MethodImpl(Inline), Op]
         public static CmdScript create(string id, CmdScriptExpr src)

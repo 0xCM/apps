@@ -235,7 +235,7 @@ namespace Z0
                     Write(string.Format("{0}:{1} -> {2}", op, skip(src,i), skip(dst,i)));
             }
 
-            protected override void Execute()
+            protected override void Execute(WfEventLogger log)
             {
                 Compute(IntrinsicKind.mm256_min_epu8);
                 Compute(IntrinsicKind.mm_packus_epi16);

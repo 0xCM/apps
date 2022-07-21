@@ -96,6 +96,10 @@ namespace Z0
         void ProcessId()
             => Write(Environment.ProcessId);
 
+        [CmdOp("process/home")]
+        void ProcessHome()
+            => Write(FS.path(ExecutingPart.Component.Location).FolderPath);
+
         [CmdOp("process/working-set")]
         void WorkingSet()
             => Write(Environment.SystemPageSize);

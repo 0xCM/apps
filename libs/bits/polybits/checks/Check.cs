@@ -77,8 +77,9 @@ namespace Z0
 
         static ReadOnlySpan<byte> Widths0 => new byte[3]{4,3,5};
 
-        void RenderHeader(ITextEmitter dst)
-            => dst.AppendLineFormat(DsPattern, DsHeaders);
+
+        void EmitHeader(WfEventLogger dst)
+            => dst(Events.row(string.Format(DsPattern, DsHeaders)));
 
         void Render(IBfDataset src)
         {
@@ -87,8 +88,7 @@ namespace Z0
 
         void Check(N0 n)
         {
-            var bf = PolyBits.dataset<Fields3>($"Bf{n}", NativeSizeCode.W32, Widths0);
-            Render(bf);
+            Render(PolyBits.dataset<Fields3>($"Bf{n}", NativeSizeCode.W32, Widths0));
         }
 
         void Check(N1 n)
@@ -109,12 +109,20 @@ namespace Z0
 
         }
 
-        protected override void Execute()
+        protected override void Execute(WfEventLogger log)
         {
-            RenderHeader(Emitter);
+            EmitHeader(log);
             Check(n0);
             Check(n1);
-            Write(Emitter.Emit());
+            log(Events.row(Emitter.Emit()));
+
         }
+        // protected override void Execute(WfEventLogger log, bool pll)
+        // {
+        //     RenderHeader(Emitter);
+        //     Check(n0);
+        //     Check(n1);
+        //     Write(Emitter.Emit());
+        // }
     }
 }

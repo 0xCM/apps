@@ -6,9 +6,7 @@ namespace Z0
 {
     public interface IChecker
     {
-        void Run();
-
-        void Run(bool pll);
+        void Run(WfEventLogger log, bool pll);
 
         ref readonly Index<string> Specs {get;}
 

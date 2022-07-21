@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface ITextVar : INullity, ISysVar<@string>
+    public interface ITextVar : INullity, IVar<@string>
     {
         ITextVarExpr Expr {get;}
 

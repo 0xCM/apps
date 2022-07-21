@@ -1,0 +1,12 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <OutputPath>$(SlnBuild)bin\$(MsBuildProjectName)\$(Configuration)\</OutputPath>
+    <DocumentationFile>$(OutputPath)$(TargetFramework)\$(MsBuildProjectName).xml</DocumentationFile>
+    <IntermediateRoot>$(SlnBuild)obj\$(MsBuildProjectName)\$(Configuration)\</IntermediateRoot>
+    <IntermediateBuildDir>$(IntermediateRoot)</IntermediateBuildDir>
+    <BaseIntermediateOutputPath>$(IntermediateRoot)</BaseIntermediateOutputPath>
+    <IntermediateOutputPath>$(IntermediateRoot)</IntermediateOutputPath>
+  </PropertyGroup>
+
+</Project>

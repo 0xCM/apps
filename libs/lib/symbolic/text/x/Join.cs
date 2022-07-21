@@ -39,5 +39,4 @@ namespace Z0
         public static string Join(this Span<string> src, char sep)
             => text.concat(src, sep);
     }
-
 }

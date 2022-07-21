@@ -7,6 +7,8 @@
     <TargetFramework>$(FrameworkMoniker)</TargetFramework>
   </PropertyGroup>
 
+  <Import Project="$(ImportDefs)shells.props"/>
+
   <ItemGroup>
     <ProjectReference Include="$(TestUnits)" />
     <ProjectReference Include="$(TestChecks)" />

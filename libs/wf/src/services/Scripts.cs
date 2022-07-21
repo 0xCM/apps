@@ -28,19 +28,19 @@ namespace Z0
 
 
         public static CmdLine cmd(string spec)
-            => string.Format($"cmd /c {spec}");
+            => string.Format($"cmd.exe /c {spec}");
 
         public static CmdLine pwsh(FS.FilePath src, string args)
-            => string.Format("pwsh {0} {1}", src.Format(PathSeparator.BS), args);
+            => string.Format("pwsh.exe {0} {1}", src.Format(PathSeparator.BS), args);
 
         public static CmdLine cmd(FS.FilePath src, string args)
-            => string.Format("cmd /c {0} {1}", src.Format(PathSeparator.BS), args);
+            => string.Format("cmd.exe /c {0} {1}", src.Format(PathSeparator.BS), args);
 
         public static CmdLine pwsh(FS.FilePath src)
-            => string.Format("pwsh {0}", src.Format(PathSeparator.BS));
+            => string.Format("pwsh.exe {0}", src.Format(PathSeparator.BS));
 
         public static CmdLine cmd(FS.FilePath src)
-            => string.Format("cmd /c {0}", src.Format(PathSeparator.BS));
+            => string.Format("cmd.exe /c {0}", src.Format(PathSeparator.BS));
 
         public static FS.FilePath path(IToolWs ws, Actor tool, ScriptId script, ScriptKind kind)
             => Scripts.tool(ws, tool, script, kind switch{

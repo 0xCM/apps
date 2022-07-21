@@ -53,7 +53,7 @@ namespace Z0
         ITextVarExpr ITextVar.Expr
             => Kind;
 
-        @string ISysVar<@string>.Value
+        @string IVar<@string>.Value
             => Value;
 
         public string Format()
