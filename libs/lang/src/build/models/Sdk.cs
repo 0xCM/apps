@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class MsBuild
+    partial class BuildSvc
     {
-        public readonly struct Sdk
+        public readonly record struct Sdk
         {
             public readonly string Name;
 

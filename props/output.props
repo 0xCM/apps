@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputPath>$(SlnBuild)bin\$(MsBuildProjectName)\$(Configuration)\</OutputPath>
-    <DocumentationFile>$(OutputPath)$(TargetFramework)\$(MsBuildProjectName).xml</DocumentationFile>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IntermediateRoot>$(SlnBuild)obj\$(MsBuildProjectName)\$(Configuration)\</IntermediateRoot>
     <IntermediateBuildDir>$(IntermediateRoot)</IntermediateBuildDir>
     <BaseIntermediateOutputPath>$(IntermediateRoot)</BaseIntermediateOutputPath>

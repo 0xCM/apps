@@ -7,7 +7,7 @@
 namespace Z0
 {
     [ApiHost]
-    public readonly struct BuildVersions
+    public readonly record struct BuildVersions
     {
         public static string GetId(string ids, int idStart)
         {
@@ -19,88 +19,14 @@ namespace Z0
         {
             // compare(u.v.w-p+b, x.y.z-q+c)
             if (s1.Major != s2.Major)
-            {
                 return s1.Major > s2.Major ? 1 : -1;
-            }
 
             if (s1.Minor != s2.Minor)
-            {
                 return s1.Minor > s2.Minor ? 1 : -1;
-            }
 
             if (s1.Patch != s2.Patch)
-            {
                 return s1.Patch > s2.Patch ? 1 : -1;
-            }
 
-            if (string.IsNullOrEmpty(s1.Pre) || string.IsNullOrEmpty(s2.Pre))
-            {
-                // Empty (release) is higher precedence than prerelease
-                return string.IsNullOrEmpty(s1.Pre) ? (string.IsNullOrEmpty(s2.Pre) ? 0 : 1) : -1;
-            }
-
-            // Both are non-empty (may be equal)
-
-            // First character of pre is '-' when it is not empty
-
-            // First idenitifier starts at position 1
-            int idStart = 1;
-            for (int i = idStart; true; ++i)
-            {
-                // C# strings are not null terminated. Pretend to make code similar to fx_ver.cpp
-                char s1char = (s1.Pre.Length  == i) ? '\0' : s1.Pre[i];
-                char s2char = (s2.Pre.Length  == i) ? '\0' : s2.Pre[i];
-                if (s1char != s2char)
-                {
-                    // Found first character with a difference
-                    if (s1char == '\0' && s2char == '.')
-                    {
-                        // identifiers both complete, b has an additional identifier
-                        return -1;
-                    }
-
-                    if (s2char == '\0' && s1char == '.')
-                    {
-                        // identifiers both complete, a has an additional identifier
-                        return 1;
-                    }
-
-                    // identifiers must not be empty
-                    string id1 = GetId(s1.Pre, idStart);
-                    string id2 = GetId(s2.Pre, idStart);
-
-                    int id1num = 0;
-                    bool id1IsNum = int.TryParse(id1, out id1num);
-                    int id2num = 0;
-                    bool id2IsNum = int.TryParse(id2, out id2num);
-
-                    if (id1IsNum && id2IsNum)
-                    {
-                        // Numeric comparison
-                        return (id1num > id2num) ? 1 : -1;
-                    }
-                    else if (id1IsNum || id2IsNum)
-                    {
-                        // Mixed compare.  Spec: Number < Text
-                        return id2IsNum ? 1 : -1;
-                    }
-                    // Ascii compare
-                    // Since we are using only ascii characters, unicode ordinal sort == ascii sort
-                    return (s1char > s2char) ? 1 : -1;
-                }
-                else
-                {
-                    // s1char == s2char
-                    if (s1char == '\0')
-                    {
-                        break;
-                    }
-                    if (s1char == '.')
-                    {
-                        idStart = i + 1;
-                    }
-                }
-            }
             return 0;
         }
 
@@ -129,7 +55,6 @@ namespace Z0
             }
             return true;
         }
-
 
         [MethodImpl(Inline), Op]
         public static bool ValidIdentifier(string id, bool buildMeta)
@@ -268,13 +193,9 @@ namespace Z0
             }
 
             if (!int.TryParse(fxVersionString.Substring(patchStart, patchSeparator - patchStart), out patch))
-            {
                 return false;
-            }
             if (patchSeparator - patchStart > 1 && fxVersionString[patchStart] == '0')
-            {
                 return false;
-            }
 
             int preStart = patchSeparator;
             int preSeparator = fxVersionString.IndexOf("+", preStart);
@@ -296,7 +217,7 @@ namespace Z0
                 }
             }
 
-            BuildVersion = new BuildVersion(major, minor, patch, pre, build);
+            BuildVersion = new BuildVersion(major, minor, patch);
 
             return true;
         }

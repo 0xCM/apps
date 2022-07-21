@@ -4,4 +4,9 @@
   <Import Project="projects.props"/>
   <Import Project="output.props"/>
 
+  <ItemGroup>
+    <Reference Include="Microsoft.Build.NuGetSdkResolver" Version="5.11.0-rc.10">
+      <HintPath>$(Views)\archives\devpacks\Microsoft.Build.NuGetSdkResolver\Microsoft.Build.NuGetSdkResolver.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>

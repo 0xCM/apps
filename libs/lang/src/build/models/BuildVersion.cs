@@ -8,7 +8,7 @@ namespace Z0
     /// Defines a symver-aligned build/publication version specifier
     /// </summary>
     [StructLayout(StructLayout,Pack=1)]
-    public readonly struct BuildVersion
+    public readonly record struct BuildVersion
     {
         public readonly int Major;
 
@@ -16,18 +16,18 @@ namespace Z0
 
         public readonly int Patch;
 
-        public readonly string Pre;
-
-        public readonly string Build;
-
         [MethodImpl(Inline)]
-        public BuildVersion(int major, int minor, int patch, string pre = "", string build = "")
+        public BuildVersion(int major, int minor, int patch)
         {
             Major = major;
             Minor = minor;
             Patch = patch;
-            Pre = pre;
-            Build = build;
         }
+
+        public string Format()
+            => $"{Major}.{Minor}.{Patch}";
+
+        public override string ToString()
+            => Format();
     }
 }

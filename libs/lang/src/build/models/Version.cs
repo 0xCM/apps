@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class MsBuild
+    partial class BuildSvc
     {
-        public readonly struct Version
+        public readonly record struct Version
         {
             readonly ulong Data;
 

@@ -6,9 +6,9 @@ namespace Z0
 {
      using E = Microsoft.Build.Evaluation;
 
-    partial class MsBuild
+    partial class BuildSvc
     {
-        public class NetCoreProject
+        public record class NetCoreProject
         {
             public string ProjectName {get;}
 

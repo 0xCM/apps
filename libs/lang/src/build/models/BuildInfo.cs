@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class MsBuild
+    partial class BuildSvc
     {
-        public struct BuildInfo
+        public record class BuildInfo
         {
             public string SlnId;
 

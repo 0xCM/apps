@@ -4,10 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class MsBuild
+    partial class BuildSvc
     {
-        [Record(TableId)]
-        public struct Solution
+        public record class Solution
         {
             public const string TableId = "sln";
 

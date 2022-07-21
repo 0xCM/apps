@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class MsBuild
+    partial class BuildSvc
     {
         public enum GroupKind
         {

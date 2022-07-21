@@ -6,9 +6,9 @@ namespace Z0
 {
     using E = Microsoft.Build.Evaluation;
 
-    partial class MsBuild
+    partial class BuildSvc
     {
-        public readonly struct Property
+        public readonly record struct Property : IProjectProperty<string>
         {
             readonly E.ProjectProperty Data;
 
@@ -18,8 +18,20 @@ namespace Z0
                 Data = src;
             }
 
+            public string Name
+            {
+                [MethodImpl(Inline)]
+                get => Data.Name;
+            }
+
+            public string Value
+            {
+                [MethodImpl(Inline)]
+                get => Data.EvaluatedValue;
+            }
+
             public string Format()
-                => $"{Data.Name}={Data.EvaluatedValue}";
+                => $"{Name}={Value}";
 
             public override string ToString()
                 => Format();

@@ -6,19 +6,22 @@ namespace Z0
 {
     using E = Microsoft.Build.Evaluation;
 
-    partial class MsBuild
+    partial class BuildSvc
     {
-        public class Project
+        public record class ProjectSpec
         {
             readonly E.Project Source;
 
-            internal readonly ReadOnlySeq<Property> Props;
+            readonly ReadOnlySeq<Property> Props;
+
+            readonly ReadOnlySeq<ProjectItem> Items;
 
             [MethodImpl(Inline)]
-            internal Project(E.Project src)
+            internal ProjectSpec(E.Project src)
             {
                 Source = src;
                 Props = Source.AllEvaluatedProperties.Array().Select(property);
+                Items = Source.AllEvaluatedItems.Array().Select(item);
             }
 
             public string Format()
@@ -26,12 +29,13 @@ namespace Z0
                 var dst = text.emitter();
                 for(var i=0; i<Props.Count; i++)
                     dst.AppendLine(Props[i].Format());
+                for(var i=0; i<Items.Count; i++)
+                    dst.Append(Items[i].Format());
                 return dst.Emit();
             }
 
             public override string ToString()
                 => Format();
-
         }
     }
 }

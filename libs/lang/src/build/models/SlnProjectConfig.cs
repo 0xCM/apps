@@ -4,10 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class MsBuild
+    partial class BuildSvc
     {
         [Record(TableId)]
-        public struct SlnProjectConfig : IRecord<SlnProjectConfig>
+        public record struct SlnProjectConfig
         {
             public const string TableId = "sln.project-config";
 

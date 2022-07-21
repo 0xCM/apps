@@ -32,6 +32,9 @@ namespace Z0
 
             public GShim GenShims(IWfRuntime wf)
                 => Service<GShim>(wf);
+
+            public BuildSvc BuildSvc(IWfRuntime wf)
+                => Service<BuildSvc>(wf);
         }
 
         static Svc Services => Svc.Instance;
@@ -52,6 +55,10 @@ namespace Z0
             => Services.GenLitProviders(wf);
 
         public static GShim GenShims(this IWfRuntime wf)
-            => Services.GenShims(wf);       
+            => Services.GenShims(wf);
+
+        public static BuildSvc BuildSvc(this IWfRuntime wf)
+            => Services.BuildSvc(wf);
+
     }
 }

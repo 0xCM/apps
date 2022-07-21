@@ -4,12 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class MsBuild
+    partial class BuildSvc
     {
         /// <summary>
         /// Represents a path to a file that defines a solution
         /// </summary>
-        public readonly struct SlnFile : IFsEntry<SlnFile>
+        public readonly record struct SlnFile : IFsEntry<SlnFile>
         {
             public readonly FS.FilePath Path {get;}
 

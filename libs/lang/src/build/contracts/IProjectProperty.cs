@@ -4,11 +4,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class MsBuild
+    partial class BuildSvc
     {
-        public interface IProjectProperty : IProjectElement
+        public interface IProjectProperty : IProjectElement, IExpr
         {
+            string Name {get;}
+
             dynamic Value {get;}
+
+            bool INullity.IsEmpty
+                => Value == null;
+
+            bool INullity.IsNonEmpty
+                => Value != null;
         }
 
         public interface IProjectProperty<T> : IProjectProperty
@@ -28,8 +36,7 @@ namespace Z0
         public interface IBuildProperty : IProjectProperty
         {
 
-            // string ITextual.Format()
-            //     => string.Format("<{0}>{1}</{0}>", Name, Value);
+
         }
 
         public interface IBuildProperty<T> : IBuildProperty

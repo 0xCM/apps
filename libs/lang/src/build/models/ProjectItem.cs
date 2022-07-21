@@ -6,36 +6,36 @@ namespace Z0
 {
     using E = Microsoft.Build.Evaluation;
 
-    partial class MsBuild
+    partial class BuildSvc
     {
-        public class ProjectItem : IProjectItem
+        public record class ProjectItem : IProjectItem
         {
-            public Identifier Name {get;}
-
             readonly E.ProjectItem Data;
 
             public string Type
                 => Data.ItemType;
-
-            protected ProjectItem(string name)
-            {
-                Name = name;
-            }
 
             internal ProjectItem(E.ProjectItem src)
             {
                 Data = src;
             }
 
+            public string Include
+                => Data.EvaluatedInclude;
+
             public virtual string Format()
             {
-                return Type;
+                var dst = text.emitter();
+                dst.Append($"{Type}");
+                if(text.nonempty(Include))
+                    dst.AppendLine($":{Include}");
+
+                return dst.Emit();
             }
 
 
             public override string ToString()
                 => Format();
-
         }
     }
 }

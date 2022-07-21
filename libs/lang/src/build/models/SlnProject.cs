@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class MsBuild
+    partial class BuildSvc
     {
-        public class SlnProject
+        public record class SlnProject
         {
             public FS.FilePath Path;
 

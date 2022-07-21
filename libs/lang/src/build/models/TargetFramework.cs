@@ -4,15 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class MsBuild
+    partial class BuildSvc
     {
-        public readonly struct TargetFramework : IBuildProperty
+        public readonly record struct TargetFramework : IBuildProperty
         {
             public const string TagName = nameof(TargetFramework);
 
             public dynamic Value {get;}
 
-            public Identifier Name
+            public string Name
                 => TagName;
 
             [MethodImpl(Inline)]
@@ -23,6 +23,11 @@ namespace Z0
             public TargetFramework(dynamic value, Version ver)
                 => Value = value.ToString() + ver.Format();
 
+            public string Format()
+                => $"{Value}";
+
+            public override string ToString()
+                => Format();
 
         }
     }

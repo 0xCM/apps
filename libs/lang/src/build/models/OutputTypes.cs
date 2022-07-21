@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class MsBuild
+    partial class BuildSvc
     {
-        public readonly struct OutputTypes
+        public readonly record struct OutputTypes
         {
             public const string Library = nameof(Library);
 

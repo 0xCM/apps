@@ -4,18 +4,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class MsBuild
+    using static Algs;
+
+    partial class BuildSvc
     {
-        public readonly struct ProjectProperty<T> : IProjectProperty<ProjectProperty<T>,T>
+        public readonly record struct Property<T> : IProjectProperty<Property<T>,T>
             where T : IProjectProperty
         {
             readonly T Definition;
 
             [MethodImpl(Inline)]
-            public ProjectProperty(T value)
+            public Property(T value)
                 => Definition = value;
 
-            public Identifier Name
+            public string Name
             {
                 [MethodImpl(Inline)]
                 get => Definition.Name;
@@ -27,18 +29,24 @@ namespace Z0
                 get => Definition.Value;
             }
 
+            public Hash32 Hash
+            {
+                [MethodImpl(Inline)]
+                get => hash(Name) | hash(Value);
+            }
+
             public string Format()
-                => string.Format("<{0}>{1}</{0}>", Name, Value);
+                => $"{Name}={Value}";
 
             public override string ToString()
                 => Format();
 
             [MethodImpl(Inline)]
-            public static implicit operator ProjectProperty<T>(T src)
-                => new ProjectProperty<T>(src);
+            public static implicit operator Property<T>(T src)
+                => new Property<T>(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator T(ProjectProperty<T> src)
+            public static implicit operator T(Property<T> src)
                 => src.Definition;
         }
     }

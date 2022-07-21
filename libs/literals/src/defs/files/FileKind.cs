@@ -224,8 +224,12 @@ namespace Z0
         [Symbol(props)]
         Props,
 
+        [Symbol(sln)]
+        Sln,
+
         [Symbol(cmdkvp, "A file with KVP semantics/syntax refined to specify a sequence of application commands")]
         CmdKvp
+
 
 
     }

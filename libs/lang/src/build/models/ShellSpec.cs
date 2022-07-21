@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class MsBuild
+    partial class BuildSvc
     {
-        public struct ShellSpec
+        public record struct ShellSpec
         {
             public string ProjectName;
 

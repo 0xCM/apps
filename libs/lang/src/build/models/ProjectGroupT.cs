@@ -4,11 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
-    partial class MsBuild
+    partial class BuildSvc
     {
-        public abstract class ProjectGroup<T> : IProjectGroup<T>
+        public abstract record class ProjectGroup<T> : IProjectGroup<T>
             where T : IProjectElement
         {
             public GroupKind GroupKind {get;}

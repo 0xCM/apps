@@ -6,16 +6,15 @@ namespace Z0
 {
     using E = Microsoft.Build.Evaluation;
 
-    partial class MsBuild
+    partial class BuildSvc
     {
-        public sealed class ItemGroup : ProjectGroup<IProjectItem>
+        public sealed record class ItemGroup : ProjectGroup<IProjectItem>
         {
             public ItemGroup(params ProjectItem[] src)
                 : base(GroupKind.ItemGroup, src)
             {
 
             }
-
 
             public ItemGroup()
                 : base(GroupKind.ItemGroup)

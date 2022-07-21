@@ -8,7 +8,7 @@ namespace Z0
 
     using static core;
 
-    using static MsBuild;
+    using static BuildSvc;
 
     public partial class CsLang : WfSvc<CsLang>
     {

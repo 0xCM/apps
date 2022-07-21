@@ -4,11 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class MsBuild
+    partial class BuildSvc
     {
         public interface IProjectElement
         {
-            Identifier Name {get;}
+
         }
 
         public interface IProjectElement<F> : IProjectElement

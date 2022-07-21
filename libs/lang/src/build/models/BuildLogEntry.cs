@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Record(TableId)]
-    public struct BuildLogEntry
+    public record struct BuildLogEntry
     {
         public const string TableId = "logs.build";
 
