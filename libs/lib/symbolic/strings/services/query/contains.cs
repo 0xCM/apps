@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Spans;
 
     using C = AsciCode;
 
@@ -83,5 +83,9 @@ namespace Z0
                     return true;
             return false;
         }
+
+        [MethodImpl(Inline), Op]
+        public static bool contains(ReadOnlySpan<char> src, ReadOnlySpan<char> match, bool @case = true)
+            => src.Contains(match, @case ? Cased : NoCase);
     }
 }

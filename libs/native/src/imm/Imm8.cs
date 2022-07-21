@@ -36,7 +36,7 @@ namespace Z0
             var imm = z8;
             if(i>=0)
             {
-                result = HexParser.parse8u(src, out imm);
+                result = Hex.parse8u(src, out imm);
                 if(result)
                     dst = imm;
             }

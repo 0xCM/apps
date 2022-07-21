@@ -46,7 +46,7 @@ namespace Z0
                         var parts = text.words(text.right(src,k));
                         if(parts.Length >=3)
                         {
-                            var count = HexParser.parse(parts[2], buffer);
+                            var count = Hex.parse(parts[2], buffer);
                             if(count)
                             {
                                 dst = slice(buffer,0,count).ToArray();

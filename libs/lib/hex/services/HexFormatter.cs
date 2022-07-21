@@ -5,9 +5,13 @@
 namespace Z0
 {
     using System.Text;
-    using System.IO;
 
-    using static core;
+    using static Spans;
+    using static Arrays;
+    using static Refs;
+    using static Sized;
+    using static Scalars;
+
     using static HexFormatSpecs;
 
     using SK = HexSpecKind;
@@ -39,39 +43,6 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => options(zpad:true, specifier:false, uppercase:true, prespec:false, delimitsegs:false, delimitblocks:false);
-        }
-
-
-        /// <summary>
-        /// Removes leading or trailing hex specifiers
-        /// </summary>
-        /// <param name="src">The source string</param>
-        public static string clear(string src)
-            => src.Remove("0x").RemoveAny('h');
-
-        /// <summary>
-        /// Removes leading or trailing hex specifiers
-        /// </summary>
-        /// <param name="src">The source string</param>
-        public static ReadOnlySpan<char> clear(ReadOnlySpan<char> src)
-        {
-            var output = src;
-            if(src.Length >= 2)
-            {
-                ref readonly var c0 = ref skip(src,0);
-                ref readonly var c1 = ref skip(src,1);
-                if(c0 == '0' & c1 == 'x')
-                    output = slice(src,2);
-                else
-                {
-                    ref readonly var c = ref skip(src,src.Length-1);
-                    if(c == 'h')
-                    {
-                        output = slice(src,0, src.Length - 1);
-                    }
-                }
-            }
-            return output;
         }
 
         public static string spec(W8 w, HexPadStyle pad, LetterCaseKind @case)
@@ -129,9 +100,6 @@ namespace Z0
 
         public static string spec(W64 w, LetterCaseKind @case, int? digits)
             => @case == LetterCaseKind.Lower ? digits.Map(n => $"x{n}", () => "x") : digits.Map(n => $"X{n}", () => "X");
-
-        public static ReadOnlySpan<char> ClearSpecs(ReadOnlySpan<char> src)
-            => clear(text.format(src));
 
         [MethodImpl(Inline)]
         public static bool HasPrespec(ReadOnlySpan<char> src)
@@ -197,41 +165,23 @@ namespace Z0
             return result.ToString();
         }
 
-        public static HexLineConfig DefaultLineConfig
-            => new HexLineConfig(bpl: 32, labels: true, delimiter: Chars.Space, zeropad: true);
-
         [Op, Closures(Closure)]
         public static void quoted<T>(T src, LetterCaseKind @case, ITextBuffer dst)
             where T : unmanaged
                 => quoted_u(src, null, 0, @case, dst);
-
-        [Op, Closures(Closure)]
-        public static void quoted<T>(T src, HexSpecKind spec, LetterCaseKind @case, ITextBuffer dst)
-            where T : unmanaged
-                => quoted_u(src, null, spec, @case, dst);
-
-        [Op, Closures(Closure)]
-        public static void quoted<T>(T src, int? digits, LetterCaseKind @case, ITextBuffer dst)
-            where T : unmanaged
-                => quoted_u(src, digits, 0, @case, dst);
-
-        [Op, Closures(Closure)]
-        public static void quoted<T>(T src, int? digits, HexSpecKind spec, LetterCaseKind @case, ITextBuffer dst)
-            where T : unmanaged
-                => quoted_u(src, digits, spec, @case, dst);
 
         [MethodImpl(Inline)]
         static void quoted_u<T>(T src, int? digits, HexSpecKind spec, LetterCaseKind @case, ITextBuffer dst)
             where T : unmanaged
         {
             if(typeof(T) == typeof(byte))
-                dst.Append(text.enquote(HexFormatter.format8u(uint8(src), digits, prespec:spec == SK.PreSpec, postspec:spec == SK.PostSpec, @case:@case)));
+                dst.Append(text.enquote(format8u(uint8(src), digits, prespec:spec == SK.PreSpec, postspec:spec == SK.PostSpec, @case:@case)));
             else if(typeof(T) == typeof(ushort))
-                dst.Append(text.enquote(HexFormatter.format16u(uint16(src), digits, prespec:spec == SK.PreSpec, postspec:spec == SK.PostSpec, @case:@case)));
+                dst.Append(text.enquote(format16u(uint16(src), digits, prespec:spec == SK.PreSpec, postspec:spec == SK.PostSpec, @case:@case)));
             else if(typeof(T) == typeof(uint))
-                dst.Append(text.enquote(HexFormatter.format32u(uint32(src), digits, prespec:spec == SK.PreSpec, postspec:spec == SK.PostSpec, @case:@case)));
+                dst.Append(text.enquote(format32u(uint32(src), digits, prespec:spec == SK.PreSpec, postspec:spec == SK.PostSpec, @case:@case)));
             else if(typeof(T) == typeof(ulong))
-                dst.Append(text.enquote(HexFormatter.format64u(uint64(src), digits, prespec:spec == SK.PreSpec, postspec:spec == SK.PostSpec, @case:@case)));
+                dst.Append(text.enquote(format64u(uint64(src), digits, prespec:spec == SK.PreSpec, postspec:spec == SK.PostSpec, @case:@case)));
             else
                 quoted_i(src,digits, spec, @case,dst);
         }
@@ -241,13 +191,13 @@ namespace Z0
             where T : unmanaged
         {
             if(typeof(T) == typeof(byte))
-                dst.Append(text.enquote(HexFormatter.format8i(int8(src), digits, prespec:spec == SK.PreSpec, postspec:spec == SK.PostSpec, @case:@case)));
+                dst.Append(text.enquote(format8i(int8(src), digits, prespec:spec == SK.PreSpec, postspec:spec == SK.PostSpec, @case:@case)));
             else if(typeof(T) == typeof(ushort))
-                dst.Append(text.enquote(HexFormatter.format16i(int16(src), digits, prespec:spec == SK.PreSpec, postspec:spec == SK.PostSpec, @case:@case)));
+                dst.Append(text.enquote(format16i(int16(src), digits, prespec:spec == SK.PreSpec, postspec:spec == SK.PostSpec, @case:@case)));
             else if(typeof(T) == typeof(uint))
-                dst.Append(text.enquote(HexFormatter.format32i(int32(src), digits, prespec:spec == SK.PreSpec, postspec:spec == SK.PostSpec, @case:@case)));
+                dst.Append(text.enquote(format32i(int32(src), digits, prespec:spec == SK.PreSpec, postspec:spec == SK.PostSpec, @case:@case)));
             else if(typeof(T) == typeof(ulong))
-                dst.Append(text.enquote(HexFormatter.format64i(int64(src), digits, prespec:spec == SK.PreSpec, postspec:spec == SK.PostSpec, @case:@case)));
+                dst.Append(text.enquote(format64i(int64(src), digits, prespec:spec == SK.PreSpec, postspec:spec == SK.PostSpec, @case:@case)));
             else
                 quoted_x(src, digits, spec, @case, dst);
         }
@@ -257,64 +207,13 @@ namespace Z0
             where T : unmanaged
         {
             if(size<T>() == 1)
-                dst.Append(text.enquote(HexFormatter.format8u(bw8(src), digits, prespec:spec == SK.PreSpec, postspec:spec == SK.PostSpec, @case:@case)));
+                dst.Append(text.enquote(format8u(bw8(src), digits, prespec:spec == SK.PreSpec, postspec:spec == SK.PostSpec, @case:@case)));
             else if(size<T>() == 2)
-                dst.Append(text.enquote(HexFormatter.format16u(bw16(src), digits, prespec:spec == SK.PreSpec, postspec:spec == SK.PostSpec, @case:@case)));
+                dst.Append(text.enquote(format16u(bw16(src), digits, prespec:spec == SK.PreSpec, postspec:spec == SK.PostSpec, @case:@case)));
             else if(size<T>() == 4)
-                dst.Append(text.enquote(HexFormatter.format32u(bw32(src), digits, prespec:spec == SK.PreSpec, postspec:spec == SK.PostSpec, @case:@case)));
+                dst.Append(text.enquote(format32u(bw32(src), digits, prespec:spec == SK.PreSpec, postspec:spec == SK.PostSpec, @case:@case)));
             else
-                dst.Append(text.enquote(HexFormatter.format64u(bw64(src), digits, prespec:spec == SK.PreSpec, postspec:spec == SK.PostSpec, @case:@case)));
-        }
-
-        [Op]
-        public static uint emit(ReadOnlySpan<byte> src, StreamWriter dst, HexLineConfig? c = null)
-        {
-            var count = (uint)src.Length;
-            if(count == 0)
-                return 0;
-
-            var config = c ?? DefaultLineConfig;
-            var line = text.buffer();
-            var address = Address32.Zero;
-            var offset = 1;
-            var restart = true;
-            var last = count - 1;
-            var i=0u;
-            var bpl = config.BytesPerLine;
-
-            while(i++ <= last)
-            {
-                address = (Address32)(i - 1);
-                ref readonly var b = ref skip(src,i);
-                if(restart)
-                {
-                    line.Append(string.Format("{0} ", address.Format()));
-                    restart = false;
-                }
-
-                line.Append(string.Format("{0} ", HexFormatter.format<W8,byte>(b)));
-
-                if(offset != 0 && (offset % bpl == 0))
-                {
-                    dst.WriteLine(line.Emit());
-                    restart = true;
-                }
-
-                offset++;
-            }
-
-            if(config.ZeroPad)
-            {
-                var fill = bpl - (count % bpl);
-                for(var q=0; q<fill; q++)
-                {
-                    line.Append("00");
-                    if(q != fill - 1)
-                        line.Append(" ");
-                }
-            }
-            dst.WriteLine(line.Emit());
-            return count;
+                dst.Append(text.enquote(format64u(bw64(src), digits, prespec:spec == SK.PreSpec, postspec:spec == SK.PostSpec, @case:@case)));
         }
 
         /// <summary>

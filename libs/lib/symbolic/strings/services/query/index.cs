@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Spans;
 
     using C = AsciCode;
     using SQ = SymbolicQuery;
@@ -14,6 +14,22 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static int index(ReadOnlySpan<char> src, ReadOnlySpan<char> match, bool cased = true)
             => src.IndexOf(match, cased ? Cased : NoCase);
+
+        [MethodImpl(Inline), Op]
+        public static int index(ReadOnlySpan<char> src, int offset, char match)
+        {
+            for(var i=offset; i<src.Length; i++)
+                if(skip(src, i) == match)
+                    return i;
+            return NotFound;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static bool index(ReadOnlySpan<char> src, char match, out int i)
+        {
+            i = index(src, match);
+            return i >= 0;
+        }
 
         [Op]
         public static int index(ReadOnlySpan<char> src, char c0, char c1)
@@ -68,5 +84,14 @@ namespace Z0
                     return i;
             return NotFound;
         }
+
+        [MethodImpl(Inline), Op]
+        public static int index(ReadOnlySpan<char> src, ReadOnlySpan<char> match)
+            => src.IndexOf(match);
+
+        [MethodImpl(Inline), Op]
+        public static int index(ReadOnlySpan<char> src, int offset, ReadOnlySpan<char> match)
+            => slice(src, 0, offset).IndexOf(match);
+
     }
 }

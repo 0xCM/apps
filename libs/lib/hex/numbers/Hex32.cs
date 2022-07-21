@@ -14,7 +14,7 @@ namespace Z0
         [Parser]
         public static bool parse(string src, out Hex32 dst)
         {
-            var outcome = HexParser.parse32u(src, out var x);
+            var outcome = Hex.parse32u(src, out var x);
             dst = x;
             return outcome;
         }
@@ -22,7 +22,7 @@ namespace Z0
         [Parser]
         public static Outcome parse(ReadOnlySpan<char> src, out Hex32 dst)
         {
-            var outcome = HexParser.parse32u(src, out var x);
+            var outcome = Hex.parse32u(src, out var x);
             dst = x;
             return outcome;
         }

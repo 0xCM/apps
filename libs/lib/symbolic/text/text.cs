@@ -6,6 +6,29 @@ namespace Z0
 {
     using static core;
 
+    public class TextFormat
+    {
+        [Op]
+        public static string adjacent(dynamic a, dynamic b)
+            => string.Format(RP.Adjacent2, a, b);
+
+        [Op]
+        public static string adjacent(dynamic a, dynamic b, dynamic c)
+            => string.Format(RP.Adjacent3, a, b, c);
+
+        [Op]
+        public static string adjacent(dynamic a, dynamic b, dynamic c, dynamic d)
+            => string.Format(RP.Adjacent4, a, b, c, d);
+
+        [Op]
+        public static string adjacent(dynamic a, dynamic b, dynamic c, dynamic d, dynamic e)
+            => string.Format(RP.Adjacent5, a, b, c, d, e);
+
+        [Op]
+        public static string adjacent(dynamic a, dynamic b, dynamic c, dynamic d, dynamic e, dynamic f)
+            => string.Format(RP.Adjacent6, a, b, c, d, e, f);
+    }
+
     [ApiHost]
     public static partial class text
     {

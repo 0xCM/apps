@@ -8,7 +8,6 @@ namespace Z0.Asm
 
     partial class IntelSdm
     {
-
         public static Outcome parse(TextLine src, out SdmOpCodeDetail dst)
         {
             var result = Outcome.Success;
@@ -25,7 +24,8 @@ namespace Z0.Asm
                 return (false, AppMsg.ParseFailure.Format(nameof(dst.OpCodeKey), skip(cells,i-1)));
 
             dst.Mnemonic = skip(cells, i++).ToUpperInvariant();
-            DataParser.block(skip(cells,i++).Trim(), out dst.OpCodeExpr);
+
+            CharBlocks.init(skip(cells,i++).Trim(), out dst.OpCodeExpr);
             AsmOcValue.parse(skip(cells,i++), out dst.OpCodeValue);
 
             ref readonly var sigsrc = ref skip(cells,i++);
@@ -33,12 +33,12 @@ namespace Z0.Asm
                 dst.AsmSig = EmptyString;
             else
                 dst.AsmSig = sigsrc;
-            DataParser.block(skip(cells, i++), out dst.EncXRef);
-            DataParser.block(skip(cells, i++), out dst.Mode64);
-            DataParser.block(skip(cells, i++), out dst.Mode32);
-            DataParser.block(skip(cells, i++), out dst.Mode64x32);
-            DataParser.block(skip(cells, i++), out dst.CpuIdExpr);
-            DataParser.block(skip(cells, i++), out dst.Description);
+            CharBlocks.init(skip(cells, i++), out dst.EncXRef);
+            CharBlocks.init(skip(cells, i++), out dst.Mode64);
+            CharBlocks.init(skip(cells, i++), out dst.Mode32);
+            CharBlocks.init(skip(cells, i++), out dst.Mode64x32);
+            CharBlocks.init(skip(cells, i++), out dst.CpuIdExpr);
+            CharBlocks.init(skip(cells, i++), out dst.Description);
             return result;
         }
 

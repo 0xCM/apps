@@ -24,7 +24,7 @@ namespace Z0
             var disp = z16i;
             if(HexFormatter.HasSpec(input))
             {
-                result = HexParser.parse16i(src, out disp);
+                result = Hex.parse16i(src, out disp);
                 if(result)
                     dst = disp;
             }

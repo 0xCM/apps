@@ -69,7 +69,7 @@ namespace Z0
             => AppendLine(string.Format(pattern, args));
 
         public void AppendLine<T>(T src)
-            => Target.AppendLine(src?.ToString() ?? RpOps.Null);
+            => Target.AppendLine(src?.ToString() ?? RP.Null);
 
         public void Indent<T>(uint margin, T src)
             => Target.Append(string.Format("{0}{1}", new string(Chars.Space, (int)margin), src));

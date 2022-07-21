@@ -42,7 +42,7 @@ namespace Z0.Asm
 
             var cell = EmptyString;
             cell = skip(comments,0);
-            result = HexParser.parse64u(cell, out var offset);
+            result = Hex.parse64u(cell, out var offset);
             if(result.Fail)
                 return (false, string.Format("Unable to parse {0} from '{1}'", "offset", cell));
 

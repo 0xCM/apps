@@ -13,8 +13,8 @@ namespace Z0
         [MethodImpl(Inline)]
         public JsonPacket(dynamic content, string type)
         {
-            Content = content ?? RpOps.Null;
-            Type = type ?? RpOps.Null;
+            Content = content ?? RP.Null;
+            Type = type ?? RP.Null;
         }
     }
 }

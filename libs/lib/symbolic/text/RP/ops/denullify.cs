@@ -8,7 +8,7 @@ namespace Z0
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static string denullify<T>(T src)
-            => src is null ? Null : src.ToString();
+            => src is null ? RP.Null : src.ToString();
 
         [MethodImpl(Inline), Op]
         public static string format(ReadOnlySpan<char> src)

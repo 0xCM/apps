@@ -49,7 +49,7 @@ namespace Z0.llvm
                     if(lt >=0)
                     {
                         name = text.trim(text.inside(content, j + Marker.Length - 1, lt));
-                        var bounds = SQ.enclosed(content,0, (Chars.Lt, Chars.Gt));
+                        var bounds = text.enclosed(content,0, (Chars.Lt, Chars.Gt));
                         parameters = text.inside(content, bounds.Min - 1, bounds.Max + 1).Replace(Chars.Pipe,Chars.Caret);
                     }
                     else

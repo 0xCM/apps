@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Spans;
 
     using C = AsciCode;
     using S = AsciSymbol;
@@ -13,7 +13,12 @@ namespace Z0
     {
         [MethodImpl(Inline), Op]
         public static ReadOnlySpan<char> left(ReadOnlySpan<char> src, int index)
-            => text.left(src,index);
+        {
+            if(index < src.Length)
+                return slice(src, 0, index);
+            else
+                return default;
+        }
 
         [MethodImpl(Inline), Op]
         public static ReadOnlySpan<C> left(ReadOnlySpan<C> src, int index)
@@ -23,5 +28,16 @@ namespace Z0
             else
                 return default;
         }
+
+        [MethodImpl(Inline), Op]
+        public static ReadOnlySpan<char> left(ReadOnlySpan<char> src, string match)
+        {
+            var i = SQ.index(src,match);
+            if(i > 0)
+                return left(src,i);
+            else
+                return default;
+        }
+
     }
 }

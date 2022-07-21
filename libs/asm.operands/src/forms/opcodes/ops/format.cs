@@ -14,7 +14,7 @@ namespace Z0.Asm
             if(Datasets.Expressions.Find(src.Id, out var xpr))
                 return xpr;
 
-            return RpOps.Error;
+            return RP.Error;
         }
 
         public static string format(in SdmOpCode src)

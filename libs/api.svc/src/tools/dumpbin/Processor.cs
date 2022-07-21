@@ -13,7 +13,6 @@ namespace Z0
 
     using Asm;
 
-
     partial class DumpBin
     {
         public class DumpBinProcessor : AppService<DumpBinProcessor>
@@ -47,8 +46,8 @@ namespace Z0
                 var right = slice(src.Codes, i + 1);
                 var j=0u;
                 var result = Hex.parse(left,out ulong offset);
-                if(result.Fail)
-                    return result;
+                if(!result)
+                    return (false, AppMsg.ParseFailure.Format(nameof(left), left.ToString()));
 
                 var buffer = StatementBuffer();
                 var count = text.render(right, ref j, buffer);

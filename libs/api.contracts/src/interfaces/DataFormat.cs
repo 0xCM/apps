@@ -4,14 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-    using static AsciSymbols;
+    public interface IDataFormat
+    {
+        string Name {get;}
 
-    using C = AsciCode;
+    }
 
-    partial struct Asci
+
+    public struct DataFormat
     {
 
 
     }
+
 }

@@ -188,7 +188,7 @@ namespace Z0
         {
             var statement = skip(parts,0).Remove(RexRemove);
             var comment = skip(parts,1);
-            var bitstring = RpOps.Error;
+            var bitstring = RP.Error;
             var formatted = FormatBytes(comment, out var count);
             if(Hex.hexdata(formatted, out var parsed))
                 bitstring = AsmHexCode.load(parsed).BitString;

@@ -69,7 +69,7 @@ namespace Z0
                 if(k > 0)
                 {
                     var data = text.right(content,k);
-                    i+= HexParser.data(data, i, dst);
+                    i+= Hex.data(data, i, dst);
                 }
             }
             return i - offset;

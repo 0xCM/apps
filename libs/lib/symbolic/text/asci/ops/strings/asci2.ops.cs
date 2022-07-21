@@ -15,6 +15,24 @@ namespace Z0
         public static C code(in asci2 src, Hex1Kind index)
             => (C)(src.Storage >> (byte)index);
 
+        [MethodImpl(Inline), Op]
+        public static ReadOnlySpan<char> decode(in asci2 src)
+        {
+            var storage = 0u;
+            ref var dst = ref @as<uint,char>(storage);
+            seek(dst, 0) = (char)(byte)(src.Storage >> 0);
+            seek(dst, 1) = (char)(byte)(src.Storage >> 8);
+            return core.cover(dst, 2);
+        }
+
+        /// <summary>
+        /// Presents the source content as a bytespan
+        /// </summary>
+        /// <param name="src">The data source</param>
+        [MethodImpl(Inline), Op]
+        public static Span<byte> bytes(in asci2 src)
+            => cover(@as<byte>(src.Storage), src.Length);
+
         /// <summary>
         /// Encodes a 2-character asci sequence
         /// </summary>

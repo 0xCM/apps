@@ -14,7 +14,7 @@ namespace Z0
         [Parser]
         public static Outcome parse(string src, out H dst)
         {
-            var outcome = HexParser.parse8u(src, out var x);
+            var outcome = Hex.parse8u(src, out var x);
             dst = new H((K)(x & 0b111111));
             return outcome;
         }
@@ -22,7 +22,7 @@ namespace Z0
         [Parser]
         public static Outcome parse(ReadOnlySpan<char> src, out H dst)
         {
-            var outcome = HexParser.parse8u(src, out var x);
+            var outcome = Hex.parse8u(src, out var x);
             dst = new H((K)(x & 0b111111));
             return outcome;
         }

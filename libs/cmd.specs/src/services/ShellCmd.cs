@@ -66,11 +66,11 @@ namespace Z0
         {
             var i = SQ.index(src, Chars.Space);
             if(i < 0)
-                return new ShellCmdSpec(text.format(src), CmdArgs.Empty);
+                return new ShellCmdSpec(sys.@string(src), CmdArgs.Empty);
             else
             {
-                var name = text.format(text.left(src,i));
-                var _args = text.format(text.right(src,i)).Split(Chars.Space);
+                var name = sys.@string(SQ.left(src,i));
+                var _args = sys.@string(SQ.right(src,i)).Split(Chars.Space);
                 return new ShellCmdSpec(name, args(_args));
             }
         }

@@ -15,7 +15,7 @@ namespace Z0
         }
 
         public string Format()
-            => Content != null ? Content.ToString() : RpOps.Null;
+            => Content != null ? Content.ToString() : RP.Null;
 
         public override string ToString()
             => Format();

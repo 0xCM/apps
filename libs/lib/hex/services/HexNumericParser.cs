@@ -12,7 +12,7 @@ namespace Z0
     {
         public static ParseResult<ulong> parse64u(string src)
         {
-            if(ulong.TryParse(clear(src), NumberStyles.HexNumber, null, out ulong value))
+            if(ulong.TryParse(Hex.clear(src), NumberStyles.HexNumber, null, out ulong value))
                 return ParseResult.parsed(src,value);
             else
                 return ParseResult.unparsed<ulong>(src);

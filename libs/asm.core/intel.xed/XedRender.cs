@@ -586,7 +586,7 @@ namespace Z0
             if(index < bcasts.Length)
                 return bcasts[index].Symbol.Format();
             else
-                return RpOps.Error;
+                return RP.Error;
         }
 
         public static string format(in TableCriteria src)

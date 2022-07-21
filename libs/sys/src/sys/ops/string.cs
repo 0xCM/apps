@@ -21,6 +21,6 @@ namespace Z0
 
         [MethodImpl(Options), Op]
         public static string @string(ReadOnlySpan<char> src)
-            => src.ToString();
+            => new string(src);
     }
 }

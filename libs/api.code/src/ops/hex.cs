@@ -32,7 +32,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var cell = ref cells[i];
-                result = HexParser.parse8u(cell, out seek(data,i));
+                result = Hex.parse8u(cell, out seek(data,i));
                 if(result.Fail)
                     break;
             }

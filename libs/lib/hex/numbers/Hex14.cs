@@ -19,7 +19,7 @@ namespace Z0
             dst = Zero;
             var storage = z32;
             var buffer = bytes(storage);
-            var result = HexParser.parse(src, buffer);
+            var result = Hex.parse(src, buffer);
             if(result && storage <= MaxValue)
                 dst = (Hex14)storage;
             return result;

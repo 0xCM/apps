@@ -48,21 +48,10 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public static ReadOnlySpan<char> left(ReadOnlySpan<char> src, string match)
-        {
-            var i = text.index(src,match);
-            if(i > 0)
-                return left(src,i);
-            else
-                return default;
-        }
-
-
-        [MethodImpl(Inline), Op]
         public static ReadOnlySpan<char> left(ReadOnlySpan<char> src, int index)
         {
             if(index < src.Length)
-                return core.slice(src, 0, index);
+                return Spans.slice(src, 0, index);
             else
                 return default;
         }

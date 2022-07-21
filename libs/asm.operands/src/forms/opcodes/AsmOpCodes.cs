@@ -35,7 +35,7 @@ namespace Z0.Asm
             if(_Datasets.Expressions.Find(src.Id, out var x))
                 return x;
 
-            return RpOps.Error;
+            return RP.Error;
         }
 
    }

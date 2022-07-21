@@ -5,9 +5,7 @@
 namespace Z0.llvm
 {
     using System;
-    using Asm;
 
-    using static LlvmNames;
     using static core;
 
     partial class LlvmTableLoader
@@ -35,15 +33,11 @@ namespace Z0.llvm
                 }
 
                 var cells = src.Cells;
-                var cell = TextBlock.Empty;
+                var cell = EmptyString;
 
                 var j=0;
                 cell = skip(cells, j++);
-                if(!DataParser.block(cell, out dst.Namespace))
-                {
-                    result = (false, string.Format("Failed to parse field '{0}' from input '{1}'", nameof(dst.Namespace), cell));
-                    break;
-                }
+                CharBlocks.init(cell, out dst.Namespace);
 
                 cell = skip(cells, j++);
                 if(!DataParser.parse(cell, out dst.Size))

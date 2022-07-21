@@ -21,10 +21,10 @@ namespace Z0
 
             dst = default;
             var i = text.index(src,HexFormatSpecs.PreSpec);
-            var disp = 0ul;
+            var disp = 0L;
             if(i>=0)
             {
-                result = HexParser.parse64u(src, out disp);
+                result = Hex.parse64i(src, out disp);
                 if(result)
                     dst = disp;
             }
@@ -47,7 +47,6 @@ namespace Z0
 
         public NativeSize Size
             => NativeSizeCode.W64;
-
 
         public bool IsNonZero
         {

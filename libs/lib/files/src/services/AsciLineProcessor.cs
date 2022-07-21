@@ -38,7 +38,7 @@ namespace Z0
             var right = slice(src.Codes, i + 1);
             var j=0u;
             var result = Hex.parse(left,out ulong offset);
-            if(result.Fail)
+            if(!result)
                 return result;
 
             var buffer = StatementBuffer();

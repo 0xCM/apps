@@ -10,18 +10,19 @@ namespace Z0
     {
         [Op]
         public static string format(ReadOnlySpan<AsciCode> src)
-            => format(src, core.span<char>(src.Length));
-
-        [Op]
-        public static string format(ReadOnlySpan<char> src, uint length)
-            => new string(core.slice(src,0, length));
+            => format(src, Spans.span<char>(src.Length));
 
         [Op]
         public static string format(ReadOnlySpan<AsciCode> src, Span<char> buffer)
         {
             var count = AsciSymbols.decode(src, buffer);
-            return new string(core.slice(buffer,0, count));
+            return new string(Spans.slice(buffer,0, count));
         }
+
+        [Op]
+        public static string format(ReadOnlySpan<char> src, uint length)
+            => new string(Spans.slice(src,0, length));
+
 
         /// <summary>
         /// Creates a string from a span, via a specified encoding
@@ -39,7 +40,7 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static string format(ReadOnlySpan<char> src)
-            => new string(src);
+            => sys.@string(src);
 
         [MethodImpl(Inline), Op]
         public static string format(ReadOnlySpan<char> src, bool trim)

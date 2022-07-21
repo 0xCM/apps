@@ -47,16 +47,16 @@ namespace Z0.llvm
                 var content = line.Content.Trim();
                 ref var field = ref seek(dst, k++);
                 field.RecordName = text.trim(interval.Id);
-                if(text.index(content, Chars.Space, out var i0))
+                if(SQ.index(content, Chars.Space, out var i0))
                 {
                     field.DataType = text.trim(text.left(content,i0));
                     var namedValue = text.right(content,i0);
-                    if(text.index(namedValue, Chars.Space, out var i1))
+                    if(SQ.index(namedValue, Chars.Space, out var i1))
                     {
                         field.Name = text.trim(text.left(namedValue,i1));
-                        if(text.index(namedValue, Chars.Eq, out var i2))
+                        if(SQ.index(namedValue, Chars.Eq, out var i2))
                         {
-                            if(text.index(namedValue, Chars.Semicolon, out var i3))
+                            if(SQ.index(namedValue, Chars.Semicolon, out var i3))
                                 field.Value = text.trim(text.inside(namedValue, i2, i3).Replace(Chars.Pipe,Chars.Caret));
                         }
                     }

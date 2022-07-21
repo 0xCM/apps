@@ -5,12 +5,15 @@
 namespace Z0
 {
     using static core;
-    using static AsciSymbols;
-
-    using C = AsciCode;
-
     partial struct Asci
     {
+        [Op]
+        public static string format(ReadOnlySpan<AsciCode> src, Span<char> buffer)
+        {
+            var count = AsciSymbols.decode(src, buffer);
+            return new string(Spans.slice(buffer,0, count));
+        }
+
         /// <summary>
         /// Returns the asci codes [offset, ..., offset + count] where offset <= (2^7-1) - count
         /// </summary>

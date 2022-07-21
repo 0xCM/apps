@@ -172,7 +172,7 @@ namespace Z0
         {
             Target.Write(RpOps.rspace(delimiter));
             Target.Write(string.Format(RpOps.pad(pad), label));
-            Target.Write(content?.ToString() ?? RpOps.Null);
+            Target.Write(content?.ToString() ?? RP.Null);
         }
 
         public void AppendPadded<T,W>(T value, W width, string delimiter = EmptyString)

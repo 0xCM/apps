@@ -21,7 +21,7 @@ namespace Z0
             var imm = 0ul;
             if(i>=0)
             {
-                result = HexParser.parse64u(src, out imm);
+                result = Hex.parse64u(src, out imm);
                 if(result)
                     dst = imm;
             }
