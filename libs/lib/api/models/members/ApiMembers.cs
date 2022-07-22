@@ -72,6 +72,19 @@ namespace Z0
         public ReadOnlySpan<ClrMethodArtifact> Artifacts
             => Data.Map(x => x.Metadata);
 
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Data.IsEmpty;
+
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Data.IsNonEmpty;
+        }
+
         public ref ApiMember this[long index]
         {
             [MethodImpl(Inline)]

@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using A=MemoryAddress;
+    using A = MemoryAddress;
+
     public unsafe readonly struct MemoryAddress : IAddress<MemoryAddress,ulong>
     {
         public const NativeSizeCode StorageSize = NativeSizeCode.W64;
@@ -70,15 +71,8 @@ namespace Z0
         [MethodImpl(Inline)]
         public Address16 Quadrant(N3 n)
             => Hi.Hi;
-
         public string Format()
             => Location.ToString("x") + HexFormatSpecs.PostSpec;
-
-        public string Format(bool postspec)
-            => postspec ? Format() : Location.ToString("x");
-
-        public string FormatMinimal()
-            => Location.FormatTrimmedAsmHex();
 
         public string Format(byte pad)
             => Location.FormatAsmHex(pad);

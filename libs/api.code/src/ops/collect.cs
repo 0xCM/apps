@@ -17,17 +17,26 @@ namespace Z0
         {
             var members = list<ApiHostMembers>();
             var collected = list<CollectedHost>();
-            iter(src.ApiHosts, host => members.Add(ApiJit.jit(host,log)));
-            iter(src.ApiTypes, t => members.Add(new ApiHostMembers(t.HostUri, ApiMembers.create(ApiJit.jit(t,log)))));
+            iter(src.ApiHosts,
+                host => {
+                    var jitted = ApiJit.jit(host,log);
+                    if(jitted.IsNonEmpty)
+                        members.Add(jitted);
+                }
+                );
+
+            iter(src.ApiTypes, type => {
+                var jitted = ApiMembers.create(ApiJit.jit(type,log));
+                if(jitted.IsNonEmpty)
+                    members.Add(new ApiHostMembers(type.HostUri, jitted));
+                }
+                );
             iter(members, m => collected.Add(collect(m, log, dst)));
             return collected.ToArray();
         }
 
         public static CollectedHost collect(ApiHostMembers src, WfEventLogger log, ICompositeDispenser dst)
-        {
-            var collected = collect(MethodEntryPoints.create(src.Members), log, dst);
-            return new CollectedHost(src,collected);
-        }
+            => new CollectedHost(src, collect(MethodEntryPoints.create(src.Members), log, dst));
 
         public static ReadOnlySeq<CollectedEncoding> collect(ReadOnlySpan<MethodEntryPoint> src, WfEventLogger log, ICompositeDispenser dispenser)
             => divine(collect(dispenser, src), log).Sort();

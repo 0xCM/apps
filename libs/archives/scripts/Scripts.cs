@@ -26,7 +26,6 @@ namespace Z0
             };
         }
 
-
         public static CmdLine cmd(string spec)
             => string.Format($"cmd.exe /c {spec}");
 

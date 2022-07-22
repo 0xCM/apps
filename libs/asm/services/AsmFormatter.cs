@@ -32,8 +32,8 @@ namespace Z0.Asm
             dst.AppendLine(PageBreak);
             dst.AppendLine(new AsmInlineComment(CommentMarker, $"{src.Sig}::{src.Uri}"));
             dst.AppendLine(AsmInlineComment.array(src.Data).Format());
-            dst.AppendLine(new AsmInlineComment(CommentMarker, RpOps.attrib(Pad, nameof(src.EntryAddress), src.EntryAddress)));
-            dst.AppendLine(new AsmInlineComment(CommentMarker, RpOps.attrib(Pad, nameof(src.TargetAddress), src.TargetAddress)));
+            dst.AppendLine(new AsmInlineComment(CommentMarker, RpOps.attrib(Pad, nameof(src.Token.EntryAddress), "0x" + src.Token.EntryAddress.Location.ToString("x"))));
+            dst.AppendLine(new AsmInlineComment(CommentMarker, RpOps.attrib(Pad, nameof(src.Token.TargetAddress), "0x" + src.Token.TargetAddress.Location.ToString("x"))));
             dst.Append(PageBreak);
             return dst.Emit();
         }
@@ -47,8 +47,8 @@ namespace Z0.Asm
             dst.AppendLine(PageBreak);
             dst.AppendLine(new AsmInlineComment(CommentMarker, $"{src.Sig}::{src.Uri}"));
             dst.AppendLine(AsmInlineComment.array(src.Code).Format());
-            dst.AppendLine(new AsmInlineComment(CommentMarker, RpOps.attrib(Pad, nameof(src.Token.EntryAddress), src.Token.EntryAddress)));
-            dst.AppendLine(new AsmInlineComment(CommentMarker, RpOps.attrib(Pad, nameof(src.Token.TargetAddress), src.Token.TargetAddress)));
+            dst.AppendLine(new AsmInlineComment(CommentMarker, RpOps.attrib(Pad, nameof(src.Token.EntryAddress), "0x" + src.Token.EntryAddress.Location.ToString("x"))));
+            dst.AppendLine(new AsmInlineComment(CommentMarker, RpOps.attrib(Pad, nameof(src.Token.TargetAddress), "0x" + src.Token.TargetAddress.Location.ToString("x"))));
             dst.Append(PageBreak);
             return dst.Emit();
         }
@@ -169,7 +169,5 @@ namespace Z0.Asm
                 DataWidth.W64 => offset.FormatAsmHex(),
                 _ => EmptyString
             };
-
-
     }
 }

@@ -1,3 +1,4 @@
 @echo off
 call %~dp0config.cmd
-call %PublishShell%
+: call %PublishShell%
+call %BuildCmdShell%

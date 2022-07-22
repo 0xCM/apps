@@ -11,5 +11,4 @@ namespace Z0
         string ITextual.Format()
             => ClassId.ToString().ToLower();
     }
-
 }

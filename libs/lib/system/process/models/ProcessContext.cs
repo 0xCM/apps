@@ -4,13 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    [StructLayout(LayoutKind.Sequential)]
     public record struct ProcessContext
     {
         public int ProcessId;
 
         public string ProcessName;
 
-        public Identifier Subject;
+        public string Subject;
 
         public Timestamp Timestamp;
 

@@ -16,5 +16,18 @@ namespace Z0
             Host = host;
             Members = members;
         }
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Members.Count == 0;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Members.Count != 0;
+        }
+
     }
 }

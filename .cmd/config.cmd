@@ -29,6 +29,10 @@ set TestLog=%WsLogs%\z0.%ProjectId%.tests.trx
 set BuildLogs=%WsLogs%
 set BuildTool=dotnet build
 
+
+set BuildLog=%BuildLogs%\z0.%ProjectId%.log
+set SlnBuildLog=%BuildLogs%\z0.%SlnId%.log
+
 set ImportDefs=%SlnRoot%\props\
 set AppSettings=%ImportDefs%app.settings.csv
 
@@ -42,16 +46,14 @@ set TargetBuildRoot=%WsBin%\z0.%ProjectId%\%BuildKind%\%TargetFramework%
 set ShellBin=%TargetBuildRoot%\%RuntimeMoniker%\%ShellName%
 
 set AreaSlnFile=z0.%WsId%.sln
+set AreaSlnTxtLog=-fl -flp:logfile=%WsLogs%\z0.%SlnId%.log
 set AreaSlnPath=%AreaRoot%\%WsId%\%AreaSlnFile%
-set AreaSlnLog=%WsLogs%\z0.%SlnId%.log
-set BuildAreaSln=%BuildTool% %AreaSlnPath% %BuildProps% -fl -flp:logfile=%AreaSlnLog%;verbosity=%BuildVerbosity% -graph:true -m:24
+set BuildAreaSln=%BuildTool% %AreaSlnPath% %BuildProps% %AreaSlnTxtLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 
 set AreaProjectPath=%AreaRoot%\%ProjectId%\%CsProjectFile%
 set AreaProjectLog=%WsLogs%\z0.%ProjectId%.log
-set BuildAreaProject=%BuildTool% %AreaProjectPath% %BuildProps% -fl -flp:logfile=%AreaProjectLog%;verbosity=%BuildVerbosity% -graph:true -m:24
-
-set BuildLog=%BuildLogs%\z0.%ProjectId%.log
-set SlnBuildLog=%BuildLogs%\z0.%SlnId%.log
+set AreaProjectTxtLog=-fl -flp:logfile=%AreaProjectLog%
+set BuildAreaProject=%BuildTool% %AreaProjectPath% %BuildProps% %AreaProjectTxtLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 
 set ShellName=%ShellId%.exe
 set ShellExePath=%TargetBuildRoot%\%RuntimeMoniker%\%ShellName%
@@ -67,9 +69,14 @@ set LibProject=%LibWs%\%ProjectId%
 set CsProjectPath=%LibProject%\%CsProjectFile%
 set BuildLib=%BuildTool% %CsProjectPath% %BuildProps% -fl -flp:logfile=%BuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
 
+set ProjectBinLogPath=%WsLogs%\z0.%ProjectId%.binlog
+set ProjectBinLogSpec=-bl:%ProjectBinLogPath%
+
+
 set CmdShellRoot=%SlnRoot%\cmd
 set CmdProject=%CmdShellRoot%\z0.cmd.csproj
-set BuildCmdShell=%BuildTool% %CmdProject% %BuildProps% -fl -flp:logfile=%BuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
+set CmdShellLog=%BinLogSpec%
+set BuildCmdShell=%BuildTool% %CmdProject% %BuildProps% %ProjectBinLogSpec%; -graph:true -m:24
 set CmdShellPath=%TargetBuildRoot%\%RuntimeMoniker%\%ShellName%
 
 set SlnLibs=%SlnRoot%\libs
