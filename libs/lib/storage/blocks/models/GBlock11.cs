@@ -48,7 +48,7 @@ namespace Z0
             get => bytes(this);
         }
 
-        public ByteSize Size
+        public ByteSize ByteCount
             => CellCount*size<T>();
 
         public static GBlock11<T> Empty => default;

@@ -72,7 +72,7 @@ namespace Z0
         public ByteSize HexSize
         {
             [MethodImpl(Inline)]
-            get => Hex.Size;
+            get => Hex.ByteCount;
         }
 
         public ByteSize MsilSize

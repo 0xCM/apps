@@ -34,13 +34,13 @@ namespace Z0
             Capacity = src.Size;
         }
 
-        public ByteSize Size
+        public ByteSize ByteCount
         {
             [MethodImpl(Inline)]
             get => Data.Size;
         }
 
-        public BitWidth Width
+        public BitWidth BitWidth
         {
             [MethodImpl(Inline)]
             get => Data.Width;

@@ -14,7 +14,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static Span<byte> replicate(MemoryRange src)
         {
-            Span<byte> dst = alloc<byte>(src.Size);
+            Span<byte> dst = alloc<byte>(src.ByteCount);
             copy(src, dst);
             return dst;
         }

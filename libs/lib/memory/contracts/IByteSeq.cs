@@ -22,10 +22,10 @@ namespace Z0
         /// </summary>
         int Capacity => View.Length;
 
-        ByteSize ISized.Size
+        ByteSize ISized.ByteCount
             => View.Length;
 
-        BitWidth ISized.Width
+        BitWidth ISized.BitWidth
             => View.Length*8;
 
         Hash32 IHashed.Hash

@@ -29,7 +29,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public ReadOnlySpan<byte> Bytes(MemoryRange range)
-            => core.slice(Data.View,(uint)range.Min, range.Size);
+            => core.slice(Data.View,(uint)range.Min, range.ByteCount);
 
         public ref readonly byte this[uint i]
         {

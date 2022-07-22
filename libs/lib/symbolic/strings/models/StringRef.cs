@@ -56,7 +56,7 @@ namespace Z0
             get => ref seek(Address.Ref<char>(), index);
         }
 
-        public ByteSize Size
+        public ByteSize ByteCount
         {
             [MethodImpl(Inline)]
             get => Length*size<char>();
@@ -80,7 +80,7 @@ namespace Z0
         public ReadOnlySpan<byte> Bytes
         {
             [MethodImpl(Inline)]
-            get => core.cover(Address.Pointer<byte>(), Size);
+            get => core.cover(Address.Pointer<byte>(), ByteCount);
         }
 
         MemoryAddress IAddressable.Address

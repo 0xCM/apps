@@ -26,10 +26,10 @@ namespace Z0
     public interface IStorageBlock<T> : IStorageBlock
         where T : unmanaged, IStorageBlock<T>
     {
-        ByteSize ISized.Size
+        ByteSize ISized.ByteCount
             => size<T>();
 
-        BitWidth ISized.Width
+        BitWidth ISized.BitWidth
             => width<T>();
 
         Span<byte> IStorageBlock.Bytes

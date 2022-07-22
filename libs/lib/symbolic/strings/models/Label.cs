@@ -44,7 +44,7 @@ namespace Z0
             get => Length;
         }
 
-        public ByteSize Size
+        public ByteSize ByteCount
         {
             [MethodImpl(Inline)]
             get => Length*2;

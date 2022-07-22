@@ -49,7 +49,7 @@ namespace Z0
         /// <param name="range">The range to liberate</param>
         [MethodImpl(Inline), Op]
         public static unsafe byte* liberate(MemoryRange range)
-            => liberate(range.Min.Pointer<byte>(), range.Size);
+            => liberate(range.Min.Pointer<byte>(), range.ByteCount);
 
 
         [MethodImpl(Inline), Op, Closures(Closure)]

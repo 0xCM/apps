@@ -44,7 +44,7 @@ namespace Z0
         MemoryAddress IAddressable.Address
             => Address;
 
-        public ByteSize Size
+        public ByteSize ByteCount
         {
             [MethodImpl(Inline)]
             get => Code.Size;

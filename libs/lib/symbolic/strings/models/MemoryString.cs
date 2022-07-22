@@ -35,7 +35,7 @@ namespace Z0
             get => Length;
         }
 
-        public BitWidth Width
+        public BitWidth BitWidth
         {
             get => Size*8;
         }

@@ -27,13 +27,13 @@ namespace Z0
         public ByteSize Size
         {
             [MethodImpl(Inline)]
-            get => Range.Size;
+            get => Range.ByteCount;
         }
 
         public Span<byte> Bytes
         {
             [MethodImpl(Inline)]
-            get => cover<byte>(Range.Min.Pointer<byte>(), Range.Size);
+            get => cover<byte>(Range.Min.Pointer<byte>(), Range.ByteCount);
         }
 
         public ref byte First
@@ -77,7 +77,7 @@ namespace Z0
         public uint PageCount
         {
             [MethodImpl(Inline)]
-            get => Range.Size/api.PageSize;
+            get => Range.ByteCount/api.PageSize;
         }
 
         [MethodImpl(Inline)]

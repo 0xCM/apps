@@ -39,7 +39,7 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static uint cells<T>(MemoryRange src)
-            => (uint)(src.Size/size<T>());
+            => (uint)(src.ByteCount/size<T>());
 
         /// <summary>
         /// Covers a <see cref='MemoryRange'/> with a readonly span

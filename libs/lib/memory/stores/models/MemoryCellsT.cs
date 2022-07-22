@@ -50,7 +50,7 @@ namespace Z0
         public uint CellCount
         {
             [MethodImpl(Inline)]
-            get => Range.Size/size<T>();
+            get => Range.ByteCount/size<T>();
         }
 
         [MethodImpl(Inline)]

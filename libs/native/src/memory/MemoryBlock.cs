@@ -60,7 +60,7 @@ namespace Z0
         public ByteSize Size
         {
             [MethodImpl(Inline)]
-            get => Origin.Size;
+            get => Origin.ByteCount;
         }
 
         [MethodImpl(Inline)]

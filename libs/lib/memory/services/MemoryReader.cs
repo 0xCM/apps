@@ -12,7 +12,7 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(UnsignedInts)]
         public unsafe static MemoryReader<T> create<T>(MemoryRange src)
             where T : unmanaged
-                => new MemoryReader<T>(src.Min.Pointer<T>(), src.Size/size<T>());
+                => new MemoryReader<T>(src.Min.Pointer<T>(), src.ByteCount/size<T>());
 
         [MethodImpl(Inline), Op, Closures(UnsignedInts)]
         public unsafe static MemoryReader<T> create<T>(T* pSrc, int count)

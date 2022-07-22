@@ -134,9 +134,9 @@ namespace Z0
         public static ref T copy<T>(ReadOnlySpan<byte> src, ref T dst)
             where T : unmanaged, IStorageBlock
         {
-            var size = max(src.Length, dst.Size);
+            var size = max(src.Length, dst.ByteCount);
             ref var target = ref u8(dst);
-            if(size == dst.Size)
+            if(size == dst.ByteCount)
                 dst = @as<T>(src);
             else
                 Bytes.copy(slice(src, 0, size), ref target);

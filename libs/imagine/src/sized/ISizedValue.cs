@@ -7,7 +7,7 @@ namespace Z0
     public interface ISizedValue : IValued, ISized
     {
         bool INullity.IsEmpty
-            => Width == 0;
+            => BitWidth == 0;
     }
 
     public interface ISizedValue<T> : ISizedValue, IValued<T>, ISized<T>

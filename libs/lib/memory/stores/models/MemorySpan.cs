@@ -59,7 +59,7 @@ namespace Z0
         public ByteSize Size
         {
             [MethodImpl(Inline)]
-            get => Origin.Size;
+            get => Origin.ByteCount;
         }
 
         public int CompareTo(MemorySpan src)

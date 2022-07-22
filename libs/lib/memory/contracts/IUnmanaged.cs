@@ -17,7 +17,7 @@ namespace Z0
     public interface IUnmanaged<T> : IUnmanaged, IValue<T>
         where T : unmanaged
     {
-        ByteSize ISized.Size
+        ByteSize ISized.ByteCount
             => Sized.size<T>();
     }
 }

@@ -15,10 +15,10 @@ namespace Z0
         MemoryAddress IAddressable.Address
             => Min;
 
-        ByteSize ISized.Size
+        ByteSize ISized.ByteCount
             => (ulong)Max - (ulong)Min;
 
-        BitWidth ISized.Width
+        BitWidth ISized.BitWidth
             => ((ulong)Max - (ulong)Min)*8;
     }
 

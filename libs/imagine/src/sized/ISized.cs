@@ -10,20 +10,20 @@ namespace Z0
     [Free]
     public interface ISized
     {
-        BitWidth Width {get;}
+        BitWidth BitWidth {get;}
 
-        ByteSize Size
-            => Width.Bytes;
+        ByteSize ByteCount
+            => BitWidth.Bytes;
     }
 
     [Free]
     public interface ISized<T> : ISized
         where T : unmanaged
     {
-        ByteSize ISized.Size
+        ByteSize ISized.ByteCount
             => Sized.size<T>();
 
-        BitWidth ISized.Width
+        BitWidth ISized.BitWidth
             => Sized.width<T>();
     }
 }

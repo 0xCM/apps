@@ -45,7 +45,7 @@ namespace Z0
         public int ByteCount
         {
             [MethodImpl(Inline)]
-            get => (int)Range.Size;
+            get => (int)Range.ByteCount;
         }
 
         public bool IsEmpty

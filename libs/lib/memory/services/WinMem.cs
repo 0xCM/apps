@@ -93,7 +93,7 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static bool liberate(MemoryRange range)
-            => vprotect(range.Min, range.Size, PageProtection.ExecuteReadWrite);
+            => vprotect(range.Min, range.ByteCount, PageProtection.ExecuteReadWrite);
 
         public static unsafe ulong ReadProcessMemory(IntPtr process, ulong address, Span<byte> dst)
         {

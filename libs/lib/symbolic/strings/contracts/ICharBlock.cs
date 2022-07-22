@@ -10,7 +10,7 @@ namespace Z0
     {
         Span<char> Data {get;}
 
-        BitWidth ISized.Width
+        BitWidth ISized.BitWidth
             => (Data.Length * 2)*8;
 
         ReadOnlySpan<char> String {get;}
@@ -61,10 +61,10 @@ namespace Z0
     public interface ICharBlock<T> : ICharBlock, IComparable<T>, IEquatable<T>, IStorageBlock<T>
         where T : unmanaged, ICharBlock<T>
     {
-        ByteSize ISized.Size
+        ByteSize ISized.ByteCount
             => size<T>();
 
-        BitWidth ISized.Width
+        BitWidth ISized.BitWidth
             => width<T>();
 
         int IByteSeq.Capacity

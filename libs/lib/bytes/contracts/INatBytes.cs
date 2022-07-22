@@ -21,10 +21,10 @@ namespace Z0
         F IContented<F>.Content
             => (F)this;
 
-        ByteSize ISized.Size
+        ByteSize ISized.ByteCount
             =>default(N).NatValue;
 
-        BitWidth ISized.Width
+        BitWidth ISized.BitWidth
             => Count*8;
 
         int IByteSeq.Capacity

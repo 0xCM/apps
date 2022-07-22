@@ -38,10 +38,10 @@ namespace Z0
         S IContented<S>.Content
             => (S)this;
 
-        BitWidth ISized.Width
+        BitWidth ISized.BitWidth
             => core.nat32u<N>()*8;
 
-        ByteSize ISized.Size
+        ByteSize ISized.ByteCount
             => core.nat32u<N>();
 
         int IByteSeq.Length

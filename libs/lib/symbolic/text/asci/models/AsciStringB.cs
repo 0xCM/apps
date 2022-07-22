@@ -22,7 +22,7 @@ namespace Z0
         public uint Capacity
         {
             [MethodImpl(Inline)]
-            get => Data.Size/8;
+            get => Data.ByteCount/8;
         }
 
         public ReadOnlySpan<AsciSymbol> Cells

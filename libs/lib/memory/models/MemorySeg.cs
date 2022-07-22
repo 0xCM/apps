@@ -28,7 +28,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public MemorySeg(MemoryRange range)
-            : this(range.Min, range.Size)
+            : this(range.Min, range.ByteCount)
         {
 
         }

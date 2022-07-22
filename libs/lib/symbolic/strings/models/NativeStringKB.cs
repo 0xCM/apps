@@ -29,16 +29,16 @@ namespace Z0
         public int Capacity
         {
             [MethodImpl(Inline)]
-            get => Data.Size/CharSize;
+            get => Data.ByteCount/CharSize;
         }
 
         public int Length
         {
             [MethodImpl(Inline)]
-            get => Data.Size/CharSize;
+            get => Data.ByteCount/CharSize;
         }
 
-        public BitWidth Width
+        public BitWidth BitWidth
         {
             [MethodImpl(Inline)]
             get => Length*CharSize*8;

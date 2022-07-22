@@ -60,7 +60,7 @@ namespace Z0
         public ByteSize Size
         {
             [MethodImpl(Inline)]
-            get => Range.Size;
+            get => Range.ByteCount;
         }
 
         public MemoryAddress LastAddress

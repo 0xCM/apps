@@ -22,7 +22,7 @@ namespace Z0
             Size = size;
         }
 
-        ByteSize ISized.Size
+        ByteSize ISized.ByteCount
             => Size;
         public bool IsEmpty
         {
@@ -39,7 +39,7 @@ namespace Z0
         public override int GetHashCode()
             => Hash;
 
-        public BitWidth Width
+        public BitWidth BitWidth
         {
             [MethodImpl(Inline)]
             get => Size.Bits;

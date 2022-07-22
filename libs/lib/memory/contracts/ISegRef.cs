@@ -18,9 +18,6 @@ namespace Z0
         ref byte IMemorySegment.Cell(int index)
             => ref Unsafe.As<T,byte>(ref Cell(index));
 
-        uint IMemorySegment.CellSize
-            => (uint)Unsafe.SizeOf<T>();
-
         new ref T this[int index]
             => ref Cell(index);
     }

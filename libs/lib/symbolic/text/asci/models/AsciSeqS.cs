@@ -24,16 +24,16 @@ namespace Z0
             get => Format();
         }
 
-        public ByteSize Size
+        public ByteSize ByteCount
         {
             [MethodImpl(Inline)]
-            get => Content.Size;
+            get => Content.ByteCount;
         }
 
-        public BitWidth Width
+        public BitWidth BitWidth
         {
             [MethodImpl(Inline)]
-            get => Content.Width;
+            get => Content.BitWidth;
         }
 
         public string Format()

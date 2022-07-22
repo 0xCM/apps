@@ -14,7 +14,7 @@ namespace Z0
 
         Span<T> Cells {get;}
 
-        ByteSize ISized.Size
+        ByteSize ISized.ByteCount
             => Cells.Length*size<T>();
 
         Span<byte> IStorageBlock.Bytes

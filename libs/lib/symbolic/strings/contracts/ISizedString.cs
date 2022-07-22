@@ -13,7 +13,7 @@ namespace Z0
 
         BitWidth CharWidth {get;}
 
-        BitWidth ISized.Width
+        BitWidth ISized.BitWidth
             => CharWidth*CharCapacity;
     }
 

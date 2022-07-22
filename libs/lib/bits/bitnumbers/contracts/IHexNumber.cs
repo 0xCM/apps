@@ -19,10 +19,10 @@ namespace Z0
         where K : unmanaged, INumeric<K>
         where F : unmanaged, IHexNumber<F,K>
     {
-        BitWidth ISized.Width
+        BitWidth ISized.BitWidth
             => Sized.width<F>();
 
-        ByteSize ISized.Size
+        ByteSize ISized.ByteCount
             => Sized.size<F>();
     }
 
@@ -31,10 +31,10 @@ namespace Z0
         where K : unmanaged
         where W : unmanaged, IDataWidth
     {
-        BitWidth ISized.Width
+        BitWidth ISized.BitWidth
             => default(W).BitWidth;
 
-        ByteSize ISized.Size
+        ByteSize ISized.ByteCount
             => default(W).BitWidth/8;
     }
 }

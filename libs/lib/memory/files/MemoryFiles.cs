@@ -5,7 +5,6 @@
 namespace Z0
 {
     using static Sized;
-    using static Spans;
 
     partial class XTend
     {
@@ -25,11 +24,6 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static MemoryFile map(FS.FilePath path, bool stream)
             => new MemoryFile(path, stream);
-
-        // [MethodImpl(Inline), Op, Closures(Closure)]
-        // public static unsafe ReadOnlySpan<T> view<T>(in MemoryFile file, uint offset, uint cells)
-        //     where T : struct
-        //         => cover<T>(offset + file.BaseAddress, cells);
 
         public static MemoryFile map(MemoryFileSpec spec)
             => new MemoryFile(spec);

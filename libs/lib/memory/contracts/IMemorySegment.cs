@@ -8,7 +8,7 @@ namespace Z0
     /// Characterizes a segment reference
     /// </summary>
     [Free]
-    public interface IMemorySegment : INullity, ITextual, IHashed
+    public interface IMemorySegment : IExpr, IHashed
     {
         MemoryAddress BaseAddress {get;}
 
@@ -16,15 +16,6 @@ namespace Z0
 
         bool INullity.IsEmpty
             => Length == 0;
-
-        uint CellCount
-            => Length * CellSize;
-
-        uint CellSize
-            => 1;
-
-        ByteSize SegSize
-            => Length;
 
         ref byte Cell(int index);
 

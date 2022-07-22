@@ -261,10 +261,10 @@ namespace Z0
         MemoryAddress IMemoryFile.BaseAddress
             => BaseAddress;
 
-        ByteSize ISized.Size
+        ByteSize ISized.ByteCount
             => FileSize;
 
-        BitWidth ISized.Width
+        BitWidth ISized.BitWidth
             => FileSize.Bits;
     }
 }

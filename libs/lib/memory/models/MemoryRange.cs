@@ -42,7 +42,7 @@ namespace Z0
             Max = min + size;
         }
 
-        public ByteSize Size
+        public ByteSize ByteCount
         {
             [MethodImpl(Inline)]
             get => (ulong)Max - (ulong)Min;
@@ -51,13 +51,13 @@ namespace Z0
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => Size == 0;
+            get => ByteCount == 0;
         }
 
         public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
-            get => Size != 0;
+            get => ByteCount != 0;
         }
 
         public override int GetHashCode()

@@ -20,7 +20,7 @@ namespace Z0
         public ByteSize BlockSize
         {
             [MethodImpl(Inline)]
-            get => Block.Size;
+            get => Block.ByteCount;
         }
 
         public ByteSize TrimmedSize

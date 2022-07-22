@@ -18,7 +18,7 @@ namespace Z0
             where T : unmanaged, IAsciBlock<T>
         {
             target = default(T);
-            var count = min(src.Length,target.Size);
+            var count = min(src.Length,target.ByteCount);
             ref var dst = ref @as<C>(target.First);
             for(var i=0; i<count; i++)
                 seek(dst, i) = skip(src, i);
@@ -30,7 +30,7 @@ namespace Z0
             where T : unmanaged, IAsciBlock<T>
         {
             target = default(T);
-            var count = min(src.Length,target.Size);
+            var count = min(src.Length,target.ByteCount);
             ref var dst = ref @as<S>(target.First);
             for(var i=0; i<count; i++)
                 seek(dst, i) = skip(src, i);

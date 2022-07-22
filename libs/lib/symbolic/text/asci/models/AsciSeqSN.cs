@@ -58,10 +58,10 @@ namespace Z0
             get => recover<byte,S>(bytes(Content));
         }
 
-        public ByteSize Size
+        public ByteSize ByteCount
         {
             [MethodImpl(Inline)]
-            get => Content.Size;
+            get => Content.ByteCount;
         }
 
         public int Length

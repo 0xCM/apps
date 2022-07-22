@@ -7,7 +7,7 @@ namespace Z0
     using System.IO;
 
     [Record(TableId), StructLayout(StructLayout)]
-    public record struct MemoryFileRecord : IRecord<MemoryFileRecord>
+    public record struct MemoryFileRecord
     {
         public const string TableId = "memoryfile";
 

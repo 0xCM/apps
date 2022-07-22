@@ -14,6 +14,6 @@ namespace Z0
         where T : unmanaged, IPageBlock<T>
     {
         uint PageCount
-            => Size/PageSize;
+            => ByteCount/PageSize;
     }
 }

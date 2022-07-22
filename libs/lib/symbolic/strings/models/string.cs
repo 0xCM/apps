@@ -41,13 +41,13 @@ namespace Z0
             get => Data.Length;
         }
 
-        public BitWidth Width
+        public BitWidth BitWidth
         {
             [MethodImpl(Inline)]
             get => Length*2*8;
         }
 
-        public ByteSize Size
+        public ByteSize ByteCount
         {
             [MethodImpl(Inline)]
             get => Length*2;

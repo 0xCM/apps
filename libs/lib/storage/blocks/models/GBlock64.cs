@@ -58,7 +58,7 @@ namespace Z0
         public Span<T> Segment(int i0, int i1)
             => core.segment(Cells, i0, i1);
 
-        public ByteSize Size
+        public ByteSize ByteCount
             => CellCount*size<T>();
 
         public static GBlock32<T> Empty => default;
