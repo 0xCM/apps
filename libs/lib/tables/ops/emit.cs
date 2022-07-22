@@ -35,17 +35,6 @@ namespace Z0
                 dst.WriteLine(formatter.Format(skip(src,i)));
         }
 
-        public static void emit<T>(ReadOnlySpan<T> src, FS.FilePath dst, TextEncodingKind encoding, ushort rowpad = 0, RecordFormatKind fk = RecordFormatKind.Tablular, string delimiter = Tables.DefaultDelimiter)
-            where T : struct
-        {
-            var formatter = RecordFormatters.create<T>(rowpad, fk, delimiter);
-            using var writer = dst.Emitter(encoding);
-            writer.WriteLine(formatter.FormatHeader());
-            for(var i=0; i<src.Length; i++)
-                writer.WriteLine(formatter.Format(skip(src,i)));
-            term.emit(Events.emittedTable<EnvVarRow>(typeof(Tables), src.Length, dst));
-        }
-
         [Op, Closures(Closure)]
         public static Count emit<T>(ReadOnlySpan<T> src, StreamWriter dst)
             where T : struct

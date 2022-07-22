@@ -15,7 +15,6 @@ namespace Z0
             public PdbSymbolStore PdbSymbolStore(IWfRuntime wf)
                 => Service<PdbSymbolStore>(wf);
 
-
             public PdbSvc PdbSvc(IWfRuntime wf)
                 => Service<PdbSvc>(wf);
 
@@ -39,6 +38,5 @@ namespace Z0
 
         public static PdbReader PdbReader(this IWfRuntime wf, in PdbSymbolSource src)
             => Z0.PdbReader.create(wf,src);
-
     }
 }

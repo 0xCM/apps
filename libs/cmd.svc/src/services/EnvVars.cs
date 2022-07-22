@@ -19,9 +19,20 @@ namespace Z0
             var name =  $"{ExecutingPart.Name}.{EnumRender.format(kind)}";
             if(display)
                 term.write(vars, FlairKind.Babble);
-            Tables.emit(records(vars, name).View, dir + FS.file($"{name}.settings", FileKind.Csv), asci7);
+            emit(records(vars, name).View, dir + FS.file($"{name}.settings", FileKind.Csv), asci7);
             FS.emit(vars, dir + FS.file(name, FileKind.Env), asci7);
             return vars;
+        }
+
+        static void emit<T>(ReadOnlySpan<T> src, FS.FilePath dst, TextEncodingKind encoding, ushort rowpad = 0, RecordFormatKind fk = RecordFormatKind.Tablular, string delimiter = " | ")
+            where T : struct
+        {
+            var formatter = RecordFormatters.create<T>(rowpad, fk, delimiter);
+            using var writer = dst.Emitter(encoding);
+            writer.WriteLine(formatter.FormatHeader());
+            for(var i=0; i<src.Length; i++)
+                writer.WriteLine(formatter.Format(skip(src,i)));
+            term.emit(Events.emittedTable<EnvVarRow>(typeof(Tables), src.Length, dst));
         }
 
         public static EnvVars vars(SysEnvKind kind)

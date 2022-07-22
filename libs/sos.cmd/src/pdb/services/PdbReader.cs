@@ -4,10 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Microsoft.CodeAnalysis.Debugging;
-    using Microsoft.CodeAnalysis.Emit;
     using Microsoft.DiaSymReader;
-    using Microsoft.DiaSymReader.PortablePdb;
+
     public ref struct PdbReader
     {
         [MethodImpl(Inline), Op]

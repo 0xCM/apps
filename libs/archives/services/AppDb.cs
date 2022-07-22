@@ -48,7 +48,7 @@ namespace Z0
             => Repos().Sources(scope);
 
         public EnvVars<string> LoadEnv(string name)
-            => AsciLines.env(WsArchives.EnvPath(name));
+            => ToolEnv.vars(WsArchives.EnvPath(name));
 
         public IDbTargets DbOut(string scope)
             => DbOut().Targets(scope);
