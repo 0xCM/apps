@@ -9,7 +9,6 @@ namespace Z0
     using static Spans;
     using static Refs;
     using static Arrays;
-    using static Sized;
 
 
     [ApiHost,Free]
@@ -28,7 +27,6 @@ namespace Z0
         public const ulong BitsPerMb = 1000*BitsPerKb;
 
         public const ulong BitsPerGb = 1000*BitsPerMb;
-
 
         const NumericKind Closure = UnsignedInts;
 

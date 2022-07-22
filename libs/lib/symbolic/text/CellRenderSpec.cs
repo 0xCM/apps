@@ -14,10 +14,10 @@ namespace Z0
         public readonly uint Width;
 
         [Ignore]
-        readonly IFormatter Formatter;
+        readonly ITextFormatter Formatter;
 
         [MethodImpl(Inline)]
-        public CellRenderSpec(uint index, uint width, IFormatter formatter)
+        public CellRenderSpec(uint index, uint width, ITextFormatter formatter)
         {
             Index = index;
             Width = width;

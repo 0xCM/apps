@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Reifies a workflow event receiver that both logs received events and renders received events to the terminal
     /// </summary>
-    readonly struct TermLog : IEventSink
+    readonly struct TermLog : IWfEventSink
     {
         public string Source {get;}
 

@@ -20,16 +20,8 @@ namespace Z0
             => HexFormatter.format(src, HexFormatter.HexData);
 
         [Op]
-        public static string FormatHex(this ReadOnlySpan<byte> src, in HexFormatOptions options)
-            => HexFormatter.format(src, options);
-
-        [Op]
         public static string FormatHex(this Span<byte> src)
             => HexFormatter.format(src, HexFormatter.HexData);
-
-        [Op]
-        public static string FormatHex(this Span<byte> src, in HexFormatOptions options)
-            => HexFormatter.format(src, options);
 
         /// <summary>
         /// Formats a span of numeric cell type as a sequence of hex values
@@ -43,26 +35,13 @@ namespace Z0
             where T : unmanaged
                 => HexFormatter.format(src.ReadOnly(), sep, prespec);
 
-        /// <summary>
-        /// Formats a span of natural length and integral type as a sequence of hex values
-        /// </summary>
-        /// <param name="src">The source span</param>
-        /// <param name="bracket">Whether to enclose the formatted hex within brackets</param>
-        /// <param name="sep">The character to use when separating digits</param>
-        /// <param name="specifier">Whether to prefix each number with the canonical hex specifier, "0x"</param>
-        /// <typeparam name="T">The primal type</typeparam>
-        public static string FormatHex<N,T>(this NatSpan<N,T> src, char sep = Chars.Space, bool specifier = false)
-            where N : unmanaged, ITypeNat
-            where T : unmanaged
-                => src.Edit.FormatHex(sep, specifier);
-
         public static string FormatHex<T>(this ReadOnlySpan<T> src, char sep, bool prespec = false, bool uppercase = false)
             where T : unmanaged
                 => HexFormatter.format(src, sep, prespec, uppercase);
 
         public static string FormatHex<T>(this Span<T> src, char sep, bool prespec = false, bool uppercase = false)
             where T : unmanaged
-                => core.@readonly(src).FormatHex(sep, prespec, uppercase);
+                => sys.@readonly(src).FormatHex(sep, prespec, uppercase);
 
         [Op]
         public static string FormatHex(this sbyte src, int digits, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
@@ -193,41 +172,5 @@ namespace Z0
             else
                 return src.FormatAsmHex();
         }
-
-        [Op]
-        public static HexArray ToHexArray(this byte[] src)
-            => HexArray.cover(src);
-
-        [Op]
-        public static HexArray ToHexArray(this ReadOnlySpan<byte> src)
-            => HexArray.from(src);
-
-        [Op]
-        public static HexArray ToHexArray(this Span<byte> src)
-            => HexArray.from(src);
-
-        [Op]
-        public static string FormatHexArray(this byte[] src)
-            => HexArray.cover(src).Format();
-
-        [Op]
-        public static string FormatHexArray(this ReadOnlySpan<byte> src)
-            => HexArray.from(src).Format();
-
-        [Op]
-        public static string FormatHexArray(this Span<byte> src)
-            => HexArray.from(src).Format();
-
-        [Op]
-        public static string FormatHexArray(this byte[] src, Fence<char> fence)
-            => HexArray.cover(src).Format(fence);
-
-        [Op]
-        public static string FormatHexArray(this ReadOnlySpan<byte> src, Fence<char> fence)
-            => HexArray.from(src).Format(fence);
-
-        [Op]
-        public static string FormatHexArray(this Span<byte> src, Fence<char> fence)
-            => HexArray.from(src).Format(fence);
     }
 }

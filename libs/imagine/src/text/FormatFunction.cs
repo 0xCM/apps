@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct FormatFunction : IFormatter
+    public readonly struct FormatFunction : ITextFormatter
     {
         public Type SourceType {get;}
 

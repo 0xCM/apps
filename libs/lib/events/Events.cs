@@ -16,11 +16,11 @@ namespace Z0
         const string HandlerNotFound = "Handler for {0} not found";
 
         [MethodImpl(Inline), Op]
-        public static EventSignal signal(IEventSink sink, WfHost host)
+        public static EventSignal signal(IWfEventSink sink, WfHost host)
             => new EventSignal(sink, host);
 
         [MethodImpl(Inline), Op]
-        public static EventSignal signal(IEventSink sink, Type host)
+        public static EventSignal signal(IWfEventSink sink, Type host)
             => new EventSignal(sink, host);
 
         [Op, Closures(Closure)]

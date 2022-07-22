@@ -14,7 +14,7 @@ namespace Z0
             => new EventHub(capacity);
 
         [MethodImpl(Inline), Op]
-        public static EventHubClient client(IEventHub hub, IWfEventSink sink, Action connect, Action exec)
+        public static EventHubClient client(IEventHub hub, IWfEventSinkDeprecated sink, Action connect, Action exec)
             => new EventHubClient(hub, sink, connect, exec);
 
         [MethodImpl(Inline)]
@@ -47,7 +47,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public static bool subscribe<S,E>(EventHub hub, S sink, E model)
             where E : struct, IWfEvent
-            where S : IWfEventSink
+            where S : IWfEventSinkDeprecated
                 => hub.Index.TryAdd(typeof(E), sink);
 
         [MethodImpl(Inline), Op, Closures(Closure)]

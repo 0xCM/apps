@@ -12,12 +12,12 @@ namespace Z0
 
         public void RegisterFomatters()
         {
-            text.RegisterFormatter(Fixed9, RenderStyle.Fixed);
-            text.RegisterFormatter(Fixed8, RenderStyle.Fixed);
-            text.RegisterFormatter(Fixed4, RenderStyle.Fixed);
-            text.RegisterFormatter(Hex8, RenderStyle.Fixed);
-            text.RegisterFormatter(Hex16, RenderStyle.Fixed);
-            text.RegisterFormatter(Hex32, RenderStyle.Fixed);
+            TextFormat.RegisterFormatter(Fixed9, RenderStyle.Fixed);
+            TextFormat.RegisterFormatter(Fixed8, RenderStyle.Fixed);
+            TextFormat.RegisterFormatter(Fixed4, RenderStyle.Fixed);
+            TextFormat.RegisterFormatter(Hex8, RenderStyle.Fixed);
+            TextFormat.RegisterFormatter(Hex16, RenderStyle.Fixed);
+            TextFormat.RegisterFormatter(Hex32, RenderStyle.Fixed);
         }
 
         public static RenderDelegate<num4> Fixed4 => src => string.Format("{0:D2}", (byte)src);

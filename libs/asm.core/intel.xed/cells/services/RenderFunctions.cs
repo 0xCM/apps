@@ -18,23 +18,23 @@ namespace Z0
 
                 static Functions Instance;
 
-                static Index<RuleCellKind,IFormatter> Lookup;
+                static Index<RuleCellKind,ITextFormatter> Lookup;
 
                 [MethodImpl(Inline)]
-                public IFormatter Formatter(RuleCellKind kind)
+                public ITextFormatter Formatter(RuleCellKind kind)
                     => Lookup[kind];
 
                 [MethodImpl(Inline)]
-                public IFormatter<T> Formatter<T>(RuleCellKind kind)
+                public ITextFormatter<T> Formatter<T>(RuleCellKind kind)
                     where T : unmanaged
-                        => (IFormatter<T>)Lookup[kind];
+                        => (ITextFormatter<T>)Lookup[kind];
 
                 [MethodImpl(Inline)]
                 public string Format<T>(RuleCellKind kind, T value)
                     where T : unmanaged
                         => Formatter<T>(kind).Format(value);
 
-                readonly struct RenderFunction : IFormatter<object>
+                readonly struct RenderFunction : ITextFormatter<object>
                 {
                     [MethodImpl(Inline)]
                     public RenderFunction(Func<string> f)
@@ -55,7 +55,7 @@ namespace Z0
                         => F(src);
                 }
 
-                readonly struct RenderFunction<T> : IFormatter<T>
+                readonly struct RenderFunction<T> : ITextFormatter<T>
                     where T : unmanaged
                 {
                     readonly Func<T,string> F;
@@ -95,7 +95,7 @@ namespace Z0
                 Functions()
                 {
                     var kinds = Symbols.index<RuleCellKind>().Kinds;
-                    Lookup = alloc<IFormatter>(kinds.Length);
+                    Lookup = alloc<ITextFormatter>(kinds.Length);
                     for(var i=0; i<kinds.Length; i++)
                     {
                         ref readonly var kind = ref skip(kinds,i);

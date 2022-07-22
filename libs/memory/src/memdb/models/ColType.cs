@@ -7,18 +7,21 @@ namespace Z0
     partial class MemDb
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public readonly record struct ColType : IElement<ColType>
+        public readonly record struct ColType : IEntity<ColType>
         {
             public readonly uint Key;
 
-            public readonly asci64 TypeName;
+            public readonly Name TypeName;
 
             [MethodImpl(Inline)]
-            public ColType(uint key, asci64 name)
+            public ColType(uint key, Name name)
             {
                 Key = key;
                 TypeName = name;
             }
+
+            uint IEntity.Key
+                => Key;
 
             public int CompareTo(ColType src)
                 => TypeName.CompareTo(src.TypeName);

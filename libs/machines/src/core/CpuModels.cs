@@ -18,10 +18,10 @@ namespace Z0
 
         public static Stack<T> stack<T>(uint capacity)
             where T : unmanaged
-                => new Stack<T>(alloc<T>(capacity));
+                => new Stack<T>(sys.alloc<T>(capacity));
 
         public static CpuModel<T> cpu<T>(uint cores)
             where T : unmanaged
-                => new CpuModel<T>(alloc<CpuCore<T>>(cores));
+                => new CpuModel<T>(sys.alloc<CpuCore<T>>(cores));
     }
 }

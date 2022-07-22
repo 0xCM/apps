@@ -158,7 +158,7 @@ namespace Z0
             var storage = Cells.join(m0,m1);
             var bytes = storage.Bytes;
             var bits = BitRender.render8x8(bytes);
-            Log(text.format(bits));
+            Log(TextFormat.format(bits));
 
             var nibbles = Nibbles.from(bytes);
             var count = nibbles.Count;
@@ -208,7 +208,7 @@ namespace Z0
             seek(buffer, offset++) = Chars.Eq;
             seek(buffer, offset++) = Chars.Space;
 
-            offset += HexVector.bitstring(src, offset, buffer);
+            offset += BitRender.bitstring(src, offset, buffer);
 
             Log(FormatBuffer(0, offset));
         }

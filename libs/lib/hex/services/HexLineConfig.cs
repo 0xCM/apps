@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    [StructLayout(LayoutKind.Sequential)]
     public readonly struct HexLineConfig
     {
         /// <summary>

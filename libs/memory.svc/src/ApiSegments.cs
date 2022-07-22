@@ -45,7 +45,7 @@ namespace Z0
                 entry.SegSelector = selector;
                 entry.Uri = method.Uri;
                 var bases = src.Bases((ushort)index);
-                var match = address.Lo;
+                var match = address.Lo();
                 var matched = false;
                 for(var j=0u; j<bases.Length; j++)
                 {

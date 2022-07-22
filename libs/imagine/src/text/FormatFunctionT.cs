@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct FormatFunction<T> : IFormatter<T>
+    public readonly struct FormatFunction<T> : ITextFormatter<T>
     {
         readonly RenderDelegate<T> F;
 

@@ -29,5 +29,9 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static HashSet<T> hashset<T>(int capacity)
             => new HashSet<T>((int)capacity);
+
+        [MethodImpl(Inline), Op, Closures(AllNumeric)]
+        public static HashSet<T> hashset<T>()
+            => new HashSet<T>();
     }
 }

@@ -34,7 +34,7 @@ using NK = Z0.NumericKind;
 
 namespace Z0
 {
-    class Root
+    partial struct Root
     {
 
         public const string EmptyString = "";

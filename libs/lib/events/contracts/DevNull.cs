@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct DevNull : IEventSink
+    public readonly struct DevNull : IWfEventSink
     {
-        public static IEventSink BlackHole => default(DevNull);
+        public static IWfEventSink BlackHole => default(DevNull);
 
         public void Deposit(IWfEvent src){ }
 

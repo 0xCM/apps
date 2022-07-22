@@ -7,25 +7,28 @@ namespace Z0
     partial class MemDb
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public record class ColSpec : IElement<ColSpec>
+        public record class ColSpec : IEntity<ColSpec>
         {
-            public readonly ushort Id;
+            public readonly uint Key;
 
             public readonly DbDataType Type;
 
             public readonly asci32 Name;
 
             [MethodImpl(Inline)]
-            public ColSpec(ushort id, DbDataType type, asci32 name)
+            public ColSpec(uint key, DbDataType type, asci32 name)
             {
-                Id = id;
+                Key = key;
                 Type = type;
                 Name = name;
             }
 
+            uint IEntity.Key
+                => Key;
+
             [MethodImpl(Inline)]
             public int CompareTo(ColSpec src)
-                => Id.CompareTo(src.Id);
+                => Key.CompareTo(src.Key);
         }
     }
 }

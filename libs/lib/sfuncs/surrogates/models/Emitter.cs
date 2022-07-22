@@ -18,17 +18,17 @@ namespace Z0
         {
             public OpIdentity Id {get;}
 
-            readonly Z0.Emitter<T> F;
+            readonly Z0.Producer<T> F;
 
             [MethodImpl(Inline)]
-            public Emitter(Z0.Emitter<T> f, OpIdentity id)
+            public Emitter(Z0.Producer<T> f, OpIdentity id)
             {
                 F = f;
                 Id = id;
             }
 
             [MethodImpl(Inline)]
-            public Emitter(Z0.Emitter<T> f, string name)
+            public Emitter(Z0.Producer<T> f, string name)
             {
                 F = f;
                 Id = SFxIdentity.identity<T>(name);
@@ -37,7 +37,7 @@ namespace Z0
             [MethodImpl(Inline)]
             public T Invoke() => F();
 
-            public Z0.Emitter<T> Subject
+            public Z0.Producer<T> Subject
             {
                 [MethodImpl(Inline)]
                 get => F;

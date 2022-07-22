@@ -533,6 +533,20 @@ namespace Z0
             where T : unmanaged
                 => format(core.bytes(src), HexData);
 
+
+        public interface ISystemFormatter<T>
+            where T : struct
+        {
+
+        }
+
+        public interface ISystemFormatter<F,T> : ISystemFormatter<T>
+            where F : struct, ISystemFormatter<F,T>
+            where T : struct
+        {
+
+        }
+
         [Op, Closures(AllNumeric)]
         public static string format<T>(T src, bool zpad, bool specifier, bool uppercase = false, bool prespec = true)
             where T : unmanaged

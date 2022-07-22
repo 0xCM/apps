@@ -113,7 +113,7 @@ namespace Z0
         }
     }
 
-    public readonly struct EnumRender<E> : IFormatter<E>
+    public readonly struct EnumRender<E> : ITextFormatter<E>
         where E : unmanaged, Enum
     {
         public static EnumRender<E> Service = new();

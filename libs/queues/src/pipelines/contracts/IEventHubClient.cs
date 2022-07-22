@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Free]
-    public interface IEventHubClient : IWfEventSink
+    public interface IEventHubClient : IWfEventSinkDeprecated
     {
         IEventHub Hub {get;}
 

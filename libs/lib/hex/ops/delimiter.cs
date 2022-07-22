@@ -8,6 +8,6 @@ namespace Z0
     {
         [MethodImpl(Inline)]
         public static char delimiter(string src)
-            => text.index(src,Chars.Comma) > 0 ? Chars.Comma : Chars.Space;
+            => SQ.index(src, Chars.Comma) > 0 ? Chars.Comma : Chars.Space;
     }
 }

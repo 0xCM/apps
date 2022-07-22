@@ -64,7 +64,7 @@ namespace Z0
             => new WfEventLog(config);
 
         [MethodImpl(Inline), Op]
-        public static IEventSink term(string src)
+        public static IWfEventSink term(string src)
             => new TermLog(src);
 
         [MethodImpl(Inline), Op]

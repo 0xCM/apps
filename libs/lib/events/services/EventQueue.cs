@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public sealed class EventQueue : IEventSink, IEventEmitter
+    public sealed class EventQueue : IWfEventSink, IEventEmitter
     {
         public static EventQueue allocate(Type host)
             => new EventQueue(host);

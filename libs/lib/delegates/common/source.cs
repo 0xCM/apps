@@ -13,8 +13,8 @@ namespace Z0
         /// <param name="host">The host instance if not static</param>
         /// <typeparam name="T">The emission type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Emitter<T> source<T>(MethodInfo src, object host = null)
+        public static Producer<T> source<T>(MethodInfo src, object host = null)
             where T : unmanaged
-                => create<Emitter<T>>(src, host);
+                => create<Producer<T>>(src, host);
     }
 }

@@ -6,7 +6,7 @@ namespace Z0
 {
     public interface IServiceContext
     {
-        IEventSink EventSink {get;}
+        IWfEventSink EventSink {get;}
 
         IAppPaths AppPaths {get;}
     }

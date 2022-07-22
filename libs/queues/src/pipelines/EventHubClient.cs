@@ -8,14 +8,14 @@ namespace Z0
     {
         public IEventHub Hub {get;}
 
-        readonly IWfEventSink Sink;
+        readonly IWfEventSinkDeprecated Sink;
 
         readonly Action Connector;
 
         readonly Action Executor;
 
         [MethodImpl(Inline)]
-        public EventHubClient(IEventHub hub, IWfEventSink sink, Action connect, Action exec)
+        public EventHubClient(IEventHub hub, IWfEventSinkDeprecated sink, Action connect, Action exec)
         {
             Hub = hub;
             Sink = sink;

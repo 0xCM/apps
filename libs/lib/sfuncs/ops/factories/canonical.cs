@@ -23,6 +23,6 @@ namespace Z0
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static S.Emitter<T> canonical<T>(S.Func<T> src)
-            => S.emitter(Delegates.emitter(src.Subject), src.Id);
+            => S.emitter(Delegates.producer(src.Subject), src.Id);
     }
 }

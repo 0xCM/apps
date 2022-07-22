@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static HexFormatter;
+
     public readonly struct HexFormatter<T>
         where T : unmanaged
     {

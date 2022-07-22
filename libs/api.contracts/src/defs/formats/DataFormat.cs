@@ -7,7 +7,6 @@ namespace Z0
     public interface IDataFormat
     {
         string Name {get;}
-
     }
 
 
@@ -17,4 +16,8 @@ namespace Z0
 
     }
 
+    public interface IDataFormatter
+    {
+
+    }
 }

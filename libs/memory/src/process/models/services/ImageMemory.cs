@@ -15,7 +15,7 @@ namespace Z0
         {
             dst.Seq = src.Seq;
             dst.Selector = src.BaseAddress.Quadrant(n2);
-            dst.Base = src.BaseAddress.Lo;
+            dst.Base = src.BaseAddress.Lo();
             dst.Size = src.Size;
             dst.PageCount = src.Size/PageSize;
             dst.Range = (src.BaseAddress, src.MaxAddress);

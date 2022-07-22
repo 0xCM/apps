@@ -11,21 +11,21 @@ namespace Z0
         public static WfBroker create(WfLogConfig config)
             => new WfBroker(Loggers.events(config), true);
 
-        public static WfBroker create(IEventSink target)
+        public static WfBroker create(IWfEventSink target)
             => new WfBroker(target,false);
 
         readonly Dictionary<Type,ISink> Subscriptions;
 
         readonly Dictionary<ulong, Receiver<IAppEvent>> Receivers;
 
-        public IEventSink Sink {get;}
+        public IWfEventSink Sink {get;}
 
         object locker;
 
         readonly bool Owner;
 
         [MethodImpl(Inline)]
-        public WfBroker(IEventSink sink, bool owner)
+        public WfBroker(IWfEventSink sink, bool owner)
         {
             Owner = owner;
             Sink = sink;
@@ -86,6 +86,5 @@ namespace Z0
 
         public void Deposit(IAppMsg e)
             => term.print(e);
-
     }
 }

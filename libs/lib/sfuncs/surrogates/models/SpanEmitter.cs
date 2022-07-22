@@ -4,19 +4,32 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using D = Delegates;
+
+    /// <summary>
+    /// Characterizes an emitter that shoots out spans
+    /// </summary>
+    /// <typeparam name="T">The span element type</typeparam>
+    [Free, SFx]
+    public interface ISpanProducer<T> : IFunc
+    {
+        Span<T> Invoke();
+    }
+
+
     partial class Surrogates
     {
         /// <summary>
         /// Captures a delegate that is exposed as an emitter
         /// </summary>
-        public readonly struct SpanEmitter<T> : ISpanEmitter<T>
+        public readonly struct SpanProducer<T> : ISpanProducer<T>
         {
-            readonly Z0.SpanEmitter<T> F;
+            readonly D.SpanProducer<T> F;
 
             public OpIdentity Id {get;}
 
             [MethodImpl(Inline)]
-            public SpanEmitter(Z0.SpanEmitter<T> f, OpIdentity id)
+            public SpanProducer(D.SpanProducer<T> f, OpIdentity id)
             {
                 F = f;
                 Id = id;
@@ -26,7 +39,7 @@ namespace Z0
             public Span<T> Invoke()
                 => F();
 
-            public Z0.SpanEmitter<T> Subject
+            public D.SpanProducer<T> Subject
             {
                 [MethodImpl(Inline)]
                 get => F;

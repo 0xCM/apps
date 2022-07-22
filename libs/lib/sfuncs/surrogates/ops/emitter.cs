@@ -20,7 +20,7 @@ namespace Z0
         /// <param name="t">An operand type representative to aid type inference</param>
         /// <typeparam name="T">The operand type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Emitter<T> emitter<T>(D.Emitter<T> f, string name, T t = default)
+        public static Emitter<T> emitter<T>(D.Producer<T> f, string name, T t = default)
             => new Emitter<T>(f,name);
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace Z0
         /// <param name="t">An operand type representative to aid type inference</param>
         /// <typeparam name="T">The emission type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Emitter<T> emitter<T>(D.Emitter<T> f, OpIdentity id, T t = default)
+        public static Emitter<T> emitter<T>(D.Producer<T> f, OpIdentity id, T t = default)
             => new Emitter<T>(f,id);
     }
 }

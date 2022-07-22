@@ -34,11 +34,11 @@ namespace Z0
                 if(tag)
                 {
                     var tv = tag.Value;
-                    seek(dst,i) = new ClrTableField(new CellRenderSpec(i, tv.Width, text.Formatter(field.FieldType, (ushort)tv.Style)), field);
+                    seek(dst,i) = new ClrTableField(new CellRenderSpec(i, tv.Width, TextFormat.Formatter(field.FieldType, (ushort)tv.Style)), field);
                 }
                 else
                 {
-                    seek(dst,i) = new ClrTableField(new CellRenderSpec(i, 16, text.Formatter(field.FieldType)), field);
+                    seek(dst,i) = new ClrTableField(new CellRenderSpec(i, 16, TextFormat.Formatter(field.FieldType)), field);
                 }
 
             }

@@ -10,19 +10,23 @@ namespace Z0
         public static string format(ListedFiles src)
         {
             var dst = text.emitter();
-            format(src,dst);
+            render(src,dst);
             return dst.Emit();
         }
 
         [Op]
-        public static void format(ListedFiles src, ITextEmitter dst)
+        public static void render(ListedFiles src, ITextEmitter dst)
         {
-            var records = src.View;
-            var count = records.Length;
             var formatter = Tables.formatter<ListedFile>();
             dst.AppendLine(formatter.FormatHeader());
-            for(var i=0u; i<count; i++)
+            for(var i=0u; i<src.Count; i++)
                 dst.AppendLine(formatter.Format(src[i]));
+        }
+
+
+        public static void emit(ListedFiles src,  WfEventLogger log, FS.FilePath dst)
+        {
+
         }
 
         public ListedFiles()

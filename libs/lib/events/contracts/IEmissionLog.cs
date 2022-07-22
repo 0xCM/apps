@@ -6,7 +6,7 @@ namespace Z0
 {
     using System;
 
-    public interface IEmissionLog : IDisposable, IEventSink<EmittedFileEvent>, IEventSink<EmittedTableEvent>
+    public interface IEmissionLog : IDisposable, IWfEventSink<EmittedFileEvent>, IWfEventSink<EmittedTableEvent>
     {
         FS.FilePath TargetPath {get;}
     }

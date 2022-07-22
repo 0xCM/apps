@@ -17,7 +17,7 @@ namespace Z0
         {
             const ulong tolerance = 5;
             var total = 0ul;
-            var emit = CellDelegates.emitter(next<byte>);
+            var emit = CellDelegates.producer(next<byte>);
             for(var i=0; i<RepCount; i++ )
                 total += (Cell8)(emit());
 
@@ -37,7 +37,7 @@ namespace Z0
         public void fixed_convert()
         {
             BinaryOp<uint> f = gmath.add<uint>;
-            CellDelegates.BinaryOp32 g = CellDelegates.binary(gmath.add<uint>);
+            CellDelegates.BinaryOp32 g = CellDelegates.binop(gmath.add<uint>);
             var lhs = Random.Cells<Cell32>().Take(RepCount).ToArray();
             var rhs = Random.Cells<Cell32>().Take(RepCount).ToArray();
 

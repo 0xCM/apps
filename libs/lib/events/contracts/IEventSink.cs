@@ -5,15 +5,25 @@
 namespace Z0
 {
     [Free]
-    public interface IEventSink<E> : ISink<E>
+    public interface IWfEventSink<E> : ISink<E>
         where E : IWfEvent
     {
 
     }
 
     [Free]
-    public interface IEventSink : IEventSink<IWfEvent>, IDisposable
+    public interface IWfEventSink : IWfEventSink<IWfEvent>, IDisposable
     {
 
+    }
+
+    [Free]
+    public interface IWfEventSinkDeprecated : ISink
+    {
+       void Deposit(IWfEvent e);
+
+       void Deposit<S>(in S e)
+            where S : struct, IWfEvent
+                => Deposit((IWfEvent)e);
     }
 }

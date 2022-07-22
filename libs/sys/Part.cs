@@ -40,7 +40,7 @@ namespace Z0.Parts
 
 namespace Z0
 {
-    class Root
+    partial struct Root
     {
         public const string EmptyString = "";
 

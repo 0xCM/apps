@@ -144,7 +144,7 @@ namespace Z0
 
             public SegRef Code;
 
-            public Emitter<T> Operation;
+            public Producer<T> Operation;
 
             [MethodImpl(Inline)]
             public T Invoke()
@@ -190,7 +190,7 @@ namespace Z0
             var spec = new EmitterSpec<T>();
             spec.Name = name;
             spec.Code = dst;
-            spec.Operation = (Emitter<T>)emit(name, functype:typeof(Emitter<T>), result:typeof(T), args: sys.empty<Type>(), dst.Address);
+            spec.Operation = (Producer<T>)emit(name, functype:typeof(Producer<T>), result:typeof(T), args: sys.empty<Type>(), dst.Address);
             return spec;
         }
 
@@ -215,23 +215,23 @@ namespace Z0
         }
 
         [Op, Closures(Closure)]
-        public static unsafe Emitter<T> emitter<T>(Identifier name, byte* pCode)
+        public static unsafe Producer<T> emitter<T>(Identifier name, byte* pCode)
             => emitter<T>(name, (MemoryAddress)pCode, out _);
 
         [Op, Closures(Closure)]
-        public static unsafe Emitter<T> emitter<T>(Identifier name, ReadOnlySpan<byte> code)
+        public static unsafe Producer<T> emitter<T>(Identifier name, ReadOnlySpan<byte> code)
             => emitter<T>(name.Format(), memory.liberate(code), out _);
 
-        public static unsafe Emitter<T> emitter<T>(Identifier name, MemoryAddress address, out DynamicMethod method)
+        public static unsafe Producer<T> emitter<T>(Identifier name, MemoryAddress address, out DynamicMethod method)
         {
-            var tFunc = typeof(Emitter<T>);
+            var tFunc = typeof(Producer<T>);
             var tReturn = typeof(T);
             method = new DynamicMethod(name, tReturn, null, typeof(int).Module);
             var g = method.GetILGenerator();
             g.Emit(OpCodes.Ldc_I8, (long)address);
             g.EmitCalli(OpCodes.Calli, CallingConvention.StdCall, tReturn, null);
             g.Emit(OpCodes.Ret);
-            return (Emitter<T>)CellDelegate.define(name, address, method, method.CreateDelegate(tFunc));
+            return (Producer<T>)CellDelegate.define(name, address, method, method.CreateDelegate(tFunc));
         }
 
         public static unsafe DynamicAction action(Identifier name, ReadOnlySpan<byte> f)

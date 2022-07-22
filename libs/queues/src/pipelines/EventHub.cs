@@ -8,11 +8,11 @@ namespace Z0
 
     public readonly struct EventHub : IEventHub
     {
-        internal readonly Dictionary<Type,IWfEventSink> Index;
+        internal readonly Dictionary<Type,IWfEventSinkDeprecated> Index;
 
         [MethodImpl(Inline)]
         internal EventHub(int capacity)
-            => Index = new Dictionary<Type,IWfEventSink>(capacity);
+            => Index = new Dictionary<Type,IWfEventSinkDeprecated>(capacity);
 
         [MethodImpl(Inline)]
         public void Subscribe<E>(E e, EventReceiver<E> receiver)

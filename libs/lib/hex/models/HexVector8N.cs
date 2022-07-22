@@ -64,7 +64,7 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public uint Bitstring(uint offset, Span<char> dst)
-            => HexVector.bitstring(this, offset, dst, count);
+            => BitRender.bitstring(this, offset, dst, count);
 
         public string Format()
             => string.Format("<{0}>", Bytes.FormatHex());

@@ -6,7 +6,6 @@ namespace Z0
 {
     partial struct Operational
     {
-
         /// <summary>
         /// Characterizes a type for which commutative additivity can be defined
         /// </summary>

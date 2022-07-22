@@ -4,16 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial class Delegates
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static System.Func<T> func<T>(Emitter<T> f)
+        public static System.Func<T> func<T>(Producer<T> f)
             => new System.Func<T>(f);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
@@ -29,7 +23,7 @@ namespace Z0
             => new System.Func<T,T,T,T>(f);
 
         [MethodImpl(Inline)]
-        public static System.Func<T> func<T,C>(Emitter<T,C> f)
+        public static System.Func<T> func<T,C>(Producer<T,C> f)
             where T : unmanaged
             where C : unmanaged
                 => new System.Func<T>(f);

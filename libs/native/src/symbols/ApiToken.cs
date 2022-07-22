@@ -33,7 +33,7 @@ namespace Z0
         public Hex64 Id
         {
             [MethodImpl(Inline)]
-            get => (ulong)EntryAddress.Lo | ((ulong)TargetAddress.Lo << 32);
+            get => (ulong)EntryAddress.Lo() | ((ulong)TargetAddress.Lo() << 32);
         }
 
         public uint EntryId
