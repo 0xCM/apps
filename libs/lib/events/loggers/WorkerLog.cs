@@ -6,15 +6,15 @@ namespace Z0
 {
     using System.IO;
 
-    struct WorkerLog : IWorkerLog
+    internal class WorkerLog : IWorkerLog
     {
-        public FS.FilePath StatusPath {get;}
+        public readonly FS.FilePath StatusPath;
 
-        public FS.FilePath ErrorPath {get;}
+        public readonly FS.FilePath ErrorPath;
 
         readonly FileStream Status;
 
-        internal WorkerLog(WfLogConfig config)
+        public WorkerLog(LogSettings config)
         {
             StatusPath = config.StatusPath;
             ErrorPath = config.ErrorPath;

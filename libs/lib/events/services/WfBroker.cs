@@ -8,7 +8,7 @@ namespace Z0
 
     public class WfBroker : IEventBroker
     {
-        public static WfBroker create(WfLogConfig config)
+        public static WfBroker create(LogSettings config)
             => new WfBroker(Loggers.events(config), true);
 
         public static WfBroker create(IWfEventSink target)

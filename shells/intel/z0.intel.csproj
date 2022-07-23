@@ -8,6 +8,8 @@
   </PropertyGroup>
 
 
+  <Import Project="$(ImportDefs)shells.props"/>
+
   <ItemGroup>
     <ProjectReference Include="$(AsmModels)" />
     <ProjectReference Include="$(Archives)" />

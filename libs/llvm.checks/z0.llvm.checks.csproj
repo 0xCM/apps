@@ -7,7 +7,7 @@
     <ShellRoot>$(LibsRoot)</ShellRoot>
   </PropertyGroup>
 
-  <Import Project="$(ImportDefs)shell.settings.props"/>
+  <Import Project="$(ImportDefs)shells.props"/>
 
   <ItemGroup>
     <ProjectReference Include="$(CmdSvc)" />

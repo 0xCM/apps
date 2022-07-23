@@ -1,3 +1,3 @@
 @echo off
 call %~dp0config.cmd
-call %BuildRootLibCmd%
+dotnet build %SlnPath% -c Release

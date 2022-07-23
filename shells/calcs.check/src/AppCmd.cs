@@ -6,7 +6,6 @@ namespace Z0
 {
     using static ApiGranules;
 
-
     sealed class AppCmd : AppCmdService<AppCmd>
     {
         void CheckHexExec()
@@ -35,6 +34,7 @@ namespace Z0
         void Hello()
         {
             CheckHexExec();
+            EmitBitMasks();
         }
     }
 }

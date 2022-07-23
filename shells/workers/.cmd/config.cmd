@@ -1,5 +1,6 @@
 @echo off
 set ProjectId=workers
-set ShellId=z0.workers
-call %ZDev%\.cmd\config.cmd
+set Area=shells
+set ShellId=workers
+call %~dp0..\..\..\.cmd\config.cmd
 

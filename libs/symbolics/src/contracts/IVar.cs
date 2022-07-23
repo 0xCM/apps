@@ -15,7 +15,7 @@ namespace Z0
 
     [Free]
     public interface IVar<T> : IVar
-        where T : IEquatable<T>, IComparable<T>, new()
+        where T : IEquatable<T>, IComparable<T>
     {
         T Value {get;}
     }

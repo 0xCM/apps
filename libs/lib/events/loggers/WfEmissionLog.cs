@@ -51,18 +51,11 @@ namespace Z0
             Close();
         }
 
-        // const string FormatPattern = "{0,-24} | {1,-24} | {2,-12} | {3,-12} | {4}";
-
         public ref readonly WfFileWritten LogEmission(in WfFileWritten flow)
         {
             try
             {
-                //var count = flow.EmissionCount;
-                //var status = count == 0 ? "Emitting" : "Emitted";
-                //var format = string.Format(FormatPattern, flow.Token, flow.Target.Ext, status, count, flow.Target.ToUri());
-                //FS.write(format + Eol, Emissions);
                 FS.write(Formatter.Format(Loggers.entry(flow, out _)) + Eol, Stream);
-
             }
             catch(Exception error)
             {
@@ -77,11 +70,7 @@ namespace Z0
         {
             try
             {
-                // var metric = flow.EmissionCount;
-                // var status = metric == 0 ? "Emitting" : "Emitted";
-                // var format = string.Format(FormatPattern, flow.Token, Tables.identify<T>(), status, metric, flow.Target.ToUri());
                 FS.write(Formatter.Format(Loggers.entry(flow, out _)) + Eol, Stream);
-                //FS.write(format + Eol, Emissions);
             }
             catch(Exception error)
             {

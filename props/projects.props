@@ -99,6 +99,7 @@
 
     <Wf>$(SlnLibs)wf\z0.wf.csproj</Wf>
     <Ws>$(SlnLibs)ws\z0.ws.csproj</Ws>
+    <Workers>$(SlnRoot)shells\workers\z0.shells.workers.csproj</Workers>
 
     <ZLib>$(SlnLibs)lib\z0.lib.csproj</ZLib>
 

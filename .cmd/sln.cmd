@@ -23,8 +23,10 @@ dotnet sln %SlnPath% add %SlnLibs%/sos.checks/z0.sos.checks.csproj
 dotnet sln %SlnPath% add %SlnShells%/ws.checks/z0.ws.checks.csproj
 dotnet sln %SlnPath% add %SlnShells%/calcs.check/z0.calcs.check.csproj
 dotnet sln %SlnPath% add %SlnShells%/intel/z0.intel.csproj
+dotnet sln %SlnPath% add %SlnShells%/workers/z0.workers.csproj
 
 dotnet sln %SlnPath% add %SlnTests%/test.units/z0.test.units.csproj
 dotnet sln %SlnPath% add %SlnTests%/test.checks/z0.test.checks.csproj
 dotnet sln %SlnPath% add %SlnTests%/test.shell/z0.test.shell.csproj
 
+dotnet sln %SlnPath% add %SlnTests%/test.shell/z0.test.shell.csproj

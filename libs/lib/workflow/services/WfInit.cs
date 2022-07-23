@@ -13,7 +13,7 @@ namespace Z0
 
         public PartId ControlId;
 
-        public WfLogConfig LogConfig;
+        public LogSettings LogConfig;
 
         public IApiParts ApiParts;
 

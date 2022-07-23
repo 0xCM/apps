@@ -31,6 +31,7 @@ namespace Z0
             var data = slice(buffer.Bytes,0,size);
             buffer[15] = size;
             var dst = new AsmHexCode(@as<ByteBlock16,Cell128>(buffer));
+            Write(dst.Format());
 
         }
 

@@ -13,6 +13,7 @@ set CsProjectFile=z0.%ProjectId%.csproj
 set LibName=z0.%ProjectId%.dll
 
 set SlnRoot=%DevRoot%\dev\z0
+set SlnRootPath=%SlnRoot%\z0.sln
 set CgRoot=%SlnRoot%\cg
 set ShellRoot=%SlnRoot%\shells
 set TestRoot=%SlnRoot%\test
@@ -28,7 +29,6 @@ set WsObj=%WsBuild%\obj
 set TestLog=%WsLogs%\z0.%ProjectId%.tests.trx
 set BuildLogs=%WsLogs%
 set BuildTool=dotnet build
-
 
 set BuildLog=%BuildLogs%\z0.%ProjectId%.log
 set SlnBuildLog=%BuildLogs%\z0.%SlnId%.log
@@ -49,6 +49,9 @@ set AreaSlnFile=z0.%WsId%.sln
 set AreaSlnTxtLog=-fl -flp:logfile=%WsLogs%\z0.%SlnId%.log
 set AreaSlnPath=%AreaRoot%\%WsId%\%AreaSlnFile%
 set BuildAreaSln=%BuildTool% %AreaSlnPath% %BuildProps% %AreaSlnTxtLog%;verbosity=%BuildVerbosity% -graph:true -m:24
+
+set RootSlnLogSpec=-bl:%ProjectBinLogPath%
+set BuildSlnRoot=%BuildTool% %SlnRootPath% %BuildProps% %RootSlnLogSpec%; -graph:true -m:24
 
 set AreaProjectPath=%AreaRoot%\%ProjectId%\%CsProjectFile%
 set AreaProjectLog=%WsLogs%\z0.%ProjectId%.log
@@ -71,7 +74,6 @@ set BuildLib=%BuildTool% %CsProjectPath% %BuildProps% -fl -flp:logfile=%BuildLog
 
 set ProjectBinLogPath=%WsLogs%\z0.%ProjectId%.binlog
 set ProjectBinLogSpec=-bl:%ProjectBinLogPath%
-
 
 set CmdShellRoot=%SlnRoot%\cmd
 set CmdProject=%CmdShellRoot%\z0.cmd.csproj

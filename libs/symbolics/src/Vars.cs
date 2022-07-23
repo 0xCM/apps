@@ -11,6 +11,14 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
+        public static Var<T> var<T>(T src)
+            where T : IEquatable<T>, IComparable<T>
+                => new Var<T>(() => src);
+
+        public static Var<T> var<T>(Name name, T src)
+            where T : IEquatable<T>, IComparable<T>
+                => new Var<T>(name, () => src);
+
         public static string format<T>(VarExpr<T> src, bool name = false)
             where T : IEquatable<T>, IComparable<T>, new()
         {

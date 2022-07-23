@@ -5,13 +5,14 @@
     <TargetFramework>$(FrameworkMoniker)</TargetFramework>
   </PropertyGroup>
 
-  <Import Project="$(ImportDefs)settings.props"/>
+  <Import Project="$(ImportDefs)shells.props"/>
   <Import Project="$(ImportDefs)microsoft.cmdline.props"/>
 
   <ItemGroup>
     <ProjectReference Include="$(CmdSvc)" />
     <ProjectReference Include="$(CmdSpecs)" />
     <ProjectReference Include="$(ApiSvc)" />
+    <ProjectReference Include="$(Rules)" />
   </ItemGroup>
 
 </Project>

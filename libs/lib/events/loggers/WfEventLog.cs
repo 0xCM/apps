@@ -16,7 +16,7 @@ namespace Z0
 
         readonly FileStream Status;
 
-        public WfEventLog(WfLogConfig config)
+        public WfEventLog(LogSettings config)
         {
             StatusPath = config.StatusPath;
             ErrorPath = config.ErrorPath;

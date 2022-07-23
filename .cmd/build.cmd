@@ -1,5 +1,5 @@
 @echo off
 call %~dp0config.cmd
 
-call %BuildMain%
+call %BuildSlnRoot%
 if errorlevel 1 goto:eof

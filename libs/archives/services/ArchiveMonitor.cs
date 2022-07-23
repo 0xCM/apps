@@ -8,10 +8,10 @@ namespace Z0
 
     public class ArchiveMonitor : IArchiveMonitor
     {
-        public static IArchiveMonitor start(FS.FolderPath path, FileChanged listener, bool recursive = true, string filter = null)
-            => new ArchiveMonitor(path, listener, recursive, filter);
+        public static IArchiveMonitor start(IDbSources target, FileChanged listener, bool recursive = true, string filter = null)
+            => new ArchiveMonitor(target, listener, recursive, filter);
 
-        public FS.FolderPath Root {get;}
+        public readonly IDbSources Target;
 
         readonly FileSystemWatcher Watcher;
 
@@ -19,16 +19,17 @@ namespace Z0
 
         event FileChanged Listener;
 
-        public ArchiveMonitor(FS.FolderPath subject, FileChanged listener, bool recursive = true, string filter = null)
+        public ArchiveMonitor(IDbSources target, FileChanged listener, bool recursive = true, string filter = null)
         {
-            Root = subject;
-            Watcher = new FileSystemWatcher(subject.Name, filter ?? "*.*");
+            Target = target;
+            Watcher = new FileSystemWatcher(target.Root.Format(), filter ?? "*.*");
             Watcher.IncludeSubdirectories = recursive;
             Handler = SignalChange;
             Listener += listener;
             Subscribe();
             Start();
         }
+
 
         public void Dispose()
             => Watcher?.Dispose();
@@ -41,12 +42,12 @@ namespace Z0
             }
             catch(Exception e)
             {
-                Console.Error.WriteLine(e);
+                term.error(e);
             }
         }
 
         [MethodImpl(Inline)]
-        public static FileChange change(FileSystemEventArgs e)
+        static FileChange change(FileSystemEventArgs e)
             => new FileChange(FS.path(e.FullPath), (FileChangeKind)e.ChangeType);
 
         [MethodImpl(Inline)]
@@ -83,8 +84,9 @@ namespace Z0
             => Watcher.EnableRaisingEvents = false;
 
         void Error(object sender, ErrorEventArgs e)
-        {
-            term.error(e.GetException());
-        }
+            => term.error(e.GetException());
+
+        IDbSources IMonitor<IDbSources>.Target
+            => Target;
     }
 }

@@ -1,6 +1,6 @@
 @echo off
 call %~dp0config.cmd
-set SlnDir=%ProjectDir%
-set SlnName=%ProjectSlnName%
-call %TopDir%\.cmd\sln-config.cmd
-call %TopDir%\.cmd\sln-add-shells.cmd
+dotnet sln %SlnPath% add %SlnRoot%calcs.check\z0.calcs.check.csproj
+dotnet sln %SlnPath% add %SlnRoot%intel\z0.intel.csproj
+dotnet sln %SlnPath% add %SlnRoot%workers\z0.workers.csproj
+dotnet sln %SlnPath% add %SlnRoot%ws.checks\z0.ws.checks.csproj

@@ -52,15 +52,24 @@ namespace Z0
         }
 
         [Op]
-        public static string format(IWfLogConfig src)
+        public static string format(LogSettings src)
            => string.Format(RpOps.Settings4,
                 nameof(src.LogRoot), src.LogRoot.Format(),
                 nameof(src.StatusPath), src.StatusPath.Format(),
                 nameof(src.ErrorPath), src.ErrorPath.Format()
                 );
 
+
         [MethodImpl(Inline), Op]
-        public static IWfEventLog events(WfLogConfig config)
+        public static IWorkerLog worker(FS.FolderPath home)
+            => new WorkerLog(new LogSettings(home));
+
+        [MethodImpl(Inline), Op]
+        public static IWorkerLog worker(LogSettings config)
+            => new WorkerLog(config);
+
+        [MethodImpl(Inline), Op]
+        public static IWfEventLog events(LogSettings config)
             => new WfEventLog(config);
 
         [MethodImpl(Inline), Op]
@@ -68,7 +77,7 @@ namespace Z0
             => new TermLog(src);
 
         [MethodImpl(Inline), Op]
-        public static WfLogConfig configure(string name = EmptyString)
-            => new WfLogConfig(core.controller().Id(), FS.dir("d:/views/db/logs"), name);
+        public static LogSettings configure(string name = EmptyString)
+            => new LogSettings(core.controller().Id(), FS.dir("d:/views/db/logs"), name);
     }
 }

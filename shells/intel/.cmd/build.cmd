@@ -1,3 +1,2 @@
 @echo off
-call %~dp0config.cmd
-call %BuildAreaShellCmd%
+dotnet build -c Release

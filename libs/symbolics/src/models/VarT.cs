@@ -11,7 +11,7 @@ namespace Z0
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public class Var<T> : IVar<T>
-        where T : IEquatable<T>, IComparable<T>, new()
+        where T : IEquatable<T>, IComparable<T>
     {
         public readonly Name Name;
 
