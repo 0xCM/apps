@@ -18,6 +18,12 @@ namespace Z0
 
         ApiCode ApiCode => Wf.ApiCode();
 
+        [CmdOp("asm/check/tokens")]
+        void CheckOcTokens()
+        {
+
+        }
+
         [CmdOp("asm/emit/tokens")]
         void EmitAsmSymbols()
         {

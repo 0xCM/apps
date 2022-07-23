@@ -18,7 +18,7 @@ namespace Z0
 
         CsLang CsLang => Wf.CsLang();
 
-        AsmCodeGen AsmCodeGen => Wf.AsmCodeGen();
+        SdmCodeGen SdmCodeGen => Wf.SdmCodeGen();
 
         IntelSdm Sdm => Wf.IntelSdm();
 

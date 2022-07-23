@@ -61,6 +61,15 @@ namespace Z0
             CmdLines.Start(cmd);
         }
 
+        [CmdOp("files")]
+        protected void ListFiles(CmdArgs args)
+        {
+            var src = FS.dir(arg(args,0));
+            var files = FS.listing(src);
+            core.iter(files, file => Write(file.Path));
+            TableEmit(files, AppDb.App().Table<ListedFile>());
+        }
+
         public virtual void RunJobs(string match)
         {
             var paths = ProjectDb.JobSpecs();

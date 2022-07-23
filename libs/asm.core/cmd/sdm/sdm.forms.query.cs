@@ -20,7 +20,7 @@ namespace Z0
                 ref readonly var detail = ref src[i];
                 ref readonly var input = ref detail.OpCodeExpr;
                 SdmOpCodes.parse(detail.OpCodeExpr, out var opcode).Require();
-                result = CheckEquality(input, opcode);
+                result = CheckEquality(input.Format(), opcode);
                 if(result.Fail)
                 {
                     result = (false, string.Format("Equality check failed for <{0}>", input.Format().Trim()));

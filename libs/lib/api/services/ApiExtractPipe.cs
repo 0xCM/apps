@@ -10,9 +10,6 @@ namespace Z0
 
     public class ApiExtractPipe : AppService<ApiExtractPipe>
     {
-        public FS.Files RawExtractPaths()
-            => Db.RawExtractPaths();
-
         static byte parse8u(string src)
         {
             if(byte.TryParse(Hex.clear(src), NumberStyles.HexNumber, null, out var b))

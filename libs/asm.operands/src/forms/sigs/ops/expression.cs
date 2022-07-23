@@ -10,29 +10,36 @@ namespace Z0.Asm
     {
         public static AsmSigOpExpr expression(in AsmSigOp src)
         {
-            if(_Datasets.Expressions.Find(src.Token.Id, out var xpr))
+            var dst = format(src.Token);
+            if(src.Modifier != 0)
             {
-                if(src.Modifier != 0)
-                {
-                    if(_Datasets.Modifers.MapKind(src.Modifier, out var mod))
-                        return string.Format("{0} {1}", xpr, mod.Expr);
-                    else
-                        return RP.Error;
-                }
-                else
-                    return xpr;
+                if(_Datasets.Modifers.MapKind(src.Modifier, out var mod))
+                    dst = $"{dst} {mod.Expr}";
             }
-            else
-                return RP.Error;
+            return dst;
+            // if(_Datasets.Expressions.Find(src.Token.Id, out var xpr))
+            // {
+            //     if(src.Modifier != 0)
+            //     {
+            //         if(_Datasets.Modifers.MapKind(src.Modifier, out var mod))
+            //             return string.Format("{0} {1}", xpr, mod.Expr);
+            //         else
+            //             return RP.Error;
+            //     }
+            //     else
+            //         return xpr;
+            // }
+            // else
+            //     return RP.Error;
         }
 
-        public static AsmSigOpExpr expression(in AsmSigToken src)
-        {
-            if(_Datasets.Expressions.Find(src.Id, out var x))
-                return x;
+        // public static AsmSigOpExpr expression(in AsmSigToken src)
+        // {
+        //     if(_Datasets.Expressions.Find(src.Id, out var x))
+        //         return x;
 
-            return RP.Error;
-        }
+        //     return RP.Error;
+        // }
 
         public static AsmSigExpr expression(string src)
         {

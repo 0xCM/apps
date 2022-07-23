@@ -24,7 +24,6 @@ namespace Z0
             get => api.size(this);
         }
 
-
         public string Format()
         {
             var value = Count != 0 ? Count.ToString("#,#") : "0";

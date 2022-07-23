@@ -87,7 +87,6 @@ namespace Z0
         public static string Delimit<T>(this Index<T> src, string sep, short pad = 0)
             => (src.View).Delimit(sep,pad);
 
-
         public static void AppendLines<T>(this ITextEmitter dst, ReadOnlySpan<T> src)
         {
             for(var i=0; i<src.Length; i++)

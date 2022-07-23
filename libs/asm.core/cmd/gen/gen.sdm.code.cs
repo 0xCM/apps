@@ -4,9 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial interface IEnvPaths
+     using Asm;
+
+    partial class AsmCoreCmd
     {
-        FS.FilePath AppLog(string id)
-            => AppLogRoot() + FS.file(id, FS.Log);
+       [CmdOp("gen/sdm/code")]
+        void GenAmsCode()
+            => SdmCodeGen.Emit();
     }
 }

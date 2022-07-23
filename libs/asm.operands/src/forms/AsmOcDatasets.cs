@@ -19,8 +19,8 @@ namespace Z0.Asm
             var tokenExpr = dict<uint,string>();
             var names = dict<uint,string>();
             var exprToken = dict<string,AsmOcToken>();
-            dst.Tokens = alloc<AsmOcToken>(src.TokenCount);
-            dst.Records = alloc<AsmToken>(src.TokenCount);
+            var _tokens = alloc<AsmOcToken>(src.TokenCount);
+            var _records = alloc<AsmToken>(src.TokenCount);
             dst.TypeKinds = src.TypeKinds;
             var k=0u;
             for(var i=0; i<types.Length; i++)
@@ -30,10 +30,10 @@ namespace Z0.Asm
                 for(var j=0u; j<tokens.Count; j++, k++)
                 {
                     ref readonly var token = ref tokens[j];
-                    ref var record = ref dst.Records[k];
+                    ref var record = ref seek(_records,k);
 
                     var sigop = new AsmOcToken(kind, (byte)token.Value);
-                    dst.Tokens[k] = sigop;
+                    seek(_tokens,k) = sigop;
                     tokenExpr[sigop.Id] = token.Expr.Text;
                     exprToken[token.Expr.Text] = sigop;
                     names[sigop.Id] = token.Name;
@@ -49,6 +49,8 @@ namespace Z0.Asm
             dst.Names = names;
             dst.Expressions = tokenExpr;
             dst.TokensByExpression = exprToken;
+            dst._Tokens = _tokens;
+            dst._Records = _records;
             return dst;
         }
 
@@ -58,9 +60,21 @@ namespace Z0.Asm
 
         public ConstLookup<string,AsmOcToken> TokensByExpression {get; private set;}
 
-        public Index<AsmOcToken> Tokens {get; private set;}
+        ReadOnlySeq<AsmOcToken> _Tokens;
 
-        public Index<AsmToken> Records {get; private set;}
+        ReadOnlySeq<AsmToken> _Records;
+
+        public ref readonly ReadOnlySeq<AsmToken> Records
+        {
+            [MethodImpl(Inline)]
+            get => ref _Records;
+        }
+
+        public ref readonly ReadOnlySeq<AsmOcToken> Tokens
+        {
+            [MethodImpl(Inline)]
+            get => ref _Tokens;
+        }
 
         public ConstLookup<Type,K> TypeKinds {get; private set;}
 

@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial interface IEnvPaths
+    using static core;
+
+    public partial class CodeCmd : AppCmdService<CodeCmd>
     {
-        FS.FilePath AppLog(string id)
-            => AppLogRoot() + FS.file(id, FS.Log);
     }
 }

@@ -8,7 +8,7 @@ namespace Z0
 
     using static core;
 
-    partial class XFs
+    partial class XTend
     {
         /// <summary>
         /// Deletes the file if it exists

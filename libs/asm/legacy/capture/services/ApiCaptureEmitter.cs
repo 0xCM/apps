@@ -40,29 +40,29 @@ namespace Z0
             return routines;
         }
 
-        public AsmHostRoutines Emit(ApiHostUri host, Index<ApiMemberExtract> src, FS.FolderPath dst)
-        {
-            var routines = AsmHostRoutines.Empty;
-            try
-            {
-                var flow = Running(Msg.RunningHostEmissionWorkflow.Format(host,src.Count));
-                var extracts = EmitExtracts(host, src, Db.RawExtractPath(dst, host));
-                var parsed = ParseExtracts(host, src);
-                if(parsed.Length != 0)
-                {
-                    EmitApiHex(host, parsed, dst);
-                    EmitMsilData(host, parsed, dst + FS.file(host,FileKind.MsilDat));
-                    EmitMsilCode(host, parsed, dst + FS.file(host,FileKind.Msil));
-                    routines = DecodeMembers(host, parsed, src, FS.FilePath.Empty);
-                }
-                Ran(flow);
-            }
-            catch(Exception e)
-            {
-                Error(e);
-            }
-            return routines;
-        }
+        // public AsmHostRoutines Emit(ApiHostUri host, Index<ApiMemberExtract> src, FS.FolderPath dst)
+        // {
+        //     var routines = AsmHostRoutines.Empty;
+        //     try
+        //     {
+        //         var flow = Running(Msg.RunningHostEmissionWorkflow.Format(host,src.Count));
+        //         var extracts = EmitExtracts(host, src, Db.RawExtractPath(dst, host));
+        //         var parsed = ParseExtracts(host, src);
+        //         if(parsed.Length != 0)
+        //         {
+        //             EmitApiHex(host, parsed, dst);
+        //             EmitMsilData(host, parsed, dst + FS.file(host,FileKind.MsilDat));
+        //             EmitMsilCode(host, parsed, dst + FS.file(host,FileKind.Msil));
+        //             routines = DecodeMembers(host, parsed, src, FS.FilePath.Empty);
+        //         }
+        //         Ran(flow);
+        //     }
+        //     catch(Exception e)
+        //     {
+        //         Error(e);
+        //     }
+        //     return routines;
+        // }
 
         public Index<ApiCodeRow> EmitApiHex(ApiHostUri host, Index<ApiMemberCode> src, FS.FolderPath dst)
             => ApiCode.EmitApiHex(host, src.View, dst);

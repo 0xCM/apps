@@ -7,7 +7,7 @@ namespace Z0
     using System.IO;
     using System.Text;
 
-    partial class XFs
+    partial class XTend
     {
         [Op]
         public static StreamWriter Writer(this FS.FilePath dst, bool append)

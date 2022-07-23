@@ -10,8 +10,5 @@ namespace Z0
     {
         FS.FolderPath AppLogRoot()
             => Env.Db + FS.folder(logs) + FS.folder(apps) + FS.folder(AppName);
-
-        FS.FolderPath CmdLogRoot()
-            => Env.Db + FS.folder(logs) + FS.folder(commands);
     }
 }

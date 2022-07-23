@@ -9,7 +9,7 @@ namespace Z0
     /// <summary>
     /// Specifies data size in bits
     /// </summary>
-    public readonly struct BitWidth
+    public readonly record struct BitWidth : IDataType<BitWidth>
     {
         /// <summary>
         /// Specifies a bit count
@@ -84,6 +84,12 @@ namespace Z0
             get => Content/8;
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Content.GetHashCode();
+        }
+
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
@@ -103,14 +109,15 @@ namespace Z0
         public bool Equals(BitWidth b)
             => Content == b.Content;
 
+        [MethodImpl(Inline)]
+        public int CompareTo(BitWidth src)
+            => Content.CompareTo(src.Content);
+
         public override string ToString()
             => Format();
 
         public override int GetHashCode()
-            => (int)Content;
-
-        public override bool Equals(object obj)
-            => obj is BitWidth x && Equals(x);
+            => Hash;
 
         [MethodImpl(Inline)]
         public static implicit operator long(BitWidth src)
@@ -195,14 +202,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public static explicit operator double(BitWidth src)
             => src.Content;
-
-        [MethodImpl(Inline)]
-        public static bool operator ==(BitWidth a, BitWidth b)
-            => a.Content == b.Content;
-
-        [MethodImpl(Inline)]
-        public static bool operator !=(BitWidth a, BitWidth b)
-            => a.Content != b.Content;
 
         [MethodImpl(Inline)]
         public static BitWidth operator +(BitWidth a, BitWidth b)

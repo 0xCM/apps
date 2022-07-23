@@ -176,7 +176,7 @@ namespace Z0
 
         ReadOnlySpan<TextLine> Run(CmdLine cmd, ScriptId script, CmdVars? vars)
         {
-            using var writer = Paths.CmdLog(script).Writer();
+            using var writer = AppDb.Logs("scripts").Path(script,FileKind.Log).Writer();
             try
             {
                 var process = vars != null ? ScriptProcess.create(cmd, vars) : ScriptProcess.create(cmd);

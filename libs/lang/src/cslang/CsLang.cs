@@ -146,8 +146,14 @@ namespace Z0
         public FS.FilePath SourceFile(string name, CgTarget target)
             => SourceRoot(target) + FS.file(name, FS.Cs);
 
+        public FS.FilePath SourceFile(string name, IDbTargets dst)
+            => dst.Path(FS.file(name, FS.Cs));
+
         public FS.FilePath SourceFile(string name, string scope, CgTarget target)
             => SourceRoot(target) + FS.folder(scope) + FS.file(name, FS.Cs);
+
+        public FS.FilePath SourceFile(string name, string scope, IDbTargets dst)
+            => dst.Targets(scope).Path(FS.file(name, FS.Cs));
 
         public FS.FilePath DataFile(FS.FolderPath dst, string name)
             => dst + FS.file(name, FS.Csv);
@@ -157,6 +163,12 @@ namespace Z0
 
         public FS.FilePath DataFile(string name, string scope, CgTarget target)
             => SourceRoot(target) + FS.folder(scope) + FS.file(name, FS.Csv);
+
+        public FS.FilePath DataFile(string name, string scope, IDbTargets dst)
+            => dst.Targets(scope).Path(FS.file(name, FS.Csv));
+
+        public void EmitFile(string src, string name, IDbTargets dst)
+            => FileEmit(src, SourceFile(name, dst));
 
         public FS.FilePath EmitFile(string src, string name, CgTarget target)
         {

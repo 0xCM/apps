@@ -6,7 +6,7 @@ namespace Z0
 {
     using api = Sized;
 
-    public readonly struct Gb
+    public readonly record struct Gb : IDataType<Gb>
     {
         public const string UOM = "gb";
 
@@ -30,6 +30,27 @@ namespace Z0
             get => api.size(this);
         }
 
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Size == 0;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Size != 0;
+        }
+
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Algs.hash(Size);
+        }
+
+        [MethodImpl(Inline)]
+        public int CompareTo(Gb src)
+            => Size.CompareTo(src.Size);
 
         public override string ToString()
             => Format();
@@ -39,18 +60,7 @@ namespace Z0
             => Count == src.Count;
 
         public override int GetHashCode()
-            => (int)Count;
-
-        public override bool Equals(object obj)
-            => obj is Gb x && Equals(x);
-
-        [MethodImpl(Inline)]
-        public static bool operator ==(Gb a, Gb b)
-            => a.Equals(b);
-
-        [MethodImpl(Inline)]
-        public static bool operator !=(Gb a, Gb b)
-            => !a.Equals(b);
+            => Hash;
 
         [MethodImpl(Inline)]
         public static implicit operator uint(Gb src)

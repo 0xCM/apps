@@ -21,7 +21,6 @@ namespace Z0
         {
             var dst = new ListedFile();
             var info = new FileInfo(src.Name);
-            dst.Name = src.FileName;
             dst.Size = ((ByteSize)info.Length).Kb;
             dst.CreateTS = info.CreationTime;
             dst.UpdateTS = info.LastWriteTime;

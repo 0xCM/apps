@@ -13,6 +13,5 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static AssemblyName[] ReferenceNames(this Assembly src)
             => Clr.refnames(src);
-
     }
 }

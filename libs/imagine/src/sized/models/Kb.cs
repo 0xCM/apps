@@ -6,7 +6,7 @@ namespace Z0
 {
     using api = Sized;
 
-    public readonly struct Kb
+    public readonly record struct Kb : IDataType<Kb>
     {
         public const string UOM = "kb";
 
@@ -39,11 +39,33 @@ namespace Z0
             get => api.bits(this);
         }
 
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Size == 0;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Size != 0;
+        }
+
         public Mb Mb
         {
             [MethodImpl(Inline)]
             get => api.mb(this);
         }
+
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Algs.hash(Size);
+        }
+
+        [MethodImpl(Inline)]
+        public int CompareTo(Kb src)
+            => Size.CompareTo(src.Size);
 
         public string Format()
             => string.Format("{0} {1}", Count != 0 ? Count.ToString("#,#") : "0", UOM);
@@ -56,10 +78,7 @@ namespace Z0
             => api.eq(this, rhs);
 
         public override int GetHashCode()
-            => (int)api.hash(this);
-
-        public override bool Equals(object obj)
-            => obj is Kb x && Equals(x);
+            => Hash;
 
         [MethodImpl(Inline)]
         public static explicit operator ByteSize(Kb src)
@@ -92,14 +111,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator Kb(NumericWidth src)
             => api.kb((BitWidth)src);
-
-        [MethodImpl(Inline)]
-        public static bool operator ==(Kb a, Kb b)
-            => api.eq(a,b);
-
-        [MethodImpl(Inline)]
-        public static bool operator !=(Kb a, Kb b)
-            => api.neq(a,b);
 
         /// <summary>
         /// The bit with no size

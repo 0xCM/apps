@@ -392,7 +392,7 @@ namespace Z0.Asm
         {
             var svc = Wf.CliEmitter();
             var refs = Cli.ReadAssemblyRefs();
-            var dst = Db.AppLog("dependencies", FS.Dot);
+            var dst = AppDb.Logs().Path("dependencies", FileKind.Dot);
             var flow = Wf.EmittingFile(dst);
             var count = refs.Length;
             var parts = Wf.ApiCatalog.ComponentNames.ToHashSet();
@@ -418,7 +418,7 @@ namespace Z0.Asm
         {
             const string Pattern = "dotnet sln add {0}";
             var src = FS.dir(@"C:\Dev\z0");
-            var dst = Db.AppLog("create-sln", FS.Cmd);
+            var dst = AppDb.Logs().Path("create-sln", FileKind.Cmd);
             var projects = src.Files(FS.CsProj, true);
             var flow = Wf.EmittingFile(dst);
             using var writer = dst.Writer();

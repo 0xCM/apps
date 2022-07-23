@@ -38,7 +38,6 @@ namespace Z0
         public static string format(FileKind src)
             => Symbols.index<FileKind>()[src].Expr.Format();
 
-
         static FileTypes()
         {
             Data = Symbols.index<FileKind>().View.Map(s => ("." + s.Expr.Format().ToLower(), s.Kind)).ToSortedDictionary(TextLengthComparer.create(true));

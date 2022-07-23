@@ -18,6 +18,14 @@ namespace Z0
             return dst;
         }
 
+        void EmitTableCode(StringTableSpec syntax, ItemList<string> src, IDbTargets dst)
+        {
+            var path = SourceFile(syntax.TableName, "stringtables", dst);
+            var emitter = text.emitter();
+            render(syntax, src, emitter);
+            FileEmit(emitter.Emit(), src.Count, path);
+        }
+
         FS.FileUri EmitTableCode<K>(SymbolStrings<K> spec, FS.FilePath dst)
             where K : unmanaged
         {
@@ -35,6 +43,14 @@ namespace Z0
             render(spec, src, emitter);
             FileEmit(emitter.Emit(), src.Length, dst);
             return dst;
+        }
+
+        void EmitTableCode(StringTableSpec spec, ReadOnlySpan<string> src, IDbTargets dst)
+        {
+            var path = SourceFile(spec.TableName, "stringtables", dst);
+            var emitter = text.emitter();
+            render(spec, src, emitter);
+            FileEmit(emitter.Emit(), src.Length, path);
         }
 
         static uint render(in StringTableSpec spec, ItemList<string> src, ITextEmitter dst)

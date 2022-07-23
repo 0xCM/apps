@@ -15,11 +15,5 @@ namespace Z0.Asm
         {
             _Datasets = AsmSigDatasets.Instance;
         }
-
-        public ref readonly AsmSigDatasets Datasets
-        {
-            [MethodImpl(Inline)]
-            get => ref _Datasets;
-        }
     }
 }

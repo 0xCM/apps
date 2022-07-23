@@ -54,5 +54,21 @@ namespace Z0
             EmitTableData(def, DataFile(spec.TableName, "stringtables", dst));
             return def;
         }
+
+        public StringTable EmitStringTable(Identifier tableNs, Identifier tableName, Identifier indexName, ReadOnlySpan<string> strings, bool emitIndex, IDbTargets dst)
+        {
+            var spec = StringTables.spec(
+                tableNs: tableNs,
+                tableName: tableName,
+                indexName: indexName,
+                indexNs: tableNs,
+                indexType:ClrIntegerType.Empty,
+                emitIndex:emitIndex
+                );
+            var def = StringTables.create(spec, strings);
+            EmitTableCode(spec, strings, dst);
+            EmitTableData(def, DataFile(spec.TableName, "stringtables", dst));
+            return def;
+        }
     }
 }

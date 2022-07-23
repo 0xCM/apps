@@ -120,8 +120,8 @@ namespace Z0
         public static CpuIdSvc CpuId(this IWfRuntime wf)
             => Services.CpuId(wf);
 
-        public static AsmCodeGen AsmCodeGen(this IWfRuntime wf)
-            => Services.Service<AsmCodeGen>(wf);
+        public static SdmCodeGen SdmCodeGen(this IWfRuntime wf)
+            => Services.Service<SdmCodeGen>(wf);
 
         public static X86Dispatcher X86Dispatcher(this IWfRuntime wf)
             => Services.X86Dispatcher(wf);

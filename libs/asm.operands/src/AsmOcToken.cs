@@ -9,9 +9,9 @@ namespace Z0
     [StructLayout(LayoutKind.Sequential, Size=2, Pack=1)]
     public readonly record struct AsmOcToken : IToken<AsmOcToken,AsmOcTokenKind,byte>
     {
-        public readonly AsmOcTokenKind Kind {get;}
+        public readonly AsmOcTokenKind Kind;
 
-        public readonly byte Value {get;}
+        public readonly byte Value;
 
         [MethodImpl(Inline)]
         public AsmOcToken(AsmOcTokenKind kind, byte value)
@@ -65,6 +65,12 @@ namespace Z0
 
         public override string ToString()
             => Format();
+
+        AsmOcTokenKind IToken<AsmOcTokenKind,byte>.Kind
+            => Kind;
+
+        byte IToken<byte>.Value
+            => Value;
 
         [MethodImpl(Inline)]
         public static explicit operator byte(AsmOcToken src)

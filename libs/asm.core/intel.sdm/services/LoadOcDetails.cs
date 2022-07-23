@@ -25,7 +25,7 @@ namespace Z0.Asm
 
             dst.Mnemonic = skip(cells, i++).ToUpperInvariant();
 
-            CharBlocks.init(skip(cells,i++).Trim(), out dst.OpCodeExpr);
+            dst.OpCodeExpr = skip(cells,i++).Trim();
             AsmOcValue.parse(skip(cells,i++), out dst.OpCodeValue);
 
             ref readonly var sigsrc = ref skip(cells,i++);
@@ -33,12 +33,13 @@ namespace Z0.Asm
                 dst.AsmSig = EmptyString;
             else
                 dst.AsmSig = sigsrc;
-            CharBlocks.init(skip(cells, i++), out dst.EncXRef);
-            CharBlocks.init(skip(cells, i++), out dst.Mode64);
-            CharBlocks.init(skip(cells, i++), out dst.Mode32);
-            CharBlocks.init(skip(cells, i++), out dst.Mode64x32);
-            CharBlocks.init(skip(cells, i++), out dst.CpuIdExpr);
-            CharBlocks.init(skip(cells, i++), out dst.Description);
+
+            dst.EncXRef = skip(cells, i++);
+            dst.Mode64 = skip(cells, i++);
+            dst.Mode32 = skip(cells, i++);
+            dst.Mode64x32 = skip(cells, i++);
+            dst.CpuIdExpr = skip(cells, i++);
+            dst.Description = skip(cells, i++);
             return result;
         }
 

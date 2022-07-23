@@ -176,7 +176,6 @@ namespace Z0
             where W : unmanaged, IDataWidth
                 => native((BitWidth)w.BitWidth);
 
-
         public static DataSize measure(Type src)
         {
             var dst = DataSize.Empty;
@@ -266,11 +265,6 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ByteSize bytes(long src)
             => new ByteSize(src);
-
-        [MethodImpl(Inline), Op, Closures(Integers)]
-        public static ByteSize untyped<T>(Size<T> src)
-            where T : unmanaged
-                => bw64(src.Measure);
 
         [MethodImpl(Inline), Op]
         public static uint hash(Kb src)

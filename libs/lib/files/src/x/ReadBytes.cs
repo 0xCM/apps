@@ -4,9 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    partial class XFs
+    partial class XTend
     {
         /// <summary>
         /// Reads the full content of a file into a byte array

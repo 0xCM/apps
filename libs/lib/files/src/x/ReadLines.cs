@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XFs
+    partial class XTend
     {
         public static Index<string> ReadLines(this FS.FilePath src, bool skipBlank = false)
             => FS.readtext(src, TextEncodingKind.Utf8, skipBlank);

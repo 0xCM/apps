@@ -18,20 +18,17 @@ namespace Z0
 
         public uint Seq;
 
-        [Render(48)]
-        public FS.FileName Name;
-
         [Render(16)]
         public Kb Size;
+
+        [Render(180)]
+        public FS.FileUri Path;
 
         [Render(24)]
         public Timestamp CreateTS;
 
         [Render(24)]
         public Timestamp UpdateTS;
-
-        [Render(128)]
-        public FS.FileUri Path;
 
         [Render(1)]
         public FileAttributeSet Attributes;

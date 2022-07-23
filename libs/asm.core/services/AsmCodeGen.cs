@@ -6,7 +6,7 @@ namespace Z0.Asm
 {
     using static core;
 
-    public class AsmCodeGen : AppService<AsmCodeGen>
+    public class SdmCodeGen : WfSvc<SdmCodeGen>
     {
         IntelSdm Sdm => Service(Wf.IntelSdm);
 
@@ -20,37 +20,37 @@ namespace Z0.Asm
 
         public void Emit()
         {
-            CsLang.SourceRoot(CgTarget.Intel).Clear(true);
-            GenMnemonicNames();
-            GenFormKinds();
-            GenSigStrings();
+            var dst = AppDb.CgStage(CgTarget.Intel.ToString());
+            GenMnemonicNames(dst);
+            GenFormKinds(dst);
+            GenSigStrings(dst);
         }
 
-        public void GenMnemonicNames()
+        public void GenMnemonicNames(IDbTargets dst)
         {
             var src = Sdm.CalcMnemonics().Select(x => x.Format(MnemonicCase.Lowercase));
             CsLang.LiteralProviders().Emit(TargetNamespace,
                 Literals.seq(MnemonicNameProvider, src.View),
-                CsLang.SourceFile(MnemonicNameProvider, CgTarget.Intel)
+                CsLang.SourceFile(MnemonicNameProvider, dst)
                 );
         }
 
-        public void GenFormKinds()
+        public void GenFormKinds(IDbTargets dst)
         {
             var descriptors = Sdm.CalcFormDescriptors();
             var src = descriptors.CalcSymbols();
-            var dst = text.buffer();
+            var buffer = text.buffer();
             var margin = 0u;
-            dst.IndentLineFormat(margin, "namespace {0}", TargetNamespace);
-            dst.IndentLine(margin, Chars.LBrace);
+            buffer.IndentLineFormat(margin, "namespace {0}", TargetNamespace);
+            buffer.IndentLine(margin, Chars.LBrace);
             margin += 4;
-            CsRender.@enum(margin, src, dst);
+            CsRender.@enum(margin, src, buffer);
             margin -=4;
-            dst.Indent(margin, Chars.RBrace);
-            CsLang.EmitFile(dst.Emit(), SdmFormDescriptors.FormKindName, CgTarget.Intel);
+            buffer.Indent(margin, Chars.RBrace);
+            CsLang.EmitFile(buffer.Emit(), SdmFormDescriptors.FormKindName, dst);
         }
 
-        public void GenSigStrings()
+        public void GenSigStrings(IDbTargets dst)
         {
             var forms = Sdm.CalcFormDescriptors();
             var keys = forms.Keys;
@@ -64,7 +64,7 @@ namespace Z0.Asm
                     seek(sigs,i) = forms[keys[i-1]].Sig.Format();
             }
 
-            CsLang.EmitStringTable(TargetNamespace, AsmSigTableName, SdmFormDescriptors.FormKindName, sigs, CgTarget.Intel, false);
+            CsLang.EmitStringTable(TargetNamespace, AsmSigTableName, SdmFormDescriptors.FormKindName, sigs, false, dst);
         }
     }
 }

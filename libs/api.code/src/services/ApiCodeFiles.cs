@@ -4,8 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class ApiCodeFiles : WfSvc<ApiCodeFiles>
+    public class ApiCodeFiles : AppService<ApiCodeFiles>
     {
+        static AppDb AppDb => AppDb.Service;
+
         public IApiPack ApiPack(FS.FolderPath dst, Timestamp ts)
             => new ApiPack(dst, ts);
 
@@ -45,18 +47,6 @@ namespace Z0
         public FS.FilePath Path(ApiHostUri host, FS.FileExt ext)
             => AppDb.Capture().Path(host.FileName(ext));
 
-        // public FS.FilePath Path(string spec, FS.FileExt ext)
-        // {
-        //     if(text.nonempty(spec))
-        //     {
-        //         var i = text.index(spec, Chars.FSlash);
-        //         if(i>0)
-        //             return Path(ApiHostUri.define(ApiParsers.part(text.left(spec,i)), text.right(spec,i)), ext);
-        //         else
-        //             return Path(ApiParsers.part(spec), ext);
-        //     }
-        //     else
-        //         return Path(ext);
-        // }
+
     }
 }

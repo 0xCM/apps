@@ -9,9 +9,9 @@ namespace Z0
     [StructLayout(LayoutKind.Sequential, Size=2, Pack =1)]
     public readonly record struct AsmSigToken : IToken<AsmSigToken,AsmSigTokenKind,byte>
     {
-        public readonly AsmSigTokenKind Kind {get;}
+        public readonly AsmSigTokenKind Kind;
 
-        public readonly byte Value {get;}
+        public readonly byte Value;
 
         [MethodImpl(Inline)]
         public AsmSigToken(AsmSigTokenKind kind, byte value)
@@ -67,5 +67,11 @@ namespace Z0
             => Format();
 
         public static AsmSigToken Empty => default;
+
+        AsmSigTokenKind IToken<AsmSigTokenKind, byte>.Kind
+            => Kind;
+
+        byte IToken<byte>.Value
+            => Value;
     }
 }
