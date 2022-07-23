@@ -4,16 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial class ClrQuery
     {
-        [MethodImpl(Inline), Op]
-        public static Type[] Structs(this Assembly[] src)
-            => src.Types().Structs();
+        public static TaggedType<A>[] TaggedTypes<A>(this Assembly a)
+            where A : Attribute
+                => a.Types().Where(t => t.Tagged<A>()).Select(t => new TaggedType<A>(t, t.Tag<A>().Require()));
     }
 }

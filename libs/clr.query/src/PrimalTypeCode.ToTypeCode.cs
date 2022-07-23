@@ -4,13 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection;
-
     partial class ClrQuery
     {
-        [Op]
-        public static Type[] NonPublicTypes(this Assembly a)
-            => a.Types().NonPublic();
+        [MethodImpl(Inline), Op]
+        public static TypeCode ToTypeCode(this PrimalCode src)
+            => (TypeCode)src;
     }
 }

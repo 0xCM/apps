@@ -4,13 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection;
-
     partial class ClrQuery
     {
+        /// <summary>
+        /// Selects unary operators from a stream
+        /// </summary>
+        /// <param name="src">The methods to examine</param>
         [Op]
-        public static Type[] Enums(this Assembly a)
-            => a.GetTypes().Enums();
+        public static MethodInfo[] UnaryOperators(this MethodInfo[] src)
+            => src.Where(x => x.IsUnaryOperator());
     }
 }

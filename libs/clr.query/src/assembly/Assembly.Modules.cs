@@ -4,17 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection;
-
     partial class ClrQuery
     {
         /// <summary>
-        /// Selects the abstract methods from a stream
+        /// Deterines the source assembly <see cref='Module'/> definitions
         /// </summary>
-        /// <param name="src">The methods to examine</param>
+        /// <param name="src">The assembly to query</param>
         [Op]
-        public static MethodInfo[] Abstract(this MethodInfo[] src)
-            => src.Where(t => t.IsAbstract);
+        public static Module[] Modules(this Assembly src)
+            => src.Modules.Array();
     }
 }

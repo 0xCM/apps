@@ -4,13 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection;
-
     partial class ClrQuery
     {
         [Op]
-        public static FieldInfo[] DeclaredStaticFields(this Assembly src)
-            => src.Types().DeclaredStaticFields();
+        public static FieldInfo[] Fields(this Assembly a)
+            => a.GetTypes().SelectMany(x => x.Fields());
     }
 }

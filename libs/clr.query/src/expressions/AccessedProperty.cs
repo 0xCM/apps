@@ -4,12 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Reflection;
     using System.Linq.Expressions;
 
-    using static Root;
     using static Option;
 
     partial class ClrQuery
