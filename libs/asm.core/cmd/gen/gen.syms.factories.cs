@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
-    using static core;
-
     partial class AsmCoreCmd
     {
         [CmdOp("gen/syms/factories")]

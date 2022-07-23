@@ -11,6 +11,9 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
+        public static ItemList<Constant<T>> constants<T>(string name, T[] src)
+            => new (name, src.Mapi((i,x) => new ListItem<Constant<T>>((uint)i,x)));
+
         public static ItemList<K,T> items<K,T>(ConstLookup<K,T> src)
             where K : unmanaged
             where T : IListItem<K,T>

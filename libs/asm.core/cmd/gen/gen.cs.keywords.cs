@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
-    using static core;
-
     partial class AsmCoreCmd
     {
         [CmdOp("gen/cs/keywords")]
@@ -21,7 +17,7 @@ namespace Z0
             }
             else
             {
-                var list = Literals.items(FieldName, src.ReadLines(skipBlank:true).Storage);
+                var list = ItemLists.constants(FieldName, src.ReadLines(skipBlank:true).Storage);
                 var dst = text.buffer();
                 dst.Append("public static string[] ");
                 CsLang.EmitArrayInitializer(list,dst);
