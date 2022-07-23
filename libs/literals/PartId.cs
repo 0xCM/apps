@@ -228,6 +228,12 @@ public enum PartId : byte
     [Symbol("libs.root")]
     LibsRoot,
 
+    [Symbol("math")]
+    Math,
+
+    [Symbol("gmath")]
+    Gmath,
+
     [Symbol("expr")]
     Expr,
 

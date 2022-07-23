@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
 
     /// <summary>
     /// Defines a base2 literal via text and a boxed value; for the literal to be valid,
@@ -65,7 +65,7 @@ namespace Z0
         public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => hash(hash(Name), hash(Text));
+            get => hash(Name) | hash(Text);
         }
 
         [MethodImpl(Inline)]

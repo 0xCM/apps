@@ -10,6 +10,12 @@
 			"path": "..\\clr.query"
 		},
 		{
+			"path": "..\\clr.cil"
+		},
+		{
+			"path": "..\\clr.models"
+		},
+		{
 			"path": "..\\api.md"
 		},
 		{
@@ -20,9 +26,6 @@
 		},
 		{
 			"path": "..\\imagine"
-		},
-		{
-			"path": "..\\pow2"
 		},
 		{
 			"path": "..\\literals"

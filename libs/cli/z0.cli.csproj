@@ -13,6 +13,7 @@
     <ProjectReference Include="$(ApiMd)"/>
     <ProjectReference Include="$(Lang)"/>
     <ProjectReference Include="$(Bits)"/>
+    <ProjectReference Include="$(ClrCil)"/>
   </ItemGroup>
 
 </Project>

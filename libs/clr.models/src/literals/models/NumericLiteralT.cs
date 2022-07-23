@@ -6,25 +6,28 @@ namespace Z0
 {
     using static Algs;
 
+    using NBK = NumericBaseKind;
+
     /// <summary>
     /// Defines a numeric literal relative to a specified base
     /// </summary>
-    public readonly struct NumericLiteral : INumericLiteral<NumericLiteral>
+    public readonly struct NumericLiteral<T> : INumericLiteral<NumericLiteral<T>,T>
+        where T : unmanaged
     {
-        public readonly NumericBaseKind Base {get;}
-
         public readonly string Name {get;}
 
-        public readonly object Data {get;}
+        public readonly T Data {get;}
 
         public readonly string Text {get;}
 
+        public readonly NBK Base {get;}
+
         [MethodImpl(Inline)]
-        internal NumericLiteral(NumericBaseKind @base, string name, object data, string text)
+        public NumericLiteral(string name, T data, string text, NBK @base)
         {
             Name = name;
             Data = data;
-            Text = text;
+            Text = text ?? data.ToString();
             Base = @base;
         }
 
@@ -40,6 +43,12 @@ namespace Z0
             get => !IsEmpty;
         }
 
+        public bool HasValue
+        {
+            [MethodImpl(Inline)]
+            get => !Data.Equals(default);
+        }
+
         public Type SystemType
         {
             [MethodImpl(Inline)]
@@ -52,7 +61,7 @@ namespace Z0
             get => Type.GetTypeCode(SystemType);
         }
 
-        public NumericLiteral Zero
+        public NumericLiteral<T> Zero
         {
             [MethodImpl(Inline)]
             get => Empty;
@@ -64,30 +73,16 @@ namespace Z0
             get => SystemType.IsEnum;
         }
         public string Format()
-        {
-            if(Base == NumericBaseKind.Base2)
-                return BitRender.format(Data, Type.GetTypeCode(Data.GetType()));
-            else
-                return Data.ToString();
-        }
+            => Text;
 
         public override string ToString()
             => Format();
 
         [MethodImpl(Inline)]
-        public bool Equals(NumericLiteral src)
+        public bool Equals(NumericLiteral<T> src)
             => object.Equals(Data, src.Data);
 
-        string ILiteral.Name
-            => Name;
-
-        object ILiteral.Data
-            => Data;
-
-        string ILiteral.Text
-            => Text;
-
-        public static NumericLiteral Empty
-            => new NumericLiteral(0, EmptyString, 0u, EmptyString);
+        public static NumericLiteral<T> Empty
+            => new NumericLiteral<T>(EmptyString, default, EmptyString, 0);
     }
 }

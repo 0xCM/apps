@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
 
     public readonly record struct BinaryLiteral<T> : ILiteral<BinaryLiteral<T>,T>
         where T : unmanaged
@@ -44,7 +44,7 @@ namespace Z0
         public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => hash(hash(Name), hash(Data));
+            get => hash(Name) | hash(Data);
         }
 
         string ILiteral.Name
