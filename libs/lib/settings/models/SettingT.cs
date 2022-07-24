@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using api = Settings;
+    using api = SettingIndex;
 
     /// <summary>
     /// Defines a value-parametric application setting

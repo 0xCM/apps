@@ -29,7 +29,7 @@ namespace Z0
         public FS.FilePath AsmInstructionTable(ProjectId project)
             => Flows.table<AsmInstructionRow>(project);
 
-        public Outcome<Index<CmdFlow>> BuildLlc(IWsProject project, LlvmSubtarget subtarget, bool runexe = false)
+        public void BuildLlc(IWsProject project, LlvmSubtarget subtarget, bool runexe = false)
         {
             var scriptid = subtarget switch
             {
@@ -43,7 +43,7 @@ namespace Z0
                 Avx512 => "llc-build-avx512",
                 _ => EmptyString
             };
-            return Scripts.RunBuildScripts(project, FileKind.Llir, project.Script(scriptid), runexe);
+            Scripts.RunBuildScripts(project, FileKind.Llir, project.Script(scriptid), runexe);
         }
    }
 }

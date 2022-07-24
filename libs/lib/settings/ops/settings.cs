@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class Settings
+    partial class SettingIndex
     {
-        public static Settings settings<T>(T src)
+        public static SettingIndex index<T>(T src)
         {
             var _fields = typeof(T).PublicInstanceFields();
             var _props = typeof(T).PublicInstanceProperties();

@@ -4,12 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class ConfigSets
+    public interface IWfEventTarget : ISink<IWfEvent>
     {
-        public static SettingIndex app()
-            => Settings.rows(ConfigPaths.app());
-
-        public static SettingIndex cmd()
-            => Settings.rows(ConfigPaths.cmd());
+        Type Host {get;}
     }
 }

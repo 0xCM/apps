@@ -8,19 +8,18 @@ namespace Z0
 
     using EN = SettingNames;
 
-
     public readonly struct EnvVars : IIndex<EnvVar>
     {
         public static EnvVars emit(SysEnvKind kind, bool display = true)
         {
             var archives = WsArchives.load(Settings.rows(AppSettings.path()));
-            var dir = Settings.setting(archives.Path(EN.EnvConfig), FS.dir).Value;
+            var dir = SettingIndex.setting(archives.Path(EN.EnvConfig), FS.dir).Value;
             var vars = EnvVars.vars(kind);
             var name =  $"{ExecutingPart.Name}.{EnumRender.format(kind)}";
             if(display)
                 term.write(vars, FlairKind.Babble);
             emit(records(vars, name).View, dir + FS.file($"{name}.settings", FileKind.Csv), asci7);
-            FS.emit(vars, dir + FS.file(name, FileKind.Env), asci7);
+            FS.emit(typeof(EnvVars), vars, dir + FS.file(name, FileKind.Env), asci7);
             return vars;
         }
 

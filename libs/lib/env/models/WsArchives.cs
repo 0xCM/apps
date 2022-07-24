@@ -11,18 +11,18 @@ namespace Z0
         public static WsArchives load()
             => load(ConfigSets.app());
 
-        public static WsArchives load(Settings src)
+        public static WsArchives load(SettingIndex src)
             => new WsArchives(src);
 
-        readonly Settings Data;
+        readonly SettingIndex Data;
 
-        internal WsArchives(Settings src)
+        internal WsArchives(SettingIndex src)
         {
             Data = src;
         }
 
         public FS.FolderPath EnvSource()
-            => Settings.setting(Path(EN.EnvConfig), FS.dir);
+            => SettingIndex.setting(Path(EN.EnvConfig), FS.dir);
 
         public FS.FilePath EnvPath(string name)
             => EnvSource() + FS.file(name, FileKind.Env);

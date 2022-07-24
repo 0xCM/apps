@@ -45,9 +45,9 @@ namespace Z0
             var part = src.Controller;
             var count = specs.Count;
             var buffer = sys.alloc<Setting64>(count);
-            var dst = Settings64.load(buffer);
+            var dst = Settings.from(buffer);
             for(var i=0; i<specs.Count; i++)
-                seek(buffer,i) = Settings.setting(string.Format("{0}[{1:D3}]", part, i), (asci64)specs[i]);
+                seek(buffer,i) = SettingIndex.setting(string.Format("{0}[{1:D3}]", part, i), (asci64)specs[i]);
             return new CmdSource(provider.Name, dst);
         }
 
@@ -67,7 +67,7 @@ namespace Z0
 
         public static void emit(ICmdSource src, FS.FilePath dst, WfEventLogger log)
         {
-            log(Events.emittingFile(dst));
+            log(Events.emittingFile(src.GetType(),dst));
             var commands = src.Commands;
             using var writer = dst.AsciWriter();
             for(var i=0; i<src.Count; i++)
@@ -78,7 +78,7 @@ namespace Z0
                 writer.WriteLine(fmt);
             }
 
-            log(Events.emittedFile(dst, src.Count));
+            log(Events.emittedFile(src.GetType(), dst, src.Count));
         }
 
         public static void emit(CmdCatalog src, FS.FilePath dst, IWfEventTarget log)
@@ -95,7 +95,6 @@ namespace Z0
             var count = actions.Count;
             var dst = sys.alloc<Setting<Name,asci64>>(count);
             var settings = Settings.asci(dst);
-
             for(var i=0; i<actions.Count; i++)
                 seek(dst,i) = Settings.asci(string.Format("{0}[{1:D3}]", part, i), (asci64)actions[i]);
             return Settings.asci(dst);

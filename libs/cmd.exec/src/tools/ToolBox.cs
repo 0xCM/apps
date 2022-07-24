@@ -141,10 +141,10 @@ namespace Z0
         //     return Settings.parse(OmniScript.RunCmd(cmd));
         // }
 
-        public Settings LoadEnv()
+        public SettingIndex LoadEnv()
         {
             var path = ToolWs.Home + FS.file("tools", FileKind.Env);
-            return Settings.parse(path.ReadNumberedLines());
+            return SettingIndex.parse(path.ReadNumberedLines());
         }
 
         void LoadProfiles(FS.FilePath src, Lookup<Actor,ToolProfile> dst)

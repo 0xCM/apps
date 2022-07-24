@@ -13,6 +13,9 @@ namespace Z0
 
         const NumericKind Closure = UnsignedInts;
 
+        [MethodImpl(Inline)]
+        public static DataFlow<Actor,S,T> flow<S,T>(Tool tool, S src, T dst)
+            => new DataFlow<Actor,S,T>(FlowId.identify(tool,src,dst), tool,src,dst);
 
         public static FS.FilePath path(IWsProject src)
             => src.BuildOut() + FS.file($"{src.Id}.build.flows",FileKind.Csv);

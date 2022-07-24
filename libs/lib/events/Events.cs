@@ -72,20 +72,16 @@ namespace Z0
             => originate(typeof(T), caller, file, line);
 
         [Op, Closures(Closure)]
-        public static EmittingFileEvent emittingFile(FS.FilePath dst)
-            => new EmittingFileEvent(frame(4).GetType(), dst);
-
-        [Op]
-        public static EmittedFileEvent emittedFile(FS.FilePath path, Count count)
-            => new EmittedFileEvent(frame(4).GetType(), path, count);
-
-        [Op]
-        public static EmittedFileEvent emittedFile(ByteSize size, FS.FilePath path)
-            => new EmittedFileEvent(frame(4).GetType(), path, (uint)size);
+        public static EmittingFileEvent emittingFile(Type host, FS.FilePath dst)
+            => new EmittingFileEvent(host, dst);
 
         [Op]
         public static EmittedFileEvent emittedFile(Type host, FS.FilePath path, Count count)
             => new EmittedFileEvent(host, path, count);
+
+        [Op]
+        public static EmittedFileEvent emittedFile(Type host, FS.FilePath path, ByteSize size)
+            => new EmittedFileEvent(host, path, (uint)size);
 
         [Op]
         public static EmittedFileEvent<T> emittedFile<T>(Type host, FS.FilePath path, T msg)

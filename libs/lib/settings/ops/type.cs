@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class Settings
+    partial class SettingIndex
     {
         public static SettingType type<T>(T src)
             => type(src.GetType());

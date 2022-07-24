@@ -22,16 +22,16 @@ namespace Z0
         FS.FilePath Script(IWsProject src, string name)
             => src.Script(name);
 
-        public Outcome<Index<CmdFlow>> BuildAsm(IWsProject src)
+        public void BuildAsm(IWsProject src)
             => RunBuildScripts(src, FileKind.Asm, Script(src,"build-asm"), false);
 
-        public Outcome<Index<CmdFlow>> BuildC(IWsProject src, bool runexe = false)
+        public void BuildC(IWsProject src, bool runexe = false)
             => RunBuildScripts(src, FileKind.C, Script(src,"build-c"), runexe);
 
-        public Outcome<Index<CmdFlow>> BuildCpp(IWsProject src, bool runexe = false)
+        public void BuildCpp(IWsProject src, bool runexe = false)
             => RunBuildScripts(src, FileKind.Cpp, Script(src,"build-cpp"), runexe);
 
-        public Outcome<Index<CmdFlow>> RunBuildScripts(IWsProject project ,FileKind kind, FS.FilePath script, bool runexe)
+        public void RunBuildScripts(IWsProject project ,FileKind kind, FS.FilePath script, bool runexe)
             => RunBuildScript(project, kind, script, flow => HandleBuildResponse(flow, runexe));
 
         void RunExe(CmdFlow flow)
@@ -55,7 +55,7 @@ namespace Z0
                 RunExe(flow);
         }
 
-        public Outcome<Index<CmdFlow>> RunBuildScript(IWsProject project, FileKind kind, FS.FilePath script, Action<CmdFlow> receiver)
+        public void RunBuildScript(IWsProject project, FileKind kind, FS.FilePath script, Action<CmdFlow> receiver)
         {
             var result = Outcome<Index<CmdFlow>>.Success;
             var cmdflows = list<CmdFlow>();
@@ -84,7 +84,6 @@ namespace Z0
                 result = (true,records);
             }
 
-            return result;
         }
     }
 }

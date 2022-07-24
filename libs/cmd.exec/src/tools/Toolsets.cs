@@ -12,7 +12,7 @@ namespace Z0
 
         OmniScript OmniScript => Wf.OmniScript();
 
-        public Settings Config(FS.FilePath src)
+        public SettingIndex Config(FS.FilePath src)
             => Settings.config(src);
 
         public ConstLookup<ToolIdOld,ToolHelpDoc> LoadHelpDocs(IDbSources src)

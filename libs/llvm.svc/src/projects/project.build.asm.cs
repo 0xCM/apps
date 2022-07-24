@@ -7,7 +7,7 @@ namespace Z0
     partial class ProjectCmd
     {
         [CmdOp("project/build/asm")]
-        Outcome BuildMc(CmdArgs args)
+        void BuildAsm()
             => Scripts.BuildAsm(Project());
     }
 }

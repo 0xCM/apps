@@ -29,14 +29,14 @@ namespace Z0
             return dst.ToArray().Sort();
         }
 
-        readonly Settings Data;
+        readonly SettingIndex Data;
 
         readonly Dictionary<string,Setting> Lookup;
 
-        public static ToolEnv load(Settings src)
+        public static ToolEnv load(SettingIndex src)
             => new ToolEnv(src);
 
-        public ToolEnv(Settings src)
+        public ToolEnv(SettingIndex src)
         {
             Data = src;
             Lookup = new();

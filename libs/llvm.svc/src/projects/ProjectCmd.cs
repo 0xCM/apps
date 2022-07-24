@@ -6,8 +6,6 @@ namespace Z0
 {
     using Asm;
 
-    using static core;
-
     public partial class ProjectCmd : AppCmdService<ProjectCmd>
     {
         CoffServices Coff => Wf.CoffServices();
@@ -21,8 +19,6 @@ namespace Z0
         WsScripts Projects => Wf.WsScripts();
 
         AsmRegSets Regs => Service(AsmRegSets.create);
-
-        //DumpBin DumpBin => Wf.DumpBin();
 
         Dictionary<string,string> BuildCmdNames {get;}
             = new (string project, string cmd)[]{

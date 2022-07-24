@@ -13,39 +13,39 @@ namespace Z0
             => ProjectSvc.BuildLlc(Project(), LlvmSubtarget.Avx512);
 
         [CmdOp("project/build/llc-sse")]
-        Outcome LlcSse(CmdArgs args)
+        void LlcSse()
             => ProjectSvc.BuildLlc(Project(), LlvmSubtarget.Sse);
 
         [CmdOp("project/build/llc-sse2")]
-        Outcome LlcSse2(CmdArgs args)
+        void LlcSse2()
             => ProjectSvc.BuildLlc(Project(), LlvmSubtarget.Sse2);
 
         [CmdOp("project/build/llc-sse3")]
-        Outcome LlcSse3(CmdArgs args)
+        void LlcSse3()
             => ProjectSvc.BuildLlc(Project(), LlvmSubtarget.Sse3);
 
         [CmdOp("project/build/llc-sse41")]
-        Outcome LlcSse41(CmdArgs args)
+        void LlcSse41()
             => ProjectSvc.BuildLlc(Project(), LlvmSubtarget.Sse41);
 
         [CmdOp("project/build/llc-sse42")]
-        Outcome LlcSse42(CmdArgs args)
+        void LlcSse42()
             => ProjectSvc.BuildLlc(Project(), LlvmSubtarget.Sse42);
 
         [CmdOp("project/build/llc-avx")]
-        Outcome LlcAvx(CmdArgs args)
+        void LlcAvx()
             => ProjectSvc.BuildLlc(Project(), LlvmSubtarget.Avx);
 
         [CmdOp("project/build/llc-avx2")]
-        Outcome LlcAvx2(CmdArgs args)
+        void LlcAvx2()
             => ProjectSvc.BuildLlc(Project(), LlvmSubtarget.Avx2);
 
         [CmdOp("project/build/llc-avx512")]
-        Outcome LlcAvx512(CmdArgs args)
+        void LlcAvx512()
             => ProjectSvc.BuildLlc(Project(), LlvmSubtarget.Avx512);
 
         [CmdOp("project/build+run/llc-avx512")]
-        Outcome LlcAvx512BuildRun(CmdArgs args)
+        void LlcAvx512BuildRun()
             => ProjectSvc.BuildLlc(Project(), LlvmSubtarget.Avx512);
     }
 }

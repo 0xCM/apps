@@ -7,19 +7,19 @@ namespace Z0
     partial class ProjectCmd
     {
         [CmdOp("project/build/c")]
-        Outcome BuildC(CmdArgs args)
+        void BuildC()
             => Scripts.BuildC(Project());
 
         [CmdOp("project/build/cpp")]
-        Outcome BuildCpp(CmdArgs args)
+        void BuildCpp()
             => Scripts.BuildCpp(Project());
 
         [CmdOp("project/build+run/cpp")]
-        Outcome BuildRunCpp(CmdArgs args)
+        void BuildRunCpp()
             => Scripts.BuildCpp(Project(), true);
 
         [CmdOp("project/build+run/c")]
-        Outcome BuildRunC(CmdArgs args)
+        void BuildRunC()
             => Scripts.BuildC(Project(), true);
     }
 }

@@ -4,14 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using api = Settings;
+    using api = SettingIndex;
 
     [Free]
     public interface ISettings : IExpr
     {
         Identifier Name {get;}
 
-        Settings Settings {get;}
+        SettingIndex Settings {get;}
 
         bool INullity.IsEmpty
             => Settings.IsEmpty;
@@ -30,7 +30,7 @@ namespace Z0
         Identifier ISettings.Name
             => typeof(S).Name;
 
-        Settings ISettings.Settings
-            => api.settings((S)this);
+        SettingIndex ISettings.Settings
+            => api.index((S)this);
     }
 }

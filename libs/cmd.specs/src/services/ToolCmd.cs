@@ -148,7 +148,7 @@ namespace Z0
         public static CmdFlag enable(CmdFlagSpec flag)
             => new CmdFlag(flag.Name, bit.On);
 
-        public static Settings settings(FS.FilePath src)
+        public static SettingIndex settings(FS.FilePath src)
         {
             var dst = list<Setting>();
             using var reader = src.LineReader(TextEncodingKind.Asci);
@@ -170,7 +170,7 @@ namespace Z0
                     }
                 }
             }
-            return new Settings(dst.ToArray());
+            return new SettingIndex(dst.ToArray());
         }
     }
 }

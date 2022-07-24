@@ -15,13 +15,12 @@ namespace Z0
         {
             //AppDb.ProjectDb(context.Project.Project, disasm).Clear();
             var project = context.Project.Project;
-            ObjPaths.XedDisasm(project).Clear();
-
-            // var docs = CalcDocs(context);
-            // exec(PllExec,
-            //     () => EmitConsolidated(context, docs),
-            //     () => EmitBreakdowns(context, docs)
-            //     );
+            //ObjPaths.XedDisasm(project).Clear();
+            var docs = CalcDocs(context);
+            exec(PllExec,
+                () => EmitConsolidated(context, docs),
+                () => EmitBreakdowns(context, docs)
+                );
         }
     }
 }

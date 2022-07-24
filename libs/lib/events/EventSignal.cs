@@ -100,7 +100,7 @@ namespace Z0
 
         public EmittingFileEvent EmittingFile(FS.FilePath dst)
         {
-            var ev = emittingFile(dst);
+            var ev = emittingFile(Source.Type, dst);
             Raise(ev);
             return ev;
         }

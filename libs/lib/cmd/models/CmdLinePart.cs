@@ -4,9 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
-    public readonly struct CmdLinePart : ITextual
+    public readonly struct CmdLinePart : IExpr
     {
         public readonly string Content;
 
@@ -17,7 +15,7 @@ namespace Z0
         public ReadOnlySpan<char> Chars
         {
             [MethodImpl(Inline)]
-            get => chars(Content);
+            get => core.chars(Content);
         }
 
         public bool IsEmpty

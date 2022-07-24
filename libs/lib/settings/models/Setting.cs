@@ -71,7 +71,7 @@ namespace Z0
             => Format();
 
         public string Json()
-            => Settings.json(this);
+            => SettingIndex.json(this);
 
         public string Format(char sep)
             => $"{Name}{sep}{ValueText}";

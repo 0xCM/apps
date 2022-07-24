@@ -18,7 +18,7 @@ namespace Z0
 
         protected IProjectDb ProjectDb;
 
-        protected static AppSettings AppSettings => data(nameof(Settings), AppSettings.load);
+        protected static AppSettings AppSettings => data(nameof(SettingIndex), AppSettings.load);
 
         protected WfSvc()
         {
@@ -39,8 +39,8 @@ namespace Z0
         protected ToolWs ToolWs
             => new ToolWs(AppDb.Toolbase().Root);
 
-        public Settings ShellSettings()
-            => Settings.rows(Settings.path());
+        public SettingIndex ShellSettings()
+            => Settings.rows(SettingIndex.path());
 
         [MethodImpl(Inline)]
         public IWsProject Project()

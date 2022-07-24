@@ -34,7 +34,7 @@ namespace Z0
             => sys.nonempty(Value);
 
         string IExpr.Format()
-            => Settings.format(Name, Value);
+            => SettingIndex.format(Name, Value);
     }
 
     [Free]

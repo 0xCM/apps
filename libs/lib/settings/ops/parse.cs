@@ -8,7 +8,7 @@ namespace Z0
 
     using DP = DataParser;
 
-    partial class Settings
+    partial class SettingIndex
     {
         public static Setting parse(string src)
         {
@@ -22,7 +22,7 @@ namespace Z0
         }
 
         [Op]
-        public static Settings parse(ReadOnlySpan<string> src)
+        public static SettingIndex parse(ReadOnlySpan<string> src)
         {
             var count = src.Length;
 
@@ -61,7 +61,7 @@ namespace Z0
         }
 
         [Op]
-        public static Settings parse(ReadOnlySpan<TextLine> src)
+        public static SettingIndex parse(ReadOnlySpan<TextLine> src)
         {
             var count = src.Length;
             var buffer = span<Setting>(count);
@@ -84,7 +84,7 @@ namespace Z0
 
         public static Outcome parse(string src, Type type, out Setting dst, char delimiter = Chars.Colon)
         {
-            dst = Settings.empty();
+            dst = SettingIndex.empty();
             if(nonempty(src))
             {
                 var name = EmptyString;

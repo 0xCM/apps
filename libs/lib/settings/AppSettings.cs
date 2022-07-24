@@ -47,6 +47,5 @@ namespace Z0
 
         public static FS.FilePath path()
             => FS.path(controller().Location).FolderPath + FS.file("app.settings", FileKind.Csv);
-
     }
 }

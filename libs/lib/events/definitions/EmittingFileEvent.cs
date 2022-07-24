@@ -24,13 +24,6 @@ namespace Z0
             Target = dst;
         }
 
-        [MethodImpl(Inline)]
-        public EmittingFileEvent(WfStepId step, FS.FilePath target)
-        {
-            EventId = EventId.define(EventName, step);
-            Target = target;
-        }
-
         public string Format()
             => RpOps.format(EventId, AppMsg.EmittingFile.Capture(Target));
     }

@@ -24,7 +24,7 @@ namespace Z0
             exec(PllExec,
                 () => EmitOpClasses(context, src),
                 () => EmitConsolidated(context, details.ToArray()),
-                () => EmitConsolidated(context,summaries.ToArray()));
+                () => EmitConsolidated(context, summaries.ToArray()));
         }
 
         void EmitOpClasses(WsContext context, Index<Document> src)

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class Settings
+    partial class SettingIndex
     {
         [MethodImpl(Inline), Op]
         public static Setting64 setting(Name name, asci64 value)
