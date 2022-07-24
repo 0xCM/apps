@@ -10,7 +10,7 @@ namespace Z0
 
     using C = AsmLineClass;
 
-    public class LlvmAsmParser : IFileParser<LlvmAsmParser,FileRef,McAsmDoc>, IFileParser<McAsmDoc>
+    class LlvmAsmParser : IFileParser<LlvmAsmParser,FileRef,McAsmDoc>, IFileParser<McAsmDoc>
     {
         Dictionary<LineNumber,AsmDirective> Directives;
 

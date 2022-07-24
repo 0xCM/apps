@@ -21,7 +21,7 @@ namespace Z0
         static AppData()
         {
             var dst = new AppData();
-            dst._PllExec = false;
+            dst._PllExec = true;
             Instance = dst;
         }
 

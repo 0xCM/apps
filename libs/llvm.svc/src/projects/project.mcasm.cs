@@ -14,7 +14,7 @@ namespace Z0
             var project = Project();
             var catalog = WsCatalog.load(project);
             var files = catalog.Entries(FileKind.McAsm);
-            var docs = ProjectSvc.CalcMcAsmDocs(project);
+            var docs = AsmObjects.CalcMcAsmDocs(project);
             var count = docs.Count;
             for(var i=0; i<count; i++)
                 MergeDirectives(docs[i]);

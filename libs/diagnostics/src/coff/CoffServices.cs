@@ -6,11 +6,11 @@ namespace Z0
 {
     using static core;
 
+    using static ApiGranules;
+
     public class CoffServices : WfSvc<CoffServices>
     {
         HexDataReader HexReader => Wf.HexDataReader();
-
-        AsmObjPaths ObjPaths => new AsmObjPaths(AppDb);
 
         Symbols<CoffSectionKind> SectionKinds;
 
@@ -28,9 +28,12 @@ namespace Z0
         public CoffSymIndex CollectSymIndex(WsContext context)
             => new CoffSymIndex(CollectHeaders(context), CollectSymbols(context));
 
+        public IDbTargets ObjHex(ProjectId project)
+            => AppDb.EtlTargets(project).Targets(objhex);
+
         public Outcome CollectObjHex(WsContext context)
         {
-            var targets = ObjPaths.ObjHex(context.Project.Project);
+            var targets = ObjHex(context.Project.Project);
             targets.Clear();
             var result = Outcome.Success;
             var files = context.Catalog.Entries(FileKind.Obj, FileKind.O);
@@ -52,7 +55,7 @@ namespace Z0
 
         public HexFileData LoadObjHex(WsContext context)
         {
-            var src = ObjPaths.ObjHex(context.Project.Project).Files(FileKind.HexDat);
+            var src = ObjHex(context.Project.Project).Files(FileKind.HexDat);
             var count = src.Length;
             var dst = dict<FS.FilePath,Index<HexDataRow>>(count);
             for(var i=0; i<count; i++)
