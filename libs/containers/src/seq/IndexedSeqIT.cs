@@ -14,7 +14,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static IndexedSeq<I,T> concat(IndexedSeq<I,T> head, IndexedSeq<I,T> tail)
-            => new IndexedSeq<I,T>(Arrays.concat(head.Storage, tail.Storage));
+            => new IndexedSeq<I,T>(Algs.concat(head.Storage, tail.Storage));
 
         [MethodImpl(Inline)]
         public static IndexedSeq<I,Y> load<Y>(IEnumerable<Y> src)

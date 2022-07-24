@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial struct ApiSigs
     {
         [Op]
@@ -15,7 +13,7 @@ namespace Z0
             var @return = src.ReturnType;
             var @params = src.ParameterTypes();
             var count = @params.Length + 1;
-            var components = alloc<Type>(count);
+            var components = sys.alloc<Type>(count);
             for(var i=0; i<count; i++)
             {
                 if(i < count - 1)

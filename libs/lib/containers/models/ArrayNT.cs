@@ -14,7 +14,7 @@ namespace Z0
     {
         public static Z[] flat<N,T,Y,Z>(Array<N,T> src, Func<T,Array<N,Y>> lift, Func<T,Y,Z> project)
             where N : unmanaged, ITypeNat
-                => Arrays.array(
+                => Algs.array(
                         from x in src.Storage
                         from y in lift(x).Storage
                         select project(x, y)
@@ -22,7 +22,7 @@ namespace Z0
 
         public static Y[] flat<N,T,Y>(Array<N,T> src, Func<T,Array<N,Y>> lift)
             where N : unmanaged, ITypeNat
-            => Arrays.array(from x in src.Storage
+            => Algs.array(from x in src.Storage
                 from y in lift(x).Storage
                 select y);
 

@@ -37,7 +37,7 @@ namespace Z0
         /// <typeparam name="T">The element type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static IEnumerable<T> stream<T>(T head, IEnumerable<T> tail)
-            => Arrays.array(head).Concat(tail);
+            => array(head).Concat(tail);
 
         /// <summary>
         /// Procduces an output stream by concatenating three input streams

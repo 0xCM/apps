@@ -4,8 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public sealed class CliTableSource<T> : TableSource<CliTableSource<T>,T>
-        where T : struct, IRecord<T>
+    public sealed class CliTableSource<T>
+        where T : struct
     {
         public CliReader Reader {get;}
 

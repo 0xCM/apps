@@ -7,7 +7,7 @@ namespace Z0
     partial struct ApiSigs
     {
         [MethodImpl(Inline), Op]
-        public static ApiOpenSigParam open(ushort position, NameOld name)
+        public static ApiOpenSigParam open(ushort position, string name)
             => new ApiOpenSigParam(position, name);
 
         [MethodImpl(Inline), Op]

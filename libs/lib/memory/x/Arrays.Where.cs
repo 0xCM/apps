@@ -16,6 +16,6 @@ namespace Z0
         /// <typeparam name="T"></typeparam>
         [MethodImpl(Inline)]
         public static T[] Where<S,T>(this S[] src, Func<S,bool> test, Func<S,T> project)
-            => Arrays.map(src.Where(test), project);
+            => Algs.map(src.Where(test), project);
    }
 }

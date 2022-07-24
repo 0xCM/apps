@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public sealed class CliDataSource : DataSource<CliDataSource>
+    public sealed class CliDataSource
     {
         public CliReader Reader {get;}
 

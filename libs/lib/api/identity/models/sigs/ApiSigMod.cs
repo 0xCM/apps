@@ -4,16 +4,22 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct ApiSigMod : IApiSigMod<ApiSigMod>
+    public readonly record struct ApiSigMod : IExpr
     {
-        public NameOld Name {get;}
+        public readonly string Name;
 
-        public ApiSigModKind Kind {get;}
+        public readonly ApiSigModKind Kind;
 
-        public ApiSigMod(NameOld name, ApiSigModKind kind)
+        public ApiSigMod(string name, ApiSigModKind kind)
         {
             Name = name;
             Kind = kind;
+        }
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => sys.empty(Name);
         }
 
         public string Format()

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static FileFlows;
+    using static TypedFileFlows;
 
     public class AsmFlowCmd : AppCmdService<AsmFlowCmd>
     {

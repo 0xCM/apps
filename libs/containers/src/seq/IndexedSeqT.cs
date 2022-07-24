@@ -21,7 +21,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static IndexedSeq<T> concat(IndexedSeq<T> head, IndexedSeq<T> tail)
-            => new IndexedSeq<T>(Arrays.concat(head.Storage, tail.Storage));
+            => new IndexedSeq<T>(Algs.concat(head.Storage, tail.Storage));
 
         readonly T[] Data;
 

@@ -164,7 +164,6 @@ namespace Z0
 
         public const string digits = nameof(digits);
 
-
         public const string props = nameof(props);
 
         public const string @decimal = nameof(@decimal);
@@ -355,7 +354,7 @@ namespace Z0
 
         public const string msil = nameof(msil);
 
-        public const string ildat = il + Dot + csv;
+        public const string located = nameof(located);
 
         public const string queries = nameof(queries);
 
@@ -405,6 +404,10 @@ namespace Z0
 
         public const string arrangements = nameof(arrangements);
 
+        public const string located_hex = located + Dot + hex;
+
+        public const string ildat = il + Dot + csv;
+
         public const string decimal_digits = @decimal + Dot + digits;
 
         public const string hex_digits = digits + Dot + hex;
@@ -416,6 +419,8 @@ namespace Z0
         public const string api_classes = api + Dot + classes;
 
         public const string api_contracts = api + Dot + contracts;
+
+        public const string deps_list = deps + Dot + list;
 
         public const string api_kinds = api + Dot + kinds;
 

@@ -7,7 +7,7 @@ namespace Z0
     partial struct ApiSigs
     {
         [MethodImpl(Inline), Op]
-        public static ApiOperandSig operand(NameOld name, ApiTypeSig type, params ApiSigModKind[] modifiers)
+        public static ApiOperandSig operand(string name, ApiTypeSig type, params ApiSigModKind[] modifiers)
             => new ApiOperandSig(name, type, modifiers);
     }
 }

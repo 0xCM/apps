@@ -138,7 +138,7 @@ namespace Z0
             => new Index<Y>(Data.Select(x => cast<Y>(x)));
 
         public Index<Y> Select<Y>(Func<T,Y> selector)
-             => map(Data, selector);
+             => Algs.map(Data, selector);
 
         public Index<Z> SelectMany<Y,Z>(Func<T,Index<Y>> lift, Func<T,Y,Z> project)
              => Index.map(Data, lift, project);

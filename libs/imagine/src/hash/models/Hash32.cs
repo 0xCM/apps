@@ -74,5 +74,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public static Hash32 operator & (Hash32 a, Hash32 b)
             => a.Value & b.Value;
+
+        public static Hash32 Zero => default;
     }
 }

@@ -90,7 +90,7 @@ namespace Z0
             => Data.Format();
 
         public Index<I,Y> Select<Y>(Func<T,Y> selector)
-             => Arrays.map(Data.Storage, selector);
+             => Algs.map(Data.Storage, selector);
 
         public Index<I,Z> SelectMany<Y,Z>(Func<T,Index<I,Y>> lift, Func<T,Y,Z> project)
             => load(

@@ -72,7 +72,7 @@ namespace Z0
             iteri(deps.RuntimeLibs(), (i,lib) => buffer.Add(string.Format("{0:D4}:{1}",i,lib)));
             var emitter = text.emitter();
             iter(buffer, line => emitter.AppendLine(line));
-            FileEmit(emitter.Emit(), buffer.Count, Target.Runtime().Path($"{src.GetSimpleName()}.deps", FileKind.List));
+            FileEmit(emitter.Emit(), buffer.Count, Target.Runtime().Path($"{src.GetSimpleName()}", FileKind.DepsList));
         }
 
         public void EmitSymLits(ReadOnlySpan<SymLiteralRow> src)

@@ -18,7 +18,7 @@ namespace Z0
     [Free]
     public interface IDataFlow<S,T> : IDataFlow, IArrow<S,T>
     {
-        string ITextual.Format()
+        string IExpr.Format()
             => string.Format("{0}:{1} -> {2}", Actor, Source, Target);
     }
 

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct ApiClass : ITextual
+    public readonly record struct ApiClass : IExpr
     {
         [MethodImpl(Inline), Op]
         public static ApiClass from(MethodInfo src)
@@ -15,16 +15,24 @@ namespace Z0
                 return ApiClass.Empty;
         }
 
-        public ApiClassKind Kind {get;}
+        public readonly ApiClassKind Kind;
 
         [MethodImpl(Inline)]
         public ApiClass(ApiClassKind kind)
             => Kind = kind;
+
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => (uint)Kind;
+        }
+
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
             get => Kind == 0;
         }
+
         public string Format()
             => Kind.Format();
 

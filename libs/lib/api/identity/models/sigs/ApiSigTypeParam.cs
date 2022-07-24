@@ -7,13 +7,13 @@ namespace Z0
     /// <summary>
     /// Represents either a closed or open type parameter
     /// </summary>
-    public class ApiSigTypeParam : ISigTypeParam
+    public sealed record class ApiSigTypeParam : ISigTypeParam
     {
-        public ushort Position {get;}
+        public readonly ushort Position;
 
-        public string Name {get;}
+        public readonly string Name;
 
-        public ApiTypeSig Closure {get;}
+        public readonly ApiTypeSig Closure;
 
         [MethodImpl(Inline)]
         public ApiSigTypeParam(ushort pos, string name)
@@ -42,5 +42,11 @@ namespace Z0
             [MethodImpl(Inline)]
             get => !IsClosed;
         }
+
+        ushort ISigTypeParam.Position
+            => Position;
+
+        string ISigTypeParam.Name
+            => Name;
     }
 }

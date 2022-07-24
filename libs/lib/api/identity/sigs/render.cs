@@ -8,7 +8,7 @@ namespace Z0
 
     partial struct ApiSigs
     {
-        public static void render(ApiOperandSig src, ITextBuffer dst)
+        public static void render(ApiOperandSig src, ITextEmitter dst)
         {
             if(returns(src))
                 dst.Append(ReturnIndicator);
@@ -18,7 +18,7 @@ namespace Z0
             render(src.Type, dst);
         }
 
-        public static void render(ISigTypeParam src, ITextBuffer dst)
+        public static void render(ISigTypeParam src, ITextEmitter dst)
         {
             if(src.IsOpen)
                 dst.Append(src.Name);
@@ -26,7 +26,7 @@ namespace Z0
                 render(src.Closure, dst);
         }
 
-        public static void render(ApiTypeSig src, ITextBuffer dst)
+        public static void render(ApiTypeSig src, ITextEmitter dst)
         {
             dst.Append(src.TypeName);
             if(src.IsParametric)
@@ -45,7 +45,7 @@ namespace Z0
             }
         }
 
-        public static void render(in ApiSig src, ITextBuffer dst)
+        public static void render(in ApiSig src, ITextEmitter dst)
         {
             var parts = src.Components.View;
             var count = parts.Length;
@@ -57,7 +57,7 @@ namespace Z0
             }
         }
 
-        public static void render(ApiOperationSig src, ITextBuffer dst)
+        public static void render(ApiOperationSig src, ITextEmitter dst)
         {
             dst.Append(src.Name);
             dst.Append(OperandLead);
@@ -84,6 +84,5 @@ namespace Z0
         const string TypeParamClose = "}";
 
         const string TypeParamSep = ", ";
-
     }
 }

@@ -13,11 +13,11 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(AllNumeric)]
         public static T[] Array<T>(this IEnumerable<T> src)
-            => Arrays.array(src);
+            => Algs.array(src);
 
         [MethodImpl(Inline), Op, Closures(AllNumeric)]
         public static Span<T> Span<T>(this IEnumerable<T> src)
-            => Arrays.array(src);
+            => Algs.array(src);
 
         [MethodImpl(Inline)]
         public static T[] Array<T>(this T[] src)

@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct ProjectId<T>
+    public readonly record struct ProjectId<T>
     {
-        public ProjectId Id {get;}
+        public readonly string Id;
 
         [MethodImpl(Inline)]
         public ProjectId(string name)

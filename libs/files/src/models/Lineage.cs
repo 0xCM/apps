@@ -33,7 +33,7 @@ namespace Z0
             if(src != null && src.IsNonEmpty)
             {
                 if(src.HasAncestor)
-                    dst = Arrays.concat(new string[]{src.Name}, src.Ancestors.Storage);
+                    dst = Algs.concat(new string[]{src.Name}, src.Ancestors.Storage);
                 else
                     dst = new string[]{src.Name};
             }

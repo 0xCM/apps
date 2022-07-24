@@ -20,7 +20,7 @@ namespace Z0
             var args = src.ParameterTypes();
             return src.IsAction()
                 ? Expression.GetActionType(args)
-                : Expression.GetFuncType(Arrays.concat(args, core.array(src.ReturnType)));
+                : Expression.GetFuncType(Algs.concat(args, core.array(src.ReturnType)));
         }
 
         /// <summary>

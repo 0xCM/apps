@@ -6,11 +6,13 @@ namespace Z0
 {
     using System.Linq;
 
+    using static Algs;
+
     [Free]
     public interface ITypeIdentityProvider : IIdentityProvider<Type,TypeIdentity>
     {
         IEnumerable<Type> Identifiable
-            => core.stream<Type>();
+            => stream<Type>();
 
         bool CanIdentify(Type src)
             => Identifiable.Contains(src);

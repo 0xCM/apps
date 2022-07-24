@@ -4,8 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
+    using static Algs;
+    using static Spans;
+    using static Arrays;
     public class WsDataFlows
     {
         ConstLookup<FS.FileUri,List<FS.FileUri>> Lookup;
@@ -20,7 +21,7 @@ namespace Z0
         {
             Catalog = files;
             var count = src.Length;
-            var flows = alloc<FileFlow>(count);
+            var flows = sys.alloc<FileFlow>(count);
             var lookup = dict<FS.FileUri,List<FS.FileUri>>();
             var lineage = dict<FS.FileUri,FS.FileUri>();
 
@@ -69,7 +70,7 @@ namespace Z0
 
         public bool Root(FS.FilePath dst, out FileRef source)
         {
-            var buffer = list<FileRef>();
+            var buffer = core.list<FileRef>();
             var target = Catalog[dst];
             Lineage(target, buffer);
             buffer.Reverse();
@@ -87,7 +88,7 @@ namespace Z0
 
         public Index<FileRef> Lineage(FS.FilePath dst)
         {
-            var buffer = list<FileRef>();
+            var buffer = core.list<FileRef>();
             var target = Catalog[dst];
             buffer.Add(target);
             Lineage(target, buffer);
@@ -121,7 +122,7 @@ namespace Z0
         public Index<FileRef> Targets(FS.FilePath src)
         {
             if(Lookup.Find(src, out var targets))
-                return map(targets, x => Catalog.Entry(x.Path));
+                return core.map(targets, x => Catalog.Entry(x.Path));
             else
                 return sys.empty<FileRef>();
         }
@@ -135,9 +136,7 @@ namespace Z0
                 dst.AppendLine(path.ToUri());
                 var targets = Targets(path);
                 foreach(var target in targets)
-                {
                     DescribeTargets(0u, target, dst);
-                }
             }
         }
 

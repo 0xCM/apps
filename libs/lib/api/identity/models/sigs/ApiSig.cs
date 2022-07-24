@@ -6,9 +6,9 @@ namespace Z0
 {
     using api = ApiSigs;
 
-    public class ApiSig : IEquatable<ApiSig>
+    public sealed record class ApiSig : IEquatable<ApiSig>
     {
-        public ApiClass Class {get;}
+        public readonly ApiClass Class;
 
         public Index<Type> Components {get;}
 
@@ -37,8 +37,5 @@ namespace Z0
 
         public override int GetHashCode()
             => (int)api.hash(this);
-
-        public override bool Equals(object src)
-            => src is ApiSig s && Equals(s);
     }
 }

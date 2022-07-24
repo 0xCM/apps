@@ -4,24 +4,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial struct ApiSigs
     {
         [Op]
         public static uint hash(in ApiSig src)
         {
-            var result = 0u;
-            var parts = src.Components.View;
-            var count = src.Components.Length;
-            for(var i=0; i<count; i++)
+            var result = Hash32.Zero;
+            for(var i=0; i<src.Components.Count; i++)
             {
-                ref readonly var part = ref skip(parts,i);
-                var hc = alg.hash.marvin(part.Name);
+                ref readonly var part = ref src.Components[i];
+                var hc = Algs.hash(part.Name);
                 if(i == 0)
                     result = hc;
                 else
-                    result = alg.hash.combine(result, hc);
+                    result |= hc;
             }
 
             return alg.hash.combine(result, (uint)src.Class);

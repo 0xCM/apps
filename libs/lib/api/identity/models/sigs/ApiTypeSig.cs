@@ -6,9 +6,9 @@ namespace Z0
 {
    using api = ApiSigs;
 
-    public class ApiTypeSig : ITextual
+    public class ApiTypeSig : IExpr
     {
-        public @string TypeName {get;}
+        public readonly @string TypeName;
 
         public readonly Index<ApiSigMod> Modifiers;
 

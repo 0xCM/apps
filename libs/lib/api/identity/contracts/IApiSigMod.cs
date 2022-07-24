@@ -4,11 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IApiSigMod<T> : ITextual
+    public interface IApiSigMod<T> : IExpr
         where T : struct, IApiSigMod<T>
     {
-        NameOld Name {get;}
+        string Name {get;}
 
         ApiSigModKind Kind {get;}
+
+        bool INullity.IsEmpty
+            => sys.empty(Name);
     }
 }

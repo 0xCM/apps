@@ -6,10 +6,6 @@ namespace Z0
 {
     using static Tools;
 
-    partial class XTend
-    {
-    }
-
     [Cmd(ToolNames.llc), StructLayout(LayoutKind.Sequential, Pack=1)]
     public struct LlcCmd : IToolFlowCmd<LlcCmd,Llc>
     {

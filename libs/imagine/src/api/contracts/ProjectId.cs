@@ -7,9 +7,9 @@ namespace Z0
     /// <summary>
     /// Identifies an internal or external tool
     /// </summary>
-    public struct ProjectId : ITypedIdentity<ProjectId,string>
+    public readonly record struct ProjectId : ITypedIdentity<ProjectId,string>
     {
-        public string Id {get;}
+        public readonly string Id;
 
         [MethodImpl(Inline)]
         public ProjectId(string id)
@@ -27,6 +27,12 @@ namespace Z0
             get => !string.IsNullOrWhiteSpace(Id);
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Algs.hash(Id);
+        }
+
         [MethodImpl(Inline)]
         public string Format()
             => Id;
@@ -41,9 +47,6 @@ namespace Z0
         public override int GetHashCode()
             => Id.GetHashCode();
 
-        public override bool Equals(object src)
-            => src is ProjectId x && Equals(x);
-
         [MethodImpl(Inline)]
         public static implicit operator ProjectId(string src)
             => new ProjectId(src);
@@ -51,14 +54,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator string(ProjectId src)
             => src.Id;
-
-        [MethodImpl(Inline)]
-        public static bool operator ==(ProjectId a, ProjectId b)
-            => a.Equals(b);
-
-        [MethodImpl(Inline)]
-        public static bool operator !=(ProjectId a, ProjectId b)
-            => !a.Equals(b);
 
         [MethodImpl(Inline)]
         public static implicit operator ProjectId(Type src)
@@ -69,5 +64,8 @@ namespace Z0
             [MethodImpl(Inline)]
             get => new ProjectId(EmptyString);
         }
+
+        string ITypedIdentity<string>.Id
+            => Id;
     }
 }
