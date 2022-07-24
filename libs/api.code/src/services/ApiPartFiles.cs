@@ -6,26 +6,26 @@ namespace Z0
 {
     public class ApiPartFiles
     {
+        public static ApiPartFiles create(IApiPack src, PartId part)
+            => new ApiPartFiles(part, src);
+
         public readonly PartId Part;
 
-        readonly FS.FolderPath Location;
+        readonly IApiPack Location;
 
-        public ApiPartFiles(PartId part, FS.FolderPath dir)
+        public ApiPartFiles(PartId part, IApiPack dir)
         {
             Part = part;
             Location = dir;
         }
 
         public FS.FilePath Asm
-            => Location + FS.file(Part.Format(), FS.Asm);
+            => Location.AsmExtractPath(Part);
 
         public FS.FilePath Csv
-            => Location + FS.file(Part.Format(), FS.Csv);
+            => Location.CsvExtractPath(Part);
 
         public FS.FilePath Hex
-            => Location + FS.file(Part.Format(), FS.Hex);
-
-        public FS.FilePath Bin
-            => Location + FS.file(Part.Format(), FS.Bin);
+            => Location.HexExtractPath(Part);
     }
 }

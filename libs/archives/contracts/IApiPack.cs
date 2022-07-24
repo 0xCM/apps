@@ -60,6 +60,12 @@ namespace Z0
         FS.FilePath ExtractPath(ApiHostUri host, FileKind kind)
             => Extracts().Path(FS.file(host, kind));
 
+        FS.Files LocatedHex()
+            => Targets().Files(FileKind.LocatedHex);
+
+        FS.Files HexExtracts()
+            => Extracts().Files(FileKind.HexDat);
+
         IApiPackArchive Archive()
             => ApiPackArchive.create(Root);
 

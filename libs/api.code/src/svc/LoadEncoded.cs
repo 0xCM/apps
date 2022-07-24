@@ -6,48 +6,34 @@ namespace Z0
 {
     partial class ApiCode
     {
-        public EncodedMembers LoadEncoded()
-            => LoadEncoded(Dispense.composite());
-
-        public EncodedMembers LoadEncoded(string spec)
-            => LoadEncoded(Dispense.composite(), spec);
-
-        public EncodedMembers LoadEncoded(PartId src)
+        public EncodedMembers LoadEncoded(IApiPack src, PartId part)
         {
-            Load(src, out var seq, out var code);
+            Load(src, part, out var seq, out var code);
             return members(Dispense.composite(), seq, code);
         }
 
-        EncodedMembers LoadEncoded(ICompositeDispenser symbols)
+        public EncodedMembers LoadEncoded(IApiPack src, ICompositeDispenser symbols, ApiHostUri host)
         {
-            Load(out var seq, out var code);
+            Load(src, host, out var seq, out var code);
             return members(symbols, seq, code);
         }
 
-        EncodedMembers LoadEncoded(ICompositeDispenser symbols, string spec)
+        public EncodedMembers LoadEncoded(IApiPack src, ICompositeDispenser symbols, PartId part)
         {
-            if(text.nonempty(spec))
-            {
-                var i = text.index(spec, Chars.FSlash);
-                if(i>0)
-                    return LoadEncoded(symbols, ApiHostUri.define(ApiParsers.part(text.left(spec,i)), text.right(spec,i)));
-                else
-                    return LoadEncoded(symbols, ApiParsers.part(spec));
-            }
-            else
-                return LoadEncoded(symbols);
-        }
-
-        EncodedMembers LoadEncoded(ICompositeDispenser symbols, ApiHostUri src)
-        {
-            Load(src, out var seq, out var code);
+            Load(src, part, out var seq, out var code);
             return members(symbols, seq, code);
         }
 
-        EncodedMembers LoadEncoded(ICompositeDispenser symbols, PartId src)
+        void Load(IApiPack src, ApiHostUri host, out Seq<EncodedMember> index, out BinaryCode data)
         {
-            Load(src, out var seq, out var code);
-            return members(symbols, seq, code);
+            ApiCode.hex(src.HexExtractPath(host), out data).Require();
+            ApiCode.index(src.CsvExtractPath(host), out index).Require();
+        }
+
+        void Load(IApiPack src, PartId part, out Seq<EncodedMember> index, out BinaryCode data)
+        {
+            index = LoadMember(src, part);
+            data = LoadCode(src, part);
         }
     }
 }

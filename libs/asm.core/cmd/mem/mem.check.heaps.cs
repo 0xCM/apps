@@ -4,14 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
-
     partial class AsmCoreCmd
     {
-        void CheckHeaps1()
+        void CheckHeaps1(IApiPack src)
         {
-            var src = CodeFiles.PartFiles(PartId.Assets);
-            var hex = src.Hex.ReadLines();
+            var files = ApiPartFiles.create(src, PartId.Assets);
+            var hex = files.Hex.ReadLines();
         }
 
         void CheckAssets2()

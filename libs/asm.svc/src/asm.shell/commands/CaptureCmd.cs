@@ -42,9 +42,9 @@ namespace Z0
             AsmTables.EmitBlocks(blocks, dst);
         }
 
-        void EmitCallTable()
+        void EmitCallTable(IApiPack src)
         {
-            var blocks = ApiCode.LoadBlocks();
+            var blocks = ApiCode.LoadBlocks(src);
             AsmCalls.EmitRows(AsmDecoder.Decode(blocks.Storage), ProjectDb.Subdir("api/asm/calls"));
         }
 

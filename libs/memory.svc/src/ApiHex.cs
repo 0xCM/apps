@@ -50,28 +50,6 @@ namespace Z0
             return true;
         }
 
-        // public static ByteSize write(ReadOnlySpan<byte> src, MemoryAddress @base, FS.FilePath dst, byte bpl = HexCsvRow.BPL)
-        // {
-        //     const string Header = "Address      | Data";
-        //     var formatter = HexDataFormatter.create(@base, bpl);
-        //     using var writer = dst.AsciWriter();
-        //     writer.WriteLine(Header);
-        //     var offset = MemoryAddress.Zero;
-        //     var lines = 0;
-        //     var blocks = src.Length/bpl;
-        //     var cells = src.Length%bpl;
-        //     for(var i=0; i<blocks; i++)
-        //     {
-        //         var data = slice(src,offset,bpl);
-        //         writer.WriteLine(formatter.FormatLine(data, offset, Chars.Pipe));
-        //         offset += bpl;
-        //     }
-
-        //     writer.WriteLine(formatter.FormatLine(slice(src, offset, cells), offset, Chars.Pipe));
-        //     offset += cells;
-        //     return (ulong)offset;
-        // }
-
         [MethodImpl(Inline), Op]
         public static ByteSize size(ReadOnlySpan<HexDataRow> src)
         {
@@ -178,11 +156,8 @@ namespace Z0
             return new MemoryBlocks(buffer.ToArray());
         }
 
-        FS.FilePath ParsedExtractPath(FS.FolderPath root, ApiHostUri host)
-            => root +  FS.file(host, FileKind.PCsv);
-
         [Op]
-        public Index<ApiCodeRow> EmitApiCode(ApiHostUri uri, ReadOnlySpan<ApiMemberCode> src, FS.FolderPath dst)
+        public Index<ApiCodeRow> EmitApiCode(ApiHostUri uri, ReadOnlySpan<ApiMemberCode> src, FS.FilePath dst)
         {
             var count = src.Length;
             if(count != 0)
@@ -191,7 +166,7 @@ namespace Z0
                 for(var i=0u; i<count; i++)
                     seek(buffer, i) = ApiHex.row(skip(src, i), i);
 
-                TableEmit(buffer, ParsedExtractPath(dst, uri));
+                TableEmit(buffer, dst);
                 return buffer;
             }
             else

@@ -24,8 +24,6 @@ namespace Z0
 
         AsmRegSets Regs => Service(AsmRegSets.create);
 
-        ApiCodeFiles CodeFiles => Wf.ApiCodeFiles();
-
         StanfordAsmCatalog StanfordCatalog => Wf.StanfordCatalog();
 
         Outcome LoadStanfordForms()

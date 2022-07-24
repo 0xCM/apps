@@ -21,14 +21,14 @@ namespace Z0
             var @base = Process.GetCurrentProcess().MainModule.BaseAddress;
             var parts = catalog.Parts;
             var kParts = parts.Length;
-            var flow = Wf.Running(Msg.JittingParts.Format(kParts));
+            var flow = Running(Msg.JittingParts.Format(kParts));
             var all = list<ApiMembers>();
             var total = 0u;
             foreach(var part in parts)
                 all.Add(JitPart(part));
 
-            var members = ApiMembers.create(all.SelectMany(x => x).Array());
-            Wf.Ran(flow, Msg.JittedParts.Format(members.Count, parts.Length));
+            var members = ApiQuery.members(all.SelectMany(x => x).Array());
+            Ran(flow, Msg.JittedParts.Format(members.Count, parts.Length));
             return members;
         }
 
@@ -36,7 +36,7 @@ namespace Z0
         {
             var dst = bag<ApiMembers>();
             iter(src.PartCatalogs(), catalog => dst.Add(jit(catalog,log)), pll);
-            return ApiMembers.create(Process.GetCurrentProcess().MainModule.BaseAddress, dst.SelectMany(x => x).Array());
+            return ApiQuery.members(Process.GetCurrentProcess().MainModule.BaseAddress, dst.SelectMany(x => x).Array());
         }
 
         public static ApiMembers jit(ReadOnlySpan<Assembly> src, WfEventLogger log, bool pll)
@@ -44,7 +44,7 @@ namespace Z0
             var @base = Process.GetCurrentProcess().MainModule.BaseAddress;
             var dst = bag<ApiMembers>();
             iter(src, part => dst.Add(jit(part,log)), pll);
-            return ApiMembers.create(@base, dst.SelectMany(x => x).Array());
+            return ApiQuery.members(@base, dst.SelectMany(x => x).Array());
         }
 
         public static ApiMembers jit(IApiPartCatalog src, WfEventLogger log)
@@ -52,7 +52,7 @@ namespace Z0
             var dst = list<ApiMember>();
             iter(src.ApiTypes.Select(h => h.HostType), t => dst.AddRange(complete(t,log)));
             iter(src.ApiHosts.Select(h => h.HostType), t => dst.AddRange(jit(t, log)));
-            return ApiMembers.create(dst.ToArray());
+            return ApiQuery.members(dst.ToArray());
         }
 
         public static ApiMembers jit(Assembly src, WfEventLogger log)
@@ -71,14 +71,14 @@ namespace Z0
         {
             var direct = JitDirect(src);
             var generic = JitGeneric(src, log);
-            return ApiMembers.create(direct.Concat(generic).Array());
+            return ApiQuery.members(direct.Concat(generic).Array());
         }
 
         public static Index<ApiMember> jit(ApiCompleteType src, WfEventLogger log)
             => Members(ApiQuery.complete(src.HostType, CommonExclusions).Select(m => new JittedMethod(src.HostUri, m, ClrJit.jit(m))));
 
         public ApiMembers JitHost(IApiHost src)
-            => ApiMembers.create(JitDirect(src).Concat(JitGeneric(src, EventLog)).Array());
+            => ApiQuery.members(JitDirect(src).Concat(JitGeneric(src, EventLog)).Array());
 
         public ApiMembers Jit(Index<ApiCompleteType> src)
         {
@@ -87,7 +87,7 @@ namespace Z0
             ref var lead = ref src.First;
             for(var i=0u; i<count; i++)
                 dst.AddRange(jit(skip(lead,i), EventLog));
-            return ApiMembers.create(dst.ToArray());
+            return ApiQuery.members(dst.ToArray());
         }
 
         public ApiMembers JitPart(IPart src)
@@ -104,16 +104,13 @@ namespace Z0
             foreach(var h in hosts)
                 buffer.AddRange(JitHost(h));
 
-            var members = ApiMembers.create(buffer.ToArray());
+            var members = ApiQuery.members(buffer.ToArray());
             Ran(flow, Msg.JittedPart.Format(members.Count, src.Id));
 
             return members;
         }
 
-        // public Index<ApiMember> Jit(ApiCompleteType src)
-        //     => jit(src, EventLog);
-
-        public IDictionary<MethodInfo,Type> ClosureProviders(IEnumerable<Type> src)
+        public static IDictionary<MethodInfo,Type> ClosureProviders(IEnumerable<Type> src)
         {
             var query = from t in src
                         from m in t.DeclaredStaticMethods()
@@ -179,10 +176,7 @@ namespace Z0
                 {
                     ref readonly var t = ref skip(types, i);
                     var constructed = src.Method.MakeGenericMethod(t);
-                    //var address = ClrJit.jit(constructed);
-                    //var id = diviner.Identify(constructed);
                     var uri = ApiIdentity.define(ApiUriScheme.Located, src.Host, method.Name, diviner.Identify(constructed));
-                    //seek(dst,i) = new ApiMember(uri, constructed, address);
                     seek(dst,i) = member(constructed, uri);
                 }
             }

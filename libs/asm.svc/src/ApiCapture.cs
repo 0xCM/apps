@@ -12,8 +12,6 @@ namespace Z0
     {
         AsmDecoder AsmDecoder => Wf.AsmDecoder();
 
-        ApiCodeFiles CodeFiles => Wf.ApiCodeFiles();
-
         CliEmitter CliEmitter => Wf.CliEmitter();
 
         ApiPacks ApiPacks => Wf.ApiPacks();
@@ -22,33 +20,45 @@ namespace Z0
 
         ApiMd ApiMd => Wf.ApiMetadata();
 
-        public static MemoryHeap heap(FS.FilePath src)
+        public ReadOnlySeq<ApiCatalogEntry> BuildCatalog(ApiMembers members)
         {
-            var dst = alloc<byte>(src.Size);
-            using var reader = src.AsciLineReader();
-            var line = AsciLineCover.Empty;
-            var offset = 0u;
-            var result = true;
-            while(reader.Next(out line) && result)
+            var buffer = sys.alloc<ApiCatalogEntry>(members.Count);
+            var @base = members.BaseAddress;
+            var rebase = members[0].BaseAddress;
+            for(var i=0u; i<members.Count; i++)
             {
-                var data = line.Codes;
-                var i = SQ.index(data, Chars.Space);
-                if(i > 0)
+                try
                 {
-                    result = Hex.parse(SQ.left(data,i), out ulong a);
-                    result &= Hex.parse(SQ.right(data,i), ref offset, dst);
+                    ref readonly var member = ref members[i];
+                    ref var record = ref seek(buffer,i);
+                    record.Sequence = i;
+                    record.ProcessBase = @base;
+                    record.MemberBase = member.BaseAddress;
+                    record.MemberOffset = member.BaseAddress - @base;
+                    record.MemberRebase = (uint)(member.BaseAddress - rebase);
+                    record.MaxSize = i < i - 1 ? (ulong)(skip(members, i + 1).BaseAddress - record.MemberBase) : 0ul;
+                    record.HostName = member.Host.HostName;
+                    record.PartName = member.Host.Part.Format();
+                    record.OpUri = member.OpUri;
                 }
-
+                catch(Exception e)
+                {
+                    Error(e);
+                }
             }
-            return default;
+
+            return buffer;
         }
 
         public void Run(IApiPack dst)
         {
             var parts = ApiPartCapture.create(Wf);
-            var captured = parts.Capture(dst);
-            var members = ApiMembers.create(captured.SelectMany(x => x.Resolved.Members).Array());
-            // ApiCatalogs.Rebase(members,dst);
+            using var dispenser = Dispense.composite();
+            var hosts = parts.Capture(dst, dispenser);
+
+            var members = ApiQuery.members(hosts.SelectMany(x => x.Resolved.Members).Where(x => x != null).Array());
+            var rebased = BuildCatalog(members);
+            TableEmit(rebased, dst.Table<ApiCatalogEntry>(), UTF8);
             ApiMd.EmitDatasets(dst);
             CliEmitter.Emit(CliEmitOptions.@default(), dst);
             Runtime.EmitContext(dst);
@@ -58,19 +68,18 @@ namespace Z0
         ClrEventListener OpenEventLog(Timestamp ts)
             => ClrEventListener.create(AppDb.App().Path($"clr.events.{ts}", FileKind.Log));
 
-        ReadOnlySeq<AsmRoutine> EmitAsm(ICompositeDispenser symbols, PartId part, ReadOnlySeq<CollectedEncoding> src)
+        void EmitAsm(ICompositeDispenser symbols, PartId part, ReadOnlySeq<CollectedEncoding> src, IApiPack dst)
         {
-            var dst = alloc<AsmRoutine>(src.Count);
+            var buffer = alloc<AsmRoutine>(src.Count);
             var emitter = text.emitter();
             for(var i=0; i<src.Count; i++)
             {
                 var routine = AsmDecoder.Decode(src[i]);
-                seek(dst,i) = routine;
+                seek(buffer,i) = routine;
                 emitter.AppendLine(routine.AsmRender(routine));
             }
 
-            FileEmit(emitter.Emit(), src.Count, CodeFiles.AsmPath(part));
-            return dst;
+            FileEmit(emitter.Emit(), src.Count, dst.AsmExtractPath(part));
         }
     }
 }

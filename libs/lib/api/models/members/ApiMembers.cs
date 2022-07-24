@@ -7,33 +7,14 @@ namespace Z0
     /// <summary>
     /// Defines and index over <see cref='ApiMember'/> values
     /// </summary>
-    public class ApiMembers : IIndex<ApiMember>
+    public struct ApiMembers : IIndex<ApiMember>
     {
-        public static ApiMembers create(Index<ApiMember> src)
-        {
-            if(src.Length != 0)
-            {
-                Array.Sort(src.Storage);
-                return new ApiMembers(src.First.BaseAddress, src);
-            }
-            else
-                return Empty;
-        }
-
-        public static ApiMembers create(MemoryAddress @base, Index<ApiMember> src)
-        {
-            if(src.Length != 0)
-                return new ApiMembers(@base, src.Sort());
-            else
-                return Empty;
-        }
-
         public readonly MemoryAddress BaseAddress;
 
         readonly Index<ApiMember> Data;
 
         [MethodImpl(Inline)]
-        ApiMembers(MemoryAddress @base, Index<ApiMember> src)
+        internal ApiMembers(MemoryAddress @base, Index<ApiMember> src)
         {
             BaseAddress = @base;
             Data = src;
@@ -76,7 +57,6 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => Data.IsEmpty;
-
         }
 
         public bool IsNonEmpty
@@ -85,13 +65,13 @@ namespace Z0
             get => Data.IsNonEmpty;
         }
 
-        public ref ApiMember this[long index]
+        public ref ApiMember this[int index]
         {
             [MethodImpl(Inline)]
             get => ref Data[index];
         }
 
-        public ref ApiMember this[ulong index]
+        public ref ApiMember this[uint index]
         {
             [MethodImpl(Inline)]
             get => ref Data[index];

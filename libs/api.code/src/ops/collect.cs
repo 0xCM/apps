@@ -26,7 +26,7 @@ namespace Z0
                 );
 
             iter(src.ApiTypes, type => {
-                var jitted = ApiMembers.create(ApiJit.jit(type,log));
+                var jitted = ApiQuery.members(ApiJit.jit(type,log));
                 if(jitted.IsNonEmpty)
                     members.Add(new ApiHostMembers(type.HostUri, jitted));
                 }

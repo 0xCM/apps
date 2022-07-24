@@ -14,21 +14,51 @@ namespace Z0
 
         ApiHex ApiHex => Wf.ApiHex();
 
-        public void Rebase(ApiMembers members, IApiPack dst)
+        public void Emit(ApiMembers src, IApiPack dst)
         {
-            var flow = Running("Rebasing members");
-            Rebase(members, dst.Table<ApiCatalogEntry>());
-            Ran(flow);
+            Emit(src, dst.Table<ApiCatalogEntry>());
         }
 
-        public Index<ApiCatalogEntry> Rebase(ApiMembers src, FS.FilePath dst)
+        public Index<ApiCatalogEntry> Emit(ApiMembers src, FS.FilePath dst)
         {
             var records = rebase(src.BaseAddress, src.View);
             TableEmit(records, dst);
             return records;
         }
 
-        public Index<ApiCatalogEntry> LoadApiCatalog(FS.FilePath src)
+        public static Index<ApiCatalogEntry> rebase(ApiMembers src)
+            => rebase(src.BaseAddress, src.View);
+
+        public static Index<ApiCatalogEntry> rebase(MemoryAddress @base, ReadOnlySpan<ApiMember> src)
+        {
+            var dst = alloc<ApiCatalogEntry>(src.Length);
+            rebase(@base, src, dst);
+            return dst;
+        }
+
+        public static uint rebase(MemoryAddress @base, ReadOnlySpan<ApiMember> members, Span<ApiCatalogEntry> dst)
+        {
+            var count = members.Length;
+            var rebase = first(members).BaseAddress;
+            for(uint seq=0; seq<count; seq++)
+            {
+                ref var record = ref seek(dst,seq);
+                ref readonly var member = ref skip(members, seq);
+                record.Sequence = seq;
+                record.ProcessBase = @base;
+                record.MemberBase = member.BaseAddress;
+                record.MemberOffset = member.BaseAddress - @base;
+                record.MemberRebase = (uint)(member.BaseAddress - rebase);
+                record.MaxSize = seq < count - 1 ? (ulong)(skip(members, seq + 1).BaseAddress - record.MemberBase) : 0ul;
+                record.HostName = member.Host.HostName;
+                record.PartName = member.Host.Part.Format();
+                record.OpUri = member.OpUri;
+            }
+            return (uint)count;
+        }
+
+
+        public Index<ApiCatalogEntry> Load(FS.FilePath src)
         {
             var rows = list<ApiCatalogEntry>();
             using var reader = src.Utf8Reader();
@@ -58,39 +88,11 @@ namespace Z0
             {
                 ref readonly var current = ref skip(files,count - 1);
                 var flow = Running(Msg.LoadingApiCatalog.Format(current));
-                rows = LoadApiCatalog(current);
+                rows = Load(current);
                 Ran(flow, Msg.LoadedApiCatalog.Format(rows.Length, current));
             }
 
             return rows;
-        }
-
-        public static Index<ApiCatalogEntry> rebase(MemoryAddress @base, ReadOnlySpan<ApiMember> src)
-        {
-            var dst = alloc<ApiCatalogEntry>(src.Length);
-            rebase(@base, src, dst);
-            return dst;
-        }
-
-        public static uint rebase(MemoryAddress @base, ReadOnlySpan<ApiMember> members, Span<ApiCatalogEntry> dst)
-        {
-            var count = members.Length;
-            var rebase = first(members).BaseAddress;
-            for(uint seq=0; seq<count; seq++)
-            {
-                ref var record = ref seek(dst,seq);
-                ref readonly var member = ref skip(members, seq);
-                record.Sequence = seq;
-                record.ProcessBase = @base;
-                record.MemberBase = member.BaseAddress;
-                record.MemberOffset = member.BaseAddress - @base;
-                record.MemberRebase = (uint)(member.BaseAddress - rebase);
-                record.MaxSize = seq < count - 1 ? (ulong)(skip(members, seq + 1).BaseAddress - record.MemberBase) : 0ul;
-                record.HostName = member.Host.HostName;
-                record.PartName = member.Host.Part.Format();
-                record.OpUri = member.OpUri;
-            }
-            return (uint)count;
         }
 
         public Index<ApiMemberCode> Correlate()

@@ -59,9 +59,9 @@ namespace Z0
             }
         }
 
-        void CheckLookups()
+        void CheckLookups(IApiPack src)
         {
-            using var members = ApiCode.LoadEncoded(PartId.AsmCore);
+            using var members = ApiCode.LoadEncoded(src, PartId.AsmCore);
             for(var i=0; i<members.MemberCount; i++)
             {
                 ref readonly var member = ref members.Member(i);
@@ -75,10 +75,10 @@ namespace Z0
             }
         }
 
-        Outcome CheckLookups(ITextEmitter log)
+        Outcome CheckLookups(IApiPack src, ITextEmitter log)
         {
             var capacity = Pow2.T16;
-            var blocks = ApiCode.LoadBlocks().View;
+            var blocks = ApiCode.LoadBlocks(src).View;
             var count = blocks.Length;
             var result = Outcome.Success;
             if(count > capacity)
@@ -126,19 +126,6 @@ namespace Z0
             return true;
         }
 
-        [CmdOp("asm/check/captured")]
-        Outcome CheckCaptured2(CmdArgs args)
-        {
-            var result = Outcome.Success;
-            var spec = EmptyString;
-            if(args.Count != 0)
-                spec = text.trim(arg(args,0).Value);
-            using var members = ApiCode.LoadEncoded(spec);
-            CheckSize(members);
-
-            return result;
-        }
-
         void CheckSize(EncodedMembers src)
         {
             var count = src.MemberCount;
@@ -154,49 +141,5 @@ namespace Z0
             Require.equal((ByteSize)size, src.CodeSize);
         }
 
-        [CmdOp("asm/check/capture-spec")]
-        Outcome CheckCapturedSpec(CmdArgs args)
-        {
-            var result = Outcome.Success;
-            var spec = EmptyString;
-            if(args.Count != 0)
-                spec = text.trim(arg(args,0).Value);
-
-            const string RenderPattern = "{0,-8} | {1, -8} | {2,-8} | {3,-5} | {4,-8} | {5,-8} | {6,-32} | {7}";
-            using var members = ApiCode.LoadEncoded(spec);
-            var count = members.MemberCount;
-            var target = MemoryAddress.Zero;
-            var size = 0;
-            var delta = 0;
-            var blocksz = 0;
-            var blockct = 0;
-            var blockmem = 0u;
-            for(var i=0; i<count; i++)
-            {
-                var code = members.Code(i);
-                ref readonly var token = ref members.Token(i);
-                delta = (int)(token.TargetAddress - (target + size));
-                blocksz += (int)(token.TargetAddress - target);
-                target = token.TargetAddress;
-                size = code.Length;
-                var flair = delta >= MemoryPage.PageSize ? FlairKind.StatusData : FlairKind.Data;
-                if(delta >= MemoryPage.PageSize)
-                {
-                    flair = FlairKind.StatusData;
-                    blocksz = 0;
-                    blockmem = 0;
-                    blockct++;
-                }
-                else
-                {
-                    blockmem++;
-                    flair = FlairKind.Data;
-                }
-
-                Write(string.Format(RenderPattern, i, blockmem, target, size, delta, blocksz, token.Host, token.Sig), flair);
-            }
-
-            return result;
-        }
     }
 }

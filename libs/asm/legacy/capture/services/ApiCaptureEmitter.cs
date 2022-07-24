@@ -64,7 +64,7 @@ namespace Z0
         //     return routines;
         // }
 
-        public Index<ApiCodeRow> EmitApiHex(ApiHostUri host, Index<ApiMemberCode> src, FS.FolderPath dst)
+        public Index<ApiCodeRow> EmitApiHex(ApiHostUri host, Index<ApiMemberCode> src, IApiPack dst)
             => ApiCode.EmitApiHex(host, src.View, dst);
 
         public Count EmitMsilCode(ApiHostUri host, Index<ApiMemberCode> src, FS.FilePath dst)

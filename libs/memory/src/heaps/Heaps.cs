@@ -12,6 +12,27 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
+        public static MemoryHeap load(FS.FilePath src)
+        {
+            var dst = sys.alloc<byte>(src.Size);
+            using var reader = src.AsciLineReader();
+            var line = AsciLineCover.Empty;
+            var offset = 0u;
+            var result = true;
+            while(reader.Next(out line) && result)
+            {
+                var data = line.Codes;
+                var i = SQ.index(data, Chars.Space);
+                if(i > 0)
+                {
+                    result = Hex.parse(SQ.left(data,i), out ulong a);
+                    result &= Hex.parse(SQ.right(data,i), ref offset, dst);
+                }
+
+            }
+            return default;
+        }
+
         [MethodImpl(Inline), Op]
         public static MemoryHeap memory(MemoryAddress @base, Span<byte> data, Span<Address32> offsets)
             => new MemoryHeap(@base, data,offsets);

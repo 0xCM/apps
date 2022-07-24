@@ -9,6 +9,7 @@ namespace Z0
 
     partial class ApiQuery
     {
+
         /// <summary>
         /// Determines the <see cref='ApiClassKind'/> classifier of the source method, if any
         /// </summary>
