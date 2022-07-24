@@ -19,6 +19,13 @@ namespace Z0
             return new AsmCodeMap(entries);
         }
 
+        public AsmCodeMap MapAsm(IWsProject ws, Index<ObjDumpRow> src, Alloc dst)
+        {
+            var entries = map(ws, src, dst);
+            TableEmit(entries, AppDb.EtlTable<AsmCodeMapEntry>(ws.Project));
+            return new AsmCodeMap(entries);
+        }
+
         IDbTargets EtlTargets(ProjectId project)
             => AppDb.EtlTargets(project);
 
@@ -28,9 +35,11 @@ namespace Z0
             EtlTargets(project).Delete();
             TableEmit(context.Catalog.Entries(), AppDb.EtlTable(project,"sources.catalog"));
             var objects = CalcObjRows(context);
+            TableEmit(objects, AppDb.EtlTable<ObjDumpRow>(project));
             var blocks = AsmObjects.blocks(objects);
             TableEmit(blocks, AppDb.EtlTable<ObjBlock>(project));
             using var alloc = Alloc.create();
+            MapAsm(context.Project, objects, alloc);
             var asmrows = EmitAsmRows(context, alloc);
             EmitRecoded(context, asmrows);
             var syms = CalcObjSyms(context);
@@ -251,7 +260,7 @@ namespace Z0
             for(var i=0u; i<data.Length; i++)
                 seek(data,i).Seq = i;
 
-            TableEmit(data, AppDb.EtlTable<ObjDumpRow>(project.Project));
+            //TableEmit(data, AppDb.EtlTable<ObjDumpRow>(project.Project));
             return data;
         }
 

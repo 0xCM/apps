@@ -22,15 +22,7 @@ namespace Z0
         {
             using var dst = Alloc.create();
             var src = Project();
-            var map = MapAsmCode(src, dst);
-            var count = map.EntryCount;
-            for(var i=0; i<count; i++)
-            {
-
-            }
+            AsmObjects.MapAsm(src, dst);
         }
-
-        AsmCodeMap MapAsmCode(IWsProject src, Alloc dst)
-            => AsmObjects.MapAsm(src, dst);
     }
 };
