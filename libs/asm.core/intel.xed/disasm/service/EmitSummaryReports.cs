@@ -5,8 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-    using static XedDisasm;
     using static XedDisasmModels;
 
     partial class XedDisasmSvc
@@ -16,7 +14,7 @@ namespace Z0
             var outdir = context.Project.Datasets() + FS.folder("xed.disasm");
             ref readonly var summary = ref doc.Summary;
             ref readonly var origin = ref summary.Origin;
-            AppSvc.TableEmit(summary.Rows, outdir + origin.Path.FileName.WithoutExtension + FS.ext("xed.disasm.summary.csv"));
+            TableEmit(summary.Rows, outdir + origin.Path.FileName.WithoutExtension + FS.ext("xed.disasm.summary.csv"));
         }
     }
 }

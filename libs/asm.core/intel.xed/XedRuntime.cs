@@ -20,12 +20,6 @@ namespace Z0
 
         object StartLocker = new();
 
-        public bool PllExec
-        {
-            [MethodImpl(Inline)]
-            get => AppData.get().PllExec();
-        }
-
         public ref readonly Alloc Alloc => ref _Alloc;
 
         public new XedPaths Paths => XedPaths.Service;

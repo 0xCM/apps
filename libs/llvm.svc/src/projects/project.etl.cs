@@ -8,6 +8,6 @@ namespace Z0
     {
         [CmdOp("project/etl")]
         void Etl()
-            => ProjectSvc.Etl(Project(), false);
+            => ProjectSvc.Etl(Project());
     }
 }

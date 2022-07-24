@@ -23,12 +23,6 @@ namespace Z0
 
         AppSvcOps AppSvc => Service(Wf.AppSvc);
 
-        bool PllExec
-        {
-            [MethodImpl(Inline)]
-            get => Xed.PllExec;
-        }
-
         XedRuntime Xed;
 
         public XedRules With(XedRuntime xed)
@@ -36,10 +30,6 @@ namespace Z0
             Xed = xed ;
             return this;
         }
-
-        // [MethodImpl(Inline)]
-        // Label Label(string src)
-        //     => Xed.Alloc.Label(src);
 
         [MethodImpl(Inline)]
         StringRef String(string src)

@@ -20,10 +20,12 @@ namespace Z0
 
         IDbTargets Logs(string scope);
 
-        FS.FilePath EtlTable<T>(ProjectId project)
-            where T : struct;
+        IWsProject EtlSource(ProjectId src);
 
         IDbTargets EtlTargets(ProjectId src);
+
+        FS.FilePath EtlTable<T>(ProjectId project)
+            where T : struct;
 
         IDbSources Configs();
     }

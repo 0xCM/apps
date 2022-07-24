@@ -20,6 +20,12 @@ namespace Z0
 
         protected static AppSettings AppSettings => data(nameof(SettingIndex), AppSettings.load);
 
+        protected static bool PllExec
+        {
+            [MethodImpl(Inline)]
+            get => AppData.get().PllExec();
+        }
+
         protected WfSvc()
         {
 
@@ -79,7 +85,7 @@ namespace Z0
 
         [CmdOp("project")]
         public Outcome LoadProject(CmdArgs args)
-            => LoadProjectSources(AppDb.LlvmModels(arg(args,0).Value));
+            => LoadProjectSources(AppDb.EtlSource(arg(args,0).Value));
 
         protected Outcome LoadProjectSources(IWsProject ws)
         {

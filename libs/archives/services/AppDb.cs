@@ -19,14 +19,11 @@ namespace Z0
         public IDbSources Configs()
             => new DbSources(DbRoot().Root + FS.folder("settings"));
 
-        public IDbSources Configs(string scope)
-            => Configs().Sources(scope);
+        public IDbSources DbProjects()
+            => DbRoot().Sources("projects");
 
         public FS.FilePath ConfigPath<S>()
             => Configs().Path(Z0.SettingIndex.name<S>(), FileKind.Config);
-
-        public FS.FilePath ConfigPath<S>(string prefix)
-            => Configs().Path($"{prefix}.{Z0.SettingIndex.name<S>()}", FileKind.Config);
 
         public IDbSources Archives()
             => new DbSources(setting(WsArchives.Path(Names.Archives), FS.dir));
@@ -91,10 +88,6 @@ namespace Z0
         public IDbTargets Logs(string scope)
             => Logs().Targets(scope);
 
-        public FS.FilePath DbTable<T>(string scope)
-            where T : struct
-                => DbOut(scope).Table<T>();
-
         public IDbSources Control()
             => new DbSources(setting(WsArchives.Path(Names.Control), FS.dir));
 
@@ -116,15 +109,18 @@ namespace Z0
         public IDbSources EnvConfig()
             => new DbSources(setting(WsArchives.Path(Names.EnvConfig), FS.dir));
 
-        public IWsProject LlvmModels(ProjectId src)
+        public IWsProject EtlSource(ProjectId src)
             => WsProject.load(Dev($"llvm.models/{src}"), src);
 
-        public IDbTargets EtlTargets(ProjectId src)
-            => new DbTargets(DbOut($"projects/{src}").Root);
+        public IDbTargets EtlTargets(ProjectId project)
+            => DbOut().Targets("projects").Targets(project.Format());
 
         public FS.FilePath EtlTable<T>(ProjectId project)
             where T : struct
-                => EtlTargets(project).Table<T>();
+                => EtlTargets(project).Table<T>(project.Format());
+
+        public FS.FilePath EtlTable(ProjectId project, string name)
+            => EtlTargets(project).Path($"{project}.{name}", FileKind.Csv);
 
         public IDbTargets CgStage()
             => DbOut("cgstage");

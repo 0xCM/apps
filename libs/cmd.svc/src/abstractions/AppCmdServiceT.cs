@@ -33,8 +33,6 @@ namespace Z0
 
         protected OmniScript OmniScript => Wf.OmniScript();
 
-        protected AppSvcOps AppSvc => Wf.AppSvc();
-
         [CmdOp("jobs/run")]
         Outcome RunJobs(CmdArgs args)
         {

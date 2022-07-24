@@ -321,7 +321,7 @@ namespace Z0
         Outcome EmitAsmCases(CmdArgs args)
         {
             var src = AsmCases.mov();
-            AppSvc.TableEmit(src, AppDb.ApiTargets().Table<AsmEncodingCase>());
+            TableEmit(src, AppDb.ApiTargets().Table<AsmEncodingCase>());
             return true;
         }
 

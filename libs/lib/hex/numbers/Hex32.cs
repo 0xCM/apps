@@ -95,10 +95,13 @@ namespace Z0
         public override string ToString()
             => Format();
 
-
         [MethodImpl(Inline)]
         public static implicit operator H(K src)
             => new H(src);
+
+        [MethodImpl(Inline)]
+        public static explicit operator H(Hash32 src)
+            => new H((uint)src);
 
         [MethodImpl(Inline)]
         public static implicit operator K(H src)

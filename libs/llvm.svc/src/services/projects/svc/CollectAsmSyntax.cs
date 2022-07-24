@@ -23,7 +23,7 @@ namespace Z0
             var rows = buffer.ToArray().Sort();
             for(var i=0u; i<rows.Length; i++)
                 seek(rows,i).Seq = i;
-            AppSvc.TableEmit(@readonly(rows), dst);
+            TableEmit(@readonly(rows), dst);
             return rows;
         }
 

@@ -7,6 +7,7 @@ namespace Z0
     using static Algs;
     using static Spans;
     using static Arrays;
+
     public class WsDataFlows
     {
         ConstLookup<FS.FileUri,List<FS.FileUri>> Lookup;
@@ -47,6 +48,7 @@ namespace Z0
             Data = flows;
             Ancestors = lineage;
         }
+
         public ref readonly Index<FileFlow> Completed
         {
             [MethodImpl(Inline)]

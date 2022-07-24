@@ -5,10 +5,9 @@
 namespace Z0
 {
     using static core;
-    using static XedRules;
     using static XedPatterns;
 
-    public partial class XedDocs : AppService<XedDocs>
+    public partial class XedDocs : WfSvc<XedDocs>
     {
         XedRuntime Xed;
 
@@ -19,12 +18,6 @@ namespace Z0
         }
 
         XedPaths XedPaths => Xed.Paths;
-
-        bool PllExec
-        {
-            [MethodImpl(Inline)]
-            get => Xed.PllExec;
-        }
 
         public void Emit()
         {

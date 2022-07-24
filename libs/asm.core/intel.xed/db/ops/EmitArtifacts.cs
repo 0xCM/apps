@@ -6,7 +6,6 @@
 namespace Z0
 {
     using static core;
-    using static XedRules;
     using static MemDb;
 
     partial class XedDb
@@ -15,7 +14,7 @@ namespace Z0
         {
             exec(PllExec,
                 EmitRuleSchema,
-                () => AppSvc.TableEmit(Xed.Views.TypeTableRows, Paths.DbTable<TypeTableRow>()),
+                () => TableEmit(Xed.Views.TypeTableRows, Paths.DbTable<TypeTableRow>()),
                 EmitLayouts
             );
         }

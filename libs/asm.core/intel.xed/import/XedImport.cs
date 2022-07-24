@@ -28,12 +28,6 @@ namespace Z0
 
         XedRuntime Xed;
 
-        bool PllExec
-        {
-            [MethodImpl(Inline)]
-            get => Xed.PllExec;
-        }
-
         public XedImport With(XedRuntime xed)
         {
             Xed = xed;

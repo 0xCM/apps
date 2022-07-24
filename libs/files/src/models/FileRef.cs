@@ -5,12 +5,12 @@
 namespace Z0
 {
     [Record(TableId), StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public readonly struct FileRef :  IFileRef, IComparable<FileRef>
+    public struct FileRef :  IFileRef, IComparable<FileRef>, ISequential<FileRef>
     {
         const string TableId = "files.index";
 
         [Render(8)]
-        public readonly uint Seq;
+        public uint Seq;
 
         [Render(12)]
         public readonly Hex32 DocId;
@@ -18,7 +18,7 @@ namespace Z0
         [Render(12)]
         public readonly FileKind Kind;
 
-        [Render(16)]
+        [Render(24)]
         public readonly Timestamp Timestamp;
 
         [Render(1)]
@@ -66,6 +66,11 @@ namespace Z0
 
         public static FileRef Empty => default;
 
+        uint ISequential.Seq
+        {
+            get => Seq;
+            set => Seq = value;
+        }
         FS.FilePath IFile.Path
             => Path;
 

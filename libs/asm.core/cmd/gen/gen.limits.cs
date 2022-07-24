@@ -38,7 +38,7 @@ namespace Z0
             offset-=4;
             emitter.CloseNamespace(offset);
 
-            AppSvc.FileEmit(emitter.Emit(), AppDb.CgStage().Path("limit", FileKind.Cs));
+            FileEmit(emitter.Emit(), AppDb.CgStage().Path("limit", FileKind.Cs));
 
             return true;
         }

@@ -10,14 +10,6 @@ namespace Z0
 
         XedRuntime Xed;
 
-        XedPaths XedPaths => Xed.Paths;
-
-        bool PllExec
-        {
-            [MethodImpl(Inline)]
-            get => Xed.PllExec;
-        }
-
         public XedDisasm With(XedRuntime xed)
         {
             Xed = xed;

@@ -25,9 +25,6 @@ namespace Z0
         public IDbTargets ObjHex(ProjectId id)
             => EtlTargets(id, G.objhex);
 
-        public IDbTargets XedDisasm(ProjectId id)
-            => EtlTargets(id, G.xeddisasm);
-
         public IDbTargets AsmSrc(ProjectId id)
             => EtlTargets(id, G.asmsrc);
 

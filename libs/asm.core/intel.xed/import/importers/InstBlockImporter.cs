@@ -12,14 +12,6 @@ namespace Z0
         {
             XedPaths XedPaths => Wf.XedPaths();
 
-            AppSvcOps AppSvc => Wf.AppSvc();
-
-            public bool PllExec
-            {
-                [MethodImpl(Inline)]
-                get => AppData.get().PllExec();
-            }
-
             public void EmitStats(ReadOnlySpan<LineStats> src)
                 => Emit(src);
 

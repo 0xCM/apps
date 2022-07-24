@@ -8,6 +8,9 @@ namespace Z0
 
     public class WsCatalog
     {
+        public static Hex32 docid(FS.FilePath src)
+            => (Hex32)hash(src.ToUri().Format());
+
         public static WsCatalog load(IWsProject src)
         {
             var dst = new WsCatalog();
@@ -15,10 +18,10 @@ namespace Z0
             var count = files.Length;
             for(var i=0u; i<count; i++)
             {
-                ref readonly var file = ref files[i];
-                var fref = new FileRef(i, hash(file.ToUri().Format()), FileTypes.kind(file), file);
-                dst.IdMap.Include(dst.PathMap.Include(fref, _ => fref.DocId), fref);
-                dst.PathRefs.Include(file, fref);
+                ref readonly var path = ref files[i];
+                var file = new FileRef(i, docid(path), FileTypes.kind(path), path);
+                dst.IdMap.Include(dst.PathMap.Include(file, _ => file.DocId), file);
+                dst.PathRefs.Include(path, file);
             }
 
             return dst;
@@ -50,7 +53,7 @@ namespace Z0
             => Entries().Where(e => e.Kind == k0 || e.Kind == k1 || e.Kind == k2);
 
         public Index<FileRef> Entries()
-            => map(IdMap.Keys, Entry).Sort();
+            => map(IdMap.Keys, Entry).Sort().Resequence();
 
         public FileRef Entry(FS.FilePath path)
         {

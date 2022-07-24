@@ -8,6 +8,6 @@ namespace Z0.llvm
     {
         [CmdOp("llvm/emit/inst-alias")]
         void RunInstAliasQuery(CmdArgs args)
-            => AppSvc.TableEmit(DataProvider.InstAliases(), Paths.DbTable<LlvmInstAlias>());
+            => TableEmit(DataProvider.InstAliases(), Paths.DbTable<LlvmInstAlias>());
     }
 }

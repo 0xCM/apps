@@ -9,8 +9,6 @@ namespace Z0
     {
         const string disasm = "xed.disasm";
 
-        AppSvcOps AppSvc => Wf.AppSvc();
-
         XedPaths XedPaths => Xed.Paths;
 
         XedRuntime Xed;
@@ -19,12 +17,6 @@ namespace Z0
         {
             Xed = xed;
             return this;
-        }
-
-        bool PllExec
-        {
-            [MethodImpl(Inline)]
-            get => Xed.PllExec;
         }
     }
 }

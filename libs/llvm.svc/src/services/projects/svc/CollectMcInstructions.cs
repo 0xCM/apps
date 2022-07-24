@@ -42,7 +42,7 @@ namespace Z0
             }
 
             var records = buffer.ToArray();
-            AppSvc.TableEmit(records, AsmInstructionTable(project.Project));
+            TableEmit(records, AsmInstructionTable(project.Project));
             return records;
         }
     }

@@ -17,12 +17,7 @@ namespace Z0
     {
         [MethodImpl(Inline)]
         public ref readonly T Load<T>(XedRecord index)
-        {
-            // if(!Xed.Running)
-            //     Xed.Start();
-
-            return ref @as<object,T>(DataStores[(byte)index]);
-        }
+            => ref @as<object,T>(DataStores[(byte)index]);
 
         [MethodImpl(Inline)]
         internal void Store<T>(XedRecord kind, T data)
@@ -33,15 +28,12 @@ namespace Z0
 
         readonly Index<object> DataStores;
 
-        readonly Func<AppSvcOps> _AppSvc;
-
         readonly XedRuntime Xed;
 
         readonly AppSvcOps AppSvc;
 
         internal XedViews(XedRuntime xed, Func<AppSvcOps> svc)
         {
-            _AppSvc = svc;
             AppSvc = svc();
             Xed = xed;
             DataStores = alloc<object>(32);

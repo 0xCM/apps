@@ -232,16 +232,16 @@ namespace Z0
             EmittedFile(emitting,counter);
         }
 
-        public ObjDumpBlocks CollectObjects(WsContext context, bool pll)
+        public ObjDumpBlocks CollectObjects(WsContext context)
         {
-            var rows = ConsolidateRows(context, pll);
+            var rows = ConsolidateRows(context);
             var blocks = AsmObjects.blocks(rows);
             TableEmit(blocks.View, AppDb.EtlTable<ObjBlock>(context.Project.Id));
             EmitRecoded(context);
             return new ObjDumpBlocks(blocks,rows);
         }
 
-        public Index<ObjDumpRow> ConsolidateRows(WsContext context, bool pll)
+        public Index<ObjDumpRow> ConsolidateRows(WsContext context)
         {
             var project = context.Project;
             var src = project.OutFiles(FileKind.ObjAsm.Ext()).Storage.Sort().Index();
@@ -266,7 +266,7 @@ namespace Z0
 
                     buffer.Add(record);
                 }
-            }, pll);
+            }, PllExec);
 
             var data = buffer.ToArray().Sort();
             for(var i=0u; i<data.Length; i++)
@@ -276,9 +276,9 @@ namespace Z0
             return data;
         }
 
-        static Symbols<ObjSymCode> SymCodes;
+        public static readonly Symbols<ObjSymCode> SymCodes;
 
-        static Symbols<ObjSymKind> SymKinds;
+        public static readonly Symbols<ObjSymKind> SymKinds;
 
         static AsmObjects()
         {

@@ -18,12 +18,6 @@ namespace Z0.llvm
 
         LlvmLineMaps LineMaps => Wf.LlvmLineMaps();
 
-        public bool PllExec
-        {
-            [MethodImpl(Inline)]
-            get => AppData.get().PllExec();
-        }
-
         public void ImportTestLogs()
         {
             iter(new string[]

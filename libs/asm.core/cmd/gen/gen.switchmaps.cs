@@ -55,7 +55,7 @@ namespace Z0
             offset -= 4;
             dst.CloseNamespace(offset);
 
-            AppSvc.FileEmit(dst.Emit(), AppDb.CgStage().Path(name,FileKind.Cs));
+            FileEmit(dst.Emit(), AppDb.CgStage().Path(name,FileKind.Cs));
 
             return true;
         }

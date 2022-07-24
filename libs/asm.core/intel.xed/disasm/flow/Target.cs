@@ -8,13 +8,12 @@ namespace Z0
     using static core;
     using static XedRules;
     using static XedFields;
-    using static XedDisasmModels;
 
     using K = XedRules.FieldKind;
 
     partial class XedDisasm
     {
-        public class Target<T> : AppService<T>, ITarget
+        public class Target<T> : WfSvc<T>, ITarget
             where T : Target<T>, new()
         {
             IContextBuffer Buffer;
@@ -72,7 +71,7 @@ namespace Z0
                 get => ref _CurrentFile;
             }
 
-            protected ref readonly WsContext Context
+            protected new ref readonly WsContext Context
             {
                 [MethodImpl(Inline)]
                 get => ref _Context;

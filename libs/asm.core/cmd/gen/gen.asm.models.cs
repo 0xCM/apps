@@ -71,7 +71,7 @@ namespace Z0
             foreach(var mnemonic in sources.Keys)
             {
                 var file = AsmFileSpec.define(mnemonic.Format(), sources[mnemonic].ToArray());
-                var dst = file.Path(AppDb.LlvmModels("mc.models.g").SrcDir("asm"));
+                var dst = file.Path(AppDb.EtlSource("mc.models.g").SrcDir("asm"));
                 EmittedFile(EmittingFile(dst), file.Save(dst));
             }
 

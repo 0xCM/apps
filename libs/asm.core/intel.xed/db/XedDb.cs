@@ -48,8 +48,8 @@ namespace Z0
 
         void Emit(InstLayouts src)
         {
-            AppSvc.FileEmit(src.Format(), 0, Paths.InstTarget("layouts.vectors", FileKind.Csv));
-            AppSvc.TableEmit(src.Records.View, InstLayoutRecord.RenderWidths, Paths.InstTable<InstLayoutRecord>());
+            FileEmit(src.Format(), 0, Paths.InstTarget("layouts.vectors", FileKind.Csv));
+            TableEmit(src.Records.View, InstLayoutRecord.RenderWidths, Paths.InstTable<InstLayoutRecord>());
         }
 
         public InstLayouts CalcLayouts(Index<InstPattern> src)
@@ -57,10 +57,6 @@ namespace Z0
 
         public LayoutVectors CalcLayoutVectors(InstLayouts src)
             => Data(nameof(CalcLayoutVectors), () => LayoutCalcs.vectors(src));
-
-        AppSvcOps AppSvc => Service(Wf.AppSvc);
-
-        bool PllExec => true;
 
         public XedRules Rules => Xed.Rules;
     }

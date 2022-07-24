@@ -15,8 +15,6 @@ namespace Z0
 
             readonly ITextEmitter Output;
 
-            AppSvcOps AppSvc => Wf.AppSvc();
-
             protected override void Initialized()
             {
                 Running += OnBegin;
@@ -87,9 +85,8 @@ namespace Z0
                 => Context.Project.Datasets() + FS.folder("xed.disasm") + TargetFile();
 
             void OnEnd(DisasmToken src)
-            {
-                AppSvc.FileEmit(Output.Emit(), 0, TargetPath());
-            }
+                => FileEmit(Output.Emit(), 0, TargetPath());
+
         }
     }
 }
