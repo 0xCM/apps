@@ -136,67 +136,6 @@ namespace Z0
             return buffer;
         }
 
-        // public Index<AsmCodeBlocks> EmitAsmCodeTables(WsContext context, Alloc alloc)
-        // {
-        //     var files = context.Catalog.Entries(FileKind.ObjAsm);
-        //     var count = files.Count;
-        //     var seq = 0u;
-        //     var dst = list<AsmCodeBlocks>();
-        //     for(var i=0; i<count; i++)
-        //     {
-        //         ref readonly var file = ref files[i];
-        //         var result = parse(context, file, out var rows);
-        //         if(result.Fail)
-        //             Errors.Throw(result.Message);
-
-        //         var blocks = AsmObjects.blocks(context, file, ref seq, rows, alloc);
-        //         dst.Add(blocks);
-        //         EmitAsmCodeTable(context, blocks, ObjPaths.AsmCodePath(context.Project.Project, file.Path.FileName.Format()));
-        //     }
-        //     return dst.ToArray();
-        // }
-
-        // public void EmitAsmCodeTable(WsContext context, in AsmCodeBlocks src, FS.FilePath dst)
-        // {
-        //     var buffer = alloc<AsmCodeRow>(src.LineCount);
-        //     var k=0u;
-        //     var distinct = hashset<Hex64>();
-        //     for(var i=0; i<src.Count; i++)
-        //     {
-        //         ref readonly var block = ref src[i];
-        //         var count = block.Count;
-        //         for(var j=0; j<count; j++, k++)
-        //         {
-        //             ref readonly var code = ref block[j];
-        //             ref var record = ref seek(buffer,k);
-        //             record.Seq = k;
-        //             record.DocSeq = code.DocSeq;
-        //             record.EncodingId = code.EncodingId;
-        //             record.OriginId = code.OriginId;
-        //             record.InstructionId = InstructionId.define(code.OriginId, code.IP, code.Encoding);
-        //             record.OriginName = src.OriginName;
-        //             record.BlockBase = block.Label.Location;
-        //             record.BlockName = block.Label.Name;
-        //             record.IP = code.IP;
-        //             record.Size = code.Encoded.Size;
-        //             record.Encoded = code.Encoded;
-        //             record.Asm = code.Asm;
-        //             if(!distinct.Add(record.EncodingId))
-        //                 Warn(string.Format("Duplicate identifier:{0}", record.EncodingId));
-        //         }
-        //     }
-
-        //     TableEmit(buffer, dst);
-        // }
-
-        // public void EmitRecoded(WsContext context)
-        // {
-        //     using var alloc = Alloc.create();
-        //     var code = EmitAsmCodeTables(context, alloc);
-        //     ObjPaths.AsmSrc(context.Project.Project).Clear();
-        //     for(var i=0; i<code.Count; i++)
-        //         RecodeBlocks(context.Project, code[i]);
-        // }
 
         public FS.FilePath AsmInstructionTable(ProjectId project)
             => Flows.table<AsmInstructionRow>(project);
@@ -238,32 +177,6 @@ namespace Z0
             TableEmit(records, AsmInstructionTable(project.Project));
             return records;
         }
-
-        // void RecodeBlocks(in IProjectWsObsolete ws, in AsmCodeBlocks src)
-        // {
-        //     const string intel_syntax = ".intel_syntax noprefix";
-        //     var asmpath = ObjPaths.RecodedPath(ws.Project, src.OriginName.Format());
-        //     var emitting = EmittingFile(asmpath);
-        //     var counter = 0u;
-        //     using var writer = asmpath.AsciWriter();
-        //     writer.WriteLine(intel_syntax);
-        //     for(var i=0; i<src.Count; i++)
-        //     {
-        //         ref readonly var block = ref src[i];
-        //         var label = new AsmBlockLabel(block.Label.Name.Format());
-        //         writer.WriteLine();
-        //         writer.WriteLine(label.Format());
-        //         counter++;
-        //         var count = block.Count;
-        //         for(var j=0; j<count; j++)
-        //         {
-        //             ref readonly var asmcode = ref block[j];
-        //             writer.WriteLine(string.Format("    {0,-48} # {1}", asmcode.Asm, asmcode.Encoding.FormatHex(Chars.Space, false)));
-        //         }
-        //     }
-
-        //     EmittedFile(emitting,counter);
-        // }
 
         public IDbTargets RecodedTargets(ProjectId id)
             => AppDb.EtlTargets("mc.recoded").Targets(id.Format());
@@ -536,6 +449,91 @@ namespace Z0
 
                 record.Source = srcpath.ToUri().LineRef(point.Location.Line);
                 dst.Add(record);
+            }
+        }
+
+        public Index<AsmSyntaxOps> CalcSyntaxOps(ProjectId project)
+        {
+            var rows = LoadAsmSyntax(project);
+            var count = rows.Count;
+            var opLists = CalcAsmSyntaxOps(rows);
+            var dst = alloc<AsmSyntaxOps>(count);
+            Require.equal(count, opLists.Count);
+            for(var i=0; i<count; i++)
+                seek(dst,i) = new AsmSyntaxOps(rows[i],opLists[i]);
+            return dst;
+        }
+
+        public Index<AsmSyntaxRow> LoadAsmSyntax(ProjectId project)
+            => LoadSyntaxRows(AsmSyntaxTable(project));
+
+        Index<AsmSyntaxRow> LoadSyntaxRows(FS.FilePath src)
+        {
+            const byte FieldCount = AsmSyntaxRow.FieldCount;
+            using var reader = src.Utf8LineReader();
+            var rowcount = AsciLines.count(src).Lines - 1;
+            var counter = 0u;
+            var result = Outcome.Success;
+            var buffer = alloc<AsmSyntaxRow>(rowcount);
+            reader.Next(out _);
+            while(reader.Next(out var line))
+            {
+                var cells = text.trim(text.split(line.Content, Chars.Pipe));
+                var count = cells.Length;
+                if(count != FieldCount)
+                {
+                    result = (false,Tables.FieldCountMismatch.Format(count,FieldCount));
+                    break;
+                }
+
+                ref var dst = ref seek(buffer,counter++);
+                var j=0;
+
+                result = DataParser.parse(skip(cells,j++), out dst.Seq);
+                result = DataParser.parse(skip(cells,j++), out dst.DocSeq);
+                result = DataParser.parse(skip(cells,j++), out dst.OriginId);
+                result = DataParser.parse(skip(cells,j++), out dst.OriginName);
+
+                if(result.Fail)
+                {
+                    result = (false, string.Format("Line {0}, field {1}", line.LineNumber, nameof(dst.DocSeq)));
+                    break;
+                }
+
+                dst.Asm = skip(cells, j++);
+                dst.Syntax = skip(cells, j++);
+
+                var hex = skip(cells, j++);
+                if(empty(hex))
+                {
+                    dst.Encoded = AsmHexCode.Empty;
+                    dst.Source = FS.FilePath.Empty;
+                    continue;
+                }
+
+                result = AsmHexCode.parse(hex, out dst.Encoded);
+                if(result.Fail)
+                {
+                    result = (false, string.Format("Line {0}, field {1}", line.LineNumber, nameof(dst.Encoded)));
+                    break;
+                }
+
+                result = DataParser.parse(skip(cells,j++), out dst.Source);
+                if(result.Fail)
+                {
+                    result = (false, string.Format("Line {0}, field {1}", line.LineNumber, nameof(dst.Source)));
+                    break;
+                }
+            }
+
+            if(result)
+            {
+                return buffer;
+            }
+            else
+            {
+                Error(result.Message);
+                return sys.empty<AsmSyntaxRow>();
             }
         }
 

@@ -17,17 +17,8 @@ namespace Z0
 
         CoffServices Coff => Wf.CoffServices();
 
-        public FS.Files SynAsmSources(IWsProject src)
-            => src.OutFiles(FileKind.SynAsm.Ext());
-
-        public FS.Files McAsmSources(IWsProject src)
-            => src.OutFiles(FileKind.McAsm.Ext());
-
         public FS.FilePath AsmSyntaxTable(ProjectId project)
             => Flows.table<AsmSyntaxRow>(project);
-
-        public FS.FilePath AsmInstructionTable(ProjectId project)
-            => Flows.table<AsmInstructionRow>(project);
 
         public void BuildLlc(IWsProject project, LlvmSubtarget subtarget, bool runexe = false)
         {

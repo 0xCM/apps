@@ -9,7 +9,7 @@ namespace Z0
         [CmdOp("project/mc/syntax")]
         Outcome McSyntax(CmdArgs args)
         {
-            var src = ProjectSvc.CalcSyntaxOps(Project());
+            var src = AsmObjects.CalcSyntaxOps(Project().Id);
             var count = src.Count;
             for(var i=0; i<count; i++)
             {

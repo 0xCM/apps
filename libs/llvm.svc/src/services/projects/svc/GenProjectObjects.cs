@@ -54,6 +54,5 @@ namespace Z0
 
             FileEmit(emitter.Emit(), count, ProjectDb.Logs() + FS.file(project.Name, FS.Cs));
         }
-
     }
 }
