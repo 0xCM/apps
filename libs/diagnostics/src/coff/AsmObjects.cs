@@ -145,7 +145,6 @@ namespace Z0
             return buffer;
         }
 
-
         public FS.FilePath AsmInstructionTable(ProjectId project)
             => Flows.table<AsmInstructionRow>(project);
 
@@ -256,12 +255,7 @@ namespace Z0
                 }
             }, PllExec);
 
-            var data = buffer.ToArray().Sort();
-            for(var i=0u; i<data.Length; i++)
-                seek(data,i).Seq = i;
-
-            //TableEmit(data, AppDb.EtlTable<ObjDumpRow>(project.Project));
-            return data;
+            return buffer.ToArray().Sort().Resequence();
         }
 
         public void EmitRecoded(WsContext context, ReadOnlySeq<AsmCodeBlocks> blocks)

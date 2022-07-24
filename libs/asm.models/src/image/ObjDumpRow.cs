@@ -9,7 +9,7 @@ namespace Z0
     using W = AsmColWidths;
 
     [StructLayout(LayoutKind.Sequential), Record(TableId)]
-    public struct ObjDumpRow : IComparable<ObjDumpRow>
+    public struct ObjDumpRow : IComparable<ObjDumpRow>, ISequential<ObjDumpRow>
     {
         const string TableId = "llvm.objdump";
 
@@ -99,6 +99,12 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => text.contains(Asm.Format(), BlockStartMarker);
+        }
+
+        uint ISequential.Seq
+        {
+            get => Seq;
+            set => Seq = value;
         }
     }
 }

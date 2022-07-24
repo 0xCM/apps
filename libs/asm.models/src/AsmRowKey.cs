@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
 
     [StructLayout(StructLayout,Pack=1)]
     public readonly record struct AsmRowKey : IComparable<AsmRowKey>
