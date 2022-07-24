@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     public readonly struct ApiHosts : IIndex<IApiHost>
@@ -93,7 +89,7 @@ namespace Z0
             => host(this, uri, out h);
 
         public string Format()
-            => Seq.format(Storage);
+            => Seq.format(Storage,Eol);
 
         public override string ToString()
             => Format();

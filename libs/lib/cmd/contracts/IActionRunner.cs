@@ -15,7 +15,7 @@ namespace Z0
     {
         ShellCmdDef Def {get;}
 
-        ref readonly asci32 CmdName
+        ref readonly Name CmdName
             => ref Def.CmdName;
     }
 }

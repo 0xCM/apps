@@ -17,13 +17,7 @@ namespace Z0
 
         }
 
-        public override string Format()
-        {
-            var dst = text.emitter();
-            for(var i=0; i<Count; i++)
-                dst.AppendLineFormat("[{0:D3}]({1})", i, this[i]);
-            return dst.Emit();
-        }
+        public override string Delimiter => Eol;
 
         [MethodImpl(Inline)]
         public static implicit operator CmdUriSeq(CmdUri[] src)

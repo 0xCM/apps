@@ -13,7 +13,7 @@ namespace Z0
         public ReadOnlySeq<CollectedEncoding> Collect(ICompositeDispenser symbols, IPart src)
             => collect(MethodEntryPoints.create(ApiJit.JitPart(src)), EventLog, symbols);
 
-        public static ReadOnlySeq<CollectedHost> collect(IApiPartCatalog src, WfEventLogger log, ICompositeDispenser dst)
+        public static void collect(IApiPartCatalog src, WfEventLogger log, ICompositeDispenser dispenser, ConcurrentBag<CollectedHost> dst)
         {
             var members = list<ApiHostMembers>();
             var collected = list<CollectedHost>();
@@ -31,8 +31,8 @@ namespace Z0
                     members.Add(new ApiHostMembers(type.HostUri, jitted));
                 }
                 );
-            iter(members, m => collected.Add(collect(m, log, dst)));
-            return collected.ToArray();
+            iter(members, m => dst.Add(collect(m, log, dispenser)));
+
         }
 
         public static CollectedHost collect(ApiHostMembers src, WfEventLogger log, ICompositeDispenser dst)

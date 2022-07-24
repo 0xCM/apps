@@ -35,6 +35,12 @@ namespace Z0
             get => Data.Count;
         }
 
+        public virtual int Length
+        {
+            [MethodImpl(Inline)]
+            get => Data.Length;
+        }
+
         public virtual bool IsEmpty
         {
             [MethodImpl(Inline)]
@@ -98,14 +104,14 @@ namespace Z0
         public Seq<T> Unwrap()
             => Data;
 
-        public virtual string Delimiter => "\r\n\t";
+        public virtual string Delimiter => Eol;
 
         public virtual Fence<char>? Fence => (Chars.LBrace,Chars.RBrace);
 
         public virtual int CellPad => 0;
 
         public virtual string Format()
-            => Seq.format(Data.Storage);
+            => Seq.format(Data.Storage, Delimiter);
 
         public override string ToString()
             => Format();

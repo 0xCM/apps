@@ -21,8 +21,6 @@ namespace Z0
 
         public Address32 MemberRebase;
 
-        public ByteSize MaxSize;
-
         public string PartName;
 
         public string HostName;

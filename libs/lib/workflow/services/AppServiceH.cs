@@ -206,6 +206,9 @@ namespace Z0
         protected WfEventLogger EventLog
             => x => WfMsg.Raise(x);
 
+        protected IWfEventTarget EventTarget
+            => EventLog.ToTarget();
+
         protected void EmittedFile(WfFileWritten file, Count count, Arrow<FS.FileUri> flow)
             => Wf.EmittedFile(HostType, file, count);
 

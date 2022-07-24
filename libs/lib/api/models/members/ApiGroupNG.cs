@@ -14,17 +14,17 @@ namespace Z0
         /// <summary>
         /// The group identity
         /// </summary>
-        public OpIdentity GroupId {get;}
+        public readonly OpIdentity GroupId {get;}
 
         /// <summary>
         /// The delcaring host
         /// </summary>
-        public IApiHost Host {get;}
+        public readonly IApiHost Host {get;}
 
         /// <summary>
         /// The grouped operations
         /// </summary>
-        public Index<ApiMethodNG> Members {get;}
+        public readonly Index<ApiMethodNG> Members {get;}
 
         [MethodImpl(Inline)]
         public ApiGroupNG(OpIdentity group, IApiHost host, IEnumerable<ApiMethodNG> members)

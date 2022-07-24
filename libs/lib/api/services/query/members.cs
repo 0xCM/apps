@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection;
-
     partial class ApiQuery
     {
         public static ApiMembers members(Index<ApiMember> src)

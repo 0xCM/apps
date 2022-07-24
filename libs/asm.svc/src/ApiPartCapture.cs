@@ -50,7 +50,6 @@ namespace Z0
                 record.MemberBase = member.BaseAddress;
                 record.MemberOffset = member.BaseAddress - @base;
                 record.MemberRebase = (uint)(member.BaseAddress - rebase);
-                record.MaxSize = seq < count - 1 ? (ulong)(skip(members, seq + 1).BaseAddress - record.MemberBase) : 0ul;
                 record.HostName = member.Host.HostName;
                 record.PartName = member.Host.Part.Format();
                 record.OpUri = member.OpUri;
@@ -76,13 +75,16 @@ namespace Z0
             var buffer = bag<CollectedHost>();
             iter(src.PartCatalogs(),
                 part => {
-                    var code = ApiCode.collect(part, EventLog, dispenser);
+                    var _bag = bag<CollectedHost>();
+                    ApiCode.collect(part, EventLog, dispenser, _bag);
+                    var code = _bag.ToArray();
                     ApiCode.Emit(part.PartId, code, dst);
                     EmitAsm(dispenser, code, dst);
+                    iter(_bag, x => buffer.Add(x));
                 },
             pll);
 
-            return buffer.ToIndex().Sort();
+            return buffer.ToIndex();
         }
 
         void EmitAsm(ICompositeDispenser symbols, ReadOnlySeq<CollectedHost> src, IApiPack dst)

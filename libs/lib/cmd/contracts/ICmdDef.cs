@@ -7,6 +7,7 @@ namespace Z0
     [Free]
     public interface ICmdDef
     {
+        ref readonly CmdUri Uri {get;}
     }
 
     [Free]

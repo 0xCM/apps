@@ -36,14 +36,6 @@ namespace Z0
         public readonly MemoryAddress EntryPoint;
 
         [MethodImpl(Inline)]
-        public ResolvedMethod(OpUri uri, MethodInfo method, MemoryAddress address)
-        {
-            Uri = uri;
-            Method = method;
-            EntryPoint = address;
-        }
-
-        [MethodImpl(Inline)]
         public ResolvedMethod(MethodInfo method, OpUri uri, MemoryAddress address)
         {
             Uri = uri;

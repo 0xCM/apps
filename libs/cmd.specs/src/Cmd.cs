@@ -41,24 +41,24 @@ namespace Z0
         public static CmdSource source<S>(S provider, IDispatcher src)
             where S : ICmdProvider, new()
         {
-            var actions = src.Commands.Specs.Index().Sort().Index();
+            var specs = src.Commands.Specs.Index().Sort().Index();
             var part = src.Controller;
-            var count = actions.Count;
+            var count = specs.Count;
             var buffer = sys.alloc<Setting64>(count);
             var dst = Settings64.load(buffer);
-            for(var i=0; i<actions.Count; i++)
-                seek(buffer,i) = Settings.setting(string.Format("{0}[{1:D3}]", part, i), (asci64)actions[i]);
+            for(var i=0; i<specs.Count; i++)
+                seek(buffer,i) = Settings.setting(string.Format("{0}[{1:D3}]", part, i), (asci64)specs[i]);
             return new CmdSource(provider.Name, dst);
         }
 
-        public static CmdCatalog catalog(IDispatcher dispatcher)
+        public static CmdCatalog catalog(IDispatcher src)
         {
-            ref readonly var defs = ref dispatcher.Commands.Defs;
+            ref readonly var defs = ref src.Commands.Defs;
             var count = defs.Count;
             var dst = alloc<CmdUri>(count);
             for(var i=0; i<count; i++)
                 seek(dst,i) = defs[i].Uri;
-            return new CmdCatalog(ExecutingPart.Id, dst);
+            return new CmdCatalog(dst);
         }
 
         public static CmdDispatcher dispatcher<T>(T svc, WfEventLogger log, ICmdActions actions)
@@ -81,14 +81,11 @@ namespace Z0
             log(Events.emittedFile(dst, src.Count));
         }
 
-        public static void emit(CmdCatalog src, FS.FilePath dst, WfEventLogger log)
+        public static void emit(CmdCatalog src, FS.FilePath dst, IWfEventTarget log)
         {
-            log(Events.emittingFile(dst));
-            using var writer = dst.AsciWriter();
-            var data = src.ShellCommands.Format();
-            log(Events.row(data));
-            writer.Write(data);
-            log(Events.emittedFile(dst, src.ShellCommands.Count));
+            var data = src.Entries;
+            iter(data, x => log.Deposit(Events.row(x.Uri.Name)));
+            Tables.emit(log, data.View, dst);
         }
 
         public static Settings<Name,asci64> commands(IDispatcher src)

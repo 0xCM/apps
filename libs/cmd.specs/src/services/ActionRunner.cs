@@ -44,12 +44,12 @@ namespace Z0
 
         public readonly ShellCmdDef Def;
 
-        public ActionRunner(asci32 name, object host, MethodInfo method)
+        public ActionRunner(Name name, object host, MethodInfo method)
         {
             Def = new ShellCmdDef(name, classify(method), Require.notnull(method), Require.notnull(host));
         }
 
-        public ref readonly asci32 CmdName
+        public ref readonly Name CmdName
         {
             [MethodImpl(Inline)]
             get => ref Def.CmdName;

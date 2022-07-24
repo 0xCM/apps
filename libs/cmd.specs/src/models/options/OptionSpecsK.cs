@@ -26,7 +26,7 @@ namespace Z0
         }
 
         public string Format()
-            => Seq.format(Storage);
+            => Seq.format(Storage, Eol);
 
         public override string ToString()
             => Format();

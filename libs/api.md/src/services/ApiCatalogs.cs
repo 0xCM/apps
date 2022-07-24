@@ -26,9 +26,6 @@ namespace Z0
             return records;
         }
 
-        public static Index<ApiCatalogEntry> rebase(ApiMembers src)
-            => rebase(src.BaseAddress, src.View);
-
         public static Index<ApiCatalogEntry> rebase(MemoryAddress @base, ReadOnlySpan<ApiMember> src)
         {
             var dst = alloc<ApiCatalogEntry>(src.Length);
@@ -49,14 +46,12 @@ namespace Z0
                 record.MemberBase = member.BaseAddress;
                 record.MemberOffset = member.BaseAddress - @base;
                 record.MemberRebase = (uint)(member.BaseAddress - rebase);
-                record.MaxSize = seq < count - 1 ? (ulong)(skip(members, seq + 1).BaseAddress - record.MemberBase) : 0ul;
                 record.HostName = member.Host.HostName;
                 record.PartName = member.Host.Part.Format();
                 record.OpUri = member.OpUri;
             }
             return (uint)count;
         }
-
 
         public Index<ApiCatalogEntry> Load(FS.FilePath src)
         {
@@ -184,7 +179,6 @@ namespace Z0
             DataParser.parse(skip(fields, i++), out dst.MemberBase);
             DataParser.parse(skip(fields, i++), out dst.MemberOffset);
             DataParser.parse(skip(fields, i++), out dst.MemberRebase);
-            DataParser.parse(skip(fields, i++), out dst.MaxSize);
             DataParser.parse(skip(fields, i++), out dst.PartName);
             DataParser.parse(skip(fields, i++), out dst.HostName);
             DataParser.parse(skip(fields, i++), out dst.OpUri);

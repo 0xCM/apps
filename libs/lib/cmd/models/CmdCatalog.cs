@@ -6,20 +6,26 @@ namespace Z0
 {
     public class CmdCatalog
     {
-        readonly CmdUriSeq ShellCmdSeq;
+        readonly ReadOnlySeq<CmdCatalogEntry> Data;
 
-        public readonly PartId Part;
-
-        public ref readonly CmdUriSeq ShellCommands
+        public ref readonly ReadOnlySeq<CmdCatalogEntry> Entries
         {
             [MethodImpl(Inline)]
-            get => ref ShellCmdSeq;
+            get => ref Data;
         }
 
-        public CmdCatalog(PartId part, CmdUri[] defs)
+        public CmdCatalog(ReadOnlySeq<CmdUri> defs)
         {
-            Part = part;
-            ShellCmdSeq =  defs;
+            Index<CmdCatalogEntry> entries = sys.alloc<CmdCatalogEntry>(defs.Count);
+            for(var i=0; i<defs.Count; i++)
+            {
+                ref readonly var uri = ref defs[i];
+                ref var entry = ref entries[i];
+                entry.Uri = uri;
+                entry.Hash = uri.Hash;
+                entry.Name = uri.Name;
+            }
+            Data = entries.Sort().Resequence();
         }
     }
 }

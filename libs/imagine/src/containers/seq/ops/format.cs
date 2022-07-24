@@ -8,5 +8,8 @@ namespace Z0
     {
         public static string format<T>(T[] src, char delimiter = Chars.Comma, int pad = 0)
             => Algs.delimit<T>(delimiter, pad, Arrays.@readonly(src)).Format();
+
+        public static string format<T>(T[] src, string delimiter = ",", int pad = 0)
+            => Algs.delimit(Arrays.@readonly(src), delimiter, pad);
     }
 }

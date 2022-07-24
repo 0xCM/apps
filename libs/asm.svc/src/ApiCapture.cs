@@ -20,31 +20,23 @@ namespace Z0
 
         ApiMd ApiMd => Wf.ApiMetadata();
 
-        public ReadOnlySeq<ApiCatalogEntry> BuildCatalog(ApiMembers members)
+        public static ReadOnlySeq<ApiCatalogEntry> catalog(ApiMembers members)
         {
             var buffer = sys.alloc<ApiCatalogEntry>(members.Count);
             var @base = members.BaseAddress;
             var rebase = members[0].BaseAddress;
             for(var i=0u; i<members.Count; i++)
             {
-                try
-                {
-                    ref readonly var member = ref members[i];
-                    ref var record = ref seek(buffer,i);
-                    record.Sequence = i;
-                    record.ProcessBase = @base;
-                    record.MemberBase = member.BaseAddress;
-                    record.MemberOffset = member.BaseAddress - @base;
-                    record.MemberRebase = (uint)(member.BaseAddress - rebase);
-                    record.MaxSize = i < i - 1 ? (ulong)(skip(members, i + 1).BaseAddress - record.MemberBase) : 0ul;
-                    record.HostName = member.Host.HostName;
-                    record.PartName = member.Host.Part.Format();
-                    record.OpUri = member.OpUri;
-                }
-                catch(Exception e)
-                {
-                    Error(e);
-                }
+                ref readonly var member = ref members[i];
+                ref var record = ref seek(buffer,i);
+                record.Sequence = i;
+                record.ProcessBase = @base;
+                record.MemberBase = member.BaseAddress;
+                record.MemberOffset = member.BaseAddress - @base;
+                record.MemberRebase = (uint)(member.BaseAddress - rebase);
+                record.HostName = member.Host.HostName;
+                record.PartName = member.Host.Part.Format();
+                record.OpUri = member.OpUri;
             }
 
             return buffer;
@@ -55,9 +47,8 @@ namespace Z0
             var parts = ApiPartCapture.create(Wf);
             using var dispenser = Dispense.composite();
             var hosts = parts.Capture(dst, dispenser);
-
             var members = ApiQuery.members(hosts.SelectMany(x => x.Resolved.Members).Where(x => x != null).Array());
-            var rebased = BuildCatalog(members);
+            var rebased = catalog(members);
             TableEmit(rebased, dst.Table<ApiCatalogEntry>(), UTF8);
             ApiMd.EmitDatasets(dst);
             CliEmitter.Emit(CliEmitOptions.@default(), dst);

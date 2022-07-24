@@ -17,11 +17,6 @@ namespace Z0
         {
         }
 
-        public int Length
-        {
-            [MethodImpl(Inline)]
-            get => Data.Length;
-        }
         public ref readonly T this[long i]
         {
             [MethodImpl(Inline)]

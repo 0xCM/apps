@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Record(TableId)]
-    public struct ApiIndexMetrics : ITextual, IRecord<ApiIndexMetrics>
+    public record struct ApiIndexMetrics
     {
         public const string TableId = "api.index.metrics";
 
@@ -20,10 +20,5 @@ namespace Z0
         public uint IdentityCount;
 
         public ByteSize ByteCount;
-        public string Format()
-            => string.Format("{0}", new {PartCount, HostCount, AddressCount, BlockCount, IdentityCount, ByteCount});
-
-        public override string ToString()
-            => Format();
     }
 }

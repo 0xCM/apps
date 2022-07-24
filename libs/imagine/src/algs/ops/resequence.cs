@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct core
+    partial class Algs
     {
         [MethodImpl(Inline)]
         public static Index<T> resequence<T>(Index<T> src)
@@ -16,11 +16,20 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
+        public static Seq<T> resequence<T>(Seq<T> src)
+            where T : ISequential<T>
+        {
+            for(var i=0u; i<src.Count; i++)
+                src[i].Seq = i;
+            return src;
+        }
+
+        [MethodImpl(Inline)]
         public static T[] resequence<T>(T[] src)
             where T : ISequential<T>
         {
             for(var i=0u; i<src.Length; i++)
-                seek(src,i).Seq = i;
+                Arrays.seek(src,i).Seq = i;
             return src;
         }
 
@@ -29,23 +38,8 @@ namespace Z0
             where T : ISequential<T>
         {
             for(var i=0u; i<src.Length; i++)
-                seek(src,i).Seq = i;
+                Spans.seek(src,i).Seq = i;
             return src;
         }
-    }
-
-    partial class XTend
-    {
-        public static T[] Resequence<T>(this T[] src)
-            where T : ISequential<T>
-                => core.resequence(src);
-
-        public static Index<T> Resequence<T>(this Index<T> src)
-            where T : ISequential<T>
-                => core.resequence(src);
-
-        public static Span<T> Resequence<T>(this Span<T> src)
-            where T : ISequential<T>
-                => core.resequence(src);
     }
 }

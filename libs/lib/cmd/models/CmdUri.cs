@@ -4,27 +4,43 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct CmdUri
+    public readonly record struct CmdUri
     {
         [MethodImpl(Inline)]
-        public static CmdUri define(PartName part, asci32 host, asci32 command)
-            => new CmdUri($"cmd://{part}/{host}?name={command}");
+        public static CmdUri define(asci32 part, asci32 host, Name name)
+            => new CmdUri(part,host,name);
+
+        public readonly asci32 Part;
+
+        public readonly asci32 Host;
+
+        public readonly Name Name;
 
         [MethodImpl(Inline)]
-        public static CmdUri define(Name ws, Name group, Name command)
-            => new CmdUri($"cmd://{ws}/{group}?name={command}");
-
-        readonly AsciBlock128 Data;
-
-        [MethodImpl(Inline)]
-        internal CmdUri(string src)
+        internal CmdUri(asci32 part, asci32 host, Name name)
         {
-            Data = src;
+            Part = part;
+            Host = host;
+            Name = name;
+        }
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Part.IsEmpty && Host.IsEmpty && Name.IsEmpty;
         }
 
         public string Format()
-            => Data.Format();
+            => $"cmd://{Part}/{Host}?name={Name}";
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+           get => Part.Hash | Host.Hash | Name.Hash;
+        }
+
+        public override int GetHashCode()
+            => Hash;
 
         public override string ToString()
             => Format();
