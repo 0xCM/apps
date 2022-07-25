@@ -92,6 +92,7 @@
     <ProjectReference Include="$(Sys)" />
 
     <ProjectReference Include="$(Text)" />
+    <ProjectReference Include="$(Tuples)" />
 
     <ProjectReference Include="$(Validity)" />
 

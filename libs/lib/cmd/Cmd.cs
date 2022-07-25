@@ -63,7 +63,7 @@ namespace Z0
             var buffer = sys.alloc<Setting64>(count);
             var dst = Settings.from(buffer);
             for(var i=0; i<specs.Count; i++)
-                seek(buffer,i) = SettingIndex.setting(string.Format("{0}[{1:D3}]", part, i), (asci64)specs[i]);
+                seek(buffer,i) = Settings.setting(string.Format("{0}[{1:D3}]", part, i), (asci64)specs[i]);
             return new CmdSource(provider.Name, dst);
         }
 

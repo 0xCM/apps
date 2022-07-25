@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static SettingIndex;
+    using static Settings;
 
     using Names = SettingNames;
 
@@ -23,7 +23,7 @@ namespace Z0
             => DbRoot().Sources("projects");
 
         public FS.FilePath ConfigPath<S>()
-            => Configs().Path(Z0.SettingIndex.name<S>(), FileKind.Config);
+            => Configs().Path(Z0.Settings.name<S>(), FileKind.Config);
 
         public IDbSources Archives()
             => new DbSources(setting(WsArchives.Path(Names.Archives), FS.dir));

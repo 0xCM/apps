@@ -13,7 +13,7 @@ namespace Z0
         public static EnvVars emit(SysEnvKind kind, bool display = true)
         {
             var archives = WsArchives.load(Settings.rows(AppSettings.path()));
-            var dir = SettingIndex.setting(archives.Path(EN.EnvConfig), FS.dir).Value;
+            var dir = Settings.setting(archives.Path(EN.EnvConfig), FS.dir).Value;
             var vars = EnvVars.vars(kind);
             var name =  $"{ExecutingPart.Name}.{EnumRender.format(kind)}";
             if(display)

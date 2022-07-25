@@ -14,23 +14,29 @@ namespace Z0
     /// <summary>
     /// Describes the outcome of a test case
     /// </summary>
+    [Record(TableId)]
     public struct TestCaseRecord : IRecord<TestCaseRecord>, ITextual
     {
+        const string TableId = "test.results";
         public const byte FieldCount = 6;
 
+        [Render(60)]
         public string CaseName;
 
+        [Render(14)]
         public bool Passed;
 
+        [Render(26)]
         public Timestamp Started;
 
+        [Render(26)]
         public Timestamp Finished;
 
+        [Render(26)]
         public Duration Duration;
 
+        [Render(1)]
         public string Message;
-
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{60,14,26,26,26,5};
 
         public static FormatCell<TestCaseRecord> FormatFunction
             => TestCaseRecords.format;

@@ -144,7 +144,7 @@ namespace Z0
         public SettingIndex LoadEnv()
         {
             var path = ToolWs.Home + FS.file("tools", FileKind.Env);
-            return SettingIndex.parse(path.ReadNumberedLines());
+            return Settings.parse(path.ReadNumberedLines());
         }
 
         void LoadProfiles(FS.FilePath src, Lookup<Actor,ToolProfile> dst)

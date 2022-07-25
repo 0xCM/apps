@@ -4,19 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    internal interface ILookupData<K,V>
-    {
-        ConcurrentDictionary<K,V> Storage {get;}
-
-        Index<K> Keys{get;}
-
-        Index<V> Values {get;}
-    }
-
     public class SortedLookup<K,V>
         where K : IComparable<K>
     {
-
         public static Builder build()
             => new Builder();
 

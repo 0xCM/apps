@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
 
     [ApiHost]
     public readonly struct Require
@@ -44,7 +43,7 @@ namespace Z0
         {
             if(core.bw64(src) == 0)
             {
-                Throw.message("The source value is zero");
+                sys.@throw("The source value is zero");
             }
             return src;
         }
@@ -100,7 +99,7 @@ namespace Z0
         {
             const string Pattern = "The natural value {0} and the operand value {1} are different";
 
-            if(nat64u<N>() == src)
+            if(Typed.nat64u<N>() == src)
                 return src;
             else
             {
@@ -114,7 +113,7 @@ namespace Z0
             where N : unmanaged, ITypeNat
         {
             const string Pattern = "The natural value {0} and the operand value {1} are different";
-            if(nat32i<N>() == src)
+            if(Typed.nat32i<N>() == src)
                 return src;
             else
             {

@@ -46,7 +46,7 @@ namespace Z0
             => new ToolWs(AppDb.Toolbase().Root);
 
         public SettingIndex ShellSettings()
-            => Settings.rows(SettingIndex.path());
+            => Settings.rows(Settings.path());
 
         [MethodImpl(Inline)]
         public IWsProject Project()

@@ -10,6 +10,6 @@ namespace Z0
             => FS.path(ExecutingPart.Component.Location).FolderPath + FS.file("app.settings", FileKind.Csv);
 
         public static FS.FilePath cmd()
-            => SettingIndex.path();
+            => Settings.path();
     }
 }

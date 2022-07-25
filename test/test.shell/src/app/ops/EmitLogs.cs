@@ -27,13 +27,10 @@ namespace Z0
             }
         }
 
-        static FS.FilePath EmitTestCaseLog(FS.FilePath dst, TestCaseRecord[] records)
+        void EmitTestCaseLog(FS.FilePath dst, TestCaseRecord[] records)
         {
-            if(records.Length == 0)
-                return FS.FilePath.Empty;
-
-            Tables.emit(@readonly(records), TestCaseRecord.RenderWidths, TextEncodingKind.Unicode, dst);
-            return dst;
+            if(records.Length != 0)
+                Tables.emit(@readonly(records), dst);
         }
     }
 }

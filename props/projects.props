@@ -97,6 +97,8 @@
 
     <Tools>$(SlnLibs)tools\z0.tools.csproj</Tools>
 
+    <Tuples>$(SlnLibs)tuples\z0.tuples.csproj</Tuples>
+
     <Wf>$(SlnLibs)wf\z0.wf.csproj</Wf>
     <Ws>$(SlnLibs)ws\z0.ws.csproj</Ws>
     <Workers>$(SlnRoot)shells\workers\z0.shells.workers.csproj</Workers>

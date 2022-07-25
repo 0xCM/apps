@@ -128,6 +128,9 @@ public enum PartId : byte
     [Symbol("text.sized")]
     SizedText,
 
+    [Symbol("tuples")]
+    Tuples,
+
     [Symbol("text")]
     Text,
 

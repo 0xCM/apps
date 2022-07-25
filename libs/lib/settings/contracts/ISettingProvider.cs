@@ -11,7 +11,6 @@ namespace Z0
 
         ReadOnlySpan<Name> Names {get;}
 
-
         string ToString();
 
         string Format() => ToString();

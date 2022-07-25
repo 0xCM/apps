@@ -22,7 +22,7 @@ namespace Z0
         }
 
         public FS.FolderPath EnvSource()
-            => SettingIndex.setting(Path(EN.EnvConfig), FS.dir);
+            => Settings.setting(Path(EN.EnvConfig), FS.dir);
 
         public FS.FilePath EnvPath(string name)
             => EnvSource() + FS.file(name, FileKind.Env);
