@@ -7,9 +7,9 @@ namespace Z0
     using static core;
 
     public delegate void EdgeReader<V>(in Edge<V> e)
-        where V : IEquatable<V>, IVertex<V>;
+        where V : IDataType<V>, IExpr, IVertex<V>;
     public class Digraph<V>
-        where V : IEquatable<V>, IVertex<V>
+        where V : IDataType<V>, IExpr, IVertex<V>
     {
         DataList<Edge<V>> _Edges;
 

@@ -4,9 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
-    public class Vertex<T> : IVertex<T>
-        where T : IEquatable<T>
+    public sealed record class Vertex<T>
+        where T : IDataType, IExpr
     {
         public T Value {get;}
 
@@ -19,8 +18,25 @@ namespace Z0
             Targets = new();
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Value.Hash;
+        }
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Value.IsEmpty;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Value.IsNonEmpty;
+        }
+
         public string Format()
-            => Value.ToString();
+            => Value.Format();
 
         [MethodImpl(Inline)]
         public bool Equals(Vertex<T> src)
@@ -30,10 +46,7 @@ namespace Z0
             => Format();
 
         public override int GetHashCode()
-            => Value.GetHashCode();
-
-        public override bool Equals(object src)
-            => src is Vertex<T> v && Equals(v);
+            => Hash;
 
         [MethodImpl(Inline)]
         public static implicit operator Vertex<T>(T key)
@@ -42,13 +55,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator Vertex(Vertex<T> src)
             => new Vertex(src.Value);
-
-        [MethodImpl(Inline)]
-        public static bool operator ==(Vertex<T> a, Vertex<T> b)
-            => a.Equals(b);
-
-        [MethodImpl(Inline)]
-        public static bool operator !=(Vertex<T> a, Vertex<T> b)
-            => !a.Equals(b);
     }
 }

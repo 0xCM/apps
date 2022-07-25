@@ -5,7 +5,7 @@
 namespace Z0
 {
     public struct GraphPath<V>
-        where V : IEquatable<V>, IVertex<V>
+        where V : IDataType<V>, IExpr, IVertex<V>
     {
         Index<V> Data;
 

@@ -4,37 +4,57 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class NamedVertex<V> : IEquatable<NamedVertex<V>>
-        where V : IEquatable<V>
+    using static Algs;
+
+    public sealed record class NamedVertex<V>
+        where V : IDataType<V>, IExpr
     {
-        public NameOld Name {get;}
+        public Name Name {get;}
 
         public V Value {get;}
 
         public DataList<Vertex<V>> Targets {get;}
 
         [MethodImpl(Inline)]
-        public NamedVertex(NameOld name, V value)
+        public NamedVertex(Name name, V value)
         {
             Name = name;
             Value = value;
             Targets = new();
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Value.Hash | hash(Name);
+        }
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Value.IsEmpty;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Value.IsNonEmpty;
+        }
+
         [MethodImpl(Inline)]
         public bool Equals(NamedVertex<V> src)
-            => Name.Equals(src.Name);
+            => Name == src.Name && Value.Equals(src.Value);
 
         public override int GetHashCode()
-            => (int)Name.Hash;
-
-        public override bool Equals(object obj)
-            => obj is NamedVertex<V> v && Equals(v);
+            => Hash;
 
         public string Format()
             => string.Format("{0}({1})", Name, Value);
 
         public override string ToString()
             => Format();
+
+        public int CompareTo(NamedVertex<V> src)
+            => Name.CompareTo(src.Name);
     }
 }

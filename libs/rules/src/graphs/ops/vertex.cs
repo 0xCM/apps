@@ -8,12 +8,12 @@ namespace Z0
     {
         [MethodImpl(Inline)]
         public static Vertex<V> vertext<V>(V value)
-            where V : IEquatable<V>
+            where V : IDataType<V>, IExpr
                 => new Vertex<V>(value);
 
         [MethodImpl(Inline)]
-        public static NamedVertex<V> vertex<V>(NameOld name, V value)
-            where V : IEquatable<V>
+        public static NamedVertex<V> vertex<V>(Name name, V value)
+            where V : IDataType<V>, IExpr
                 => new NamedVertex<V>(name,value);
     }
 }

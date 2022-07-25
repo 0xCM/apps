@@ -8,7 +8,7 @@ namespace Z0
     {
         [MethodImpl(Inline)]
         public static Digraph<V> digraph<V>()
-            where V : IEquatable<V>, IVertex<V>
+            where V : IDataType<V>, IExpr, IVertex<V>
                 => new Digraph<V>();
 
         [MethodImpl(Inline)]

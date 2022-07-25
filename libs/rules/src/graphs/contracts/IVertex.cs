@@ -5,16 +5,19 @@
 namespace Z0
 {
     [Free]
-    public interface IVertex : IExprDeprecated
+    public interface IVertex : IExpr
     {
         object Value {get;}
 
         DataList<Vertex> Targets {get;}
+
+        bool INullity.IsEmpty
+            => Value == null;
     }
 
     [Free]
-    public interface IVertex<V> : IVertex
-        where V : IEquatable<V>
+    public interface IVertex<V> : IVertex, IEquatable<V>, IHashed
+        where V : IDataType<V>, IExpr
     {
         new V Value {get;}
 

@@ -4,13 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial struct Graphs
     {
         [MethodImpl(Inline)]
         public static GraphPath<V> path<V>(params V[] src)
-            where V : IEquatable<V>, IVertex<V>
+            where V : IDataType<V>, IExpr, IVertex<V>
                 => new GraphPath<V>(src);
     }
 }

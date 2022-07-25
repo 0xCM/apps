@@ -9,7 +9,7 @@ namespace Z0
     partial struct Graphs
     {
         public static void Traverse<V>(V src, Action<V> receiver)
-            where V : IEquatable<V>, IVertex<V>
+            where V : IDataType<V>, IExpr, IVertex<V>
         {
             receiver(src);
             var targets = src.Targets.View();

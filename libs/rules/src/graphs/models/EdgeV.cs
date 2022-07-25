@@ -5,7 +5,7 @@
 namespace Z0
 {
     public readonly struct Edge<V> : IEdge<V>, IEquatable<Edge<V>>
-        where V : IEquatable<V>, IVertex<V>
+        where V : IDataType<V>, IExpr, IVertex<V>
     {
         public V Source {get;}
 
