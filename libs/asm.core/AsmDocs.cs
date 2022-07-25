@@ -2,10 +2,12 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
     using static core;
     using static AsmOcTokens;
+
+    using Asm;
 
     public class AsmDocs : WfSvc<AsmDocs>
     {
@@ -25,7 +27,7 @@ namespace Z0.Asm
 
         public void EmitRegDocs()
         {
-            var dst = ProjectDb.ApiDoc("asm.regs.strings", FS.Cs);
+            var dst = AppDb.ApiTargets("asm.docs").Path("asm.regs.strings", FileKind.Cs);
             var emitting = EmittingFile(dst);
             using var writer = dst.Writer();
             writer.WriteLine(Regs.Gp8LoRegs().ToNameArray("Gp8LoRegs"));
@@ -48,7 +50,7 @@ namespace Z0.Asm
 
         public void EmitRexDocs()
         {
-            var dst = ProjectDb.ApiDoc("asm.docs.rex", FS.ext("bits") + FS.Csv);
+            var dst = AppDb.ApiTargets("asm.docs").Path("rex.bits", FileKind.Csv);
             var emitting = EmittingFile(dst);
             var bits = RexPrefix.Range();
             using var writer = dst.AsciWriter();
@@ -61,15 +63,15 @@ namespace Z0.Asm
         public void EmitSibDocs()
         {
             var rows = AsmBytes.SibRows().View;
-            AppSvc.TableEmit(rows, ProjectDb.ApiDoc("asm.docs.sib.bits", FS.Csv));
+            AppSvc.TableEmit(rows, AppDb.ApiTargets("asm.docs").Path("asm.docs.sib.bits", FileKind.Csv));
 
             var codes = AsmBytes.SibRegCodes();
-            AppSvc.TableEmit(codes.View, ProjectDb.ApiDoc("asm.docs.sib.regs", FS.Csv));
+            AppSvc.TableEmit(codes.View, AppDb.ApiTargets("asm.docs").Path("asm.docs.sib.regs", FileKind.Csv));
         }
 
         public void EmitModRmDocs()
         {
-            var path = ProjectDb.ApiDoc("asm.docs.modrm", FS.ext("bits") + FS.Csv);
+            var path = AppDb.ApiTargets("asm.docs").Path("asm.docs.modrm.bits", FileKind.Csv);
             var flow = EmittingFile(path);
             using var writer = path.AsciWriter();
             var dst = span<char>(256*128);
@@ -97,8 +99,8 @@ namespace Z0.Asm
 
         public void EmitConditionDocs()
         {
-            EmitConditionDocs(Conditions.jcc8(), ProjectDb.ApiDoc("jcc8", FS.Txt));
-            EmitConditionDocs(Conditions.jcc32(), ProjectDb.ApiDoc("jcc32", FS.Txt));
+            EmitConditionDocs(Conditions.jcc8(), AppDb.ApiTargets("asm.docs").Path("jcc8", FileKind.Txt));
+            EmitConditionDocs(Conditions.jcc32(), AppDb.ApiTargets("asm.docs").Path("jcc32", FileKind.Txt));
         }
 
         uint EmitConditionDocs<T>(ReadOnlySpan<T> src, FS.FilePath dst)

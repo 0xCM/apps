@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Arrays;
+    using static Spans;
 
     public class ToolCmd
     {
@@ -62,9 +64,9 @@ namespace Z0
             var t = typeof(T);
             var fields = Clr.fields(t);
             var count = fields.Length;
-            var reflected = alloc<ClrFieldValue>(count);
+            var reflected = sys.alloc<ClrFieldValue>(count);
             ClrFields.values(spec, fields, reflected);
-            var buffer = alloc<ToolCmdArg>(count);
+            var buffer = sys.alloc<ToolCmdArg>(count);
             var target = span(buffer);
             var source = @readonly(reflected);
             for(var i=0u; i<count; i++)
@@ -82,7 +84,7 @@ namespace Z0
             var view = src.View;
             var count = view.Length;
             for(var i=0; i<count; i++)
-                dst.AppendLine(skip(src,i).Format());
+                dst.AppendLine(src[i].Format());
             return dst.Emit();
         }
 
@@ -139,7 +141,6 @@ namespace Z0
             return false;
         }
 
-
         [MethodImpl(Inline), Op]
         public static CmdFlag disable(CmdFlagSpec flag)
             => new CmdFlag(flag.Name, bit.Off);
@@ -147,30 +148,5 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static CmdFlag enable(CmdFlagSpec flag)
             => new CmdFlag(flag.Name, bit.On);
-
-        public static SettingLookup settings(FS.FilePath src)
-        {
-            var dst = list<Setting>();
-            using var reader = src.LineReader(TextEncodingKind.Asci);
-            while(reader.Next(out var line))
-            {
-                var content = span(line.Content);
-                var length = content.Length;
-                if(length != 0)
-                {
-                    if(SQ.hash(first(content)))
-                        continue;
-
-                    var i = SQ.index(content, Chars.Colon);
-                    if(i > 0)
-                    {
-                        var name = text.format(SQ.left(content,i));
-                        var value = text.format(SQ.right(content,i));
-                        dst.Add(new Setting(name,value));
-                    }
-                }
-            }
-            return new SettingLookup(dst.ToArray());
-        }
     }
 }

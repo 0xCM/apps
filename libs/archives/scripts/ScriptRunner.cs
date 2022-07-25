@@ -46,9 +46,6 @@ namespace Z0
         public ReadOnlySpan<TextLine> RunControlScript(FS.FileName name, CmdVars? vars = null)
             => RunScript(Paths.ControlScript(name), new ScriptId(name.Name), vars);
 
-        public ReadOnlySpan<TextLine> RunToolCmd(ToolScript src)
-            => RunToolScript(src.Ws, src.Tool, src.Script, ScriptKind.Cmd, src.Vars);
-
         public ReadOnlySpan<TextLine> RunToolCmd(IToolWs ws, Actor tool, ScriptId script, CmdVars? vars = null)
             => RunToolScript(ws, tool, script, ScriptKind.Cmd, vars);
 
@@ -101,26 +98,6 @@ namespace Z0
             {
                 term.error(e);
                 return default;
-            }
-        }
-
-        public Outcome RunCmd(ToolScript script, Receiver<string> status, Receiver<string> error, out ReadOnlySpan<TextLine> dst)
-        {
-            dst = default;
-            try
-            {
-                var kind = ScriptKind.Cmd;
-                var path = script.Path();
-                if(!path.Exists)
-                    return (false,FS.missing(path));
-                var process = ScriptProcess.create(Scripts.script(path, kind), script.Vars, status, error);
-                process.Wait();
-                dst = Lines.read(process.Output);
-                return true;
-            }
-            catch(Exception e)
-            {
-                return e;
             }
         }
 

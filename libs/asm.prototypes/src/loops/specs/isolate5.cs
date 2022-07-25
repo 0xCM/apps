@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     unsafe partial struct LoopModels
     {
         /// <summary>

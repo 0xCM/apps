@@ -23,7 +23,5 @@ namespace Z0
             Vars = vars;
         }
 
-        public FS.FilePath Path()
-            => Ws.ScriptDir() + FS.file(Script.Id, FileKind.Cmd);
     }
 }

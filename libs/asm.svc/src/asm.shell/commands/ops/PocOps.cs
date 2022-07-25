@@ -8,6 +8,13 @@ namespace Z0.Asm
 
     partial class AsmCmdService
     {
+        AsmDocs AsmDocs => Wf.AsmDocs();
+
+        [CmdOp("asm/docs/emit")]
+        void EmitAsmDocs()
+        {
+            AsmDocs.Emit();
+        }
 
         Outcome AsmExe(CmdArgs args)
         {
@@ -49,7 +56,6 @@ namespace Z0.Asm
             return result;
         }
 
-
         void CheckMullo(IBoundSource Source)
         {
             var @class = ApiClassKind.MulLo;
@@ -82,7 +88,6 @@ namespace Z0.Asm
                 Wf.Data(call.Format() + " ?=? " + expect.ToString());
             }
         }
-
 
         Outcome EmitTokenStrings(CmdArgs args)
         {
@@ -335,7 +340,6 @@ namespace Z0.Asm
             return result;
         }
 
-
         void DescribeHeaps()
         {
             var src = Wf.ApiCatalog.Components.View;
@@ -567,6 +571,5 @@ namespace Z0.Asm
             var f1 = ApiCode.filter(blocks,ApiClassKind.And);
             iter(f1,f => Wf.Data(f.Uri));
         }
-
     }
 }

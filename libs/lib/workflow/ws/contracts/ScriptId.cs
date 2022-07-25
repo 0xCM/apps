@@ -11,20 +11,10 @@ namespace Z0
     {
         public string Id {get;}
 
-        public string Token {get;}
-
         [MethodImpl(Inline)]
         public ScriptId(string id)
         {
             Id = id;
-            Token = EmptyString;
-        }
-
-        [MethodImpl(Inline)]
-        public ScriptId(string id, string token)
-        {
-            Id = id;
-            Token = token;
         }
 
         public bool IsEmpty
@@ -37,12 +27,6 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => sys.nonempty(Id);
-        }
-
-        public bool IsDiscriminated
-        {
-            [MethodImpl(Inline)]
-            get => sys.nonempty(Token);
         }
 
         [MethodImpl(Inline)]
@@ -77,10 +61,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public static bool operator !=(ScriptId a, ScriptId b)
             => !a.Equals(b);
-
-        [MethodImpl(Inline)]
-        public static implicit operator ScriptId((string name, string token) src)
-            => new ScriptId(src.name, src.token);
 
         public static ScriptId Empty
         {

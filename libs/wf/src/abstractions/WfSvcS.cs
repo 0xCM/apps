@@ -45,9 +45,6 @@ namespace Z0
         protected ToolWs ToolWs
             => new ToolWs(AppDb.Toolbase().Root);
 
-        public SettingLookup ShellSettings()
-            => Settings.rows(Settings.path());
-
         [MethodImpl(Inline)]
         public IWsProject Project()
             => WfSvc.project();

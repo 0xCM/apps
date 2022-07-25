@@ -17,9 +17,7 @@ namespace Z0
                 wf.CaptureCmd(),
                 wf.AsmCoreCmd(),
                 wf.LlvmCmd(),
-                //wf.XedTool(),
                 wf.Machines(),
-                //wf.ApiCmd(),
                 wf.SourceSymbolic(),
                 wf.IntelIntrinsicsCmd(),
                 wf.AsmCmdSvc(),
@@ -30,11 +28,5 @@ namespace Z0
 
         public static AppCmd commands(IWfRuntime wf)
             => create(wf, providers(wf));
-
-        [CmdOp("shell/settings")]
-        void PartSettings()
-        {
-            ShellSettings().Iter(setting => Write(setting.Format(Chars.Colon)));
-        }
     }
 }

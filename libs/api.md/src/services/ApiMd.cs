@@ -62,14 +62,8 @@ namespace Z0
         public ReadOnlySeq<ApiFlowSpec> DataFlows
             => data(K.DataFlows, CalcDataFlows);
 
-        public ConstLookup<Name,ReadOnlySeq<SymInfo>> ApiTokens
-            => data(K.ApiTokens, CalcApiTokens);
-
         public ApiParserLookup Parsers
             => data(K.Parsers, () => Z0.Parsers.contracted(Components));
-
-        public Index<ClrEnumRecord> EnumRecords(Assembly src)
-            => Data(src.GetSimpleName() + nameof(ClrEnumRecord), () => Enums.records(src));
 
         public ApiMdEmitter Emitter(IApiPack dst)
             => ApiMdEmitter.create(Wf, this, dst);
@@ -102,24 +96,18 @@ namespace Z0
             return dst.ToArray();
         }
 
-        internal void EmitApiTokens(Name name, ReadOnlySeq<SymInfo> src)
-            => TableEmit(src, ApiTargets(tokens).PrefixedTable<SymInfo>(name), TextEncodingKind.Unicode);
+        internal void EmitApiTokens()
+            => EmitApiTokens(CalcApiTokens());
 
-
-        internal void EmitApiTokens(ConstLookup<Name,ReadOnlySeq<SymInfo>> src)
+        void EmitApiTokens(ConstLookup<Name,ReadOnlySeq<SymInfo>> src)
         {
             var names = src.Keys;
             for(var i=0; i<names.Length; i++)
                 EmitApiTokens(skip(names,i), src[skip(names,i)]);
         }
 
-        internal void EmitApiTokens()
-        {
-            EmitApiTokens(ApiTokens);
-        }
-
-        internal ApiHostCatalog HostCatalog(Type src)
-            => HostCatalog(ApiLoader.apihost(src));
+        void EmitApiTokens(Name name, ReadOnlySeq<SymInfo> src)
+            => TableEmit(src, ApiTargets(tokens).PrefixedTable<SymInfo>(name), TextEncodingKind.Unicode);
 
         internal Index<ComponentAssets> CalcAssets()
             => Assets.extract(Components);
@@ -223,9 +211,6 @@ namespace Z0
             FileEmit(emitter.Emit(), parsers.Count, AppDb.ApiTargets().Path("api.parsers", FileKind.Csv));
         }
 
-        internal void EmitEnums(ReadOnlySpan<ClrEnumRecord> src)
-            => TableEmit(src, AppDb.ApiTargets().Table<ClrEnumRecord>(), TextEncodingKind.Unicode);
-
         internal ReadOnlySeq<ApiFlowSpec> CalcDataFlows()
         {
             var src = ApiDataFlow.discover(Components);
@@ -246,74 +231,8 @@ namespace Z0
         internal ReadOnlySeq<ApiCmdRow> CalcApiCommands()
             => CmdTypes.rows(CmdTypes.discover(Components));
 
-        public static ConstLookup<Name,ReadOnlySeq<SymInfo>> symbols(params Type[] src)
-        {
-            var types = src.Tagged<SymSourceAttribute>();
-            var groups = dict<Name,List<Type>>();
-            var individuals = list<Type>();
-            foreach(var type in types)
-            {
-                var tag = type.Tag<SymSourceAttribute>().Require();
-                var name = tag.SymGroup;
-                if(nonempty(name))
-                {
-                    if(groups.TryGetValue(name, out var list))
-                        list.Add(type);
-                    else
-                    {
-                        list = new();
-                        list.Add(type);
-                        groups[name] = list;
-                    }
-                }
-                else
-                    individuals.Add(type);
-            }
-
-            var dst = dict<Name,ReadOnlySeq<SymInfo>>();
-            foreach(var g in groups.Keys)
-                dst[g] = Symbols.syminfo(groups[g].ViewDeposited());
-
-            foreach(var i in individuals)
-                dst[i.Name] = Symbols.syminfo(i);
-
-            return dst;
-        }
-
         internal ConstLookup<Name,ReadOnlySeq<SymInfo>> CalcApiTokens()
-        {
-            var types = EnumTypes.Tagged<SymSourceAttribute>();
-            return symbols(types);
-            // var groups = dict<string,List<Type>>();
-            // var individuals = list<Type>();
-            // foreach(var type in types)
-            // {
-            //     var tag = type.Tag<SymSourceAttribute>().Require();
-            //     var name = tag.SymGroup;
-            //     if(nonempty(name))
-            //     {
-            //         if(groups.TryGetValue(name, out var list))
-            //             list.Add(type);
-            //         else
-            //         {
-            //             list = new();
-            //             list.Add(type);
-            //             groups[name] = list;
-            //         }
-            //     }
-            //     else
-            //         individuals.Add(type);
-            // }
-
-            // var dst = dict<string,Index<SymInfo>>();
-            // foreach(var g in groups.Keys)
-            //     dst[g] = Symbols.syminfo(groups[g].ViewDeposited());
-
-            // foreach(var i in individuals)
-            //     dst[i.Name] = Symbols.syminfo(i);
-
-            // return dst;
-        }
+            => Symbols.lookup(EnumTypes.Tagged<SymSourceAttribute>());
 
         public Index<Type> LoadTypes(FS.FilePath src)
         {
@@ -445,22 +364,6 @@ namespace Z0
                 }
             }
             return buffer;
-        }
-
-        internal Index<SymInfo> EmitApiTokens(Type src)
-        {
-            var syms = Symbols.syminfo(src);
-            var name = src.Name.ToLower();
-            var dst = ApiTargets().PrefixedTable<SymInfo>(tokens + "." +  name);
-            TableEmit(syms, dst, TextEncodingKind.Unicode);
-            return syms;
-        }
-
-        internal Index<SymInfo> EmitApiTokens(ITokenGroup src, FS.FilePath dst)
-        {
-            var data = Symbols.syminfo(src.TokenTypes);
-            TableEmit(data, dst, TextEncodingKind.Unicode);
-            return data;
         }
 
         void Emit(ReadOnlySpan<ApiCmdRow> src)

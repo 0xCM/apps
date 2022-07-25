@@ -68,6 +68,9 @@ namespace Z0
 
             public FileSplitter FileSplitter(IWfRuntime wf)
                 => Service<FileSplitter>(wf);
+
+            public AsmDocs AsmDocs(IWfRuntime wf)
+                => Service<AsmDocs>(wf);
         }
 
         static Svc Services => Svc.Instance;
@@ -125,6 +128,9 @@ namespace Z0
 
         public static Parsers Parsers(this IWfRuntime wf)
             => Services.Parsers(wf);
+
+        public static AsmDocs AsmDocs(this IWfRuntime wf)
+            => Services.AsmDocs(wf);
 
         public static CharMapper CharMapper(this IWfRuntime wf)
             => Services.CharMapper(wf);

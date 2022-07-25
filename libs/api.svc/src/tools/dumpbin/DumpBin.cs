@@ -12,9 +12,8 @@ namespace Z0
         public Identifier ScriptId(CmdName cmd, FS.FileExt ext)
             => string.Format("{0}.{1}.{2}", Id, ext.Name, CmdSymbols[cmd].Expr);
 
-        public void ParseDisassembly()
+        public void ParseDisassembly(FS.FilePath src)
         {
-            var src = FS.path(@"C:\Data\zdb\tools\dumpbin\output\xxhsum.exe.disasm.asm");
             var dir = Db.AppLogRoot();
             var processor = AsmProcessor();
             var dst = dir + FS.file("xxhsum", FS.Asm);
@@ -35,7 +34,6 @@ namespace Z0
         [CmdOp("asm/cult/import")]
         void ImportCultData()
             => Wf.CultProcessor().RunEtl();
-
 
         public DumpBinProcessor AsmProcessor()
             => DumpBinProcessor.create(Wf);

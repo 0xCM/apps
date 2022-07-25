@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-    using static core;
-
     unsafe partial struct LoopModels
     {
         public static void code_gen_0(ref Receiver2 s0, ref Receiver2 s1)

@@ -7,8 +7,6 @@ namespace Z0
     using static Spans;
     using static Arrays;
     using static Refs;
-    using static Algs;
-
 
     [ApiHost]
     public partial class Settings
@@ -20,7 +18,6 @@ namespace Z0
 
         public static Name name<T>()
             => name(typeof(T));
-
 
         public static string json(Setting src)
             => string.Concat(text.enquote(src.Name), Chars.Colon, Chars.Space, src.ValueText.Enquote());

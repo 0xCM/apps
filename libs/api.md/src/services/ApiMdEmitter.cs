@@ -36,6 +36,7 @@ namespace Z0
                 () => EmitSymLits(symlits),
                 () => Md.EmitApiLiterals(Symbolic.apilits(components)),
                 () => EmitApiDeps(sys.array(ExecutingPart.Component)),
+
                 Md.EmitParsers,
                 Md.EmitApiTables,
                 Md.EmitApiCommands,
@@ -43,6 +44,17 @@ namespace Z0
                 () => ApiMemory.EmitSymHeap(Heaps.load(symlits), Target)
             );
         }
+
+        public void EmitApiTokens(Type src)
+        {
+            var syms = Symbols.syminfo(src);
+            var name = src.Name.ToLower();
+            var dst = Target.PrefixedTable<SymInfo>("tokens" + "." +  name);
+            TableEmit(syms, dst, TextEncodingKind.Unicode);
+        }
+
+        public void EmitApiTokens(ITokenGroup src)
+            => TableEmit(Symbols.syminfo(src.TokenTypes), Target.Table<SymInfo>($"{src.GroupName}"), TextEncodingKind.Unicode);
 
         public void EmitComments()
             => Comments.Collect(Target);
@@ -77,12 +89,5 @@ namespace Z0
 
         public void EmitSymLits(ReadOnlySpan<SymLiteralRow> src)
             => TableEmit(src, Target.Metadata().Path("api.symbols", FileKind.Csv), TextEncodingKind.Unicode);
-
-        public static ApiMdEmitter create(IWfRuntime wf, ApiMd md)
-        {
-            var dst = create(wf);
-            dst.Md = md;
-            return dst;
-        }
     }
 }
