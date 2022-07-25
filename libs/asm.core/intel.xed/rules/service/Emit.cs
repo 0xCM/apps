@@ -33,7 +33,7 @@ namespace Z0
                 dst.AppendLineFormat(RenderPattern, i, j, u.TableKind, u.Consequent, u.RuleName, u.Field);
             }
 
-            AppSvc.FileEmit(dst.Emit(), XedPaths.RuleTargets().Path("xed.rules.fields.deps", FileKind.Csv));
+            FileEmit(dst.Emit(), XedPaths.RuleTargets().Path("xed.rules.fields.deps", FileKind.Csv));
         }
 
         void EmitRuleDeps()
@@ -44,11 +44,11 @@ namespace Z0
         {
             exec(PllExec,
                 EmitRuleBlocks,
-                () => AppSvc.TableEmit(XedOpCodeKinds.Instance.Records, XedPaths.Table<XedMapKind>()),
+                () => TableEmit(XedOpCodeKinds.Instance.Records, XedPaths.Table<XedMapKind>()),
                 () => Emit(mapi(RuleMacros.matches().Values.ToArray().Sort(), (i,m) => m.WithSeq((uint)i))),
                 () => Emit(CalcMacroDefs().View),
                 () => Emit(XedFields.Defs.Positioned),
-                () => AppSvc.TableEmit(Xed.Views.InstOpSpecs, XedPaths.InstTable<InstOpSpec>()),
+                () => TableEmit(Xed.Views.InstOpSpecs, XedPaths.InstTable<InstOpSpec>()),
                 EmitRuleDeps
             );
 
@@ -70,10 +70,10 @@ namespace Z0
             => Emit(Xed.Views.OpCodes);
 
         public void EmitInstFields(Index<InstPattern> src)
-            => AppSvc.TableEmit(Xed.Views.InstFields, XedPaths.InstTable<InstFieldRow>());
+            => TableEmit(Xed.Views.InstFields, XedPaths.InstTable<InstFieldRow>());
 
         public void EmitPatternRecords(Index<InstPattern> src)
-            => AppSvc.TableEmit(CalcPatternRecords(src), XedPaths.InstTable<InstPatternRecord>());
+            => TableEmit(CalcPatternRecords(src), XedPaths.InstTable<InstPatternRecord>());
 
         public void EmitOpDetails()
             => Emit(Xed.Views.InstOpDetails);

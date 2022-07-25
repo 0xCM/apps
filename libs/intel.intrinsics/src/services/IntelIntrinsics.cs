@@ -12,8 +12,6 @@ namespace Z0
     {
         static internal ref readonly PartAssets Assets => ref AssetData;
 
-        AppSvcOps AppSvc => Wf.AppSvc();
-
         IDbSources Sources()
             => AppDb.DbIn("intel");
 
@@ -39,7 +37,7 @@ namespace Z0
         {
             var dst = text.emitter();
             AlgRender.render(src,dst);
-            AppSvc.FileEmit(dst.Emit(), AlgPath(), TextEncodingKind.Utf8);
+            FileEmit(dst.Emit(), AlgPath(), TextEncodingKind.Utf8);
         }
 
         public void EmitDeclarations(ReadOnlySpan<IntrinsicDef> src)
@@ -53,11 +51,11 @@ namespace Z0
             EmittedFile(flow, count);
         }
 
-        public Index<IntrinsicRecord> EmitRecords(Index<IntrinsicDef> src)
+        public Index<IntelIntrinsicRecord> EmitRecords(Index<IntrinsicDef> src)
         {
-            var dst = alloc<IntrinsicRecord>(src.Count);
+            var dst = alloc<IntelIntrinsicRecord>(src.Count);
             records(src,dst);
-            AppSvc.TableEmit(dst.Sort().Resequence(), Targets().Table<IntrinsicRecord>());
+            TableEmit(dst.Sort().Resequence(), Targets().Table<IntelIntrinsicRecord>());
             return dst;
         }
 

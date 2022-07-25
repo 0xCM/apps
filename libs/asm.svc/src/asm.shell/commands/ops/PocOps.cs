@@ -33,7 +33,7 @@ namespace Z0.Asm
             if(result.Fail)
                 return result;
 
-            var src = Settings.parse(response);
+            var src = Settings.parse(response, Chars.Colon);
             var count = src.Length;
             var vars = new CmdVar[count];
             for(var i=0; i<count; i++)

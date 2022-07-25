@@ -11,7 +11,7 @@ namespace Z0
     {
         Identifier Name {get;}
 
-        SettingIndex Settings {get;}
+        SettingLookup Settings {get;}
 
         bool INullity.IsEmpty
             => Settings.IsEmpty;
@@ -30,7 +30,7 @@ namespace Z0
         Identifier ISettings.Name
             => typeof(S).Name;
 
-        SettingIndex ISettings.Settings
-            => api.index((S)this);
+        SettingLookup ISettings.Settings
+            => api.lookup((S)this);
     }
 }

@@ -12,8 +12,8 @@ namespace Z0
 
         OmniScript OmniScript => Wf.OmniScript();
 
-        public SettingIndex Config(FS.FilePath src)
-            => Settings.config(src);
+        public SettingLookup Config(FS.FilePath src)
+            => Settings.lookup(src,Chars.Colon);
 
         public ConstLookup<ToolIdOld,ToolHelpDoc> LoadHelpDocs(IDbSources src)
         {

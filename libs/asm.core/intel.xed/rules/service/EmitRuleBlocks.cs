@@ -37,7 +37,7 @@ namespace Z0
                 dst.AppendLine();
             }
 
-            AppSvc.FileEmit(dst.Emit(), count, XedPaths.RuleTarget($"blocks.{kind.ToString().ToLower()}", FS.Csv));
+            FileEmit(dst.Emit(), count, XedPaths.RuleTarget($"blocks.{kind.ToString().ToLower()}", FS.Csv));
             return blocks;
         }
     }

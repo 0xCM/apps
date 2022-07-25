@@ -12,7 +12,7 @@ namespace Z0
         public static ToolWs create(FS.FolderPath home)
             => new ToolWs(home);
 
-        public static SettingIndex config(FS.FilePath src)
+        public static SettingLookup config(FS.FilePath src)
         {
             var dst = list<Setting>();
             using var reader = src.LineReader(TextEncodingKind.Asci);
@@ -34,7 +34,7 @@ namespace Z0
                     }
                 }
             }
-            return new SettingIndex(dst.ToArray());
+            return new SettingLookup(dst.ToArray());
         }
 
         public static IToolWs configure(IToolWs src)

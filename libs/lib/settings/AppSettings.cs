@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public sealed class AppSettings : Settings<Name,string>
+    public sealed class AppSettings : SettingLookup<Name,string>
     {
         public AppSettings()
         {

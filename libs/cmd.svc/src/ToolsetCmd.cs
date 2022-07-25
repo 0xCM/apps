@@ -9,7 +9,7 @@ namespace Z0
     {
         Toolsets Toolsets => Wf.Toolsets();
 
-        SettingIndex Config;
+        SettingLookup Config;
 
         [CmdOp("toolset")]
         void LlvmConfig(CmdArgs args)

@@ -54,7 +54,7 @@ namespace Z0
             var src = CliEmitOptions.@default();
             //var settings = Settings.settings(src);
             var path = AppDb.ConfigPath<CliEmitOptions>();
-            var settings = Settings.config(path);
+            var settings = Settings.lookup(path,Chars.Colon);
             Row(settings.Format());
 
             // Row(settings.Format());

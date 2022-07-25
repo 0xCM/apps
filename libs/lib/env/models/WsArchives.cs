@@ -11,12 +11,12 @@ namespace Z0
         public static WsArchives load()
             => load(ConfigSets.app());
 
-        public static WsArchives load(SettingIndex src)
+        public static WsArchives load(SettingLookup src)
             => new WsArchives(src);
 
-        readonly SettingIndex Data;
+        readonly SettingLookup Data;
 
-        internal WsArchives(SettingIndex src)
+        internal WsArchives(SettingLookup src)
         {
             Data = src;
         }

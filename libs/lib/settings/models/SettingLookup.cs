@@ -7,28 +7,28 @@ namespace Z0
     using api = Settings;
 
     [ApiHost]
-    public class SettingIndex : IIndex<Setting>, ILookup<string,Setting>
+    public class SettingLookup : IIndex<Setting>, ILookup<string,Setting>
     {
         readonly Index<Setting> Data;
 
         public readonly FS.FilePath Source;
 
         [MethodImpl(Inline)]
-        public SettingIndex(Setting<object>[] data)
+        public SettingLookup(Setting<object>[] data)
         {
             Source = FS.FilePath.Empty;
             Data = data.Select(x => new Setting(x.Name, x.Value));
         }
 
         [MethodImpl(Inline)]
-        public SettingIndex(FS.FilePath src, Setting[] data)
+        public SettingLookup(FS.FilePath src, Setting[] data)
         {
             Source = src;
             Data = data;
         }
 
         [MethodImpl(Inline)]
-        public SettingIndex(Setting[] src)
+        public SettingLookup(Setting[] src)
         {
             Source = FS.FilePath.Empty;
             Data = src;
@@ -102,17 +102,17 @@ namespace Z0
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator SettingIndex(Setting<object>[] src)
-            => new SettingIndex(src);
+        public static implicit operator SettingLookup(Setting<object>[] src)
+            => new SettingLookup(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator SettingIndex(Setting[] src)
-            => new SettingIndex(src);
+        public static implicit operator SettingLookup(Setting[] src)
+            => new SettingLookup(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator Setting[](SettingIndex src)
+        public static implicit operator Setting[](SettingLookup src)
             => src.Storage;
 
-        public static SettingIndex Empty => new SettingIndex(sys.empty<Setting>());
+        public static SettingLookup Empty => new SettingLookup(sys.empty<Setting>());
     }
 }

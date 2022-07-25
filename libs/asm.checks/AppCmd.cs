@@ -11,8 +11,7 @@ namespace Z0
             => new ICmdProvider[]{
                 wf.AsmCmdSvc(),
                 wf.ProjectCmd(),
-                wf.EnvCmd(),
-                wf.DbCmd(),
+                wf.WfCmd(),
                 wf.MemCmd(),
                 wf.ToolsetCmd(),
                 wf.CaptureCmd(),

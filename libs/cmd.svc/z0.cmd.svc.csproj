@@ -6,7 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="$(CmdExec)" />
+    <ProjectReference Include="$(Native)" />
+    <ProjectReference Include="$(Containers)" />
+    <ProjectReference Include="$(Wf)" />
   </ItemGroup>
 
 </Project>

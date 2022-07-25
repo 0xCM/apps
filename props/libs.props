@@ -27,7 +27,6 @@
     <ProjectReference Include="$(Calcs)" />
     <ProjectReference Include="$(Cli)" />
     <ProjectReference Include="$(CmdSvc)" />
-    <ProjectReference Include="$(CmdExec)" />
     <ProjectReference Include="$(CmdSpecs)" />
 
     <ProjectReference Include="$(Circuits)" />

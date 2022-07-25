@@ -6,10 +6,10 @@ namespace Z0
 {
     public class ConfigSets
     {
-        public static SettingIndex app()
+        public static SettingLookup app()
             => Settings.rows(ConfigPaths.app());
 
-        public static SettingIndex cmd()
+        public static SettingLookup cmd()
             => Settings.rows(ConfigPaths.cmd());
     }
 }

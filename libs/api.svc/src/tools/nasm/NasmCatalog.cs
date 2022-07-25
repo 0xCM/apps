@@ -6,12 +6,8 @@ namespace Z0
 {
     using static core;
 
-    public class NasmCatalog : AppService<NasmCatalog>
+    public class NasmCatalog : WfSvc<NasmCatalog>
     {
-        AppSvcOps AppSvc => Wf.AppSvc();
-
-        static AppDb AppDb => AppDb.Service;
-
         static bool comment(ReadOnlySpan<char> src)
             =>  src.Length != 0 && first(src) == Chars.Semicolon;
 
@@ -89,7 +85,7 @@ namespace Z0
         ReadOnlySpan<NasmInstruction> ImportInstructions(FS.FilePath src, FS.FilePath dst)
         {
             var instructions = ParseInstructions(src);
-            AppSvc.TableEmit(instructions, dst, TextEncodingKind.Unicode);
+            TableEmit(instructions, dst, TextEncodingKind.Unicode);
             return instructions;
         }
 

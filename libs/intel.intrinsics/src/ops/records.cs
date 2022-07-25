@@ -8,17 +8,15 @@ namespace Z0
     using static IntrinsicsDoc;
     using static XedModels;
 
-    using R = XedRules;
-
     partial class IntelIntrinsics
     {
-        static void records(ReadOnlySpan<IntrinsicDef> src, Span<IntrinsicRecord> dst)
+        static void records(ReadOnlySpan<IntrinsicDef> src, Span<IntelIntrinsicRecord> dst)
         {
             for(var i=0; i< src.Length; i++)
                 record(skip(src,i), out seek(dst,i));
         }
 
-        static void record(in IntrinsicDef src, out IntrinsicRecord dst)
+        static void record(in IntrinsicDef src, out IntelIntrinsicRecord dst)
         {
             dst.Key = 0;
             dst.Name = src.name;

@@ -5,7 +5,6 @@
 namespace Z0
 {
     using Expr;
-    using Asm;
 
     using static intel;
     using static IntelIntrinsics.Defs;

@@ -9,8 +9,6 @@ namespace Z0.Asm
     {
         CharMapper CharMapper => Service(Wf.CharMapper);
 
-        AppSvcOps AppSvc => Service(Wf.AppSvc);
-
         IntelSdmPaths SdmPaths;
 
         protected override void OnInit()

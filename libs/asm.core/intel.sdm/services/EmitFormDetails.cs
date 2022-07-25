@@ -46,7 +46,7 @@ namespace Z0.Asm
 
             //Require.invariant(buffer.Select(x => x.Id).Distinct().Length == count);
 
-            AppSvc.TableEmit(buffer, SdmPaths.FormDetailDst());
+            TableEmit(buffer, SdmPaths.FormDetailDst());
         }
     }
 }

@@ -47,7 +47,7 @@ namespace Z0
             return dst.Emit();
         }
 
-        public static void Save(SettingIndex src, FS.FilePath dst)
+        public static void Save(SettingLookup src, FS.FilePath dst)
         {
             const string indent = "    ";
 

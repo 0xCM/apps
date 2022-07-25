@@ -104,7 +104,7 @@ namespace Z0
             Tables.emit(log, data.View, dst);
         }
 
-        public static Settings<Name,asci64> commands(IDispatcher src)
+        public static SettingLookup<Name,asci64> commands(IDispatcher src)
         {
             var actions = src.Commands.Specs.Index().Sort().Index();
             var part = src.Controller;

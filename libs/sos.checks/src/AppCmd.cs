@@ -11,7 +11,7 @@ namespace Z0
 
         public static ICmdProvider[] providers(IWfRuntime wf)
             => new ICmdProvider[]{
-                wf.EnvCmd(),
+                wf.WfCmd(),
                 wf.ToolsetCmd(),
                 wf.SosCmd(),
             };

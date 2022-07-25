@@ -13,8 +13,6 @@ namespace Z0
 
         public static string cleanse(string src)
             => text.remove(text.remove(src, Chars.Underscore, Chars.Space), "0b");
-            
-             //src.RemoveBlanks().Remove("0b").Remove("_");
 
         [MethodImpl(Inline), Op]
         public static uint parse(ReadOnlySpan<char> src, Span<bit> dst)
@@ -103,12 +101,12 @@ namespace Z0
             else if (size<T>() == 4)
             {
                 result = parse(src, width, out uint x);
-                dst = @as<uint,T>(x);                
+                dst = @as<uint,T>(x);
             }
             else if (size<T>() == 8)
             {
                 result = parse(src, width, out ulong x);
-                dst = @as<ulong,T>(x);            
+                dst = @as<ulong,T>(x);
             }
             else
             {
@@ -116,7 +114,7 @@ namespace Z0
                 Errors.Throw(no<T>());
             }
 
-            return result;            
+            return result;
         }
 
         [MethodImpl(Inline), Op]

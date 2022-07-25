@@ -8,16 +8,14 @@ namespace Z0.Asm
 
     public class CpuIdSvc : WfSvc<CpuIdSvc>
     {
-        AppSvcOps AppSvc => Service(Wf.AppSvc);
-
         public void EmitRecords(ReadOnlySpan<CpuIdRow> src, FS.FilePath dst)
-            => AppSvc.TableEmit(src,dst);
+            => TableEmit(src,dst);
 
         public void EmitBits(ReadOnlySpan<CpuIdRow> src, FS.FilePath dst)
         {
             var buffer = text.emitter();
             regvals(src, buffer);
-            AppSvc.FileEmit(buffer.Emit(), src.Length, dst);
+            FileEmit(buffer.Emit(), src.Length, dst);
         }
 
         public static Index<CpuIdRow> import(FS.FolderPath srcdir)

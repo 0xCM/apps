@@ -18,7 +18,7 @@ namespace Z0
 
         protected IProjectDb ProjectDb;
 
-        protected static AppSettings AppSettings => data(nameof(SettingIndex), AppSettings.load);
+        protected static AppSettings AppSettings => data(nameof(SettingLookup), AppSettings.load);
 
         protected static bool PllExec
         {
@@ -45,7 +45,7 @@ namespace Z0
         protected ToolWs ToolWs
             => new ToolWs(AppDb.Toolbase().Root);
 
-        public SettingIndex ShellSettings()
+        public SettingLookup ShellSettings()
             => Settings.rows(Settings.path());
 
         [MethodImpl(Inline)]

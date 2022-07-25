@@ -6,9 +6,6 @@ namespace Z0
 {
     public sealed class Settings64 : Settings<Settings64,Name,Setting64>
     {
-        public static Settings64 load(params Setting64[] src)
-            => new Settings64(src);
-
         public Settings64()
         {
 

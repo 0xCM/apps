@@ -9,8 +9,7 @@ namespace Z0
         public static ICmdProvider[] providers(IWfRuntime wf)
             => new ICmdProvider[]{
                 wf.ProjectCmd(),
-                wf.EnvCmd(),
-                wf.DbCmd(),
+                wf.WfCmd(),
                 wf.MemCmd(),
                 wf.ToolsetCmd(),
                 wf.CaptureCmd(),
@@ -25,7 +24,6 @@ namespace Z0
                 wf.XedCmd(),
                 wf.XedChecks(),
                 wf.CliCmd(),
-                wf.ScriptCmd(),
                 wf.RuntimeCmd(),
                 wf.AsmChecks(),
                 wf.CheckRunner()

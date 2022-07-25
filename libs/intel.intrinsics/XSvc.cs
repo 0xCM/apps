@@ -26,7 +26,7 @@ namespace Z0
         public static IntelIntrinsics IntelIntrinsics(this IWfRuntime wf)
             => Services.IntelIntrinsics(wf);
 
-        public static I.CmdSvc IntelIntrinsicsCmd(this IWfRuntime wf)
+        public static IAppCmdService IntelIntrinsicsCmd(this IWfRuntime wf)
             => Services.IntelIntrinsicsCmd(wf);
 
         public static I.Checks Checks(this IWfRuntime wf)
