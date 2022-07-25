@@ -112,16 +112,19 @@ namespace Z0
             };
         }
 
-        public IDbTargets DisasmTargets(IProjectWsObsolete project)
-            => AppDb.EtlTargets(project.Project).Targets("xed.disasm");
+        public IDbTargets DisasmTargets(ProjectId project)
+            => AppDb.EtlTargets(project).Targets("xed.disasm");
 
-        public FS.FilePath DisasmFieldsPath(IProjectWsObsolete project, in FileRef src)
+        public FS.FilePath DisasmDetailPath(ProjectId project, in FileRef src)
+            => DisasmTargets(project).Path(FS.file(string.Format("{0}.details", src.Path.FileName.WithoutExtension), FS.Csv));
+
+        public FS.FilePath DisasmFieldsPath(ProjectId project, in FileRef src)
             => DisasmTargets(project).Path(FS.file(string.Format("{0}.fields", src.Path.FileName.WithoutExtension), FS.Txt));
 
-        public FS.FilePath DisasmChecksPath(IProjectWsObsolete project, in FileRef src)
+        public FS.FilePath DisasmChecksPath(ProjectId project, in FileRef src)
             => DisasmTargets(project).Path(FS.file(string.Format("{0}.checks", src.Path.FileName.WithoutExtension), FS.Txt));
 
-        public FS.FilePath DisasmOpsPath(IProjectWsObsolete project, in FileRef src)
+        public FS.FilePath DisasmOpsPath(ProjectId project, in FileRef src)
             => DisasmTargets(project).Path(FS.file(string.Format("{0}.ops", src.Path.FileName.WithoutExtension.Format()), FS.Txt));
 
         public FS.FileUri RulePage(RuleSig sig)

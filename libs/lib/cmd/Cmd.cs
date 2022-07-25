@@ -15,8 +15,24 @@ namespace Z0
         public static CmdVarInfo varinfo(Name name, TextBlock purpose)
             => new (name,purpose);
 
+        public static string join(CmdArgs args)
+        {
+            var dst = text.emitter();
+            for(var i=0; i<args.Count; i++)
+            {
+                if(i != 0)
+                    dst.Append(Chars.Space);
+                dst.Append(args[i].Value);
+            }
+
+            return dst.Emit();
+        }
+
         public static CmdLine cmd(string spec)
             => string.Format("cmd.exe /c {0}", spec);
+
+        public static CmdLine pwsh(string spec)
+            => string.Format("pwsh.exe {0}", spec);
 
         public static CmdActions actions<T>(T src)
         {

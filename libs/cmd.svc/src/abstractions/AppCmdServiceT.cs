@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static Algs;
+
     [CmdProvider]
     public abstract class AppCmdService<T> : CmdService<T>, IAppCmdService
         where T : AppCmdService<T>, new()
@@ -44,7 +46,6 @@ namespace Z0
         [CmdOp("cmd")]
         protected void RunCmd(CmdArgs args)
         {
-            var result = Outcome.Success;
             var count = Demand.gt(args.Count,0u);
             var spec = text.emitter();
             for(var i=0; i<args.Count; i++)
@@ -59,12 +60,41 @@ namespace Z0
             CmdLines.Start(cmd);
         }
 
+        [CmdOp("pwsh")]
+        protected void RunPwshCmd(CmdArgs args)
+        {
+            var cmd = Cmd.pwsh(Cmd.join(args));
+            Status($"Executing '{cmd}'");
+            CmdLines.Start(cmd);
+        }
+
+        [CmdOp("control/launchers")]
+        protected void Launchers(CmdArgs args)
+        {
+            var src = AppDb.Control().Sources("launch").Files(FileKind.Ps1);
+            iter(src, file => Write(file.FileName.WithoutExtension));
+        }
+
+
+        [CmdOp("control/launch")]
+        protected void LaunchTargets(CmdArgs args)
+        {
+            var scripts = args.Map(x => AppDb.Control().Sources("launch").Path(FS.file(x.Value, FileKind.Ps1)));
+            iter(scripts, script => {
+                Status($"Launching target defined by {script.ToUri()}", FlairKind.Running);
+                var cmd = Scripts.pwsh(script);
+                CmdLines.Start(cmd);
+                Status($"Launch script {script.ToUri()} executing", FlairKind.Ran);
+            });
+        }
+
+
         [CmdOp("files")]
         protected void ListFiles(CmdArgs args)
         {
             var src = FS.dir(arg(args,0));
             var files = FS.listing(src);
-            core.iter(files, file => Write(file.Path));
+            iter(files, file => Write(file.Path));
             TableEmit(files, AppDb.App().Table<ListedFile>());
         }
 

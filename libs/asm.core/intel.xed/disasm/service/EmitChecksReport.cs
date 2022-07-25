@@ -24,7 +24,7 @@ namespace Z0
             ref readonly var file = ref doc.DataFile;
             var buffer = text.buffer();
             var count = doc.Count;
-            var outpath = XedPaths.DisasmChecksPath(context.Project,file.Source);
+            var outpath = XedPaths.DisasmChecksPath(context.Project.Id,file.Source);
             using var dst = outpath.AsciWriter();
             var emitting = EmittingFile(outpath);
             dst.AppendLineFormat(RenderCol2, "DataSource", doc.Source.Path.ToUri().Format());

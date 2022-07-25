@@ -23,22 +23,13 @@ namespace Z0
             Flows = flows;
         }
 
-        public IDbTargets ProjectDatasets(string scope)
-            => new DbTargets(Project.Datasets(scope));
-
         public Index<FileRef> Files(FileKind k)
             => Catalog.Entries(k);
-
-        public Index<FileRef> Files(FileKind k0, FileKind k1)
-            => Catalog.Entries(k0,k1);
-
-        public Index<FileRef> Files(FileKind k0, FileKind k1, FileKind k2)
-            => Catalog.Entries(k0,k1,k2);
 
         public FileRef Ref(FS.FilePath src)
             => Catalog[src];
 
-        public FileRef File(uint docid)
+        public FileRef File(Hex32 docid)
             => Catalog[docid];
 
         public FileRef Root(in FS.FilePath dst)
