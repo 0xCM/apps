@@ -7,7 +7,7 @@ namespace Z0
     using static core;
 
     [Checker]
-    public abstract class Checker<T> : WfSvc<T>, IChecker
+    public abstract class Checker<T> : AppCmdService<T>, IChecker
         where T : Checker<T>, new()
     {
         readonly ConstLookup<string,MethodInfo> Methods;
@@ -197,7 +197,7 @@ namespace Z0
             Ran(flow);
         }
 
-        public void Run()
+        public new void Run()
             => Run(EventLogger, true);
     }
 }

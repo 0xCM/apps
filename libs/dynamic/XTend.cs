@@ -16,8 +16,6 @@ namespace Z0
 
     public static class XSvc
     {
-        public static ApiJit ApiJit(this IWfRuntime wf)
-            => Z0.ApiJit.create(wf);
 
     }
 

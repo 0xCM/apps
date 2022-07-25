@@ -20,6 +20,14 @@ namespace Z0
             Check256();
         }
 
+        [CmdOp("check/bitlogic")]
+
+        void Check()
+        {
+            Check128();
+            Check256();
+        }
+
         void Check128()
         {
             var lhs = Source.Cells<Cell128>(SampleCount);

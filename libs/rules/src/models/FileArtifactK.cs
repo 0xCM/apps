@@ -18,13 +18,13 @@ namespace Z0
             Source = location;
         }
 
-        public FS.PathPart Name
+        public PathPart Name
             => Source.Format();
 
-        FS.FileUri IArtifact<K, FS.FileUri>.Location 
+        FS.FileUri IArtifact<K, FS.FileUri>.Location
             => Source;
 
-        K IArtifact<K>.Kind 
+        K IArtifact<K>.Kind
             => Kind;
 
         public string Format()

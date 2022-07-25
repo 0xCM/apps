@@ -19,8 +19,7 @@ namespace Z0
             Path = path;
         }
 
-
-        FS.PathPart IFsEntry.Name
+        PathPart IFsEntry.Name
         {
             [MethodImpl(Inline)]
             get => Path.Name;

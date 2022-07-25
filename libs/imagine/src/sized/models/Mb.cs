@@ -23,6 +23,7 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Count == 0;
         }
+
         public ByteSize Size
         {
             [MethodImpl(Inline)]
@@ -36,10 +37,7 @@ namespace Z0
         }
 
         public string Format()
-        {
-            var value = Count != 0 ? Count.ToString("#,#") : "0";
-            return string.Format("{0} {1}", value, UOM);
-        }
+            => api.format(this);
 
         public override string ToString()
             => Format();

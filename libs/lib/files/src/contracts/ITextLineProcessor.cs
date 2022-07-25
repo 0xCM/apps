@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     public delegate Outcome LineProcessor(TextLine src);
 
     public interface ITextLineProcessor

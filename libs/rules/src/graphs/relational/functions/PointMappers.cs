@@ -6,7 +6,8 @@ namespace Z0
 {
     using static core;
 
-    public readonly struct PointMappers
+    [Free]
+    public class PointMappers
     {
         const NumericKind Closure = UnsignedInts;
 

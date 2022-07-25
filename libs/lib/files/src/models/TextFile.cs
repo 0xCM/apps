@@ -31,7 +31,7 @@ namespace Z0
 
         public FS.FilePath Path {get;}
 
-        public FS.PathPart Name
+        public PathPart Name
         {
             [MethodImpl(Inline)]
             get => Path.Name;

@@ -4,11 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct core
+    partial class Algs
     {
         [MethodImpl(Inline), Op]
         public static Timestamp timestamp()
-            => now();
+            => Timestamp.now();
 
         [MethodImpl(Inline), Op]
         public static Timestamp timestamp(ulong ticks)

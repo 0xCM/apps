@@ -14,7 +14,6 @@ namespace Z0
     {
         static ICheckNumeric Claim = NumericClaims.Checker;
 
-
         [Op]
         public void CheckTextExpr()
         {

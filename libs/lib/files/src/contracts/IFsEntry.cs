@@ -4,12 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static FS;
-
-    public interface IFsEntry : IDataString
+    public interface IFsEntry : IDataString, ILocatable<PathPart>
     {
         PathPart Name {get;}
 
+        PathPart ILocatable<PathPart>.Location
+            => Name;
         Hash32 IHashed.Hash
             => HashCodes.hash(Name.Format());
 

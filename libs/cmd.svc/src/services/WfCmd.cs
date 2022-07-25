@@ -168,14 +168,14 @@ namespace Z0
             CmdLines.Start(cmd);
         }
 
-        [CmdOp("control/launchers")]
+        [CmdOp("launchers")]
         protected void Launchers(CmdArgs args)
         {
             var src = AppDb.Control().Sources("launch").Files(FileKind.Ps1);
             iter(src, file => Write(file.FileName.WithoutExtension));
         }
 
-        [CmdOp("control/launch")]
+        [CmdOp("launch")]
         protected void LaunchTargets(CmdArgs args)
         {
             var scripts = args.Map(x => AppDb.Control().Sources("launch").Path(FS.file(x.Value, FileKind.Ps1)));

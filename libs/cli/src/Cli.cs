@@ -19,8 +19,6 @@ namespace Z0
 
         MsilPipe MsilSvc => Wf.MsilSvc();
 
-        ApiJit Jit => Wf.ApiJit();
-
         public ReadOnlySeq<AssemblyRefInfo> ReadAssemblyRefs(Assembly src)
         {
             var path = FS.path(src.Location);
@@ -76,7 +74,7 @@ namespace Z0
             for(var i=0; i<src.Length; i++)
             {
                 ref readonly var host = ref skip(src, i);
-                var members = Jit.JitHost(host);
+                var members = ClrJit.members(host,EventLog);
                 var count = members.Length;
                 if(members.Count == 0)
                     continue;

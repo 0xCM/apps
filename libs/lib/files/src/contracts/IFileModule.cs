@@ -9,14 +9,15 @@ namespace Z0
     {
         FileModuleKind ModuleKind {get;}
 
-        string ITextual.Format()
-            => Path.Name;
     }
 
     [Free]
-    public interface IFileModule<T> : IFileModule
+    public interface IFileModule<T> : IFileModule, IFile<FS.FilePath>
         where T : struct, IFileModule<T>
     {
+        FS.FilePath Path {get;}
 
+        FS.FilePath ILocatable<FS.FilePath>.Location
+            => Path;
     }
 }

@@ -13,7 +13,7 @@ namespace Z0
         {
             public readonly FS.FilePath Path {get;}
 
-            public FS.PathPart Name
+            public PathPart Name
             {
                 [MethodImpl(Inline)]
                 get => Path.Name;

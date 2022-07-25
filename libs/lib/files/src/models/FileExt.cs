@@ -6,7 +6,7 @@ namespace Z0
 {
     partial struct FS
     {
-        public readonly record struct FileExt : IFsEntry<FileExt>
+        public readonly record struct FileExt
         {
             public PathPart Name {get;}
 

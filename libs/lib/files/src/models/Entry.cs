@@ -15,7 +15,7 @@ namespace Z0
             public readonly ObjectKind Kind;
 
             [MethodImpl(Inline)]
-            public FsEntry(FS.PathPart name, ObjectKind kind)
+            public FsEntry(PathPart name, ObjectKind kind)
             {
                 Name = name;
                 Kind = kind;

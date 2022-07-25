@@ -9,7 +9,8 @@ namespace Z0.Asm
 
     using Operands;
 
-    public class X86Dispatcher : AppService<X86Dispatcher>
+    [Free]
+    public class X86Dispatcher
     {
         Index<MemoryRange> Trampolines;
 
@@ -17,16 +18,19 @@ namespace Z0.Asm
 
         Index<MemoryAddress> Receivers;
 
-        const uint SlotCount = 256;
-
-        public X86Dispatcher()
+        public X86Dispatcher(uint slots)
         {
-            Trampolines = alloc<MemoryRange>(SlotCount);
-            Payloads = alloc<Cell128>(SlotCount);
-            Receivers = alloc<MemoryAddress>(SlotCount);
-            Receivers[0] = ClrJit.jit(GetType().Method(nameof(Receive64u)));
+            Trampolines = alloc<MemoryRange>(slots);
+            Payloads = alloc<Cell128>(slots);
+            Receivers = alloc<MemoryAddress>(slots);
+            Receivers.First = ClrJit.jit(GetType().Method(nameof(Receive64u)));
         }
 
+        public ref readonly MemoryAddress DefaultReceiver
+        {
+            [MethodImpl(Inline)]
+            get => ref Receivers.First;
+        }
         public bool Create<T>(byte slot)
             where T : unmanaged
         {
@@ -35,10 +39,8 @@ namespace Z0.Asm
             return Trampolines[slot].IsNonEmpty;
         }
 
-        void Receive64u(ulong a0)
-        {
-            Status($"Received {a0}");
-        }
+        static void Receive64u(ulong a0)
+            => term.print($"Received {a0}");
 
         // REX.W + B8+ rd io | MOV r64, imm64           | OI    | Valid       | N.E.            | Move imm64 to r64.                                             |
         [MethodImpl(Inline), Op]
@@ -46,7 +48,7 @@ namespace Z0.Asm
             => AsmBytes.encode(RexW, (Hex8)(0xb8 + (byte)r.Index), imm, dst);
 
         [Op]
-        public ref readonly Cell128 EncodeDispatch(byte slot, MemoryAddress target)
+        public ref readonly Cell128 Encode(byte slot, MemoryAddress target)
         {
             var address = Trampolines[slot];
             ref var payload = ref Payloads[slot];
@@ -61,7 +63,7 @@ namespace Z0.Asm
         }
 
         [Op]
-        public ref readonly Cell128 EncodeDispatch(byte slot)
-            => ref EncodeDispatch(slot, Receivers[slot]);
+        public ref readonly Cell128 Encode(byte slot)
+            => ref Encode(slot, Receivers[slot]);
     }
 }

@@ -76,7 +76,7 @@ namespace Z0
             iter(src.PartCatalogs(),
                 part => {
                     var _bag = bag<CollectedHost>();
-                    ApiCode.collect(part, EventLogger, dispenser, _bag);
+                    ApiCode.collect(part, EventLog, dispenser, _bag);
                     var code = _bag.ToArray();
                     ApiCode.Emit(part.PartId, code, dst);
                     EmitAsm(dispenser, code, dst);

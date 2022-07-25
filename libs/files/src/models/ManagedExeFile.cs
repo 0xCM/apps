@@ -12,12 +12,12 @@ namespace Z0
         /// <summary>
         /// The path to the represented file
         /// </summary>
-        public FS.FilePath Path {get;}
+        public readonly FS.FilePath Path {get;}
 
         /// <summary>
         /// The assembly name
         /// </summary>
-        public AssemblyName Name {get;}
+        public readonly AssemblyName Name {get;}
 
         [MethodImpl(Inline)]
         public ManagedExeFile(FS.FilePath path, AssemblyName name)
@@ -31,9 +31,6 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Path.FileName;
         }
-
-        public FS.FileExt DefaultExt
-            =>  FS.Exe;
 
         public FileModuleKind ModuleKind
             => FileModuleKind.ManagedExe;

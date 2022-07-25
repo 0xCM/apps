@@ -4,8 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IFileRef : IFile
+    public interface IFileRef : IFile<FS.FilePath>
     {
         FileKind Kind {get;}
+
+        FS.FilePath Path {get;}
+
+        FS.FilePath ILocatable<FS.FilePath>.Location
+            => Path;
     }
 }

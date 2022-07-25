@@ -52,6 +52,12 @@ namespace Z0
                 return (NativeSizeCode)Pow2.log(src >> 3);
         }
 
+        public static string format(Kb src)
+            => string.Format("{0,-8} {1}", src.Count != 0 ? src.Count.ToString("#,#") : "0", Kb.UOM);
+
+        public static string format(Mb src)
+            => string.Format("{0,-8} {1}", src.Count != 0 ? src.Count.ToString("#,#") : "0", Mb.UOM);
+
         /// <summary>
         /// Computes the bit-width of the represented primitive
         /// </summary>

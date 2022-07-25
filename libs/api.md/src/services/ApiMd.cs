@@ -5,7 +5,6 @@
 namespace Z0
 {
     using static core;
-    using static ApiComments;
     using static ApiGranules;
 
     using K = ApiMdKind;
@@ -13,8 +12,6 @@ namespace Z0
     public sealed partial class ApiMd : WfSvc<ApiMd>
     {
         ModuleArchives Modules => Wf.ModuleArchives();
-
-        ApiJit ApiJit => Service(Wf.ApiJit);
 
         IDbTargets ApiTargets()
             => AppDb.ApiTargets();
@@ -157,7 +154,7 @@ namespace Z0
 
         public ApiHostCatalog HostCatalog(IApiHost src)
         {
-            var members = ApiJit.JitHost(src);
+            var members = ClrJit.members(src, EventLog);
             return members.Length == 0 ? ApiHostCatalog.Empty : new ApiHostCatalog(src, members);
         }
 

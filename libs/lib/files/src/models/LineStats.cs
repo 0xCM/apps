@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Refs;
 
     [StructLayout(StructLayout,Size=8)]
     public struct LineStats

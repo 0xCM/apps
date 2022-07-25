@@ -14,8 +14,6 @@ namespace Z0
     [ApiHost]
     public partial class AsmCheckCmd : CheckRunner<AsmCheckCmd>
     {
-        X86Dispatcher Jumps => Wf.X86Dispatcher();
-
         ApiCode ApiCode => Wf.ApiCode();
 
         [CmdOp("asm/check/tokens")]

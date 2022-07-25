@@ -4,20 +4,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct EncodedStream : IDisposable
+    public struct ByteStream : IDisposable
     {
         readonly BinaryCode Store;
 
         readonly MemoryStream Stream;
 
         [MethodImpl(Inline)]
-        public EncodedStream(BinaryCode src)
+        public ByteStream(byte[] src)
         {
             Store = src;
-            Stream =  new MemoryStream(src.Storage);
+            Stream =  new MemoryStream(src);
         }
 
         public void Dispose()
-            => Stream?.Dispose();
+            => Stream.Dispose();
     }
 }

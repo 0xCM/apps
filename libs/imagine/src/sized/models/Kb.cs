@@ -69,7 +69,7 @@ namespace Z0
             => Size.CompareTo(src.Size);
 
         public string Format()
-            => string.Format("{0} {1}", Count != 0 ? Count.ToString("#,#") : "0", UOM);
+            => api.format(this);
 
         public override string ToString()
             => Format();

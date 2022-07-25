@@ -6,11 +6,14 @@ namespace Z0
 {
     public class Runtime : WfSvc<Runtime>
     {
+        public ApiMembers JitCatalog()
+            => ClrJit.members(Wf.ApiParts.Catalog, EventLog);
+
         public void CollectMemStats()
         {
             var pre = ApiPack.create(core.timestamp());
             EmitContext(pre);
-            var members = Wf.ApiJit().JitCatalog();
+            var members = JitCatalog();
             var post = ApiPack.create(core.timestamp());
             EmitContext(post);
         }

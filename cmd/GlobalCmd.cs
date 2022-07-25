@@ -26,7 +26,8 @@ namespace Z0
                 wf.CliCmd(),
                 wf.RuntimeCmd(),
                 wf.AsmChecks(),
-                wf.CheckRunner()
+                wf.CheckRunner(),
+                wf.AncestryChecks(),
                 };
 
         public static AppCmd commands(IWfRuntime wf)

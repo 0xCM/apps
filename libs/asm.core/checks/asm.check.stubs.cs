@@ -77,20 +77,17 @@ namespace Z0
             return 0;
         }
 
-
         [CmdOp("asm/stubs/check")]
         void CheckStubDispatch()
         {
-            var stubs = Jumps;
-            if(stubs.Create<ulong>(0))
-                Write(stubs.EncodeDispatch(0).FormatHexData());
+            // var stubs = Jumps;
+            // if(stubs.Create<ulong>(0))
+            //     Write(stubs.EncodeDispatch(0).FormatHexData());
 
-            var dispatcher = X86Dispatcher.create(Wf);
-            if(dispatcher.Create<ulong>(0))
-            {
-                var encoded = dispatcher.EncodeDispatch(0);
-                Write(encoded.FormatHexData());
-            }
+            var dispatcher = new X86Dispatcher(12);
+            dispatcher.Create<ulong>(0);
+            var encoded = dispatcher.Encode(0);
+            Write(encoded.FormatHexData());
         }
 
         [Free]

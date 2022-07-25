@@ -13,7 +13,6 @@ namespace Z0
             return true;
         }
 
-
         [CmdOp("ancestors/check")]
         void Ancestors()
         {

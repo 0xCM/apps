@@ -8,20 +8,7 @@ namespace Z0
 
     public sealed class AncestryChecks : Checker<AncestryChecks>
     {
-        [CmdOp("native/check")]
-        Outcome CheckNativeTypes(CmdArgs args)
-        {
-            try
-            {
-                RunNativeChecks();
-                return true;
-            }
-            catch(Exception e)
-            {
-                return e;
-            }
-        }
-
+        [CmdOp("check/native")]
         void RunNativeChecks()
         {
             var t0 = NativeTypes.seg(NativeSegKind.Seg128x16i);
@@ -48,6 +35,7 @@ namespace Z0
             }
         }
 
+        [CmdOp("check/parsers")]
         public void CheckParser()
         {
             const string Case0 = "a -> b -> c -> d -> e";

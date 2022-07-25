@@ -12,6 +12,7 @@ namespace Z0
 
         const GenericStateKind g = GenericStateKind.OpenGeneric;
 
+        [CmdOp("check/apikeys")]
         public void RunAll()
         {
             var kinds = Symbols.index<ApiClassKind>().View;

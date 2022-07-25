@@ -10,7 +10,6 @@ namespace Z0
     [ApiHost]
     public class CalcBuilder : AppService<CalcBuilder>
     {
-
         public static ClassChecks Checks(IWfRuntime wf) => ClassChecks.create(wf);
 
         public class ClassChecks : Checker<ClassChecks>

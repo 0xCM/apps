@@ -9,14 +9,14 @@ namespace Z0
         public static CmdScript script<T>(DumpBin tool, string script, CmdName name, ReadOnlySeq<T> src, FS.FolderPath outdir)
             where T : IFileModule
         {
-            var buffer = text.buffer();
+            var dst = text.emitter();
             foreach(var module in src)
             {
-                var cmd = tool.Command(name, module.Path, outdir);
-                buffer.AppendLine(cmd.Format());
+                var cmd = tool.Command(name, module.Location, outdir);
+                dst.AppendLine(cmd.Format());
             }
 
-            return CmdScripts.create(script, buffer.Emit());
+            return CmdScripts.create(script, dst.Emit());
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Z0
 
         [MethodImpl(NotInline)]
         ulong Jump(T a0)
-            => core.timestamp();
+            => Algs.timestamp();
 
         public MemoryRange Init()
         {

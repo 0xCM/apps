@@ -8,18 +8,16 @@ namespace Z0
 
     public partial class ApiCode : WfSvc<ApiCode>
     {
-        ApiJit ApiJit => Service(Wf.ApiJit);
-
         ApiHex ApiHex => Wf.ApiHex();
 
         public ReadOnlySeq<MethodEntryPoint> CalcEntryPoints()
-            => MethodEntryPoints.create(ApiJit.JitCatalog(ApiRuntimeCatalog));
+            => MethodEntryPoints.create(ClrJit.members(ApiRuntimeCatalog, EventLog));
 
         public ReadOnlySeq<MethodEntryPoint> CalcEntryPoints(ApiHostUri src)
         {
             var dst = sys.empty<MethodEntryPoint>();
             if(ApiRuntimeCatalog.FindHost(src, out var host))
-               dst = MethodEntryPoints.create(ApiJit.JitHost(host));
+               dst = MethodEntryPoints.create(ClrJit.members(host, EventLog));
             return dst;
         }
 
@@ -27,7 +25,7 @@ namespace Z0
         {
             var dst = sys.empty<MethodEntryPoint>();
             if(ApiRuntimeCatalog.FindPart(part, out var src))
-                dst = MethodEntryPoints.create(ApiJit.JitPart(src));
+                dst = MethodEntryPoints.create(ClrJit.members(src, EventLog));
             return dst;
         }
 
@@ -70,7 +68,7 @@ namespace Z0
             var collected = ReadOnlySeq<CollectedEncoding>.Empty;
             if(entries.IsNonEmpty)
             {
-                collected = collect(entries, EventLogger, symbols);
+                collected = collect(entries, EventLog, symbols);
                 Emit(collected, dst.HexExtractPath(src), dst.CsvExtractPath(src));
             }
             else
@@ -84,7 +82,7 @@ namespace Z0
             var collected = ReadOnlySeq<CollectedEncoding>.Empty;
             if(entries.IsNonEmpty)
             {
-                collected = collect(entries, EventLogger, symbols);
+                collected = collect(entries, EventLog, symbols);
                 Emit(collected, dst.HexExtractPath(src), dst.CsvExtractPath(src));
             }
             else

@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Record(TableId), StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct FileRef :  IFileRef, IComparable<FileRef>, ISequential<FileRef>
+    public struct FileRef : IFileRef, IComparable<FileRef>, ISequential<FileRef>
     {
         const string TableId = "files.index";
 
@@ -71,10 +71,11 @@ namespace Z0
             get => Seq;
             set => Seq = value;
         }
-        FS.FilePath IFile.Path
-            => Path;
 
         FileKind IFileRef.Kind
             => Kind;
+
+        FS.FilePath IFileRef.Path
+            => Path;
     }
 }

@@ -7,11 +7,15 @@ namespace Z0
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     [Free]
-    public interface IFile : ITextual
+    public interface IFile : IExpr, ILocatable
     {
-        FS.FilePath Path {get;}
+        string IExpr.Format()
+            => $"{Location}";
+    }
 
-        string ITextual.Format()
-            => Path.Name;
+    [Free]
+    public interface IFile<T> : IFile, ILocatable<T>
+    {
+
     }
 }

@@ -4,19 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    public readonly struct NasmListFile : IFile
+    public readonly struct NasmListFile : IFile<FS.FilePath>
     {
-        public FS.FilePath Path {get;}
+        public FS.FilePath Location {get;}
 
         [MethodImpl(Inline)]
         public NasmListFile(FS.FilePath target)
         {
-            Path = target;
+            Location = target;
         }
 
         [MethodImpl(Inline)]

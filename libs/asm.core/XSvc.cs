@@ -52,9 +52,6 @@ namespace Z0
             public InstBlockImporter BlockImporter(IWfRuntime wf)
                 => Service<InstBlockImporter>(wf);
 
-            public X86Dispatcher X86Dispatcher(IWfRuntime wf)
-                => Service<X86Dispatcher>(wf);
-
             public XedDisasm.Analyzer DisasmAnalyzer(IWfRuntime wf)
                 => Service<XedDisasm.Analyzer>(wf);
 
@@ -122,9 +119,6 @@ namespace Z0
 
         public static SdmCodeGen SdmCodeGen(this IWfRuntime wf)
             => Services.Service<SdmCodeGen>(wf);
-
-        public static X86Dispatcher X86Dispatcher(this IWfRuntime wf)
-            => Services.X86Dispatcher(wf);
 
         public static StanfordAsmCatalog StanfordCatalog(this IWfRuntime wf)
             => Services.StanfordCatalog(wf);

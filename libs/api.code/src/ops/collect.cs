@@ -11,22 +11,22 @@ namespace Z0
     partial class ApiCode
     {
         public ReadOnlySeq<CollectedEncoding> Collect(ICompositeDispenser symbols, IPart src)
-            => collect(MethodEntryPoints.create(ApiJit.JitPart(src)), EventLogger, symbols);
+            => collect(MethodEntryPoints.create(ClrJit.members(src, EventLog)), EventLog, symbols);
 
-        public static void collect(IApiPartCatalog src, WfEventLogger log, ICompositeDispenser dispenser, ConcurrentBag<CollectedHost> dst)
+        public static void collect(IApiPartCatalog src, IWfEventTarget log, ICompositeDispenser dispenser, ConcurrentBag<CollectedHost> dst)
         {
             var members = list<ApiHostMembers>();
             var collected = list<CollectedHost>();
             iter(src.ApiHosts,
                 host => {
-                    var jitted = ApiJit.jit(host,log);
+                    var jitted = ClrJit.jit(host,log);
                     if(jitted.IsNonEmpty)
                         members.Add(jitted);
                 }
                 );
 
             iter(src.ApiTypes, type => {
-                var jitted = ApiQuery.members(ApiJit.jit(type,log));
+                var jitted = ApiQuery.members(ClrJit.jit(type,log));
                 if(jitted.IsNonEmpty)
                     members.Add(new ApiHostMembers(type.HostUri, jitted));
                 }
@@ -35,10 +35,10 @@ namespace Z0
 
         }
 
-        public static CollectedHost collect(ApiHostMembers src, WfEventLogger log, ICompositeDispenser dst)
+        public static CollectedHost collect(ApiHostMembers src, IWfEventTarget log, ICompositeDispenser dst)
             => new CollectedHost(src, collect(MethodEntryPoints.create(src.Members), log, dst));
 
-        public static ReadOnlySeq<CollectedEncoding> collect(ReadOnlySpan<MethodEntryPoint> src, WfEventLogger log, ICompositeDispenser dispenser)
+        public static ReadOnlySeq<CollectedEncoding> collect(ReadOnlySpan<MethodEntryPoint> src, IWfEventTarget log, ICompositeDispenser dispenser)
             => divine(collect(dispenser, src), log).Sort();
 
         static Index<RawMemberCode> collect(ICompositeDispenser symbols, ReadOnlySpan<MethodEntryPoint> entries)
@@ -112,7 +112,7 @@ namespace Z0
             return result;
         }
 
-        static Index<CollectedEncoding> divine(ReadOnlySpan<RawMemberCode> src, WfEventLogger log)
+        static Index<CollectedEncoding> divine(ReadOnlySpan<RawMemberCode> src, IWfEventTarget log)
         {
             var count = src.Length;
             var buffer = span<byte>(Pow2.T16);
@@ -128,7 +128,7 @@ namespace Z0
                 var result = ApiCode.extract(raw, buffer, out extracted);
                 if(result.Fail)
                 {
-                    log(Events.error("StubCodeMismatch", result.Message));
+                    log.Deposit(Events.error("StubCodeMismatch", result.Message));
                 }
                 else
                 {
@@ -146,16 +146,16 @@ namespace Z0
             return lookup(dst, log).Emit();
         }
 
-        static CollectedEncodings lookup(Dictionary<ApiHostUri,CollectedCodeExtracts> src, WfEventLogger log)
+        static CollectedEncodings lookup(Dictionary<ApiHostUri,CollectedCodeExtracts> src, IWfEventTarget log)
         {
-            log(running(Msg.ParsingHosts.Format(src.Count)));
+            log.Deposit(running(Msg.ParsingHosts.Format(src.Count)));
             var buffer = alloc<byte>(Pow2.T14);
             var parser = EncodingParser.create(buffer);
             var dst = new CollectedEncodings();
             var counter = 0u;
             foreach(var host in src.Keys)
             {
-                log(running(Msg.ParsingHostMembers.Format(host)));
+                log.Deposit(running(Msg.ParsingHostMembers.Format(host)));
                 var extracts = src[host];
                 foreach(var extract in extracts)
                 {
@@ -163,10 +163,10 @@ namespace Z0
                     dst.Include(new CollectedEncoding(extract.Token, parser.Parsed));
                     counter++;
                 }
-                log(ran(Msg.ParsedHostMembers.Format(extracts.Count, host)));
+                log.Deposit(ran(Msg.ParsedHostMembers.Format(extracts.Count, host)));
             }
 
-            log(ran(Msg.ParsedHosts.Format(counter, src.Keys.Count)));
+            log.Deposit(ran(Msg.ParsedHosts.Format(counter, src.Keys.Count)));
             return dst;
         }
     }
