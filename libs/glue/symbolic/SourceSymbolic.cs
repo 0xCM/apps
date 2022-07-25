@@ -11,7 +11,7 @@ namespace Z0
     [ApiHost]
     public sealed class SourceSymbolic : AppCmdService<SourceSymbolic>
     {
-        ApiMd ApiMd => Wf.ApiMetadata();
+        ApiMd ApiMd => Wf.ApiMd();
 
         Roslyn Roslyn;
 

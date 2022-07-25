@@ -4,13 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.IO;
-
-    using static core;
-
-    public class CsCode : AppService<CsCode>
+    public class CsCode : WfSvc<CsCode>
     {
-
         public static PortableExecutableReference peref<T>()
             => PortableExecutableReference.CreateFromFile(typeof(T).Assembly.Location);
 

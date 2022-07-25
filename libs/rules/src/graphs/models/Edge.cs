@@ -6,9 +6,9 @@ namespace Z0
 {
     public readonly struct Edge : IEquatable<Edge>, IEdge<Vertex>
     {
-        public Vertex Source {get;}
+        public readonly Vertex Source {get;}
 
-        public Vertex Target {get;}
+        public readonly Vertex Target {get;}
 
         [MethodImpl(Inline)]
         public Edge(Vertex src, Vertex dst)

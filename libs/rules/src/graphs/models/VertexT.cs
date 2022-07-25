@@ -4,25 +4,35 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static Algs;
+
     public sealed record class Vertex<T>
         where T : IDataType, IExpr
     {
-        public T Value {get;}
+        public readonly T Value;
 
-        public DataList<Vertex<T>> Targets {get;}
+        public readonly Seq<Vertex<T>> Targets;
 
         [MethodImpl(Inline)]
         public Vertex(T value)
         {
             Value = value;
-            Targets = new();
+            Targets = sys.empty<Vertex<T>>();
+        }
+
+        [MethodImpl(Inline)]
+        public Vertex(T value, Vertex<T>[] src)
+        {
+            Value = value;
+            Targets = src;
         }
 
         public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => Value.Hash;
+            get => Value.Hash | hash(Targets.View);
         }
+
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
@@ -47,13 +57,5 @@ namespace Z0
 
         public override int GetHashCode()
             => Hash;
-
-        [MethodImpl(Inline)]
-        public static implicit operator Vertex<T>(T key)
-            => new Vertex<T>(key);
-
-        [MethodImpl(Inline)]
-        public static implicit operator Vertex(Vertex<T> src)
-            => new Vertex(src.Value);
     }
 }

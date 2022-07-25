@@ -9,7 +9,7 @@ namespace Z0
     {
         object Value {get;}
 
-        DataList<Vertex> Targets {get;}
+        Seq<Vertex> Targets {get;}
 
         bool INullity.IsEmpty
             => Value == null;
@@ -21,12 +21,12 @@ namespace Z0
     {
         new V Value {get;}
 
-        new DataList<Vertex<V>> Targets {get;}
+        new Seq<Vertex<V>> Targets {get;}
 
         object IVertex.Value
             => Value;
 
-        DataList<Vertex> IVertex.Targets
-            => new DataList<Vertex>(Targets.Map(x => (Vertex)x));
+        Seq<Vertex> IVertex.Targets
+            => new Seq<Vertex>(Targets.Map(x =>new Vertex(x)));
     }
 }

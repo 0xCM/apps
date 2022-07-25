@@ -147,7 +147,6 @@ namespace Z0
             return Files();
         }
 
-
         protected IApiCatalog ApiRuntimeCatalog => GetApiCatalog();
 
         protected void Babble(string pattern, params object[] args)
@@ -203,11 +202,11 @@ namespace Z0
         protected void FileEmit(string src, Count count, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Utf8)
             => WfEmit.FileEmit(src, count, dst, encoding);
 
-        protected WfEventLogger EventLog
+        protected WfEventLogger EventLogger
             => x => WfMsg.Raise(x);
 
-        protected IWfEventTarget EventTarget
-            => EventLog.ToTarget(GetType());
+        protected IWfEventTarget EventLog
+            => EventLogger.ToTarget(GetType());
 
         protected void EmittedFile(WfFileWritten file, Count count, Arrow<FS.FileUri> flow)
             => Wf.EmittedFile(HostType, file, count);

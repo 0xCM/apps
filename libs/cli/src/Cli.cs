@@ -12,7 +12,7 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
-        ApiMd ApiMd => Wf.ApiMetadata();
+        ApiMd ApiMd => Wf.ApiMd();
 
         public void EmitIl(IApiPack dst)
             => EmitMsil(ApiMd.ApiHosts, dst);

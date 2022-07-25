@@ -18,7 +18,7 @@ namespace Z0
 
         Runtime Runtime => Wf.Runtime();
 
-        ApiMd ApiMd => Wf.ApiMetadata();
+        ApiMd ApiMd => Wf.ApiMd();
 
         public static ReadOnlySeq<ApiCatalogEntry> catalog(ApiMembers members)
         {

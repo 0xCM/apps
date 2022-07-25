@@ -10,7 +10,7 @@ namespace Z0
 
     public class ApiCatalogs : WfSvc<ApiCatalogs>
     {
-        ApiMd ApiMd => Wf.ApiMetadata();
+        ApiMd ApiMd => Wf.ApiMd();
 
         ApiHex ApiHex => Wf.ApiHex();
 

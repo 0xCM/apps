@@ -70,7 +70,7 @@ namespace Z0
             var collected = ReadOnlySeq<CollectedEncoding>.Empty;
             if(entries.IsNonEmpty)
             {
-                collected = collect(entries, EventLog, symbols);
+                collected = collect(entries, EventLogger, symbols);
                 Emit(collected, dst.HexExtractPath(src), dst.CsvExtractPath(src));
             }
             else
@@ -84,7 +84,7 @@ namespace Z0
             var collected = ReadOnlySeq<CollectedEncoding>.Empty;
             if(entries.IsNonEmpty)
             {
-                collected = collect(entries, EventLog, symbols);
+                collected = collect(entries, EventLogger, symbols);
                 Emit(collected, dst.HexExtractPath(src), dst.CsvExtractPath(src));
             }
             else

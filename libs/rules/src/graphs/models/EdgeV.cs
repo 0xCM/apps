@@ -7,9 +7,9 @@ namespace Z0
     public readonly struct Edge<V> : IEdge<V>, IEquatable<Edge<V>>
         where V : IDataType<V>, IExpr, IVertex<V>
     {
-        public V Source {get;}
+        public readonly V Source;
 
-        public V Target {get;}
+        public readonly V Target;
 
         [MethodImpl(Inline)]
         public Edge(V src, V dst)
@@ -18,8 +18,20 @@ namespace Z0
             Target = dst;
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Source.Hash | Target.Hash;
+        }
+
+        V IArrow<V,V>.Source
+            => Source;
+
+        V IArrow<V,V>.Target
+            => Target;
+
         public override int GetHashCode()
-            => (int)alg.hash.combine(Source.GetHashCode(), Target.GetHashCode());
+            => Hash;
 
         [MethodImpl(Inline)]
         public bool Equals(Edge<V> src)

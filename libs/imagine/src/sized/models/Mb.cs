@@ -6,22 +6,33 @@ namespace Z0
 {
     using api = Sized;
 
-    public readonly struct Mb
+    public readonly record struct Mb : IDataExpr<Mb>
     {
         public const string UOM = "mb";
 
-        public readonly uint Count;
+        public readonly ulong Count;
 
         [MethodImpl(Inline)]
-        public Mb(uint src)
+        public Mb(ulong src)
         {
             Count = src;
         }
 
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Count == 0;
+        }
         public ByteSize Size
         {
             [MethodImpl(Inline)]
             get => api.size(this);
+        }
+
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Count.GetHashCode();
         }
 
         public string Format()
@@ -38,21 +49,14 @@ namespace Z0
             => Count == src.Count;
 
         public override int GetHashCode()
-            => (int)Count;
-
-        public override bool Equals(object obj)
-            => obj is Mb x && Equals(x);
+            => Hash;
 
         [MethodImpl(Inline)]
-        public static bool operator ==(Mb a, Mb b)
-            => a.Equals(b);
+        public int CompareTo(Mb src)
+            => Count.CompareTo(src.Count);
 
         [MethodImpl(Inline)]
-        public static bool operator !=(Mb a, Mb b)
-            => !a.Equals(b);
-
-        [MethodImpl(Inline)]
-        public static implicit operator uint(Mb src)
+        public static implicit operator ulong(Mb src)
             => src.Count;
     }
 }

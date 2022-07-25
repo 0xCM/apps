@@ -4,8 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [StructLayout(LayoutKind.Sequential,Pack=1)]
-    public readonly record struct DataSize : IDataType<DataSize>
+    public readonly record struct DataSize : IDataExpr<DataSize>
     {
         readonly ulong Data;
 

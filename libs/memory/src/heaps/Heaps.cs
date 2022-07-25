@@ -12,6 +12,9 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
+        public static void emit(SymHeap src, FS.FilePath dst, IWfEventTarget log)
+            => Tables.emit(log, Heaps.entries(src).View, dst, TextEncodingKind.Unicode);
+
         public static MemoryHeap load(FS.FilePath src)
         {
             var dst = sys.alloc<byte>(src.Size);

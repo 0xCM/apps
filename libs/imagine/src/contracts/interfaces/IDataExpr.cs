@@ -4,12 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public struct TextFileStats
+    [Free]
+    public interface IDataExpr : IDataType, IExpr
     {
-        public uint MaxLineLength;
 
-        public uint LineCount;
+    }
 
-        public uint CharCount;
+    [Free]
+    public interface IDataExpr<T> :  IDataExpr, IDataType<T>
+        where T : IDataExpr<T>
+    {
+
     }
 }

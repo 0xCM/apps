@@ -28,17 +28,17 @@ namespace Z0
         public override sealed void Run()
         {
             Status($"Running {Services.EntryCount} checkers");
-            iter(Services.Values, svc => svc.Run(EventLog, Pll), Pll);
+            iter(Services.Values, svc => svc.Run(EventLogger, Pll), Pll);
         }
 
         public void Run(ReadOnlySpan<IChecker> checks, bool pll = true)
         {
-            iter(checks, checker => checker.Run(EventLog,pll), pll);
+            iter(checks, checker => checker.Run(EventLogger,pll), pll);
         }
 
         public void Run(bool pll)
         {
-            iter(Services.Values, svc => svc.Run(EventLog, pll), pll);
+            iter(Services.Values, svc => svc.Run(EventLogger, pll), pll);
         }
 
         public Index<string> ListChecks()
@@ -64,7 +64,7 @@ namespace Z0
                     var match = args[0].Value;
                     var keys = Services.Keys.Where(t => t.Name == match);
                     foreach(var key in keys)
-                        Services[key].Run(EventLog,true);
+                        Services[key].Run(EventLogger,true);
                 }
             }
         }

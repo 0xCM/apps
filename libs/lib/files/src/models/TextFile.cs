@@ -29,7 +29,6 @@ namespace Z0
             return dst;
         }
 
-
         public FS.FilePath Path {get;}
 
         public FS.PathPart Name

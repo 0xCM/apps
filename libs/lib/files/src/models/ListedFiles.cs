@@ -23,12 +23,6 @@ namespace Z0
                 dst.AppendLine(formatter.Format(src[i]));
         }
 
-
-        public static void emit(ListedFiles src,  WfEventLogger log, FS.FilePath dst)
-        {
-
-        }
-
         public ListedFiles()
         {
 

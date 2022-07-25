@@ -263,7 +263,7 @@ namespace Z0
         public void TableEmit<T>(ReadOnlySpan<T> rows, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci,
             ushort rowpad = 0, RecordFormatKind fk = RecordFormatKind.Tablular)
                 where T : struct
-                    => Tables.emit(EventTarget, rows, dst, encoding, rowpad, fk);
+                    => Tables.emit(EventLog, rows, dst, encoding, rowpad, fk);
 
         public void TableEmit<T>(Index<T> rows, FS.FilePath dst,
             TextEncodingKind encoding = TextEncodingKind.Asci, ushort rowpad = 0, RecordFormatKind fk = RecordFormatKind.Tablular)

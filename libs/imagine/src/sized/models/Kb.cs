@@ -6,7 +6,8 @@ namespace Z0
 {
     using api = Sized;
 
-    public readonly record struct Kb : IDataType<Kb>
+    [StructLayout(LayoutKind.Sequential,Pack=1)]
+    public readonly record struct Kb : IDataExpr<Kb>
     {
         public const string UOM = "kb";
 

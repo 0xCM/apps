@@ -59,7 +59,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public Size<T> Align(T factor)
-            => Untyped.Align(Sized.bw64(factor));
+            => Untyped.Align(api.bw64(factor));
 
         [MethodImpl(Inline)]
         public bool Equals(Size<T> src)

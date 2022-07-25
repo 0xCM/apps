@@ -11,7 +11,7 @@ namespace Z0
     partial class ApiCode
     {
         public ReadOnlySeq<CollectedEncoding> Collect(ICompositeDispenser symbols, IPart src)
-            => collect(MethodEntryPoints.create(ApiJit.JitPart(src)), EventLog, symbols);
+            => collect(MethodEntryPoints.create(ApiJit.JitPart(src)), EventLogger, symbols);
 
         public static void collect(IApiPartCatalog src, WfEventLogger log, ICompositeDispenser dispenser, ConcurrentBag<CollectedHost> dst)
         {

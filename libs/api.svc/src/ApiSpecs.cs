@@ -8,7 +8,7 @@ namespace Z0
 
     sealed class ApiSpecsCmd : AppCmdService<ApiSpecsCmd>, IApiSpecs
     {
-        ApiMd ApiMd => Wf.ApiMetadata();
+        ApiMd ApiMd => Wf.ApiMd();
 
         public ReadOnlySeq<ApiDataType> DataTypes()
             => data("DataTypes", () => types(ApiMd.Components));

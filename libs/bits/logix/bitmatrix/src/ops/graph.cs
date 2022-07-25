@@ -74,7 +74,7 @@ namespace Z0
             where N : unmanaged, ITypeNat
             where T : unmanaged
         {
-            var n = nat32i<N>();
+            var n = nat32u<N>();
             var nodes = Graphs.nodes<T>(n);
             var edges = new List<Arrow<Node<T>>>();
             for(var row=0; row<n; row++)

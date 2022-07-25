@@ -18,7 +18,7 @@ namespace Z0
 
     [Free]
     public interface INamed<T> : INamed, IDataString<T>
-        where T : IExpr, IDataType<T>
+        where T : IExpr, IDataType
     {
         new T Name {get;}
 

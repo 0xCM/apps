@@ -37,7 +37,7 @@ namespace Z0.llvm
 
             writer.AppendLine("}");
 
-            iter(LlvmRelations.CalcEqClasses(classrel), c => Write(c.Format()));
+            iter(Lines.relations(classrel), c => Write(c.Format()));
 
             EmittedFile(emitting, classrel.Length + defrel.Length);
         }

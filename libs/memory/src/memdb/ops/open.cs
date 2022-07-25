@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial class MemDb
     {
         public static IMemDb open(FS.FilePath store)
@@ -19,6 +17,5 @@ namespace Z0
 
         public static IMemDb open(FS.FilePath store, Mb capacity)
             => Opened.GetOrAdd(store, s =>  new MemDb(s, capacity.Size));
-
     }
 }

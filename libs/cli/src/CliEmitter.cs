@@ -6,7 +6,7 @@ namespace Z0
 {
     public sealed partial class CliEmitter : WfSvc<CliEmitter>
     {
-        ApiMd ApiMd => Wf.ApiMetadata();
+        ApiMd ApiMd => Wf.ApiMd();
 
         Cli Cli => Wf.Cli();
 

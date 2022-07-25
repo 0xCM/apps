@@ -23,12 +23,6 @@ namespace Z0
             Target = dst;
         }
 
-        public string IdentityText
-        {
-            [MethodImpl(Inline)]
-            get => string.Format(RpOps.Arrow, Source, Target);
-        }
-
         S IArrow<S,T>.Source
             => Source;
 
@@ -37,7 +31,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public string Format()
-            => IdentityText;
+            => string.Format(RP.Arrow, Source, Target);
 
         public override string ToString()
             => Format();

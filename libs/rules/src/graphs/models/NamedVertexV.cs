@@ -9,24 +9,24 @@ namespace Z0
     public sealed record class NamedVertex<V>
         where V : IDataType<V>, IExpr
     {
-        public Name Name {get;}
+        public readonly Name Name;
 
-        public V Value {get;}
+        public readonly V Value;
 
-        public DataList<Vertex<V>> Targets {get;}
+        public readonly Seq<Vertex<V>> Targets;
 
         [MethodImpl(Inline)]
-        public NamedVertex(Name name, V value)
+        public NamedVertex(Name name, V value, params Vertex<V>[] targets)
         {
             Name = name;
             Value = value;
-            Targets = new();
+            Targets = targets;
         }
 
         public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => Value.Hash | hash(Name);
+            get => Value.Hash | hash(Name) | hash(Targets.View);
         }
 
         public bool IsEmpty

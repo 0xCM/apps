@@ -10,8 +10,8 @@ namespace Z0
     {
         void CheckHexExec()
         {
-            HexCodeRunner.slots(EventLog);
-            var runner = new HexCodeRunner(Wf,EventLog);
+            HexCodeRunner.slots(EventLogger);
+            var runner = new HexCodeRunner(Wf,EventLogger);
             runner.RunAlgs();
         }
 

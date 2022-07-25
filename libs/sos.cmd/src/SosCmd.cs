@@ -10,7 +10,7 @@ namespace Z0
 
     public class SosCmd : AppCmdService<SosCmd>
     {
-        ApiMd ApiMd => Wf.ApiMetadata();
+        ApiMd ApiMd => Wf.ApiMd();
 
         PdbIndexBuilder PdbIndexBuilder => Wf.PdbIndexBuilder();
 

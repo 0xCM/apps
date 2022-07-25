@@ -125,7 +125,7 @@ namespace Z0
 
         [CmdOp("process/working-set")]
         void WorkingSet()
-            => Write(Environment.WorkingSet);
+            => Write(((ByteSize)Environment.WorkingSet));
 
         [CmdOp("process/stack")]
         void Stack()

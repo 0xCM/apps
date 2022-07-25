@@ -9,18 +9,18 @@ namespace Z0
     /// </summary>
     /// <typeparam name="K">The vertex index type</typeparam>
     /// <typeparam name="T">The payload type</typeparam>
-    public struct Node<K,T> : INode<K,T>
+    public readonly struct Node<K,T> : INode<K,T>
         where K : unmanaged
     {
         /// <summary>
         /// The index of the vertex that uniquely identifies it within a graph
         /// </summary>
-        public K Index;
+        public readonly K Index;
 
         /// <summary>
         /// The vertex payload
         /// </summary>
-        public T Payload;
+        public readonly T Payload;
 
         [MethodImpl(Inline)]
         public Node(K index, T content)

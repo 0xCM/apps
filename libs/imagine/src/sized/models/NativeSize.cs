@@ -6,6 +6,7 @@ namespace Z0
 {
     using N = NativeSizeCode;
 
+    using api = Sized;
     public readonly struct NativeSize
     {
         public static NativeSize W8 => N.W8;
@@ -29,13 +30,13 @@ namespace Z0
         public BitWidth Width
         {
             [MethodImpl(Inline)]
-            get => Sized.width(Code);
+            get => api.width(Code);
         }
 
         public ByteSize ByteCount
         {
             [MethodImpl(Inline)]
-            get => Sized.bytes(Code);
+            get => api.bytes(Code);
         }
 
         [MethodImpl(Inline)]

@@ -9,7 +9,7 @@ namespace Z0
     /// <summary>
     /// Defines an entry in list of files
     /// </summary>
-    [Record(TableId),StructLayout(LayoutKind.Sequential,Pack=1)]
+    [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
     public record struct ListedFile : IDataType<ListedFile>, IDataString<ListedFile>, ISequential<ListedFile>
     {
         public const string TableId = "files";

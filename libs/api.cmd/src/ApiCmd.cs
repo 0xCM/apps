@@ -10,7 +10,7 @@ namespace Z0
 
     public class ApiCmd : AppCmdService<ApiCmd>
     {
-        ApiMd ApiMd => Wf.ApiMetadata();
+        ApiMd ApiMd => Wf.ApiMd();
 
         ToolBox ToolBox => Wf.ToolBox();
 
@@ -128,10 +128,7 @@ namespace Z0
 
         [CmdOp("api/parts")]
         void Parts()
-        {
-
-            iter(ApiMd.Parts, part => Write(part.Name));
-        }
+            => iter(ApiMd.Parts, part => Write(part.Name));
 
         [CmdOp("api/components")]
         void Components()
@@ -140,16 +137,5 @@ namespace Z0
         [CmdOp("api/emit/comments")]
         void ApiEmitComments()
             => ApiMd.Emitter(ApiPack).EmitComments();
-
-        // [CmdOp("gen/replicants")]
-        // Outcome GenEnums(CmdArgs args)
-        // {
-        //     const string Name = "api.types.enums";
-        //     var src = AppDb.ApiTargets().Path(Name, FileKind.List);
-        //     var types = ApiMd.LoadTypes(src);
-        //     var name = "EnumDefs";
-        //     CsLang.EmitReplicants(CsLang.replicant(AppDb.CgStage(name).Root, out var spec), types, AppDb.CgStage(name).Root);
-        //     return true;
-        // }
     }
 }

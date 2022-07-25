@@ -53,7 +53,7 @@ namespace Z0
         public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => HashCodes.hash(Content);
+            get => Content.GetHashCode();
         }
 
         [MethodImpl(Inline),Ignore]

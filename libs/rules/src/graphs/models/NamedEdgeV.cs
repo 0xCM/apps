@@ -4,14 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct NamedEdge<V> : IEdge<V>, IEquatable<NamedEdge<V>>
+    using static Algs;
+
+    public sealed record class NamedEdge<V> : IEdge<V>, IEquatable<NamedEdge<V>>
         where V : IEquatable<V>, IExpr, IHashed
     {
-        public Name Name {get;}
+        public readonly Name Name;
 
-        public V Source {get;}
+        public readonly V Source;
 
-        public V Target {get;}
+        public readonly V Target;
 
         [MethodImpl(Inline)]
         public NamedEdge(Name name, V src, V dst)
@@ -21,8 +23,20 @@ namespace Z0
             Target = dst;
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Name.Hash | hash(Source) | hash(Target);
+        }
+
+        V IArrow<V, V>.Source
+            => Source;
+
+        V IArrow<V, V>.Target
+            => Target;
+
         public override int GetHashCode()
-            => (int)alg.hash.combine(Source.GetHashCode(), Target.GetHashCode());
+            => Hash;
 
         [MethodImpl(Inline)]
         public bool Equals(NamedEdge<V> src)

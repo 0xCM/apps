@@ -6,22 +6,16 @@ namespace Z0
 {
     using api = Sized;
 
-    public readonly record struct Gb : IDataType<Gb>
+    public readonly record struct Gb : IDataExpr<Gb>
     {
         public const string UOM = "gb";
 
-        public readonly uint Count;
+        public readonly ulong Count;
 
         [MethodImpl(Inline)]
-        public Gb(uint src)
+        public Gb(ulong src)
         {
             Count = src;
-        }
-
-        public string Format()
-        {
-            var value = Count != 0 ? Count.ToString("#,#") : "0";
-            return string.Format("{0} {1}", value, UOM);
         }
 
         public ByteSize Size
@@ -52,6 +46,9 @@ namespace Z0
         public int CompareTo(Gb src)
             => Size.CompareTo(src.Size);
 
+        public string Format()
+            => string.Format("{0} {1}", Count != 0 ? Count.ToString("#,#") : "0", UOM);
+
         public override string ToString()
             => Format();
 
@@ -63,7 +60,7 @@ namespace Z0
             => Hash;
 
         [MethodImpl(Inline)]
-        public static implicit operator uint(Gb src)
+        public static implicit operator ulong(Gb src)
             => src.Count;
     }
 }

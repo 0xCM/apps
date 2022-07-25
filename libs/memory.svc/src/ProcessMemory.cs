@@ -8,10 +8,6 @@ namespace Z0
 
     public partial class ProcessMemory : WfSvc<ProcessMemory>
     {
-
-        IDbTargets ApiTargets()
-            => AppDb.DbOut("api");
-
         ImageRegions Regions => Wf.ImageRegions();
 
         public ReadOnlySpan<AddressBankEntry> LoadContextAddresses(IApiPack src)

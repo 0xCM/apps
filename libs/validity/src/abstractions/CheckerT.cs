@@ -198,6 +198,6 @@ namespace Z0
         }
 
         public void Run()
-            => Run(EventLog, true);
+            => Run(EventLogger, true);
     }
 }

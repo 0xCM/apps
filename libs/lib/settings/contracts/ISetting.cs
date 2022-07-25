@@ -27,7 +27,7 @@ namespace Z0
     }
 
     public interface ISetting<K,V> : ISetting<V>, INamed<K>
-        where K : IExpr, IDataType<K>
+        where K : IExpr, IDataType
     {
 
     }

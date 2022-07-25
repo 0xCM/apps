@@ -4,11 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public struct Node<T> : INode<T>
+    [StructLayout(LayoutKind.Sequential,Pack=1)]
+    public readonly struct Node<T> : INode<T>
     {
-        public uint Index;
+        public readonly uint Index;
 
-        public T Payload;
+        public readonly T Payload;
 
         [MethodImpl(Inline)]
         public Node(uint id, T content)

@@ -2,18 +2,15 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.llvm
+namespace Z0
 {
-    using System;
-
-    using static Root;
     using static core;
 
     using Eq = Equivalence;
 
-    public readonly struct LlvmRelations
+    partial class Lines
     {
-        public static ReadOnlySpan<Eq.ClassMember> CalcEqClasses(ReadOnlySpan<LineRelations> src)
+        public static ReadOnlySpan<Eq.ClassMember> relations(ReadOnlySpan<LineRelations> src)
         {
             var count = (uint)src.Length;
             var classes = Eq.lookup();

@@ -10,7 +10,6 @@ namespace Z0
     using static Refs;
     using static Arrays;
 
-
     [ApiHost,Free]
     public partial class Sized
     {
@@ -20,7 +19,7 @@ namespace Z0
 
         public const ulong BytesPerGb = 1073741824;
 
-        const ulong BitsPerByte = 8;
+        public const ulong BitsPerByte = 8;
 
         public const ulong BitsPerKb = BytesPerKb*BitsPerByte;
 
@@ -65,7 +64,6 @@ namespace Z0
         public static NativeSize native<W>(W w)
             where W : unmanaged, IDataWidth
                 => native((BitWidth)w.BitWidth);
-
 
         [MethodImpl(Inline), Op]
         public static DataSize sum(ReadOnlySpan<DataSize> src)
@@ -204,11 +202,9 @@ namespace Z0
             return new BitWidth(bits + rem);
         }
 
-
         [MethodImpl(Inline)]
         public static DataSize datasize(BitWidth packed)
             => new DataSize(packed,(uint)(packed % 8 == 0 ? packed/8 : (packed/8) + 1));
-
 
         [MethodImpl(Inline)]
         public static NativeSize native<T>()

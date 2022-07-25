@@ -78,7 +78,7 @@ namespace Z0
             => Members(ApiQuery.complete(src.HostType, CommonExclusions).Select(m => new JittedMethod(src.HostUri, m, ClrJit.jit(m))));
 
         public ApiMembers JitHost(IApiHost src)
-            => ApiQuery.members(JitDirect(src).Concat(JitGeneric(src, EventLog)).Array());
+            => ApiQuery.members(JitDirect(src).Concat(JitGeneric(src, EventLogger)).Array());
 
         public ApiMembers Jit(Index<ApiCompleteType> src)
         {
@@ -86,7 +86,7 @@ namespace Z0
             var count = src.Count;
             ref var lead = ref src.First;
             for(var i=0u; i<count; i++)
-                dst.AddRange(jit(skip(lead,i), EventLog));
+                dst.AddRange(jit(skip(lead,i), EventLogger));
             return ApiQuery.members(dst.ToArray());
         }
 
@@ -99,7 +99,7 @@ namespace Z0
             var hosts = catalog.ApiHosts;
 
             foreach(var t in types)
-                buffer.AddRange(jit(t, EventLog));
+                buffer.AddRange(jit(t, EventLogger));
 
             foreach(var h in hosts)
                 buffer.AddRange(JitHost(h));

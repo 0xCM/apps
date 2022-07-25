@@ -4,9 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class ApiMemory : WfSvc<ApiMemory>
+    [StructLayout(StructLayout)]
+    public record struct TextFileStats
     {
-        public void EmitSymHeap(SymHeap src, IApiPack dst)
-            => Heaps.emit(src, dst.Metadata().Table<SymHeapRecord>(), EventLog);
+        public uint MaxLineLength;
+
+        public uint LineCount;
+
+        public uint CharCount;
     }
 }

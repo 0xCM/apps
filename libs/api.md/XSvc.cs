@@ -21,7 +21,7 @@ namespace Z0
 
         static Svc Services => Svc.Instance;
 
-        public static ApiMd ApiMetadata(this IWfRuntime wf)
+        public static ApiMd ApiMd(this IWfRuntime wf)
             => Services.ApiMetadata(wf);
 
         public static ApiComments ApiComments(this IWfRuntime wf)

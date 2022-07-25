@@ -12,6 +12,10 @@ namespace Z0
     {
         ApiMemory ApiMemory => Wf.ApiMemory();
 
+        ImageRegions Regions => Wf.ImageRegions();
+
+        IApiPack Dst => ApiPack.create();
+
         [CmdOp("memory")]
         Outcome ShowMemHex(CmdArgs args)
         {
@@ -36,6 +40,10 @@ namespace Z0
             return result;
         }
 
+        [CmdOp("memory/regions")]
+        void EmitRegions()
+            => Regions.EmitRegions(Process.GetCurrentProcess(), Dst);
+
         [CmdOp("sys/pid")]
         void ShowPID()
             => Write(Environment.ProcessId);
@@ -54,7 +62,6 @@ namespace Z0
             Wf.Data(string.Format("ThreadId:{0}", id));
             return true;
         }
-
 
         [CmdOp("sys/modules")]
         void ListModules()

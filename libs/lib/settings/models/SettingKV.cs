@@ -4,8 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct Setting<K,V> : ISetting<K,V>, IComparable<Setting<K,V>>
-        where K : unmanaged, IExpr, IDataType<K>
+    using static Algs;
+
+    public readonly record struct Setting<K,V> : IComparable<Setting<K,V>>, IDataType<Setting<K,V>>, ISetting<K,V>
+        where K : unmanaged, IDataType, IExpr, IComparable<K>
     {
         public readonly K Name;
 
@@ -33,7 +35,7 @@ namespace Z0
         public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => HashCodes.combine(Name.Hash, HashCodes.hash(Value));
+            get => Name.Hash |  hash(Value);
         }
 
         public string Format(char sep)
@@ -51,12 +53,12 @@ namespace Z0
         public override string ToString()
             => Format();
 
-        K INamed<K>.Name
-            => Name;
+        public static Setting<K,V> Empty => default;
 
         V ISetting<V>.Value
             => Value;
 
-        public static Setting<K,V> Empty => default;
+        K INamed<K>.Name
+            => Name;
     }
 }

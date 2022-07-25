@@ -4,11 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class Vertex : IEquatable<Vertex>, IVertex
+    public sealed record class Vertex : IEquatable<Vertex>, IVertex
     {
-        public object Value {get;}
+        public readonly object Value;
 
-        public DataList<Vertex> Targets {get;}
+        public readonly Seq<Vertex> Targets;
 
         [MethodImpl(Inline)]
         public Vertex(object value)
@@ -16,6 +16,18 @@ namespace Z0
             Value = value;
             Targets = new();
         }
+
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Value?.GetHashCode() ?? 0;
+        }
+
+        object IVertex.Value
+            => Value;
+
+        Seq<Vertex> IVertex.Targets
+            => Targets;
 
         public string Format()
             => Value.ToString();
@@ -28,21 +40,10 @@ namespace Z0
             => Format();
 
         public override int GetHashCode()
-            => Value.GetHashCode();
-
-        public override bool Equals(object src)
-            => src is Vertex v && Equals(v);
+            => Hash;
 
         [MethodImpl(Inline)]
         public static implicit operator Vertex(uint key)
             => new Vertex(key);
-
-        [MethodImpl(Inline)]
-        public static bool operator ==(Vertex a, Vertex b)
-            => a.Equals(b);
-
-        [MethodImpl(Inline)]
-        public static bool operator !=(Vertex a, Vertex b)
-            => !a.Equals(b);
     }
 }
