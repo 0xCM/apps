@@ -8,9 +8,12 @@ namespace Z0
 
     public class EncodedMembers : IDisposable
     {
+        public static EncodedMembers own(EncodingData data)
+            => new EncodedMembers(data);
+
         EncodingData Data;
 
-        internal EncodedMembers(EncodingData data)
+        EncodedMembers(EncodingData data)
         {
             Data = data;
         }
@@ -78,7 +81,7 @@ namespace Z0
             get => Data.Tokens.Count;
         }
 
-        internal class EncodingData : IDisposable
+        public class EncodingData : IDisposable
         {
             public ICompositeDispenser Symbols;
 

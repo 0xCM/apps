@@ -4,13 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     using Asm;
 
     partial class ApiCode
     {
-
         public static ApiMember member(in ResolvedMethod src)
             => new ApiMember(src.Uri, src.Method, src.EntryPoint, ClrDynamic.msil(src.EntryPoint, src.Uri, src.Method));
 
@@ -35,36 +32,6 @@ namespace Z0
             dst.Host = uri.Host.Format();
             return dst;
         }
-
-        // public static Index<ApiMsil> msil(ReadOnlySpan<MethodInfo> src)
-        // {
-        //     var count = src.Length;
-        //     var buffer = alloc<ApiMsil>(count);
-        //     var methods = src;
-        //     var target = span(buffer);
-        //     for(var i=0; i<count; i++)
-        //     {
-        //         ref readonly var method = ref skip(src,i);
-        //         var entry = ClrJit.jit(method);
-        //         var body = method.GetMethodBody();
-        //         if(body != null)
-        //         {
-        //             var uri = ApiIdentity.located(method.DeclaringType.ApiHostUri(), method.Name, method.Identify());
-        //             var resolved = new ResolvedMethod(uri, method, entry);
-        //             seek(target,i) = new ApiMsil(
-        //                 method.MetadataToken,
-        //                 resolved.EntryPoint,
-        //                 resolved.Method.DisplaySig(),
-        //                 resolved.Uri,
-        //                 method.ResolveSignature(),
-        //                 body.GetILAsByteArray() ?? sys.empty<byte>(),
-        //                 method.MethodImplementationFlags
-        //                 );
-        //         }
-        //     }
-
-        //     return buffer;
-        // }
 
         /// <summary>
         /// Resolves a specified method

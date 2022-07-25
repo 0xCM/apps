@@ -10,6 +10,22 @@ namespace Z0
     {
         const byte ZeroLimit = 10;
 
+        public static Outcome parse(FS.FilePath src, out Seq<EncodedMember> dst)
+        {
+            var result = Outcome.Success;
+            var lines = src.ReadLines(true);
+            var count = lines.Count - 1;
+            dst = alloc<EncodedMember>(count);
+            for(var i=0u; i<count; i++)
+            {
+                result = parse(i + 1, lines[i + 1], out dst[i]);
+                if(result.Fail)
+                    break;
+            }
+
+            return result;
+        }
+
         [Parser]
         public static Outcome parse(LineNumber line, string src, out EncodedMember dst)
         {
@@ -35,17 +51,5 @@ namespace Z0
             dst.Uri = text.trim(skip(cells,i++));
             return result;
         }
-    }
-
-    partial class XTend
-    {
-        public static ReadOnlySeq<EncodedMember> EncodedMemberTable(this FS.FilePath src)
-        {
-            ApiCode.index(src, out var dst);
-            return dst;
-        }
-
-        public static ReadOnlySeq<string> EncodedMemberAsm(this FS.FilePath src)
-            => src.ReadLines(false);
     }
 }

@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
     using static core;
 
     partial class AsmCheckCmd
@@ -78,7 +77,7 @@ namespace Z0
         Outcome CheckLookups(IApiPack src, ITextEmitter log)
         {
             var capacity = Pow2.T16;
-            var blocks = ApiCode.LoadBlocks(src).View;
+            var blocks = ApiCode.blocks(src).View;
             var count = blocks.Length;
             var result = Outcome.Success;
             if(count > capacity)

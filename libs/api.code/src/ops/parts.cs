@@ -8,7 +8,7 @@ namespace Z0
 
     partial class ApiCode
     {
-       [Op]
+        [Op]
         public static ReadOnlySpan<ApiPartBlocks> parts(ReadOnlySpan<ApiHostBlocks> src)
             => src.ToArray().GroupBy(x => x.Part).Map(x => new ApiPartBlocks(x.Key, x.ToArray()));
     }

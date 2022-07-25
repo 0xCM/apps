@@ -8,6 +8,22 @@ namespace Z0
 
     public readonly struct MethodEntryPoints
     {
+        public static ReadOnlySeq<MethodEntryPoint> calc(IApiCatalog catalog, ApiHostUri src, IWfEventTarget log)
+        {
+            var dst = sys.empty<MethodEntryPoint>();
+            if(catalog.FindHost(src, out var host))
+               dst = create(ClrJit.members(host, log));
+            return dst;
+        }
+
+        public static ReadOnlySeq<MethodEntryPoint> calc(IApiCatalog catalog, PartId src, IWfEventTarget log)
+        {
+            var dst = sys.empty<MethodEntryPoint>();
+            if(catalog.FindPart(src, out var part))
+                dst = create(ClrJit.members(part, log));
+            return dst;
+        }
+
         [Op]
         public static MethodEntryPoint create(MethodInfo src)
             => new MethodEntryPoint(ClrJit.jit(src), src.Uri(), src.DisplaySig().Format());

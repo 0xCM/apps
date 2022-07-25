@@ -17,9 +17,6 @@ namespace Z0
         void RedirectEmissions(IApiPack dst)
             => Wf.RedirectEmissions(Loggers.emission(ExecutingPart.Component, dst.Path("capture.emissions", FileKind.Csv)));
 
-        public static Index<ApiCatalogEntry> rebase(ApiMembers src)
-            => rebase(src.BaseAddress, src.View);
-
         public static Index<ApiCatalogEntry> rebase(MemoryAddress @base, ReadOnlySpan<ApiMember> src)
         {
             for(var i=0; i<src.Length; i++)
@@ -76,7 +73,7 @@ namespace Z0
             iter(src.PartCatalogs(),
                 part => {
                     var _bag = bag<CollectedHost>();
-                    ApiCode.collect(part, EventLog, dispenser, _bag);
+                    ApiCode.gather(part, EventLog, dispenser, _bag);
                     var code = _bag.ToArray();
                     ApiCode.Emit(part.PartId, code, dst);
                     EmitAsm(dispenser, code, dst);

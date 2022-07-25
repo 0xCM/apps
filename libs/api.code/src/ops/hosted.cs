@@ -37,6 +37,5 @@ namespace Z0
                 return dst.Map(x => new ApiHostBlocks(x.Key, x.Value.ToArray()));
             }
         }
-
     }
 }

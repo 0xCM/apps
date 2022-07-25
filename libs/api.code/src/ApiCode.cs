@@ -10,65 +10,26 @@ namespace Z0
     {
         ApiHex ApiHex => Wf.ApiHex();
 
-        public ReadOnlySeq<MethodEntryPoint> CalcEntryPoints()
-            => MethodEntryPoints.create(ClrJit.members(ApiRuntimeCatalog, EventLog));
-
-        public ReadOnlySeq<MethodEntryPoint> CalcEntryPoints(ApiHostUri src)
-        {
-            var dst = sys.empty<MethodEntryPoint>();
-            if(ApiRuntimeCatalog.FindHost(src, out var host))
-               dst = MethodEntryPoints.create(ClrJit.members(host, EventLog));
-            return dst;
-        }
-
-        public ReadOnlySeq<MethodEntryPoint> CalcEntryPoints(PartId part)
-        {
-            var dst = sys.empty<MethodEntryPoint>();
-            if(ApiRuntimeCatalog.FindPart(part, out var src))
-                dst = MethodEntryPoints.create(ClrJit.members(src, EventLog));
-            return dst;
-        }
-
         public ReadOnlySeq<ApiHexIndexRow> EmitIndex(SortedIndex<ApiCodeBlock> src, IApiPack dst)
             => EmitIndex(SortedSpans.define(src.Storage), dst.Targets().Path("api.index", FileKind.Csv));
 
         public Index<ApiCodeRow> EmitApiHex(ApiHostUri uri, ReadOnlySpan<ApiMemberCode> src, IApiPack dst)
             => ApiHex.EmitApiCode(uri, src, dst.HexExtractPath(uri));
 
-        public SortedIndex<ApiCodeBlock> LoadBlocks(IApiPack src)
-            => blocks(src.HexExtracts());
-
-        [Op]
-        public ByteSize Emit(in MemoryBlock src, FS.FilePath dst)
-        {
-            using var writer = dst.Writer();
-            return ApiHex.pack(src, 0, writer);
-        }
-
-        [Op]
-        public ByteSize Emit(in MemoryBlocks src, FS.FilePath dst)
-        {
-            var flow = EmittingFile(dst);
-            using var writer = dst.Writer();
-            var total = ApiHex.pack(src, writer);
-            EmittedFile(flow, (uint)total);
-            return total;
-        }
-
         public ReadOnlySeq<CollectedEncoding> Collect(IPart part, ICompositeDispenser symbols, IApiPack dst)
         {
-            var collected = Collect(symbols, part);
+            var collected = collect(symbols, part, EventLog);
             Emit(part.Id, collected, dst);
             return collected;
         }
 
         public ReadOnlySeq<CollectedEncoding> Collect(ICompositeDispenser symbols, ApiHostUri src, IApiPack dst)
         {
-            var entries = CalcEntryPoints(src);
+            var entries = MethodEntryPoints.calc(ApiRuntimeCatalog, src, EventLog);
             var collected = ReadOnlySeq<CollectedEncoding>.Empty;
             if(entries.IsNonEmpty)
             {
-                collected = collect(entries, EventLog, symbols);
+                collected = gather(entries, EventLog, symbols);
                 Emit(collected, dst.HexExtractPath(src), dst.CsvExtractPath(src));
             }
             else
@@ -78,11 +39,11 @@ namespace Z0
 
         public ReadOnlySeq<CollectedEncoding> Collect(ICompositeDispenser symbols, PartId src, IApiPack dst)
         {
-            var entries = CalcEntryPoints(src);
+            var entries = MethodEntryPoints.calc(ApiRuntimeCatalog, src, EventLog);
             var collected = ReadOnlySeq<CollectedEncoding>.Empty;
             if(entries.IsNonEmpty)
             {
-                collected = collect(entries, EventLog, symbols);
+                collected = gather(entries, EventLog, symbols);
                 Emit(collected, dst.HexExtractPath(src), dst.CsvExtractPath(src));
             }
             else
@@ -145,7 +106,7 @@ namespace Z0
         Seq<EncodedMember> LoadMember(IApiPack src, PartId part)
         {
             var dst = Seq<EncodedMember>.Empty;
-            var result = index(src.CsvExtractPath(part), out dst);
+            var result = parse(src.CsvExtractPath(part), out dst);
             if(result.Fail)
             {
                 Write(result.Message,FlairKind.Warning);

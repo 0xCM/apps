@@ -8,9 +8,9 @@ namespace Z0
 
     partial class ApiCode
     {
-        public static BinaryCode code(uint size, Index<CollectedEncoding> src)
+        public static BinaryCode compact(uint size, Index<CollectedEncoding> src)
         {
-            var dst = alloc<byte>(size);
+            var dst = sys.alloc<byte>(size);
             var k = 0u;
             for(var i=0; i<src.Count; i++)
             {

@@ -53,13 +53,13 @@ namespace Z0
             dst.CodeBuffer = ManagedBuffer.pin(code.Storage);
             dst.Offsets = offsets;
             dst.Tokens = tokens;
-            return new EncodedMembers(dst);
+            return EncodedMembers.own(dst);
         }
 
         void Load(IApiPack src, ApiHostUri host, out Seq<EncodedMember> index, out BinaryCode data)
         {
             ApiCode.hex(src.HexExtractPath(host), out data).Require();
-            ApiCode.index(src.CsvExtractPath(host), out index).Require();
+            ApiCode.parse(src.CsvExtractPath(host), out index).Require();
         }
 
         void Load(IApiPack src, PartId part, out Seq<EncodedMember> index, out BinaryCode data)

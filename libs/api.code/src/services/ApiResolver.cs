@@ -6,12 +6,6 @@ namespace Z0
 {
     using static core;
 
-    partial class XTend
-    {
-        public static OpUri Uri(this MethodInfo src)
-            => ApiIdentity.from(src);
-    }
-
     [ApiHost]
     public class ApiResolver : WfSvc<ApiResolver>
     {

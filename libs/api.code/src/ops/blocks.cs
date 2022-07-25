@@ -8,9 +8,6 @@ namespace Z0
 
     partial class ApiCode
     {
-        public static ApiHostBlocks blocks(ApiHostUri host, FS.FilePath src)
-            => new ApiHostBlocks(host, blocks(src));
-
         [MethodImpl(Inline), Op]
         public static ApiCodeBlock block(in ApiCodeRow src)
             => new ApiCodeBlock(src.Address, src.Uri, src.Data);
@@ -24,6 +21,12 @@ namespace Z0
             static FS.FilePath csv(FS.FolderPath src, ApiHostUri host)
                 => src + host.FileName(FS.PCsv);
         }
+
+        public static ApiHostBlocks blocks(ApiHostUri host, FS.FilePath src)
+            => new ApiHostBlocks(host, blocks(src));
+
+        public static SortedIndex<ApiCodeBlock> blocks(IApiPack src)
+            => blocks(src.HexExtracts());
 
         public static SortedIndex<ApiCodeBlock> blocks(FS.Files src, bool pll = true)
         {
