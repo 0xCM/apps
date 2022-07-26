@@ -53,9 +53,7 @@
 
     <Glue>$(SlnLibs)glue\z0.glue.csproj</Glue>
 
-    <IntelIntrinsics>$(SlnLibs)intel.intrinsics\z0.intel.intrinsics.csproj</IntelIntrinsics>
-    <IntelCore>$(SlnLibs)intel.core\z0.intel.core.csproj</IntelCore>
-    <IntelXed>$(SlnLibs)intel.xed\z0.intel.xed.csproj</IntelXed>
+    <IntelSvc>$(SlnLibs)intel.svc\z0.intel.svc.csproj</IntelSvc>
     <Interop>$(SlnLibs)interop\z0.interop.csproj</Interop>
     <Imagine>$(SlnLibs)imagine\z0.imagine.csproj</Imagine>
 

@@ -22,8 +22,7 @@
     <ProjectReference Include="$(Archives)" />
     <ProjectReference Include="$(LlvmSvc)" />
     <ProjectReference Include="$(Machines)" />
-    <ProjectReference Include="$(IntelIntrinsics)" />
-    <ProjectReference Include="$(IntelXed)" />
+    <ProjectReference Include="$(IntelSvc)" />
   </ItemGroup>
 
 </Project>

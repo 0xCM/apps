@@ -7,7 +7,7 @@ namespace Z0
     partial class AsmCoreCmd
     {
         [CmdOp("sdm/etl")]
-        Outcome SdmImport(CmdArgs args)
-            => Sdm.Etl();
+        void SdmImport()
+            => Sdm.RunEtl();
     }
 }

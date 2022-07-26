@@ -181,7 +181,7 @@ namespace Z0
             _Alloc?.Dispose();
         }
 
-        public void Etl()
+        public void RunEtl()
         {
             Paths.Output().Delete();
             var tables = Views.RuleTables;

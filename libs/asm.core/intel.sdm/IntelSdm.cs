@@ -31,51 +31,31 @@ namespace Z0.Asm
             ClearCache();
         }
 
-        public Outcome Etl()
+        public void RunEtl()
         {
-            var result = Outcome.Success;
-
             Clear();
 
-            result = EmitCharMaps();
-            if(result.Fail)
-                return result;
+            EmitCharMaps();
 
-            result = ImportVolume(1);
-            if(result.Fail)
-                return result;
+            ImportVolume(1);
 
-            result = ImportVolume(2);
-            if(result.Fail)
-                return result;
+            ImportVolume(2);
 
-            result = ImportVolume(3);
-            if(result.Fail)
-                return result;
+            ImportVolume(3);
 
-            result = ImportVolume(4);
-            if(result.Fail)
-                return result;
+            ImportVolume(4);
 
-            result = EmitSdmSplits();
-            if(result.Fail)
-                return result;
+            EmitSdmSplits();
 
-            result = EmitCombinedToc();
-            if(result.Fail)
-                return result;
+            EmitCombinedToc();
 
-            result = EmitTocRecords();
-            if(result.Fail)
-                return result;
+            EmitTocRecords();
 
             EmitTokens();
             var details = CalcOcDetails();
             Emit(details);
 
             EmitSigOps(EmitForms(details));
-
-            return result;
         }
    }
 }

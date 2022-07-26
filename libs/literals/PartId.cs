@@ -246,17 +246,8 @@ public enum PartId : byte
     [Symbol("extract")]
     Extract,
 
-    [Symbol("intel.core")]
-    IntelCore,
-
-    [Symbol("intel.intrinsics")]
-    IntelIntrinsics,
-
-    [Symbol("intel.xed")]
-    IntelXed,
-
-    [Symbol("intel.sdm")]
-    IntelSdm,
+    [Symbol("intel.svc")]
+    IntelSvc,
 
     [Symbol("commands")]
     Commands,

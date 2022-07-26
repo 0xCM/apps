@@ -18,7 +18,6 @@ namespace Z0
             => run(commands, args);
     }
 
-
     class IntelCommands : AppCmdService<IntelCommands>
     {
 
