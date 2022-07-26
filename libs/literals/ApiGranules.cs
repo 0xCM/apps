@@ -398,6 +398,8 @@ namespace Z0
 
         public const string pow2 = nameof(pow2);
 
+        public const string toml = nameof(toml);
+
         public const string chars = nameof(chars);
 
         public const string clr = nameof(clr);

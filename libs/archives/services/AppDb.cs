@@ -16,6 +16,12 @@ namespace Z0
 
         readonly WsArchives WsArchives;
 
+        public IDbSources Settings()
+            => DbRoot().Sources("settings");
+
+        public FS.FilePath Settings(string name, FileKind kind)
+            => Settings().Path(name,kind);
+
         public IDbSources Configs()
             => new DbSources(DbRoot().Root + FS.folder("settings"));
 

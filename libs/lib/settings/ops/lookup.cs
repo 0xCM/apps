@@ -6,6 +6,7 @@ namespace Z0
 {
     using static Spans;
     using static Arrays;
+    using static Algs;
 
     partial class Settings
     {
@@ -29,7 +30,7 @@ namespace Z0
 
         public static SettingLookup lookup(FS.FilePath src, char sep)
         {
-            var dst = core.list<Setting>();
+            var dst = list<Setting>();
             var line = AsciLineCover.Empty;
             using var reader = src.AsciLineReader();
             while(reader.Next(out line))
@@ -44,8 +45,8 @@ namespace Z0
                     var i = SQ.index(content, sep);
                     if(i > 0)
                     {
-                        var name = text.format(SQ.left(content,i));
-                        var value = text.format(SQ.right(content,i));
+                        var name = Asci.format(SQ.left(content,i));
+                        var value = Asci.format(SQ.right(content,i));
                         dst.Add(new Setting(name,value));
                     }
                 }

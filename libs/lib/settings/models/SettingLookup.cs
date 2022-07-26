@@ -89,7 +89,7 @@ namespace Z0
         }
 
         public bool Find(string key, out Setting value)
-            => api.search(this,key,out value);
+            => api.search(this, key, out value);
 
         public string Format()
         {

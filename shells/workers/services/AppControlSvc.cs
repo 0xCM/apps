@@ -9,6 +9,14 @@ namespace Z0
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
 
+    public struct WatchSettings
+    {
+        public const string Name = "watch";
+
+        public string Sources;
+
+        public string Targets;
+    }
     class ServiceControl : BackgroundService
     {
         readonly ILogger<ServiceControl> DisplayLog;
@@ -26,6 +34,8 @@ namespace Z0
         public ServiceControl(IWfRuntime wf, ILogger<ServiceControl> logger)
         {
             Wf = wf;
+            var db = AppDb.Service;
+            var settings = Settings.lookup(db.Settings(WatchSettings.Name, FileKind.Toml),Chars.Eq);
             Targets = AppDb.Service.DbRoot().Sources();
             Starting(Targets);
             LogStorage = ExecutingPart.Component.Path().FolderPath + FS.folder("logs");

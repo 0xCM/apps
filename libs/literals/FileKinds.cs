@@ -108,7 +108,8 @@ namespace Z0
         [Symbol(hexdat)]
         HexDat,
 
-
+        [Symbol(toml, "A toml configuration file")]
+        Toml,
 
         [Symbol(idx)]
         Idx,
