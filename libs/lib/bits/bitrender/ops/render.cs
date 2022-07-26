@@ -5,7 +5,6 @@
 namespace Z0
 {
     using static Spans;
-    using static Refs;
     using static Algs;
 
     partial struct BitRender

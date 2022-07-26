@@ -11,7 +11,7 @@ namespace Z0
     using static Arrays;
 
     [ApiHost,Free]
-    public partial class Sized
+    public class Sized
     {
         public const ulong BytesPerKb = 1024;
 

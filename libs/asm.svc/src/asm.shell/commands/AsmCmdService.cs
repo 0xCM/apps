@@ -36,11 +36,8 @@ namespace Z0.Asm
         {
             const string ScriptId = "build-exe";
             var result = Outcome.Success;
-            //var script = (AsmWs as IWorkspace).Script(ScriptId);
-            var vars = CmdVars.load(
-                ("SrcId", SrcId)
-                );
-            var cmd = CmdScripts.cmdline(script.Format(PathSeparator.BS));
+            var vars = CmdVars.load(("SrcId", SrcId));
+            var cmd = new CmdLine(script.Format(PathSeparator.BS));
             return OmniScript.Run(cmd, vars, out var response);
         }
     }

@@ -20,7 +20,12 @@ namespace Z0
         }
 
         public override string Format()
-            => ToolCmd.format(this);
+        {
+            var dst = text.buffer();
+            for(var i=0; i<Count; i++)
+                dst.AppendLine(this[i].Format());
+            return dst.Emit();
+        }
 
         [MethodImpl(Inline)]
         public static implicit operator ToolCmdArgs<K,T>(ToolCmdArg<K,T>[] src)

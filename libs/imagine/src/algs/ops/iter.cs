@@ -5,7 +5,6 @@
 namespace Z0
 {
     using static Spans;
-    using static Refs;
     using static Arrays;
 
     partial class Algs
@@ -49,7 +48,7 @@ namespace Z0
             else
             {
                 for(var i=0u; i<src.Length; i++)
-                    action(skip(src,i));
+                    action(Spans.skip(src,i));
             }
         }
 

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static HashCodes;
+    using static Algs;
 
     public readonly record struct ApiDataType : IDataType<ApiDataType>
     {

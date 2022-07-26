@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Spans;
-
     [ApiHost]
     public partial class Algs
     {
@@ -44,12 +42,12 @@ namespace Z0
             int i_a = 0, i_b = 0;
             while(i_a < l_a && i_b < l_a && found < limit)
             {
-                ref readonly var a = ref skip(left,i_a);
-                ref readonly var b = ref skip(right,i_b);
+                ref readonly var a = ref Spans.skip(left,i_a);
+                ref readonly var b = ref Spans.skip(right,i_b);
 
                 if(a == b)
                 {
-                    seek(dst, found++) = a;
+                    Spans.seek(dst, found++) = a;
                     i_a++;
                     i_b++;
                 }

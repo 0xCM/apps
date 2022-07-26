@@ -182,7 +182,7 @@ namespace Z0
             var scripts = args.Map(x => AppDb.Control().Sources("launch").Path(FS.file(x.Value, FileKind.Ps1)));
             iter(scripts, script => {
                 Status($"Launching target defined by {script.ToUri()}", FlairKind.Running);
-                var cmd = Scripts.pwsh(script);
+                var cmd = CmdScripts.pwsh(script);
                 CmdLines.Start(cmd);
                 Status($"Launch script {script.ToUri()} executing", FlairKind.Ran);
             });

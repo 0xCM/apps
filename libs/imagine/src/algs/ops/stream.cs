@@ -6,8 +6,6 @@ namespace Z0
 {
     using System.Linq;
 
-    using static Refs;
-
     partial class Algs
     {
         /// <summary>

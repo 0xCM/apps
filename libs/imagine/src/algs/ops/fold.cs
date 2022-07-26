@@ -21,7 +21,7 @@ namespace Z0
             var result = monoid.Identity;
             var count = src.Length;
             for(var i=0u; i<count; i++)
-                result = monoid.Compose(result, skip(src,i));
+                result = monoid.Compose(result, Spans.skip(src,i));
             return result;
         }
     }

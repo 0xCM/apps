@@ -22,7 +22,7 @@ namespace Z0
     public sealed class ScriptProcess : IScriptProcess<ScriptProcess>
     {
         public static ScriptProcess launch(FS.FilePath path, ScriptKind kind, string args)
-            => ScriptProcess.create(Scripts.script(path,kind,args));
+            => ScriptProcess.create(CmdScripts.cmdline(path,kind,args));
 
         /// <summary>
         /// Creates a command process

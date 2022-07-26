@@ -5,7 +5,8 @@
 
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Arrays;
 
     public class FileTypes
     {

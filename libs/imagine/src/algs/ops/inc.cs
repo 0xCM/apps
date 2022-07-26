@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Refs;
-
     partial class Algs
     {
         /// <summary>

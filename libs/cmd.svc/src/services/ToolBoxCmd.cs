@@ -21,15 +21,9 @@ namespace Z0
         public FS.FilePath ScriptPath(Actor tool, string name, FileKind kind)
             => Workspace(tool).Script(name, kind);
 
-        // static FS.FilePath tool(IToolWs ws, Actor tool, ScriptId script, FileKind kind)
-        //     => home(ws, tool) + FS.file(script.Format(), kind);
-
-        // static FS.FolderPath home(IToolWs ws, Actor tool)
-        //     => ws.ScriptDir() + FS.folder(tool.Format()) + FS.folder(scripts);
-
         public Outcome Run(IToolWs tool, string name, FS.FilePath src, FS.FolderPath dst)
         {
-            var cmd = CmdScripts.cmdline(tool.Script(name, FileKind.Cmd).Format(PathSeparator.BS));
+            var cmd = new CmdLine(tool.Script(name, FileKind.Cmd).Format(PathSeparator.BS));
             var vars = WsCmdVars.create();
             vars.DstDir = dst;
             vars.SrcDir = src.FolderPath;
@@ -180,7 +174,7 @@ namespace Z0
                 ref readonly var tool = ref profile.Id;
                 if(profile.HelpCmd.IsEmpty)
                     continue;
-                dst.Add(ToolCmd.cmdline(ws, tool, string.Format("{0} {1}", profile.Path.Format(PathSeparator.BS), profile.HelpCmd)));
+                dst.Add(CmdScripts.cmdline(ws, tool, string.Format("{0} {1}", profile.Path.Format(PathSeparator.BS), profile.HelpCmd)));
             }
             dst.Sort();
             return dst.ToArray();

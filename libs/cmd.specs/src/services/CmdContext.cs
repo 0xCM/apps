@@ -4,16 +4,23 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public struct ToolCmdContext
+    public class CmdContext
     {
         /// <summary>
         /// The working folder, if any
         /// </summary>
-        public FS.FolderPath WorkingDir;
+        public readonly FS.FolderPath WorkingDir;
 
         /// <summary>
         /// Environment variables to use, if any
         /// </summary>
-        public EnvVars<string> EnvVars;
+        public readonly EnvVars<string> EnvVars;
+
+        [MethodImpl(Inline)]
+        public CmdContext(FS.FolderPath wd, params EnvVar<string>[] src)
+        {
+            WorkingDir = wd;
+            EnvVars = src;
+        }
     }
 }

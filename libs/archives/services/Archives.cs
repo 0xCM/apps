@@ -13,7 +13,7 @@ namespace Z0
         public static ScriptProcess robocopy(FS.FolderPath src, FS.FolderPath dst)
         {
             var spec = $"robocopy {src} {dst} /e";
-            var cmd = Scripts.cmd(spec);
+            var cmd = CmdScripts.cmd(spec);
             return ScriptProcess.create(cmd);
         }
 

@@ -77,7 +77,7 @@ namespace Z0
             var buffer = sys.alloc<T>(count);
             var target = span(buffer);
             for(var i=0u; i<count; i++)
-                seek(target,i) = f(skip(source,i));
+                Spans.seek(target,i) = f(Spans.skip(source,i));
             return buffer;
         }
 
@@ -120,7 +120,7 @@ namespace Z0
         {
             var count = min(a.Length, b.Length);
             for(var i=0u; i<count; i++)
-                seek(dst,i) = f(skip(a,i), skip(b,i));
+                Spans.seek(dst,i) = f(Spans.skip(a,i), Spans.skip(b,i));
             return dst;
         }
 
@@ -140,7 +140,6 @@ namespace Z0
             return dst;
         }
 
-
         /// <summary>
         /// Applies a function to an input sequence to yield a transformed output sequence
         /// </summary>
@@ -154,10 +153,8 @@ namespace Z0
             var count = src.Length;
             var dst = sys.alloc<T>(count);
             for(var i=0; i<count; i++)
-                seek(dst,i) = f(skip(src,i));
+                Arrays.seek(dst,i) = f(Arrays.skip(src,i));
             return dst;
         }
-
-
    }
 }

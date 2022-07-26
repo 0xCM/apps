@@ -5,7 +5,6 @@
 namespace Z0
 {
     using static Algs;
-    using static Refs;
 
     /// <summary>
     /// An homogenous immutable 4-tuple

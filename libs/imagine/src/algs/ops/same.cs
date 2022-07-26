@@ -4,13 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static System.Runtime.CompilerServices.Unsafe;
 
-    public sealed class ApiControl : Actor<ApiControl>
+    partial class Algs
     {
-        public ApiControl()
-            : base("api")
-        {
-
-        }
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static bool same<T>(in T a, in T b)
+            => AreSame(ref edit(a), ref edit(b));
     }
 }

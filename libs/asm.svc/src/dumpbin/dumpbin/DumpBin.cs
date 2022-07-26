@@ -144,7 +144,7 @@ namespace Z0
 
             var dst = AppDb.DbOut().Targets(tag);
             var ws = ToolBox.Workspace(dumpbin);
-            var cmd = CmdScripts.cmdline(ws.Script(script).Format(PathSeparator.BS));
+            var cmd = new CmdLine(ws.Script(script).Format(PathSeparator.BS));
             var files = src.Sources().Files(fk);
 
             for(var i=0; i<files.Count; i++)

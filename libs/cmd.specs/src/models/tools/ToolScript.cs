@@ -16,6 +16,5 @@ namespace Z0
             Script = script;
             Vars = vars;
         }
-
     }
 }

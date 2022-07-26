@@ -6,7 +6,6 @@ namespace Z0
 {
     partial class Algs
     {
-
         [MethodImpl(Inline), Closures(Closure)]
         public static void deposit<T>(ReadOnlySpan<T> src, HashSet<T> dst)
         {

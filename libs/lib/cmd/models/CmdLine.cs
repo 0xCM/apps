@@ -13,7 +13,9 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public CmdLine(params string[] content)
-            => Data = content;
+        {
+            Data = content;
+        }
 
         public ReadOnlySpan<CmdLinePart> Parts
         {

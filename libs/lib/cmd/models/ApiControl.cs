@@ -4,9 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class Algs
+    public sealed class ApiControl : Actor<ApiControl>
     {
-        public static ConcurrentBag<T> bag<T>()
-            => new();
+        public ApiControl()
+            : base("api")
+        {
+
+        }
     }
 }

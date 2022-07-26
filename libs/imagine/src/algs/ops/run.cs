@@ -6,7 +6,6 @@ namespace Z0
 {
     partial class Algs
     {
-
         /// <summary>
         /// Runs a task that executes a specified worker
         /// </summary>

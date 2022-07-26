@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Spans;
-    using static Refs;
-    using static Arrays;
-
     partial class Algs
     {
         public static T[] mapi<S,T>(ReadOnlySpan<S> rows, Func<int,S,T> f)
@@ -15,7 +11,7 @@ namespace Z0
             var count = rows.Length;
             var dst = sys.alloc<T>(count);
             for(var i=0; i<count; i++)
-                seek(dst,i) = f(i, skip(rows,i));
+                Arrays.seek(dst,i) = f(i, Spans.skip(rows,i));
             return dst;
         }
 
@@ -45,7 +41,7 @@ namespace Z0
         {
             var count = Math.Min(src.Length, dst.Length);
             for(var i=0u; i<count; i++)
-                seek(dst, i)= f((int)i, skip(src, i));
+                Spans.seek(dst, i)= f((int)i, Spans.skip(src, i));
             return dst;
         }
     }

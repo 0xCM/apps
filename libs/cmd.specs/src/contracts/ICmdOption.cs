@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface ICmdOption : ITextual, INullity
+    public interface ICmdOption : IExpr, INullity
     {
         @string Name {get;}
 
@@ -16,7 +16,7 @@ namespace Z0
         bool INullity.IsNonEmpty
             => Name.IsNonEmpty;
 
-        string ITextual.Format()
+        string IExpr.Format()
             => Value.IsEmpty ? Name.Format() : string.Format("{0}={1}", Name, Value);
     }
 }

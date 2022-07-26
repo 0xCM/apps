@@ -4,9 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    using static core;
+    using static Algs;
 
     partial struct Symbols
     {
@@ -18,7 +16,7 @@ namespace Z0
         public static SymIndex untyped(Type src)
         {
             var factory = typeof(Symbols).Method("index").MakeGenericMethod(src);
-            var index = (ISymIndex)factory.Invoke(null, core.array<object>());
+            var index = (ISymIndex)factory.Invoke(null, array<object>());
             return index.Untyped();
         }
    }

@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Refs;
-    using static Spans;
-
     partial class Algs
     {
         [Op, Closures(Integers)]
@@ -30,7 +27,7 @@ namespace Z0
             var max = Unsafe.As<T,sbyte>(ref x1);
             var _step = Unsafe.As<T?, sbyte?>(ref step) ??(sbyte)1;
             for(var i = min; i <= max; i += _step)
-                seek(dst, i) = Unsafe.As<sbyte,T>(ref i);
+                Spans.seek(dst, i) = Unsafe.As<sbyte,T>(ref i);
         }
 
         [MethodImpl(Inline), Op, Closures(Integers)]
@@ -41,7 +38,7 @@ namespace Z0
             var max = Unsafe.As<T,byte>(ref x1);
             var _step = Unsafe.As<T?,byte?>(ref step) ??(byte)1;
             for(var i = min; i <= max; i += _step)
-                seek(dst, i) = Unsafe.As<byte,T>(ref i);
+                Spans.seek(dst, i) = Unsafe.As<byte,T>(ref i);
         }
 
         [MethodImpl(Inline), Op, Closures(Integers)]
@@ -52,7 +49,7 @@ namespace Z0
             var max = Unsafe.As<T,short>(ref x1);
             var _step = Unsafe.As<T?, short?>(ref step) ?? (short)1;
             for(var i = min; i <= max; i += _step)
-                seek(dst, i) = Unsafe.As<short,T>(ref i);
+                Spans.seek(dst, i) = Unsafe.As<short,T>(ref i);
         }
 
         [MethodImpl(Inline), Op, Closures(Integers)]
@@ -63,7 +60,7 @@ namespace Z0
             var max = Unsafe.As<T,ushort>(ref x1);
             var _step = Unsafe.As<T?, ushort?>(ref step) ?? (ushort)1;
             for(var i = min; i <= max; i += _step)
-                seek(dst, i) = Unsafe.As<ushort,T>(ref i);
+                Spans.seek(dst, i) = Unsafe.As<ushort,T>(ref i);
         }
 
         [MethodImpl(Inline), Op, Closures(Integers)]
@@ -74,7 +71,7 @@ namespace Z0
             var max = Unsafe.As<T,int>(ref x1);
             var _step = Unsafe.As<T?, int?>(ref step) ?? 1;
             for(var i = min; i <= max; i += _step)
-                seek(dst, i) = Unsafe.As<int,T>(ref i);
+                Spans.seek(dst, i) = Unsafe.As<int,T>(ref i);
         }
 
         [MethodImpl(Inline), Op, Closures(Integers)]
@@ -85,7 +82,7 @@ namespace Z0
             var max = Unsafe.As<T,uint>(ref x1);
             var _step = Unsafe.As<T?, uint?>(ref step) ?? 1u;
             for(var i = min; i <= max; i += _step)
-                seek(dst, i) = Unsafe.As<uint,T>(ref i);
+                Spans.seek(dst, i) = Unsafe.As<uint,T>(ref i);
         }
 
         [MethodImpl(Inline), Op, Closures(Integers)]
@@ -96,7 +93,7 @@ namespace Z0
             var max = Unsafe.As<T,long>(ref x1);
             var _step = Unsafe.As<T?, long?>(ref step) ?? 1L;
             for(var i = min; i <= max; i += _step)
-                seek(dst,i) = Unsafe.As<long,T>(ref i);
+                Spans.seek(dst,i) = Unsafe.As<long,T>(ref i);
         }
 
         [MethodImpl(Inline), Op, Closures(Integers)]
@@ -107,7 +104,7 @@ namespace Z0
             var max = Unsafe.As<T,ulong>(ref x1);
             var _step = Unsafe.As<T?,ulong?>(ref step) ?? 1ul;
             for(var i = min; i <= max; i += _step)
-                seek(dst, i) = Unsafe.As<ulong,T>(ref i);
+                Spans.seek(dst, i) = Unsafe.As<ulong,T>(ref i);
         }
 
         [MethodImpl(Inline), Op, Closures(Integers)]
@@ -118,7 +115,7 @@ namespace Z0
             var max = @as<T,ulong>(x1);
             var _step = @as<T,ulong>(step);
             for(var i=min; i<=max; i+=_step)
-                seek(dst, i) = @as<ulong,T>(i);
+                Spans.seek(dst, i) = @as<ulong,T>(i);
         }
 
         [MethodImpl(Inline)]

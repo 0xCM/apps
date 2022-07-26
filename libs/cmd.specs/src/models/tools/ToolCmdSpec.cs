@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using api = CmdScripts;
+
     /// <summary>
     /// Defines a tool execution specification
     /// </summary>
@@ -23,9 +25,8 @@ namespace Z0
             Args = args;
         }
 
-
         public string Format()
-            => ToolCmd.format(this);
+            => api.format(this);
 
         public override string ToString()
             => Format();
