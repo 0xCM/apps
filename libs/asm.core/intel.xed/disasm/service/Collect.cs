@@ -9,7 +9,7 @@ namespace Z0
 
     partial class XedDisasmSvc
     {
-        public void Collect(WsContext context)
+        public void Collect(FileFlowContext context)
         {
             var project = context.Project.Project;
             var docs = CalcDocs(context);

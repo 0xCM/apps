@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Record(TableId), StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct FileRef : IFileRef, IComparable<FileRef>, ISequential<FileRef>
+    public record struct FileRef : IFileRef, IDataType<FileRef>, ISequential<FileRef>
     {
         const string TableId = "files.index";
 
@@ -46,6 +46,12 @@ namespace Z0
             get => Path.IsNonEmpty;
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => (uint)DocId;
+        }
+
         public string DocName
         {
             [MethodImpl(Inline)]
@@ -56,15 +62,13 @@ namespace Z0
             => DocId.CompareTo(src.DocId);
 
         public override int GetHashCode()
-            => (int)DocId;
+            => Hash;
 
         public string Format()
             => Path.ToUri().Format();
 
         public override string ToString()
             => Format();
-
-        public static FileRef Empty => default;
 
         uint ISequential.Seq
         {
@@ -77,5 +81,7 @@ namespace Z0
 
         FS.FilePath IFileRef.Path
             => Path;
+
+        public static FileRef Empty => default;
     }
 }

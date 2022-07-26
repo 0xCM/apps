@@ -11,7 +11,7 @@ namespace Z0
 
     partial class AsmObjects
     {
-        public static AsmCodeBlocks blocks(WsContext context, in FileRef file, ref uint seq, Index<ObjDumpRow> src, Alloc dispenser)
+        public static AsmCodeBlocks blocks(FileFlowContext context, in FileRef file, ref uint seq, Index<ObjDumpRow> src, Alloc dispenser)
         {
             var blocks = src.GroupBy(x => x.BlockAddress).Array();
             var blockbuffer = alloc<AsmCodeBlock>(blocks.Length);
@@ -87,7 +87,7 @@ namespace Z0
                     seek(blockbuffer,j) = new AsmCodeBlock(composite.Symbol(blockaddress, blockname), codebuffer);
                 }
 
-                var origin = WsCatalog.load(project).Entry(group.Key);
+                var origin = FileCatalog.load(project.ProjectFiles().Storage.ToSortedSpan()).Doc(group.Key);
                 seek(buffer,i) = new AsmCodeBlocks(composite.Label(origin.DocName), origin.DocId, blockbuffer);
             }
             return buffer;

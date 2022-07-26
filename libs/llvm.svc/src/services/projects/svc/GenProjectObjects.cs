@@ -10,9 +10,9 @@ namespace Z0
     {
         public void GenProjectObjects(IWsProject project)
         {
-            var context = WsContext.load(project);
-            var catalog = context.Catalog;
-            var files = catalog.Entries(FileKind.Obj, FileKind.O);
+            var context = Flows.context(project);
+            var catalog = context.Files;
+            var files = catalog.Docs(FileKind.Obj, FileKind.O);
             var count = files.Count;
             var emitter = text.emitter();
             var offset = 0u;

@@ -85,7 +85,7 @@ namespace Z0
             var result = Outcome.Success;
             try
             {
-                run(() => Dispatch(cmd));
+                start(() => Dispatch(cmd));
             }
             catch(Exception e)
             {

@@ -157,8 +157,7 @@ namespace Z0
             }
 
             var cmd = Cmd.cmd(spec.Emit());
-            Status($"Executing '{cmd}'");
-            CmdLines.Start(cmd);
+            CmdScripts.start(cmd);
         }
 
         [CmdOp("pwsh")]
@@ -166,7 +165,7 @@ namespace Z0
         {
             var cmd = Cmd.pwsh(Cmd.join(args));
             Status($"Executing '{cmd}'");
-            CmdLines.Start(cmd);
+            CmdScripts.start(cmd);
         }
 
         [CmdOp("launchers")]
@@ -183,7 +182,7 @@ namespace Z0
             iter(scripts, script => {
                 Status($"Launching target defined by {script.ToUri()}", FlairKind.Running);
                 var cmd = CmdScripts.pwsh(script);
-                CmdLines.Start(cmd);
+                CmdScripts.start(cmd);
                 Status($"Launch script {script.ToUri()} executing", FlairKind.Ran);
             });
         }

@@ -9,10 +9,10 @@ namespace Z0
 
     partial class XedDisasmSvc
     {
-        public void EmitFieldReport(WsContext context, Document src)
+        public void EmitFieldReport(FileFlowContext context, Document src)
             => EmitFieldReport(context, src.Detail);
 
-        void EmitFieldReport(WsContext context, Detail src)
+        void EmitFieldReport(FileFlowContext context, Detail src)
         {
             var emitter = new FieldEmitter();
             var dst = text.emitter();

@@ -11,17 +11,12 @@ namespace Z0
             public Archives Archives(IWfRuntime wf)
                 => Service<Archives>(wf);
 
-            public ScriptRunner ScriptRunner(IWfRuntime wf)
-                => Service<ScriptRunner>(wf);
 
             public IWsProvider Ws(IWfRuntime wf, FS.FolderPath home)
                 => Service(wf, $"WsProvider.{WsProvider.id(home)}", wf => WsProvider.create(wf,home));
         }
 
         static ServiceCache Services => ServiceCache.Instance;
-
-        public static ScriptRunner ScriptRunner(this IWfRuntime wf)
-            => Services.ScriptRunner(wf);
 
         public static IWsProvider Ws(this IWfRuntime wf, FS.FolderPath home)
             => Services.Ws(wf, home);

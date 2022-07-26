@@ -51,7 +51,7 @@ namespace Z0
                 if(delta > Frequency)
                 {
                     var cycles = Cycles;
-                    run(() => Receive(cycles));
+                    start(() => Receive(cycles));
                     Time = timestamp();
                 }
 

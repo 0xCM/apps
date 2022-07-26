@@ -19,70 +19,9 @@ namespace Z0
     /// of System.Diagnostics.Process, and knows how to capture output and otherwise
     /// makes calling commands very easy.
     /// </summary>
-    public sealed class ScriptProcess : IScriptProcess<ScriptProcess>
+    public sealed class CmdProcess : ICmdProcess<CmdProcess>
     {
-        public static ScriptProcess launch(FS.FilePath path, ScriptKind kind, string args)
-            => ScriptProcess.create(CmdScripts.cmdline(path,kind,args));
-
-        /// <summary>
-        /// Creates a command process
-        /// </summary>
-        /// <param variable="commandLine">The command line to run as a subprocess</param>
-        /// <param variable="options">Options for the process</param>
-        [MethodImpl(Inline), Op]
-        public static ScriptProcess create(CmdLine command, ScriptProcessOptions config)
-            => new ScriptProcess(command, config);
-
-        [MethodImpl(Inline), Op]
-        public static ScriptProcess create(CmdLine cmd)
-            => new ScriptProcess(cmd);
-
-        [Op]
-        public static ScriptProcess create(CmdLine cmd, CmdVars? vars)
-        {
-            var options = new ScriptProcessOptions();
-            include(vars, options);
-            return new ScriptProcess(cmd, options);
-        }
-
-        [Op]
-        public static ScriptProcess create(CmdLine cmd, CmdVars? vars, Receiver<string> status, Receiver<string> error)
-        {
-            var options = new ScriptProcessOptions();
-            include(vars, options);
-            options.WithReceivers(status, error);
-            return new ScriptProcess(cmd, options);
-        }
-
-        [Op]
-        public static ScriptProcess start(CmdLine cmd, Receiver<string> status, Receiver<string> error)
-        {
-            var options = new ScriptProcessOptions();
-            options.WithReceivers(status, error);
-            return new ScriptProcess(cmd, options);
-        }
-
-        [MethodImpl(Inline), Op]
-        public static ScriptProcess create(CmdLine cmd, TextWriter dst)
-            => new ScriptProcess(cmd, new ScriptProcessOptions(dst));
-
-        [MethodImpl(Inline), Op]
-        public static ScriptProcess create(CmdLine cmd, TextWriter dst, Receiver<string> status, Receiver<string> error)
-        {
-            var options = new ScriptProcessOptions(dst);
-            options.WithReceivers(status, error);
-            return new ScriptProcess(cmd, options);
-        }
-
-        [MethodImpl(Inline), Op]
-        public static CmdExecStatus status(ScriptProcess process)
-            => process.Status();
-
-        [MethodImpl(Inline), Op]
-        public static ref CmdExecStatus status(ScriptProcess process, ref CmdExecStatus dst)
-            => ref process.Status(ref dst);
-
-        static void include(CmdVars? src, ScriptProcessOptions dst)
+        internal static void include(CmdVars? src, CmdProcessOptions dst)
         {
             if(src != null)
             {
@@ -96,7 +35,6 @@ namespace Z0
                     }
                 }
             }
-
         }
 
         readonly CmdLine _commandLine;
@@ -111,7 +49,7 @@ namespace Z0
         /// Gets that CommandOptions structure that holds all the options that affect
         /// the running of the command (like Timeout, Input ...)
         /// </summary>
-        public ScriptProcessOptions Options {get;}
+        public CmdProcessOptions Options {get;}
 
         /// <summary>
         /// Gets the underlying process object.  Generally not used.
@@ -126,7 +64,7 @@ namespace Z0
         /// <param variable="commandLine">The command lineNumber to run as a subprocess</param>
         /// <param variable="options">Additional qualifiers that control how the process is run</param>
         /// <returns>A Command structure that can be queried to determine ExitCode, Output, etc.</returns>
-        public ScriptProcess(CmdLine commandLine, ScriptProcessOptions options)
+        public CmdProcess(CmdLine commandLine, CmdProcessOptions options)
         {
             Options = options;
             _commandLine = commandLine;
@@ -249,8 +187,8 @@ namespace Z0
         /// Create a subprocess to run 'commandLine' with no special options.
         /// <param variable="commandLine">The command lineNumber to run as a subprocess</param>
         /// </summary>
-        public ScriptProcess(CmdLine commandLine)
-            : this(commandLine, new ScriptProcessOptions())
+        public CmdProcess(CmdLine commandLine)
+            : this(commandLine, new CmdProcessOptions())
         {
         }
 
@@ -358,7 +296,7 @@ namespace Z0
         /// Wait for a started process to complete (HasExited will be <see langword="true"/> on return)
         /// </summary>
         /// <returns>Wait returns that 'this' pointer.</returns>
-        public ScriptProcess Wait()
+        public CmdProcess Wait()
         {
             bool waitReturned = false;
             bool killed = false;
@@ -442,7 +380,7 @@ namespace Z0
             term.babble("Killing process tree " + ProcessId + " Cmd: " + _commandLine);
             try
             {
-                ScriptProcess.create("taskkill /f /t /pid " + Process.Id).Wait();
+                CmdScripts.process("taskkill /f /t /pid " + Process.Id).Wait();
             }
             catch (Exception e)
             {

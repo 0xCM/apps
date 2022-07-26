@@ -8,36 +8,27 @@ namespace Z0
 
     public class CmdLineRunner : WfSvc<CmdLineRunner>
     {
-        public void RunScript(FS.FilePath path, string args)
-        {
-            var cmd = new CmdLine($"cmd /c {path.Format(PathSeparator.BS)} {args}");
-            var process = ScriptProcess.create(cmd);
-            var output = process.Output;
-            Status(output);
-        }
+        // public Task<FS.FilePath> Start(CmdLine cmd)
+        // {
+        //     FS.FilePath Run()
+        //     {
+        //         var log = AppDb.Logs("procs").Path(timestamp().Format(),FileKind.Log);
+        //         using var writer = log.AsciWriter();
+        //         try
+        //         {
+        //             var process = CmdScripts.process(cmd, OnStatusEvent, OnErrorEvent).Wait();
+        //             var lines =  Lines.read(process.Output);
+        //             iter(lines, line => writer.WriteLine(line));
 
-        public Task<FS.FilePath> Start(CmdLine cmd)
-        {
-            FS.FilePath Run()
-            {
-                var log = AppDb.Logs("procs").Path(timestamp().Format(),FileKind.Log);
-                using var writer = log.AsciWriter();
-                try
-                {
-                    var process = ScriptProcess.start(cmd, OnStatusEvent, OnErrorEvent).Wait();
-                    var lines =  Lines.read(process.Output);
-                    iter(lines, line => writer.WriteLine(line));
-
-                }
-                catch(Exception e)
-                {
-                    Error(e);
-                    writer.WriteLine(e.ToString());
-                }
-                return log;
-            }
-            return run(Run);
-        }
+        //         }
+        //         catch(Exception e)
+        //         {
+        //             writer.WriteLine(e.ToString());
+        //         }
+        //         return log;
+        //     }
+        //     return start(Run);
+        // }
 
         public Outcome Run(CmdLine cmd, Receiver<string> status, Receiver<string> error, out ReadOnlySpan<TextLine> dst)
             => Run(cmd, Archives.Service().Log("cmdline", FileKind.Log), status, error, out dst);
@@ -45,19 +36,20 @@ namespace Z0
         Outcome Run(CmdLine cmd, FS.FilePath log, Receiver<string> status, Receiver<string> error, out ReadOnlySpan<TextLine> dst)
         {
             using var writer = log.AsciWriter();
+            dst = sys.empty<TextLine>();
+            var result = Outcome.Success;
             try
             {
-                var process = ScriptProcess.start(cmd, status, error).Wait();
+                var process = CmdScripts.process(cmd, status, error).Wait();
                 var lines =  Lines.read(process.Output);
                 core.iter(lines, line => writer.WriteLine(line));
                 dst = lines;
-                return true;
             }
             catch(Exception e)
             {
-                dst = default;
-                return e;
+                result = e;
             }
+            return result;
         }
 
         void OnErrorEvent(in string src)

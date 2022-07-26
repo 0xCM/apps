@@ -8,7 +8,7 @@ namespace Z0
 
     public class OmniScript : WfSvc<OmniScript>
     {
-        ScriptRunner ScriptRunner => Wf.ScriptRunner();
+        //ScriptRunner ScriptRunner => Wf.ScriptRunner();
 
         CmdLineRunner CmdRunner => Wf.CmdLines();
 
@@ -34,7 +34,7 @@ namespace Z0
             if(!src.Exists)
                 return (false, FS.missing(src));
 
-            result = ScriptRunner.RunCmd(
+            result = CmdScripts.run(
                 new CmdLine(src.Format(PathSeparator.BS)),
                 vars,
                 quiet ? ReceiveCmdStatusQuiet : ReceiveCmdStatus, ReceiveCmdError,
@@ -58,69 +58,37 @@ namespace Z0
         }
 
         public Outcome Run(FS.FilePath src, CmdVars vars, bool quiet, out ReadOnlySpan<TextLine> response)
-            => ScriptRunner.RunCmd(
+            => CmdScripts.run(
                 new CmdLine(src.Format(PathSeparator.BS)),
                 vars,
                 quiet ? ReceiveCmdStatusQuiet : ReceiveCmdStatus, ReceiveCmdError,
                 out response
                 );
 
-        public ReadOnlySpan<CmdResponse> ParseResponse(ReadOnlySpan<TextLine> src)
-        {
-            var count = src.Length;
-            if(count == 0)
-                Warn("No response to parse");
-
-            var dst = list<CmdResponse>();
-            for(var i=0; i<count; i++)
-            {
-                if(CmdResponse.parse(skip(src,i).Content, out var response))
-                    dst.Add(response);
-            }
-            return dst.ViewDeposited();
-        }
-
         public Outcome Run(string content, out ReadOnlySpan<TextLine> response)
             => CmdRunner.Run(Cmd.cmd(content), ReceiveCmdStatusQuiet, ReceiveCmdError, out response);
 
         public Outcome Run(FS.FilePath src, out ReadOnlySpan<TextLine> response)
-            => ScriptRunner.RunCmd(new CmdLine(src.Format(PathSeparator.BS)), CmdVars.Empty, ReceiveCmdStatusQuiet, ReceiveCmdError, out response);
+            => CmdScripts.run(new CmdLine(src.Format(PathSeparator.BS)), CmdVars.Empty, ReceiveCmdStatusQuiet, ReceiveCmdError, out response);
 
         public Outcome Run(CmdLine cmd, CmdVars vars, out ReadOnlySpan<TextLine> response)
-            => ScriptRunner.RunCmd(cmd, vars, ReceiveCmdStatusQuiet, ReceiveCmdError, out response);
+            => CmdScripts.run(cmd, vars, ReceiveCmdStatusQuiet, ReceiveCmdError, out response);
 
-        public ReadOnlySpan<TextLine> RunCmd(CmdLine cmd, Action<Exception> error = null)
+        public static Outcome RunCmd(CmdLine cmd, CmdVars vars, out ReadOnlySpan<TextLine> response)
         {
+            response = sys.empty<TextLine>();
+            var result = Outcome.Success;
             try
             {
-                var process = ScriptProcess.create(cmd);
+                var process = CmdScripts.process(cmd, vars);
                 process.Wait();
-                return Lines.read(process.Output);
+                response = Lines.read(process.Output);
             }
             catch(Exception e)
             {
-                if(error != null)
-                    error(e);
-                else
-                    Error(e);
-                return default;
+                result = e;
             }
-        }
-
-        public Outcome RunCmd(CmdLine cmd, CmdVars vars, out ReadOnlySpan<TextLine> dst)
-        {
-            dst = default;
-            try
-            {
-                var process = ScriptProcess.create(cmd, vars);
-                process.Wait();
-                dst = Lines.read(process.Output);
-                return true;
-            }
-            catch(Exception e)
-            {
-                return e;
-            }
+            return result;
         }
 
         void ReceiveCmdStatusQuiet(in string src)

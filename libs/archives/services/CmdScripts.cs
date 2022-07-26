@@ -13,7 +13,157 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
+        static AppDb AppDb => AppDb.Service;
+
+        public static Task<FS.FilePath> start(CmdLine cmd)
+        {
+            static void OnError(in string src)
+                => term.emit(Events.error(typeof(CmdScripts), src, Events.originate(typeof(CmdScript))));
+
+            static void OnStatus(in string src)
+                => term.emit(Events.data(src,FlairKind.Babble));
+
+            FS.FilePath run()
+            {
+                var log = AppDb.Logs("procs").Path(timestamp().Format(),FileKind.Log);
+                using var writer = log.AsciWriter();
+                try
+                {
+                    term.print();
+                    term.emit(Events.running(typeof(CmdScripts), $"'{cmd}"));
+                    var process = CmdScripts.process(cmd, OnStatus, OnError).Wait();
+                    var lines =  Lines.read(process.Output);
+                    iter(lines, line => writer.WriteLine(line));
+                    term.emit(Events.ran(typeof(CmdScripts), $"Executed '{cmd}'"));
+                }
+                catch(Exception e)
+                {
+                    writer.WriteLine(e.ToString());
+                }
+                return log;
+            }
+            return Algs.start(run);
+        }
+
+        public static Outcome run(CmdLine cmd, CmdVars vars, out ReadOnlySpan<TextLine> response)
+        {
+            response = sys.empty<TextLine>();
+            var result = Outcome.Success;
+            try
+            {
+                var process = CmdScripts.process(cmd, vars);
+                process.Wait();
+                response = Lines.read(process.Output);
+            }
+            catch(Exception e)
+            {
+                result = e;
+            }
+            return result;
+        }
+
+        [Op]
+        public static Outcome run(CmdLine cmd, CmdVars vars, Receiver<string> status, Receiver<string> error, out ReadOnlySpan<TextLine> response)
+            => run(cmd, vars, FS.FilePath.Empty, status,error, out response);
+
+        [Op]
+        public static Outcome run(CmdLine cmd, Receiver<string> status, Receiver<string> error, out ReadOnlySpan<TextLine> response)
+            => run(cmd, CmdVars.Empty, FS.FilePath.Empty, status,error, out response);
+
+        public static Outcome run(FS.FilePath src, CmdArgs args, FS.FilePath dst)
+        {
+            var result = Outcome.Success;
+            try
+            {
+                var cmd = new CmdLine(string.Format("{0} \"{1}\"", src.Format(PathSeparator.BS), args.Format()));
+                var process = CmdScripts.process(cmd).Wait();
+                var lines =  Lines.read(process.Output);
+                if(dst.IsNonEmpty)
+                {
+                    using var writer = dst.AsciWriter();
+                    iter(lines, line => writer.WriteLine(line));
+                }
+            }
+            catch(Exception e)
+            {
+                result = e;
+            }
+            return result;
+        }
+
+        [Op]
+        public static Outcome run(CmdLine cmd, CmdVars vars, FS.FilePath log, Receiver<string> status, Receiver<string> error, out ReadOnlySpan<TextLine> response)
+        {
+            response = sys.empty<TextLine>();
+            var result = Outcome.Success;
+            try
+            {
+                var proc = process(cmd, vars, status, error).Wait();
+                var lines =  Lines.read(proc.Output);
+                if(log.IsNonEmpty)
+                {
+                    using var writer = log.AsciWriter(true);
+                    iter(lines, line => writer.WriteLine(line));
+                }
+                response = lines;
+                return true;
+            }
+            catch(Exception e)
+            {
+                result = e;
+            }
+            return result;
+        }
+
         [MethodImpl(Inline), Op]
+        public static CmdProcess process(CmdLine cmd)
+            => new CmdProcess(cmd);
+
+        [Op]
+        public static CmdProcess process(CmdLine cmd, CmdVars? vars)
+        {
+            var options = new CmdProcessOptions();
+            CmdProcess.include(vars, options);
+            return new CmdProcess(cmd, options);
+        }
+
+        [Op]
+        public static CmdProcess process(CmdLine cmd, CmdVars? vars, Receiver<string> status, Receiver<string> error)
+        {
+            var options = new CmdProcessOptions();
+            CmdProcess.include(vars, options);
+            options.WithReceivers(status, error);
+            return new CmdProcess(cmd, options);
+        }
+
+        [Op]
+        public static CmdProcess process(CmdLine cmd, Receiver<string> status, Receiver<string> error)
+        {
+            var options = new CmdProcessOptions();
+            options.WithReceivers(status, error);
+            return new CmdProcess(cmd, options);
+        }
+
+        [Op]
+        public static CmdProcess process(CmdLine cmd, TextWriter dst)
+            => new CmdProcess(cmd, new CmdProcessOptions(dst));
+
+        [Op]
+        public static CmdProcess process(CmdLine cmd, TextWriter dst, Receiver<string> status, Receiver<string> error)
+        {
+            var options = new CmdProcessOptions(dst);
+            options.WithReceivers(status, error);
+            return new CmdProcess(cmd, options);
+        }
+
+        public static CmdProcess process(FS.FilePath path, ScriptKind kind, string args)
+            => process(cmdline(path,kind,args));
+
+        [Op]
+        public static CmdProcess process(CmdLine command, CmdProcessOptions config)
+            => new CmdProcess(command, config);
+
+        [Op]
         public static ToolScript script(FS.FilePath script, CmdVars vars)
             => new ToolScript(script, vars);
 
@@ -140,7 +290,6 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static CmdVar var(Name name, string value)
             => new CmdVar(name, value);
-
 
         [Op]
         public static void render(ToolCmdArgs src, ITextBuffer dst)

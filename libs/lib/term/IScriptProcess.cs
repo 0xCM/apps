@@ -9,7 +9,7 @@ namespace Z0
     {
         int ProcessId {get;}
 
-        ScriptProcessOptions Options {get;}
+        CmdProcessOptions Options {get;}
 
         /// <summary>
         /// Gets the time the process started.
@@ -69,8 +69,8 @@ namespace Z0
     }
 
     [Free]
-    public interface IScriptProcess<P> : IScriptProcess
-        where P : IScriptProcess<P>
+    public interface ICmdProcess<P> : IScriptProcess
+        where P : ICmdProcess<P>
     {
         /// <summary>
         /// Wait for a started process to complete (HasExited will be <see langword="true"/> on return)

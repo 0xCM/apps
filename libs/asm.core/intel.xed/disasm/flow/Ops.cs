@@ -11,11 +11,11 @@ namespace Z0
     partial class XedDisasm
     {
         [MethodImpl(Inline), Op]
-        public static IContextBuffer buffer(WsContext context, in FileRef src)
+        public static IContextBuffer buffer(FileFlowContext context, in FileRef src)
             => new ContextBuffer(src);
 
         [MethodImpl(Inline)]
-        public static IFlow flow(WsContext context)
+        public static IFlow flow(FileFlowContext context)
             => new Flow(context);
 
         static long DisasmTokens;
@@ -24,10 +24,10 @@ namespace Z0
         public static DisasmToken token()
             => (uint)core.inc(ref DisasmTokens);
 
-        public static Detail detail(WsContext context, in FileRef src)
+        public static Detail detail(FileFlowContext context, in FileRef src)
             => detail(context, XedDisasm.datafile(context, src));
 
-        public static Detail detail(WsContext context, in DataFile src)
+        public static Detail detail(FileFlowContext context, in DataFile src)
             => detail(XedDisasm.summary(context,src));
 
     }

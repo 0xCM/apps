@@ -29,11 +29,11 @@ namespace Z0
         IDbTargets EtlTargets(ProjectId project)
             => AppDb.EtlTargets(project);
 
-        public void RunEtl(WsContext context)
+        public void RunEtl(FileFlowContext context)
         {
             var project = context.Project.Id;
             EtlTargets(project).Delete();
-            TableEmit(context.Catalog.Entries(), AppDb.EtlTable(project,"sources.catalog"));
+            TableEmit(context.Files.Docs(), AppDb.EtlTable(project,"sources.catalog"));
             var objects = CalcObjRows(context);
             TableEmit(objects, AppDb.EtlTable<ObjDumpRow>(project));
             var blocks = AsmObjects.blocks(objects);
@@ -52,19 +52,19 @@ namespace Z0
         public McAsmDoc CalcMcAsmDoc(in FileRef src)
             => new LlvmAsmParser().ParseMcAsmDoc(src);
 
-        public Index<McAsmDoc> CollectSyntaxDocs(WsContext context)
+        public Index<McAsmDoc> CollectSyntaxDocs(FileFlowContext context)
         {
             var src = SynAsmSources(context.Project).View;
             var count = src.Length;
             var dst = list<McAsmDoc>();
             for(var i=0; i<count; i++)
-                dst.Add(CalcMcAsmDoc(context.Ref(skip(src,i))));
+                dst.Add(CalcMcAsmDoc(context.Doc(skip(src,i))));
             return dst.ToArray();
         }
 
         public Index<McAsmDoc> CalcMcAsmDocs(IWsProject src)
         {
-            var files = WsCatalog.load(src).Entries(FileKind.McAsm);
+            var files = FileCatalog.load(src.ProjectFiles().Storage.ToSortedSpan()).Docs(FileKind.McAsm);
             var count = files.Count;
             var dst = alloc<McAsmDoc>(count);
             for(var i=0; i<count; i++)
@@ -148,7 +148,7 @@ namespace Z0
         public FS.FilePath AsmInstructionTable(ProjectId project)
             => Flows.table<AsmInstructionRow>(project);
 
-        public Index<AsmInstructionRow> CollectMcInstructions(WsContext context)
+        public Index<AsmInstructionRow> CollectMcInstructions(FileFlowContext context)
         {
             var project = context.Project;
             var result = Outcome.Success;
@@ -159,7 +159,7 @@ namespace Z0
             {
                 var uri = doc.Path.ToUri();
                 var origin = context.Root(doc.Path);
-                var fref = context.Ref(doc.Path);
+                var fref = context.Doc(doc.Path);
                 var instructions = doc.Instructions;
                 var srcLines = doc.SourceLines;
                 var instLineNumbers = instructions.Keys.ToArray().Sort();
@@ -195,10 +195,10 @@ namespace Z0
         public FS.FilePath AsmRowPath(ProjectId project, string origin)
             => AppDb.EtlTargets(project).Targets("asm.csv").Path(origin, FileKind.Csv);
 
-        public void EmitObjSyms(WsContext context, ReadOnlySpan<ObjSymRow> src)
+        public void EmitObjSyms(FileFlowContext context, ReadOnlySpan<ObjSymRow> src)
             => TableEmit(src, AppDb.EtlTargets(context.Project.Id).Table<ObjSymRow>());
 
-        public Index<ObjSymRow> CalcObjSyms(WsContext context)
+        public Index<ObjSymRow> CalcObjSyms(FileFlowContext context)
         {
             var result = Outcome.Success;
             var project = context.Project;
@@ -211,7 +211,7 @@ namespace Z0
             {
                 ref readonly var path = ref skip(src,i);
                 var origin = context.Root(path);
-                var fref = context.Ref(path);
+                var fref = context.Doc(path);
                 using var reader = path.Utf8LineReader();
                 var counter = 0u;
                 while(reader.Next(out var line))
@@ -228,7 +228,7 @@ namespace Z0
             return buffer.ToArray();
         }
 
-        public Index<ObjDumpRow> CalcObjRows(WsContext context)
+        public Index<ObjDumpRow> CalcObjRows(FileFlowContext context)
         {
             var project = context.Project;
             var src = project.OutFiles(FileKind.ObjAsm.Ext()).Storage.Sort().Index();
@@ -237,7 +237,7 @@ namespace Z0
             var buffer = bag<ObjDumpRow>();
 
             iter(src, path => {
-                result = parse(context, context.Ref(path), out var records);
+                result = parse(context, context.Doc(path), out var records);
                 if(result.Fail)
                 {
                     Error(result.Message);
@@ -258,7 +258,7 @@ namespace Z0
             return buffer.ToArray().Sort().Resequence();
         }
 
-        public void EmitRecoded(WsContext context, ReadOnlySeq<AsmCodeBlocks> blocks)
+        public void EmitRecoded(FileFlowContext context, ReadOnlySeq<AsmCodeBlocks> blocks)
         {
             RecodedTargets(context.Project.Project).Clear();
             for(var i=0; i<blocks.Count; i++)
@@ -291,9 +291,9 @@ namespace Z0
             EmittedFile(emitting,counter);
         }
 
-        public Index<AsmCodeBlocks> EmitAsmRows(WsContext context, Alloc alloc)
+        public Index<AsmCodeBlocks> EmitAsmRows(FileFlowContext context, Alloc alloc)
         {
-            var files = context.Catalog.Entries(FileKind.ObjAsm);
+            var files = context.Files.Docs(FileKind.ObjAsm);
             var count = files.Count;
             var seq = 0u;
             var dst = list<AsmCodeBlocks>();
@@ -311,7 +311,7 @@ namespace Z0
             return dst.ToArray();
         }
 
-        public void EmitAsmRows(WsContext context, in AsmCodeBlocks src, FS.FilePath dst)
+        public void EmitAsmRows(FileFlowContext context, in AsmCodeBlocks src, FS.FilePath dst)
         {
             var buffer = alloc<AsmCodeRow>(src.LineCount);
             var k=0u;
@@ -347,7 +347,7 @@ namespace Z0
         public FS.FilePath AsmSyntaxTable(ProjectId project)
             => Flows.table<AsmSyntaxRow>(project);
 
-        public Index<AsmSyntaxRow> CollectAsmSyntax(WsContext context)
+        public Index<AsmSyntaxRow> CollectAsmSyntax(FileFlowContext context)
         {
             var project = context.Project;
             var logs = project.OutFiles(FileTypes.ext(FileKind.SynAsmLog)).View;
@@ -356,7 +356,7 @@ namespace Z0
             var buffer = list<AsmSyntaxRow>();
             var seq = 0u;
             for(var i=0; i<count; i++)
-                ParseAsmSyntaxRows(context, context.Ref(skip(logs,i)), buffer);
+                ParseAsmSyntaxRows(context, context.Doc(skip(logs,i)), buffer);
             var rows = buffer.ToArray().Sort();
             for(var i=0u; i<rows.Length; i++)
                 seek(rows,i).Seq = i;
@@ -389,7 +389,7 @@ namespace Z0
                 return text.trim(text.despace(src));
         }
 
-        void ParseAsmSyntaxRows(WsContext context, in FileRef src, List<AsmSyntaxRow> dst)
+        void ParseAsmSyntaxRows(FileFlowContext context, in FileRef src, List<AsmSyntaxRow> dst)
         {
             const string EntryMarker = "note: parsed instruction:";
             const string EncodingMarker = "# encoding:";

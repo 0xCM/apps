@@ -104,7 +104,7 @@ namespace Z0
         public IX86Machine Run(bool verbose)
         {
             Verbose = verbose;
-            Dispatcher = run(Spin);
+            Dispatcher = start(Spin);
             return this;
         }
 

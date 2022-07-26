@@ -40,7 +40,7 @@ namespace Z0
         {
             if(e != null)
             {
-                run(() => Receiver.Invoke(e));
+                start(() => Receiver.Invoke(e));
                 Storage.Enqueue(e);
             }
             else

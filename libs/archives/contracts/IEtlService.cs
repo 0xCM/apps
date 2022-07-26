@@ -7,6 +7,5 @@ namespace Z0
     public interface IEtlService : IAppService
     {
         void RunEtl();
-
     }
 }

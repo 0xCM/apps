@@ -103,7 +103,7 @@ namespace Z0
                     let status = evolution.ContinueWith(t => receiver(t.Result))
                     select evolution;
 
-            await core.run(() => Task.WaitAll(variations.ToArray()));
+            await core.start(() => Task.WaitAll(variations.ToArray()));
         }
 
         [Op,Closures(Closure)]

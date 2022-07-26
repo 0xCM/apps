@@ -10,11 +10,11 @@ namespace Z0
 
         static IDbArchive _Service = Archives.archive(FS.dir(AppSettings.Service().Find(SettingNames.DbRoot)));
 
-        public static ScriptProcess robocopy(FS.FolderPath src, FS.FolderPath dst)
+        public static CmdProcess robocopy(FS.FolderPath src, FS.FolderPath dst)
         {
             var spec = $"robocopy {src} {dst} /e";
             var cmd = CmdScripts.cmd(spec);
-            return ScriptProcess.create(cmd);
+            return CmdScripts.process(cmd);
         }
 
         public static IDbArchive archive(FS.FolderPath root)

@@ -10,18 +10,18 @@ namespace Z0
     {
         static AppDb AppDb => AppDb.Service;
 
-        FS.FilePath ErrorLog(Timestamp ts, string name)
-            => AppDb.Logs("process").Path($"{name}.errors.{ts}", FileKind.Log);
+        public static Task start(ReadOnlySeq<CmdScript> src, bool pll)
+            => core.start(() => iter(src, run, pll));
 
-        FS.FilePath StatusLog(Timestamp ts, string name)
-            => AppDb.Logs("process").Path($"{name}.{ts}", FileKind.Log);
+        static FS.FilePath ErrorLog(Timestamp ts, string name)
+            => AppDb.Service.Logs("process").Path($"{name}.errors.{ts}", FileKind.Log);
 
-        public void Run(bool pll, params CmdScript[] src)
-            => iter(src, Run, pll);
+        static FS.FilePath StatusLog(Timestamp ts, string name)
+            => AppDb.Service.Logs("process").Path($"{name}.{ts}", FileKind.Log);
 
-        void Run(CmdScript src)
+        static void run(CmdScript src)
         {
-            var ts = core.timestamp();
+            var ts = timestamp();
             using var status = StatusLog(ts,src.Id.Format()).AsciWriter();
 
             void OnStatus(in string msg)
@@ -32,57 +32,11 @@ namespace Z0
 
             try
             {
-                var flow = Running($"Executing process '{src.ToCmdLine()}'");
-                var process = ScriptProcess.start(src.ToCmdLine(), OnStatus, OnError).Wait();
-                Ran(flow);
+                var process = CmdScripts.process(src.ToCmdLine(), OnStatus, OnError).Wait();
             }
             catch(Exception e)
             {
                 ErrorLog(ts,src.Id).Append(e.ToString());
-                Error(e);
-            }
-        }
-
-        public ReadOnlySpan<TextLine> RunControlScript(FS.FileName name, CmdVars? vars = null)
-            => RunScript(Paths.ControlScript(name), new ScriptId(name.Name), vars);
-
-        // public ReadOnlySpan<TextLine> RunToolCmd(IToolWs ws, Actor tool, ScriptId script, CmdVars? vars = null)
-        //     => RunToolScript(ws, tool, script, ScriptKind.Cmd, vars);
-
-        // ReadOnlySpan<TextLine> RunToolScript(IToolWs ws, Actor tool, ScriptId script, ScriptKind kind, CmdVars? vars)
-        //     => Run(Scripts.script(Scripts.path(ws, tool, script, kind), kind), script, vars);
-
-        ReadOnlySpan<TextLine> RunScript(FS.FilePath src, ScriptId script, CmdVars? vars)
-            => Run(new CmdLine(src.Format(PathSeparator.BS)), script, vars);
-
-        public void Dispatch(Index<IToolResultHandler> handlers, Index<string> args, ILineProcessor processor)
-        {
-            try
-            {
-                var count = args.Length;
-                for(var i=0; i<count; i++)
-                {
-                    var name = FS.file(args[i]);
-                    term.inform(name);
-
-                    if(!name.HasExtension)
-                        name = name.WithExtension(FS.Cmd);
-
-                    var script = AppDb.Control().Path(name);
-                    if(script.Exists)
-                    {
-                        var output = RunControlScript(name);
-                        iter(output, x => processor.Process(x));
-                    }
-                    else
-                    {
-                        term.error($"The script {script.ToUri()} does not exist");
-                    }
-                }
-            }
-            catch(Exception e)
-            {
-                term.error(e);
             }
         }
 
@@ -90,7 +44,7 @@ namespace Z0
         {
             try
             {
-                var process = ScriptProcess.create(cmd, vars);
+                var process = CmdScripts.process(cmd, vars);
                 process.Wait();
                 return Lines.read(process.Output);
             }
@@ -106,7 +60,7 @@ namespace Z0
             dst = default;
             try
             {
-                var process = ScriptProcess.create(cmd, vars, status, error);
+                var process = CmdScripts.process(cmd, vars, status, error);
                 process.Wait();
                 dst = Lines.read(process.Output);
                 return true;
@@ -122,7 +76,7 @@ namespace Z0
             dst = default;
             try
             {
-                var process = ScriptProcess.create(cmd, vars);
+                var process = CmdScripts.process(cmd, vars);
                 process.Wait();
                 dst = Lines.read(process.Output);
                 return true;
@@ -137,7 +91,7 @@ namespace Z0
         {
             try
             {
-                var process = ScriptProcess.create(cmd);
+                var process = CmdScripts.process(cmd);
                 process.Wait();
                 return Lines.read(process.Output);
             }
@@ -156,7 +110,7 @@ namespace Z0
             using var writer = AppDb.Logs("scripts").Path(script,FileKind.Log).Writer();
             try
             {
-                var process = vars != null ? ScriptProcess.create(cmd, vars) : ScriptProcess.create(cmd);
+                var process = vars != null ? CmdScripts.process(cmd, vars) : CmdScripts.process(cmd);
                 process.Wait();
                 var lines =  Lines.read(process.Output);
                 iter(lines, line => writer.WriteLine(line));

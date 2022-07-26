@@ -13,8 +13,6 @@ namespace Z0
     {
         const string ProjId = "codegen.respack";
 
-        ScriptRunner ScriptRunner => Wf.ScriptRunner();
-
         protected override void OnInit()
         {
         }
@@ -25,10 +23,10 @@ namespace Z0
 
         void RunScripts()
         {
-            var build = ScriptRunner.RunControlScript(BuildRespack);
-            iter(build, line => Write(line));
-            var pack = ScriptRunner.RunControlScript(PackRespack);
-            iter(pack, line => Write(line));
+            // var build = ScriptRunner.RunControlScript(BuildRespack);
+            // iter(build, line => Write(line));
+            // var pack = ScriptRunner.RunControlScript(PackRespack);
+            // iter(pack, line => Write(line));
         }
 
         ReadOnlySpan<ApiHostRes> Emit(ReadOnlySpan<ApiHostBlocks> src, FS.FolderPath dst, bool build = true)

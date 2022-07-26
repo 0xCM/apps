@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     sealed class ListFiles : CmdReactor<ListFiles,ListFilesCmd,CmdResult>
     {
         protected override CmdResult Run(ListFilesCmd cmd)
@@ -15,7 +14,7 @@ namespace Z0
     {
         protected override CmdResult Run(RunScriptCmd cmd)
         {
-            var result = ScriptProcess.create(CmdScripts.cmd(cmd.ScriptPath)).Wait();
+            var result = CmdScripts.process(CmdScripts.cmd(cmd.ScriptPath)).Wait();
             return CmdResults.ok(cmd);
         }
     }

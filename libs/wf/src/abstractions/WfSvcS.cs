@@ -10,9 +10,9 @@ namespace Z0
     public abstract class WfSvc<S> : AppService<S>
         where S : WfSvc<S>, new()
     {
-        ConcurrentDictionary<ProjectId,WsContext> _Context = new();
+        ConcurrentDictionary<ProjectId,FileFlowContext> _Context = new();
 
-        public WsCatalog ProjectFiles {get; protected set;}
+        public FileCatalog ProjectFiles {get; protected set;}
 
         protected IProjectDb ProjectDb;
 
@@ -54,10 +54,10 @@ namespace Z0
             }
         }
 
-        protected WsContext Context()
+        protected FileFlowContext Context()
         {
             var project = Project();
-            return _Context.GetOrAdd(project.Id, _ => WsContext.load(project));
+            return _Context.GetOrAdd(project.Id, _ => Flows.context(project));
         }
 
         [CmdOp("project/home")]
@@ -68,9 +68,9 @@ namespace Z0
         protected void ListProjectFiles(CmdArgs args)
         {
             if(args.Count != 0)
-                iter(Context().Catalog.Entries(arg(args,0)), file => Write(file.Format()));
+                iter(Context().Files.Docs(arg(args,0)), file => Write(file.Format()));
             else
-                iter(Context().Catalog.Entries(), file => Write(file.Format()));
+                iter(Context().Files.Docs(), file => Write(file.Format()));
         }
 
         [CmdOp("project")]
@@ -86,7 +86,7 @@ namespace Z0
             {
                 Status($"Loading project from {ws.Home()}");
                 WfSvc.project(ws);
-                ProjectFiles = WsCatalog.load(WfSvc.project());
+                ProjectFiles = FileCatalog.load(WfSvc.project().ProjectFiles().Storage.ToSortedSpan());
                 var dir = ws.Home();
                 if(dir.Exists)
                     Files(ws.SrcFiles());
@@ -111,8 +111,6 @@ namespace Z0
             }
             return result;
         }
-
-
 
         public void Babble<T>(T content)
             => WfMsg.Babble(content);

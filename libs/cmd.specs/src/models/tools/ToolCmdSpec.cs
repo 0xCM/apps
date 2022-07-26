@@ -4,13 +4,28 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using api = CmdScripts;
-
     /// <summary>
     /// Defines a tool execution specification
     /// </summary>
     public class ToolCmdSpec : IToolCmd
     {
+        public static string format(IToolCmd src)
+        {
+            var count = src.Args.Count;
+            var dst = text.emitter();
+            dst.AppendFormat("{0}{1}", src.CmdName.Format(), Chars.LParen);
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var arg = ref src.Args[i];
+                dst.AppendFormat(RP.Assign, arg.Name, arg.Value);
+                if(i != count - 1)
+                    dst.Append(", ");
+            }
+
+            dst.Append(Chars.RParen);
+            return dst.Emit();
+        }
+
         public readonly Actor Tool;
 
         public readonly Name CmdName;
@@ -26,7 +41,7 @@ namespace Z0
         }
 
         public string Format()
-            => api.format(this);
+            => format(this);
 
         public override string ToString()
             => Format();

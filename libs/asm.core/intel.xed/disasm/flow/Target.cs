@@ -26,7 +26,7 @@ namespace Z0
 
             FileRef _CurrentFile;
 
-            WsContext _Context;
+            FileFlowContext _Context;
 
             public Target()
             {
@@ -71,7 +71,7 @@ namespace Z0
                 get => ref _CurrentFile;
             }
 
-            protected new ref readonly WsContext Context
+            protected new ref readonly FileFlowContext Context
             {
                 [MethodImpl(Inline)]
                 get => ref _Context;
@@ -119,7 +119,7 @@ namespace Z0
                 PropsComputed(seq,src);
             }
 
-            public DisasmToken Starting(WsContext context, in FileRef src)
+            public DisasmToken Starting(FileFlowContext context, in FileRef src)
             {
                 _CurrentFile = src;
                 _Context = context;
@@ -146,7 +146,7 @@ namespace Z0
                 }
             }
 
-            static void Nothing(WsContext context, in FileRef src) {}
+            static void Nothing(FileFlowContext context, in FileRef src) {}
 
             static void Nothing(DisasmToken src) {}
 

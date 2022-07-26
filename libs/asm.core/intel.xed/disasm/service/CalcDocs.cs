@@ -10,7 +10,7 @@ namespace Z0
 
     partial class XedDisasmSvc
     {
-        public Index<Document> CalcDocs(WsContext context)
+        public Index<Document> CalcDocs(FileFlowContext context)
             => Data(nameof(CalcDocs), () => XedDisasm.docs(context));
     }
 }

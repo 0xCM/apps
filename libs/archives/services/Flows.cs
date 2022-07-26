@@ -14,8 +14,20 @@ namespace Z0
         const NumericKind Closure = UnsignedInts;
 
         [MethodImpl(Inline)]
+        public static FlowId identify<A,S,T>(A actor, S src, T dst)
+            => new FlowId(Algs.hash(actor), Algs.hash(src), Algs.hash(dst));
+
+        [MethodImpl(Inline), Op]
+        public static FileFlowContext context(IWsProject src)
+            => new FileFlowContext(src, load(src));
+
+        [MethodImpl(Inline), Op]
         public static DataFlow<Actor,S,T> flow<S,T>(Tool tool, S src, T dst)
             => new DataFlow<Actor,S,T>(FlowId.identify(tool,src,dst), tool,src,dst);
+
+        [MethodImpl(Inline), Op]
+        public static FileFlow flow(in CmdFlow src)
+            => new FileFlow(flow(src.Tool, src.SourcePath.ToUri(), src.TargetPath.ToUri()));
 
         public static FS.FilePath path(IWsProject src)
             => src.BuildOut() + FS.file($"{src.Id}.build.flows",FileKind.Csv);
@@ -35,11 +47,11 @@ namespace Z0
             return true;
         }
 
-        public static WsDataFlows load(IWsProject src)
+        public static DataFlowCatalog load(IWsProject src)
         {
             var path = Flows.path(src);
             var lines = path.ReadLines(TextEncodingKind.Asci,true);
-            var buffer = alloc<CmdFlow>(lines.Length - 1);
+            var buffer = sys.alloc<CmdFlow>(lines.Length - 1);
             var reader = lines.Storage.Reader();
             reader.Next(out _);
             var i = 0u;
@@ -55,7 +67,7 @@ namespace Z0
                 DataParser.parse(cells.Next(), out dst.SourcePath).Require();
                 DataParser.parse(cells.Next(), out dst.TargetPath).Require();
             }
-            return new(WsCatalog.load(src), buffer);
+            return new(FileCatalog.load(src.ProjectFiles().Storage.ToSortedSpan()), buffer);
         }
     }
 }

@@ -4,35 +4,31 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class WsContext
+    public class FileFlowContext
     {
-        [MethodImpl(Inline)]
-        public static WsContext load(IWsProject src)
-            => new WsContext(src, Z0.Flows.load(src));
-
         public readonly IWsProject Project;
 
-        public readonly WsCatalog Catalog;
+        public readonly FileCatalog Files;
 
-        public readonly WsDataFlows Flows;
+        public readonly DataFlowCatalog Flows;
 
-        public WsContext(IWsProject project, WsDataFlows flows)
+        public FileFlowContext(IWsProject project, DataFlowCatalog flows)
         {
             Project = project;
-            Catalog = flows.Catalog;
+            Files = flows.Files;
             Flows = flows;
         }
 
-        public Index<FileRef> Files(FileKind k)
-            => Catalog.Entries(k);
+        public Index<FileRef> Docs(FileKind kind)
+            => Files.Docs(kind);
 
-        public FileRef Ref(FS.FilePath src)
-            => Catalog[src];
+        public FileRef Doc(FS.FilePath path)
+            => Files[path];
 
-        public FileRef File(Hex32 docid)
-            => Catalog[docid];
+        public FileRef Doc(Hex32 id)
+            => Files[id];
 
-        public FileRef Root(in FS.FilePath dst)
+        public FileRef Root(FS.FilePath dst)
         {
             if(Flows.Root(dst, out var src))
                 return src;
@@ -40,7 +36,7 @@ namespace Z0
                 return Z0.FileRef.Empty;
         }
 
-        public FileRef Root(in FileRef dst)
+        public FileRef Root(FileRef dst)
         {
             if(Flows.Root(dst.Path, out var src))
                 return src;

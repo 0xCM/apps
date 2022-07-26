@@ -9,7 +9,7 @@ namespace Z0
 
     partial class XedDisasmSvc
     {
-        public void EmitSummaryReport(WsContext context, Document doc)
+        public void EmitSummaryReport(FileFlowContext context, Document doc)
         {
             var outdir = context.Project.Datasets() + FS.folder("xed.disasm");
             ref readonly var summary = ref doc.Summary;

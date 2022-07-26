@@ -4,8 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface ILineProcessor
+    public interface ICmdResultHandler
     {
-        TextLine Process(TextLine src);
+        Actor Actor {get;}
+
+        bool CanHandle(TextLine src);
+
+        bool Handle(TextLine src);
     }
 }

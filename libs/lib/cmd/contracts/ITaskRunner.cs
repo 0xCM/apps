@@ -29,7 +29,7 @@ namespace Z0
         new Task<Outcome<T>> RunAsync(CmdArgs args);
 
         Task<Outcome> ITaskRunner.RunAsync(CmdArgs args)
-            => core.run(() => (Outcome)Run(args));
+            => core.start(() => (Outcome)Run(args));
 
         Outcome ITaskRunner.Run(CmdArgs args)
             => Run(args);

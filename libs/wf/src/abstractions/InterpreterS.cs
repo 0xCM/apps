@@ -77,7 +77,7 @@ namespace Z0
             Worker.BeginOutputReadLine();
             Worker.BeginErrorReadLine();
             _Running = true;
-            SpinTask = core.run(() => Spin());
+            SpinTask = core.start(() => Spin());
             return SpinTask;
         }
 

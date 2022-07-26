@@ -12,14 +12,14 @@ namespace Z0
         Outcome ProjectFlows(CmdArgs args)
         {
             var project = Project();
-            var context = WsContext.load(project);
+            var context = Flows.context(project);
             var index = context.Flows;
             var kinds = array(FileKind.ObjAsm, FileKind.XedRawDisasm, FileKind.McAsm, FileKind.Sym);
             var buffer = list<FileRef>();
 
             foreach(var kind in kinds)
             {
-                var targets = index.Files(kind);
+                var targets = index.Docs(kind);
                 foreach(var target in targets)
                 {
                     if(index.Root(target.Path, out var source))

@@ -8,19 +8,17 @@ namespace Z0
     using static Spans;
     using static Arrays;
 
-    public class WsDataFlows
+    public class DataFlowCatalog
     {
-        ConstLookup<FS.FileUri,List<FS.FileUri>> Lookup;
+        ConstLookup<FS.FileUri,List<FS.FileUri>> Children;
 
         ConstLookup<FS.FileUri,FS.FileUri> Ancestors;
 
-        Index<FileFlow> Data;
+        public readonly FileCatalog Files;
 
-        public readonly WsCatalog Catalog;
-
-        public WsDataFlows(WsCatalog files, ReadOnlySpan<CmdFlow> src)
+        public DataFlowCatalog(FileCatalog files, ReadOnlySpan<CmdFlow> src)
         {
-            Catalog = files;
+            Files = files;
             var count = src.Length;
             var flows = sys.alloc<FileFlow>(count);
             var lookup = dict<FS.FileUri,List<FS.FileUri>>();
@@ -29,7 +27,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref var dst = ref seek(flows,i);
-                dst = flow(skip(src,i));
+                dst = Flows.flow(skip(src,i));
                 if(lookup.TryGetValue(dst.Source, out var targets))
                 {
                     targets.Add(dst.Target);
@@ -44,36 +42,29 @@ namespace Z0
                 }
             }
 
-            Lookup = lookup;
-            Data = flows;
+            Children = lookup;
             Ancestors = lineage;
         }
 
-        public ref readonly Index<FileFlow> Completed
-        {
-            [MethodImpl(Inline)]
-            get => ref Data;
-        }
+        public Index<FileRef> Docs(FileKind k0)
+            => Files.Docs(k0);
 
-        public Index<FileRef> Files(FileKind k0)
-            => Catalog.Entries(k0);
+        public Index<FileRef> Docs(FileKind k0, FileKind k1)
+            => Files.Docs(k0, k1);
 
-        public Index<FileRef> Files(FileKind k0, FileKind k1)
-            => Catalog.Entries(k0, k1);
-
-        public Index<FileRef> Files(FileKind k0, FileKind k1, FileKind k2)
-            => Catalog.Entries(k0, k1, k2);
+        public Index<FileRef> Docs(FileKind k0, FileKind k1, FileKind k2)
+            => Files.Docs(k0, k1, k2);
 
         public Index<FileRef> Sources(FileKind kind)
-            => Catalog.Entries(kind).Where(e => Lookup.ContainsKey(e.Path));
+            => Files.Docs(kind).Where(e => Children.ContainsKey(e.Path));
 
         public Index<FileRef> Sources()
-            => map(Lookup.Keys, x => Catalog.Entry(x.Path));
+            => map(Children.Keys, x => Files.Doc(x.Path));
 
         public bool Root(FS.FilePath dst, out FileRef source)
         {
             var buffer = core.list<FileRef>();
-            var target = Catalog[dst];
+            var target = Files[dst];
             Lineage(target, buffer);
             buffer.Reverse();
             if(buffer.Count != 0)
@@ -91,40 +82,40 @@ namespace Z0
         public Index<FileRef> Lineage(FS.FilePath dst)
         {
             var buffer = core.list<FileRef>();
-            var target = Catalog[dst];
+            var target = Files[dst];
             buffer.Add(target);
             Lineage(target, buffer);
             buffer.Reverse();
             return buffer.ToArray();
         }
 
-        public void Lineage(in FileRef target, List<FileRef> dst)
+        public void Lineage(in FileRef target, List<FileRef> priors)
         {
-            if(Source(target.Path, out var source))
+            if(Source(target.Path, out var prior))
             {
-                dst.Add(source);
-                Lineage(source, dst);
+                priors.Add(prior);
+                Lineage(prior, priors);
             }
         }
 
-        public bool Source(FS.FileUri dst, out FileRef src)
+        public bool Source(FS.FileUri target, out FileRef prior)
         {
-            if(Ancestors.Find(dst, out var uri))
+            if(Ancestors.Find(target, out var uri))
             {
-                src = Catalog.Entry(uri.Path);
+                prior = Files.Doc(uri.Path);
                 return true;
             }
             else
             {
-                src = FileRef.Empty;
+                prior = FileRef.Empty;
                 return false;
             }
         }
 
         public Index<FileRef> Targets(FS.FilePath src)
         {
-            if(Lookup.Find(src, out var targets))
-                return core.map(targets, x => Catalog.Entry(x.Path));
+            if(Children.Find(src, out var targets))
+                return core.map(targets, x => Files.Doc(x.Path));
             else
                 return sys.empty<FileRef>();
         }
@@ -153,13 +144,5 @@ namespace Z0
                 DescribeTargets(indent, target, dst);
             }
         }
-
-        [MethodImpl(Inline)]
-        public static DataFlow<Actor,S,T> flow<S,T>(Tool tool, S src, T dst)
-            => new DataFlow<Actor,S,T>(FlowId.identify(tool,src,dst), tool,src,dst);
-
-        [MethodImpl(Inline)]
-        public static FileFlow flow(in CmdFlow src)
-            => new FileFlow(flow(src.Tool, src.SourcePath.ToUri(), src.TargetPath.ToUri()));
     }
 }

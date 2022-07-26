@@ -19,24 +19,24 @@ namespace Z0
             SectionKinds = Symbols.index<CoffSectionKind>();
         }
 
-        public CoffSymIndex Collect(WsContext context)
+        public CoffSymIndex Collect(FileFlowContext context)
         {
             CollectObjHex(context);
             return CollectSymIndex(context);
         }
 
-        public CoffSymIndex CollectSymIndex(WsContext context)
+        public CoffSymIndex CollectSymIndex(FileFlowContext context)
             => new CoffSymIndex(CollectHeaders(context), CollectSymbols(context));
 
         public IDbTargets ObjHex(ProjectId project)
             => AppDb.EtlTargets(project).Targets(objhex);
 
-        public Outcome CollectObjHex(WsContext context)
+        public Outcome CollectObjHex(FileFlowContext context)
         {
             var targets = ObjHex(context.Project.Project);
             targets.Clear();
             var result = Outcome.Success;
-            var files = context.Catalog.Entries(FileKind.Obj, FileKind.O);
+            var files = context.Files.Docs(FileKind.Obj, FileKind.O);
             var count = files.Count;
             for(var i=0; i<count; i++)
             {
@@ -53,7 +53,7 @@ namespace Z0
             return result;
         }
 
-        public HexFileData LoadObjHex(WsContext context)
+        public HexFileData LoadObjHex(FileFlowContext context)
         {
             var src = ObjHex(context.Project.Project).Files(FileKind.HexDat);
             var count = src.Length;
@@ -64,9 +64,9 @@ namespace Z0
             return dst;
         }
 
-        public CoffObjectData LoadObjData(WsContext context)
+        public CoffObjectData LoadObjData(FileFlowContext context)
         {
-            var files = context.Catalog.Entries(FileKind.Obj, FileKind.O);
+            var files = context.Files.Docs(FileKind.Obj, FileKind.O);
             var count = files.Count;
             var dst = dict<FS.FilePath,CoffObject>(count);
             for(var i=0; i<count; i++)
@@ -88,7 +88,7 @@ namespace Z0
             return kind;
         }
 
-        public Index<CoffSection> CalcObjSections(WsContext context, in FileRef src)
+        public Index<CoffSection> CalcObjSections(FileFlowContext context, in FileRef src)
         {
             var buffer = list<CoffSection>();
             var seq = 0u;
@@ -99,7 +99,7 @@ namespace Z0
             return records;
         }
 
-        void CalcObjHeaders(WsContext context, in FileRef src, List<CoffSection> records)
+        void CalcObjHeaders(FileFlowContext context, in FileRef src, List<CoffSection> records)
         {
             var obj = LoadObj(src);
             var view = CoffObjectView.cover(obj.Data);
@@ -127,7 +127,7 @@ namespace Z0
             }
         }
 
-        public Index<CoffSection> CalcObjHeaders(WsContext context)
+        public Index<CoffSection> CalcObjHeaders(FileFlowContext context)
         {
             var project = context.Project;
             var src = LoadObjData(context);
@@ -143,7 +143,7 @@ namespace Z0
                 ref readonly var header = ref view.Header;
                 var strings = view.StringTable;
                 var sections = view.SectionHeaders;
-                CalcObjHeaders(context, context.Ref(path), buffer);
+                CalcObjHeaders(context, context.Doc(path), buffer);
             }
 
             var records = buffer.ToArray().Sort();
@@ -152,7 +152,7 @@ namespace Z0
             return records;
         }
 
-        public Index<CoffSection> CollectHeaders(WsContext context)
+        public Index<CoffSection> CollectHeaders(FileFlowContext context)
         {
             var records = CalcObjHeaders(context);
             TableEmit(records, Flows.table<CoffSection>(context.Project.Project));
@@ -220,7 +220,7 @@ namespace Z0
             return buffer;
         }
 
-        public Outcome CheckObjHex(WsContext context)
+        public Outcome CheckObjHex(FileFlowContext context)
         {
             var result = Outcome.Success;
             var hexDat = LoadObjHex(context);
@@ -237,7 +237,7 @@ namespace Z0
             return result;
         }
 
-        void CalcSymbols(WsContext context, in FileRef file, ref uint seq, List<CoffSymRecord> buffer)
+        void CalcSymbols(FileFlowContext context, in FileRef file, ref uint seq, List<CoffSymRecord> buffer)
         {
             var obj = CoffObjects.load(file);
             var objData = obj.Data.View;
@@ -275,10 +275,10 @@ namespace Z0
             }
         }
 
-        public Index<CoffSymRecord> CalcSymbols(WsContext context)
+        public Index<CoffSymRecord> CalcSymbols(FileFlowContext context)
         {
             var buffer = list<CoffSymRecord>();
-            var files = context.Catalog.Entries(FileKind.Obj, FileKind.O);
+            var files = context.Files.Docs(FileKind.Obj, FileKind.O);
             var count = files.Count;
             var seq = 0u;
             for(var i=0; i<count; i++)
@@ -286,11 +286,11 @@ namespace Z0
             return buffer.ToArray();
         }
 
-        public Index<CoffSymRecord> CollectSymbols(WsContext context)
+        public Index<CoffSymRecord> CollectSymbols(FileFlowContext context)
         {
             var buffer = list<CoffSymRecord>();
             var src = LoadObjData(context);
-            var files = context.Catalog;
+            var files = context.Files;
             var paths = src.Paths.Array();
             var objCount = paths.Length;
             for(var i=0; i<objCount; i++)
@@ -298,7 +298,7 @@ namespace Z0
                 ref readonly var objPath = ref skip(paths,i);
                 var origin = context.Root(objPath);
                 var obj = src[objPath];
-                var file = files.Entry(objPath);
+                var file = files.Doc(objPath);
                 var objData = obj.Data.View;
                 var offset = 0u;
                 var view = CoffObjectView.cover(obj.Data, offset);

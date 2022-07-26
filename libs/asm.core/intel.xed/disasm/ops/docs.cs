@@ -10,14 +10,14 @@ namespace Z0
     using static XedDisasmModels;
     partial class XedDisasm
     {
-        public static Index<Document> docs(WsContext context, bool pll = true)
+        public static Index<Document> docs(FileFlowContext context, bool pll = true)
         {
             var dst = bag<Document>();
             iter(sources(context), src => dst.Add(doc(context,src)), pll);
             return dst.Index();
         }
 
-        public static Document doc(WsContext context, in FileRef src)
+        public static Document doc(FileFlowContext context, in FileRef src)
         {
             var summary = XedDisasm.summary(context, datafile(context, src));
             return new Document(summary, detail(summary));

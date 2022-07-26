@@ -16,7 +16,7 @@ namespace Z0
     /// on Command itself), because it is reasonably common to want to have a set
     /// of options passed to several commands, which is not easily possible otherwise.
     /// </summary>
-    public sealed class ScriptProcessOptions
+    public sealed class CmdProcessOptions
     {
         /// <summary>
         /// Can be assigned to the Timeout Property to indicate infinite timeout.
@@ -63,7 +63,7 @@ namespace Z0
         /// CommanOptions holds a set of options that can be passed to the constructor
         /// to the Command Class as well as Command.Run*.
         /// </summary>
-        public ScriptProcessOptions()
+        public CmdProcessOptions()
         {
             _TimeoutMS = 600000;
             _NoThrow = true;
@@ -71,13 +71,13 @@ namespace Z0
             _ErrorReceiver = OnError;
         }
 
-        public ScriptProcessOptions(TextWriter output)
+        public CmdProcessOptions(TextWriter output)
             : this()
         {
             OutputStream = output;
         }
 
-        public ScriptProcessOptions WithReceivers(Receiver<string> status, Receiver<string> error)
+        public CmdProcessOptions WithReceivers(Receiver<string> status, Receiver<string> error)
         {
             _ErrorReceiver = error;
             _StatusReceiver = status;
@@ -100,8 +100,8 @@ namespace Z0
         /// Return a copy an existing set of command options.
         /// </summary>
         /// <returns>The copy of the command options.</returns>
-        public ScriptProcessOptions Clone()
-            => (ScriptProcessOptions)MemberwiseClone();
+        public CmdProcessOptions Clone()
+            => (CmdProcessOptions)MemberwiseClone();
 
         /// <summary>
         /// Normally commands will throw if the subprocess returns a non-zero
@@ -117,7 +117,7 @@ namespace Z0
         /// Updates the NoThrow property and returns the updated commandOptions.
         /// <returns>Updated command options</returns>
         /// </summary>
-        public ScriptProcessOptions AddNoThrow()
+        public CmdProcessOptions AddNoThrow()
         {
             _NoThrow = true;
             return this;
@@ -138,7 +138,7 @@ namespace Z0
         /// <summary>
         /// Updates the Start property and returns the updated commandOptions.
         /// </summary>
-        public ScriptProcessOptions AddStart()
+        public CmdProcessOptions AddStart()
         {
             Start = true;
             return this;
@@ -158,7 +158,7 @@ namespace Z0
         /// <summary>
         /// Updates the Start property and returns the updated commandOptions.
         /// </summary>
-        public ScriptProcessOptions AddUseShellExecute()
+        public CmdProcessOptions AddUseShellExecute()
         {
             _UseShellExecute = true;
             return this;
@@ -176,7 +176,7 @@ namespace Z0
         /// <summary>
         /// Updates the NoWindow property and returns the updated commandOptions.
         /// </summary>
-        public ScriptProcessOptions AddNoWindow()
+        public CmdProcessOptions AddNoWindow()
         {
             _NoWindow = true;
             return this;
@@ -195,7 +195,7 @@ namespace Z0
         /// <summary>
         /// Updates the Elevate property and returns the updated commandOptions.
         /// </summary>
-        public ScriptProcessOptions AddElevate()
+        public CmdProcessOptions AddElevate()
         {
             _Elevate = true;
             return this;
@@ -217,7 +217,7 @@ namespace Z0
         /// Updates the Timeout property and returns the updated commandOptions.
         /// CommandOptions.Infinite can be used for infinite.
         /// </summary>
-        public ScriptProcessOptions AddTimeout(int milliseconds)
+        public CmdProcessOptions AddTimeout(int milliseconds)
         {
             _TimeoutMS = milliseconds;
             return this;
@@ -235,7 +235,7 @@ namespace Z0
         /// <summary>
         /// Updates the Input property and returns the updated commandOptions.
         /// </summary>
-        public ScriptProcessOptions AddInput(string input)
+        public CmdProcessOptions AddInput(string input)
         {
             this._Input = input;
             return this;
@@ -253,7 +253,7 @@ namespace Z0
         /// <summary>
         /// Updates the CurrentDirectory property and returns the updated commandOptions.
         /// </summary>
-        public ScriptProcessOptions AddCurrentDirectory(string directoryPath)
+        public CmdProcessOptions AddCurrentDirectory(string directoryPath)
         {
             _CurrentDirectory = directoryPath;
             return this;
@@ -281,7 +281,7 @@ namespace Z0
         /// <summary>
         /// Updates the OutputFile property and returns the updated commandOptions.
         /// </summary>
-        public ScriptProcessOptions AddOutputFile(string outputFile)
+        public CmdProcessOptions AddOutputFile(string outputFile)
         {
             OutputFile = outputFile;
             return this;
@@ -307,7 +307,7 @@ namespace Z0
         /// <summary>
         /// Updates the OutputStream property and returns the updated commandOptions.
         /// </summary>
-        public ScriptProcessOptions AddOutputStream(TextWriter outputStream)
+        public CmdProcessOptions AddOutputStream(TextWriter outputStream)
         {
             OutputStream = outputStream;
             return this;
@@ -339,7 +339,7 @@ namespace Z0
         /// command is launched.  This is useful for example to update the PATH
         /// environment variable eg. "%PATH%;someNewPath".
         /// </summary>
-        public ScriptProcessOptions AddEnvironmentVariable(string variable, string value)
+        public CmdProcessOptions AddEnvironmentVariable(string variable, string value)
         {
             EnvironmentVariables[variable] = value;
             return this;
