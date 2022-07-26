@@ -7,62 +7,8 @@ namespace Z0
     using static ApiGranules;
     using static core;
 
-    public sealed class ToolWs : Workspace<ToolWs>, IWorkspaceObselete
+    public sealed class ToolWs : Workspace<ToolWs>, IToolWs
     {
-        public static ToolWs create(FS.FolderPath home)
-            => new ToolWs(home);
-
-        public static SettingLookup config(FS.FilePath src)
-        {
-            var dst = list<Setting>();
-            using var reader = src.LineReader(TextEncodingKind.Asci);
-            while(reader.Next(out var line))
-            {
-                var content = span(line.Content);
-                var length = content.Length;
-                if(length != 0)
-                {
-                    if(SQ.hash(first(content)))
-                        continue;
-
-                    var i = SQ.index(content, Chars.Colon);
-                    if(i > 0)
-                    {
-                        var name = text.format(SQ.left(content,i));
-                        var value = text.format(SQ.right(content,i));
-                        dst.Add(new Setting(name,value));
-                    }
-                }
-            }
-            return new SettingLookup(dst.ToArray());
-        }
-
-        public static IToolWs configure(IToolWs src)
-        {
-            var subdirs = src.Root.SubDirs();
-            var counter = 0u;
-            var dst = src.Inventory();
-            var configs = list<ToolConfig>();
-            foreach(var dir in subdirs)
-            {
-                var configCmd = dir + FS.file(ApiGranules.config, FS.Cmd);
-                if(configCmd.Exists)
-                {
-                    var path =  dir + FS.folder(logs) + FS.file(ApiGranules.config, FS.Log);
-                    if(path.Exists)
-                    {
-                        var result = parse(path.ReadText(), out ToolConfig c);
-                        if(result)
-                            configs.Add(c);
-                    }
-                }
-            }
-            return src.Configure(configs.ToArray());
-        }
-
-        public static Outcome parse(string src, out ToolConfig dst)
-            => ToolWs.parse(src, out dst);
-
         public FS.FolderPath ToolHome(Actor id)
             => Root + FS.folder(id.Format());
 
@@ -98,7 +44,7 @@ namespace Z0
         public FS.FilePath Script(Actor tool, string name)
             => Scripts(tool) + FS.file(name, FS.Cmd);
 
-        public  FS.FilePath Inventory()
+        public FS.FilePath Inventory()
             => Root + FS.folder(admin) + FS.file(inventory, FS.Txt);
 
         public ReadOnlySpan<ToolConfig> Configured

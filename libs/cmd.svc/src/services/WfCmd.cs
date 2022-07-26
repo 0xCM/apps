@@ -8,7 +8,7 @@ namespace Z0
 
     public class WfCmd : AppCmdService<WfCmd>
     {
-        ToolBox ToolBox => Wf.ToolBox();
+        ToolBoxCmd ToolBox => Wf.ToolBoxCmd();
 
         [CmdOp("files")]
         protected void ListFiles(CmdArgs args)
@@ -21,14 +21,14 @@ namespace Z0
 
         [CmdOp("settings")]
         void Setings()
-            => AppSettings.Iter(setting => Write(setting.Format(Chars.Eq)));
+            => AppSettings.Service().Iter(setting => Write(setting.Format(Chars.Eq)));
 
         [CmdOp("setting")]
         Outcome Setting(CmdArgs args)
         {
             var name = arg(args,0).Value;
             var result = Outcome.Success;
-            if(AppSettings.Find(name, out var value))
+            if(AppSettings.Service().Find(name, out var value))
             {
                 Write($"{name}:{value}");
             }
@@ -69,9 +69,10 @@ namespace Z0
         [CmdOp("app/deploy")]
         void Deploy()
         {
-            var dst = ApiPack.create().Context().Targets("bin");
+            //var dst = ApiPack.create().Context().Targets("bin");
+            var dst = AppDb.Tools("z0/cmd").Targets().Root;
             var src = ExecutingPart.Component.Path().FolderPath;
-            Archives.robocopy(src,dst.Root);
+            Archives.robocopy(src,dst);
         }
 
         [CmdOp("env/includes")]

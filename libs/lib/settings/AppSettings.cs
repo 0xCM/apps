@@ -8,6 +8,11 @@ namespace Z0
 
     public sealed class AppSettings : SettingLookup<Name,string>
     {
+        static AppSettings _Service = AppSettings.load();
+
+        public static ref readonly AppSettings Service()
+            => ref _Service;
+
         public AppSettings()
         {
 

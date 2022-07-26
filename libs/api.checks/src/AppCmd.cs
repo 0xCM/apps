@@ -10,11 +10,10 @@ namespace Z0
         public static ICmdProvider[] providers(IWfRuntime wf)
             => new ICmdProvider[]{
                 wf.WfCmd(),
-                wf.ToolsetCmd(),
+                wf.ToolBoxCmd(),
                 wf.ApiCmd(),
                 wf.AsmFlowCmd(),
                 wf.ApiSpecsCmd(),
-                //wf.ApiSpecs()
             };
 
         public static AppCmd commands(IWfRuntime wf)

@@ -11,7 +11,6 @@ namespace Z0
                 wf.ProjectCmd(),
                 wf.WfCmd(),
                 wf.MemCmd(),
-                wf.ToolsetCmd(),
                 wf.CaptureCmd(),
                 wf.AsmCoreCmd(),
                 wf.LlvmCmd(),
@@ -28,6 +27,7 @@ namespace Z0
                 wf.AsmChecks(),
                 wf.CheckRunner(),
                 wf.AncestryChecks(),
+                wf.ToolBoxCmd(),
                 };
 
         public static AppCmd commands(IWfRuntime wf)

@@ -10,15 +10,11 @@ namespace Z0
     public abstract class WfSvc<S> : AppService<S>
         where S : WfSvc<S>, new()
     {
-        public static IDbArchive DbArchive() => Archives.archive(FS.dir(AppSettings.Find(SettingNames.DbRoot)));
-
         ConcurrentDictionary<ProjectId,WsContext> _Context = new();
 
         public WsCatalog ProjectFiles {get; protected set;}
 
         protected IProjectDb ProjectDb;
-
-        protected static AppSettings AppSettings => data(nameof(SettingLookup), AppSettings.load);
 
         protected static bool PllExec
         {
@@ -41,9 +37,6 @@ namespace Z0
             => ShellCmd.arg(src, index);
 
         protected static AppDb AppDb => AppDb.Service;
-
-        protected ToolWs ToolWs
-            => new ToolWs(AppDb.Toolbase().Root);
 
         [MethodImpl(Inline)]
         public IWsProject Project()

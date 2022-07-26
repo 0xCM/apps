@@ -6,31 +6,8 @@ namespace Z0
 {
     using static Pow2x32;
 
-    public partial class DumpBin
+    partial class DumpBin
     {
-        public enum CmdName : byte
-        {
-            None = 0,
-
-            [Symbol("rawdata")]
-            EmitRawData,
-
-            [Symbol("loadconfig")]
-            EmitLoadConfig,
-
-            [Symbol("relocations")]
-            EmitRelocations,
-
-            [Symbol("exports")]
-            EmitExports,
-
-            [Symbol("disasm")]
-            EmitAsm,
-
-            [Symbol("headers")]
-            EmitHeaders,
-        }
-
         [Flags]
         public enum Flag : ulong
         {

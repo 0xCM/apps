@@ -17,6 +17,21 @@ namespace Z0.Asm
             Random = Rng.wyhash64();
         }
 
+        [CmdOp("asm/refs/import")]
+        void ImportAsmRefs()
+        {
+            ImportNasmCatalog();
+            ImportCultData();
+        }
+
+        [CmdOp("asm/nasm/import")]
+        void ImportNasmCatalog()
+            => Wf.NasmCatalog().ImportInstructions();
+
+        [CmdOp("asm/cult/import")]
+        void ImportCultData()
+            => Wf.CultProcessor().RunEtl();
+
         Outcome BuildAsmExe(string SrcId, FS.FilePath script)
         {
             const string ScriptId = "build-exe";

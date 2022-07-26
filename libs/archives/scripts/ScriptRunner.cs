@@ -46,11 +46,11 @@ namespace Z0
         public ReadOnlySpan<TextLine> RunControlScript(FS.FileName name, CmdVars? vars = null)
             => RunScript(Paths.ControlScript(name), new ScriptId(name.Name), vars);
 
-        public ReadOnlySpan<TextLine> RunToolCmd(IToolWs ws, Actor tool, ScriptId script, CmdVars? vars = null)
-            => RunToolScript(ws, tool, script, ScriptKind.Cmd, vars);
+        // public ReadOnlySpan<TextLine> RunToolCmd(IToolWs ws, Actor tool, ScriptId script, CmdVars? vars = null)
+        //     => RunToolScript(ws, tool, script, ScriptKind.Cmd, vars);
 
-        ReadOnlySpan<TextLine> RunToolScript(IToolWs ws, Actor tool, ScriptId script, ScriptKind kind, CmdVars? vars)
-            => Run(Scripts.script(Scripts.path(ws, tool, script, kind), kind), script, vars);
+        // ReadOnlySpan<TextLine> RunToolScript(IToolWs ws, Actor tool, ScriptId script, ScriptKind kind, CmdVars? vars)
+        //     => Run(Scripts.script(Scripts.path(ws, tool, script, kind), kind), script, vars);
 
         ReadOnlySpan<TextLine> RunScript(FS.FilePath src, ScriptId script, CmdVars? vars)
             => Run(new CmdLine(src.Format(PathSeparator.BS)), script, vars);

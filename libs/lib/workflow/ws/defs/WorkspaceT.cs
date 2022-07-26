@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public abstract class Workspace<T> : IWorkspaceObselete<T>
+    public abstract class Workspace<T>
         where T : Workspace<T>
     {
         public FS.FolderPath Root {get;}

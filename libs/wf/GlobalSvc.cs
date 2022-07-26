@@ -16,9 +16,6 @@ namespace Z0
             where S : ICmdService
                 => inject(svc);
 
-        public static IAppCmdServer CmdServer(IWfRuntime wf)
-            => Instance.Service<AppCmdServer>(wf);
-
         public class GlobalCmdSvc : CmdServices<GlobalCmdSvc>
         {
 
@@ -27,7 +24,5 @@ namespace Z0
 
     partial class XTend
     {
-        public static IAppCmdServer AppCmdServer(this IWfRuntime wf)
-            => GlobalServices.CmdServer(wf);
     }
 }

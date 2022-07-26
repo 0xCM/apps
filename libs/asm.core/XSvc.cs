@@ -71,6 +71,10 @@ namespace Z0
 
             public AsmDocs AsmDocs(IWfRuntime wf)
                 => Service<AsmDocs>(wf);
+
+            public AsmDisamSvc AsmDisasmSvc(IWfRuntime wf)
+                => Service<AsmDisamSvc>(wf);
+
         }
 
         static Svc Services => Svc.Instance;
@@ -134,5 +138,8 @@ namespace Z0
 
         public static CharMapper CharMapper(this IWfRuntime wf)
             => Services.CharMapper(wf);
-   }
+
+        public static AsmDisamSvc AsmDisasmSvc(this IWfRuntime wf)
+            => Services.AsmDisasmSvc(wf);
+    }
 }

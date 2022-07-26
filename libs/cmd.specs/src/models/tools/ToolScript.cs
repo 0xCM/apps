@@ -6,19 +6,13 @@ namespace Z0
 {
     public readonly struct ToolScript
     {
-        public readonly IToolWs Ws;
-
-        public readonly Actor Tool;
-
-        public readonly ScriptId Script;
+        public readonly FS.FilePath Script;
 
         public readonly CmdVars Vars;
 
         [MethodImpl(Inline)]
-        public ToolScript(IToolWs ws, Actor tool, ScriptId script, CmdVars vars)
+        public ToolScript(FS.FilePath script, CmdVars vars)
         {
-            Ws = ws;
-            Tool = tool;
             Script = script;
             Vars = vars;
         }

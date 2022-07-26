@@ -13,7 +13,7 @@ namespace Z0
                 wf.ProjectCmd(),
                 wf.WfCmd(),
                 wf.MemCmd(),
-                wf.ToolsetCmd(),
+                wf.ToolBoxCmd(),
                 wf.CaptureCmd(),
                 wf.AsmCoreCmd(),
                 wf.LlvmCmd(),

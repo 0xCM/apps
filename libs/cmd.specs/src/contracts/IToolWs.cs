@@ -6,15 +6,14 @@ namespace Z0
 {
     using static ApiGranules;
 
-    public interface IToolWs : IWorkspaceObselete
+    public interface IToolWs
     {
-        FS.FolderPath Home {get;}
+        FS.FolderPath Home  {get;}
 
-        FS.FolderPath Inputs() => Home + FS.folder(src);
+        FS.FilePath Script(string name, FileKind kind)
+            => Home + FS.folder(scripts) + FS.file(name,kind);
 
-        IToolWs Configure(ToolConfig[] src);
-
-        FS.FilePath Inventory()
-            => Root + FS.folder(admin) + FS.file(inventory, FS.Txt);
+        FS.FilePath Script(FS.FileName file)
+            => Home + FS.folder(scripts) + file;
     }
 }

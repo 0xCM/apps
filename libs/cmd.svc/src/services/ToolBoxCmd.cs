@@ -7,11 +7,167 @@ namespace Z0
     using static core;
 
     [ApiHost]
-    public class ToolBox : WfSvc<ToolBox>
+    public class ToolBoxCmd : AppCmdService<ToolBoxCmd>
     {
         const byte FieldCount = ToolProfile.FieldCount;
 
-        OmniScript OmniScript => Wf.OmniScript();
+
+        public IToolWs Workspace(Actor tool)
+            => new ToolWs(AppDb.Toolbase().Sources(tool.Format()).Root);
+
+        ToolWs Ws
+            => new ToolWs(AppDb.Toolbase().Root);
+
+        public FS.FilePath ScriptPath(Actor tool, string name, FileKind kind)
+            => Workspace(tool).Script(name, kind);
+
+        // static FS.FilePath tool(IToolWs ws, Actor tool, ScriptId script, FileKind kind)
+        //     => home(ws, tool) + FS.file(script.Format(), kind);
+
+        // static FS.FolderPath home(IToolWs ws, Actor tool)
+        //     => ws.ScriptDir() + FS.folder(tool.Format()) + FS.folder(scripts);
+
+        public Outcome Run(IToolWs tool, string name, FS.FilePath src, FS.FolderPath dst)
+        {
+            var cmd = CmdScripts.cmdline(tool.Script(name, FileKind.Cmd).Format(PathSeparator.BS));
+            var vars = WsCmdVars.create();
+            vars.DstDir = dst;
+            vars.SrcDir = src.FolderPath;
+            vars.SrcFile = src.FileName;
+            var result = OmniScript.Run(cmd, vars.ToCmdVars(), out var response);
+            if(result)
+            {
+               var items = CmdResponse.parse(response);
+               iter(items, item => Write(item));
+            }
+            return result;
+        }
+
+        public static SettingLookup config(FS.FilePath src)
+        {
+            var dst = list<Setting>();
+            using var reader = src.LineReader(TextEncodingKind.Asci);
+            while(reader.Next(out var line))
+            {
+                var content = span(line.Content);
+                var length = content.Length;
+                if(length != 0)
+                {
+                    if(SQ.hash(first(content)))
+                        continue;
+
+                    var i = SQ.index(content, Chars.Colon);
+                    if(i > 0)
+                    {
+                        var name = text.format(SQ.left(content,i));
+                        var value = text.format(SQ.right(content,i));
+                        dst.Add(new Setting(name,value));
+                    }
+                }
+            }
+            return new SettingLookup(dst.ToArray());
+        }
+
+        [CmdOp("llvm/toolset")]
+        void LlvmConfig(CmdArgs args)
+        {
+            // d:/views/llvm/llvm.config
+            var path = FS.path(arg(args,0));
+            var Lookup = Config(path);
+            Lookup.Iter(setting => Write(setting.Format(Chars.Colon)));
+        }
+
+        public SettingLookup Config(FS.FilePath src)
+            => Settings.lookup(src,Chars.Colon);
+
+        public ConstLookup<ToolIdOld,ToolHelpDoc> LoadHelpDocs(IDbSources src)
+        {
+            var dst = dict<ToolIdOld,ToolHelpDoc>();
+            var files = src.Files(FileKind.Help);
+            iter(files, file =>{
+                var fmt = file.FileName.Format();
+                var i = text.index(fmt, Chars.Dot);
+                if(i > 0)
+                {
+                    var tool = text.left(fmt,i);
+                    dst.TryAdd(tool, new ToolHelpDoc(tool, file, file.ReadAsci()));
+                }
+            });
+            return dst;
+        }
+
+        public Index<ToolHelpDoc> EmitHelp(IToolWs ws)
+        {
+            var result = Outcome.Success;
+            var paths = CalcHelpPaths(ws.Home);
+            var commands = BuildHelpCommands(ws);
+            var count = commands.Length;
+            var docs = list<ToolHelpDoc>();
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var cmd = ref commands[i];
+                var tool = cmd.Tool;
+                result = OmniScript.Run(cmd.Command, CmdVars.Empty, out var response);
+                if(result.Fail)
+                {
+                    Error(result.Message);
+                    continue;
+                }
+
+                Babble(string.Format("Executed '{0}'", cmd.Format()));
+
+                if(paths.Find(tool, out var path))
+                {
+                    var length = response.Length;
+                    var emitting = EmittingFile(path);
+                    using var writer = path.UnicodeWriter();
+                    for(var j=0; j<length; j++)
+                        writer.WriteLine(skip(response, j).Content);
+                    EmittedFile(emitting,length);
+
+                    docs.Add(new ToolHelpDoc(tool,path));
+                }
+                else
+                    Warn(string.Format("{0} has no help path", tool));
+            }
+
+            return docs.ToArray();
+        }
+
+
+        [CmdOp("tools/env")]
+        void ShowToolEnv()
+            => iter(LoadEnv(), s => Write(s));
+
+        [CmdOp("tool/script")]
+        Outcome ToolScript(CmdArgs args)
+            => RunScript(arg(args,0).Value, arg(args,1).Value);
+
+        [CmdOp("tool/setup")]
+        void ConfigureTool(CmdArgs args)
+            => iter(Setup(tool(args)), entry => Write(entry));
+
+        static Actor tool(CmdArgs args, byte index = 0)
+            => arg(args,index).Value;
+
+        [CmdOp("tool/docs")]
+        void ToolDocs(CmdArgs args)
+            => iter(LoadDocs(arg(args,0).Value), doc => Write(doc));
+
+        [CmdOp("tool/config")]
+        void ToolConfig(CmdArgs args)
+        {
+            var tool = arg(args,0);
+            var src = AppDb.Toolbase().Sources(tool).Path(tool, FileKind.Config);
+            Write($"{tool}:{src.ToUri()}");
+            var settings = config(src);
+            var count = settings.Count;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var setting = ref settings[i];
+                Write($"{setting}");
+            }
+        }
 
         public Index<ToolCmdLine> BuildHelpCommands(IToolWs ws)
         {
@@ -90,14 +246,14 @@ namespace Z0
 
         public ReadOnlySpan<string> Setup(Actor tool)
         {
-            var script = ToolWs.ConfigScript(tool);
+            var script = Ws.ConfigScript(tool);
             var result = OmniScript.Run(script, out _);
-            return ToolWs.ConfigPath(tool).ReadLines();
+            return Ws.ConfigPath(tool).ReadLines();
         }
 
         public Outcome RunScript(Actor tool, string name)
         {
-            var path = ToolWs.Script(tool, name);
+            var path = Ws.Script(tool, name);
             if(!path.Exists)
                 return (false, FS.missing(path));
             else
@@ -128,22 +284,15 @@ namespace Z0
 
         public Index<string> LoadDocs(string tool)
         {
-            var src = ToolWs.ToolDocs(tool);
+            var src = Ws.ToolDocs(tool);
             var dst = bag<string>();
             iter(src.TopFiles, file => dst.Add(file.ReadText()));
             return dst.ToIndex();
         }
 
-        // public Settings UpdateEnv()
-        // {
-        //     var path = ToolWs.Path(FS.file("show-env-config", FS.Cmd));
-        //     var cmd = CmdScripts.cmdline(path.Format(PathSeparator.BS));
-        //     return Settings.parse(OmniScript.RunCmd(cmd));
-        // }
-
         public SettingLookup LoadEnv()
         {
-            var path = ToolWs.Home + FS.file("tools", FileKind.Env);
+            var path = Ws.Home + FS.file("tools", FileKind.Env);
             return Settings.parse(path.ReadNumberedLines(), Chars.Colon);
         }
 

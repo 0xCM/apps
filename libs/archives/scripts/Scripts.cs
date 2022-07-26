@@ -4,15 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static ApiGranules;
-
     public class Scripts
     {
         public static CmdLine script(FS.FilePath path, ScriptKind kind)
         {
             return kind switch{
-                ScriptKind.Cmd => cmd(path),
-                ScriptKind.Ps => pwsh(path),
+                ScriptKind.Cmd => Scripts.cmd(path),
+                ScriptKind.Ps => Scripts.pwsh(path),
                 _ => Z0.CmdLine.Empty
             };
         }
@@ -20,8 +18,8 @@ namespace Z0
         public static CmdLine script(FS.FilePath path, ScriptKind kind, string args)
         {
             return kind switch{
-                ScriptKind.Cmd => cmd(path, args),
-                ScriptKind.Ps => pwsh(path, args),
+                ScriptKind.Cmd => Scripts.cmd(path, args),
+                ScriptKind.Ps => Scripts.pwsh(path, args),
                 _ => Z0.CmdLine.Empty
             };
         }
@@ -41,17 +39,5 @@ namespace Z0
         public static CmdLine cmd(FS.FilePath src)
             => string.Format("cmd.exe /c {0}", src.Format(PathSeparator.BS));
 
-        public static FS.FilePath path(IToolWs ws, Actor tool, ScriptId script, ScriptKind kind)
-            => Scripts.tool(ws, tool, script, kind switch{
-                ScriptKind.Cmd => FileKind.Cmd,
-                ScriptKind.Ps => FileKind.Ps1,
-                _ => FileKind.None
-            });
-
-        static FS.FilePath tool(IToolWs ws, Actor tool, ScriptId script, FileKind kind)
-            => home(ws, tool) + FS.file(script.Format(), kind);
-
-        static FS.FolderPath home(IToolWs ws, Actor tool)
-            => ws.ScriptDir() + FS.folder(tool.Format()) + FS.folder(scripts);
     }
 }

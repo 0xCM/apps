@@ -14,6 +14,9 @@ namespace Z0
         [Symbol(asm,"Formatted x86 assembly")]
         Asm,
 
+        [Symbol(disasm, "An assembly file produced via a disassembly process")]
+        DisAsm,
+
         [Symbol(encasm, "An asm file that contains the encoding as comments")]
         EncAsm,
 
@@ -59,8 +62,18 @@ namespace Z0
         [Symbol(ps1, "A powershell script")]
         Ps1,
 
-        [Symbol(coffheaders, "A file containing a textual description of the headers in a COFF object file")]
-        CoffHeaders,
+        [Symbol(coffheader, "A file containing a textual description of the headers in a COFF object file")]
+        CoffHeader,
+
+        [Symbol(coffreloc, "A file containing a textual description of coff relocations")]
+
+        CoffReloc,
+
+        [Symbol(coffexports)]
+        CoffExports,
+
+        [Symbol(loadconfig)]
+        LoadConfig,
 
         [Symbol(cpp, "A cpp source file")]
         Cpp,
@@ -94,6 +107,8 @@ namespace Z0
 
         [Symbol(hexdat)]
         HexDat,
+
+
 
         [Symbol(idx)]
         Idx,

@@ -12,22 +12,6 @@ namespace Z0
 
         CmdLineRunner CmdRunner => Wf.CmdLines();
 
-        public Outcome Run(ITool tool, FS.FilePath src, FS.FolderPath dst)
-        {
-            var cmd = CmdScripts.cmdline(ToolWs.Script(tool.ToolId, "run").Format(PathSeparator.BS));
-            var vars = WsCmdVars.create();
-            vars.DstDir = dst;
-            vars.SrcDir = src.FolderPath;
-            vars.SrcFile = src.FileName;
-            var result = Run(cmd, vars.ToCmdVars(), out var response);
-            if(result)
-            {
-               var items = CmdResponse.parse(response);
-               iter(items, item => Write(item));
-            }
-            return result;
-        }
-
         public Outcome<Index<CmdFlow>> RunScript(IWsProject project, FS.FilePath script, string srcid)
         {
             var cmdflows = list<CmdFlow>();

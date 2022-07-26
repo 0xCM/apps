@@ -54,8 +54,8 @@ namespace Z0
             => new ToolCmdLine(tool, modifier, CmdScripts.cmdline(src));
 
         [MethodImpl(Inline), Op]
-        public static ToolScript script(IToolWs ws, Actor tool, ScriptId script, CmdVars vars)
-            => new ToolScript(ws, tool, script, vars);
+        public static ToolScript script(FS.FilePath script, CmdVars vars)
+            => new ToolScript(script, vars);
 
         [Op, Closures(UInt64k)]
         public static ToolCmdSpec spec<T>(Actor tool, in T spec)

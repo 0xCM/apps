@@ -91,6 +91,12 @@ namespace Z0
         public IDbSources Control()
             => new DbSources(setting(WsArchives.Path(Names.Control), FS.dir));
 
+        public IDbSources Tools()
+            => new DbSources(setting(WsArchives.Path(Names.Tools), FS.dir));
+
+        public IDbSources Tools(string scope)
+            => Tools().Sources(scope);
+
         public IDbSources Toolbase()
             => new DbSources(setting(WsArchives.Path(Names.Toolbase), FS.dir));
 

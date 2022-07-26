@@ -31,11 +31,4 @@ namespace Z0
         FS.FilePath Script(string name)
             => ScriptDir() + FS.file(name, FS.Cmd);
     }
-
-    public interface IWorkspaceObselete<T> : IWorkspaceObselete
-        where T : IWorkspaceObselete<T>
-    {
-        string IWorkspaceObselete.Name
-            => Root.FolderName.Format();
-    }
 }

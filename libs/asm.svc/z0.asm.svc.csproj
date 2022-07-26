@@ -10,6 +10,7 @@
     <ProjectReference Include="$(Glue)" />
     <ProjectReference Include="$(Cli)" />
     <ProjectReference Include="$(Polyrand)" />
+    <ProjectReference Include="$(ApiSvc)" />
   </ItemGroup>
 
 </Project>

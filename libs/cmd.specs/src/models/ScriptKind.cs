@@ -9,10 +9,13 @@ namespace Z0
     {
         None = 0,
 
+        [Symbol("cmd")]
         Cmd = 1,
 
+        [Symbol("ps1")]
         Ps = 2,
 
+        [Symbol("sh")]
         Bash = 4,
 
         Z = 128

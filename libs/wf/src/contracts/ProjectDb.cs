@@ -4,19 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    public sealed class ControlWs : Workspace<ControlWs>
+    public sealed class ProjectDbWs : Workspace<ProjectDbWs>, IProjectDb
     {
-        [MethodImpl(Inline)]
-        public static ControlWs create(FS.FolderPath root)
-            => new ControlWs(root);
+        public string Name => Root.Name;
 
         [MethodImpl(Inline)]
-        internal ControlWs(FS.FolderPath root)
+        public static ProjectDbWs create(FS.FolderPath root)
+            => new ProjectDbWs(root);
+
+        [MethodImpl(Inline)]
+        internal ProjectDbWs(FS.FolderPath root)
             : base(root)
         {
 

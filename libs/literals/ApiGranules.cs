@@ -54,6 +54,8 @@ namespace Z0
 
         public const string release = nameof(release);
 
+        public const string reloc = nameof(reloc);
+
         public const string syn = nameof(syn);
 
         public const string net = nameof(net);
@@ -63,8 +65,6 @@ namespace Z0
         public const string @default = "default";
 
         public const string csv = nameof(csv);
-
-        public const string disasm = nameof(disasm);
 
         public const string projects = nameof(projects);
 
@@ -93,6 +93,8 @@ namespace Z0
         public const string zip = nameof(zip);
 
         public const string headers = nameof(headers);
+
+        public const string header = nameof(header);
 
         public const string builds = nameof(builds);
 
@@ -404,6 +406,10 @@ namespace Z0
 
         public const string arrangements = nameof(arrangements);
 
+        public const string dis = nameof(dis);
+
+        public const string disasm = dis + Dot + asm;
+
         public const string located_hex = located + Dot + hex;
 
         public const string ildat = il + Dot + csv;
@@ -442,11 +448,19 @@ namespace Z0
 
         public const string dotcmd = Dot + cmd;
 
+        public const string exports = nameof(exports);
+
+        public const string loadconfig = nameof(loadconfig);
+
         public const string cjson = config + Dot + json;
 
         public const string cildata = nameof(cil) + Dot + data;
 
-        public const string coffheaders = coff + Dot + headers + Dot + txt;
+        public const string coffheader = coff + Dot + header;
+
+        public const string coffreloc = coff + Dot + reloc;
+
+        public const string coffexports = coff + Dot + exports;
 
         public const string encasm = enc + Dot + asm;
 
@@ -482,15 +496,15 @@ namespace Z0
 
         public const string xcsv = CharText.x + Dot + csv;
 
-        public const string xeddisasm = xed + Dot + disasm;
+        public const string xeddisasm = xed + Dot + "disasm";
 
-        public const string xeddisasm_raw = xed + Dot + disasm + Dot + txt;
+        public const string xeddisasm_raw = xeddisasm + Dot + txt;
 
-        public const string xeddisasm_summary = xed + Dot + disasm + Dot + summary + Dot + csv;
+        public const string xeddisasm_summary = xeddisasm + Dot + summary + Dot + csv;
 
-        public const string xeddisasm_semantic = xed + Dot + disasm + Dot + semantic + Dot + txt;
+        public const string xeddisasm_semantic = xeddisasm + Dot + semantic + Dot + txt;
 
-        public const string xeddisasm_detail = xed + Dot + disasm + Dot + detail;
+        public const string xeddisasm_detail = xeddisasm + Dot + detail;
 
         public const string yamltok = yaml + Dot + tok;
 

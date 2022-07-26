@@ -2,16 +2,18 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
+    using Asm;
+
     [Record(TableId)]
-    public struct DumpBinDisasm
+    public struct AsmDisasm
     {
         [MethodImpl(Inline), Op]
-        public static DumpBinDisasm define(MemoryAddress offset, AsmExpr statement)
-            => new DumpBinDisasm(offset, statement);
+        public static AsmDisasm define(MemoryAddress offset, AsmExpr statement)
+            => new AsmDisasm(offset, statement);
 
-        public static string format(in DumpBinDisasm src)
+        public static string format(in AsmDisasm src)
         {
             var left = string.Format("{0,-12} {1,-64}", src.Offset, src.Statement);
             var right = new AsmComment(string.Format("{0,-32} {1}", src.Code, src.Bitstring));
@@ -19,7 +21,7 @@ namespace Z0.Asm
         }
 
         [Op]
-        public static uint render(in DumpBinDisasm src, Span<char> dst)
+        public static uint render(in AsmDisasm src, Span<char> dst)
         {
             var i=0u;
             Hex.render(LowerCase,(Hex64)src.Offset, ref i, dst);
@@ -28,26 +30,29 @@ namespace Z0.Asm
             return i;
         }
 
-        public static string format(in DumpBinDisasm src, Span<char> buffer)
+        public static string format(in AsmDisasm src, Span<char> buffer)
         {
             var count = render(src,buffer);
             return text.format(core.slice(buffer,0,count));
         }
 
-        public const string TableId = "asm.disassembly";
+        const string TableId = "asm.disassembly";
 
-        public const byte FieldCount = 4;
 
+        [Render(16)]
         public MemoryAddress Offset;
 
+        [Render(64)]
         public AsmExpr Statement;
 
+        [Render(32)]
         public AsmHexCode Code;
 
+        [Render(1)]
         public string Bitstring;
 
         [MethodImpl(Inline)]
-        public DumpBinDisasm(MemoryAddress offset, AsmExpr expr, AsmHexCode code, string bs)
+        public AsmDisasm(MemoryAddress offset, AsmExpr expr, AsmHexCode code, string bs)
         {
             Offset = offset;
             Statement = expr;
@@ -56,14 +61,12 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline)]
-        public DumpBinDisasm(MemoryAddress offset, AsmExpr expr)
+        public AsmDisasm(MemoryAddress offset, AsmExpr expr)
         {
             Offset = offset;
             Statement = expr;
             Code = AsmHexCode.Empty;
             Bitstring = EmptyString;
         }
-
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,64,32,32};
     }
 }
