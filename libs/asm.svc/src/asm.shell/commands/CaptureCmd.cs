@@ -34,7 +34,7 @@ namespace Z0
         void EmitApiAsmBlocks()
         {
             var result = Outcome.Success;
-            var dst = ProjectDb.ApiTablePath<AsmDataBlock>();
+            var dst = Dst.Table<AsmDataBlock>();
             var hostasm = HostAsm();
             var blocks = AsmTables.DistillBlocks(hostasm);
             AsmTables.EmitBlocks(blocks, dst);

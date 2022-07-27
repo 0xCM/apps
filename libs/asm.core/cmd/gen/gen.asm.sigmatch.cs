@@ -15,10 +15,10 @@ namespace Z0
         {
             var forms = Sdm.LoadSigs();
             var matcher = StringMatcher.create(forms.Select(x => x.Format()));
-            TableEmit(matcher.MatchRows, ProjectDb.SettingsTable<CharMatchRow>());
+            TableEmit(matcher.MatchRows, AppDb.Settings<CharMatchRow>());
 
             var groups = matcher.GroupRows;
-            TableEmit(groups, ProjectDb.SettingsTable<CharGroupMembers>());
+            TableEmit(groups, AppDb.Settings<CharGroupMembers>());
 
             var count = groups.Length;
             for(var i=0; i<count; i++)

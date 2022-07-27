@@ -8,7 +8,6 @@ namespace Z0
 
     public readonly struct Classifiers
     {
-
         public static void render<K,V>(ValueClassifier<K,V> src, ITextEmitter dst)
             where K : unmanaged, Enum
             where V : unmanaged

@@ -24,7 +24,7 @@ namespace Z0
             => Emit(ApiBitMasks);
 
         public void Emit(Index<BitMaskInfo> src)
-            => TableEmit(src, ProjectDb.ApiTablePath<BitMaskInfo>());
+            => TableEmit(src, AppDb.ApiTargets().Table<BitMaskInfo>());
 
         [CmdOp("api/packs/list")]
         void ListApiPacks()

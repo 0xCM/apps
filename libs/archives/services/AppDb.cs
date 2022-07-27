@@ -19,6 +19,10 @@ namespace Z0
         public IDbSources Settings()
             => DbRoot().Sources("settings");
 
+        public FS.FilePath Settings<T>()
+            where T : struct
+                => Settings().Table<T>();
+
         public FS.FilePath SettingsPath(string name, FileKind kind)
             => Settings().Path(name,kind);
 

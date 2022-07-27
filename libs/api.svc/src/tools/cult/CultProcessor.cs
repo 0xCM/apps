@@ -37,10 +37,10 @@ namespace Z0
 
         protected override void OnInit()
         {
-            var targets = ProjectDb.Subdir(Tool);
-            DetailRoot = targets + FS.folder("details");
+            var targets = AppDb.App(Tool);
+            DetailRoot = targets.Root + FS.folder("details");
             InputFile = ProjectDb.Source(Tool.Format(), FS.Asm);
-            SummaryPath = targets + FS.file(Tool.Format() + ".summary", FS.Csv);
+            SummaryPath = targets.Root + FS.file(Tool.Format() + ".summary", FS.Csv);
         }
 
         FS.FilePath SummaryPath;
