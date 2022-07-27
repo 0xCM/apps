@@ -10,29 +10,20 @@ namespace Z0
     {
         OmniScript OmniScript => Wf.OmniScript();
 
-        FS.FilePath BuildFlows(IWsProject project)
-            => Flows.path(project);
-
         public FS.FolderPath CleanOutDir(IWsProject project)
             => project.BuildOut().Clear(true);
 
-        public FS.Files SourceFiles(IWsProject src, FileKind kind, bool recurse = false)
-            => src.SrcFiles(kind, recurse);
-
-        FS.FilePath Script(IWsProject src, string name)
-            => src.Script(name);
-
         public void BuildAsm(IWsProject src)
-            => RunBuildScripts(src, FileKind.Asm, Script(src,"build-asm"), false);
+            => RunBuildScripts(src, FileKind.Asm, src.Script("build-asm"), false);
 
         public void BuildC(IWsProject src, bool runexe = false)
-            => RunBuildScripts(src, FileKind.C, Script(src,"build-c"), runexe);
+            => RunBuildScripts(src, FileKind.C, src.Script("build-c"), runexe);
 
         public void BuildCpp(IWsProject src, bool runexe = false)
-            => RunBuildScripts(src, FileKind.Cpp, Script(src,"build-cpp"), runexe);
+            => RunBuildScripts(src, FileKind.Cpp, src.Script("build-cpp"), runexe);
 
         public void RunBuildScripts(IWsProject project ,FileKind kind, FS.FilePath script, bool runexe)
-            => RunBuildScript(project, kind, script, flow => HandleBuildResponse(flow, runexe));
+            => RunBuildScript(project, kind, script, flow => OnExec(flow, runexe));
 
         void RunExe(CmdFlow flow)
         {
@@ -49,7 +40,7 @@ namespace Z0
             }
         }
 
-        void HandleBuildResponse(CmdFlow flow, bool runexe)
+        void OnExec(CmdFlow flow, bool runexe)
         {
             if(flow.TargetPath.FileName.Is(FS.Exe) && runexe)
                 RunExe(flow);
@@ -57,33 +48,27 @@ namespace Z0
 
         public void RunBuildScript(IWsProject project, FileKind kind, FS.FilePath script, Action<CmdFlow> receiver)
         {
-            var result = Outcome<Index<CmdFlow>>.Success;
-            var cmdflows = list<CmdFlow>();
-            var files = SourceFiles(project,kind);
+            var flows = list<CmdFlow>();
+            var files = project.SrcFiles(kind, false);
             int length = files.Length;
             for(var i=0; i<length; i++)
             {
                 var path = files[i];
                 var srcid = path.FileName.WithoutExtension.Format();
-                result = OmniScript.RunScript(project, script, srcid);
+                var result = OmniScript.RunScript(project, script, srcid);
                 if(result)
                 {
-                    cmdflows.AddRange(result.Data);
+                    flows.AddRange(result.Data);
                     foreach(var flow in result.Data)
                     {
                         Status(flow.Format());
-                        receiver?.Invoke(flow);
+                        receiver.Invoke(flow);
                     }
                 }
             }
 
-            if(cmdflows.Count != 0)
-            {
-                var records = cmdflows.ToArray();
-                TableEmit(records, BuildFlows(project));
-                result = (true,records);
-            }
-
+            if(flows.Count != 0)
+                TableEmit(flows.ViewDeposited(), Flows.path(project));
         }
     }
 }

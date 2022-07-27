@@ -154,9 +154,7 @@ namespace Z0
                 vars.DstDir = dst.Root;
                 vars.SrcDir = path.FolderPath;
                 vars.SrcFile = path.FileName;
-                var result = OmniScript.RunCmd(cmd, vars.ToCmdVars(), out _);
-                if(result.Fail)
-                    Error(result.Message);
+                CmdScripts.start(cmd, vars.ToCmdVars(), response => {});
             }
         }
 

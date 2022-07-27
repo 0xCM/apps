@@ -8,10 +8,6 @@ namespace Z0
 
     public class OmniScript : WfSvc<OmniScript>
     {
-        //ScriptRunner ScriptRunner => Wf.ScriptRunner();
-
-        CmdLineRunner CmdRunner => Wf.CmdLines();
-
         public Outcome<Index<CmdFlow>> RunScript(IWsProject project, FS.FilePath script, string srcid)
         {
             var cmdflows = list<CmdFlow>();
@@ -66,30 +62,13 @@ namespace Z0
                 );
 
         public Outcome Run(string content, out ReadOnlySpan<TextLine> response)
-            => CmdRunner.Run(Cmd.cmd(content), ReceiveCmdStatusQuiet, ReceiveCmdError, out response);
+            => CmdScripts.run(Cmd.cmd(content), ReceiveCmdStatusQuiet, ReceiveCmdError, out response);
 
         public Outcome Run(FS.FilePath src, out ReadOnlySpan<TextLine> response)
             => CmdScripts.run(new CmdLine(src.Format(PathSeparator.BS)), CmdVars.Empty, ReceiveCmdStatusQuiet, ReceiveCmdError, out response);
 
         public Outcome Run(CmdLine cmd, CmdVars vars, out ReadOnlySpan<TextLine> response)
             => CmdScripts.run(cmd, vars, ReceiveCmdStatusQuiet, ReceiveCmdError, out response);
-
-        public static Outcome RunCmd(CmdLine cmd, CmdVars vars, out ReadOnlySpan<TextLine> response)
-        {
-            response = sys.empty<TextLine>();
-            var result = Outcome.Success;
-            try
-            {
-                var process = CmdScripts.process(cmd, vars);
-                process.Wait();
-                response = Lines.read(process.Output);
-            }
-            catch(Exception e)
-            {
-                result = e;
-            }
-            return result;
-        }
 
         void ReceiveCmdStatusQuiet(in string src)
         {

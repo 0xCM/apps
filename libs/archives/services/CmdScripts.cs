@@ -15,6 +15,26 @@ namespace Z0
 
         static AppDb AppDb => AppDb.Service;
 
+        public static Task start(CmdLine cmd, CmdVars vars, Action<TextLine> receiver)
+        {
+            void run()
+            {
+                var result = Outcome.Success;
+                try
+                {
+                    var process = CmdScripts.process(cmd, vars);
+                    process.Wait();
+                    iter(Lines.read(process.Output), receiver);
+                }
+                catch(Exception e)
+                {
+                    result = e;
+                }
+
+            }
+            return Algs.start(run);
+        }
+
         public static Task<FS.FilePath> start(CmdLine cmd)
         {
             static void OnError(in string src)

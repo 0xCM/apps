@@ -17,9 +17,6 @@ namespace Z0
             public AppSvcOps AppSvc(IWfRuntime wf)
                 => Service<AppSvcOps>(wf);
 
-            public CmdLineRunner CmdLineRunner(IWfRuntime wf)
-                => Service<CmdLineRunner>(wf);
-
             public OmniScript OmniScript(IWfRuntime wf)
                 => Service<OmniScript>(wf);
 
@@ -46,9 +43,6 @@ namespace Z0
 
         public static WsScripts WsScripts(this IWfRuntime wf)
             => Services.WsScripts(wf);
-
-        public static CmdLineRunner CmdLines(this IWfRuntime wf)
-            => Services.CmdLineRunner(wf);
 
         public static OmniScript OmniScript(this IWfRuntime wf)
             => Services.OmniScript(wf);

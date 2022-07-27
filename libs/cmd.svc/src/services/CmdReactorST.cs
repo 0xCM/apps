@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     [CmdReactor]
     public abstract class CmdReactor<R,C,T> : WfSvc<R>, ICmdReactor<C,T>
         where C : struct, ICmd

@@ -7,7 +7,7 @@ namespace Z0
     public class SystemProps
     {
         public static Version version(string name, uint a, uint b = 0, uint c = 0, uint d = 0)
-            => new Version(name,a,b,c,d);
+            => new Version(name, a, b, c, d);
 
         public static File file(string name, string value)
             => new File(name, value);
@@ -164,7 +164,6 @@ namespace Z0
 
             public static implicit operator Folder(SystemProp<string> src)
                 => new Folder(src.Name, src.Value);
-
         }
 
         public sealed record class File : SystemProp<File,string>

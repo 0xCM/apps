@@ -8,8 +8,6 @@ namespace Z0
     public abstract class AppCmdService<T> : CmdService<T>, IAppCmdService
         where T : AppCmdService<T>, new()
     {
-        protected CmdLineRunner CmdLines => Wf.CmdLines();
-
         protected virtual void PublishCommands()
         {
 
