@@ -7,6 +7,7 @@ namespace Z0
     using static AsciCode;
 
     using C = AsciCode;
+    using S = AsciSymbol;
 
     partial struct SymbolicQuery
     {
@@ -19,7 +20,7 @@ namespace Z0
             => (cr(a) && nl(b)) || nl(b);
 
         [MethodImpl(Inline), Op]
-        public static bit eol(AsciSymbol a0, AsciSymbol a1)
+        public static bit eol(S a0, S a1)
             => (a0 == CR && a1 == NL) || (a1 == NL);
     }
 }

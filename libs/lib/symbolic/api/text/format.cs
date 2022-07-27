@@ -9,17 +9,6 @@ namespace Z0
     partial class text
     {
         [Op]
-        public static string format(ReadOnlySpan<AsciCode> src)
-            => format(src, Spans.span<char>(src.Length));
-
-        [Op]
-        public static string format(ReadOnlySpan<AsciCode> src, Span<char> buffer)
-        {
-            var count = AsciSymbols.decode(src, buffer);
-            return new string(Spans.slice(buffer,0, count));
-        }
-
-        [Op]
         public static string format(ReadOnlySpan<char> src, uint length)
             => new string(Spans.slice(src,0, length));
 

@@ -15,16 +15,6 @@ namespace Z0
         public static C code(in asci2 src, Hex1Kind index)
             => (C)(src.Storage >> (byte)index);
 
-        [MethodImpl(Inline), Op]
-        public static ReadOnlySpan<char> decode(in asci2 src)
-        {
-            var storage = 0u;
-            ref var dst = ref @as<uint,char>(storage);
-            seek(dst, 0) = (char)(byte)(src.Storage >> 0);
-            seek(dst, 1) = (char)(byte)(src.Storage >> 8);
-            return core.cover(dst, 2);
-        }
-
         /// <summary>
         /// Presents the source content as a bytespan
         /// </summary>
@@ -40,7 +30,7 @@ namespace Z0
         /// <param name="b">The second asci code</param>
         [MethodImpl(Inline), Op]
         public static asci2 define(AsciCode a, AsciCode b)
-            => new asci2(AsciSymbols.pack(a,b));
+            => new asci2(Asci.pack(a,b));
 
         [MethodImpl(Inline), Op]
         public static ReadOnlySpan<AsciSymbol> symbols(in asci2 src)
@@ -94,7 +84,7 @@ namespace Z0
         /// <param name="b">The second asci character</param>
         [MethodImpl(Inline), Op]
         public static asci2 encode(char a, char b)
-            => new asci2(AsciSymbols.pack((AsciCode)a, (AsciCode)b));
+            => new asci2(Asci.pack((AsciCode)a, (AsciCode)b));
 
         /// <summary>
         /// Populates a 2-code asci block from the leading cells of a character span
@@ -139,6 +129,5 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ref byte @byte(in asci2 src)
             => ref @as<asci2,byte>(src);
-
     }
 }

@@ -21,7 +21,7 @@ namespace Z0
                 ref readonly var symbol = ref src[i];
                 offset += AsciG.encode(w8, n5, symbol.Expr, symbol.Kind, offset, dst);
             }
-            return new AsciGrid<T>(AsciSymbols.seq(dst), width);
+            return new AsciGrid<T>(Asci.seq(dst), width);
         }
 
         [Op, Closures(UInt8k)]
@@ -62,8 +62,8 @@ namespace Z0
             var desc = string.Format(RenderPattern,index, src, hex, bits);
             var width = desc.Length;
             var dst = alloc<byte>(width);
-            AsciSymbols.encode(desc, dst);
-            return AsciSymbols.seq(dst);
+            Asci.encode(desc, dst);
+            return Asci.seq(dst);
         }
 
         public static uint encode<T>(W8 w, N5 n, in SymExpr symbol, T kind, uint offset, Span<byte> dst)
@@ -75,7 +75,7 @@ namespace Z0
             var hex = index.FormatHex(specifier:false);
             var desc = string.Format(RenderPattern,index, symbol, hex, bits);
             var width = desc.Length;
-            AsciSymbols.encode(desc, slice(dst,offset));
+            Asci.encode(desc, slice(dst,offset));
             return (uint)width;
         }
 

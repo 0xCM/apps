@@ -9,17 +9,9 @@ namespace Z0
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
 
-    public struct WatchSettings
+    class AppController : BackgroundService
     {
-        public const string Name = "watch";
-
-        public string Sources;
-
-        public string Targets;
-    }
-    class ServiceControl : BackgroundService
-    {
-        readonly ILogger<ServiceControl> DisplayLog;
+        readonly ILogger<AppController> DisplayLog;
 
         readonly IWorkerLog WorkLog;
 
@@ -31,12 +23,10 @@ namespace Z0
 
         readonly IWfRuntime Wf;
 
-        public ServiceControl(IWfRuntime wf, ILogger<ServiceControl> logger)
+        public AppController(IWfRuntime wf, ILogger<AppController> logger)
         {
             Wf = wf;
-            var db = AppDb.Service;
-            var settings = Settings.lookup(db.Settings(WatchSettings.Name, FileKind.Toml),Chars.Eq);
-            Targets = AppDb.Service.DbRoot().Sources();
+            Targets = AppDb.Service.DbOut().Sources();
             Starting(Targets);
             LogStorage = ExecutingPart.Component.Path().FolderPath + FS.folder("logs");
             WorkLog = Loggers.worker(LogStorage);
@@ -45,10 +35,10 @@ namespace Z0
         }
 
         void Starting(IDbSources target)
-            => term.print(Events.running(GetType(),$"Monitor covering {target.Root}/*.* initializing"));
+            => term.emit(Events.running(GetType(),$"Initializing monitor over {target.Root}/*.*"));
 
         void Disposing(IDbSources target)
-            => term.print(Events.ran(GetType(), $"Montior covering {Monitor.Target.Root} terminating"));
+            => term.emit(Events.ran(GetType(), $"Monitor over {Monitor.Target.Root}/*.* terminating"));
 
         void OnChange(FileChange change)
         {

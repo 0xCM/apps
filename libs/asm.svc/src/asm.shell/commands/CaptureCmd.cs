@@ -49,11 +49,10 @@ namespace Z0
         [CmdOp("cli/options")]
         void CliOptions()
         {
-            var src = CliEmitOptions.@default();
-            //var settings = Settings.settings(src);
-            var path = AppDb.ConfigPath<CliEmitOptions>();
-            var settings = Settings.lookup(path,Chars.Colon);
-            Row(settings.Format());
+            // var src = CliEmitOptions.@default();
+            // var path = AppDb.ConfigPath<CliEmitOptions>();
+            // var settings = Settings.lookup(path,Chars.Colon);
+            // Row(settings.Format());
 
             // Row(settings.Format());
             // FileEmit(settings.Format(),path);

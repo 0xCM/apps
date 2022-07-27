@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Root;
-
     partial class text
     {
         [Op]
@@ -21,7 +19,5 @@ namespace Z0
 
             return EmptyString;
         }
-
-
     }
 }

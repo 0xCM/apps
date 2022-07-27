@@ -15,8 +15,8 @@ namespace Z0
 
         static IServiceCollection configure(IWfRuntime wf, HostBuilderContext context, IServiceCollection services)
         {
-            ServiceControl AddController(IServiceProvider provider)
-                => new ServiceControl(wf, provider.GetService<ILogger<ServiceControl>>());
+            AppController AddController(IServiceProvider provider)
+                => new AppController(wf, provider.GetService<ILogger<AppController>>());
 
             return services.AddHostedService(AddController);
         }
@@ -24,7 +24,5 @@ namespace Z0
         public static IHostBuilder CreateHostBuilder(IWfRuntime wf, string[] args)
             => Host.CreateDefaultBuilder(args)
                 .ConfigureServices((c,s) => configure(wf,c,s));
-
-                //.ConfigureServices( (hostContext, services) => services.AddHostedService(provider => new Controller(wf, provider.GetService<ILogger<Controller>>())));
     }
 }

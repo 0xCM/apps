@@ -8,8 +8,6 @@ namespace Z0
     {
         ref readonly ReadOnlySeq<Setting64> Commands {get;}
 
-        uint Count => Commands.Count;
-
         ref readonly Setting64 Command(uint index);
 
         ref readonly Setting64 Command(int index)

@@ -15,7 +15,7 @@ namespace Z0
 
         readonly FileSystemWatcher Watcher;
 
-        readonly FileChangeHandler Handler;
+        readonly FileChanged Handler;
 
         event FileChanged Listener;
 

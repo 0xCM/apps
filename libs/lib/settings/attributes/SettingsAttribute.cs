@@ -4,11 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    [AttributeUsage(AttributeTargets.Field)]
-    public class TextMarkerAttribute : Attribute
+    public class SettingsAttribute : Attribute
     {
+        public SettingsAttribute(string name)
+        {
+            Name = name;
+        }
 
+        public Name Name {get;}
     }
 }

@@ -40,73 +40,12 @@ namespace Z0
             => src.Storage.ToSpan();
 
         /// <summary>
-        /// Populates an asci target with a specified number of source characters
-        /// </summary>
-        /// <param name="src">The data source</param>
-        /// <param name="count">The number of characters to encode</param>
-        /// <param name="dst">The receiver</param>
-        [MethodImpl(Inline), Op]
-        public static ref readonly asci32 encode(in char src, byte count, out asci32 dst)
-        {
-            dst = asci32.Null;
-            ref var storage = ref @as<asci32,AsciCode>(dst);
-            AsciSymbols.codes(src, (byte)count, ref storage);
-            return ref dst;
-        }
-
-
-        /// <summary>
-        /// Populates a 32-code asci block from the leading cells of a character span
-        /// </summary>
-        /// <param name="src">The data source</param>
-        /// <param name="dst">The target block</param>
-        [MethodImpl(Inline), Op]
-        public static ref readonly asci32 encode(ReadOnlySpan<char> src, out asci32 dst)
-        {
-            dst = asci32.Spaced;
-            AsciSymbols.codes(src, span<asci32,AsciCode>(ref dst));
-            return ref dst;
-        }
-
-        [MethodImpl(Inline), Op]
-        public static unsafe void copy(in asci32 src, ref byte dst)
-            => cpu.vstore(src.Storage, ref dst);
-
-        [MethodImpl(Inline), Op]
-        public static unsafe void copy(in asci32 src, Span<byte> dst)
-            => cpu.vstore(src.Storage, dst);
-
-        /// <summary>
         /// Presents the leading source cell as a byte reference
         /// </summary>
         /// <param name="src">The data source</param>
         [MethodImpl(Inline), Op]
         public static ref byte @byte(in asci32 src)
             => ref @as<asci32,byte>(src);
-
-        [MethodImpl(Inline), Op]
-        public static void decode(N32 n, ReadOnlySpan<byte> src, Span<char> dst)
-        {
-            ref var target = ref @as<ushort>(first(dst));
-            var v = cpu.vload(w256, src);
-            cpu.vstore(vpack.vinflatelo256x16u(v), ref target);
-            cpu.vstore(vpack.vinflatehi256x16u(v), ref seek(target,16));
-        }
-
-        [MethodImpl(Inline), Op]
-        public static ReadOnlySpan<char> decode(in asci32 src)
-        {
-            var lo = vpack.vinflatelo256x16u(src.Storage);
-            var hi = vpack.vinflatehi256x16u(src.Storage);
-            return slice(recover<char>(core.bytes(new V256x2(lo,hi))), 0, src.Length);
-        }
-
-        [MethodImpl(Inline), Op]
-        public static void decode(in asci32 src, ref char dst)
-        {
-            decode(src.Lo, ref dst);
-            decode(src.Hi, ref seek(dst, 16));
-        }
 
         [MethodImpl(Inline), Op]
         public static bool contains(in asci32 src, char match)
@@ -150,7 +89,6 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ReadOnlySpan<AsciSymbol> symbols(in asci32 src)
             => recover<AsciSymbol>(core.bytes(src));
-
 
         [MethodImpl(Inline), Op]
         public static void store(in asci32 src, Span<char> dst)

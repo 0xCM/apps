@@ -79,7 +79,7 @@ namespace Z0
 
         void Delimit<T>(T content, char delimiter, int pad);
 
-        void Delimit<F,T>(F label, T content, int pad = 0, char delimiter = FieldDelimiter);
+        void Delimit<F,T>(F label, T content, int pad = 0, char delimiter = '|');
 
         void AppendFormat(string pattern, params object[] args);
 
@@ -94,24 +94,29 @@ namespace Z0
             => System.Globalization.CultureInfo.CurrentCulture;
 
         void AppendSpace()
-            => Write(Space);
+            => Write(' ');
 
         string NewLine
             => "\r\n";
 
         Encoding Encoding
-            => TextEncoding.Utf8;
+            => System.Text.Encoding.UTF8;
 
         string Peek() => EmptyString;
 
-        void Close() => throw new NotSupportedException();
+        void Close()
+            => throw new NotSupportedException();
 
-        void Flush() => throw new NotSupportedException();
+        void Flush()
+            => throw new NotSupportedException();
 
-        void Clear() => throw new NotSupportedException();
+        void Clear()
+            => throw new NotSupportedException();
 
-        string Emit(bool clear = true) => throw new NotSupportedException();
+        string Emit(bool clear = true)
+            => throw new NotSupportedException();
 
-        StringBuilder ToStringBuilder() => throw new NotSupportedException();
+        StringBuilder ToStringBuilder()
+            => throw new NotSupportedException();
     }
 }

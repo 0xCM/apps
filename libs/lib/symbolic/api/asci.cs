@@ -14,12 +14,84 @@ namespace Z0
     public readonly partial struct Asci
     {
         [MethodImpl(Inline), Op]
+        static uint available(ReadOnlySpan<byte> src)
+        {
+            var present = 0u;
+            var count = src.Length;
+            for(var i=0; i<count; i++)
+            {
+                if(skip(src,i) != 0)
+                    present++;
+                else
+                    break;
+            }
+            return present;
+        }
+
+
+        [MethodImpl(Inline), Op]
+        public static int length(ReadOnlySpan<byte> src)
+            => foundnot(search(src, z8), src.Length);
+
+        [MethodImpl(Inline), Op]
+        public static int search(in byte src, int count, byte match)
+        {
+            for(var i=0u; i<count; i++)
+                if(skip(src,i) == match)
+                    return (int)i;
+            return NotFound;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static int search(ReadOnlySpan<byte> src, byte match)
+        {
+            var count = src.Length;
+            for(var i=0u; i<count; i++)
+                if(skip(src, i) == match)
+                    return (int)i;
+            return NotFound;
+        }
+
+        /// <summary>
+        /// Transforms an uppercase character [A..Z] to the corresponding lowercase character [a..z];
+        /// if the source character is not in the letter domain, the input is returned unharmed
+        /// </summary>
+        /// <param name="src">The source character</param>
+        [MethodImpl(Inline), Op]
+        public static char lowercase(char src)
+             => letter(UpperCase, src)  ? lowercase((AsciLetterUpCode)src)  : src;
+
+        [MethodImpl(Inline), Op]
+        public static char lowercase(AsciLetterUpCode src)
+            => skip(AsciSymbols.LowercaseLetters, (uint)src - (uint)AsciCodeFacets.MinUpperLetter);
+
+        [MethodImpl(Inline), Op]
         public static AsciSeq seq(uint size)
             => new AsciSeq(alloc<byte>(size));
 
         [MethodImpl(Inline), Op]
         public static AsciSeq seq(byte[] src)
             => new AsciSeq(src);
+
+        [MethodImpl(Inline), Op]
+        public static AsciSeq seq(string src)
+        {
+            var buffer = alloc<byte>(src.Length);
+            var seq = new AsciSeq(buffer);
+            return encode(src, seq);
+        }
+
+        [MethodImpl(Inline), Op]
+        public static AsciSeq seq(string src, byte[] dst)
+        {
+            encode(src,dst);
+            return seq(dst);
+        }
+
+        [MethodImpl(Inline)]
+        public static AsciSeq<A> seq<A>(A content)
+            where A : unmanaged, IAsciSeq<A>
+                => new AsciSeq<A>(content);
 
         [MethodImpl(Inline), Op]
         public static ByteSize unpack(ReadOnlySpan<char> src, Span<byte> dst)

@@ -4,54 +4,32 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Spans;
-    using static Arrays;
-    using static Algs;
-
     partial class Settings
     {
-        public static SettingLookup lookup<T>(T src)
+        [MethodImpl(Inline), Op]
+        public static SettingMembers members(Type src)
+            => new (src.PublicInstanceFields().Where(f => !f.IsInitOnly), src.PublicInstanceProperties().WithSet());
+
+        public static SettingMembers<T> members<T>()
+            where T : new()
+                => new SettingMembers<T>(members(typeof(T)));
+
+        public static T hydrate<T>(SettingLookup src)
+            where T : new()
         {
-            var _fields = typeof(T).PublicInstanceFields();
-            var _props = typeof(T).PublicInstanceProperties();
-
-            var _fieldValues = from f in _fields
-                                let value = f.GetValue(src)
-                                where f != null
-                                select setting(f.Name, value);
-
-            var _propValues = from f in _props
-                                let value = f.GetValue(src)
-                                where f != null
-                                select setting(f.Name, value);
-
-            return _fieldValues.Union(_propValues).Array();
-        }
-
-        public static SettingLookup lookup(FS.FilePath src, char sep)
-        {
-            var dst = list<Setting>();
-            var line = AsciLineCover.Empty;
-            using var reader = src.AsciLineReader();
-            while(reader.Next(out line))
+            var dst = new T();
+            var m = members<T>();
+            foreach(var member in m.Data.Fields)
             {
-                var content = line.Codes;
-                var length = content.Length;
-                if(length != 0)
-                {
-                    if(SQ.hash(first(content)))
-                        continue;
-
-                    var i = SQ.index(content, sep);
-                    if(i > 0)
-                    {
-                        var name = Asci.format(SQ.left(content,i));
-                        var value = Asci.format(SQ.right(content,i));
-                        dst.Add(new Setting(name,value));
-                    }
-                }
+                if(src.Find(member.Name, out var setting))
+                    member.SetValue(dst, setting.Value);
             }
-            return new SettingLookup(dst.ToArray());
+
+            return dst;
         }
+
+        public static SettingLookup<T> lookup<T>(T src)
+            where T : new()
+                => new (typeof(T).PublicInstanceFields().Select(f => new Setting(f.Name, f.GetValue(src))));
     }
 }

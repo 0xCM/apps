@@ -4,9 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Arrays;
     using static Spans;
-    using static Algs;
+    using static Arrays;
 
     public readonly struct Index<T> : IIndex<T>
     {
@@ -63,13 +62,13 @@ namespace Z0
         public ref T this[long i]
         {
             [MethodImpl(Inline)]
-            get => ref seek(Data, i);
+            get => ref Arrays.seek(Data, i);
         }
 
         public ref T this[ulong i]
         {
             [MethodImpl(Inline)]
-            get => ref seek(Data,i);
+            get => ref Arrays.seek(Data,i);
         }
 
         public uint Count
@@ -87,7 +86,7 @@ namespace Z0
         public ref T Last
         {
             [MethodImpl(Inline)]
-            get => ref last(Data);
+            get => ref Arrays.last(Data);
         }
 
         public uint Size
@@ -109,14 +108,14 @@ namespace Z0
             var count = Count;
             var view = View;
             for(var i=0; i<count; i++)
-                if(predicate(skip(Data,i)))
+                if(predicate(Arrays.skip(Data,i)))
                     return true;
             return false;
         }
 
         [MethodImpl(Inline)]
         public Index<T> Clear()
-            => new Index<T>(clear(Data));
+            => new Index<T>(Arrays.clear(Data));
 
         public string Format()
             => IsNonEmpty ? string.Join(Chars.Comma, Data) : EmptyString;
@@ -128,14 +127,14 @@ namespace Z0
             => new Index<T>(Arrays.reverse(Data));
 
         public Index<T> Sort(IComparer<T> comparer)
-            => new Index<T>(sort(Data,comparer));
+            => new Index<T>(Arrays.sort(Data,comparer));
 
         [MethodImpl(Inline)]
         public bool Search(Func<T,bool> predicate, out T found)
             => first(this, predicate, out found);
 
         public Index<Y> Cast<Y>()
-            => new Index<Y>(Data.Select(x => cast<Y>(x)));
+            => new Index<Y>(Data.Select(x => Algs.cast<Y>(x)));
 
         public Index<Y> Select<Y>(Func<T,Y> selector)
              => Algs.map(Data, selector);
@@ -147,7 +146,7 @@ namespace Z0
              => Index.map(Data, lift);
 
         public Index<T> Where(Func<T,bool> predicate)
-            => where(Data, predicate);
+            => Arrays.where(Data, predicate);
 
         public Index<T> Distinct()
             => new Index<T>(Data.Distinct());

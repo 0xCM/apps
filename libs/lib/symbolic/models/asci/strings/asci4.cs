@@ -7,6 +7,7 @@ namespace Z0
     using N = N4;
     using A = asci4;
     using S = System.UInt32;
+
     using api = Asci;
 
     /// <summary>

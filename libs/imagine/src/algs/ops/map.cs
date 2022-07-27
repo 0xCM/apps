@@ -22,8 +22,8 @@ namespace Z0
         public static Span<T> map<S,T>(ReadOnlySpan<S> src, Func<S,T> f, Span<T> dst)
         {
             var count = min(src.Length, dst.Length);
-            ref readonly var input = ref first(src);
-            ref var target = ref first(dst);
+            ref readonly var input = ref Spans.first(src);
+            ref var target = ref Spans.first(dst);
             for(var i=0u; i<count; i++)
                 seek(target,i) = f(skip(input,i));
             return dst;
@@ -41,8 +41,8 @@ namespace Z0
         public static Span<T> map<S,T>(Span<S> src, Func<S,T> f, Span<T> dst)
         {
             var count = min(src.Length, dst.Length);
-            ref readonly var input = ref first(src);
-            ref var target = ref first(dst);
+            ref readonly var input = ref Spans.first(src);
+            ref var target = ref Spans.first(dst);
             for(var i=0u; i<count; i++)
                 seek(target,i) = f(skip(input,i));
             return dst;

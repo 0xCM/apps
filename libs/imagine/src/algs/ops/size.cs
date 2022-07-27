@@ -4,10 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct AsciSymbols
+    partial class Algs
     {
-        [MethodImpl(Inline), Op]
-        public static int length(ReadOnlySpan<byte> src)
-            => foundnot(search(src, z8), src.Length);
+        [MethodImpl(Inline)]
+        public static uint size<T>()
+            => Sized.size<T>();
     }
 }

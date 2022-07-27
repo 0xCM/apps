@@ -79,30 +79,6 @@ namespace Z0
         public static asci16 init(N16 n, ReadOnlySpan<AsciCode> src)
             => new asci16(recover<AsciCode,byte>(src));
 
-        [MethodImpl(Inline), Op]
-        public static void decode(in asci16 src, ref char dst)
-        {
-           var decoded = vpack.vinflate256x16u(src.Storage);
-           cpu.vstore(decoded, ref @as<char,ushort>(dst));
-        }
-
-        [MethodImpl(Inline), Op]
-        public static void decode(N16 n, ReadOnlySpan<byte> src, Span<char> dst)
-            => cpu.vstore(vpack.vinflate256x16u(cpu.vload(w128,src)), ref @as<ushort>(core.first(dst)));
-
-        [MethodImpl(Inline), Op]
-        public static ReadOnlySpan<char> decode(in asci16 src)
-            => slice(recover<char>(core.bytes(vpack.vinflate256x16u(src.Storage))),0, src.Length);
-
-        /// <summary>
-        /// Returns the index of the first source element that matches a specified value
-        /// </summary>
-        /// <param name="src">The source sequence</param>
-        /// <param name="match">The value to match</param>
-        [MethodImpl(Inline), Op]
-        public static int index(in asci16 src, byte match)
-            => search(@byte(edit(src)), src.Capacity, match);
-
         /// <summary>
         /// Counts the number of characters that precede a null terminator, if any
         /// </summary>

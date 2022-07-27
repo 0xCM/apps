@@ -10,18 +10,31 @@ namespace Z0
     {
         ToolBoxCmd ToolBox => Wf.ToolBoxCmd();
 
+        public static string identifier(FS.FolderPath src)
+            => src.Format(PathSeparator.FS).Replace(Chars.FSlash, Chars.Dot).Replace(Chars.Colon, Chars.Dot).Replace("..", ".");
+
         [CmdOp("files")]
         protected void ListFiles(CmdArgs args)
         {
             var src = FS.dir(arg(args,0));
             var files = FS.listing(src);
-            iter(files, file => Write(file.Path));
-            TableEmit(files, AppDb.App().Table<ListedFile>());
+            TableEmit(files, AppDb.Logs("files").Table<ListedFile>(identifier(src)));
         }
 
         [CmdOp("settings")]
-        void Setings()
-            => AppSettings.Service().Iter(setting => Write(setting.Format(Chars.Eq)));
+        void ReadSettings(CmdArgs args)
+        {
+            if(args.Count == 0)
+                AppSettings.Service().Iter(setting => Write(setting.Format(Chars.Eq)));
+            else
+            {
+                var db = AppDb.Service;
+                var src = Settings.load(db.SettingsPath(WatchSettings.Name, FileKind.Toml), Chars.Eq);
+                Row(src);
+
+                //Row(settings.Format());
+            }
+        }
 
         [CmdOp("setting")]
         Outcome Setting(CmdArgs args)

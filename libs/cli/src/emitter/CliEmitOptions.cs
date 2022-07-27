@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [StructLayout(LayoutKind.Sequential,Pack=1), Config(ConfigId)]
+    [StructLayout(LayoutKind.Sequential,Pack=1), Settings(ConfigId)]
     public struct CliEmitOptions : ISettings<CliEmitOptions>
     {
         const string ConfigId = "cli.options";

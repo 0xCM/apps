@@ -77,17 +77,12 @@ namespace Z0
                 return src;
         }
 
-
         [MethodImpl(Inline), Op]
         public static text7 txt(N7 n7, char src)
         {
             var storage = (ulong)src;
             return new text7(storage);
         }
-
-        [MethodImpl(Inline), Op]
-        public static bool eq(text31 a, text31 b)
-            => cpu.vtestc(cpu.veq(cpu.vload(w256, a.Storage.Data),cpu.vload(w256, b.Storage.Data)));
 
         [MethodImpl(Inline), Op]
         public static bool eq(text47 a, text47 b)

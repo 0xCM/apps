@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Spans;
 
     partial class XTend
     {
@@ -28,7 +28,7 @@ namespace Z0
             Source = src;
             LineCount = 0;
             Offset = 0;
-            _Buffer = alloc<byte>(1024);
+            _Buffer = sys.alloc<byte>(1024);
         }
 
         [MethodImpl(Inline)]
@@ -51,7 +51,7 @@ namespace Z0
             if(_line == null)
                 return false;
             var buffer = Buffer();
-            var count = AsciSymbols.encode(_line, buffer);
+            var count = Asci.encode(_line, buffer);
             var data = slice(buffer,0,count);
 
             LineCount++;

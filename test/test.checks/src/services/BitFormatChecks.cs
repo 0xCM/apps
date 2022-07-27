@@ -59,11 +59,11 @@ namespace Z0
         void CheckAsciTables()
         {
             var buffer = span<char>(128);
-            Write(text.format(AsciTables.letters(LowerCase).Codes, buffer));
+            Write(Asci.format(AsciTables.letters(LowerCase).Codes, buffer));
             buffer.Clear();
-            Write(text.format(AsciTables.letters(UpperCase).Codes, buffer));
+            Write(Asci.format(AsciTables.letters(UpperCase).Codes, buffer));
             buffer.Clear();
-            Write(text.format(AsciTables.digits().Codes, buffer));
+            Write(Asci.format(AsciTables.digits().Codes, buffer));
             buffer.Clear();
         }
 

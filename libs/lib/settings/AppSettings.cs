@@ -33,7 +33,7 @@ namespace Z0
         public static AppSettings load(FS.FilePath src)
         {
             var data = src.ReadLines(true);
-            var dst = alloc<Setting>(data.Length - 1);
+            var dst = sys.alloc<Setting>(data.Length - 1);
             for(var i=1; i<data.Length; i++)
             {
                 ref readonly var line = ref data[i];

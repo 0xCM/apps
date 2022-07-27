@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Spans;
+    using static Algs;
 
     public readonly struct TextMarkers
     {
@@ -24,8 +25,8 @@ namespace Z0
             if(count == 0)
                 return TextMarkers.Empty;
 
-            var buffer = alloc<TextMarker>(count);
-            ref var dst = ref first(buffer);
+            var buffer = sys.alloc<TextMarker>(count);
+            ref var dst = ref core.first(buffer);
             var j=0;
             for(var i=0; i<count; i++, j++)
             {

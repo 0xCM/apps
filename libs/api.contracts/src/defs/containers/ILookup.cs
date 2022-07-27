@@ -11,7 +11,7 @@ namespace Z0
     }
 
     [Free]
-    public interface ILookup<K,V> : ILookup
+    public interface ILookup<K,V> : ILookup, ICounted
     {
         bool Find(K key, out V value);
 

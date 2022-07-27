@@ -6,9 +6,9 @@ namespace Z0
 {
     public class TextMarker
     {
-        public string Name {get;}
+        public readonly string Name;
 
-        public string Content {get;}
+        public readonly string Content;
 
         [MethodImpl(Inline)]
         public TextMarker(string id, string content)

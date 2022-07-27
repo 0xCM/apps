@@ -4,13 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class ConfigAttribute : Attribute
-    {
-        public ConfigAttribute(string name)
-        {
-            Name = name;
-        }
+    using static AsciCode;
 
-        public Name Name {get;}
+    using C = AsciCode;
+
+    partial struct SymbolicQuery
+    {
+        [MethodImpl(Inline), Op]
+        public static bool eq(asci32 a, asci32 b)
+            => cpu.vtestc(cpu.veq(a.Storage,b.Storage));
     }
 }

@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Spans;
+    using static Algs;
 
     /// <summary>
     /// Covers an A-parametric sequence of asci sequences

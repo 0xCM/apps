@@ -6,7 +6,7 @@ namespace Z0
 {
     using static Spans;
     using static Arrays;
-    using static Refs;
+    using static Algs;
 
     [ApiHost]
     public partial class Settings
@@ -14,7 +14,7 @@ namespace Z0
         const NumericKind Closure = UnsignedInts;
 
         public static Name name(Type src)
-            => src.Tag<ConfigAttribute>().MapValueOrElse(tag => tag.Name, () => (Name)src.DisplayName());
+            => src.Tag<SettingsAttribute>().MapValueOrElse(tag => tag.Name, () => (Name)src.DisplayName());
 
         public static Name name<T>()
             => name(typeof(T));
@@ -23,7 +23,7 @@ namespace Z0
             => string.Concat(text.enquote(src.Name), Chars.Colon, Chars.Space, src.ValueText.Enquote());
 
         [Op]
-        public static bool search(in SettingLookup src, Name key, out Setting value)
+        public static bool search(SettingLookup src, Name key, out Setting value)
         {
             value = Setting.Empty;
             var result = false;
@@ -34,6 +34,7 @@ namespace Z0
                 {
                     value = setting;
                     result = true;
+                    break;
                 }
             }
             return result;
@@ -62,38 +63,6 @@ namespace Z0
             return dst;
         }
 
-        [Op]
-        public static uint store(in SettingLookup src, char sep, StreamWriter dst)
-        {
-            var settings = src.View;
-            var count = (uint)settings.Length;
-            if(count == 0)
-                return count;
-
-            for(var i = 0; i<count; i++)
-            {
-                ref readonly var setting = ref skip(settings,i);
-                dst.WriteLine(string.Format("{0}{1}{2}", setting.Name, sep, setting.Value));
-            }
-            return count;
-        }
-
-        public static void store(ReadOnlySpan<Setting> src, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
-        {
-            var emitter = text.emitter();
-            Tables.emit(src, emitter);
-            using var writer = dst.Writer(encoding);
-            writer.Write(emitter.Emit());
-        }
-
-        public static void store<T>(ReadOnlySpan<Setting<T>> src, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
-        {
-            var emitter = text.emitter();
-            Tables.emit(src, emitter);
-            using var writer = dst.Writer(encoding);
-            writer.Write(emitter.Emit());
-        }
-
         public static SettingLookup rows(FS.FilePath src)
         {
             var formatter = Tables.formatter<Setting>();
@@ -106,7 +75,7 @@ namespace Z0
                 Require.equal(parts.Length,2);
                 seek(dst,i-1)= new Setting(text.trim(skip(parts,0)), text.trim(skip(parts,1)));
             }
-            return new SettingLookup(src,dst);
+            return new SettingLookup(dst);
         }
     }
 }

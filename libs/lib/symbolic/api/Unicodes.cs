@@ -4,74 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Spans;
+    using static Algs;
 
-    public readonly struct LineMatchers
+    public class Unicodes
     {
-        [Op]
-        public static bool next(ref LineReaderState state, out AsciLineCover<byte> dst)
-        {
-            dst = AsciLineCover<byte>.Empty;
-            var line = state.Source.ReadLine();
-            if(line == null)
-                return false;
-            var data = text.asci(line).Storage;
-            state.LineCount++;
-
-            if(AsciLines.number(data, out var length, out var num))
-                dst = new AsciLineCover<byte>(data);
-            else
-                dst = new AsciLineCover<byte>(data);
-
-            state.Offset+=length;
-
-            return true;
-        }
-
-        [Op]
-        public static bool next(ref LineReaderState state, out AsciLineCover<char> dst)
-        {
-            dst = AsciLineCover<char>.Empty;
-            var line = state.Source.ReadLine();
-            if(line == null)
-                return false;
-
-            var data = line.ToCharArray();
-            state.LineCount++;
-
-            if(Digital.number(data, out var length, out var num))
-                dst = new AsciLineCover<char>(data);
-            else
-                dst = new AsciLineCover<char>(data);
-
-            state.Offset+=length;
-
-            return true;
-        }
-
-        public static bool next<T>(ref LineReaderState State, Span<byte> buffer, out AsciLineCover<T> dst)
-            where T : unmanaged
-        {
-            dst = AsciLineCover<T>.Empty;
-            var _line = State.Source.ReadLine();
-            if(_line == null)
-                return false;
-
-            var count = AsciSymbols.encode(_line, buffer);
-            var data = slice(buffer,0,count);
-
-            State.LineCount++;
-
-            if(AsciLines.number(data, out var length, out var num))
-                dst = new AsciLineCover<T>(recover<byte,T>(slice(data, (int)length)));
-            else
-                dst = new AsciLineCover<T>(recover<byte,T>(data));
-
-            State.Offset+=length;
-
-            return true;
-        }
-
         /// <summary>
         /// Seaches the input for a line-marker sequence
         /// </summary>
@@ -132,6 +69,7 @@ namespace Z0
                 }
             }
         }
+
 
         [Op]
         public static int match(N3 n, ReadOnlySpan<char> src, ReadOnlySpan<char> target)
@@ -206,6 +144,7 @@ namespace Z0
                 }
             }
         }
+
 
         [Op]
         public static int match(N4 n, ReadOnlySpan<char> src, ReadOnlySpan<char> target)
@@ -290,7 +229,6 @@ namespace Z0
                 }
             }
         }
-
 
         [Op]
         public static int match(N5 n, ReadOnlySpan<char> src, ReadOnlySpan<char> target)

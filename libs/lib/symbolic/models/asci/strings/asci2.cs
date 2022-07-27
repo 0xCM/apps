@@ -8,6 +8,7 @@ namespace Z0
     using W = W16;
     using A = asci2;
     using S = System.UInt16;
+
     using api = Asci;
 
     /// <summary>
@@ -23,7 +24,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public asci2(string src)
-            => Storage = Asci.encode(n, src).Storage;
+            => Storage = api.encode(n, src).Storage;
 
         [MethodImpl(Inline)]
         public asci2(char c0)

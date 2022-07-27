@@ -7,8 +7,8 @@ namespace Z0
     [Free]
     public interface IWorkerLog : IDisposable
     {
-        void LogStatus(string content);
+        void LogStatus(string msg);
 
-        void LogError(string content);
+        void LogError(string msg);
     }
 }

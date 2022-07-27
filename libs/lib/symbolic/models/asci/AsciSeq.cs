@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Spans;
+    using static Algs;
 
     /// <summary>
     /// Covers a sequence of asci-encoded bytes
@@ -16,11 +17,10 @@ namespace Z0
 
         static string format(ReadOnlySpan<byte> src)
         {
-            var len = src.Length;
-            var dst = span(alloc<char>(len));
-            for(var i=0u; i<len; i++)
+            Span<char> dst = stackalloc char[src.Length];
+            for(var i=0u; i<src.Length; i++)
                 seek(dst, i) = (char)skip(src,i);
-            return text.format(dst);
+            return sys.@string(dst);
         }
 
         public readonly BinaryCode Data;

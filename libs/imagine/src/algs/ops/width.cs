@@ -4,25 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
-    public abstract class Env<E>
-        where E : IEquatable<E>, IExpr, new()
+    partial class Algs
     {
-
-    }
-
-
-    public class Env
-    {
-
-
-
-        public record struct Machine
-        {
-            public utf8 _NT_SYMBOL_PATH;
-
-
-        }
-
+        [MethodImpl(Inline)]
+        public static uint width<T>()
+            => Sized.width<T>();
     }
 }

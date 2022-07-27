@@ -97,10 +97,6 @@ namespace Z0
         public static char @char(in asci8 src, Hex3Kind index)
             => (char)code(src, index);
 
-        [MethodImpl(Inline), Op]
-        public static unsafe void copy(in asci8 src, ref byte dst)
-            => @as<byte,ulong>(dst) = src.Storage;
-
         /// <summary>
         /// Presents the leading source cell as a byte reference
         /// </summary>
@@ -108,41 +104,5 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ref byte @byte(in asci8 src)
             => ref @as<asci8,byte>(src);
-
-        /// <summary>
-        /// Populates an asci target with a specified number of source characters
-        /// </summary>
-        /// <param name="src">The data source</param>
-        /// <param name="count">The number of characters to encode</param>
-        /// <param name="dst">The receiver</param>
-        [MethodImpl(Inline), Op]
-        public static ref readonly asci8 encode(in char src, byte count, out asci8 dst)
-        {
-            dst = asci8.Null;
-            ref var storage = ref @as<asci8,AsciCode>(dst);
-            AsciSymbols.codes(src, (byte)count, ref storage);
-            return ref dst;
-        }
-
-        /// <summary>
-        /// Populates an 8-code asci block from the leading cells of a character span
-        /// </summary>
-        /// <param name="src">The data source</param>
-        [MethodImpl(Inline), Op]
-        public static asci8 encode(N8 n, ReadOnlySpan<char> src)
-            => encode(src, out asci8 dst);
-
-        /// <summary>
-        /// Populates an 8-code asci block from the leading cells of a character span
-        /// </summary>
-        /// <param name="src">The data source</param>
-        /// <param name="dst">The target block</param>
-        [MethodImpl(Inline), Op]
-        public static ref readonly asci8 encode(ReadOnlySpan<char> src, out asci8 dst)
-        {
-            dst = default;
-            AsciSymbols.codes(src, span<asci8,AsciCode>(ref dst));
-            return ref dst;
-        }
     }
 }

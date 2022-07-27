@@ -82,54 +82,6 @@ namespace Z0
         public static ReadOnlySpan<AsciSymbol> symbols(in asci4 src)
             => recover<AsciSymbol>(core.bytes(src));
 
-        [MethodImpl(Inline), Op]
-        public static ReadOnlySpan<char> decode(in asci4 src)
-        {
-            var storage = 0ul;
-            ref var dst = ref @as<ulong,char>(storage);
-            seek(dst, 0) = (char)(byte)(src.Storage >> 0);
-            seek(dst, 1) = (char)(byte)(src.Storage >> 8);
-            seek(dst, 2) = (char)(byte)(src.Storage >> 16);
-            seek(dst, 3) = (char)(byte)(src.Storage >> 24);
-            return slice(core.cover(dst, asci4.Size),0, src.Length);
-        }
-
-        /// <summary>
-        /// Returns the index of the first source element that matches a specified value
-        /// </summary>
-        /// <param name="src">The source sequence</param>
-        /// <param name="match">The value to match</param>
-        [MethodImpl(Inline), Op]
-        public static int index(in asci4 src, byte match)
-            => search(@byte(edit(src)), src.Capacity, match);
-
-        /// <summary>
-        /// Returns the index of the first source element that matches a specified value
-        /// </summary>
-        /// <param name="src">The source sequence</param>
-        /// <param name="match">The value to match</param>
-        [MethodImpl(Inline), Op]
-        public static int index(in asci4 src, char match)
-            => search(@byte(edit(src)), src.Capacity, (byte)match);
-
-        /// <summary>
-        /// Returns the index of the first source element that matches a specified value
-        /// </summary>
-        /// <param name="src">The source sequence</param>
-        /// <param name="match">The value to match</param>
-        [MethodImpl(Inline), Op]
-        public static int index(in asci4 src, AsciCode match)
-            => search(@byte(edit(src)), src.Capacity, (byte)match);
-
-        /// <summary>
-        /// Returns the index of the first source element that matches a specified value
-        /// </summary>
-        /// <param name="src">The source sequence</param>
-        /// <param name="match">The value to match</param>
-        [MethodImpl(Inline), Op]
-        public static int index(in asci8 src, char match)
-            => search(@byte(edit(src)), src.Capacity, (byte)match);
-
         /// <summary>
         /// Encodes a 3-character asci sequence
         /// </summary>
@@ -138,7 +90,7 @@ namespace Z0
         /// <param name="c">The third asci code</param>
         [MethodImpl(Inline), Op]
         public static asci4 define(AsciCode a, AsciCode b, AsciCode c)
-            => new asci4(AsciSymbols.pack(a, b, c, out var _ ));
+            => new asci4(Asci.pack(a, b, c, out var _ ));
 
         /// <summary>
         /// Encodes a 4-character asci sequence
@@ -149,74 +101,6 @@ namespace Z0
         /// <param name="d">The fourth asci code</param>
         [MethodImpl(Inline), Op]
         public static asci4 define(AsciCode c0, AsciCode c1, AsciCode c2, AsciCode c3)
-            => new asci4(AsciSymbols.pack(c0,c1,c2,c3, out var dst));
-
-        /// <summary>
-        /// Encodes a 3-character asci sequence as a <see cref='asci4'/> value
-        /// </summary>
-        /// <param name="a">The first asci character</param>
-        /// <param name="b">The second asci character</param>
-        /// <param name="c">The third asci character</param>
-        [MethodImpl(Inline), Op]
-        public static asci4 encode(N4 n, char a, char b, char c)
-            => new asci4(AsciSymbols.pack((AsciCode)a, (AsciCode)b, (AsciCode)c, out var _ ));
-
-        /// <summary>
-        /// Encodes a 4-character asci sequence as a <see cref='asci4'/> value
-        /// </summary>
-        /// <param name="a">The first asci character</param>
-        /// <param name="b">The second asci character</param>
-        [MethodImpl(Inline), Op]
-        public static asci4 encode(N4 n, char a, char b, char c, char d)
-            => new asci4(AsciSymbols.pack((AsciCode)a, (AsciCode)b, (AsciCode)c, (AsciCode)d, out var _ ));
-
-        /// <summary>
-        /// Populates an asci target with a specified number of source characters
-        /// </summary>
-        /// <param name="src">The data source</param>
-        /// <param name="count">The number of characters to encode</param>
-        /// <param name="dst">The receiver</param>
-        [MethodImpl(Inline), Op]
-        public static ref readonly asci4 encode(in char src, byte count, out asci4 dst)
-        {
-            dst = asci4.Null;
-            ref var storage = ref Unsafe.As<asci4,AsciCode>(ref dst);
-            codes(src, (byte)count, ref storage);
-            return ref dst;
-        }
-
-        /// <summary>
-        /// Populates a 4-code asci block from the leading cells of a character span
-        /// </summary>
-        /// <param name="src">The data source</param>
-        /// <param name="dst">The target block</param>
-        [MethodImpl(Inline), Op]
-        public static ref readonly asci4 encode(ReadOnlySpan<char> src, out asci4 dst)
-        {
-            dst = default;
-            codes(src, span<asci4,AsciCode>(ref dst));
-            return ref dst;
-        }
-
-
-        /// <summary>
-        /// Populates a 4-code asci block from the leading cells of a character span
-        /// </summary>
-        /// <param name="src">The data source</param>
-        [MethodImpl(Inline), Op]
-        public static asci4 encode(N4 n, ReadOnlySpan<char> src)
-            => encode(src, out asci4 dst);
-
-        /// <summary>
-        /// Populates a 4-code asci block from the leading cells of a character span
-        /// </summary>
-        /// <param name="src">The data source</param>
-        [MethodImpl(Inline), Op]
-        public static ref ByteBlock4 encode(ReadOnlySpan<char> src, ref ByteBlock4 dst)
-        {
-            AsciSymbols.encode(src, dst.Bytes);
-            return ref dst;
-        }
-
-    }
+            => new asci4(Asci.pack(c0,c1,c2,c3, out var dst));
+   }
 }

@@ -17,6 +17,12 @@ namespace Z0
             Data = src;
         }
 
+        public uint Count
+        {
+            [MethodImpl(Inline)]
+            get => Data.Count;
+        }
+
         [MethodImpl(Inline)]
         public ref readonly Setting64 Command(uint index)
             => ref Data[index];

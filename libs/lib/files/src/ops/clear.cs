@@ -6,6 +6,8 @@ namespace Z0
 {
     using System.IO;
 
+    using static Algs;
+
     partial struct FS
     {
         public static void clear(FS.FolderPath src, bool recurse = false)
@@ -29,7 +31,7 @@ namespace Z0
 
         public static FS.Files clear(FS.Files src)
         {
-            var dst = core.list<FS.FilePath>();
+            var dst = list<FS.FilePath>();
             foreach(var file in src)
             {
                 if(file.Exists)

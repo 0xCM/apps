@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface ISettingKey<K> : ITextual
+    public interface ISettingKey<K> : IExpr
         where K : ISettingKey<K>
     {
         bool Parse(string src, out K dst);

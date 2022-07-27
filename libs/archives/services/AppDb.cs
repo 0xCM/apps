@@ -10,7 +10,7 @@ namespace Z0
 
     public class AppDb : IAppDb
     {
-        public static readonly Timestamp Ts = core.now();
+        public static readonly Timestamp Ts = Algs.timestamp();
 
         public static AppDb Service => Instance;
 
@@ -19,17 +19,11 @@ namespace Z0
         public IDbSources Settings()
             => DbRoot().Sources("settings");
 
-        public FS.FilePath Settings(string name, FileKind kind)
+        public FS.FilePath SettingsPath(string name, FileKind kind)
             => Settings().Path(name,kind);
 
-        public IDbSources Configs()
-            => new DbSources(DbRoot().Root + FS.folder("settings"));
-
-        public IDbSources DbProjects()
-            => DbRoot().Sources("projects");
-
-        public FS.FilePath ConfigPath<S>()
-            => Configs().Path(Z0.Settings.name<S>(), FileKind.Config);
+        public FS.FilePath SettingsPath<S>(FileKind kind)
+            => Settings().Path(Z0.Settings.name<S>(), kind);
 
         public IDbSources Archives()
             => new DbSources(setting(WsArchives.Path(Names.Archives), FS.dir));
@@ -50,7 +44,7 @@ namespace Z0
             => Repos().Sources(scope);
 
         public EnvVars<string> LoadEnv(string name)
-            => ToolEnv.vars(WsArchives.EnvPath(name));
+            => Z0.Settings.env(WsArchives.EnvPath(name));
 
         public IDbTargets DbOut(string scope)
             => DbOut().Targets(scope);

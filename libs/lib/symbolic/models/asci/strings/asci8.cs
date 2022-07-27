@@ -9,6 +9,7 @@ namespace Z0
     using W = W64;
     using S = System.UInt64;
     using C = AsciCode;
+
     using api = Asci;
 
     /// <summary>

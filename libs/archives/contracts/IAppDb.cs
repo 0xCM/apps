@@ -4,7 +4,26 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IAppDb
+    public interface IDbSettings
+    {
+        IDbSources Settings();
+
+        FS.FilePath SettingsPath(string name, FileKind kind);
+
+        FS.FilePath SettingsPath<S>(FileKind kind);
+    }
+
+    public interface IDbEtl
+    {
+        IWsProject EtlSource(ProjectId src);
+
+        IDbTargets EtlTargets(ProjectId src);
+
+        FS.FilePath EtlTable<T>(ProjectId project)
+            where T : struct;
+    }
+
+    public interface IAppDb : IDbSettings, IDbEtl
     {
         IDbSources DbIn();
 
@@ -19,14 +38,5 @@ namespace Z0
         IDbTargets Logs();
 
         IDbTargets Logs(string scope);
-
-        IWsProject EtlSource(ProjectId src);
-
-        IDbTargets EtlTargets(ProjectId src);
-
-        FS.FilePath EtlTable<T>(ProjectId project)
-            where T : struct;
-
-        IDbSources Configs();
     }
 }

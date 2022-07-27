@@ -11,7 +11,7 @@ namespace Z0
     partial struct SymbolicQuery
     {
         [MethodImpl(Inline), Op]
-        public static uint LeadingWhitespaceCount(ReadOnlySpan<byte> src)
+        public static uint wslead(ReadOnlySpan<byte> src)
         {
             var counter = 0u;
             var count = src.Length;

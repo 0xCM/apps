@@ -52,12 +52,10 @@ namespace Z0
         public static SettingLookup parse(ReadOnlySpan<string> src, char sep)
         {
             var count = src.Length;
-
-            var buffer = sys.alloc<Setting>(count);
-            ref var dst = ref first(buffer);
+            var dst = sys.alloc<Setting>(count);
             for(var i=0; i<count; i++)
                 seek(dst, i) = parse(skip(src,i), sep);
-            return buffer;
+            return new (dst);
         }
 
         [Parser]
@@ -106,7 +104,7 @@ namespace Z0
                     seek(dst, counter++) = new Setting(name, value);
                 }
             }
-            return slice(buffer,0,counter).ToArray();
+            return new(slice(buffer,0,counter).ToArray());
         }
 
         public static Outcome parse(string src, Type type, char sep, out Setting dst)

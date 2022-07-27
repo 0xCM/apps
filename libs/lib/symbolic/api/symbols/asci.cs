@@ -22,7 +22,7 @@ namespace Z0
             var hex = index.FormatHex(specifier:false);
             var desc = string.Format(RenderPattern,index, symbol, hex, bits);
             var width = desc.Length;
-            AsciSymbols.encode(desc, slice(dst,offset));
+            Asci.encode(desc, slice(dst,offset));
             return (uint)width;
         }
 
@@ -36,8 +36,8 @@ namespace Z0
             var desc = string.Format(RenderPattern,index, symbol, hex, bits);
             var width = desc.Length;
             var dst = alloc<byte>(width);
-            AsciSymbols.encode(desc, dst);
-            return AsciSymbols.seq(dst);
+            Asci.encode(desc, dst);
+            return Asci.seq(dst);
         }
     }
 }

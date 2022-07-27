@@ -4,21 +4,35 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Algs;
     using static Spans;
-
-    using static AsciSymbols;
-    using static AsciChars;
-
-    using C = AsciCode;
 
     partial struct Asci
     {
         [Op]
+        public static string format(ReadOnlySpan<AsciCode> src, Span<char> buffer)
+        {
+            var count = decode(src, buffer);
+            return sys.@string(Spans.slice(buffer,0, count));
+        }
+
+        [Op]
+        public static string format(ReadOnlySpan<byte> src, Span<char> dst)
+        {
+            var len = src.Length;
+            for(var i=0u; i<len; i++)
+                seek(dst, i) = (char)skip(src,i);
+            return sys.@string(slice(dst,0,len));
+        }
+
+        [Op]
+        public static string format(AsciSeq seq)
+            => format(seq.Codes);
+
+        [Op]
         public static string format(ReadOnlySpan<byte> src)
         {
             Span<char> dst = stackalloc char[src.Length];
-            AsciSymbols.decode(src, dst);
+            decode(src, dst);
             return new string(dst);
         }
 
@@ -26,7 +40,7 @@ namespace Z0
         public static string format(ReadOnlySpan<AsciCode> src)
         {
             Span<char> dst = stackalloc char[src.Length];
-            AsciSymbols.decode(src, dst);
+            decode(src, dst);
             return new string(dst);
         }
 
@@ -34,7 +48,7 @@ namespace Z0
         public static string format(ReadOnlySpan<AsciSymbol> src)
         {
             Span<char> dst = stackalloc char[src.Length];
-            AsciSymbols.decode(src, dst);
+            decode(src, dst);
             return new string(dst);
         }
     }

@@ -72,7 +72,7 @@ namespace Z0
         }
 
         public SettingLookup Config(FS.FilePath src)
-            => Settings.lookup(src,Chars.Colon);
+            => Settings.load(src,Chars.Colon);
 
         public ConstLookup<ToolIdOld,ToolHelpDoc> LoadHelpDocs(IDbSources src)
         {

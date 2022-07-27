@@ -6,7 +6,8 @@ namespace Z0
 {
     using System.Text;
 
-    using static core;
+    using static Algs;
+    using static Spans;
 
     partial class text
     {

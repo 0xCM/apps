@@ -7,7 +7,7 @@ namespace Z0
     using static Spans;
 
     using C = AsciCode;
-    using SQ = SymbolicQuery;
+    using S = AsciSymbol;
 
     partial struct SymbolicQuery
     {
@@ -65,18 +65,18 @@ namespace Z0
         public static int index(ReadOnlySpan<char> src, char match)
             => src.IndexOf(match);
 
-        [MethodImpl(Inline), Op]
-        public static int index(ReadOnlySpan<C> src, C match)
-        {
-            var count = src.Length;
-            for(var i=0; i<count; i++)
-                if(skip(src,i) == match)
-                    return i;
-            return NotFound;
-        }
+        // [MethodImpl(Inline), Op]
+        // public static int index(ReadOnlySpan<C> src, C match)
+        // {
+        //     var count = src.Length;
+        //     for(var i=0; i<count; i++)
+        //         if(skip(src,i) == match)
+        //             return i;
+        //     return NotFound;
+        // }
 
         [MethodImpl(Inline), Op]
-        public static int index(ReadOnlySpan<C> src, char match)
+        public static int index(ReadOnlySpan<C> src, S match)
         {
             var count = src.Length;
             for(var i=0; i<count; i++)
@@ -92,6 +92,5 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static int index(ReadOnlySpan<char> src, int offset, ReadOnlySpan<char> match)
             => slice(src, 0, offset).IndexOf(match);
-
     }
 }

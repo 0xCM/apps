@@ -39,10 +39,10 @@ namespace Z0
             => (S)this;
 
         BitWidth ISized.BitWidth
-            => core.nat32u<N>()*8;
+            => Typed.nat32u<N>()*8;
 
         ByteSize ISized.ByteCount
-            => core.nat32u<N>();
+            => Typed.nat32u<N>();
 
         int IByteSeq.Length
             => Content.Length;

@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     using N = N1;
     using C = AsciSymbol;
 
@@ -89,7 +87,7 @@ namespace Z0
             => Text;
 
         ReadOnlySpan<byte> IByteSeq.View
-            => bytes(this);
+            => core.bytes(this);
 
         bool INullity.IsEmpty
             => IsEmpty;
