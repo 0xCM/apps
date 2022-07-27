@@ -23,6 +23,9 @@ namespace Z0
             public ToolBoxCmd ToolBoxCmd(IWfRuntime wf)
                 => Service<ToolBoxCmd>(wf);
 
+            public ToolBoxSvc ToolBoxSvc(IWfRuntime wf)
+                => Service<ToolBoxSvc>(wf);
+
             public WsScripts WsScripts(IWfRuntime wf)
                 => Service<WsScripts>(wf);
 
@@ -52,5 +55,9 @@ namespace Z0
 
         public static CmdExec CmdExec(this IWfRuntime wf)
             => Services.CmdExec(wf);
+
+        public static ToolBoxSvc ToolBoxSvc(this IWfRuntime wf)
+            => Services.ToolBoxSvc(wf);
+
     }
 }

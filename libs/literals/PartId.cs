@@ -70,6 +70,11 @@ public enum PartId : byte
     [Symbol("cmd.tools")]
     CmdTools,
 
+    [Symbol("shell")]
+    Shell,
+
+    [Symbol("shell.cmd")]
+    ShellCmd,
 
     [Symbol("files")]
     Files,

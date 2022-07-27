@@ -11,7 +11,6 @@ namespace Z0
     {
         const byte FieldCount = ToolProfile.FieldCount;
 
-
         public IToolWs Workspace(Actor tool)
             => new ToolWs(AppDb.Toolbase().Sources(tool.Format()).Root);
 

@@ -4,11 +4,23 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IRootedArchive
+    public interface IRootedArchive : IExistential, ILocatable<FS.FolderPath>
     {
         FS.FolderPath Root {get;}
 
         DbArchive DbFiles => Root;
+
+        bool INullity.IsEmpty
+            => Root.IsEmpty;
+
+        bool INullity.IsNonEmpty
+            => Root.IsNonEmpty;
+
+        FS.FolderPath ILocatable<FS.FolderPath>.Location
+            => Root;
+
+        bool IExistential.Exists
+            => Root.Exists;
 
         IDbTargets Logs()
             => Targets("logs");
@@ -57,6 +69,12 @@ namespace Z0
         FS.Files Files(FS.FileExt ext)
             => DbFiles.Files(ext);
 
+        FolderPaths Folders(bool recurse = false)
+            => Root.Folders(recurse);
+
+        FS.FolderPath Folder(string match)
+            => Root.Folder(match);
+
         FS.Files Files(FileKind kind)
             => DbFiles.Files(kind, true);
 
@@ -81,7 +99,7 @@ namespace Z0
         FS.FilePath Path(string @class, string name, FileKind kind)
             => DbFiles.Path(@class, name, kind);
 
-        string Format()
+        string IExpr.Format()
             => DbFiles.Format();
 
         Deferred<FS.FileUri> Enumerate()

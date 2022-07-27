@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>zshell</AssemblyName>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+  </PropertyGroup>
+
+  <Import Project="$(ImportDefs)shells.props"/>
+
+  <ItemGroup>
+    <ProjectReference Include="$(ShellCmd)" />
+    <ProjectReference Include="$(CgLibs)" />
+    <ProjectReference Include="$(TestChecks)" />
+    <ProjectReference Include="$(TestUnits)" />
+
+  </ItemGroup>
+
+</Project>

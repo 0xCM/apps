@@ -88,6 +88,7 @@
 
     <Symbolics>$(SlnLibs)symbolics\z0.symbolics.csproj</Symbolics>
     <Sys>$(SlnLibs)sys\z0.sys.csproj</Sys>
+    <ShellCmd>$(SlnLibs)shell.cmd\z0.shell.cmd.csproj</ShellCmd>
 
     <Text>$(SlnLibs)text\z0.text.csproj</Text>
 
@@ -113,6 +114,8 @@
 
     <CgShell>$(CgRoot)cg.shell\z0.cg.shell.csproj</CgShell>
     <CgTest>$(CgRoot)cg.shell\z0.cg.shell.csproj</CgTest>
+
+
 
   </PropertyGroup>
 

@@ -36,12 +36,6 @@ namespace Z0
                 get => Name.Length;
             }
 
-            public ReadOnlySpan<char> PathData
-            {
-                [MethodImpl(Inline)]
-                get => Name.View;
-            }
-
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
@@ -83,8 +77,14 @@ namespace Z0
             public FolderPaths Folders(string match, bool recurse)
                 => Directory.Exists(Name) ? Directory.EnumerateDirectories(Name, match, options(recurse)).Array().Select(FS.dir) : FolderPaths.Empty;
 
-            public FolderPaths Folders(bool recurse)
+            public FolderPaths Folders(bool recurse = false)
                 => Directory.Exists(Name) ? Directory.EnumerateDirectories(Name).Array().Select(FS.dir) : FolderPaths.Empty;
+
+            public FolderPath Folder(string match)
+            {
+                var src = Folders(match,false);
+                return src.Count == 0 ? Empty : src.First;
+            }
 
             public FolderPaths TopFolders
                 => Folders("*.*", false);

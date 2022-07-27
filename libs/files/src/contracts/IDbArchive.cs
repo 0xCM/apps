@@ -6,6 +6,6 @@ namespace Z0
 {
     public interface IDbArchive : IDbSources, IDbTargets
     {
-
+        string Name => Root.Name;
     }
 }
