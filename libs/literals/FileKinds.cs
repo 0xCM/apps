@@ -150,6 +150,9 @@ namespace Z0
         [Symbol(map,"A configuration file that correlates line-ranges and records/entities")]
         Map,
 
+        [Symbol(impl_map)]
+        ImplMap,
+
         [Symbol(mcasm, "An asm file produced by the llvm-mc tool")]
         McAsm,
 

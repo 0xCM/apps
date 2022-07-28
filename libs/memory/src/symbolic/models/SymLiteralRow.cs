@@ -12,7 +12,7 @@ namespace Z0
     [Record(TableId), StructLayout(StructLayout)]
     public struct SymLiteralRow
     {
-        const string TableId = "symbolic.literals";
+        const string TableId = "api.symbols";
 
         public const byte FieldCount = 12;
 
@@ -121,6 +121,5 @@ namespace Z0
         /// </summary>
         [Render(1)]
         public SymIdentity Identity;
-
     }
 }

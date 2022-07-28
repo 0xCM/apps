@@ -6,7 +6,12 @@ namespace Z0
 {
     using Microsoft.CodeAnalysis;
 
-    public interface ICaSymbol : INullity, ITextual
+    public interface IDocXmlSource
+    {
+        @string DocXml();
+    }
+
+    public interface ICaSymbol : IExpr, IDocXmlSource
     {
         ISymbol Source {get;}
 
@@ -17,7 +22,8 @@ namespace Z0
 
         bool INullity.IsNonEmpty
             => Source != null;
-        string ITextual.Format()
+
+        string IExpr.Format()
             => Source?.ToDisplayString() ?? "<null>";
     }
 

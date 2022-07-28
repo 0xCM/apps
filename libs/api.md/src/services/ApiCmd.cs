@@ -6,8 +6,6 @@ namespace Z0
 {
     using static core;
 
-    using K = ApiMdKind;
-
     public class ApiCmd : AppCmdService<ApiCmd>
     {
         ApiMd ApiMd => Wf.ApiMd();
@@ -68,24 +66,37 @@ namespace Z0
         void EmitApiDeps()
             => ApiMd.Emitter().EmitApiDeps();
 
+        [CmdOp("api/emit/impls")]
+        void EmitImplMaps()
+        {
+            var src = Clr.impls(Z0.Parts.Lib.Assembly, Z0.Parts.Lib.Assembly);
+            using var writer = AppDb.ApiTargets().Path("api.lib", FileKind.ImplMap).Utf8Writer();
+            for(var i=0; i<src.Count; i++)
+                src[i].Render(s => writer.WriteLine(s));
+        }
+
         [CmdOp("api/emit/heap")]
         void ApiEmitHeaps()
-            => ApiMemory.EmitSymHeap(Heaps.load(ApiMd.SymLits), ApiPack);
+            => ApiMemory.EmitSymHeap(Heaps.load(ApiMd.SymLits));
 
         [CmdOp("api/emit/index")]
         void EmitApiIndex()
             => ApiMd.Emitter().EmitApiIndex();
 
-        [CmdOp("api/parts")]
-        void Parts()
-            => iter(ApiMd.Parts, part => Write(part.Name));
+        [CmdOp("api/emit/tables")]
+        void EmitApiTables()
+            => ApiMd.Emitter().EmitApiTables();
 
-        [CmdOp("api/components")]
-        void Components()
-            => iter(ApiMd.Components, part => Write(part.GetSimpleName()));
+        [CmdOp("api/emit/symbols")]
+        void EmitApiSymbols()
+            => ApiMd.Emitter().EmitApiSymbols();
+
+        [CmdOp("api/emit/partlist")]
+        void Parts()
+            => ApiMd.Emitter().EmitPartList();
 
         [CmdOp("api/emit/comments")]
         void ApiEmitComments()
-            => ApiMd.Emitter().EmitComments();
+            => ApiMd.Emitter().EmitApiComments();
     }
 }

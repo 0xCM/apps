@@ -202,6 +202,9 @@ namespace Z0
             public bool Equals(PointerTypeSymbol src)
                 => Source.Equals(src.Source);
 
+            public @string DocXml()
+                => GetDocumentationCommentXml();
+
             public override string ToString()
                 => ToDisplayString();
         }

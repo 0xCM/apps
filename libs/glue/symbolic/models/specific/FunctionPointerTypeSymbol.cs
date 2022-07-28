@@ -222,6 +222,9 @@ namespace Z0
             public override string ToString()
                 => Format();
 
+            public @string DocXml()
+                => GetDocumentationCommentXml();
+
             public bool Equals(FunctionPointerTypeSymbol src)
                 => Source.Equals(src.Source);
          }

@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Globalization;
-    using System.Threading;
     using System.Linq;
 
     using static core;
@@ -48,16 +46,10 @@ namespace Z0
                 get => new NamespaceSymbol(Source.GlobalNamespace);
             }
 
-            ReadOnlySpan<IModuleSymbol> _Modules
-            {
-                [MethodImpl(Inline)]
-                get => Source.Modules.Array();
-            }
-
             public ReadOnlySpan<ModuleSymbol> Modules
             {
                 [MethodImpl(Inline)]
-                get => api.materialize(_Modules, default(ModuleSymbol));
+                get => api.materialize(Source.Modules.ToReadOnlySpan(), default(ModuleSymbol));
             }
 
             public ICollection<string> TypeNames
@@ -218,6 +210,9 @@ namespace Z0
                     .SelectMany(m => m.ReferencedAssemblies)
                     .Distinct()
                     .Array();
+
+            public @string DocXml()
+                => GetDocumentationCommentXml();
 
             [MethodImpl(Inline)]
             public static implicit operator AssemblySymbol(CaSymbol<IAssemblySymbol> src)

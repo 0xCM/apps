@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     public readonly partial struct Sqlite
     {
         static Identifier identifier(Identifier? id, FS.FileName file)

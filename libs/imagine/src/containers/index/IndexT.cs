@@ -198,4 +198,30 @@ namespace Z0
            get => new Index<T>(sys.empty<T>());
         }
     }
+
+    partial class XTend
+    {
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static bool Contains<T>(this T[] src, T match)
+            => src.ToHashSet().Contains(match);
+
+        // [MethodImpl(Inline), Op, Closures(Closure)]
+        // public static bool Contains<T>(this T[] src, T match)
+        //     where T : IEquatable<T>
+        // {
+        //     var result = false;
+        //     for(var i=0; i<src.Length; i++)
+        //     {
+        //         result = skip(src,i).Equals(match);
+        //         if(result)
+        //             break;
+        //     }
+        //     return result;
+        // }
+
+        // [MethodImpl(Inline), Op, Closures(Closure)]
+        // public static bool Contains<T>(this Index<T> src, T match)
+        //     where T : IEquatable<T>
+        //         => src.Storage.Contains(match);
+    }
 }

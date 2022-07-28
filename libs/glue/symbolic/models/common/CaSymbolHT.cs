@@ -50,6 +50,12 @@ namespace Z0
         ISymbol ICaSymbol.Source
             => Source;
 
+        public string GetDocumentationCommentXml(CultureInfo preferredCulture = null, bool expandIncludes = false, CancellationToken cancellationToken = default)
+            => Source.GetDocumentationCommentXml(preferredCulture, expandIncludes, cancellationToken);
+
+        public @string DocXml()
+            => GetDocumentationCommentXml();
+
         [MethodImpl(Inline)]
         public static implicit operator CaSymbol<T>(CaSymbol<H,T> src)
             => new CaSymbol<T>(src.Source);

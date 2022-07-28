@@ -7,9 +7,9 @@ namespace Z0
     public readonly struct CaSymbolKey<T>
         where T : ICaSymbol
     {
-        public T Symbol {get;}
+        public readonly T Symbol;
 
-        public ulong Key {get;}
+        public readonly ulong Key;
 
         [MethodImpl(Inline)]
         public CaSymbolKey(T symbol, ulong key)

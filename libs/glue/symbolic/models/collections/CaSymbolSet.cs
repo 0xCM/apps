@@ -8,26 +8,25 @@ namespace Z0
 
     public ref struct CaSymbolSet
     {
-        internal CaSymbolSet(params MetadataReference[] metadata)
+        public CaSymbolSet(params MetadataReference[] metadata)
             : this()
         {
             Metadata = metadata;
-            Assemblies = sys.empty<AssemblySymbol>();
-            Types = sys.empty<TypeSymbol>();
-            Methods = sys.empty<MethodSymbol>();
-            Fields = sys.empty<FieldSymbol>();
+            Assemblies = default;
+            Types = default;
+            Methods = default;
+            Fields = default;
         }
 
-        public ReadOnlySpan<MetadataReference> Metadata {get;}
+        public readonly ReadOnlySpan<MetadataReference> Metadata;
 
-        public ReadOnlySpan<AssemblySymbol> Assemblies {get; internal set;}
+        public ReadOnlySpan<AssemblySymbol> Assemblies;
 
-        public ReadOnlySpan<TypeSymbol> Types {get; internal set;}
+        public ReadOnlySpan<TypeSymbol> Types;
 
-        public ReadOnlySpan<MethodSymbol> Methods {get; internal set;}
+        public ReadOnlySpan<MethodSymbol> Methods;
 
-        public ReadOnlySpan<FieldSymbol> Fields {get; internal set;}
-
+        public ReadOnlySpan<FieldSymbol> Fields;
 
         public static CaSymbolSet Empty => default;
     }

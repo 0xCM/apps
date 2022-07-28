@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    //using OmniSharp.Models.TypeLookup;
-
     using static core;
 
     using api = CaSymbols;
@@ -21,6 +19,7 @@ namespace Z0
             {
                 Source = src;
             }
+
 
             public bool IsEmpty
             {
@@ -39,12 +38,6 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get=> Source.Locations.AsSpan();
             }
-
-            // public DocumentationComment Docs
-            // {
-            //     [MethodImpl(Inline)]
-            //     get => api.docs(Source);
-            // }
 
             public MethodKind MethodKind
             {
@@ -315,10 +308,7 @@ namespace Z0
                 =>  Source.GetTypeInferredDuringReduction(reducedFromTypeParameter);
 
             public IMethodSymbol ReduceExtensionMethod(ITypeSymbol receiverType)
-            {
-                return Source.ReduceExtensionMethod(receiverType);
-            }
-
+                => Source.ReduceExtensionMethod(receiverType);
             public ImmutableArray<AttributeData> GetReturnTypeAttributes()
                 => Source.GetReturnTypeAttributes();
 
@@ -381,6 +371,9 @@ namespace Z0
 
             public override string ToString()
                 => Format();
+
+            public @string DocXml()
+                => GetDocumentationCommentXml();
 
             [MethodImpl(Inline)]
             public static implicit operator MethodSymbol(CaSymbol<IMethodSymbol> src)

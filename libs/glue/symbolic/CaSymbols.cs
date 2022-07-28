@@ -4,11 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    // using OmniSharp.Roslyn.CSharp.Services.Documentation;
-    // using OmniSharp.Models.TypeLookup;
-
     using static CaSymbolModels;
-    using static XmlParts;
     using static core;
 
     [ApiHost]
@@ -80,13 +76,5 @@ namespace Z0
         public static CaSymbol<T> define<T>(T src)
             where T : ISymbol
                 => new CaSymbol<T>(src);
-
-        // [MethodImpl(Inline), Op]
-        // public static DocumentationComment docs(XmlText xml)
-        //     => DocumentationConverter.GetStructuredDocumentation(xml.Value, "\n");
-
-        // [MethodImpl(Inline), Op]
-        // public static DocumentationComment docs(ISymbol src)
-        //     => DocumentationConverter.GetStructuredDocumentation(src);
-    }
+   }
 }

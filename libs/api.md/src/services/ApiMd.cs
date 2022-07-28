@@ -5,13 +5,14 @@
 namespace Z0
 {
     using static core;
-    using static ApiAtomic;
 
     using K = ApiMdKind;
 
     public sealed partial class ApiMd : WfSvc<ApiMd>
     {
         ModuleArchives Modules => Wf.ModuleArchives();
+
+        ApiCatalogs ApiCatalogs => Wf.ApiCatalogs();
 
         IDbTargets ApiTargets()
             => AppDb.ApiTargets();
@@ -141,50 +142,50 @@ namespace Z0
         internal void EmitAssetEntries(ReadOnlySeq<AssetCatalogEntry> src)
             => TableEmit(src, AppDb.ApiTargets().Table<AssetCatalogEntry>());
 
-        public ApiHostCatalog HostCatalog(IApiHost src)
-        {
-            var members = ClrJit.members(src, EventLog);
-            return members.Length == 0 ? ApiHostCatalog.Empty : new ApiHostCatalog(src, members);
-        }
+        // public ApiHostCatalog HostCatalog(IApiHost src)
+        // {
+        //     var members = ClrJit.members(src, EventLog);
+        //     return members.Length == 0 ? ApiHostCatalog.Empty : new ApiHostCatalog(src, members);
+        // }
 
-        internal Index<ApiHostCatalog> HostCatalogs(IApiPartCatalog src)
-        {
-            var running = Running($"Computing {src.PartId.Format()} members");
-            var catalogs = src.ApiHosts.Map(HostCatalog);
-            Ran(running, $"Computed mebers for {catalogs.Length} {src.PartId.Format()} hosts");
-            return catalogs;
-        }
+        // internal Index<ApiHostCatalog> HostCatalogs(IApiPartCatalog src)
+        // {
+        //     var running = Running($"Computing {src.PartId.Format()} members");
+        //     var catalogs = src.ApiHosts.Map(ApiCatalogs.HostCatalog);
+        //     Ran(running, $"Computed mebers for {catalogs.Length} {src.PartId.Format()} hosts");
+        //     return catalogs;
+        // }
 
-        internal ConcurrentDictionary<PartId,Index<ApiHostCatalog>> HostCatalogs()
-        {
-            var dst = cdict<PartId, Index<ApiHostCatalog>>();
-            iter(Catalog.PartCatalogs(), part => dst.TryAdd(part.PartId, HostCatalogs(part)), true);
-            return dst;
-        }
+        // internal ConcurrentDictionary<PartId,Index<ApiHostCatalog>> HostCatalogs()
+        // {
+        //     var dst = cdict<PartId, Index<ApiHostCatalog>>();
+        //     iter(Catalog.PartCatalogs(), part => dst.TryAdd(part.PartId, HostCatalogs(part)), true);
+        //     return dst;
+        // }
 
-        public ReadOnlySeq<ApiRuntimeMember> CalcRuntimeMembers()
-        {
-            var src = HostCatalogs();
-            var dst = bag<ApiRuntimeMember>();
-            iter(src.Values.Array().SelectMany(x => x), catalog => {
-                var members = catalog.Members;
-                for(var i=0; i<members.Count; i++)
-                {
-                    var row = default(ApiRuntimeMember);
-                    ref readonly var member = ref members[i];
-                    row.Part = member.Host.Part;
-                    row.Token = member.Msil.Token;
-                    row.Address = member.BaseAddress;
-                    row.DisplaySig = Clr.display(member.Method.Artifact());
-                    row.Uri = member.OpUri;
-                    dst.Add(row);
-                }
-            },true);
-            return dst.Array().Sort().Resequence();
-        }
+        // public ReadOnlySeq<ApiRuntimeMember> CalcRuntimeMembers()
+        // {
+        //     var src = HostCatalogs();
+        //     var dst = bag<ApiRuntimeMember>();
+        //     iter(src.Values.Array().SelectMany(x => x), catalog => {
+        //         var members = catalog.Members;
+        //         for(var i=0; i<members.Count; i++)
+        //         {
+        //             var row = default(ApiRuntimeMember);
+        //             ref readonly var member = ref members[i];
+        //             row.Part = member.Host.Part;
+        //             row.Token = member.Msil.Token;
+        //             row.Address = member.BaseAddress;
+        //             row.DisplaySig = Clr.display(member.Method.Artifact());
+        //             row.Uri = member.OpUri;
+        //             dst.Add(row);
+        //         }
+        //     },true);
+        //     return dst.Array().Sort().Resequence();
+        // }
 
-        public void EmitIndex(Index<ApiRuntimeMember> src)
-            => TableEmit(src, AppDb.ApiTargets().Table<ApiRuntimeMember>(), TextEncodingKind.Utf8);
+        // public void EmitIndex(Index<ApiRuntimeMember> src)
+        //     => TableEmit(src, AppDb.ApiTargets().Table<ApiRuntimeMember>(), TextEncodingKind.Utf8);
 
         internal void EmitApiCommands()
             => Emit(ApiCommands);
@@ -333,7 +334,7 @@ namespace Z0
             return counter;
         }
 
-        internal ReadOnlySeq<ApiTableField> CalcTableFields()
+        ReadOnlySeq<ApiTableField> CalcTableFields()
         {
             var tables = ApiTableTypes;
             var count = CountFields(tables);

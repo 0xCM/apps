@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     using api = CaSymbols;
 
     public readonly struct CaSymbol : ICaSymbol
@@ -232,6 +231,9 @@ namespace Z0
 
         public override string ToString()
             => Format();
+
+        public @string DocXml()
+            => GetDocumentationCommentXml();
 
         public static CaSymbol Empty
         {

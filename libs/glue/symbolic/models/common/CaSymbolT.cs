@@ -9,7 +9,7 @@ namespace Z0
     public readonly struct CaSymbol<T> : ICaSymbol<T>
         where T : ISymbol
     {
-        public T Source {get;}
+        public readonly T Source {get;}
 
         [MethodImpl(Inline)]
         public CaSymbol(T src)
@@ -64,6 +64,12 @@ namespace Z0
 
         public override string ToString()
             => Format();
+
+        public string GetDocumentationCommentXml(CultureInfo preferredCulture = null, bool expandIncludes = false, CancellationToken cancellationToken = default)
+            => Source.GetDocumentationCommentXml(preferredCulture, expandIncludes, cancellationToken);
+
+        public @string DocXml()
+            => GetDocumentationCommentXml();
 
         [MethodImpl(Inline)]
         public static implicit operator CaSymbol(CaSymbol<T> src)

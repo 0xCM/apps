@@ -4,25 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Microsoft.CodeAnalysis;
-    using Microsoft.CodeAnalysis.CSharp;
-
-    using static XmlParts;
-
-    // using OmniSharp.Roslyn.CSharp.Services.Documentation;
-    // using OmniSharp.Models.TypeLookup;
-
     [ApiHost]
-    public sealed class Roslyn : AppService<Roslyn>
+    public sealed class Roslyn : WfSvc<Roslyn>
     {
         [Op]
         public CaCompilation<CSharpCompilation> Compilation(string name, params MetadataReference[] refs)
             => CSharpCompilation.Create(name, references: refs);
-
-        // public DocumentationComment GetDocs(XmlText xml)
-        //     => DocumentationConverter.GetStructuredDocumentation(xml.Value, "\n");
-
-        // public DocumentationComment GetDocs(ISymbol src)
-        //     => DocumentationConverter.GetStructuredDocumentation(src);
     }
 }

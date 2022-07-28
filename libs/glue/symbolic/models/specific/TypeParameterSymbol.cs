@@ -229,6 +229,9 @@ namespace Z0
             public override string ToString()
                 => Format();
 
+            public @string DocXml()
+                => GetDocumentationCommentXml();
+
             [MethodImpl(Inline)]
             public static implicit operator TypeParameterSymbol(CaSymbol<ITypeParameterSymbol> src)
                 => new TypeParameterSymbol(src.Source);

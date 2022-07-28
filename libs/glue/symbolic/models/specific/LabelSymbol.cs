@@ -112,7 +112,10 @@ namespace Z0
              public bool Equals(LabelSymbol src)
                 => Source.Equals(src.Source);
 
-             [MethodImpl(Inline)]
+             public @string DocXml()
+                => GetDocumentationCommentXml();
+
+            [MethodImpl(Inline)]
              public static implicit operator LabelSymbol(CaSymbol<ILabelSymbol> src)
                 => new LabelSymbol(src.Source);
 

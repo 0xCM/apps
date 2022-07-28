@@ -10,9 +10,47 @@ namespace Z0
 
     public class ApiCatalogs : WfSvc<ApiCatalogs>
     {
-        ApiMd ApiMd => Wf.ApiMd();
-
         ApiHex ApiHex => Wf.ApiHex();
+
+        public IApiCatalog Catalog
+            => ApiRuntimeCatalog;
+
+        public Index<ApiHostCatalog> HostCatalogs(IApiPartCatalog src)
+            => src.ApiHosts.Map(HostCatalog);
+
+        public ApiHostCatalog HostCatalog(IApiHost src)
+        {
+            var members = ClrJit.members(src, EventLog);
+            return members.Length == 0 ? ApiHostCatalog.Empty : new ApiHostCatalog(src, members);
+        }
+
+        ConcurrentDictionary<PartId,Index<ApiHostCatalog>> HostCatalogs()
+        {
+            var dst = cdict<PartId, Index<ApiHostCatalog>>();
+            iter(Catalog.PartCatalogs(), part => dst.TryAdd(part.PartId, HostCatalogs(part)), true);
+            return dst;
+        }
+
+        public ReadOnlySeq<ApiRuntimeMember> CalcRuntimeMembers()
+        {
+            var src = HostCatalogs();
+            var dst = bag<ApiRuntimeMember>();
+            iter(src.Values.Array().SelectMany(x => x), catalog => {
+                var members = catalog.Members;
+                for(var i=0; i<members.Count; i++)
+                {
+                    var row = default(ApiRuntimeMember);
+                    ref readonly var member = ref members[i];
+                    row.Part = member.Host.Part;
+                    row.Token = member.Msil.Token;
+                    row.Address = member.BaseAddress;
+                    row.DisplaySig = Clr.display(member.Method.Artifact());
+                    row.Uri = member.OpUri;
+                    dst.Add(row);
+                }
+            },true);
+            return dst.Array().Sort().Resequence();
+        }
 
         public void Emit(ApiMembers src, IApiPack dst)
         {
@@ -118,7 +156,7 @@ namespace Z0
                     if(hexpath.Exists)
                     {
                         Require.invariant(ApiRuntimeCatalog.FindHost(srcHost.HostUri, out var host));
-                        Correlate(ApiMd.HostCatalog(host), ApiHex.ReadBlocks(hexpath), code, records);
+                        Correlate(HostCatalog(host), ApiHex.ReadBlocks(hexpath), code, records);
                     }
                 }
                 Ran(inner);

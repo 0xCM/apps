@@ -16,6 +16,8 @@ namespace Z0
 
         ApiComments Comments => Wf.ApiComments();
 
+        ApiCatalogs ApiCatalogs => Wf.ApiCatalogs();
+
         internal static ApiMdEmitter create(IWfRuntime wf, ApiMd md, IApiPack dst)
         {
             var svc = create(wf);
@@ -30,11 +32,11 @@ namespace Z0
             var symlits = Symbolic.symlits(components);
             exec(true,
                 Md.EmitDataFlows,
-                () => EmitComments(),
+                () => EmitComments(Target),
                 () => Md.EmitAssets(),
                 () => EmitSymLits(symlits),
                 () => Md.EmitApiLiterals(Symbolic.apilits(components)),
-                EmitApiDeps,
+                () => EmitApiDeps(Target),
                 Md.EmitParsers,
                 Md.EmitApiTables,
                 Md.EmitApiCommands,
@@ -43,14 +45,20 @@ namespace Z0
             );
         }
 
+        public void EmitPartList()
+        {
+            var dst = text.emitter();
+            var src = Md.Components.Index();
+            for(var i=0; i<src.Count; i++)
+                dst.AppendLine(src[i].GetName().FullName);
+            FileEmit(dst.Emit(), AppDb.ApiTargets().Path("api.parts", FileKind.List));
+        }
+
         public void EmitApiIndex()
-            => Emit(Md.CalcRuntimeMembers());
+            => Emit(ApiCatalogs.CalcRuntimeMembers());
 
         public void EmitApiTables()
             => Emit(Md.ApiTableFields);
-
-        public void EmitComments()
-            => Comments.Collect(Target);
 
         public void EmitTokens()
             => EmitApiTokens(CalcApiTokens());
@@ -64,8 +72,20 @@ namespace Z0
             EmitTypeList("api.types.records", Md.ApiTableTypes);
         }
 
+        public void EmitApiComments()
+            => Comments.Collect(AppDb.ApiTargets(comments));
+
         public void EmitApiDeps()
-            => iter(sys.array(ExecutingPart.Component), EmitApiDeps,true);
+            => iter(sys.array(ExecutingPart.Component), a => EmitApiDeps(a, AppDb.ApiTargets().Path($"{a.GetSimpleName()}", FileKind.DepsList)), true);
+
+        public void EmitApiSymbols()
+            => TableEmit(Symbolic.symlits(Md.Components), AppDb.ApiTargets().Table<SymLiteralRow>(), UTF16);
+
+        void EmitComments(IApiPack dst)
+            => Comments.Collect(dst);
+
+        void EmitApiDeps(IApiPack dst)
+            => iter(sys.array(ExecutingPart.Component), a => EmitApiDeps(a,Target.Runtime().Path($"{a.GetSimpleName()}", FileKind.DepsList)), true);
 
         void EmitTokens(Type src)
         {
@@ -84,21 +104,18 @@ namespace Z0
             FileEmit(dst.Emit(), src.Length, path);
         }
 
-        void EmitApiDeps(Assembly src)
+        void EmitApiDeps(Assembly src, FS.FilePath dst)
         {
             var deps = JsonDeps.load(src);
             var buffer = list<string>();
             iteri(deps.RuntimeLibs(), (i,lib) => buffer.Add(string.Format("{0:D4}:{1}",i,lib)));
             var emitter = text.emitter();
             iter(buffer, line => emitter.AppendLine(line));
-            FileEmit(emitter.Emit(), buffer.Count, Target.Runtime().Path($"{src.GetSimpleName()}", FileKind.DepsList));
+            FileEmit(emitter.Emit(), buffer.Count, dst);
         }
 
         void EmitSymLits(ReadOnlySpan<SymLiteralRow> src)
             => TableEmit(src, Target.Metadata().Path("api.symbols", FileKind.Csv), TextEncodingKind.Unicode);
-
-        void Emit(ReadOnlySpan<ApiTableField> src)
-            => TableEmit(src, AppDb.ApiTargets().Table<ApiTableField>());
 
         ConstLookup<Name,ReadOnlySeq<SymInfo>> CalcApiTokens()
             => Symbols.lookup(Md.EnumTypes.Tagged<SymSourceAttribute>());
@@ -107,13 +124,17 @@ namespace Z0
         {
             var names = src.Keys;
             for(var i=0; i<names.Length; i++)
-                EmitApiTokens(skip(names,i), src[skip(names,i)]);
+                Emit(skip(names,i), src[skip(names,i)]);
         }
+
+        void Emit(ReadOnlySpan<ApiTableField> src)
+            => TableEmit(src, AppDb.ApiTargets().Table<ApiTableField>());
+
 
         void Emit(ReadOnlySpan<ApiRuntimeMember> src)
             => TableEmit(src, AppDb.ApiTargets().Table<ApiRuntimeMember>(), TextEncodingKind.Utf8);
 
-        void EmitApiTokens(Name name, ReadOnlySeq<SymInfo> src)
+        void Emit(Name name, ReadOnlySeq<SymInfo> src)
             => TableEmit(src, Md.ApiTargets(tokens).PrefixedTable<SymInfo>(name), TextEncodingKind.Unicode);
     }
 }

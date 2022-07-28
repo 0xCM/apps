@@ -6,12 +6,10 @@
   </PropertyGroup>
 
   <Import Project="$(ImportDefs)microsoft.codeanalysis.props"/>
+  <Import Project="$(ImportDefs)usings.props"/>
 
   <ItemGroup>
-      <ProjectReference Include="$(AsmCore)"/>
-      <ProjectReference Include="$(Diagnostics)"/>
-      <ProjectReference Include="$(CsLang)"/>
-      <ProjectReference Include="$(Cli)"/>
+      <ProjectReference Include="$(ApiMd)"/>
   </ItemGroup>
 
 </Project>

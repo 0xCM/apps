@@ -6,9 +6,9 @@ namespace Z0
 {
     public readonly struct CaSymbolKey
     {
-        public CaSymbol Symbol {get;}
+        public readonly CaSymbol Symbol;
 
-        public ulong Key {get;}
+        public readonly ulong Key;
 
         [MethodImpl(Inline)]
         public CaSymbolKey(CaSymbol symbol, ulong key)

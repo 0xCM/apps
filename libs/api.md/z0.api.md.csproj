@@ -9,12 +9,10 @@
   <Import Project="$(ImportDefs)usings.props"/>
 
   <ItemGroup>
-    <ProjectReference Include="$(CmdSvc)" />
     <ProjectReference Include="$(Archives)" />
-    <ProjectReference Include="$(Memory)" />
     <ProjectReference Include="$(MemorySvc)" />
-    <ProjectReference Include="$(Dynamic)" />
     <ProjectReference Include="$(Assets)" />
+    <ProjectReference Include="$(Dynamic)" />
   </ItemGroup>
 
 </Project>

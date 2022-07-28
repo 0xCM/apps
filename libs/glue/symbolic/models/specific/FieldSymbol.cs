@@ -137,6 +137,9 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
+            public @string DocXml()
+                => GetDocumentationCommentXml();
+
             public static implicit operator FieldSymbol(CaSymbol<IFieldSymbol> src)
                 => new FieldSymbol(src.Source);
          }

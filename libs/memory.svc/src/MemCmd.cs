@@ -11,8 +11,6 @@ namespace Z0
     [Free]
     public unsafe class MemCmd : CmdService<MemCmd>
     {
-        ApiMemory ApiMemory => Wf.ApiMemory();
-
         ImageRegions Regions => Wf.ImageRegions();
 
         IApiPack Dst => ApiPacks.create();
@@ -75,13 +73,13 @@ namespace Z0
             TableEmit(src, dst);
         }
 
-        [CmdOp("api/impls")]
-        void EmitImplMaps()
-        {
-            var src = Clr.impls(Parts.Lib.Assembly, Parts.Lib.Assembly);
-            using var writer = AppDb.ApiTargets().Path("api.impl.maps", FileKind.Map).Utf8Writer();
-            for(var i=0; i<src.Count; i++)
-                src[i].Render(s => writer.WriteLine(s));
-        }
+        // [CmdOp("api/emit/impls")]
+        // void EmitImplMaps()
+        // {
+        //     var src = Clr.impls(Parts.Lib.Assembly, Parts.Lib.Assembly);
+        //     using var writer = AppDb.ApiTargets().Path("api.impl.maps", FileKind.Map).Utf8Writer();
+        //     for(var i=0; i<src.Count; i++)
+        //         src[i].Render(s => writer.WriteLine(s));
+        // }
     }
 }

@@ -216,6 +216,9 @@ namespace Z0
                 }
             }
 
+            public @string DocXml()
+                => GetDocumentationCommentXml();
+
             [MethodImpl(Inline)]
             public static implicit operator NamespaceSymbol(CaSymbol<INamespaceSymbol> src)
                 => new NamespaceSymbol(src.Source);

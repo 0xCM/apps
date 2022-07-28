@@ -150,6 +150,9 @@ namespace Z0
             public override string ToString()
                 => Format();
 
+            public @string DocXml()
+                => GetDocumentationCommentXml();
+
             [MethodImpl(Inline)]
             public static implicit operator ModuleSymbol(CaSymbol<IModuleSymbol> src)
                 => new ModuleSymbol(src.Source);

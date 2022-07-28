@@ -2,9 +2,6 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-global using System;
-global using System.Collections.Generic;
-global using System.Collections.Concurrent;
 global using System.Collections.Immutable;
 global using System.Reflection;
 global using System.Reflection.Metadata;
@@ -22,9 +19,6 @@ global using Microsoft.CodeAnalysis.Emit;
 global using Microsoft.DiaSymReader;
 global using System.Diagnostics;
 global using static Z0.Root;
-global using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-global using ClrMd = Microsoft.Diagnostics.Runtime;
-
 [assembly: PartId(PartId.Glue)]
 
 namespace Z0.Parts

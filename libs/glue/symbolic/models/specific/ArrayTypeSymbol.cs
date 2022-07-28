@@ -228,6 +228,9 @@ namespace Z0
              public string Format()
                 => api.format(this);
 
+           public @string DocXml()
+                => GetDocumentationCommentXml();
+
             public override string ToString()
                 => Format();
         }

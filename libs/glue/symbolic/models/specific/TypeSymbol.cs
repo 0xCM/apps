@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    //using OmniSharp.Models.TypeLookup;
-
     using api = CaSymbols;
     using CA = Microsoft.CodeAnalysis;
 
@@ -229,6 +227,9 @@ namespace Z0
 
             public bool Equals(TypeSymbol src)
                 => Source.Equals(src.Source);
+
+            public @string DocXml()
+                => GetDocumentationCommentXml();
 
             [MethodImpl(Inline)]
             public static implicit operator TypeSymbol(CaSymbol<ITypeSymbol> src)

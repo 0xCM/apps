@@ -78,6 +78,7 @@ namespace Z0
 
         public const string imports = nameof(imports);
 
+        public const string impl = nameof(impl);
         public const string api = nameof(api);
 
         public const string bin = nameof(bin);
@@ -410,6 +411,11 @@ namespace Z0
 
         public const string dis = nameof(dis);
 
+        public const string exports = nameof(exports);
+
+        public const string loadconfig = nameof(loadconfig);
+
+        public const string impl_map = impl + Dot + map;
         public const string disasm = dis + Dot + asm;
 
         public const string located_hex = located + Dot + hex;
@@ -449,10 +455,6 @@ namespace Z0
         public const string dotbuild = Dot + build;
 
         public const string dotcmd = Dot + cmd;
-
-        public const string exports = nameof(exports);
-
-        public const string loadconfig = nameof(loadconfig);
 
         public const string cjson = config + Dot + json;
 

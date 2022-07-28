@@ -12,7 +12,7 @@ namespace Z0
     public readonly struct CaCompilation<T> : INullity
         where T : Compilation
     {
-        public T Source {get;}
+        public readonly T Source;
 
         [MethodImpl(Inline)]
         public CaCompilation(T src)

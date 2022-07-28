@@ -8,5 +8,8 @@ namespace Z0
     {
         public void EmitSymHeap(SymHeap src, IApiPack dst)
             => Heaps.emit(src, dst.Metadata().Table<SymHeapRecord>(), EventLog);
+
+        public void EmitSymHeap(SymHeap src)
+            => Heaps.emit(src, AppDb.ApiTargets().Table<SymHeapRecord>(), EventLog);
     }
 }

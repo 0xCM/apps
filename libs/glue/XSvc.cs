@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     public static partial class XTend
     {
 
@@ -13,17 +11,19 @@ namespace Z0
 
     public static partial class XSvc
     {
-        sealed class Svc : AppServices<Svc>
+        sealed class ServiceCache : AppServices<ServiceCache>
         {
             public SourceSymbolic SourceSymbolic(IWfRuntime wf)
                 => Service<SourceSymbolic>(wf);
+
+            public Roslyn Roslyn(IWfRuntime wf)
+                => Service<Roslyn>(wf);
         }
 
-        static Svc Services => Svc.Instance;
+        static ServiceCache Services => ServiceCache.Instance;
 
         public static Roslyn Roslyn(this IWfRuntime wf)
-            => Z0.Roslyn.create(wf);
-
+            => Services.Roslyn(wf);
         public static SourceSymbolic SourceSymbolic(this IWfRuntime wf)
             => Services.SourceSymbolic(wf);
     }
