@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Record(RecordId), StructLayout(StructLayout, Pack=1)]
-    public record struct TableField
+    public record struct ApiTableField
     {
         const string RecordId = "api.tables";
 

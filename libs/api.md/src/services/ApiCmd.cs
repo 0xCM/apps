@@ -16,7 +16,6 @@ namespace Z0
 
         IApiPack ApiPack => Z0.ApiPack.create();
 
-
         [CmdOp("api/packs/list")]
         void ListApiPacks()
         {
@@ -65,17 +64,17 @@ namespace Z0
             return result;
         }
 
-        [CmdOp("api/deps")]
+        [CmdOp("api/emit/deps")]
         void EmitApiDeps()
-            => ApiMd.Emitter(ApiPack).EmitApiDeps(sys.array(ExecutingPart.Component));
+            => ApiMd.Emitter().EmitApiDeps();
 
         [CmdOp("api/emit/heap")]
         void ApiEmitHeaps()
             => ApiMemory.EmitSymHeap(Heaps.load(ApiMd.SymLits), ApiPack);
 
         [CmdOp("api/emit/index")]
-        void EmitRuntimeMembers()
-            => ApiMd.EmitIndex(ApiMd.CalcRuntimeMembers());
+        void EmitApiIndex()
+            => ApiMd.Emitter().EmitApiIndex();
 
         [CmdOp("api/parts")]
         void Parts()
@@ -87,6 +86,6 @@ namespace Z0
 
         [CmdOp("api/emit/comments")]
         void ApiEmitComments()
-            => ApiMd.Emitter(ApiPack).EmitComments();
+            => ApiMd.Emitter().EmitComments();
     }
 }

@@ -28,15 +28,13 @@ namespace Z0
         {
             var components = Md.Components;
             var symlits = Symbolic.symlits(components);
-
             exec(true,
                 Md.EmitDataFlows,
                 () => EmitComments(),
                 () => Md.EmitAssets(),
                 () => EmitSymLits(symlits),
                 () => Md.EmitApiLiterals(Symbolic.apilits(components)),
-                () => EmitApiDeps(sys.array(ExecutingPart.Component)),
-
+                EmitApiDeps,
                 Md.EmitParsers,
                 Md.EmitApiTables,
                 Md.EmitApiCommands,
@@ -45,22 +43,20 @@ namespace Z0
             );
         }
 
-        public void EmitApiTokens(Type src)
-        {
-            var syms = Symbols.syminfo(src);
-            var name = src.Name.ToLower();
-            var dst = Target.PrefixedTable<SymInfo>("tokens" + "." +  name);
-            TableEmit(syms, dst, TextEncodingKind.Unicode);
-        }
+        public void EmitApiIndex()
+            => Emit(Md.CalcRuntimeMembers());
 
-        public void EmitApiTokens(ITokenGroup src)
-            => TableEmit(Symbols.syminfo(src.TokenTypes), Target.Table<SymInfo>($"{src.GroupName}"), TextEncodingKind.Unicode);
+        public void EmitApiTables()
+            => Emit(Md.ApiTableFields);
 
         public void EmitComments()
             => Comments.Collect(Target);
 
-        public void EmitApiDeps(ReadOnlySpan<Assembly> src)
-            => iter(src, EmitApiDeps, true);
+        public void EmitTokens()
+            => EmitApiTokens(CalcApiTokens());
+
+        public void EmitTokens(ITokenGroup src)
+            => TableEmit(Symbols.syminfo(src.TokenTypes), Target.Table<SymInfo>($"{src.GroupName}"), TextEncodingKind.Unicode);
 
         public void EmitTypeLists()
         {
@@ -68,7 +64,18 @@ namespace Z0
             EmitTypeList("api.types.records", Md.ApiTableTypes);
         }
 
-        public void EmitTypeList(string name, ReadOnlySpan<Type> src)
+        public void EmitApiDeps()
+            => iter(sys.array(ExecutingPart.Component), EmitApiDeps,true);
+
+        void EmitTokens(Type src)
+        {
+            var syms = Symbols.syminfo(src);
+            var name = src.Name.ToLower();
+            var dst = Target.PrefixedTable<SymInfo>("tokens" + "." +  name);
+            TableEmit(syms, dst, TextEncodingKind.Unicode);
+        }
+
+        void EmitTypeList(string name, ReadOnlySpan<Type> src)
         {
             var path = AppDb.ApiTargets().Path(name, FileKind.List);
             var dst = text.emitter();
@@ -77,7 +84,7 @@ namespace Z0
             FileEmit(dst.Emit(), src.Length, path);
         }
 
-        public void EmitApiDeps(Assembly src)
+        void EmitApiDeps(Assembly src)
         {
             var deps = JsonDeps.load(src);
             var buffer = list<string>();
@@ -87,7 +94,26 @@ namespace Z0
             FileEmit(emitter.Emit(), buffer.Count, Target.Runtime().Path($"{src.GetSimpleName()}", FileKind.DepsList));
         }
 
-        public void EmitSymLits(ReadOnlySpan<SymLiteralRow> src)
+        void EmitSymLits(ReadOnlySpan<SymLiteralRow> src)
             => TableEmit(src, Target.Metadata().Path("api.symbols", FileKind.Csv), TextEncodingKind.Unicode);
+
+        void Emit(ReadOnlySpan<ApiTableField> src)
+            => TableEmit(src, AppDb.ApiTargets().Table<ApiTableField>());
+
+        ConstLookup<Name,ReadOnlySeq<SymInfo>> CalcApiTokens()
+            => Symbols.lookup(Md.EnumTypes.Tagged<SymSourceAttribute>());
+
+        void EmitApiTokens(ConstLookup<Name,ReadOnlySeq<SymInfo>> src)
+        {
+            var names = src.Keys;
+            for(var i=0; i<names.Length; i++)
+                EmitApiTokens(skip(names,i), src[skip(names,i)]);
+        }
+
+        void Emit(ReadOnlySpan<ApiRuntimeMember> src)
+            => TableEmit(src, AppDb.ApiTargets().Table<ApiRuntimeMember>(), TextEncodingKind.Utf8);
+
+        void EmitApiTokens(Name name, ReadOnlySeq<SymInfo> src)
+            => TableEmit(src, Md.ApiTargets(tokens).PrefixedTable<SymInfo>(name), TextEncodingKind.Unicode);
     }
 }

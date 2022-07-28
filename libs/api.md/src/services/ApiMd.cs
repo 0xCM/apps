@@ -42,7 +42,7 @@ namespace Z0
         public Index<Type> ApiTableTypes
             => data(K.ApiTables, () => Components.Types().Tagged<RecordAttribute>().Index());
 
-        public Index<TableField> ApiTableFields
+        public ReadOnlySeq<ApiTableField> ApiTableFields
             => data(K.ApiTableFields, CalcTableFields);
 
         public ReadOnlySeq<SymLiteralRow> SymLits
@@ -62,6 +62,9 @@ namespace Z0
 
         public ApiParserLookup Parsers
             => data(K.Parsers, () => Z0.Parsers.contracted(Components));
+
+        public ApiMdEmitter Emitter()
+            => ApiMdEmitter.create(Wf, this, ApiPack.create());
 
         public ApiMdEmitter Emitter(IApiPack dst)
             => ApiMdEmitter.create(Wf, this, dst);
@@ -159,7 +162,7 @@ namespace Z0
             return dst;
         }
 
-        public Index<ApiRuntimeMember> CalcRuntimeMembers()
+        public ReadOnlySeq<ApiRuntimeMember> CalcRuntimeMembers()
         {
             var src = HostCatalogs();
             var dst = bag<ApiRuntimeMember>();
@@ -189,7 +192,7 @@ namespace Z0
         internal void EmitDataFlows()
             => Emit(DataFlows);
 
-        internal void EmitApiTables()
+        public void EmitApiTables()
             => Emit(ApiTableFields);
 
         internal void EmitParsers()
@@ -330,11 +333,11 @@ namespace Z0
             return counter;
         }
 
-        internal Index<TableField> CalcTableFields()
+        internal ReadOnlySeq<ApiTableField> CalcTableFields()
         {
             var tables = ApiTableTypes;
             var count = CountFields(tables);
-            var buffer = alloc<TableField>(count);
+            var buffer = alloc<ApiTableField>(count);
             var k=0u;
             for(var i=0; i<tables.Count; i++)
             {
@@ -367,8 +370,8 @@ namespace Z0
         void Emit(ReadOnlySpan<ApiCmdRow> src)
             => TableEmit(src, AppDb.ApiTargets().Table<ApiCmdRow>());
 
-        void Emit(ReadOnlySpan<TableField> src)
-            => TableEmit(src, AppDb.ApiTargets().Table<TableField>());
+        void Emit(ReadOnlySpan<ApiTableField> src)
+            => TableEmit(src, AppDb.ApiTargets().Table<ApiTableField>());
 
         internal void EmitApiLiterals(ReadOnlySpan<ApiLiteral> src)
             => TableEmit(src, AppDb.ApiTargets().Table<ApiLiteral>(), TextEncodingKind.Unicode);

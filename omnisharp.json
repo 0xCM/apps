@@ -4,7 +4,7 @@
         "Configuration": "Release"
     },
 
-    "omnisharp.maxProjectFileCountForDiagnosticAnalysis" : 16000,
+    "omnisharp.maxProjectFileCountForDiagnosticAnalysis" : 4000,
 
     "RoslynExtensionsOptions": {
         "EnableDecompilationSupport": true,
@@ -12,7 +12,7 @@
         "EnableImportCompletion": false,
         "EnableAsyncCompletion": true,
         "DocumentAnalysisTimeoutMs": 30000,
-        "DiagnosticWorkersThreadCount": 64,
+        "DiagnosticWorkersThreadCount": 128,
         "AnalyzeOpenDocumentsOnly": false,
         "InlayHintsOptions": {
             "EnableForParameters": false,

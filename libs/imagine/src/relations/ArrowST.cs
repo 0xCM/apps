@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+
+    [StructLayout(LayoutKind.Sequential,Pack=1)]
     public readonly struct Arrow<S,T> : IArrow<S,T>
     {
         /// <summary>

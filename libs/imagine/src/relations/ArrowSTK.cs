@@ -7,6 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines kinded link
     /// </summary>
+    [StructLayout(LayoutKind.Sequential,Pack=1)]
     public readonly struct Arrow<S,T,K> : IArrow<S,T,K>
     {
         /// <summary>
@@ -35,7 +36,7 @@ namespace Z0
         public string IdentityText
         {
             [MethodImpl(Inline)]
-            get => string.Format(RpOps.Arrow, Source, Target);
+            get => string.Format(RP.Arrow, Source, Target);
         }
 
         K IArrow<S, T, K>.Kind
