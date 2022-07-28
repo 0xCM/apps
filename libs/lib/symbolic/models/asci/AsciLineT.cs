@@ -46,7 +46,7 @@ namespace Z0
         }
 
         public string Format()
-            => AsciLineCover.format(this);
+            => Asci.format(this);
 
         public override string ToString()
             => Format();
@@ -54,7 +54,7 @@ namespace Z0
         public static AsciLineCover<T> Empty
         {
             [MethodImpl(Inline)]
-            get => new AsciLineCover<T>(core.array<T>());
+            get => new AsciLineCover<T>(sys.empty<T>());
         }
     }
 }

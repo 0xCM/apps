@@ -1,6 +1,6 @@
 @echo off
 set ProjectId=asm.checks
-set WsId=asm.checks
-set EnvId=asm.settings
-call %~dp0..\..\.cmd\config.cmd
+set Area=libs
+set ShellId=asm.checks
+call %DevRoot%\dev\z0\.cmd\config.cmd
 

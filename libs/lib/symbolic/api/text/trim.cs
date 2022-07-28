@@ -4,51 +4,52 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial class text
     {
-        [MethodImpl(Inline), Op]
+        [Op]
         public static string trim(string src)
-            => empty(src) ? EmptyString : src.Trim();
+            => sys.empty(src) ? EmptyString : src.Trim();
 
-        [MethodImpl(Inline), Op]
+        [Op]
         public static string trim(string src, char match)
-            => empty(src) ? EmptyString : src.Trim(match);
+            => sys.empty(src) ? EmptyString : src.Trim(match);
 
-        [MethodImpl(Inline), Op]
+        [Op]
         public static string trim(string src, char[] matches)
-            => empty(src) ? EmptyString : src.Trim(matches);
-
-        [MethodImpl(Inline), Op]
-        public static ReadOnlySpan<char> trim(ReadOnlySpan<char> src)
-            => src.Trim();
-
-        [MethodImpl(Inline), Op]
-        public static ReadOnlySpan<char> trim(ReadOnlySpan<char> src, char match)
-            => src.Trim(match);
-
-        [MethodImpl(Inline), Op]
-        public static ReadOnlySpan<char> trim(ReadOnlySpan<char> src, char[] matches)
-            => src.Trim(matches);
-
-        [MethodImpl(Inline), Op]
-        public static ReadOnlySpan<char> trim(ReadOnlySpan<char> src, string match)
-            => src.Trim(match);
+            => sys.empty(src) ? EmptyString : src.Trim(matches);
 
         [Op]
         public static string[] trim(string[] src)
-            => src.Select(s => s.Trim());
+        {
+            var count = src.Length;
+            var dst = sys.alloc<string>(count);
+            for(var i=0; i<count; i++)
+                Arrays.seek(dst,i) = trim(Arrays.skip(src,i));
+            return dst;
+        }
 
         [Op]
         public static string[] trim(string[] src, char match)
-            => src.Select(s => s.Trim(match));
+            => src.Select(s => trim(s,match));
 
         [Op]
         public static string[] trim(string[] src, char[] matches)
-            => src.Select(s => s.Trim(matches));
+            => src.Select(s => trim(s,matches));
+
+        [Op]
+        public static ReadOnlySpan<char> trim(ReadOnlySpan<char> src)
+            => src.Trim();
+
+        [Op]
+        public static ReadOnlySpan<char> trim(ReadOnlySpan<char> src, char match)
+            => src.Trim(match);
+
+        [Op]
+        public static ReadOnlySpan<char> trim(ReadOnlySpan<char> src, char[] matches)
+            => src.Trim(matches);
+
+        [Op]
+        public static ReadOnlySpan<char> trim(ReadOnlySpan<char> src, string match)
+            => src.Trim(match);
     }
 }

@@ -44,6 +44,12 @@ namespace Z0
             get => recover<byte,AsciCode>(Data);
         }
 
+        public ReadOnlySpan<AsciSymbol> Symbols
+        {
+            [MethodImpl(Inline)]
+            get => recover<byte,AsciSymbol>(Data);
+        }
+
         public int Length
         {
             [MethodImpl(Inline)]
@@ -68,13 +74,13 @@ namespace Z0
             get => Length != 0;
         }
 
-        public ref readonly AsciSymbol this[ulong index]
+        public ref readonly AsciSymbol this[uint index]
         {
             [MethodImpl(Inline)]
             get => ref @as<byte,AsciSymbol>(skip(Data,index));
         }
 
-        public ref readonly AsciSymbol this[long index]
+        public ref readonly AsciSymbol this[int index]
         {
             [MethodImpl(Inline)]
             get => ref @as<byte,AsciSymbol>(skip(Data,index));
@@ -84,37 +90,37 @@ namespace Z0
         public uint Render(Span<char> dst)
         {
             var i=0u;
-            return render(this, ref i, dst);
+            return Asci.render(this, ref i, dst);
         }
 
-        public static uint render(in AsciLineCover src, ref uint i, Span<char> dst)
-        {
-            var i0 = i;
-            if(src.IsNonEmpty)
-                text.render(src.Codes, ref i, dst);
-            return i - i0;
-        }
+        // public static uint render(in AsciLineCover src, ref uint i, Span<char> dst)
+        // {
+        //     var i0 = i;
+        //     if(src.IsNonEmpty)
+        //         text.render(src.Codes, ref i, dst);
+        //     return i - i0;
+        // }
 
-        [Op]
-        public static string format<T>(in AsciLineCover<T> src)
-            where T : unmanaged
-        {
-            Span<char> buffer = stackalloc char[src.RenderLength];
-            var i=0u;
-            text.render(recover<T,AsciCode>(src.View), ref i, buffer);
-            return text.format(buffer);
-        }
+        // [Op]
+        // public static string format<T>(in AsciLineCover<T> src)
+        //     where T : unmanaged
+        // {
+        //     Span<char> buffer = stackalloc char[src.RenderLength];
+        //     var i=0u;
+        //     text.render(recover<T,AsciCode>(src.View), ref i, buffer);
+        //     return text.format(buffer);
+        // }
 
-        public static string format(in AsciLineCover src)
-        {
-            Span<char> buffer = stackalloc char[src.RenderLength];
-            var i=0u;
-            text.render(src.Codes, ref i, buffer);
-            return text.format(buffer);
-        }
+        // public static string format(in AsciLineCover src)
+        // {
+        //     Span<char> buffer = stackalloc char[src.RenderLength];
+        //     var i=0u;
+        //     text.render(src.Codes, ref i, buffer);
+        //     return text.format(buffer);
+        // }
 
         public string Format()
-            => format(this);
+            => Asci.format(this);
 
         public static AsciLineCover Empty
         {

@@ -12,11 +12,11 @@ namespace Z0
     partial struct SymbolicQuery
     {
         [MethodImpl(Inline), Op]
-        public static uint TrailingWhitespaceCount(ReadOnlySpan<byte> src)
-            => TrailingWhitespaceCount(recover<C>(src));
+        public static uint wstrail(ReadOnlySpan<byte> src)
+            => wstrail(recover<C>(src));
 
         [MethodImpl(Inline), Op]
-        public static uint TrailingWhitespaceCount(ReadOnlySpan<C> src)
+        public static uint wstrail(ReadOnlySpan<C> src)
         {
             var counter = 0u;
             var count = src.Length;

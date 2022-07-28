@@ -29,8 +29,9 @@ namespace Z0
         public ReadOnlySpan<NasmInstruction> ParseInstructions(FS.FilePath src)
         {
             const uint FirstLine = 70;
+            var widths = SourceWidths;
 
-            Write(string.Format("Parsing {0}", src));
+            Babble(string.Format("Parsing {0}", src));
             if(!src.Exists)
             {
                 Error(FS.missing(src));
@@ -44,14 +45,13 @@ namespace Z0
                 return default;
             }
 
-            Write(string.Format("Read {0} source lines", input.Length));
+            Babble(string.Format("Read {0} source lines", input.Length));
 
             var lines = slice(input.View, FirstLine);
             var count = lines.Length;
             var section = EmptyString;
-            var buffer = span<NasmInstruction>(count);
+            var buffer = sys.alloc<NasmInstruction>(count);
             var j = 0u;
-            var widths = NasmInstruction.RenderWidths;
             for(var i=0; i<count; i++)
             {
                 ref readonly var line = ref skip(lines,i);
@@ -65,16 +65,18 @@ namespace Z0
 
                 ref var dst = ref seek(buffer,j++);
                 var pad = z16;
+                var ws = SQ.wsix(content);
                 dst.Sequence = j;
-                dst.Mnemonic = text.absolute(content.LeftOfFirst(Chars.Tab), skip(widths,1));
-                dst.Operands = text.absolute(text.format(operands(content)), skip(widths,2));
-                dst.Encoding = text.absolute(text.format(encoding(content)), skip(widths,3));
-                var flags = content.RightOfFirst(Chars.RBracket).Trim().Replace(Chars.Tab, Chars.Space);
-                dst.Flags = text.absolute(flags, skip(widths,4));
+                dst.Mnemonic = text.left(content,ws);
+                dst.Operands = sys.@string(operands(content));
+                dst.Encoding = sys.@string(encoding(content));
+                dst.Flags = content.RightOfFirst(Chars.RBracket).Trim().Replace(Chars.Tab, Chars.Space);
             }
 
-            return slice(buffer, 0, j);
+            return slice(@readonly(buffer), 0, j);
         }
+
+        static ReadOnlySpan<byte> SourceWidths => new byte[]{12,16,64,64,32};
 
         public ReadOnlySpan<NasmInstruction> ImportInstructions()
             => ImportInstructions(
@@ -85,41 +87,42 @@ namespace Z0
         ReadOnlySpan<NasmInstruction> ImportInstructions(FS.FilePath src, FS.FilePath dst)
         {
             var instructions = ParseInstructions(src);
-            TableEmit(instructions, dst, TextEncodingKind.Unicode);
+            TableEmit(instructions, dst, ASCI);
             return instructions;
         }
 
-        public ReadOnlySpan<NasmInstruction> LoadInstructionImports()
-            => LoadInstructionImports(AppDb.DbOut().Targets("asm.refs").Table<NasmInstruction>());
+        // public ReadOnlySpan<NasmInstruction> LoadInstructionImports()
+        //     => LoadInstructionImports(AppDb.DbOut().Targets("asm.refs").Table<NasmInstruction>());
 
-        public ReadOnlySpan<NasmInstruction> LoadInstructionImports(FS.FilePath src)
-        {
-            using var reader = src.UnicodeLineReader();
-            var counter = 0u;
-            var dst = list<NasmInstruction>();
-            while(reader.Next(out var line))
-            {
-                var splits = line.Content.Split(Chars.Pipe);
-                var count = splits.Length;
-                if(count != NasmInstruction.FieldCount)
-                    Error(Tables.FieldCountMismatch.Format(NasmInstruction.FieldCount, count));
+        // public ReadOnlySpan<NasmInstruction> LoadInstructionImports(FS.FilePath src)
+        // {
+        //     using var reader = src.AsciLineReader();
+        //     var counter = 0u;
+        //     var dst = list<NasmInstruction>();
+        //     var line = AsciLineCover.Empty;
+        //     while(reader.Next(out line))
+        //     {
+        //         var splits = Asci.split(line,Chars.Pipe);// Content.Split(Chars.Pipe);
+        //         var count = splits.Length;
+        //         if(count != NasmInstruction.FieldCount)
+        //             Error(Tables.FieldCountMismatch.Format(NasmInstruction.FieldCount, count));
 
-                if(counter != 0)
-                {
-                    var j=0u;
-                    var record = new NasmInstruction();
-                    DataParser.parse(skip(splits,j++), out record.Sequence);
-                    record.Mnemonic = skip(splits,j++);
-                    record.Operands = skip(splits,j++);
-                    record.Encoding = skip(splits,j++);
-                    record.Flags = skip(splits,j++);
-                    dst.Add(record);
-                }
+        //         if(counter != 0)
+        //         {
+        //             var j=0u;
+        //             var record = new NasmInstruction();
+        //             DataParser.parse(skip(splits,j++), out record.Sequence);
+        //             record.Mnemonic = skip(splits,j++);
+        //             record.Operands = skip(splits,j++);
+        //             record.Encoding = skip(splits,j++);
+        //             record.Flags = skip(splits,j++);
+        //             dst.Add(record);
+        //         }
 
-                counter++;
+        //         counter++;
 
-            }
-            return dst.ViewDeposited();
-        }
+        //     }
+        //     return dst.ViewDeposited();
+        // }
     }
 }

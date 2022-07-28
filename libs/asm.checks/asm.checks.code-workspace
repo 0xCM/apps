@@ -4,61 +4,16 @@
 			"path": "."
 		},
 		{
-			"path": "..\\..\\.cmd"
-		},
-		{
-			"path": "..\\asm.models"
-		},
-		{
-			"path": "..\\archives"
-		},
-		{
-			"path": "..\\asm.core"
-		},
-		{
-			"path": "..\\asm"
-		},
-		{
-			"path": "..\\asm.svc"
-		},
-		{
-			"path": "..\\asm.prototypes"
-		},
-		{
 			"path": "..\\..\\props"
 		},
 		{
-			"path": "..\\intel.core"
+			"path": "..\\api.svc"
 		},
 		{
-			"path": "..\\intel.intrinsics"
-		},
-		{
-			"path": "..\\intel.xed"
-		},
-		{
-			"path": "..\\memory.checks"
-		},
-		{
-			"path": "..\\memory.svc"
-		},
-		{
-			"path": "..\\memory"
-		},
-		{
-			"path": "..\\containers"
-		},
-		{
-			"path": "..\\files"
-		},
-		{
-			"path": "..\\cli"
+			"path": "..\\api.specs"
 		},
 		{
 			"path": "..\\lib"
-		},
-		{
-			"path": "..\\..\\docs"
 		}
 	],
 	"settings": {}

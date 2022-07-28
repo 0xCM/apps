@@ -16,7 +16,7 @@ namespace Z0
         public static string despace(ReadOnlySpan<char> src)
         {
             var count = src.Length;
-            var buffer = span<char>(count);
+            Span<char> buffer = stackalloc char[count];
             var spaces = 0;
             var j=0;
             for(var i=0; i<count; i++)
@@ -36,7 +36,7 @@ namespace Z0
                     seek(buffer,j++) = c;
                 }
             }
-            return new string(core.slice(buffer,0,j));
+            return sys.@string(Spans.slice(buffer,0,j));
         }
     }
 }

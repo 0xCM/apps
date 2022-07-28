@@ -6,14 +6,32 @@ namespace Z0
 {
     using static Spans;
 
+    using C = AsciCode;
+    using S = AsciSymbol;
+
     partial struct Asci
     {
         [Op]
-        public static string format(ReadOnlySpan<AsciCode> src, Span<char> buffer)
+        public static string format<T>(in AsciLineCover<T> src)
+            where T : unmanaged
         {
-            var count = decode(src, buffer);
-            return sys.@string(Spans.slice(buffer,0, count));
+            Span<char> buffer = stackalloc char[src.RenderLength];
+            var i=0u;
+            render(recover<T,AsciCode>(src.View), ref i, buffer);
+            return sys.@string(buffer);
         }
+
+        public static string format(in AsciLineCover src)
+        {
+            Span<char> buffer = stackalloc char[src.RenderLength];
+            var i=0u;
+            render(src.Codes, ref i, buffer);
+            return sys.@string(buffer);
+        }
+
+        [Op]
+        public static string format(ReadOnlySpan<C> src, Span<char> buffer)
+            => sys.@string(Spans.slice(buffer,0, decode(src, buffer)));
 
         [Op]
         public static string format(ReadOnlySpan<byte> src, Span<char> dst)
@@ -37,7 +55,7 @@ namespace Z0
         }
 
         [Op]
-        public static string format(ReadOnlySpan<AsciCode> src)
+        public static string format(ReadOnlySpan<C> src)
         {
             Span<char> dst = stackalloc char[src.Length];
             decode(src, dst);
@@ -45,7 +63,7 @@ namespace Z0
         }
 
         [Op]
-        public static string format(ReadOnlySpan<AsciSymbol> src)
+        public static string format(ReadOnlySpan<S> src)
         {
             Span<char> dst = stackalloc char[src.Length];
             decode(src, dst);

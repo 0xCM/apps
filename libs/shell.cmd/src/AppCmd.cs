@@ -14,11 +14,10 @@ namespace Z0
                 wf.CaptureCmd(),
                 wf.AsmCoreCmd(),
                 wf.LlvmCmd(),
-                wf.XedTool(),
+                wf.XedToolCmd(),
                 wf.Machines(),
                 wf.ApiCmd(),
                 wf.SourceSymbolic(),
-                wf.IntelIntrinsicsCmd(),
                 wf.AsmCmdSvc(),
                 wf.XedCmd(),
                 wf.XedChecks(),
@@ -26,7 +25,7 @@ namespace Z0
                 wf.RuntimeCmd(),
                 wf.AsmChecks(),
                 wf.CheckRunner(),
-                //wf.AncestryChecks(),
+                wf.IntelInxCmd(),
                 wf.ToolBoxCmd(),
                 };
 

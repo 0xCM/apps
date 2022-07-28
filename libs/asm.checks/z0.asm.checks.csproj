@@ -4,9 +4,9 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>$(FrameworkMoniker)</TargetFramework>
     <ShellId>asm.checks</ShellId>
+    <AssemblyName>$(ShellId)</AssemblyName>
     <ShellRoot>$(LibsRoot)</ShellRoot>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
-    <SelfContained>true</SelfContained>
   </PropertyGroup>
 
   <Import Project="$(ImportDefs)shells.props"/>

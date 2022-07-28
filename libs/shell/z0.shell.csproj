@@ -7,13 +7,13 @@
   </PropertyGroup>
 
   <Import Project="$(ImportDefs)shells.props"/>
+  <Import Project="$(ImportDefs)usings.props"/>
 
   <ItemGroup>
     <ProjectReference Include="$(ShellCmd)" />
     <ProjectReference Include="$(CgLibs)" />
     <ProjectReference Include="$(TestChecks)" />
     <ProjectReference Include="$(TestUnits)" />
-
   </ItemGroup>
 
 </Project>

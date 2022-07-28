@@ -19,14 +19,13 @@ namespace Z0
         public AsmMnemonic Mnemonic;
 
         [Render(64)]
-        public CharBlock64 Operands;
+        public asci64 Operands;
 
         [Render(64)]
-        public CharBlock64 Encoding;
+        public asci64 Encoding;
 
         [Render(32)]
-        public CharBlock32 Flags;
+        public asci32 Flags;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,16,64,64,32};
     }
 }
