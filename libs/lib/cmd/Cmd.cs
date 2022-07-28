@@ -96,6 +96,24 @@ namespace Z0
             return new CmdSource(provider.Name, dst);
         }
 
+
+        public static void emit(ICmdSource src, FS.FilePath dst, IWfEventTarget log)
+        {
+            log.Deposit(Events.emittingFile(src.GetType(),dst));
+            var commands = src.Commands;
+            using var writer = dst.AsciWriter();
+            for(var i=0; i<src.Count; i++)
+            {
+                ref readonly var cmd = ref commands[i];
+                var fmt = cmd.Format();
+                log.Deposit(Events.row(fmt));
+                writer.WriteLine(fmt);
+            }
+
+            log.Deposit(Events.emittedFile(src.GetType(), dst, src.Count));
+        }
+
+
         public static CmdCatalog catalog(IDispatcher src)
         {
             ref readonly var defs = ref src.Commands.Defs;
@@ -106,25 +124,22 @@ namespace Z0
             return new CmdCatalog(dst);
         }
 
-        public static CmdDispatcher dispatcher<T>(T svc, WfEventLogger log, ICmdActions actions)
+        public static CmdDispatcher dispatcher<T>(T svc, IWfEventTarget log, ICmdActions actions)
             where T : ICmdService
                 => Cmd.dispatcher(svc.GetType().DisplayName(), actions, log);
 
-        public static void emit(ICmdSource src, FS.FilePath dst, WfEventLogger log)
-        {
-            log(Events.emittingFile(src.GetType(),dst));
-            var commands = src.Commands;
-            using var writer = dst.AsciWriter();
-            for(var i=0; i<src.Count; i++)
-            {
-                ref readonly var cmd = ref commands[i];
-                var fmt = cmd.Format();
-                log(Events.row(fmt));
-                writer.WriteLine(fmt);
-            }
+        public static CmdDispatcher dispatcher(asci32 provider, ICmdActions actions, IWfEventTarget log)
+            => new CmdDispatcher(provider, actions, log);
 
-            log(Events.emittedFile(src.GetType(), dst, src.Count));
+        public static CmdDispatcher dispatcher<T>(T svc, IWfEventTarget log,  Index<ICmdProvider> providers)
+        {
+            var dst = dict<string,ActionRunner>();
+            var _dst = bag<ICmdActions>();
+            _dst.Add(actions(svc));
+            iter(providers, x => _dst.Add(x.Actions));
+            return dispatcher(svc.GetType().DisplayName(), Cmd.join(_dst.ToArray()), log);
         }
+
 
         public static void emit(CmdCatalog src, FS.FilePath dst, IWfEventTarget log)
         {
@@ -188,24 +203,12 @@ namespace Z0
             return slice(dst,0,counter);
         }
 
-        public static CmdDispatcher dispatcher(asci32 provider, ICmdActions actions, WfEventLogger log)
-            => new CmdDispatcher(provider, actions, log);
-
         public static Index<ICmdReactor> reactors(IWfRuntime wf)
         {
             var types = wf.Components.Types();
             var reactors = types.Concrete().Tagged<CmdReactorAttribute>().Select(t => (ICmdReactor)Activator.CreateInstance(t));
             iter(reactors, r => r.Init(wf));
             return reactors;
-        }
-
-        public static CmdDispatcher dispatcher<T>(T svc, WfEventLogger log,  Index<ICmdProvider> providers)
-        {
-            var dst = dict<string,ActionRunner>();
-            var _dst = bag<ICmdActions>();
-            _dst.Add(actions(svc));
-            iter(providers, x => _dst.Add(x.Actions));
-            return dispatcher(svc.GetType().DisplayName(), Cmd.join(_dst.ToArray()), log);
         }
 
         [Op]

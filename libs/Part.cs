@@ -5,7 +5,7 @@
 [assembly: PartId(PartId.Ws)]
 namespace Z0.Parts
 {
-    public sealed partial class Workspace : Part<Workspace>
+    public sealed class Workspace : Part<Workspace>
     {
     }
 }

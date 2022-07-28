@@ -4,6 +4,8 @@
     <Using Remove="*" />
     <Using Include="System" />
     <Using Include="System.Diagnostics" />
+    <Using Include="System.IO" />
+    <Using Include="System.Collections" />
     <Using Include="System.Collections.Generic" />
     <Using Include="System.Collections.Immutable" />
     <Using Include="System.Collections.Concurrent" />
@@ -17,13 +19,13 @@
     <Using Include="System.Runtime.CompilerServices" />
     <Using Include="System.Runtime.InteropServices" />
     <Using Include="System.Threading" />
-    <Using Include="System.IO" />
     <Using Include="System.Threading.Tasks" />
     <Using Alias="Free" Include="System.Security.SuppressUnmanagedCodeSecurityAttribute"  />
-    <Using Alias="SQ" Include="Z0.SymbolicQuery"  />
     <Using Alias="CallerName" Include="System.Runtime.CompilerServices.CallerMemberNameAttribute"  />
     <Using Alias="CallerFile" Include="System.Runtime.CompilerServices.CallerFilePathAttribute"  />
     <Using Alias="CallerLine" Include="System.Runtime.CompilerServices.CallerLineNumberAttribute"  />
+
+    <Using Alias="SQ" Include="Z0.SymbolicQuery"  />
     <Using Include="Z0.Root" Static="True" />
     <Using Include="Z0.ApiAtomic" Static="True" />
   </ItemGroup>

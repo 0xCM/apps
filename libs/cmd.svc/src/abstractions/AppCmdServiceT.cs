@@ -41,10 +41,9 @@ namespace Z0
 
         public virtual void RunJobs(string match)
         {
-            var paths = ProjectDb.JobSpecs();
-            var count = paths.Length;
+            var paths = AppDb.Service.Jobs().Files();
             var counter = 0u;
-            for(var i=0; i<count; i++)
+            for(var i=0; i<paths.Count; i++)
             {
                 ref readonly var path = ref paths[i];
                 if(path.FileName.Format().StartsWith(match))

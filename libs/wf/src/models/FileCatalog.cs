@@ -25,21 +25,6 @@ namespace Z0
             return dst;
         }
 
-        // public static FileCatalog load(IWsProject src)
-        // {
-        //     var dst = new FileCatalog();
-        //     var files = src.ProjectFiles().Storage.Sort().Index();
-        //     for(var i=0u; i<files.Count; i++)
-        //     {
-        //         ref readonly var path = ref files[i];
-        //         var file = new FileRef(i, docid(path), FileTypes.kind(path), path);
-        //         dst.IdMap.Include(dst.PathMap.Include(file, _ => file.DocId), file);
-        //         dst.PathRefs.Include(path, file);
-        //     }
-
-        //     return dst;
-        // }
-
         readonly PllMap<uint,FileRef> IdMap;
 
         readonly PllMap<FileRef,uint> PathMap;

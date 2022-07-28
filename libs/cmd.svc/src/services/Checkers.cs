@@ -49,7 +49,7 @@ namespace Z0
         public static void methods(Type src, ConcurrentBag<MethodInfo> dst)
             => iter(src.DeclaredMethods().WithArity(0), m => dst.Add(m));
 
-        public static void run(ReadOnlySpan<IChecker> checks, WfEventLogger log, bool pll = true)
+        public static void run(ReadOnlySpan<IChecker> checks, IWfEventTarget log, bool pll = true)
         {
             iter(checks, checker => {
                 var host = checker.GetType();
@@ -59,7 +59,7 @@ namespace Z0
                 }
                 catch(Exception e)
                 {
-                    log(@event(host,EmptyString,e));
+                    log.Deposit(@event(host,EmptyString,e));
                 }
 
             }, pll);
@@ -71,7 +71,7 @@ namespace Z0
             run(name, f, log, show);
         }
 
-        public static void run(Type host, string name, Action<WfEventLogger> f, WfEventLogger log)
+        public static void run(Type host, string name, Action<IWfEventTarget> f, IWfEventTarget log)
         {
             try
             {
@@ -79,7 +79,7 @@ namespace Z0
             }
             catch(Exception e)
             {
-                log(Events.error(host,e));
+                log.Deposit(Events.error(host,e));
             }
         }
 
@@ -88,7 +88,7 @@ namespace Z0
             iter(checks, x => run(x.name, x.f), pll);
         }
 
-        public static void run(bool pll, Type host, WfEventLogger log, params (string name, Action<WfEventLogger> f)[] checks)
+        public static void run(bool pll, Type host, IWfEventTarget log, params (string name, Action<IWfEventTarget> f)[] checks)
         {
             iter(checks, x => run(host, x.name, x.f, log), pll);
         }

@@ -10,12 +10,12 @@ namespace Z0
 
         Func<string,CmdArgs,Outcome> Fallback;
 
-        readonly WfEventLogger Log;
+        readonly IWfEventTarget Log;
 
         readonly asci32 Provider;
 
         [MethodImpl(Inline)]
-        public CmdDispatcher(asci32 provider, ICmdActions lookup, WfEventLogger log)
+        public CmdDispatcher(asci32 provider, ICmdActions lookup, IWfEventTarget log)
         {
             Provider = provider;
             _Actions = lookup;

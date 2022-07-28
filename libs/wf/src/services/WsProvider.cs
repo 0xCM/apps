@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     class WsProvider : WfSvc<WsProvider>, IWsProvider
     {
         [MethodImpl(Inline)]

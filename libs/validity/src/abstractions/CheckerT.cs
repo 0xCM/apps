@@ -96,13 +96,13 @@ namespace Z0
                 Throw.message(claim.Format());
         }
 
-        void Run(MethodInfo method, WfEventLogger log)
+        void Run(MethodInfo method, IWfEventTarget log)
         {
             var args = sys.empty<object>();
             var result = Outcome.Success;
             var name = method.DisplayName();
             var host = method.DeclaringType;
-            log(Events.running(host));
+            log.Deposit(Events.running(host));
             var error = Z0.Error<Exception>.Empty;
             try
             {
@@ -135,7 +135,7 @@ namespace Z0
             }
 
             if(result)
-                log(Events.ran(host, string.Format("{0,-32} | Pass", name)));
+                log.Deposit(Events.ran(host, string.Format("{0,-32} | Pass", name)));
             else
             {
                 var msg = EmptyString;
@@ -143,7 +143,7 @@ namespace Z0
                     msg = string.Format("{0,-32} | Fail | {1}", name, error);
                 else
                     msg = string.Format("{0,-32} | Fail | {1}", name, result.Message);
-                log(Events.error(method, msg));
+                log.Deposit(Events.error(method, msg));
             }
         }
 
@@ -157,10 +157,11 @@ namespace Z0
 
         }
 
-        protected virtual void Execute(WfEventLogger log)
+
+        protected virtual void Execute(IWfEventTarget log)
             => Execute(log, true);
 
-        void Execute(WfEventLogger log, bool pll)
+        void Execute(IWfEventTarget log, bool pll)
         {
             try
             {
@@ -171,6 +172,7 @@ namespace Z0
                 Error(e);
             }
         }
+
 
         void EmitLog()
         {
@@ -186,7 +188,7 @@ namespace Z0
                 FileEmit(emitter.Emit(), counter, EventLogPath);
         }
 
-        public void Run(WfEventLogger log, bool pll)
+        public void Run(IWfEventTarget log, bool pll)
         {
             var flow = Running($"Running {SvcName} checks");
             EventLogPath.Delete();
@@ -198,6 +200,6 @@ namespace Z0
         }
 
         public new void Run()
-            => Run(EventLogger, true);
+            => Run(EventLog, true);
     }
 }

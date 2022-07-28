@@ -36,8 +36,11 @@ namespace Z0
 
         void RedirectEmissions(IWfEmissionLog dst);
 
-        WfEventLogger EventLog
+        WfEventLogger EventLogger
             => x => Raise(x);
+
+        IWfEventTarget EventLog
+            => new WfEventTarget(Host.Type, EventLogger);
 
         void Disposed()
         {

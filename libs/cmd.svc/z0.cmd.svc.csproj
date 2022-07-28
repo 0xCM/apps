@@ -5,10 +5,10 @@
     <TargetFramework>$(FrameworkMoniker)</TargetFramework>
   </PropertyGroup>
 
+  <Import Project="$(ImportDefs)usings.props"/>
+
   <ItemGroup>
-    <ProjectReference Include="$(Native)" />
-    <ProjectReference Include="$(Containers)" />
-    <ProjectReference Include="$(Wf)" />
+    <ProjectReference Include="$(Archives)" />
   </ItemGroup>
 
 </Project>

@@ -8,9 +8,6 @@ namespace Z0
     {
         sealed class ServiceCache : AppServices<ServiceCache>
         {
-            public Archives Archives(IWfRuntime wf)
-                => Service<Archives>(wf);
-
 
             public IWsProvider Ws(IWfRuntime wf, FS.FolderPath home)
                 => Service(wf, $"WsProvider.{WsProvider.id(home)}", wf => WsProvider.create(wf,home));

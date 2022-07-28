@@ -19,6 +19,8 @@ namespace Z0
         public IDbSources Settings()
             => DbRoot().Sources("settings");
 
+        public IDbSources Jobs()
+            => DbRoot().Sources("jobs");
         public FS.FilePath Settings<T>()
             where T : struct
                 => Settings().Table<T>();

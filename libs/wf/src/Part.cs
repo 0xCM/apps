@@ -2,12 +2,11 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+[assembly: PartId(PartId.Wf)]
+namespace Z0.Parts
 {
-    public interface IChecker : ICmdProvider
+    public sealed class Wf : Part<Wf>
     {
-        void Run(WfEventLogger log, bool pll);
 
-        ref readonly Index<string> Specs {get;}
     }
 }

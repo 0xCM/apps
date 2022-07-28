@@ -8,7 +8,6 @@
   <Import Project="$(ImportDefs)usings.props"/>
 
   <ItemGroup>
-    <ProjectReference Include="$(ZLib)" />
     <ProjectReference Include="$(Digital)" />
   </ItemGroup>
 

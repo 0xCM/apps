@@ -10,6 +10,7 @@
   <ItemGroup>
     <ProjectReference Include="$(Memory)" />
     <ProjectReference Include="$(Wf)" />
+    <ProjectReference Include="$(Archives)" />
   </ItemGroup>
 
 </Project>

@@ -93,10 +93,8 @@
     <ProjectReference Include="$(Validity)" />
 
     <ProjectReference Include="$(Wf)" />
-    <ProjectReference Include="$(Workspace)" />
 
     <ProjectReference Include="$(ZLib)" />
-
   </ItemGroup>
 
 </Project>

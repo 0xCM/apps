@@ -88,7 +88,7 @@ namespace Z0
         ShellCmdDef IActionRunner.Def
             => Def;
 
-        public Outcome Run(CmdArgs args, WfEventLogger log)
+        public Outcome Run(CmdArgs args, IWfEventTarget log)
         {
             var output = default(object);
             var result = Outcome.Success;
@@ -125,9 +125,9 @@ namespace Z0
                         if(sys.nonempty(y.Message))
                         {
                             if(y.Fail)
-                                log(Events.error(Method, y.Message));
+                                log.Deposit(Events.error(Method, y.Message));
                             else
-                                log(Events.babble(HostType, y.Message));
+                                log.Deposit(Events.babble(HostType, y.Message));
                         }
                     }
                     else
@@ -139,7 +139,7 @@ namespace Z0
                 var msg = AppMsg.format($"{Uri} invocation error", e);
                 var origin = AppMsg.orginate(HostType.DisplayName(), Method.DisplayName(), 12);
                 var error = Events.error(msg, origin, HostType);
-                log(error);
+                log.Deposit(error);
                 result = (e,msg);
             }
 

@@ -182,7 +182,7 @@ namespace Z0
             Log(nibbles.Format());
         }
 
-        protected override void Execute(WfEventLogger log)
+        protected override void Execute(IWfEventTarget log)
         {
             _Data = Random.Bytes(256).Array();
             CheckNibbleSpan();

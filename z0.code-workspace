@@ -6,7 +6,7 @@
 	],
 	"settings": {
 
-        "typescript.tsserver.maxTsServerMemory": 10000,
+        "typescript.tsserver.maxTsServerMemory": 24000,
     }
 
 }

@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="$(ZLib)" />
     <ProjectReference Include="$(Containers)" />
   </ItemGroup>
 

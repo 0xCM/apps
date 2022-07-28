@@ -10,6 +10,7 @@
     <ProjectReference Include="$(Rules)" />
     <ProjectReference Include="$(Wf)" />
     <ProjectReference Include="$(CmdSpecs)" />
+    <ProjectReference Include="$(Archives)" />
   </ItemGroup>
 
 </Project>

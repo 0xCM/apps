@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <ProjectReference Include="$(Symbolics)" />
-    <ProjectReference Include="$(Ws)" />
   </ItemGroup>
 
 </Project>

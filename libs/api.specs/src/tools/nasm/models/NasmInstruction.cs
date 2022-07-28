@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct NasmInstruction
     {
@@ -15,7 +16,7 @@ namespace Z0
         public uint Sequence;
 
         [Render(16)]
-        public CharBlock16 Mnemonic;
+        public AsmMnemonic Mnemonic;
 
         [Render(64)]
         public CharBlock64 Operands;
