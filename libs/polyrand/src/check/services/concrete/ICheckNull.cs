@@ -12,7 +12,7 @@ namespace Z0
 
     public interface ICheckNull : IClaimValidator
     {
-        void notnull<T>(T src, string msg = null, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        void notnull<T>(T src, string msg = null, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             where T : class
         {
             if(src is null)

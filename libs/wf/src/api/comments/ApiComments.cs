@@ -7,8 +7,8 @@ namespace Z0
     using System.Xml;
     using System.IO;
     using System.Linq;
-    using static ApiAtomic;
 
+    using static ApiAtomic;
     using static core;
 
     using CT = ApiCommentTarget;
@@ -20,7 +20,7 @@ namespace Z0
             var targets = AppDb.ApiTargets(comments);
             var dllPaths = list<FS.FilePath>();
             var xmlData = new Dictionary<FS.FilePath, Dictionary<string,string>>();
-            var archive = core.controller().RuntimeArchive();
+            var archive = sys.controller().RuntimeArchive();
             var dllFiles = archive.DllFiles;
             var xmlFiles = archive.XmlFiles;
             foreach(var xmlfile in xmlFiles)
@@ -32,7 +32,6 @@ namespace Z0
                     var dllfile = dllFiles.Where(f => f.FileName == xmlfile.FileName.ChangeExtension(FS.Dll)).FirstOrDefault();
                     if(dllfile.IsNonEmpty)
                         dllPaths.Add(dllfile);
-
                 }
             }
 

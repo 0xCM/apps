@@ -107,7 +107,7 @@ namespace Z0
         /// Yields the encapulated value if present; otherwise, raises an exception
         /// </summary>
         [MethodImpl(Inline)]
-        public T Require([Caller]string caller = null, [File]string file = null, [Line]int? line = null)
+        public T Require([CallerName]string caller = null, [CallerFile]string file = null, [CallerLine]int? line = null)
             =>  Exists ? value : throw new Exception($"The required value doesn't exist: invoked by {caller} on {line} in {file}");
 
         public T Default

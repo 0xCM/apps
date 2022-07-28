@@ -15,24 +15,24 @@ namespace Z0
     [DataWidth(4)]
     public readonly record struct HexDigit : IDigit<D,B,S,C,V>
     {
-        readonly T Storage;
+        readonly T Data;
 
         [MethodImpl(Inline)]
         public HexDigit(V src)
         {
-            Storage = (T)((uint)src | (1 << 4));
+            Data = (T)((uint)src | (1 << 4));
         }
 
         [MethodImpl(Inline)]
         public HexDigit(V src, bit upper)
         {
-            Storage = (T)((uint)src | ((uint)upper << 4));
+            Data = (T)((uint)src | ((uint)upper << 4));
         }
 
         public V Value
         {
             [MethodImpl(Inline)]
-            get => (V)(Storage & 0xF);
+            get => (V)(Data & 0xF);
         }
 
         public S Symbol
@@ -62,13 +62,13 @@ namespace Z0
         public bool IsUpper
         {
             [MethodImpl(Inline)]
-            get =>  (Storage >> 4) != 0;
+            get =>  (Data >> 4) != 0;
         }
 
         public bool IsLower
         {
             [MethodImpl(Inline)]
-            get =>  (Storage >> 4) == 0;
+            get =>  (Data >> 4) == 0;
         }
 
         public LetterCaseKind Case
@@ -77,6 +77,17 @@ namespace Z0
             get => IsUpper ? LetterCaseKind.Upper : LetterCaseKind.Lower;
         }
 
+        public bool IsZero
+        {
+            [MethodImpl(Inline)]
+            get => Data == 0;
+        }
+
+        public bool IsNonZero
+        {
+            [MethodImpl(Inline)]
+            get => Data != 0;
+        }
 
         public override int GetHashCode()
             => Hash;
@@ -94,7 +105,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public int CompareTo(D src)
-            => Storage.CompareTo(src.Storage);
+            => Data.CompareTo(src.Data);
 
         [MethodImpl(Inline)]
         public static implicit operator D(HexDigitValue src)

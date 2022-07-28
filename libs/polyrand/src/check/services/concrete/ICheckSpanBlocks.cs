@@ -19,7 +19,7 @@ namespace Z0
         /// <param name="file">The file in which the invoking function is defined </param>
         /// <param name="line">The file line number of invocation</param>
         /// <typeparam name="T">The element type</typeparam>
-        void eq<T>(SpanBlock128<T> a, SpanBlock128<T> b, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        void eq<T>(SpanBlock128<T> a, SpanBlock128<T> b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             where T : unmanaged
         {
             for(var i = 0; i< a.CellCount; i++)
@@ -36,7 +36,7 @@ namespace Z0
         /// <param name="file">The file in which the invoking function is defined </param>
         /// <param name="line">The file line number of invocation</param>
         /// <typeparam name="T">The element type</typeparam>
-        void eq<T>(SpanBlock256<T> a, SpanBlock256<T> b, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        void eq<T>(SpanBlock256<T> a, SpanBlock256<T> b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             where T : unmanaged
         {
             for(var i = 0; i<length(a,b); i++)
@@ -53,7 +53,7 @@ namespace Z0
         /// <param name="file">The file in which the invoking function is defined </param>
         /// <param name="line">The file line number of invocation</param>
         /// <typeparam name="T">The element type</typeparam>
-        void eq<T>(SpanBlock512<T> a, SpanBlock512<T> b, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        void eq<T>(SpanBlock512<T> a, SpanBlock512<T> b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             where T : unmanaged
         {
             for(var i = 0; i<length(a,b); i++)

@@ -14,11 +14,11 @@ namespace Z0
     public struct CallingMember
     {
         [MethodImpl(Inline), Op]
-        public static CallingMember define([Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static CallingMember define([CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => new CallingMember(caller, file, line ?? 0);
 
         [MethodImpl(Inline), Op]
-        public static ref CallingMember define(ref CallingMember dst, [Caller] string name = null, [CallerFilePath] string path = null, [Line] int? line = null)
+        public static ref CallingMember define(ref CallingMember dst, [CallerName] string name = null, [CallerFilePath] string path = null, [CallerLine] int? line = null)
         {
             dst.CallerName = name;
             dst.CallerFile = path;

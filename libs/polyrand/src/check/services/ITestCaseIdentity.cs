@@ -20,11 +20,11 @@ namespace Z0
         /// </summary>
         /// <param name="label">The case label</param>
         /// <typeparam name="T">The label specialization type</typeparam>
-        string name<T>([Caller] string label = null)
+        string name<T>([CallerName] string label = null)
             where T : unmanaged
                 => TestCaseIdentity.name<T>(HostType, label);
 
-        string name<W,T>([Caller] string label = null, bool generic = true)
+        string name<W,T>([CallerName] string label = null, bool generic = true)
             where W : unmanaged, ITypeWidth
             where T : unmanaged
                 => ApiIdentityBuilder.name<W,T>(HostType, label, generic);

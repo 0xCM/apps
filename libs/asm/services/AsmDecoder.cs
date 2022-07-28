@@ -11,7 +11,7 @@ namespace Z0.Asm
     using File = System.Runtime.CompilerServices.CallerFilePathAttribute;
     using Line = System.Runtime.CompilerServices.CallerLineNumberAttribute;
 
-    public class AsmDecoder : AppService<AsmDecoder>
+    public class AsmDecoder : WfSvc<AsmDecoder>
     {
         readonly AsmFormatConfig AsmFormat;
 
@@ -39,7 +39,7 @@ namespace Z0.Asm
         public ApiHostRoutines Decode(ApiHostBlocks src)
         {
             var host = src.Host;
-            var flow = Wf.Running(Msg.DecodingHostRoutines.Format(host));
+            var flow = Running(Msg.DecodingHostRoutines.Format(host));
             var view = src.Blocks.View;
             var count = view.Length;
             var instructions = core.list<ApiHostRoutine>();
@@ -58,11 +58,11 @@ namespace Z0.Asm
                      instructions.Add(AsmRoutines.hosted(ip, block, target.ToArray()));
                 }
                 else
-                    Wf.Warn(outcome.Message);
+                    Warn(outcome.Message);
             }
 
             var routines = new ApiHostRoutines(host, instructions.ToArray());
-            Wf.Ran(flow, Msg.DecodedHostRoutines.Format(routines.Length, host));
+            Ran(flow, Msg.DecodedHostRoutines.Format(routines.Length, host));
             return routines;
         }
 
@@ -98,7 +98,7 @@ namespace Z0.Asm
                     hostFx.Add(routines);
                     stats.HostCount++;
                     stats.MemberCount += routines.RoutineCount;
-                    stats.InstructionCount += routines.InstructionCount;
+                    stats.InstCount += routines.InstructionCount;
                 }
 
                 seek(dst,i) = new ApiPartRoutines(part.PartId, hostFx.ToArray());
@@ -355,14 +355,14 @@ namespace Z0.Asm
             => new AppException(InstructionSizeMismatch(instruction.IP, offset, (uint)src.Encoded.Length, (uint)instruction.ByteLength));
 
         static AppMsg InstructionSizeMismatch(MemoryAddress ip, uint offset, uint actual, uint reported,
-            [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+            [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
                 => AppMsg.error(text.concat(
                     $"The encoded instruction length does not match the reported instruction length:",
                     $"address = {ip}, datalen = {reported}, offset = {offset}, bytelen = {reported}"),
                         caller, file, line);
 
         static AppMsg InstructionBlockSizeMismatch(MemoryAddress @base, int actual, uint reported,
-            [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+            [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
                 => AppMsg.error(text.concat(
                     $"The encoded instruction block length does not match the reported total instruction length:",
                     $"@base = {@base}, block length = {reported}, reported length = {reported}"),

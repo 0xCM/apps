@@ -14,9 +14,6 @@ namespace Z0
             public ApiMd ApiMetadata(IWfRuntime wf)
                 => Service<ApiMd>(wf);
 
-            public ApiComments ApiComments(IWfRuntime wf)
-                => Service<ApiComments>(wf);
-
             public ApiCatalogs ApiCatalogs(IWfRuntime wf)
                 => Service<ApiCatalogs>(wf);
         }
@@ -25,9 +22,6 @@ namespace Z0
 
         public static ApiMd ApiMd(this IWfRuntime wf)
             => Services.ApiMetadata(wf);
-
-        public static ApiComments ApiComments(this IWfRuntime wf)
-            => Services.ApiComments(wf);
 
         public static ApiCatalogs ApiCatalogs(this IWfRuntime wf)
             => Services.ApiCatalogs(wf);

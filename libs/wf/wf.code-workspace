@@ -1,0 +1,20 @@
+{
+	"folders": [
+        {
+            "path": "."
+        },
+        {
+            "path": "..\\containers"
+        },
+        {
+            "path": "..\\symbolics"
+        },
+        {
+            "path": "..\\files"
+        },
+        {
+            "path": "..\\digital"
+        }
+    ],
+	"settings": {}
+}

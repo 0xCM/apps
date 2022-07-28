@@ -17,7 +17,7 @@ namespace Z0
     partial struct core
     {
         [Op]
-        public static void require(bool invariant, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static void require(bool invariant, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
         {
             if(!invariant)
                 sys.@throw("The invariant, it failed", caller, line, file);
@@ -36,7 +36,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public static T require<T>(T src, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static T require<T>(T src, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
         {
             if(src == null)
                 sys.@throw($"{caller} supplied a NULL value: {file}:line {line}");

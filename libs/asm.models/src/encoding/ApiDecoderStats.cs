@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public struct ApiDecoderStats : ITextual
+    public record struct ApiDecoderStats : IExpr
     {
         public static ApiDecoderStats init()
             => new ApiDecoderStats();
@@ -15,10 +15,16 @@ namespace Z0
 
         public uint PartCount;
 
-        public uint InstructionCount;
+        public uint InstCount;
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => InstCount == 0;
+        }
 
         public string Format()
-            => RpOps.format(RpOps.PSx4, PartCount, HostCount, MemberCount, InstructionCount);
+            => string.Format(RP.PSx4, PartCount, HostCount, MemberCount, InstCount);
 
         public override string ToString()
             => Format();

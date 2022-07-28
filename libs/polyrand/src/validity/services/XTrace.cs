@@ -22,13 +22,13 @@ namespace Z0
         public static void Trace(this IMessageQueue dst, IAppMsg msg)
             => dst.NotifyConsole(msg);
 
-        public static void Trace(this IMessageQueue dst, object msg, Type host, [Caller] string caller = null)
+        public static void Trace(this IMessageQueue dst, object msg, Type host, [CallerName] string caller = null)
             => dst.Trace(TraceMsg(msg, host, caller, FlairKind.Running));
 
-        public static void Trace(this IMessageQueue dst, string title, object msg, FlairKind color, Type host, [Caller] string caller = null)
+        public static void Trace(this IMessageQueue dst, string title, object msg, FlairKind color, Type host, [CallerName] string caller = null)
             => dst.Trace(TraceMsg(title, msg, host, caller, color));
 
-        public static void Trace(this IMessageQueue dst, string title, string msg, Type host, [Caller] string caller = null)
+        public static void Trace(this IMessageQueue dst, string title, string msg, Type host, [CallerName] string caller = null)
             => dst.Trace(TraceMsg(title, msg, host, caller, FlairKind.Running));
     }
 }

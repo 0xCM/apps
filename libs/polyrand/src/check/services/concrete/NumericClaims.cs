@@ -17,7 +17,7 @@ namespace Z0
 
         const NumericKind Closure = UnsignedInts;
 
-        public static void eq<T>(T a, T b, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static void eq<T>(T a, T b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             where T : unmanaged
         {
             if(typeof(T).IsPrimalNumeric())
@@ -26,7 +26,7 @@ namespace Z0
                 CheckEqual.Checker.Eq(a,b);
         }
 
-        public static void neq<T>(T lhs, T rhs, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static void neq<T>(T lhs, T rhs, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             where T : unmanaged
         {
             if(typeof(T).IsPrimalNumeric())
@@ -35,27 +35,27 @@ namespace Z0
                 CheckEqual.Checker.Neq(lhs,rhs);
         }
 
-        public static bool nonzero<T>(T x, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static bool nonzero<T>(T x, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             where T : unmanaged
                 => gmath.nonz(x) ? true : throw AppErrors.NotNonzero(caller,file,line);
 
-        public static bool zero<T>(T x, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static bool zero<T>(T x, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             where T : unmanaged
                 => !gmath.nonz(x) ? true : throw AppErrors.NotNonzero(caller,file,line);
 
-        public static bool gt<T>(T a, T b, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static bool gt<T>(T a, T b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             where T : unmanaged
                 => gmath.gt(a,b) ? true : throw failed(ClaimKind.Gt, NotGreaterThan(a, b, caller, file, line));
 
-        public static bool gteq<T>(T lhs, T rhs, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static bool gteq<T>(T lhs, T rhs, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             where T : unmanaged
                 => gmath.gteq(lhs,rhs) ? true : throw failed(ClaimKind.Gt, NotGreaterThan(lhs, rhs, caller, file, line));
 
-        public static bool lt<T>(T lhs, T rhs, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static bool lt<T>(T lhs, T rhs, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             where T : unmanaged
                 => gmath.lt(lhs,rhs) ? true : throw failed(ClaimKind.Lt, NotLessThan(lhs, rhs, caller, file, line));
 
-        public static bool lteq<T>(T lhs, T rhs, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static bool lteq<T>(T lhs, T rhs, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             where T : unmanaged
                 => gmath.lteq(lhs,rhs) ? true : throw failed(ClaimKind.GtEq, NotGreaterThanOrEqual(lhs, rhs, caller, file, line));
     }

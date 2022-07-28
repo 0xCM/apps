@@ -20,16 +20,16 @@ namespace Z0
         ClaimException failed(ClaimKind claim, IAppMsg msg)
             => api.failed(claim, msg);
 
-        void require(bool condition, ClaimKind claim, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        void require(bool condition, ClaimKind claim, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => api.require(condition,claim, caller,file,line);
 
-        ClaimException failed(ClaimKind claim, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        ClaimException failed(ClaimKind claim, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => api.failed(claim, AppMsg.error("failed", caller, file,line));
 
-        void failed(string msg, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        void failed(string msg, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => api.fail(msg, caller,file,line);
 
-        void fail([Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        void fail([CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => api.fail(caller,file,line);
     }
 

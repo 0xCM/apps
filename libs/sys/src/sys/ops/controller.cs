@@ -2,11 +2,12 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-[assembly: PartId(PartId.ContainerChecks)]
-namespace Z0.Parts
+namespace Z0
 {
-    public sealed partial class ContainerChecks : Part<ContainerChecks>
+    partial struct sys
     {
-
-    }
+        [MethodImpl(Inline), Op]
+        public static ref readonly Assembly controller()
+            => ref ExecutingPart.Component;
+   }
 }

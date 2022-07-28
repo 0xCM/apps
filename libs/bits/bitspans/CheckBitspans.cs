@@ -22,7 +22,7 @@ namespace Z0
         /// <param name="a">The left bitspan</param>
         /// <param name="b">The right bitspan</param>
         [MethodImpl(Inline)]
-        public static void eq(in BitSpan32 a, in BitSpan32 b, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static void eq(in BitSpan32 a, in BitSpan32 b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => api.require(a==b, ClaimKind.Eq);
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace Z0
         /// <param name="a">The left bitspan</param>
         /// <param name="b">The right bitspan</param>
         [MethodImpl(Inline)]
-        public static void eq(in BitSpan a, in BitSpan b, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static void eq(in BitSpan a, in BitSpan b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => api.require(a==b, ClaimKind.Eq);
     }
 }

@@ -33,7 +33,7 @@ namespace Z0
         /// <param name="time">The running time</param>
         /// <param name="opcount">The operation count</param>
         /// <param name="label">The label associated with the measure, if specified</param>
-        BenchmarkRecord Benchmark(long opcount, Duration time, [Caller] string label = null)
+        BenchmarkRecord Benchmark(long opcount, Duration time, [CallerName] string label = null)
             => BenchmarkRecord.Define(opcount, time, label);
     }
 }

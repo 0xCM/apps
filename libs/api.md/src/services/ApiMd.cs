@@ -26,9 +26,7 @@ namespace Z0
             => ApiRuntimeCatalog;
 
         Assembly[] CalcComponents()
-        {
-            return Modules.PartArchive().ManagedDll().Where(x => x.FileName.StartsWith("z0")).Select(x => x.Load()).Unwrap().Distinct().ToArray();
-        }
+            => Modules.PartArchive().ManagedDll().Where(x => x.FileName.StartsWith("z0")).Select(x => x.Load()).Unwrap().Distinct().Unwrap();
 
         public Assembly[] Components
             => data(K.Components, CalcComponents);

@@ -12,7 +12,7 @@ namespace Z0
 
     public interface ICheckEquatable : IClaimValidator
     {
-        void eq<T>(T a, T b, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        void eq<T>(T a, T b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             where T : IEquatable<T>
         {
             if(!a.Equals(b))

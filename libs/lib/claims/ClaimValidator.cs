@@ -34,7 +34,7 @@ namespace Z0
         /// </summary>
         /// <param name="claim">The sort of claim that failed</param>
         [MethodImpl(Inline), Op]
-        public static ClaimException exception(ClaimKind claim, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static ClaimException exception(ClaimKind claim, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => failed(claim, AppMsg.error("failed", caller, file,line));
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace Z0
         /// </summary>
         /// <param name="condition">The invariant state</param>
         /// <param name="claim">The sort of claim that failed</param>
-        public static void require(bool condition, ClaimKind claim, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static void require(bool condition, ClaimKind claim, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
         {
             if(!condition)
                 throw exception(claim,caller,file,line);
@@ -56,11 +56,11 @@ namespace Z0
         /// <param name="file">The source file of the calling function</param>
         /// <param name="line">The source file line number where invocation ocurred</param>
         [MethodImpl(Inline), Op]
-        public static void fail(string msg, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static void fail(string msg, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => throw failed(ClaimKind.None, AppMsg.error(msg, caller, file,line));
 
         [MethodImpl(Inline), Op]
-        public static void fail([Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static void fail([CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => throw failed(ClaimKind.None, AppMsg.error("failed", caller, file,line));
     }
 }

@@ -15,18 +15,18 @@ namespace Z0
     [DataWidth(4)]
     public readonly record struct DecimalDigit : IDigit<D,B,S,C,V>
     {
-        readonly T Storage;
+        readonly T Data;
 
         [MethodImpl(Inline)]
         public DecimalDigit(V src)
         {
-            Storage = (T)src;
+            Data = (T)src;
         }
 
         public readonly V Value
         {
             [MethodImpl(Inline)]
-            get => (V)Storage;
+            get => (V)Data;
         }
 
         public S Symbol
@@ -50,13 +50,24 @@ namespace Z0
         public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => Storage;
+            get => Data;
+        }
+
+        public bool IsZero
+        {
+            [MethodImpl(Inline)]
+            get => Data == 0;
+        }
+
+        public bool IsNonZero
+        {
+            [MethodImpl(Inline)]
+            get => Data != 0;
         }
 
         [MethodImpl(Inline)]
         public int CompareTo(D src)
-            => Storage.CompareTo(src.Storage);
-
+            => Data.CompareTo(src.Data);
 
         public override int GetHashCode()
             => Hash;
@@ -67,7 +78,6 @@ namespace Z0
 
         public string Format()
             => Char.ToString();
-
 
         public override string ToString()
             => Format();

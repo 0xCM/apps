@@ -16,71 +16,71 @@ namespace Z0
     public readonly struct PrimalClaims
     {
         [Op]
-        public static bool require(bool src, string msg = null, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static bool require(bool src, string msg = null, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => !src ? @throw<bool>(ClaimException.define(ClaimKind.Invariant,NotTrue(msg, caller, file,line).Format())) : true;
 
         [Op]
-        public static bool eq(char a, char b, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static bool eq(char a, char b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => a == b ? true : @throw<bool>(Failed(ClaimKind.Eq, NotEqual(a, b, caller, file, line)));
 
         [Op]
-        public static bool eq(string a, string b, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static bool eq(string a, string b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => string.Equals(a,b) ? true : @throw<bool>(Failed(ClaimKind.Eq, NotEqual(a, b, caller, file, line)));
 
         [Op]
-        public static bool eq(byte a, byte b, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static bool eq(byte a, byte b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => a == b ? true : @throw<bool>(Failed(ClaimKind.Eq, NotEqual(a,b, caller, file, line)));
 
         [Op]
-        public static bool eq(sbyte a, sbyte b, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static bool eq(sbyte a, sbyte b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => a == b ? true : @throw<bool>(Failed(ClaimKind.Eq, NotEqual(a,b, caller, file, line)));
 
         [Op]
-        public static bool eq(short a, short b, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static bool eq(short a, short b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => a == b ? true : @throw<bool>(Failed(ClaimKind.Eq, NotEqual(a, b, caller, file, line)));
 
         [Op]
-        public static bool eq(ushort a, ushort b, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static bool eq(ushort a, ushort b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => a == b ? true : @throw<bool>(Failed(ClaimKind.Eq, NotEqual(a, b, caller, file, line)));
 
         [Op]
-        public static bool eq(int a, int b, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static bool eq(int a, int b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => a == b ? true : @throw<bool>(Failed(ClaimKind.Eq, NotEqual(a, b, caller, file, line)));
 
         [Op]
-        public static bool eq(uint a, uint b, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static bool eq(uint a, uint b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => a == b ? true : @throw<bool>(Failed(ClaimKind.Eq, NotEqual(a, b, caller, file, line)));
 
         [Op]
-        public static bool eq(long a, long b, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static bool eq(long a, long b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => a == b ? true : @throw<bool>(Failed(ClaimKind.Eq, NotEqual(a,b, caller, file, line)));
 
         [Op]
-        public static bool eq(ulong a, ulong b, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static bool eq(ulong a, ulong b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => a == b ? true : @throw<bool>(Failed(ClaimKind.Eq, NotEqual(a, b, caller, file, line)));
 
         [Op]
-        public static bool eq(bool a, bool b, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static bool eq(bool a, bool b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => a == b ? true : @throw<bool>(Failed(ClaimKind.Eq, NotEqual(a, b, caller, file, line)));
 
         [Op]
-        public static bool eq(bit a, bit b, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static bool eq(bit a, bit b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => a == b ? true : @throw<bool>(Failed(ClaimKind.Eq, NotEqual(a, b, caller, file, line)));
 
         [Op]
-        public static bool neq(bit a, bit b, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static bool neq(bit a, bit b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => a != b ? true : @throw<bool>(Failed(ClaimKind.Eq, Equal(a, b, caller, file, line)));
 
         [Op]
-        public static bool neq(char a, char b, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static bool neq(char a, char b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => a != b ? true : @throw<bool>(Failed(ClaimKind.NEq, Equal(a, b, caller, file, line)));
 
         [Op]
-        public static bool neq(string a, string b, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static bool neq(string a, string b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => a != b ? true : @throw<bool>(Failed(ClaimKind.NEq, Equal(a, b, caller, file, line)));
 
         [Op]
-        public static bool neq(long a, long b, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static bool neq(long a, long b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => a != b ? true : @throw<bool>(Failed(ClaimKind.NEq, Equal(a, b, caller, file, line)));
 
         [Op]

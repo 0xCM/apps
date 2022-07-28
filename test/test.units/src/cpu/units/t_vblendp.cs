@@ -330,7 +330,7 @@ namespace Z0
             where T : unmanaged
                 => Calcs.broadcast(BitMasks.lsb(n2,n1,t), enabled(t), SpanBlocks.single<T>(w)).LoadVector();
 
-        void vblendp_check<T>(Vector128<T> spec, [Caller] string title = null)
+        void vblendp_check<T>(Vector128<T> spec, [CallerName] string title = null)
             where T : unmanaged
         {
             var w = n128;

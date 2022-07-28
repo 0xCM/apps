@@ -68,7 +68,7 @@ namespace Z0
         /// <param name="line">The file line number of invocation</param>
         /// <typeparam name="T">The element type</typeparam>
         [Op, Closures(AllNumeric)]
-        public static void close<T>(Span<T> lhs, Span<T> rhs, T tolerance, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static void close<T>(Span<T> lhs, Span<T> rhs, T tolerance, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             where T : unmanaged
         {
             var count = CheckLengths.length(lhs,rhs);

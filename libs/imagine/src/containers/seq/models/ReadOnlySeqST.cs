@@ -98,10 +98,18 @@ namespace Z0
         public ReadOnlySeq<T> Where(Func<T,bool> predicate)
             => Seq.where(View, predicate);
 
+        public S Distinct()
+            => create(Data.Distinct());
+
         public void Iter(Action<T> f)
             => Algs.iter(View, f);
 
+        [MethodImpl(Inline)]
         public Seq<T> Unwrap()
+            => Data;
+
+        [MethodImpl(Inline)]
+        public T[] ToArray()
             => Data;
 
         public virtual string Delimiter => Eol;

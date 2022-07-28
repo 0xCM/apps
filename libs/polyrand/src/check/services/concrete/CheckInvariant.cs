@@ -20,7 +20,7 @@ namespace Z0
         /// <param name="caller">The caller member name</param>
         /// <param name="file">The source file of the calling function</param>
         /// <param name="line">The source file line number where invocation ocurred</param>
-        public static bool require(bool invariant, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static bool require(bool invariant, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => invariant ? true : throw failed(ClaimKind.Invariant, InvariantFailure(caller, file, line));
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace Z0
         /// <param name="caller">The caller member name</param>
         /// <param name="file">The source file of the calling function</param>
         /// <param name="line">The source file line number where invocation ocurred</param>
-        public static void require(bool invariant, string msg, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static void require(bool invariant, string msg, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => invariant.OnNone(() => throw failed(ClaimKind.Invariant,  InvariantFailure(msg, caller, file,line)));
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Z0
         /// <param name="file">The source file of the calling function</param>
         /// <param name="line">The source file line number where invocation ocurred</param>
         /// <typeparam name="T"></typeparam>
-        public static void require<T>(bool src, string msg = null, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static void require<T>(bool src, string msg = null, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             where T : unmanaged
                 => src.OnNone(() => throw failed(ClaimKind.Invariant, NotTrue($"{typeof(T).NumericKind().Format()}" + (msg ?? string.Empty) , caller, file, line)));
 
@@ -55,7 +55,7 @@ namespace Z0
         /// <param name="caller">The caller member name</param>
         /// <param name="file">The source file of the calling function</param>
         /// <param name="line">The source file line number where invocation ocurred</param>
-        public static void not(bool src, string msg = null, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static void not(bool src, string msg = null, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => src.OnSome(() => throw failed(ClaimKind.False, NotFalse(msg, caller, file,line)));
     }
 }

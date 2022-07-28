@@ -22,7 +22,7 @@ namespace Z0
         /// <param name="caller">The caller member name</param>
         /// <param name="file">The source file of the calling function</param>
         /// <param name="line">The source file line number where invocation ocurred</param>
-        bool seteq<T>(ISet<T> a, ISet<T> b, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        bool seteq<T>(ISet<T> a, ISet<T> b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => a.SetEquals(b) ? true : throw failed(ClaimKind.Eq, NotEqual(a,b, caller, file, line));
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace Z0
         /// <param name="file">The source file of the calling function</param>
         /// <param name="line">The source file line number where invocation ocurred</param>
         /// <typeparam name="T"></typeparam>
-        bool contains<T>(ISet<T> set, T item, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        bool contains<T>(ISet<T> set, T item, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => set.Contains(item) ? true : throw failed(ClaimKind.NotIn, AppMsg.error($"Item {item} not in set", caller, file, line));
 
         /// <summary>

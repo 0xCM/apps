@@ -39,7 +39,7 @@ namespace Z0
         /// Produces a test case identifier predicated on a parametrically-specialized label
         /// <param name="label">The case label</param>
         /// <typeparam name="T">The label specialization type</typeparam>
-        public static OpIdentity NumericId<T>([Caller] string label = null)
+        public static OpIdentity NumericId<T>([CallerName] string label = null)
             where T : unmanaged
                 => numeric($"{label}", typeof(T).NumericKind());
 

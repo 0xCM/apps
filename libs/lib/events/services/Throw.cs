@@ -12,7 +12,7 @@ namespace Z0
     public readonly struct Throw
     {
         [Op]
-        public static void OnError(Outcome result, [Caller]string caller = null, [File] string? file = null, [Line] int? line = null)
+        public static void OnError(Outcome result, [CallerName]string caller = null, [CallerFile] string? file = null, [CallerLine] int? line = null)
         {
             if(result.Fail)
                 sourced(result.Message, caller, file, line);
@@ -26,7 +26,7 @@ namespace Z0
             => throw e;
 
         [Op]
-        public static void sourced(string msg, [Caller]string caller = null, [File] string? file = null, [Line] int? line = null)
+        public static void sourced(string msg, [CallerName]string caller = null, [CallerFile] string? file = null, [CallerLine] int? line = null)
             => sourced(msg, AppMsg.orginate(caller,file,line));
 
         [Op]

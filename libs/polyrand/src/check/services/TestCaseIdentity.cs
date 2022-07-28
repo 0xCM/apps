@@ -18,7 +18,7 @@ namespace Z0
         /// </summary>
         /// <param name="label">The case label</param>
         /// <typeparam name="T">The label specialization type</typeparam>
-        public static string NumericName<T>(Type host, [Caller] string label = null)
+        public static string NumericName<T>(Type host, [CallerName] string label = null)
             where T : unmanaged
                 => from(host, ApiIdentityBuilder.NumericId<T>(label));
 
@@ -26,7 +26,7 @@ namespace Z0
         /// Produces a test case identifier predicated on a parametrically-specialized label
         /// <param name="label">The case label</param>
         /// <typeparam name="T">The label specialization type</typeparam>
-        public static OpIdentity NumericId<T>([Caller] string label = null)
+        public static OpIdentity NumericId<T>([CallerName] string label = null)
             where T : unmanaged
                 => ApiIdentityBuilder.numeric($"{label}", typeof(T).NumericKind());
 
@@ -43,11 +43,11 @@ namespace Z0
         /// </summary>
         /// <param name="label">The case label</param>
         /// <typeparam name="T">The label specialization type</typeparam>
-        public static string name<T>(Type host, [Caller] string label = null)
+        public static string name<T>(Type host, [CallerName] string label = null)
             where T : unmanaged
                 => NumericName<T>(host, label);
 
-        public string name<W,T>([Caller] string label = null, bool generic = true)
+        public string name<W,T>([CallerName] string label = null, bool generic = true)
             where W : unmanaged, ITypeWidth
             where T : unmanaged
                 => ApiIdentityBuilder.name<W,T>(GetType(), label, generic);

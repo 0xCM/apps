@@ -5,12 +5,13 @@
     <TargetFramework>$(FrameworkMoniker)</TargetFramework>
   </PropertyGroup>
 
+  <Import Project="$(ImportDefs)usings.props"/>
+
   <ItemGroup>
     <ProjectReference Include="$(AsmCore)" />
     <ProjectReference Include="$(Glue)" />
     <ProjectReference Include="$(Cli)" />
     <ProjectReference Include="$(Polyrand)" />
   </ItemGroup>
-
 
 </Project>

@@ -62,10 +62,8 @@ namespace Z0
                 }
             }
 
-
             Check1();
             Check2();
-
         }
 
         public static ICmdProvider[] providers(IWfRuntime wf)

@@ -55,9 +55,9 @@ namespace Z0
         public Seq<T> Reverse()
             => new Seq<T>(Data.Reverse());
 
-        [MethodImpl(Inline)]
-        public T[] ToArray()
-            => Data;
+        // [MethodImpl(Inline)]
+        // public T[] ToArray()
+        //     => Data;
 
         public S Sort()
         {

@@ -9,6 +9,10 @@ namespace Z0
         sealed class ServiceCache : AppServices<ServiceCache>
         {
 
+            public ApiComments ApiComments(IWfRuntime wf)
+                => Service<ApiComments>(wf);
+
+
             public IWsProvider Ws(IWfRuntime wf, FS.FolderPath home)
                 => Service(wf, $"WsProvider.{WsProvider.id(home)}", wf => WsProvider.create(wf,home));
         }
@@ -17,5 +21,8 @@ namespace Z0
 
         public static IWsProvider Ws(this IWfRuntime wf, FS.FolderPath home)
             => Services.Ws(wf, home);
+
+        public static ApiComments ApiComments(this IWfRuntime wf)
+            => Services.ApiComments(wf);
     }
 }

@@ -21,7 +21,7 @@ namespace Z0.llvm
         public LineMap<string> CalcDefMap(string project, string name)
         {
             var src = DataProvider.RecordLines(project,name);
-            return LineMaps.calc(src, DataCalcs.CalcDefRelations(src));
+            return DbArchives.map(src, DataCalcs.CalcDefRelations(src));
         }
 
         public void EmitMap(string project, string name, LineMap<string> src)
@@ -37,7 +37,7 @@ namespace Z0.llvm
         public LineMap<string> EmitLineMap<T>(Index<T> src, Index<TextLine> records, string name)
             where T : struct, ILineRelations<T>
         {
-            var map = LineMaps.calc(records, src);
+            var map = DbArchives.map(records, src);
             var dst = LlvmPaths.LineMap(name);
             var emitting = EmittingFile(dst);
             using var writer = dst.AsciWriter();

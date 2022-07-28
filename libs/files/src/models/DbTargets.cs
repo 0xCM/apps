@@ -20,7 +20,6 @@ namespace Z0
             DbFiles = root;
         }
 
-
         public FS.FolderPath Root
             => DbFiles;
 

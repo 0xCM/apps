@@ -96,6 +96,18 @@ namespace Z0
             get => Storage;
         }
 
+        public bool IsZero
+        {
+            [MethodImpl(Inline)]
+            get => Storage == 0;
+        }
+
+        public bool IsNonZero
+        {
+            [MethodImpl(Inline)]
+            get => Storage != 0;
+        }
+
         [MethodImpl(Inline)]
         public D Inc()
             => Storage ? new D(T.Off) : new D(T.On);

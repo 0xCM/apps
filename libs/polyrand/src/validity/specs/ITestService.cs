@@ -17,7 +17,7 @@ namespace Z0
     {
         IPolyrand IPolyrandProvider.Random => Context.Random;
 
-        void Error(Exception e, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        void Error(Exception e, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => Context.Deposit(AppMsg.error(e, caller,file,line));
     }
 }
