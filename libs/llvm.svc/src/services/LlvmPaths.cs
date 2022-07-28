@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using static ApiGranules;
+    using static ApiAtomic;
 
     public class LlvmPaths : WfSvc<LlvmPaths>
     {

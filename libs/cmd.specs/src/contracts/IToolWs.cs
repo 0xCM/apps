@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static ApiGranules;
+    using static ApiAtomic;
 
     public interface IToolWs
     {

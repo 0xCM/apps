@@ -7,7 +7,7 @@ namespace Z0
     using Asm;
 
     using static core;
-    using static ApiGranules;
+    using static ApiAtomic;
 
 
     partial class PolyBits

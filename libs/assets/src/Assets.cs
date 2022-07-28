@@ -5,7 +5,7 @@
 namespace Z0
 {
     using static core;
-    using static ApiGranules;
+    using static ApiAtomic;
 
     [ApiHost("asset.services")]
     public sealed class Assets : WfSvc<Assets>

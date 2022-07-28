@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [SymSource(ApiGranules.llvm)]
+    [SymSource(ApiAtomic.llvm)]
     public enum LlvmTargetName : byte
     {
         None,

@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using static ApiGranules;
+    using static ApiAtomic;
 
     using N = YamlTokenNames;
 

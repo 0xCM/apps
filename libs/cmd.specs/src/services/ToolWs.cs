@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static ApiGranules;
+    using static ApiAtomic;
     using static core;
 
     public sealed class ToolWs : Workspace<ToolWs>, IToolWs
@@ -13,7 +13,7 @@ namespace Z0
             => Root + FS.folder(id.Format());
 
         public FS.FilePath ConfigScript(Actor id)
-            => ToolHome(id) + FS.file(ApiGranules.config, FS.Cmd);
+            => ToolHome(id) + FS.file(ApiAtomic.config, FS.Cmd);
 
         Dictionary<Actor,ToolConfig> ConfigLookup;
 

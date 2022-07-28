@@ -115,8 +115,6 @@
     <CgShell>$(CgRoot)cg.shell\z0.cg.shell.csproj</CgShell>
     <CgTest>$(CgRoot)cg.shell\z0.cg.shell.csproj</CgTest>
 
-
-
   </PropertyGroup>
 
 </Project>

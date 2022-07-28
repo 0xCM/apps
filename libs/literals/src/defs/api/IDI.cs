@@ -9,7 +9,7 @@ namespace Z0
     /// <summary>
     /// Identity indicators
     /// </summary>
-    [LiteralProvider(ApiGranules.api)]
+    [LiteralProvider(ApiAtomic.api)]
     public static class IDI
     {
         /// <summary>

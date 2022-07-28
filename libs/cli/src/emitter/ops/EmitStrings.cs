@@ -27,7 +27,7 @@ namespace Z0
             void Exec()
             {
                 var reader = CliReader.create(src);
-                TableEmit(reader.ReadUserStringDetail(), dst.Metadata(CliSections.UserStrings).PrefixedTable<CliString>(src.GetSimpleName()), unicode);
+                TableEmit(reader.ReadUserStringDetail(), dst.Metadata(CliSections.UserStrings).PrefixedTable<CliString>(src.GetSimpleName()), UTF16);
             }
             Try(Exec);
         }
@@ -44,7 +44,7 @@ namespace Z0
             {
                 var path = dst.Metadata(CliSections.SystemStrings).PrefixedTable<CliString>(src.GetSimpleName());
                 using var reader = PeReader.create(FS.path(src.Location));
-                TableEmit(reader.ReadSystemStringDetail(), path, unicode);
+                TableEmit(reader.ReadSystemStringDetail(), path, UTF16);
             }
             Try(Exec);
         }

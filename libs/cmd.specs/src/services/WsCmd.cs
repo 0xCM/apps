@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using G = ApiGranules;
+    using G = ApiAtomic;
 
     [ApiHost]
     public class WsCmd

@@ -3,7 +3,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static ApiGranules;
+    using static ApiAtomic;
     using static Pow2Scalars;
 
     [ApiClass, SymSource(api_classes), Flags]

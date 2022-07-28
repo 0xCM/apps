@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------------------//
 namespace Z0.llvm.disasm
 {
-    using static ApiGranules;
+    using static ApiAtomic;
 
     [SymSource(llvm_mc)]
     public enum ModRMType : byte

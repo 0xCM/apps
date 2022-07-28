@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------------------//
 namespace Z0.llvm.mc
 {
-    using static ApiGranules;
+    using static ApiAtomic;
 
     /// <summary>
     /// X86 specific condition code. These correspond to X86_*_COND in X86InstrInfo.td. They must be kept in synch.

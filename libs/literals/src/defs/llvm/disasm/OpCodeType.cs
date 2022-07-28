@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------------------//
 namespace Z0.llvm.disasm
 {
-    using static ApiGranules;
+    using static ApiAtomic;
 
     /// <summary>
     /// From https://github.com/llvm/llvm-project/blob/a8ad9170543906fc58336ab736a109fb42082fbf/llvm/include/llvm/Support/X86DisassemblerDecoderCommon.h

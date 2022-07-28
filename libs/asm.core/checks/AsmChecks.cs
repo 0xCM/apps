@@ -25,9 +25,9 @@ namespace Z0
         [CmdOp("asm/emit/tokens")]
         void EmitAsmSymbols()
         {
-            TableEmit(AsmTokens.OcTokenDefs.View, AppDb.ApiTargets().Path("api.asm.tokens.opcodes", FileKind.Csv), unicode);
-            TableEmit(AsmTokens.SigTokenDefs.View, AppDb.ApiTargets().Path("api.asm.tokens.sigs", FileKind.Csv), unicode);
-            TableEmit(AsmTokens.TokenDefs.View, AppDb.ApiTargets().Path("api.asm.tokens", FileKind.Csv), unicode);
+            TableEmit(AsmTokens.OcTokenDefs.View, AppDb.ApiTargets().Path("api.asm.tokens.opcodes", FileKind.Csv), UTF16);
+            TableEmit(AsmTokens.SigTokenDefs.View, AppDb.ApiTargets().Path("api.asm.tokens.sigs", FileKind.Csv), UTF16);
+            TableEmit(AsmTokens.TokenDefs.View, AppDb.ApiTargets().Path("api.asm.tokens", FileKind.Csv), UTF16);
         }
 
         [CmdOp("asm/check/flags")]

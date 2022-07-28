@@ -7,7 +7,7 @@ namespace Z0
     using FF = AsciLetterUpSym;
     using ff = AsciLetterLoSym;
 
-    using static ApiGranules;
+    using static ApiAtomic;
 
     /// <summary>
     /// Defines symbols for file system drive letters

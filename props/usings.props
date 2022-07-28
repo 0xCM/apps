@@ -24,6 +24,7 @@
     <Using Alias="CallerFile" Include="System.Runtime.CompilerServices.CallerFilePathAttribute"  />
     <Using Alias="CallerLine" Include="System.Runtime.CompilerServices.CallerLineNumberAttribute"  />
     <Using Include="Z0.Root" Static="True" />
+    <Using Include="Z0.ApiAtomic" Static="True" />
   </ItemGroup>
 
 </Project>

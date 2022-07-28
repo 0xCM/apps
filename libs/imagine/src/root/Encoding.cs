@@ -8,9 +8,9 @@ namespace Z0
 
     partial struct Root
     {
-        public const TE unicode = TE.Unicode;
+        public const TE UTF16 = TE.Unicode;
 
-        public const TE asci7 = TE.Asci;
+        public const TE ASCI = TE.Asci;
 
         public const TE UTF8 = TE.Utf8;
     }

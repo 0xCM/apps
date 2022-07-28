@@ -5,7 +5,7 @@
 namespace Z0.Asm
 {
     using static SdmModels;
-    using static ApiGranules;
+    using static ApiAtomic;
 
     public class IntelSdmPaths : WfSvc<IntelSdmPaths>
     {

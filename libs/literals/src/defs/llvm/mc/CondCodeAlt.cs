@@ -5,7 +5,7 @@
 namespace Z0.llvm.mc
 {
     using static CondCode;
-    using static ApiGranules;
+    using static ApiAtomic;
 
     [SymSource(llvm_mc)]
     public enum CondCodeAlt : byte

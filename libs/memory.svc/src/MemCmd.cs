@@ -5,7 +5,7 @@
 namespace Z0
 {
     using static core;
-    using static ApiGranules;
+    using static ApiAtomic;
     using Windows;
     [Free]
     public unsafe class MemCmd : CmdService<MemCmd>

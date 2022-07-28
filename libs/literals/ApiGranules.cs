@@ -6,7 +6,7 @@
 namespace Z0
 {
     [LiteralProvider(api)]
-    public readonly struct ApiGranules
+    public readonly struct ApiAtomic
     {
         const string Dot = ".";
 
@@ -368,11 +368,11 @@ namespace Z0
 
         public const string unicode = nameof(unicode);
 
-        public const string UTF8 = nameof(UTF8);
+        public const string utf8 = nameof(utf8);
 
-        public const string UTF16 = nameof(UTF16);
+        public const string utf16 = nameof(utf16);
 
-        public const string ASCII = nameof(ASCII);
+        public const string asci7 = nameof(asci7);
 
         public const string llvm = nameof(llvm);
 

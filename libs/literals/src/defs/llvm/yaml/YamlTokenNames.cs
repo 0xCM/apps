@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using static ApiGranules;
+    using static ApiAtomic;
 
     [LiteralProvider(llvm)]
     public readonly struct YamlTokenNames

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using static ApiGranules;
+    using static ApiAtomic;
 
     public partial class LlvmCmd : AppCmdService<LlvmCmd>
     {

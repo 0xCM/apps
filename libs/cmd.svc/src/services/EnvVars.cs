@@ -19,8 +19,8 @@ namespace Z0
             var name =  $"{ExecutingPart.Name}.{EnumRender.format(kind)}";
             if(display)
                 term.write(vars, FlairKind.Babble);
-            emit(records(vars, name).View, dir + FS.file($"{name}.settings", FileKind.Csv), asci7);
-            FS.emit(typeof(EnvVars), vars, dir + FS.file(name, FileKind.Env), asci7);
+            emit(records(vars, name).View, dir + FS.file($"{name}.settings", FileKind.Csv), ASCI);
+            FS.emit(typeof(EnvVars), vars, dir + FS.file(name, FileKind.Env), ASCI);
             return vars;
         }
 

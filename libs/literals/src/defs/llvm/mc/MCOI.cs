@@ -8,7 +8,7 @@ namespace Z0.llvm
     using OF = MCOI.OperandFlags;
     using OT = MCOI.OperandType;
 
-    using static ApiGranules;
+    using static ApiAtomic;
 
     [LiteralProvider(llvm)]
     public readonly struct MCOI

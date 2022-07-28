@@ -20,7 +20,7 @@ global using System.Threading.Tasks;
 global using System.IO;
 
 global using static Z0.Root;
-global using static Z0.ApiGranules;
+global using static Z0.ApiAtomic;
 
 global using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 global using CallerName = System.Runtime.CompilerServices.CallerMemberNameAttribute;

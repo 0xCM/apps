@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static ApiGranules;
+    using static ApiAtomic;
 
-    using N = ApiGranules;
+    using N = ApiAtomic;
 
     partial struct FS
     {

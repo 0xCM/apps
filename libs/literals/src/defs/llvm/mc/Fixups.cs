@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------------------//
 namespace Z0.llvm.mc
 {
-    using static ApiGranules;
+    using static ApiAtomic;
 
     /// <summary>
     /// From https://github.com/llvm/llvm-project/blob/2946cd701067404b99c39fb29dc9c74bd7193eb3/llvm/lib/Target/X86/MCTargetDesc/X86FixupKinds.h

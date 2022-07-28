@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    using static ApiGranules;
+    using static ApiAtomic;
 
     public class CoffServices : WfSvc<CoffServices>
     {

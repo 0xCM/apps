@@ -58,7 +58,7 @@ namespace Z0
             dst.Asm = summary.Asm;
             dst.Form = inst.Form;
             dst.Instruction = inst.Class;
-            dst.SourceName = text.remove(summary.Source.Path.FileName.Format(), "." + ApiGranules.xeddisasm_raw);
+            dst.SourceName = text.remove(summary.Source.Path.FileName.Format(), "." + ApiAtomic.xeddisasm_raw);
             var dstate = new DisasmFieldParser().Parse(inst.Props);
             var opsLU = ops(dstate, code);
             ref readonly var state = ref dstate.RuleState;

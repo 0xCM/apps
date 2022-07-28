@@ -6,7 +6,7 @@ namespace Z0.llvm.mc
 {
     using T = MCID.Flag;
 
-    using static ApiGranules;
+    using static ApiAtomic;
 
     [LiteralProvider(llvm)]
     public readonly struct MCID

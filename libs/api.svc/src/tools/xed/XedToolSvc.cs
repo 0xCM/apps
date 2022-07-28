@@ -30,7 +30,7 @@ namespace Z0
             => DefineCaseScript(arg(args,0));
 
         FS.FolderPath CaseDir<T>(T subject)
-            => Env.Db + FS.folder(ApiGranules.cases) + FS.folder(string.Format("{0}", subject));
+            => Env.Db + FS.folder(ApiAtomic.cases) + FS.folder(string.Format("{0}", subject));
 
         FS.FolderPath CaseDir<T,D>(T subject, D discriminator)
             => CaseDir(subject) + FS.folder(string.Format("{0}", discriminator));

@@ -24,7 +24,7 @@ global using static Root;
 
 global using NBK = Z0.NumericBaseKind;
 
-global using static Z0.ApiGranules;
+global using static Z0.ApiAtomic;
 
 [assembly: PartId(PartId.Literals)]
 
