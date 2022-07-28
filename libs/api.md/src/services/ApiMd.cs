@@ -64,7 +64,7 @@ namespace Z0
             => data(K.Parsers, () => Z0.Parsers.contracted(Components));
 
         public ApiMdEmitter Emitter()
-            => ApiMdEmitter.create(Wf, this, ApiPack.create());
+            => ApiMdEmitter.create(Wf, this, ApiPacks.create());
 
         public ApiMdEmitter Emitter(IApiPack dst)
             => ApiMdEmitter.create(Wf, this, dst);

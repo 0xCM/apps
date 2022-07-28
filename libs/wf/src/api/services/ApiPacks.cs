@@ -6,7 +6,6 @@ namespace Z0
 {
     using static Spans;
     using static Arrays;
-    using static ApiAtomic;
 
     [ApiHost]
     public sealed class ApiPacks : WfSvc<ApiPacks>
@@ -20,7 +19,7 @@ namespace Z0
             for(var i=0; i<src.Count; i++)
             {
                 ref readonly var source = ref src[i];
-                if(ApiPack.parse(source, out ApiPack pack))
+                if(parse(source, out ApiPack pack))
                 {
                     dst.Add(pack);
                     counter++;
@@ -53,7 +52,7 @@ namespace Z0
             var idx = fmt.LastIndexOf(Chars.FSlash);
             if(idx == NotFound)
                 return false;
-            var result =Time.parse(fmt.RightOfIndex(idx), out var ts);
+            var result = Time.parse(fmt.RightOfIndex(idx), out var ts);
             if(result)
                 dst = new ApiPack(src,ts);
             else
@@ -63,13 +62,13 @@ namespace Z0
 
 
         public IApiPack Current()
-            => ApiPack.discover().Last;
+            => discover().Last;
 
         Arrow<FS.FolderPath,FS.FolderPath> Link(Timestamp ts)
         {
             var capture = AppDb.Capture();
             var src = capture.Root + FS.folder(current);
-            var dst = ApiPack.discover().Last.Root;
+            var dst = discover().Last.Root;
             FS.symlink(src,dst,true).Require();
             Status($"symlink:{src} -> {dst}");
             return (src,dst);

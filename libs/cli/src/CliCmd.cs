@@ -22,7 +22,7 @@ namespace Z0
             => new PEReader(src.BaseAddress.Pointer<byte>(), src.Size);
 
         static IApiPack Dst
-            => ApiPack.create();
+            => ApiPacks.create();
 
         [CmdOp("gen/replicants")]
         Outcome GenEnums(CmdArgs args)

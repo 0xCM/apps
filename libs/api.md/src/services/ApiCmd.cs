@@ -14,12 +14,12 @@ namespace Z0
 
         ApiMemory ApiMemory => Wf.ApiMemory();
 
-        IApiPack ApiPack => Z0.ApiPack.create();
+        IApiPack ApiPack => ApiPacks.create();
 
         [CmdOp("api/packs/list")]
         void ListApiPacks()
         {
-            var src = Z0.ApiPack.discover();
+            var src = ApiPacks.discover();
             for(var i=0; i<src.Count; i++)
             {
                 Write($"{i}", src[i].Timestamp);
@@ -30,7 +30,7 @@ namespace Z0
         Outcome ListApiPack(CmdArgs args)
         {
             var result = Outcome.Failure;
-            var src = Z0.ApiPack.discover();
+            var src = ApiPacks.discover();
             var pack = default(IApiPack);
             if(args.Count > 0)
             {

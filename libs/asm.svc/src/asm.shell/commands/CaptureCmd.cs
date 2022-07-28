@@ -22,7 +22,7 @@ namespace Z0
 
         Runtime Runtime => Wf.Runtime();
 
-        IApiPack Dst => ApiPack.create();
+        IApiPack Dst => ApiPacks.create();
 
         ReadOnlySeq<HostAsmRecord> HostAsm()
         {

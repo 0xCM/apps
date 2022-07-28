@@ -11,10 +11,10 @@ namespace Z0
 
         public void CollectMemStats()
         {
-            var pre = ApiPack.create(core.timestamp());
+            var pre = ApiPacks.create(core.timestamp());
             EmitContext(pre);
             var members = JitCatalog();
-            var post = ApiPack.create(core.timestamp());
+            var post = ApiPacks.create(core.timestamp());
             EmitContext(post);
         }
 

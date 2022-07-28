@@ -4,9 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-    using static ApiAtomic;
     using Windows;
+
+    using static core;
+
     [Free]
     public unsafe class MemCmd : CmdService<MemCmd>
     {
@@ -14,7 +15,7 @@ namespace Z0
 
         ImageRegions Regions => Wf.ImageRegions();
 
-        IApiPack Dst => ApiPack.create();
+        IApiPack Dst => ApiPacks.create();
 
         [CmdOp("memory")]
         Outcome ShowMemHex(CmdArgs args)
