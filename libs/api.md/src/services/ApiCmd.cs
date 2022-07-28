@@ -16,15 +16,6 @@ namespace Z0
 
         IApiPack ApiPack => Z0.ApiPack.create();
 
-        public Index<BitMaskInfo> ApiBitMasks
-            => Data(K.BitMasks, () => BitMask.masks(typeof(BitMaskLiterals)));
-
-        [CmdOp("api/emit/bitmasks")]
-        void EmitApiBitMasks()
-            => Emit(ApiBitMasks);
-
-        public void Emit(Index<BitMaskInfo> src)
-            => TableEmit(src, AppDb.ApiTargets().Table<BitMaskInfo>());
 
         [CmdOp("api/packs/list")]
         void ListApiPacks()
@@ -77,10 +68,6 @@ namespace Z0
         [CmdOp("api/deps")]
         void EmitApiDeps()
             => ApiMd.Emitter(ApiPack).EmitApiDeps(sys.array(ExecutingPart.Component));
-
-        [CmdOp("api/etl")]
-        void ApiEmit()
-            => ApiMd.EmitDatasets(ApiPack);
 
         [CmdOp("api/emit/heap")]
         void ApiEmitHeaps()

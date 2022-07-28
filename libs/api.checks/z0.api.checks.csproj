@@ -11,7 +11,6 @@
   <Import Project="$(ImportDefs)usings.props"/>
 
   <ItemGroup>
-    <ProjectReference Include="$(ApiCmd)" />
     <ProjectReference Include="$(ApiCode)" />
     <ProjectReference Include="$(ApiContracts)" />
     <ProjectReference Include="$(ApiSpecs)" />

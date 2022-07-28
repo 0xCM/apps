@@ -10,7 +10,6 @@
     <ProjectReference Include="$(ApiCode)" />
     <ProjectReference Include="$(ApiMd)" />
     <ProjectReference Include="$(Archives)" />
-    <ProjectReference Include="$(ApiCmd)" />
     <ProjectReference Include="$(ApiSvc)" />
     <ProjectReference Include="$(ApiSpecs)" />
 

@@ -9,6 +9,7 @@ namespace Z0
     using static core;
     using static ApiAtomic;
 
+
     [ApiHost]
     public partial class PolyBits : WfSvc<PolyBits>
     {
@@ -18,10 +19,17 @@ namespace Z0
 
         IDbTargets Targets => AppDb.DbOut().Targets(polybits);
 
-        public PolyBits()
-        {
-            //Actions = CmdActions.discover(this);
-        }
+        [CmdOp("api/emit/bitmasks")]
+        void EmitApiBitMasks()
+            => Emit(ApiBitMasks);
+
+        public Index<BitMaskInfo> ApiBitMasks
+            => Data("BitMasks", () => BitMask.masks(typeof(BitMaskLiterals)));
+
+
+        public void Emit(Index<BitMaskInfo> src)
+            => TableEmit(src, AppDb.ApiTargets().Table<BitMaskInfo>());
+
         public void Check()
         {
             Targets.Delete();
