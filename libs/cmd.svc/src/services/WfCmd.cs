@@ -10,17 +10,13 @@ namespace Z0
     {
         ToolBoxCmd ToolBox => Wf.ToolBoxCmd();
 
-        public static string identifier(FS.FolderPath src)
-            => src.Format(PathSeparator.FS).Replace(Chars.FSlash, Chars.Dot).Replace(Chars.Colon, Chars.Dot).Replace("..", ".");
-
         [CmdOp("files")]
         protected void ListFiles(CmdArgs args)
         {
             var src = FS.dir(arg(args,0));
             var files = FS.listing(src);
-            TableEmit(files, AppDb.Logs("files").Table<ListedFile>(identifier(src)));
+            TableEmit(files, AppDb.Logs("files").Table<ListedFile>(FS.identifier(src)));
         }
-
 
         void CalcRelativePaths()
         {

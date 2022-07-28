@@ -65,7 +65,7 @@ namespace Z0
             => Value == src.Value && Name == src.Name;
 
         public string Format()
-            => Format(Chars.Colon);
+            => Format(Chars.Eq);
 
         public override string ToString()
             => Format();

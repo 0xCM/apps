@@ -8,7 +8,6 @@ namespace Z0
 
     class EnvCmd : AppCmdService<EnvCmd>
     {
-
         ToolBoxCmd ToolBox => Wf.ToolBoxCmd();
 
         static EnvVars<string> vars(string name = null)
@@ -17,14 +16,8 @@ namespace Z0
         [CmdOp("settings")]
         void ReadSettings(CmdArgs args)
         {
-            if(args.Count == 0)
-                AppSettings.Service().Iter(setting => Write(setting.Format(Chars.Eq)));
-            else
-            {
-                var db = AppDb.Service;
-                var src = Settings.load(db.SettingsPath(WatchSettings.Name, FileKind.Toml), Chars.Eq);
-                Row(src);
-            }
+            var src = AppSettings.load();
+            iter(src, setting => Write(setting.Format()));
         }
 
         [CmdOp("setting")]

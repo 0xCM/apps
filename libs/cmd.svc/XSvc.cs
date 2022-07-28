@@ -29,6 +29,10 @@ namespace Z0
             public WsScripts WsScripts(IWfRuntime wf)
                 => Service<WsScripts>(wf);
 
+            public EnvCmd EnvCmd(IWfRuntime wf)
+                => Service<EnvCmd>(wf);
+
+
             public CmdExec CmdExec(IWfRuntime wf)
                 => Service<CmdExec>(wf);
         }
@@ -55,6 +59,9 @@ namespace Z0
 
         public static CmdExec CmdExec(this IWfRuntime wf)
             => Services.CmdExec(wf);
+
+        public static IAppCmdSvc EnvCmd(this IWfRuntime wf)
+            => Services.EnvCmd(wf);
 
         public static ToolBoxSvc ToolBoxSvc(this IWfRuntime wf)
             => Services.ToolBoxSvc(wf);

@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <Import Project="$(ImportDefs)shells.props"/>
+  <Import Project="$(ImportDefs)usings.props"/>
 
   <ItemGroup>
     <ProjectReference Include="$(Queues)" />

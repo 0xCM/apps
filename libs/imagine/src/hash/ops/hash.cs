@@ -61,7 +61,7 @@ namespace Z0
         /// <remarks>Adapted from the .Net core type System.Reflection.Internal.Hash</remarks>
         [MethodImpl(Inline), Op]
         public static uint hash(long x)
-            => combine((uint)x,(uint)(x >> 32));
+            => ((uint)x) ^ ((uint)x >> 32);
 
         /// <summary>
         /// Creates an unsigned calc code
@@ -70,7 +70,7 @@ namespace Z0
         /// <remarks>Adapted from the .Net core type System.Reflection.Internal.Hash</remarks>
         [MethodImpl(Inline), Op]
         public static uint hash(ulong x)
-            => combine((uint)x,(uint)(x >> 32));
+            => ((uint)x) ^ ((uint)x >> 32);
 
         /// <summary>
         /// Creates an unsigned calc code
@@ -85,19 +85,17 @@ namespace Z0
         /// Creates an unsigned calc code
         /// </summary>
         /// <param name="x">The source value</param>
-        /// <remarks>Adapted from the .Net core type System.Reflection.Internal.Hash</remarks>
         [MethodImpl(Inline), Op]
         public static uint hash(float x)
-            => hash((long)x);
+            => hash((uint)x);
 
         /// <summary>
         /// Creates an unsigned calc code
         /// </summary>
         /// <param name="x">The source value</param>
-        /// <remarks>Adapted from the .Net core type System.Reflection.Internal.Hash</remarks>
         [MethodImpl(Inline), Op]
         public static uint hash(double x)
-            => hash(u64(x));
+            => hash((ulong)x);
 
         /// <summary>
         /// Creates an unsigned calc code
@@ -106,7 +104,7 @@ namespace Z0
         /// <remarks>Adapted from the .Net core type System.Reflection.Internal.Hash</remarks>
         [MethodImpl(Inline), Op]
         public static uint hash(decimal x)
-            => hash(u64(x));
+            => (uint)x.GetHashCode();
 
         /// <summary>
         /// Creates an unsigned calc code

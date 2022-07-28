@@ -57,7 +57,7 @@ namespace Z0
         }
 
         public string Format()
-            => string.Format("[{0}]", text.join(",", View));
+            => string.Format("[{0}]", string.Join(',', Storage));
 
         public override string ToString()
             => Format();

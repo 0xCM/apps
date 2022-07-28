@@ -14,25 +14,6 @@ namespace Z0
         public static string pad(int pad)
             => pad == 0 ? "{0}" : "{0," + pad.ToString() + "}";
 
-/*
-        [MethodImpl(Inline), Op, Closures(UnsignedInts)]
-        public static DataSlot<T> dataslot<T>(byte index, short pad)
-            => new DataSlot<T>(index, pad);
-
-        [MethodImpl(Inline), Op]
-        public static DataSlot dataslot(byte index, short pad)
-            => new DataSlot(index, pad);
-
-        public static DataSlot[] dataslots(short[] padding)
-        {
-            var count = padding.Length;
-            var slots = new DataSlot[count];
-            for(var i=0; i<count; i++)
-                slots[i] = dataslot((byte)i, padding[i]);
-            return slots;
-        }
-
-*/
         /// <summary>
         /// Defines the format pattern '{n,pad}'
         /// </summary>

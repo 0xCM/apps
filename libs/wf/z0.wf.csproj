@@ -11,6 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="$(Files)" />
     <ProjectReference Include="$(Containers)" />
+    <ProjectReference Include="$(Symbolics)" />
   </ItemGroup>
 
 </Project>
