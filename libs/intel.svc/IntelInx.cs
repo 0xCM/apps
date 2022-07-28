@@ -16,7 +16,7 @@ namespace Z0
 
             IntelSdm Sdm => Wf.IntelSdm();
 
-            XedRuntime Xed => GlobalServices.Instance.Injected<XedRuntime>();
+            XedRuntime Xed => ApiGlobals.Instance.Injected<XedRuntime>();
 
             SdeSvc Sde => Wf.SdeSvc();
 

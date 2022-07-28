@@ -74,7 +74,6 @@ namespace Z0
 
             public AsmDisamSvc AsmDisasmSvc(IWfRuntime wf)
                 => Service<AsmDisamSvc>(wf);
-
         }
 
         static Svc Services => Svc.Instance;
@@ -89,7 +88,7 @@ namespace Z0
             => Services.IntelSdm(wf);
 
         public static XedRuntime XedRuntime(this IWfRuntime wf)
-            => GlobalServices.Instance.Service<XedRuntime>(wf);
+            => ApiGlobals.Instance.Service<XedRuntime>(wf);
 
         public static XedImport XedImport(this IWfRuntime wf, XedRuntime xed)
             => Services.XedImport(wf, xed);

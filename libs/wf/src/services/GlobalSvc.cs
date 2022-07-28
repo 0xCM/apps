@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class GlobalServices : AppServices<GlobalServices>
+    public class ApiGlobals : AppServices<ApiGlobals>
     {
         static ref readonly GlobalCmdSvc Commands => ref GlobalCmdSvc.Instance;
 
@@ -20,9 +20,5 @@ namespace Z0
         {
 
         }
-    }
-
-    partial class XTend
-    {
     }
 }

@@ -101,6 +101,14 @@ namespace Z0
             CmdScripts.start(cmd);
         }
 
+        [CmdOp("cmd/copy")]
+        void Copy(CmdArgs args)
+        {
+            var src = FS.dir(arg(args,0).Value);
+            var dst = FS.dir(arg(args,1).Value);
+            Archives.robocopy(src,dst);
+        }
+
         [CmdOp("pwsh")]
         protected void RunPwshCmd(CmdArgs args)
         {

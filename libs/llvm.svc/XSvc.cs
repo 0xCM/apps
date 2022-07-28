@@ -60,7 +60,7 @@ namespace Z0
             => Services.ProjectSvc(wf);
 
         public static XedDisasmSvc XedDisasmSvc(this IWfRuntime wf)
-            => GlobalServices.Instance.Service<XedRuntime>(wf).Disasm;
+            => ApiGlobals.Instance.Service<XedRuntime>(wf).Disasm;
 
         public static LlvmDataProvider LlvmDataProvider(this IWfRuntime wf)
             => Services.LlvmDataProvider(wf);

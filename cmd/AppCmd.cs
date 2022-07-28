@@ -35,7 +35,7 @@ namespace Z0
 
         public static AppCmd commands(IWfRuntime wf)
         {
-            var xed = GlobalServices.Instance.Inject(wf.XedRuntime());
+            var xed = ApiGlobals.Instance.Inject(wf.XedRuntime());
             return create(wf, providers(wf));
         }
 

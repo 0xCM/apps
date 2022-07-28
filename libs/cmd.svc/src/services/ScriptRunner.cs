@@ -6,18 +6,16 @@ namespace Z0
 {
     using static Algs;
 
-    public sealed class ScriptRunner : AppService<ScriptRunner>
+    public sealed class ScriptRunner : WfSvc<ScriptRunner>
     {
-        static AppDb AppDb => AppDb.Service;
-
         public static Task start(ReadOnlySeq<CmdScript> src, bool pll)
             => core.start(() => iter(src, run, pll));
 
         static FS.FilePath ErrorLog(Timestamp ts, string name)
-            => AppDb.Service.Logs("process").Path($"{name}.errors.{ts}", FileKind.Log);
+            => AppDb.Logs("process").Path($"{name}.errors.{ts}", FileKind.Log);
 
         static FS.FilePath StatusLog(Timestamp ts, string name)
-            => AppDb.Service.Logs("process").Path($"{name}.{ts}", FileKind.Log);
+            => AppDb.Logs("process").Path($"{name}.{ts}", FileKind.Log);
 
         static void run(CmdScript src)
         {

@@ -16,7 +16,7 @@ namespace Z0
         public static T create(IWfRuntime wf, params ICmdProvider[] src)
         {
             var service = new T();
-            GlobalServices.Instance.Inject(Cmd.dispatcher(service, wf.EventLog, src));
+            ApiGlobals.Instance.Inject(Cmd.dispatcher(service, wf.EventLog, src));
             service.Init(wf);
             service.PublishCommands();
             return service;
@@ -27,7 +27,7 @@ namespace Z0
             PromptTitle = "cmd";
         }
 
-        public override IDispatcher Dispatcher => GlobalServices.Instance.Injected<CmdDispatcher>();
+        public override IDispatcher Dispatcher => ApiGlobals.Instance.Injected<CmdDispatcher>();
 
         protected OmniScript OmniScript => Wf.OmniScript();
 

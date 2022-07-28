@@ -6,7 +6,7 @@ namespace Z0
 {
     using static Algs;
 
-    public class ToolBoxSvc : WfSvc<ToolBoxSvc>
+    public class Worlds : WfSvc<Worlds>
     {
 
 
