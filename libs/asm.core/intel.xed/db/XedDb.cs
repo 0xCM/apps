@@ -9,7 +9,7 @@ namespace Z0
 
     public partial class XedDb : WfSvc<XedDb>
     {
-        static new XedPaths Paths => XedPaths.Service;
+        static XedPaths Paths => XedPaths.Service;
 
         static ConcurrentDictionary<FS.FilePath,MemoryFile> _MemoryFiles = new();
 

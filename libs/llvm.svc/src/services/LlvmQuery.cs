@@ -8,7 +8,7 @@ namespace Z0.llvm
 
     public class LlvmQuery : WfSvc<LlvmQuery>
     {
-        new LlvmPaths Paths => Service(Wf.LlvmPaths);
+        LlvmPaths Paths => Service(Wf.LlvmPaths);
 
         public void Emit(string name, FS.Files src)
             => FileEmit(name, @readonly(src.View.Map(x => x.ToUri())));

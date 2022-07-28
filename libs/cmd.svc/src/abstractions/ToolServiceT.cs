@@ -14,11 +14,11 @@ namespace Z0
             Id = id;
         }
 
-        protected virtual FS.FolderPath Deployments
-            => Env.Tools;
+        protected virtual IDbSources Deployments
+            => AppDb.Toolbase();
 
         protected FS.FolderPath Deployment
-            => Deployments + FS.folder(Id.Format());
+            => Deployments.Folder(Id.Format());
 
         public FS.FilePath Script(FS.FolderPath dir, FS.FileName name)
             => dir + name;

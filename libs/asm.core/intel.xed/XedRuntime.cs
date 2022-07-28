@@ -22,7 +22,7 @@ namespace Z0
 
         public ref readonly Alloc Alloc => ref _Alloc;
 
-        public new XedPaths Paths => XedPaths.Service;
+        public XedPaths Paths => XedPaths.Service;
 
         public XedDocs Docs => Wf.XedDocs(this);
 

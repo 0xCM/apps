@@ -4,9 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class SqlDbCmd : CmdService<SqlDbCmd>
+    public class WsDbCmd : CmdService<WsDbCmd>
     {
 
     }
-
 }

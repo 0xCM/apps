@@ -11,3 +11,4 @@ tools/bin/
 tools/obj/
 .vs/
 .ionide/
+dotnet/

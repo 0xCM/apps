@@ -94,10 +94,9 @@ namespace Z0
 
         public IWfDb Db {get; private set;}
 
-
         public EnvData Env => default;
 
-        protected IEnvPaths Paths => new EnvPaths(Env);
+        //protected IEnvPaths Paths => new EnvPaths(Env);
 
         public IWfEmitters WfEmit {get; private set;}
 

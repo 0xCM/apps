@@ -10,7 +10,7 @@ namespace Z0.llvm
     {
         LlvmDataImporter Importer => Wf.LlvmDataImporter();
 
-        new LlvmPaths Paths => Wf.LlvmPaths();
+        LlvmPaths Paths => Wf.LlvmPaths();
 
         LlvmArchive WsArchive => new LlvmArchive(AppDb.LlvmRoot(), "llvm");
 
