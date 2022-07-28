@@ -10,15 +10,11 @@ namespace Z0
 
     partial class IntelInx
     {
-        public class CmdSvc : AppCmdService<CmdSvc>
+        public class IntelInxCmd : AppCmdService<IntelInxCmd>
         {
             IntelInx Intrinsics => Wf.IntelIntrinsics();
 
-            Checks IntrinsicChecks => Wf.Checks();
-
             IntelSdm Sdm => Wf.IntelSdm();
-
-            CpuIdSvc CpuId => Wf.CpuId();
 
             XedRuntime Xed => GlobalServices.Instance.Injected<XedRuntime>();
 
@@ -32,8 +28,6 @@ namespace Z0
                 Sde.RunEtl();
                 Xed.Start();
                 Xed.RunEtl();
-
-                //IntrinsicChecks.Run();
             }
 
             public static TextEncoding encoding()

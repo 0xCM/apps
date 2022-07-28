@@ -7,7 +7,7 @@ namespace Z0
     using static XedDomain;
 
     [StructLayout(LayoutKind.Sequential, Pack=1), Cmd(CmdName)]
-    public struct XedToolCmd : IToolFlowCmd<XedToolCmd>
+    public struct XedToolCmdSpec : IToolFlowCmd<XedToolCmdSpec>
     {
         const string CmdName = "xedtool.cmd";
 

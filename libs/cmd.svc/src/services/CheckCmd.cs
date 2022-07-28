@@ -4,10 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IAppCmdService : IAppService, ICmdProvider, ICmdRunner
+    public sealed class CheckCmd : CheckCmd<CheckCmd>
     {
-        void Run();
 
-        IDispatcher Dispatcher {get;}
+        // void RunChecks()
+        //     => Checkers.run(Checkers.discover(Wf, Wf.ApiCatalog.Components).Values,EventLog);
+
     }
 }

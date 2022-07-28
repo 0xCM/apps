@@ -12,8 +12,8 @@ namespace Z0
             public AsmFlowCmd AsmFlowCmd(IWfRuntime wf)
                 => Service<AsmFlowCmd>(wf);
 
-            public XedToolSvc XedTool(IWfRuntime wf)
-                => Service<XedToolSvc>(wf);
+            public XedToolCmd XedToolCmd(IWfRuntime wf)
+                => Service<XedToolCmd>(wf);
 
             public NasmCatalog NasmCatalog(IWfRuntime wf)
                 => Service<NasmCatalog>(wf);
@@ -36,8 +36,8 @@ namespace Z0
         public static IApiSpecs ApiSpecsCmd(this IWfRuntime wf)
             => Services.ApiSpecsCmd(wf);
 
-        public static XedToolSvc XedTool(this IWfRuntime wf)
-            => Services.XedTool(wf);
+        public static XedToolCmd XedToolCmd(this IWfRuntime wf)
+            => Services.XedToolCmd(wf);
 
         public static CodeCmd CodeCmd(this IWfRuntime wf)
             => Services.CodeCmd(wf);

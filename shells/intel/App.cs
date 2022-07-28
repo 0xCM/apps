@@ -11,7 +11,7 @@ namespace Z0
     [Free]
     sealed class App : AppCmdShell<App>
     {
-        static IAppCmdService commands(IWfRuntime wf)
+        static IAppCmdSvc commands(IWfRuntime wf)
             => IntelCommands.create(wf);
 
         public static void Main(params string[] args)

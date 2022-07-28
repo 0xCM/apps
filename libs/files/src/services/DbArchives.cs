@@ -4,7 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public sealed class CheckRunCmd : CheckCmd<CheckRunCmd>
+    public class DbArchives : AppService<DbArchives>
     {
+
+
     }
+
 }

@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static Algs;
+
     public class Workspace : IWorkspace
     {
         readonly IDbArchive Archive;

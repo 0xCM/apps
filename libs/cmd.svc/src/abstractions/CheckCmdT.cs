@@ -7,12 +7,12 @@ namespace Z0
     using static core;
 
     [Checker]
-    public abstract class CheckRunner<T> : AppCmdService<T>, ICheckRunner
-        where T : CheckRunner<T>, new()
+    public abstract class CheckCmd<T> : AppCmdService<T>, ICheckRunner
+        where T : CheckCmd<T>, new()
     {
         ConstLookup<Type,IChecker> Services;
 
-        protected CheckRunner()
+        protected CheckCmd()
         {
             Pll = true;
         }

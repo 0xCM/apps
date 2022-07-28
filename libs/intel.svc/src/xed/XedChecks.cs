@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public partial class XedChecks : CheckRunner<XedChecks>
+    public partial class XedChecks : CheckCmd<XedChecks>
     {
         XedPaths XedPaths => Wf.XedPaths();
 

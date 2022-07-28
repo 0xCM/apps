@@ -4,8 +4,7 @@
         "Configuration": "Release"
     },
     "omnisharp.enableDecompilationSupport": true,
-    "FileOptions": {
-        "ExcludeSearchPatterns": [".build/**.*"]
-    }
-
+    "omnisharp.maxProjectFileCountForDiagnosticAnalysis" : 16000,
+    "omnisharp.excludePaths" : ".build/**.*",
+    "ominsharp.diagnosticWorkersThreadCount": 128
 }

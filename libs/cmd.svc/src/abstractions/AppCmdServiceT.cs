@@ -5,7 +5,7 @@
 namespace Z0
 {
     [CmdProvider]
-    public abstract class AppCmdService<T> : CmdService<T>, IAppCmdService
+    public abstract class AppCmdService<T> : CmdService<T>, IAppCmdSvc
         where T : AppCmdService<T>, new()
     {
         protected virtual void PublishCommands()

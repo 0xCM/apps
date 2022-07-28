@@ -102,6 +102,10 @@ namespace Z0
                 => new EnumerationOptions{
                     RecurseSubdirectories = recurse
                 };
+
+            public FS.FolderPath Subdir(string name)
+                => this + FS.folder(name);
+
             public FS.Files Match(string pattern, bool recurse)
                 => Exists ? files(Directory.EnumerateFiles(Name, pattern, option(recurse)).Map(path)) : FS.Files.Empty;
 

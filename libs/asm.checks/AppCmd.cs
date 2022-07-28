@@ -19,7 +19,7 @@ namespace Z0
                 wf.LlvmCmd(),
                 wf.Machines(),
                 wf.SourceSymbolic(),
-                wf.IntelIntrinsicsCmd(),
+                wf.IntelInxCmd(),
                 wf.AsmCmdSvc(),
                 wf.XedCmd(),
                 wf.XedChecks(),

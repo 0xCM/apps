@@ -8,13 +8,13 @@ namespace Z0
     using static core;
     using static XedDomain;
 
-    public sealed partial class XedToolSvc : ToolService<XedToolSvc>
+    public sealed partial class XedToolCmd : ToolService<XedToolCmd>
     {
         const string group = "xedtool";
 
         const string tool = "xed";
 
-        public XedToolSvc()
+        public XedToolCmd()
             : base(tool)
         {
 
@@ -23,7 +23,6 @@ namespace Z0
         [CmdOp("xed/tools")]
         void ListDeployed()
             => iter(Deployment.Files(FS.Exe), file => Write(file.ToUri()));
-
 
         [CmdOp("xed/tool/case")]
         void DefineCaseScript(CmdArgs args)

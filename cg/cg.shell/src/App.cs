@@ -9,7 +9,7 @@ namespace Z0
     [Free]
     sealed class AppCmdShell : WfApp<AppCmdShell>
     {
-        IAppCmdService CmdService;
+        IAppCmdSvc CmdService;
 
         protected override void Initialized()
         {

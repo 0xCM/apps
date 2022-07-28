@@ -20,6 +20,9 @@ namespace Z0
         IDbTargets Context()
             => Targets("context");
 
+        IDbTargets Analysis()
+            => Targets("analysis");
+
         FS.FilePath SectionTable<T>(string section,string prefix)
             where T : struct
                 => Context().Targets(section).Table<T>(prefix);

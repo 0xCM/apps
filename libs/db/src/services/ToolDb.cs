@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public sealed class CheckRunCmd : CheckCmd<CheckRunCmd>
+    public class ToolDb : WfSvc<ToolDb>
     {
+
     }
 }

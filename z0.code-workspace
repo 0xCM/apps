@@ -5,5 +5,8 @@
 		},
 	],
 	"settings": {
+
+        "typescript.tsserver.maxTsServerMemory": 10000,
     }
+
 }

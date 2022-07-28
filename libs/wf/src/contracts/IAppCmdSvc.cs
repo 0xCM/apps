@@ -4,11 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public sealed class CheckRunner : CheckRunner<CheckRunner>
+    public interface IAppCmdSvc : IAppService, ICmdProvider, ICmdRunner
     {
+        void Run();
 
-        // void RunChecks()
-        //     => Checkers.run(Checkers.discover(Wf, Wf.ApiCatalog.Components).Values,EventLog);
-
+        IDispatcher Dispatcher {get;}
     }
 }

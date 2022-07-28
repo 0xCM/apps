@@ -21,36 +21,6 @@ namespace Z0
             TableEmit(files, AppDb.Logs("files").Table<ListedFile>(identifier(src)));
         }
 
-        [CmdOp("settings")]
-        void ReadSettings(CmdArgs args)
-        {
-            if(args.Count == 0)
-                AppSettings.Service().Iter(setting => Write(setting.Format(Chars.Eq)));
-            else
-            {
-                var db = AppDb.Service;
-                var src = Settings.load(db.SettingsPath(WatchSettings.Name, FileKind.Toml), Chars.Eq);
-                Row(src);
-
-                //Row(settings.Format());
-            }
-        }
-
-        [CmdOp("setting")]
-        Outcome Setting(CmdArgs args)
-        {
-            var name = arg(args,0).Value;
-            var result = Outcome.Success;
-            if(AppSettings.Service().Find(name, out var value))
-            {
-                Write($"{name}:{value}");
-            }
-            else
-            {
-                result = (false, $"Setting '{name}' not found");
-            }
-            return result;
-        }
 
         void CalcRelativePaths()
         {
@@ -82,48 +52,10 @@ namespace Z0
         [CmdOp("app/deploy")]
         void Deploy()
         {
-            //var dst = ApiPack.create().Context().Targets("bin");
             var dst = AppDb.Tools("z0/cmd").Targets().Root;
             var src = ExecutingPart.Component.Path().FolderPath;
             Archives.robocopy(src,dst);
         }
-
-        [CmdOp("env/includes")]
-        void LoadToolEnv()
-            => ToolBox.EmitIncludePaths();
-
-        static EnvVars<string> vars(string name = null)
-            => AppDb.Service.LoadEnv(text.ifempty(name, Environment.MachineName.ToLower()));
-
-        [CmdOp("env/load")]
-        void LoadEnv(CmdArgs args)
-            => iter(vars(args.Count != 0 ? arg(args,0).Value : null).View, member => Write(member.Format()));
-
-        [CmdOp("env/list")]
-        void ListMachineEnv()
-            => EnvVars.machine().Iter(v => Write(v.Format()));
-
-        [CmdOp("env")]
-        Outcome EmitEnv(CmdArgs args)
-        {
-            var result = Outcome.Success;
-            if(args.Count == 0)
-                EnvVars.emit(SysEnvKind.Process);
-            else
-            {
-                var name = arg(args,0);
-                var kind = SysEnvKind.Process;
-                var parser = EnumParser<SysEnvKind>.Service;
-                result = parser.Parse(name, out kind);
-                if(result)
-                    EnvVars.emit(kind);
-            }
-            return result;
-        }
-
-        [CmdOp("env/cwd")]
-        void Cwd()
-            => Write(FS.dir(Environment.CurrentDirectory));
 
         [CmdOp("process/origin")]
         void ProcessOrigin()

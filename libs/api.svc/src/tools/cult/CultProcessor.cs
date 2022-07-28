@@ -12,8 +12,6 @@ namespace Z0
     {
         public uint BatchSize => Pow2.T16;
 
-        AppSvcOps AppSvc => Wf.AppSvc();
-
         DataList<CultSummaryRecord> Summaries;
 
         DataList<AsmSourceLine> AsmLines;
@@ -22,37 +20,32 @@ namespace Z0
 
         FS.FolderPath DetailRoot;
 
-        ToolIdOld Tool;
-
-        FS.FilePath InputFile;
+        readonly Actor Tool = "cult";
 
         public CultProcessor()
         {
             Summaries = new();
             AsmLines = new();
             HexCharBuffer = sys.alloc<char>(HexBufferLength);
-            Tool = "cult";
-            InputFile = FS.FilePath.Empty;
         }
 
         protected override void OnInit()
         {
-            var targets = AppDb.App(Tool);
+            var targets = AppDb.DbOut().Targets(Tool.Format());
             DetailRoot = targets.Root + FS.folder("details");
-            InputFile = ProjectDb.Source(Tool.Format(), FS.Asm);
             SummaryPath = targets.Root + FS.file(Tool.Format() + ".summary", FS.Csv);
         }
 
         FS.FilePath SummaryPath;
 
         public void RunEtl()
-            => RunEtl(InputFile);
+            => RunEtl(AppDb.DbIn().Path("cult", FileKind.Asm));
 
         public void RunEtl(FS.FilePath src)
         {
             if(!src.Exists)
             {
-                AppSvc.Error(FS.Msg.DoesNotExist.Format(src));
+                Error(FS.Msg.DoesNotExist.Format(src));
                 return;
             }
 
@@ -103,14 +96,14 @@ namespace Z0
         }
 
         void EmitSummary()
-            => AppSvc.TableEmit(Summaries.Emit(), SummaryPath);
+            => TableEmit(Summaries.Emit(), SummaryPath);
 
         void Process(uint batch, uint counter, ReadOnlySpan<TextLine> input, Span<CultRecord> output)
         {
-            var processing = Wf.Running(ProcessingBatch.Format(batch, counter));
+            var processing = Running(ProcessingBatch.Format(batch, counter));
             var parsed = slice(output, 0, Parse(input, output));
             Process(parsed);
-            Wf.Ran(processing, ProcessedBatch.Format(batch, counter, parsed.Length, BatchSize));
+            Ran(processing, ProcessedBatch.Format(batch, counter, parsed.Length, BatchSize));
         }
 
         void Process(ReadOnlySpan<CultRecord> input)

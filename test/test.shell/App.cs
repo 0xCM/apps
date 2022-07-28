@@ -7,7 +7,7 @@ namespace Z0
     [Free]
     sealed class App : AppCmdShell<App>
     {
-        static IAppCmdService commands(IWfRuntime wf)
+        static IAppCmdSvc commands(IWfRuntime wf)
             => AppCmd.create(wf, new ICmdProvider[]{
                 wf.CheckRunner()
             });

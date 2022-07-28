@@ -12,7 +12,7 @@ namespace Z0
     using gp32 = AsmRegTokens.Gp32Reg;
 
     [ApiHost]
-    public partial class AsmCheckCmd : CheckRunner<AsmCheckCmd>
+    public partial class AsmCheckCmd : CheckCmd<AsmCheckCmd>
     {
         ApiCode ApiCode => Wf.ApiCode();
 

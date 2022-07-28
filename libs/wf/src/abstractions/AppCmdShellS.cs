@@ -7,9 +7,9 @@ namespace Z0
     public abstract class AppCmdShell<S> : AppShell<S>
         where S : AppCmdShell<S>, new()
     {
-        IAppCmdService CmdService;
+        IAppCmdSvc CmdService;
 
-        protected static void run(Func<IWfRuntime,IAppCmdService> f, params string[] args)
+        protected static void run(Func<IWfRuntime,IAppCmdSvc> f, params string[] args)
         {
             using var app = shell(args);
             app.CmdService = f(app.Wf);

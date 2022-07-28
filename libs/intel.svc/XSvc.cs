@@ -5,7 +5,7 @@
 
 namespace Z0
 {
-    using Asm;
+    using static IntelInx;
 
     using I=IntelInx;
 
@@ -13,11 +13,11 @@ namespace Z0
     {
         sealed class ServiceCache : AppServices<ServiceCache>
         {
-            public IntelInx IntelIntrinsics(IWfRuntime wf)
+            public IntelInx IntelInx(IWfRuntime wf)
                 => Service<IntelInx>(wf);
 
-            public I.CmdSvc IntelIntrinsicsCmd(IWfRuntime wf)
-                => Service<I.CmdSvc>(wf);
+            public IntelInxCmd IntelInxCmd(IWfRuntime wf)
+                => Service<IntelInxCmd>(wf);
 
             public I.Checks Checks(IWfRuntime wf)
                 => Service<I.Checks>(wf);
@@ -28,19 +28,17 @@ namespace Z0
             public XedChecks XedChecks(IWfRuntime wf)
                 => Service<XedChecks>(wf);
 
-
             public XedCmd XedCmd(IWfRuntime wf)
                 => Service<XedCmd>(wf);
-
         }
 
         static ServiceCache Services => ServiceCache.Instance;
 
         public static IntelInx IntelIntrinsics(this IWfRuntime wf)
-            => Services.IntelIntrinsics(wf);
+            => Services.IntelInx(wf);
 
-        public static IAppCmdService IntelIntrinsicsCmd(this IWfRuntime wf)
-            => Services.IntelIntrinsicsCmd(wf);
+        public static IAppCmdSvc IntelInxCmd(this IWfRuntime wf)
+            => Services.IntelInxCmd(wf);
 
         public static I.Checks Checks(this IWfRuntime wf)
             => Services.Checks(wf);
@@ -53,6 +51,5 @@ namespace Z0
 
         public static XedCmd XedCmd(this IWfRuntime xed)
             => Services.XedCmd(xed);
-
     }
 }

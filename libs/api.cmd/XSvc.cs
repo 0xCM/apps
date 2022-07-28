@@ -5,8 +5,6 @@
 
 namespace Z0
 {
-    using llvm;
-
     public static class XSvc
     {
         sealed class ServiceCache : AppServices<ServiceCache>

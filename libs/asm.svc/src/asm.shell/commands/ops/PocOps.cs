@@ -239,7 +239,7 @@ namespace Z0.Asm
             var result = Outcome.Success;
             var records = AsmTables.LoadHostAsmRows(FS.Files.Empty);
             var blocks = AsmTables.DistillBlocks(records);
-            AsmTables.EmitBlocks(blocks, ProjectDb.TablePath<AsmDataBlock>("api/asm"));
+            AsmTables.EmitBlocks(blocks, AppDb.App().Table<AsmDataBlock>("api/asm"));
             return result;
         }
 

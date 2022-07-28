@@ -8,8 +8,8 @@ namespace Z0
     {
         sealed class AppSvcCache : AppServices<AppSvcCache>
         {
-            public CheckRunner CheckRunner(IWfRuntime wf)
-                => Service<CheckRunner>(wf);
+            public CheckCmd CheckRunner(IWfRuntime wf)
+                => Service<CheckCmd>(wf);
 
             public WfCmd WfCmd(IWfRuntime wf)
                 => Service<WfCmd>(wf);
@@ -35,7 +35,7 @@ namespace Z0
 
         static AppSvcCache Services => AppSvcCache.Instance;
 
-        public static CheckRunner CheckRunner(this IWfRuntime wf)
+        public static CheckCmd CheckRunner(this IWfRuntime wf)
             => Services.CheckRunner(wf);
 
         public static WfCmd WfCmd(this IWfRuntime wf)
@@ -58,6 +58,5 @@ namespace Z0
 
         public static ToolBoxSvc ToolBoxSvc(this IWfRuntime wf)
             => Services.ToolBoxSvc(wf);
-
     }
 }
