@@ -1,5 +1,5 @@
 @echo off
 set ProjectId=ws.checks
-set WsId=ws.checks
-call %~dp0..\..\.cmd\config.cmd
-
+set Area=shells
+set ShellId=wsc
+call %DevRoot%\dev\z0\.cmd\config.cmd

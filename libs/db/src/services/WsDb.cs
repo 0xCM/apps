@@ -7,8 +7,5 @@ namespace Z0
     public class WsDb : WfSvc<WsDb>
     {
 
-
-
     }
-
 }

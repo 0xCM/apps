@@ -224,6 +224,9 @@ public enum PartId : byte
     [Symbol("db")]
     Db,
 
+    [Symbol("db.shell")]
+    DbShell,
+
     [Symbol("literals")]
     Literals,
 

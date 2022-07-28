@@ -3,5 +3,9 @@
         "enabled": true,
         "Configuration": "Release"
     },
-    "omnisharp.enableDecompilationSupport": true
+    "omnisharp.enableDecompilationSupport": true,
+    "FileOptions": {
+        "ExcludeSearchPatterns": [".build/**.*"]
+    }
+
 }

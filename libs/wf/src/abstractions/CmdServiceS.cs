@@ -29,7 +29,6 @@ namespace Z0
             var result = Dispatcher.Dispatch(name);
             if(result.Fail)
                 Error(result.Message);
-
         }
 
         public void RunCmd(string name, CmdArgs args)
