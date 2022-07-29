@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct ApiPackages : IFileArchive
+    public readonly struct ApiPackages : IRootedArchive
     {
         public readonly FS.FolderPath Root;
 
@@ -14,7 +14,7 @@ namespace Z0
             Root = root;
         }
 
-        FS.FolderPath IFileArchive.Root
+        FS.FolderPath IRootedArchive.Root
             => Root;
 
         public FS.FolderPath ResPackDir()

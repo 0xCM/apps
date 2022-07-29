@@ -8,7 +8,7 @@ namespace Z0
 
     partial class ApiCode
     {
-        public static ByteSize hex(ReadOnlySeq<CollectedEncoding> src, FS.FilePath dst)
+        public static ByteSize hex(ReadOnlySeq<ApiEncoded> src, FS.FilePath dst)
         {
             var options = HexFormatter.options();
             using var writer = dst.AsciWriter();

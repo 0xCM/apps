@@ -82,7 +82,7 @@ namespace Z0.Asm
         }
 
         FS.FilePath DetailPath(FS.FolderPath dir, in AsmRowSet<AsmMnemonic> src)
-            => Db.Table(dir, string.Format("{0}.{1}", Tables.identify<AsmDetailRow>(), src.Key));
+            => AppDb.Service.ApiTargets().Table<AsmDetailRow>();
 
         Index<AsmDetailRow> BuildRows(in ApiCodeBlock src)
         {

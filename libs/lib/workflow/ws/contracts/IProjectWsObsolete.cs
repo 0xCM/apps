@@ -13,12 +13,6 @@ namespace Z0
         FS.FolderPath Home()
             => Root;
 
-        FS.FolderPath IFileArchive.Datasets()
-            => Root + FS.folder("db/projects") + FS.folder(Project.Id);
-
-        FS.FolderPath IFileArchive.Datasets(string scope)
-            => Datasets() + FS.folder(scope);
-
         FS.FolderPath IFileArchive.Subdir(string name)
             => Home() + FS.folder(name);
 
@@ -38,24 +32,14 @@ namespace Z0
             where T : struct
                 => Subdir(scope) + TableFile<T>();
 
-        FS.Files IFileArchive.Files()
-            => ProjectFiles();
-
         FS.Files ProjectFiles()
             => Home().Files(true).Array().Sort();
-
-        FS.Files Files(params FS.FileExt[] ext)
-            => Home().Files(true, ext);
 
         FS.FolderPath Out()
             => Home() + FS.folder(output);
 
         FS.FolderPath Out(string scope)
             => Out() + FS.folder(scope);
-
-        FS.FilePath SettingsTable<T>()
-            where T : struct
-                => Home() + FS.folder("settings") + TableFile<T>();
 
         FS.Files OutFiles(FS.FileExt ext)
             => Out().Files(ext, true);

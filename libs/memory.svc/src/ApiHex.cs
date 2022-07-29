@@ -104,7 +104,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public static ApiCodeRow row(in ApiMemberCode src, uint seq)
+        public static ApiCodeRow row(in MemberCodeBlock src, uint seq)
         {
             var dst = ApiCodeRow.Empty;
             dst.Seq = seq;
@@ -157,7 +157,7 @@ namespace Z0
         }
 
         [Op]
-        public Index<ApiCodeRow> EmitApiCode(ApiHostUri uri, ReadOnlySpan<ApiMemberCode> src, FS.FilePath dst)
+        public Index<ApiCodeRow> EmitApiCode(ApiHostUri uri, ReadOnlySpan<MemberCodeBlock> src, FS.FilePath dst)
         {
             var count = src.Length;
             if(count != 0)

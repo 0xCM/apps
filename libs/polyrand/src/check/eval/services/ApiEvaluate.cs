@@ -10,7 +10,7 @@ namespace Z0
     [ApiHost]
     public readonly partial struct ApiEvaluate
     {
-        public static ApiEvalResult<ApiEvalExecutorContext> validate(ApiEvalExecutorContext context, in NativeBuffers buffers, BinaryOperatorClass k, N8 w, in ConstPair<ApiMemberCode> pair)
+        public static ApiEvalResult<ApiEvalExecutorContext> validate(ApiEvalExecutorContext context, in NativeBuffers buffers, BinaryOperatorClass k, N8 w, in ConstPair<MemberCodeBlock> pair)
         {
             var f = buffers[Left].EmitBinaryCellOp(w, pair.Left.Encoded);
             var g = buffers[Right].EmitBinaryCellOp(w, pair.Right.Encoded);
@@ -134,7 +134,7 @@ namespace Z0
             }
         }
 
-        static bool CheckBufferSize(ApiMemberCode code, BufferToken buffer, out AppMsg msg)
+        static bool CheckBufferSize(MemberCodeBlock code, BufferToken buffer, out AppMsg msg)
         {
             if(buffer.BufferSize < code.Encoded.Length)
             {
@@ -151,7 +151,7 @@ namespace Z0
 
     partial struct Msg
     {
-        public static AppMsg BufferSizeError(ApiMemberCode code, BufferToken buffer)
+        public static AppMsg BufferSizeError(MemberCodeBlock code, BufferToken buffer)
             => AppMsg.info($"There are {buffer.BufferSize} available buffer bytes but at least {code.Length} is required by {code.Member.Id}");
     }
 

@@ -99,39 +99,31 @@ namespace Z0
                 dst.AppendLine(skip(src,i));
         }
 
-        public static void Pipe<T>(this IWfDb Db, ReadOnlySpan<T> src, string channel = null)
+        public static void Pipe<T>(this FS.FolderPath Db, ReadOnlySpan<T> src, string channel = null)
             where T : ITextual
         {
             var count = src.Length;
             if(count != 0)
             {
-                var dst = Db.AppLog(string.Format("{0}.{1}", Timestamp.now(), channel ?? typeof(T).Name));
+                var dst = Db + FS.file(string.Format("{0}.{1}", Timestamp.now(), channel ?? typeof(T).Name));
                 using var writer = dst.AsciWriter();
                 for(var i=0; i<count; i++)
                     writer.WriteLine(skip(src,i).Format());
             }
         }
 
-        public static void Pipe<S,T>(this IWfDb Db, ReadOnlySpan<S> src, Func<S,T> converter, string channel = null)
+        public static void Pipe<S,T>(this FS.FolderPath root, ReadOnlySpan<S> src, Func<S,T> converter, string channel = null)
             where T : ITextual
         {
             var count = src.Length;
             if(count != 0)
             {
-                var dst = Db.AppLog(string.Format("{0}.{1}",Timestamp.now(), channel ?? typeof(T).Name));
+                var dst = root + FS.file(string.Format("{0}.{1}",Timestamp.now(), channel ?? typeof(T).Name));
                 using var writer = dst.AsciWriter();
                 for(var i=0; i<count; i++)
                     writer.WriteLine((converter(skip(src,i)).Format()));
             }
         }
-
-        public static void Pipe<S,T>(this IAppService svc, ReadOnlySpan<S> src, Func<S,T> converter, string channel = null)
-            where T : ITextual
-                => svc.Db.Pipe(src,converter,channel);
-
-        public static void Pipe<T>(this IAppService svc, ReadOnlySpan<T> src, string channel = null)
-            where T : ITextual
-                => svc.Db.Pipe(src, channel);
 
         public static void Indent<T>(this StreamWriter dst,  uint margin, T src)
             => dst.Append(string.Format("{0}{1}", new string(Chars.Space, (int)margin), src));

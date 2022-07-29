@@ -21,8 +21,6 @@ namespace Z0
 
         public string[] Args;
 
-        public IAppPaths Paths;
-
         public PartName AppName;
 
         public TokenDispenser Tokens;

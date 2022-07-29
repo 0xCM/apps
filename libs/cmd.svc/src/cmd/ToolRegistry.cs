@@ -4,14 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct EnvPaths : IEnvPaths
+    public class ToolRegistry : Seq<ToolRegistry,ToolRegistration>
     {
-        public EnvData Env {get;}
 
-        [MethodImpl(Inline)]
-        public EnvPaths(EnvData env)
-        {
-            Env = env;
-        }
+
     }
 }

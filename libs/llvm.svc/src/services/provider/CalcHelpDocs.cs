@@ -6,7 +6,7 @@ namespace Z0.llvm
 {
     partial class LlvmDataProvider
     {
-        ToolBoxCmd ToolBox => Wf.ToolBoxCmd();
+        Tooling ToolBox => Wf.Tooling();
 
         public Index<ToolHelpDoc> CalcHelpDocs()
             => ToolBox.LoadHelpDocs(LlvmPaths.HelpSouces()).Values.ToArray().Index();

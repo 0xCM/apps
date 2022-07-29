@@ -5,29 +5,29 @@
 namespace Z0
 {
     /// <summary>
-    /// Defines a sequence of <see cref='ApiMemberCode'/> records
+    /// Defines a sequence of <see cref='MemberCodeBlock'/> records
     /// </summary>
-    public readonly struct ApiMemberBlocks : IIndex<ApiMemberCode>
+    public readonly struct ApiMemberBlocks : IIndex<MemberCodeBlock>
     {
-        readonly Index<ApiMemberCode> Data;
+        readonly Index<MemberCodeBlock> Data;
 
         [MethodImpl(Inline)]
-        public ApiMemberBlocks(ApiMemberCode[] src)
+        public ApiMemberBlocks(MemberCodeBlock[] src)
             => Data = src;
 
-        public ReadOnlySpan<ApiMemberCode> View
+        public ReadOnlySpan<MemberCodeBlock> View
         {
             [MethodImpl(Inline)]
             get => Data.View;
         }
 
-        public Span<ApiMemberCode> Edit
+        public Span<MemberCodeBlock> Edit
         {
             [MethodImpl(Inline)]
             get => Data.Edit;
         }
 
-        public ref ApiMemberCode First
+        public ref MemberCodeBlock First
         {
             [MethodImpl(Inline)]
             get => ref Data.First;
@@ -39,13 +39,13 @@ namespace Z0
             get => Data.Count;
         }
 
-        public ApiMemberCode[] Storage
+        public MemberCodeBlock[] Storage
         {
             [MethodImpl(Inline)]
             get => Data;
         }
 
-        public ref ApiMemberCode this[uint index]
+        public ref MemberCodeBlock this[uint index]
         {
             [MethodImpl(Inline)]
             get => ref Data[index];
@@ -55,21 +55,21 @@ namespace Z0
             => Data.Where(b => b.Member.ApiClass == @class);
 
         [MethodImpl(Inline)]
-        public static implicit operator ApiMemberBlocks(ApiMemberCode[] src)
+        public static implicit operator ApiMemberBlocks(MemberCodeBlock[] src)
             => new ApiMemberBlocks(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator ApiMemberBlocks(Index<ApiMemberCode> src)
+        public static implicit operator ApiMemberBlocks(Index<MemberCodeBlock> src)
             => new ApiMemberBlocks(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator ApiMemberCode[](ApiMemberBlocks src)
+        public static implicit operator MemberCodeBlock[](ApiMemberBlocks src)
             => src.Storage;
 
         public static ApiMemberBlocks Empty
         {
             [MethodImpl(Inline)]
-            get => new ApiMemberBlocks(sys.empty<ApiMemberCode>());
+            get => new ApiMemberBlocks(sys.empty<MemberCodeBlock>());
         }
     }
 }

@@ -29,7 +29,6 @@ namespace Z0
             var clock = Time.counter(true);
             var control = controller();
             var id = control.Id();
-            var paths = AppPaths.create();
             var dst = new WfInit();
             dst.Ct = PartToken.create(id);
             dst.Tokens = TokenDispenser.create();
@@ -39,7 +38,6 @@ namespace Z0
             dst.LogConfig = Loggers.configure();
             dst.ApiParts = parts;
             dst.Args = args;
-            dst.Paths = AppPaths.create();
             dst.AppName = id.PartName();
             dst.EventBroker = WfBroker.create(dst.LogConfig);
             dst.Host = new WfHost(typeof(WfRuntime));
@@ -184,7 +182,6 @@ namespace Z0
             var clock = Time.counter(true);
             var control = controller();
             var id = control.Id();
-            var paths = AppPaths.create();
             var dst = new WfInit();
             dst.Ct = PartToken.create(id);
             dst.Tokens = TokenDispenser.create();
@@ -194,7 +191,6 @@ namespace Z0
             dst.LogConfig = Loggers.configure(logname);
             dst.ApiParts = parts;
             dst.Args = args;
-            dst.Paths = AppPaths.create();
             dst.AppName = id.PartName();
             dst.EventBroker = WfBroker.create(dst.LogConfig);
             dst.Host = new WfHost(typeof(WfRuntime));

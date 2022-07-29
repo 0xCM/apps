@@ -7,7 +7,5 @@ namespace Z0
     public interface IServiceContext
     {
         IWfEventSink EventSink {get;}
-
-        IAppPaths AppPaths {get;}
     }
 }

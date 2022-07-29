@@ -6,10 +6,8 @@ namespace Z0
 {
     using static core;
 
-    public class WsScripts : WfSvc<WsScripts>
+    public class ToolScripts : WfSvc<ToolScripts>
     {
-        OmniScript OmniScript => Wf.OmniScript();
-
         public FS.FolderPath CleanOutDir(IWsProject project)
             => project.BuildOut().Clear(true);
 

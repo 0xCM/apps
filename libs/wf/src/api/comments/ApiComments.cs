@@ -21,9 +21,9 @@ namespace Z0
             var dllPaths = list<FS.FilePath>();
             var xmlData = new Dictionary<FS.FilePath, Dictionary<string,string>>();
             var archive = sys.controller().RuntimeArchive();
-            var dllFiles = archive.DllFiles;
+            var dllFiles = archive.DllFiles();
             var xmlFiles = archive.XmlFiles;
-            foreach(var xmlfile in xmlFiles)
+            foreach(var xmlfile in xmlFiles())
             {
                 var elements = ParseXmlData(xmlfile.ReadText());
                 if(elements.Count != 0)
@@ -189,7 +189,7 @@ namespace Z0
         ConstLookup<FS.FilePath, Dictionary<string,string>> Pull(IDbTargets dst)
         {
             var archive = sys.controller().RuntimeArchive();
-            var paths = archive.XmlFiles;
+            var paths = archive.XmlFiles();
             var lookup = cdict<FS.FilePath, Dictionary<string,string>>();
             var t = default(ApiComment);
             iter(paths, path => {

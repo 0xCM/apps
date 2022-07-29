@@ -10,13 +10,13 @@ namespace Z0
     {
         CoffServices Coff => Wf.CoffServices();
 
-        WsScripts Scripts => Wf.WsScripts();
+        ToolScripts Scripts => Wf.WsScripts();
 
         AsmObjects AsmObjects => Wf.AsmObjects();
 
         ProjectSvc ProjectSvc => Wf.ProjectSvc();
 
-        WsScripts Projects => Wf.WsScripts();
+        ToolScripts Projects => Wf.WsScripts();
 
         AsmRegSets Regs => Service(AsmRegSets.create);
 

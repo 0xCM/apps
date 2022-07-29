@@ -13,7 +13,7 @@ namespace Z0
 
         public string[] Args {get;}
 
-        public IAppPaths AppPaths {get;}
+        public IFileArchive AppPaths {get;}
 
         public IJsonSettings Settings {get;}
 
@@ -38,7 +38,6 @@ namespace Z0
             EventBroker = init.EventBroker;
             Host = init.Host;
             Verbosity = LogLevel.Status;
-            AppPaths = init.Paths;
             Args = init.Args;
             Settings = init.Settings;
             ApiParts = init.ApiParts;

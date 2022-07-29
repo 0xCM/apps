@@ -10,23 +10,27 @@ namespace Z0
     {
         ApiHex ApiHex => Wf.ApiHex();
 
+        [MethodImpl(Inline), Op]
+        public static ApiCodeParser parser(byte[] buffer)
+            => new ApiCodeParser(EncodingPatterns.Default, buffer);
+
         public ReadOnlySeq<ApiHexIndexRow> EmitIndex(SortedIndex<ApiCodeBlock> src, IApiPack dst)
             => EmitIndex(SortedSpans.define(src.Storage), dst.Targets().Path("api.index", FileKind.Csv));
 
-        public Index<ApiCodeRow> EmitApiHex(ApiHostUri uri, ReadOnlySpan<ApiMemberCode> src, IApiPack dst)
+        public Index<ApiCodeRow> EmitApiHex(ApiHostUri uri, ReadOnlySpan<MemberCodeBlock> src, IApiPack dst)
             => ApiHex.EmitApiCode(uri, src, dst.HexExtractPath(uri));
 
-        public ReadOnlySeq<CollectedEncoding> Collect(IPart part, ICompositeDispenser symbols, IApiPack dst)
+        public ReadOnlySeq<ApiEncoded> Collect(IPart part, ICompositeDispenser symbols, IApiPack dst)
         {
             var collected = collect(symbols, part, EventLog);
             Emit(part.Id, collected, dst);
             return collected;
         }
 
-        public ReadOnlySeq<CollectedEncoding> Collect(ICompositeDispenser symbols, ApiHostUri src, IApiPack dst)
+        public ReadOnlySeq<ApiEncoded> Collect(ICompositeDispenser symbols, ApiHostUri src, IApiPack dst)
         {
-            var entries = MethodEntryPoints.calc(ApiRuntimeCatalog, src, EventLog);
-            var collected = ReadOnlySeq<CollectedEncoding>.Empty;
+            var entries = EntryPoints.calc(ApiRuntimeCatalog, src, EventLog);
+            var collected = ReadOnlySeq<ApiEncoded>.Empty;
             if(entries.IsNonEmpty)
             {
                 collected = gather(entries, EventLog, symbols);
@@ -37,10 +41,10 @@ namespace Z0
             return collected;
         }
 
-        public ReadOnlySeq<CollectedEncoding> Collect(ICompositeDispenser symbols, PartId src, IApiPack dst)
+        public ReadOnlySeq<ApiEncoded> Collect(ICompositeDispenser symbols, PartId src, IApiPack dst)
         {
-            var entries = MethodEntryPoints.calc(ApiRuntimeCatalog, src, EventLog);
-            var collected = ReadOnlySeq<CollectedEncoding>.Empty;
+            var entries = EntryPoints.calc(ApiRuntimeCatalog, src, EventLog);
+            var collected = ReadOnlySeq<ApiEncoded>.Empty;
             if(entries.IsNonEmpty)
             {
                 collected = gather(entries, EventLog, symbols);
@@ -52,13 +56,13 @@ namespace Z0
             return collected;
         }
 
-        public ReadOnlySeq<CollectedEncoding> Collect(ApiHostUri src, IApiPack dst)
+        public ReadOnlySeq<ApiEncoded> Collect(ApiHostUri src, IApiPack dst)
         {
             using var symbols = Dispense.composite();
             return Collect(symbols, src, dst);
         }
 
-        public ReadOnlySeq<CollectedEncoding> Collect(PartId src, IApiPack dst)
+        public ReadOnlySeq<ApiEncoded> Collect(PartId src, IApiPack dst)
         {
             using var symbols = Dispense.composite();
             return Collect(symbols,src, dst);
@@ -75,10 +79,10 @@ namespace Z0
             EmitCsv(src.Blocks, dst.CsvExtractPath(src.Host));
         }
 
-        public ReadOnlySeq<EncodedMember> Emit(PartId part, ReadOnlySeq<CollectedEncoding> src, IApiPack dst)
+        public ReadOnlySeq<EncodedMember> Emit(PartId part, ReadOnlySeq<ApiEncoded> src, IApiPack dst)
             => Emit(src, dst.HexExtractPath(part), dst.CsvExtractPath(part));
 
-        ByteSize EmitHex(ReadOnlySeq<CollectedEncoding> src, FS.FilePath dst)
+        ByteSize EmitHex(ReadOnlySeq<ApiEncoded> src, FS.FilePath dst)
         {
             var count = src.Count;
             var emitting = EmittingFile(dst);
@@ -87,7 +91,7 @@ namespace Z0
             return size;
         }
 
-        void EmitCsv(ReadOnlySeq<CollectedEncoding> src, FS.FilePath dst)
+        void EmitCsv(ReadOnlySeq<ApiEncoded> src, FS.FilePath dst)
         {
             var count = src.Count;
             var buffer = alloc<EncodedMember>(count);
@@ -103,31 +107,31 @@ namespace Z0
             TableEmit(buffer, dst);
         }
 
-        Seq<EncodedMember> LoadMember(IApiPack src, PartId part)
+        static Seq<EncodedMember> LoadMember(IApiPack src, PartId part, IWfEventTarget log)
         {
             var dst = Seq<EncodedMember>.Empty;
             var result = parse(src.CsvExtractPath(part), out dst);
             if(result.Fail)
             {
-                Write(result.Message,FlairKind.Warning);
+                log.Deposit(Events.warn(log.Host, result.Message));
                 Errors.Throw($"{part.Format()} member load failure");
             }
             return dst;
         }
 
-        BinaryCode LoadCode(IApiPack src, PartId part)
+        static BinaryCode LoadCode(IApiPack src, PartId part, IWfEventTarget log)
         {
             var dst = BinaryCode.Empty;
             var result = hex(src.HexExtractPath(part), out dst);
             if(result.Fail)
             {
-                Error(result.Message);
+                log.Deposit(Events.error(log.Host, result.Message));
                 Errors.Throw(result.Message);
             }
             return dst;
         }
 
-        ReadOnlySeq<EncodedMember> Emit(ReadOnlySeq<CollectedEncoding> src, FS.FilePath hex, FS.FilePath csv)
+        ReadOnlySeq<EncodedMember> Emit(ReadOnlySeq<ApiEncoded> src, FS.FilePath hex, FS.FilePath csv)
         {
             var collected = src;
             var count = collected.Count;

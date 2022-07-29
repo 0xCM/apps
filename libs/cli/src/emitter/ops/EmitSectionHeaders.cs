@@ -12,7 +12,7 @@ namespace Z0
             => EmitSectionHeaders(controller().RuntimeArchive(), dst);
 
         public void EmitSectionHeaders(IRuntimeArchive src, IApiPack dst)
-            => EmitSectionHeaders(src.Files(FileKind.Dll, FileKind.Exe, FileKind.Obj).Yield(), dst.Table<PeSectionHeader>());
+            => EmitSectionHeaders(src.Files(FileKind.Dll, FileKind.Exe, FileKind.Obj), dst.Table<PeSectionHeader>());
 
         public void EmitSectionHeaders(ReadOnlySpan<FS.FilePath> src, FS.FilePath dst)
         {

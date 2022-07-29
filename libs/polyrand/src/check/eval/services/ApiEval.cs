@@ -30,7 +30,7 @@ namespace Z0
                 => new UnaryApiEvalContext<T>(src, content);
 
         [MethodImpl(Inline)]
-        public static UnaryApiEvalContext<T> context<T>(BufferTokens buffers, ApiMemberCode code, in UnaryEvaluations<T> content)
+        public static UnaryApiEvalContext<T> context<T>(BufferTokens buffers, MemberCodeBlock code, in UnaryEvaluations<T> content)
             where T : unmanaged
                 => context<T>(new ApiEvalContext(buffers, code), content);
 
@@ -40,7 +40,7 @@ namespace Z0
                 => new BinaryApiEvalContext<T>(src, content);
 
         [MethodImpl(Inline)]
-        public static BinaryApiEvalContext<T> context<T>(BufferTokens buffers, ApiMemberCode code, in BinaryEvaluations<T> content)
+        public static BinaryApiEvalContext<T> context<T>(BufferTokens buffers, MemberCodeBlock code, in BinaryEvaluations<T> content)
             where T : unmanaged
                 => context<T>(new ApiEvalContext(buffers,code), content);
     }

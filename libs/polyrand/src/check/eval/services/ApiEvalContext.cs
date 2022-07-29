@@ -13,10 +13,10 @@ namespace Z0
     {
         public readonly BufferTokens Buffers;
 
-        public readonly ApiMemberCode ApiCode;
+        public readonly MemberCodeBlock ApiCode;
 
         [MethodImpl(Inline)]
-        public ApiEvalContext(BufferTokens buffers, ApiMemberCode code)
+        public ApiEvalContext(BufferTokens buffers, MemberCodeBlock code)
         {
             Buffers = buffers;
             ApiCode = code;

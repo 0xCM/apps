@@ -12,7 +12,7 @@ namespace Z0.Asm
     {
         AsmDecoder Decoder => Service(Wf.AsmDecoder);
 
-        public AsmHostRoutines EmitHostRoutines(ApiHostUri host, ReadOnlySpan<ApiMemberCode> src, FS.FilePath dst)
+        public AsmHostRoutines EmitHostRoutines(ApiHostUri host, ReadOnlySpan<MemberCodeBlock> src, FS.FilePath dst)
         {
             var flow = Running(Msg.EmittingHostRoutines.Format(host));
             var decoded = Decoder.Decode(host, src);
@@ -175,10 +175,10 @@ namespace Z0.Asm
 
         void ClearTarget()
         {
-            var dir = Db.TableDir<HostAsmRecord>();
-            var flow = Running(Msg.ObliteratingDirectory.Format(dir));
-            dir.Delete();
-            Ran(flow, Msg.ObliteratedDirectory.Format(dir));
+            // var dir = Db.TableDir<HostAsmRecord>();
+            // var flow = Running(Msg.ObliteratingDirectory.Format(dir));
+            // dir.Delete();
+            // Ran(flow, Msg.ObliteratedDirectory.Format(dir));
         }
 
         void EmitHostAsmDoc(ApiHostUri host, ReadOnlySpan<HostAsmRecord> src)

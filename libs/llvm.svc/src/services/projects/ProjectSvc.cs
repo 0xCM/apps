@@ -9,7 +9,7 @@ namespace Z0
 
     public partial class ProjectSvc : AppCmdService<ProjectSvc>
     {
-        WsScripts Scripts => Wf.WsScripts();
+        ToolScripts Scripts => Wf.WsScripts();
 
         AsmObjects AsmObjects => Wf.AsmObjects();
 

@@ -10,7 +10,7 @@ namespace Z0
 
     partial class ApiCode
     {
-        public static ReadOnlySeq<CollectedEncoding> gather(ReadOnlySpan<MethodEntryPoint> src, IWfEventTarget log, ICompositeDispenser dispenser)
+        public static ReadOnlySeq<ApiEncoded> gather(ReadOnlySpan<MethodEntryPoint> src, IWfEventTarget log, ICompositeDispenser dispenser)
             => gather(gather(dispenser, src), log).Sort();
 
         public static void gather(IApiPartCatalog src, IWfEventTarget log, ICompositeDispenser dispenser, ConcurrentBag<CollectedHost> dst)
@@ -35,8 +35,8 @@ namespace Z0
 
         }
 
-        public static CollectedHost gather(ApiHostMembers src, IWfEventTarget log, ICompositeDispenser dst)
-            => new CollectedHost(src, gather(MethodEntryPoints.create(src.Members), log, dst));
+        static CollectedHost gather(ApiHostMembers src, IWfEventTarget log, ICompositeDispenser dst)
+            => new CollectedHost(src, gather(EntryPoints.create(src.Members), log, dst));
 
         static Index<RawMemberCode> gather(ICompositeDispenser symbols, ReadOnlySpan<MethodEntryPoint> src)
         {
@@ -69,7 +69,7 @@ namespace Z0
                 dst.Token = token(symbols, entry);
         }
 
-        static Index<CollectedEncoding> gather(ReadOnlySpan<RawMemberCode> src, IWfEventTarget log)
+        static Index<ApiEncoded> gather(ReadOnlySpan<RawMemberCode> src, IWfEventTarget log)
         {
             var count = src.Length;
             var buffer = span<byte>(Pow2.T16);
@@ -100,7 +100,7 @@ namespace Z0
                 }
             }
 
-            return lookup(dst, log).Emit();
+            return parse(dst, log).Emit();
         }
 
         static Outcome gather(in RawMemberCode raw, Span<byte> buffer, out CollectedCodeExtract dst)
@@ -119,30 +119,6 @@ namespace Z0
             }
 
             return result;
-        }
-
-        static CollectedEncodings lookup(Dictionary<ApiHostUri,CollectedCodeExtracts> src, IWfEventTarget log)
-        {
-            log.Deposit(running(Msg.ParsingHosts.Format(src.Count)));
-            var buffer = alloc<byte>(Pow2.T14);
-            var parser = EncodingParser.create(buffer);
-            var dst = new CollectedEncodings();
-            var counter = 0u;
-            foreach(var host in src.Keys)
-            {
-                log.Deposit(running(Msg.ParsingHostMembers.Format(host)));
-                var extracts = src[host];
-                foreach(var extract in extracts)
-                {
-                    parser.Parse(extract.TargetExtract);
-                    dst.Include(new CollectedEncoding(extract.Token, parser.Parsed));
-                    counter++;
-                }
-                log.Deposit(ran(Msg.ParsedHostMembers.Format(extracts.Count, host)));
-            }
-
-            log.Deposit(ran(Msg.ParsedHosts.Format(counter, src.Keys.Count)));
-            return dst;
         }
     }
 }

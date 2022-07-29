@@ -16,11 +16,9 @@ namespace Z0
 
         HostAsmEmitter HostEmitter => Wf.HostAsmEmitter();
 
-        ApiExtractParser ExtractParser;
-
         public ApiCaptureEmitter()
         {
-            ExtractParser = ApiExtractParser.create();
+            
         }
 
         public AsmHostRoutines Emit(ApiHostUri host, Index<ApiMemberExtract> src, IApiPack dst)
@@ -64,17 +62,17 @@ namespace Z0
         //     return routines;
         // }
 
-        public Index<ApiCodeRow> EmitApiHex(ApiHostUri host, Index<ApiMemberCode> src, IApiPack dst)
+        public Index<ApiCodeRow> EmitApiHex(ApiHostUri host, Index<MemberCodeBlock> src, IApiPack dst)
             => ApiCode.EmitApiHex(host, src.View, dst);
 
-        public Count EmitMsilCode(ApiHostUri host, Index<ApiMemberCode> src, FS.FilePath dst)
+        public Count EmitMsilCode(ApiHostUri host, Index<MemberCodeBlock> src, FS.FilePath dst)
         {
             if(src.Count != 0)
                 IlPipe.EmitCode(src, dst);
             return src.Count;
         }
 
-        public Index<MsilCapture> EmitMsilData(ApiHostUri host, Index<ApiMemberCode> src, FS.FilePath dst)
+        public Index<MsilCapture> EmitMsilData(ApiHostUri host, Index<MemberCodeBlock> src, FS.FilePath dst)
             => IlPipe.EmitData(src, dst);
 
         public Index<ApiExtractRow> EmitExtracts(ApiHostUri host, Index<ApiMemberExtract> src, FS.FilePath dst)
@@ -87,20 +85,20 @@ namespace Z0
             return emitted;
         }
 
-        Index<ApiMemberCode> ParseExtracts(ApiHostUri host, Index<ApiMemberExtract> src)
-        {
-            if(src.Length != 0)
-            {
-                var flow = Running();
-                var parsed = ExtractParser.ParseMembers(src);
-                Ran(flow, Msg.ParsedExtractBlocks.Format(parsed.Count, host));
-                return parsed;
-            }
-            else
-                return Index<ApiMemberCode>.Empty;
-        }
+        // Index<ApiMemberCode> ParseExtracts(ApiHostUri host, Index<ApiMemberExtract> src)
+        // {
+        //     if(src.Length != 0)
+        //     {
+        //         var flow = Running();
+        //         var parsed = ExtractParser.ParseMembers(src);
+        //         Ran(flow, Msg.ParsedExtractBlocks.Format(parsed.Count, host));
+        //         return parsed;
+        //     }
+        //     else
+        //         return Index<ApiMemberCode>.Empty;
+        // }
 
-        AsmHostRoutines DecodeMembers(ApiHostUri host, Index<ApiMemberCode> src, Index<ApiMemberExtract> extracts, FS.FilePath dst)
+        AsmHostRoutines DecodeMembers(ApiHostUri host, Index<MemberCodeBlock> src, Index<ApiMemberExtract> extracts, FS.FilePath dst)
         {
             var decoded = HostEmitter.EmitHostRoutines(host, src, dst);
             if(decoded.Count != 0)

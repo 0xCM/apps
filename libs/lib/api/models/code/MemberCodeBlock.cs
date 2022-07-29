@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Pairs an api member with the executable code derived from that member
     /// </summary>
-    public class ApiMemberCode
+    public class MemberCodeBlock
     {
         /// <summary>
         /// The extraction index
@@ -30,7 +30,7 @@ namespace Z0
         public readonly ApiCodeBlock Encoded;
 
         [MethodImpl(Inline)]
-        public ApiMemberCode(ApiMember member, ApiCodeBlock code, uint seq = 0, ExtractTermCode term = 0)
+        public MemberCodeBlock(ApiMember member, ApiCodeBlock code, uint seq = 0, ExtractTermCode term = 0)
         {
             Sequence = seq;
             Member = member;
@@ -39,7 +39,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        ApiMemberCode(ApiMember member, BinaryCode code)
+        MemberCodeBlock(ApiMember member, BinaryCode code)
         {
             Sequence = 0;
             Member = member;
@@ -123,14 +123,14 @@ namespace Z0
              => Member.Method;
 
 
-        public bool Equals(ApiMemberCode src)
+        public bool Equals(MemberCodeBlock src)
             => Encoded.Equals(src.Encoded);
 
         public override int GetHashCode()
             => Uri.GetHashCode();
 
         public override bool Equals(object src)
-            => src is ApiMemberCode m && Equals(m);
+            => src is MemberCodeBlock m && Equals(m);
 
         public string Format(int uripad)
             => string.Concat(Member.OpUri.Format().PadRight(uripad), Encoded.Format());
@@ -142,10 +142,10 @@ namespace Z0
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator BinaryCode(ApiMemberCode src)
+        public static implicit operator BinaryCode(MemberCodeBlock src)
             => src.Encoded.Encoded;
 
-        public static ApiMemberCode Empty
-            => new ApiMemberCode(ApiMember.Empty, BinaryCode.Empty);
+        public static MemberCodeBlock Empty
+            => new MemberCodeBlock(ApiMember.Empty, BinaryCode.Empty);
     }
 }

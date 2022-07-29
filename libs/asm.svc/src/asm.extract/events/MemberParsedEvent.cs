@@ -4,17 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public sealed class MemberParsedEvent : ApiExtractEvent<MemberParsedEvent,Arrow<ApiMemberExtract,ApiMemberCode>>
+    public sealed class MemberParsedEvent : ApiExtractEvent<MemberParsedEvent,Arrow<ApiMemberExtract,MemberCodeBlock>>
     {
         [MethodImpl(Inline)]
         public MemberParsedEvent()
         {
-            Payload = (ApiMemberExtract.Empty, ApiMemberCode.Empty);
+            Payload = (ApiMemberExtract.Empty, MemberCodeBlock.Empty);
 
         }
 
         [MethodImpl(Inline)]
-        public MemberParsedEvent(in ApiMemberExtract src, in ApiMemberCode dst)
+        public MemberParsedEvent(in ApiMemberExtract src, in MemberCodeBlock dst)
         {
             Payload = (src,dst);
         }

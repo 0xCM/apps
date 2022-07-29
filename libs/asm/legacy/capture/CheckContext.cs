@@ -12,15 +12,12 @@ namespace Z0
 
         public IMessageQueue MessageQueue {get;}
 
-        public IAppPaths Paths {get;}
-
         public IApiParts ApiParts {get;}
 
         public event Action<IAppMsg> Next;
 
-        public CheckContext(IAppPaths paths, IPolyrand random, IMessageQueue queue)
+        public CheckContext(IPolyrand random, IMessageQueue queue)
         {
-            Paths = paths;
             Next = msg => {};
             Random = random;
             MessageQueue = queue;

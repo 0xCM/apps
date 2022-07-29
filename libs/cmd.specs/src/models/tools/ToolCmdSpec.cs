@@ -26,14 +26,14 @@ namespace Z0
             return dst.Emit();
         }
 
-        public readonly Actor Tool;
+        public readonly Tool Tool;
 
         public readonly Name CmdName;
 
         public readonly ToolCmdArgs Args;
 
         [MethodImpl(Inline)]
-        public ToolCmdSpec(Actor tool, Name cmd, params ToolCmdArg[] args)
+        public ToolCmdSpec(Tool tool, Name cmd, params ToolCmdArg[] args)
         {
             Tool = tool;
             CmdName = cmd;

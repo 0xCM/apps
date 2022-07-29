@@ -11,6 +11,21 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
+        // public static ApiMemberInfo describe(in ResolvedMethod src)
+        // {
+        //     var dst = new ApiMemberInfo();
+        //     var msil = ClrDynamic.msil(src.EntryPoint, src.Uri, src.Method);
+        //     dst.EntryPoint = src.EntryPoint;
+        //     dst.ApiKind = src.Method.ApiClass();
+        //     dst.CliSig = msil.CliSig;
+        //     dst.DisplaySig = src.Method.DisplaySig().Format();
+        //     dst.Token = msil.Token;
+        //     dst.Uri = src.Uri.Format();
+        //     dst.MsilCode = msil.CliCode;
+        //     return dst;
+        // }
+
+
         public static ApiMemberInfo describe(in ResolvedMethod src)
         {
             var dst = new ApiMemberInfo();

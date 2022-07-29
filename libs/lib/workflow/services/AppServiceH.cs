@@ -92,11 +92,7 @@ namespace Z0
 
         protected WfHost Host {get; private set;}
 
-        public IWfDb Db {get; private set;}
-
         public EnvData Env => default;
-
-        //protected IEnvPaths Paths => new EnvPaths(Env);
 
         public IWfEmitters WfEmit {get; private set;}
 
@@ -117,7 +113,6 @@ namespace Z0
             WfMsg = new WfMsgSvc(Wf, EffectiveHost, Env);
             WfEmit = new WfEmitters(Wf, EffectiveHost, Env);
             var flow = WfMsg.Creating(EffectiveHost);
-            Db = new WfDb(Wf, Env.Db);
             OnInit();
             Initialized();
             WfMsg.Created(flow);

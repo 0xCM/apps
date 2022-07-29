@@ -6,14 +6,14 @@ namespace Z0
 {
     using static core;
 
-    public class EncodedMembers : IDisposable
+    public class ApiMemberCode : IDisposable
     {
-        public static EncodedMembers own(EncodingData data)
-            => new EncodedMembers(data);
+        public static ApiMemberCode own(EncodingData data)
+            => new ApiMemberCode(data);
 
         EncodingData Data;
 
-        EncodedMembers(EncodingData data)
+        ApiMemberCode(EncodingData data)
         {
             Data = data;
         }

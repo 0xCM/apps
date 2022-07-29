@@ -103,7 +103,7 @@ namespace Z0
                     ref readonly var host = ref hosts[j];
                     ref readonly var methods = ref host.Methods;
                     for(var k=0; i<methods.Count; k++, q++)
-                        dst[q] = methods[k].Describe();
+                        dst[q] = ClrDynamic.describe(methods[k]);
                 }
             }
         }
@@ -142,7 +142,7 @@ namespace Z0
                 var methods = host.Methods.View;
                 var mCount = methods.Length;
                 for(var j=0; j<mCount; j++)
-                    seek(dst,counter++) = skip(methods,j).Describe();
+                    seek(dst,counter++) = ClrDynamic.describe(skip(methods,j));
             }
             return counter;
         }

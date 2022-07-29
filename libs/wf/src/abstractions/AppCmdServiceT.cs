@@ -29,8 +29,6 @@ namespace Z0
 
         public override IDispatcher Dispatcher => ApiGlobals.Instance.Injected<CmdDispatcher>();
 
-        protected OmniScript OmniScript => Wf.OmniScript();
-
         [CmdOp("jobs/run")]
         Outcome RunJobs(CmdArgs args)
         {

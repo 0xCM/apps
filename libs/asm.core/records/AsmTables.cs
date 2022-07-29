@@ -171,9 +171,6 @@ namespace Z0.Asm
         public Index<HostAsmRecord> LoadHostAsmRows(FS.FolderPath src, bool pll = true, bool sort = true)
             => LoadHostAsmRows(src.Files(FS.Csv, true), pll, sort);
 
-        public FS.Files AsmDetailFiles()
-            => Db.TableDir<AsmDetailRow>().AllFiles;
-
         public Index<AsmDetailRow> LoadAsmDetails(FS.Files src)
         {
             var records = Lists.list<AsmDetailRow>(Pow2.T18);

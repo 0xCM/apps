@@ -26,7 +26,7 @@ namespace Z0.Asm
 
         public ReadOnlySpan<StokeAsmExportRow> ImportExported()
         {
-            var src = Db.Table<StanfordInstruction>(TargetFolder);
+            var src = AppDb.DbIn().Table<StanfordInstruction>("asmcat");
             var doc = TextGrids.parse(src).Require();
             var data = doc.Rows;
             var count = data.Length;
@@ -39,10 +39,10 @@ namespace Z0.Asm
                 map(import, ref seek(buffer, i));
             }
 
-            var dst = Db.Table<StokeAsmExportRow>(TargetFolder);
-            var flow = Wf.EmittingTable<StokeAsmExportRow>(dst);
+            var dst = AppDb.DbOut().Table<StokeAsmExportRow>("asmcat");
+            var flow = EmittingTable<StokeAsmExportRow>(dst);
             var _count = Tables.emit(@readonly(buffer), dst);
-            Wf.EmittedTable(flow, _count);
+            EmittedTable(flow, _count);
             return buffer;
         }
 

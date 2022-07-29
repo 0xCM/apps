@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static core;
+    using static ApiCode;
 
     public sealed class ApiResProvider : AppService<ApiResProvider>
     {
@@ -32,7 +33,7 @@ namespace Z0
                   .Select(p => p.GetGetMethod(true))
                   .Where(m  => m != null)
                   .Concrete()
-                  .Select(x => new SpanResAccessor(MethodEntryPoints.create(x), ResKind(x.ReturnType)));
+                  .Select(x => new SpanResAccessor(EntryPoints.create(x), ResKind(x.ReturnType)));
 
         /// <summary>
         /// Queries the source types for ByteSpan property getters

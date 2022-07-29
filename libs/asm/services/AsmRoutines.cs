@@ -12,7 +12,7 @@ namespace Z0.Asm
         public static ApiHostRoutine hosted(MemoryAddress @base, ApiCodeBlock code, IceInstruction[] src)
             => new ApiHostRoutine(@base, ApiInstructions.from(code, src));
 
-        public static AsmRoutine routine(ApiMemberCode member, AsmInstructionBlock asm)
+        public static AsmRoutine routine(MemberCodeBlock member, AsmInstructionBlock asm)
         {
             var code = new ApiCodeBlock(member.OpUri, member.Encoded);
             return new AsmRoutine(member.OpUri, member.Method.Artifact().DisplaySig.Format(), code, member.TermCode, ApiInstructions.from(code, asm));

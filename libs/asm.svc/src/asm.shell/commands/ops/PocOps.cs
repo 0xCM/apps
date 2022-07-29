@@ -371,11 +371,6 @@ namespace Z0.Asm
         }
 
 
-        void CorrelateApi()
-        {
-            var dst = Db.AppTablePath<ApiCorrelationEntry>();
-            Wf.ApiCatalogs().Correlate(dst);
-        }
 
         public void ParseDump()
         {

@@ -19,8 +19,8 @@ namespace Z0
 
         Index<ToolConfig> Configs;
 
-        public ToolWs(FS.FolderPath root)
-            : base(root)
+        public ToolWs(FS.FolderPath home)
+            : base(home)
         {
             ConfigLookup = dict<Actor,ToolConfig>();
             Configs = array<ToolConfig>();
@@ -52,6 +52,8 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Configs;
         }
+
+        SettingLookup IToolWs.Settings => throw new NotImplementedException();
 
         public bool Settings(Actor tool, out ToolConfig dst)
             => ConfigLookup.TryGetValue(tool, out dst);

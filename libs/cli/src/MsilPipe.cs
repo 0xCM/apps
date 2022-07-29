@@ -108,7 +108,7 @@ namespace Z0
             Wf.EmittedFile(flow, count);
         }
 
-        public void EmitCode(Index<ApiMemberCode> src, FS.FilePath path)
+        public void EmitCode(Index<MemberCodeBlock> src, FS.FilePath path)
         {
             var count = src.Count;
             var builder = text.build();
@@ -160,7 +160,7 @@ namespace Z0
             dst.AppendLine();
         }
 
-        public Index<MsilCapture> EmitData(Index<ApiMemberCode> src, FS.FilePath dst)
+        public Index<MsilCapture> EmitData(Index<MemberCodeBlock> src, FS.FilePath dst)
         {
             var count = src.Count;
             var buffer = alloc<MsilCapture>(count);

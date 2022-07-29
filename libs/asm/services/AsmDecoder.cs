@@ -119,7 +119,7 @@ namespace Z0.Asm
             return dst;
         }
 
-        public AsmRoutine Decode(CollectedEncoding src)
+        public AsmRoutine Decode(ApiEncoded src)
         {
             ApiIdentity.parse(src.Token.Uri.Format(), out var uri).Require();
             var code = new ApiCodeBlock(src.Token.TargetAddress, uri, src.Code);
@@ -128,7 +128,7 @@ namespace Z0.Asm
             return routine(uri, src.Sig.Format(), asm, r => AsmFormatter.format(r, AsmFormatter.header(src), AsmFormat));
         }
 
-        public AsmHostRoutines Decode(ApiHostUri uri, ReadOnlySpan<ApiMemberCode> src)
+        public AsmHostRoutines Decode(ApiHostUri uri, ReadOnlySpan<MemberCodeBlock> src)
         {
             try
             {
@@ -226,7 +226,7 @@ namespace Z0.Asm
             return result;
         }
 
-        public Outcome DecodeRoutine(in ApiMemberCode src, out AsmRoutine dst)
+        public Outcome DecodeRoutine(in MemberCodeBlock src, out AsmRoutine dst)
         {
             dst = AsmRoutine.Empty;
             var outcome = Decode(src.Encoded, out var block);

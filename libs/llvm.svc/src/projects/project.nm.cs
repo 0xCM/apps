@@ -8,7 +8,7 @@ namespace Z0
 
     partial class ProjectCmd
     {
-        ToolBoxCmd ToolBox => Wf.ToolBoxCmd();
+        Tooling Tooling => Wf.Tooling();
 
         [CmdOp("project/nm")]
         Outcome RunLlvmNm(CmdArgs args)
@@ -17,7 +17,7 @@ namespace Z0
             var files = Project().Files().Where(f => f.Is(FS.Obj) || f.Is(FS.Dll) || f.Is(FS.Lib) || f.Is(FS.Exe)).View;
             var count = files.Length;
             var outdir = Project().BuildOut();
-            var tool = ToolBox.Workspace(ToolNames.llvm_nm);
+            var tool = Tooling.Home(ToolNames.llvm_nm);
             var script = tool.Script("run", FileKind.Cmd);
             for(var i=0; i<count; i++)
             {

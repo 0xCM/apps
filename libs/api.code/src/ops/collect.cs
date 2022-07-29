@@ -10,8 +10,8 @@ namespace Z0
 
     partial class ApiCode
     {
-        public static ReadOnlySeq<CollectedEncoding> collect(ICompositeDispenser symbols, IPart src, IWfEventTarget log)
-            => gather(MethodEntryPoints.create(ClrJit.members(src, log)), log, symbols);
+        public static ReadOnlySeq<ApiEncoded> collect(ICompositeDispenser symbols, IPart src, IWfEventTarget log)
+            => gather(EntryPoints.create(ClrJit.members(src, log)), log, symbols);
 
         public static MemoryAddress stub(MemoryAddress src, out AsmHexCode stub)
         {

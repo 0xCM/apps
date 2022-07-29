@@ -12,54 +12,93 @@ namespace Z0
     {
         AsmDecoder AsmDecoder => Wf.AsmDecoder();
 
-        CliEmitter CliEmitter => Wf.CliEmitter();
+        ApiCode ApiCode => Wf.ApiCode();
 
-        ApiPacks ApiPacks => Wf.ApiPacks();
-
-        Runtime Runtime => Wf.Runtime();
-
-        ApiMd ApiMd => Wf.ApiMd();
-
-        public static ReadOnlySeq<ApiCatalogEntry> catalog(ApiMembers members)
+        void CheckHex()
         {
-            var buffer = sys.alloc<ApiCatalogEntry>(members.Count);
-            var @base = members.BaseAddress;
-            var rebase = members[0].BaseAddress;
-            for(var i=0u; i<members.Count; i++)
+            var src = AppDb.ApiTargets().Targets("capture");
+            CheckPackedHex(src.Root);
+        }
+
+        void CheckPackedHex(FS.FolderPath src)
+        {
+            var ext = FS.ext(FS.ext("parsed"), FS.XPack);
+            var files = src.Files(ext).ToReadOnlySpan();
+            var count = files.Length;
+            var hex = list<ApiHostHex>();
+            for(var i=0; i<count; i++)
             {
-                ref readonly var member = ref members[i];
-                ref var record = ref seek(buffer,i);
-                record.Sequence = i;
-                record.ProcessBase = @base;
-                record.MemberBase = member.BaseAddress;
-                record.MemberOffset = member.BaseAddress - @base;
-                record.MemberRebase = (uint)(member.BaseAddress - rebase);
-                record.HostName = member.Host.HostName;
-                record.PartName = member.Host.Part.Format();
-                record.OpUri = member.OpUri;
+                var file = skip(files,i);
+                var elements = file.FileName.Format().Split(Chars.Dot).ToReadOnlySpan();
+                if(elements.Length < 2)
+                    continue;
+
+                var part = skip(elements,0);
+                var id = ApiParsers.part(part);
+                if(id == 0)
+                    continue;
+
+                var uri = ApiHostUri.define(id, skip(elements,1));
+                hex.Add(new (uri, ApiHex.memory(file)));
+            }
+        }
+
+        public static FS.FilePath csv(FS.FolderPath src, ApiHostUri host)
+            => src + host.FileName(FS.PCsv);
+
+        void PackHex(FS.FolderPath src, ApiHostUri host)
+        {
+            var counter = 0u;
+            var memory = ApiHex.memory(csv(src, host));
+            var blocks = memory.Sort().View;
+            var buffer = span<char>(Pow2.T16);
+            var dir = AppDb.ApiTargets("capture.test").Targets(string.Format("{0}.{1}", host.Part.Format(), host.HostName)).Root;
+            var count = blocks.Length;
+            for(var i=0; i<count; i++)
+            {
+                var dst = dir + FS.file(string.Format("{0:D5}", i), FS.XArray);
+                var length = Hex.hexarray(skip(blocks,i).View, buffer);
+                var content = text.format(slice(buffer,0,length));
+                using var writer = dst.AsciWriter();
+                writer.WriteLine(content);
+            }
+        }
+
+
+        void CheckSize(ApiMemberCode src)
+        {
+            var count = src.MemberCount;
+            var rebase = MemoryAddress.Zero;
+            var size = 0u;
+            for(var i=0; i<count; i++)
+            {
+                var seg = src.Segment(i);
+                rebase = rebase + seg.Size;
+                size += seg.Size;
             }
 
-            return buffer;
+            Require.equal((ByteSize)size, src.CodeSize);
         }
 
-        public void Run(IApiPack dst)
-        {
-            var parts = ApiPartCapture.create(Wf);
-            using var dispenser = Dispense.composite();
-            var hosts = parts.Capture(dst, dispenser);
-            var members = ApiQuery.members(hosts.SelectMany(x => x.Resolved.Members).Where(x => x != null).Array());
-            var rebased = catalog(members);
-            TableEmit(rebased, dst.Table<ApiCatalogEntry>(), UTF8);
-            ApiMd.EmitDatasets(dst);
-            CliEmitter.Emit(CliEmitOptions.@default(), dst);
-            Runtime.EmitContext(dst);
-            ApiPacks.Link(dst);
-        }
+
+        // public void Run(IApiPack dst)
+        // {
+        //     var parts = ApiPartCapture.create(Wf);
+        //     using var dispenser = Dispense.composite();
+        //     var hosts = parts.Capture(dst, dispenser);
+        //     var members = ApiQuery.members(hosts.SelectMany(x => x.Resolved.Members).Where(x => x != null).Array());
+        //     var rebased = catalog(members);
+        //     TableEmit(rebased, dst.Table<ApiCatalogEntry>(), UTF8);
+        //     ApiMd.EmitDatasets(dst);
+        //     CliEmitter.Emit(CliEmitOptions.@default(), dst);
+        //     Runtime.EmitContext(dst);
+        //     ApiPacks.Link(dst);
+        // }
 
         ClrEventListener OpenEventLog(Timestamp ts)
             => ClrEventListener.create(AppDb.App().Path($"clr.events.{ts}", FileKind.Log));
 
-        void EmitAsm(ICompositeDispenser symbols, PartId part, ReadOnlySeq<CollectedEncoding> src, IApiPack dst)
+        void EmitAsm(ICompositeDispenser symbols, PartId part, ReadOnlySeq<ApiEncoded> src, IApiPack dst)
         {
             var buffer = alloc<AsmRoutine>(src.Count);
             var emitter = text.emitter();

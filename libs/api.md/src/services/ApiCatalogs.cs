@@ -128,20 +128,20 @@ namespace Z0
             return rows;
         }
 
-        public Index<ApiMemberCode> Correlate()
+        public Index<MemberCodeBlock> Correlate()
             => Correlate(ApiRuntimeCatalog.PartCatalogs());
 
-        public Index<ApiMemberCode> Correlate(FS.FilePath dst)
+        public Index<MemberCodeBlock> Correlate(FS.FilePath dst)
             => Correlate(ApiRuntimeCatalog.PartCatalogs(), dst);
 
-        public Index<ApiMemberCode> Correlate(ReadOnlySpan<IApiPartCatalog> src)
+        public Index<MemberCodeBlock> Correlate(ReadOnlySpan<IApiPartCatalog> src)
             => Correlate(src, FS.FilePath.Empty);
 
-        public Index<ApiMemberCode> Correlate(ReadOnlySpan<IApiPartCatalog> src, FS.FilePath path)
+        public Index<MemberCodeBlock> Correlate(ReadOnlySpan<IApiPartCatalog> src, FS.FilePath path)
         {
             var flow = Running(Msg.CorrelatingParts.Format(src.Length));
             var count = src.Length;
-            var code = list<ApiMemberCode>();
+            var code = list<MemberCodeBlock>();
             var records = list<ApiCorrelationEntry>();
             for(var i=0; i<count; i++)
             {
@@ -168,7 +168,7 @@ namespace Z0
             return code.ToArray();
         }
 
-        int Correlate(ApiHostCatalog src, Index<ApiCodeBlock> blocks, List<ApiMemberCode> dst, List<ApiCorrelationEntry> entries)
+        int Correlate(ApiHostCatalog src, Index<ApiCodeBlock> blocks, List<MemberCodeBlock> dst, List<ApiCorrelationEntry> entries)
         {
             var part = src.Host.PartId;
             var members = src.Members.OrderBy(x => x.Id).Array();
@@ -194,7 +194,7 @@ namespace Z0
                     entry.RuntimeAddress = left.BaseAddress;
                     entry.Id = right.OpUri;
                     entries.Add(entry);
-                    dst.Add(new ApiMemberCode(left, right, i));
+                    dst.Add(new MemberCodeBlock(left, right, i));
                 }
             }
             return count;

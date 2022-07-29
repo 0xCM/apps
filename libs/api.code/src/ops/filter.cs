@@ -8,10 +8,10 @@ namespace Z0
 
     partial class ApiCode
     {
-        public static ReadOnlySpan<ApiMemberCode> filter(ReadOnlySpan<ApiMemberCode> src, ApiClassKind kind)
+        public static ReadOnlySpan<MemberCodeBlock> filter(ReadOnlySpan<MemberCodeBlock> src, ApiClassKind kind)
         {
             var count = src.Length;
-            var dst = list<ApiMemberCode>();
+            var dst = list<MemberCodeBlock>();
             for(var i=0; i<count; i++)
             {
                 ref readonly var code = ref skip(src,i);

@@ -11,7 +11,7 @@ namespace Z0
         public static ApiMember member(in ResolvedMethod src)
             => new ApiMember(src.Uri, src.Method, src.EntryPoint, ClrDynamic.msil(src.EntryPoint, src.Uri, src.Method));
 
-        static EncodedMember member(in CollectedEncoding src)
+        static EncodedMember member(in ApiEncoded src)
         {
             var token = src.Token;
             var dst = new EncodedMember();

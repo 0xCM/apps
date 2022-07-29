@@ -14,7 +14,7 @@ namespace Z0
                 => new MemoryList<T>(memory.native(count*Sized.size<T>()));
 
         [Op]
-        public static MemoryBlock block(in ApiMemberCode src, ExtractTermInfo term)
+        public static MemoryBlock block(in MemberCodeBlock src, ExtractTermInfo term)
         {
             if(!term.TerminalFound)
                 return MemoryBlock.Empty;

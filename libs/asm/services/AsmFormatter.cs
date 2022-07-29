@@ -38,7 +38,7 @@ namespace Z0.Asm
             return dst.Emit();
         }
 
-        public static string header(in CollectedEncoding src)
+        public static string header(in ApiEncoded src)
         {
             const string PageBreak = "#" + CharText.Space + RpOps.PageBreak160;
             const AsmCommentMarker CommentMarker = AsmCommentMarker.Hash;

@@ -8,9 +8,9 @@ namespace Z0
     {
         public readonly ApiHostMembers Resolved;
 
-        public readonly ReadOnlySeq<CollectedEncoding> Blocks;
+        public readonly ReadOnlySeq<ApiEncoded> Blocks;
 
-        public CollectedHost(ApiHostMembers resolved, ReadOnlySeq<CollectedEncoding> blocks)
+        public CollectedHost(ApiHostMembers resolved, ReadOnlySeq<ApiEncoded> blocks)
         {
             Resolved = resolved;
             Blocks = blocks;

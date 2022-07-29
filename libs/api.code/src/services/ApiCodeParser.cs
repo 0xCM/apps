@@ -10,28 +10,24 @@ namespace Z0
     using S = EncodingParserState;
 
     [ApiHost]
-    public ref struct EncodingParser
+    public ref struct ApiCodeParser
     {
         [MethodImpl(Inline), Op]
-        internal static ReadOnlySpan<byte> parsed(in EncodingParser parser)
+        internal static ReadOnlySpan<byte> parsed(in ApiCodeParser parser)
             => (parser.Offset + parser.Delta - 1) > 0 ? parser.Buffer.Slice(0, parser.Offset + parser.Delta - 1) : sys.empty<byte>();
 
-        [MethodImpl(Inline), Op]
-        public static bool failed(EncodingParserState state)
-            => state == EncodingParserState.Failed;
+        // [MethodImpl(Inline), Op]
+        // public static bool failed(EncodingParserState state)
+        //     => state == EncodingParserState.Failed;
 
-        [MethodImpl(Inline), Op]
-        public static ExtractTermCode termcode(EncodingPatternKind src)
-        {
-            if (src != 0)
-                return (ExtractTermCode)src;
-            else
-                return ExtractTermCode.Fail;
-        }
-
-        [MethodImpl(Inline), Op]
-        public static EncodingParser create(byte[] buffer)
-            => new EncodingParser(EncodingPatterns.Default, buffer);
+        // [MethodImpl(Inline), Op]
+        // public static ExtractTermCode termcode(EncodingPatternKind src)
+        // {
+        //     if (src != 0)
+        //         return (ExtractTermCode)src;
+        //     else
+        //         return ExtractTermCode.Fail;
+        // }
 
         public readonly Span<byte> Buffer;
 
@@ -51,7 +47,7 @@ namespace Z0
         ReadOnlySpan<byte> ParsedSlice
             => parsed(this);
 
-        internal EncodingParser(EncodingPatterns patterns, byte[] buffer)
+        internal ApiCodeParser(EncodingPatterns patterns, byte[] buffer)
         {
             Buffer = buffer;
             Patterns = patterns;
@@ -77,11 +73,11 @@ namespace Z0
             return State;
         }
 
-        public K Result
-        {
-            [MethodImpl(Inline)]
-            get => Finished() ? Outcome : default;
-        }
+        // public K Result
+        // {
+        //     [MethodImpl(Inline)]
+        //     get => Finished() ? Outcome : default;
+        // }
 
         void Start()
         {

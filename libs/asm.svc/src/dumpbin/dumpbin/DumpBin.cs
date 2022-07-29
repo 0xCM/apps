@@ -66,7 +66,7 @@ namespace Z0
             return scripts;
         }
 
-        ToolBoxCmd ToolBox => Wf.ToolBoxCmd();
+        Tooling Tooling => Wf.Tooling();
 
         public Identifier ScriptId(CmdName cmd, FileKind kind)
             => string.Format("{0}.{1}.{2}", Id, kind.Format(), CmdSymbols[cmd].Expr);
@@ -91,22 +91,22 @@ namespace Z0
             switch(name)
             {
                 case CmdName.EmitAsm:
-                    pattern = CmdScripts.pattern("dumpbin.disasm", string.Format("dumpbin /DISASM:{2} /OUT:{1} {0}", source, target, "NOBYTES"));
+                    pattern = CmdScripts.template("dumpbin.disasm", string.Format("dumpbin /DISASM:{2} /OUT:{1} {0}", source, target, "NOBYTES"));
                     break;
                 case CmdName.EmitRawData:
-                    pattern = CmdScripts.pattern("dumpbin.rawdata", string.Format("dumpbin /RAWDATA:1,32 /OUT:{1} {0}", source, target));
+                    pattern = CmdScripts.template("dumpbin.rawdata", string.Format("dumpbin /RAWDATA:1,32 /OUT:{1} {0}", source, target));
                     break;
                 case CmdName.EmitHeaders:
-                    pattern = CmdScripts.pattern("dumpbin.headers", string.Format("dumpbin /HEADERS /OUT:{1} {0}", source, target));
+                    pattern = CmdScripts.template("dumpbin.headers", string.Format("dumpbin /HEADERS /OUT:{1} {0}", source, target));
                     break;
                 case CmdName.EmitRelocations:
-                    pattern = CmdScripts.pattern("dumpbin.relocations", string.Format("dumpbin /RELOCATIONS /OUT:{1} {0}", src.Format(PS), output.Format(PS)));
+                    pattern = CmdScripts.template("dumpbin.relocations", string.Format("dumpbin /RELOCATIONS /OUT:{1} {0}", src.Format(PS), output.Format(PS)));
                     break;
                 case CmdName.EmitExports:
-                    pattern = CmdScripts.pattern("dumpbin.exports", string.Format("dumpbin /EXPORTS /OUT:{1} {0}", source, target));
+                    pattern = CmdScripts.template("dumpbin.exports", string.Format("dumpbin /EXPORTS /OUT:{1} {0}", source, target));
                     break;
                 case CmdName.EmitLoadConfig:
-                    pattern = CmdScripts.pattern("dumpbin.loadconfig", string.Format("dumpbin /LOADCONFIG /OUT:{1} {0}", src.Format(PS), output.Format(PS)));
+                    pattern = CmdScripts.template("dumpbin.loadconfig", string.Format("dumpbin /LOADCONFIG /OUT:{1} {0}", src.Format(PS), output.Format(PS)));
                     break;
             }
             return CmdScripts.expr(pattern);
@@ -143,7 +143,7 @@ namespace Z0
             };
 
             var dst = AppDb.DbOut().Targets(tag);
-            var ws = ToolBox.Workspace(dumpbin);
+            var ws = Tooling.Home(dumpbin);
             var cmd = new CmdLine(ws.Script(script).Format(PathSeparator.BS));
             var files = src.Sources().Files(fk);
 
@@ -194,7 +194,7 @@ namespace Z0
             where T : IFileModule
         {
             var script = Script(ScriptId(cmd, kind), cmd, src, dst);
-            var path = dst.Path(FS.file(script.Id.Format(), FS.Cmd));
+            var path = dst.Path(FS.file(script.Name.Format(), FS.Cmd));
             FileEmit(script.Format(), path);
             return path;
         }

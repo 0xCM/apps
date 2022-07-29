@@ -6,16 +6,16 @@ namespace Z0
 {
     using Z0.Asm;
 
-    public sealed class MemberDecodedEvent : ApiExtractEvent<MemberDecodedEvent,Arrow<ApiMemberCode,AsmRoutine>>
+    public sealed class MemberDecodedEvent : ApiExtractEvent<MemberDecodedEvent,Arrow<MemberCodeBlock,AsmRoutine>>
     {
         [MethodImpl(Inline)]
         public MemberDecodedEvent()
         {
-            Payload = (ApiMemberCode.Empty, AsmRoutine.Empty);
+            Payload = (MemberCodeBlock.Empty, AsmRoutine.Empty);
         }
 
         [MethodImpl(Inline)]
-        public MemberDecodedEvent(in ApiMemberCode src, in AsmRoutine dst)
+        public MemberDecodedEvent(in MemberCodeBlock src, in AsmRoutine dst)
         {
             Payload = (src,dst);
         }

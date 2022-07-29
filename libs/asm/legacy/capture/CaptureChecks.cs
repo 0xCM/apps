@@ -7,7 +7,7 @@ namespace Z0.Asm
     public readonly struct CaptureChecks : ICaptureChecks
     {
         public static ICheckContext context(IWfRuntime wf)
-            => new CheckContext(wf.AppPaths, Rng.@default(), MsgExchange.Create());
+            => new CheckContext(Rng.@default(), MsgExchange.Create());
 
         public IAsmContextDepr Context {get;}
 

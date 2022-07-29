@@ -15,7 +15,7 @@ namespace Z0.Asm
             var dst = bag<AsmCallRow>();
             var count = src.Length;
             for(var i=0; i<count; i++)
-                EmitRows(skip(src,i), dst, Db.Table(dir, AsmCallRow.TableId, skip(src,i).Part));
+                EmitRows(skip(src,i), dst, FS.FilePath.Empty);
             return dst.Index().Sort();
         }
 

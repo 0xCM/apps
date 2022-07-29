@@ -10,7 +10,52 @@ namespace Z0
     {
         const byte ZeroLimit = 10;
 
-        public static Outcome parse(FS.FilePath src, out Seq<EncodedMember> dst)
+        class ApiEncodings
+        {
+            readonly ConcurrentDictionary<uint,ApiEncoded> Data;
+
+            public ApiEncodings()
+            {
+                Data = new();
+            }
+
+            public bool Include(in ApiEncoded src)
+                => Data.TryAdd(src.Token.EntryId,src);
+
+            public Index<ApiEncoded> Emit(bool clear = true)
+            {
+                var members = Data.Values.Array();
+                if(clear)
+                    Data.Clear();
+                return members;
+            }
+        }    
+        
+        static ApiEncodings parse(Dictionary<ApiHostUri,CollectedCodeExtracts> src, IWfEventTarget log)
+        {
+            log.Deposit(running(Msg.ParsingHosts.Format(src.Count)));
+            var buffer = sys.alloc<byte>(Pow2.T14);
+            var parser = ApiCode.parser(buffer);
+            var dst = new ApiEncodings();
+            var counter = 0u;
+            foreach(var host in src.Keys)
+            {
+                log.Deposit(running(Msg.ParsingHostMembers.Format(host)));
+                var extracts = src[host];
+                foreach(var extract in extracts)
+                {
+                    parser.Parse(extract.TargetExtract);
+                    dst.Include(new ApiEncoded(extract.Token, parser.Parsed));
+                    counter++;
+                }
+                log.Deposit(ran(Msg.ParsedHostMembers.Format(extracts.Count, host)));
+            }
+
+            log.Deposit(ran(Msg.ParsedHosts.Format(counter, src.Keys.Count)));
+            return dst;
+        }
+
+        static Outcome parse(FS.FilePath src, out Seq<EncodedMember> dst)
         {
             var result = Outcome.Success;
             var lines = src.ReadLines(true);
@@ -26,8 +71,7 @@ namespace Z0
             return result;
         }
 
-        [Parser]
-        public static Outcome parse(LineNumber line, string src, out EncodedMember dst)
+        static Outcome parse(LineNumber line, string src, out EncodedMember dst)
         {
             const byte FieldCount = EncodedMember.FieldCount;
             dst = default;

@@ -52,7 +52,7 @@ namespace Z0
             Wf.Error(e);
         }
 
-        UnaryEvaluations<T> eval<T>(BufferTokens buffers, in ApiMemberCode code, UnaryOperatorClass<T> k)
+        UnaryEvaluations<T> eval<T>(BufferTokens buffers, in MemberCodeBlock code, UnaryOperatorClass<T> k)
             where T : unmanaged
         {
             var target = init<T>();
@@ -61,7 +61,7 @@ namespace Z0
             return ApiEvaluate.compute(context, error);
         }
 
-        BinaryEvaluations<T> eval<T>(BufferTokens buffers, in ApiMemberCode code, BinaryOperatorClass<T> k)
+        BinaryEvaluations<T> eval<T>(BufferTokens buffers, in MemberCodeBlock code, BinaryOperatorClass<T> k)
             where T : unmanaged
         {
             var target = init<T>();
@@ -75,7 +75,7 @@ namespace Z0
             where E : unmanaged, Enum
                 => Evaluator(buffers);
 
-        public bit EvalCellOperators(BufferTokens buffers, ApiMemberCode[] api)
+        public bit EvalCellOperators(BufferTokens buffers, MemberCodeBlock[] api)
         {
             for(var i=0; i<api.Length; i++)
                 EvalCellOperator(buffers, api[i]);
@@ -96,7 +96,7 @@ namespace Z0
             return s1.Zip(s2).Select(a =>  Tuples.pair(a.First, a.Second)).ToArray();
         }
 
-        public bit EvalCellOperator(BufferTokens buffers, in ApiMemberCode api)
+        public bit EvalCellOperator(BufferTokens buffers, in MemberCodeBlock api)
         {
             var nk = api.Method.ReturnType.NumericKind();
             var kid = api.Member.ApiClass;
@@ -136,7 +136,7 @@ namespace Z0
         HashSet<ApiClassKind> EvalSkip {get;}
             = new HashSet<ApiClassKind>(array(ApiClassKind.Inc));
 
-        void Analyze<T>(in ApiMemberCode api, in UnaryEvaluations<T> eval)
+        void Analyze<T>(in MemberCodeBlock api, in UnaryEvaluations<T> eval)
             where T : unmanaged
         {
             if(EvalSkip.Contains(api.KindId))
@@ -163,7 +163,7 @@ namespace Z0
             }
         }
 
-       void Analyze<T>(in ApiMemberCode api, in BinaryEvaluations<T> eval)
+       void Analyze<T>(in MemberCodeBlock api, in BinaryEvaluations<T> eval)
             where T : unmanaged
         {
             if(EvalSkip.Contains(api.KindId))
@@ -188,7 +188,7 @@ namespace Z0
             }
         }
 
-        public void Dispatch(BufferTokens buffers, in ApiMemberCode api, UnaryOperatorClass k)
+        public void Dispatch(BufferTokens buffers, in MemberCodeBlock api, UnaryOperatorClass k)
         {
             var kid = api.Member.ApiClass;
             int count = 128;
@@ -240,7 +240,7 @@ namespace Z0
             }
         }
 
-        public void Dispatch(BufferTokens buffers, in ApiMemberCode api, BinaryOperatorClass k)
+        public void Dispatch(BufferTokens buffers, in MemberCodeBlock api, BinaryOperatorClass k)
         {
             var kid = api.Member.ApiClass;
             int count = 128;
@@ -300,7 +300,7 @@ namespace Z0
         /// <param name="index">The index of the target buffer</param>
         /// <param name="src">The executable source that conforms to a fixed binary operator</param>
         /// <typeparam name="F">The operand type</typeparam>
-        BinaryOp<F> LoadFixedinaryOp<F>(BufferTokens buffers, BufferSeqId index, ApiMemberCode src)
+        BinaryOp<F> LoadFixedinaryOp<F>(BufferTokens buffers, BufferSeqId index, MemberCodeBlock src)
             where F : unmanaged, IDataCell
                 => buffers[index].EmitBinaryCellOp<F>(src.Encoded);
 
@@ -313,11 +313,11 @@ namespace Z0
         /// <param name="x">The first operand</param>
         /// <param name="y">The second operand</param>
         /// <typeparam name="F">The operand type</typeparam>
-        F ExecBinaryOp<F>(BufferTokens buffers, BufferSeqId index, ApiMemberCode src, F x, F y)
+        F ExecBinaryOp<F>(BufferTokens buffers, BufferSeqId index, MemberCodeBlock src, F x, F y)
             where F : unmanaged, IDataCell
                 => LoadFixedinaryOp<F>(buffers, index, src)(x,y);
 
-        void Analyze(in Pairs<byte> src, in Triples<byte> dst, in ApiMemberCode api)
+        void Analyze(in Pairs<byte> src, in Triples<byte> dst, in MemberCodeBlock api)
         {
             for(var i=0; i< 10; i++)
             {
@@ -328,7 +328,7 @@ namespace Z0
             }
         }
 
-        bit Dispatch(BufferTokens buffers, in Pairs<byte> src, in ApiMemberCode api)
+        bit Dispatch(BufferTokens buffers, in Pairs<byte> src, in MemberCodeBlock api)
         {
 
             var dst = Evaluator(buffers).Eval(api, K.binary(), src);
@@ -336,7 +336,7 @@ namespace Z0
             return 1;
         }
 
-        void Analyze(in Pairs<Cell8> src, in Triples<Cell8> dst, in ApiMemberCode api)
+        void Analyze(in Pairs<Cell8> src, in Triples<Cell8> dst, in MemberCodeBlock api)
         {
             for(var i=0; i< 10; i++)
             {
@@ -347,7 +347,7 @@ namespace Z0
             }
         }
 
-        Bit32 Dispatch(BufferTokens buffers, in Pairs<Cell8> src, in ApiMemberCode api)
+        Bit32 Dispatch(BufferTokens buffers, in Pairs<Cell8> src, in MemberCodeBlock api)
         {
 
             var dst = Evaluator(buffers).EvalCellular(api, K.binary(), src);
@@ -355,7 +355,7 @@ namespace Z0
             return 1;
         }
 
-        Bit32 Dispatch(BufferTokens buffers, in Pairs<Cell16> src, in ApiMemberCode api)
+        Bit32 Dispatch(BufferTokens buffers, in Pairs<Cell16> src, in MemberCodeBlock api)
         {
 
             var dst = Evaluator(buffers).EvalCellular(api, K.binary(), src);
@@ -363,13 +363,13 @@ namespace Z0
             return 1;
         }
 
-        void Analyze<T>(in Pairs<T> src, in Triples<T> dst, in ApiMemberCode api)
+        void Analyze<T>(in Pairs<T> src, in Triples<T> dst, in MemberCodeBlock api)
             where T : unmanaged
         {
 
         }
 
-        Triples<T> Dispatch<E,T>(BufferTokens buffers, in ApiMemberCode api, IOperationClass<E,T> k, in Pairs<T> src)
+        Triples<T> Dispatch<E,T>(BufferTokens buffers, in MemberCodeBlock api, IOperationClass<E,T> k, in Pairs<T> src)
             where E : unmanaged, Enum
             where T : unmanaged
         {

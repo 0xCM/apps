@@ -10,12 +10,6 @@ namespace Z0
     {
         string Name {get;}
 
-        FS.FolderPath IFileArchive.Datasets()
-            => Root + FS.folder("db");
-
-        FS.FolderPath IFileArchive.Datasets(string scope)
-            => Datasets() + FS.folder(scope);
-
         FS.FolderPath SrcDir()
             => Root + FS.folder(src);
 

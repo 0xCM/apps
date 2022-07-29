@@ -18,9 +18,9 @@ namespace Z0
         public static CmdScript script(Bitness mode, FS.FilePath src, FS.FilePath dst)
         {
             const string Pattern = "{0} -b {1} -p intel {2} > {3}";
-            var id = src.FileName.WithoutExtension.Format();
+            var name = src.FileName.WithoutExtension.Format();
             var body = CmdScripts.expr(string.Format(Pattern, (byte)mode, "ndisasm", src.Format(PathSeparator.BS), dst.Format(PathSeparator.BS)));
-            return CmdScripts.create(id, body);
+            return CmdScripts.create(name, body);
         }
 
         public FS.FilePath Job(Bitness mode, FS.FolderPath input, FS.FolderPath output)
@@ -38,7 +38,7 @@ namespace Z0
             {
                 ref readonly var script = ref skip(_scripts,i);
                 ref var path = ref seek(paths,i);
-                path = scriptDir + FS.file(script.Id.Format(), FS.Cmd);
+                path = scriptDir + FS.file(script.Name.Format(), FS.Cmd);
                 path.Overwrite(script.Format());
                 writer.WriteLine(string.Format("call {0}", path.Format(PathSeparator.BS)));
             }

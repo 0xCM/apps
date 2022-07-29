@@ -6,21 +6,21 @@ namespace Z0
 {
     public readonly struct CmdScript
     {
-        public readonly Identifier Id;
+        public readonly Name Name;
 
         readonly CmdScriptExpr Data;
 
         [MethodImpl(Inline)]
         public CmdScript(CmdScriptExpr src)
         {
-            Id = EmptyString;
+            Name = EmptyString;
             Data = src;
         }
 
         [MethodImpl(Inline)]
-        public CmdScript(string id, CmdScriptExpr src)
+        public CmdScript(Name name, CmdScriptExpr src)
         {
-            Id = id;
+            Name = name;
             Data = src;
         }
 

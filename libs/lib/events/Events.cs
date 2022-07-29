@@ -36,6 +36,10 @@ namespace Z0
             => new WarnEvent<T>(host, msg);
 
         [Op, Closures(Closure)]
+        public static ErrorEvent<T> error<T>(Type host, T msg, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
+            => new ErrorEvent<T>(host, msg, originate(host, caller,file,line));
+
+        [Op, Closures(Closure)]
         public static ErrorEvent<string> error(Type host, Exception e, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => new ErrorEvent<string>(host, e, e.Message, originate(caller, caller,file, line ?? 0));
 
@@ -48,7 +52,7 @@ namespace Z0
             => new ErrorEvent<string>(src.DeclaringType, msg, originate(src.DeclaringType, src.DisplayName(), EmptyString, 0));
 
         [Op]
-        public static EventOrigin originate(Type type,[CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
+        public static EventOrigin originate(Type type, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => originate(type.Name, caller, file, line);
 
         [Op, Closures(UInt64k)]

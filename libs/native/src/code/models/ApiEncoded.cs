@@ -5,14 +5,14 @@
 namespace Z0
 {
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public readonly record struct CollectedEncoding : IDataType<CollectedEncoding>
+    public readonly record struct ApiEncoded : IDataType<ApiEncoded>
     {
         public readonly ApiToken Token;
 
         public readonly BinaryCode Code;
 
         [MethodImpl(Inline)]
-        public CollectedEncoding(ApiToken token, BinaryCode code)
+        public ApiEncoded(ApiToken token, BinaryCode code)
         {
             Token = token;
             Code = code;
@@ -52,13 +52,13 @@ namespace Z0
             => Hash;
 
         [MethodImpl(Inline)]
-        public bool Equals(CollectedEncoding src)
+        public bool Equals(ApiEncoded src)
             => Token.Equals(src.Token);
 
         [MethodImpl(Inline)]
-        public int CompareTo(CollectedEncoding src)
+        public int CompareTo(ApiEncoded src)
             => Token.EntryAddress.CompareTo(src.Token.EntryAddress);
 
-        public static CollectedEncoding Empty => new (ApiToken.Empty, sys.empty<byte>());
+        public static ApiEncoded Empty => new (ApiToken.Empty, sys.empty<byte>());
     }
 }

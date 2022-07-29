@@ -7,7 +7,7 @@ namespace Z0
     [Free]
     public interface IAppService : IService, IDisposable
     {
-        EnvData Env {get;}
+        //EnvData Env {get;}
 
         IWfRuntime Wf {get;}
 
@@ -16,9 +16,6 @@ namespace Z0
         IWfMsg WfMsg {get;}
 
         IWfEmitters WfEmit {get;}
-
-        IWfDb Db
-            => new WfDb(Wf,FS.dir(@"D:\views\db\apps"));
 
         void Init(IWfRuntime wf);
 

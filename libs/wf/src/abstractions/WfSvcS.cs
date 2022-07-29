@@ -22,6 +22,8 @@ namespace Z0
             get => AppData.get().PllExec();
         }
 
+        protected OmniScript OmniScript => Wf.OmniScript();
+
         protected WfSvc()
         {
 

@@ -23,17 +23,14 @@ namespace Z0
             public ToolBoxCmd ToolBoxCmd(IWfRuntime wf)
                 => Service<ToolBoxCmd>(wf);
 
-            public WsScripts WsScripts(IWfRuntime wf)
-                => Service<WsScripts>(wf);
-
-            public EnvCmd EnvCmd(IWfRuntime wf)
-                => Service<EnvCmd>(wf);
+            public ToolScripts WsScripts(IWfRuntime wf)
+                => Service<ToolScripts>(wf);
 
             public CmdExec CmdExec(IWfRuntime wf)
                 => Service<CmdExec>(wf);
 
-            public ToolBoxSvc ToolBoxSvc(IWfRuntime wf)
-                => Service<ToolBoxSvc>(wf);
+            public Tooling ToolBoxSvc(IWfRuntime wf)
+                => Service<Tooling>(wf);
         }
 
         static AppSvcCache Services => AppSvcCache.Instance;
@@ -47,23 +44,19 @@ namespace Z0
         public static AppSvcOps AppSvc(this IWfRuntime wf)
             => Services.AppSvc(wf);
 
-        public static WsScripts WsScripts(this IWfRuntime wf)
+        public static ToolScripts WsScripts(this IWfRuntime wf)
             => Services.WsScripts(wf);
 
-        public static ToolBoxCmd ToolBoxCmd(this IWfRuntime wf)
+        public static IAppCmdSvc ToolBoxCmd(this IWfRuntime wf)
             => Services.ToolBoxCmd(wf);
 
         public static CmdExec CmdExec(this IWfRuntime wf)
             => Services.CmdExec(wf);
 
-        public static IAppCmdSvc EnvCmd(this IWfRuntime wf)
-            => Services.EnvCmd(wf);
-
         public static Worlds Worlds(this IWfRuntime wf)
             => Services.Worlds(wf);
  
-       public static ToolBoxSvc ToolBoxSvc(this IWfRuntime wf)
-            => Services.ToolBoxSvc(wf);
-  
+        public static Tooling Tooling(this IWfRuntime wf)
+            => Services.ToolBoxSvc(wf); 
     }
 }
