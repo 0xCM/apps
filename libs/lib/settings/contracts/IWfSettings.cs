@@ -4,10 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class Settings
+    public interface IWfSettings : ISettings
     {
-        public static SettingLookup<T> lookup<T>(T src)
-            where T : new()
-                => new (typeof(T).PublicInstanceFields().Select(f => new Setting(f.Name, f.GetValue(src))));
+
+    }
+
+    public interface IWfSettings<T> : IWfSettings, ISettings<T>
+        where T : IWfSettings<T>, new()
+    {
+
     }
 }

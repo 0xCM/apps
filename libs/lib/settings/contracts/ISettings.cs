@@ -20,7 +20,7 @@ namespace Z0
             => Settings.IsNonEmpty;
 
         string IExpr.Format()
-            => Settings.Format();
+            => api.format(this);
     }
 
     [Free]
@@ -32,5 +32,8 @@ namespace Z0
 
         SettingLookup ISettings.Settings
             => api.lookup((S)this);
+
+        string IExpr.Format()
+            => api.format((S)this, Chars.Eq);
     }
 }

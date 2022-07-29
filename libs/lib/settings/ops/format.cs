@@ -11,6 +11,15 @@ namespace Z0
 
     partial class Settings
     {
+        public static string format(ISettings src)
+        {
+            var dst = text.emitter();
+            dst.AppendLine($"[{src.Name}]");
+            render(src.Settings,dst);
+            return dst.Emit();
+
+        }
+
         public static string format(Index<Setting> src, char sep)
         {
             var dst = text.buffer();
@@ -19,10 +28,12 @@ namespace Z0
         }
 
         public static string format<T>(in T src, char sep)
+            where T : ISettings
         {
             var fields = typeof(T).PublicInstanceFields();
             var count = fields.Length;
-            var dst = text.buffer();
+            var dst = text.emitter();
+            dst.AppendLine($"[{src.Name}]");
             for(var i=0; i<count; i++)
             {
                 ref readonly var field = ref skip(fields,i);
@@ -33,11 +44,5 @@ namespace Z0
 
         public static string format<K,V>(K key, V value)
             => string.Format(RP.Setting, key, value);
-
-        public static void render(SettingLookup src, ITextEmitter dst)
-        {
-            for(var i=0; i<src.Count; i++)
-                dst.AppendLine(src[i]);
-        }
     }
 }

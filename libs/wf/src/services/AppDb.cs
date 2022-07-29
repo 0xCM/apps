@@ -19,6 +19,8 @@ namespace Z0
         public IDbSources Settings()
             => DbRoot().Sources("settings");
 
+        public FS.FilePath Settings(string name, FileKind kind)
+            => Settings().Path(name,kind);
         public IDbSources Jobs()
             => DbRoot().Sources("jobs");
         public FS.FilePath Settings<T>()

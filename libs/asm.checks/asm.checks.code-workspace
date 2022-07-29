@@ -4,17 +4,41 @@
 			"path": "."
 		},
 		{
-			"path": "..\\..\\props"
+			"path": "../../libs/literals"
 		},
 		{
-			"path": "..\\api.svc"
+			"path": "../../libs/api.contracts"
 		},
 		{
-			"path": "..\\api.specs"
+			"path": "../../libs/part"
 		},
 		{
-			"path": "..\\lib"
-		}
+			"path": "../../libs/sys"
+		},
+		{
+			"path": "../../libs/imagine"
+		},
+		{
+			"path": "../../libs/lib"
+		},
+		{
+			"path": "../../libs/wf"
+		},
+		{
+			"path": "../../libs/cmd.svc"
+		},
+		{
+			"path": "../../libs/cli"
+		},
+		{
+			"path": "../../libs/api.md"
+		},
+		{
+			"path": "../../libs/archives"
+		},
+		{
+			"path": "../../libs/asm.svc"
+		},
 	],
 	"settings": {}
 }

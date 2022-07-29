@@ -4,16 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Text;
-    using System.Globalization;
+    using static Algs;
 
-    public readonly struct JsonText : ITextual, IContented<string>
+    public readonly struct JsonText : IExpr, IContented<string>
     {
         public string Content {get;}
 
         [MethodImpl(Inline)]
         public JsonText(string src)
-            => Content = src;
+        {
+            Content = src ?? EmptyString;
+        }
 
         [MethodImpl(Inline)]
         public string Format()
@@ -26,10 +27,23 @@ namespace Z0
             else
                 return EmptyString;
         }
-        public uint Hash
+
+        public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => (uint)Content.GetHashCode();
+            get => hash(Content);
+        }
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => empty(Content);
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => nonempty(Content);
         }
 
         public int Length

@@ -209,11 +209,11 @@ namespace Z0
             => new Json<T>(src);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static JsonText jtext<T>(in Json<T> src)
+        public static JsonText jtext<T>(Json<T> src)
             => json(format(src));
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static string format<T>(in Json<T> src)
+        public static string format<T>(Json<T> src)
             => src.Content?.ToString() ?? EmptyString;
 
         /// <summary>

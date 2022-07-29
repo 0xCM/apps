@@ -4,13 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Free]
-    sealed class App : AppCmdShell<App>
+    partial class Settings
     {
-        static IAppCmdSvc commands(IWfRuntime wf)
-            => AppCmd.commands(wf);
 
-        public static void Main(params string[] args)
-            => run(commands, args);
+        public static string json(Setting src)
+            => string.Concat(text.enquote(src.Name), Chars.Colon, Chars.Space, src.ValueText.Enquote());
     }
 }

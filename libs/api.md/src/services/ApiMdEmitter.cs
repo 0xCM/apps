@@ -28,14 +28,14 @@ namespace Z0
 
         public void Emit()
         {
-            var components = Md.Components;
-            var symlits = Symbolic.symlits(components);
+            var src = Md.Components;
+            var symlits = Symbolic.symlits(src);
             exec(true,
                 Md.EmitDataFlows,
                 () => EmitComments(Target),
                 () => Md.EmitAssets(),
                 () => EmitSymLits(symlits),
-                () => Md.EmitApiLiterals(Symbolic.apilits(components)),
+                () => Md.EmitApiLiterals(Symbolic.apilits(src)),
                 () => EmitApiDeps(Target),
                 Md.EmitParsers,
                 Md.EmitApiTables,
@@ -129,7 +129,6 @@ namespace Z0
 
         void Emit(ReadOnlySpan<ApiTableField> src)
             => TableEmit(src, AppDb.ApiTargets().Table<ApiTableField>());
-
 
         void Emit(ReadOnlySpan<ApiRuntimeMember> src)
             => TableEmit(src, AppDb.ApiTargets().Table<ApiRuntimeMember>(), TextEncodingKind.Utf8);

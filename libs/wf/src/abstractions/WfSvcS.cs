@@ -7,12 +7,12 @@ namespace Z0
 {
     using static core;
 
-    public abstract class WfSvc<S> : AppService<S>
+    public abstract class WfSvc<S> : AppService<S>, IWfSvc
         where S : WfSvc<S>, new()
     {
-        ConcurrentDictionary<ProjectId,FileFlowContext> _Context = new();
+        ConcurrentDictionary<ProjectId, FileFlowContext> _Context = new();
 
-        public FileCatalog ProjectFiles {get; protected set;}
+        public FileCatalog ProjectFiles { get; protected set; }
 
         protected IProjectDb ProjectDb;
 
@@ -48,7 +48,7 @@ namespace Z0
             {
                 f();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Error(e, caller, file, line);
             }
@@ -67,20 +67,20 @@ namespace Z0
         [CmdOp("project/files")]
         protected void ListProjectFiles(CmdArgs args)
         {
-            if(args.Count != 0)
-                iter(Context().Files.Docs(arg(args,0)), file => Write(file.Format()));
+            if (args.Count != 0)
+                iter(Context().Files.Docs(arg(args, 0)), file => Write(file.Format()));
             else
                 iter(Context().Files.Docs(), file => Write(file.Format()));
         }
 
         [CmdOp("project")]
         public Outcome LoadProject(CmdArgs args)
-            => LoadProjectSources(AppDb.EtlSource(arg(args,0).Value));
+            => LoadProjectSources(AppDb.EtlSource(arg(args, 0).Value));
 
         protected Outcome LoadProjectSources(IWsProject ws)
         {
             var result = Outcome.Success;
-            if(ws == null)
+            if (ws == null)
                 result = Outcome.fail("Project unspecified");
             else
             {
@@ -88,7 +88,7 @@ namespace Z0
                 WfSvc.project(ws);
                 ProjectFiles = FileCatalog.load(WfSvc.project().ProjectFiles().Storage.ToSortedSpan());
                 var dir = ws.Home();
-                if(dir.Exists)
+                if (dir.Exists)
                     Files(ws.SrcFiles());
                 Status($"Project={WfSvc.project()}");
             }
@@ -98,16 +98,16 @@ namespace Z0
         protected Outcome LoadProject(IWsProject src)
         {
             var result = Outcome.Success;
-            if(src == null)
+            if (src == null)
                 result = Outcome.fail("Project unspecified");
             else
             {
                 var dir = src.Home();
                 result = dir.Exists;
-                if(result)
+                if (result)
                     Files(src.SrcFiles());
                 else
-                    result = Outcome.fail($"{src.Project.Id} not found");;
+                    result = Outcome.fail($"{src.Project.Id} not found"); ;
             }
             return result;
         }
@@ -167,12 +167,12 @@ namespace Z0
             => WfMsg.Running(msg);
 
         public new ExecToken Ran<T>(WfExecFlow<T> flow, [CallerName] string msg = null)
-            => WfMsg.Ran(flow,msg);
+            => WfMsg.Ran(flow, msg);
 
         public ExecToken Ran<T>(WfExecFlow<T> flow, string msg, FlairKind flair = FlairKind.Ran)
             => WfMsg.Ran(flow, msg, flair);
 
-        public ExecToken Ran<T,D>(WfExecFlow<T> src, D data)
+        public ExecToken Ran<T, D>(WfExecFlow<T> src, D data)
             => WfMsg.Ran(src, data);
 
         public new WfFileWritten EmittingFile(FS.FilePath dst)
@@ -199,7 +199,7 @@ namespace Z0
 
         public new ExecToken EmittedTable<T>(WfTableFlow<T> flow, Count count, FS.FilePath? dst = null)
             where T : struct
-                => WfMsg.EmittedTable(flow,count, dst);
+                => WfMsg.EmittedTable(flow, count, dst);
 
         public void FileEmit<T>(T src, Count count, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
         {
@@ -239,8 +239,8 @@ namespace Z0
             var emitting = EmittingFile(dst);
             using var writer = dst.Writer(encoding);
             var count = lines.Length;
-            for(var i=0; i<count; i++)
-                writer.AppendLine(skip(lines,i));
+            for (var i = 0; i < count; i++)
+                writer.AppendLine(skip(lines, i));
             var emitted = EmittedFile(emitting, count);
         }
 

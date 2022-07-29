@@ -4,24 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Spans;
-    using static Arrays;
-    using static Algs;
-
     [ApiHost]
     public partial class Settings
     {
         const NumericKind Closure = UnsignedInts;
-
-        public static Name name(Type src)
-            => src.Tag<SettingsAttribute>().MapValueOrElse(tag => tag.Name, () => (Name)src.DisplayName());
-
-        public static Name name<T>()
-            => name(typeof(T));
-
-        public static string json(Setting src)
-            => string.Concat(text.enquote(src.Name), Chars.Colon, Chars.Space, src.ValueText.Enquote());
-
         [Op]
         public static bool search(SettingLookup src, Name key, out Setting value)
         {
@@ -45,37 +31,5 @@ namespace Z0
 
         public static Settings64 from(params Setting64[] src)
             => new Settings64(src);
-
-        public static SettingType type<T>(T src)
-            => type(src.GetType());
-
-        public static SettingType type(Type src)
-        {
-            var dst = SettingType.None;
-            if(src == typeof(bool))
-                dst = SettingType.Bool;
-            else if(src == typeof(string))
-                dst = SettingType.String;
-            else if(src == typeof(FS.FilePath) || src == typeof(FS.FileUri))
-                dst = SettingType.File;
-            else if(src == typeof(FS.FolderPath))
-                dst = SettingType.Folder;
-            return dst;
-        }
-
-        public static SettingLookup rows(FS.FilePath src)
-        {
-            var formatter = Tables.formatter<Setting>();
-            var data = src.ReadLines(true);
-            var dst = sys.alloc<Setting>(data.Length - 1);
-            for(var i=1; i<data.Length; i++)
-            {
-                ref readonly var line = ref data[i];
-                var parts = text.split(line, Chars.Pipe);
-                Require.equal(parts.Length,2);
-                seek(dst,i-1)= new Setting(text.trim(skip(parts,0)), text.trim(skip(parts,1)));
-            }
-            return new SettingLookup(dst);
-        }
     }
 }

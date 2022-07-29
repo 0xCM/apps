@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Spans;
-    using static Arrays;
-    using static Refs;
-    using static Algs;
-
     partial class Settings
     {
         [MethodImpl(Inline), Op]

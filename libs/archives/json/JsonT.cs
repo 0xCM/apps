@@ -8,15 +8,23 @@ namespace Z0
 
     public readonly struct Json<T> : IJsonSource<Json<T>>
     {
-        public readonly T[] Content {get;}
+        public readonly Seq<T> Content;
 
         [MethodImpl(Inline)]
         public Json(T[] src)
-            => Content = src;
+        {
+            Content = src;
+        }
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Content.IsEmpty;
+        }
 
         [MethodImpl(Inline)]
         public string Format()
-            => api.format(this);
+            => Content?.Format();
 
         public override string ToString()
             => Format();

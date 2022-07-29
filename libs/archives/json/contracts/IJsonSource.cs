@@ -5,11 +5,11 @@
 namespace Z0
 {
     [Free]
-    public interface IJsonSource : ITextual
+    public interface IJsonSource : IExpr
     {
         JsonText ToJson();
 
-        string ITextual.Format()
+        string IExpr.Format()
             => ToJson().Format();
     }
 

@@ -4,10 +4,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class Settings
+    [Free]
+    public interface IRunnable
     {
-        public static SettingLookup<T> lookup<T>(T src)
-            where T : new()
-                => new (typeof(T).PublicInstanceFields().Select(f => new Setting(f.Name, f.GetValue(src))));
+        void Run();
+
+        Task Start()
+            => Task.Run(Run);
+    }
+
+    [Free]
+    public interface IRunnable<S> : IRunnable
+        where S : new()
+    {
+        S Settings {get;}
     }
 }

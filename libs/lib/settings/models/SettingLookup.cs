@@ -24,14 +24,12 @@ namespace Z0
         public bool Find(Name key, out Setting setting)
             => api.search(this, key, out setting);
 
-        // public override string Format()
-        // {
-        //     var dst = text.emitter();
-        //     api.render(this, dst);
-        //     return dst.Emit();
-        // }
+        public override string Format()
+        {
+            var dst = text.emitter();
+            api.render(this,dst);
+            return dst.Emit();
+        }
 
-        // public override string ToString()
-        //     => Format();
     }
 }
