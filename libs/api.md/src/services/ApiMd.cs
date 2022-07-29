@@ -10,10 +10,6 @@ namespace Z0
 
     public sealed partial class ApiMd : WfSvc<ApiMd>
     {
-        ModuleArchives Modules => Wf.ModuleArchives();
-
-        ApiCatalogs ApiCatalogs => Wf.ApiCatalogs();
-
         IDbTargets ApiTargets()
             => AppDb.ApiTargets();
 
@@ -26,28 +22,22 @@ namespace Z0
         public IApiCatalog Catalog
             => ApiRuntimeCatalog;
 
-        Assembly[] CalcComponents()
-            => Modules.PartArchive().ManagedDll().Where(x => x.FileName.StartsWith("z0")).Select(x => x.Load()).Unwrap().Distinct().Unwrap();
-
-        public Assembly[] Components
-            => data(K.Components, CalcComponents);
-
-        public ReadOnlySeq<IPart> Parts
-            => data(K.ApiParts, () => Catalog.Parts.ToReadOnlySeq());
+        public Assembly[] Assemblies
+            => DbArchives.assemblies();
 
         public Type[] EnumTypes
-            => data(K.EnumTypes, () => Components
+            => data(K.EnumTypes, () => Assemblies
                 .Enums()
                 .Where(x => x.ContainsGenericParameters == false));
 
         public Index<Type> ApiTableTypes
-            => data(K.ApiTables, () => Components.Types().Tagged<RecordAttribute>().Index());
+            => data(K.ApiTables, () => Assemblies.Types().Tagged<RecordAttribute>().Index());
 
         public ReadOnlySeq<ApiTableField> ApiTableFields
             => data(K.ApiTableFields, CalcTableFields);
 
         public ReadOnlySeq<SymLiteralRow> SymLits
-            => data(nameof(SymLiteralRow), () => Symbolic.symlits(Components));
+            => data(nameof(SymLiteralRow), () => Symbolic.symlits(Assemblies));
 
         public Index<IApiHost> ApiHosts
             => data(K.ApiHosts, () => Catalog.ApiHosts.Index());
@@ -62,7 +52,7 @@ namespace Z0
             => data(K.DataFlows, CalcDataFlows);
 
         public ApiParserLookup Parsers
-            => data(K.Parsers, () => Z0.Parsers.contracted(Components));
+            => data(K.Parsers, () => Z0.Parsers.contracted(Assemblies));
 
         public ApiMdEmitter Emitter()
             => ApiMdEmitter.create(Wf, this, ApiPacks.create());
@@ -112,7 +102,7 @@ namespace Z0
             => TableEmit(src, ApiTargets(tokens).PrefixedTable<SymInfo>(name), TextEncodingKind.Unicode);
 
         internal Index<ComponentAssets> CalcAssets()
-            => Assets.extract(Components);
+            => Assets.extract(Assemblies);
 
         internal void EmitAssets()
         {
@@ -215,7 +205,7 @@ namespace Z0
 
         internal ReadOnlySeq<ApiFlowSpec> CalcDataFlows()
         {
-            var src = ApiDataFlow.discover(Components);
+            var src = ApiDataFlow.discover(Assemblies);
             var count = src.Length;
             var buffer = alloc<ApiFlowSpec>(count);
             for(var i=0; i<count; i++)
@@ -231,7 +221,7 @@ namespace Z0
         }
 
         internal ReadOnlySeq<ApiCmdRow> CalcApiCommands()
-            => CmdTypes.rows(CmdTypes.discover(Components));
+            => CmdTypes.rows(CmdTypes.discover(Assemblies));
 
         internal ConstLookup<Name,ReadOnlySeq<SymInfo>> CalcApiTokens()
             => Symbols.lookup(EnumTypes.Tagged<SymSourceAttribute>());
@@ -288,7 +278,7 @@ namespace Z0
                 => EmitSymLits<E>(ApiTargets().PrefixedTable<SymLiteralRow>(typeof(E).FullName));
 
         internal ReadOnlySeq<SymLiteralRow> EmitSymLits(FS.FilePath dst)
-            => EmitSymLits(Components, dst);
+            => EmitSymLits(Assemblies, dst);
 
         internal ReadOnlySeq<SymLiteralRow> EmitSymLits<E>(FS.FilePath dst)
             where E : unmanaged, Enum

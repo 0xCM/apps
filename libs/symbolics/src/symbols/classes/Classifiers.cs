@@ -104,14 +104,20 @@ namespace Z0
             var values = alloc<LabeledValue<ulong>>(count);
             var classes = alloc<ValueClass>(count);
             var dst = new ValueClassifier(src.Name, names, symbols, values, classes);
-            for(var i=0u; i<symbols.Count; i++)
+            for(var i=0u; i<count; i++)
             {
                 ref readonly var sym = ref symbols[i];
-                dst.Sym(i) = sym;
-                dst.SymName(i) = sym.Name;
-                dst.Value(i) = (sym.Name,sym.Value);
-                dst.Class(i) = new ValueClass(sym.Key, sym.Group, sym.Name, sym.Expr.Text, sym.Value);
+                seek(classes,i) = new ValueClass(sym.Key, sym.Group, sym.Name, sym.Expr.Text, values[i].Value);
             }
+
+            // for(var i=0u; i<symbols.Count; i++)
+            // {
+            //     ref readonly var sym = ref symbols[i];
+            //     dst.Sym(i) = sym;
+            //     dst.SymName(i) = sym.Name;
+            //     dst.Value(i) = (sym.Name,sym.Value);
+            //     dst.Class(i) = new ValueClass(sym.Key, sym.Group, sym.Name, sym.Expr.Text, sym.Value);
+            // }
             return dst;
         }
 
@@ -124,7 +130,7 @@ namespace Z0
             var names = Symbols.names<K>();
             var kinds = index.Kinds.ToArray();
             var symbols = index.View.ToArray();
-            var values = Symbols.values<K,T>();
+            var values = Symbols.labels<K,T>();
             var count = index.Count;
             var classes = alloc<ValueClass<K,T>>(count);
             for(var i=0u; i<count; i++)

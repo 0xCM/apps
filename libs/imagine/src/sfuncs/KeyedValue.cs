@@ -4,10 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static Algs;
 
     /// <summary>
     /// Correlates a value with a key that uniquely identifies the value within some context
     /// </summary>
+    [StructLayout(LayoutKind.Sequential,Pack=1)]
     public struct KeyedValue<K,V>
     {
         /// <summary>
@@ -41,6 +43,11 @@ namespace Z0
             value = Value;
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => hash(Key,Value);
+        }
         public string Format()
             => $"{Value.GetType().Name}[{Key}]={Value}";
 

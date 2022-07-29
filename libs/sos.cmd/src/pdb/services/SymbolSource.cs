@@ -10,32 +10,6 @@ namespace Z0
 
     public ref struct PdbSymbolSource
     {
-        /// <summary>
-        /// Loads a symbol source from specified binary data
-        /// </summary>
-        /// <param name="pe">The pe data</param>
-        /// <param name="pdb">The pdb data</param>
-        [Op]
-        public static PdbSymbolSource create(ReadOnlySpan<byte> pe, ReadOnlySpan<byte> pdb)
-            => new PdbSymbolSource(pe,pdb);
-
-        /// <summary>
-        /// Loads a <see cref='PdbSymbolSource'/> for specified pe and pdb paths
-        /// </summary>
-        /// <param name="pe">The pe file path</param>
-        /// <param name="pdb">The pdb file path</param>
-        [Op]
-        public static PdbSymbolSource create(FS.FilePath pe, FS.FilePath pdb)
-            => new PdbSymbolSource(pe, pdb);
-
-        /// <summary>
-        /// Loads a <see cref='PdbSymbolSource'/> for specified pe, assuming the existence of a colocated pdb
-        /// </summary>
-        /// <param name="pe">The pe file path</param>
-        [Op]
-        public static PdbSymbolSource create(FS.FilePath pe)
-            => new PdbSymbolSource(pe, pe.ChangeExtension(FS.Pdb));
-
         public readonly bool IsPortable;
 
         public readonly FS.FilePath PePath;

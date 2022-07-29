@@ -13,24 +13,24 @@ namespace Z0
     {
         PdbIndexBuilder PdbIndexBuilder => Wf.PdbIndexBuilder();
 
-        public FS.FilePath IndexApiComponents()
-            => IndexComponents(ApiRuntimeCatalog.Components);
+        public FS.FilePath IndexAssemblies()
+            => IndexAssemblies(DbArchives.assemblies());
 
-        public FS.FilePath IndexComponents(Assembly[] src)
+        public FS.FilePath IndexAssemblies(Assembly[] src)
             => PdbIndexBuilder.IndexComponents(src, new PdbIndex());
 
-        public void IndexPdbSymbols(ReadOnlySpan<ResolvedPart> src, FS.FilePath dst)
+        public void IndexSymbols(ReadOnlySpan<ResolvedPart> src, FS.FilePath dst)
         {
             var count = src.Length;
             var emitting = EmittingFile(dst);
             var counter = 0u;
             using var writer = dst.Writer();
             for(var i=0; i<count; i++)
-                counter += IndexPdbMethods(skip(src,i),writer);
+                counter += IndexMethods(skip(src,i),writer);
             EmittedFile(emitting, counter);
         }
 
-        public uint IndexPdbMethods(in ResolvedPart src, StreamWriter dst)
+        public uint IndexMethods(in ResolvedPart src, StreamWriter dst)
         {
             var hosts = src.Hosts.View;
             using var symbols = SymbolSource(src.Location);
@@ -95,7 +95,7 @@ namespace Z0
         {
             try
             {
-                return PdbSymbolSource.create(src.Path, src.Path.ChangeExtension(FS.Pdb));
+                return PdbSymbols.source(src.Path, src.Path.ChangeExtension(FS.Pdb));
             }
             catch(Exception e)
             {
@@ -105,10 +105,7 @@ namespace Z0
         }
 
         public PdbSymbolSource SymbolSource(FS.FilePath module)
-            => PdbSymbolSource.create(module);
-
-        public ModuleArchive Archive()
-            => ModuleArchives.archive(FS.path(controller().Location).FolderPath);
+            => PdbSymbols.source(module);
 
         public static unsafe Outcome srclink(ISymUnmanagedReader5 src, out Span<byte> dst)
         {
@@ -133,7 +130,7 @@ namespace Z0
             }
         }
 
-         /// <summary>
+        /// <summary>
         /// Retrieves symbol server information
         /// </summary>
         /// <param name="reader"></param>

@@ -11,19 +11,20 @@ namespace Z0
     using static AsciChars;
 
     using C = AsciCode;
+    using S = AsciSymbol;
 
     partial struct Asci
     {
         [MethodImpl(Inline), Op]
-        public static char decode(AsciCode src)
+        public static char decode(C src)
             => (char)src;
 
         [MethodImpl(Inline), Op]
-        public static char decode(AsciSymbol src)
+        public static char decode(S src)
             => src;
 
         [MethodImpl(Inline), Op]
-        public static uint decode(ReadOnlySpan<AsciCode> src, Span<char> dst)
+        public static uint decode(ReadOnlySpan<C> src, Span<char> dst)
         {
             var count = (uint)src.Length;
             for(var i=0; i<count; i++)
@@ -32,7 +33,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public static uint decode(ReadOnlySpan<AsciSymbol> src, Span<char> dst)
+        public static uint decode(ReadOnlySpan<S> src, Span<char> dst)
         {
             var count = (uint)src.Length;
             for(var i=0; i<count; i++)
@@ -56,7 +57,7 @@ namespace Z0
             ref var dst = ref @as<uint,char>(storage);
             seek(dst, 0) = (char)(byte)(src.Storage >> 0);
             seek(dst, 1) = (char)(byte)(src.Storage >> 8);
-            return cover(dst, 2);
+            return Spans.cover(dst, 2);
         }
 
         [MethodImpl(Inline), Op]
@@ -68,7 +69,7 @@ namespace Z0
             seek(dst, 1) = (char)(byte)(src.Storage >> 8);
             seek(dst, 2) = (char)(byte)(src.Storage >> 16);
             seek(dst, 3) = (char)(byte)(src.Storage >> 24);
-            return slice(core.cover(dst, asci4.Size),0, src.Length);
+            return slice(Spans.cover(dst, asci4.Size),0, src.Length);
         }
 
         [MethodImpl(Inline), Op]

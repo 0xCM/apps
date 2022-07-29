@@ -9,7 +9,7 @@ namespace Z0
     partial class CliEmitter
     {
         public void EmitMemberRefs(IApiPack dst)
-            => iter(ApiMd.Components, c => EmitMemberRefs(c,dst), true);
+            => iter(ApiMd.Assemblies, c => EmitMemberRefs(c,dst), true);
 
         public void EmitMemberRefs(Assembly src, IApiPack dst)
         {

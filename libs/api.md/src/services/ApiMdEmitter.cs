@@ -28,7 +28,7 @@ namespace Z0
 
         public void Emit()
         {
-            var src = Md.Components;
+            var src = Md.Assemblies;
             var symlits = Symbolic.symlits(src);
             exec(true,
                 Md.EmitDataFlows,
@@ -48,7 +48,7 @@ namespace Z0
         public void EmitPartList()
         {
             var dst = text.emitter();
-            var src = Md.Components.Index();
+            var src = Md.Assemblies.Index();
             for(var i=0; i<src.Count; i++)
                 dst.AppendLine(src[i].GetName().FullName);
             FileEmit(dst.Emit(), AppDb.ApiTargets().Path("api.parts", FileKind.List));
@@ -79,7 +79,7 @@ namespace Z0
             => iter(sys.array(ExecutingPart.Component), a => EmitApiDeps(a, AppDb.ApiTargets().Path($"{a.GetSimpleName()}", FileKind.DepsList)), true);
 
         public void EmitApiSymbols()
-            => TableEmit(Symbolic.symlits(Md.Components), AppDb.ApiTargets().Table<SymLiteralRow>(), UTF16);
+            => TableEmit(Symbolic.symlits(Md.Assemblies), AppDb.ApiTargets().Table<SymLiteralRow>(), UTF16);
 
         void EmitComments(IApiPack dst)
             => Comments.Collect(dst);

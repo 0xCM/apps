@@ -18,11 +18,11 @@ namespace Z0
 
         [CmdOp("api/emit/pdb-info")]
         void EmitApiPdbInfo()
-            => PdbSvc.EmitPdbInfo(ApiMd.Components.Index().First);
+            => PdbSvc.EmitPdbInfo(ApiMd.Assemblies.Index().First);
 
         [CmdOp("api/emit/pdb-index")]
         void IndexApiPdbFiles()
-            => PdbIndexBuilder.IndexComponents(ApiMd.Components, new PdbIndex());
+            => PdbIndexBuilder.IndexComponents(ApiMd.Assemblies, new PdbIndex());
 
         [CmdOp("sos/symbols")]
         void ReadSymbols()

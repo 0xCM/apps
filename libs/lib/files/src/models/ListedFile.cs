@@ -48,7 +48,7 @@ namespace Z0
         public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => hash(Size,CreateTS,UpdateTS,Attributes);
+            get => nhash(Size,CreateTS,UpdateTS,Attributes);
         }
 
         uint ISequential.Seq

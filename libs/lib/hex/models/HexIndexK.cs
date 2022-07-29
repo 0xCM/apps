@@ -28,7 +28,7 @@ namespace Z0
         public SegRef<K> Ref
         {
             [MethodImpl(Inline)]
-            get => MemorySegs.segref(first(Data), Data.Length);
+            get => memory.segref(first(Data), Data.Length);
         }
 
         public Span<K> Span

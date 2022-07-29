@@ -5,9 +5,9 @@
 global using System.IO;
 global using Microsoft.DiaSymReader;
 global using Microsoft.CodeAnalysis;
-global using Microsoft.DiaSymReader.PortablePdb;
+//global using Microsoft.DiaSymReader.PortablePdb;
 global using Microsoft.Diagnostics.Symbols;
-global using Microsoft.DiaSymReader.Tools;
+//global using Microsoft.DiaSymReader.Tools;
 
 [assembly: PartId(PartId.SosCmd)]
 

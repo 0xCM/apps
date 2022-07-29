@@ -12,14 +12,14 @@ namespace Z0
         [Render(8)]
         public uint Seq;
 
-        [Render(64)]
-        public StringAddress Component;
-
-        [Render(12)]
-        public StringAddress TableName;
-
         [Render(12)]
         public Hex8 TableIndex;
+
+        [Render(32)]
+        public StringAddress TableName;
+
+        [Render(48)]
+        public StringAddress Component;
 
         [Render(12)]
         public uint RowCount;

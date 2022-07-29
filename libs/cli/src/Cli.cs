@@ -19,7 +19,7 @@ namespace Z0
 
         MsilPipe MsilSvc => Wf.MsilSvc();
 
-        public ReadOnlySeq<AssemblyRefInfo> ReadAssemblyRefs(Assembly src)
+        public static ReadOnlySeq<AssemblyRefInfo> refs(Assembly src)
         {
             var path = FS.path(src.Location);
             if(ClrModules.valid(path))
@@ -33,7 +33,7 @@ namespace Z0
 
         public ReadOnlySeq<AssemblyRefInfo> ReadAssemblyRefs()
         {
-            var components = ApiMd.Components;
+            var components = ApiMd.Assemblies;
             var count = components.Length;
             var dst = list<AssemblyRefInfo>();
             for(var i=0; i<count; i++)

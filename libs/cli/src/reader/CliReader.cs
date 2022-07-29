@@ -23,8 +23,6 @@ namespace Z0
         public static CliReader create(PEMemoryBlock src)
             => new CliReader(src);
 
-        const byte TableCount = (byte)TableIndex.CustomDebugInformation + 1;
-
         readonly MetadataReader MD;
 
         public ref readonly MetadataReader MetadataReader

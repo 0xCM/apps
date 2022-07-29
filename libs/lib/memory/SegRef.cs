@@ -79,7 +79,7 @@ namespace Z0
         public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => hash(Address,Size);
+            get => nhash(Address,Size);
         }
 
         public override int GetHashCode()

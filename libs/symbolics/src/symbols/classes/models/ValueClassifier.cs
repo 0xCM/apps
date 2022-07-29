@@ -12,16 +12,16 @@ namespace Z0
     {
         public readonly Label Name;
 
-        readonly Index<Label> _ClassNames;
+        readonly ReadOnlySeq<Label> _ClassNames;
 
-        readonly Index<LabeledValue<ulong>> _Values;
+        readonly ReadOnlySeq<LabeledValue<ulong>> _Values;
 
         readonly Index<Sym> _Symbols;
 
-        readonly Index<ValueClass> _Classes;
+        readonly ReadOnlySeq<ValueClass> _Classes;
 
         [MethodImpl(Inline)]
-        public ValueClassifier(Label name, Label[] names, Sym[] symbols, LabeledValue<ulong>[] values, ValueClass[] classes)
+        public ValueClassifier(Label name, ReadOnlySeq<Label> names, Sym[] symbols, ReadOnlySeq<LabeledValue<ulong>> values, ReadOnlySeq<ValueClass> classes)
         {
             Name = name;
             _Symbols = symbols;
@@ -31,11 +31,11 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        internal ref Label SymName(uint index)
+        internal ref readonly Label SymName(uint index)
             => ref _ClassNames[index];
 
         [MethodImpl(Inline)]
-        internal ref LabeledValue<ulong> Value(uint index)
+        internal ref readonly LabeledValue<ulong> Value(uint index)
             => ref _Values[index];
 
         [MethodImpl(Inline)]
@@ -43,7 +43,7 @@ namespace Z0
             => ref _Symbols[index];
 
         [MethodImpl(Inline)]
-        internal ref ValueClass Class(uint index)
+        internal ref readonly ValueClass Class(uint index)
             => ref _Classes[index];
 
         public ref readonly ValueClass this[uint i]

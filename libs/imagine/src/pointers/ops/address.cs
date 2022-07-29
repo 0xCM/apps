@@ -11,6 +11,10 @@ namespace Z0
             where P : unmanaged
                 => new MemoryAddress(pSrc);
 
+        [MethodImpl(Inline), Op]
+        public unsafe static MemoryAddress address(void* pSrc)
+            => address((ulong)pSrc);
+
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static unsafe MemoryAddress address<T>(Span<T> src)
             => new MemoryAddress(pvoid(Spans.first(src)));

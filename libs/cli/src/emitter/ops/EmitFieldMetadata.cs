@@ -13,8 +13,8 @@ namespace Z0
         public void EmitFieldMetadata(IApiPack dst)
         {
             var count = 0u;
-            var flow = Running(ApiMd.Components.Length);
-            iter(ApiMd.Components, part => EmitFieldMetadata(part,dst), true);
+            var flow = Running(ApiMd.Assemblies.Length);
+            iter(ApiMd.Assemblies, part => EmitFieldMetadata(part,dst), true);
             Ran(flow, count);
         }
 

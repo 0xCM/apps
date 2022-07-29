@@ -44,9 +44,6 @@ namespace Z0
         public static HexDataReader HexDataReader(this IWfRuntime wf)
             => Services.HexDataReader(wf);
 
-        public static ModuleArchives ModuleArchives(this IWfRuntime wf)
-            => Services.ModuleArchives(wf);
-
         public static ApiHex ApiHex(this IWfRuntime wf)
             => Services.ApiHex(wf);
 

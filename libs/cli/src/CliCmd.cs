@@ -33,7 +33,6 @@ namespace Z0
             return true;
         }
 
-
         [CmdOp("cli/emit/hex")]
         void EmitApiHex()
             => CliEmitter.EmitApiHex(Dst);

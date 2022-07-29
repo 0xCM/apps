@@ -7,7 +7,7 @@ namespace Z0
     public sealed class CliTableSource<T>
         where T : struct
     {
-        public CliReader Reader {get;}
+        public readonly CliReader Reader;
 
         [MethodImpl(Inline)]
         internal CliTableSource(CliReader src)

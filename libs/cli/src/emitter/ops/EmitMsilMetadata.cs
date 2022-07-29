@@ -9,7 +9,7 @@ namespace Z0
     partial class CliEmitter
     {
         public uint EmitIlDat(IApiPack dst)
-            => EmitMsilMetadata(ApiMd.Components, dst);
+            => EmitMsilMetadata(ApiMd.Assemblies, dst);
 
         public uint EmitMsilMetadata(ReadOnlySpan<Assembly> src, IApiPack dst)
         {

@@ -22,7 +22,7 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static Span<byte> bytes<T>(Span<T> src)
             where T : struct
-                => Refs.cover<byte>(Refs.u8<T>(first(src)), src.Length*Sized.size<T>());
+                => cover<byte>(Refs.u8<T>(first(src)), src.Length*Sized.size<T>());
 
         /// <summary>
         /// Presents a readonly span over T-cells as a readonly bytespan
@@ -32,7 +32,7 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static ReadOnlySpan<byte> bytes<T>(ReadOnlySpan<T> src)
             where T : struct
-                => Refs.cover<byte>(Refs.u8<T>(first(src)), src.Length*Sized.size<T>());
+                => cover<byte>(Refs.u8<T>(first(src)), src.Length*Sized.size<T>());
 
         /// <summary>
         /// Presents a selected segment of T-cells from a source span as a readonly bytespan

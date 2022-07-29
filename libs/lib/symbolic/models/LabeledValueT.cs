@@ -4,16 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    public readonly struct LabeledValue<T> : IExprDeprecated
+    public readonly struct LabeledValue<T> : IExpr
     {
-        public Label Label {get;}
+        public readonly Label Label;
 
-        public Value<T> Value {get;}
+        public readonly Value<T> Value;
 
         [MethodImpl(Inline)]
         public LabeledValue(Label label, T value)
@@ -22,6 +17,17 @@ namespace Z0
             Value = value;
         }
 
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Label.IsEmpty;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Label.IsNonEmpty;
+        }
         public string Format()
             => string.Format("{0}:{1}", Label, Value);
 

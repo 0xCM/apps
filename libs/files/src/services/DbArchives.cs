@@ -10,6 +10,12 @@ namespace Z0
     [ApiHost]
     public class DbArchives : AppService<DbArchives>
     {
+        public static IModuleArchive modules()
+            => ModuleArchives.archive(FS.path(ExecutingPart.Component.Location).FolderPath);
+
+        public static Assembly[] assemblies(string filter = "z0")
+            => data("modules",() => modules().ManagedDll().Where(x => x.FileName.StartsWith(filter)).Select(x => x.Load()).Unwrap().Distinct().Unwrap());
+
         public static LineMap<string> map<T>(Index<TextLine> lines, Index<T> relations)
             where T : struct, ILineRelations<T>
         {

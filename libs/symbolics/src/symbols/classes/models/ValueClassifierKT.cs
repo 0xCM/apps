@@ -12,18 +12,18 @@ namespace Z0
     {
         public readonly Label Name;
 
-        internal Index<Label> _ClassNames;
+        internal ReadOnlySeq<Label> _ClassNames;
 
-        internal Index<LabeledValue<T>> _Values;
+        internal ReadOnlySeq<LabeledValue<T>> _Values;
 
-        internal Index<ValueClass<K,T>> _Classes;
+        internal ReadOnlySeq<ValueClass<K,T>> _Classes;
 
         Index<K> _Kinds;
 
         Index<Sym<K>> _Symbols;
 
         [MethodImpl(Inline)]
-        public ValueClassifier(Label name, K[] kinds, Label[] names, Sym<K>[] symbols, LabeledValue<T>[] values, ValueClass<K,T>[] classes)
+        public ValueClassifier(Label name, K[] kinds, Label[] names, Sym<K>[] symbols, ReadOnlySeq<LabeledValue<T>> values, ReadOnlySeq<ValueClass<K,T>> classes)
         {
             Name = name;
             _Symbols = symbols;

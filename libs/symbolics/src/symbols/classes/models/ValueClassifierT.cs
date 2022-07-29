@@ -11,16 +11,16 @@ namespace Z0
     {
         public readonly Label Name;
 
-        internal Index<Label> _Partitions;
+        internal ReadOnlySeq<Label> _Partitions;
 
-        internal Index<LabeledValue<T>> _Values;
+        internal ReadOnlySeq<LabeledValue<T>> _Values;
 
         internal Index<Sym> _Symbols;
 
-        internal Index<ValueClass<T>> _Classes;
+        internal ReadOnlySeq<ValueClass<T>> _Classes;
 
         [MethodImpl(Inline)]
-        public ValueClassifier(Label name, Label[] names, Sym[] symbols, LabeledValue<T>[] values, ValueClass<T>[] classes)
+        public ValueClassifier(Label name, ReadOnlySeq<Label> names, Sym[] symbols, ReadOnlySeq<LabeledValue<T>> values, ReadOnlySeq<ValueClass<T>> classes)
         {
             Name = name;
             _Symbols = symbols;

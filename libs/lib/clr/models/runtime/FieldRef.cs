@@ -43,7 +43,7 @@ namespace Z0
         public SegRef<char> NameRef
         {
             [MethodImpl(Inline)]
-            get => MemorySegs.segref<char>(NameAddress, FieldName.Length);
+            get => memory.segref<char>(NameAddress, FieldName.Length);
         }
 
         public Type DeclaringType

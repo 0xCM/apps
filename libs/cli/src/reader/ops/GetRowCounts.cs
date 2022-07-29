@@ -4,16 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Arrays;
 
     partial class CliReader
     {
         [Op]
         public Index<TableIndex,uint> GetRowCounts()
         {
-            var dst = sys.alloc<uint>(TableCount);
-            for(byte i=0; i<TableCount; i++)
-               seek(dst,i) = (uint)MD.GetTableRowCount((TableIndex)i);
+            var values = Symbols.values<TableIndex,uint>();
+            var count = values.Count;
+            var dst = sys.alloc<uint>(count);
+            for(var i=0; i<count; i++)
+                seek(dst,i) = (uint)MD.GetTableRowCount(values[i].Key);
             return dst;
         }
     }

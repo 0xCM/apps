@@ -10,7 +10,7 @@ namespace Z0
     {
         public void EmitRowStats(IApiPack dst)
         {
-            var src = ApiMd.Components;
+            var src = ApiMd.Assemblies;
             var seq = 0u;
             var path = dst.Metadata().Table<CliRowStats>();
             var flow = EmittingTable<CliRowStats>(path);

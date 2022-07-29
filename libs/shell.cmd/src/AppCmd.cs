@@ -11,14 +11,14 @@ namespace Z0
                 wf.ProjectCmd(),
                 wf.WfCmd(),
                 wf.MemCmd(),
-                wf.EnvCmd(),
+                //wf.EnvCmd(),
                 wf.CaptureCmd(),
                 wf.AsmCoreCmd(),
                 wf.LlvmCmd(),
                 wf.XedToolCmd(),
                 wf.Machines(),
                 wf.ApiCmd(),
-                wf.SourceSymbolic(),
+                wf.RoslynCmd(),
                 wf.AsmCmdSvc(),
                 wf.XedCmd(),
                 wf.XedChecks(),
@@ -32,7 +32,7 @@ namespace Z0
 
         public static AppShellCmd commands(IWfRuntime wf)
         {
-            var xed = GlobalServices.Instance.Inject(wf.XedRuntime());
+            var xed = ApiGlobals.Instance.Inject(wf.XedRuntime());
             return create(wf, providers(wf));
         }
 

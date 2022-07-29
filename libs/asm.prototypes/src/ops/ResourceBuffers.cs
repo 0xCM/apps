@@ -48,7 +48,7 @@ namespace Z0
 
             [MethodImpl(Inline), Op]
             public static SegRef<byte> reference()
-                => MemorySegs.segref(Buffer_2688);
+                => memory.segref(Buffer_2688);
 
             const byte Sz = MemorySeg.SZ;
 

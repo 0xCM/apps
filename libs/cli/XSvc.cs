@@ -42,7 +42,6 @@ namespace Z0
         public static CliCmd CliCmd(this IWfRuntime wf)
             => Services.CliCmd(wf);
 
-
         public static Roslyn Roslyn(this IWfRuntime wf)
             => Services.Roslyn(wf);
 

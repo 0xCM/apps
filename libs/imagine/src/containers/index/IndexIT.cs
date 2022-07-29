@@ -120,5 +120,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator T[](Index<I,T> src)
             => src.Data;
+
+        public static Index<I,T> Empty => new Index<I,T>(sys.empty<T>());
     }
 }

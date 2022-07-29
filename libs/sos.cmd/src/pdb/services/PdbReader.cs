@@ -5,6 +5,7 @@
 namespace Z0
 {
     using Microsoft.DiaSymReader;
+    //using Microsoft.DiaSymReader.PortablePdb;
 
     public ref struct PdbReader
     {
@@ -36,14 +37,14 @@ namespace Z0
                 Throw.sourced(FS.Msg.DoesNotExist.Format(pe));
             if(!pdb.Exists)
                 Throw.sourced(FS.Msg.DoesNotExist.Format(pdb));
-            return create(wf, PdbSymbolSource.create(pe, pdb));
+            return create(wf, PdbSymbols.source(pe, pdb));
         }
 
         static object importer(in PdbSymbolSource src)
             => SymUnmanagedReaderFactory.CreateSymReaderMetadataImport(SymMetadataProvider.create(src));
 
         static ISymUnmanagedReader5 portable(in PdbSymbolSource src)
-            => null;
+            =>default; 
             //(ISymUnmanagedReader5)new  SymBinder().GetReaderFromStream(src.PdbStream, importer(src));
 
         static ISymUnmanagedReader5 legacy(in PdbSymbolSource src)

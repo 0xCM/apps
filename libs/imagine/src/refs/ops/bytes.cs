@@ -14,6 +14,6 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static Span<byte> bytes<T>(in T src)
             where T : struct
-                => cover(@as<T,byte>(src), Sized.size<T>());
+                => Spans.cover(@as<T,byte>(src), Sized.size<T>());
     }
 }

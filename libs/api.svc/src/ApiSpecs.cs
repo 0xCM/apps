@@ -11,7 +11,7 @@ namespace Z0
         ApiMd ApiMd => Wf.ApiMd();
 
         public ReadOnlySeq<ApiDataType> DataTypes()
-            => data("DataTypes", () => types(ApiMd.Components));
+            => data("DataTypes", () => types(ApiMd.Assemblies));
 
         public ReadOnlySeq<ApiTypeInfo> DataTypeInfo()
             => data("DataTypeInfo", () => describe(DataTypes()));

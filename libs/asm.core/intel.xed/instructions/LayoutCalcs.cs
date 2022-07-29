@@ -49,7 +49,7 @@ namespace Z0
                         var address = comps[k].Location;
                         seek(buffer,j) = new LayoutComponent(cell.Field, cell.Kind, (ulong)cell);
                     }
-                    seek(vectors,k) = new LayoutVector(MemorySegs.segref(first(buffer), layout.Count));
+                    seek(vectors,k) = new LayoutVector(memory.segref(first(buffer), layout.Count));
                 }
 
                 return new LayoutVectors(comps,vectors);

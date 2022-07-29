@@ -30,7 +30,7 @@ namespace Z0
                 if(result)
                 {
                     ref readonly var src = ref address.Ref<byte>();
-                    var data = Refs.cover(src,size);
+                    var data = Spans.cover(src,size);
                     var hex = data.FormatHex();
                     Write(string.Format("{0,-16}: {1}", address, hex));
                 }
