@@ -4,13 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Linq;
-    using System.Collections.Generic;
-    using System.Reflection;
-
-    using static Root;
-
     partial class TestApp<A>
     {
         static IEnumerable<IAppMsg> FormatErrors(string name, Exception e)

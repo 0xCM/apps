@@ -13,8 +13,8 @@ namespace Z0
     {
         sealed class ServiceCache : AppServices<ServiceCache>
         {
-            public SourceSymbolic SourceSymbolic(IWfRuntime wf)
-                => Service<SourceSymbolic>(wf);
+            public RoslnCmd SourceSymbolic(IWfRuntime wf)
+                => Service<RoslnCmd>(wf);
 
             public Roslyn Roslyn(IWfRuntime wf)
                 => Service<Roslyn>(wf);
@@ -24,7 +24,8 @@ namespace Z0
 
         public static Roslyn Roslyn(this IWfRuntime wf)
             => Services.Roslyn(wf);
-        public static SourceSymbolic SourceSymbolic(this IWfRuntime wf)
+
+        public static RoslnCmd RoslynCmd(this IWfRuntime wf)
             => Services.SourceSymbolic(wf);
     }
 }

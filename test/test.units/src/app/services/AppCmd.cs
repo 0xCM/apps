@@ -4,19 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    sealed class AppCmd : AppCmdService<AppCmd>
+    public sealed class TestCmd : AppCmdService<TestCmd>
     {
         [CmdOp("units/run")]
         Outcome RunUnits(CmdArgs args)
         {
             TestRunner.Run(Algs.array(PartId.Lib, PartId.TestUnits));
             return true;
-        }
-
-        [CmdOp("ancestors/check")]
-        void Ancestors()
-        {
-            AncestryChecks.create(Wf).Run();
         }
 
         [CmdOp("bitmasks/check")]

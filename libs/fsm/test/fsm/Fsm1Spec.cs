@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Collections.Generic;
-
     using static Fsm1Spec;
     using static Fsm1Spec.StateKinds;
     using static Fsm1Spec.EventKinds;

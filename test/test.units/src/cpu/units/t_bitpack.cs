@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    using static Root;
     using static core;
 
     public class t_bitpack : t_inx<t_bitpack>

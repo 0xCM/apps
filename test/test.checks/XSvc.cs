@@ -15,6 +15,9 @@ namespace Z0
 
             public BitLogicChecker BitLogicChecker(IWfRuntime wf)
                 => Service<BitLogicChecker>(wf);
+
+            public CalcChecker CalcChecker(IWfRuntime wf)
+                => Service<CalcChecker>(wf);
         }
 
         static ServiceCache Services => ServiceCache.Instance;
@@ -24,5 +27,8 @@ namespace Z0
 
         public static BitLogicChecker BitLogicChecker(this IWfRuntime wf)
             => Services.BitLogicChecker(wf);
+
+        public static IAppCmdSvc CalcChecker(this IWfRuntime wf)
+            => Services.CalcChecker(wf);
     }
 }

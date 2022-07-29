@@ -9,7 +9,7 @@ namespace Z0
     using static CaSymbolModels;
 
     [ApiHost]
-    public sealed class SourceSymbolic : AppCmdService<SourceSymbolic>
+    public sealed class RoslnCmd : AppCmdService<RoslnCmd>
     {
         [MethodImpl(Inline),Op]
         public static uint nonempty(ReadOnlySpan<CaSymbol> src, Span<CaSymbol> dst)
@@ -155,7 +155,7 @@ namespace Z0
         {
             var components = ApiMd.Components;
             var flow = Running(string.Format("Collecting method symbols for {0} assemblies", components.Length));
-            var symbolic = Wf.SourceSymbolic();
+            var symbolic = Wf.RoslynCmd();
             var collector = new MethodSymbolCollector();
             SymbolizeMethods(components, collector.Deposit);
             var items = collector.Collected;
@@ -224,7 +224,7 @@ namespace Z0
             if(ApiRuntimeCatalog.FindComponent(part, out var assembly))
             {
                 var name = string.Format("z0.{0}.compilation", part.Format());
-                var metadata = SourceSymbolic.reference(assembly);
+                var metadata = RoslnCmd.reference(assembly);
                 var comp = tool.Compilation(name, metadata);
                 var symbol = comp.GetAssemblySymbol(metadata);
                 var gns = symbol.GlobalNamespace;
@@ -255,7 +255,6 @@ namespace Z0
                 }
             }
         }
-
 
         public readonly struct SymbolKindFilter : IUnaryPred<SymbolKindFilter,CaSymbol>
         {

@@ -4,12 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
     using System.Linq;
-    using System.Collections.Generic;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
 
     /// <summary>
     /// Encapsulates the set of all rules (input : E, source : S) -> target : S that define state machine transitions

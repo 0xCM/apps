@@ -18,7 +18,7 @@ namespace Z0
                 wf.CliCmd(),
                 wf.DbCmd(),
                 wf.LlvmCmd(),
-                wf.SourceSymbolic(),
+                wf.RoslynCmd(),
                 wf.IntelInxCmd(),
                 wf.MemCmd(),
                 wf.Machines(),
@@ -32,6 +32,9 @@ namespace Z0
                 wf.XedChecks(),
                 wf.BuildCmd(),
                 wf.XedToolCmd(),
+                wf.FsmCmd(),
+                wf.CalcChecker(),
+                wf.TestCmd()
                 };
 
         public static AppCmd commands(IWfRuntime wf)
@@ -39,7 +42,6 @@ namespace Z0
             var xed = ApiGlobals.Instance.Inject(wf.XedRuntime());
             return create(wf, providers(wf));
         }
-
 
         protected override void Initialized()
         {

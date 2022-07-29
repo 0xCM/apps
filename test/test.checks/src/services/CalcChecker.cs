@@ -13,9 +13,10 @@ namespace Z0
 
     class CalcChecker : Checker<CalcChecker>
     {
-        void EventRaised(IWfEvent e)
+        [CmdOp("calcs/check")]
+        void RunChecks()
         {
-
+            Run(sys.empty<string>());
         }
 
         public void Run(string[] args)
@@ -28,16 +29,13 @@ namespace Z0
             }
             else
             {
-                RunValidators();
+                RunValidators(EventLog);
             }
         }
 
-        protected override void Execute(IWfEventTarget log)
-        {
-            RunValidators();
-        }
-
-
+        
+        new Action<object> Log
+            => msg => Write(msg);
 
         void LogHeader<N>(MethodBase src, N n)
             where N : unmanaged, ITypeNat
@@ -107,7 +105,6 @@ namespace Z0
             ref var src = ref block.Segment<Cell256>(0);
             for(var i=0u; i<count; i++)
                 seek(src,i) = i;
-
 
             for(var i=0; i<count; i++)
             {
@@ -193,7 +190,7 @@ namespace Z0
                 Error(result.Message);
         }
 
-        void RunValidators()
+        void RunValidators(IWfEventTarget log)
         {
             Md5Validator.create(Wf).Run();
             Run("1");
@@ -201,7 +198,7 @@ namespace Z0
             Run("4");
             Run("8");
             Run("9");
-            Run("13");
+            Run("15");
             Run("18");
             Run("24");
             Run("25");
@@ -253,6 +250,11 @@ namespace Z0
                     break;
                 }
             }
+        }
+
+        protected override void Execute(IWfEventTarget log)
+        {
+            RunValidators(log);
         }
     }
 }

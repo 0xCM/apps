@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     /// <summary>
     /// Receives notifications from an active machine
     /// </summary>

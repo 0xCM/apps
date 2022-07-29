@@ -14,6 +14,7 @@
     <ProjectReference Include="$(Symbolics)" />
     <ProjectReference Include="$(Polyrand)" />
     <ProjectReference Include="$(Validity)" />
+    <ProjectReference Include="$(Wf)" />
   </ItemGroup>
 
 </Project>

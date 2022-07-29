@@ -40,9 +40,12 @@ namespace Z0
 
         public uint RepCount {get;}
 
+        Func<TestCaseRecord,string> Formatter;
+
         [MethodImpl(Inline)]
         internal SVFChecks(IWfRuntime wf, IPolyrand rng)
         {
+            Formatter = Tables.FormatFx<TestCaseRecord>.Fx;
             Wf = wf;
             Random = rng;
             RepCount = Pow2.T10;
@@ -51,7 +54,7 @@ namespace Z0
         void ReportCaseResult(string casename, bool succeeded, TimeSpan duration)
         {
             var record = SVFChecks.TestCase(casename, succeeded, duration);
-            var content = TestCaseRecord.FormatFunction(record);
+            var content = Formatter(record);
             Wf.Data(content);
         }
 
@@ -126,8 +129,7 @@ namespace Z0
         void ReportCaseResult(string casename, bool succeeded, TimeSpan duration)
         {
             var record = SVFChecks.TestCase(casename, succeeded, duration);
-            var content = TestCaseRecord.FormatFunction(record);
-            Wf.Data(content);
+            Wf.Data(TestCaseRecords.format(record));
         }
 
         public bit CheckSVF(IBinaryOp128D<T> f)

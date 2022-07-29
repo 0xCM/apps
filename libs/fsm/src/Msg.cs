@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     /// <summary>
     /// Defines common messages that are issued during setup/execution
     /// </summary>

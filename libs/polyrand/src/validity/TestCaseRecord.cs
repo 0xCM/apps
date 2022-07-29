@@ -4,13 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    using static Root;
     using static core;
 
-    using static FormatDelegates;
-
+    using F = TestCaseRecords;
     /// <summary>
     /// Describes the outcome of a test case
     /// </summary>
@@ -18,28 +14,29 @@ namespace Z0
     public struct TestCaseRecord : IRecord<TestCaseRecord>, ITextual
     {
         const string TableId = "test.results";
-        public const byte FieldCount = 6;
 
-        [Render(60)]
+        //public const byte FieldCount = 6;
+
+        [Render(F.CasePad)]
         public string CaseName;
 
-        [Render(14)]
+        [Render(F.PassedPad)]
         public bool Passed;
 
-        [Render(26)]
+        [Render(F.StartedPad)]
         public Timestamp Started;
 
-        [Render(26)]
+        [Render(F.FinishedPad)]
         public Timestamp Finished;
 
-        [Render(26)]
+        [Render(F.DurationPad)]
         public Duration Duration;
 
-        [Render(1)]
+        [Render(F.MessagePad)]
         public string Message;
 
-        public static FormatCell<TestCaseRecord> FormatFunction
-            => TestCaseRecords.format;
+        // public static FormatCell<TestCaseRecord> FormatFunction
+        //     => TestCaseRecords.format;
 
         public static TestCaseRecord define(string name, bool succeeded, Duration duration)
             => new TestCaseRecord(name, succeeded, duration, EmptyString);

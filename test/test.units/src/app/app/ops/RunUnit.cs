@@ -20,13 +20,13 @@ namespace Z0
                 var clock = Time.counter(true);
                 var tsStart = Time.now();
 
-                if(unit is IExplicitTest et)
-                    ExecExplicit(et, results);
-                else
-                {
+                // if(unit is IExplicitTest et)
+                //     ExecExplicit(et, results);
+                // else
+                // {
                     iter(FindTests(unit.HostType), t =>  execTime += RunCase(unit, t, results));
                     BenchmarkQueue.Enqueue(unit.TakeBenchmarks().Array());
-                }
+                //}
 
                 clock.Stop();
                 term.print(PostUnit(unit.Host, clock.Span(), tsStart, Time.now()));

@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-
     /// <summary>
     /// Defines a state machine with minimal feature-set
     /// </summary>

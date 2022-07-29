@@ -4,18 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public enum TestCaseField : byte
+    class FsmCmd : AppCmdService<FsmCmd>
     {
-        CaseName = 60,
-
-        Passed = 16,
-
-        Duration = 16,
-
-        Started = 26,
-
-        Finished = 26,
-
-        Message = 1,
+        [CmdOp("fsm/checks")]
+        void CheckFsm()
+        {
+            RunFsm.Run(Wf);
+        }
     }
 }

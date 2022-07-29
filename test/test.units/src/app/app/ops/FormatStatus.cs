@@ -4,10 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     using static TestCaseRecords;
-    using static core;
 
     partial class TestApp<A>
     {

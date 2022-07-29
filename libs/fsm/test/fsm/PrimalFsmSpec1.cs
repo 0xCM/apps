@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static PrimalFsmSpec1.Event;
     using static PrimalFsmSpec1.State;
 

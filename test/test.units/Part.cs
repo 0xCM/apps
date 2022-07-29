@@ -41,4 +41,19 @@ namespace Z0
     {
 
     }
+
+    public static class XSvc
+    {
+        class ServiceCache : AppServices<ServiceCache>
+        {
+
+            public IAppCmdSvc TestCmd(IWfRuntime wf)
+                => Service<TestCmd>(wf);
+        }
+
+        static ServiceCache Services => ServiceCache.Instance;
+
+        public static IAppCmdSvc TestCmd(this IWfRuntime wf)
+            => Services.TestCmd(wf);
+    }
 }

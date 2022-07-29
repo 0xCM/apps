@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct PrimalFsmSpec<S,E,R>
         where S : unmanaged
         where E : unmanaged

@@ -4,16 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Linq;
-    using System.Collections.Generic;
-    using System.Runtime.Intrinsics;
-
-    using static core;
-
     public sealed class t_classify : t_inx<t_classify>
     {
-
-
         public static void classify_vector()
         {
             NumericClaims.eq(VK.kind(typeof(Vector128<byte>)), NativeVectorKind.v128x8u);

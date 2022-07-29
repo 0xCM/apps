@@ -4,12 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
     using System.Linq;
-    using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
 
-    using static Root;
     using static Fsm1Spec.StateKinds;
 
     public ref struct RunFsm
