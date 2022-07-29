@@ -6,7 +6,7 @@ namespace Z0
 {
     partial class HashCodes
     {
-       /// <summary>
+        /// <summary>
         /// Calculates a combined calc for 2 unsigned 32-bit integers
         /// </summary>
         /// <param name="x">The left source</param>

@@ -11,9 +11,12 @@ namespace Z0
         {
             public bit EmitComments;
 
+            public bit PllExec;
+
             public CaptureSettings()
             {
                 EmitComments = true;
+                PllExec = true;
             }
 
             public static IWfSettings<CaptureSettings> Default

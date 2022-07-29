@@ -17,7 +17,8 @@ set SlnRootPath=%SlnRoot%\z0.sln
 set CgRoot=%SlnRoot%\cg
 set ShellRoot=%SlnRoot%\shells
 set TestRoot=%SlnRoot%\test
-set LibWs=%SlnRoot%\libs
+set LibRoot=%SlnRoot%\libs
+set ShellWs=%SlnRoot%\shells
 set LibSlnPath=%LibWs%\%WsId%.sln
 set AreaRoot=%SlnRoot%\%Area%
 set SlnScripts=%SlnRoot%\.cmd
@@ -65,7 +66,7 @@ set dllshell=%DllShellPath%
 
 set LibPath=%TargetBuildRoot%\%LibName%
 
-set LibProject=%LibWs%\%ProjectId%
+set LibProject=%LibRoot%\%ProjectId%
 set CsProjectPath=%LibProject%\%CsProjectFile%
 set BuildLib=%BuildTool% %CsProjectPath% %BuildProps% %BinLogSpec%; -graph:true -m:24
 

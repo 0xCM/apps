@@ -71,7 +71,7 @@ namespace Z0
         }
 
         public SettingLookup Config(FS.FilePath src)
-            => Settings.load(src,Chars.Colon);
+            => ToolBoxSvc.config(src);
 
         public ConstLookup<ToolIdOld,ToolHelpDoc> LoadHelpDocs(IDbSources src)
         {
@@ -229,7 +229,7 @@ namespace Z0
             return LoadProfileLookup(src);
         }
 
-        public FS.FilePath ToolPath(FS.FolderPath root, Actor tool)
+        public FS.FilePath ToolPath(FS.FolderPath root, Tool tool)
         {
             if(LoadProfileLookup(root).Find(tool, out var profile))
                 return profile.Path;
@@ -237,7 +237,7 @@ namespace Z0
                 return FS.FilePath.Empty;
         }
 
-        public ReadOnlySpan<string> Setup(Actor tool)
+        public ReadOnlySpan<string> Setup(Tool tool)
         {
             var script = Ws.ConfigScript(tool);
             var result = OmniScript.Run(script, out _);

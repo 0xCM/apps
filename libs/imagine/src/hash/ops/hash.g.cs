@@ -8,6 +8,7 @@ namespace Z0
     using static Arrays;
 
     using H = HashCodes;
+    using G = HashCodes.Generic;
 
     partial class HashCodes
     {
@@ -26,17 +27,25 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static Hash32 hash<T>(T a, T b, T c, T d)
             => Generic.hash(a,b,c,d);
-
-        /// <summary>
-        /// Creates a 64-bit calccode over a pair
-        /// </summary>
-        /// <param name="x">The first member</param>
-        /// <param name="y">The second member</param>
-        /// <typeparam name="X">The first member type</typeparam>
-        /// <typeparam name="Y">The second member type</typeparam>
+                
         [MethodImpl(Inline)]
         public static ulong hash64<X,Y>(X x, Y y)
             => Generic.hash(x) | (Generic.hash(y) << 32);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static Hash32 native<T>(ReadOnlySpan<T> src)
+            where T : unmanaged
+        {                
+            var dst = Hash32.Zero;
+            var count = src.Length;
+            if(count > 0)
+            {
+                dst = G.native(Spans.first(src));
+                for(var i=1; i<src.Length; i++)
+                    dst |= G.native(Spans.skip(src,i));
+            }
+            return dst;
+        }
 
         partial class Generic
         {
@@ -110,15 +119,15 @@ namespace Z0
             public static uint hash<T>(T[] src)
                 => hash(Spans.span(src));
 
-            public static uint hash<S,T>(S[] src, Func<S,T> hash, T[] dst)
+            public static uint hash<S,T>(ReadOnlySpan<S> src, Func<S,T> fx, Span<T> dst)
             {
                 var accumulator = new HashSet<T>();
                 var count = src.Length;
                 dst = sys.alloc<T>(count);
                 for(var i=0; i<count; i++)
                 {
-                    dst[i] = hash(skip(src,i));
-                    accumulator.Add(skip(dst,i));
+                    dst[i] = fx(Spans.skip(src,i));
+                    accumulator.Add(Spans.skip(dst,i));
                 }
                 return (uint)(count - accumulator.Count);
             }

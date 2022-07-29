@@ -20,7 +20,7 @@ namespace Z0
                 => Value = value;
 
             [MethodImpl(Inline)]
-            public TargetFramework(dynamic value, Version ver)
+            public TargetFramework(dynamic value, Version64 ver)
                 => Value = value.ToString() + ver.Format();
 
             public string Format()

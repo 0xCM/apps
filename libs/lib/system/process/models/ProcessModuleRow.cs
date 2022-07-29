@@ -28,7 +28,7 @@ namespace Z0
         public ByteSize MemorySize;
 
         [Render(12)]
-        public ApiVersion Version;
+        public Version128 Version;
 
         [Render(1)]
         public FS.FileUri ImagePath;

@@ -17,7 +17,6 @@ namespace Z0
             dst.AppendLine($"[{src.Name}]");
             render(src.Settings,dst);
             return dst.Emit();
-
         }
 
         public static string format(Index<Setting> src, char sep)

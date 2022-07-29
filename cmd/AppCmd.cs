@@ -30,6 +30,7 @@ namespace Z0
                 wf.WsDbCmd(),
                 wf.XedCmd(),
                 wf.XedChecks(),
+                wf.BuildCmd(),
                 wf.XedToolCmd(),
                 };
 

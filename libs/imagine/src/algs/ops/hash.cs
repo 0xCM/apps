@@ -6,8 +6,68 @@ namespace Z0
 {
     partial class Algs
     {
-        [MethodImpl(Inline)]
-        public static Hash32 hash(Type src)
+        [MethodImpl(Inline), Op]
+        public static uint hash(sbyte x)
+            => HashCodes.hash(x);
+
+        [MethodImpl(Inline), Op]
+        public static uint hash(byte x)
+            => HashCodes.hash(x);
+
+        [MethodImpl(Inline), Op]
+        public static uint hash(short x)
+            => HashCodes.hash(x);
+
+        [MethodImpl(Inline), Op]
+        public static uint hash(ushort x)
+            => HashCodes.hash(x);
+
+        [MethodImpl(Inline), Op]
+        public static uint hash(int x)
+            => HashCodes.hash(x);
+
+        [MethodImpl(Inline), Op]
+        public static uint hash(uint x)
+            => HashCodes.hash(x);
+
+        [MethodImpl(Inline), Op]
+        public static uint hash(long x)
+            => HashCodes.hash(x);
+
+        [MethodImpl(Inline), Op]
+        public static uint hash(ulong x)
+            => HashCodes.hash(x);
+
+        [MethodImpl(Inline), Op]
+        public static uint hash(char x)
+            => HashCodes.hash(x);
+
+        [MethodImpl(Inline), Op]
+        public static uint hash(float x)
+            => HashCodes.hash(x);
+
+        [MethodImpl(Inline), Op]
+        public static uint hash(double x)
+            => HashCodes.hash(x);
+
+        [MethodImpl(Inline), Op]
+        public static uint hash(decimal x)
+            => HashCodes.hash(x);
+
+        [MethodImpl(Inline), Op]
+        public static uint hash(bool x)
+            => HashCodes.hash(x);
+
+        [MethodImpl(Inline), Op]
+        public static uint hash(ushort x, ushort y)
+            => HashCodes.hash(x,y);
+
+        [MethodImpl(Inline), Op]
+        public static uint hash(char x, char y)
+            => HashCodes.hash(x,y);
+
+        [MethodImpl(Inline), Op]
+        public static uint hash(Type src)
             => HashCodes.hash(src);
 
         [MethodImpl(Inline)]
@@ -24,10 +84,6 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static Hash32 hash(short x, short y)
-            => HashCodes.combine(x,y);
-
-        [MethodImpl(Inline)]
-        public static Hash32 hash(ushort x, ushort y)
             => HashCodes.combine(x,y);
 
         [MethodImpl(Inline)]

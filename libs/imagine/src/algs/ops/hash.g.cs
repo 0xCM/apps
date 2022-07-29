@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static HashCodes.Generic;
+    using G = HashCodes.Generic;
 
     partial class Algs
     {
@@ -12,14 +12,14 @@ namespace Z0
         public static Hash32 hash<A,B>(A a, B b)
             where A : unmanaged
             where B : unmanaged
-                => native(a) | native(b);
+                => G.native(a) | G.native(b);
 
         [MethodImpl(Inline)]
         public static Hash32 hash<A,B,C>(A a, B b, C c)
             where A : unmanaged
             where B : unmanaged
             where C : unmanaged
-                => native(a) | native(b) | native(c);
+                => G.native(a) | G.native(b) | G.native(c);
 
         [MethodImpl(Inline)]
         public static Hash32 hash<A,B,C,D>(A a, B b, C c, D d)
@@ -27,26 +27,31 @@ namespace Z0
             where B : unmanaged
             where C : unmanaged
             where D : unmanaged
-                => native(a) | native(b) | native(c) | native(d);
+                => G.native(a) | G.native(b) | G.native(c) | G.native(d);
 
         [MethodImpl(Inline)]
         public static Hash32 hash<T>(T src)
-            => hash(src);
+            => G.hash(src);
 
         [MethodImpl(Inline)]
         public static Hash32 hash<T>(T x, T y)
-            => combine(x,y);
+            => G.combine(x,y);
 
         [MethodImpl(Inline)]
         public static Hash32 hash<T>(T x, T y, T z)
-            => hash(x, y, z, z);
+            => G.hash(x, y, z, z);
 
         [MethodImpl(Inline)]
         public static Hash32 hash<T>(T a, T b, T c, T d)
-            => hash(a,b,c,d);
+            => G.hash(a,b,c,d);
 
         [MethodImpl(Inline)]
         public static Hash32 hash<T>(ReadOnlySpan<T> src)
-            => hash(src);
+            => G.hash(src);
+
+        [MethodImpl(Inline)]
+        public static Hash32 native<T>(ReadOnlySpan<T> src)
+            where T : unmanaged
+                => HashCodes.native(src);
     }
 }

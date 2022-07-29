@@ -6,14 +6,6 @@ namespace Z0
 {
     partial struct core
     {
-        /// <summary>
-        /// Presents a uint64 as an address
-        /// </summary>
-        /// <param name="src">The source value</param>
-        [MethodImpl(Inline), Op]
-        public static MemoryAddress address(ulong src)
-            => new MemoryAddress(src);
-
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static unsafe MemoryAddress address<P>(P* pSrc)
             where P : unmanaged

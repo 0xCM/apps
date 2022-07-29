@@ -9,11 +9,11 @@ namespace Z0
 
     public sealed class ToolWs : Workspace<ToolWs>, IToolWs
     {
-        public FS.FolderPath ToolHome(Actor id)
-            => Root + FS.folder(id.Format());
+        public FS.FolderPath ToolHome(Tool tool)
+            => Root + FS.folder(tool.Format());
 
-        public FS.FilePath ConfigScript(Actor id)
-            => ToolHome(id) + FS.file(ApiAtomic.config, FS.Cmd);
+        public FS.FilePath ConfigScript(Tool tool)
+            => ToolHome(tool) + FS.file(ApiAtomic.config, FS.Cmd);
 
         Dictionary<Actor,ToolConfig> ConfigLookup;
 
@@ -29,19 +29,19 @@ namespace Z0
         public FS.FolderPath Home
             => Root;
 
-        public FS.FolderPath ToolDocs(Actor tool)
+        public FS.FolderPath ToolDocs(Tool tool)
             => ToolHome(tool) + FS.folder(docs);
 
-        public FS.FolderPath Logs(Actor tool)
+        public FS.FolderPath Logs(Tool tool)
             => ToolHome(tool) + FS.folder(logs);
 
-        public FS.FilePath ConfigPath(Actor tool)
+        public FS.FilePath ConfigPath(Tool tool)
             => ToolHome(tool) + FS.file(tool.Format(), FileKind.Config);
 
-        public FS.FolderPath Scripts(Actor tool)
+        public FS.FolderPath Scripts(Tool tool)
             => ToolHome(tool) + FS.folder(scripts);
 
-        public FS.FilePath Script(Actor tool, string name)
+        public FS.FilePath Script(Tool tool, string name)
             => Scripts(tool) + FS.file(name, FS.Cmd);
 
         public FS.FilePath Inventory()

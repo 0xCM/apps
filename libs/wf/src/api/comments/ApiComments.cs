@@ -64,47 +64,6 @@ namespace Z0
             return new(xmlData, lookup, csvRows, dllFiles);
         }
 
-        public void EmitMarkdownDocs(CommentDataset ds, string[] _types)
-        {
-            // var markers = _types.Map(n => (n, string.Format(".{0}.",n))).ToDictionary();
-            // ref readonly var src = ref ds.TargetCommentLookup;
-            // var paths = src.Keys.ToArray();
-            // for(var i=0; i<paths.Length; i++)
-            // {
-            //     ref readonly var path = ref skip(paths,i);
-            //     var assemblyComments = src[path];
-            //     var selected =
-            //         from c in assemblyComments
-            //         from m in markers
-            //         let key = c.Key
-            //         let value = c.Value
-            //         where key.Contains(m.Value)
-            //         where value.Target == ApiCommentTarget.Method
-            //         select (Type:m.Key, Method:key, value);
-
-            //     var types = (from groups in selected.Map(x => (x.Type, x.Method, Comment:x.value)).GroupBy(x => x.Type)
-            //                 let type = groups.Key
-            //                 select (type, groups.Index())).ToDictionary();
-
-
-            //     foreach(var typename in types.Keys)
-            //     {
-            //         var rows = types[typename];
-            //         var k=0u;
-            //         var parts = alloc<ISection>(rows.Length + 1);
-            //         var doc = Markdown.doc(parts);
-            //         for(var j=0; j<rows.Length; j++, k++)
-            //         {
-            //             (var _, var method, var comment) = rows[j];
-            //             var ms = MethodCommentSig.from(comment);
-            //             doc[k] = Markdown.section(k, header(3, ms.Format()), comment.Summary);
-            //         }
-            //         var dst = AppDb.ApiTargets().Targets("markdown").Path(string.Format("z0.lib.{0}", typename), FileKind.Md);
-            //         FileEmit(doc.Format(), k, dst);
-            //     }
-            // }
-        }
-
         public static FS.FileName CsvFile(PartId part)
             => FS.file(string.Format("api.comments.z0", part.Format()), FS.Csv);
 
@@ -140,7 +99,7 @@ namespace Z0
         }
 
         public void Collect(IApiPack dst)
-            => Collect(dst.Targets());
+            => Collect(dst.Targets(comments));
         // {
         //     var targets = dst.Comments();
         //     var src = Pull(dst.Targets());

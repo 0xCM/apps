@@ -225,6 +225,12 @@ namespace Z0
             public static EmptyActor Instance = new();
 
             public Name Name => asci64.Null;
+
+            public Hash32 Hash => 0;
+
+            public bool IsEmpty => true;
+
+            public bool IsNonEmpty => false;
         }
     }
 }

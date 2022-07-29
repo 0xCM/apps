@@ -11,8 +11,8 @@ namespace Z0
     using P = PrimalData.SegPos;
     using I = PrimalData.Field;
 
-    [ApiHost]
-    public readonly struct PrimalBits
+    [ApiHost, Free]
+    public class PrimalBits
     {
         /// <summary>
         /// Computes 2^i where i is an integer value in the interval [0,63]

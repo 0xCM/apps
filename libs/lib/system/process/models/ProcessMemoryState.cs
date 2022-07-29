@@ -57,7 +57,7 @@ namespace Z0
         /// The process image version
         /// </summary>
         [Render(16)]
-        public ApiVersion ImageVersion;
+        public Version128 ImageVersion;
 
         /// <summary>
         /// The minimum working set size

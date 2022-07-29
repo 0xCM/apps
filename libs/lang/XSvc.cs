@@ -5,15 +5,10 @@
 namespace Z0
 {
     using static CsLang;
-    using System.IO;
-
-    partial class XTend
-    {
-    }
 
     public static class XSvc
     {
-        sealed class Svc : AppServices<Svc>
+        sealed class ServiceCache : AppServices<ServiceCache>
         {
             public CsLang CsLang(IWfRuntime wf)
                 => Service<CsLang>(wf);
@@ -35,9 +30,12 @@ namespace Z0
 
             public BuildSvc BuildSvc(IWfRuntime wf)
                 => Service<BuildSvc>(wf);
+
+            public BuildCmd BuildCmd(IWfRuntime wf)
+                => Service<BuildCmd>(wf);
         }
 
-        static Svc Services => Svc.Instance;
+        static ServiceCache Services => ServiceCache.Instance;
 
         public static CsLang CsLang(this IWfRuntime wf)
             => Services.CsLang(wf);
@@ -60,5 +58,7 @@ namespace Z0
         public static BuildSvc BuildSvc(this IWfRuntime wf)
             => Services.BuildSvc(wf);
 
+        public static IAppCmdSvc BuildCmd(this IWfRuntime wf)
+            => Services.BuildCmd(wf);
     }
 }

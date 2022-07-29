@@ -6,7 +6,7 @@ namespace Z0
 {
     [Free]
     public abstract class Actor<A> : IActor
-        where A : Actor<A>,new()
+        where A : Actor<A>, new()
     {
         public Name Name {get;}
 
@@ -22,5 +22,24 @@ namespace Z0
         {
             Name = name;
         }
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Name.IsEmpty;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Name.IsEmpty;
+        }
+
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Name.Hash;
+        }
+
     }
 }

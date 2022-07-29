@@ -31,6 +31,9 @@ namespace Z0
 
             public CmdExec CmdExec(IWfRuntime wf)
                 => Service<CmdExec>(wf);
+
+            public ToolBoxSvc ToolBoxSvc(IWfRuntime wf)
+                => Service<ToolBoxSvc>(wf);
         }
 
         static AppSvcCache Services => AppSvcCache.Instance;
@@ -58,5 +61,9 @@ namespace Z0
 
         public static Worlds Worlds(this IWfRuntime wf)
             => Services.Worlds(wf);
+ 
+       public static ToolBoxSvc ToolBoxSvc(this IWfRuntime wf)
+            => Services.ToolBoxSvc(wf);
+  
     }
 }
