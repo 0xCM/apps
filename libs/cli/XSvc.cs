@@ -19,6 +19,13 @@ namespace Z0
 
             public CliCmd CliCmd(IWfRuntime wf)
                 => Service<CliCmd>(wf);
+
+            public RoslnCmd SourceSymbolic(IWfRuntime wf)
+                => Service<RoslnCmd>(wf);
+
+            public Roslyn Roslyn(IWfRuntime wf)
+                => Service<Roslyn>(wf);
+
         }
 
         static Svc Services => Svc.Instance;
@@ -34,5 +41,12 @@ namespace Z0
 
         public static CliCmd CliCmd(this IWfRuntime wf)
             => Services.CliCmd(wf);
+
+
+        public static Roslyn Roslyn(this IWfRuntime wf)
+            => Services.Roslyn(wf);
+
+        public static RoslnCmd RoslynCmd(this IWfRuntime wf)
+            => Services.SourceSymbolic(wf);            
     }
 }

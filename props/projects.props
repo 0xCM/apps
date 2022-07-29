@@ -50,8 +50,6 @@
     <Fsm>$(SlnLibs)fsm\z0.fsm.csproj</Fsm>
     <Files>$(SlnLibs)files\z0.files.csproj</Files>
 
-    <Glue>$(SlnLibs)glue\z0.glue.csproj</Glue>
-
     <IntelSvc>$(SlnLibs)intel.svc\z0.intel.svc.csproj</IntelSvc>
     <Interop>$(SlnLibs)interop\z0.interop.csproj</Interop>
     <Imagine>$(SlnLibs)imagine\z0.imagine.csproj</Imagine>

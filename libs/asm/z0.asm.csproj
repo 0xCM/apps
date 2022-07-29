@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <ProjectReference Include="$(AsmCore)" />
-    <ProjectReference Include="$(Glue)" />
     <ProjectReference Include="$(Cli)" />
     <ProjectReference Include="$(Polyrand)" />
   </ItemGroup>

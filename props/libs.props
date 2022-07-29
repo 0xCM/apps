@@ -45,8 +45,6 @@
     <ProjectReference Include="$(Fsm)" />
     <ProjectReference Include="$(Files)" />
 
-    <ProjectReference Include="$(Glue)" />
-
     <ProjectReference Include="$(Imagine)" />
 
     <ProjectReference Include="$(IntelSvc)" />
