@@ -2,14 +2,10 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-[assembly: PartId(PartId.ApiSpecs)]
+[assembly: PartId(PartId.Tools)]
 namespace Z0.Parts
 {
-    public sealed class ApiSpecs : Part<ApiSpecs>
+    public sealed class Tools : Part<Tools>
     {
     }
-}
-
-namespace Z0
-{
 }

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class ApiCmdDefs
+    public partial class ApiCmdDefs
     {
         [Cmd(CmdId)]
         public struct RepoArchive : IFlowCmd<FS.FolderPath,FS.FilePath>

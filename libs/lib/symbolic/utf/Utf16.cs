@@ -9,7 +9,7 @@ namespace Z0
     using static Algs;
     using static Spans;
 
-    [ApiHost]
+    [ApiHost("utf16.svc")]
     public readonly unsafe struct Utf16
     {
         [MethodImpl(Inline), Op]

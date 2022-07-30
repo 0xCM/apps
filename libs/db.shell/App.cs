@@ -12,7 +12,6 @@ namespace Z0
                 wf.WfCmd(),
                 wf.SqlDbCmd(),
                 wf.WsDbCmd(),
-                wf.EnvCmd()
             };
 
         public static AppCmd commands(IWfRuntime wf)

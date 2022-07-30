@@ -34,14 +34,5 @@ namespace Z0
 
         }
 
-        ModuleArchives Archives => Wf.ModuleArchives();
-
-        [CmdOp("api/mods")]
-        void Modules()
-        {
-            var src = Archives.PartArchive();
-            iter(src.ManagedDll(), dll => Write(dll.Format()));
-        }
-
     }
 }

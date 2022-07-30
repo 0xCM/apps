@@ -1,5 +1,4 @@
 @echo off
-call %~dp0config.cmd
 %SlnTool% %ShellWs%\calcs.check\z0.calcs.check.csproj
 %SlnTool% %ShellWs%\intel\z0.intel.csproj
 %SlnTool% %ShellWs%\workers\z0.workers.csproj

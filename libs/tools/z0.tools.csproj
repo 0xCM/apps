@@ -9,6 +9,7 @@
 
   <ItemGroup>
       <ProjectReference Include="$(Wf)"/>
+      <ProjectReference Include="$(ApiSpecs)"/>
   </ItemGroup>
 
 </Project>

@@ -8,7 +8,7 @@ namespace Z0
 
     using static core;
 
-    [ApiHost]
+    [ApiHost("utf8.svc")]
     public readonly unsafe struct Utf8
     {
         [MethodImpl(Inline), Op]
