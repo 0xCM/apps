@@ -19,8 +19,8 @@ namespace Z0
             public GAsciLookup GenAsciLookups(IWfRuntime wf)
                 => Service<GAsciLookup>(wf);
 
-            public GRecord GenRecords(IWfRuntime wf)
-                => Service<GRecord>(wf);
+            public ApiTableGen ApiTableGen(IWfRuntime wf)
+                => Service<ApiTableGen>(wf);
 
             public GLiteralProvider GenLitProviders(IWfRuntime wf)
                 => Service<GLiteralProvider>(wf);
@@ -49,8 +49,8 @@ namespace Z0
         public static GAsciLookup GenAsciLookups(this IWfRuntime wf)
             => Services.GenAsciLookups(wf);
 
-        public static GRecord GenRecords(this IWfRuntime wf)
-            => Services.GenRecords(wf);
+        public static ApiTableGen ApiTableGen(this IWfRuntime wf)
+            => Services.ApiTableGen(wf);
 
         public static GLiteralProvider GenLitProviders(this IWfRuntime wf)
             => Services.GenLitProviders(wf);

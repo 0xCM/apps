@@ -21,6 +21,7 @@ namespace Z0
                 return true;
             }
         }
+
         public static Index<BfModel> bitvectors(FS.Files src)
         {
             var items = sys.empty<ListItem>();

@@ -248,14 +248,8 @@ public enum PartId : byte
     [Symbol("gmath")]
     Gmath,
 
-    [Symbol("expr")]
-    Expr,
-
     [Symbol("fsm")]
     Fsm,
-
-    [Symbol("extract")]
-    Extract,
 
     [Symbol("intel.svc")]
     IntelSvc,
@@ -307,9 +301,6 @@ public enum PartId : byte
 
     [Symbol("sys")]
     Sys,
-
-    [Symbol("pow2")]
-    Pow2,
 
     [Symbol("linq")]
     Linq,

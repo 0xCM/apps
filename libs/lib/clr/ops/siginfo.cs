@@ -6,6 +6,7 @@ namespace Z0
 {
     partial struct Clr
     {
+        
         [Op]
         public static ClrTypeSigInfo siginfo(Type type)
         {

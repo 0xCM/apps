@@ -4,12 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static Algs;
     public interface ICellular : ICounted, IHashed, INullity
     {
         ReadOnlySpan<byte> Cells {get;}
 
         Hash32 IHashed.Hash
-            => core.hash(Cells);
+            => hash(Cells);
 
         uint CellCount
             => (uint)Cells.Length;
@@ -36,15 +37,15 @@ namespace Z0
             => (uint)Cells.Length;
 
         Hash32 IHashed.Hash
-            => core.hash(Cells);
+            => hash(Cells);
 
         ReadOnlySpan<byte> ICellular.Cells
-            => core.recover<T,byte>(Cells);
+            => Spans.recover<T,byte>(Cells);
 
         uint ICellular.CellCount
             => (uint)Cells.Length;
 
         uint ICellular.CellSize
-            => core.size<T>();
+            => size<T>();
     }
 }

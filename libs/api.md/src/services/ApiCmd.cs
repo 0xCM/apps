@@ -10,10 +10,6 @@ namespace Z0
     {
         ApiMd ApiMd => Wf.ApiMd();
 
-        ApiMemory ApiMemory => Wf.ApiMemory();
-
-        IApiPack ApiPack => ApiPacks.create();
-
         [CmdOp("api/packs/list")]
         void ListApiPacks()
         {
@@ -70,6 +66,14 @@ namespace Z0
         void EmitApiLiterals()
             => ApiMd.Emitter().EmitApiLiterals();
 
+        [CmdOp("api/emit/cmddefs")]
+        void EmitCmdDefs()
+            => ApiMd.Emitter().EmitCmdDefs();
+
+        [CmdOp("api/emit/tokens")]
+        void EmitApiTokens()
+            => ApiMd.Emitter().EmitApiTokens();
+
         [CmdOp("api/emit/impls")]
         void EmitImplMaps()
         {
@@ -81,7 +85,7 @@ namespace Z0
 
         [CmdOp("api/emit/heap")]
         void ApiEmitHeaps()
-            => ApiMemory.EmitSymHeap(Heaps.load(ApiMd.SymLits));
+            => ApiMd.Emitter().EmitHeap(Heaps.load(ApiMd.SymLits));
 
         [CmdOp("api/emit/index")]
         void EmitApiIndex()

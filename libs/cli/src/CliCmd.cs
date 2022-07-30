@@ -10,10 +10,6 @@ namespace Z0
     {
         Cli Cli => Wf.Cli();
 
-        ApiMd ApiMd => Wf.ApiMd();
-
-        CsLang CsLang => Wf.CsLang();
-
         CliEmitter CliEmitter => Wf.CliEmitter();
 
         public static unsafe PEReader PeReader(MemorySeg src)
@@ -22,16 +18,6 @@ namespace Z0
         static IApiPack Dst
             => ApiPacks.create();
 
-        [CmdOp("gen/replicants")]
-        Outcome GenEnums(CmdArgs args)
-        {
-            const string Name = "api.types.enums";
-            var src = AppDb.ApiTargets().Path(Name, FileKind.List);
-            var types = ApiMd.LoadTypes(src);
-            var name = "EnumDefs";
-            CsLang.EmitReplicants(CsLang.replicant(AppDb.CgStage(name).Root, out var spec), types, AppDb.CgStage(name).Root);
-            return true;
-        }
 
         [CmdOp("cli/emit/hex")]
         void EmitApiHex()

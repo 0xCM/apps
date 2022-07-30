@@ -5,7 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
     using static core;
 
     partial class XedRules
@@ -54,7 +53,7 @@ namespace Z0
 
                 dst.AppendLine();
             }
-            AppSvc.FileEmit(dst.Emit(), counter, XedPaths.InstTarget("xed.inst.groups", FileKind.Csv));
+            FileEmit(dst.Emit(), counter, XedPaths.InstTarget("xed.inst.groups", FileKind.Csv));
         }
     }
 }

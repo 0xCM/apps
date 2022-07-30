@@ -6,11 +6,14 @@ namespace Z0
 {
     using static core;
 
-
     [ApiHost]
     public class ToolBoxCmd : AppCmdService<ToolBoxCmd>
     {
         Tooling Tooling => Wf.Tooling();
+
+        [CmdOp("env/includes")]
+        void LoadToolEnv()
+            => Tooling.EmitIncludePaths();        
 
         [CmdOp("llvm/toolset")]
         void LlvmConfig(CmdArgs args)

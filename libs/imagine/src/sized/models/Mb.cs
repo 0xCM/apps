@@ -6,7 +6,7 @@ namespace Z0
 {
     using api = Sized;
 
-    public readonly record struct Mb : IDataExpr<Mb>
+    public readonly record struct Mb : IDataString<Mb>
     {
         public const string UOM = "mb";
 

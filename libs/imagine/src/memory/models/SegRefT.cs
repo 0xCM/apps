@@ -117,7 +117,6 @@ namespace Z0
         public override bool Equals(object src)
             => src is SegRef<T> r && Equals(r);
 
-
         Span<S> ISegRef<T>.Data<S>()
             => Segment.Data<S>();
 

@@ -29,11 +29,11 @@ namespace Z0
         }
 
         [Op]
-        public unsafe ReadOnlySeq<ResSeg> ReadResSegments()
+        public unsafe ReadOnlySeq<ResourceSeg> ReadResSegments()
         {
             var resources = CliReader().ReadResInfo();
             var count = resources.Length;
-            var dst = sys.alloc<ResSeg>(count);
+            var dst = sys.alloc<ResourceSeg>(count);
             for(var i=0u; i<count; i++)
             {
                 ref readonly var res = ref resources[i];
@@ -41,7 +41,7 @@ namespace Z0
                 var blobReader = resdir.GetReader((int)res.Offset, resdir.Length - (int)res.Offset);
                 var length = blobReader.ReadUInt32();
                 MemoryAddress address = blobReader.CurrentPointer;
-                seek(dst,i) = new ResSeg(res.Name, new MemorySeg(address,length));
+                seek(dst,i) = new ResourceSeg(res.Name, new MemorySeg(address,length));
             }
             return dst;
         }

@@ -8,8 +8,5 @@ namespace Z0
 
     partial class AsmCoreCmd
     {
-       [CmdOp("gen/sdm/code")]
-        void GenAmsCode()
-            => SdmCodeGen.Emit();
     }
 }

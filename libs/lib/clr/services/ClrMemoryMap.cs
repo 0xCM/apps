@@ -8,10 +8,10 @@ namespace Z0
     using System.Reflection.PortableExecutable;
 
     [ApiHost, Free]
-    public unsafe partial class CliMemoryMap : IDisposable
+    public unsafe class ClrMemoryMap : IDisposable
     {
-        public static CliMemoryMap create(FS.FilePath src)
-            => new CliMemoryMap(src);
+        public static ClrMemoryMap create(FS.FilePath src)
+            => new ClrMemoryMap(src);
 
         readonly MemoryFile Source;
 
@@ -25,7 +25,7 @@ namespace Z0
 
         public readonly PEMemoryBlock MtadataBlock;
 
-        public CliMemoryMap(FS.FilePath src)
+        public ClrMemoryMap(FS.FilePath src)
         {
             Require.invariant(src.IsNonEmpty);
             Source = MemoryFiles.map(src);
@@ -81,7 +81,7 @@ namespace Z0
             get => Read(SectonData(ResourceDirectory));
         }
 
-        public static CliMemoryMap Empty
-            => new CliMemoryMap(FS.FilePath.Empty);
+        public static ClrMemoryMap Empty
+            => new ClrMemoryMap(FS.FilePath.Empty);
     }
 }

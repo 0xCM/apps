@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static CliRows;
-
     partial class CliReader
     {
         public ref CliAssemblyRef Row(AssemblyReferenceHandle handle, ref CliAssemblyRef dst)

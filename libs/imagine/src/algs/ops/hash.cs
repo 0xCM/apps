@@ -7,67 +7,67 @@ namespace Z0
     partial class Algs
     {
         [MethodImpl(Inline), Op]
-        public static uint hash(sbyte x)
+        public static Hash32 hash(sbyte x)
             => HashCodes.hash(x);
 
         [MethodImpl(Inline), Op]
-        public static uint hash(byte x)
+        public static Hash32 hash(byte x)
             => HashCodes.hash(x);
 
         [MethodImpl(Inline), Op]
-        public static uint hash(short x)
+        public static Hash32 hash(short x)
             => HashCodes.hash(x);
 
         [MethodImpl(Inline), Op]
-        public static uint hash(ushort x)
+        public static Hash32 hash(ushort x)
             => HashCodes.hash(x);
 
         [MethodImpl(Inline), Op]
-        public static uint hash(int x)
+        public static Hash32 hash(int x)
             => HashCodes.hash(x);
 
         [MethodImpl(Inline), Op]
-        public static uint hash(uint x)
+        public static Hash32 hash(uint x)
+            => x;
+
+        [MethodImpl(Inline), Op]
+        public static Hash32 hash(long x)
             => HashCodes.hash(x);
 
         [MethodImpl(Inline), Op]
-        public static uint hash(long x)
+        public static Hash32 hash(ulong x)
             => HashCodes.hash(x);
 
         [MethodImpl(Inline), Op]
-        public static uint hash(ulong x)
+        public static Hash32 hash(char x)
             => HashCodes.hash(x);
 
         [MethodImpl(Inline), Op]
-        public static uint hash(char x)
+        public static Hash32 hash(float x)
             => HashCodes.hash(x);
 
         [MethodImpl(Inline), Op]
-        public static uint hash(float x)
+        public static Hash32 hash(double x)
             => HashCodes.hash(x);
 
         [MethodImpl(Inline), Op]
-        public static uint hash(double x)
+        public static Hash32 hash(decimal x)
             => HashCodes.hash(x);
 
         [MethodImpl(Inline), Op]
-        public static uint hash(decimal x)
+        public static Hash32 hash(bool x)
             => HashCodes.hash(x);
 
         [MethodImpl(Inline), Op]
-        public static uint hash(bool x)
-            => HashCodes.hash(x);
-
-        [MethodImpl(Inline), Op]
-        public static uint hash(ushort x, ushort y)
+        public static Hash32 hash(ushort x, ushort y)
             => HashCodes.hash(x,y);
 
         [MethodImpl(Inline), Op]
-        public static uint hash(char x, char y)
+        public static Hash32 hash(char x, char y)
             => HashCodes.hash(x,y);
 
         [MethodImpl(Inline), Op]
-        public static uint hash(Type src)
+        public static Hash32 hash(Type src)
             => HashCodes.hash(src);
 
         [MethodImpl(Inline)]

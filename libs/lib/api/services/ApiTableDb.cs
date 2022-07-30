@@ -4,24 +4,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    public class TableDb
+    public class ApiTableDb
     {
-        ConstLookup<TableId,TableDef> _Defs;
+        ConstLookup<TableId,ApiTableDef> _Defs;
 
-        public TableDb(TableDef[] schemas)
+        public ApiTableDb(ApiTableDef[] schemas)
         {
             _Defs = schemas.Map(s => (s.TableId, s)).ToConstLookup();
         }
 
-        public bool Schema(TableId table, out TableDef schema)
+        public bool Schema(TableId table, out ApiTableDef schema)
             => _Defs.Find(table, out schema);
 
-        public ReadOnlySpan<TableDef> TableDefs
+        public ReadOnlySpan<ApiTableDef> TableDefs
         {
             [MethodImpl(Inline)]
             get => _Defs.Values;

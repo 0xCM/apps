@@ -24,7 +24,7 @@ namespace Z0
         where T : unmanaged
     {
         uint INativeSeq.CellSize
-            => core.size<T>();
+            => Sized.size<T>();
 
         uint INativeSeq.CellCount
             => Size/CellSize;

@@ -19,17 +19,6 @@ namespace Z0
 
         MsilPipe MsilSvc => Wf.MsilSvc();
 
-        public static ReadOnlySeq<AssemblyRefInfo> refs(Assembly src)
-        {
-            var path = FS.path(src.Location);
-            if(ClrModules.valid(path))
-            {
-                using var reader = PeReader.create(path);
-                return reader.ReadAssemblyRefs();
-            }
-            else
-                return ReadOnlySeq<AssemblyRefInfo>.Empty;
-        }
 
         public ReadOnlySeq<AssemblyRefInfo> ReadAssemblyRefs()
         {

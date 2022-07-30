@@ -66,9 +66,6 @@ namespace Z0
             public CharMapper CharMapper(IWfRuntime wf)
                 => Service<CharMapper>(wf);
 
-            public FileSplitter FileSplitter(IWfRuntime wf)
-                => Service<FileSplitter>(wf);
-
             public AsmDocs AsmDocs(IWfRuntime wf)
                 => Service<AsmDocs>(wf);
 
@@ -137,8 +134,5 @@ namespace Z0
 
         public static CharMapper CharMapper(this IWfRuntime wf)
             => Services.CharMapper(wf);
-
-        public static AsmDisamSvc AsmDisasmSvc(this IWfRuntime wf)
-            => Services.AsmDisasmSvc(wf);
     }
 }

@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static Algs;
+
     [Free]
     public interface IMemoryString : IAddressable, ICellular
     {
@@ -11,7 +13,7 @@ namespace Z0
             => Cells;
 
         Hash32 IHashed.Hash
-            => core.hash(Cells);
+            => hash(Cells);
 
         bool INullity.IsEmpty
             => Cells.Length == 0;
@@ -25,7 +27,7 @@ namespace Z0
         where T : unmanaged
     {
        Hash32 IHashed.Hash
-            => core.hash(Cells);
+            => hash(Cells);
 
     }
 

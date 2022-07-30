@@ -4,16 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Free]
-    public interface IDataExpr : IDataType, IExpr
+    partial class ClrQuery
     {
+        [Op]
+        public static ClrTypeSigInfo SigInfo(this ParameterInfo src)
+            => Clr.siginfo(src);
 
-    }
-
-    [Free]
-    public interface IDataExpr<T> :  IDataExpr, IDataType<T>
-        where T : IDataExpr<T>
-    {
-
+        [Op]
+        public static ClrTypeSigInfo SigInfo(this Type type)
+            => Clr.siginfo(type);
     }
 }

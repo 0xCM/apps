@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     public unsafe readonly record struct SourceText : ILocatedSource<SourceText,char>
     {
         public readonly MemoryAddress Address;
@@ -28,13 +26,13 @@ namespace Z0
         public ReadOnlySpan<byte> Bytes
         {
             [MethodImpl(Inline)]
-            get => cover(Address.Pointer<byte>(), Size);
+            get => Algs.cover(Address.Pointer<byte>(), Size);
         }
 
         public ReadOnlySpan<char> Cells
         {
             [MethodImpl(Inline)]
-            get => cover(Address.Pointer<char>(), Length);
+            get => Algs.cover(Address.Pointer<char>(), Length);
         }
 
         public uint Count
@@ -74,7 +72,7 @@ namespace Z0
         }
 
         public bool Equals(SourceText src)
-            => text.equals(Cells, src.Cells);
+            => SQ.eq(Cells, src.Cells);
 
         public int CompareTo(SourceText src)
             => Cells.CompareTo(src.Cells, StringComparison.InvariantCulture);

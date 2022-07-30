@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct RenderPatternSource : ITextual
+    public readonly struct RenderPatternSource
     {
         public const string FormatPattern = "{0}:{1}";
 
@@ -22,5 +22,8 @@ namespace Z0
         [MethodImpl(Inline)]
         public string Format()
             => string.Format(FormatPattern, Field.Name, Content);
+
+        public override string ToString()
+            => Format();
     }
 }

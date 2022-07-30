@@ -4,14 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly record struct ResSeg
+    public readonly record struct ResourceSeg
     {
         public readonly string Name;
 
         public readonly MemorySeg Segment;
 
         [MethodImpl(Inline)]
-        public ResSeg(string name, in MemorySeg segment)
+        public ResourceSeg(string name, in MemorySeg segment)
         {
             Name = name;
             Segment = segment;
@@ -27,7 +27,7 @@ namespace Z0
             => Hash;
 
         [MethodImpl(Inline)]
-        public bool Equals(ResSeg src)
+        public bool Equals(ResourceSeg src)
             => Name == src.Name && Segment.Equals(src.Segment);
 
         [MethodImpl(Inline)]

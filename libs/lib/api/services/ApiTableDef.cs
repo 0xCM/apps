@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct TableDef
+    public readonly struct ApiTableDef
     {
         public readonly TableId TableId;
 
@@ -13,7 +13,7 @@ namespace Z0
         public readonly Index<TableFieldDef> Fields;
 
         [MethodImpl(Inline)]
-        public TableDef(TableId id, Identifier name, TableFieldDef[] fields)
+        public ApiTableDef(TableId id, Identifier name, TableFieldDef[] fields)
         {
             TableId = id;
             TypeName = name;
@@ -26,7 +26,7 @@ namespace Z0
             get => Fields.Count;
         }
 
-        public static TableDef Empty
-            => new TableDef(TableId.Empty, Identifier.Empty, sys.empty<TableFieldDef>());
+        public static ApiTableDef Empty
+            => new ApiTableDef(TableId.Empty, Identifier.Empty, sys.empty<TableFieldDef>());
     }
 }

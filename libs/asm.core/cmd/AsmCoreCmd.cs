@@ -16,10 +16,6 @@ namespace Z0
 
         XedDb XedDb => Xed.XedDb;
 
-        CsLang CsLang => Wf.CsLang();
-
-        SdmCodeGen SdmCodeGen => Wf.SdmCodeGen();
-
         IntelSdm Sdm => Wf.IntelSdm();
 
         AsmRegSets Regs => Service(AsmRegSets.create);

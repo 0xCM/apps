@@ -4,9 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IDataSource
+    public interface IApiDataSource
     {
         ref readonly ApiUri Name {get;}
     }
-
 }

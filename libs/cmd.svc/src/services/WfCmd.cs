@@ -8,9 +8,6 @@ namespace Z0
 
     public class WfCmd : AppCmdService<WfCmd>
     {
-        Tooling ToolBox => Wf.Tooling();
-
-
         [CmdOp("files")]
         protected void ListFiles(CmdArgs args)
         {
@@ -160,9 +157,6 @@ namespace Z0
             return result;
         }
 
-        [CmdOp("env/load")]
-        void LoadEnv(CmdArgs args)
-            => iter(Tooling.vars(args.Count != 0 ? arg(args,0).Value : null).View, member => Write(member.Format()));
 
         [CmdOp("env/machine")]
         void ListMachineEnv()
@@ -175,6 +169,15 @@ namespace Z0
         [CmdOp("env/process")]
         void ListProcessEnv()
             => EnvVars.user().Iter(v => Write(v.Format()));
+
+        public static EnvVars<string> vars(string name = null)
+            => AppDb.Service.LoadEnv(text.ifempty(name, Environment.MachineName.ToLower()));
+
+
+        [CmdOp("env/load")]
+        void LoadEnv(CmdArgs args)
+            => iter(vars(args.Count != 0 ? arg(args,0).Value : null).View, member => Write(member.Format()));
+
 
         void EmitEnv(SysEnvKind kind)
         {
@@ -200,12 +203,10 @@ namespace Z0
             return result;
         }
 
+
         [CmdOp("env/cwd")]
         void Cwd()
             => Write(FS.dir(Environment.CurrentDirectory));
 
-        [CmdOp("env/includes")]
-        void LoadToolEnv()
-            => ToolBox.EmitIncludePaths();        
     }
 }

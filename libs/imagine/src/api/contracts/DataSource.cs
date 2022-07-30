@@ -4,9 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public abstract class DataSource<H>
-        where H : DataSource<H>
+    public abstract class ApiDataSource<H> : IApiDataSource
+        where H : ApiDataSource<H>
     {
+        readonly ApiUri _Name;
 
+        public ref readonly ApiUri Name 
+            => ref _Name;
+
+        protected ApiDataSource(ApiUri name)
+        {
+            _Name = name;
+        }
     }
 }

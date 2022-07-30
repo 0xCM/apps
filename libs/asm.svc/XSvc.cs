@@ -9,7 +9,7 @@ namespace Z0
     [ApiHost]
     public static class XSvc
     {
-        sealed class Svc : AppServices<Svc>
+        sealed class ServiceCache : AppServices<ServiceCache>
         {
             public ApiCapture ApiCapture(IWfRuntime wf)
                 => Service<ApiCapture>(wf);
@@ -19,9 +19,15 @@ namespace Z0
 
             public AsmCmdService AsmCmdSvc(IWfRuntime wf)
                 => Service<AsmCmdService>(wf);
+
+            public GenCmd GenCmd(IWfRuntime wf)
+                => Service<GenCmd>(wf);
         }
 
-        static Svc Services => Svc.Instance;
+        static ServiceCache Services => ServiceCache.Instance;
+
+       public static GenCmd GenCmd(this IWfRuntime wf)
+            => Services.GenCmd(wf);
 
         public static ApiCapture ApiCapture(this IWfRuntime wf)
             => Services.ApiCapture(wf);

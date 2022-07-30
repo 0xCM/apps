@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
 
     using api = StringRefs;
 
@@ -13,11 +13,9 @@ namespace Z0
     /// </summary>
     public unsafe readonly struct StringRef : IMemoryString<StringRef,char>
     {
-        const NumericKind Closure = UnsignedInts;
-
         public readonly MemoryAddress Address;
 
-        public int Length {get;}
+        public readonly int Length;
 
         [MethodImpl(Inline)]
         public StringRef(MemoryAddress @base, uint length)
@@ -65,11 +63,14 @@ namespace Z0
         public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => core.hash(Cells);
+            get => hash(Cells);
         }
 
         public override int GetHashCode()
             => Hash;
+
+        int IByteSeq.Length 
+            => Length;
 
         public ReadOnlySpan<char> Cells
         {
@@ -80,14 +81,14 @@ namespace Z0
         public ReadOnlySpan<byte> Bytes
         {
             [MethodImpl(Inline)]
-            get => core.cover(Address.Pointer<byte>(), ByteCount);
+            get => cover(Address.Pointer<byte>(), ByteCount);
         }
 
         MemoryAddress IAddressable.Address
             => Address;
 
         public bool Equals(StringRef src)
-            => text.equals(Cells,src.Cells);
+            => SQ.eq(Cells,src.Cells);
 
         public int CompareTo(StringRef src)
             => Cells.CompareTo(src.Cells, StringComparison.InvariantCulture);

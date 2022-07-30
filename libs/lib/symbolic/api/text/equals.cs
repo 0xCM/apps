@@ -12,25 +12,6 @@ namespace Z0
         public static bool equals(char a, char b)
             => a == b;
 
-        [MethodImpl(Inline), Op]
-        public static bool equals(in SegRef<char> a, string b)
-        {
-            var count = a.Length;
-            if(count != b.Length)
-                return false;
-
-            var match = true;
-            ref readonly var left = ref a.First;
-            ref readonly var right = ref first(span(b));
-            for(var i=0; i<count; i++)
-            {
-                match &= (skip(left,i) == skip(right,i));
-                if(!match)
-                    break;
-            }
-            return match;
-        }
-
         /// <summary>
         /// Performs a string comparison according to a specified comparison type
         /// </summary>
@@ -60,33 +41,6 @@ namespace Z0
         public static bool neq(string a, string b, StringComparison type)
             => !equals(a, b, type);
 
-        /// <summary>
-        /// Returns true if the character spans are equal as strings, false otherwise
-        /// </summary>
-        /// <param name="a">The left operand</param>
-        /// <param name="b">The right operand</param>
-        [MethodImpl(Inline), Op]
-        public static bool equals(ReadOnlySpan<char> a, ReadOnlySpan<char> b)
-            => a.CompareTo(b, StringComparison.InvariantCulture) == 0;
-
-        /// <summary>
-        /// Returns true if the character spans are equal as strings, false otherwise
-        /// </summary>
-        /// <param name="a">The left operand</param>
-        /// <param name="b">The right operand</param>
-        [MethodImpl(Inline), Op]
-        public static bool equals(Span<char> a, ReadOnlySpan<char> b)
-            => equals(a.ReadOnly(), b);
-
-        /// <summary>
-        /// Returns true if the character spans are equal as strings, false otherwise
-        /// </summary>
-        /// <param name="a">The left operand</param>
-        /// <param name="b">The right operand</param>
-        [MethodImpl(Inline), Op]
-        public static bool equals(Span<char> a, Span<char> b)
-            => equals(a.ReadOnly(), b.ReadOnly());
-
         [Op]
         public static bool equals(ReadOnlySpan<string> a, ReadOnlySpan<string> b, bool matchcase = true)
         {
@@ -98,7 +52,7 @@ namespace Z0
             {
                 for(var i=0; i<count; i++)
                 {
-                    result = equals(skip(a,i), skip(b,i), ct);
+                    result = string.Equals(skip(a,i), skip(b,i), ct);
                     if(!result)
                         break;
                 }

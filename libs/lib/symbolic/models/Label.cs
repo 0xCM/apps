@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static Algs;
+
     public unsafe readonly record struct Label : IMemoryString<Label,char>
     {
         /// <summary>
@@ -13,7 +15,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static Label FromFixed(string src)
         {
-            if(core.empty(src))
+            if(empty(src))
                 return Label.Empty;
             StringAddress a = src;
             return new Label(a.Address, (byte)src.Length);
@@ -59,13 +61,13 @@ namespace Z0
         public ReadOnlySpan<char> Cells
         {
             [MethodImpl(Inline)]
-            get => core.cover(Address.Pointer<char>(), Length);
+            get => Algs.cover(Address.Pointer<char>(), Length);
         }
 
         public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => core.hash(Cells);
+            get => hash(Cells);
         }
 
         public bool IsEmpty
@@ -81,7 +83,7 @@ namespace Z0
         }
 
         public bool Equals(Label src)
-            => text.equals(Cells,src.Cells);
+            => SQ.eq(Cells,src.Cells);
 
         public int CompareTo(Label src)
             => Cells.CompareTo(src.Cells, StringComparison.InvariantCulture);

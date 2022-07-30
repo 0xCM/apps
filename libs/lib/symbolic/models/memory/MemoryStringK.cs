@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static Algs;
+
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly record struct MemoryString<K> : IMemoryString<K>
         where K : unmanaged
@@ -25,7 +27,7 @@ namespace Z0
         public unsafe ReadOnlySpan<K> Cells
         {
             [MethodImpl(Inline)]
-            get => Spans.cover(Address.Pointer<K>(), Length);
+            get => cover(Address.Pointer<K>(), Length);
         }
 
         public ReadOnlySpan<byte> Bytes

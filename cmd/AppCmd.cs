@@ -34,7 +34,8 @@ namespace Z0
                 wf.XedToolCmd(),
                 wf.FsmCmd(),
                 wf.CalcChecker(),
-                wf.TestCmd()
+                wf.TestCmd(),
+                wf.GenCmd(),
                 };
 
         public static AppCmd commands(IWfRuntime wf)

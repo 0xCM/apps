@@ -71,9 +71,6 @@ namespace Z0
         public GAsciLookup AsciLookups()
             => Service(Wf.GenAsciLookups);
 
-        public GRecord Records()
-            => Wf.GenRecords();
-
         public GShim Shims()
             => Wf.GenShims();
 

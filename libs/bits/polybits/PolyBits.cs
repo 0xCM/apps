@@ -9,13 +9,10 @@ namespace Z0
     using static core;
     using static ApiAtomic;
 
-
     [ApiHost]
     public partial class PolyBits : WfSvc<PolyBits>
     {
         const NumericKind Closure = UInt64k;
-
-        AppSvcOps AppSvc => Service(Wf.AppSvc);
 
         IDbTargets Targets => AppDb.DbOut().Targets(polybits);
 
@@ -59,12 +56,10 @@ namespace Z0
                 ref readonly var name = ref bv.Name;
                 var target = dst + FS.file(name.Format(), FS.ext("bv"));
                 var msg = string.Format("{0} -> {1}", bv.Origin, target.ToUri());
-                AppSvc.FileEmit(bv, msg, target);
+                FileEmit(bv, msg, target);
             }
             return src;
         }
-
-        public CmdActions Actions {get;}
 
         public void EmitPatterns()
         {
@@ -86,7 +81,7 @@ namespace Z0
             var dst = text.emitter();
             for(var i=0u; i<src.Length; i++)
                 PbRender.render(skip(src,i), i, dst);
-            AppSvc.FileEmit(dst.Emit(), 12, Targets.Path(name, FileKind.Txt));
+            FileEmit(dst.Emit(), 12, Targets.Path(name, FileKind.Txt));
         }
 
         public void EmitRecords(string name, ReadOnlySpan<BpInfo> src)
@@ -96,8 +91,8 @@ namespace Z0
             var segs = BitPatterns.segs(src);
             for(var i=0; i<src.Length; i++)
                 seek(specs,i) = skip(src,i).Spec;
-            AppSvc.TableEmit(segs, Targets.PrefixedTable<BpSeg>(name));
-            AppSvc.TableEmit(specs, Targets.PrefixedTable<BpSpec>(name));
+            TableEmit(segs, Targets.PrefixedTable<BpSeg>(name));
+            TableEmit(specs, Targets.PrefixedTable<BpSpec>(name));
         }
 
         public static ByteSpanSpec GenBits(W8 w, byte start = 0, byte end = byte.MaxValue)

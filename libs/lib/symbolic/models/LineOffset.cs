@@ -4,13 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static Algs;
     public readonly struct LineOffset : IEquatable<LineOffset>, IComparable<LineOffset>
     {
         public const string RenderPattern = "{0}:{1:D3}";
 
-        public LineNumber Line {get;}
+        public readonly LineNumber Line;
 
-        public uint Offset {get;}
+        public readonly uint Offset;
 
         [MethodImpl(Inline)]
         public LineOffset(LineNumber line, uint offset)
@@ -19,6 +20,11 @@ namespace Z0
             Offset = offset;
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Line.Hash | hash(Offset);
+        }
         public string Format()
             => string.Format(RenderPattern, Line, Offset);
 

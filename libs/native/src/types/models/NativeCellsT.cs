@@ -5,8 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     public unsafe readonly struct NativeCells<T> : INativeCells
     {
         readonly long Id;
@@ -59,11 +57,11 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public Span<T> Cells(uint offset, uint count)
-            => cover(@as<T>(Rebase(offset)), count);
+            => Spans.cover(Refs.@as<T>(Rebase(offset)), count);
 
         [MethodImpl(Inline)]
         public ref NativeCell<T> Cell(uint index)
-            => ref core.@as<NativeCell<T>>((BaseAddress + CellSize*index).Pointer());
+            => ref Refs.@as<NativeCell<T>>((BaseAddress + CellSize*index).Pointer());
 
         [MethodImpl(Inline)]
         public ref NativeCell<T> Cell(int index)

@@ -10,12 +10,12 @@ namespace Z0
     /// </summary>
     public readonly struct BufferToken : IBufferToken
     {
-        public MemoryAddress Address {get;}
+        public readonly MemoryAddress Address {get;}
 
-        public uint BufferSize {get;}
+        public readonly uint BufferSize {get;}
 
         [MethodImpl(Inline)]
-        internal BufferToken(MemoryAddress address, uint size)
+        public BufferToken(MemoryAddress address, uint size)
         {
             Address = address;
             BufferSize = size;

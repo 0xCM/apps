@@ -8,7 +8,7 @@ namespace Z0
 
     public sealed class AncestryChecks : Checker<AncestryChecks>
     {
-        [CmdOp("check/native")]
+        [CmdOp("native/checks")]
         void RunNativeChecks()
         {
             var t0 = NativeTypes.seg(NativeSegKind.Seg128x16i);

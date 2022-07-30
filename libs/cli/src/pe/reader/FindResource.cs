@@ -7,7 +7,7 @@ namespace Z0
     partial class PeReader
     {
         [Op]
-        public unsafe bool FindResource(string name, out ResSeg dst)
+        public unsafe bool FindResource(string name, out ResourceSeg dst)
         {
             dst = default;
             var directory = ReadSectionData(ResourcesDirectory);
@@ -21,7 +21,7 @@ namespace Z0
                     var blobReader = directory.GetReader((int)description.Offset, directory.Length - (int)description.Offset);
                     var length = blobReader.ReadUInt32();
                     MemoryAddress address = blobReader.CurrentPointer;
-                    dst = new ResSeg(name, new MemorySeg(address,length));
+                    dst = new ResourceSeg(name, new MemorySeg(address,length));
                     return true;
                 }
             }

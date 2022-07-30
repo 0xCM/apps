@@ -370,8 +370,6 @@ namespace Z0.Asm
             resolver.ResolveParts(parts);
         }
 
-
-
         public void ParseDump()
         {
             using var clrmd = ClrMdSvc.create(Wf);

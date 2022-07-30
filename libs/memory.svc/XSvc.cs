@@ -14,17 +14,8 @@ namespace Z0
             public ImageRegions ImageRegions(IWfRuntime wf)
                 => Service<ImageRegions>(wf);
 
-            public ProcessMemory ProcessMemory(IWfRuntime wf)
-                => Service<ProcessMemory>(wf);
-
             public HexDataReader HexDataReader(IWfRuntime wf)
                 => Service<HexDataReader>(wf);
-
-            public ModuleArchives ModuleArchives(IWfRuntime wf)
-                => Service<ModuleArchives>(wf);
-
-            public ApiMemory ApiMemory(IWfRuntime wf)
-                => Service<ApiMemory>(wf);
 
             public MemCmd MemCmd(IWfRuntime wf)
                 => Service<MemCmd>(wf);
@@ -35,9 +26,6 @@ namespace Z0
         public static ImageRegions ImageRegions(this IWfRuntime wf)
             => Services.ImageRegions(wf);
 
-        public static ProcessMemory ProcessMemory(this IWfRuntime wf)
-            => Services.ProcessMemory(wf);
-
         public static MemCmd MemCmd(this IWfRuntime wf)
             => Services.MemCmd(wf);
 
@@ -46,8 +34,5 @@ namespace Z0
 
         public static ApiHex ApiHex(this IWfRuntime wf)
             => Services.ApiHex(wf);
-
-        public static ApiMemory ApiMemory(this IWfRuntime wf)
-            => Services.ApiMemory(wf);
     }
 }

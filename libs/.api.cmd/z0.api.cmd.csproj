@@ -9,10 +9,6 @@
 
   <ItemGroup>
     <ProjectReference Include="$(Wf)" />
-    <ProjectReference Include="$(ApiMd)" />
-    <ProjectReference Include="$(CmdSvc)" />
-    <ProjectReference Include="$(MemorySvc)" />
-    <ProjectReference Include="$(Bits)" />
   </ItemGroup>
 
 </Project>

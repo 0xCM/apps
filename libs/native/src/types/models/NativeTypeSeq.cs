@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Collections;
-    using System.Collections.Generic;
-
     using static core;
 
     public readonly struct NativeTypeSeq : INaturalSeq<N16,NativeType>

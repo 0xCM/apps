@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly record struct FileType : IDataExpr<FileType>
+    public readonly record struct FileType : IDataString<FileType>
     {
         public readonly FileKind Kind;
 

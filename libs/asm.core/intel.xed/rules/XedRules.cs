@@ -21,8 +21,6 @@ namespace Z0
 
         Symbols<XedFieldType> FieldTypes;
 
-        AppSvcOps AppSvc => Service(Wf.AppSvc);
-
         XedRuntime Xed;
 
         public XedRules With(XedRuntime xed)

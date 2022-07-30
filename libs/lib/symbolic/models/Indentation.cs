@@ -6,7 +6,7 @@ namespace Z0
 {
     public struct Indentation
     {
-        public byte Scale {get;}
+        public readonly byte Scale;
 
         byte _Current;
 
