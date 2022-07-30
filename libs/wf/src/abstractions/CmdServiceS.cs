@@ -48,7 +48,13 @@ namespace Z0
             var lines = src.ReadNumberedLines(true);
             var count = lines.Count;
             for(var i=0; i<count; i++)
-                Dispatch(ShellCmd.parse(lines[i].Content));
+            {
+                ref readonly var content = ref lines[i].Content;
+                if(Cmd.parse(content, out ShellCmdSpec spec))
+                    Dispatch(spec);
+                else
+                    Warn($"ParseFailure:'{content}'");
+            }
         }
 
         protected void LoadProject(string name)

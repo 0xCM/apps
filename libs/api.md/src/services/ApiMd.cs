@@ -364,8 +364,8 @@ namespace Z0
         void Emit(ReadOnlySpan<ApiTableField> src)
             => TableEmit(src, AppDb.ApiTargets().Table<ApiTableField>());
 
-        internal void EmitApiLiterals(ReadOnlySpan<ApiLiteral> src)
-            => TableEmit(src, AppDb.ApiTargets().Table<ApiLiteral>(), TextEncodingKind.Unicode);
+        internal void EmitApiLiterals(ReadOnlySpan<ApiLiteralInfo> src)
+            => TableEmit(src, AppDb.ApiTargets().Table<ApiLiteralInfo>(), TextEncodingKind.Unicode);
 
         void Emit(ReadOnlySpan<ApiFlowSpec> src)
             => TableEmit(src, AppDb.ApiTargets().Table<ApiFlowSpec>());

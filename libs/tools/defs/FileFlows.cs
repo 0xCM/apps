@@ -8,13 +8,11 @@ namespace Z0
 
     using K = FileKind;
 
-    public class FileFlows : AppService<FileFlows>
+    public class FileFlows : WfSvc<FileFlows>
     {
         [MethodImpl(Inline)]
         public static FileFlowKind kind(FileKind src, FileKind dst)
             =>  new (src,dst);
-
-        //public static FileFlow kind(FileKind src, FileKind dst)
 
     }
 

@@ -145,6 +145,9 @@ public enum PartId : byte
     [Symbol("tools")]
     Tools,
 
+    [Symbol("tools.shell")]
+    ToolShell,
+
     [Symbol("interop")]
     Interop,
 
@@ -355,9 +358,6 @@ public enum PartId : byte
 
     [Symbol("codegen.test")]
     CgTest,
-
-    [Symbol("tools.shell")]
-    ToolShell,
 
     [Symbol("calc.shell")]
     CalcShell,

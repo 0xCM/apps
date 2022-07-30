@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial class Symbolic
     {
         [MethodImpl(Inline), Op, Closures(UInt64k)]

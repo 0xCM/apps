@@ -1,0 +1,37 @@
+{
+	"folders": [
+		{
+			"path": "..\\tools"
+		},
+		{
+			"path": "."
+		},
+		{
+			"path": "..\\literals"
+		},
+		{
+			"path": "..\\api.contracts"
+		},
+		{
+			"path": "..\\imagine"
+		},
+		{
+			"path": "..\\sys"
+		},
+		{
+			"path": "..\\lib"
+		},
+		{
+			"path": "..\\cmd.svc"
+		},
+		{
+			"path": "..\\archives"
+		},
+		{
+			"path": "..\\wf"
+		},
+	],
+	"settings": {
+		"powershell.cwd": "d:\\drives\\z\\dev\\z0\\libs\\tools.shell"
+	}
+}

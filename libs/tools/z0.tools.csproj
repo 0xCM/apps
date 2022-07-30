@@ -10,6 +10,7 @@
   <ItemGroup>
       <ProjectReference Include="$(Wf)"/>
       <ProjectReference Include="$(ApiSpecs)"/>
+      <ProjectReference Include="$(CmdSvc)"/>
   </ItemGroup>
 
 </Project>

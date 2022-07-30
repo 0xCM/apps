@@ -35,7 +35,7 @@ namespace Z0
                 () => EmitComments(Target),
                 () => Md.EmitAssets(),
                 () => EmitSymLits(symlits),
-                () => Md.EmitApiLiterals(Symbolic.apilits(src)),
+                EmitApiLiterals,
                 () => EmitApiDeps(Target),
                 Md.EmitParsers,
                 Md.EmitApiTables,
@@ -44,6 +44,9 @@ namespace Z0
                 () => ApiMemory.EmitSymHeap(Heaps.load(symlits), Target)
             );
         }
+
+        public void EmitApiLiterals()
+            => EmitApiLiterals(Literals.apilits(Md.Assemblies));
 
         public void EmitPartList()
         {
@@ -135,5 +138,15 @@ namespace Z0
 
         void Emit(Name name, ReadOnlySeq<SymInfo> src)
             => TableEmit(src, Md.ApiTargets(tokens).PrefixedTable<SymInfo>(name), TextEncodingKind.Unicode);
+
+        void Emit(ReadOnlySpan<ApiCmdRow> src)
+            => TableEmit(src, AppDb.ApiTargets().Table<ApiCmdRow>());
+
+        void EmitApiLiterals(ReadOnlySpan<ApiLiteralInfo> src)
+            => TableEmit(src, AppDb.ApiTargets().Table<ApiLiteralInfo>(), TextEncodingKind.Unicode);
+
+        void Emit(ReadOnlySpan<ApiFlowSpec> src)
+            => TableEmit(src, AppDb.ApiTargets().Table<ApiFlowSpec>());
+ 
     }
 }

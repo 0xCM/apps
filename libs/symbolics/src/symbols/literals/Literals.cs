@@ -12,22 +12,65 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
+        public static Index<ClrLiteralInfo> runtimelits(Index<LiteralProvider> src)
+        {
+            var providers = src.Select(provider => (Provider: provider, Fields: provider.Type.LiteralFields().Index()));
+            var count = providers.Storage.Select(x => x.Fields.Count).Sum();
+            var dst = sys.alloc<ClrLiteralInfo>(count);
+            var k=0u;
+            for(var i=0; i<providers.Count; i++)
+            {
+                ref readonly var provided = ref providers[i];
+                var provider = provided.Provider;
+                var fields = provided.Fields;
+                for(var j=0; j<fields.Count; j++, k++)
+                {
+                    ref readonly var field = ref fields[j];
+                    var datatype = field.FieldType;
+                    var host = field.DeclaringType;
+                    var lk = ClrLiteralKind.None;
+                    if(datatype.IsEnum)
+                        lk = (ClrLiteralKind)Enums.@base(datatype);
+                    else
+                        lk = (ClrLiteralKind)PrimalBits.kind(datatype);
+                    seek(dst,k) = new (host.Assembly.Id(), provider.Group, ClrLiterals.name(host), ClrLiterals.name(field), field.GetRawConstantValue(), lk);
+                }
+            }
+            return dst;
+        }
+
+        public static ReadOnlySeq<ApiLiteralInfo> apilits(Assembly[] src)
+        {
+            var providers = src.Types().Tagged<LiteralProviderAttribute>()
+                  .Select(x => (Type:x, Attrib:x.Tag<LiteralProviderAttribute>().Require()))
+                  .Select(x => new LiteralProvider(x.Type.Assembly.Id(), x.Type, x.Attrib.Group, x.Type.Name)).Index();
+            var literals = runtimelits(providers);
+            var count = literals.Count;
+            var dst = sys.alloc<ApiLiteralInfo>(count);
+            for(var i=0u; i<count; i++)
+            {
+                ref var target = ref seek(dst,i);
+                ref readonly var literal = ref literals[i];
+                target.Part = literal.Part;
+                target.Type = literal.Type;
+                target.Group = literal.Group;
+                target.Name = literal.Name;
+                target.Kind = literal.Kind.ToString();
+                target.Value = literal.Value;
+            }
+            return dst.Sort();
+        }
+
+
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static Literal<T> literal<T>(string name, T value)
             => new Literal<T>(name, value);
 
         [Op]
-        public static RuntimeLiteralValue<string> value(in RuntimeLiteral src)
-        {
-            var value = EmptyString;
-            if(src.Kind == ClrLiteralKind.String)
-                value = ((StringAddress)src.Data).Format();
-            else
-                value = src.Data.ToString();
-            return new RuntimeLiteralValue<string>(value);
-        }
+        public static RuntimeLiteralValue<object> value(in ClrLiteralInfo src)
+            => new RuntimeLiteralValue<object>(src.Value);
 
-        public static string format(in RuntimeLiteral src)
+        public static string format(in ClrLiteralInfo src)
             => string.Format("{0,-16} | {1,-16} | {2,-12} | {3}", src.Type, src.Name, src.Kind, value(src));
 
         public static string format<T>(in RuntimeLiteralValue<T> src)

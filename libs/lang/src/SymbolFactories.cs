@@ -7,23 +7,23 @@ namespace Z0
     using static core;
     using static CsPatterns;
 
-    partial class CsLang
+    public class SymbolFactories : WfSvc<SymbolFactories>
     {
-        public void GenSymFactories(Identifier ns, Identifier name, ReadOnlySpan<Type> enums, FS.FilePath dst)
+        public void Emit(string ns, string name, ReadOnlySpan<Type> enums, FS.FilePath dst)
         {
             var flow = EmittingFile(dst);
             var buffer = text.buffer();
             var margin = 0u;
             buffer.IndentLine(margin, CsPatterns.NamespaceDecl(ns));
             buffer.IndentLine(margin, Open());
-            var count = GenSymFactories(margin + 4, name, enums, buffer);
+            var count = Emit(margin + 4, name, enums, buffer);
             buffer.IndentLine(margin, Close());
             using var writer = dst.Writer();
             writer.WriteLine(buffer.Emit());
             EmittedFile(flow,count);
         }
 
-        public uint GenSymFactories(uint margin, Identifier name, ReadOnlySpan<Type> enums, ITextBuffer dst)
+        public uint Emit(uint margin, string name, ReadOnlySpan<Type> enums, ITextBuffer dst)
         {
             dst.IndentLine(margin, PublicReadonlyStruct(name));
             dst.IndentLine(margin, Open());
@@ -33,14 +33,14 @@ namespace Z0
             {
                 ref readonly var type = ref skip(enums,i);
                 var adapted = ClrEnumAdapter.adapt(type);
-                counter += GenSymFactories(margin, adapted, dst);
+                counter += Emit(margin, adapted, dst);
             }
             margin -=4;
             dst.IndentLine(margin, Close());
             return counter;
         }
 
-        public uint GenSymFactories(uint margin, ClrEnumAdapter src, ITextBuffer dst)
+        public uint Emit(uint margin, ClrEnumAdapter src, ITextBuffer dst)
         {
             var counter = 0u;
             var members = src.Members;

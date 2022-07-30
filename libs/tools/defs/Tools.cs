@@ -11,13 +11,6 @@ namespace Z0
 
     }
 
-    [Free]
-    public interface ITools
-    {
-
-
-    }
-
     [ApiHost]
     public class Tools : ITools
     {

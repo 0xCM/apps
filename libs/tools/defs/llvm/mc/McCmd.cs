@@ -16,7 +16,6 @@ namespace Z0
             cmd.Target = dst;
             return cmd;
         }
-
     }
 
     [Cmd(ToolNames.llvm_mc), StructLayout(LayoutKind.Sequential, Pack=1)]

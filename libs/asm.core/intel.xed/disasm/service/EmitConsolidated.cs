@@ -29,13 +29,13 @@ namespace Z0
 
         void EmitOpClasses(FileFlowContext context, Index<Document> src)
         {
-            var target = Flows.table<InstOpClass>(context.Project.Project, disasm);
+            var target = EtlContext.table<InstOpClass>(context.Project.Project, disasm);
             TableEmit(XedDisasm.opclasses(src).View, target);
         }
 
         void EmitConsolidated(FileFlowContext context, Index<DetailBlock> src)
         {
-            var target = Flows.table<DetailBlockRow>(context.Project.Project);
+            var target = EtlContext.table<DetailBlockRow>(context.Project.Project);
             var buffer = text.buffer();
             DisasmRender.render(resequence(src), buffer);
             var emitting = EmittingFile(target);
@@ -45,6 +45,6 @@ namespace Z0
         }
 
         void EmitConsolidated(FileFlowContext context, Index<XedDisasmRow> src)
-            => TableEmit(resequence(src), Flows.table<XedDisasmRow>(context.Project.Project));
+            => TableEmit(resequence(src), EtlContext.table<XedDisasmRow>(context.Project.Project));
     }
 }

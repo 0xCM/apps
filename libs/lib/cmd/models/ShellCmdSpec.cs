@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using api = ShellCmd;
+    using api = Cmd;
 
     public record class ShellCmdSpec
     {

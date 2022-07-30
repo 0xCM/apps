@@ -8,7 +8,7 @@ namespace Z0
     /// Characterizes a compile-time literal value
     /// </summary>
     [StructLayout(StructLayout, Pack=1), Record(TableId)]
-    public struct ApiLiteral : IComparable<ApiLiteral>
+    public struct ApiLiteralInfo : IComparable<ApiLiteralInfo>
     {
         const string TableId = "api.literals";
 
@@ -31,9 +31,9 @@ namespace Z0
         public uint Length;
 
         [Render(1)]
-        public RuntimeLiteralValue<string> Value;
+        public object Value;
 
-        public int CompareTo(ApiLiteral src)
+        public int CompareTo(ApiLiteralInfo src)
         {
             var result = Part.PartName().CompareTo(src.Part.PartName());
             if(result == 0)
@@ -46,6 +46,6 @@ namespace Z0
             return result;
         }
 
-        public static ApiLiteral Empty => default;
+        public static ApiLiteralInfo Empty => default;
     }
 }

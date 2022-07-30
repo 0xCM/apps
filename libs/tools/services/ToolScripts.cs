@@ -38,13 +38,74 @@ namespace Z0
             }
         }
 
+        Outcome RunToolScript(FS.FilePath src, CmdVars vars, bool quiet, out ReadOnlySpan<CmdFlow> flows)
+        {
+            flows = default;
+            var result = Outcome.Success;
+            if(!src.Exists)
+                return (false, FS.missing(src));
+
+            result = CmdScripts.run(
+                new CmdLine(src.Format(PathSeparator.BS)),
+                vars,
+                quiet ? ReceiveCmdStatusQuiet : ReceiveCmdStatus, ReceiveCmdError,
+                out var response
+                );
+
+            if(result.Fail)
+                return result;
+
+            Cmd.parse(response, out flows);
+            //flows = Cmd.flows(response);
+
+            return result;
+        }
+
         void OnExec(CmdFlow flow, bool runexe)
         {
             if(flow.TargetPath.FileName.Is(FS.Exe) && runexe)
                 RunExe(flow);
         }
 
-        public void RunBuildScript(IWsProject project, FileKind kind, FS.FilePath script, Action<CmdFlow> receiver)
+        void ReceiveCmdStatusQuiet(in string src)
+        {
+
+        }
+
+        void ReceiveCmdStatus(in string src)
+        {
+            Write(src);
+        }
+
+        void ReceiveCmdError(in string src)
+        {
+            Write(src, FlairKind.Error);
+        }
+
+        Outcome RunProjectScript(IWsProject project, string srcid, FS.FilePath script, bool quiet, out ReadOnlySpan<CmdFlow> flows)
+        {
+            var result = Outcome.Success;
+            var vars = WsCmdVars.create();
+            vars.SrcId = srcid;
+            return RunToolScript(script, vars.ToCmdVars(), quiet, out flows);
+        }
+
+        Outcome<Index<CmdFlow>> RunScript(IWsProject project, FS.FilePath script, string srcid)
+        {
+            var cmdflows = list<CmdFlow>();
+            var result = RunProjectScript(project, srcid, script, true, out var flows);
+            if(result)
+            {
+                var count = flows.Length;
+                for(var j=0; j<count; j++)
+                    cmdflows.Add(skip(flows,j));
+                return (true, cmdflows.ToArray());
+            }
+
+            return result;
+        }
+
+        void RunBuildScript(IWsProject project, FileKind kind, FS.FilePath script, Action<CmdFlow> receiver)
         {
             var flows = list<CmdFlow>();
             var files = project.SrcFiles(kind, false);
@@ -53,7 +114,7 @@ namespace Z0
             {
                 var path = files[i];
                 var srcid = path.FileName.WithoutExtension.Format();
-                var result = OmniScript.RunScript(project, script, srcid);
+                var result = RunScript(project, script, srcid);
                 if(result)
                 {
                     flows.AddRange(result.Data);
@@ -66,7 +127,7 @@ namespace Z0
             }
 
             if(flows.Count != 0)
-                TableEmit(flows.ViewDeposited(), Flows.path(project));
+                TableEmit(flows.ViewDeposited(), BuildContext.path(project));
         }
     }
 }

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public struct WinSdkInfo : ITextual
+    public struct WinSdkInfo
     {
         public string Version;
 

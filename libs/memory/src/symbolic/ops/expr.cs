@@ -4,18 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
 
     partial class Symbolic
     {
-        public static SymbolStrings<K> expr<K>(
-            string tableNs = null,
-            string indexNs = null,
-            string tableName = null,
-            string indexName = null,
-            bool emitIndex = true,
-            bool parametric = true
-            )
+        public static SymbolStrings<K> expr<K>(string tableNs = null, string indexNs = null, string tableName = null,
+            string indexName = null, bool emitIndex = true, bool parametric = true)
             where K : unmanaged, Enum
         {
             var dst = new SymbolStrings<K>();
@@ -36,7 +31,6 @@ namespace Z0
         {
             dst.Entries = entries;
             var count = dst.Entries.Count;
-            //calc(entries, out dst.Strings, out dst.Content, out dst.Offsets);
             dst.IndexName = indexName;
             dst.TableName = tableName;
             dst.IndexNs = indexName;
@@ -44,7 +38,7 @@ namespace Z0
             dst.IndexType = Enums.kind<K>();
             dst.Parametric = parametric;
             dst.EmitIndex = emitIndex;
-            dst.Rows = alloc<StringTableRow>(count);
+            dst.Rows = sys.alloc<StringTableRow>(count);
             for(var j=0u; j<count; j++)
             {
                 ref var row = ref dst.Rows[j];
@@ -59,8 +53,8 @@ namespace Z0
         {
             var count = src.Count;
             strings = StringTables.strings(src);
-            offsets = alloc<uint>(count);
-            content = alloc<char>(text.length(strings.View));
+            offsets = sys.alloc<uint>(count);
+            content = sys.alloc<char>(text.length(strings.View));
             var counter = 0u;
             var j = 0u;
             for(var i=0u; i<count; i++)

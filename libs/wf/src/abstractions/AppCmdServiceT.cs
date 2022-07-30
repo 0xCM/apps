@@ -65,7 +65,16 @@ namespace Z0
         ShellCmdSpec Next()
         {
             var input = term.prompt(Prompt());
-            return ShellCmd.parse(input);
+            if(Cmd.parse(input, out ShellCmdSpec cmd))
+            {
+                return cmd;
+            }
+            else
+            {
+                Error($"ParseFailure:{input}");
+                return ShellCmdSpec.Empty;
+            }
+            //return ShellCmd.parse(input);
         }
 
         public virtual void Run()

@@ -33,6 +33,9 @@ namespace Z0
 
             public BuildCmd BuildCmd(IWfRuntime wf)
                 => Service<BuildCmd>(wf);
+
+            public SymbolFactories SymbolFactories(IWfRuntime wf)
+                => Service<SymbolFactories>(wf);
         }
 
         static ServiceCache Services => ServiceCache.Instance;
@@ -60,5 +63,9 @@ namespace Z0
 
         public static IAppCmdSvc BuildCmd(this IWfRuntime wf)
             => Services.BuildCmd(wf);
+
+        public static SymbolFactories SymbolFactories(this IWfRuntime wf)
+            => Services.SymbolFactories(wf);
+
     }
 }

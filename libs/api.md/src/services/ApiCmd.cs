@@ -66,6 +66,10 @@ namespace Z0
         void EmitApiDeps()
             => ApiMd.Emitter().EmitApiDeps();
 
+        [CmdOp("api/emit/literals")]
+        void EmitApiLiterals()
+            => ApiMd.Emitter().EmitApiLiterals();
+
         [CmdOp("api/emit/impls")]
         void EmitImplMaps()
         {

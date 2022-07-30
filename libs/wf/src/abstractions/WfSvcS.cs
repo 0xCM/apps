@@ -36,7 +36,7 @@ namespace Z0
         }
 
         protected static CmdArg arg(in CmdArgs src, int index)
-            => ShellCmd.arg(src, index);
+            => Cmd.arg(src, index);
 
         protected static AppDb AppDb => AppDb.Service;
 
@@ -59,7 +59,7 @@ namespace Z0
         protected FileFlowContext Context()
         {
             var project = Project();
-            return _Context.GetOrAdd(project.Id, _ => Flows.context(project));
+            return _Context.GetOrAdd(project.Id, _ => FlowContext.create(project));
         }
 
         [CmdOp("project/home")]

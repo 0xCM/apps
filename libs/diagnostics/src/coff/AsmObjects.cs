@@ -146,7 +146,7 @@ namespace Z0
         }
 
         public FS.FilePath AsmInstructionTable(ProjectId project)
-            => Flows.table<AsmInstructionRow>(project);
+            => EtlContext.table<AsmInstructionRow>(project);
 
         public Index<AsmInstructionRow> CollectMcInstructions(FileFlowContext context)
         {
@@ -345,7 +345,7 @@ namespace Z0
         }
 
         public FS.FilePath AsmSyntaxTable(ProjectId project)
-            => Flows.table<AsmSyntaxRow>(project);
+            => EtlContext.table<AsmSyntaxRow>(project);
 
         public Index<AsmSyntaxRow> CollectAsmSyntax(FileFlowContext context)
         {

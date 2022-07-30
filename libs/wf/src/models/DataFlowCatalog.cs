@@ -10,6 +10,14 @@ namespace Z0
 
     public class DataFlowCatalog
     {
+        [MethodImpl(Inline)]
+        static DataFlow<Actor,S,T> flow<S,T>(Tool tool, S src, T dst)
+            => new DataFlow<Actor,S,T>(FlowId.identify(tool,src,dst), tool,src,dst);
+
+        [MethodImpl(Inline)]
+        static FileFlow flow(in CmdFlow src)
+            => new FileFlow(flow(src.Tool, src.SourcePath.ToUri(), src.TargetPath.ToUri()));
+
         ConstLookup<FS.FileUri,List<FS.FileUri>> Children;
 
         ConstLookup<FS.FileUri,FS.FileUri> Ancestors;
@@ -27,7 +35,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref var dst = ref seek(flows,i);
-                dst = Flows.flow(skip(src,i));
+                dst = flow(skip(src,i));
                 if(lookup.TryGetValue(dst.Source, out var targets))
                 {
                     targets.Add(dst.Target);

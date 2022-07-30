@@ -4,8 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct RuntimeLiteralValue<T>
-        where T : IEquatable<T>
+    public readonly record struct RuntimeLiteralValue<T>
     {
         public readonly T Data;
 
@@ -16,7 +15,7 @@ namespace Z0
         }
 
         public string Format()
-            => Literals.format(this);
+            => Data?.ToString();
 
         public override string ToString()
             => Format();

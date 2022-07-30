@@ -4,22 +4,82 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Spans;
+    using static Arrays;
+    using static Algs;
 
     [ApiHost]
-    public class Cmd
+    public partial class Cmd
     {
         const NumericKind Closure = UnsignedInts;
+
+        /// <summary>
+        /// Creates a <see cref='CmdLine'/> that represents 'cmd.exe /c '<paramref name='spec'/>'
+        /// </summary>
+        /// <param name="spec">The command to execute</param>
+        public static CmdLine cmd(string spec)
+            => string.Format("cmd.exe /c {0}", spec);
+
+        /// <summary>
+        /// Creates a <see cref='CmdLine'/> that represents 'pwsh.exe /c '<paramref name='spec'/>'
+        /// </summary>
+        /// <param name="spec">The command to execute</param>
+        public static CmdLine pwsh(string spec)
+            => string.Format("pwsh.exe {0}", spec);
+
+        [Op, MethodImpl(Inline)]
+        public static ShellCmdSpec shell(string name, CmdArgs args)
+            => new ShellCmdSpec(name, args);
+
+        public static CmdArg arg(CmdArgs src, int index)
+        {
+            if(src.IsEmpty)
+                sys.@throw(EmptyArgList.Format());
+
+            var count = src.Count;
+            if(count < index - 1)
+                sys.@throw(ArgSpecError.Format());
+            return src[(ushort)index];
+        }
+
+        public static CmdArgs args(ReadOnlySpan<string> src)
+        {
+            var dst = sys.alloc<CmdArg>(src.Length);
+            for(ushort i=0; i<src.Length; i++)
+                seek(dst,i) = new CmdArg(skip(src,i));
+            return CmdArgs.create(dst);
+        }
+
+        public static string format(ShellCmdSpec src)
+        {
+            if(src.IsEmpty)
+                return EmptyString;
+
+            var dst = text.buffer();
+            dst.Append(src.Name);
+            var count = src.Args.Count;
+            for(ushort i=0; i<count; i++)
+            {
+                ref readonly var arg = ref src.Args[i];
+                if(nonempty(arg.Name))
+                {
+                    dst.Append(Chars.Space);
+                    dst.Append(arg.Name);
+                }
+
+                if(nonempty(arg.Value))
+                {
+                    dst.Append(Chars.Space);
+                    dst.Append(arg.Value);
+                }
+            }
+            return dst.Emit();
+        }
 
         [MethodImpl(Inline), Op]
         public static CmdFlagSpec flag(string name, string desc)
             => new CmdFlagSpec(name, desc);
 
-        /// <summary>
-        /// Parses a file with lines of the form k:v where k is interpreted as a flag identifier and v is interpreted
-        /// as a description. This information is then used to create a <see cref='CmdFlagSpec'/> sequence
-        /// </summary>
-        /// <param name="src"></param>
         public static Index<CmdFlagSpec> flags(FS.FilePath src)
         {
             var k = z16;
@@ -39,29 +99,9 @@ namespace Z0
             return dst.ToArray();
         }
 
-
         [MethodImpl(Inline), Op]
         public static CmdVarInfo varinfo(Name name, TextBlock purpose)
             => new (name,purpose);
-
-        public static string join(CmdArgs args)
-        {
-            var dst = text.emitter();
-            for(var i=0; i<args.Count; i++)
-            {
-                if(i != 0)
-                    dst.Append(Chars.Space);
-                dst.Append(args[i].Value);
-            }
-
-            return dst.Emit();
-        }
-
-        public static CmdLine cmd(string spec)
-            => string.Format("cmd.exe /c {0}", spec);
-
-        public static CmdLine pwsh(string spec)
-            => string.Format("pwsh.exe {0}", spec);
 
         public static CmdActions actions<T>(T src)
         {
@@ -72,14 +112,6 @@ namespace Z0
                 var tag = m.Tag<CmdOpAttribute>().Require();
                 dst.TryAdd(tag.CommandName, new ActionRunner(tag.CommandName, src, m));
             }
-            return new CmdActions(dst);
-        }
-
-        public static CmdActions join(ICmdActions[] src)
-        {
-            var dst = dict<string,IActionRunner>();
-            foreach(var a in src)
-                iter(a.Invokers,  a => dst.TryAdd(a.CmdName, a));
             return new CmdActions(dst);
         }
 
@@ -96,56 +128,14 @@ namespace Z0
             return new CmdSource(provider.Name, dst);
         }
 
-
-        public static void emit(ICmdSource src, FS.FilePath dst, IWfEventTarget log)
-        {
-            log.Deposit(Events.emittingFile(src.GetType(),dst));
-            var commands = src.Commands;
-            using var writer = dst.AsciWriter();
-            for(var i=0; i<src.Count; i++)
-            {
-                ref readonly var cmd = ref commands[i];
-                var fmt = cmd.Format();
-                log.Deposit(Events.row(fmt));
-                writer.WriteLine(fmt);
-            }
-
-            log.Deposit(Events.emittedFile(src.GetType(), dst, src.Count));
-        }
-
-
         public static CmdCatalog catalog(IDispatcher src)
         {
             ref readonly var defs = ref src.Commands.Defs;
             var count = defs.Count;
-            var dst = alloc<CmdUri>(count);
+            var dst = sys.alloc<CmdUri>(count);
             for(var i=0; i<count; i++)
                 seek(dst,i) = defs[i].Uri;
             return new CmdCatalog(dst);
-        }
-
-        public static CmdDispatcher dispatcher<T>(T svc, IWfEventTarget log, ICmdActions actions)
-            where T : ICmdService
-                => Cmd.dispatcher(svc.GetType().DisplayName(), actions, log);
-
-        public static CmdDispatcher dispatcher(asci32 provider, ICmdActions actions, IWfEventTarget log)
-            => new CmdDispatcher(provider, actions, log);
-
-        public static CmdDispatcher dispatcher<T>(T svc, IWfEventTarget log,  Index<ICmdProvider> providers)
-        {
-            var dst = dict<string,ActionRunner>();
-            var _dst = bag<ICmdActions>();
-            _dst.Add(actions(svc));
-            iter(providers, x => _dst.Add(x.Actions));
-            return dispatcher(svc.GetType().DisplayName(), Cmd.join(_dst.ToArray()), log);
-        }
-
-
-        public static void emit(CmdCatalog src, FS.FilePath dst, IWfEventTarget log)
-        {
-            var data = src.Entries;
-            iter(data, x => log.Deposit(Events.row(x.Uri.Name)));
-            Tables.emit(log, data.View, dst);
         }
 
         public static SettingLookup<Name,asci64> commands(IDispatcher src)
@@ -167,6 +157,11 @@ namespace Z0
         [MethodImpl(Inline)]
         public static FileFlow flow(in CmdFlow src)
             => new FileFlow(flow(src.Tool, src.SourcePath.ToUri(), src.TargetPath.ToUri()));
+
+        public static void parse(ReadOnlySpan<TextLine> src, out ReadOnlySpan<CmdFlow> dst)
+        {
+            dst = flows(src);
+        }
 
         public static ReadOnlySpan<CmdFlow> flows(ReadOnlySpan<TextLine> src)
         {
@@ -212,27 +207,31 @@ namespace Z0
         }
 
         [Op]
-        public static ActionRunner invoker(string name, object host, MethodInfo method)
+        public static ActionRunner runner(string name, object host, MethodInfo method)
             => new ActionRunner(name,host,method);
 
         [Op]
-        public static Index<ActionRunner> invokers(object host)
+        public static Index<ActionRunner> runners(object host)
         {
             var methods = host.GetType().Methods().Tagged<CmdOpAttribute>();
-            var buffer = alloc<ActionRunner>(methods.Length);
-            actions(host, methods,buffer);
+            var buffer = sys.alloc<ActionRunner>(methods.Length);
+            runners(host, methods,buffer);
             return buffer;
         }
 
-        static void actions(object host, ReadOnlySpan<MethodInfo> src, Span<ActionRunner> dst)
+        static void runners(object host, ReadOnlySpan<MethodInfo> src, Span<ActionRunner> dst)
         {
             var count = src.Length;
             for(var i=0; i<count; i++)
             {
                 ref readonly var method = ref skip(src,i);
                 var tag = method.Tag<CmdOpAttribute>().Require();
-                seek(dst,i) = invoker(tag.CommandName, host, method);
+                seek(dst,i) = runner(tag.CommandName, host, method);
             }
         }
+
+        static MsgPattern EmptyArgList => "No arguments specified";
+
+        static MsgPattern ArgSpecError => "Argument specification error";
     }
 }

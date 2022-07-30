@@ -9,7 +9,7 @@ namespace Z0
 
     public partial class ProjectSvc : AppCmdService<ProjectSvc>
     {
-        ToolScripts Scripts => Wf.WsScripts();
+        ToolScripts Scripts => Wf.ToolScripts();
 
         AsmObjects AsmObjects => Wf.AsmObjects();
 
@@ -18,7 +18,7 @@ namespace Z0
         CoffServices Coff => Wf.CoffServices();
 
         public FS.FilePath AsmSyntaxTable(ProjectId project)
-            => Flows.table<AsmSyntaxRow>(project);
+            => EtlContext.table<AsmSyntaxRow>(project);
 
         public void BuildLlc(IWsProject project, LlvmSubtarget subtarget, bool runexe = false)
         {
