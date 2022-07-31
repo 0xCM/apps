@@ -4,9 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
-    public partial class CodeCmd : AppCmdService<CodeCmd>
+    public interface IHexType
     {
+        Hex8Kind Value {get;}
+    }
+
+    public interface IHexType<H> : IHexType
+        where H : unmanaged, IHexType<H>
+    {
+        Type Reified
+            => typeof(H);
     }
 }

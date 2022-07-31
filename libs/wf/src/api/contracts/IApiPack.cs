@@ -33,9 +33,6 @@ namespace Z0
         IDbTargets Docs(string scope)
             => Docs().Targets(scope);
 
-        IDbTargets Comments()
-            => Docs().Targets("comments");
-
         IDbTargets Tokens()
             => Metadata().Targets("tokens");
 
@@ -48,12 +45,6 @@ namespace Z0
         IDbTargets Runtime()
             => Targets("runtime");
 
-        IDbTargets Runtime(string scope)
-            => Runtime().Targets(scope);
-
-        FS.FilePath IlPath(ApiHostUri host)
-            => Extracts().Path(FS.hostfile(host,FileKind.Msil.Ext()));
-
         IDbTargets Metadata(string scope)
             => Metadata().Targets(scope);
 
@@ -63,14 +54,30 @@ namespace Z0
         FS.FilePath ExtractPath(ApiHostUri host, FileKind kind)
             => Extracts().Path(FS.file(host, kind));
 
-        FS.Files LocatedHex()
-            => Targets().Files(FileKind.LocatedHex);
-
         FS.Files HexExtracts()
             => Extracts().Files(FileKind.HexDat);
 
+        FS.Files HexExtracts(PartId part)
+            => HexExtracts().Where(path => path.FileName.StartsWith($"{part.PartName().Format()}."));
+
+        FS.Files AsmExtracts()
+            => Extracts().Files(FileKind.Asm);
+
+        FS.Files AsmExtracts(PartId part)
+            => AsmExtracts().Where(path => path.FileName.StartsWith($"{part.PartName().Format()}."));
+
+        FS.Files ExtractReports()
+            => Extracts().Files(FileKind.Csv);
+
+        FS.Files MsilExtracts()
+            => Extracts().Files(FileKind.Il);
+
+        FS.Files MsilExtracts(PartId part)
+            => MsilExtracts().Where(path => path.FileName.StartsWith($"{part.PartName().Format()}."));
+
         IApiPackArchive Archive()
             => ApiPackArchive.create(Root);
+
 
         FS.FilePath HexExtractPath(PartId src)
             => ExtractPath(src, FileKind.HexDat);
@@ -80,6 +87,9 @@ namespace Z0
 
         FS.FilePath AsmExtractPath(PartId part)
             => ExtractPath(part, FileKind.Asm);
+
+        FS.FilePath MsilPath(ApiHostUri host)
+            => Extracts().Path(FS.hostfile(host,FileKind.Il.Ext()));
 
         FS.FilePath HexExtractPath(ApiHostUri src)
             => ExtractPath(src, FileKind.HexDat);

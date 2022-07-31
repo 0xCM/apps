@@ -4,16 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     /// <summary>
     /// Defines a sequence of 32-bit cells
     /// </summary>
-    [DataTypeAttributeD("vhex<w:32>")]
     public readonly struct HexVector32
     {
         readonly Index<Hex32> Data;

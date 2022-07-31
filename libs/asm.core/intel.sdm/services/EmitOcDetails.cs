@@ -20,7 +20,7 @@ namespace Z0.Asm
             }
         }
 
-        public new void Emit(Index<SdmOpCodeDetail> src)
+        public void Emit(Index<SdmOpCodeDetail> src)
         {
             CheckModes(src);
             TableEmit(src, SdmPaths.SdmTable<SdmOpCodeDetail>(), TextEncodingKind.Unicode);

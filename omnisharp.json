@@ -2,5 +2,8 @@
     "msbuild": {
         "enabled": true,
         "Configuration": "Release"
+    },
+    "FileOptions": {
+        "ExcludeSearchPatterns": ["./build"]
     }
 }

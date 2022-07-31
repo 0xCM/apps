@@ -19,6 +19,12 @@ namespace Z0
         IDbTargets AssetTargets
             => AppDb.ApiTargets("assets");
 
+        ReadOnlySeq<ApiDataType> DataTypes()
+            => data("DataTypes", () => ApiTypes.discover(Md.Assemblies));
+
+        ReadOnlySeq<ApiTypeInfo> DataTypeInfo()
+            => data("DataTypeInfo", () => ApiTypes.describe(DataTypes()));
+
         internal static ApiMdEmitter create(IWfRuntime wf, ApiMd md, IApiPack dst)
         {
             var svc = create(wf);
@@ -74,6 +80,9 @@ namespace Z0
 
         public void EmitCmdDefs()
             => Emit(CalcCmdDefs());
+
+        public void EmitDataTypes()
+            => TableEmit(DataTypeInfo(), AppDb.ApiTargets().Table<ApiTypeInfo>());
 
         public void EmitPartList()
         {

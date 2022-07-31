@@ -303,18 +303,18 @@ namespace Z0
             var result = Outcome.Success;
             var settings = LoadEnv();
             var env = ToolEnv.load(settings);
-            var dst = ProjectDb.Log("env", FS.Log);
+            var dst = AppDb.App().Path("env", FileKind.Log);
             var emitting = EmittingFile(dst);
             using var writer = dst.AsciWriter();
             var headers = env.HeaderIncludes();
             writer.WriteLine("Header Includes");
-            writer.WriteLine(RpOps.PageBreak120);
+            writer.WriteLine(RP.PageBreak120);
             headers.Iter(h => writer.WriteLine(string.Format("{0,-8} {1,-8} {2}", "Header", h.Exists ? "Found" : "Mising", h)));
             writer.WriteLine();
 
             var libs = env.LibIncludes();
             writer.WriteLine("Lib Includes");
-            writer.WriteLine(RpOps.PageBreak120);
+            writer.WriteLine(RP.PageBreak120);
             libs.Iter(lib => writer.WriteLine(string.Format("{0,-8} {1,-8} {2}", "Lib", lib.Exists ? "Found" : "Mising", lib)));
 
             EmittedFile(emitting, 2);

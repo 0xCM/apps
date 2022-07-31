@@ -199,20 +199,6 @@ namespace Z0
             return result;
         }
 
-        // public Index<ApiHexPack> EmitPacks(SortedIndex<ApiCodeBlock> src, FS.FilePath? dst = null, bool validate = false)
-        // {
-        //     var _dst = dst ?? Env.Db + FS.folder(EnvFolders.tables) + FS.file("apihex", FS.ext("xpack"));
-        //     var result = pack(src, validate);
-        //     var packed = result.View;
-        //     var emitting = EmittingFile(_dst);
-        //     using var writer = _dst.Writer();
-        //     var count = packed.Length;
-        //     for(var i=0; i<count; i++)
-        //         writer.WriteLine(skip(packed,i).Format());
-        //     EmittedFile(emitting, count);
-        //     return result;
-        // }
-
         [MethodImpl(Inline), Op]
         public static ApiCodeBlock block(in ApiCodeRow src)
             => new ApiCodeBlock(src.Address, src.Uri, src.Data);

@@ -19,7 +19,6 @@ namespace Z0
 
         protected override void Initialized()
         {
-
             Services = Checkers.discover(Wf, typeof(T));
         }
 

@@ -45,7 +45,7 @@ namespace Z0
         Cii,
 
         [Symbol(il, "Msil source text")]
-        Msil,
+        Il,
 
         [Symbol(ildat, "Msil bytes")]
         MsilDat,

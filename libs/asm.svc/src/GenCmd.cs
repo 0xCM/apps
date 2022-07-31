@@ -357,8 +357,7 @@ namespace Z0
             var defs = ApiTableDefs.defs(src);
             iter(defs, src => generator.Emit(0u,src,buffer));
             var dst = AppDb.CgStage("api.tables").Path("replicants", FileKind.Cs);
-            FileEmit(buffer.Emit(),dst);
-            //Write(buffer.Emit());
+            FileEmit(buffer.Emit(),dst);         
         }
 
         [CmdOp("gen/symspan")]
@@ -368,7 +367,7 @@ namespace Z0
         [CmdOp("gen/enum/cs/keywords")]
         Outcome CsKeywords(CmdArgs args)
         {
-            var src = ProjectDb.Source("ms","ms.cs.keywords", FS.List);
+            var src = AppDb.CgStage().Path("ms","ms.cs.keywords", FileKind.List);
             if(!src.Exists)
             {
                 Error(FS.missing(src));

@@ -4,16 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     /// <summary>
     /// Defines a natural sequence of 16-bit cells
     /// </summary>
-    [DataTypeAttributeD("vhex<n:{0},w:16>")]
     public readonly struct HexVector16<N>
         where N : unmanaged, ITypeNat
     {

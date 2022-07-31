@@ -12,7 +12,7 @@ namespace Z0
         public Index<FieldUsage> CalcFieldDeps()
             => Data(nameof(CalcFieldDeps), () => RuleTableDeps.fields(Xed.Views.CellTables));
 
-        public new void Emit(Index<FieldUsage> src)
+        public void Emit(Index<FieldUsage> src)
         {
             const string RenderPattern = "{0,-6} | {1,-6} | {2,-6} | {3,-3} | {4,-32} | {5,-32}";
             var headers = new string[]{"Seq", "Index", "Kind", "C", "Rule", "Field"};
@@ -104,7 +104,7 @@ namespace Z0
             );
         }
 
-        new void Emit(AsmOpCodeClass @class, ReadOnlySpan<InstGroupSeq> src)
+        void Emit(AsmOpCodeClass @class, ReadOnlySpan<InstGroupSeq> src)
             => TableEmit(src, XedPaths.InstTable<InstGroupSeq>(@class.ToString().ToLower()));
 
         public void EmitSeq()
@@ -115,7 +115,7 @@ namespace Z0
                 );
         }
 
-        public new void Emit(Index<SeqControl> controls, Index<SeqDef> defs)
+        public void Emit(Index<SeqControl> controls, Index<SeqDef> defs)
         {
             var dst = text.emitter();
             for(var i=0; i<controls.Count; i++)
@@ -142,7 +142,7 @@ namespace Z0
             FileEmit(dst.Emit(), src.Count, XedPaths.RuleTarget("seq", FS.Txt));
         }
 
-        public new void Emit(Index<InstOpDetail> src)
+        public void Emit(Index<InstOpDetail> src)
         {
             exec(PllExec,
             () => Emit(CalcInstOpRows(src)),
@@ -150,7 +150,7 @@ namespace Z0
             );
         }
 
-        public new void Emit(CellDatasets src)
+        public void Emit(CellDatasets src)
         {
             exec(PllExec,
                 () => EmitRaw(src)
@@ -166,28 +166,28 @@ namespace Z0
             FileEmit(data, src.TableCount, XedPaths.RuleTarget("cells.raw", FS.Csv));
         }
 
-        public new void Emit(ReadOnlySpan<MacroMatch> src)
+        public void Emit(ReadOnlySpan<MacroMatch> src)
             => TableEmit(src, MacroMatch.RenderWidths, XedPaths.RuleTable<MacroMatch>());
 
-        public new void Emit(ReadOnlySpan<FieldDef> src)
+        public void Emit(ReadOnlySpan<FieldDef> src)
             => TableEmit(src, XedPaths.Table<FieldDef>());
 
-        public new void Emit(ReadOnlySpan<RuleCellRecord> src)
+        public void Emit(ReadOnlySpan<RuleCellRecord> src)
             => TableEmit(src, XedPaths.RuleTable<RuleCellRecord>());
 
-        public new void Emit(ReadOnlySpan<MacroDef> src)
+        public void Emit(ReadOnlySpan<MacroDef> src)
             => TableEmit(src, MacroDef.RenderWidths, XedPaths.RuleTable<MacroDef>());
 
-        public new void Emit(ReadOnlySpan<XedInstOpCode> src)
+        public void Emit(ReadOnlySpan<XedInstOpCode> src)
             => TableEmit(src, XedPaths.InstTable<XedInstOpCode>());
 
-        public new void Emit(ReadOnlySpan<InstOpRow> src)
+        public void Emit(ReadOnlySpan<InstOpRow> src)
             => TableEmit(src, XedPaths.InstTable<InstOpRow>());
 
-        public new void Emit(ReadOnlySpan<InstOpClass> src)
+        public void Emit(ReadOnlySpan<InstOpClass> src)
             => TableEmit(src, XedPaths.Table<InstOpClass>());
 
-        public new void Emit(ReadOnlySpan<RuleExpr> src)
+        public void Emit(ReadOnlySpan<RuleExpr> src)
             => TableEmit(src, XedPaths.RuleTable<RuleExpr>());
     }
 }

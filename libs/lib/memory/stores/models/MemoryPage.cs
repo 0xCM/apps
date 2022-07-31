@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
+
 
     using api = PageBlocks;
 
@@ -33,7 +35,7 @@ namespace Z0
         public Span<byte> Bytes
         {
             [MethodImpl(Inline)]
-            get => cover<byte>(Range.Min.Pointer<byte>(), Range.ByteCount);
+            get => Spans.cover<byte>(Range.Min.Pointer<byte>(), Range.ByteCount);
         }
 
         public ref byte First

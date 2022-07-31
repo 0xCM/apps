@@ -4,11 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static Algs;
+
     public class CaptureCmd : AppCmdService<CaptureCmd>
     {
         Runtime Runtime => Wf.Runtime();
 
         IApiPack Dst => ApiPacks.create();
+
+        ApiPacks ApiPacks => Wf.ApiPacks();
 
         [CmdOp("capture")]
         void Capture(CmdArgs args)
@@ -16,6 +20,14 @@ namespace Z0
             using var dispenser = Dispense.composite();
             var capture = new CaptureWorkflow(this, new());
             capture.Run(dispenser);
+        }
+
+        [CmdOp("capture/current")]
+        void Captured()
+        {
+            var src = ApiPacks.Current();
+            var files = ApiFiles.part(src,PartId.AsmCore);
+            iter(files.Hex(), path => Write(path.ToUri()));            
         }
 
         [CmdOp("capture/settings")]

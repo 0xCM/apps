@@ -11,7 +11,7 @@ namespace Z0
 
     public partial class PbChecks : Checker<PbChecks>
     {
-        ITextEmitter Emitter;
+        new ITextEmitter Emitter;
 
         public void CheckBitParser()
         {

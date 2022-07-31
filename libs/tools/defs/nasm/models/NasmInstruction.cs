@@ -25,6 +25,5 @@ namespace Z0
 
         [Render(32)]
         public asci32 Flags;
-
     }
 }

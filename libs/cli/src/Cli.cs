@@ -74,7 +74,7 @@ namespace Z0
                     k++;
                 }
 
-                var path = dst.IlPath(host.HostUri);
+                var path = dst.MsilPath(host.HostUri);
                 FileEmit(buffer.Emit(), members.Count, path, TextEncodingKind.Unicode);
                 emitted[host.HostUri] = path;
             }

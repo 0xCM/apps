@@ -14,8 +14,6 @@ namespace Z0
 
         public FileCatalog ProjectFiles { get; protected set; }
 
-        protected IProjectDb ProjectDb;
-
         protected static bool PllExec
         {
             [MethodImpl(Inline)]
@@ -35,7 +33,6 @@ namespace Z0
         {
             base.OnInit();
             Emitter = new WfEmit(this);
-            ProjectDb = ProjectDbWs.create(FS.dir("d:/drives/z/db/targets"));
         }
 
         protected static CmdArg arg(in CmdArgs src, int index)

@@ -1,6 +1,6 @@
 <Project>
   <ItemGroup>
-    <PackageReference Include="Microsoft.DiaSymReader.PortablePdb" Version="1.6.0">
+    <PackageReference Include="Microsoft.DiaSymReader.PortablePdb" Version="$(MsDiaVer)">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>  

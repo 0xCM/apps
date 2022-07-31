@@ -64,7 +64,6 @@ namespace Z0
             }
         }
 
-
         void CheckSize(ApiMemberCode src)
         {
             var count = src.MemberCount;
@@ -80,20 +79,6 @@ namespace Z0
             Require.equal((ByteSize)size, src.CodeSize);
         }
 
-
-        // public void Run(IApiPack dst)
-        // {
-        //     var parts = ApiPartCapture.create(Wf);
-        //     using var dispenser = Dispense.composite();
-        //     var hosts = parts.Capture(dst, dispenser);
-        //     var members = ApiQuery.members(hosts.SelectMany(x => x.Resolved.Members).Where(x => x != null).Array());
-        //     var rebased = catalog(members);
-        //     TableEmit(rebased, dst.Table<ApiCatalogEntry>(), UTF8);
-        //     ApiMd.EmitDatasets(dst);
-        //     CliEmitter.Emit(CliEmitOptions.@default(), dst);
-        //     Runtime.EmitContext(dst);
-        //     ApiPacks.Link(dst);
-        // }
 
         ClrEventListener OpenEventLog(Timestamp ts)
             => ClrEventListener.create(AppDb.App().Path($"clr.events.{ts}", FileKind.Log));

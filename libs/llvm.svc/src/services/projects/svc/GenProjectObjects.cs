@@ -52,7 +52,7 @@ namespace Z0
             offset -= 4;
             emitter.IndentLine(offset, Chars.RBrace);
 
-            FileEmit(emitter.Emit(), count, ProjectDb.Logs() + FS.file(project.Name, FS.Cs));
+            FileEmit(emitter.Emit(), count, AppDb.Logs().Path(FS.file(project.Name, FS.Cs)));
         }
     }
 }

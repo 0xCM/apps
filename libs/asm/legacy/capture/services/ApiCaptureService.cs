@@ -13,7 +13,7 @@ namespace Z0
 
     public sealed class ApiCaptureService : WfSvc<ApiCaptureService>
     {
-        ApiCaptureEmitter Emitter => Service(Wf.CaptureEmitter);
+        new ApiCaptureEmitter Emitter => Service(Wf.CaptureEmitter);
 
         ApiMemberExtractor Extractor => Service(ApiMemberExtractor.create);
 

@@ -6,8 +6,6 @@ namespace Z0.Asm
 {
     public struct DecodedAsmStatement
     {
-        public EncodingId EncodingId;
-
         public MemoryAddress IP;
 
         public BinaryCode Encoded;

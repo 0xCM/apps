@@ -42,8 +42,6 @@ namespace Z0
             return i-i0;
         }
 
-
-
         [MethodImpl(Inline), Op]
         public static uint hexchars(Hex64 src, UpperCased @case, Span<char> dst)
         {

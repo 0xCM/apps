@@ -16,19 +16,6 @@ namespace Z0
         internal static ReadOnlySpan<byte> parsed(in ApiCodeParser parser)
             => (parser.Offset + parser.Delta - 1) > 0 ? parser.Buffer.Slice(0, parser.Offset + parser.Delta - 1) : sys.empty<byte>();
 
-        // [MethodImpl(Inline), Op]
-        // public static bool failed(EncodingParserState state)
-        //     => state == EncodingParserState.Failed;
-
-        // [MethodImpl(Inline), Op]
-        // public static ExtractTermCode termcode(EncodingPatternKind src)
-        // {
-        //     if (src != 0)
-        //         return (ExtractTermCode)src;
-        //     else
-        //         return ExtractTermCode.Fail;
-        // }
-
         public readonly Span<byte> Buffer;
 
         public int Offset;
@@ -72,12 +59,6 @@ namespace Z0
 
             return State;
         }
-
-        // public K Result
-        // {
-        //     [MethodImpl(Inline)]
-        //     get => Finished() ? Outcome : default;
-        // }
 
         void Start()
         {

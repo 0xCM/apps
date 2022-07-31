@@ -6,7 +6,7 @@ namespace Z0
 {
     using static Arrays;
 
-    class ApiTypes
+    public class ApiTypes
     {
         public static Index<ApiTypeInfo> describe(ReadOnlySeq<ApiDataType> types)
         {
@@ -27,7 +27,7 @@ namespace Z0
             return dst;
         }
 
-        public static ReadOnlySeq<ApiDataType> types(Assembly[] src)
+        public static ReadOnlySeq<ApiDataType> discover(Assembly[] src)
         {
             var types = src.Types().Where(t => (t.IsStruct() || t.IsClass)  && t.Reifies<IDataType>()).Ignore().Index();
             var count = types.Count;

@@ -33,9 +33,6 @@ namespace Z0
         public Index<Type> ApiTableTypes
             => data(K.ApiTables, () => Assemblies.Types().Tagged<RecordAttribute>().Index());
 
-        public ReadOnlySeq<ApiTableField> ApiTableFields
-            => data(K.ApiTableFields, CalcTableFields);
-
         public ReadOnlySeq<SymLiteralRow> SymLits
             => data(nameof(SymLiteralRow), () => Symbolic.symlits(Assemblies));
 
@@ -48,10 +45,10 @@ namespace Z0
         public ApiParserLookup Parsers
             => data(K.Parsers, () => Z0.Parsers.contracted(Assemblies));
 
-        public ApiMdEmitter Emitter()
+        public new ApiMdEmitter Emitter()
             => ApiMdEmitter.create(Wf, this, ApiPacks.create());
 
-        public ApiMdEmitter Emitter(IApiPack dst)
+        public new ApiMdEmitter Emitter(IApiPack dst)
             => ApiMdEmitter.create(Wf, this, dst);
 
         public void EmitDatasets(IApiPack dst)

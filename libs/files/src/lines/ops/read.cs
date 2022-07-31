@@ -20,7 +20,7 @@ namespace Z0
                 var next = reader.ReadLine();
                 while(next != null)
                 {
-                    if(text.blank(next))
+                    if(blank(next))
                     {
                         if(keepblank)
                             lines.Add(new TextLine(++lineNumber, next));

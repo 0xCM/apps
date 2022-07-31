@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Spans;
+    using static Algs;
     using static HexFormatSpecs;
     using static HexFormatter;
 

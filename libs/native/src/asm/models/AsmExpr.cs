@@ -108,12 +108,6 @@ namespace Z0
             get => IsEmpty || Content.StartsWith("(bad)");
         }
 
-        public AsmCellKind PartKind
-        {
-            [MethodImpl(Inline)]
-            get => AsmCellKind.Expr;
-        }
-
         [MethodImpl(Inline)]
         public int CompareTo(AsmExpr src)
             => Content.CompareTo(src.Content);
@@ -129,10 +123,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator AsmExpr(Span<char> src)
             => new AsmExpr(new string(src));
-
-        [MethodImpl(Inline)]
-        public static implicit operator AsmCell(AsmExpr src)
-            => AsmCell.define(src.Format(), AsmCellKind.Expr);
 
         public static AsmExpr Empty
         {

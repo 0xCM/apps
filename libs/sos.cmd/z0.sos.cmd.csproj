@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <Import Project="$(ImportDefs)microsoft.codeanalysis.props"/>
+  <Import Project="$(ImportDefs)microsoft.dia.props"/>
   <Import Project="$(ImportDefs)usings.props"/>
 
   <ItemGroup>

@@ -14,12 +14,6 @@ namespace Z0
     [ApiHost]
     public partial class AsmCheckCmd : CheckCmd<AsmCheckCmd>
     {
-        [CmdOp("asm/check/tokens")]
-        void CheckOcTokens()
-        {
-
-        }
-
         [CmdOp("asm/emit/tokens")]
         void EmitAsmSymbols()
         {
@@ -93,9 +87,6 @@ namespace Z0
         [CmdOp("asm/check/jmp")]
         void CheckJumps()
         {
-            var result = CheckJcc();
-            if(result.Fail)
-                Error(result.Message);
             CheckJmp32(n0);
             CheckJmp32(n1);
             CheckJmp32(n2);
@@ -109,26 +100,6 @@ namespace Z0
             using var dispenser = Alloc.asm();
             var parser = DecodedAsmParser.create(dispenser);
             var result = parser.ParseBlocks(doc);
-            if(result)
-            {
-                var blocks = parser.Parsed();
-                var view = blocks;
-                var count = view.Length;
-                for(var i=0; i<count; i++)
-                {
-                    ref readonly var block = ref skip(view,i);
-                    Write(block.Label.Name);
-                    var statements = block.Code;
-                    var kS = statements.Count;
-                    for(var j=0; j<kS; j++)
-                    {
-                        ref readonly var statement = ref statements[j];
-                        ref readonly var encoded = ref statement.Encoded;
-                        ref readonly var decoded = ref statement.Decoded;
-                        Write(string.Format("{0,-42} # {1}", decoded, encoded));
-                    }
-                }
-            }
             return result;
         }
 
@@ -237,12 +208,12 @@ namespace Z0
         [CmdOp("asm/check/hex")]
         unsafe Outcome CheckHex(CmdArgs args)
         {
-            const string DataSource = "38D10F9FC00FB6C0C338D10F97C00FB6C0C36639D10F9FC00FB6C0C36639D10F97C00FB6C0C339D10F9FC00FB6C0C339D10F97C0C34839D10F9FC00FB6C0C34839D10F97C00FB6C0C3";
+            const string Data = "38D10F9FC00FB6C0C338D10F97C00FB6C0C36639D10F9FC00FB6C0C36639D10F97C00FB6C0C339D10F9FC00FB6C0C339D10F97C0C34839D10F9FC00FB6C0C34839D10F97C00FB6C0C3";
             var result = Outcome.Success;
-            var input = span(DataSource);
-            var count = DataSource.Length;
+            var input = span(Data);
+            var count = Data.Length;
             var dst = alloc<HexDigitValue>(count);
-            result = Hex.map(DataSource,dst);
+            result = Hex.map(Data,dst);
             if(result.Fail)
                 return result;
 
@@ -255,7 +226,7 @@ namespace Z0
             var buffer = alloc<byte>(count/2);
             var size = Digital.pack(dst,buffer);
             var output = buffer.FormatHex(HexFormatter.Compact);
-            Write(Require.equal(DataSource,output));
+            Write(Require.equal(Data,output));
             return result;
         }
 

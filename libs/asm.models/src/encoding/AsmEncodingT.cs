@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using static core;
+    using static Algs;
+    using static Spans;
 
     public readonly struct AsmEncoding<T> : IAsmEncoding<T>
         where T : unmanaged, IStorageBlock<T>
@@ -70,7 +71,6 @@ namespace Z0.Asm
             => Format();
 
         public static AsmEncoding<T> Empty => default;
-
 
         [MethodImpl(Inline)]
         public static implicit operator AsmHexCode(AsmEncoding<T> src)

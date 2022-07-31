@@ -20,27 +20,15 @@ namespace Z0
 
             public CultProcessor CultProcessor(IWfRuntime wf)
                 => Service<CultProcessor>(wf);
-
-            public IApiSpecs ApiSpecsCmd(IWfRuntime wf)
-                => Service<ApiSpecsCmd>(wf);
-
-            public CodeCmd CodeCmd(IWfRuntime wf)
-                => Service<CodeCmd>(wf);
         }
 
-       static AppSvcCache Services => AppSvcCache.Instance;
+        static AppSvcCache Services => AppSvcCache.Instance;
 
         public static AsmFlowCmd AsmFlowCmd(this IWfRuntime wf)
            => Services.AsmFlowCmd(wf);
 
-        public static IApiSpecs ApiSpecsCmd(this IWfRuntime wf)
-            => Services.ApiSpecsCmd(wf);
-
         public static XedToolCmd XedToolCmd(this IWfRuntime wf)
             => Services.XedToolCmd(wf);
-
-        public static CodeCmd CodeCmd(this IWfRuntime wf)
-            => Services.CodeCmd(wf);
 
         public static NasmCatalog NasmCatalog(this IWfRuntime wf)
             => Services.NasmCatalog(wf);

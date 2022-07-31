@@ -26,13 +26,15 @@ namespace Z0
              log.Deposit(emitted);
         }
 
-        public static void emit<T>(ReadOnlySpan<T> src, ITextEmitter dst, TextEncodingKind encoding = TextEncodingKind.Asci, ushort rowpad = 0, RecordFormatKind fk = RecordFormatKind.Tablular, string delimiter = Tables.DefaultDelimiter)
-            where T : struct
+        public static void emit<T>(ReadOnlySpan<T> rows, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci,
+            ushort rowpad = 0, RecordFormatKind fk = RecordFormatKind.Tablular)
+                where T : struct
         {
-            var formatter = RecordFormatters.create<T>(rowpad, fk, delimiter);
-            dst.WriteLine(formatter.FormatHeader());
-            for(var i=0; i<src.Length; i++)
-                dst.WriteLine(formatter.Format(skip(src,i)));
+            var formatter = RecordFormatters.create(typeof(T), rowpad, fk);
+            using var writer = dst.Writer(encoding);
+            writer.WriteLine(formatter.FormatHeader());
+            for(var i=0; i<rows.Length; i++)
+                writer.WriteLine(formatter.Format(skip(rows,i)));
         }
 
         [Op, Closures(Closure)]

@@ -55,14 +55,6 @@ namespace Z0
         {            
             using var dispenser = Dispense.composite();
             var hosts = Run(dispenser);
-            // using var hosts = Capture(Dispense.composite());
-            // var members = ClrJit.members(hosts.SelectMany(x => x.Resolved.Members).Where(x => x != null).Array());
-            // var rebased = catalog(members);
-            // Emitter.TableEmit(rebased, Target.Table<ApiCatalogEntry>(), UTF8);
-            // ApiMd.EmitDatasets(Target);
-            // CliEmitter.Emit(CliEmitOptions.@default(), Target);
-            // Runtime.EmitContext(Target);
-            // ApiPacks.Link(Target);
         }
 
         public HostCollection Run(ICompositeDispenser dispenser)
@@ -75,6 +67,7 @@ namespace Z0
             CliEmitter.Emit(CliEmitOptions.@default(), Target);
             Runtime.EmitContext(Target);
             ApiPacks.Link(Target);
+            CheckReloaded(EventTarget);
             return hosts;
         }
 
@@ -129,6 +122,21 @@ namespace Z0
                     writer.AppendLine(asm);
                 }
                 Emitter.EmittedFile(flow, AppMsg.EmittedBytes.Capture(size,path));
+            }
+        }
+
+        void CheckHeaps1(IApiPack src)
+        {
+            var files = ApiPartFiles.create(src, PartId.Assets);
+        }
+
+        void CheckAssets2()
+        {
+            var src = TextAssets.strings(typeof(AsciText));
+            for(var i=0; i<src.Count; i++)
+            {
+                ref readonly var res = ref src[i];
+             
             }
         }
 
@@ -216,7 +224,6 @@ namespace Z0
 
             Require.equal((ByteSize)size, src.CodeSize);
         }
-
 
         void PackHex(FS.FolderPath src, ApiHostUri host)
         {

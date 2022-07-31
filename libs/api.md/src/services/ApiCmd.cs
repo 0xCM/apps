@@ -74,6 +74,10 @@ namespace Z0
         void EmitApiTokens()
             => ApiMd.Emitter().EmitApiTokens();
 
+        [CmdOp("api/emit/types")]
+        void EmitDataTypes()
+            => ApiMd.Emitter().EmitDataTypes();
+            
         [CmdOp("api/emit/impls")]
         void EmitImplMaps()
         {

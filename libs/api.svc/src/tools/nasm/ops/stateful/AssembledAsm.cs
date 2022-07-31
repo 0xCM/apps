@@ -20,7 +20,7 @@ namespace Z0.Asm
 
         public AsmExpr Asm;
 
-        public BinaryCode Encoded;
+        public AsmHexCode Encoded;
 
         public TextBlock Bitstring;
     }
