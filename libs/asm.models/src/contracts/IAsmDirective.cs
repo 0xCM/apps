@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IAsmDirective : IAsmSourcePart, INullity
+    public interface IAsmDirective : IAsmSourcePart
     {
         text15 Name {get;}
 

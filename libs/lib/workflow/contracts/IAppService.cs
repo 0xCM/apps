@@ -7,15 +7,11 @@ namespace Z0
     [Free]
     public interface IAppService : IService, IDisposable
     {
-        //EnvData Env {get;}
-
         IWfRuntime Wf {get;}
 
         T Service<T>(Func<T> factory);
 
         IWfMsg WfMsg {get;}
-
-        IWfEmitters WfEmit {get;}
 
         void Init(IWfRuntime wf);
 

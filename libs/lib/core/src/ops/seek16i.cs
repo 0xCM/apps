@@ -11,9 +11,5 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static ref short seek16i<T>(in T src, ulong count)
             => ref Add(ref As<T,short>(ref edit(src)), (int)count);
-
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static ref short seek16i<T>(Span<T> src, ulong count)
-            => ref Add(ref As<T,short>(ref first(src)), (int)count);
     }
 }

@@ -92,5 +92,13 @@ namespace Z0
             Write(d);
             return ref Target;
         }
+
+        [MethodImpl(Inline), Op]
+        public static void encode(Hex8 a0, Imm8 a1, AsmHexWriter dst)
+            => dst.Write(a0,a1);
+
+        [MethodImpl(Inline), Op]
+        public static void encode(RexPrefix a0, Hex8 a1, Imm64 a2, AsmHexWriter dst)
+            => dst.Write(a0,a1,a2);
     }
 }

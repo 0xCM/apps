@@ -4,10 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
 
     partial class ApiCode
     {
+        [Op]
         public static ReadOnlySpan<MemberCodeBlock> filter(ReadOnlySpan<MemberCodeBlock> src, ApiClassKind kind)
         {
             var count = src.Length;

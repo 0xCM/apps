@@ -34,7 +34,7 @@ namespace Z0
                 result = DataParser.parse(data[j++], out dst.BlockName);
                 result = DataParser.parse(data[j++], out dst.IP);
                 result = DataParser.parse(data[j++], out dst.Size);
-                result = AsmHexCode.parse(data[j++].View, out dst.Encoded);
+                result = ApiNative.parse(data[j++].View, out dst.Encoded);
                 dst.Asm = text.trim(data[j++].Text);
                 result = AsmInlineComment.parse(data[j++].View, out dst.Comment);
                 result = DataParser.parse(data[j++], out dst.Source);

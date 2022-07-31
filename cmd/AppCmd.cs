@@ -36,6 +36,7 @@ namespace Z0
                 wf.CalcChecker(),
                 wf.TestCmd(),
                 wf.GenCmd(),
+                wf.CgChecks()
                 };
 
         public static AppCmd commands(IWfRuntime wf)

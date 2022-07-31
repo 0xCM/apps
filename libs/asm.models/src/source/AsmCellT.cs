@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct AsmCell<T> : IAsmSourcePart
+    public readonly record struct AsmCell<T> : IAsmSourcePart
     {
         /// <summary>
         /// The content origin
@@ -24,6 +24,18 @@ namespace Z0
             Location = loc;
             Content = data;
             PartKind = kind;
+        }
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => PartKind == 0;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => PartKind != 0;
         }
 
         public string Format()

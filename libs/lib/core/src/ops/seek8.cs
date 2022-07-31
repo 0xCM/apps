@@ -16,10 +16,6 @@ namespace Z0
         public static ref byte seek8<T>(in T src, ulong count)
             => ref add(@as<T,byte>(edit(src)), (int)count);
 
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static ref byte seek8<T>(Span<T> src, ulong count)
-            => ref Add(ref As<T,byte>(ref first(src)), (int)count);
-
         [MethodImpl(Inline)]
         public static ref T seek8k<T,K>(in T src, K count)
             where K : unmanaged

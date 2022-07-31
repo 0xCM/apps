@@ -14,7 +14,7 @@ namespace Z0
         readonly Index<ApiMember> Data;
 
         [MethodImpl(Inline)]
-        internal ApiMembers(MemoryAddress @base, Index<ApiMember> src)
+        public ApiMembers(MemoryAddress @base, Index<ApiMember> src)
         {
             BaseAddress = @base;
             Data = src;

@@ -9,36 +9,42 @@ namespace Z0
 
     partial class ApiCode
     {
+        [Op]
         public static ApiMemberCode load(IApiPack src, PartId part, IWfEventTarget log)
         {
             load(src, part, log, out var seq, out var code);
             return members(Dispense.composite(), seq, code);
         }
 
+        [Op]
         public static ApiMemberCode load(IApiPack src, ICompositeDispenser symbols, ApiHostUri host, IWfEventTarget log)
         {
             load(src, host, log, out var seq, out var code);
             return members(symbols, seq, code);
         }
 
+        [Op]
         public static ApiMemberCode load(IApiPack src, ICompositeDispenser symbols, PartId part, IWfEventTarget log)
         {
             load(src, part, log, out var seq, out var code);
             return members(symbols, seq, code);
         }
 
-        static void load(IApiPack src, ApiHostUri host, IWfEventTarget log, out Seq<EncodedMember> index, out BinaryCode data)
+        [Op]
+        public static void load(IApiPack src, ApiHostUri host, IWfEventTarget log, out Seq<EncodedMember> index, out BinaryCode data)
         {
             hex(src.HexExtractPath(host), out data).Require();
             parse(src.CsvExtractPath(host), out index).Require();
         }
 
-        static void load(IApiPack src, PartId part, IWfEventTarget log, out Seq<EncodedMember> index, out BinaryCode data)
+        [Op]
+        public static void load(IApiPack src, PartId part, IWfEventTarget log, out Seq<EncodedMember> index, out BinaryCode data)
         {
-            index = LoadMember(src, part, log);
-            data = LoadCode(src, part, log);
+            index = member(src, part, log);
+            data = code(src, part, log);
         }
 
+        [Op]
         static ApiMemberCode members(ICompositeDispenser symbols, Index<EncodedMember> src, BinaryCode code)
         {
             var dst = new ApiMemberCode.EncodingData();
@@ -67,6 +73,32 @@ namespace Z0
             dst.Offsets = offsets;
             dst.Tokens = tokens;
             return ApiMemberCode.own(dst);
+        }
+
+        [Op]
+        static Seq<EncodedMember> member(IApiPack src, PartId part, IWfEventTarget log)
+        {
+            var dst = Seq<EncodedMember>.Empty;
+            var result = parse(src.CsvExtractPath(part), out dst);
+            if(result.Fail)
+            {
+                log.Deposit(Events.warn(log.Host, result.Message));
+                Errors.Throw($"{part.Format()} member load failure");
+            }
+            return dst;
+        }
+
+        [Op]
+        static BinaryCode code(IApiPack src, PartId part, IWfEventTarget log)
+        {
+            var dst = BinaryCode.Empty;
+            var result = hex(src.HexExtractPath(part), out dst);
+            if(result.Fail)
+            {
+                log.Deposit(Events.error(log.Host, result.Message));
+                Errors.Throw(result.Message);
+            }
+            return dst;
         }
     }
 }

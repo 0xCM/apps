@@ -55,17 +55,6 @@ namespace Z0
         public Seq<T> Reverse()
             => new Seq<T>(Data.Reverse());
 
-        // [MethodImpl(Inline)]
-        // public T[] ToArray()
-        //     => Data;
-
-        public S Sort()
-        {
-            if(Count != 0)
-                Array.Sort(Data);
-            return (S)this;
-        }
-
         public new Span<T>.Enumerator GetEnumerator()
             => Edit.GetEnumerator();
 

@@ -373,7 +373,7 @@ namespace Z0
             dst.AppendLineFormat(RenderPattern, nameof(src.Props.InstForm), src.Props.InstForm);
             dst.AppendLineFormat(RenderPattern, nameof(src.Asm.Category), src.Asm.Category);
             dst.AppendLineFormat(RenderPattern, nameof(src.Asm.Extension), src.Asm.Extension);
-            dst.AppendLineFormat(RenderPattern, nameof(src.Encoding.Offsets), src.Encoding.Offsets.Format());
+            dst.AppendLineFormat(RenderPattern, nameof(src.Encoding.Offsets), AsmRender.format(src.Encoding.Offsets));
             dst.AppendLineFormat(RenderPattern, nameof(src.Encoding.OpCode), XedRender.format(src.Encoding.OpCode));
             if(src.Encoding.ModRm.IsNonZero)
                 dst.AppendLineFormat(RenderPattern, nameof(src.Encoding.ModRm), src.Encoding.ModRm);
@@ -545,28 +545,6 @@ namespace Z0
                     dst.AppendFormat("{0}| ", d);
             }
 
-            return dst.Emit();
-        }
-
-        public static string format(in EncodingOffsets src)
-        {
-            if(src.IsEmpty)
-                return EmptyString;
-
-            var dst = text.buffer();
-            dst.Append(Chars.LBrace);
-            dst.AppendFormat("{0}={1}", "opcode", src.OpCode);
-            if(src.ModRm > 0)
-                dst.AppendFormat(", {0}={1}", "modrm", src.ModRm);
-            if(src.Sib > 0)
-                dst.AppendFormat(", {0}={1}", "sib",  src.Sib);
-            if(src.Disp > 0)
-                dst.AppendFormat(", {0}={1}", "disp", src.Disp);
-            if(src.Imm0 > 0)
-                dst.AppendFormat(", {0}={1}", "imm0", src.Imm0);
-            if(src.Imm1 > 0)
-                dst.AppendFormat(", {0}={1}", "imm1", src.Imm1);
-            dst.Append(Chars.RBrace);
             return dst.Emit();
         }
 

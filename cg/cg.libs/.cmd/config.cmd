@@ -1,4 +1,3 @@
-set WsArea=cg
-set WsId=cg.libs
+set Area=cg
 set ProjectId=cg.libs
-call %~dp0..\..\..\.cmd\config.cmd
+call %DevRoot%\dev\z0\.cmd\config.cmd

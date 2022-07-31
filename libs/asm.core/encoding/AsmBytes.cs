@@ -4,11 +4,30 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using static core;
+    using static Spans;
+    using static Arrays;
+    using static Algs;
 
     [ApiHost]
     public class AsmBytes
     {
+        const NumericKind Closure = UnsignedInts;
+
+        [MethodImpl(Inline), Op]
+        public static void pack(in EncodingOffsets src, Span<byte> dst)
+        {
+            var offsets = @readonly(bytes(src));
+            Bitfields.pack4x4(
+                skip(offsets,0),
+                skip(offsets,1),
+                skip(offsets,2),
+                skip(offsets,3),
+                ref seek16(dst,0)
+                );
+
+            Bitfields.pack4x2(skip(offsets,4), skip(offsets,5), ref seek(dst,4));
+        }
+         
         public static string format<T>(T src)
             where T : unmanaged, IAsmByte
                 => src.IsEmpty ? EmptyString : src.Value().FormatHex(zpad:true, specifier:true, uppercase:true);
@@ -86,7 +105,6 @@ namespace Z0.Asm
             return m;
         }
 
-
         public static uint modrm(ModRm src, ref uint i, Span<char> dst)
         {
             const string FieldSep = " | ";
@@ -135,7 +153,7 @@ namespace Z0.Asm
         public static Index<SibRegCodes> SibRegCodes()
         {
             var count = 256*4;
-            var dst = alloc<SibRegCodes>(count);
+            var dst = sys.alloc<SibRegCodes>(count);
             var offset = 0u;
             offset += SibRegCodes(RegClassCode.GP, NativeSizeCode.W8, offset, dst);
             offset += SibRegCodes(RegClassCode.GP, NativeSizeCode.W16, offset, dst);
@@ -146,7 +164,7 @@ namespace Z0.Asm
 
         public static Index<SibBitfieldRow> SibRows()
         {
-            var buffer = alloc<SibBitfieldRow>(256);
+            var buffer = sys.alloc<SibBitfieldRow>(256);
             var f0 = BitSeq.bits(n3);
             var f1 = BitSeq.bits(n3);
             var f2 = BitSeq.bits(n2);
@@ -174,7 +192,7 @@ namespace Z0.Asm
 
         public static Index<SibRegCodes> SibRegCodes(RegClassCode @class, NativeSize size)
         {
-            var buffer = alloc<SibRegCodes>(256);
+            var buffer = sys.alloc<SibRegCodes>(256);
             SibRegCodes(@class,size,0,buffer);
             return buffer;
         }
@@ -229,11 +247,9 @@ namespace Z0.Asm
         public static BinaryCode code(in CodeBlock src, uint offset, byte size)
             => core.slice(src.View, offset, size).ToArray();
 
-        const NumericKind Closure = UnsignedInts;
-
         [Op]
         public static string bitstring(in AsmHexCode src)
-            => asm.bitstring(src);
+            => ApiNative.bitstring(src);
 
         [MethodImpl(Inline), Op]
         public static void encode(RexPrefix a0, Hex8 a1, Imm64 a2, AsmHexWriter dst)

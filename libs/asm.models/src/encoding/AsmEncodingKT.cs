@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using static core;
+    using static Algs;
+    using static Spans;
 
     public readonly struct AsmEncoding<K,T> : IAsmEncoding<K,T>
         where T : unmanaged, IStorageBlock<T>
@@ -19,6 +20,18 @@ namespace Z0.Asm
         {
             Kind = id;
             Data = data;
+        }
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => EncodingSize == 0;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => EncodingSize != 0;
         }
 
         public byte BufferSize

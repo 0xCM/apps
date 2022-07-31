@@ -16,14 +16,6 @@ namespace Z0
         public static ref readonly ushort skip16<T>(in T src, ulong count)
             => ref Add(ref As<T,ushort>(ref edit(src)), (int)count);
 
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static ref readonly ushort skip16<T>(ReadOnlySpan<T> src, long count)
-           => ref Add(ref As<T,ushort>(ref edit(first(src))), (int)count);
-
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static ref readonly ushort skip16<T>(ReadOnlySpan<T> src, ulong count)
-           => ref Add(ref As<T,ushort>(ref edit(first(src))), (int)count);
-
         [MethodImpl(Inline)]
         public static ref readonly T skip16k<T,K>(in T src, K count)
             where K : unmanaged

@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using static core;
-
     [ApiHost]
     public partial class AsmCases
     {
@@ -16,7 +14,7 @@ namespace Z0.Asm
             dst.Seq = seq;
             dst.Mnemonic = monic;
             SdmOpCodes.parse(oc.Format(), out dst.OpCode);
-            AsmHexCode.parse(encoding.Format(), out dst.Encoding);
+            ApiNative.parse(encoding.Format(), out dst.Encoding);
             AsmSigs.parse(sig.Format(), out dst.Sig);
             dst.Asm = statement.Format();
             return dst;

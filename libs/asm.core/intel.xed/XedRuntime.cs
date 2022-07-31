@@ -209,14 +209,14 @@ namespace Z0
             iter(formatter.GroupFormats(src), x => Emit(x), PllExec);
         }
 
-        void Emit(in InstIsaFormat src)
+        new void Emit(in InstIsaFormat src)
         {
             var dst = Paths.InstPagePath(src.Isa);
             Require.invariant(!dst.Exists);
             FileEmit(src.Content, src.LineCount, dst, TextEncodingKind.Asci);
         }
 
-        void Emit(ReadOnlySpan<FieldDef> src)
+        new void Emit(ReadOnlySpan<FieldDef> src)
             => TableEmit(src, Paths.Table<FieldDef>());
 
         void EmitRegmaps()

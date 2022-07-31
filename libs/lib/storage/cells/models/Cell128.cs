@@ -167,6 +167,12 @@ namespace Z0
         public bool Equals(Vector128<ulong> src)
             => Data.Equals(src);
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Data.GetHashCode();
+        }
+
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
@@ -195,7 +201,7 @@ namespace Z0
             => Format();
 
         public override int GetHashCode()
-            => Data.GetHashCode();
+            => Hash;
 
         public override bool Equals(object src)
             => src is Cell128 x && Equals(x);

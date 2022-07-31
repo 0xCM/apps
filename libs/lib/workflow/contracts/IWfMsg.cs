@@ -75,11 +75,6 @@ namespace Z0
         ExecToken Ran<T>(WfExecFlow<T> flow, [CallerName] string msg = null)
             => Wf.Ran(HostType, flow.WithMsg(msg));
 
-        ExecToken Ran<T>(WfExecFlow<T> flow, string msg, FlairKind flair = FlairKind.Ran)
-            => Wf.Ran(HostType, flow.WithMsg(msg), flair);
-
-        ExecToken Ran<T,D>(WfExecFlow<T> src, D data, FlairKind flair = FlairKind.Ran)
-            => Wf.Ran(src, data, flair);
 
         WfFileWritten EmittingFile(FS.FilePath dst)
             => Wf.EmittingFile(HostType, dst);

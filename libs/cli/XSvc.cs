@@ -4,6 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Z0.Roslyn;
+
+    using R = Z0.Roslyn.Roslyn;
+
     public static class XSvc
     {
         sealed class Svc : AppServices<Svc>
@@ -20,12 +24,11 @@ namespace Z0
             public CliCmd CliCmd(IWfRuntime wf)
                 => Service<CliCmd>(wf);
 
-            public RoslnCmd SourceSymbolic(IWfRuntime wf)
+            public RoslnCmd RoslynCmd(IWfRuntime wf)
                 => Service<RoslnCmd>(wf);
 
-            public Roslyn Roslyn(IWfRuntime wf)
-                => Service<Roslyn>(wf);
-
+            public R Roslyn(IWfRuntime wf)
+                => Service<R>(wf);
         }
 
         static Svc Services => Svc.Instance;
@@ -42,10 +45,10 @@ namespace Z0
         public static CliCmd CliCmd(this IWfRuntime wf)
             => Services.CliCmd(wf);
 
-        public static Roslyn Roslyn(this IWfRuntime wf)
+        public static R Roslyn(this IWfRuntime wf)
             => Services.Roslyn(wf);
 
         public static RoslnCmd RoslynCmd(this IWfRuntime wf)
-            => Services.SourceSymbolic(wf);            
+            => Services.RoslynCmd(wf);            
     }
 }

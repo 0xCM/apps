@@ -5,10 +5,13 @@
     <TargetFramework>$(FrameworkMoniker)</TargetFramework>
   </PropertyGroup>
 
+  <Import Project="$(ImportDefs)usings.props"/>
+
   <ItemGroup>
     <ProjectReference Include="$(CgCommon)" />
     <ProjectReference Include="$(CgIntel)" />
     <ProjectReference Include="$(CgLlvm)" />
+    <ProjectReference Include="$(AsmCore)" />
   </ItemGroup>
 
 </Project>

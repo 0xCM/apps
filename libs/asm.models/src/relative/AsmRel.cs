@@ -86,11 +86,11 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static Disp32 disp32(ReadOnlySpan<byte> encoding)
         {
-            var storage = ByteBlock4.Empty;
-            var buffer = storage.Bytes;
-            ref var dst = ref @as<Disp32>(buffer);
-            dst = @as<Disp32>(slice(encoding,1,4));
-            return dst;
+            //var storage = ByteBlock4.Empty;
+            //var buffer = storage.Bytes;
+            //ref var dst = ref @as<Disp32>(buffer);
+            return @as<Disp32>(slice(encoding,1,4));
+            //return dst;
         }
 
         [MethodImpl(Inline), Op]

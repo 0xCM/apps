@@ -12,7 +12,7 @@ namespace Z0
     {
         MsilPipe IlPipe => Wf.MsilSvc();
 
-        ApiCode ApiCode => Wf.ApiCode();
+        ApiCodeSvc ApiCode => Wf.ApiCode();
 
         HostAsmEmitter HostEmitter => Wf.HostAsmEmitter();
 

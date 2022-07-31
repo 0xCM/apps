@@ -96,6 +96,19 @@ namespace Z0.Asm
         public override string ToString()
             => Format();
 
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => OpCount == 0;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => OpCount != 0;
+        }
+
+
         public static AsmOperands Empty => default;
     }
 }

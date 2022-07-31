@@ -70,7 +70,7 @@ namespace Z0.Asm
 
                 if(Fenced.unfence(A, OpCodeFence, out var opcode))
                 {
-                    if(AsmHexCode.parse(B, out var encoded))
+                    if(ApiNative.parse(B, out var encoded))
                     {
                         thumbprint = new AsmThumbprint(statement, sig, opcode, encoded);
                         return true;

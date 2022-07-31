@@ -41,6 +41,18 @@ namespace Z0
             get => AsmCellKind.OffsetLabel;
         }
 
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Data == 0;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Data != 0;
+        }
+
         public ulong OffsetValue
         {
             [MethodImpl(Inline)]

@@ -12,7 +12,7 @@ namespace Z0
     {
         AsmDecoder AsmDecoder => Wf.AsmDecoder();
 
-        ApiCode ApiCode => Wf.ApiCode();
+        ApiCodeSvc ApiCode => Wf.ApiCode();
 
         void CheckHex()
         {

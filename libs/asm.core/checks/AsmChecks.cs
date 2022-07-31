@@ -14,8 +14,6 @@ namespace Z0
     [ApiHost]
     public partial class AsmCheckCmd : CheckCmd<AsmCheckCmd>
     {
-        ApiCode ApiCode => Wf.ApiCode();
-
         [CmdOp("asm/check/tokens")]
         void CheckOcTokens()
         {
@@ -79,7 +77,7 @@ namespace Z0
         }
 
         [CmdOp("asm/check/specs")]
-        public Outcome CheckAsmSpecs(CmdArgs args)
+        void CheckAsmSpecs()
         {
             const string Oc0 = "81 /4 id";
             const string Oc1 = "REX.W + 05 id";
@@ -90,14 +88,6 @@ namespace Z0
             var opcode = SdmOpCode.Empty;
             var result = SdmOpCodes.parse(Oc0, out opcode);
             Write($"{Oc0} -> {opcode}");
-
-            // if(result)
-            //     Write(Require.equal(oc0.Format(), Oc0));
-
-            // result = OpCodes.Parse(Oc1, out var oc1);
-            // if(result)
-            //     Write(Require.equal(oc1.Format(), Oc1));
-            return result;
         }
 
         [CmdOp("asm/check/jmp")]
@@ -181,7 +171,7 @@ namespace Z0
             var dx0 = AsmRel.disp32((ip0, sz), @return);
 
             var code0 = JmpRel32.encode((ip0,sz), @return);
-            var code1 = AsmHexCode.parse("e9 58 10 00 00");
+            var code1 = ApiNative.asmhex("e9 58 10 00 00");
 
             if(!code0.Equals(code1))
                 Error(string.Format("{0} != {1}", code1, code0));
@@ -190,7 +180,7 @@ namespace Z0
             var ip1 = @base + label1;
             var dx1 = AsmRel.disp32((ip1,sz), @return);
             var actual1 = JmpRel32.encode((ip1,sz), @return);
-            var expect1 = AsmHexCode.parse("e9 4d 10 00 00");
+            var expect1 = ApiNative.asmhex("e9 4d 10 00 00");
             if(!actual1.Equals(expect1))
                 Error(string.Format("{0} != {1}", expect1, actual1));
 
@@ -198,7 +188,7 @@ namespace Z0
             var ip2 = @base + label2;
             var dx2 = AsmRel.disp32((ip2,sz), @return);
             var actual2 = JmpRel32.encode((ip2,sz), @return);
-            var expect2 = AsmHexCode.parse("e9 42 10 00 00");
+            var expect2 = ApiNative.asmhex("e9 42 10 00 00");
             if(!actual2.Equals(expect2))
                 Error(string.Format("{0} != {1}", expect2, actual2));
 
@@ -206,7 +196,7 @@ namespace Z0
             var ip3 = @base + label3;
             var dx3 = AsmRel.disp32((ip3,sz), @return);
             var actual3 = JmpRel32.encode((ip3,sz), @return);
-            var expect3 = AsmHexCode.parse("e9 37 10 00 00");
+            var expect3 = ApiNative.asmhex("e9 37 10 00 00");
             if(!actual3.Equals(expect3))
                 Error(string.Format("{0} != {1}", expect3, actual3));
         }
@@ -245,7 +235,7 @@ namespace Z0
         }
 
         [CmdOp("asm/check/hex")]
-        unsafe Outcome CheckHexPack(CmdArgs args)
+        unsafe Outcome CheckHex(CmdArgs args)
         {
             const string DataSource = "38D10F9FC00FB6C0C338D10F97C00FB6C0C36639D10F9FC00FB6C0C36639D10F97C00FB6C0C339D10F9FC00FB6C0C339D10F97C0C34839D10F9FC00FB6C0C34839D10F97C00FB6C0C3";
             var result = Outcome.Success;
@@ -315,7 +305,7 @@ namespace Z0
             return (result, result ? "Pass" : "Fail");
         }
 
-        [CmdOp("asm/cases/emit")]
+        [CmdOp("asm/check/cases")]
         Outcome EmitAsmCases(CmdArgs args)
         {
             var src = AsmCases.mov();
@@ -323,7 +313,7 @@ namespace Z0
             return true;
         }
 
-        [CmdOp("asm/tokens/check")]
+        [CmdOp("asm/check/tokens")]
         void CheckAsmTokens()
         {
             AsmSigs.parse("adc r16, r16", out var sig);
@@ -359,14 +349,13 @@ namespace Z0
                     Write(sigTokens[j].Format());
                 }
             }
-
         }
 
-        public Outcome CheckStringRes()
+        [CmdOp("asm/check/res")]
+        void CheckStringRes()
         {
             var resources = TextAssets.strings(typeof(AsciText)).View;
-            var count = resources.Length;
-            return true;
+            iter(resources, r => Write(r.Format()));
         }
 
         [CmdOp("asm/check/calls")]
@@ -382,6 +371,7 @@ namespace Z0
                 var call = AsmRel.call(rip, (Disp32)Disp);
                 Write(call.Format());
             }
+
 
             void Check3()
             {
@@ -423,6 +413,7 @@ namespace Z0
             }
 
             Check1();
+            CheckAsmHexCode();
             Check3();
         }
 
@@ -460,7 +451,7 @@ namespace Z0
             return src.Passed;
         }
 
-        public Outcome CheckAsmHexCode()
+        void CheckAsmHexCode()
         {
             // 4080C416                add spl,22
             var buffer = span<char>(20);
@@ -468,8 +459,8 @@ namespace Z0
             var input2 = "4080C416";
             Hex.parse64u(input2, out var input3);
 
-            var code1 = AsmHexCode.parse(input1);
-            var code2 = AsmHexCode.parse(input2);
+            var code1 = ApiNative.asmhex(input1);
+            var code2 = ApiNative.asmhex(input2);
             var code3 = asm.asmhex(input3);
 
             var text1 = code1.Format();
@@ -482,17 +473,15 @@ namespace Z0
 
             var check1 = CheckEquality(text1,text2);
             if(check1.Fail)
-                return check1;
+               Error(check1.Message);
             else
                 Status(check1.Message);
 
             var check2 = CheckEquality(text1,text3);
             if(check2.Fail)
-                return check2;
+               Error(check2.Message);
             else
-                Status(check2.Message);
-
-            return check2;
+                Status(check2.Message);            
         }
 
         static Outcome CheckEquality(string a, string b)

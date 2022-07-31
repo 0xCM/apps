@@ -4,39 +4,81 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
+
     using static core;
 
     partial class ApiCode
     {
         const byte ZeroLimit = 10;
 
-        class ApiEncodings
+        protected static StatusEvent<T> write<T>(T msg, FlairKind flair = FlairKind.StatusData)
+            => Events.status(typeof(ApiCode), msg, flair);
+
+        protected static BabbleEvent<T> babble<T>(T msg)
+            => Events.babble(typeof(ApiCode), msg);
+
+        protected static StatusEvent<T> status<T>(T msg, FlairKind flair = FlairKind.Status)
+            => Events.status(typeof(ApiCode), msg, flair);
+
+        protected static WarnEvent<T> warn<T>(T msg)
+            => Events.warn(typeof(ApiCode), msg);
+
+        protected static ErrorEvent<string> error(Exception e, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
+            => Events.error(typeof(ApiCode), e, caller, file, line);
+
+        protected static ErrorEvent<T> error<T>(T msg, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
+            => Events.error(typeof(ApiCode), msg, Events.originate(typeof(ApiCode).Name,caller, file, line));
+
+        protected static RunningEvent<T> running<T>(T msg)
+            => Events.running(typeof(ApiCode), msg);
+
+        protected static RanEvent<T> ran<T>(RunningEvent<T> src, T msg = default)
+            => Events.ran(src, msg);
+
+        protected static RanEvent<T> ran<T>(T msg)
+            => Events.ran(typeof(ApiCode), msg);
+
+        static ConcurrentDictionary<ApiToken,ApiEncoded> parse(ReadOnlySpan<RawMemberCode> src, IWfEventTarget log)
         {
-            readonly ConcurrentDictionary<uint,ApiEncoded> Data;
-
-            public ApiEncodings()
+            var count = src.Length;
+            var buffer = span<byte>(Pow2.T16);
+            var host = ApiHostUri.Empty;
+            var dst = dict<ApiHostUri,CollectedCodeExtracts>();
+            var max = ByteSize.Zero;
+            for(var i=0; i<count; i++)
             {
-                Data = new();
+                buffer.Clear();
+                var extracted = CollectedCodeExtract.Empty;
+                var extracts = CollectedCodeExtracts.Empty;
+                ref readonly var raw = ref skip(src,i);
+                var result = ApiCode.gather(raw, buffer, out extracted);
+                if(result.Fail)
+                {
+                    Errors.Throw($"StubCodeMismatch:{result.Message}");
+                }
+                else
+                {
+                    ref readonly var uri = ref raw.Uri;
+                    if(uri.Host != host)
+                        host = uri.Host;
+
+                    if(dst.TryGetValue(host, out extracts))
+                        extracts.Include(extracted);
+                    else
+                        dst[host] = new CollectedCodeExtracts(extracted);
+                }
             }
 
-            public bool Include(in ApiEncoded src)
-                => Data.TryAdd(src.Token.EntryId,src);
+            return parse(dst, log);
+        }
 
-            public Index<ApiEncoded> Emit(bool clear = true)
-            {
-                var members = Data.Values.Array();
-                if(clear)
-                    Data.Clear();
-                return members;
-            }
-        }    
-        
-        static ApiEncodings parse(Dictionary<ApiHostUri,CollectedCodeExtracts> src, IWfEventTarget log)
+        static ConcurrentDictionary<ApiToken,ApiEncoded> parse(Dictionary<ApiHostUri,CollectedCodeExtracts> src, IWfEventTarget log)
         {
             log.Deposit(running(Msg.ParsingHosts.Format(src.Count)));
             var buffer = sys.alloc<byte>(Pow2.T14);
             var parser = ApiCode.parser(buffer);
-            var dst = new ApiEncodings();
+            var dst = new ConcurrentDictionary<ApiToken,ApiEncoded>();
             var counter = 0u;
             foreach(var host in src.Keys)
             {
@@ -45,8 +87,10 @@ namespace Z0
                 foreach(var extract in extracts)
                 {
                     parser.Parse(extract.TargetExtract);
-                    dst.Include(new ApiEncoded(extract.Token, parser.Parsed));
-                    counter++;
+                    if(!dst.TryAdd(extract.Token,new ApiEncoded(extract.Token, parser.Parsed)))
+                        log.Deposit(Events.warn(log.Host,$"Duplicate:{extract.Token}"));
+                    else
+                        counter++;
                 }
                 log.Deposit(ran(Msg.ParsedHostMembers.Format(extracts.Count, host)));
             }

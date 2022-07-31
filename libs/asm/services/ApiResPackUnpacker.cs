@@ -10,7 +10,7 @@ namespace Z0.Asm
     {
         ApiResProvider ApiResProvider => Service(Wf.ApiResProvider);
 
-        ApiCode ApiCode => Wf.ApiCode();
+        ApiCodeSvc ApiCode => Wf.ApiCode();
 
         public ReadOnlySpan<MemorySeg> Emit(FS.FolderPath dst)
         {

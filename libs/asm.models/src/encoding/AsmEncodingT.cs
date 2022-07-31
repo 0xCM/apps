@@ -17,6 +17,18 @@ namespace Z0.Asm
             Data = data;
         }
 
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => EncodingSize == 0;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => EncodingSize != 0;
+        }
+
         public byte BufferSize
         {
             [MethodImpl(Inline)]

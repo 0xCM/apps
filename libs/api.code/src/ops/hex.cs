@@ -8,6 +8,7 @@ namespace Z0
 
     partial class ApiCode
     {
+        [Op]
         public static ByteSize hex(ReadOnlySeq<ApiEncoded> src, FS.FilePath dst)
         {
             var options = HexFormatter.options();
@@ -23,6 +24,7 @@ namespace Z0
             return size;
         }
 
+        [Op]
         public static Outcome hex(FS.FilePath src, out BinaryCode dst)
         {
             var result = Outcome.Success;

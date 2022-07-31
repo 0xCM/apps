@@ -12,8 +12,9 @@ namespace Z0
 
         ICmdActions Commands {get;}
 
-        PartName Controller => ExecutingPart.Id;
-
         ref readonly asci32 ProviderName {get;}
+
+        PartName Controller 
+            => ExecutingPart.Id;
     }
 }

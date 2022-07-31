@@ -219,7 +219,7 @@ namespace Z0.Asm
             EmitRecords(src,dst);
         }
 
-        void Emit(ReadOnlySpan<CpuIdRow> src)
+        new void Emit(ReadOnlySpan<CpuIdRow> src)
         {
             EmitRows(src);
             EmitBits(src);

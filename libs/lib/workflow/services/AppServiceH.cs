@@ -94,16 +94,10 @@ namespace Z0
 
         public EnvData Env => default;
 
-        public IWfEmitters WfEmit {get; private set;}
-
-        public virtual Type ContractType
-            => typeof(H);
-
         protected Type HostType
             => typeof(H);
 
         FS.Files _Files;
-
 
         public IWfMsg WfMsg {get; private set;}
 
@@ -111,7 +105,6 @@ namespace Z0
         {
             Wf = wf;
             WfMsg = new WfMsgSvc(Wf, EffectiveHost, Env);
-            WfEmit = new WfEmitters(Wf, EffectiveHost, Env);
             var flow = WfMsg.Creating(EffectiveHost);
             OnInit();
             Initialized();
@@ -193,8 +186,8 @@ namespace Z0
             where T : struct
                 => WfMsg.EmittedTable(flow,count, dst);
 
-        protected void FileEmit(string src, Count count, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Utf8)
-            => WfEmit.FileEmit(src, count, dst, encoding);
+        // protected void FileEmit(string src, Count count, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Utf8)
+        //     => WfEmit.FileEmit(src, count, dst, encoding);
 
         protected WfEventLogger EventLogger
             => x => WfMsg.Raise(x);

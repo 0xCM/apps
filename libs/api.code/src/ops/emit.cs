@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class ApiCode : WfSvc<ApiCode>
+    partial class ApiCode
     {
         [Op]
         public static ByteSize emit(in MemoryBlock src, FS.FilePath dst)

@@ -443,7 +443,7 @@ namespace Z0
                 if(xi > 0)
                 {
                     var enc = text.right(body,xi + EncodingMarker.Length + 1);
-                    if(AsmHexCode.parse(enc, out var encoding))
+                    if(ApiNative.parse(enc, out var encoding))
                     {
                         record.Encoded = encoding;
                         ip += encoding.Size;
@@ -514,7 +514,7 @@ namespace Z0
                     continue;
                 }
 
-                result = AsmHexCode.parse(hex, out dst.Encoded);
+                result = ApiNative.parse(hex, out dst.Encoded);
                 if(result.Fail)
                 {
                     result = (false, string.Format("Line {0}, field {1}", line.LineNumber, nameof(dst.Encoded)));

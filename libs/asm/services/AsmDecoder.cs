@@ -7,9 +7,6 @@ namespace Z0.Asm
     using static core;
 
     using Iced = Iced.Intel;
-    using Caller = System.Runtime.CompilerServices.CallerMemberNameAttribute;
-    using File = System.Runtime.CompilerServices.CallerFilePathAttribute;
-    using Line = System.Runtime.CompilerServices.CallerLineNumberAttribute;
 
     public class AsmDecoder : WfSvc<AsmDecoder>
     {

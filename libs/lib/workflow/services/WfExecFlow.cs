@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public struct WfExecFlow : IDisposable
     {
         readonly IWfRuntime Wf;
@@ -43,7 +38,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        internal WfExecFlow<string> WithMsg(string  msg)
+        public WfExecFlow<string> WithMsg(string  msg)
             => new WfExecFlow<string>(Wf, msg, Token);
 
         public void Dispose()

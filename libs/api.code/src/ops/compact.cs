@@ -4,10 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Arrays;
 
     partial class ApiCode
     {
+        [Op]
         public static BinaryCode compact(uint size, Index<ApiEncoded> src)
         {
             var dst = sys.alloc<byte>(size);

@@ -26,7 +26,7 @@ namespace Z0
 
         static ServiceCache Services => ServiceCache.Instance;
 
-       public static GenCmd GenCmd(this IWfRuntime wf)
+        public static GenCmd GenCmd(this IWfRuntime wf)
             => Services.GenCmd(wf);
 
         public static ApiCapture ApiCapture(this IWfRuntime wf)

@@ -21,6 +21,18 @@ namespace Z0.Asm
             Offset = offset;
         }
 
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Asm.IsEmpty;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Asm.IsNonEmpty;
+        }
+
         public AsmOffsetLabel Label
         {
             [MethodImpl(Inline)]

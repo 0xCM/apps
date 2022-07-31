@@ -16,7 +16,11 @@ namespace Z0
 
         readonly IApiPack Target;
 
+        readonly IWfEventTarget EventTarget;
+
         public readonly CaptureSettings Settings;
+
+        readonly WfEmit Emitter;
 
         public CaptureWorkflow(IWfSvc svc, CaptureSettings settings)
         {
@@ -24,6 +28,8 @@ namespace Z0
             Wf = svc.Wf;
             Settings = settings;
             Target = ApiPacks.create();
+            EventTarget =  svc.Wf.EventLog;
+            Emitter = svc.Emitter;
         }
 
         CaptureSettings IRunnable<CaptureSettings>.Settings
@@ -33,63 +39,76 @@ namespace Z0
 
         IApiCatalog Catalog => ApiMd.Catalog;
 
+        AsmDecoder AsmDecoder => Wf.AsmDecoder();
+
+        ApiCodeSvc ApiCode => Wf.ApiCode();
+
+        AppDb AppDb => AppDb.Service;
+
         CliEmitter CliEmitter => Wf.CliEmitter();
 
         Runtime Runtime => Wf.Runtime();
 
         ApiPacks ApiPacks => Wf.ApiPacks();
 
-        AsmDecoder AsmDecoder => Wf.AsmDecoder();
-
-        ApiCode ApiCode => Wf.ApiCode();
-
-        AppDb AppDb => AppDb.Service;
-
-
         public void Run()
-        {
+        {            
             using var dispenser = Dispense.composite();
+            var hosts = Run(dispenser);
+            // using var hosts = Capture(Dispense.composite());
+            // var members = ClrJit.members(hosts.SelectMany(x => x.Resolved.Members).Where(x => x != null).Array());
+            // var rebased = catalog(members);
+            // Emitter.TableEmit(rebased, Target.Table<ApiCatalogEntry>(), UTF8);
+            // ApiMd.EmitDatasets(Target);
+            // CliEmitter.Emit(CliEmitOptions.@default(), Target);
+            // Runtime.EmitContext(Target);
+            // ApiPacks.Link(Target);
+        }
+
+        public HostCollection Run(ICompositeDispenser dispenser)
+        {
             var hosts = Capture(dispenser);
-            var members = ApiQuery.members(hosts.SelectMany(x => x.Resolved.Members).Where(x => x != null).Array());
+            var members = ClrJit.members(hosts.SelectMany(x => x.Resolved.Members).Where(x => x != null).Array());
             var rebased = catalog(members);
-            Svc.TableEmit(rebased, Target.Table<ApiCatalogEntry>(), UTF8);
+            Emitter.TableEmit(rebased, Target.Table<ApiCatalogEntry>(), UTF8);
             ApiMd.EmitDatasets(Target);
             CliEmitter.Emit(CliEmitOptions.@default(), Target);
             Runtime.EmitContext(Target);
             ApiPacks.Link(Target);
-        }
-
-        public CollectedHosts Capture(ICompositeDispenser dispenser)
-        {
-            RedirectEmissions();
-            return Capture(Catalog, dispenser);
+            return hosts;
         }
 
         void RedirectEmissions()
             => Wf.RedirectEmissions(Loggers.emission(ExecutingPart.Component, Target.Path("capture.emissions", FileKind.Csv)));
 
-        public CollectedHosts Capture()
+        public HostCollection Capture(ICompositeDispenser dispenser)
+        {
+            RedirectEmissions();
+            return Capture(Catalog, dispenser);
+        }
+
+        public HostCollection Capture(IApiCatalog src, ICompositeDispenser dispenser)
+        {
+            var dst = bag<CollectedHost>();
+            iter(src.PartCatalogs(), part => Capture(part, dispenser, dst, EventTarget), Settings.PllExec);
+            return new HostCollection(dispenser,dst.ToIndex());
+        }
+
+        void Capture(IApiPartCatalog part, ICompositeDispenser dispenser, ConcurrentBag<CollectedHost> dst, IWfEventTarget log)
+        {
+            var tmp = bag<CollectedHost>();
+            Z0.ApiCode.gather(part, dispenser, tmp, log);
+            var code = tmp.ToArray();
+            ApiCode.Emit(part.PartId, code, Target);
+            EmitAsm(dispenser, code);
+            iter(tmp, x => dst.Add(x));
+        }
+
+        public HostCollection Capture()
         {
             RedirectEmissions();
             using var dispenser = Dispense.composite();
             return Capture(Catalog, dispenser);
-        }
-
-        public CollectedHosts Capture(IApiCatalog src, ICompositeDispenser dispenser)
-        {
-            var buffer = bag<CollectedHost>();
-            iter(src.PartCatalogs(),
-                part => {
-                    var _bag = bag<CollectedHost>();
-                    ApiCode.gather(part, Svc.Wf.EventLog, dispenser, _bag);
-                    var code = _bag.ToArray();
-                    ApiCode.Emit(part.PartId, code, Target);
-                    EmitAsm(dispenser, code);
-                    iter(_bag, x => buffer.Add(x));
-                },
-            Settings.PllExec);
-
-            return buffer.ToIndex();
         }
 
         void EmitAsm(ICompositeDispenser symbols, ReadOnlySeq<CollectedHost> src)
@@ -98,7 +117,7 @@ namespace Z0
             {
                 ref readonly var host = ref src[i];
                 var path = Target.AsmExtractPath(host.Host);
-                var flow = Svc.EmittingFile(path);
+                var flow = Emitter.EmittingFile(path);
                 var size = ByteSize.Zero;
                 using var writer = path.AsciWriter();
                 for(var j=0; j<host.Blocks.Count; j++)
@@ -109,7 +128,7 @@ namespace Z0
                     size += (ulong)asm.Length;
                     writer.AppendLine(asm);
                 }
-                Svc.EmittedFile(flow, AppMsg.EmittedBytes.Capture(size,path));
+                Emitter.EmittedFile(flow, AppMsg.EmittedBytes.Capture(size,path));
             }
         }
 
@@ -117,7 +136,7 @@ namespace Z0
         {
             var log = text.emitter();
             var capacity = Pow2.T16;
-            var blocks = ApiCode.blocks(Target).View;
+            var blocks = Z0.ApiCode.blocks(Target).View;
             var count = blocks.Length;
             var result = Outcome.Success;
             if(count > capacity)
@@ -146,7 +165,7 @@ namespace Z0
 
             var lookup = symbols.ToLookup();
             var entries = slice(lookup.Symbols, 0,symbols.EntryCount);
-            Svc.TableEmit(entries, AppDb.ApiTargets().PrefixedTable<MemorySymbol>("api.addresses"));
+            Emitter.TableEmit(entries, AppDb.ApiTargets().PrefixedTable<MemorySymbol>("api.addresses"));
             var found = 0;
             var hashes = entries.Map(x => x.HashCode).ToHashSet();
             if(hashes.Count != count)
@@ -166,7 +185,7 @@ namespace Z0
 
         void CheckReloaded(IWfEventTarget log)
         {
-            using var members = ApiCode.load(Target, PartId.AsmCore, log);
+            using var members = Z0.ApiCode.load(Target, PartId.AsmCore, log);
             for(var i=0; i<members.MemberCount; i++)
             {
                 ref readonly var member = ref members.Member(i);

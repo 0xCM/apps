@@ -5,8 +5,6 @@
 [assembly: PartId(PartId.MemoryChecks)]
 namespace Z0
 {
-    using Asm;
-
     sealed class AppCmd : AppCmdService<AppCmd>
     {
         public static ICmdProvider[] providers(IWfRuntime wf)

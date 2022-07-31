@@ -8,21 +8,11 @@ namespace Z0
     {
         public static ApiMembers members(Index<ApiMember> src)
         {
-            if(src.Length != 0)
-            {
-                Array.Sort(src.Storage);
-                return new ApiMembers(src.First.BaseAddress, src);
-            }
+            if(src.Count != 0)
+                return new ApiMembers(src.First.BaseAddress, src.Sort());
             else
                 return ApiMembers.Empty;
         }
 
-        public static ApiMembers members(MemoryAddress @base, Index<ApiMember> src)
-        {
-            if(src.Length != 0)
-                return new ApiMembers(@base, src.Sort());
-            else
-                return ApiMembers.Empty;
-        }
     }
 }

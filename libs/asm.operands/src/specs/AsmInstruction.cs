@@ -35,6 +35,19 @@ namespace Z0
             OpCode = opcode;
             Operands = ops;
         }
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Operands.IsEmpty;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Operands.IsNonEmpty;
+        }
+
         public string Format()
             => format(this);
 

@@ -10,99 +10,40 @@ namespace Z0
 
     partial class ApiCode
     {
-        public static ReadOnlySeq<ApiEncoded> gather(ReadOnlySpan<MethodEntryPoint> src, IWfEventTarget log, ICompositeDispenser dispenser)
-            => gather(gather(dispenser, src), log).Sort();
+        [Op]
+        public static void gather(IApiPartCatalog src, ICompositeDispenser dispenser, ConcurrentBag<CollectedHost> dst, IWfEventTarget log)
+            => iter(jit(src, log), member => dst.Add(gather(member, dispenser, log)));
 
-        public static void gather(IApiPartCatalog src, IWfEventTarget log, ICompositeDispenser dispenser, ConcurrentBag<CollectedHost> dst)
+        [Op]
+        public static ReadOnlySeq<ApiEncoded> gather(ReadOnlySpan<MethodEntryPoint> src, ICompositeDispenser dispenser, IWfEventTarget log)
+            => parse(raw(dispenser, src, log), log).Values.Array().Sort();
+
+        [Op]
+        static void jit(IApiHost host, ConcurrentBag<ApiHostMembers> dst, IWfEventTarget log)
         {
-            var members = list<ApiHostMembers>();
-            var collected = list<CollectedHost>();
-            iter(src.ApiHosts,
-                host => {
-                    var jitted = ClrJit.jit(host, log);
-                    if(jitted.IsNonEmpty)
-                        members.Add(jitted);
-                }
-                );
-
-            iter(src.ApiTypes, type => {
-                var jitted = ApiQuery.members(ClrJit.jit(type, log));
-                if(jitted.IsNonEmpty)
-                    members.Add(new ApiHostMembers(type.HostUri, jitted));
-                }
-                );
-            iter(members, m => dst.Add(gather(m, log, dispenser)));
-
+            var jitted = ClrJit.jit(host, log);
+            if(jitted.IsNonEmpty)
+                dst.Add(jitted);
         }
 
-        static CollectedHost gather(ApiHostMembers src, IWfEventTarget log, ICompositeDispenser dst)
-            => new CollectedHost(src, gather(EntryPoints.create(src.Members), log, dst));
-
-        static Index<RawMemberCode> gather(ICompositeDispenser symbols, ReadOnlySpan<MethodEntryPoint> src)
+        [Op]
+        static void jit(ApiCompleteType src, ConcurrentBag<ApiHostMembers> dst, IWfEventTarget log)
         {
-            var count = src.Length;
-            var code = alloc<RawMemberCode>(count);
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var entry = ref skip(src,i);
-                var buffer = Cells.alloc(w64).Bytes;
-                ByteReader.read5(entry.Location.Ref<byte>(), buffer);
-                gather(symbols, entry, out seek(code, i));
-            }
-            return code;
+            var jitted = ClrJit.members(ClrJit.jit(src, log));
+            if(jitted.IsNonEmpty)
+                dst.Add(new ApiHostMembers(src.HostUri, jitted));
         }
 
-        static void gather(ICompositeDispenser symbols, MethodEntryPoint entry, out RawMemberCode dst)
+        [Op]
+        static ConcurrentBag<ApiHostMembers> jit(IApiPartCatalog src, IWfEventTarget log)
         {
-            dst = new RawMemberCode();
-            dst.Entry = entry.Location;
-            dst.Uri = entry.Uri;
-            var target = stub(entry.Location, out dst.StubCode);
-            dst.Target = target;
-            if(target != entry.Location)
-            {
-                dst.Disp = AsmRel.disp32(dst.StubCode.Bytes);
-                dst.Stub = AsmRel.stub32(entry.Location, target);
-                dst.Token = token(symbols, entry, target);
-            }
-            else
-                dst.Token = token(symbols, entry);
+            var members = bag<ApiHostMembers>();
+            iter(src.ApiHosts, host => jit(host, members, log));
+            iter(src.ApiTypes, type => jit(type, members, log));      
+            return members;          
         }
 
-        static Index<ApiEncoded> gather(ReadOnlySpan<RawMemberCode> src, IWfEventTarget log)
-        {
-            var count = src.Length;
-            var buffer = span<byte>(Pow2.T16);
-            var host = ApiHostUri.Empty;
-            var dst = dict<ApiHostUri,CollectedCodeExtracts>();
-            var max = ByteSize.Zero;
-            for(var i=0; i<count; i++)
-            {
-                buffer.Clear();
-                var extracted = CollectedCodeExtract.Empty;
-                var extracts = CollectedCodeExtracts.Empty;
-                ref readonly var raw = ref skip(src,i);
-                var result = ApiCode.gather(raw, buffer, out extracted);
-                if(result.Fail)
-                {
-                    log.Deposit(Events.error("StubCodeMismatch", result.Message));
-                }
-                else
-                {
-                    ref readonly var uri = ref raw.Uri;
-                    if(uri.Host != host)
-                        host = uri.Host;
-
-                    if(dst.TryGetValue(host, out extracts))
-                        extracts.Include(extracted);
-                    else
-                        dst[host] = new CollectedCodeExtracts(extracted);
-                }
-            }
-
-            return parse(dst, log).Emit();
-        }
-
+        [Op]
         static Outcome gather(in RawMemberCode raw, Span<byte> buffer, out CollectedCodeExtract dst)
         {
             var result = Outcome.Success;
@@ -119,6 +60,43 @@ namespace Z0
             }
 
             return result;
+        }
+
+        [Op]
+        static CollectedHost gather(ApiHostMembers src, ICompositeDispenser dst, IWfEventTarget log)
+            => new (src, gather(entries(src.Members), dst, log));
+
+        [Op]
+        static Index<RawMemberCode> raw(ICompositeDispenser dispenser, ReadOnlySpan<MethodEntryPoint> src, IWfEventTarget log)
+        {
+            var code = alloc<RawMemberCode>(src.Length);
+            for(var i=0; i<src.Length; i++)
+            {
+                ref readonly var entry = ref skip(src,i);
+                var buffer = Cells.alloc(w64).Bytes;
+                ByteReader.read5(entry.Location.Ref<byte>(), buffer);
+                seek(code, i) = raw(entry, dispenser, log);
+            }
+            return code;
+        }
+
+        [Op]
+        static RawMemberCode raw(MethodEntryPoint src, ICompositeDispenser dispenser, IWfEventTarget log)
+        {
+            var dst = new RawMemberCode();
+            dst.Entry = src.Location;
+            dst.Uri = src.Uri;
+            var target = stub(src.Location, out dst.StubCode);
+            dst.Target = target;
+            if(target != src.Location)
+            {
+                dst.Disp = AsmRel.disp32(dst.StubCode.Bytes);
+                dst.Stub = AsmRel.stub32(src.Location, target);
+                dst.Token = token(dispenser, src, target);
+            }
+            else
+                dst.Token = token(dispenser, src);
+            return dst;
         }
     }
 }

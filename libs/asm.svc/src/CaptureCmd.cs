@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
-    using static core;
-
     public class CaptureCmd : AppCmdService<CaptureCmd>
     {
         Runtime Runtime => Wf.Runtime();
@@ -17,8 +13,9 @@ namespace Z0
         [CmdOp("capture")]
         void Capture(CmdArgs args)
         {
+            using var dispenser = Dispense.composite();
             var capture = new CaptureWorkflow(this, new());
-            capture.Run();
+            capture.Run(dispenser);
         }
 
         [CmdOp("capture/settings")]

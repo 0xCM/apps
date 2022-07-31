@@ -8,7 +8,7 @@ namespace Z0
     using static Bytes;
 
     [ApiHost]
-    public class Cli : AppService<Cli>
+    public class Cli : WfSvc<Cli>
     {
         const NumericKind Closure = UnsignedInts;
 

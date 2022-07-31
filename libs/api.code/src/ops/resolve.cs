@@ -8,10 +8,12 @@ namespace Z0
 
     partial class ApiCode
     {
-        public static ApiMember member(in ResolvedMethod src)
+        [Op]
+         public static ApiMember member(in ResolvedMethod src)
             => new ApiMember(src.Uri, src.Method, src.EntryPoint, ClrDynamic.msil(src.EntryPoint, src.Uri, src.Method));
 
-        static EncodedMember member(in ApiEncoded src)
+        [Op]
+        public static EncodedMember member(in ApiEncoded src)
         {
             var token = src.Token;
             var dst = new EncodedMember();
@@ -37,6 +39,7 @@ namespace Z0
         /// Resolves a specified method
         /// </summary>
         /// <param name="src">The source method</param>
+        [Op]
         public static ResolvedMethod resolve(MethodInfo src)
         {
             var diviner = MultiDiviner.Service;

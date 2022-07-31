@@ -54,7 +54,7 @@ namespace Z0.Asm
                     AsmSigInfo.parse(instruction.OpCode.InstructionString, out record.Sig);
                     record.Encoded = asm.asmhex(slice(data.View, blockOffset, size));
                     record.OpCode = opcode.Format();
-                    record.Bitstring = asm.bitstring(record.Encoded);
+                    record.Bitstring = ApiNative.bitstring(record.Encoded);
                     seek(buffer,counter) = record;
 
                     blockOffset += size;
@@ -119,7 +119,7 @@ namespace Z0.Asm
                     AsmSigInfo.parse(instruction.OpCode.InstructionString, out statement.Sig);
                     statement.Encoded = asm.asmhex(slice(bytes, blockOffset, size));
                     statement.OpCode = opcode.Format();
-                    statement.Bitstring = asm.bitstring(statement.Encoded);
+                    statement.Bitstring = ApiNative.bitstring(statement.Encoded);
                     dst.Add(statement);
 
                     blockOffset += size;

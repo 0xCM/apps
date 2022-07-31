@@ -4,11 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IExecutor
+    public interface IExecutor : IRunnable
     {
         Type ExecutorType {get;}
-
-        void Run();
 
         void Run(dynamic context);
 

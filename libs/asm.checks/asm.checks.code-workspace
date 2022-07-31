@@ -1,9 +1,6 @@
 {
 	"folders": [
 		{
-			"path": "."
-		},
-		{
 			"path": "../../libs/literals"
 		},
 		{
@@ -38,6 +35,9 @@
 		},
 		{
 			"path": "../../libs/asm.svc"
+		},
+		{
+			"path": "."
 		},
 	],
 	"settings": {}

@@ -41,6 +41,18 @@ namespace Z0
             Content = content;
         }
 
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Content.IsEmpty;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Content.IsNonEmpty;
+        }
+
         public AsmCellKind PartKind
             => AsmCellKind.Block;
 

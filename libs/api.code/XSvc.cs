@@ -8,8 +8,8 @@ namespace Z0
     {
         sealed class Svc : AppServices<Svc>
         {
-            public ApiCode ApiCode(IWfRuntime wf)
-                => Service<ApiCode>(wf);
+            public ApiCodeSvc ApiCode(IWfRuntime wf)
+                => Service<ApiCodeSvc>(wf);
 
             public ApiResolver ApiResolver(IWfRuntime wf)
                 => Service<ApiResolver>(wf);
@@ -23,7 +23,7 @@ namespace Z0
 
         static Svc Services => Svc.Instance;
 
-        public static ApiCode ApiCode(this IWfRuntime wf)
+        public static ApiCodeSvc ApiCode(this IWfRuntime wf)
             => Services.ApiCode(wf);
 
         public static ApiResolver ApiResolver(this IWfRuntime wf)

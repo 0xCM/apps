@@ -28,6 +28,5 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Members.Count != 0;
         }
-
     }
 }

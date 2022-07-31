@@ -6,8 +6,6 @@ namespace Z0
 {
     public partial interface IEnvPaths : ITablePaths
     {
-
         EnvData Env {get;}
-
     }
 }

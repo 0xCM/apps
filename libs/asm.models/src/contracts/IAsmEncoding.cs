@@ -6,22 +6,25 @@ namespace Z0
 {
     using Asm;
 
-    public interface IAsmEncoding : ITextual
+    [Free]
+    public interface IAsmEncoding : IExpr
     {
-        ReadOnlySpan<byte> Encoded { get; }
+        ReadOnlySpan<byte> Encoded {get;}
 
-        byte EncodingSize { get; }
+        byte EncodingSize {get;}
 
         AsmHexCode ToAsmHex()
             => Encoded;
     }
 
+    [Free]    
     public interface IAsmEncoding<T> : IAsmEncoding
         where T : unmanaged
     {
-        Span<byte> Buffer { get; }
+        Span<byte> Buffer {get;}
     }
 
+    [Free]    
     public interface IAsmEncoding<K,T> : IAsmEncoding<T>
         where T : unmanaged
         where K : unmanaged

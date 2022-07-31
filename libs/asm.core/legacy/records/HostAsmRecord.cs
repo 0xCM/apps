@@ -37,13 +37,13 @@ namespace Z0
                 return result;
 
             AsmExpr.parse(skip(cells,i++), out dst.Expression);
-            dst.Encoded = AsmHexCode.parse(skip(cells, i++));
+            dst.Encoded = ApiNative.asmhex(skip(cells, i++));
             result = AsmSigInfo.parse(skip(cells, i++), out dst.Sig);
             if(result.Fail)
                 return result;
 
             dst.OpCode = skip(cells, i++);
-            dst.Bitstring = asm.bitstring(dst.Encoded);
+            dst.Bitstring = ApiNative.bitstring(dst.Encoded);
 
             result = DataParser.parse(skip(cells, i++), out dst.OpUri);
             if(result.Fail)
