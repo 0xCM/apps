@@ -152,6 +152,10 @@ namespace Z0
             => Hex.digit(src);
 
         [MethodImpl(Inline), Op]
+        public static HDV digit(Base16 @base, AsciCode src)
+            => Hex.digit(src);
+
+        [MethodImpl(Inline), Op]
         public static bool digit(Base16 @base, char c, out HDV dst)
             => Hex.parse(c, out dst);
 
@@ -228,7 +232,5 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static BinaryDigit digit(Base2 @base, bit src)
             => src;
-
-
     }
 }

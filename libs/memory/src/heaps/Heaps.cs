@@ -15,6 +15,40 @@ namespace Z0
         public static void emit(SymHeap src, FS.FilePath dst, IWfEventTarget log)
             => Tables.emit(log, Heaps.entries(src).View, dst, TextEncodingKind.Unicode);
 
+        [Op]
+        static Outcome<uint> parse(ReadOnlySpan<AsciCode> src, ref uint i, Span<byte> dst)
+        {
+            var i0 = i;
+            var counter = 0u;
+            var count = src.Length;
+            ref var target = ref first(dst);
+            var hi = byte.MaxValue;
+            var lo = byte.MaxValue;
+            for(var j=0; j<count; j++,i++)
+            {
+                ref readonly var c = ref skip(src,j);
+                if(SQ.whitespace(c) || Hex.specifier(c))
+                    continue;
+
+                if(Hex.parse(c, out HexDigitValue d))
+                {
+                    if(hi == byte.MaxValue)
+                        hi = (byte)d;
+                    else
+                    {
+                        lo = (byte)d;
+                        seek(target, counter++) = Bytes.or(Bytes.sll(hi,4), lo);
+                        hi = byte.MaxValue;
+                        lo = byte.MaxValue;
+                    }
+                }
+                else
+                    return false;
+            }
+            return (true, counter);
+        }
+
+
         public static MemoryHeap load(FS.FilePath src)
         {
             var dst = sys.alloc<byte>(src.Size);
@@ -29,7 +63,7 @@ namespace Z0
                 if(i > 0)
                 {
                     result = Hex.parse(SQ.left(data,i), out ulong a);
-                    result &= Hex.parse(SQ.right(data,i), ref offset, dst);
+                    result &= parse(SQ.right(data,i), ref offset, dst);
                 }
 
             }

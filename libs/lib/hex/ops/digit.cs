@@ -24,6 +24,20 @@ namespace Z0
             }
         }
 
+        [MethodImpl(Inline), Op]
+        public static HexDigitValue digit(AsciCode src)
+        {
+            if(number(src))
+                return (HexDigitValue)((HexSymFacet)src - NumberOffset);
+            else
+            {
+                if(test(UpperCase, src))
+                    return (HexDigitValue)((XF)src - LetterOffsetUp);
+                else
+                    return (HexDigitValue)((XF)src - LetterOffsetLo);
+            }
+        }
+
         /// <summary>
         /// Computes the numeric value in in the range [0,..F] identified by a lowercase hex symbol
         /// </summary>

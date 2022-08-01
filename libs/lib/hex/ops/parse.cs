@@ -85,7 +85,6 @@ namespace Z0
         public static bool parse64i(string src, out long dst)
             => long.TryParse(clear(src), NumberStyles.HexNumber, null, out dst);
 
-
         public static bool parse8u(ReadOnlySpan<char> src, out byte dst)
             => byte.TryParse(clear(src), NumberStyles.HexNumber, null,  out dst);
 
@@ -206,7 +205,6 @@ namespace Z0
             return (true,counter);
         }
 
-
         [Op]
         public static bool parse(ReadOnlySpan<AsciCode> src, out ulong dst)
         {
@@ -252,18 +250,8 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        static bool contains(ReadOnlySpan<AsciCode> src, AsciCode match)
-        {
-            var count = src.Length;
-            for(var i=0; i<count; i++)
-                if(match == skip(src,i))
-                    return true;
-            return false;
-        }
-
-        [MethodImpl(Inline)]
         static bool whitespace(AsciCode src)
-            => contains(AsciCodes.whitespace(), src);
+            => SQ.contains(AsciCodes.whitespace(), src);
 
         [MethodImpl(Inline)]
         static bool whitespace(char src)
@@ -272,39 +260,6 @@ namespace Z0
         [MethodImpl(Inline)]
         static bool separator(char src)
             => src == Chars.Comma;
-
-        [Op]
-        public static Outcome<uint> parse(ReadOnlySpan<AsciCode> src, ref uint i, Span<byte> dst)
-        {
-            var i0 = i;
-            var counter = 0u;
-            var count = src.Length;
-            ref var target = ref first(dst);
-            var hi = byte.MaxValue;
-            var lo = byte.MaxValue;
-            for(var j=0; j<count; j++,i++)
-            {
-                ref readonly var c = ref skip(src,j);
-                if(whitespace(c) || specifier(c))
-                    continue;
-
-                if(parse(c, out HexDigitValue d))
-                {
-                    if(hi == byte.MaxValue)
-                        hi = (byte)d;
-                    else
-                    {
-                        lo = (byte)d;
-                        seek(target, counter++) = Bytes.or(Bytes.sll(hi,4), lo);
-                        hi = byte.MaxValue;
-                        lo = byte.MaxValue;
-                    }
-                }
-                else
-                    return false;
-            }
-            return (true, counter);
-        }
 
         [MethodImpl(Inline), Op]
         public static bool parse(AsciCode c, out HexDigitValue dst)

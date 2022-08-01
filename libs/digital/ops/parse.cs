@@ -10,6 +10,7 @@ namespace Z0
 
     partial struct Digital
     {
+        [MethodImpl(Inline), Op]
         public static uint parse(ReadOnlySpan<char> src, out GBlock64<BinaryDigit> dst)
         {
             var count = src.Length;
@@ -26,6 +27,7 @@ namespace Z0
             return j;
         }
 
+
         [Op]
         public static Outcome parse(Base10 @base, ReadOnlySpan<C> src, out ushort dst)
         {
@@ -36,7 +38,7 @@ namespace Z0
         }
 
         [Op]
-        public static Outcome parse(Base10 @base, ReadOnlySpan<C> src, ref uint i, out ushort dst)
+        public static bool parse(Base10 @base, ReadOnlySpan<C> src, ref uint i, out ushort dst)
         {
             dst = default;
             var result = Outcome.Success;
@@ -54,7 +56,7 @@ namespace Z0
             return result;
         }
 
-        public static Outcome parse(string src, out BinaryDigit dst)
+        public static bool parse(string src, out BinaryDigit dst)
         {
             var chars = span((src ?? EmptyString).Trim());
             var count = chars.Length;

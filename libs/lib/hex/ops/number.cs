@@ -18,6 +18,14 @@ namespace Z0
             => (DF)c >= DF.First && (DF)c <= DF.Last;
 
         /// <summary>
+        /// Tests whether a character symbol is one of '0'..'9'
+        /// </summary>
+        /// <param name="src">The symbol to test</param>
+        [MethodImpl(Inline), Op]
+        public static bit number(AsciCode c)
+            => (DF)c >= DF.First && (DF)c <= DF.Last;
+
+        /// <summary>
         /// Tests whether a <see cref='HexLowerSym'/> value is one of '0',...,'9'
         /// </summary>
         /// <param name="src">The symbol to test</param>

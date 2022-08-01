@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Spans;
+    using static Algs;
+    using static Scalars;
     using static HexFormatter;
 
     partial struct Hex

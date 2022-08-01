@@ -9,7 +9,7 @@ namespace Z0
 
     partial struct Hex
     {
-        [Op]
+        [MethodImpl(Inline), Op]
         public static Outcome<uint> digits(ReadOnlySpan<char> src, Span<HexDigitValue> dst)
         {
             var j=0u;

@@ -79,7 +79,6 @@ namespace Z0
             Require.equal((ByteSize)size, src.CodeSize);
         }
 
-
         ClrEventListener OpenEventLog(Timestamp ts)
             => ClrEventListener.create(AppDb.App().Path($"clr.events.{ts}", FileKind.Log));
 
