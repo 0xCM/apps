@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
+    using static Arrays;
 
     partial class ImageMemory
     {
@@ -13,7 +15,7 @@ namespace Z0
         public static ReadOnlySeq<ProcessMemoryRegion> pages(ReadOnlySpan<MemoryRangeInfo> src)
         {
             var count = src.Length;
-            var buffer = alloc<ProcessMemoryRegion>(count);
+            var buffer = sys.alloc<ProcessMemoryRegion>(count);
             ref var dst = ref first(buffer);
             for(var i=0u; i<count; i++)
                 fill(skip(src,i), i, out seek(dst,i));

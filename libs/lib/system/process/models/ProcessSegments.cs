@@ -8,10 +8,20 @@ namespace Z0
 
     using Windows;
 
-    using static core;
+    using static Algs;
+    using static Spans;
+    using static Arrays;
 
     public unsafe class ProcessSegments
     {
+        [MethodImpl(Inline), Op]
+        public static Process process()
+            => Process.GetCurrentProcess();
+
+        [MethodImpl(Inline), Op]
+        public static Process process(int id)
+            => Process.GetProcessById(id);
+
         MemoryAddress ProcessBase;
 
         FS.FolderPath OutDir;

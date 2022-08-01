@@ -133,7 +133,5 @@ namespace Z0.Asm
             log.AppendLineFormat("Found: {0}", found);
             dst.Deposit(Events.row(log.Emit()));
         }
-
-
     }
 }

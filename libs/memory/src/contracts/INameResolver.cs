@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface INameResolver : INullity, ITextual
+    public interface INameResolver : IExpr
     {
         int NameId {get;}
 
@@ -22,7 +22,7 @@ namespace Z0
             get => NameId >= 0;
         }
 
-        string ITextual.Format()
+        string IExpr.Format()
             => NameId >= 0 ? Name : EmptyString;
     }
 

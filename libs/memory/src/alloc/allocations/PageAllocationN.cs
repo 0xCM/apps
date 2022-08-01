@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
+    using static Arrays;
 
     /// <summary>
     /// Owns <typeparamref name='N'/> page allocations
@@ -22,7 +24,7 @@ namespace Z0
 
         public PageAllocation()
         {
-            Buffer = memory.native(PageSize*nat32u<N>());
+            Buffer = memory.native(PageSize*Typed.nat32u<N>());
         }
 
         public void Dispose()
@@ -33,7 +35,7 @@ namespace Z0
         public uint PageCount
         {
             [MethodImpl(Inline)]
-            get => nat32u<N>();
+            get => Typed.nat32u<N>();
         }
 
         public MemoryAddress BaseAddress

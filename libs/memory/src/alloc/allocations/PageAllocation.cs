@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
+    using static Arrays;
 
     public class PageAllocation : Allocation<MemorySeg>
     {
@@ -71,7 +73,7 @@ namespace Z0
 
         static Index<MemorySeg> segments(NativeBuffer src, uint count)
         {
-            var dst = alloc<MemorySeg>(count);
+            var dst = sys.alloc<MemorySeg>(count);
             for(var i=0u; i<count; i++)
             {
                 var a = address(src,i);

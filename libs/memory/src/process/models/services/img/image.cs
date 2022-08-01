@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
 
     partial class ImageMemory
     {
@@ -14,7 +14,7 @@ namespace Z0
         [Op]
         public static ReadOnlySeq<ImageLocation> locations(ProcessAdapter src)
         {
-            var dst = core.list<ImageLocation>();
+            var dst =list<ImageLocation>();
             iter(src.Modules, m => dst.Add(location(m)));
             return dst.ToArray();
         }

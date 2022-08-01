@@ -29,7 +29,7 @@ namespace Z0
         /// </summary>
         [MethodImpl(Inline), Op]
         public static unsafe Span<byte> span(BufferToken src)
-            => Spans.cover(src.Address.Pointer<byte>(), src.BufferSize);
+            => Algs.cover(src.Address.Pointer<byte>(), src.BufferSize);
 
         /// <summary>
         /// Covers a token-identified buffer with a span
@@ -37,7 +37,7 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static unsafe Span<T> span<T>(BufferToken src)
             where T : unmanaged
-                => Spans.cover(src.Address.Pointer<byte>(), src.BufferSize).Recover<T>();
+                => Algs.cover(src.Address.Pointer<byte>(), src.BufferSize).Recover<T>();
 
         [MethodImpl(Inline), Op]
         public static unsafe Span<byte> span(NativeBuffer src)

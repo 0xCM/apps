@@ -59,9 +59,6 @@ namespace Z0
         public static Outcome parse(string src, out SymVal dst)
             => SymVal.parse(src, out dst);
 
-        public static Outcome parse(string src, out LineNumber dst)
-            => LineNumber.parse(src, out dst);
-
         public static Outcome parse(string src, out MemoryAddress dst)
             => AddressParser.parse(src, out dst);
 

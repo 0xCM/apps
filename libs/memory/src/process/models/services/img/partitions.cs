@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Arrays;
 
     partial class ImageMemory
     {
@@ -12,7 +12,7 @@ namespace Z0
         public static ReadOnlySeq<ProcessPartition> partitions(ReadOnlySeq<ImageLocation> src)
         {
             var count = src.Count;
-            var buffer = alloc<ProcessPartition>(count);
+            var buffer = sys.alloc<ProcessPartition>(count);
             for(var i=0u; i<count; i++)
             {
                 ref readonly var image = ref src[i];

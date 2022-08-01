@@ -6,6 +6,8 @@ namespace Z0
 {
     using static core;
 
+    using static HexOptionData;
+
     public readonly struct HexDataFormatter : IHexDataFormatter
     {
         [MethodImpl(Inline), Op]
@@ -25,8 +27,8 @@ namespace Z0
         {
             LineConfig = config;
             BaseAddress = @base ?? 0;
-            LabelConfig = HexFormatter.options(zpad:true, specifier: true, uppercase: false, prespec:false);
-            DataConfig = HexFormatter.HexData;
+            LabelConfig = HexFormatOptions.define(zpad:true, specifier: true, uppercase: false, prespec:false);
+            DataConfig = HexDataOptions;
         }
 
         public string FormatLine(ReadOnlySpan<byte> data, ulong offset, char delimiter)

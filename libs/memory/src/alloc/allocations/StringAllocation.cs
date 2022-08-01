@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
+    using static Arrays;
 
     /// <summary>
     /// Owns a sequence of <see cref='StringRef'/> allocations
@@ -19,7 +21,7 @@ namespace Z0
                 total += (uint)skip(src,i).Length;
             var storage = StringBuffers.buffer(total);
             var allocator = StringAllocator.cover(storage);
-            var dst = core.alloc<StringRef>(count);
+            var dst = sys.alloc<StringRef>(count);
             for(var i=0; i<count; i++)
                 allocator.Alloc(skip(src,i), out seek(dst,i));
             return new StringAllocation(allocator, dst);

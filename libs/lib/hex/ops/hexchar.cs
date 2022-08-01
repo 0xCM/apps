@@ -7,7 +7,7 @@ namespace Z0
     using static Spans;
     using static Algs;
     using static Scalars;
-    using static HexFormatter;
+    using static HexOptionData;
 
     partial struct Hex
     {

@@ -150,7 +150,7 @@ namespace Z0
 
         public bool Equals<C>(Array<N,T> src, C comparer)
             where C : IEqualityComparer<T>
-                => Spans.equal(View, src.View, comparer);
+                => Algs.equal(View, src.View, comparer);
 
         [MethodImpl(Inline)]
         public bool Search(Func<T,bool> predicate, out T found)

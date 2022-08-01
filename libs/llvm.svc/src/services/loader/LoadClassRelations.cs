@@ -28,7 +28,7 @@ namespace Z0.llvm
                     break;
                 }
                 var j=0;
-                result = DataParser.parse(skip(cells,j++), out record.SourceLine);
+                result = Lines.parse(skip(cells,j++), out record.SourceLine);
                 if(result.Fail)
                 {
                     Wf.Error(result.Message);

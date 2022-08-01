@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
 
     public abstract class Dispenser<T> : IAllocDispenser
         where T : Dispenser<T>

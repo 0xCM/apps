@@ -7,9 +7,6 @@ namespace Z0
     using static Algs;
     using static Spans;
 
-    using static AsciSymbols;
-    using static AsciChars;
-
     using C = AsciCode;
     using S = AsciSymbol;
 
@@ -69,7 +66,7 @@ namespace Z0
             seek(dst, 1) = (char)(byte)(src.Storage >> 8);
             seek(dst, 2) = (char)(byte)(src.Storage >> 16);
             seek(dst, 3) = (char)(byte)(src.Storage >> 24);
-            return slice(Spans.cover(dst, asci4.Size),0, src.Length);
+            return slice(Algs.cover(dst, asci4.Size),0, src.Length);
         }
 
         [MethodImpl(Inline), Op]

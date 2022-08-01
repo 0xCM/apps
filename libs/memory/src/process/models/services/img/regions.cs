@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
+    using static Arrays;
 
     partial class ImageMemory
     {
@@ -31,7 +33,7 @@ namespace Z0
             if(parts.Length != ProcessMemoryRegion.FieldCount)
                 return (false, Tables.FieldCountMismatch.Format(parts.Length, count));
 
-            var buffer = alloc<Outcome>(count);
+            var buffer = sys.alloc<Outcome>(count);
             ref var outcomes = ref first(buffer);
 
             var i=0;

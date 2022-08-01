@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
 
     public unsafe class PageAllocator : Allocation<MemoryAddress>, IPageAllocator
     {
@@ -39,7 +40,7 @@ namespace Z0
         {
             PageCount = pages;
             Memory = PageAllocation.alloc(PageCount);
-            Allocations = alloc<int>(PageCount);
+            Allocations = sys.alloc<int>(PageCount);
             for(var i=0; i<PageCount; i++)
                 Allocations[i] = -1;
         }

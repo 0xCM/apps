@@ -57,7 +57,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public Span<T> Cells(uint offset, uint count)
-            => Spans.cover(Refs.@as<T>(Rebase(offset)), count);
+            => Algs.cover(Refs.@as<T>(Rebase(offset)), count);
 
         [MethodImpl(Inline)]
         public ref NativeCell<T> Cell(uint index)

@@ -22,7 +22,7 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline)]
         public static ReadOnlySpan<T> view<T>(MemorySeg src)
-            => cover(src.BaseAddress.Ref<T>(), count<T>(src));
+            => Algs.cover(src.BaseAddress.Ref<T>(), count<T>(src));
 
         /// <summary>
         /// Computes the whole number of T-cells identified by a reference
@@ -47,7 +47,7 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static ReadOnlySpan<T> view<T>(MemoryRange src)
-            => cover(src.Min.Ref<T>(), cells<T>(src));
+            => Algs.cover(src.Min.Ref<T>(), cells<T>(src));
 
         [MethodImpl(Inline), Op]
         public static void store(ReadOnlySpan<byte> src, ByteSize size, MemoryAddress dst)
@@ -97,7 +97,7 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static Span<T> edit<T>(MemoryRange src)
-            => cover(src.Min.Ref<T>(), cells<T>(src));
+            => Algs.cover(src.Min.Ref<T>(), cells<T>(src));
 
         /// <summary>
         /// Covers a memory segment with a span

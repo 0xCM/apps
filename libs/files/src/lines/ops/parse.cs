@@ -9,6 +9,17 @@ namespace Z0
     partial class Lines
     {
         [Parser]
+        public static bool parse(string src, out LineNumber dst)
+        {
+            dst = LineNumber.Empty;
+            var result = NumericParser.parse(src, out uint n);
+            if(result)
+                dst = n;
+            return result;
+        }
+
+
+        [Parser]
         public static Outcome parse(string src, out FilePoint dst)
         {
             dst = FilePoint.Empty;
@@ -45,7 +56,7 @@ namespace Z0
             {
                 var left = text.left(src,i);
                 var right = text.right(src,i);
-                result = LineNumber.parse(left, out var line);
+                result = parse(left, out LineNumber line);
                 if(result)
                 {
                     result = DataParser.parse(right, out uint offset);
@@ -55,7 +66,7 @@ namespace Z0
             }
             else
             {
-                result = LineNumber.parse(src, out var line);
+                result = parse(src, out LineNumber line);
             }
             return result;
         }
@@ -80,11 +91,11 @@ namespace Z0
                     return result;
                 }
 
-                result = LineNumber.parse(skip(parts,0), out var min);
+                result = parse(skip(parts,0), out LineNumber min);
                 if(result.Fail)
                     return result;
 
-                result = LineNumber.parse(skip(parts,1), out var max);
+                result = parse(skip(parts,1), out LineNumber max);
                 if(result.Fail)
                     return result;
 
@@ -112,11 +123,11 @@ namespace Z0
                     return result;
                 }
 
-                result = LineNumber.parse(skip(parts,0), out var min);
+                result = parse(skip(parts,0), out LineNumber min);
                 if(result.Fail)
                     return result;
 
-                result = LineNumber.parse(skip(parts,1), out var max);
+                result = parse(skip(parts,1), out LineNumber max);
                 if(result.Fail)
                     return result;
 

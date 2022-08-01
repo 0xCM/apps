@@ -35,7 +35,7 @@ namespace Z0
         public Span<byte> Bytes
         {
             [MethodImpl(Inline)]
-            get => Spans.cover<byte>(Range.Min.Pointer<byte>(), Range.ByteCount);
+            get => Algs.cover<byte>(Range.Min.Pointer<byte>(), Range.ByteCount);
         }
 
         public ref byte First

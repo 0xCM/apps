@@ -90,7 +90,7 @@ namespace Z0
         public static ref T seek<S,T>(Span<S> src, int offset = 0)
             where S : unmanaged
             where T : unmanaged
-                => ref MemoryMarshal.AsRef<T>(Spans.bytes(src,offset,null));
+                => ref MemoryMarshal.AsRef<T>(Algs.bytes(src, offset, null));
 
         /// <summary>
         /// Skips a specified number of <typeparamref name='T'/> cells and returns a readonly reference to the next cell

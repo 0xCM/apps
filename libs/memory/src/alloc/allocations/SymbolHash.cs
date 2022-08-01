@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
 
     public class SymbolHash : Allocation<SymHash>, ISymbolHash
     {
@@ -21,7 +22,7 @@ namespace Z0
 
         internal SymbolHash(uint count, ByteSize capacity)
         {
-            _Symbols = alloc<SymHash>(count);
+            _Symbols = sys.alloc<SymHash>(count);
             _Strings = StringBuffers.buffer(capacity/2);
             Allocated = 0;
             SymIndex = 0;

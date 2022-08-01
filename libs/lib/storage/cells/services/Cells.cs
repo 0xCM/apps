@@ -21,7 +21,7 @@ namespace Z0
             var c = count ?? 16;
             if(c <= 16)
             {
-                return HexFormatter.format(slice(bytes(src), 0, c), HexFormatter.HexData);
+                return HexFormatter.format(slice(bytes(src), 0, c), HexOptionData.HexDataOptions);
             }
             return "!!FormatError!!";
         }

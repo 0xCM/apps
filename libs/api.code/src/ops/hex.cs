@@ -11,7 +11,7 @@ namespace Z0
         [Op]
         public static ByteSize hex(ReadOnlySeq<ApiEncoded> src, FS.FilePath dst)
         {
-            var options = HexFormatter.options();
+            var options = HexFormatOptions.define();
             using var writer = dst.AsciWriter();
             var size = 0u;
             for(var i=0; i<src.Count; i++)

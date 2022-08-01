@@ -16,7 +16,7 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static ReadOnlySpan<T> slice<T>(ReadOnlySpan<T> src, uint offset)
-            => cover(skip(src,offset), (uint)(src.Length - offset));
+            => Algs.cover(skip(src,offset), (uint)(src.Length - offset));
 
         /// <summary>
         /// Selects a segment [offset, length(src) - 1] from a source span src:ReadOnlySpan[T]
@@ -58,7 +58,7 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static ReadOnlySpan<T> slice<T>(ReadOnlySpan<T> src, uint offset, uint length)
-            => cover(skip(src, offset), length);
+            => Algs.cover(skip(src, offset), length);
 
         /// <summary>
         /// Draws a specified count of T-cells from a source span beginning at a specified offset

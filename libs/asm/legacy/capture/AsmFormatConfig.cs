@@ -31,7 +31,7 @@ namespace Z0.Asm
             dst.EmitLineLabels = false;
             dst.AbsoluteLabels = false;
             dst.EmitLineAddresses = true;
-            dst.HeaderEncodingFormat = HexFormatter.options();
+            dst.HeaderEncodingFormat = HexFormatOptions.define();
             return ref dst;
         }
     }

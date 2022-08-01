@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Spans;
 
     /// <summary>
     /// Allocates strings from a suplied <see cref='StringBuffer'/>

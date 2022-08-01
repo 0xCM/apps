@@ -7,6 +7,14 @@ namespace Z0
     partial class Algs
     {
         /// <summary>
+        /// Converts a string to bytespan
+        /// </summary>
+        /// <param name="src">The source string</param>
+        [MethodImpl(Inline), Op]
+        public static ReadOnlySpan<byte> bytes(string src)
+            => Spans.recover<char,byte>(Spans.span(src));
+
+        /// <summary>
         /// Presents a generic value as a bytespan
         /// </summary>
         /// <param name="src">The source reference</param>

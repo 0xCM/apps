@@ -24,7 +24,7 @@ namespace Z0
             Space,
             $"new byte[{src.Encoded.Length}]",
             Chars.LBrace,
-            src.Encoded.Format(HexFormatter.HexArray),
+            src.Encoded.Format(HexOptionData.HexArrayOptions),
             Chars.RBrace,
             Chars.Semicolon
             );

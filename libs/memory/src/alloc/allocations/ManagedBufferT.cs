@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
 
     public class ManagedBuffer<T> :  Allocation<T>
         where T : unmanaged

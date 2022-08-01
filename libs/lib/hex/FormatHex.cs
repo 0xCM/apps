@@ -9,7 +9,7 @@ namespace Z0
     {
         [Op]
         public static string FormatHex(this byte[] src)
-            => HexFormatter.format(src, HexFormatter.HexData);
+            => HexFormatter.format(src, HexOptionData.HexDataOptions);
 
         [Op]
         public static string FormatHex(this byte[] src, in HexFormatOptions config)
@@ -17,11 +17,11 @@ namespace Z0
 
         [Op]
         public static string FormatHex(this ReadOnlySpan<byte> src)
-            => HexFormatter.format(src, HexFormatter.HexData);
+            => HexFormatter.format(src, HexOptionData.HexDataOptions);
 
         [Op]
         public static string FormatHex(this Span<byte> src)
-            => HexFormatter.format(src, HexFormatter.HexData);
+            => HexFormatter.format(src, HexOptionData.HexDataOptions);
 
         /// <summary>
         /// Formats a span of numeric cell type as a sequence of hex values

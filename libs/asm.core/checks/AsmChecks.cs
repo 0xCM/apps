@@ -11,6 +11,28 @@ namespace Z0
 
     using gp32 = AsmRegTokens.Gp32Reg;
 
+    public class IntelHexIO : WfSvc<IntelHexIO>
+    {
+        public static bool parse(ReadOnlySpan<char> src, out Seq<HexDigitValue> dst)
+        {
+            dst = sys.alloc<HexDigitValue>(src.Length);
+            return Hex.digits(src, dst.Edit);
+        }
+
+        public static bool parse(ReadOnlySpan<AsciCode> src, out Seq<HexDigitValue> dst)
+        {
+            dst = sys.alloc<HexDigitValue>(src.Length);
+            return Hex.digits(src, dst.Edit);
+        }
+
+        public static bool parse(ReadOnlySpan<AsciSymbol> src, out Seq<HexDigitValue> dst)
+        {
+            dst = sys.alloc<HexDigitValue>(src.Length);
+            return Hex.digits(src, dst.Edit);
+        }
+
+    }
+
     [ApiHost]
     public partial class AsmCheckCmd : CheckCmd<AsmCheckCmd>
     {
@@ -205,6 +227,8 @@ namespace Z0
                 Error("Computed target did not match expected target");
         }
 
+
+
         [CmdOp("asm/check/hex")]
         unsafe Outcome CheckHex(CmdArgs args)
         {
@@ -225,7 +249,7 @@ namespace Z0
 
             var buffer = alloc<byte>(count/2);
             var size = Digital.pack(dst,buffer);
-            var output = buffer.FormatHex(HexFormatter.Compact);
+            var output = buffer.FormatHex(HexOptionData.CompactHexOptions);
             Write(Require.equal(Data,output));
             return result;
         }

@@ -4,10 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Windows;
-
-    using static core;
-
+    using static Algs;
+    
     [Free]
     public unsafe class MemCmd : CmdService<MemCmd>
     {
@@ -15,54 +13,11 @@ namespace Z0
 
         IApiPack Dst => ApiPacks.create();
 
-        [CmdOp("memory")]
-        Outcome ShowMemHex(CmdArgs args)
-        {
-            var address = MemoryAddress.Zero;
-            var result = DataParser.parse(arg(args,0), out address);
-            if(result)
-            {
-
-                var size = 16u;
-                if(args.Count >= 2)
-                    result = DataParser.parse(arg(args,1), out size);
-
-                if(result)
-                {
-                    ref readonly var src = ref address.Ref<byte>();
-                    var data = Spans.cover(src,size);
-                    var hex = data.FormatHex();
-                    Write(string.Format("{0,-16}: {1}", address, hex));
-                }
-
-            }
-            return result;
-        }
-
         [CmdOp("memory/regions")]
         void EmitRegions()
             => Regions.EmitRegions(Process.GetCurrentProcess(), Dst);
 
-        [CmdOp("sys/pid")]
-        void ShowPID()
-            => Write(Environment.ProcessId);
-
-        [CmdOp("sys/cpucore")]
-        protected Outcome ShowCurrentCore(CmdArgs args)
-        {
-            Write(string.Format("Cpu:{0}", Kernel32.GetCurrentProcessorNumber()));
-            return true;
-        }
-
-        [CmdOp("sys/thread")]
-        Outcome ShowThread(CmdArgs args)
-        {
-            var id = Kernel32.GetCurrentThreadId();
-            Wf.Data(string.Format("ThreadId:{0}", id));
-            return true;
-        }
-
-        [CmdOp("sys/modules")]
+        [CmdOp("env/modules")]
         void ListModules()
         {
             var src = ImageMemory.modules(ExecutingPart.Process);

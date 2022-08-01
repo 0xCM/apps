@@ -4,7 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
+    using static Arrays;
+
     /// <summary>
     /// Owns a sequence of <see cref='SourceText'/> allocations
     /// </summary>
@@ -19,7 +22,7 @@ namespace Z0
 
             var buffer  = StringBuffers.buffer(total);
             var alloc = SourceAllocator.from(buffer);
-            var dst = core.alloc<SourceText>(count);
+            var dst = sys.alloc<SourceText>(count);
             for(var i=0; i<count; i++)
                 alloc.Alloc(skip(src,i), out seek(dst,i));
             return new SourceAllocation(alloc, dst);
@@ -51,6 +54,5 @@ namespace Z0
         {
             Allocator.Dispose();
         }
-
     }
 }

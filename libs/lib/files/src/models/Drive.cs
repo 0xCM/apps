@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     partial struct FS
     {
         public readonly struct Drive : IFsEntry<Drive>
@@ -40,7 +39,7 @@ namespace Z0
                 => Hash;
 
             public int CompareTo(Drive src)
-                => text.cmp(Name.ToString(), src.Name.ToString(), uncased());
+                => sys.cmp(Name.ToString(), src.Name.ToString(), uncased());
 
             [MethodImpl(Inline)]
             public bool Equals(Drive src)

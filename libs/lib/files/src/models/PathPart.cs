@@ -5,7 +5,6 @@
 namespace Z0
 {
     using static Algs;
-    using static FS;
 
     /// <summary>
     /// Defines the content of file path component
@@ -135,7 +134,7 @@ namespace Z0
         }
 
         public int CompareTo(PathPart src)
-            => text.cmp(TextData, src.TextData, uncased());
+            => sys.cmp(TextData, src.TextData, uncased());
 
         [MethodImpl(Inline)]
         public static bool operator ==(PathPart a, PathPart b)

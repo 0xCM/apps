@@ -6,7 +6,8 @@ namespace Z0
 {
     using System.Linq;
 
-    using static core;
+    using static Algs;
+    using static Spans;
 
     partial class ImageMemory
     {
@@ -26,7 +27,7 @@ namespace Z0
         {
             var modules = src.Modules.Cast<System.Diagnostics.ProcessModule>().Array();
             var count = modules.Length;
-            var buffer = alloc<ProcessModuleRow>(count);
+            var buffer = sys.alloc<ProcessModuleRow>(count);
             fill(modules, buffer);
             return buffer.Sort().Resequence();
         }

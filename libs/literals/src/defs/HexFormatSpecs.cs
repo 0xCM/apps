@@ -323,6 +323,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public static string CaseSpec(LetterCaseKind @case)
             => @case == LetterCaseKind.Upper ? "X" : "x";
-
     }
 }
