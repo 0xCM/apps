@@ -92,8 +92,6 @@ namespace Z0
 
         protected WfHost Host {get; private set;}
 
-        public EnvData Env => default;
-
         protected Type HostType
             => typeof(H);
 
@@ -104,7 +102,7 @@ namespace Z0
         public void Init(IWfRuntime wf)
         {
             Wf = wf;
-            WfMsg = new WfMsgSvc(Wf, EffectiveHost, Env);
+            WfMsg = new WfMsgSvc(Wf, EffectiveHost);
             var flow = WfMsg.Creating(EffectiveHost);
             OnInit();
             Initialized();
@@ -172,10 +170,10 @@ namespace Z0
         protected void Write<T>(T content)
             => WfMsg.Write(content);
 
-        protected WfFileWritten EmittingFile(FS.FilePath dst)
+        protected FileWritten EmittingFile(FS.FilePath dst)
             => WfMsg.EmittingFile(dst);
 
-        public ExecToken EmittedFile(WfFileWritten flow, Count count)
+        public ExecToken EmittedFile(FileWritten flow, Count count)
             => WfMsg.EmittedFile(flow,count);
 
         protected WfTableFlow<T> EmittingTable<T>(FS.FilePath dst)
@@ -195,7 +193,7 @@ namespace Z0
         protected IWfEventTarget EventLog
             => EventLogger.ToTarget(GetType());
 
-        protected void EmittedFile(WfFileWritten file, Count count, Arrow<FS.FileUri> flow)
+        protected void EmittedFile(FileWritten file, Count count, Arrow<FS.FileUri> flow)
             => Wf.EmittedFile(HostType, file, count);
 
         protected virtual void OnInit()

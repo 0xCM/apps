@@ -48,8 +48,9 @@ namespace Z0
         public IDbSources Repos()
             => new DbSources(setting(WsArchives.Path(Names.Repos), FS.dir));
 
-        // public IDbArchive Env()
-        //     => new Db
+        public IDbArchive Symbols()
+            => new DbArchive(setting(WsArchives.Path(Names.Repos), FS.dir));
+
         public IDbSources Repos(string scope)
             => Repos().Sources(scope);
 

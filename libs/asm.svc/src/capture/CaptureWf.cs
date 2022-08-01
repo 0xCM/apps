@@ -19,6 +19,21 @@ namespace Z0
             }
         }
 
+        public void Run(IApiPack dst)
+        {
+            using var dispenser = Dispense.composite();
+            Run(dispenser, dst);
+        }
+
+        public HostCollection Run(ICompositeDispenser dispenser, IApiPack dst)
+        {
+            var capture = new CaptureWfRunner(this, new(), dst);
+            return capture.Run(dispenser);
+        }
+
+        public void Run()
+            => Run(ApiPacks.create());
+
         static SettingsStore Store = new();
 
         public static CaptureWfSettings settings()   

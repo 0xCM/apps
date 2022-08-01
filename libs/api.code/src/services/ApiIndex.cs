@@ -11,7 +11,7 @@ namespace Z0
     {
         public static ApiMemberIndex create(ApiHostCatalog src)
         {
-            var ix = create(src.Members.Storage.Select(h => (h.Id, h)));
+            var ix = create(src.Members.Select(h => (h.Id, h)));
             return new ApiMemberIndex(ix.HashTable, ix.Duplicates);
         }
 

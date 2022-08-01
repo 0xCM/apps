@@ -76,13 +76,13 @@ namespace Z0
             => Wf.Ran(HostType, flow.WithMsg(msg));
 
 
-        WfFileWritten EmittingFile(FS.FilePath dst)
+        FileWritten EmittingFile(FS.FilePath dst)
             => Wf.EmittingFile(HostType, dst);
 
-        ExecToken EmittedFile(WfFileWritten flow, Count count)
+        ExecToken EmittedFile(FileWritten flow, Count count)
             => Wf.EmittedFile(HostType, flow, count);
 
-        ExecToken EmittedFile<T>(WfFileWritten flow, T msg)
+        ExecToken EmittedFile<T>(FileWritten flow, T msg)
             => Wf.EmittedFile(flow, msg);
 
         WfTableFlow<T> EmittingTable<T>(FS.FilePath dst)

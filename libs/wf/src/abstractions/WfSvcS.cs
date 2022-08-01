@@ -177,22 +177,22 @@ namespace Z0
         public ExecToken Ran<T, D>(WfExecFlow<T> src, D data)
             => Emitter.Ran(src, data);
 
-        public new WfFileWritten EmittingFile(FS.FilePath dst)
+        public new FileWritten EmittingFile(FS.FilePath dst)
             => Emitter.EmittingFile(dst);
 
-        public new ExecToken EmittedFile(WfFileWritten flow, Count count)
+        public new ExecToken EmittedFile(FileWritten flow, Count count)
             => Emitter.EmittedFile(flow, count);
 
-        public ExecToken EmittedFile(WfFileWritten flow, int count)
+        public ExecToken EmittedFile(FileWritten flow, int count)
             => Emitter.EmittedFile(flow, count);
 
-        public ExecToken EmittedFile(WfFileWritten flow, uint count)
+        public ExecToken EmittedFile(FileWritten flow, uint count)
             => Emitter.EmittedFile(flow, count);
 
-        public ExecToken EmittedFile<T>(WfFileWritten flow, T msg)
+        public ExecToken EmittedFile<T>(FileWritten flow, T msg)
             => Emitter.EmittedFile(flow, msg);
 
-        public ExecToken EmittedBytes(WfFileWritten flow, ByteSize size)
+        public ExecToken EmittedBytes(FileWritten flow, ByteSize size)
             => Emitter.EmittedBytes(flow, size);
 
         public new WfTableFlow<T> EmittingTable<T>(FS.FilePath dst)

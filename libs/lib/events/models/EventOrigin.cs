@@ -4,11 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct EventOrigin : ITextual
+    public readonly record struct EventOrigin : IExpr
     {
-        public NameOld OriginName {get;}
+        public readonly @string OriginName;
 
-        public CallingMember Caller {get;}
+        public readonly CallingMember Caller;
 
         [MethodImpl(Inline)]
         public EventOrigin(string name, in CallingMember caller)
@@ -23,10 +23,15 @@ namespace Z0
             OriginName = caller;
         }
 
+        public bool IsEmpty
+            => OriginName.IsEmpty;
+
         public string Format()
-            => RpOps.piped(OriginName, Caller);
+            => MsgOps.piped(OriginName, Caller);
 
         public override string ToString()
             => Format();
+
+        public static EventOrigin Empty => new EventOrigin(EmptyString, CallingMember.Empty);
     }
 }

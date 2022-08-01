@@ -4,42 +4,25 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Caller = System.Runtime.CompilerServices.CallerMemberNameAttribute;
-    using File = System.Runtime.CompilerServices.CallerFilePathAttribute;
-    using Line = System.Runtime.CompilerServices.CallerLineNumberAttribute;
-
     /// <summary>
     /// Captures invocation origin details
     /// </summary>
-    public struct CallingMember
+    public readonly record struct CallingMember
     {
-        [MethodImpl(Inline), Op]
-        public static CallingMember define([CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
-            => new CallingMember(caller, file, line ?? 0);
-
-        [MethodImpl(Inline), Op]
-        public static ref CallingMember define(ref CallingMember dst, [CallerName] string name = null, [CallerFilePath] string path = null, [CallerLine] int? line = null)
-        {
-            dst.CallerName = name;
-            dst.CallerFile = path;
-            dst.CallerLine = (uint)(line ?? 0);
-            return ref dst;
-        }
-
         /// <summary>
         /// The originator name
         /// </summary>
-        public string CallerName;
+        public readonly @string CallerName;
 
         /// <summary>
         /// The name of the file from which the invocation occurred
         /// </summary>
-        public string CallerFile;
+        public readonly @string CallerFile;
 
         /// <summary>
         /// The file-relative invocation line number
         /// </summary>
-        public uint CallerLine;
+        public readonly uint CallerLine;
 
         [MethodImpl(Inline)]
         public CallingMember(string name, string file, int line)
@@ -49,11 +32,30 @@ namespace Z0
             CallerLine = (uint)line;
         }
 
-        [MethodImpl(Inline)]
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => CallerName.Hash | CallerFile.Hash | (Hash32)CallerLine;
+        }
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => CallerName.IsEmpty || CallerFile.IsEmpty;
+        }
+
+        public override int GetHashCode()
+            => Hash;
+
+        public bool Equals(CallingMember src)
+            => CallerName == src.CallerName && CallerFile == src.CallerFile && CallerLine == src.CallerLine;
+
         public string Format()
             => string.Format("{0} | {1}:{2}", CallerName, CallerFile, CallerLine);
 
         public override string ToString()
             => Format();
+
+        public static CallingMember Empty => new CallingMember(EmptyString,EmptyString,0);
     }
 }

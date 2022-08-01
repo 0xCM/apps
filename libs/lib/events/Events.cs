@@ -5,7 +5,7 @@
 namespace Z0
 {
     [ApiHost]
-    public readonly struct Events
+    public class Events
     {
         [Op]
         public static StackFrame frame(int index)
@@ -13,14 +13,43 @@ namespace Z0
 
         const NumericKind Closure = UInt64k;
 
-        const string HandlerNotFound = "Handler for {0} not found";
+        static string prefix(object title, Type host, string caller)
+            => string.Concat(ExecutingPart.Id.Format(), Chars.FSlash, host.Name, Chars.FSlash, caller, Chars.LBrace, title, Chars.RBrace).PadRight(60);
+
+        static IAppMsg message(object title, object msg, Type host, string caller, FlairKind flair)
+            => AppMsg.colorize(string.Concat(prefix(title, host, caller), Chars.Pipe, Chars.Space, msg), flair);
+
+        public static EventBroker broker(LogSettings config)
+            => new EventBroker(Loggers.events(config), true);
+
+        public static EventBroker broker(IEventSink target)
+            => new EventBroker(target,false);
 
         [MethodImpl(Inline), Op]
-        public static EventSignal signal(IWfEventSink sink, WfHost host)
+        public static CallingMember caller([CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
+            => new CallingMember(caller, file, line ?? 0);
+
+        public static IAppMsg message<T>(Type host, string title, T content, LogLevel level = LogLevel.Status, FlairKind flair = FlairKind.Status, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
+        {
+            var origin = Events.originate(host, caller,file,line ?? 0);
+            var data = new AppMsgData<IAppMsg>(message(title, content, host, caller, flair), "{0}", level, flair, origin);
+            return AppMsg.define(data);            
+        }
+
+        [MethodImpl(Inline), Op]
+        public static EventSignal signal(IWfRuntime wf)
+            => Events.signal(wf.EventSink, wf.Host);
+
+        [MethodImpl(Inline), Op]
+        public static EventSignal signal(IWfRuntime wf, WfHost host)
+            => Events.signal(wf.EventSink, host);
+
+        [MethodImpl(Inline), Op]
+        public static EventSignal signal(IEventSink sink, WfHost host)
             => new EventSignal(sink, host);
 
         [MethodImpl(Inline), Op]
-        public static EventSignal signal(IWfEventSink sink, Type host)
+        public static EventSignal signal(IEventSink sink, Type host)
             => new EventSignal(sink, host);
 
         [Op, Closures(Closure)]

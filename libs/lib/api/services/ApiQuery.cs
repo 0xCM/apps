@@ -19,6 +19,15 @@ namespace Z0
             locker = new object();
         }
 
+        [Op]
+        public static ApiMembers members(MemoryAddress @base, Index<ApiMember> src)
+        {
+            if(src.Length != 0)
+                return new ApiMembers(@base, src.Sort());
+            else
+                return ApiMembers.Empty;
+        }
+
         public Index<IApiClass> ApiKinds()
         {
             lock(locker)
@@ -28,10 +37,6 @@ namespace Z0
             }
             return _Classes;
         }
-
-        [Op]
-        public static MethodInfo[] complete(Type src, HashSet<string> exclusions)
-            => src.DeclaredMethods().Unignored().NonGeneric().Exclude(exclusions);
 
         [Op]
         public static MethodInfo[] methods(in ApiCompleteType src, HashSet<string> exclusions)

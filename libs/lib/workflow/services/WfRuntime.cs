@@ -47,7 +47,7 @@ namespace Z0
             Emissions = init.EmissionLog;
         }
 
-        public IWfEventSink EventSink
+        public IEventSink EventSink
         {
             [MethodImpl(Inline)]
             get => EventBroker.Sink;

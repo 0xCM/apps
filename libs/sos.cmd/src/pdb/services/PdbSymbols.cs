@@ -36,7 +36,7 @@ namespace Z0
         public static PdbSymbolSource source(FS.FilePath pe)
             => new PdbSymbolSource(pe, pe.ChangeExtension(FS.Pdb));
 
-        SymbolPaths SymPaths => Z0.SymbolPaths.create(Env);
+        SymbolPaths SymPaths => Z0.SymbolPaths.create(AppDb.Service.Symbols());
 
         public FS.Files EmitDefaultSymbolPaths(FS.FilePath dst)
         {

@@ -17,7 +17,7 @@ namespace Z0
     public interface IRunnable<C> : IRunnable
         where C : new()
     {
-        C Config {get;}
+        C Settings {get;}
     }
 
     [Free]

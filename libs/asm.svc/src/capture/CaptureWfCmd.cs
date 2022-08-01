@@ -14,13 +14,11 @@ namespace Z0
 
         ApiPacks ApiPacks => Wf.ApiPacks();
 
+        CaptureWf CaptureWf => Wf.CaptureWf();
+
         [CmdOp("capture")]
         void Capture(CmdArgs args)
-        {
-            using var dispenser = Dispense.composite();
-            var capture = new CaptureWfRunner(this, new());
-            capture.Run(dispenser);
-        }
+            => CaptureWf.Run();
 
         [CmdOp("capture/current")]
         void Captured()

@@ -8,11 +8,11 @@ namespace Z0
 
     public readonly struct SymbolPaths : IFileArchive
     {
-        public static SymbolPaths create(in EnvData env)
-            => new SymbolPaths(env.CacheRoot + FS.folder(symbols));
+        // public static SymbolPaths create(in EnvData env)
+        //     => new SymbolPaths(env.CacheRoot + FS.folder(symbols));
 
-        public static SymbolPaths create(FS.FolderPath root)
-            => new SymbolPaths(root);
+        public static SymbolPaths create(IDbArchive src)
+            => new SymbolPaths(src.Root);
 
         public FS.FolderPath Root {get;}
 

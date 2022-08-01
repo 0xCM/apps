@@ -51,7 +51,7 @@ namespace Z0
             Close();
         }
 
-        public ref readonly WfFileWritten LogEmission(in WfFileWritten flow)
+        public ref readonly FileWritten LogEmission(in FileWritten flow)
         {
             try
             {

@@ -12,8 +12,6 @@ namespace Z0
     {
         readonly IWfRuntime Wf;
 
-        readonly IWfSvc Svc;
-
         readonly IApiPack Target;
 
         readonly IWfEventTarget EventTarget;
@@ -22,18 +20,17 @@ namespace Z0
 
         readonly WfEmit Emitter;
 
-        public CaptureWfRunner(IWfSvc svc, CaptureWfSettings settings)
+        public CaptureWfRunner(IWfSvc svc, CaptureWfSettings settings, IApiPack dst)
         {
-            Svc = svc;
             Wf = svc.Wf;
+            Target = dst;
             Settings = settings;
-            Target = ApiPacks.create();
             EventTarget =  svc.Wf.EventLog;
             Emitter = svc.Emitter;
             Wf.RedirectEmissions(Loggers.emission(Target.Path("capture.emissions", FileKind.Csv)));
         }
 
-        CaptureWfSettings IRunnable<CaptureWfSettings>.Config
+        CaptureWfSettings IRunnable<CaptureWfSettings>.Settings
             => Settings;
 
         ApiMd ApiMd => Wf.ApiMd();
@@ -43,8 +40,6 @@ namespace Z0
         AsmDecoder AsmDecoder => Wf.AsmDecoder();
 
         ApiCodeSvc ApiCodeSvc => Wf.ApiCode();
-
-        AppDb AppDb => AppDb.Service;
 
         CliEmitter CliEmitter => Wf.CliEmitter();
 

@@ -8,7 +8,7 @@ namespace Z0
     public readonly struct Loggers
     {
         [MethodImpl(Inline), Op]
-        public static ref EmissionLogEntry entry(in WfFileWritten src, out EmissionLogEntry dst)
+        public static ref EmissionLogEntry entry(in FileWritten src, out EmissionLogEntry dst)
         {
             dst.ExecToken = src.Token;
             dst.Target = src.Target;
@@ -73,7 +73,7 @@ namespace Z0
             => new WfEventLog(config);
 
         [MethodImpl(Inline), Op]
-        public static IWfEventSink term(string src)
+        public static IEventSink term(string src)
             => new TermLog(src);
 
         [MethodImpl(Inline), Op]

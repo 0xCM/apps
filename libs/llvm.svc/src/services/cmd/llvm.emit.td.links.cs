@@ -17,7 +17,7 @@ namespace Z0.llvm
             for(var i=0; i<count; i++)
             {
                 ref readonly var srcpath = ref sources[i];
-                var relative = srcpath.Relative(Paths.LlvmRoot);
+                var relative = srcpath.Relative(Paths.LlvmRoot.Root);
                 var linkpath = links.Root + relative;
                 var link = FS.symlink(linkpath, srcpath, true);
                 link.OnFailure(e => Error(e)).OnSuccess(Write);

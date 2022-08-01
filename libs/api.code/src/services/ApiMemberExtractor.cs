@@ -41,7 +41,7 @@ namespace Z0
             => _Buffer = buffer;
 
         [MethodImpl(Inline)]
-        public Index<ApiMemberExtract> Extract(ApiMember[] src)
-            => ApiCode.extract(src, Buffer);
+        public Index<ApiMemberExtract> Extract(ApiMembers src)
+            => ApiCode.extract(src.View, Buffer);
     }
 }

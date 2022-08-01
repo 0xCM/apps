@@ -4,12 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    public readonly struct AppMsgData<T> : ITextual
+    public readonly record struct AppMsgData<T> : IExpr
     {
         /// <summary>
         /// The message payload
@@ -34,16 +29,22 @@ namespace Z0
         /// <summary>
         /// Specifies the emitting executable part
         /// </summary>
-        public readonly AppMsgSource Origin;
+        public readonly EventOrigin Origin;
 
         [MethodImpl(Inline)]
-        public AppMsgData(T content, string pattern, LogLevel kind, FlairKind color, AppMsgSource origin)
+        public AppMsgData(T content, string pattern, LogLevel kind, FlairKind flair, EventOrigin origin)
         {
             Content = content;
             Pattern = pattern;
             Kind = kind;
-            Flair = color;
+            Flair = flair;
             Origin = origin;
+        }
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => sys.empty($"{Content}");
         }
 
         public AppMsgData Untyped

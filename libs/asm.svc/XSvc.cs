@@ -22,6 +22,9 @@ namespace Z0
 
             public GenCmd GenCmd(IWfRuntime wf)
                 => Service<GenCmd>(wf);
+
+            public CaptureWf CaptureWf(IWfRuntime wf)
+                => Service<CaptureWf>(wf);
         }
 
         static ServiceCache Services => ServiceCache.Instance;
@@ -37,5 +40,9 @@ namespace Z0
 
         public static CaptureWfCmd CaptureCmd(this IWfRuntime wf)
             => Services.CaptureCmd(wf);
+
+       public static CaptureWf CaptureWf(this IWfRuntime wf)
+            => Services.CaptureWf(wf);
+             
     }
 }

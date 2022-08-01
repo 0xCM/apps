@@ -10,10 +10,10 @@ namespace Z0
     {
         readonly WfHost Source;
 
-        readonly IWfEventSink Sink;
+        readonly IEventSink Sink;
 
         [MethodImpl(Inline)]
-        internal EventSignal(IWfEventSink sink, WfHost src)
+        internal EventSignal(IEventSink sink, WfHost src)
         {
             Source = src;
             Sink = sink;

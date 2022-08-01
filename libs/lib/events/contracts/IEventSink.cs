@@ -5,14 +5,14 @@
 namespace Z0
 {
     [Free]
-    public interface IWfEventSink<E> : ISink<E>
+    public interface IEventSink<E> : ISink<E>
         where E : IWfEvent
     {
 
     }
 
     [Free]
-    public interface IWfEventSink : IWfEventSink<IWfEvent>, IDisposable
+    public interface IEventSink : IEventSink<IWfEvent>, IDisposable
     {
 
     }

@@ -24,7 +24,6 @@ namespace Z0
             return service;
         }
 
-
         protected IServiceContext Context {get; private set;}
 
         protected IServiceContext Wf => Context;

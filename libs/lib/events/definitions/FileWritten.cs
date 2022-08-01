@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct WfFileWritten
+    public readonly struct FileWritten
     {
         readonly IWfRuntime Wf;
 
@@ -15,7 +15,7 @@ namespace Z0
         public Count EmissionCount {get;}
 
         [MethodImpl(Inline)]
-        internal WfFileWritten(IWfRuntime wf, FS.FilePath dst, in ExecToken token, uint count = 0)
+        internal FileWritten(IWfRuntime wf, FS.FilePath dst, in ExecToken token, uint count = 0)
         {
             Wf = wf;
             Token = token;
@@ -24,15 +24,15 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public WfFileWritten WithCount(Count count)
-            => new WfFileWritten(Wf, Target, Token, count);
+        public FileWritten WithCount(Count count)
+            => new FileWritten(Wf, Target, Token, count);
 
         [MethodImpl(Inline)]
-        public WfFileWritten WithToken(ExecToken token)
-            => new WfFileWritten(Wf, Target, token, EmissionCount);
+        public FileWritten WithToken(ExecToken token)
+            => new FileWritten(Wf, Target, token, EmissionCount);
 
         [MethodImpl(Inline)]
-        public static implicit operator WfExecFlow(WfFileWritten src)
+        public static implicit operator WfExecFlow(FileWritten src)
             => new WfExecFlow(src.Wf, src.Token);
     }
 }

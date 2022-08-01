@@ -29,10 +29,10 @@ namespace Z0
         /// <summary>
         /// Specifies the emitting executable part
         /// </summary>
-        public readonly AppMsgSource Source;
+        public readonly EventOrigin Source;
 
         [MethodImpl(Inline)]
-        public AppMsgData(object content, string pattern, LogLevel kind, FlairKind color, AppMsgSource origin)
+        public AppMsgData(object content, string pattern, LogLevel kind, FlairKind color, EventOrigin origin)
         {
             Content = content;
             Pattern = pattern;

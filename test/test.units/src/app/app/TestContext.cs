@@ -5,6 +5,7 @@
 namespace Z0
 {
     using System.Linq;
+    using System.Diagnostics;
 
     public abstract class TestContext<U> : ITestContext<U>
         where U : TestContext<U>
@@ -12,6 +13,8 @@ namespace Z0
         public bool DiagnosticMode {get; private set;}
 
         protected IWfRuntime Wf {get; private set;}
+
+        protected AppDb AppDb => AppDb.Service;
 
         public void SetMode(bool diagnostic)
             => DiagnosticMode = diagnostic;
@@ -141,7 +144,7 @@ namespace Z0
             => (PartId)((ulong)Assembly.GetEntryAssembly().Id());
 
         protected virtual FS.FolderPath UnitDataDir
-            => Wf.Db().Root + FS.folder("test") + FS.folder(GetType().Name);
+            => AppDb.Logs($"test/{GetType().Name}").Root;
 
         protected static FS.FileExt LogExt => FS.Log;
 
@@ -205,16 +208,16 @@ namespace Z0
             => Queue.Notify(msg, severity);
 
         protected void Trace(object msg, [CallerName] string caller = null)
-            => Queue.Trace(msg, GetType(), caller);
+            => Queue.Deposit(msg, GetType(), caller);
 
         protected void Trace(string title, object msg, FlairKind color, [CallerName] string caller = null)
-            => Queue.Trace(title, msg, color, GetType(), caller);
+            => Queue.Deposit(title, msg, color, GetType(), caller);
 
         protected void Trace(string title, string msg, [CallerName] string caller = null)
-            => Queue.Trace(title, msg, GetType(), caller);
+            => Queue.Deposit(title, msg, GetType(), caller);
 
         protected void Trace(IAppMsg msg)
-            => Queue.Trace(msg);
+            => Queue.Deposit(msg);
 
         protected void Trace(ITextual msg)
             => Notify(msg.Format());

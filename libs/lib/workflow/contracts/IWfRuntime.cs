@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static WfEvents;
+    using static Events;
 
     public interface IWfRuntime : IDisposable, ITextual, IServiceContext
     {
@@ -69,21 +69,21 @@ namespace Z0
         ExecToken Ran<T>(WfExecFlow<T> src)
         {
             var token = Completed(src);
-            WfEvents.signal(this).Ran(src.Data);
+            signal(this).Ran(src.Data);
             return token;
         }
 
         ExecToken Ran<T>(WfHost host, WfExecFlow<T> src, FlairKind flair = FlairKind.Ran)
         {
             var token = Completed(src);
-            WfEvents.signal(this, host).Ran(src.Data);
+            signal(this, host).Ran(src.Data);
             return token;
         }
 
         ExecToken Ran<T,D>(WfExecFlow<T> src, D data, FlairKind flair = FlairKind.Ran)
         {
             var token = Completed(src);
-            WfEvents.signal(this).Ran(data);
+            signal(this).Ran(data);
             return token;
         }
 
@@ -100,11 +100,8 @@ namespace Z0
             where T : struct
                 => new WfTableFlow<T>(this, dst, NextExecToken());
 
-        WfFileWritten Flow(FS.FilePath dst)
-            => new WfFileWritten(this, dst, NextExecToken());
-
-        IWfDb Db()
-            => new WfDb(this, FS.dir(@"d:\views\db\apps"));
+        FileWritten Flow(FS.FilePath dst)
+            => new FileWritten(this, dst, NextExecToken());
 
         EventId Raise<E>(in E e)
             where E : IWfEvent
@@ -186,19 +183,19 @@ namespace Z0
             return completed;
         }
 
-        WfFileWritten EmittingFile(FS.FilePath dst)
+        FileWritten EmittingFile(FS.FilePath dst)
         {
             signal(this).EmittingFile(dst);
             return Emissions.LogEmission(Flow(dst));
         }
 
-        WfFileWritten EmittingFile(WfHost host, FS.FilePath dst)
+        FileWritten EmittingFile(WfHost host, FS.FilePath dst)
         {
             signal(this, host).EmittingFile(dst);
             return Emissions.LogEmission(Flow(dst));
         }
 
-        ExecToken EmittedFile(WfFileWritten flow, Count count)
+        ExecToken EmittedFile(FileWritten flow, Count count)
         {
             var completed = Completed(flow);
             var counted = flow.WithCount(count).WithToken(completed);
@@ -207,13 +204,13 @@ namespace Z0
             return completed;
         }
 
-        ExecToken EmittedFile(WfFileWritten flow, int count)
+        ExecToken EmittedFile(FileWritten flow, int count)
             => EmittedFile(flow, (Count)count);
 
-        ExecToken EmittedFile(WfFileWritten flow, uint count)
+        ExecToken EmittedFile(FileWritten flow, uint count)
             => EmittedFile(flow, (Count)count);
 
-        ExecToken EmittedFile<T>(WfFileWritten flow, T msg)
+        ExecToken EmittedFile<T>(FileWritten flow, T msg)
         {
             var completed = Completed(flow);
             var counted = flow.WithToken(completed);
@@ -222,7 +219,7 @@ namespace Z0
             return completed;
         }
 
-        ExecToken EmittedFile(WfHost host, WfFileWritten flow, Count count)
+        ExecToken EmittedFile(WfHost host, FileWritten flow, Count count)
         {
             var completed = Completed(flow);
             var counted = flow.WithCount(count).WithToken(completed);

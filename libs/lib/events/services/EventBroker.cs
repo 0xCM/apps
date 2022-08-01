@@ -4,28 +4,22 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
 
-    public class WfBroker : IEventBroker
+    public class EventBroker : IEventBroker
     {
-        public static WfBroker create(LogSettings config)
-            => new WfBroker(Loggers.events(config), true);
-
-        public static WfBroker create(IWfEventSink target)
-            => new WfBroker(target,false);
-
         readonly Dictionary<Type,ISink> Subscriptions;
 
         readonly Dictionary<ulong, Receiver<IAppEvent>> Receivers;
 
-        public IWfEventSink Sink {get;}
+        public IEventSink Sink {get;}
 
         object locker;
 
         readonly bool Owner;
 
         [MethodImpl(Inline)]
-        public WfBroker(IWfEventSink sink, bool owner)
+        internal EventBroker(IEventSink sink, bool owner)
         {
             Owner = owner;
             Sink = sink;

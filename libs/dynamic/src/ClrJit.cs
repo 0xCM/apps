@@ -15,7 +15,7 @@ namespace Z0
         public static ApiMember member(MethodInfo src, ApiHostUri host)
         {
             var uri = ApiIdentity.define(ApiUriScheme.Located, host, src.Name, MultiDiviner.Service.Identify(src));
-            var address = ClrJit.jit(src);
+            var address = jit(src);
             return new ApiMember(uri, src, address, ClrDynamic.msil(address, uri, src));
         }
 
@@ -199,8 +199,13 @@ namespace Z0
             => jit(ApiLoader.catalog(src), log);
 
         [Op]
+        public static MethodInfo[] complete(Type src, HashSet<string> exclusions)
+            => src.DeclaredMethods().Unignored().NonGeneric().Exclude(exclusions);
+
+
+        [Op]
         public static Index<ApiMember> complete(Type src, IWfEventTarget log)
-            => members(ApiQuery.complete(src, CommonExclusions).Select(m => new JittedMethod(src.ApiHostUri(), m, ClrJit.jit(m))));
+            => members(complete(src, CommonExclusions).Select(m => new JittedMethod(src.ApiHostUri(), m, ClrJit.jit(m))));
 
         [Op]
         public static ApiHostMembers jit(IApiHost src, IWfEventTarget log)
@@ -219,7 +224,7 @@ namespace Z0
 
         [Op]
         public static Index<ApiMember> jit(ApiCompleteType src, IWfEventTarget log)
-            => members(ApiQuery.complete(src.HostType, CommonExclusions).Select(m => new JittedMethod(src.HostUri, m, ClrJit.jit(m))));
+            => members(complete(src.HostType, CommonExclusions).Select(m => new JittedMethod(src.HostUri, m, ClrJit.jit(m))));
 
         [Op]
         static ApiMember[] direct(IApiHost src)

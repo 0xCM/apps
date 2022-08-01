@@ -11,6 +11,7 @@
     <ProjectReference Include="$(Circuits)" />
     <ProjectReference Include="$(Archives)" />
     <ProjectReference Include="$(Polyrand)" />
+    <ProjectReference Include="$(Wf)" />
   </ItemGroup>
 
 </Project>

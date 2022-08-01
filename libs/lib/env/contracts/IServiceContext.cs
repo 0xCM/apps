@@ -6,6 +6,6 @@ namespace Z0
 {
     public interface IServiceContext
     {
-        IWfEventSink EventSink {get;}
+        IEventSink EventSink {get;}
     }
 }

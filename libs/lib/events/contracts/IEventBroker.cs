@@ -13,6 +13,6 @@ namespace Z0
 
         void Raise(IAppEvent e);
 
-        IWfEventSink Sink {get;}
+        IEventSink Sink {get;}
     }
 }

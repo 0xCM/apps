@@ -12,10 +12,10 @@ namespace Z0
     class ModuleProcessor
     {
         [MethodImpl(Inline)]
-        public static ModuleProcessor create(IWfEventSink sink, bool pll = true)
+        public static ModuleProcessor create(IEventSink sink, bool pll = true)
             => new ModuleProcessor(sink, pll);
 
-        readonly IWfEventSink Events;
+        readonly IEventSink Events;
 
         readonly bool Pll;
 
@@ -26,7 +26,7 @@ namespace Z0
         readonly object Locker;
 
         [MethodImpl(Inline)]
-        internal ModuleProcessor(IWfEventSink sink, bool pll = true)
+        internal ModuleProcessor(IEventSink sink, bool pll = true)
         {
             Events = sink;
             Pll = pll;

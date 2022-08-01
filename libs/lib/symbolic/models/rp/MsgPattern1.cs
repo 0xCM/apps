@@ -16,8 +16,7 @@ namespace Z0
             => string.Format(PatternText, $"<{src}>");
 
         public MsgCapture Capture(in T src)
-            => RpOps.msgcap(this, $"<{src}>");
-
+            => MsgOps.message(this, $"<{src}>");
 
         [MethodImpl(Inline)]
         public static implicit operator MsgPattern<T>(string src)

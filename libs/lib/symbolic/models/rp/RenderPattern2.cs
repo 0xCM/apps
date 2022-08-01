@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct RenderPattern<A0,A1> : IFormatPattern<RenderPattern<A0,A1>,A0,A1>
     {
         public string PatternText {get;}
@@ -23,7 +18,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public RenderCapture Capture(in A0 s0, in A1 s1)
-            => RpOps.capture(this, s0, s1);
+            => MsgOps.render(this, s0, s1);
 
         [MethodImpl(Inline)]
         public static implicit operator RenderPattern<A0,A1>(string src)

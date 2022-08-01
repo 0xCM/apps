@@ -13,7 +13,7 @@ namespace Z0
 
         public void CheckCaller()
         {
-            var c = CallingMember.define();
+            var c = Events.caller();
             Claim.eq(c.CallerName, nameof(CheckCaller));
         }
 

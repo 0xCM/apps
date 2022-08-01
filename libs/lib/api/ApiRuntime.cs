@@ -39,7 +39,7 @@ namespace Z0
             dst.ApiParts = parts;
             dst.Args = args;
             dst.AppName = id.PartName();
-            dst.EventBroker = WfBroker.create(dst.LogConfig);
+            dst.EventBroker = Events.broker(dst.LogConfig);
             dst.Host = new WfHost(typeof(WfRuntime));
             dst.EmissionLog = Loggers.emission(control);
             var wf = new WfRuntime(dst);
@@ -192,7 +192,7 @@ namespace Z0
             dst.ApiParts = parts;
             dst.Args = args;
             dst.AppName = id.PartName();
-            dst.EventBroker = WfBroker.create(dst.LogConfig);
+            dst.EventBroker = Events.broker(dst.LogConfig);
             dst.Host = new WfHost(typeof(WfRuntime));
             dst.EmissionLog = Loggers.emission(control, core.timestamp());
             var wf = new WfRuntime(dst);
