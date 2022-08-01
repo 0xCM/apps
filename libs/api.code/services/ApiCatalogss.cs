@@ -10,35 +10,16 @@ namespace Z0
 
     public class ApiCatalogs : WfSvc<ApiCatalogs>
     {
-        public IApiCatalog Catalog
-            => ApiRuntimeCatalog;
-
-        public Index<ApiHostCatalog> HostCatalogs(IApiPartCatalog src)
-            => src.ApiHosts.Map(HostCatalog);
-
-        public ApiHostCatalog HostCatalog(IApiHost src)
+        public static ReadOnlySeq<ApiRuntimeMember> members(IApiCatalog catalog, IWfEventTarget log, bool pll)
         {
-            var members = ClrJit.members(src, EventLog);
-            return members.Length == 0 ? ApiHostCatalog.Empty : new ApiHostCatalog(src, members);
-        }
-
-        ConcurrentDictionary<PartId,Index<ApiHostCatalog>> HostCatalogs()
-        {
-            var dst = cdict<PartId, Index<ApiHostCatalog>>();
-            iter(Catalog.PartCatalogs(), part => dst.TryAdd(part.PartId, HostCatalogs(part)), true);
-            return dst;
-        }
-
-
-        public ReadOnlySeq<ApiRuntimeMember> CalcRuntimeMembers()
-        {
-            var src = HostCatalogs();
             var dst = bag<ApiRuntimeMember>();
-            iter(src.Values.Array().SelectMany(x => x), catalog => {
+            var hosts = bag<ApiHostCatalog>();
+            catalogs(catalog, log, hosts, pll);
+            iter(hosts, catalog => {
                 var members = catalog.Members;
                 for(var i=0; i<members.Count; i++)
                 {
-                    var row = default(ApiRuntimeMember);
+                    var row = ApiRuntimeMember.Empy;
                     ref readonly var member = ref members[i];
                     row.Part = member.Host.Part;
                     row.Token = member.Msil.Token;
@@ -47,9 +28,21 @@ namespace Z0
                     row.Uri = member.OpUri;
                     dst.Add(row);
                 }
-            },true);
+            }, pll);
             return dst.Array().Sort().Resequence();
         }
+
+        public static void catalogs(IApiPartCatalog src, IWfEventTarget log, ConcurrentBag<ApiHostCatalog> dst, bool pll)
+            => iter(src.ApiHosts, host => catalog(host, log, dst), pll);
+
+        public static void catalog(IApiHost src, IWfEventTarget log, ConcurrentBag<ApiHostCatalog> dst)
+            => dst.Add(new ApiHostCatalog(src, ClrJit.members(src, log)));
+
+        public static ApiHostCatalog catalog(IApiHost src, IWfEventTarget log)
+            => new ApiHostCatalog(src, ClrJit.members(src, log));
+
+        public static void catalogs(IApiCatalog src, IWfEventTarget log, ConcurrentBag<ApiHostCatalog> dst, bool pll)
+            => iter(src.PartCatalogs(),  part => catalogs(part, log, dst, pll), pll);
 
         public void Emit(ApiMembers src, IApiPack dst)
         {
@@ -90,43 +83,6 @@ namespace Z0
             return (uint)count;
         }
 
-        public Index<ApiCatalogEntry> Load(FS.FilePath src)
-        {
-            var rows = list<ApiCatalogEntry>();
-            using var reader = src.Utf8Reader();
-            reader.ReadLine();
-            var line = reader.ReadLine();
-            while(line != null)
-            {
-                var outcome = parse(line, out ApiCatalogEntry row);
-                if(outcome)
-                    rows.Add(row);
-                else
-                {
-                    Error(outcome.Message);
-                    return array<ApiCatalogEntry>();
-                }
-                line = reader.ReadLine();
-            }
-            return rows.ToArray();
-        }
-
-        public Index<ApiCatalogEntry> Load(FS.FolderPath dir)
-        {
-            var files = dir.Files(FS.Csv).Where(f => f.FileName.StartsWith(ApiCatalogEntry.TableId)).OrderBy(f => f.Name).ToReadOnlySpan();
-            var count = files.Length;
-            var rows = sys.empty<ApiCatalogEntry>();
-            if(count != 0)
-            {
-                ref readonly var current = ref skip(files,count - 1);
-                var flow = Running(Msg.LoadingApiCatalog.Format(current));
-                rows = Load(current);
-                Ran(flow, Msg.LoadedApiCatalog.Format(rows.Length, current));
-            }
-
-            return rows;
-        }
-
         public Index<MemberCodeBlock> Correlate()
             => Correlate(ApiRuntimeCatalog.PartCatalogs());
 
@@ -142,6 +98,7 @@ namespace Z0
             var count = src.Length;
             var code = list<MemberCodeBlock>();
             var records = list<ApiCorrelationEntry>();
+            var catalogs = bag<ApiHostCatalog>();
             for(var i=0; i<count; i++)
             {
                 var part = skip(src,i);
@@ -155,7 +112,9 @@ namespace Z0
                     if(hexpath.Exists)
                     {
                         Require.invariant(ApiRuntimeCatalog.FindHost(srcHost.HostUri, out var host));
-                        Correlate(HostCatalog(host), ApiHex.blocks(hexpath), code, records);
+                        var catalog = ApiCatalogs.catalog(host, EventLog);
+                        Correlate(catalog, ApiCode.apiblocks(hexpath), code, records);
+                        catalogs.Add(catalog);
                     }
                 }
                 Ran(inner);
@@ -197,29 +156,6 @@ namespace Z0
                 }
             }
             return count;
-        }
-
-        static Outcome parse(string src, out ApiCatalogEntry dst)
-        {
-            const char Delimiter = FieldDelimiter;
-            const byte FieldCount = ApiCatalogEntry.FieldCount;
-            var fields = text.split(src, Delimiter);
-            if(fields.Length != FieldCount)
-            {
-                dst = default;
-                return (false, Msg.FieldCountMismatch.Format(fields.Length, FieldCount, text.delimit(@readonly(fields), Delimiter,0)));
-            }
-
-            var i = 0;
-            DataParser.parse(skip(fields, i++), out dst.Sequence);
-            DataParser.parse(skip(fields, i++), out dst.ProcessBase);
-            DataParser.parse(skip(fields, i++), out dst.MemberBase);
-            DataParser.parse(skip(fields, i++), out dst.MemberOffset);
-            DataParser.parse(skip(fields, i++), out dst.MemberRebase);
-            DataParser.parse(skip(fields, i++), out dst.PartName);
-            DataParser.parse(skip(fields, i++), out dst.HostName);
-            DataParser.parse(skip(fields, i++), out dst.OpUri);
-            return true;
         }
     }
 }

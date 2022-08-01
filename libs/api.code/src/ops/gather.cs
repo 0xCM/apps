@@ -6,7 +6,9 @@ namespace Z0
 {
     using Asm;
 
-    using static core;
+    using static Algs;
+    using static Spans;
+    using static Arrays;
 
     partial class ApiCode
     {
@@ -15,33 +17,17 @@ namespace Z0
             => iter(jit(src, log), member => dst.Add(gather(member, dispenser, log)));
 
         [Op]
-        public static ReadOnlySeq<ApiEncoded> gather(ReadOnlySpan<MethodEntryPoint> src, ICompositeDispenser dispenser, IWfEventTarget log)
-            => parse(raw(dispenser, src, log), log).Values.Array().Sort();
-
-        [Op]
-        static void jit(IApiHost host, ConcurrentBag<ApiHostMembers> dst, IWfEventTarget log)
-        {
-            var jitted = ClrJit.jit(host, log);
-            if(jitted.IsNonEmpty)
-                dst.Add(jitted);
-        }
-
-        [Op]
-        static void jit(ApiCompleteType src, ConcurrentBag<ApiHostMembers> dst, IWfEventTarget log)
-        {
-            var jitted = ClrJit.members(ClrJit.jit(src, log));
-            if(jitted.IsNonEmpty)
-                dst.Add(new ApiHostMembers(src.HostUri, jitted));
-        }
-
-        [Op]
         static ConcurrentBag<ApiHostMembers> jit(IApiPartCatalog src, IWfEventTarget log)
         {
             var members = bag<ApiHostMembers>();
-            iter(src.ApiHosts, host => jit(host, members, log));
-            iter(src.ApiTypes, type => jit(type, members, log));      
+            iter(src.ApiHosts, host => ClrJit.jit(host, members, log));
+            iter(src.ApiTypes, type => ClrJit.jit(type, members, log));      
             return members;          
         }
+
+        [Op]
+        public static ReadOnlySeq<ApiEncoded> gather(ReadOnlySpan<MethodEntryPoint> src, ICompositeDispenser dispenser, IWfEventTarget log)
+            => parse(raw(dispenser, src, log), log).Values.Array().Sort();
 
         [Op]
         static Outcome gather(in RawMemberCode raw, Span<byte> buffer, out CollectedCodeExtract dst)
@@ -69,7 +55,7 @@ namespace Z0
         [Op]
         static Index<RawMemberCode> raw(ICompositeDispenser dispenser, ReadOnlySpan<MethodEntryPoint> src, IWfEventTarget log)
         {
-            var code = alloc<RawMemberCode>(src.Length);
+            var code = sys.alloc<RawMemberCode>(src.Length);
             for(var i=0; i<src.Length; i++)
             {
                 ref readonly var entry = ref skip(src,i);

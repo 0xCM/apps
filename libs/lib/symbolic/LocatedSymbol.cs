@@ -5,7 +5,7 @@
 namespace Z0
 {
     [StructLayout(LayoutKind.Sequential,Pack=1)]
-    public readonly record struct LocatedSymbol : IComparable<LocatedSymbol>
+    public readonly record struct LocatedSymbol : IDataString<LocatedSymbol>
     {
         [MethodImpl(Inline)]
         public static LocatedSymbol anonymous(MemoryAddress location)

@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static Algs;
+
     public class CaptureWf : WfSvc<CaptureWf>
     {
         public class SettingsStore : Repository<FS.FilePath, CaptureWfSettings, FS.FilePath>
@@ -19,20 +21,20 @@ namespace Z0
             }
         }
 
+        public ReadOnlySeq<ApiEncoded> Run(ICompositeDispenser dispenser, IApiPack dst)
+        {
+            var capture = new CaptureWfRunner(this, new(), dst);
+            return capture.Run(dispenser);
+        }
+
         public void Run(IApiPack dst)
         {
             using var dispenser = Dispense.composite();
             Run(dispenser, dst);
         }
 
-        public HostCollection Run(ICompositeDispenser dispenser, IApiPack dst)
-        {
-            var capture = new CaptureWfRunner(this, new(), dst);
-            return capture.Run(dispenser);
-        }
-
         public void Run()
-            => Run(ApiPacks.create());
+            => Run(ApiPacks.create(timestamp()));
 
         static SettingsStore Store = new();
 

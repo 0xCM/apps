@@ -130,6 +130,5 @@ namespace Z0
 
         public static CodeBlock Empty
             => new CodeBlock(0);
-
     }
 }

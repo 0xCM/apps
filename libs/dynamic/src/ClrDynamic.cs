@@ -42,8 +42,7 @@ namespace Z0
 
         [Op]
         public static ApiMsil msil(MemoryAddress @base, OpUri uri, MethodInfo src)
-            => new ApiMsil(src.MetadataToken, @base, src.DisplaySig(), uri, src.ResolveSignature(),
-                src.GetMethodBody().GetILAsByteArray(), src.GetMethodImplementationFlags());
+            => new ApiMsil(src.MetadataToken, @base, src.DisplaySig(), uri, src.ResolveSignature(), src.GetMethodBody().GetILAsByteArray(), src.GetMethodImplementationFlags());
 
         [MethodImpl(Inline), Op]
         public static MethodBase method(RuntimeMethodHandle src)

@@ -10,7 +10,7 @@ namespace Z0
     /// Defines an inclusive address range
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public readonly struct MemoryRange : IMemoryRange<MemoryRange>
+    public readonly record struct MemoryRange : IMemoryRange<MemoryRange>
     {
         [MethodImpl(Inline)]
         public static MemoryRange define(MemoryAddress min, MemoryAddress max)
@@ -69,9 +69,6 @@ namespace Z0
         public bool Equals(MemoryRange src)
             => Min == src.Min && Max == src.Max;
 
-        public override bool Equals(object obj)
-            => obj is MemoryRange x && Equals(x);
-
         [MethodImpl(Inline)]
         public bool Contains(MemoryRange src)
             => src.Min >= Min && src.Max <= Max;
@@ -89,14 +86,6 @@ namespace Z0
 
         public override string ToString()
             => Format();
-
-        [MethodImpl(Inline)]
-        public static bool operator==(MemoryRange a, MemoryRange b)
-            => a.Equals(b);
-
-        [MethodImpl(Inline)]
-        public static bool operator!=(MemoryRange a, MemoryRange b)
-            => !a.Equals(b);
 
         [MethodImpl(Inline)]
         public static bool operator<(MemoryRange a, MemoryRange b)

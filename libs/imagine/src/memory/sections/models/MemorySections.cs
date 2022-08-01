@@ -15,6 +15,29 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
+        [MethodImpl(Inline)]
+        public static ReadOnlySpan<T> view<T>(MemorySeg src)
+            where T : unmanaged
+                => Algs.cover(src.BaseAddress.Ref<T>(), capacity<T>(src));
+
+        [MethodImpl(Inline)]
+        public static uint capacity<T>(MemorySeg src)
+            where T : unmanaged
+                => (uint)(src.Length/size<T>());
+
+        [MethodImpl(Inline), Op]
+        public static Span<T> edit<T>(MemoryRange src)
+            where T : unmanaged
+                => Algs.cover(src.Min.Ref<T>(), capacity<T>(src));
+
+        [MethodImpl(Inline)]
+        public static MemoryRange range(MemoryAddress min, MemoryAddress max)
+            => new MemoryRange(min,max);
+
+        [MethodImpl(Inline)]
+        public static MemoryRange range(MemoryAddress min, ByteSize size)
+            => new MemoryRange(min, size);
+
         [MethodImpl(Inline), Op]
         static MemoryAddress liberate(MemoryAddress src, ulong length)
              => VirtualProtectEx(CurrentProcess.ProcessHandle, src, (UIntPtr)(ulong)length, PageProtection.ExecuteReadWrite, out var _) ? src : MemoryAddress.Zero;

@@ -10,6 +10,11 @@ namespace Z0
     [ApiHost]
     public sealed class ApiPacks : WfSvc<ApiPacks>
     {
+        public static IApiPack create()
+            => new ApiPack(AppDb.Service.Capture().Targets(AppDb.Ts.Format()).Root, AppDb.Ts);
+
+        public static IApiPack create(Timestamp ts)
+            => new ApiPack(AppDb.Service.Capture().Targets(ts.Format()).Root, ts);
 
         public static ReadOnlySeq<IApiPack> discover()
         {
@@ -29,20 +34,14 @@ namespace Z0
             return slice(@readonly(dst.Seal()),0,counter).ToArray();
         }
 
-        public static IApiPack create()
-            => new ApiPack(AppDb.Service.Capture().Targets(AppDb.Ts.Format()).Root, AppDb.Ts);
-
-        public static IApiPack create(Timestamp ts)
-            => new ApiPack(AppDb.Service.Capture().Targets(ts.Format()).Root, ts);
-
-        public static bool timestamp(FS.FolderPath src, out Timestamp dst)
+        public static bool parse(FS.FolderPath src, out Timestamp ts)
         {
-            dst = default;
+            ts = default;
             var fmt = src.Format(PathSeparator.FS);
             var idx = fmt.LastIndexOf(Chars.FSlash);
             if(idx == NotFound)
                 return false;
-            return Time.parse(fmt.RightOfIndex(idx), out dst);
+            return Time.parse(fmt.RightOfIndex(idx), out ts);
         }
 
         public static bool parse(FS.FolderPath src, out ApiPack dst)
@@ -59,7 +58,6 @@ namespace Z0
                 dst = new ApiPack(FS.FolderPath.Empty, Timestamp.Zero);
             return result;
         }
-
 
         public IApiPack Current()
             => discover().Last;

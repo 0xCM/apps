@@ -21,5 +21,23 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Resolved.Host;
         }
+
+        public uint Count
+        {
+            [MethodImpl(Inline)]
+            get => Blocks.Count;            
+        }
+
+        public ref readonly ApiEncoded this[uint i]
+        {
+            [MethodImpl(Inline)]
+            get => ref Blocks[i];
+        }
+
+        public ref readonly ApiEncoded this[int i]
+        {
+            [MethodImpl(Inline)]
+            get => ref Blocks[i];
+        }
     }
 }

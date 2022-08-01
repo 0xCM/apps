@@ -38,7 +38,7 @@ namespace Z0
                 if(id == 0)
                     continue;
 
-                var uri = ApiHostUri.define(id, skip(elements,1));
+                var uri = ApiIdentity.host(id, skip(elements,1));
                 hex.Add(new (uri, ApiHex.memory(file)));
             }
         }

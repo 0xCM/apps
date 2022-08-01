@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Free]
-    public interface IApiUri : IIdentified, INullity
+    public interface IApiUri : IIdentified, IDataString
     {
         string UriText {get;}
 
@@ -14,7 +14,7 @@ namespace Z0
     }
 
     [Free]
-    public interface IApiUri<T> : IApiUri, IIdentification<T>
+    public interface IApiUri<T> : IApiUri, IIdentification<T>, IDataString<T>
         where T : IApiUri<T>
     {
 

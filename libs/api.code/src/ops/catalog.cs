@@ -9,6 +9,50 @@ namespace Z0
 
     partial class ApiCode
     {
+        public static Index<ApiCatalogEntry> catalog(FS.FilePath src, IWfEventTarget log)
+        {
+            var rows = list<ApiCatalogEntry>();
+            using var reader = src.Utf8Reader();
+            reader.ReadLine();
+            var line = reader.ReadLine();
+            while(line != null)
+            {
+                var outcome = parse(line, out ApiCatalogEntry row);
+                if(outcome)
+                    rows.Add(row);
+                else
+                {
+                    log.Deposit(Events.error(typeof(ApiCatalogs), outcome.Message));
+                    return array<ApiCatalogEntry>();
+                }
+                line = reader.ReadLine();
+            }
+            return rows.ToArray();
+        }
+
+        static Outcome parse(string src, out ApiCatalogEntry dst)
+        {
+            const char Delimiter = FieldDelimiter;
+            const byte FieldCount = ApiCatalogEntry.FieldCount;
+            var fields = text.split(src, Delimiter);
+            if(fields.Length != FieldCount)
+            {
+                dst = default;
+                return (false, Msg.FieldCountMismatch.Format(fields.Length, FieldCount, text.delimit(@readonly(fields), Delimiter,0)));
+            }
+
+            var i = 0;
+            DataParser.parse(skip(fields, i++), out dst.Sequence);
+            DataParser.parse(skip(fields, i++), out dst.ProcessBase);
+            DataParser.parse(skip(fields, i++), out dst.MemberBase);
+            DataParser.parse(skip(fields, i++), out dst.MemberOffset);
+            DataParser.parse(skip(fields, i++), out dst.MemberRebase);
+            DataParser.parse(skip(fields, i++), out dst.PartName);
+            DataParser.parse(skip(fields, i++), out dst.HostName);
+            DataParser.parse(skip(fields, i++), out dst.OpUri);
+            return true;
+        }
+ 
         public static ReadOnlySeq<ApiCatalogEntry> catalog(ApiMembers src)
         {
             var dst = sys.alloc<ApiCatalogEntry>(src.Count);

@@ -22,7 +22,7 @@ namespace Z0
 
         public S Alloc(uint count)
         {
-            var dst = new S();
+            var dst = new S();            
             var data = sys.alloc<T>(count);
             Data = data;
             return dst;

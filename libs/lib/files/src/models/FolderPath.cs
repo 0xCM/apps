@@ -112,6 +112,9 @@ namespace Z0
             public FS.Files Match(string pattern, FS.FileExt ext, bool recurse)
                 => Exists ? Files(ext, recurse).Where(f => f.Name.Contains(pattern)) : FS.Files.Empty;
 
+            public FS.Files Match(string pattern, FileKind kind, bool recurse)
+                => Exists ? Files(kind.Ext(), recurse).Where(f => f.Name.Contains(pattern)) : FS.Files.Empty;
+
             public FS.Files Files(string scope, bool recurse)
                 => (this + FS.folder(scope)).Files(recurse);
 

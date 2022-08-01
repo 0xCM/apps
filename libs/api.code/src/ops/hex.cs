@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Arrays;
 
     partial class ApiCode
     {
@@ -30,7 +31,7 @@ namespace Z0
             var result = Outcome.Success;
             var cells = src.ReadLines().SelectMany(x => text.split(x,Chars.Space));
             var count = cells.Count;
-            var data = alloc<byte>(count);
+            var data = sys.alloc<byte>(count);
             for(var i=0; i<count; i++)
             {
                 ref readonly var cell = ref cells[i];

@@ -663,6 +663,20 @@ namespace Z0
             }
         }
 
-
+        [Op]
+        public static bool code(string src, out BinaryCode dst)
+        {
+            var result = false;
+            if(hexdata(src, out var code))
+            {
+                dst = code;
+                result = true;
+            }
+            else
+            {
+                dst = BinaryCode.Empty;
+            }
+            return result;
+        }       
     }
 }

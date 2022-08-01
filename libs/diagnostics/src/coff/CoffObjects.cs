@@ -54,7 +54,7 @@ namespace Z0
 
         public static Outcome validate(CoffObject coff, HexDataRow[] src, out BinaryCode hex)
         {
-            hex = ApiHex.compact(src);
+            hex = ApiCode.compact(src);
             var hexsize = hex.Size;
             var objsize = coff.Size;
             if(hexsize != objsize)

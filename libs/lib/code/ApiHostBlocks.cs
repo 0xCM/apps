@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Arrays;
 
     /// <summary>
     /// Collects code derived from members declared by a specific operation host
@@ -14,7 +15,7 @@ namespace Z0
         /// <summary>
         /// The defining host
         /// </summary>
-        public readonly ApiHostUri Host {get;}
+        public readonly ApiHostUri Host;
 
         /// <summary>
         /// The host-owned code
@@ -25,7 +26,7 @@ namespace Z0
         public ApiHostBlocks(ApiHostUri host, ApiCodeBlock[] code)
         {
             Host = host;
-            Data = require(code).OrderBy(x => x.BaseAddress);
+            Data = core.require(code).OrderBy(x => x.BaseAddress);
         }
 
         public PartId Part

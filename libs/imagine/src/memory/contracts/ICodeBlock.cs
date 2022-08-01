@@ -5,14 +5,14 @@
 namespace Z0
 {
     [Free]
-    public interface ICodeBlock<T> : ICodeBlock, IDataType<T>
-        where T : ICodeBlock<T>
+    public interface ICodeBlock : IByteSeq, IAddressable, IDataString
     {
 
     }
-
+    
     [Free]
-    public interface ICodeBlock : IByteSeq, IAddressable, IDataString
+    public interface ICodeBlock<T> : ICodeBlock, IDataType<T>
+        where T : ICodeBlock<T>
     {
 
     }

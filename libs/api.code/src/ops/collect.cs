@@ -8,6 +8,6 @@ namespace Z0
     {
         [Op]
         public static ReadOnlySeq<ApiEncoded> collect(ICompositeDispenser symbols, IPart src, IWfEventTarget log)
-            => gather(entries(ClrJit.members(src, log)), symbols, log);
+            => gather(entries(ClrJit.jit(src, log)), symbols, log);
     }
 }

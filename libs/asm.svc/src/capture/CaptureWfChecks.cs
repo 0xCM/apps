@@ -11,7 +11,7 @@ namespace Z0.Asm
         public static FS.FilePath csv(FS.FolderPath src, ApiHostUri host)
             => src + host.FileName(FS.PCsv);
 
-         void CheckSize(ApiMemberCode src)
+        void CheckSize(ApiMemberCode src)
         {
             var count = src.MemberCount;
             var rebase = MemoryAddress.Zero;
@@ -29,7 +29,7 @@ namespace Z0.Asm
         void PackHex(FS.FolderPath src, ApiHostUri host)
         {
             var counter = 0u;
-            var memory = ApiHex.memory(csv(src, host));
+            var memory = ApiHex.memory( src + host.FileName(FileKind.Csv));
             var blocks = memory.Sort().View;
             var buffer = span<char>(Pow2.T16);
             var dir = AppDb.ApiTargets("capture.test").Targets(string.Format("{0}.{1}", host.Part.Format(), host.HostName)).Root;
@@ -62,7 +62,7 @@ namespace Z0.Asm
                 if(id == 0)
                     continue;
 
-                var uri = ApiHostUri.define(id, skip(elements,1));
+                var uri = ApiIdentity.host(id, skip(elements,1));
                 hex.Add(new (uri, ApiHex.memory(file)));
             }
         }
@@ -87,7 +87,7 @@ namespace Z0.Asm
         {
             var log = text.emitter();
             var capacity = Pow2.T16;
-            var blocks = Z0.ApiCode.blocks(src).View;
+            var blocks = Z0.ApiCode.apiblocks(src).View;
             var count = blocks.Length;
             var result = Outcome.Success;
             if(count > capacity)

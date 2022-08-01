@@ -36,16 +36,22 @@ namespace Z0
             get => (ulong)EntryAddress.Lo() | ((ulong)TargetAddress.Lo() << 32);
         }
 
-        public uint EntryId
+        public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => Entry.Location.Hash | Entry.Name.Address.Hash;
+            get => EntryAddress.Hash | TargetAddress.Hash;
         }
 
-        public uint TargetId
+        public Hex32 EntryId
         {
             [MethodImpl(Inline)]
-            get => Target.Location.Hash | Target.Name.Address.Hash;
+            get => (Hex32)(Entry.Location.Hash | Entry.Name.Address.Hash);
+        }
+
+        public Hex32 TargetId
+        {
+            [MethodImpl(Inline)]
+            get => (Hex32)(Target.Location.Hash | Target.Name.Address.Hash);
         }
 
         public MemoryAddress EntryAddress
@@ -91,12 +97,6 @@ namespace Z0
 
         public bool Equals(ApiToken src)
             => Entry.Equals(src.Entry) && Target.Equals(src.Target);
-
-        public Hash32 Hash
-        {
-            [MethodImpl(Inline)]
-            get => EntryAddress.Hash | TargetAddress.Hash;
-        }
 
         public override int GetHashCode()
             => Hash;

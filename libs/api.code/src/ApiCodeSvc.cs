@@ -67,15 +67,16 @@ namespace Z0
             return Collect(symbols,src, dst);
         }
 
-        public void Emit(PartId part, ReadOnlySeq<CollectedHost> src, IApiPack dst)
-        {
-            iter(src, code => Emit(code,dst), true);
-        }
+        // public void Emit(PartId part, IEnumerable<CollectedHost> src, IApiPack dst, bool pll)
+        //     => iter(src, code => Emit(code,dst), pll);
+
+        public void Emit(PartId part, ReadOnlySpan<CollectedHost> src, IApiPack dst, bool pll)
+            => iter(src, code => Emit(code,dst), pll);
 
         void Emit(CollectedHost src, IApiPack dst)
         {
             EmitHex(src.Blocks, dst.HexExtractPath(src.Host));
-            EmitCsv(src.Blocks, dst.CsvExtractPath(src.Host));
+            //EmitCsv(src.Blocks, dst.CsvExtractPath(src.Host));
         }
 
         ByteSize EmitHex(ReadOnlySeq<ApiEncoded> src, FS.FilePath dst)
@@ -87,21 +88,6 @@ namespace Z0
             return size;
         }
 
-        void EmitCsv(ReadOnlySeq<ApiEncoded> src, FS.FilePath dst)
-        {
-            var count = src.Count;
-            var buffer = alloc<EncodedMember>(count);
-            for(var i=0; i<count; i++)
-                seek(buffer,i) = ApiCode.member(src[i]);
-            var rebase = min(buffer.Select(x => (ulong)x.EntryAddress).Min(), buffer.Select(x => (ulong)x.TargetAddress).Min());
-            for(var i=0; i<count; i++)
-            {
-                seek(buffer,i).EntryRebase = skip(buffer,i).EntryAddress - rebase;
-                seek(buffer,i).TargetRebase = skip(buffer,i).TargetAddress - rebase;
-            }
-
-            TableEmit(buffer, dst);
-        }
 
         ReadOnlySeq<EncodedMember> Emit(ReadOnlySeq<ApiEncoded> src, FS.FilePath hex, FS.FilePath csv)
         {

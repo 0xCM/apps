@@ -16,5 +16,7 @@ namespace Z0
 
         [Render(1)]
         public BinaryCode Data;
+
+        public static HexCsvRow Empty => default;
     }
 }

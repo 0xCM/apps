@@ -8,6 +8,7 @@ namespace Z0
 
     using static core;
 
+
     public sealed class CaptureWfRunner : IRunnable<CaptureWfSettings>
     {
         readonly IWfRuntime Wf;
@@ -55,20 +56,39 @@ namespace Z0
             var hosts = Run(dispenser);
         }
 
-        public HostCollection Run(ICompositeDispenser dispenser)
+        ExecToken EmitCaptureIndex(ReadOnlySeq<ApiEncoded> src, IApiPack dst)
         {
-            var parts = Settings.Parts;
-            var hosts = parts.IsNonEmpty ? Capture(parts.View, dispenser) : Capture(dispenser);
-            if(parts.IsNonEmpty)
-                hosts = Capture(parts.View, dispenser);
-            else
-                hosts = Capture(dispenser);
+            var count = src.Count;
+            var buffer = sys.alloc<EncodedMember>(count);
+            for(var i=0; i<count; i++)
+                seek(buffer,i) = ApiCode.member(src[i]);
+            var rebase = min(buffer.Select(x => (ulong)x.EntryAddress).Min(), buffer.Select(x => (ulong)x.TargetAddress).Min());
+            for(var i=0; i<count; i++)
+            {
+                seek(buffer,i).EntryRebase = skip(buffer,i).EntryAddress - rebase;
+                seek(buffer,i).TargetRebase = skip(buffer,i).TargetAddress - rebase;
+            }
+
+            return Emitter.TableEmit(buffer, dst.Path("capture.index", FileKind.Csv));
+        }
+
+        public ReadOnlySeq<ApiEncoded> Run(ICompositeDispenser dispenser)
+        {
+            var parts = Settings.Parts.IsEmpty ? Catalog.PartIdentities.ToSeq() : Settings.Parts;
+            var running = Emitter.Running($"Caturing {parts.Count} parts");
+            var dst = bag<CollectedHost>();
+            Capture(parts.View, dispenser, dst);
+            var collected = dst.ToSeq();
+            var blocks = collected.SelectMany(x => x.Blocks).Sort();
+            EmitCaptureIndex(blocks, Target);
 
             if(Settings.EmitCatalog)
             {
-                var members = ClrJit.members(hosts.SelectMany(x => x.Resolved.Members).Where(x => x != null).Array());
+                var members = ApiQuery.members(collected.SelectMany(x => x.Resolved.Members));
                 var rebased = ApiCode.catalog(members);
-                Emitter.TableEmit(rebased, Target.Table<ApiCatalogEntry>(), UTF8);
+                var path = Target.Table<ApiCatalogEntry>();
+                Emitter.TableEmit(rebased, path, UTF8);
+                var reloaded = ApiCode.catalog(path, EventTarget);
             }
 
             if(Settings.EmitMetadata)
@@ -93,15 +113,12 @@ namespace Z0
             }
 
             ApiPacks.Link(Target);
-
-            return hosts;
+            Emitter.Ran(running, $"Captured {blocks.Count} blocks from {parts.Count} parts");
+            return blocks;
         }
-
 
         public HostCollection Capture(ICompositeDispenser dispenser)
-        {
-            return Capture(Catalog, dispenser);
-        }
+            => Capture(Catalog, dispenser);
 
         public HostCollection Capture(IApiCatalog src, ICompositeDispenser dispenser)
         {
@@ -110,46 +127,37 @@ namespace Z0
             return new HostCollection(dst.ToIndex());
         }
 
-        public HostCollection Capture(ReadOnlySpan<IApiPartCatalog> parts, ICompositeDispenser dispenser)
+        public HostCollection Capture(ReadOnlySpan<IApiPartCatalog> src, ICompositeDispenser dispenser)
         {
             var buffer = bag<CollectedHost>();
-            iter(parts, part => Capture(part, dispenser, buffer, EventTarget), Settings.PllExec);
+            iter(src, part => Capture(part, dispenser, buffer, EventTarget), Settings.PllExec);
             return new HostCollection(buffer.Array());
         }
 
-        void Capture(IApiPartCatalog part, ICompositeDispenser dispenser, ConcurrentBag<CollectedHost> dst, IWfEventTarget log)
+        void Capture(IApiPartCatalog src, ICompositeDispenser dispenser, ConcurrentBag<CollectedHost> dst, IWfEventTarget log)
         {
             var tmp = bag<CollectedHost>();
-            Z0.ApiCode.gather(part, dispenser, tmp, log);
+            ApiCode.gather(src, dispenser, tmp, log);
             var code = tmp.ToArray();
-            ApiCodeSvc.Emit(part.PartId, code, Target);
+            ApiCodeSvc.Emit(src.PartId, code, Target, Settings.PllExec);
             EmitAsm(dispenser, code);
             iter(tmp, x => dst.Add(x));
         }
 
-        public HostCollection Capture(ReadOnlySpan<PartId> parts, ICompositeDispenser dispenser)
+        public void Capture(ReadOnlySpan<PartId> parts, ICompositeDispenser dispenser, ConcurrentBag<CollectedHost> dst)
         {
-            var dst = HostCollection.Empty;
             var selected = Catalog.PartIdentities.ToHashSet().Intersect(parts);
-            iter(selected, part => Capture(part, dispenser), Settings.PllExec);
-            return dst;
+            iter(selected, part => Capture(part, dispenser, dst), Settings.PllExec);
+            //return dst.ToArray();
         }
 
-        public HostCollection Capture(PartId part, ICompositeDispenser dispenser)
+        public void Capture(PartId part, ICompositeDispenser dispenser, ConcurrentBag<CollectedHost> dst)
         {
             var result = Catalog.PartCatalog(part, out var catalog);
-            var dst = HostCollection.Empty;
             if(result)
-            {
-                var buffer = bag<CollectedHost>();
-                Capture(catalog, dispenser, buffer, EventTarget);
-                dst = buffer.Array();
-            }
+                Capture(catalog, dispenser, dst, EventTarget);
             else
-            {
                 Emitter.Warn($"Part identifier {part} not found");
-            }
-            return dst;
         }
 
         void EmitAsm(ICompositeDispenser symbols, ReadOnlySeq<CollectedHost> src)

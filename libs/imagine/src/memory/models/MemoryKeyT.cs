@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct MemoryKey<T>
+    public readonly record struct MemoryKey<T> : IDataString<MemoryKey<T>>
         where T : IEquatable<T>
     {
         readonly MemoryRange Range;
@@ -25,6 +25,18 @@ namespace Z0
             Data = data;
         }
 
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Range.IsEmpty;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Range.IsNonEmpty;
+        }
+
         public MemoryAddress Min
         {
             [MethodImpl(Inline)]
@@ -43,18 +55,20 @@ namespace Z0
             get => (uint.MaxValue & (ulong)Min) |((uint.MaxValue & (ulong)Max) << 32);
         }
 
-        public uint Hash32
+        public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => alg.hash.combine((uint)Min, (uint)Max);
+            get => Algs.hash((uint)Min, (uint)Max);
         }
 
         public override int GetHashCode()
-            => (int)Hash32;
+            => Hash;
 
+        [MethodImpl(Inline)]
+        public int CompareTo(MemoryKey<T> src)
+            => Range.CompareTo(src.Range);
         public string Format()
             => string.Format("{0}[{1}]", Range, Data);
-
 
         [MethodImpl(Inline)]
         public static implicit operator MemoryKey<T>((MemoryRange range, T data) src)

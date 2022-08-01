@@ -13,79 +13,20 @@ namespace Z0
         public const string HexPackPattern = "x{0:x}[{1:D5}:{2:D5}]=<{3}>";
     }
 
+    public enum ApiHexKind : byte
+    {
+        None,
+
+        Packed,
+
+        Located,
+
+        Detail,
+    }
+
     [ApiHost]
     public class ApiHex : WfSvc<ApiHex>
     {
-        public static Index<ApiCodeBlock> blocks(FS.FilePath src)
-        {
-            var rows = code(src);
-            var count = rows.Count;
-            var dst = alloc<ApiCodeBlock>(count);
-            for(var j=0; j<count; j++)
-                seek(dst,j) = block(rows[j]);
-            return dst;
-        }
-
-        [MethodImpl(Inline), Op]
-        public static ApiCodeBlock block(in ApiCodeRow src)
-            => new ApiCodeBlock(src.Address, src.Uri, src.Data);
-
-        [Op]
-        public static Index<ApiCodeRow> code(FS.FilePath src)
-        {
-            var result = Outcome.Success;
-            var data = src.ReadLines().Storage.Skip(1);
-            var count = data.Length;
-            var dst = list<ApiCodeRow>();
-            var j=0;
-            for(var i=0; i<count; i++)
-            {
-                result = parse(skip(data,i), out var row);
-                if(result)
-                {
-                    dst.Add(row);
-                    j++;
-                }
-                else
-                    Errors.Throw(result.Message);
-            }
-            return dst.Index();
-        }
-
-        public static void read(FS.FilePath src, Receiver<HexCsvRow> dst)
-        {
-            var pos = 0u;
-            using var reader = src.AsciReader();
-            var size = src.Size;
-            var record = default(HexCsvRow);
-            var @continue = true;
-            while(@continue)
-            {
-                if(read(reader, ref pos, ref record))
-                    dst(record);
-                else
-                    @continue = false;
-            }
-        }
-
-        static bool read(StreamReader src, ref uint pos, ref HexCsvRow data)
-        {
-            var line = src.ReadLine();
-            if(line == null)
-                return false;
-
-            pos++;
-
-            var parts = text.split(line, FieldDelimiter);
-            if(parts.Length != 2)
-                return false;
-
-            DataParser.parse(skip(parts,0), out data.Address);
-            DataParser.parse(skip(parts,1), out data.Data);
-
-            return true;
-        }
-
         [MethodImpl(Inline), Op]
         public static ByteSize size(ReadOnlySpan<HexDataRow> src)
         {
@@ -96,51 +37,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public static ByteSize size(ReadOnlySpan<BinaryCode> src)
-        {
-            var dst = 0ul;
-            for(var i=0; i<src.Length; i++)
-                dst += skip(src,i).Count;
-            return dst;
-        }
-
-        public static BinaryCode compact(ReadOnlySpan<HexDataRow> src)
-        {
-            var count = src.Length;
-            if(count == 0)
-                return BinaryCode.Empty;
-
-            var size = ApiHex.size(src);
-            var dst = alloc<byte>(size);
-            var offset = 0u;
-            for(var i=0; i<count; i++)
-            {
-                var data = skip(src,i).Data.View;
-                for(var j=0; j<data.Length; j++)
-                    seek(dst, offset++) = skip(data,j);
-
-            }
-            return dst;
-        }
-
-        public static BinaryCode compact(ReadOnlySpan<BinaryCode> src)
-        {
-            var count = src.Length;
-            if(count == 0)
-                return BinaryCode.Empty;
-            var dst = alloc<byte>(size(src));
-            var k = 0u;
-            for(var i=0u; i<count; i++)
-            {
-                var data = skip(src,i).View;
-                for(var j=0u; j<data.Length; j++, k++)
-                    seek(dst, k) = skip(data, j);
-            }
-            return dst;
-        }
-
-        [MethodImpl(Inline), Op]
-        public static ApiCodeRow row(in MemberCodeBlock src, uint seq)
+        public static ApiCodeRow apicode(in MemberCodeBlock src, uint seq)
         {
             var dst = ApiCodeRow.Empty;
             dst.Seq = seq;
@@ -152,45 +49,6 @@ namespace Z0
             return dst;
         }
 
-        public static Index<ApiCodeRow> rows(FS.FilePath src)
-        {
-            var result = Outcome.Success;
-            var data = src.ReadLines().Storage.Skip(1);
-            var count = data.Length;
-            var dst = list<ApiCodeRow>();
-            var j=0;
-            for(var i=0; i<count; i++)
-            {
-                result = parse(skip(data,i), out var row);
-                if(result)
-                {
-                    dst.Add(row);
-                    j++;
-                }
-                else
-                    Errors.Throw(result.Message);
-            }
-            return dst.Index();
-        }
-
-        public MemoryBlocks LoadMemoryBlocks(FS.FolderPath root)
-        {
-            var _blocks = LoadMemoryBlocks(root.Match(".parsed", FS.XPack, true));
-            var entries = _blocks.Entries;
-            var count = entries.Length;
-            var buffer = list<MemoryBlock>();
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var entry = ref skip(entries,i);
-                var blocks = entry.Value.View;
-                for(var j=0; j<blocks.Length; j++)
-                    buffer.Add(skip(blocks,j));
-            }
-
-            buffer.Sort();
-            return new MemoryBlocks(buffer.ToArray());
-        }
-
         [Op]
         public Index<ApiCodeRow> EmitApiCode(ApiHostUri uri, ReadOnlySpan<MemberCodeBlock> src, FS.FilePath dst)
         {
@@ -199,7 +57,7 @@ namespace Z0
             {
                 var buffer = alloc<ApiCodeRow>(count);
                 for(var i=0u; i<count; i++)
-                    seek(buffer, i) = ApiHex.row(skip(src, i), i);
+                    seek(buffer, i) = ApiHex.apicode(skip(src, i), i);
 
                 TableEmit(buffer, dst);
                 return buffer;
@@ -208,7 +66,7 @@ namespace Z0
                 return array<ApiCodeRow>();
         }
 
-        public ConstLookup<FS.FilePath,MemoryBlocks> LoadMemoryBlocks(FS.Files src)
+        public ConstLookup<FS.FilePath,MemoryBlocks> LoadXPackBlocks(FS.Files src)
         {
             var flow = Running(string.Format("Loading {0} packs", src.Length));
             var lookup = new Lookup<FS.FilePath,MemoryBlocks>();
@@ -234,23 +92,6 @@ namespace Z0
             return result;
         }
 
-        [MethodImpl(Inline), Op]
-        public static MemoryBlock memory(in ApiCodeRow src)
-            => new MemoryBlock(new MemoryRange(src.Address, src.Address + src.Data.Size), src.Data);
-
-        public static MemoryBlocks memory(ReadOnlySpan<ApiCodeRow> src)
-        {
-            var count = src.Length;
-            var dst = alloc<MemoryBlock>(count);
-            for(var i=0; i<count; i++)
-                seek(dst,i) = memory(skip(src,i));
-            return dst;
-        }
-
-        /// <summary>
-        /// Materializes a <see cref='MemoryBlock'/> sequence from a file with lines of the form x7ffb651869e0[00012:00017]=<c5f8776690c5f857c0c5f91101488bc1c3>
-        /// </summary>
-        /// <param name="src"></param>
         public static MemoryBlocks memory(FS.FilePath src)
         {
             var dst = MemoryBlocks.Empty;
@@ -281,7 +122,6 @@ namespace Z0
             dst = buffer.ToArray();
             return dst;
         }
-
 
         [Parser]
         public static Outcome parse(string src, out ApiCodeRow dst)
@@ -398,7 +238,7 @@ namespace Z0
         static Fence<char> DataFence = ('<', '>');
 
         [MethodImpl(Inline), Op]
-        public static MemoryBlock maxblock(ReadOnlySpan<MemoryBlock> src)
+        public static MemoryBlock max(ReadOnlySpan<MemoryBlock> src)
         {
             var max = MemoryBlock.Empty;
             var count = src.Length;
@@ -417,7 +257,7 @@ namespace Z0
         public static ByteSize pack(in MemoryBlocks src, StreamWriter dst)
         {
             var blocks = src.View;
-            var maxsz = maxblock(blocks).Size;
+            var maxsz = max(blocks).Size;
             var count = blocks.Length;
             var buffer = span<char>(maxsz*2);
             var total = 0u;
@@ -425,7 +265,7 @@ namespace Z0
             {
                 buffer.Clear();
                 ref readonly var block = ref skip(blocks,i);
-                var charcount = Hex.charpack(block.View, buffer);
+                var charcount = Hex.pack(block.View, buffer);
                 var formatted = text.format(slice(buffer,0, charcount));
                 var size = (uint)block.Size;
                 dst.WriteLine(string.Format(HexLine.HexPackPattern, block.BaseAddress, i, size, formatted));
@@ -440,7 +280,7 @@ namespace Z0
             var data = block.View;
             var size = (uint)data.Length;
             var buffer = alloc<char>(data.Length*2);
-            Hex.charpack(data, buffer);
+            Hex.pack(data, buffer);
             dst.WriteLine(string.Format(HexLine.HexPackPattern, block.BaseAddress, index, size, text.format(buffer)));
             return size;
         }
@@ -449,7 +289,7 @@ namespace Z0
         public static string pack(in MemorySeg src, uint index, Span<char> dst)
         {
             var memspan = src.ToSpan();
-            var count = Hex.charpack(memspan.View, dst);
+            var count = Hex.pack(memspan.View, dst);
             var chars = slice(dst, 0, count);
             return string.Format(HexLine.HexPackPattern, memspan.BaseAddress, index, (uint)memspan.Size, text.format(chars));
         }
@@ -467,7 +307,7 @@ namespace Z0
                 package.Index = i;
                 package.Address = block.BaseAddress;
                 package.Size = block.Size;
-                package.Data = text.format(slice(buffer,0, Hex.charpack(block.Bytes, buffer)));
+                package.Data = sys.@string(slice(buffer,0, Hex.pack(block.Bytes, buffer)));
                 size += package.Size;
             }
             return size;
@@ -492,22 +332,6 @@ namespace Z0
             return pack(buffer, dst);
         }
 
-        [Op]
-        public static MemoryBlocks pack(ReadOnlySpan<ApiCodeBlock> src)
-        {
-            var count = src.Length;
-            if(count == 0)
-                return MemoryBlocks.Empty;
-            var dst = alloc<MemoryBlock>(count);
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var code = ref skip(src,i);
-                seek(dst,i) = new MemoryBlock(code.AddressRange, code.Encoded);
-            }
-
-            dst.Sort();
-            return new MemoryBlocks(dst);
-        }
 
         [Op]
         public static ByteSize pack(Index<MemorySeg> src, StreamWriter dst)
@@ -518,7 +342,7 @@ namespace Z0
             {
                 buffer.Clear();
                 ref readonly var seg = ref src[i];
-                var charcount = Hex.charpack(seg.View, buffer);
+                var charcount = Hex.pack(seg.View, buffer);
                 var formatted = text.format(slice(buffer,0, charcount));
                 var size = (uint)seg.Size;
                 dst.WriteLine(string.Format(HexLine.HexPackPattern, seg.BaseAddress, i, size, formatted));
@@ -554,13 +378,6 @@ namespace Z0
             }
 
             return packs;
-        }
-
-        [MethodImpl(Inline), Op]
-        public static void charpack(byte src, out char c0, out char c1)
-        {
-            c0 = Hex.hexchar(LowerCase, src, 1);
-            c1 = Hex.hexchar(LowerCase, src, 0);
         }
     }
 }

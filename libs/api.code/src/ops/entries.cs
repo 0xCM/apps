@@ -22,7 +22,7 @@ namespace Z0
         {
             var dst = sys.empty<MethodEntryPoint>();
             if(catalog.FindPart(src, out var part))
-                dst = entries(ClrJit.members(part, log));
+                dst = entries(ClrJit.jit(part, log));
             return dst;
         }
 

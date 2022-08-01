@@ -114,7 +114,7 @@ namespace Z0
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static ReadOnlySpan<T> load<T>(MemorySeg src)
-            where T : struct
+            where T : unmanaged
                 => src.Load<T>();
 
         [MethodImpl(Inline), Op]
@@ -131,12 +131,12 @@ namespace Z0
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static ref readonly T cell<T>(ReadOnlySpan<MemorySeg> src, MemorySlot n, long offset)
-             where T : struct
+            where T : unmanaged
                 => ref skip<T>(load<T>(segment(src,n)), offset);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static ref readonly T cell<T>(ReadOnlySpan<MemorySeg> src, MemorySlot n, ulong offset)
-             where T : struct
+            where T : unmanaged
                 => ref skip<T>(load<T>(segment(src,n)), offset);
 
         [MethodImpl(Inline), Op]

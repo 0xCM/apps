@@ -48,7 +48,7 @@ namespace Z0
         [Op]
         static IApiHost apihost(PartId part, Type type)
         {
-            var uri = ApiHostUri.from(type);
+            var uri = ApiIdentity.host(type);
             var declared = type.DeclaredMethods();
             return new ApiHost(type, uri.HostName, part, uri, declared, index(declared));
         }

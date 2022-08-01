@@ -43,7 +43,7 @@ namespace Z0
         public static ResolvedMethod resolve(MethodInfo src)
         {
             var diviner = MultiDiviner.Service;
-            var host = ApiHostUri.from(src.DeclaringType);
+            var host = ApiIdentity.host(src.DeclaringType);
             var uri = ApiIdentity.define(ApiUriScheme.Located, host, src.Name, diviner.Identify(src));
             var resolved = new ResolvedMethod(src, uri, ClrJit.jit(src));
             return resolved;

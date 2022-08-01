@@ -39,5 +39,7 @@ namespace Z0
             get => Seq;
             set => Seq = value;
         }
+
+        public static ApiRuntimeMember Empy => default;
     }
 }

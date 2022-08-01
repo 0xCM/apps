@@ -7,7 +7,7 @@ namespace Z0
     public class Runtime : WfSvc<Runtime>
     {
         public ApiMembers JitCatalog()
-            => ClrJit.members(Wf.ApiParts.Catalog, EventLog);
+            => ClrJit.jit(Wf.ApiParts.Catalog, EventLog);
 
         public void CollectMemStats()
         {

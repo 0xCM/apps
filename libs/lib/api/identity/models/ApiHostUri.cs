@@ -4,26 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct ApiHostUri : IApiUri<ApiHostUri>, INullary<ApiHostUri>
+    using static Algs;
+
+    public readonly record struct ApiHostUri : IApiUri<ApiHostUri>
     {
-        public static string hostname(Type t)
-        {
-            var tag = t.Tag<ApiHostAttribute>();
-            var name = tag.Exists && !string.IsNullOrWhiteSpace(tag.Value.HostName) ? tag.Value.HostName :  t.Name;
-            return name.ToLowerInvariant();
-        }
-
-        public static ApiHostUri from(Type t)
-            => new ApiHostUri(t.Assembly.Id(), hostname(t));
-
-        public static ApiHostUri define(PartId part, string host)
-            => new ApiHostUri(part,host);
-
         public PartId Part {get;}
 
         public string HostName {get;}
 
         public string UriText {get;}
+
+        public readonly Hash32 Hash;
 
         [MethodImpl(Inline)]
         public ApiHostUri(PartId owner, string name)
@@ -31,6 +22,7 @@ namespace Z0
             Part = owner;
             HostName = text.ifempty(ApiIdentity.safe(name),  "__empty__");
             UriText = owner != 0 ? string.Format("{0}{1}{2}", Part.Format(), IDI.UriPathSep, HostName) : HostName;
+            Hash = hash(UriText);
         }
 
         public Identifier Id
@@ -42,33 +34,29 @@ namespace Z0
             Part = PartId.None;
             HostName = EmptyString;
             UriText = EmptyString;
+            Hash = 0;
         }
 
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => core.empty(HostName);
+            get => empty(HostName);
         }
 
         public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
-            get => core.nonempty(HostName);
+            get => nonempty(HostName);
         }
+
+        Hash32 IHashed.Hash 
+            => Hash;
 
         public FS.FileName FileName(FS.FileExt ext)
             => FS.file(string.Format("{0}.{1}", Part.Format(), HostName), ext);
 
-        ApiHostUri INullary<ApiHostUri>.Zero
-            => Empty;
-
-        [MethodImpl(Inline)]
-        public static bool operator==(ApiHostUri a, ApiHostUri b)
-            => a.Equals(b);
-
-        [MethodImpl(Inline)]
-        public static bool operator!=(ApiHostUri a, ApiHostUri b)
-            => !a.Equals(b);
+        public FS.FileName FileName(FileKind kind)
+            => FS.file(string.Format("{0}.{1}", Part.Format(), HostName), kind.Ext());
 
         [MethodImpl(Inline)]
         public string Format()
@@ -83,10 +71,7 @@ namespace Z0
             => UriText?.CompareTo(src.UriText) ?? int.MaxValue;
 
         public override int GetHashCode()
-            => (int)UriText.GetHashCode();
-
-        public override bool Equals(object src)
-            => src is ApiHostUri x && Equals(x);
+            => Hash;
 
         public override string ToString()
             => Format();

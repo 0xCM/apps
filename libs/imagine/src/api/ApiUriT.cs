@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct ApiUri<T> : IApiUri<ApiUri<T>>
+    using static Algs;
+    public readonly record struct ApiUri<T> : IApiUri<ApiUri<T>>
         where T : IEquatable<T>, IComparable<T>
     {
         readonly public T Value {get;}
@@ -29,7 +30,18 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public ApiUri(T value)
-            => Value = value;
+        {
+            Value = value;
+        }
+
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => hash(UriText);
+        }
+
+        public override int GetHashCode()
+            => Hash;
 
         [MethodImpl(Inline)]
         public string Format()

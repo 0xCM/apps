@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Uri for .net clr assembly
     /// </summary>
-    public readonly struct PartUri : IApiUri<PartUri>
+    public readonly record struct PartUri : IApiUri<PartUri>
     {
         /// <summary>
         /// The assembly identifier, constrained to the defining enumeration
@@ -18,6 +18,8 @@ namespace Z0
         /// The uri content
         /// </summary>
         public string UriText {get;}
+
+        public readonly Hash32 Hash;
 
         public bool IsEmpty
         {
@@ -30,6 +32,7 @@ namespace Z0
         {
             Id = id;
             UriText = id != 0 ? id.Format() : EmptyString;
+            Hash = Algs.hash(UriText);
         }
 
         [MethodImpl(Inline)]
@@ -40,15 +43,17 @@ namespace Z0
         public int CompareTo(PartUri other)
             => Identified.compare(this, other);
 
+        Hash32 IHashed.Hash 
+            => Hash;
+
         public override int GetHashCode()
-            => Identified.hash(this);
+            => Hash;
 
-        public override bool Equals(object obj)
-            => Identified.equals(this, obj);
-
-        public override string ToString()
+        public string Format()
             => UriText;
 
+        public override string ToString()
+            => Format();
         public static PartUri Empty
             => new PartUri(0);
     }

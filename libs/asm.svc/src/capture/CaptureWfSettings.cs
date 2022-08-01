@@ -26,7 +26,7 @@ namespace Z0
         public CaptureWfSettings()
         {
             PllExec = true;
-            EmitCatalog = false;
+            EmitCatalog = true;
             EmitMetadata = true;
             EmitContext = true;
             EmitRegions = true;

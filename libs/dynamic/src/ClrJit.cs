@@ -30,23 +30,23 @@ namespace Z0
         public static ApiMember member(in ResolvedMethod src)
             => new ApiMember(src.Uri, src.Method, src.EntryPoint, ClrDynamic.msil(src.EntryPoint, src.Uri, src.Method));
 
-        [Op]
-        public static ApiMembers members(Index<ApiMember> src)
-        {
-            if(src.Count != 0)
-                return new ApiMembers(src.First.BaseAddress, src.Sort());
-            else
-                return ApiMembers.Empty;
-        }
+        // [Op]
+        // public static ApiMembers members(Index<ApiMember> src)
+        // {
+        //     if(src.Count != 0)
+        //         return new ApiMembers(src.First.BaseAddress, src.Sort());
+        //     else
+        //         return ApiMembers.Empty;
+        // }
 
-        [Op]
-        public static ApiMembers members(MemoryAddress @base, Index<ApiMember> src)
-        {
-            if(src.Length != 0)
-                return new ApiMembers(@base, src.Sort());
-            else
-                return ApiMembers.Empty;
-        }
+        // [Op]
+        // public static ApiMembers members(MemoryAddress @base, Index<ApiMember> src)
+        // {
+        //     if(src.Length != 0)
+        //         return new ApiMembers(@base, src.Sort());
+        //     else
+        //         return ApiMembers.Empty;
+        // }
 
         [Op]
         static Index<ApiMember> members(JittedMethod[] src)
@@ -67,11 +67,7 @@ namespace Z0
         }
 
         [Op]
-        public static ApiMembers members(IApiHost src, IWfEventTarget log)
-            => members(direct(src).Concat(generic(src, log)).Array());
-
-        [Op]
-        public static ApiMembers members(IApiCatalog catalog, IWfEventTarget log)
+        public static ApiMembers jit(IApiCatalog catalog, IWfEventTarget log)
         {
             var @base = Process.GetCurrentProcess().MainModule.BaseAddress;
             var parts = catalog.Parts;
@@ -79,13 +75,13 @@ namespace Z0
             var all = list<ApiMembers>();
             var total = 0u;
             foreach(var part in parts)
-                all.Add(ClrJit.members(part, log));
+                all.Add(ClrJit.jit(part, log));
 
-            return members(all.SelectMany(x => x).Array());
+            return ApiQuery.members(all.SelectMany(x => x).Array());
         }
 
         [Op]
-        public static ApiMembers members(IPart src, IWfEventTarget log)
+        public static ApiMembers jit(IPart src, IWfEventTarget log)
         {
             var buffer = list<ApiMember>();
             var catalog = ApiLoader.catalog(src.Owner);
@@ -98,7 +94,7 @@ namespace Z0
             foreach(var h in hosts)
                 buffer.AddRange(ClrJit.members(h, log));
 
-            return members(buffer.ToArray());
+            return ApiQuery.members(buffer.ToArray());
         }
 
         [Op, MethodImpl(Inline)]
@@ -113,7 +109,7 @@ namespace Z0
             ref var lead = ref src.First;
             for(var i=0u; i<count; i++)
                 dst.AddRange(jit(skip(lead,i), log));
-            return members(dst.ToArray());
+            return ApiQuery.members(dst.ToArray());
         }
 
         [Op]
@@ -173,7 +169,7 @@ namespace Z0
         {
             var dst = bag<ApiMembers>();
             iter(src.PartCatalogs(), catalog => dst.Add(jit(catalog,log)), pll);
-            return members(Process.GetCurrentProcess().MainModule.BaseAddress, dst.SelectMany(x => x).Array());
+            return ApiQuery.members(Process.GetCurrentProcess().MainModule.BaseAddress, dst.SelectMany(x => x).Array());
         }
 
         [Op]
@@ -182,7 +178,7 @@ namespace Z0
             var @base = Process.GetCurrentProcess().MainModule.BaseAddress;
             var dst = bag<ApiMembers>();
             iter(src, part => dst.Add(jit(part,log)), pll);
-            return members(@base, dst.SelectMany(x => x).Array());
+            return ApiQuery.members(@base, dst.SelectMany(x => x).Array());
         }
 
         [Op]
@@ -191,7 +187,7 @@ namespace Z0
             var dst = list<ApiMember>();
             iter(src.ApiTypes.Select(h => h.HostType), t => dst.AddRange(complete(t,log)));
             iter(src.ApiHosts.Select(h => h.HostType), t => dst.AddRange(jit(t, log)));
-            return members(dst.ToArray());
+            return ApiQuery.members(dst.ToArray());
         }
 
         [Op]
@@ -202,10 +198,29 @@ namespace Z0
         public static MethodInfo[] complete(Type src, HashSet<string> exclusions)
             => src.DeclaredMethods().Unignored().NonGeneric().Exclude(exclusions);
 
-
         [Op]
         public static Index<ApiMember> complete(Type src, IWfEventTarget log)
             => members(complete(src, CommonExclusions).Select(m => new JittedMethod(src.ApiHostUri(), m, ClrJit.jit(m))));
+
+        [Op]
+        public static ApiMembers members(IApiHost src, IWfEventTarget log)
+            => ApiQuery.members(direct(src).Concat(generic(src, log)).Array());
+
+        [Op]
+        public static void jit(IApiHost host, ConcurrentBag<ApiHostMembers> dst, IWfEventTarget log)
+        {
+            var jitted = jit(host, log);
+            if(jitted.IsNonEmpty)
+                dst.Add(jitted);
+        }
+
+        [Op]
+        public static void jit(ApiCompleteType src, ConcurrentBag<ApiHostMembers> dst, IWfEventTarget log)
+        {
+            var jitted = ApiQuery.members(ClrJit.jit(src, log));
+            if(jitted.IsNonEmpty)
+                dst.Add(new ApiHostMembers(src.HostUri, jitted));
+        }
 
         [Op]
         public static ApiHostMembers jit(IApiHost src, IWfEventTarget log)
@@ -219,7 +234,7 @@ namespace Z0
         {
             var direct = ClrJit.direct(src);
             var generic = ClrJit.generic(src, log);
-            return members(direct.Concat(generic).Array());
+            return ApiQuery.members(direct.Concat(generic).Array());
         }
 
         [Op]

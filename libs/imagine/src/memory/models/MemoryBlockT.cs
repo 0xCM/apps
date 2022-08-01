@@ -21,6 +21,12 @@ namespace Z0
             Key = key;
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Key.Hash;
+        }
+
         public MemoryRange Origin
         {
             [MethodImpl(Inline)]
@@ -68,7 +74,7 @@ namespace Z0
             => Origin.Min.CompareTo(src.Origin.Min);
 
         public override int GetHashCode()
-            => Key.GetHashCode();
+            => Hash;
         public static MemoryBlock<T> Empty
         {
             [MethodImpl(Inline)]
@@ -79,5 +85,4 @@ namespace Z0
         public static implicit operator MemoryBlock(MemoryBlock<T> src)
             => src.Source;
     }
-
 }

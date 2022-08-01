@@ -17,20 +17,12 @@ namespace Z0
             => cover<byte>(src.Ref<byte>(), size);
 
         [MethodImpl(Inline)]
-        static uint cells<T>(MemoryRange src)
-            => (uint)(src.ByteCount/size<T>());
-
-        [MethodImpl(Inline)]
-        static ReadOnlySpan<T> view<T>(MemorySeg src)
+        public static ReadOnlySpan<T> view<T>(MemorySeg src)
             => cover(src.BaseAddress.Ref<T>(), count<T>(src));
 
         [MethodImpl(Inline)]
-        static uint count<T>(MemorySeg src)
+        public static uint count<T>(MemorySeg src)
             => (uint)(src.Length/size<T>());
-
-        [MethodImpl(Inline), Op]
-        static Span<T> edit<T>(MemoryRange src)
-            => cover(src.Min.Ref<T>(), cells<T>(src));
 
         public const byte SZ = 16;
 
@@ -133,18 +125,20 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline)]
         public uint CellCount<T>()
-            => count<T>(this);
-
+            where T : unmanaged
+                => MemorySections.capacity<T>(this);
+        
         public string Format()
             => Range.Format();
 
         [MethodImpl(Inline)]
         public ReadOnlySpan<byte> Load()
-            => view<byte>(this);
+            => MemorySections.view<byte>(this);
 
         [MethodImpl(Inline)]
         public ReadOnlySpan<T> Load<T>()
-            => view<T>(this);
+            where T : unmanaged
+                => MemorySections.view<T>(this);
 
         public Hash32 Hash
         {

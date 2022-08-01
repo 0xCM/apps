@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class OpUri : IApiUri<OpUri>
+    public sealed record class OpUri : IApiUri<OpUri>
     {
         /// <summary>
         /// The full uri in the form {scheme}://{hostpath}/{opid}
@@ -21,6 +21,8 @@ namespace Z0
         /// </summary>
         public readonly OpIdentity OpId;
 
+        public readonly Hash32 Hash;
+
         OpUri()
         {
             UriText = EmptyString;
@@ -33,8 +35,15 @@ namespace Z0
             Host = host;
             OpId = opid;
             UriText = ApiIdentity.safe(Require.notnull(uritext));
+            Hash = Algs.hash(UriText);
         }
 
+        Hash32 IHashed.Hash 
+            => Hash;
+
+        public override int GetHashCode()
+            => Hash;
+            
         /// <summary>
         /// The defining part
         /// </summary>
@@ -69,22 +78,9 @@ namespace Z0
         public bool Equals(OpUri src)
             => Content.Equals(src.Content, NoCase);
 
-        public override int GetHashCode()
-            => Content.GetHashCode();
-
-        public override bool Equals(object src)
-            => src is OpUri a && Equals(a);
-
+ 
         public override string ToString()
             => Format();
-
-        [MethodImpl(Inline)]
-        public static bool operator==(OpUri a, OpUri b)
-            => a.Equals(b);
-
-        [MethodImpl(Inline)]
-        public static bool operator!=(OpUri a, OpUri b)
-            => !a.Equals(b);
 
         /// <summary>
         /// Emptiness of nothing

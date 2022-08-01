@@ -67,7 +67,7 @@ namespace Z0
                 result = part(text.left(src,i), out var p);
                 if(result)
                 {
-                    var h = ApiHostUri.define(p, text.right(src,i));
+                    var h = ApiIdentity.host(p, text.right(src,i));
                     return result;
                 }
             }

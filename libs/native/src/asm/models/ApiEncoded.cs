@@ -45,7 +45,7 @@ namespace Z0
         public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => Token.EntryId;
+            get => (Hash32)(uint)Token.EntryId;
         }
 
         public override int GetHashCode()

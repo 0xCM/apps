@@ -33,7 +33,7 @@ namespace Z0
 
         [Op]
         public static OpUri from(MethodInfo src)
-            => define(ApiUriScheme.Located, ApiHostUri.from(src.DeclaringType), src.Name, ApiIdentity.identify(src));
+            => define(ApiUriScheme.Located, ApiIdentity.host(src.DeclaringType), src.Name, ApiIdentity.identify(src));
 
         [Op]
         public static OpUri define(ApiUriScheme scheme, ApiHostUri host, string group, OpIdentity opid)
@@ -120,7 +120,7 @@ namespace Z0
                     if(components.Length == 2)
                     {
                         var part = ApiParsers.part(skip(components,0));
-                        dst = ApiHostUri.define(part, skip(components,1));
+                        dst = ApiIdentity.host(part, skip(components,1));
                         result = true;
                     }
                 }
