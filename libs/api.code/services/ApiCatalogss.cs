@@ -10,8 +10,6 @@ namespace Z0
 
     public class ApiCatalogs : WfSvc<ApiCatalogs>
     {
-        ApiHex ApiHex => Wf.ApiHex();
-
         public IApiCatalog Catalog
             => ApiRuntimeCatalog;
 
@@ -30,6 +28,7 @@ namespace Z0
             iter(Catalog.PartCatalogs(), part => dst.TryAdd(part.PartId, HostCatalogs(part)), true);
             return dst;
         }
+
 
         public ReadOnlySeq<ApiRuntimeMember> CalcRuntimeMembers()
         {
@@ -156,7 +155,7 @@ namespace Z0
                     if(hexpath.Exists)
                     {
                         Require.invariant(ApiRuntimeCatalog.FindHost(srcHost.HostUri, out var host));
-                        Correlate(HostCatalog(host), ApiHex.ReadBlocks(hexpath), code, records);
+                        Correlate(HostCatalog(host), ApiHex.blocks(hexpath), code, records);
                     }
                 }
                 Ran(inner);

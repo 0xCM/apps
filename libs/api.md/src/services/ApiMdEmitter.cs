@@ -14,7 +14,6 @@ namespace Z0
 
         ApiComments Comments => Wf.ApiComments();
 
-        ApiCatalogs ApiCatalogs => Wf.ApiCatalogs();
 
         IDbTargets AssetTargets
             => AppDb.ApiTargets("assets");
@@ -95,9 +94,6 @@ namespace Z0
 
         public void EmitDataFlows()
             => Emit(CalcDataFlows());
-
-        public void EmitApiIndex()
-            => Emit(ApiCatalogs.CalcRuntimeMembers());
 
         public void EmitApiTables()
             => Emit(CalcTableFields());

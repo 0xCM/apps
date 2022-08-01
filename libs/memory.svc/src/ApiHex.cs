@@ -16,6 +16,42 @@ namespace Z0
     [ApiHost]
     public class ApiHex : WfSvc<ApiHex>
     {
+        public static Index<ApiCodeBlock> blocks(FS.FilePath src)
+        {
+            var rows = code(src);
+            var count = rows.Count;
+            var dst = alloc<ApiCodeBlock>(count);
+            for(var j=0; j<count; j++)
+                seek(dst,j) = block(rows[j]);
+            return dst;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static ApiCodeBlock block(in ApiCodeRow src)
+            => new ApiCodeBlock(src.Address, src.Uri, src.Data);
+
+        [Op]
+        public static Index<ApiCodeRow> code(FS.FilePath src)
+        {
+            var result = Outcome.Success;
+            var data = src.ReadLines().Storage.Skip(1);
+            var count = data.Length;
+            var dst = list<ApiCodeRow>();
+            var j=0;
+            for(var i=0; i<count; i++)
+            {
+                result = parse(skip(data,i), out var row);
+                if(result)
+                {
+                    dst.Add(row);
+                    j++;
+                }
+                else
+                    Errors.Throw(result.Message);
+            }
+            return dst.Index();
+        }
+
         public static void read(FS.FilePath src, Receiver<HexCsvRow> dst)
         {
             var pos = 0u;
@@ -111,7 +147,6 @@ namespace Z0
             dst.SourceSeq = src.Sequence;
             dst.Address = src.Address;
             dst.CodeSize = src.Encoded.Size;
-            dst.TermCode = src.TermCode;
             dst.Uri = src.OpUri;
             dst.Data = src.Encoded;
             return dst;
@@ -200,10 +235,6 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public static ApiCodeBlock block(in ApiCodeRow src)
-            => new ApiCodeBlock(src.Address, src.Uri, src.Data);
-
-        [MethodImpl(Inline), Op]
         public static MemoryBlock memory(in ApiCodeRow src)
             => new MemoryBlock(new MemoryRange(src.Address, src.Address + src.Data.Size), src.Data);
 
@@ -251,37 +282,6 @@ namespace Z0
             return dst;
         }
 
-        public static Index<ApiCodeBlock> code(FS.FilePath src)
-        {
-            var rows = hex(src);
-            var count = rows.Count;
-            var dst = alloc<ApiCodeBlock>(count);
-            for(var j=0; j<count; j++)
-                seek(dst,j) = block(rows[j]);
-            return dst;
-        }
-
-        [Op]
-        public static Index<ApiCodeRow> hex(FS.FilePath src)
-        {
-            var result = Outcome.Success;
-            var data = src.ReadLines().Storage.Skip(1);
-            var count = data.Length;
-            var dst = list<ApiCodeRow>();
-            var j=0;
-            for(var i=0; i<count; i++)
-            {
-                result = parse(skip(data,i), out var row);
-                if(result)
-                {
-                    dst.Add(row);
-                    j++;
-                }
-                else
-                    Errors.Throw(result.Message);
-            }
-            return dst.Index();
-        }
 
         [Parser]
         public static Outcome parse(string src, out ApiCodeRow dst)
@@ -315,9 +315,6 @@ namespace Z0
                 if(result.Fail)
                     return (false, AppMsg.ParseFailure.Format(nameof(dst.Data), fields[index-1]));
 
-                result = DataParser.eparse(fields[index++], out dst.TermCode);
-                if(result.Fail)
-                    return (false, AppMsg.ParseFailure.Format(nameof(dst.Data), fields[index-1]));
 
                 result = DataParser.parse(fields[index++], out dst.Uri);
                 if(result.Fail)
@@ -399,10 +396,6 @@ namespace Z0
         static Fence<char> SegFence = ('[',']');
 
         static Fence<char> DataFence = ('<', '>');
-
-        [Op]
-        public Index<ApiCodeBlock> ReadBlocks(FS.FilePath src)
-            => code(src);
 
         [MethodImpl(Inline), Op]
         public static MemoryBlock maxblock(ReadOnlySpan<MemoryBlock> src)

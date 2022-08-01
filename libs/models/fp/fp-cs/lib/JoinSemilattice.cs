@@ -4,6 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace fp.cs
 {
+    public readonly struct JoinSemilattice<A>
+    {
 
+        
+    }
 
 }

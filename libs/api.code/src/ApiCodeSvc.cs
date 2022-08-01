@@ -6,14 +6,6 @@ namespace Z0
 {
     using static core;
 
-    [ApiHost("api")]
-    public partial class ApiCode
-    {
-        [MethodImpl(Inline), Op]
-        public static ApiCodeParser parser(byte[] buffer)
-            => new ApiCodeParser(EncodingPatterns.Default, buffer);        
-    }
-
     public partial class ApiCodeSvc : WfSvc<ApiCodeSvc>
     {
         ApiHex ApiHex => Wf.ApiHex();

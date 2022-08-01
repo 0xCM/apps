@@ -5,8 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     using static XedRules;
     using static XedModels;
     using static XedImport;

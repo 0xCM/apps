@@ -8,7 +8,7 @@ namespace Z0
     public struct AsmBroadcast
     {
         [MethodImpl(Inline)]
-        public static AsmBroadcast define(byte id, BroadcastClass @class, text15 symbol, byte src, byte dst)
+        public static AsmBroadcast define(byte id, BroadcastClass @class, asci16 symbol, byte src, byte dst)
             => new AsmBroadcast(id,@class,symbol, src, dst);
 
         const string TableId = "asm.broadcasts";
@@ -20,10 +20,10 @@ namespace Z0
         public Ratio<byte> Ratio;
 
         [Render(8)]
-        public text15 Symbol;
+        public asci16 Symbol;
 
         [MethodImpl(Inline)]
-        public AsmBroadcast(byte id, BroadcastClass @class, text15 symbol, byte src, byte dst)
+        public AsmBroadcast(byte id, BroadcastClass @class, asci16 symbol, byte src, byte dst)
         {
             Id = id;
             Symbol = symbol;

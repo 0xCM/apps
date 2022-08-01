@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static Algs;
+
     public readonly record struct MethodDisplaySig : IDataType<MethodDisplaySig>
     {
         readonly string Content;
@@ -33,7 +35,7 @@ namespace Z0
         public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => HashCodes.hash(Text);
+            get => hash(Text);
         }
 
         [MethodImpl(Inline)]

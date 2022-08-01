@@ -16,7 +16,5 @@
     <ProjectReference Include="$(Tools)" />
     <ProjectReference Include="$(ApiMd)" />
     <ProjectReference Include="$(ApiSvc)" />
-
   </ItemGroup>
-
 </Project>

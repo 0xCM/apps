@@ -13,9 +13,6 @@ namespace Z0
 
             public ApiMd ApiMetadata(IWfRuntime wf)
                 => Service<ApiMd>(wf);
-
-            public ApiCatalogs ApiCatalogs(IWfRuntime wf)
-                => Service<ApiCatalogs>(wf);
         }
 
         static Svc Services => Svc.Instance;
@@ -23,11 +20,7 @@ namespace Z0
         public static ApiMd ApiMd(this IWfRuntime wf)
             => Services.ApiMetadata(wf);
 
-        public static ApiCatalogs ApiCatalogs(this IWfRuntime wf)
-            => Services.ApiCatalogs(wf);
-
         public static ApiCmd ApiCmd(this IWfRuntime wf)
             => Services.ApiCmd(wf);
-
     }
 }

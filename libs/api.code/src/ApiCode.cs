@@ -4,9 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedImport
+    [ApiHost("api")]
+    public partial class ApiCode
     {
-        public Index<AsmBroadcast> CalcBroadcastDefs()
-            => _BroadcastDefs;
+        [MethodImpl(Inline), Op]
+        public static ApiCodeParser parser(byte[] buffer)
+            => new ApiCodeParser(EncodingPatterns.Default, buffer);        
     }
 }

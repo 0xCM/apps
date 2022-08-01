@@ -128,8 +128,6 @@ namespace Z0
             },PllExec);
         }
 
-        static Index<InstBlockField> _BlockFields = Symbols.index<InstBlockField>().Kinds.ToArray();
-
         static Symbols<VisibilityKind> Visibilities = Symbols.index<VisibilityKind>();
 
         static Symbols<XedFieldType> FieldTypes = Symbols.index<XedFieldType>();

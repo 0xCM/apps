@@ -11,10 +11,11 @@
     <ProjectReference Include="$(ApiMd)" />
     <ProjectReference Include="$(Archives)" />
     <ProjectReference Include="$(ApiSvc)" />
+    <ProjectReference Include="$(ApiIdentity)" />
 
     <ProjectReference Include="$(Asm)" />
     <ProjectReference Include="$(AsmCore)" />
-    <ProjectReference Include="$(AsmOperands)" />
+    <ProjectReference Include="$(AsmModels)" />
     <ProjectReference Include="$(AsmPrototypes)" />
     <ProjectReference Include="$(AsmSvc)" />
 

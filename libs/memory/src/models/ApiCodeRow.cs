@@ -9,7 +9,7 @@ namespace Z0
     {
         const string TableId = "api.code";
 
-        public const byte FieldCount = 7;
+        public const byte FieldCount = 6;
 
         public uint Seq;
 
@@ -18,8 +18,6 @@ namespace Z0
         public MemoryAddress Address;
 
         public uint CodeSize;
-
-        public ExtractTermCode TermCode;
 
         public OpUri Uri;
 

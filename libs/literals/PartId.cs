@@ -272,6 +272,9 @@ public enum PartId : byte
     [Symbol("api.contracts")]
     ApiContracts,
 
+    [Symbol("api.identity")]
+    ApiIdentity,
+
     [Symbol("rules")]
     Rules,
 
