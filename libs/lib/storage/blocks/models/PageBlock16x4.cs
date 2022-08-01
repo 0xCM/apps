@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
 
     [StructLayout(LayoutKind.Sequential, Size = (int)Size)]
     public struct PageBlock16x4 : IPageBlock<PageBlock16x4>

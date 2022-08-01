@@ -4,12 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
 
     /// <summary>
     /// Defines storage for contiguous sequence of 11 T-cells
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack=1), DataTypeAttributeD("block<n:11,t:{0}>")]
+    [StructLayout(LayoutKind.Sequential, Pack=1)]
     public struct GBlock11<T> : IStorageBlock<GBlock11<T>>, ICellBlock<T>
         where T : unmanaged
     {

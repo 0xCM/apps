@@ -13,10 +13,9 @@ namespace Z0
             => (NativeVectorWidth)BitWidth;
     }
 
-    public interface IVectorWidth<F> : IVectorWidth, IFixedWidth<F>
-        where F : struct, IVectorWidth<F>
+    public interface IVectorWidth<F> : IVectorWidth, ICellWidth<F>, IFixedWidth<F>
+        where F : unmanaged, IVectorWidth<F>
     {
-        NativeVectorWidth IVectorWidth.VectorWidth
-            => Widths.vector<F>();
+
     }
 }

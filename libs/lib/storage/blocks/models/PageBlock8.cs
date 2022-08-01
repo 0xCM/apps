@@ -4,13 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
 
     /// <summary>
     /// Reserves 8 pages of memory that covers 2^15 = 32,768 bytes
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Size = (int)Size)]
-    [DataWidth(Size*8,Size*8)]
     public struct PageBlock8 : IPageBlock<PageBlock8>
     {
         public const uint Size = Pow2.T15;

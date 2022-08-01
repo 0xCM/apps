@@ -4,13 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
 
     /// <summary>
     /// Reserves 3 pages of memory
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Size = (int)Size)]
-    [DataWidth(Size*8,Size*8)]
     public struct PageBlock3 : IPageBlock<PageBlock3>
     {
         public const uint Size = PageCount*PageSize;

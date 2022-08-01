@@ -5,16 +5,33 @@
 namespace Z0
 {
     using static System.Runtime.Intrinsics.Vector128;
-    using static Pointers;
     using static Algs;
-
-    using api = MemorySegs;
 
     /// <summary>
     /// Defines a reference to a runtime memory segment
     /// </summary>
     public readonly struct MemorySeg : IMemorySegment, IEquatable<MemorySeg>, IHashed
     {
+        [MethodImpl(Inline)]
+        static unsafe Span<byte> edit(MemoryAddress src, ByteSize size)
+            => cover<byte>(src.Ref<byte>(), size);
+
+        [MethodImpl(Inline)]
+        static uint cells<T>(MemoryRange src)
+            => (uint)(src.ByteCount/size<T>());
+
+        [MethodImpl(Inline)]
+        static ReadOnlySpan<T> view<T>(MemorySeg src)
+            => cover(src.BaseAddress.Ref<T>(), count<T>(src));
+
+        [MethodImpl(Inline)]
+        static uint count<T>(MemorySeg src)
+            => (uint)(src.Length/size<T>());
+
+        [MethodImpl(Inline), Op]
+        static Span<T> edit<T>(MemoryRange src)
+            => cover(src.Min.Ref<T>(), cells<T>(src));
+
         public const byte SZ = 16;
 
         readonly Vector128<ulong> Segment;
@@ -116,18 +133,18 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline)]
         public uint CellCount<T>()
-            => api.count<T>(this);
+            => count<T>(this);
 
         public string Format()
             => Range.Format();
 
         [MethodImpl(Inline)]
         public ReadOnlySpan<byte> Load()
-            => api.view<byte>(this);
+            => view<byte>(this);
 
         [MethodImpl(Inline)]
         public ReadOnlySpan<T> Load<T>()
-            => api.view<T>(this);
+            => view<T>(this);
 
         public Hash32 Hash
         {
@@ -144,7 +161,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public unsafe MemorySpan ToSpan()
-            => new MemorySpan(Range, api.edit(BaseAddress, Size));
+            => new MemorySpan(Range, edit(BaseAddress, Size));
 
 
         bool IEquatable<MemorySeg>.Equals(MemorySeg src)

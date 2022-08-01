@@ -13,7 +13,7 @@ namespace Z0
             => (CpuCellWidth)BitWidth;
    }
 
-    public interface ICellWidth<W> : ICellWidth
+    public interface ICellWidth<W> : ICellWidth, ITypeWidth<W>
         where W : unmanaged, ICellWidth<W>
     {
 

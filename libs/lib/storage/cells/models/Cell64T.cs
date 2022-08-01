@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
 
     public struct Cell64<T> : IDataCell<Cell64<T>,W64,T>
         where T : unmanaged

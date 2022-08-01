@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Root;
-
     partial class XTend
     {
         public static string FormatName(this NativeTypeWidth w, bool lowercase = false)

@@ -4,13 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
 
     using B = ByteBlock29;
     using api = Storage;
 
-    [StructLayout(LayoutKind.Sequential, Size = (int)Size, Pack=1), DataTypeAttributeD("block<n:29,t:u8>")]
-    [DataWidth(Size*8)]
+    [StructLayout(LayoutKind.Sequential, Size = (int)Size, Pack=1)]
     public struct ByteBlock29 : IStorageBlock<B>
     {
         public const ushort Size = 29;

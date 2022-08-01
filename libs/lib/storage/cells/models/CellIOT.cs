@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
 
     public unsafe readonly struct CellIO<T>
         where T : unmanaged
@@ -20,8 +21,8 @@ namespace Z0
         [MethodImpl(Inline)]
         public CellIO(in Cells<T> src, in Cells<T> dst)
         {
-            Source = address(src);
-            Target = address(dst);
+            Source = core.address(src);
+            Target = core.address(dst);
             SourceSize = src.Length*size<T>();
             TargetSize = dst.Length*size<T>();
         }

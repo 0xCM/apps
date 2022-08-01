@@ -6,9 +6,6 @@ namespace Z0
 {
     using System.Runtime.Intrinsics;
 
-
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
     /// <summary>
     /// Characterizes a function that produces a vector predicated on a source value
     /// </summary>

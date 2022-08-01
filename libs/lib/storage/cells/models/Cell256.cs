@@ -5,7 +5,8 @@
 namespace Z0
 {
     using static System.Runtime.Intrinsics.X86.Avx2;
-    using static core;
+    using static Algs;
+    using static Spans;
 
     public struct Cell256 : IDataCell<Cell256,W256,Vector256<ulong>>
     {

@@ -20,8 +20,8 @@ namespace Z0
     /// </summary>
     /// <typeparam name="F">The reification type</typeparam>
     [Free]
-    public interface IVectorType<F,W> : IVectorWidth<F>, IDataWidth
-        where F : struct, IVectorType<F,W>
+    public interface IVectorType<F,W> : IVectorWidth<F>, IEquatable<F>,  IDataWidth
+        where F : unmanaged, IVectorType<F,W>
         where W : unmanaged, ITypeWidth
     {
         bool IEquatable<F>.Equals(F other)
@@ -33,12 +33,12 @@ namespace Z0
 
     [Free]
     public interface IVectorType<F,W,T> : IVectorType<F,W>, IVectorType
-        where F : struct, IVectorType<F,W,T>
+        where F : unmanaged, IVectorType<F,W,T>
         where W : unmanaged, ITypeWidth
         where T : unmanaged
     {
         NumericKind CellKind
-            =>NumericKinds.kind<T>();
+            => NumericKinds.kind<T>();
 
         ScalarType IVectorType.CellType
             => default;

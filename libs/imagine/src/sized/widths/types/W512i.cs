@@ -10,17 +10,16 @@ namespace Z0
     using VW = NativeVectorWidth;
     using TSK = TypeSignKind;
 
-    using W = W256;
-    using N = N256;
+    using W = W512i;
 
     /// <summary>
-    /// Defines a type-level representation of <see cref='DW.W256'/>
+    /// Defines a type-level representation of <see cref='DW.W512'/> with a <see cref='TSK'/> classifier
     /// </summary>
-    public readonly struct W256 : IVectorWidth<W>
+    public readonly struct W512i : IVectorWidth<W>
     {
-        public const DW Width = DW.W256;
+        public const DW Width = DW.W512;
 
-        public const TSK Sign = TSK.Unsigned;
+        public const TSK Sign = TSK.Signed;
 
         /// <summary>
         /// An instance-level representative
@@ -30,16 +29,13 @@ namespace Z0
         /// <summary>
         /// The width identity
         /// </summary>
-        public const string Identifier = "w256";
+        public const string Identifier = "w512i";
 
         public string Id
             => Identifier;
 
         public DW DataWidth
             => Width;
-
-        public TSK TypeSign
-            => Sign;
 
         public FW CellWidth
             => (FW)Width;
@@ -49,6 +45,9 @@ namespace Z0
 
         public VW VectorWidth
             => (VW)Width;
+
+        public TSK TypeSign
+            => Sign;
 
         [MethodImpl(Inline)]
         public static implicit operator int(W src)
@@ -73,15 +72,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator VW(W src)
             => (VW)Width;
-
-        [MethodImpl(Inline)]
-        public static implicit operator W(N src)
-            => default;
-
-        [MethodImpl(Inline)]
-        public static implicit operator N(W src)
-            => default;
-
 
         [MethodImpl(Inline)]
         public bool Equals(W w)

@@ -8,6 +8,8 @@ namespace Z0
 
     using D = HexDigit;
     using B = Base16;
+    using C = AsciCode;
+    using S = AsciSymbol;
 
     partial struct Digital
     {
@@ -29,7 +31,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public static uint parse(ReadOnlySpan<AsciCode> src, out GBlock64<D> dst, B @base = default)
+        public static uint parse(ReadOnlySpan<C> src, out GBlock64<D> dst, B @base = default)
         {
             var count = src.Length;
             var j = 0u;
@@ -44,5 +46,11 @@ namespace Z0
             }
             return j;
         }
+
+        [MethodImpl(Inline), Op]
+        public static uint parse(ReadOnlySpan<S> src, out GBlock64<D> dst, B @base = default)
+            => parse(recover<S,C>(src), out dst, @base);
+        
+    
     }
 }

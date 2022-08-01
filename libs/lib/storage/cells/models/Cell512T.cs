@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
 
     [StructLayout(LayoutKind.Sequential, Size = (int)Size, Pack=1)]
     public struct Cell512<T> : IDataCell<Cell512<T>,W512,ByteBlock64>

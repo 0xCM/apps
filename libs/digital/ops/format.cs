@@ -16,7 +16,7 @@ namespace Z0
         {
             Span<char> dst = stackalloc char[src.Length];
             render(src,dst);
-            return text.format(dst);
+            return sys.@string(dst);
         }
 
         [Op]
@@ -24,7 +24,7 @@ namespace Z0
         {
             Span<char> dst = stackalloc char[src.Length];
             render(src,dst);
-            return text.format(dst);
+            return sys.@string(dst);
         }
 
         public static string format<C>(C @case, ReadOnlySpan<HexDigitValue> src)
@@ -47,7 +47,7 @@ namespace Z0
         {
             Span<char> dst = stackalloc char[src.Length];
             render(src,dst);
-            return text.format(dst);
+            return sys.@string(dst);
         }
 
         [Op]
@@ -55,7 +55,7 @@ namespace Z0
         {
             Span<char> dst = stackalloc char[src.Length];
             render(src,dst);
-            return text.format(dst);
+            return sys.@string(dst);
         }
 
         [Op]
@@ -63,8 +63,7 @@ namespace Z0
         {
             Span<char> dst = stackalloc char[src.Length];
             render(src,dst);
-            return text.format(dst);
+            return sys.@string(dst);
         }
-
     }
 }

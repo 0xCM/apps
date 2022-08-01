@@ -4,12 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
 
     using B = ByteBlock256;
     using api = Storage;
 
-    [StructLayout(LayoutKind.Sequential, Size = (int)Size, Pack=1), DataTypeAttributeD("block<n:256,t:u8>")]
+    [StructLayout(LayoutKind.Sequential, Size = (int)Size, Pack=1)]
     [DataWidth(Size*8)]
     public struct ByteBlock256 : IStorageBlock<B>
     {

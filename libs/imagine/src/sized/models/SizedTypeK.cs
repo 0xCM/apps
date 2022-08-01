@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Sized;
 
     public class SizedType<K> : ISizedType<K>
         where K : unmanaged
@@ -28,6 +28,6 @@ namespace Z0
             => Name;
 
         public static implicit operator SizedType(SizedType<K> src)
-            => new SizedType(src.Name, src.Kind.ToString(), core.bw64(src.Kind), src.ContentWidth, src.StorageWidth);
+            => new SizedType(src.Name, src.Kind.ToString(), bw64(src.Kind), src.ContentWidth, src.StorageWidth);
     }
 }

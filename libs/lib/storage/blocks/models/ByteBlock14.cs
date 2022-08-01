@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+     using static Algs;
+    using static Spans;
 
     using B = ByteBlock14;
     using api = Storage;

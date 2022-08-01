@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XWidth
+    partial class XTend
     {
         /// <summary>
         /// Determines whether the kind has a nonzero value
