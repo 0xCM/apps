@@ -201,7 +201,7 @@ namespace Z0.Roslyn
 
         public CaSymbolSet Symbolize(PartId part)
         {
-            if(Wf.ApiCatalog.FindComponent(part, out var assembly))
+            if(Wf.ApiCatalog.Assembly(part, out var assembly))
                 return Symbolize(assembly);
             else
             {
@@ -221,7 +221,7 @@ namespace Z0.Roslyn
         {
             var tool = Wf.Roslyn();
 
-            if(ApiRuntimeCatalog.FindComponent(part, out var assembly))
+            if(ApiRuntimeCatalog.Assembly(part, out var assembly))
             {
                 var name = string.Format("z0.{0}.compilation", part.Format());
                 var metadata = RoslnCmd.reference(assembly);

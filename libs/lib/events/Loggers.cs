@@ -42,8 +42,8 @@ namespace Z0
         public static IWfEmissionLog emission(Assembly src, FS.FolderPath dst, Timestamp ts, string name)
             => new WfEmissionLog(src, dst, ts, name);
 
-        public static IWfEmissionLog emission(Assembly src, FS.FilePath dst)
-            => new WfEmissionLog(src, dst);
+        public static IWfEmissionLog emission(FS.FilePath dst)
+            => new WfEmissionLog(dst);
 
         internal static FS.FilePath config(Assembly src, FS.FolderPath dst, string name, FileKind kind, Timestamp? ts = null)
         {

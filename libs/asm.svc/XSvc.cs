@@ -14,8 +14,8 @@ namespace Z0
             public ApiCapture ApiCapture(IWfRuntime wf)
                 => Service<ApiCapture>(wf);
 
-            public CaptureCmd CaptureCmd(IWfRuntime wf)
-                => Service<CaptureCmd>(wf);
+            public CaptureWfCmd CaptureCmd(IWfRuntime wf)
+                => Service<CaptureWfCmd>(wf);
 
             public AsmCmdService AsmCmdSvc(IWfRuntime wf)
                 => Service<AsmCmdService>(wf);
@@ -35,7 +35,7 @@ namespace Z0
         public static AsmCmdService AsmCmdSvc(this IWfRuntime wf)
             => Services.AsmCmdSvc(wf);
 
-        public static CaptureCmd CaptureCmd(this IWfRuntime wf)
+        public static CaptureWfCmd CaptureCmd(this IWfRuntime wf)
             => Services.CaptureCmd(wf);
     }
 }

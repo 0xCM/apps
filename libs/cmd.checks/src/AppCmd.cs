@@ -10,7 +10,6 @@ namespace Z0
             => new ICmdProvider[]{
                 wf.WfCmd(),
                 wf.ToolBoxCmd(),
-                wf.ApiSpecsCmd()
             };
 
         public static new AppCmd create(IWfRuntime wf)

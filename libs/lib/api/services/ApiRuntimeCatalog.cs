@@ -48,30 +48,6 @@ namespace Z0
             locker = new();
         }
 
-        // public Index<IApiHost> FindHosts(ReadOnlySpan<ApiHostUri> src)
-        // {
-        //     var dst = list<IApiHost>();
-        //     var search = _ApiHosts.View;
-        //     var kSrc = src.Length;
-        //     var kSearch = search.Length;
-        //     for(var i=0; i<kSrc; i++)
-        //     {
-        //         var match = skip(src,i);
-        //         if(match.IsEmpty)
-        //             Throw.sourced("I can't deal with empty uri's");
-
-        //         for(var j=0; j<kSearch; j++)
-        //         {
-        //             var candidate = skip(search,j);
-        //             if(candidate.HostUri == match)
-        //             {
-        //                 dst.Add(candidate);
-        //                 break;
-        //             }
-        //         }
-        //     }
-        //     return dst.ToArray();
-        // }
 
         public ReadOnlySpan<string> ComponentNames
         {
@@ -83,6 +59,13 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => _PartComponents;
+        }
+
+        public bool PartCatalog(PartId id, out IApiPartCatalog dst)
+        {
+            var match = PartCatalogs(id);
+            dst = match.IsNonEmpty ? match.First : null;
+            return dst != null;
         }
 
         public bool FindPart(PartId id, out IPart dst)
@@ -102,7 +85,7 @@ namespace Z0
             return false;
         }
 
-        public bool FindComponent(PartId id, out Assembly dst)
+        public bool Assembly(PartId id, out Assembly dst)
         {
             var src = _PartComponents.View;
             var count = src.Length;
@@ -119,35 +102,11 @@ namespace Z0
             return false;
         }
 
-        // public ReadOnlySpan<Assembly> FindComponents(params PartId[] parts)
-        // {
-        //     var src = _PartComponents.View;
-        //     var count = src.Length;
-        //     var dst = core.list<Assembly>();
-        //     var match = parts.ToHashSet();
-        //     for(var i=0; i<count; i++)
-        //     {
-        //         ref readonly var component = ref skip(src,i);
-        //         var id = component.Id();
-        //         if(match.Contains(id))
-        //             dst.Add(component);
-        //     }
-        //     return dst.ViewDeposited();
-        // }
-
         public bool FindHost(ApiHostUri uri, out IApiHost host)
         {
             host = _ApiHosts.Where(h => h.HostUri == uri).FirstOrDefault();
             return host != null;
         }
-
-        // public bool FindMethod(OpUri uri, out MethodInfo method)
-        // {
-        //     if(FindHost(uri.Host, out var host))
-        //         return host.FindMethod(uri, out method);
-        //     method = default;
-        //     return false;
-        // }
 
         public Index<IApiPartCatalog> PartCatalogs(params PartId[] parts)
         {
@@ -168,12 +127,6 @@ namespace Z0
                         where parts.Contains(h.PartId)
                         select h;
         }
-
-    //     public ReadOnlySpan<IPart> FindParts(params PartId[] parts)
-    //     {
-    //         var selected = core.hashset(parts);
-    //         return _Parts.Where(p => selected.Contains(p.Id));
-    //    }
 
         IPart[] IApiCatalog.Parts
             => _Parts;

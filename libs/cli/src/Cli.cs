@@ -90,7 +90,7 @@ namespace Z0
 
         public bool Reader(PartId part, out CliReader dst)
         {
-            if(ApiMd.Catalog.FindComponent(part, out var component))
+            if(ApiMd.Catalog.Assembly(part, out var component))
             {
                 dst = CliReader.create(component);
                 return true;

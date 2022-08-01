@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Collections.Generic;
-
     partial class XTend
     {
         /// <summary>
@@ -26,6 +22,9 @@ namespace Z0
         /// <param name="src">The source stream</param>
         /// <typeparam name="T">The item type</typeparam>
         public static bool[] Include<T>(this ISet<T> dst, params T[] src)
+            => src.Select(item => dst.Add(item));
+
+        public static bool[] Include<T>(this ISet<T> dst, ReadOnlySpan<T> src)
             => src.Select(item => dst.Add(item));
     }
 }

@@ -22,10 +22,12 @@ namespace Z0
         ApiPartCatalogs Catalogs {get;}
 
         IApiHost[] ApiHosts {get;}
- 
+
+        bool PartCatalog(PartId part, out IApiPartCatalog catalog);
+
         bool FindPart(PartId id, out IPart dst);
 
-        bool FindComponent(PartId id, out Assembly dst);
+        bool Assembly(PartId id, out Assembly dst);
 
         bool FindHost(ApiHostUri uri, out IApiHost host);
     }

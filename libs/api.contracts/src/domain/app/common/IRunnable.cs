@@ -14,9 +14,19 @@ namespace Z0
     }
 
     [Free]
-    public interface IRunnable<S> : IRunnable
-        where S : new()
+    public interface IRunnable<C> : IRunnable
+        where C : new()
     {
-        S Settings {get;}
+        C Config {get;}
+    }
+
+    [Free]
+    public interface IRunnable<C,S,T> : IRunnable<C>
+        where C : new()
+    {
+        void Run(S src, T dst);
+
+        Task Start(S src, T dst)
+            => Task.Run(Run);
     }
 }

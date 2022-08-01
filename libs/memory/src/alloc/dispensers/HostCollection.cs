@@ -4,14 +4,21 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public sealed class HostCollection : Seq<CollectedHost>
+    public sealed class HostCollection : Seq<HostCollection, CollectedHost>
     {
-        readonly IDisposable Dispenser;
+        public HostCollection()
+        {
 
-        public HostCollection(ICompositeDispenser dispenser, CollectedHost[] src)
+        }
+
+        public HostCollection(CollectedHost[] src)
             : base(src)
         {
-            Dispenser = dispenser;
+            
         }
+
+        [MethodImpl(Inline)]
+        public static implicit operator HostCollection(CollectedHost[] src)
+            => new HostCollection(src);
     }
 }

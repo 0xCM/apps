@@ -16,7 +16,7 @@ namespace Z0
 
         bool Closed;
 
-        public WfEmissionLog(Assembly src, FS.FilePath dst)
+        public WfEmissionLog(FS.FilePath dst)
         {
             Closed = false;
             Target = dst;

@@ -4,10 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Collections.Generic;
-
+    using static Algs;
     partial class XTend
     {
         public static ISet<T> Intersection<T>(this ISet<T> s1, ISet<T> s2)
@@ -28,5 +25,16 @@ namespace Z0
             src.Iter(set => set.Iter(item => dst.Add(item)));
             return dst;
         }
+
+
+        /// <summary>
+        /// Computes the intersection of a target set with source sets specified in a  span
+        /// </summary>
+        /// <param name="dst">The target set</param>
+        /// <param name="src">The source sets</param>
+        /// <typeparam name="T">The item type</typeparam>
+        public static ISet<T> Intersect<T>(this ISet<T> dst, ReadOnlySpan<T> src)
+            => dst.Intersect(src.ToHashSet());
+
     }
 }

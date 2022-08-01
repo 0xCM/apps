@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <DebugSymbols>true</DebugSymbols>
+    <TargetFramework>$(FrameworkMoniker)</TargetFramework>
+  </PropertyGroup>
+
+  <Import Project="$(ImportDefs)usings.props"/>
+
+  <ItemGroup>
+    <EmbeddedResource Include="fp/fp-ts/**/*.*" />
+    <ProjectReference Include="$(Sys)" />
+    <ProjectReference Include="$(Literals)" />
+  </ItemGroup>
+
+</Project>
