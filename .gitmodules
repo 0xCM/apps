@@ -1,0 +1,3 @@
+[submodule "deps/fp-ts"]
+	path = deps/fp-ts
+	url = https://github.com/gcanti/fp-ts.git
