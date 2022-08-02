@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
-    using K = ApiMdKind;
-
     public class SosCmd : AppCmdService<SosCmd>
     {
         ApiMd ApiMd => Wf.ApiMd();

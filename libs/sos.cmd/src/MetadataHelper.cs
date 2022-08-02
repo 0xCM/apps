@@ -18,7 +18,6 @@ namespace SOS
         const int S_OK = 0;
         const int E_FAIL = unchecked((int)0x80004005);
 
-        // HRESULT_FROM_WIN32(ERROR_INSUFFICIENT_BUFFER)
         const int E_INSUFFICIENT_BUFFER = unchecked((int)0x8007007a);
 
         /// <summary>
