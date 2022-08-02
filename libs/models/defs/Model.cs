@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Abstractions;
+    using Contracts;
 
     partial class Models
     {

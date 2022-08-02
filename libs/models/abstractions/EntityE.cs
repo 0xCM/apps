@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Abstractions
 {
+    using Contracts;
+    
     public abstract record class Entity<E> : Model<E>, IEntity<E>
         where E : Entity<E>, new()
     {

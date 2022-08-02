@@ -5,9 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Collections;
-    using System.Collections.Generic;
-
     public interface IFixedCells : ICellSeq
     {
         uint Capacity {get;}
@@ -17,10 +14,9 @@ namespace Z0
         where T : unmanaged
     {
         IEnumerator<T> IEnumerable<T>.GetEnumerator()
-            => core.@throw<IEnumerator<T>>();
+            => sys.@throw<IEnumerator<T>>();
 
         IEnumerator IEnumerable.GetEnumerator()
-            => core.@throw<IEnumerator>();
-
+            => sys.@throw<IEnumerator>();
     }
 }

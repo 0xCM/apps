@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Abstractions;
-
-
     partial class Models
     {
         public readonly record struct ProjectType

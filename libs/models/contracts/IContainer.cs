@@ -4,14 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Contracts
 {
-    public interface IWs : IEntity
+    public interface IContainer
     {
-
+        dynamic Document {get;}
     }
 
-    public interface IWs<W> : IWs, IEntity<W>
-        where W : IEntity<W>, new()
+    [Free]
+    public interface IContainer<D> : IContainer
     {
+        new D Document {get;}
 
+        dynamic IContainer.Document 
+            => Document;
     }
 }

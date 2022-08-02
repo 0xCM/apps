@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Abstractions
 {
+    using Contracts;
+
     /// <summary>
     /// Defines a reference to an entity
     /// </summary>

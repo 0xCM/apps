@@ -2,8 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace fp.cs
+namespace Z0.Abstractions
 {
-
 
 }

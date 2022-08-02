@@ -5,6 +5,7 @@
 namespace Z0
 {
     using Abstractions;
+    using Contracts;
 
     public sealed record class Link<S,T> : Link<Link<S,T>,S,T>
         where S : INode<S>, new()

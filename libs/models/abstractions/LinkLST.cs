@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Abstractions
 {
+    using Contracts;
+
     public abstract record class Link<L,S,T> : ILink<S,T>
         where L : Link<L, S, T>, new()
         where S : INode<S>, new()

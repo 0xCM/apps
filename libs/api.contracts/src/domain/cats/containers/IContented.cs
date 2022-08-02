@@ -4,14 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
     /// <summary>
     /// Characterizes a container that owns content
     /// </summary>
     /// <typeparam name="C">The content type</typeparam>
     [Free]
-    public interface IContented<C> : IContainer<C>
+    public interface IContented<C>
     {
         C Content {get;}
     }

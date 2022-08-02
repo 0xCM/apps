@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Abstractions
 {
+    using Contracts;
+
     public abstract record class Node<T,V> : Model<T>, INode<V>
         where T : Node<T,V>, new()
     {
