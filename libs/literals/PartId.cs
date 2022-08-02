@@ -302,6 +302,9 @@ public enum PartId : byte
     [Symbol("imagine")]
     Imagine,
 
+    [Symbol("heaps")]
+    Heaps,
+
     [Symbol("sys")]
     Sys,
 

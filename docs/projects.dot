@@ -13,7 +13,7 @@ digraph D {
 
     "graphs" -> zlib
 
-    lang -> symbols, containers
+    "lang" -> symbols, containers
 
     "memory" -> "native"
 

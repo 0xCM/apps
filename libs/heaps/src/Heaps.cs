@@ -48,7 +48,6 @@ namespace Z0
             return (true, counter);
         }
 
-
         public static MemoryHeap load(FS.FilePath src)
         {
             var dst = sys.alloc<byte>(src.Size);

@@ -13,6 +13,7 @@
     <ProjectReference Include="$(MemorySvc)" />
     <ProjectReference Include="$(Assets)" />
     <ProjectReference Include="$(Dynamic)" />
+    <ProjectReference Include="$(Heaps)" />
   </ItemGroup>
 
 </Project>
