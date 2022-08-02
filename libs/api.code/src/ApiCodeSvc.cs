@@ -8,13 +8,54 @@ namespace Z0
 
     public partial class ApiCodeSvc : WfSvc<ApiCodeSvc>
     {
-        ApiHex ApiHex => Wf.ApiHex();
-
         public ReadOnlySeq<ApiHexIndexRow> EmitHexIndex(SortedIndex<ApiCodeBlock> src, IApiPack dst)
             => EmitIndex(SortedSpans.define(src.Storage), dst.Targets().Path("api.index", FileKind.Csv));
 
         public Index<ApiCodeRow> EmitApiHex(ApiHostUri uri, ReadOnlySpan<MemberCodeBlock> src, IApiPack dst)
-            => ApiHex.EmitApiCode(uri, src, dst.HexExtractPath(uri));
+            => EmitApiCode(uri, src, dst.HexExtractPath(uri));
+
+        public ConstLookup<FS.FilePath,MemoryBlocks> LoadMemoryBlocks(FS.Files src)
+        {
+            var flow = Running(string.Format("Loading {0} packs", src.Length));
+            var lookup = new Lookup<FS.FilePath,MemoryBlocks>();
+            var errors = new Lookup<FS.FilePath,Outcome>();
+            iter(src, path => lookup.Include(path, ApiCode.memory(path)), true);
+            var result = lookup.Seal();
+            var count = result.EntryCount;
+            var entries = result.Entries;
+            var counter = 0u;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var entry = ref skip(entries,i);
+                var path = entry.Key;
+                var blocks = entry.Value.View;
+                var blockCount = (uint)blocks.Length;
+                var host = path.FileName.Format().Remove(".extracts.parsed.xpack").Replace(".","/");
+                Write(string.Format("Loaded {0} blocks from {1}", blockCount, path.ToUri()));
+                counter += blockCount;
+            }
+
+            Ran(flow, string.Format("Loaded {0} total blocks", counter));
+
+            return result;
+        }
+
+        [Op]
+        public Index<ApiCodeRow> EmitApiCode(ApiHostUri uri, ReadOnlySpan<MemberCodeBlock> src, FS.FilePath dst)
+        {
+            var count = src.Length;
+            if(count != 0)
+            {
+                var buffer = alloc<ApiCodeRow>(count);
+                for(var i=0u; i<count; i++)
+                    seek(buffer, i) = ApiCode.apicode(skip(src, i), i);
+
+                TableEmit(buffer, dst);
+                return buffer;
+            }
+            else
+                return array<ApiCodeRow>();
+        }
 
         public ReadOnlySeq<ApiEncoded> Collect(IPart part, ICompositeDispenser symbols, IApiPack dst)
         {
@@ -67,16 +108,12 @@ namespace Z0
             return Collect(symbols,src, dst);
         }
 
-        // public void Emit(PartId part, IEnumerable<CollectedHost> src, IApiPack dst, bool pll)
-        //     => iter(src, code => Emit(code,dst), pll);
-
         public void Emit(PartId part, ReadOnlySpan<CollectedHost> src, IApiPack dst, bool pll)
             => iter(src, code => Emit(code,dst), pll);
 
         void Emit(CollectedHost src, IApiPack dst)
         {
             EmitHex(src.Blocks, dst.HexExtractPath(src.Host));
-            //EmitCsv(src.Blocks, dst.CsvExtractPath(src.Host));
         }
 
         ByteSize EmitHex(ReadOnlySeq<ApiEncoded> src, FS.FilePath dst)

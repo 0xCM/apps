@@ -4,12 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
 
     /// <summary>
     /// Defines a sequence of 8-bit cells
     /// </summary>
-    [StructLayout(LayoutKind.Sequential), DataTypeAttributeD("vhex<w:8>")]
+    [StructLayout(LayoutKind.Sequential)]
     public readonly struct HexVector8
     {
         readonly Index<Hex8> Data;

@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Algs;
     using static Spans;
 
     public class ApiMemberCode : IDisposable

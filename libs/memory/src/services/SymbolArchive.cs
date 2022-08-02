@@ -4,17 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static EnvFolders;
-
     public readonly struct SymbolArchive : ISymbolArchive
     {
-        public static ISymbolArchive Service => new SymbolArchive();
+        public static ISymbolArchive Service(FS.FolderPath root) => new SymbolArchive(root);
 
         public FS.FolderPath Root {get;}
 
-        public SymbolArchive()
+        public SymbolArchive(FS.FolderPath root)        
         {
-            Root = AppDb.Service.Archives().Sources(symbols).Root;
+            Root = root;
         }
+
     }
 }

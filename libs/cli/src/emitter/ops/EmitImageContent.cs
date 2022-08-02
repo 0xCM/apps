@@ -4,9 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.IO;
-
-    using static core;
+    using static Algs;
 
     partial class CliEmitter
     {
@@ -29,7 +27,7 @@ namespace Z0
             using var reader = stream.BinaryReader();
             using var writer = dst.Writer();
             writer.WriteLine(string.Concat($"Address".PadRight(16), RpOps.SpacedPipe, "Data"));
-            var buffer = alloc<byte>(bpl);
+            var buffer = sys.alloc<byte>(bpl);
             var k = Read(reader, buffer);
             var offset = MemoryAddress.Zero;
             var lines = 0;

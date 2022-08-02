@@ -12,8 +12,6 @@ namespace Z0
     {
         AsmDecoder AsmDecoder => Wf.AsmDecoder();
 
-        ApiCodeSvc ApiCode => Wf.ApiCode();
-
         void CheckHex()
         {
             var src = AppDb.ApiTargets().Targets("capture");
@@ -39,7 +37,7 @@ namespace Z0
                     continue;
 
                 var uri = ApiIdentity.host(id, skip(elements,1));
-                hex.Add(new (uri, ApiHex.memory(file)));
+                hex.Add(new (uri, ApiCode.memory(file)));
             }
         }
 
@@ -49,7 +47,7 @@ namespace Z0
         void PackHex(FS.FolderPath src, ApiHostUri host)
         {
             var counter = 0u;
-            var memory = ApiHex.memory(csv(src, host));
+            var memory = ApiCode.memory(csv(src, host));
             var blocks = memory.Sort().View;
             var buffer = span<char>(Pow2.T16);
             var dir = AppDb.ApiTargets("capture.test").Targets(string.Format("{0}.{1}", host.Part.Format(), host.HostName)).Root;
@@ -57,7 +55,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 var dst = dir + FS.file(string.Format("{0:D5}", i), FS.XArray);
-                var length = Hex.hexarray(skip(blocks,i).View, buffer);
+                var length = Hex.convert(skip(blocks,i).View, buffer);
                 var content = text.format(slice(buffer,0,length));
                 using var writer = dst.AsciWriter();
                 writer.WriteLine(content);

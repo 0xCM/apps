@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
+    using static Arrays;
 
     partial class CliEmitter
     {
@@ -24,7 +26,7 @@ namespace Z0
         {
             void Exec()
             {
-                var path = dst.Metadata(CliSections.IlData).Table<MsilRow>(src.GetSimpleName());
+                var path = dst.Metadata(CliSections.MsilData).Table<MsilRow>(src.GetSimpleName());
                 var methods = ReadOnlySpan<MsilRow>.Empty;
                 var srcPath = FS.path(src.Location);
                 if(ClrModules.valid(srcPath))

@@ -19,7 +19,6 @@ namespace Z0
 
         MsilPipe MsilSvc => Wf.MsilSvc();
 
-
         public ReadOnlySeq<AssemblyRefInfo> ReadAssemblyRefs()
         {
             var components = ApiMd.Assemblies;

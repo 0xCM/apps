@@ -4,9 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System.Reflection;
     using static Algs;
 
-    public class CaptureWf : WfSvc<CaptureWf>
+    public class CaptureWf : WfSvc<CaptureWf>, ICaptureReceiver
     {
         public class SettingsStore : Repository<FS.FilePath, CaptureWfSettings, FS.FilePath>
         {
@@ -21,10 +22,13 @@ namespace Z0
             }
         }
 
-        public ReadOnlySeq<ApiEncoded> Run(ICompositeDispenser dispenser, IApiPack dst)
+        WorkflowState State;
+
+        public void Run(ICompositeDispenser dispenser, IApiPack dst)
         {
-            var capture = new CaptureWfRunner(this, new(), dst);
-            return capture.Run(dispenser);
+            State = new();
+            var capture = new CaptureWfRunner(this, new(), dst, this);
+            capture.Run(dispenser);
         }
 
         public void Run(IApiPack dst)
@@ -46,5 +50,19 @@ namespace Z0
 
         public static void store(CaptureWfSettings src, FS.FilePath dst)
             => Store.Store(src,dst);
+
+        void ICaptureReceiver.Capturing(Assembly src)
+        {
+            State.Assemblies.Add(src);            
+        }
+
+        void ICaptureReceiver.Captured(Assembly src)
+        {
+        }
+
+        class WorkflowState
+        {
+            public readonly ConcurrentBag<Assembly> Assemblies = new();
+        }
     }
 }

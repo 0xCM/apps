@@ -10,7 +10,7 @@ namespace Z0
 
         Cli Cli => Wf.Cli();
 
-        public void Emit(CliEmitOptions options, IApiPack dst)
+        public void Emit(CliEmissionSettings options, IApiPack dst)
         {
             if(options.EmitAssemblyRefs)
                 EmitAssemblyRefs(dst);
@@ -37,7 +37,7 @@ namespace Z0
             }
 
             if(options.EmitMetadataHex)
-                EmitApiHex(dst);
+                EmitLocatedMetadata(dst);
 
             if(options.EmitCliConstants)
                 EmitConstFields(dst);
@@ -48,8 +48,8 @@ namespace Z0
             if(options.EmitMethodDefs)
                 EmitMethodDefs(ApiMd.Assemblies, dst);
 
-            // if(options.EmitCliRowStats)
-            //     EmitRowStats(dst);
+            if(options.EmitCliRowStats)
+                EmitRowStats(dst);
         }
     }
 }

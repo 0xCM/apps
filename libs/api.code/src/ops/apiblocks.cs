@@ -13,7 +13,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ApiCodeBlock apiblock(ApiCodeRow src)
             => new ApiCodeBlock(src.Address, src.Uri, src.Data);
-
+            
         [Op]
         public static ReadOnlySeq<ApiHostBlocks> apiblocks(FS.FolderPath src, ReadOnlySpan<ApiHostUri> hosts)
         {
@@ -29,14 +29,6 @@ namespace Z0
         [Op]
         public static SortedIndex<ApiCodeBlock> apiblocks(IApiPack src)
             => apicode(src.HexExtracts());
-
-        [Op]
-        public static SortedIndex<ApiCodeBlock> apicode(FS.Files src, bool pll = true)
-        {
-            var dst = bag<ApiCodeBlock>();
-            iter(src, file => iter(apirows(file), row => dst.Add(apiblock(row))), pll);
-            return SortedIndex<ApiCodeBlock>.sort(dst.Array());
-        }
 
         [Op]
         public static Index<ApiCodeBlock> apiblocks(FS.FilePath src)
@@ -58,7 +50,7 @@ namespace Z0
             var j=0;
             for(var i=0; i<count; i++)
             {
-                result = ApiHex.parse(skip(data,i), out var row);
+                result = parse(skip(data,i), out ApiCodeRow row);
                 if(result)
                 {
                     dst.Add(row);

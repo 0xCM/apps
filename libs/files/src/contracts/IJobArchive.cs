@@ -4,10 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct core
-    {
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static DataEvent<T> edata<T>(T src)
-            => new DataEvent<T>(src);
-    }
+    // public interface IJobArchive : IDbArchive
+    // {
+    //     ReadOnlySeq<JobType> JobTypes()
+    //         => Root.TopFolders.Select(x => new JobType(x.Format()));
+    // }
 }

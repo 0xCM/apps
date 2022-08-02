@@ -7,15 +7,15 @@ namespace Z0
     [LiteralProvider("cli")]
     public class CliSections
     {
-        public const string ApiHex = "api.hex";
+        public const string ApiHex = "metadata.hex";
 
         public const string MemberFields = "members.fields";
 
-        public const string FieldDefs = "feilds.defs";
+        public const string MemberRefs = "members.refs";
+        
+        public const string FieldDefs = "fields.defs";
 
         public const string ConstFields = "fields.const";
-
-        public const string Image = "image";
 
         public const string Methods = "methods";
 
@@ -27,6 +27,6 @@ namespace Z0
 
         public const string Literals = "literals";
 
-        public const string IlData ="ildata";
+        public const string MsilData ="msil.data";
     }
 }

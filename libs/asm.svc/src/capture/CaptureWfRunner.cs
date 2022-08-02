@@ -8,6 +8,12 @@ namespace Z0
 
     using static core;
 
+    public interface ICaptureReceiver
+    {
+        void Capturing(Assembly src);
+
+        void Captured(Assembly src);
+    }
 
     public sealed class CaptureWfRunner : IRunnable<CaptureWfSettings>
     {
@@ -21,13 +27,16 @@ namespace Z0
 
         readonly WfEmit Emitter;
 
-        public CaptureWfRunner(IWfSvc svc, CaptureWfSettings settings, IApiPack dst)
+        readonly ICaptureReceiver Receiver;
+
+        public CaptureWfRunner(IWfSvc svc, CaptureWfSettings settings, IApiPack dst, ICaptureReceiver receiver)
         {
             Wf = svc.Wf;
             Target = dst;
             Settings = settings;
             EventTarget =  svc.Wf.EventLog;
             Emitter = svc.Emitter;
+            Receiver = receiver;
             Wf.RedirectEmissions(Loggers.emission(Target.Path("capture.emissions", FileKind.Csv)));
         }
 
@@ -94,7 +103,7 @@ namespace Z0
             if(Settings.EmitMetadata)
             {
                 ApiMd.EmitDatasets(Target);
-                CliEmitter.Emit(CliEmitOptions.@default(), Target);
+                CliEmitter.Emit(Settings.CliEmissions, Target);
             }
 
             if(Settings.EmitRegions)
@@ -136,19 +145,20 @@ namespace Z0
 
         void Capture(IApiPartCatalog src, ICompositeDispenser dispenser, ConcurrentBag<CollectedHost> dst, IWfEventTarget log)
         {
+            Receiver.Capturing(src.Component);
             var tmp = bag<CollectedHost>();
-            ApiCode.gather(src, dispenser, tmp, log);
+            ApiCode.gather(src, dispenser, tmp, log, Settings.PllExec);
             var code = tmp.ToArray();
             ApiCodeSvc.Emit(src.PartId, code, Target, Settings.PllExec);
             EmitAsm(dispenser, code);
             iter(tmp, x => dst.Add(x));
+            Receiver.Captured(src.Component);
         }
 
         public void Capture(ReadOnlySpan<PartId> parts, ICompositeDispenser dispenser, ConcurrentBag<CollectedHost> dst)
         {
             var selected = Catalog.PartIdentities.ToHashSet().Intersect(parts);
             iter(selected, part => Capture(part, dispenser, dst), Settings.PllExec);
-            //return dst.ToArray();
         }
 
         public void Capture(PartId part, ICompositeDispenser dispenser, ConcurrentBag<CollectedHost> dst)

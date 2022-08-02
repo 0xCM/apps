@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.IO;
-
     public readonly struct PeStream : IDisposable
     {
         readonly PEReader PEReader;

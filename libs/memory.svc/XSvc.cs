@@ -8,9 +8,6 @@ namespace Z0
     {
         sealed class Svc : AppServices<Svc>
         {
-            public ApiHex ApiHex(IWfRuntime wf)
-                => Service<ApiHex>(wf);
-
             public ImageRegions ImageRegions(IWfRuntime wf)
                 => Service<ImageRegions>(wf);
 
@@ -31,8 +28,5 @@ namespace Z0
 
         public static HexDataReader HexDataReader(this IWfRuntime wf)
             => Services.HexDataReader(wf);
-
-        public static ApiHex ApiHex(this IWfRuntime wf)
-            => Services.ApiHex(wf);
     }
 }

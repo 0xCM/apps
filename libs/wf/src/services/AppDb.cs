@@ -23,6 +23,7 @@ namespace Z0
             => Settings().Path(name,kind);
         public IDbSources Jobs()
             => DbRoot().Sources("jobs");
+
         public FS.FilePath Settings<T>()
             where T : struct
                 => Settings().Table<T>();
@@ -33,20 +34,23 @@ namespace Z0
         public FS.FilePath SettingsPath<S>(FileKind kind)
             => Settings().Path(Z0.Settings.name<S>(), kind);
 
-        public IDbSources Archives()
-            => new DbSources(setting(WsArchives.Path(Names.Archives), FS.dir));
+        public IDbArchive Archives()
+            => new DbArchive(setting(WsArchives.Path(Names.Archives), FS.dir));
+
+        public IDbArchive Archive(string scope)
+            => new DbArchive(Archives().Sources(scope).Root);
 
         public IDbSources LlvmRoot()
-            => new DbSources(setting(WsArchives.Path(Names.LlvmRoot), FS.dir));
+            => new DbArchive(setting(WsArchives.Path(Names.LlvmRoot), FS.dir));
 
         public IDbSources LlvmDist()
-            => new DbSources(setting(WsArchives.Path(Names.LlvmDist), FS.dir));
+            => new DbArchive(setting(WsArchives.Path(Names.LlvmDist), FS.dir));
 
         public IDbTargets DbOut()
             => new DbTargets(setting(WsArchives.Path(Names.DbTargets), FS.dir));
 
         public IDbSources Repos()
-            => new DbSources(setting(WsArchives.Path(Names.Repos), FS.dir));
+            => new DbArchive(setting(WsArchives.Path(Names.Repos), FS.dir));
 
         public IDbArchive Symbols()
             => new DbArchive(setting(WsArchives.Path(Names.Repos), FS.dir));

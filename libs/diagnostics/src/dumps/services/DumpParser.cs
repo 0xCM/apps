@@ -11,18 +11,11 @@ namespace Z0
 
     public sealed class DumpParser : WfSvc<DumpParser>
     {
-        IDumpArchive Archive => DumpArchive.Service;
-
-        public DumpParser()
-        {
-
-        }
-
         void Emit(ProcDumpName id, ReadOnlySpan<DR.ModuleInfo> src)
-            => TableEmit(src, Archive.Table<DR.ModuleInfo>(id));
+            => TableEmit(src,  AppDb.Archive($"dumps/{id}").Table<DR.ModuleInfo>(id.Format()));
 
         void Emit(ProcDumpName id, ReadOnlySpan<DR.MethodTableToken> src)
-            => TableEmit(src, Archive.Table<DR.MethodTableToken>(id));
+            => TableEmit(src, AppDb.Archive($"dumps/{id}").Table<DR.MethodTableToken>(id.Format()));
 
         void Emit(ProcDumpName id, ModuleProcessPresult src)
         {

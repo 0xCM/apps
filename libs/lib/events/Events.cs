@@ -7,6 +7,7 @@ namespace Z0
     [ApiHost]
     public class Events
     {
+
         [Op]
         public static StackFrame frame(int index)
             => new StackFrame(index);

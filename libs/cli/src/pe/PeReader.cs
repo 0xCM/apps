@@ -4,10 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.IO;
     using System.Linq;
 
-    using static core;
+    using static Algs;
+    using static Spans;
 
     using I = System.Reflection.Metadata.Ecma335.TableIndex;
 

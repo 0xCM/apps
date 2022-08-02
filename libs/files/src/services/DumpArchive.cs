@@ -4,15 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static EnvFolders;
-
-    public class DumpArchive : AppService<DumpArchive>, IDumpArchive
+    public class DumpArchive : IDumpArchive
     {
-        public static IDumpArchive Service => new DumpArchive();
-
-        public DumpArchive()
+        public DumpArchive(FS.FolderPath root)
         {
-            Root = AppDb.Service.Archives().Sources(dumps).Root;
+            Root = root;
         }
 
         public FS.FolderPath Root {get;}

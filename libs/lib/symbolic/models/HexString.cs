@@ -18,7 +18,7 @@ namespace Z0
         }
 
         public string Format()
-            => text.format(Data);
+            => sys.@string(Data);
 
         [MethodImpl(Inline)]
         public static implicit operator HexString(string src)

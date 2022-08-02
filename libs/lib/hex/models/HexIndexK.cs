@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Arrays;
+    using static Spans;
 
     public readonly struct HexIndex<K>
         where K : unmanaged, IHexNumber

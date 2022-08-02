@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
 
     partial class PeReader
     {
@@ -30,7 +31,7 @@ namespace Z0
         public ReadOnlySeq<MemberRefInfo> ReadMemberRefs()
         {
             var handles = MemberRefHandles;
-            var dst = alloc<MemberRefInfo>(handles.Length);
+            var dst = sys.alloc<MemberRefInfo>(handles.Length);
             ReadMemberRefs(handles,dst);
             return dst;
         }

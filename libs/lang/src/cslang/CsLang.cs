@@ -26,13 +26,13 @@ namespace Z0
         public static string hexarray(in MemorySeg src, uint index, Span<char> dst)
         {
             var memory = src.ToSpan();
-            var count = Hex.hexarray(memory.View, dst);
+            var count = Hex.convert(memory.View, dst);
             return string.Format(ArrayPackLine, memory.BaseAddress, index, (uint)memory.Size, text.format(slice(dst, 0, count)));
         }
 
         [MethodImpl(Inline)]
         public static uint hexarray(W8 w, in MemoryBlock src, Span<char> dst)
-            => Hex.hexarray(src.View, dst);
+            => Hex.convert(src.View, dst);
 
         public CsLang()
         {

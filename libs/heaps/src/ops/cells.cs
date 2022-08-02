@@ -4,9 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IJobArchive : IDbArchive
+    using static Spans;
+
+    partial class Heaps
     {
-        ReadOnlySeq<JobType> JobTypes()
-            => Root.TopFolders.Select(x => new JobType(x.Format()));
+        [MethodImpl(Inline)]
+        public static Span<T> cells<T>(in MemoryHeap src)
+            where T : unmanaged
+                => recover<T>(src.Data);
     }
 }

@@ -4,9 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
-    using api = HexArray;
+    using static Algs;
+    using static Spans;
 
     public struct HexArray16
     {
@@ -44,28 +43,28 @@ namespace Z0
         public static implicit operator HexArray16(ReadOnlySpan<byte> src)
         {
             var dst = Empty;
-            return api.store(src, ref dst);
+            return Hex.store(src, ref dst);
         }
 
         [MethodImpl(Inline)]
         public static implicit operator HexArray16(Span<byte> src)
         {
             var dst = Empty;
-            return api.store(src, ref dst);
+            return Hex.store(src, ref dst);
         }
 
         [MethodImpl(Inline)]
         public static implicit operator HexArray16(byte[] src)
         {
             var dst = Empty;
-            return api.store(src, ref dst);
+            return Hex.store(src, ref dst);
         }
 
         [MethodImpl(Inline)]
         public static implicit operator HexArray16(string src)
         {
             var dst = Empty;
-            api.parse(src, out dst);
+            Hex.parse(src, out dst);
             return dst;
         }
 

@@ -8,15 +8,15 @@ namespace Z0
 
     using static Msg;
     using static core;
-    using static HexFormatSpecs;
-
-    using X = HexDigitFacets;
-    using D = HexDigitFacets;
-    using V = HexDigitValue;
-    using C = AsciCharSym;
-
+ 
     partial struct Hex
     {
+        public static Outcome<uint> parse(string src, out HexArray16 dst)
+        {
+            dst = HexArray16.Empty;
+            return hexbytes(src, dst.Bytes);
+        }
+
         [Parser]
         public static bool parse(string src, out Hash8 dst)
         {
@@ -124,32 +124,6 @@ namespace Z0
         /// <summary>
         /// Parses a nibble
         /// </summary>
-        /// <param name="c">The source character</param>
-        [MethodImpl(Inline), Op]
-        public static bool parse(AsciCode c, out byte dst)
-        {
-            if(scalar(c))
-            {
-                dst = (byte)((byte)c - MinScalarCode);
-                return true;
-            }
-            else if(upper(c))
-            {
-                dst = (byte)((byte)c - MinCharCodeU + 0xA);
-                return true;
-            }
-            else if(lower(c))
-            {
-                dst = (byte)((byte)c - MinCharCodeL + 0xa);
-                return true;
-            }
-            dst = byte.MaxValue;
-            return false;
-        }
-
-        /// <summary>
-        /// Parses a nibble
-        /// </summary>
         /// <param name="src">The source character</param>
         [MethodImpl(Inline), Op]
         public static bool parse(char src, out byte dst)
@@ -205,53 +179,6 @@ namespace Z0
             return (true,counter);
         }
 
-        [Op]
-        public static bool parse(ReadOnlySpan<AsciCode> src, out ulong dst)
-        {
-            var lead = recover<AsciCode,byte>(src);
-            var _offset = System.Text.Encoding.ASCII.GetString(lead);
-            return ulong.TryParse(_offset, System.Globalization.NumberStyles.HexNumber, null, out dst);
-        }
-
-        [Op]
-        public static bool parse(ReadOnlySpan<AsciCode> src, out Hex16 dst)
-        {
-            dst = default;
-            var lead = recover<AsciCode,byte>(src);
-            var _offset = System.Text.Encoding.ASCII.GetString(lead);
-            var result = ushort.TryParse(_offset, System.Globalization.NumberStyles.HexNumber, null, out var n);
-            if(result)
-                dst = n;
-            return result;
-        }
-
-        [Op]
-        public static bool parse(ReadOnlySpan<AsciCode> src, out Hex32 dst)
-        {
-            dst = default;
-            var lead = recover<AsciCode,byte>(src);
-            var _offset = System.Text.Encoding.ASCII.GetString(lead);
-            var result = uint.TryParse(_offset, System.Globalization.NumberStyles.HexNumber, null, out var n);
-            if(result)
-                dst = n;
-            return result;
-        }
-
-        [Op]
-        public static bool parse(ReadOnlySpan<AsciCode> src, out Hex64 dst)
-        {
-            dst = default;
-            var lead = recover<AsciCode,byte>(src);
-            var _offset = System.Text.Encoding.ASCII.GetString(lead);
-            var result = ulong.TryParse(_offset, System.Globalization.NumberStyles.HexNumber, null, out var n);
-            if(result)
-                dst = n;
-            return result;
-        }
-
-        [MethodImpl(Inline)]
-        static bool whitespace(AsciCode src)
-            => SQ.contains(AsciCodes.whitespace(), src);
 
         [MethodImpl(Inline)]
         static bool whitespace(char src)
@@ -262,136 +189,8 @@ namespace Z0
             => src == Chars.Comma;
 
         [MethodImpl(Inline), Op]
-        public static bool parse(AsciCode c, out HexDigitValue dst)
-        {
-            if(scalar(c))
-            {
-                dst = (HexDigitValue)((HexDigitCode)c - X.MinScalarCode);
-                return true;
-            }
-            else if(upper(c))
-            {
-                dst = (HexDigitValue)((HexDigitCode)c - X.MinLetterCodeU + 0xA);
-                return true;
-            }
-            else if(lower(c))
-            {
-                dst = (HexDigitValue)((HexDigitCode)c - X.MinLetterCodeL + 0xa);
-                return true;
-            }
-            dst = (HexDigitValue)byte.MaxValue;
-            return false;
-        }
-
-        [MethodImpl(Inline), Op]
         public static bool parse(char src, out HexDigitValue dst)
             => parse((AsciCode)src, out dst);
-
-        [Op]
-        public static bool parse(AsciCharSym src, out HexDigitValue dst)
-        {
-            switch(src)
-            {
-                case C.d0:
-                    dst = V.x0;
-                    break;
-                case C.d1:
-                    dst = V.x1;
-                    break;
-                case C.d2:
-                    dst = V.x2;
-                    break;
-                case C.d3:
-                    dst = V.x3;
-                    break;
-                case C.d4:
-                    dst = V.x4;
-                    break;
-                case C.d5:
-                    dst = V.x5;
-                    break;
-                case C.d6:
-                    dst = V.x6;
-                    break;
-                case C.d7:
-                    dst = V.x7;
-                    break;
-                case C.d8:
-                    dst = V.x8;
-                    break;
-                case C.d9:
-                    dst = V.x9;
-                    break;
-                case C.a:
-                case C.A:
-                    dst = V.A;
-                    break;
-                case C.b:
-                case C.B:
-                    dst = V.B;
-                    break;
-                case C.c:
-                case C.C:
-                    dst = V.C;
-                    break;
-                case C.d:
-                case C.D:
-                    dst = V.D;
-                    break;
-                case C.e:
-                case C.E:
-                    dst = V.E;
-                    break;
-                case C.f:
-                case C.F:
-                    dst = V.F;
-                break;
-                default:
-                    dst = 0;
-                    return false;
-            }
-
-            return true;
-        }
-
-        [MethodImpl(Inline), Op]
-        public static bool parse(LowerCased @case, AsciCode c, out HexDigitValue dst)
-        {
-            var result = false;
-            if(scalar(c))
-            {
-                dst = (HexDigitValue)((HexDigitCode)c - D.MinScalarCode);
-                result = true;
-            }
-            else if(lower(c))
-            {
-                dst = (HexDigitValue)((HexDigitCode)c - D.MinLetterCodeL + 0xa);
-                result = true;
-            }
-            else
-                dst = (HexDigitValue)byte.MaxValue;
-            return result;
-        }
-
-        [MethodImpl(Inline), Op]
-        public static bool parse(UpperCased @case, AsciCode c, out HexDigitValue dst)
-        {
-            var result = false;
-
-            if(scalar(c))
-            {
-                dst = (HexDigitValue)((HexDigitCode)c - D.MinScalarCode);
-                result = true;
-            }
-            else if(upper(c))
-            {
-                dst = (HexDigitValue)((HexDigitCode)c - D.MinLetterCodeU + 0xA);
-                result = true;
-            }
-            else
-                dst = (HexDigitValue)byte.MaxValue;
-            return result;
-        }
 
         [MethodImpl(Inline), Op]
         public static bool parse(LowerCased @case, char c, out HexDigitValue dst)
@@ -400,45 +199,6 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static bool parse(UpperCased @case, char c, out HexDigitValue dst)
             => parse(@case, (AsciCode)c, out dst);
-
-        [MethodImpl(Inline), Op]
-        public static bool parse(UpperCased @case, AsciCode c, out byte dst)
-        {
-            var result = false;
-            if(scalar(c))
-            {
-                dst = (byte)((byte)c - MinScalarCode);
-                result = true;
-            }
-            else if(upper(c))
-            {
-                dst = (byte)((byte)c - MinCharCodeU + 0xA);
-                result = true;
-            }
-            else
-                dst = byte.MaxValue;
-
-            return result;
-        }
-
-        [MethodImpl(Inline), Op]
-        public static bool parse(LowerCased @case, AsciCode c, out byte dst)
-        {
-            var result = false;
-            if(scalar(c))
-            {
-                dst = (byte)((byte)c - MinScalarCode);
-                result = true;
-            }
-            else if(lower(c))
-            {
-                dst = (byte)((byte)c - MinCharCodeL + 0xa);
-                result = true;
-            }
-            else
-                dst = byte.MaxValue;
-            return result;
-        }
 
         /// <summary>
         /// Parses a nibble

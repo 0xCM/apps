@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static EnvFolders;
+    using static ApiAtomic;
 
     public interface ISymbolArchive : IRootedArchive
     {

@@ -9,33 +9,33 @@ namespace Z0
     partial class Heaps
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
-        internal static Span<T> segment<T>(in BinaryHeap src, uint index)
+        public static Span<T> segment<T>(in BinaryHeap src, uint index)
             where T : unmanaged
         {
-            if(index > src.CellCount - 1)
+            if(index > src.Capacity - 1)
                 return Span<T>.Empty;
             ref readonly var i0 = ref src.Offset(index);
-            if(index < src.CellCount - 1)
+            if(index < src.Capacity - 1)
                 return slice(src.Cells<T>(), i0, src.Offset(index + 1) - i0);
             else
                 return slice(src.Cells<T>(), i0);
         }
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        internal static Span<T> segment<T>(in BinaryHeap<T> src, uint index)
+        public static Span<T> segment<T>(in BinaryHeap<T> src, uint index)
             where T : unmanaged
         {
-            if(index > src.CellCount - 1)
+            if(index > src.Capacity - 1)
                 return Span<T>.Empty;
             ref readonly var i0 = ref src.Offset(index);
-            if(index < src.CellCount - 1)
+            if(index < src.Capacity - 1)
                 return slice(src.Cells, i0, src.Offset(index + 1) - i0);
             else
                 return slice(src.Cells, i0);
         }
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        internal static Span<T> segment<T>(in SpanHeap<T> src, uint index)
+        public static Span<T> segment<T>(in SpanHeap<T> src, uint index)
         {
             if(index > src.SegCount - 1)
                 return Span<T>.Empty;
@@ -47,7 +47,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        internal static ReadOnlySpan<T> segment<T>(in ReadOnlyHeap<T> src, uint index)
+        public static ReadOnlySpan<T> segment<T>(in ReadOnlyHeap<T> src, uint index)
         {
             if(index > src.LastSegment + 1)
                 return ReadOnlySpan<T>.Empty;

@@ -79,7 +79,7 @@ namespace Z0
             var a = 4ul;
             var b = 12ul;
             var c = f(a,b);
-            Log(edata(string.Format("{0}({1},{2})={3}", name, a, b, c)));
+            Log(Events.data(string.Format("{0}({1},{2})={3}", name, a, b, c)));
         }
 
         readonly struct SlotBox64

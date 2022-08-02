@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
+    using static Arrays;
 
     partial class CliEmitter
     {
@@ -48,7 +50,7 @@ namespace Z0
             var flow = EmittingFile(dst);
             var input = span(src);
             var count = input.Length;
-            var buffer = alloc<Paired<FieldRef,string>>(count);
+            var buffer = sys.alloc<Paired<FieldRef,string>>(count);
             ref var emissions = ref first(buffer);
 
             using var writer = dst.Writer();

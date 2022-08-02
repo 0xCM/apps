@@ -10,8 +10,6 @@ namespace Z0.Asm
     {
         ApiResProvider ApiResProvider => Service(Wf.ApiResProvider);
 
-        ApiCodeSvc ApiCode => Wf.ApiCode();
-
         public ReadOnlySpan<MemorySeg> Emit(FS.FolderPath dst)
         {
             var asmpath = dst + FS.file("respack",FS.Asm);
@@ -87,7 +85,7 @@ namespace Z0.Asm
             {
                 ref readonly var seg = ref skip(src,i);
                 buffer.Clear();
-                writer.WriteLine(ApiHex.pack(seg, i, buffer));
+                writer.WriteLine(ApiCode.pack(seg, i, buffer));
             }
             EmittedFile(flow, count);
         }

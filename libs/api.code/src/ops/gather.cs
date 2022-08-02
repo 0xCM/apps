@@ -13,8 +13,8 @@ namespace Z0
     partial class ApiCode
     {
         [Op]
-        public static void gather(IApiPartCatalog src, ICompositeDispenser dispenser, ConcurrentBag<CollectedHost> dst, IWfEventTarget log)
-            => iter(jit(src, log), member => dst.Add(gather(member, dispenser, log)));
+        public static void gather(IApiPartCatalog src, ICompositeDispenser dispenser, ConcurrentBag<CollectedHost> dst, IWfEventTarget log, bool pll)
+            => iter(jit(src, log), member => dst.Add(gather(member, dispenser, log)), pll);
 
         [Op]
         static ConcurrentBag<ApiHostMembers> jit(IApiPartCatalog src, IWfEventTarget log)

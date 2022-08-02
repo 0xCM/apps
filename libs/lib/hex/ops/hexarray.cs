@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static Arrays;
     using static Spans;
+    using static Algs;
 
     partial struct Hex
     {
@@ -13,29 +15,17 @@ namespace Z0
             => new HexArray(src);
 
         [MethodImpl(Inline), Op]
-        public static uint hexarray(ReadOnlySpan<byte> src, Span<char> dst, bool brackets = false)
+        public static HexArray16 array(ReadOnlySpan<byte> src, N16 n)
         {
-            var j = 0u;
-            var count = src.Length;
-            var max = dst.Length;
-            if(brackets)
-                seek(dst,j++) = Chars.LBracket;
-
-            for(var i=0; i<count && j<max; i++)
+            var size = src.Length;
+            if(size <= 16)
+                return @as<HexArray16>(first(src));
+            else
             {
-                ref readonly var b = ref skip(src,i);
-                seek(dst,j++) = Chars.D0;
-                seek(dst,j++) = Chars.x;
-                seek(dst,j++) = hexchar(LowerCase, b, 1);
-                seek(dst,j++) = hexchar(LowerCase, b, 0);
-                if(i != count-1)
-                    seek(dst,j++) = Chars.Comma;
+                var dst = HexArray16.Empty;
+                Hex.store(src,ref dst);
+                return dst;
             }
-
-            if(brackets)
-                seek(dst,j++) = Chars.RBracket;
-            return j;
         }
-
     }
 }

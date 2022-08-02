@@ -4,12 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial class CliEmitter
     {
         public void EmitSectionHeaders(IApiPack dst)
-            => EmitSectionHeaders(controller().RuntimeArchive(), dst);
+            => EmitSectionHeaders(sys.controller().RuntimeArchive(), dst);
 
         public void EmitSectionHeaders(IRuntimeArchive src, IApiPack dst)
             => EmitSectionHeaders(src.Files(FileKind.Dll, FileKind.Exe, FileKind.Obj), dst.Table<PeSectionHeader>());

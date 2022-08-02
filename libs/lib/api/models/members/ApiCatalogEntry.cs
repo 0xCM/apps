@@ -9,7 +9,7 @@ namespace Z0
     {
         public const string TableId = "api.catalog";
 
-        public const byte FieldCount = 9;
+        public const byte FieldCount = 8;
 
         public uint Sequence;
 

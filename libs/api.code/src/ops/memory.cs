@@ -36,6 +36,37 @@ namespace Z0
             return new MemoryBlocks(dst);
         }
 
+        public static MemoryBlocks memory(FS.FilePath src)
+        {
+            var dst = MemoryBlocks.Empty;
+            var result = Outcome<MemoryBlocks>.Success;
+            var unpacked = Outcome<ByteSize>.Success;
+            var size  = ByteSize.Zero;
+            var buffer = list<MemoryBlock>();
+            var counter = z16;
+            using var reader = src.AsciReader();
+            var data = reader.ReadLine();
+            var block = MemoryBlock.Empty;
+            while(result.Ok && text.nonempty(data))
+            {
+                unpacked = parse(counter++, data, out block);
+                if(unpacked.Fail)
+                {
+                    result = (false, unpacked.Message);
+                    Errors.Throw(unpacked.Message);
+                }
+                else
+                {
+                    buffer.Add(block);
+                    size += unpacked.Data;
+                    data = reader.ReadLine();
+                }
+            }
+
+            dst = buffer.ToArray();
+            return dst;
+        }
+
         [MethodImpl(Inline), Op]
         static MemoryBlock memory(in ApiCodeRow src)
             => new MemoryBlock(new MemoryRange(src.Address, src.Address + src.Data.Size), src.Data);

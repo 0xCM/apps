@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static CliSections;
 
     partial class CliEmitter
     {
@@ -14,7 +15,7 @@ namespace Z0
         public void EmitMemberRefs(Assembly src, IApiPack dst)
         {
             using var reader = PeReader.create(FS.path(src.Location));
-            TableEmit(reader.ReadMemberRefs(), dst.Metadata("member.refs").Table<MemberRefInfo>(src.GetSimpleName()));
+            TableEmit(reader.ReadMemberRefs(), dst.Metadata(MemberRefs).Table<MemberRefInfo>(src.GetSimpleName()));
         }
     }
 }

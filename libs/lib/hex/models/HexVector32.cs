@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
 
     /// <summary>
     /// Defines a sequence of 32-bit cells

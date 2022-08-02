@@ -15,14 +15,14 @@ namespace Z0
 
         readonly Span<uint> Offsets;
 
-        public readonly uint CellCount;
+        public readonly uint Capacity;
 
         [MethodImpl(Inline)]
         public BinaryHeap(Span<T> src, Span<uint> offsets)
         {
             Data = src;
             Offsets = offsets;
-            CellCount = (uint)Require.equal(src.Length, offsets.Length);
+            Capacity = (uint)Require.equal(src.Length, offsets.Length);
         }
 
         public Span<T> Cells

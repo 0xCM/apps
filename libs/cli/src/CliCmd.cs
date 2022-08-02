@@ -21,7 +21,7 @@ namespace Z0
 
         [CmdOp("cli/emit/hex")]
         void EmitApiHex()
-            => CliEmitter.EmitApiHex(Dst);
+            => CliEmitter.EmitLocatedMetadata(Dst);
 
         [CmdOp("cli/emit/refs")]
         void EmitMemberRefs()

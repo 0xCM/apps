@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
 
     partial class CliEmitter
     {
@@ -29,6 +29,7 @@ namespace Z0
                 var reader = CliReader.create(src);
                 TableEmit(reader.ReadUserStringDetail(), dst.Metadata(CliSections.UserStrings).PrefixedTable<CliString>(src.GetSimpleName()), UTF16);
             }
+
             Try(Exec);
         }
 

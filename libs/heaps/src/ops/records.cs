@@ -9,7 +9,7 @@ namespace Z0
     partial class Heaps
     {
         [Op]
-        public static ReadOnlySeq<SymHeapRecord> entries(SymHeap src)
+        public static ReadOnlySeq<SymHeapRecord> records(SymHeap src)
         {
             var count = src.SymbolCount;
             var dst = alloc<SymHeapRecord>(count);

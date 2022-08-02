@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
+    using static ScalarCast;
 
     /// <summary>
     /// Defines a sequence of K-kinded hex chars
@@ -12,15 +14,15 @@ namespace Z0
     public unsafe readonly struct HexString<K>
         where K : unmanaged
     {
-        public MemoryAddress BaseAddress {get;}
+        public readonly MemoryAddress BaseAddress;
 
-        public ByteSize Size {get;}
+        public readonly ByteSize Size;
 
         [MethodImpl(Inline)]
         public HexString(string src)
         {
             var _src = src ?? EmptyString;
-            BaseAddress = pchar(_src);
+            BaseAddress = Pointers.pchar(_src);
             Size = _src.Length * 2;
         }
 
@@ -56,9 +58,6 @@ namespace Z0
             get => Size/2;
         }
 
-        /// <summary>
-        /// The string content presented as a readonly span
-        /// </summary>
         public ReadOnlySpan<char> View
         {
             [MethodImpl(Inline)]

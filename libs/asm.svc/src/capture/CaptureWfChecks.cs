@@ -29,7 +29,7 @@ namespace Z0.Asm
         void PackHex(FS.FolderPath src, ApiHostUri host)
         {
             var counter = 0u;
-            var memory = ApiHex.memory( src + host.FileName(FileKind.Csv));
+            var memory = ApiCode.memory( src + host.FileName(FileKind.Csv));
             var blocks = memory.Sort().View;
             var buffer = span<char>(Pow2.T16);
             var dir = AppDb.ApiTargets("capture.test").Targets(string.Format("{0}.{1}", host.Part.Format(), host.HostName)).Root;
@@ -37,7 +37,7 @@ namespace Z0.Asm
             for(var i=0; i<count; i++)
             {
                 var dst = dir + FS.file(string.Format("{0:D5}", i), FS.XArray);
-                var length = Hex.hexarray(skip(blocks,i).View, buffer);
+                var length = Hex.convert(skip(blocks,i).View, buffer);
                 var content = text.format(slice(buffer,0,length));
                 using var writer = dst.AsciWriter();
                 writer.WriteLine(content);
@@ -63,10 +63,14 @@ namespace Z0.Asm
                     continue;
 
                 var uri = ApiIdentity.host(id, skip(elements,1));
-                hex.Add(new (uri, ApiHex.memory(file)));
+                hex.Add(new (uri, ApiCode.memory(file)));
             }
         }
 
+        public void CheckAssemblyMetadata(Assembly subject, FS.FilePath src)
+        {
+            var emitted = Heaps.located(src);            
+        }
 
         void CheckHeaps1(IApiPack src)
         {

@@ -10,12 +10,12 @@ namespace Z0
     partial class ApiCode
     {
         [Op]
-        public static ByteSize hex(ReadOnlySeq<ApiEncoded> src, FS.FilePath dst)
+        public static ByteSize hex(ReadOnlySpan<ApiEncoded> src, FS.FilePath dst)
         {
             var options = HexFormatOptions.define();
             using var writer = dst.AsciWriter();
             var size = 0u;
-            for(var i=0; i<src.Count; i++)
+            for(var i=0; i<src.Length; i++)
             {
                 ref readonly var code = ref src[i].Code;
                 writer.WriteLine(code.Format(options));

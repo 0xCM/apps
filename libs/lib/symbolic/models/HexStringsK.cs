@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
 
     public readonly struct HexStrings<K>
         where K : unmanaged

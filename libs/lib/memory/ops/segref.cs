@@ -8,7 +8,6 @@ namespace Z0
     using static Sized;
     using static Spans;
     using static Arrays;
-    using static Pointers;
 
     partial struct memory
     {
@@ -160,7 +159,5 @@ namespace Z0
             for(var i=0u; i<count; i++)
                 seek(dst,i) = first(recover<T>(skip(src,i).Edit));
         }
-
-
     }
 }

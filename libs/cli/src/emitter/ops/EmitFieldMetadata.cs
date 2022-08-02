@@ -20,7 +20,7 @@ namespace Z0
 
         void EmitFieldMetadata(Assembly src, IApiPack dst)
         {
-            core.exec(true,
+            exec(true,
             () => EmitConstFields(src, dst),
             () => EmitMemberFields(src, dst),
             () => EmitFieldDefs(src, dst)

@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     public static class ClrInternals
     {
         public static void check(WfEventLogger log)
@@ -17,10 +15,10 @@ namespace Z0
             var c1 = ClrInternals.next(c0);
             var c2 = ClrInternals.next(c1);
             var c3 = ClrInternals.next(c2);
-            log(edata(c0));
-            log(edata(c1));
-            log(edata(c2));
-            log(edata(c3));
+            log(Events.data(c0));
+            log(Events.data(c1));
+            log(Events.data(c2));
+            log(Events.data(c3));
         }
         public static void Introspect(Type src)
         {

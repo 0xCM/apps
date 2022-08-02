@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
 
     partial class PeReader
     {
@@ -12,7 +13,7 @@ namespace Z0
         public ReadOnlySeq<AssemblyRefInfo> ReadAssemblyRefs()
         {
             var src = CliReader().AssemblyRefHandles();
-            var dst = alloc<AssemblyRefInfo>(src.Length);
+            var dst = sys.alloc<AssemblyRefInfo>(src.Length);
             ReadAssemblyRefs(src, dst);
             return dst;
         }
