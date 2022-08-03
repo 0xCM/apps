@@ -13,8 +13,6 @@ namespace Z0
     {
         AsmRegSets Regs => Service(AsmRegSets.create);
 
-        AppSvcOps AppSvc => Wf.AppSvc();
-
         public void Emit()
         {
             EmitRexDocs();
@@ -63,10 +61,10 @@ namespace Z0
         public void EmitSibDocs()
         {
             var rows = AsmBytes.SibRows().View;
-            AppSvc.TableEmit(rows, AppDb.ApiTargets("asm.docs").Path("asm.docs.sib.bits", FileKind.Csv));
+            TableEmit(rows, AppDb.ApiTargets("asm.docs").Path("asm.docs.sib.bits", FileKind.Csv));
 
             var codes = AsmBytes.SibRegCodes();
-            AppSvc.TableEmit(codes.View, AppDb.ApiTargets("asm.docs").Path("asm.docs.sib.regs", FileKind.Csv));
+            TableEmit(codes.View, AppDb.ApiTargets("asm.docs").Path("asm.docs.sib.regs", FileKind.Csv));
         }
 
         public void EmitModRmDocs()

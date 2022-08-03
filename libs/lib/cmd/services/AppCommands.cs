@@ -15,7 +15,7 @@ namespace Z0
             foreach(var m in methods)
             {
                 var tag = m.Tag<CmdOpAttribute>().Require();
-                dst.TryAdd(tag.CommandName, new AppCmdRunner(tag.CommandName, src, m));
+                dst.TryAdd(tag.Name, new AppCmdRunner(tag.Name, src, m));
             }
             return new AppCommands(dst);
         }

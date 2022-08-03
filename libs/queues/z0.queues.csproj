@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="$(Wf)" />
-    <ProjectReference Include="$(CmdSvc)" />
   </ItemGroup>
 
 </Project>

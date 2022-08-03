@@ -10,7 +10,7 @@
   <ItemGroup>
       <ProjectReference Include="$(Wf)"/>
       <ProjectReference Include="$(Native)"/>
-      <ProjectReference Include="$(CmdSvc)"/>
+      <ProjectReference Include="$(Archives)"/>
   </ItemGroup>
 
 </Project>

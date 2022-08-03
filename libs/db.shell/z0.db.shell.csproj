@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="$(Db)" />
-    <ProjectReference Include="$(CmdSvc)" />
   </ItemGroup>
 
 </Project>

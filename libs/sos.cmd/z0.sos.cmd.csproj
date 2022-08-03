@@ -9,7 +9,6 @@
   <Import Project="$(ImportDefs)usings.props"/>
 
   <ItemGroup>
-    <ProjectReference Include="$(CmdSvc)" />
     <ProjectReference Include="$(ApiMd)" />
     <PackageReference Include="Microsoft.FileFormats" Version="1.0.161401" />
     <PackageReference Include="Microsoft.SymbolStore" Version="1.0.161401" />

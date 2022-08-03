@@ -14,7 +14,7 @@ namespace Z0
                 wf.AsmCmdSvc(),
                 wf.AsmChecks(),
                 wf.CaptureCmd(),
-                wf.CheckRunner(),
+                //wf.CheckRunner(),
                 wf.CliCmd(),
                 wf.DbCmd(),
                 wf.LlvmCmd(),

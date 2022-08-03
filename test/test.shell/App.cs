@@ -9,10 +9,11 @@ namespace Z0
     {
         static IAppCmdSvc commands(IWfRuntime wf)
             => TestCmd.create(wf, new ICmdProvider[]{
-                wf.CheckRunner(),
+                CheckCmd.create(wf)
             });
 
         public static void Main(params string[] args)
             => run(commands, args);
     }
+
 }

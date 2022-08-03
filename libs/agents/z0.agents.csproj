@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="$(CmdSvc)" />
+    <ProjectReference Include="$(Archives)" />
   </ItemGroup>
 
 </Project>

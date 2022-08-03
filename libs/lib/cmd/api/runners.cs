@@ -30,7 +30,7 @@ namespace Z0
             {
                 ref readonly var method = ref skip(src,i);
                 var tag = method.Tag<CmdOpAttribute>().Require();
-                seek(dst,i) = runner(tag.CommandName, host, method);
+                seek(dst,i) = runner(tag.Name, host, method);
             }
         }
 

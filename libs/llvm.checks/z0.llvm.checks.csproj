@@ -10,7 +10,6 @@
   <Import Project="$(ImportDefs)shells.props"/>
 
   <ItemGroup>
-    <ProjectReference Include="$(CmdSvc)" />
     <ProjectReference Include="$(LlvmSvc)" />
     <ProjectReference Include="$(AsmCore)" />
     <ProjectReference Include="$(AsmModels)" />

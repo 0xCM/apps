@@ -60,7 +60,7 @@ namespace Z0
 
         protected override void Initialized()
         {
-            _Views = new(this, Wf.AppSvc);
+            _Views = new(this, () => Emitter);
         }
 
         public XedRuntime()

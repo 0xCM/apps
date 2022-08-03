@@ -6,11 +6,9 @@ namespace Z0.Asm
 {
     using static core;
 
-    public sealed class ProcessAsmSvc : AppService<ProcessAsmSvc>
+    public sealed class ProcessAsmSvc : WfSvc<ProcessAsmSvc>
     {
         AsmDecoder Decoder => Wf.AsmDecoder();
-
-        AppSvcOps AppSvc => Wf.AppSvc();
 
         public SortedSpan<ProcessAsmRecord> BuildProcessAsm(ReadOnlySpan<AsmRoutine> src)
         {
@@ -66,7 +64,7 @@ namespace Z0.Asm
         }
 
         public void EmitProcessAsm(SortedReadOnlySpan<ProcessAsmRecord> src, FS.FilePath dst)
-            => AppSvc.TableEmit(src.View, dst, rowpad: ProcessAsmRecord.RowPad);
+            => TableEmit(src.View, dst, rowpad: ProcessAsmRecord.RowPad);
 
         public ReadOnlySpan<ProcessAsmRecord> EmitProcessAsm(ReadOnlySpan<AsmRoutine> src, FS.FilePath dst)
         {

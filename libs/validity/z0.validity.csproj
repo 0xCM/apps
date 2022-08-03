@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="$(Polyrand)" />
-    <ProjectReference Include="$(CmdSvc)" />
+    <ProjectReference Include="$(Archives)" />
   </ItemGroup>
 
 </Project>

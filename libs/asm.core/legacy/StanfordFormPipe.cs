@@ -10,8 +10,6 @@ namespace Z0.Asm
 
     public class StanfordFormPipe : AppService<StanfordFormPipe>
     {
-        AppSvcOps AppSvc => Wf.AppSvc();
-
         public StanfordFormPipe()
         {
 

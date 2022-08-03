@@ -12,8 +12,8 @@
 
   <ItemGroup>
     <ProjectReference Include="$(Queues)" />
-    <ProjectReference Include="$(CmdSvc)" />
     <ProjectReference Include="$(Graphs)" />
+    <ProjectReference Include="$(Archives)" />
   </ItemGroup>
 
 </Project>

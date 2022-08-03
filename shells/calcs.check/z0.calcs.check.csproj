@@ -12,7 +12,6 @@
   <ItemGroup>
     <ProjectReference Include="$(Services)" />
     <ProjectReference Include="$(Calcs)" />
-    <ProjectReference Include="$(CmdSvc)" />
     <ProjectReference Include="$(Bits)" />
   </ItemGroup>
 

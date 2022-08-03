@@ -6,10 +6,8 @@ namespace Z0.Asm
 {
     using static core;
 
-    public sealed class AsmCallPipe : AppService<AsmCallPipe>
+    public sealed class AsmCallPipe : WfSvc<AsmCallPipe>
     {
-        AppSvcOps AppSvc => Wf.AppSvc();
-
         public Index<AsmCallRow> EmitRows(ReadOnlySpan<ApiPartRoutines> src, FS.FolderPath dir)
         {
             var dst = bag<AsmCallRow>();
@@ -25,7 +23,7 @@ namespace Z0.Asm
             iter(src, routine => instructions.AddRange(routine.Instructions));
             var calls = BuildRows(instructions.ViewDeposited());
             var count = calls.Length;
-            AppSvc.TableEmit(calls.View, dst);
+            TableEmit(calls.View, dst);
             return calls;
         }
 
@@ -33,7 +31,7 @@ namespace Z0.Asm
         {
             var calls = BuildRows(src.Instructions());
             iter(calls, call => dst.Add(call));
-            AppSvc.TableEmit(calls, path);
+            TableEmit(calls, path);
         }
 
         [MethodImpl(Inline), Op]

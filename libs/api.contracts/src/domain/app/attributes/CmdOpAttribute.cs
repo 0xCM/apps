@@ -4,14 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [AttributeUsage(AttributeTargets.Method)]
     public class CmdOpAttribute : Attribute
     {
-        public string CommandName {get;}
+        public string Name {get;}
 
         public CmdOpAttribute(string name)
         {
-            CommandName = name;
+            Name = name;
         }
     }
 }

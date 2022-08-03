@@ -21,18 +21,18 @@ namespace Z0
         internal void Store<T>(XedRecord kind, T data)
         {
             @as<object,T>(DataStores[(byte)kind]) = data;
-            AppSvc.Status(FlairKind.StatusData, $"Computed {kind}");
+            Emit.Status(FlairKind.StatusData, $"Computed {kind}");
         }
 
         readonly Index<object> DataStores;
 
         readonly XedRuntime Xed;
 
-        readonly AppSvcOps AppSvc;
+        readonly WfEmit Emit;
 
-        internal XedViews(XedRuntime xed, Func<AppSvcOps> svc)
+        internal XedViews(XedRuntime xed, Func<WfEmit> svc)
         {
-            AppSvc = svc();
+            Emit = svc();
             Xed = xed;
             DataStores = alloc<object>(32);
         }
