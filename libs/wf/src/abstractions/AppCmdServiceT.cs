@@ -27,7 +27,7 @@ namespace Z0
             PromptTitle = "cmd";
         }
 
-        public override IDispatcher Dispatcher => ApiGlobals.Instance.Injected<CmdDispatcher>();
+        public override IAppCmdDispatcher Dispatcher => ApiGlobals.Instance.Injected<AppCmdDispatcher>();
 
         [CmdOp("jobs/run")]
         Outcome RunJobs(CmdArgs args)
@@ -62,17 +62,17 @@ namespace Z0
         string Prompt()
             => string.Format("{0}> ", PromptTitle);
 
-        ShellCmdSpec Next()
+        AppCmdSpec Next()
         {
             var input = term.prompt(Prompt());
-            if(Cmd.parse(input, out ShellCmdSpec cmd))
+            if(Cmd.parse(input, out AppCmdSpec cmd))
             {
                 return cmd;
             }
             else
             {
                 Error($"ParseFailure:{input}");
-                return ShellCmdSpec.Empty;
+                return AppCmdSpec.Empty;
             }
             //return ShellCmd.parse(input);
         }

@@ -13,53 +13,52 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static CmdArg<T> arg<T>(uint index, T value)
+            => (index,value);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static CmdArg<T> arg<T>(uint index, string name, T value)
+            => new CmdArg<T>(index, name, value);
+
+        [MethodImpl(Inline), Op]
+        public static CmdArg arg(string name, string value)
+            => new CmdArg(name,value);
+
+        [MethodImpl(Inline), Op]
+        public static CmdArg arg(string name)
+            => new CmdArg(name);
+
+        [MethodImpl(Inline), Op]
+        public static CmdArg arg(uint index, string name, string value)
+            => new CmdArg(index, name, value);
+
+        public static CmdVar<K> var<K>(string name, K kind, string value)
+            where K : unmanaged
+                => new CmdVar<K>(name,kind,value);
+
+        public static CmdVar<K,T> var<K,T>(string name, K kind, T value)
+            where K : unmanaged
+                => new CmdVar<K,T>(name, kind, value);
+
+        [MethodImpl(Inline), Op]
+        public static CmdScriptVar var(Name name)
+            => new CmdScriptVar(name);
+
+        [MethodImpl(Inline), Op]
+        public static CmdVar var(Name name, string value)
+            => new CmdVar(name, value);
+
+        [MethodImpl(Inline), Op]
+        public static CmdVar var(string name, object value)
+            => new CmdVar(name, value);
+
+        public static Symbols<CmdKind> kinds()
+            => Symbols.index<CmdKind>();
+
         [MethodImpl(Inline)]
         public static CmdUri uri(CmdKind kind, string? part, string? host, string? name)
             => new CmdUri(kind, part, host, name);
-
-         public static string format<T>(ICmd<T> src)
-            where T : struct, ICmd<T>
-        {
-            var buffer = text.emitter();
-            buffer.AppendFormat("{0}{1}", src.CmdId, Chars.LParen);
-
-            var fields = ClrFields.instance(typeof(T));
-            if(fields.Length != 0)
-                render(__makeref(src), fields, buffer);
-
-            buffer.Append(Chars.RParen);
-            return buffer.Emit();
-        }
-
-        public static void render(TypedReference src, ReadOnlySpan<ClrFieldAdapter> fields, ITextEmitter dst)
-        {
-            var count = fields.Length;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var field = ref skip(fields,i);
-                dst.AppendFormat(RP.Assign, field.Name, field.GetValueDirect(src));
-                if(i != count - 1)
-                    dst.Append(", ");
-            }
-        }
-
-        /// <summary>
-        /// Creates a <see cref='CmdLine'/> that represents 'cmd.exe /c '<paramref name='spec'/>'
-        /// </summary>
-        /// <param name="spec">The command to execute</param>
-        public static CmdLine cmd(string spec)
-            => string.Format("cmd.exe /c {0}", spec);
-
-        /// <summary>
-        /// Creates a <see cref='CmdLine'/> that represents 'pwsh.exe /c '<paramref name='spec'/>'
-        /// </summary>
-        /// <param name="spec">The command to execute</param>
-        public static CmdLine pwsh(string spec)
-            => string.Format("pwsh.exe {0}", spec);
-
-        [Op, MethodImpl(Inline)]
-        public static ShellCmdSpec shell(string name, CmdArgs args)
-            => new ShellCmdSpec(name, args);
 
         public static CmdArg arg(CmdArgs src, int index)
         {
@@ -80,72 +79,11 @@ namespace Z0
             return CmdArgs.create(dst);
         }
 
-        public static string format(ShellCmdSpec src)
-        {
-            if(src.IsEmpty)
-                return EmptyString;
-
-            var dst = text.buffer();
-            dst.Append(src.Name);
-            var count = src.Args.Count;
-            for(ushort i=0; i<count; i++)
-            {
-                ref readonly var arg = ref src.Args[i];
-                if(nonempty(arg.Name))
-                {
-                    dst.Append(Chars.Space);
-                    dst.Append(arg.Name);
-                }
-
-                if(nonempty(arg.Value))
-                {
-                    dst.Append(Chars.Space);
-                    dst.Append(arg.Value);
-                }
-            }
-            return dst.Emit();
-        }
-
-        [MethodImpl(Inline), Op]
-        public static CmdFlagSpec flag(string name, string desc)
-            => new CmdFlagSpec(name, desc);
-
-        public static Index<CmdFlagSpec> flags(FS.FilePath src)
-        {
-            var k = z16;
-            var dst = list<CmdFlagSpec>();
-            using var reader = src.AsciLineReader();
-            while(reader.Next(out var line))
-            {
-                var content = line.Codes;
-                var i = SQ.index(content, AsciCode.Colon);
-                if(i == NotFound)
-                    continue;
-
-                var name = text.trim(Asci.format(SQ.left(content,i)));
-                var desc = text.trim(Asci.format(SQ.right(content,i)));
-                dst.Add(flag(name, desc));
-            }
-            return dst.ToArray();
-        }
-
         [MethodImpl(Inline), Op]
         public static CmdVarInfo varinfo(Name name, TextBlock purpose)
             => new (name,purpose);
 
-        public static CmdActions actions<T>(T src)
-        {
-            var dst = dict<string,IActionRunner>();
-            var methods = typeof(T).DeclaredInstanceMethods().Where(x => x.Tagged<CmdOpAttribute>());
-            foreach(var m in methods)
-            {
-                var tag = m.Tag<CmdOpAttribute>().Require();
-                dst.TryAdd(tag.CommandName, new ActionRunner(tag.CommandName, src, m));
-            }
-            return new CmdActions(dst);
-        }
-
-        public static CmdSource source<S>(S provider, IDispatcher src)
+        public static CmdSource source<S>(S provider, IAppCmdDispatcher src)
             where S : ICmdProvider, new()
         {
             var specs = src.Commands.Specs.Index().Sort().Index();
@@ -158,76 +96,6 @@ namespace Z0
             return new CmdSource(provider.Name, dst);
         }
 
-        public static CmdCatalog catalog(IDispatcher src)
-        {
-            ref readonly var defs = ref src.Commands.Defs;
-            var count = defs.Count;
-            var dst = sys.alloc<CmdUri>(count);
-            for(var i=0; i<count; i++)
-                seek(dst,i) = defs[i].Uri;
-            return new CmdCatalog(dst);
-        }
-
-        public static SettingLookup<Name,asci64> commands(IDispatcher src)
-        {
-            var actions = src.Commands.Specs.Index().Sort().Index();
-            var part = src.Controller;
-            var count = actions.Count;
-            var dst = sys.alloc<Setting<Name,asci64>>(count);
-            var settings = Settings.asci(dst);
-            for(var i=0; i<actions.Count; i++)
-                seek(dst,i) = Settings.asci(string.Format("{0}[{1:D3}]", part, i), (asci64)actions[i]);
-            return Settings.asci(dst);
-        }
-
-        [MethodImpl(Inline)]
-        public static DataFlow<Actor,S,T> flow<S,T>(Tool tool, S src, T dst)
-            => new DataFlow<Actor,S,T>(FlowId.identify(tool,src,dst), tool,src,dst);
-
-        [MethodImpl(Inline)]
-        public static FileFlow flow(in CmdFlow src)
-            => new FileFlow(flow(src.Tool, src.SourcePath.ToUri(), src.TargetPath.ToUri()));
-
-        public static void parse(ReadOnlySpan<TextLine> src, out ReadOnlySpan<CmdFlow> dst)
-        {
-            dst = flows(src);
-        }
-
-        public static ReadOnlySpan<CmdFlow> flows(ReadOnlySpan<TextLine> src)
-        {
-            var count = src.Length;
-            var counter = 0u;
-            var dst = span<CmdFlow>(count);
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var line = ref skip(src,i);
-                if(line.IsEmpty)
-                    continue;
-
-                var content = line.Content;
-                var j = text.index(content, Chars.Colon);
-                if(j >= 0)
-                {
-                    Tool tool = text.left(content, j);
-                    var flow = Fenced.unfence(text.right(content,j), Fenced.Bracketed);
-
-                    j = text.index(flow, "--");
-                    if(j == NotFound)
-                        j = text.index(flow, "->");
-
-                    if(j>=0)
-                    {
-                        var a = text.left(flow,j).Trim();
-                        var b = text.right(flow,j+2).Trim();
-                        if(nonempty(a) && nonempty(b))
-                            seek(dst,counter++) = new CmdFlow(tool, FS.path(a), FS.path(b));
-                    }
-                }
-            }
-
-            return slice(dst,0,counter);
-        }
-
         public static Index<ICmdReactor> reactors(IWfRuntime wf)
         {
             var types = wf.Components.Types();
@@ -236,32 +104,52 @@ namespace Z0
             return reactors;
         }
 
-        [Op]
-        public static ActionRunner runner(string name, object host, MethodInfo method)
-            => new ActionRunner(name,host,method);
+        [MethodImpl(Inline), Op]
+        public static CmdProcess process(CmdLine cmd)
+            => new CmdProcess(cmd);
 
         [Op]
-        public static Index<ActionRunner> runners(object host)
+        public static CmdProcess process(CmdLine cmd, CmdVars? vars)
         {
-            var methods = host.GetType().Methods().Tagged<CmdOpAttribute>();
-            var buffer = sys.alloc<ActionRunner>(methods.Length);
-            runners(host, methods,buffer);
-            return buffer;
+            var options = new CmdProcessOptions();
+            CmdProcess.include(vars, options);
+            return new CmdProcess(cmd, options);
         }
 
-        static void runners(object host, ReadOnlySpan<MethodInfo> src, Span<ActionRunner> dst)
+        [Op]
+        public static CmdProcess process(CmdLine cmd, CmdVars? vars, Receiver<string> status, Receiver<string> error)
         {
-            var count = src.Length;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var method = ref skip(src,i);
-                var tag = method.Tag<CmdOpAttribute>().Require();
-                seek(dst,i) = runner(tag.CommandName, host, method);
-            }
+            var options = new CmdProcessOptions();
+            CmdProcess.include(vars, options);
+            options.WithReceivers(status, error);
+            return new CmdProcess(cmd, options);
         }
 
-        static MsgPattern EmptyArgList => "No arguments specified";
+        [Op]
+        public static CmdProcess process(CmdLine cmd, Receiver<string> status, Receiver<string> error)
+        {
+            var options = new CmdProcessOptions();
+            options.WithReceivers(status, error);
+            return new CmdProcess(cmd, options);
+        }
 
-        static MsgPattern ArgSpecError => "Argument specification error";
+        [Op]
+        public static CmdProcess process(CmdLine cmd, TextWriter dst)
+            => new CmdProcess(cmd, new CmdProcessOptions(dst));
+
+        [Op]
+        public static CmdProcess process(CmdLine cmd, TextWriter dst, Receiver<string> status, Receiver<string> error)
+        {
+            var options = new CmdProcessOptions(dst);
+            options.WithReceivers(status, error);
+            return new CmdProcess(cmd, options);
+        }
+
+        public static CmdProcess process(FS.FilePath path, CmdKind kind, string args)
+            => process(Cmd.cmdline(path,kind,args));
+
+        [Op]
+        public static CmdProcess process(CmdLine command, CmdProcessOptions config)
+            => new CmdProcess(command, config);        
     }
 }

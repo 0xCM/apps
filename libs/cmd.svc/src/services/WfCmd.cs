@@ -70,6 +70,26 @@ namespace Z0
         protected void RunCmd(CmdArgs args)
             => CmdScripts.start(args);
 
+        [CmdOp("tool")]
+        void RunTool(CmdArgs args)
+        {
+            var tool = arg(args,0).Value;
+            var script = arg(args,1).Value;
+            var count = args.Count - 2;
+            var _args = count > 0 ? sys.alloc<string>(count) : sys.empty<string>();
+            var path = AppDb.Toolbase($"{tool}/scripts").Path(FS.file(script,FileKind.Cmd));
+            var emitter = text.emitter();
+            var j=2;
+            for(var i=0; i<count; i++, j++)
+            {
+                emitter.Append(Chars.Space);
+                emitter.Append(args[i].Value);
+            }
+            
+            var cmd = Cmd.cmdline(path,CmdKind.Tool, emitter.Emit());        
+            CmdScripts.start(cmd);        
+        }
+
         [CmdOp("cmd/copy")]
         void Copy(CmdArgs args)
         {

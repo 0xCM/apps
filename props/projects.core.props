@@ -1,5 +1,4 @@
 <Project>
-
     <PropertyGroup>
         <Literals>$(SlnLibs)literals\z0.literals.csproj</Literals>
         <Sys>$(SlnLibs)sys\z0.sys.csproj</Sys>
@@ -13,5 +12,4 @@
         <Imagine>$(SlnLibs)imagine\z0.imagine.csproj</Imagine>
         <ZLib>$(SlnLibs)lib\z0.lib.csproj</ZLib>
     </PropertyGroup>
-
 </Project>

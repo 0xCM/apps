@@ -125,6 +125,9 @@ namespace Z0
         public IDbArchive Toolbase()
             => new DbArchive(setting(WsArchives.Path(Names.Toolbase), FS.dir));
 
+        public IDbArchive Toolbase(string scope)
+            => new DbArchive(Toolbase().Sources(scope));
+            
         public IDbSources Dev()
             => new DbSources(setting(WsArchives.Path(Names.DevRoot), FS.dir));
 

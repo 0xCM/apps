@@ -15,13 +15,13 @@ namespace Z0
             return svc;
         }
 
-        public virtual IDispatcher Dispatcher {get;protected set;}
+        public virtual IAppCmdDispatcher Dispatcher {get;protected set;}
 
-        public ICmdActions Actions {get;}
+        public IAppCommands Actions {get;}
 
         public CmdService()
         {
-           Actions = Cmd.actions((S)this);
+           Actions = AppCommands.discover((S)this);
         }
 
         public void RunCmd(string name)
@@ -40,7 +40,7 @@ namespace Z0
         protected void EmitCommands()
             => Cmd.emit(Cmd.catalog(Dispatcher), AppDb.Commands("defs").Path(ExecutingPart.Id.PartName().Format(), FileKind.Csv), EventLog);
 
-        public bool Dispatch(ShellCmdSpec cmd)
+        public bool Dispatch(AppCmdSpec cmd)
             => Dispatcher.Dispatch(cmd.Name, cmd.Args);
 
         public void DispatchJobs(FS.FilePath src)
@@ -50,7 +50,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var content = ref lines[i].Content;
-                if(Cmd.parse(content, out ShellCmdSpec spec))
+                if(Cmd.parse(content, out AppCmdSpec spec))
                     Dispatch(spec);
                 else
                     Warn($"ParseFailure:'{content}'");

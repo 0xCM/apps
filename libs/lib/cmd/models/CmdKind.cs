@@ -11,11 +11,14 @@ namespace Z0
     {        
         None,
 
-        [Symbol("app", "Classifies commands that are routed via the application api")]
+        [Symbol("app", "Classifies commands that are routed via an application shell")]
         App,
 
         [Symbol("tool", "Classifies commands that are routed via the toolbase api")]
         Tool,
+
+        [Symbol("ws", "Classifies commands that are routed via the workspace api")]
+        Ws,
 
         [Symbol("cmd", "Classifies commands that are routed via cmd.exe")]
         Cmd,
@@ -25,6 +28,5 @@ namespace Z0
 
         [Symbol("wsl", "Classifies commands that are routed via wsl.exe")]
         Wsl,
-
     }
 }

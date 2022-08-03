@@ -4,24 +4,22 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Spans;
-    using static Arrays;
     using static Algs;
 
     partial class Cmd
     {
-        public static CmdDispatcher dispatcher<T>(T svc, IWfEventTarget log, ICmdActions actions)
+        public static AppCmdDispatcher dispatcher<T>(T svc, IWfEventTarget log, IAppCommands actions)
             where T : ICmdService
-                => Cmd.dispatcher(svc.GetType().DisplayName(), actions, log);
+                => dispatcher(svc.GetType().DisplayName(), actions, log);
 
-        public static CmdDispatcher dispatcher(asci32 provider, ICmdActions actions, IWfEventTarget log)
-            => new CmdDispatcher(provider, actions, log);
+        public static AppCmdDispatcher dispatcher(asci32 provider, IAppCommands actions, IWfEventTarget log)
+            => new AppCmdDispatcher(provider, actions, log);
 
-        public static CmdDispatcher dispatcher<T>(T svc, IWfEventTarget log,  Index<ICmdProvider> providers)
+        public static AppCmdDispatcher dispatcher<T>(T svc, IWfEventTarget log, Index<ICmdProvider> providers)
         {
-            var dst = dict<string,ActionRunner>();
-            var _dst = bag<ICmdActions>();
-            _dst.Add(actions(svc));
+            var dst = dict<string,AppCmdRunner>();
+            var _dst = bag<IAppCommands>();
+            _dst.Add(AppCommands.discover(svc));
             iter(providers, x => _dst.Add(x.Actions));
             return dispatcher(svc.GetType().DisplayName(), Cmd.join(_dst.ToArray()), log);
         }

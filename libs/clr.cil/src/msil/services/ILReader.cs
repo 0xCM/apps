@@ -52,9 +52,9 @@ namespace Msil
             _position = 0;
         }
 
-        public IILProvider ILProvider { get; }
+        public readonly IILProvider ILProvider;
 
-        public ICilTokenResolver Resolver { get; }
+        public readonly ICilTokenResolver Resolver;
 
         public IEnumerator<ILInlineInstruction> GetEnumerator()
         {

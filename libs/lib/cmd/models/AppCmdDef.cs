@@ -8,7 +8,7 @@ namespace Z0
     {
         public readonly Name CmdName;
 
-        public readonly CmdActionKind Kind;
+        public readonly CmdActorKind Kind;
 
         public readonly object Host;
 
@@ -17,7 +17,7 @@ namespace Z0
         public readonly CmdUri Uri;
 
         [MethodImpl(Inline)]
-        public AppCmdDef(string name, CmdActionKind kind, MethodInfo method, object host)
+        public AppCmdDef(string name, CmdActorKind kind, MethodInfo method, object host)
         {
             CmdName = Require.notnull(name);
             Kind = kind;

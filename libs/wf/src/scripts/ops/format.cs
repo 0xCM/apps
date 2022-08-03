@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Algs;
-    using static Arrays;
-    using static Spans;
-
     partial class CmdScripts
     {
         public static CmdScriptExpr format(ScriptTemplate pattern, params CmdVar[] args)

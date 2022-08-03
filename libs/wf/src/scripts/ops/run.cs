@@ -20,7 +20,7 @@ namespace Z0
             var result = Outcome.Success;
             try
             {
-                var process = CmdScripts.process(cmd, vars);
+                var process = Cmd.process(cmd, vars);
                 process.Wait();
                 response = Lines.read(process.Output);
             }
@@ -44,7 +44,7 @@ namespace Z0
 
             try
             {
-                var process = CmdScripts.process(src.ToCmdLine(), OnStatus, OnError).Wait();
+                var process = Cmd.process(src.ToCmdLine(), OnStatus, OnError).Wait();
             }
             catch(Exception e)
             {
@@ -66,7 +66,7 @@ namespace Z0
             try
             {
                 var cmd = new CmdLine(string.Format("{0} \"{1}\"", src.Format(PathSeparator.BS), args.Format()));
-                var process = CmdScripts.process(cmd).Wait();
+                var process = Cmd.process(cmd).Wait();
                 var lines =  Lines.read(process.Output);
                 if(dst.IsNonEmpty)
                 {
@@ -85,7 +85,7 @@ namespace Z0
         {
             try
             {
-                var process = CmdScripts.process(cmd, vars);
+                var process = Cmd.process(cmd, vars);
                 process.Wait();
                 return Lines.read(process.Output);
             }
@@ -101,7 +101,7 @@ namespace Z0
             using var writer = AppDb.Logs("scripts").Path(script,FileKind.Log).Writer();
             try
             {
-                var process = vars != null ? CmdScripts.process(cmd, vars) : CmdScripts.process(cmd);
+                var process = vars != null ? Cmd.process(cmd, vars) : Cmd.process(cmd);
                 process.Wait();
                 var lines =  Lines.read(process.Output);
                 iter(lines, line => writer.WriteLine(line));
@@ -119,7 +119,7 @@ namespace Z0
         {
             try
             {
-                var process = CmdScripts.process(cmd);
+                var process = Cmd.process(cmd);
                 process.Wait();
                 return Lines.read(process.Output);
             }
@@ -140,7 +140,7 @@ namespace Z0
             var result = Outcome.Success;
             try
             {
-                var proc = process(cmd, vars, status, error).Wait();
+                var proc = Cmd.process(cmd, vars, status, error).Wait();
                 var lines =  Lines.read(proc.Output);
                 if(log.IsNonEmpty)
                 {

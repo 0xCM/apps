@@ -15,15 +15,6 @@ namespace Z0
         public static CmdScript create(Name name, CmdScriptExpr src)
             => new CmdScript(name, src);
 
-        public static CmdLine cmd(string spec)
-            => string.Format($"cmd.exe /c {spec}");
-
-        public static CmdLine pwsh(FS.FilePath src, string args)
-            => string.Format("pwsh.exe {0} {1}", src.Format(PathSeparator.BS), args);
-
-        public static CmdLine cmd(FS.FilePath src, string args)
-            => string.Format("cmd.exe /c {0} {1}", src.Format(PathSeparator.BS), args);
-
         public static CmdLine pwsh(FS.FilePath src)
             => string.Format("pwsh.exe {0}", src.Format(PathSeparator.BS));
 

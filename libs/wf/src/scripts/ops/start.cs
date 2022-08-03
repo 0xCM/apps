@@ -32,7 +32,7 @@ namespace Z0
                 var result = Outcome.Success;
                 try
                 {
-                    var process = CmdScripts.process(cmd, vars);
+                    var process = Cmd.process(cmd, vars);
                     process.Wait();
                     iter(Lines.read(process.Output), receiver);
                 }
@@ -60,11 +60,11 @@ namespace Z0
                 try
                 {
                     term.print();
-                    term.emit(Events.running(typeof(CmdScripts), $"'{cmd}"));
-                    var process = CmdScripts.process(cmd, OnStatus, OnError).Wait();
+                    term.emit(Events.running(typeof(Cmd), $"'{cmd}"));
+                    var process = Cmd.process(cmd, OnStatus, OnError).Wait();
                     var lines =  Lines.read(process.Output);
                     iter(lines, line => writer.WriteLine(line));
-                    term.emit(Events.ran(typeof(CmdScripts), $"Executed '{cmd}'"));
+                    term.emit(Events.ran(typeof(Cmd), $"Executed '{cmd}'"));
                 }
                 catch(Exception e)
                 {

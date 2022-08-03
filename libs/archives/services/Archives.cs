@@ -13,8 +13,8 @@ namespace Z0
         public static CmdProcess robocopy(FS.FolderPath src, FS.FolderPath dst)
         {
             var spec = $"robocopy {src} {dst} /e";
-            var cmd = CmdScripts.cmd(spec);
-            return CmdScripts.process(cmd);
+            var cmd = Cmd.cmd(spec);
+            return Cmd.process(cmd);
         }
 
         public static IDbArchive archive(FS.FolderPath root)

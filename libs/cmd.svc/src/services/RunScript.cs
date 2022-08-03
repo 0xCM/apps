@@ -14,7 +14,7 @@ namespace Z0
     {
         protected override CmdResult Run(RunScriptCmd cmd)
         {
-            var result = CmdScripts.process(CmdScripts.cmd(cmd.ScriptPath)).Wait();
+            var result = Cmd.process(CmdScripts.cmd(cmd.ScriptPath)).Wait();
             return CmdResults.ok(cmd);
         }
     }
