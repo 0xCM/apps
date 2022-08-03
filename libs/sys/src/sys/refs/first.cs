@@ -4,15 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct Arrays
+    using static System.Runtime.InteropServices.MemoryMarshal;
+
+    partial class Refs
     {
         /// <summary>
-        /// Reflects the content of an array as a readonly span
+        /// Returns a reference to the head of a readonly span
         /// </summary>
-        /// <param name="src">The source array</param>
+        /// <param name="src">The source span</param>
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static ReadOnlySpan<T> @readonly<T>(T[] src)
-            => src;
+        internal static ref readonly T first<T>(ReadOnlySpan<T> src)
+            => ref GetReference<T>(src);
     }
 }

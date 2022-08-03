@@ -38,7 +38,7 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static unsafe T* gptr<T>(in T src, int offset)
             where T : unmanaged
-                => Refs.gptr(ref Refs.edit(in Refs.skip(in src, (uint)offset)));
+                => Refs.refptr(ref Refs.edit(in Refs.skip(in src, (uint)offset)));
 
         /// <summary>
         /// Presents the leading element of a readonly span as a pointer

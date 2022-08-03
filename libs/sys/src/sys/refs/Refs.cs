@@ -4,15 +4,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct Arrays
+    using static System.Runtime.CompilerServices.Unsafe;
+
+    [ApiHost,Free]
+    public partial class Refs
     {
-        /// <summary>
-        /// Reflects the content of an array as a readonly span
-        /// </summary>
-        /// <param name="src">The source array</param>
-        /// <typeparam name="T">The cell type</typeparam>
+        const NumericKind Closure = UnsignedInts;
+
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static ReadOnlySpan<T> @readonly<T>(T[] src)
+        static uint size<T>()
+            => (uint)SizeOf<T>();
+
+        [MethodImpl(Inline), Op]
+        internal static ReadOnlySpan<char> span(string src)
             => src;
     }
 }

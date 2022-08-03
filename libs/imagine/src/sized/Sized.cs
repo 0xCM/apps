@@ -101,7 +101,7 @@ namespace Z0
             if(count == 0)
                 return dst;
 
-            dst = first(src);
+            dst = Spans.first(src);
             for(var i=0; i<count; i++)
             {
                 ref readonly var x = ref skip(src,i);

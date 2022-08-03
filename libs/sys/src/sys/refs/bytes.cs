@@ -4,15 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct Arrays
+    partial class Refs
     {
         /// <summary>
-        /// Reflects the content of an array as a readonly span
+        /// Presents a generic value as a bytespan
         /// </summary>
-        /// <param name="src">The source array</param>
-        /// <typeparam name="T">The cell type</typeparam>
+        /// <param name="src">The source reference</param>
+        /// <typeparam name="T">The source value type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static ReadOnlySpan<T> @readonly<T>(T[] src)
-            => src;
+        public static Span<byte> bytes<T>(in T src)
+            where T : struct
+                => cover(@as<T,byte>(src), size<T>());
     }
 }

@@ -24,7 +24,7 @@ namespace Z0
 
             public void SortIndex()
             {
-                Indexed.Sort();
+                Indexed.Storage.Sort();
             }
             public byte Count
             {

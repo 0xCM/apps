@@ -14,7 +14,7 @@ namespace Z0
         {
             var size = (ulong)src.Length;
             ref var cell = ref Refs.edit(Spans.first(src));
-            var pCell = Refs.gptr(ref cell);
+            var pCell = Refs.refptr(ref cell);
             if(liberate(pCell, size))
             {
                 pDst = pCell;
@@ -33,7 +33,7 @@ namespace Z0
         /// <param name="src">The buffer to let it be what it wants</param>
         [MethodImpl(Inline), Op]
         public static unsafe byte* liberate(Span<byte> src)
-            => liberate((byte*)Refs.gptr(ref Spans.first(src)), src.Length);
+            => liberate((byte*)Refs.refptr(ref Spans.first(src)), src.Length);
 
         /// <summary>
         /// This may not be the best idea to solve your problem

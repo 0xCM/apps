@@ -106,7 +106,7 @@ namespace Z0
         /// <param name="size">The segment size, in bytes</param>
         [MethodImpl(Inline), Op]
         public static unsafe Span<byte> edit(MemoryAddress src, ByteSize size)
-            => cover<byte>(src.Ref<byte>(), size);
+            => Spans.cover<byte>(src.Ref<byte>(), size);
 
         [MethodImpl(Inline), Op]
         public static ref readonly MemorySeg segment(ReadOnlySpan<MemorySeg> refs, MemorySlot n)

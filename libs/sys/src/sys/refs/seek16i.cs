@@ -4,10 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct Arrays
+    using static System.Runtime.CompilerServices.Unsafe;
+
+    partial class Refs
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static T[] create<T>(IEnumerable<T> src)
-            => sys.array(src);
+        public static ref short seek16i<T>(in T src, ulong count)
+            => ref Add(ref As<T,short>(ref edit(src)), (int)count);
     }
 }
