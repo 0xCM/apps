@@ -12,6 +12,7 @@ set ProjectSlnFile=z0.%ProjectId%.sln
 set CsProjectFile=z0.%ProjectId%.csproj
 set LibName=z0.%ProjectId%.dll
 
+set Publications=%~dp0..\artifacts
 set SlnRoot=%DevRoot%\dev\z0
 set SlnRootPath=%SlnRoot%\z0.sln
 set CgRoot=%SlnRoot%\cg
@@ -74,7 +75,8 @@ set CmdShellRoot=%SlnRoot%\cmd
 set CmdProject=%CmdShellRoot%\z0.cmd.csproj
 set CmdShellLog=%BinLogSpec%
 set BuildCmdShell=%BuildTool% %CmdProject% %BuildProps% %BinLogSpec%; -graph:true -m:24
-set CmdShellPath=%TargetBuildRoot%\%RuntimeMoniker%\%ShellName%
+set ShellArtifacts=%TargetBuildRoot%\%RuntimeMoniker%
+set ShellPath=%ShellArtifacts%\%ShellId%.exe
 
 set SlnLibs=%SlnRoot%\libs
 set SlnShells=%SlnRoot%\shells

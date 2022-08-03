@@ -13,3 +13,4 @@ tools/obj/
 .ionide/
 dotnet/
 repo
+artifacts/
