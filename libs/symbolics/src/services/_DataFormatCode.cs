@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public enum _DataFormatCode : byte
+    public enum DataFormatCode : byte
     {
         None,
 

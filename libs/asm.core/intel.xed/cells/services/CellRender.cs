@@ -10,7 +10,7 @@ namespace Z0
     using static MachineModes;
     using static core;
 
-    using C = _DataFormatCode;
+    using C = DataFormatCode;
     using K = XedRules.FieldKind;
     using CK = XedRules.RuleCellKind;
 
@@ -173,7 +173,7 @@ namespace Z0
                     {
                         var x = @as<MaskReg>(data);
                         dst = XedRender.format(x,code);
-                        if(code == _DataFormatCode.Expr)
+                        if(code == DataFormatCode.Expr)
                             dst = text.embrace(dst);
                     }
                     break;
@@ -503,7 +503,7 @@ namespace Z0
                 => src.ToString();
 
             [Op]
-            public static _DataFormatCode fcode(FieldKind src)
+            public static DataFormatCode fcode(FieldKind src)
             {
                 var dst = C.None;
                 switch(src)

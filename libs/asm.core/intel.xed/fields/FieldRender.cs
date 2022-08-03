@@ -84,15 +84,15 @@ namespace Z0
                         break;
 
                         case K.SMODE:
-                            r.Functions[kind] = (x => XedRender.format((SMODE)x,_DataFormatCode.BitWidth));
+                            r.Functions[kind] = (x => XedRender.format((SMODE)x,DataFormatCode.BitWidth));
                         break;
 
                         case K.EASZ:
-                            r.Functions[kind] = (x => XedRender.format((EASZ)x, _DataFormatCode.BitWidth));
+                            r.Functions[kind] = (x => XedRender.format((EASZ)x, DataFormatCode.BitWidth));
                         break;
 
                         case K.EOSZ:
-                            r.Functions[kind] = (x => XedRender.format((EOSZ)x, _DataFormatCode.BitWidth));
+                            r.Functions[kind] = (x => XedRender.format((EOSZ)x, DataFormatCode.BitWidth));
                         break;
 
                         case K.ESRC:
@@ -108,7 +108,7 @@ namespace Z0
                         break;
 
                         case K.OSZ:
-                            r.Functions[kind] = (x => XedRender.format((OSZ)x, _DataFormatCode.BitWidth));
+                            r.Functions[kind] = (x => XedRender.format((OSZ)x, DataFormatCode.BitWidth));
                         break;
 
                         case K.MAP:
@@ -171,7 +171,7 @@ namespace Z0
                             r.Functions[kind] = (x => XedRender.format((XedVexKind)x));
                         break;
                         case K.VL:
-                            r.Functions[kind] = (x => XedRender.format((AsmVL)x, _DataFormatCode.BitWidth));
+                            r.Functions[kind] = (x => XedRender.format((AsmVL)x, DataFormatCode.BitWidth));
                         break;
 
                         case K.BASE0:

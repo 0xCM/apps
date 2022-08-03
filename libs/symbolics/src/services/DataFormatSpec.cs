@@ -4,12 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Spans;
 
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly partial struct DataFormatSpec
     {
-        public readonly DataFormatKind Kind;
+        public readonly ulong Kind;
 
         public readonly byte Width;
 
@@ -18,7 +18,7 @@ namespace Z0
         public readonly text7 Delimiter;
 
         [MethodImpl(Inline)]
-        public DataFormatSpec(DataFormatKind kind, byte width = 0, SeqStyleKind style = 0, string delimiter = EmptyString)
+        public DataFormatSpec(ulong kind, byte width = 0, SeqStyleKind style = 0, string delimiter = EmptyString)
         {
             Kind = kind;
             Delimiter = delimiter;
@@ -31,7 +31,7 @@ namespace Z0
             var dst = EmptyString;
             switch(Kind)
             {
-                case DataFormatKind.SignedHex:
+                case 3: // signed hex
                     switch(Width)
                     {
                         case 8:

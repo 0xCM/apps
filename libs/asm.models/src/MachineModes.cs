@@ -25,8 +25,8 @@ namespace Z0
                 };
         }
 
-    public static string format(MachineModeClass src, _DataFormatCode fc = _DataFormatCode.Expr)
-        => fc == _DataFormatCode.BitWidth ? nsize((byte)src + 1) : EnumRender.format(ClassRender,src,fc);
+    public static string format(MachineModeClass src, DataFormatCode fc = DataFormatCode.Expr)
+        => fc == DataFormatCode.BitWidth ? nsize((byte)src + 1) : EnumRender.format(ClassRender,src,fc);
 
     public static bool parse(string src, out MachineModeClass dst)
         => ClassParser.Parse(src, out dst);

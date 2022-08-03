@@ -87,22 +87,22 @@ namespace Z0
                     _ => src.ToString(),
                 };
 
-        public static string format<E>(EnumRender<E> render, E src, _DataFormatCode fc)
+        public static string format<E>(EnumRender<E> render, E src, DataFormatCode fc)
             where E : unmanaged, Enum
         {
             var dst = EmptyString;
             switch(fc)
             {
-                case _DataFormatCode.SInt:
+                case DataFormatCode.SInt:
                     dst = ((int)bw32(src)).ToString();
                 break;
-                case _DataFormatCode.Hex:
+                case DataFormatCode.Hex:
                     dst = bw32(src).FormatHex();
                 break;
-                case _DataFormatCode.UInt:
+                case DataFormatCode.UInt:
                     dst = bw32(src).ToString();
                 break;
-                case _DataFormatCode.Name:
+                case DataFormatCode.Name:
                     dst = render.Format(src, true);
                 break;
                 default:
