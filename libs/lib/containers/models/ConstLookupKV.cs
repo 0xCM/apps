@@ -43,7 +43,7 @@ namespace Z0
             _Entries = src.Map(x => new LookupEntry<K,V>(x.Key,x.Value));
         }
 
-        public ConstLookup(Dictionary<K,V> src)
+        public ConstLookup(IDictionary<K,V> src)
         {
             Storage = src.ToConcurrentDictionary();
             _Keys = src.Keys.Array();

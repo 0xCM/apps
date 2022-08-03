@@ -14,13 +14,14 @@ namespace Z0
 
         public static AppDb Service => Instance;
 
-        readonly WsArchives WsArchives;
+        readonly ProjectArchives WsArchives;
 
         public IDbSources Settings()
             => DbRoot().Sources("settings");
 
         public FS.FilePath Settings(string name, FileKind kind)
             => Settings().Path(name,kind);
+
         public IDbSources Jobs()
             => DbRoot().Sources("jobs");
 
@@ -54,6 +55,9 @@ namespace Z0
 
         public IDbArchive Symbols()
             => new DbArchive(setting(WsArchives.Path(Names.Repos), FS.dir));
+
+        public IDbArchive Env()
+            => new DbArchive(DbRoot().Targets("env"));
 
         public IDbSources Repos(string scope)
             => Repos().Sources(scope);
@@ -157,7 +161,7 @@ namespace Z0
 
         AppDb()
         {
-            WsArchives = WsArchives.load();
+            WsArchives = ProjectArchives.load();
         }
 
         static AppDb Instance;

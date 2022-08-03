@@ -14,4 +14,11 @@ namespace Z0
 
         bool IsNonEmpty => !IsEmpty;
     }
+
+    [Free]
+    public interface INullity<T> : INullity
+        where T : INullity<T>
+    {
+
+    }
 }

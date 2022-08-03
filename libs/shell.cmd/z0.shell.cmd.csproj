@@ -5,6 +5,6 @@
     <TargetFramework>$(FrameworkMoniker)</TargetFramework>
   </PropertyGroup>
 
-  <Import Project="$(ImportDefs)libs.props"/>
+  <Import Project="$(ImportDefs)slnlibs.props"/>
 
 </Project>

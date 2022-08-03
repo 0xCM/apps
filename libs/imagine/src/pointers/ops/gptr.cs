@@ -5,12 +5,23 @@
 namespace Z0
 {
     using static System.Runtime.CompilerServices.Unsafe;
-    using static System.Runtime.InteropServices.MemoryMarshal;
 
     public partial class Pointers
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static unsafe T* gptr<T>(in T src)
+            where T : unmanaged
+                => (T*)AsPointer(ref Refs.edit(src));
+
+        /// <summary>
+        /// Presents a generic reference r:T as a generic pointer p:T
+        /// </summary>
+        /// <param name="r">The memory reference</param>
+        /// <typeparam name="T">The source reference type</typeparam>
+        /// <typeparam name="P">The target pointer type</typeparam>
+        [MethodImpl(Inline)]
+        public static unsafe T* gptr<S,T>(in S src)
+            where S : unmanaged
             where T : unmanaged
                 => (T*)AsPointer(ref Refs.edit(src));
 
@@ -50,16 +61,6 @@ namespace Z0
             where T : unmanaged
                 => (T*)AsPointer(ref Refs.edit(Spans.first(src)));
 
-        /// <summary>
-        /// Presents a generic reference r:T as a generic pointer p:T
-        /// </summary>
-        /// <param name="r">The memory reference</param>
-        /// <typeparam name="T">The source reference type</typeparam>
-        /// <typeparam name="P">The target pointer type</typeparam>
-        [MethodImpl(Inline)]
-        public static unsafe T* gptr<S,T>(in S src)
-            where S : unmanaged
-            where T : unmanaged
-                => (T*)AsPointer(ref Refs.edit(src));
+ 
     }
 }

@@ -5,7 +5,6 @@
 namespace Z0
 {
     using static Algs;
-    using static Pointers;
     //using static Refs;
 
     [ApiHost]

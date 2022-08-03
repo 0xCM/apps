@@ -7,7 +7,6 @@ namespace Z0
     using static Spans;
     using static Arrays;
     using static Algs;
-    using static Pointers;
     using static ReflectionFlags;
 
     [ApiHost]

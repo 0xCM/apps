@@ -8,39 +8,10 @@ namespace Z0
 
     partial class Algs
     {
-        /// <summary>
-        /// Presents generic reference as a generic pointer
-        /// </summary>
-        /// <param name="src">The memory reference</param>
-        /// <typeparam name="T">The reference type</typeparam>
-        /// <remarks>For all T, effects: mov rax,rcx</remarks>
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static unsafe T* gptr<T>(ref T src)
+        public static unsafe T* gptr<T>(in T src)
             where T : unmanaged
-                => (T*)AsPointer(ref src);
-
-        /// <summary>
-        /// Presents generic reference as a generic pointer displaced by an element offset
-        /// </summary>
-        /// <param name="src">The memory reference</param>
-        /// <param name="offset">The number of elements to skip</param>
-        /// <typeparam name="T">The reference type</typeparam>
-        /// <remarks>
-        /// Effects
-        /// width[T]=8:  movsxd rax,edx => add rax,rcx
-        /// width[T]=16: movsxd rax,edx => lea rax,[rcx+rax*2]
-        /// width[T]=32: movsxd rax,edx => lea rax,[rcx+rax*4]
-        /// width[T]=64: movsxd rax,edx => lea rax,[rcx+rax*8]
-        /// </remarks>
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static unsafe T* gptr<T>(ref T src, int offset)
-            where T : unmanaged
-                => (T*)AsPointer(ref Add(ref src, offset));
-
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static unsafe T* gptr<T>(ref T src, uint offset)
-            where T : unmanaged
-                => (T*)AsPointer(ref Add(ref src, offset));
+                => (T*)AsPointer(ref edit(src));
 
         /// <summary>
         /// Presents a generic reference r:T as a generic pointer p:T
@@ -49,9 +20,45 @@ namespace Z0
         /// <typeparam name="T">The source reference type</typeparam>
         /// <typeparam name="P">The target pointer type</typeparam>
         [MethodImpl(Inline)]
-        public static unsafe P* gptr<T,P>(ref T r)
+        public static unsafe T* gptr<S,T>(in S src)
+            where S : unmanaged
             where T : unmanaged
-            where P : unmanaged
-                => (P*)AsPointer(ref r);
+                => (T*)AsPointer(ref edit(src));
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public unsafe static T* gptr<T>(SafeHandle src)
+            where T : unmanaged
+                =>  src.DangerousGetHandle().ToPointer<T>();
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public unsafe static T* gptr<T>(RuntimeFieldHandle src)
+            where T : unmanaged
+                =>  src.Value.ToPointer<T>();
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static unsafe T* gptr<T>(IntPtr src)
+            where T : unmanaged
+                => (T*)src.ToPointer();
+
+        /// <summary>
+        /// Presents a readonly reference to an unmanaged value as a pointer displaced by a specified element offset
+        /// </summary>
+        /// <param name="src">The memory reference</param>
+        /// <param name="offset">The number of elements to skip</param>
+        /// <typeparam name="T">The reference type</typeparam>
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static unsafe T* gptr<T>(in T src, int offset)
+            where T : unmanaged
+                => refptr(ref edit(in skip(in src, (uint)offset)));
+
+        /// <summary>
+        /// Presents the leading element of a readonly span as a pointer
+        /// </summary>
+        /// <param name="src">The source span</param>
+        /// <typeparam name="T">The cell type</typeparam>
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public unsafe static T* gptr<T>(ReadOnlySpan<T> src)
+            where T : unmanaged
+                => (T*)AsPointer(ref edit(Spans.first(src)));
     }
 }

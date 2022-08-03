@@ -4,6 +4,7 @@
     <OutputType>Library</OutputType>
   </PropertyGroup>
 
+  <Import Project="$(ImportDefs)diagnostics.props"/>
   <Import Project="$(ImportDefs)microsoft.codeanalysis.props"/>
   <Import Project="$(ImportDefs)usings.props"/>
 

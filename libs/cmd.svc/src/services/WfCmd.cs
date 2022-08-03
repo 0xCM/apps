@@ -66,30 +66,6 @@ namespace Z0
         void ProcessOrigin()
             => Write(FS.path(Environment.ProcessPath));
 
-        [CmdOp("env/pid")]
-        void ProcessId()
-            => Write(Environment.ProcessId);
-
-        [CmdOp("process/home")]
-        void ProcessHome()
-            => Write(FS.path(ExecutingPart.Component.Location).FolderPath);
-
-        [CmdOp("process/working-set")]
-        void WorkingSet()
-            => Write(((ByteSize)Environment.WorkingSet));
-
-        [CmdOp("env/stack")]
-        void Stack()
-            => Write(Environment.StackTrace);
-
-        [CmdOp("env/pagesize")]
-        void PageSize()
-            => Write(Environment.SystemPageSize);
-
-        [CmdOp("env/ticks")]
-        void Ticks()
-            => Write(Environment.TickCount64);
-
         [CmdOp("cmd")]
         protected void RunCmd(CmdArgs args)
         {
@@ -164,7 +140,6 @@ namespace Z0
             return result;
         }
 
-
         [CmdOp("memory")]
         Outcome ShowMemHex(CmdArgs args)
         {
@@ -197,26 +172,76 @@ namespace Z0
             return true;
         }
 
+        [CmdOp("env")]
+        void EmitEnv(CmdArgs args)
+        {
+            var dst = AppDb.Env().Root;
+            EnvVars.emit(Emitter,SysEnvKind.Process, dst);
+            EnvVars.emit(Emitter,SysEnvKind.User, dst);
+            EnvVars.emit(Emitter,SysEnvKind.Machine, dst);
+        }
 
-        [CmdOp("env/pid")]
-        void ShowPID()
-            => Write(Environment.ProcessId);
+        // void EmitEnv(WfEmit emitter, SysEnvKind kind)
+        // {
+        //     var vars = EnvVars.Empty;
+        //     switch(kind)
+        //     {
+        //         case SysEnvKind.Machine:
+        //             vars = EnvVars.machine();
+        //         break;
+        //         case SysEnvKind.Process:
+        //             vars = EnvVars.process();
+        //         break;
+        //         case SysEnvKind.User:
+        //             vars = EnvVars.user();
+        //         break;
+        //     }
+        //     if(vars.IsNonEmpty)
+        //     {
+        //         vars.Iter(v => emitter.Write(v.Format()));
+        //         EnvVars.emit(emitter, vars, kind, AppDb.Env().Root);
+        //     }
+        // }
 
         [CmdOp("env/machine")]
         void ListMachineEnv()
-            => EnvVars.machine().Iter(v => Write(v.Format()));
+            => EnvVars.emit(Emitter, SysEnvKind.Machine, AppDb.Env().Root);
+            //EnvVars.machine().Iter(v => Write(v.Format()));
 
         [CmdOp("env/user")]
         void ListUserEnv()
-            => EnvVars.user().Iter(v => Write(v.Format()));
+            => EnvVars.emit(Emitter, SysEnvKind.User, AppDb.Env().Root);
 
         [CmdOp("env/process")]
         void ListProcessEnv()
-            => EnvVars.user().Iter(v => Write(v.Format()));
+            => EnvVars.emit(Emitter, SysEnvKind.Process, AppDb.Env().Root);
+
+        [CmdOp("env/pid")]
+        void ProcessId()
+            => Write(Environment.ProcessId);
+
+        [CmdOp("process/home")]
+        void ProcessHome()
+            => Write(FS.path(ExecutingPart.Component.Location).FolderPath);
+
+        [CmdOp("process/working-set")]
+        void WorkingSet()
+            => Write(((ByteSize)Environment.WorkingSet));
+
+        [CmdOp("env/stack")]
+        void Stack()
+            => Write(Environment.StackTrace);
+
+        [CmdOp("env/pagesize")]
+        void PageSize()
+            => Write(Environment.SystemPageSize);
+
+        [CmdOp("env/ticks")]
+        void Ticks()
+            => Write(Environment.TickCount64);
 
         public static EnvVars<string> vars(string name = null)
-            => AppDb.Service.LoadEnv(text.ifempty(name, Environment.MachineName.ToLower()));
-
+            => AppDb.Service.LoadEnv(ifempty(name, Environment.MachineName.ToLower()));
 
         [CmdOp("env/load")]
         void LoadEnv(CmdArgs args)
@@ -229,28 +254,8 @@ namespace Z0
             var file = FS.file($"{kind}".ToLower(), FileKind.Env);
         }
 
-        [CmdOp("env")]
-        Outcome EmitEnv(CmdArgs args)
-        {
-            var result = Outcome.Success;
-            if(args.Count == 0)
-                EnvVars.emit(SysEnvKind.Process);
-            else
-            {
-                var name = arg(args,0);
-                var kind = SysEnvKind.Process;
-                var parser = EnumParser<SysEnvKind>.Service;
-                result = parser.Parse(name, out kind);
-                if(result)
-                    EnvVars.emit(kind);
-            }
-            return result;
-        }
-
-
         [CmdOp("env/cwd")]
         void Cwd()
             => Write(FS.dir(Environment.CurrentDirectory));
-
     }
 }

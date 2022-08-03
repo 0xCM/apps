@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Threading;
-
     using static System.Runtime.CompilerServices.Unsafe;
 
     partial class Algs

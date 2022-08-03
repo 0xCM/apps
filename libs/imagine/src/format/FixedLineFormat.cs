@@ -32,5 +32,4 @@ namespace Z0
             get => FixedLines.length(this);
         }
     }
-
 }

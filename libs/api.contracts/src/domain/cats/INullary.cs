@@ -23,11 +23,17 @@ namespace Z0
     }
 
     [Free]
-    public interface INullary
+    public interface INullary : INullity
     {
         bool IsZero => false;
 
         bool IsNonZero => !IsZero;
+
+        bool INullity.IsEmpty
+            => IsZero;
+
+        bool INullity.IsNonEmpty
+            => IsNonZero;
     }
 
     /// <summary>

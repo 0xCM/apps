@@ -5,7 +5,6 @@
 namespace Z0
 {
     using static Algs;
-    using static Scalars;
 
     using api = Bitfields;
     using S = System.Byte;

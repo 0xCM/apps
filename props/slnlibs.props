@@ -1,10 +1,9 @@
 <Project>
 
+   <Import Project="libs.core.props"/>
+
   <ItemGroup>
 
-    <ProjectReference Include="$(Literals)" />
-
-    <ProjectReference Include="$(Interop)" />
     <ProjectReference Include="$(Agents)" />
 
     <ProjectReference Include="$(ApiCode)" />
@@ -31,8 +30,6 @@
     <ProjectReference Include="$(Circuits)" />
     <ProjectReference Include="$(Containers)" />
 
-    <ProjectReference Include="$(ClrQuery)" />
-    <ProjectReference Include="$(ClrModels)" />
     <ProjectReference Include="$(ClrCil)" />
 
     <ProjectReference Include="$(Db)" />
@@ -47,7 +44,6 @@
 
     <ProjectReference Include="$(Heaps)" />
 
-    <ProjectReference Include="$(Imagine)" />
 
     <ProjectReference Include="$(IntelSvc)" />
 
@@ -65,17 +61,13 @@
     <ProjectReference Include="$(MemoryModels)" />
     <ProjectReference Include="$(MemorySvc)" />
 
-    <ProjectReference Include="$(Monadic)" />
     <ProjectReference Include="$(Models)" />
 
     <ProjectReference Include="$(Native)" />
-    <ProjectReference Include="$(Nats)" />
     <ProjectReference Include="$(Numbers)" />
 
-    <ProjectReference Include="$(Part)" />
     <ProjectReference Include="$(Pipelines)" />
     <ProjectReference Include="$(Polyrand)" />
-    <ProjectReference Include="$(Pow2)" />
 
     <ProjectReference Include="$(Queues)" />
 
@@ -86,16 +78,13 @@
 
     <ProjectReference Include="$(SosCmd)" />
     <ProjectReference Include="$(Symbolics)" />
-    <ProjectReference Include="$(Sys)" />
 
-    <ProjectReference Include="$(Text)" />
     <ProjectReference Include="$(Tuples)" />
 
     <ProjectReference Include="$(Validity)" />
 
     <ProjectReference Include="$(Wf)" />
 
-    <ProjectReference Include="$(ZLib)" />
   </ItemGroup>
 
 </Project>

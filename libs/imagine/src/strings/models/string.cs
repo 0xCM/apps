@@ -4,11 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
 
     using T = @string;
 
-    public readonly struct @string : IString<@string,char>
+    public readonly struct @string : IString<@string,char>, IDataType<@string>
     {
         readonly string Data;
 
@@ -131,7 +131,10 @@ namespace Z0
         public static bool operator >=(T a, T b)
             => a.CompareTo(b) >= 0;
 
-        public static T Empty => new();
+        [MethodImpl(Inline)]
+        public static T operator +(T a, T b)
+            => new T(a.Value + b.Value);
 
+        public static T Empty => new();
     }
 }

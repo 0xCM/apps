@@ -3,13 +3,11 @@
   <PropertyGroup>
     <SlnRoot>$(DevRoot)\dev\z0\</SlnRoot>
     <SlnLibs>$(SlnRoot)libs\</SlnLibs>
-    <ZPack>$(DevRoot)\packages\</ZPack>
     <ImportDefs>$(SlnRoot)props\</ImportDefs>
     <EnvConfig>$(SlnRoot)env\</EnvConfig>
     <SlnBuild>$(SlnRoot).build\</SlnBuild>
     <SlnBin>$(SlnBuild)bin\</SlnBin>
     <LogRoot>$(SlnBuild)logs\</LogRoot>
-    <TestLogRoot>$(LogRoot)test\</TestLogRoot>
     <ShellCommon>$(SlnRoot)shells\</ShellCommon>
     <CgRoot>$(SlnRoot)cg\</CgRoot>
     <TestRoot>$(SlnRoot)test\</TestRoot>

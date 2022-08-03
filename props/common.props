@@ -3,5 +3,4 @@
   <Import Project="build.props"/>
   <Import Project="projects.props"/>
   <Import Project="output.props"/>
-
 </Project>

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct TextBlock : IComparable<TextBlock>, IEquatable<TextBlock>, IText
+    public readonly struct TextBlock : IDataString<TextBlock>, IText
     {
         readonly string Data;
 
@@ -24,6 +24,10 @@ namespace Z0
             get => Data ?? EmptyString;
         }
 
+        public Hash32 Hash
+        {
+            get => Algs.hash(Text);
+        }
         public int Length
         {
             [MethodImpl(Inline)]
@@ -54,18 +58,12 @@ namespace Z0
             get => string.IsInterned(Data) != null;
         }
 
-        public uint Hash
-        {
-            [MethodImpl(Inline)]
-            get => (uint)Text.GetHashCode();
-        }
-
         [MethodImpl(Inline)]
         public string Format()
             => Text;
 
         public string Format(int? pad)
-            => pad != null ? string.Format(RpOps.pad(pad.Value), Data) : Data;
+            => pad != null ? string.Format(RP.pad(pad.Value), Data) : Data;
 
         [MethodImpl(Inline)]
         public TextBlock ToLower()
@@ -103,7 +101,7 @@ namespace Z0
             => src is TextBlock x && Equals(x);
 
         public override int GetHashCode()
-            => (int)Hash;
+            => Hash;
 
         [MethodImpl(Inline)]
         public int CompareTo(TextBlock src)

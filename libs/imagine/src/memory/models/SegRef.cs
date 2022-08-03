@@ -25,7 +25,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         ref byte self()
-            => ref first(bytes(this));
+            => ref Spans.first(bytes(this));
 
         [MethodImpl(Inline)]
         public ref SegRef<T> As<T>()

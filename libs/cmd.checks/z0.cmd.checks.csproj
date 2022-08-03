@@ -7,7 +7,7 @@
 
   <Import Project="$(ImportDefs)shells.props"/>
   <Import Project="$(ImportDefs)microsoft.cmdline.props"/>
-  <Import Project="$(ImportDefs)libs.props"/>
+  <Import Project="$(ImportDefs)slnlibs.props"/>
 
   <ItemGroup>
     <ProjectReference Include="$(CmdSvc)" />

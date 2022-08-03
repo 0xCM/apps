@@ -22,7 +22,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public StringRefs(ReadOnlySpan<C> src)
         {
-            BaseAddress = address(first(src));
+            BaseAddress = address(Spans.first(src));
             Length = (uint)src.Length;
         }
 

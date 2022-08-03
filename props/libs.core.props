@@ -1,0 +1,15 @@
+<Project>
+    <ItemGroup>
+        <ProjectReference Include="$(Literals)" />
+        <ProjectReference Include="$(Sys)" />
+        <ProjectReference Include="$(Interop)" />
+        <ProjectReference Include="$(Imagine)" />
+        <ProjectReference Include="$(Text)" />
+        <ProjectReference Include="$(Part)" />
+        <ProjectReference Include="$(ClrQuery)" />
+        <ProjectReference Include="$(ClrModels)" />
+        <ProjectReference Include="$(Monadic)" />
+        <ProjectReference Include="$(Nats)" />
+        <ProjectReference Include="$(ZLib)" />
+    </ItemGroup>
+</Project>

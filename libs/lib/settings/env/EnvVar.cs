@@ -51,7 +51,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public string Format()
-            => sys.nonempty(VarValue) ? string.Format("{0}={1}", VarName, VarValue) : VarName.Format();
+            => sys.nonempty(VarValue) ? string.Format("{0}={1}", VarName, VarValue) : $"{VarName.Format()}=";
 
 
         public override string ToString()

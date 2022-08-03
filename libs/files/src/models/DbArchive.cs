@@ -16,6 +16,12 @@ namespace Z0
             Root = root;
         }
 
+        [MethodImpl(Inline)]
+        public DbArchive(IRootedArchive root)
+        {
+            Root = root.Root;
+        }
+
         public Hash32 Hash
         {
             [MethodImpl(Inline)]

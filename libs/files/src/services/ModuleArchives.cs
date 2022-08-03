@@ -4,8 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class ModuleArchives : AppService<ModuleArchives>
-    {
+    public readonly struct ModuleArchives
+    {        
         /// <summary>
         /// Creates an archive over both managed and unmanaged modules
         /// </summary>

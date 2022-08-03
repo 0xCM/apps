@@ -6,17 +6,17 @@ namespace Z0
 {
     using EN = SettingNames;
 
-    public class WsArchives
+    public class ProjectArchives
     {
-        public static WsArchives load()
+        public static ProjectArchives load()
             => load(ConfigSets.app());
 
-        public static WsArchives load(SettingLookup src)
-            => new WsArchives(src);
+        public static ProjectArchives load(SettingLookup src)
+            => new ProjectArchives(src);
 
         readonly SettingLookup Data;
 
-        internal WsArchives(SettingLookup src)
+        internal ProjectArchives(SettingLookup src)
         {
             Data = src;
         }

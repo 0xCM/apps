@@ -11,28 +11,65 @@ namespace Z0
 
     public readonly struct EnvVars : IIndex<EnvVar>
     {
+        public static EnvVars Empty => new EnvVars(sys.empty<EnvVar>());
+
+        public static void emit(WfEmit emitter, SysEnvKind kind, FS.FolderPath dst)
+        {
+            var vars = EnvVars.Empty;
+            switch(kind)
+            {
+                case SysEnvKind.Machine:
+                    vars = EnvVars.machine();
+                break;
+                case SysEnvKind.Process:
+                    vars = EnvVars.process();
+                break;
+                case SysEnvKind.User:
+                    vars = EnvVars.user();
+                break;
+            }
+            if(vars.IsNonEmpty)
+            {
+                vars.Iter(v => emitter.Write(v.Format()));
+                EnvVars.emit(emitter, vars, kind, dst);
+            }
+        }
+
         public static EnvVars emit(SysEnvKind kind, bool display = true)
         {
-            var archives = WsArchives.load(Settings.rows(AppSettings.path()));
+            var archives = ProjectArchives.load(Settings.rows(AppSettings.path()));
             var dir = Settings.setting(archives.Path(EN.EnvConfig), FS.dir).Value;
             var vars = EnvVars.vars(kind);
             var name =  $"{ExecutingPart.Name}.{EnumRender.format(kind)}";
             if(display)
                 term.write(vars, FlairKind.Babble);
-            emit(records(vars, name).View, dir + FS.file($"{name}.settings", FileKind.Csv), ASCI);
+            //emit(emitter, records(vars, name).View, dir + FS.file($"{name}.settings", FileKind.Csv), ASCI);
             FS.emit(typeof(EnvVars), vars, dir + FS.file(name, FileKind.Env), ASCI);
             return vars;
         }
 
-        static void emit<T>(ReadOnlySpan<T> src, FS.FilePath dst, TextEncodingKind encoding, ushort rowpad = 0, RecordFormatKind fk = RecordFormatKind.Tablular, string delimiter = " | ")
+        public static ExecToken emit(WfEmit emitter, EnvVars src, SysEnvKind kind, FS.FolderPath dst)
+        {
+            var name =  $"{ExecutingPart.Name}.{EnumRender.format(kind)}";
+            var table = dst + FS.file($"{name}.settings",FileKind.Csv);
+            var env = dst + FS.file($"{name}", FileKind.Env);
+            using var writer = env.AsciWriter();
+            for(var i=0; i<src.Count; i++)
+                writer.WriteLine(src[i].Format());
+            return emit(emitter, records(src, name).View, table, ASCI);
+        }
+
+        static ExecToken emit<T>(WfEmit emitter, ReadOnlySpan<T> src, FS.FilePath dst, TextEncodingKind encoding, ushort rowpad = 0, RecordFormatKind fk = RecordFormatKind.Tablular, string delimiter = " | ")
             where T : struct
         {
+            var emitting = emitter.EmittingTable<T>(dst);
             var formatter = RecordFormatters.create<T>(rowpad, fk, delimiter);
             using var writer = dst.Emitter(encoding);
             writer.WriteLine(formatter.FormatHeader());
-            for(var i=0; i<src.Length; i++)
-                writer.WriteLine(formatter.Format(skip(src,i)));
-            term.emit(Events.emittedTable<EnvVarRow>(typeof(Tables), src.Length, dst));
+            for(var i=0; i<src.Length; i++)            
+                writer.WriteLine(formatter.Format(skip(src,i)));            
+            return emitter.EmittedTable(emitting, src.Length);
+
         }
 
         public static EnvVars vars(SysEnvKind kind)
@@ -107,6 +144,17 @@ namespace Z0
             get => Data.Count;
         }
 
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Data.IsNonEmpty;
+        }
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Data.IsEmpty;
+        }
         public EnvVar[] Storage
         {
             [MethodImpl(Inline)]

@@ -85,8 +85,6 @@ set ZCmdDir=%WsBin%\z0.cmd\%BuildKind%\%TargetFramework%\%RuntimeMoniker%
 set zcmd=%ZCmdDir%\zcmd.exe
 set zcmd-pub=%WsBin%\z0.cmd\%BuildKind%\%TargetFramework%\%RuntimeMoniker%\publish\zcmd.exe
 
-set CleanBin=rmdir %WsBin% /s/q
-set CleanObj=rmdir %WsObj% /s/q
 set CleanBuild=rmdir %WsBuild% /s/q
 
 set AddSln=%~dp0sln-add.cmd
