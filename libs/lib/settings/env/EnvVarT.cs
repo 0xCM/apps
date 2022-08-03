@@ -4,11 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static Algs;
+
     /// <summary>
     /// Defines a value-parametric environment variable
     /// </summary>
     [Record(TableId)]
-    public readonly record struct EnvVar<T> : IComparable<EnvVar<T>>, IHashed
+    public readonly record struct EnvVar<T> : IDataType<EnvVar<T>>, IExpr
         where T : IEquatable<T>
     {
         const string TableId = "env.vars.{0}";
@@ -24,10 +26,22 @@ namespace Z0
             Value = value;
         }
 
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Name.IsEmpty;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Name.IsNonEmpty;
+        }
+
         public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => core.hash(Format());
+            get => hash(Format());
         }
 
         public override int GetHashCode()
@@ -46,5 +60,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public bool Equals(EnvVar<T> src)
             => Name.Equals(src.Name) && Value.Equals(src.Value);
+
+        public static EnvVar<T> Empty => new EnvVar<T>(Name.Empty, default);
     }
 }

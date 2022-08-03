@@ -8,22 +8,23 @@ namespace Z0
     /// Classifies concrete command types
     /// </summary>
     public enum CmdKind : byte
-    {
+    {        
         None,
 
-        /// <summary>
-        /// Classifies commands that are command-line driven
-        /// </summary>
-        ToolCmd,
+        [Symbol("app", "Classifies commands that are routed via the application api")]
+        App,
 
-        /// <summary>
-        /// Classifies commands that are defined by a data type
-        /// </summary>
-        TypedCmd,
+        [Symbol("tool", "Classifies commands that are routed via the toolbase api")]
+        Tool,
 
-        /// <summary>
-        /// Classifies commands that execute via the shell system
-        /// </summary>
-        ShellCmd,
+        [Symbol("cmd", "Classifies commands that are routed via cmd.exe")]
+        Cmd,
+
+        [Symbol("pwsh", "Classifies commands that are routed via pwsh.exe")]
+        Pwsh,
+
+        [Symbol("wsl", "Classifies commands that are routed via wsl.exe")]
+        Wsl,
+
     }
 }

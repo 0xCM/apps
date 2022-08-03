@@ -8,7 +8,7 @@ namespace Z0
     /// Defines a nonparametric environment variable
     /// </summary>
     [Record(TableId)]
-    public readonly record struct EnvVar : IEnvVar, IComparable<EnvVar>
+    public readonly record struct EnvVar : IEnvVar, IDataType<EnvVar>, IExpr
     {
         const string TableId = "env";
 
@@ -26,6 +26,12 @@ namespace Z0
         {
             VarName = name;
             VarValue = value;
+        }
+
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => VarName.Hash | Algs.hash(VarValue);
         }
 
         public bool IsEmpty
@@ -58,7 +64,7 @@ namespace Z0
             => Format();
 
         public override int GetHashCode()
-            => Format().GetHashCode();
+            => Hash;
 
         [MethodImpl(Inline)]
         public bool Equals(EnvVar src)

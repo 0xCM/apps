@@ -4,45 +4,85 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly record struct CmdUri
+    using static Algs;
+
+    public record struct CmdUri
     {
-        [MethodImpl(Inline)]
-        public static CmdUri define(asci32 part, asci32 host, Name name)
-            => new CmdUri(part,host,name);
+        readonly Seq<object> Components;
 
-        public readonly asci32 Part;
+        public readonly Hash32 Hash;
 
-        public readonly asci32 Host;
-
-        public readonly Name Name;
-
-        [MethodImpl(Inline)]
-        internal CmdUri(asci32 part, asci32 host, Name name)
+        public ref CmdKind Kind 
         {
-            Part = part;
-            Host = host;
-            Name = name;
+            [MethodImpl(Inline)]
+            get => ref @as<object,CmdKind>(Components[0]);
         }
+
+        public ref string Part 
+        {
+            [MethodImpl(Inline)]
+            get => ref @as<object,string>(Components[1]);
+        }
+
+        public ref string Host 
+        {
+            [MethodImpl(Inline)]
+            get => ref @as<object,string>(Components[2]);
+        }
+
+        public ref string Name 
+        {
+            [MethodImpl(Inline)]
+            get => ref @as<object,string>(Components[3]);
+        }
+
+        [MethodImpl(Inline)]
+        internal CmdUri(CmdKind kind, string? part, string? host, string? name)
+        {
+            Components = sys.alloc<object>(6);
+            Hash = hash(part) | hash(host) | hash(name) | (Hash32)(byte)kind;
+            Kind = kind;
+            Part = ifempty(part,EmptyString);
+            Host = ifempty(host,EmptyString);
+            Name = ifempty(name,EmptyString);
+        }
+
+        public bool Equals(CmdUri src)
+            => Kind == src.Kind && Part == src.Part && Host == src.Host && Name == src.Name;
 
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => Part.IsEmpty && Host.IsEmpty && Name.IsEmpty;
+            get => empty(Part) && empty(Host) && empty(Name);
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => !IsEmpty;
         }
 
         public string Format()
-            => $"cmd://{Part}/{Host}?name={Name}";
-
-        public Hash32 Hash
         {
-            [MethodImpl(Inline)]
-           get => Part.Hash | Host.Hash | Name.Hash;
+            var symbols = Symbols.index<CmdKind>();
+            var symbol = Sym<CmdKind>.Empty;
+            var kind = EmptyString;
+            if(symbols.FindByKind(Kind, out symbol))
+                kind = symbol.Expr.Format();
+            else
+                kind = Kind.ToString().ToLowerInvariant();
+            return $"{kind}://{Part}/{Host}?name={Name}";
         }
+
 
         public override int GetHashCode()
             => Hash;
 
         public override string ToString()
-            => Format();
+            => Format();        
+
+        static CmdUri _Empty = new CmdUri(CmdKind.None, EmptyString, EmptyString, EmptyString); 
+
+        public static ref readonly CmdUri Empty => ref _Empty;
     }
 }

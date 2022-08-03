@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public sealed class ShellCmdDef : ICmdDef
+    public sealed class AppCmdDef : ICmdDef
     {
         public readonly Name CmdName;
 
@@ -17,17 +17,17 @@ namespace Z0
         public readonly CmdUri Uri;
 
         [MethodImpl(Inline)]
-        public ShellCmdDef(Name name, CmdActionKind kind, MethodInfo method, object host)
+        public AppCmdDef(string name, CmdActionKind kind, MethodInfo method, object host)
         {
-            CmdName = name;
+            CmdName = Require.notnull(name);
             Kind = kind;
             Host = Require.notnull(host);
             Method = Require.notnull(method);
-            Uri = CmdUri.define(host.GetType().Assembly.PartName().Format(), host.GetType().DisplayName(), CmdName);
+            Uri = Cmd.uri(CmdKind.App, host.GetType().Assembly.PartName().Format(), host.GetType().DisplayName(), CmdName);
         }
 
-        ref readonly CmdUri ICmdDef.Uri
-            => ref Uri;
+        CmdUri ICmdDef.Uri 
+            => Uri;
 
         public string Format()
             => Uri.Format();

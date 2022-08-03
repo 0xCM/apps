@@ -1,7 +1,6 @@
 //-----------------------------------------------------------------------------
-// Derivative Work based on https://github.com/intelxed/xed
-// Author : Chris Moore
-// License: https://github.com/intelxed/xed/blob/main/LICENSE
+// Copyright   :  (c) Chris Moore, 2020
+// License     :  MIT
 //-----------------------------------------------------------------------------
 namespace Z0
 {
@@ -15,7 +14,7 @@ namespace Z0
 
         readonly IWfEventTarget EventLog;
 
-        internal WfEmit(IWfSvc svc)
+        public WfEmit(IWfSvc svc)
         {
             Wf = svc.Wf;
             HostType = svc.HostType;

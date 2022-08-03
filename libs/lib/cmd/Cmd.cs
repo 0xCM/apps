@@ -13,6 +13,10 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
+        [MethodImpl(Inline)]
+        public static CmdUri uri(CmdKind kind, string? part, string? host, string? name)
+            => new CmdUri(kind, part, host, name);
+
          public static string format<T>(ICmd<T> src)
             where T : struct, ICmd<T>
         {

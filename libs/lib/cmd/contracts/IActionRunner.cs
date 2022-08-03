@@ -13,7 +13,7 @@ namespace Z0
     [Free]
     public interface IActionRunner : IActionRunner<CmdArgs,Outcome>
     {
-        ShellCmdDef Def {get;}
+        AppCmdDef Def {get;}
 
         ref readonly Name CmdName
             => ref Def.CmdName;

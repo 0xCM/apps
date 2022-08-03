@@ -4,12 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    partial class XFs
+    partial class XTend
     {
         [MethodImpl(Inline), Op]
         public static FS.FilePath[] Exclude(this FS.FilePath[] src, string match)

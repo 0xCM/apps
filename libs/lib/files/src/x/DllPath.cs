@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XFs
+    partial class XTend
     {
         [Op]
         public static FS.FilePath DllPath(this AssemblyName src, FS.FolderPath dir)

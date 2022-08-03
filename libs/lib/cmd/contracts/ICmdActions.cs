@@ -11,7 +11,7 @@ namespace Z0
 
         bool Find(string spec, out IActionRunner runner);
 
-        ref readonly ReadOnlySeq<ShellCmdDef> Defs {get;}
+        ref readonly ReadOnlySeq<AppCmdDef> Defs {get;}
 
         ICollection<IActionRunner> Invokers {get;}
     }

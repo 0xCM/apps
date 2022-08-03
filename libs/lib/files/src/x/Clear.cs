@@ -4,11 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-
-    partial class XFs
+    partial class XTend
     {
         [Op]
         public static FS.FilePath PartPath(this IPart part)

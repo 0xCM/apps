@@ -5,11 +5,23 @@
 namespace Z0
 {
     using static Algs;
-    using static Arrays;
-    using static Spans;
 
     partial class CmdScripts
     {
+        public static Task<FS.FilePath> start(CmdArgs args)
+        {
+            var count = Demand.gt(args.Count,0u);
+            var spec = text.emitter();
+            for(var i=0; i<args.Count; i++)
+            {
+                if(i != 0)
+                    spec.Append(Chars.Space);
+                spec.Append(args[i].Value);
+            }
+
+            return start(Cmd.cmd(spec.Emit()));
+        }
+
         public static Task start(ReadOnlySeq<CmdScript> src, bool pll)
             => Algs.start(() => iter(src, run, pll));
 

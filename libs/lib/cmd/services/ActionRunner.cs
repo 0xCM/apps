@@ -42,17 +42,11 @@ namespace Z0
             return dst;
         }
 
-        public readonly ShellCmdDef Def;
+        public readonly AppCmdDef Def;
 
-        public ActionRunner(Name name, object host, MethodInfo method)
+        public ActionRunner(string name, object host, MethodInfo method)
         {
-            Def = new ShellCmdDef(name, classify(method), Require.notnull(method), Require.notnull(host));
-        }
-
-        public ref readonly Name CmdName
-        {
-            [MethodImpl(Inline)]
-            get => ref Def.CmdName;
+            Def = new AppCmdDef(name, classify(method), Require.notnull(method), Require.notnull(host));
         }
 
         public ref readonly object Host
@@ -85,7 +79,7 @@ namespace Z0
             get => Def.Host.GetType();
         }
 
-        ShellCmdDef IActionRunner.Def
+        AppCmdDef IActionRunner.Def
             => Def;
 
         public Outcome Run(CmdArgs args, IWfEventTarget log)

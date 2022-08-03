@@ -56,6 +56,9 @@ namespace Z0
         public IDbArchive Symbols()
             => new DbArchive(setting(WsArchives.Path(Names.Repos), FS.dir));
 
+        // public IDbArchive Views()
+        //     => new DbArchive(Envvars)
+
         public IDbArchive Env()
             => new DbArchive(DbRoot().Targets("env"));
 
@@ -107,8 +110,11 @@ namespace Z0
         public IDbTargets Logs(string scope)
             => Logs().Targets(scope);
 
-        public IDbSources Control()
-            => new DbSources(setting(WsArchives.Path(Names.Control), FS.dir));
+        public IDbArchive Control()
+            => new DbArchive(setting(WsArchives.Path(Names.Control), FS.dir));
+
+        public IDbArchive Control(string scope)
+            => new DbArchive(Control().Sources(scope));
 
         public IDbSources Tools()
             => new DbSources(setting(WsArchives.Path(Names.Tools), FS.dir));

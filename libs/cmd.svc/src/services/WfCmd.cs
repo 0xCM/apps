@@ -68,19 +68,7 @@ namespace Z0
 
         [CmdOp("cmd")]
         protected void RunCmd(CmdArgs args)
-        {
-            var count = Demand.gt(args.Count,0u);
-            var spec = text.emitter();
-            for(var i=0; i<args.Count; i++)
-            {
-                if(i != 0)
-                    spec.Append(Chars.Space);
-                spec.Append(args[i].Value);
-            }
-
-            var cmd = Cmd.cmd(spec.Emit());
-            CmdScripts.start(cmd);
-        }
+            => CmdScripts.start(args);
 
         [CmdOp("cmd/copy")]
         void Copy(CmdArgs args)
@@ -164,7 +152,6 @@ namespace Z0
             return result;
         }
 
-
         [CmdOp("sys/cpucore")]
         protected Outcome ShowCurrentCore(CmdArgs args)
         {
@@ -181,39 +168,16 @@ namespace Z0
             EnvVars.emit(Emitter,SysEnvKind.Machine, dst);
         }
 
-        // void EmitEnv(WfEmit emitter, SysEnvKind kind)
-        // {
-        //     var vars = EnvVars.Empty;
-        //     switch(kind)
-        //     {
-        //         case SysEnvKind.Machine:
-        //             vars = EnvVars.machine();
-        //         break;
-        //         case SysEnvKind.Process:
-        //             vars = EnvVars.process();
-        //         break;
-        //         case SysEnvKind.User:
-        //             vars = EnvVars.user();
-        //         break;
-        //     }
-        //     if(vars.IsNonEmpty)
-        //     {
-        //         vars.Iter(v => emitter.Write(v.Format()));
-        //         EnvVars.emit(emitter, vars, kind, AppDb.Env().Root);
-        //     }
-        // }
-
         [CmdOp("env/machine")]
-        void ListMachineEnv()
+        void EmitMachineEnv()
             => EnvVars.emit(Emitter, SysEnvKind.Machine, AppDb.Env().Root);
-            //EnvVars.machine().Iter(v => Write(v.Format()));
 
         [CmdOp("env/user")]
-        void ListUserEnv()
+        void EmitUserEnv()
             => EnvVars.emit(Emitter, SysEnvKind.User, AppDb.Env().Root);
 
         [CmdOp("env/process")]
-        void ListProcessEnv()
+        void EmitProcessEnv()
             => EnvVars.emit(Emitter, SysEnvKind.Process, AppDb.Env().Root);
 
         [CmdOp("env/pid")]

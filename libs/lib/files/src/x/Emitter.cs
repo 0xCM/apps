@@ -4,10 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.IO;
-    using System.Text;
-
-    partial class XFs
+    partial class XTend
     {
         public static ITextEmitter Emitter(this FS.FilePath dst, bool append = false)
             => dst.Writer(append).Emitter();

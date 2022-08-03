@@ -7,8 +7,6 @@ namespace Z0
     using static Spans;
     using static Algs;
 
-    using EN = SettingNames;
-
     public readonly struct EnvVars : IIndex<EnvVar>
     {
         public static EnvVars Empty => new EnvVars(sys.empty<EnvVar>());
@@ -35,19 +33,6 @@ namespace Z0
             }
         }
 
-        public static EnvVars emit(SysEnvKind kind, bool display = true)
-        {
-            var archives = ProjectArchives.load(Settings.rows(AppSettings.path()));
-            var dir = Settings.setting(archives.Path(EN.EnvConfig), FS.dir).Value;
-            var vars = EnvVars.vars(kind);
-            var name =  $"{ExecutingPart.Name}.{EnumRender.format(kind)}";
-            if(display)
-                term.write(vars, FlairKind.Babble);
-            //emit(emitter, records(vars, name).View, dir + FS.file($"{name}.settings", FileKind.Csv), ASCI);
-            FS.emit(typeof(EnvVars), vars, dir + FS.file(name, FileKind.Env), ASCI);
-            return vars;
-        }
-
         public static ExecToken emit(WfEmit emitter, EnvVars src, SysEnvKind kind, FS.FolderPath dst)
         {
             var name =  $"{ExecutingPart.Name}.{EnumRender.format(kind)}";
@@ -69,9 +54,17 @@ namespace Z0
             for(var i=0; i<src.Length; i++)            
                 writer.WriteLine(formatter.Format(skip(src,i)));            
             return emitter.EmittedTable(emitting, src.Length);
-
         }
 
+        public static EnvVar<T> var<T>(SysEnvKind kind, string name, Func<string,T> parser)
+            where T : IEquatable<T>
+        {
+            var dst = EnvVar<T>.Empty;
+            var value = Environment.GetEnvironmentVariable(name, (EnvironmentVariableTarget)kind);
+            if(nonempty(value))
+                dst = new(name,parser(value));
+            return dst;
+        }
         public static EnvVars vars(SysEnvKind kind)
         {
             var dst = list<EnvVar>();
@@ -187,7 +180,7 @@ namespace Z0
 
         public string Format()
         {
-            var dst = text.buffer();
+            var dst = text.emitter();
             var src = View;
             var count = src.Length;
             for(var i=0; i<count; i++)

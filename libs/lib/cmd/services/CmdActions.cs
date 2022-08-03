@@ -8,7 +8,7 @@ namespace Z0
     {
         internal readonly Dictionary<string,IActionRunner> Lookup;
 
-        readonly ReadOnlySeq<ShellCmdDef> CmdDefs;
+        readonly ReadOnlySeq<AppCmdDef> CmdDefs;
 
         internal CmdActions(Dictionary<string,IActionRunner> src)
         {
@@ -28,7 +28,7 @@ namespace Z0
         public ICollection<IActionRunner> Invokers
             => Lookup.Values;
 
-        public ref readonly ReadOnlySeq<ShellCmdDef> Defs
+        public ref readonly ReadOnlySeq<AppCmdDef> Defs
         {
             [MethodImpl(Inline)]
             get => ref CmdDefs;

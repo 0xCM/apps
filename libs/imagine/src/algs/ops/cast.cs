@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Spans;
-
     partial class Algs
     {
         [MethodImpl(Inline), Op, Closures(Closure)]

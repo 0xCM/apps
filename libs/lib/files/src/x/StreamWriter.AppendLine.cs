@@ -5,14 +5,11 @@
 
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
 
-    public static class XFiles
+    partial class XTend
     {
-        [MethodImpl(Inline), Op]
-        public static TextLine ReadLine(this StreamReader src, uint number)
-            => new TextLine(number, src.ReadLine());
-
         [Op]
         public static bool ReadLine(this StringReader src, uint number, out TextLine dst)
         {
@@ -81,8 +78,8 @@ namespace Z0
         public static string Delimit<T>(this Span<T> src, string sep, short pad = 0)
             => (@readonly(src)).Delimit(sep,pad);
 
-        public static string Delimit<T>(this T[] src, string sep, short pad = 0)
-            => (@readonly(src)).Delimit(sep,pad);
+        // public static string Delimit<T>(this T[] src, string sep, short pad = 0)
+        //     => (Spans.@readonly(src)).Delimit(sep,pad);
 
         public static string Delimit<T>(this Index<T> src, string sep, short pad = 0)
             => (src.View).Delimit(sep,pad);
@@ -97,6 +94,24 @@ namespace Z0
         {
             for(var i=0; i<src.Length; i++)
                 dst.AppendLine(skip(src,i));
+        }
+
+        public static void Indent<T>(this StreamWriter dst,  uint margin, T src)
+            => dst.Append(string.Format("{0}{1}", new string(Chars.Space, (int)margin), src));
+
+        public static void IndentFormat<T>(this StreamWriter dst, uint margin, string format, T src)
+            => dst.Indent(margin, string.Format(format,src));
+
+        public static void IndentLine<T>(this StreamWriter dst, uint margin, T src)
+            => dst.AppendLine(string.Format("{0}{1}", new string(Chars.Space, (int)margin), src));
+
+        public static void IndentLineFormat(this StreamWriter dst, uint margin, string pattern, params object[] args)
+            => dst.IndentLine(margin, string.Format(pattern, args));
+
+        public static void Emit(this ITextBuffer src, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
+        {
+            using var writer = dst.Writer(encoding);
+            writer.Write(src.Emit());
         }
 
         public static void Pipe<T>(this FS.FolderPath Db, ReadOnlySpan<T> src, string channel = null)
@@ -123,24 +138,6 @@ namespace Z0
                 for(var i=0; i<count; i++)
                     writer.WriteLine((converter(skip(src,i)).Format()));
             }
-        }
-
-        public static void Indent<T>(this StreamWriter dst,  uint margin, T src)
-            => dst.Append(string.Format("{0}{1}", new string(Chars.Space, (int)margin), src));
-
-        public static void IndentFormat<T>(this StreamWriter dst, uint margin, string format, T src)
-            => dst.Indent(margin, string.Format(format,src));
-
-        public static void IndentLine<T>(this StreamWriter dst, uint margin, T src)
-            => dst.AppendLine(string.Format("{0}{1}", new string(Chars.Space, (int)margin), src));
-
-        public static void IndentLineFormat(this StreamWriter dst, uint margin, string pattern, params object[] args)
-            => dst.IndentLine(margin, string.Format(pattern, args));
-
-        public static void Emit(this ITextBuffer src, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
-        {
-            using var writer = dst.Writer(encoding);
-            writer.Write(src.Emit());
         }
     }
 }

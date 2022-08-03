@@ -9,7 +9,6 @@ namespace Z0
         Type Type {get;}
 
         string Name => Type.Name;
-
     }
 
     public interface IWfHost<H> : IWfHost
