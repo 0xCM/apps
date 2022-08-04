@@ -5,7 +5,7 @@
 namespace Z0
 {
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public struct ToolCmdArg<T> : IToolCmdArg<T>
+    public record struct ToolCmdArg<T> : IToolCmdArg<T>
     {
         /// <summary>
         /// The argument's relative position
@@ -22,8 +22,6 @@ namespace Z0
         /// </summary>
         public readonly T Value {get;}
 
-        public readonly ArgProtocol Protocol {get;}
-
         public readonly bool IsFlag {get;}
 
         [MethodImpl(Inline)]
@@ -32,7 +30,6 @@ namespace Z0
             Position = pos;
             Name = EmptyString;
             Value = value;
-            Protocol = (ArgPrefix.Space, ArgQualifier.Space);
             IsFlag = flag;
         }
 
@@ -42,7 +39,6 @@ namespace Z0
             Position = ushort.MaxValue;
             Name = name;
             Value = value;
-            Protocol = (ArgPrefix.Space, ArgQualifier.Space);
             IsFlag = flag;
         }
 

@@ -6,15 +6,15 @@ namespace Z0
 {
     using static Algs;
 
-    public class ToolCmdArg : IToolCmdArg
+    public readonly record struct ToolCmdArg : IToolCmdArg<string>
     {
-        public ushort Position {get;}
+        public readonly ushort Position {get;}
 
-        public string Name {get;}
+        public readonly string Name {get;}
 
-        public string Value {get;}
+        public readonly string Value {get;}
 
-        public bool IsFlag {get;}
+        public readonly bool IsFlag {get;}
 
         [MethodImpl(Inline)]
         public ToolCmdArg(ushort pos, string name, string value, bool flag = false)

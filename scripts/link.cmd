@@ -11,5 +11,5 @@ set ProjectId=tools.shell
 set ShellId=ztool
 call %~dp0..\.cmd\config.cmd
 set Src=%Publications%\%ShellId%
-set Dst=%ShellArtifacts%
+set Dst=%ShellArtifacts%\publish
 mklink /D %Src% %Dst% 2>nul

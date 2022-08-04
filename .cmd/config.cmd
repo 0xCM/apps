@@ -32,6 +32,8 @@ set WsObj=%WsBuild%\obj
 set TestLog=%WsLogs%\z0.%ProjectId%.tests.trx
 set BuildLogs=%WsLogs%
 set BuildTool=dotnet build
+set PublishTool=dotnet publish --verbosity normal
+set PackageTool=dotnet pack --include-symbols --include-source --verbosity normal
 
 set BuildLog=%BuildLogs%\z0.%ProjectId%.log
 set SlnBuildLog=%BuildLogs%\z0.%SlnId%.log
@@ -44,9 +46,17 @@ set AppSettings=%ImportDefs%app.settings.csv
 
 set ControlScripts=%Views%\control\.cmd
 
-set ProjectPath=%SlnRoot%\%Area%\%ProjectId%\z0.%ProjectId%.csproj
-set BuildProject=%BuildTool% %ProjectPath% %BuildProps% %BinLogSpec%; -graph:true -m:24
-set BuildSln=%BuildTool% %SlnPath% %BuildProps% %BinLogSpec%; -graph:true -m:24
+set BuildOptions=-graph:true -m:24
+set ProjectHome=%SlnRoot%\%Area%\%ProjectId%
+set ProjectPath=%ProjectHome%\z0.%ProjectId%.csproj
+set ProjectSln=%ProjectHome%\z0.%ProjectId%.sln
+set BuildProject=%BuildTool% %ProjectPath% %BuildProps% %BinLogSpec%; %BuildOptions%
+set BuildSln=%BuildTool% %SlnPath% %BuildProps% %BinLogSpec%; %BuildOptions%
+set BuildProjectSln=%BuildTool% %ProjectSln% %BuildProps% %BinLogSpec%; %BuildOptions%
+set PublishProject=%PublishTool%
+set PackageProject=%PackageTool% %ProjectPath%
+set PackageSln=%PackageTool% %ProjectSln%
+set PublishSln=%PublishTool% %ProjecSln%
 
 set RepoArchives=%Views%\archives\repos
 set RepoArchive=%RepoArchives%\%WsId%.repo.archive.zip
@@ -56,7 +66,7 @@ set TargetBuildRoot=%WsBin%\z0.%ProjectId%\%BuildKind%\%TargetFramework%
 set ShellBin=%TargetBuildRoot%\%RuntimeMoniker%\%ShellName%
 
 set RootSlnLogSpec=-bl:%ProjectBinLogPath%
-set BuildSlnRoot=%BuildTool% %SlnRootPath% %BuildProps% %BinLogSpec%; -graph:true -m:24
+set BuildSlnRoot=%BuildTool% %SlnRootPath% %BuildProps% %BinLogSpec%; %BuildOptions%
 
 set ShellName=%ShellId%.exe
 set ShellExePath=%TargetBuildRoot%\%RuntimeMoniker%\%ShellName%
@@ -70,12 +80,12 @@ set LibPath=%TargetBuildRoot%\%LibName%
 
 set LibProject=%LibRoot%\%ProjectId%
 set CsProjectPath=%LibProject%\%CsProjectFile%
-set BuildLib=%BuildTool% %CsProjectPath% %BuildProps% %BinLogSpec%; -graph:true -m:24
+set BuildLib=%BuildTool% %CsProjectPath% %BuildProps% %BinLogSpec%; %BuildOptions%
 
 set CmdShellRoot=%SlnRoot%\cmd
 set CmdProject=%CmdShellRoot%\z0.cmd.csproj
 set CmdShellLog=%BinLogSpec%
-set BuildCmdShell=%BuildTool% %CmdProject% %BuildProps% %BinLogSpec%; -graph:true -m:24
+set BuildCmdShell=%BuildTool% %CmdProject% %BuildProps% %BinLogSpec%; %BuildOptions%
 set ShellArtifacts=%TargetBuildRoot%\%RuntimeMoniker%
 set ShellPath=%ShellArtifacts%\%ShellId%.exe
 

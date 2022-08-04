@@ -10,9 +10,9 @@ namespace Z0
     [LiteralProvider]
     public partial class RP
     {
-        [MethodImpl(Inline), Op]
-        public static char left(SeqEnclosureKind kind)
-            => kind == Embraced ? LBrace : kind == Bracketed ? LBracket : LParen;
+        const NumericKind Closure = UnsignedInts;
+
+        const int NotFound = -1;
 
         [MethodImpl(Inline), Op]
         public static char right(SeqEnclosureKind kind)

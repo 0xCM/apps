@@ -22,7 +22,7 @@ namespace Z0
     {
         [MethodImpl(Inline)]
         public static ITextEmitter cover(StringBuilder src)
-            => new TextEmitter(text.buffer(src), false);
+            => new TextEmitter(new TextBuffer(src), false);
 
         readonly bool Owns;
 

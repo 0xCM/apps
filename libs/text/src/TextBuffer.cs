@@ -6,8 +6,14 @@ namespace Z0
 {
     using System.Text;
 
+    using static System.Runtime.CompilerServices.Unsafe;
+
     public class TextBuffer : ITextBuffer
     {
+        [MethodImpl(Inline)]
+        internal static short int16<T>(T src)
+            => As<T,short>(ref src);
+
         readonly StringBuilder Target;
 
         [MethodImpl(Inline)]
@@ -85,9 +91,9 @@ namespace Z0
 
         public void AppendPadded<T,W>(T value, W width, string delimiter = EmptyString)
         {
-            if(text.nonempty(delimiter))
+            if(sys.nonempty(delimiter))
                 Target.Append(delimiter);
-            Target.Append(string.Format(RpOps.pad(-Scalars.int16(width)), value));
+            Target.Append(string.Format(RP.pad(-int16(width)), value));
         }
 
         public void Delimit(string delimiter, params object[] src)
@@ -96,19 +102,19 @@ namespace Z0
             var terms = src;
             var sep = string.Format("{0} ", delimiter);
             for(var i=0; i<src.Length; i++)
-                Target.Append(string.Format("{0}{1}", sep, Arrays.skip(terms,i)));
+                Target.Append(string.Format("{0}{1}", sep, terms[i]));
         }
 
         public void Delimit<T>(T content, char delimiter, int pad)
         {
-            Target.Append(RpOps.rspace(delimiter));
+            Target.Append(RP.rspace(delimiter));
             Target.Append($"{content}".PadRight((int)pad));
         }
 
-        public void Delimit<F,T>(F label, T content, int pad = 0, char delimiter = FieldDelimiter)
+        public void Delimit<F,T>(F label, T content, int pad = 0, char delimiter = Chars.Pipe)
         {
-            Target.Append(RpOps.rspace(delimiter));
-            Target.AppendFormat(RpOps.pad(pad), label);
+            Target.Append(RP.rspace(delimiter));
+            Target.AppendFormat(RP.pad(pad), label);
             Target.Append(content);
         }
 

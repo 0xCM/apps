@@ -56,7 +56,6 @@ namespace Z0
                 return result;
 
             Cmd.parse(response, out flows);
-            //flows = Cmd.flows(response);
 
             return result;
         }

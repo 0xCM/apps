@@ -7,9 +7,11 @@ namespace Z0
     using static core;
 
     [ApiHost]
-    public class ToolCmd : AppCmdService<ToolCmd>
+    public class ToolCmdSvc : AppCmdService<ToolCmdSvc>
     {
         Tooling Tooling => Wf.Tooling();
+
+        static readonly Toolbase TB = new();
 
         [CmdOp("env/includes")]
         void LoadToolEnv()
@@ -22,6 +24,16 @@ namespace Z0
             var path = FS.path(arg(args,0));
             var Lookup = Tooling.config(path);
             Lookup.Iter(setting => Write(setting.Format(Chars.Colon)));
+        }
+
+        [CmdOp("tools")]
+        void ListTools()
+        {
+            var tools = TB.Tools();
+            for(var i=0; i<tools.Count; i++)
+            {
+                ref readonly var tool = ref tools[i];
+            }
         }
 
         [CmdOp("tools/env")]

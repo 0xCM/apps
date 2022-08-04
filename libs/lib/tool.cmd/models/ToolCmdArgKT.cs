@@ -3,11 +3,11 @@
 // License     :  MIT
 //-----------------------------------------------------------------------------
 namespace Z0
-{
+{    
     /// <summary>
     /// Defines a kinded argument
     /// </summary>
-    public struct ToolCmdArg<K,T>
+    public readonly record struct ToolCmdArg<K,T>
         where K : unmanaged
     {
         public readonly K Kind;
@@ -23,7 +23,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public string Format()
-            => string.Format(RpOps.Assign, Kind, Value);
+            => string.Format(RP.Assign, Kind, Value);
 
         public override string ToString()
             => Format();

@@ -7,9 +7,6 @@ namespace Z0
     using System.IO;
     using System.Text;
 
-    using static core;
-
-
     readonly struct TextWriterWrap : ITextWriter
     {
         readonly TextWriter Target;
@@ -156,30 +153,29 @@ namespace Z0
         public void Delimit(string delimiter, params object[] src)
         {
             var count = src.Length;
-            var terms = @readonly(src);
             var sep = string.Format("{0} ", delimiter);
             for(var i=0; i<src.Length; i++)
-                Target.Write(string.Format("{0}{1}", sep, skip(terms,i)));
+                Target.Write(string.Format("{0}{1}", sep, src[i]));
         }
 
         public void Delimit<T>(T content, char delimiter, int pad)
         {
-            Target.Write(RpOps.rspace(delimiter));
+            Target.Write(RP.rspace(delimiter));
             Target.Write($"{content}".PadRight((int)pad));
         }
 
         public void Delimit<F,T>(F label, T content, int pad = 0, char delimiter = '|')
         {
-            Target.Write(RpOps.rspace(delimiter));
-            Target.Write(string.Format(RpOps.pad(pad), label));
+            Target.Write(RP.rspace(delimiter));
+            Target.Write(string.Format(RP.pad(pad), label));
             Target.Write(content?.ToString() ?? RP.Null);
         }
 
         public void AppendPadded<T,W>(T value, W width, string delimiter = EmptyString)
         {
-            if(nonempty(delimiter))
+            if(sys.nonempty(delimiter))
                 Target.Write(delimiter);
-            Target.Write(string.Format(RpOps.pad(-i16(width)), value));
+            Target.Write(string.Format(RP.pad(-TextBuffer.int16(width)), value));
         }
 
         public void Close()

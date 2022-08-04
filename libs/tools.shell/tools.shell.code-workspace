@@ -1,10 +1,7 @@
 {
 	"folders": [
 		{
-			"path": "..\\tools"
-		},
-		{
-			"path": "."
+			"path": "..\\sys"
 		},
 		{
 			"path": "..\\literals"
@@ -13,22 +10,28 @@
 			"path": "..\\api.contracts"
 		},
 		{
-			"path": "..\\imagine"
+			"path": "..\\part"
 		},
 		{
-			"path": "..\\sys"
+			"path": "..\\imagine"
 		},
 		{
 			"path": "..\\lib"
 		},
 		{
-			"path": "..\\cmd.svc"
+			"path": "..\\files"
 		},
 		{
 			"path": "..\\archives"
 		},
 		{
 			"path": "..\\wf"
+		},
+		{
+			"path": "..\\tools"
+		},
+		{
+			"path": "."
 		},
 	],
 	"settings": {
