@@ -4,8 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    class ToolCmd : AppCmdService<ToolCmd>
-    {
+    using static ApiAtomic;
 
+    sealed class Toolbase : Toolset<Toolbase>
+    {
+        public Toolbase()   
+            : base(toolbase)
+        {
+
+
+        }
     }
 }

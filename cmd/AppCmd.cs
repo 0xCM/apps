@@ -25,7 +25,7 @@ namespace Z0
                 wf.ProjectCmd(),
                 wf.RuntimeCmd(),
                 wf.SqlDbCmd(),
-                wf.ToolBoxCmd(),
+                wf.ToolCmd(),
                 wf.WfCmd(),
                 wf.WsDbCmd(),
                 wf.XedCmd(),

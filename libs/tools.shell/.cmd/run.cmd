@@ -1,3 +1,6 @@
 @echo off
-call %~dp0config.cmd
-call %ztool% %1 %2 %3 %4
+set ToolId=ztool
+set ToolPath="%DevRoot%\dev\z0\artifacts\%ToolId%\%ToolId%.exe"
+set ztool=%ToolPath%
+set CmdSpec=%comspec% /C %ztool% %*
+call %CmdSpec%

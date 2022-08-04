@@ -19,15 +19,24 @@ namespace Z0
 
         Index<ToolConfig> Configs;
 
-        public ToolWs(FS.FolderPath home)
+        public ToolWs(Tool tool, FS.FolderPath home)
             : base(home)
         {
+            Tool = tool;
             ConfigLookup = dict<Actor,ToolConfig>();
             Configs = array<ToolConfig>();
         }
 
-        public FS.FolderPath Home
-            => Root;
+        public ToolWs(Tool tool, IRootedArchive home)
+            : base(home)
+        {
+            Tool = tool;
+            ConfigLookup = dict<Actor,ToolConfig>();
+            Configs = array<ToolConfig>();
+        }
+
+        public IDbArchive Location
+            => new DbArchive(Root);
 
         public FS.FolderPath ToolDocs(Tool tool)
             => ToolHome(tool) + FS.folder(docs);
@@ -53,7 +62,11 @@ namespace Z0
             get => Configs;
         }
 
-        SettingLookup IToolWs.Settings => throw new NotImplementedException();
+        public Tool Tool {get;}
+
+        public Hash32 Hash => throw new NotImplementedException();
+
+        public bool IsEmpty => throw new NotImplementedException();
 
         public bool Settings(Actor tool, out ToolConfig dst)
             => ConfigLookup.TryGetValue(tool, out dst);

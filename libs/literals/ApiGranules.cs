@@ -241,6 +241,10 @@ namespace Z0
 
         public const string bitfields = nameof(bitfields);
 
+        public const string toolbase = nameof(toolbase);
+
+        public const string toolsets = nameof(toolsets);
+
         public const string common = nameof(common);
 
         public const string sdm = nameof(sdm);

@@ -6,22 +6,28 @@ namespace Z0
 {
     using static ApiAtomic;
 
-    public interface IToolWs
+    public interface IToolWs : INamed
     {
-        FS.FolderPath Home  {get;}
+        Tool Tool {get;}
+        
+        IDbArchive Location  {get;}
 
-        SettingLookup Settings {get;}
+        Name INamed.Name 
+            => Location.Root.FolderName.Format();
             
         IDbArchive Docs()
-            => new DbArchive(Home + FS.folder(docs));
-            
+            => new DbArchive(Location.Sources(docs));
+
+        IDbArchive Scripts()
+            => new DbArchive(Location.Sources(scripts));
+
         FS.FilePath ConfigScript(string name, FileKind kind)
-            => Home + FS.file(name,kind);
+            => Location.Path(FS.file(name,kind));
 
         FS.FilePath Script(string name, FileKind kind)
-            => Home + FS.folder(scripts) + FS.file(name,kind);
+            => Scripts().Path(name,kind);
 
         FS.FilePath Script(FS.FileName file)
-            => Home + FS.folder(scripts) + file;
+            => Scripts().Path(file);
     }
 }

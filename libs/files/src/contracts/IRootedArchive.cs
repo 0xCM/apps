@@ -34,6 +34,12 @@ namespace Z0
         IDbTargets Targets()
             => DbFiles.Targets();
 
+        IDbArchive Archive(FS.FolderPath home)
+            => new DbArchive(home);
+
+        IDbArchive Archive(IRootedArchive home)
+            => new DbArchive(home);
+
         IDbSources Sources(string scope)
             => DbFiles.Sources(scope);
 

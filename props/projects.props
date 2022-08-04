@@ -31,7 +31,6 @@
     <Calcs>$(SlnLibs)calcs\z0.calcs.csproj</Calcs>
     <Circuits>$(SlnLibs)circuits\z0.circuits.csproj</Circuits>
 
-    <CmdSvc>$(SlnLibs)cmd.svc\z0.cmd.svc.csproj</CmdSvc>
     <CmdActions>$(SlnLibs)cmd.actions\z0.cmd.actions.csproj</CmdActions>
     <CmdExec>$(SlnLibs)cmd.exec\z0.cmd.exec.csproj</CmdExec>
     <CmdTools>$(SlnLibs)cmd.tools\z0.cmd.tools.csproj</CmdTools>

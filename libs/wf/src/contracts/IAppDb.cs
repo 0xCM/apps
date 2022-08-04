@@ -27,6 +27,10 @@ namespace Z0
     {
         IDbSources DbIn();
 
+        IDbArchive DbArchive(FS.FolderPath home);
+
+        IDbArchive DbArchive(IRootedArchive home);
+
         IDbSources DbRoot();
 
         IDbSources DbIn(string scope);

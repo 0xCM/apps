@@ -7,7 +7,7 @@ namespace Z0
     using static core;
 
     [ApiHost]
-    public class ToolBoxCmd : AppCmdService<ToolBoxCmd>
+    public class ToolCmd : AppCmdService<ToolCmd>
     {
         Tooling Tooling => Wf.Tooling();
 

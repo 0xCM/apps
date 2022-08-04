@@ -43,6 +43,8 @@ namespace Z0
 
         public const string Logs = nameof(Logs);
 
-        public const string LlvmDist = nameof(LlvmDist);
+        public const string LlvmDist = nameof(LlvmDist);       
+
+        public const string Views = nameof(Views);
     }
 }

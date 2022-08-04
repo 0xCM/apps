@@ -13,14 +13,6 @@ namespace Z0
                 };
 
         public static AppShellCmd commands(IWfRuntime wf)
-        {
-            //var xed = ApiGlobals.Instance.Inject(wf.XedRuntime());
-            return create(wf, providers(wf));
-        }
-
-        protected override void Initialized()
-        {
-            //RunCmd("project", CmdArgs.create(new CmdArg[]{new CmdArg(EmptyString, "mc.models")}));
-        }
+            => create(wf, providers(wf));
     }
 }

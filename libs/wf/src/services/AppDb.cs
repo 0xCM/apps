@@ -35,11 +35,17 @@ namespace Z0
         public FS.FilePath SettingsPath<S>(FileKind kind)
             => Settings().Path(Z0.Settings.name<S>(), kind);
 
+        public IDbArchive DbArchive(FS.FolderPath home) 
+            => new DbArchive(home);
+
+        public IDbArchive DbArchive(IRootedArchive home) 
+            => new DbArchive(home);
+
         public IDbArchive Archives()
             => new DbArchive(setting(WsArchives.Path(Names.Archives), FS.dir));
 
-        public IDbArchive Archive(string scope)
-            => new DbArchive(Archives().Sources(scope).Root);
+        public IDbArchive Archive(string name)
+            => new DbArchive(Archives().Sources(name).Root);
 
         public IDbSources LlvmRoot()
             => new DbArchive(setting(WsArchives.Path(Names.LlvmRoot), FS.dir));
@@ -117,13 +123,25 @@ namespace Z0
             => new DbArchive(Control().Sources(scope));
 
         public IDbSources Tools()
-            => new DbSources(setting(WsArchives.Path(Names.Tools), FS.dir));
+            => new DbSources(setting(WsArchives.Path(Names.Tools), FS.dir));        
 
         public IDbSources Tools(string scope)
             => Tools().Sources(scope);
 
+        public IDbArchive Views()
+            => new DbArchive(setting(WsArchives.Path(Names.Views), FS.dir));
+
+        public IDbArchive Toolsets()
+            => Views(toolsets);
+
+        public IDbArchive Toolset(string name)
+            => new DbArchive(Views(toolsets).Sources(name));
+
+        public IDbArchive Views(string scope)
+            => new DbArchive(Views().Sources(scope));
+
         public IDbArchive Toolbase()
-            => new DbArchive(setting(WsArchives.Path(Names.Toolbase), FS.dir));
+            => Toolset(toolbase);
 
         public IDbArchive Toolbase(string scope)
             => new DbArchive(Toolbase().Sources(scope));

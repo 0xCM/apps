@@ -2,8 +2,14 @@
 set ShellId=zcmd
 set ProjectId=cmd
 call %~dp0..\.cmd\config.cmd
-: set Publications=%~dp0..\artifacts
 mkdir %Publications% 1>nul 2>nul
 set Src=%Publications%\%ShellId%
+set Dst=%ShellArtifacts%\publish
+mklink /D %Src% %Dst% 2>nul
+
+set ProjectId=tools.shell
+set ShellId=ztool
+call %~dp0..\.cmd\config.cmd
+set Src=%Publications%\%ShellId%
 set Dst=%ShellArtifacts%
-mklink /D %Src% %Dst%
+mklink /D %Src% %Dst% 2>nul

@@ -94,7 +94,7 @@ namespace Z0
             => new ToolCmdLine(tool, new CmdLine(src));
 
         public IToolWs Home(Tool tool)
-            => new ToolWs(ToolBase.Sources(tool.Name).Root);
+            => new ToolWs(tool, ToolBase.Sources(tool.Name).Root);
 
         public IDbArchive ToolBase
             => AppDb.Toolbase();
@@ -244,7 +244,7 @@ namespace Z0
 
         public Index<ToolCmdLine> BuildHelpCommands(IToolWs ws)
         {
-            var profiles = LoadProfileLookup(ws.Home).Values;
+            var profiles = LoadProfileLookup(ws.Location.Root).Values;
             var count = profiles.Length;
             var dst = list<ToolCmdLine>();
             for(var i=0; i<count; i++)
@@ -262,7 +262,7 @@ namespace Z0
         public Index<ToolHelpDoc> EmitHelp(IToolWs ws)
         {
             var result = Outcome.Success;
-            var paths = CalcHelpPaths(ws.Home);
+            var paths = CalcHelpPaths(ws.Location.Root);
             var commands = BuildHelpCommands(ws);
             var count = commands.Length;
             var docs = list<ToolHelpDoc>();

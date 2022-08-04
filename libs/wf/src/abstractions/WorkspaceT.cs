@@ -14,6 +14,12 @@ namespace Z0
             Root = root;
         }
 
+        protected Workspace(IRootedArchive root)
+        {
+            Root = root.Root;
+        }
+
+
         public string Format()
             => string.Format("{0}:{1}", typeof(T).Name, Root.Format());
 
