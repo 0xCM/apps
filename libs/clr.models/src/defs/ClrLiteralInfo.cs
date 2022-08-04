@@ -29,6 +29,5 @@ namespace Z0
             Value = value;
             Kind = clr;
         }
-
     }
 }

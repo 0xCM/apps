@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
 
     [ApiHost]
     public readonly struct ClrHandles
@@ -28,7 +29,7 @@ namespace Z0
         {
             var metadata = src.Types();
             var count = metadata.Length;
-            var buffer = alloc<ClrHandle<RuntimeTypeHandle>>(count);
+            var buffer = sys.alloc<ClrHandle<RuntimeTypeHandle>>(count);
             types(metadata, src.ManifestModule, buffer);
             return buffer;
         }
@@ -38,7 +39,7 @@ namespace Z0
         {
             var metadata = src.Fields();
             var count = metadata.Length;
-            var buffer = alloc<ClrHandle<RuntimeFieldHandle>>(count);
+            var buffer = sys.alloc<ClrHandle<RuntimeFieldHandle>>(count);
             fields(metadata, src.ManifestModule, buffer);
             return buffer;
         }
@@ -48,7 +49,7 @@ namespace Z0
         {
             var concrete = src.Methods().Concrete();
             var count = concrete.Length;
-            var buffer = alloc<ClrHandle<RuntimeMethodHandle>>(count);
+            var buffer = sys.alloc<ClrHandle<RuntimeMethodHandle>>(count);
             methods(concrete, src.ManifestModule, buffer);
             return buffer;
         }

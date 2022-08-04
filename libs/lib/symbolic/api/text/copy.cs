@@ -4,8 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
 
+    using static core;
+    
     partial class text
     {
         [MethodImpl(Inline), Op, Closures(Closure)]

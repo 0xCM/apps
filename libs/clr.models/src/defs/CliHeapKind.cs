@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    [SymSource("cli")]
     public enum CliHeapKind : byte
     {
         None,

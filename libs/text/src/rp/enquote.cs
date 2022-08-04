@@ -4,11 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
-    partial class text
+    partial class RP
     {
-        [MethodImpl(Inline), Op]
-        public static string utf7(ReadOnlySpan<byte> src)
-            => Encoding.UTF7.GetString(src);
-    }
+        [Op]
+        public static string enquote(string src)
+            => sys.nonempty(src) ? string.Concat(Chars.Quote, src, Chars.Quote) : EmptyString;
+   }
 }

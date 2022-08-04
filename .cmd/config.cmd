@@ -1,5 +1,6 @@
 @echo off
 
+set ZVersion=0.0.0.2
 set BuildPlatform="Any CPU"
 set FrameworkMoniker=net6.0
 set TargetFramework=%FrameworkMoniker%

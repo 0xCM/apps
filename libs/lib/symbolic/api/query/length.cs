@@ -7,7 +7,6 @@ namespace Z0
     using static Spans;
 
     using C = AsciCode;
-    using S = AsciSymbol;
 
     partial struct SymbolicQuery
     {

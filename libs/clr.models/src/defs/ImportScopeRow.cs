@@ -4,11 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
-    partial class text
+    [CliRecord(CliTableKind.ImportScope), StructLayout(LayoutKind.Sequential)]
+    public struct ImportScopeRow
     {
-        [MethodImpl(Inline), Op]
-        public static string utf7(ReadOnlySpan<byte> src)
-            => Encoding.UTF7.GetString(src);
+        [Render(12)]
+        public CliBlobIndex Imports;
     }
+    
 }

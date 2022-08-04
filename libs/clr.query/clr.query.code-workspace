@@ -22,23 +22,17 @@
 			"path": "..\\sys"
 		},
 		{
-			"path": "..\\text"
-		},
-		{
 			"path": "..\\imagine"
-		},
-		{
-			"path": "..\\api.identity"
 		},
 		{
 			"path": "..\\clr.models"
 		},
 		{
-			"path": "..\\clr.query"
-		},
-		{
 			"path": "."
 		},
+		{
+			"path": "..\\lib"
+		}
 	],
 	"settings": {}
 }
