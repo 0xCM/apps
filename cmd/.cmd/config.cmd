@@ -2,4 +2,6 @@
 set ProjectId=cmd
 set ShellId=zcmd
 set WsId=z0
-call %DevRoot%\dev\z0\.cmd\config.cmd
+call %~dp0..\..\scripts\config.cmd
+set Artifacts=%SlnRoot%\artifacts
+set Scripts=%SlnRoot%\scripts

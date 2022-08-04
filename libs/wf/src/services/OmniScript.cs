@@ -9,52 +9,6 @@ namespace Z0
 
     public class OmniScript : WfSvc<OmniScript>
     {
-        // public Outcome<Index<CmdFlow>> RunScript(IWsProject project, FS.FilePath script, string srcid)
-        // {
-        //     var cmdflows = list<CmdFlow>();
-        //     var result = RunProjectScript(project, srcid, script, true, out var flows);
-        //     if(result)
-        //     {
-        //         var count = flows.Length;
-        //         for(var j=0; j<count; j++)
-        //             cmdflows.Add(skip(flows,j));
-        //         return (true, cmdflows.ToArray());
-        //     }
-
-        //     return result;
-        // }
-
-        // public Outcome RunProjectScript(IWsProject project, string srcid, FS.FilePath script, bool quiet, out ReadOnlySpan<CmdFlow> flows)
-        // {
-        //     var result = Outcome.Success;
-        //     var vars = WsCmdVars.create();
-        //     vars.SrcId = srcid;
-        //     return RunToolScript(script, vars.ToCmdVars(), quiet, out flows);
-        // }
-
-        // public Outcome RunToolScript(FS.FilePath src, CmdVars vars, bool quiet, out ReadOnlySpan<CmdFlow> flows)
-        // {
-        //     flows = default;
-        //     var result = Outcome.Success;
-        //     if(!src.Exists)
-        //         return (false, FS.missing(src));
-
-        //     result = CmdScripts.run(
-        //         new CmdLine(src.Format(PathSeparator.BS)),
-        //         vars,
-        //         quiet ? ReceiveCmdStatusQuiet : ReceiveCmdStatus, ReceiveCmdError,
-        //         out var response
-        //         );
-
-        //     if(result.Fail)
-        //         return result;
-
-        //     Cmd.parse(response, out flows);
-        //     //flows = Cmd.flows(response);
-
-        //     return result;
-        // }
-
         public Outcome Run(FS.FilePath src, CmdVars vars, bool quiet, out ReadOnlySpan<TextLine> response)
             => CmdScripts.run(
                 new CmdLine(src.Format(PathSeparator.BS)),

@@ -20,7 +20,7 @@ namespace Z0
             dst.PageSize = src.dwPageSize;
             dst.Granularity = src.dwAllocationGranularity;
             dst.MinAppAddress = src.lpMinimumApplicationAddress;
-            dst.MaxAppAddress= src.lpMaximumApplicationAddress;
+            dst.MaxAppAddress = src.lpMaximumApplicationAddress;
             return dst;
         }
 
@@ -63,14 +63,14 @@ namespace Z0
         /// <summary>
         /// Retrieves information about a range of pages in the virtual address space of the calling process
         /// </summary>
-        /// <param name="address">A pointer to the base address of the region of pages to be queried. This value is rounded down to the next page boundary.</param>
+        /// <param name="base">A pointer to the base address of the region of pages to be queried. This value is rounded down to the next page boundary.</param>
         /// <param name="dst">The query result</param>
         /// <remarks>
         /// https://docs.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualquery
         /// </remarks>
         [MethodImpl(Inline), Op]
-        public static void vquery(MemoryAddress address, ref BasicMemoryInfo dst)
-            => VirtualQuery((IntPtr)address, ref dst, (UIntPtr)Sized.size<BasicMemoryInfo>());
+        public static void vquery(MemoryAddress @base, ref BasicMemoryInfo dst)
+            => VirtualQuery((IntPtr)@base, ref dst, (UIntPtr)Sized.size<BasicMemoryInfo>());
 
         /// <summary>
         /// Specifies the protection level for a page segment

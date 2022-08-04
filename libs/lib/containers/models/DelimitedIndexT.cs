@@ -81,7 +81,7 @@ namespace Z0
         public string Format()
         {
             var content = text.delimit(Data.View, Delimiter, CellPad);
-            if(Fence != null && text.nonempty(content))
+            if(Fence != null && sys.nonempty(content))
                 return text.enclose(content, Fence.Value);
             else
                 return content;

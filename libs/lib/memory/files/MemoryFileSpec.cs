@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.IO;
     using System.IO.MemoryMappedFiles;
 
     using A = System.IO.MemoryMappedFiles.MemoryMappedFileAccess;

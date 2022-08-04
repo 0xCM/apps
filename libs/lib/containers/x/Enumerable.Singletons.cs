@@ -4,16 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Collections.Generic;
     using System.Linq;
-
-    using static Root;
 
     partial class XTend
     {
-
         /// <summary>
         /// Constructs a sequence of singleton sequences from a sequence of elements
         /// </summary>

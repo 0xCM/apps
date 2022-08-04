@@ -7,9 +7,9 @@ namespace Z0
 {
     public class WfSvc
     {
-        static IWsProject Project;
+        static IProjectWorkspace Project;
 
-        public static ref readonly IWsProject project()
+        public static ref readonly IProjectWorkspace project()
         {
             if(Project == null)
                 Errors.Throw("Project is null");
@@ -17,7 +17,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public static ref readonly IWsProject project(IWsProject src)
+        public static ref readonly IProjectWorkspace project(IProjectWorkspace src)
         {
             Project = src;
             return ref Project;

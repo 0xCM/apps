@@ -53,7 +53,7 @@ namespace Z0
             seek(dst, 1) = (char)(byte)(input >> 8);
             seek(dst, 2) = (char)(byte)(input >> 16);
             seek(dst, 3) = (char)(byte)(input >> 24);
-            return Spans.cover(dst, ByteBlock4.Size);
+            return Algs.cover(dst, ByteBlock4.Size);
         }
 
         [MethodImpl(Inline), Op]

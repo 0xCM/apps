@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Arrays;
+    using static Spans;
 
     partial struct ApiLoader
     {
@@ -18,7 +20,7 @@ namespace Z0
             var part = src.Id();
             var types = span(src.GetTypes().Where(t => t.Tagged<ApiCompleteAttribute>()));
             var count = types.Length;
-            var buffer = alloc<ApiCompleteType>(count);
+            var buffer = sys.alloc<ApiCompleteType>(count);
             ref var dst = ref first(buffer);
             for(var i=0u; i<count; i++)
             {

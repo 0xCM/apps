@@ -376,12 +376,6 @@ namespace Z0.Asm
             clrmd.ParseDump(AppDb.Logs().Path("dump", FileKind.Log));
         }
 
-        void ShowMemory()
-        {
-            var info = WinMem.basic();
-            var formatter = Tables.formatter<BasicMemoryInfo>(16,RecordFormatKind.KeyValuePairs);
-            Wf.Data(formatter.Format(info));
-        }
 
         Cli Cli => Wf.Cli();
 

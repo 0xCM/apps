@@ -11,7 +11,7 @@ namespace Z0
     {
         public void Collect(FileFlowContext context)
         {
-            var project = context.Project.Project;
+            var project = context.Project.ProjectId;
             var docs = CalcDocs(context);
             exec(PllExec,
                 () => EmitConsolidated(context, docs),

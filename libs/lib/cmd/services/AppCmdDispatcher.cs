@@ -6,24 +6,24 @@ namespace Z0
 {
     public class AppCmdDispatcher : IAppCmdDispatcher
     {
-        IAppCommands _Actions;
+        IAppCommands _Commands;
 
         Func<string,CmdArgs,Outcome> Fallback;
 
-        readonly IWfEventTarget Log;
+        readonly WfEmit Emit;
 
         readonly asci32 Provider;
 
         [MethodImpl(Inline)]
-        public AppCmdDispatcher(asci32 provider, IAppCommands lookup, IWfEventTarget log)
+        public AppCmdDispatcher(asci32 provider, IAppCommands lookup, WfEmit emit)
         {
             Provider = provider;
-            _Actions = lookup;
+            _Commands = lookup;
             Fallback = NotFound;
-            Log = log;
+            Emit = emit;
         }
 
-        public IAppCommands Commands => _Actions;
+        public IAppCommands Commands => _Commands;
 
         static Outcome NotFound(string cmd, CmdArgs args)
             => (false, string.Format("Handler for '{0}' not found", cmd));
@@ -34,10 +34,10 @@ namespace Z0
         public Outcome Dispatch(string name, CmdArgs args)
         {
             var result = Outcome.Success;
-            var invoker = default(IAppCmdRunner);
-            if(_Actions.Find(name, out invoker))
+            var runner = default(IAppCmdRunner);
+            if(Commands.Find(name, out runner))
             {
-                result = invoker.Run(args, Log);
+                result = runner.Run(args, Emit);
             }
             else
             {

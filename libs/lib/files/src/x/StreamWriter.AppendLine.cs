@@ -78,8 +78,6 @@ namespace Z0
         public static string Delimit<T>(this Span<T> src, string sep, short pad = 0)
             => (@readonly(src)).Delimit(sep,pad);
 
-        // public static string Delimit<T>(this T[] src, string sep, short pad = 0)
-        //     => (Spans.@readonly(src)).Delimit(sep,pad);
 
         public static string Delimit<T>(this Index<T> src, string sep, short pad = 0)
             => (src.View).Delimit(sep,pad);

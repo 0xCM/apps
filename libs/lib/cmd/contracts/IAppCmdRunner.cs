@@ -7,7 +7,7 @@ namespace Z0
     [Free]
     public interface IAppCmdRunner<S,T>
     {
-        T Run(S src, IWfEventTarget log);
+        T Run(S src, WfEmit emitter);
     }
 
     [Free]

@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Spans;
-    using static Arrays;
-
     partial class Algs
     {
         [MethodImpl(Inline), Op, Closures(Closure)]

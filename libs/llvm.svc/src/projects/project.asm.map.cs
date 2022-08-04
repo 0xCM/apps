@@ -13,7 +13,7 @@ namespace Z0
         {
              var context = Context();
              var project = context.Project;
-             Write(string.Format("{0,-18}:{1}", "Project", project.Id));
+             Write(string.Format("{0,-18}:{1}", "Project", project.ProjectId));
              iter(project.OutFiles(FileKind.Obj), file => Write(file));
         }
 

@@ -9,7 +9,7 @@ namespace Z0
         public static ICmdProvider[] providers(IWfRuntime wf)
             => new ICmdProvider[]{
                 wf.WfCmd(),
-                wf.ToolCmd()
+                wf.ToolCmd(),                
                 };
 
         public static AppShellCmd commands(IWfRuntime wf)

@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
+
 
     public readonly struct MemoryCells<T>
         where T : unmanaged
@@ -26,7 +28,7 @@ namespace Z0
         public Span<T> Edit
         {
             [MethodImpl(Inline)]
-            get => cover(First, CellCount);
+            get => Algs.cover(First, CellCount);
         }
 
         public ReadOnlySpan<T> View

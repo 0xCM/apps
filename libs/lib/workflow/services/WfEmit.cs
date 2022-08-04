@@ -14,6 +14,13 @@ namespace Z0
 
         readonly IWfEventTarget EventLog;
 
+        public WfEmit(IWfRuntime wf, Type host)
+        {
+            Wf = wf;
+            HostType = host;
+            EventLog = wf.EventLog;
+        }
+
         public WfEmit(IWfSvc svc)
         {
             Wf = svc.Wf;

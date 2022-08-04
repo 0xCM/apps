@@ -8,19 +8,19 @@ namespace Z0
 
     public class ToolScripts : WfSvc<ToolScripts>
     {
-        public FS.FolderPath CleanOutDir(IWsProject project)
+        public FS.FolderPath CleanOutDir(IProjectWorkspace project)
             => project.BuildOut().Clear(true);
 
-        public void BuildAsm(IWsProject src)
+        public void BuildAsm(IProjectWorkspace src)
             => RunBuildScripts(src, FileKind.Asm, src.Script("build-asm"), false);
 
-        public void BuildC(IWsProject src, bool runexe = false)
+        public void BuildC(IProjectWorkspace src, bool runexe = false)
             => RunBuildScripts(src, FileKind.C, src.Script("build-c"), runexe);
 
-        public void BuildCpp(IWsProject src, bool runexe = false)
+        public void BuildCpp(IProjectWorkspace src, bool runexe = false)
             => RunBuildScripts(src, FileKind.Cpp, src.Script("build-cpp"), runexe);
 
-        public void RunBuildScripts(IWsProject project ,FileKind kind, FS.FilePath script, bool runexe)
+        public void RunBuildScripts(IProjectWorkspace project ,FileKind kind, FS.FilePath script, bool runexe)
             => RunBuildScript(project, kind, script, flow => OnExec(flow, runexe));
 
         void RunExe(CmdFlow flow)
@@ -81,7 +81,7 @@ namespace Z0
             Write(src, FlairKind.Error);
         }
 
-        Outcome RunProjectScript(IWsProject project, string srcid, FS.FilePath script, bool quiet, out ReadOnlySpan<CmdFlow> flows)
+        Outcome RunProjectScript(IProjectWorkspace project, string srcid, FS.FilePath script, bool quiet, out ReadOnlySpan<CmdFlow> flows)
         {
             var result = Outcome.Success;
             var vars = WsCmdVars.create();
@@ -89,7 +89,7 @@ namespace Z0
             return RunToolScript(script, vars.ToCmdVars(), quiet, out flows);
         }
 
-        Outcome<Index<CmdFlow>> RunScript(IWsProject project, FS.FilePath script, string srcid)
+        Outcome<Index<CmdFlow>> RunScript(IProjectWorkspace project, FS.FilePath script, string srcid)
         {
             var cmdflows = list<CmdFlow>();
             var result = RunProjectScript(project, srcid, script, true, out var flows);
@@ -104,10 +104,10 @@ namespace Z0
             return result;
         }
 
-        void RunBuildScript(IWsProject project, FileKind kind, FS.FilePath script, Action<CmdFlow> receiver)
+        void RunBuildScript(IProjectWorkspace project, FileKind kind, FS.FilePath script, Action<CmdFlow> receiver)
         {
             var flows = list<CmdFlow>();
-            var files = project.SrcFiles(kind, false);
+            var files = project.SourceFiles(kind, false);
             int length = files.Length;
             for(var i=0; i<length; i++)
             {

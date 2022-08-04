@@ -184,9 +184,6 @@ namespace Z0
             where T : struct
                 => WfMsg.EmittedTable(flow,count, dst);
 
-        // protected void FileEmit(string src, Count count, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Utf8)
-        //     => WfEmit.FileEmit(src, count, dst, encoding);
-
         protected WfEventLogger EventLogger
             => x => WfMsg.Raise(x);
 

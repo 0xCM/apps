@@ -91,7 +91,7 @@ namespace Z0.alg
 
         [MethodImpl(Inline)]
         public static uint calc<T>(Span<T> src)
-            => calc(Spans.@readonly(src));
+            => calc(Algs.@readonly(src));
 
         [MethodImpl(Inline)]
         public static uint calc<T>(T[] src)

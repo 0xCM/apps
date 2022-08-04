@@ -36,6 +36,9 @@ namespace Z0
 
         void RedirectEmissions(IWfEmissionLog dst);
 
+        WfEmit Emitter(Type host)
+            => new WfEmit(this, host);
+
         WfEventLogger EventLogger
             => x => Raise(x);
 

@@ -30,7 +30,7 @@ namespace Z0
 
             readonly XedMachine Machine;
 
-            readonly IProjectWsObsolete Ws;
+            readonly IProjectWorkspace Ws;
 
             readonly FS.FolderPath OutDir;
 
@@ -41,7 +41,7 @@ namespace Z0
                 Machine = machine;
                 Ws = machine.Ws;
                 Status = status;
-                OutDir = Ws.Out();
+                OutDir = Ws.BuildOut();
             }
 
             public void Dispose()

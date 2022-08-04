@@ -6,13 +6,13 @@ namespace Z0
 {
     public class FileFlowContext : FlowContext<FileFlowContext>
     {
-        public readonly IWsProject Project;
+        public readonly IProjectWorkspace Project;
 
         public readonly FileCatalog Files;
 
         public readonly DataFlowCatalog Flows;
 
-        public FileFlowContext(IWsProject project, DataFlowCatalog flows)
+        public FileFlowContext(IProjectWorkspace project, DataFlowCatalog flows)
         {
             Project = project;
             Files = flows.Files;

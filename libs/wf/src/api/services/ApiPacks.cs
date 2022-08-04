@@ -5,7 +5,7 @@
 namespace Z0
 {
     using static Spans;
-    using static Arrays;
+    using static Algs;
 
     [ApiHost]
     public sealed class ApiPacks : WfSvc<ApiPacks>

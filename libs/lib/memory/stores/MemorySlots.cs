@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
+    using static Arrays;
 
     public readonly struct MemorySlots
     {
@@ -29,7 +31,7 @@ namespace Z0
         public static string[] format<E>(MemorySlots<E> src)
             where E : unmanaged
         {
-            var dst = alloc<string>(src.Length);
+            var dst = sys.alloc<string>(src.Length);
             format(src,dst);
             return dst;
         }

@@ -6,39 +6,10 @@ namespace Z0
 {
     using System.IO.MemoryMappedFiles;
 
-    using static core;
+    using static Algs;
+    using static Spans;
 
     using api = MemoryFiles;
-
-    unsafe class MemoryFileOwner
-    {
-        readonly MemoryMappedFile File;
-
-        readonly MemoryMappedViewAccessor ViewAccessor;
-
-        byte* Base;
-
-        public readonly ByteSize FileSize;
-
-        public readonly MemoryAddress BaseAddress;
-
-
-        internal MemoryFileOwner(MemoryMappedFile file, ByteSize size)
-        {
-            FileSize = size;
-            File = file;
-            ViewAccessor = File.CreateViewAccessor(0, (long)FileSize);
-            ViewAccessor.SafeMemoryMappedViewHandle.AcquirePointer(ref Base);
-            BaseAddress = Base;
-        }
-
-        public void Dispose()
-        {
-            ViewAccessor?.Dispose();
-            File?.Dispose();
-        }
-
-    }
 
     public unsafe class MemoryFile : IMemoryFile<MemoryFile>
     {
@@ -203,7 +174,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public ReadOnlySpan<byte> View(ulong offset, ByteSize size)
-            => view(BaseAddress, offset, size);
+            => api.view(BaseAddress, offset, size);
 
         /// <summary>
         /// Presents file content as a readonly sequence of <see cref='byte'/> cells

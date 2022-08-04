@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static Spans;
+    using static Algs;
 
     partial class XTend
     {

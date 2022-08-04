@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Arrays;
+    using static Spans;
 
     partial struct ApiLoader
     {

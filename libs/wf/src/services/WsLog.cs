@@ -6,13 +6,13 @@ namespace Z0
 {
     public class WsLog : IDisposable
     {
-        public static FS.FilePath target(IProjectWsObsolete project, string name, FileKind kind = FileKind.Log)
-            => project.Out() + FS.file(name, kind.Ext());
+        public static FS.FilePath target(IProjectWorkspace project, string name, FileKind kind = FileKind.Log)
+            => project.BuildOut()+ FS.file(name, kind.Ext());
 
         public static WsLog open(FS.FilePath dst, bool overwrite = true)
             => new (dst, overwrite);
 
-        public static WsLog open(IProjectWsObsolete project, string name, FileKind kind = FileKind.Log, bool overwrite = true)
+        public static WsLog open(IProjectWorkspace project, string name, FileKind kind = FileKind.Log, bool overwrite = true)
             => open(target(project,name,kind), overwrite);
 
         ITextEmitter _Emitter;

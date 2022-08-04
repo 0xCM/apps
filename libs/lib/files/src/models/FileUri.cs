@@ -17,6 +17,10 @@ namespace Z0
             public FileUri(FilePath src)
                 => Source = src.Replace("file:///", EmptyString);
 
+            [MethodImpl(Inline)]
+            public FileUri(FolderPath src)
+                => Source = FS.path(src.Replace("file:///", EmptyString).Name);
+
             public FileUri LineRef(uint line)
                 =>  new FileUri(path(string.Format("{0}#{1}", this,line)));
             public string Format()

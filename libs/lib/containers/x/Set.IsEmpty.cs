@@ -4,14 +4,24 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Collections.Generic;
-
-    using static Root;
-
     partial class XTend
     {
+        public static LookupProjector<K,V,T> ToLookupProjector<K,V,T>(this IEnumerable<(K key, V value)> src, IProjector<V,T> projector)
+            => src.ToDictionary().ToLookupProjector(projector);
+
+        public static LookupProjector<K,V,T> ToLookupProjector<K,V,T>(this ConcurrentDictionary<K,V> src, IProjector<V,T> projector)
+            => new LookupProjector<K,V,T>(src,projector);
+
+        public static LookupProjector<K,V,T> ToLookupProjector<K,V,T>(this IDictionary<K,V> src, IProjector<V,T> projector)
+            => new LookupProjector<K,V,T>(src,projector);
+
+        public static ConstLookup<K,V> ToConstLookup<K,V>(this IEnumerable<(K key, V value)> src)
+            => src.ToDictionary();
+
+        public static SortedLookup<K,V> ToSortedLookup<K,V>(this IEnumerable<(K key, V value)> src)
+            where K : IComparable<K>
+                => new SortedLookup<K,V>(src.ToDictionary());
+
         /// <summary>
         /// Determines whether a set is empty
         /// </summary>

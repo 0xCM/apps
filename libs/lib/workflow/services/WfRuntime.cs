@@ -44,7 +44,7 @@ namespace Z0
             ApiCatalog = init.ApiParts.Catalog;
             Controller = init.Control;
             AppName = init.AppName.Format();
-            Emissions = init.EmissionLog;
+            Emissions = init.EmissionLog;           
         }
 
         public IEventSink EventSink

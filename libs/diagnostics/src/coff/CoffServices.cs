@@ -33,7 +33,7 @@ namespace Z0
 
         public Outcome CollectObjHex(FileFlowContext context)
         {
-            var targets = ObjHex(context.Project.Project);
+            var targets = ObjHex(context.Project.ProjectId);
             targets.Clear();
             var result = Outcome.Success;
             var files = context.Files.Docs(FileKind.Obj, FileKind.O);
@@ -55,7 +55,7 @@ namespace Z0
 
         public HexFileData LoadObjHex(FileFlowContext context)
         {
-            var src = ObjHex(context.Project.Project).Files(FileKind.HexDat);
+            var src = ObjHex(context.Project.ProjectId).Files(FileKind.HexDat);
             var count = src.Length;
             var dst = dict<FS.FilePath,Index<HexDataRow>>(count);
             for(var i=0; i<count; i++)
@@ -155,7 +155,7 @@ namespace Z0
         public Index<CoffSection> CollectHeaders(FileFlowContext context)
         {
             var records = CalcObjHeaders(context);
-            TableEmit(records, EtlContext.table<CoffSection>(context.Project.Project));
+            TableEmit(records, EtlContext.table<CoffSection>(context.Project.ProjectId));
             return records;
         }
 
@@ -333,7 +333,7 @@ namespace Z0
             var records = buffer.ToArray().Sort();
             for(var i=0u; i<records.Length; i++)
                 seek(records,i).Seq = i;
-            TableEmit(records, EtlContext.table<CoffSymRecord>(context.Project.Project));
+            TableEmit(records, EtlContext.table<CoffSymRecord>(context.Project.ProjectId));
             return records;
         }
     }

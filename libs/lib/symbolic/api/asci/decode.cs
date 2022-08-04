@@ -54,7 +54,7 @@ namespace Z0
             ref var dst = ref @as<uint,char>(storage);
             seek(dst, 0) = (char)(byte)(src.Storage >> 0);
             seek(dst, 1) = (char)(byte)(src.Storage >> 8);
-            return Spans.cover(dst, 2);
+            return Algs.cover(dst, 2);
         }
 
         [MethodImpl(Inline), Op]

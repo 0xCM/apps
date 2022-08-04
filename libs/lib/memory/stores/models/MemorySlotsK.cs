@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
+    using static Arrays;
 
     /// <summary>
     /// Defines a key-parametric indexed view over <see cref='MemorySeg'/> values

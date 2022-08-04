@@ -4,15 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class WsProject : IWsProject
+    public class WsProject : IProjectWorkspace
     {
-        public static IWsProject load(FS.FolderPath root, ProjectId id)
+        public static IProjectWorkspace load(FS.FolderPath root, ProjectId id)
             => new WsProject(root, id);
 
-        public static IWsProject load(IRootedArchive root, ProjectId id)
+        public static IProjectWorkspace load(IRootedArchive root, ProjectId id)
             => new WsProject(root, id);
 
-        public ProjectId Id {get;}
+        public ProjectId ProjectId {get;}
 
         public FS.FolderPath Root {get;}
 
@@ -20,20 +20,14 @@ namespace Z0
         public WsProject(FS.FolderPath src, ProjectId id)
         {
             Root = src;
-            Id = id;
+            ProjectId = id;
         }
 
         [MethodImpl(Inline)]
         public WsProject(IRootedArchive src, ProjectId id)
         {
             Root = src.Root;
-            Id = id;
+            ProjectId = id;
         }
-
-        string IWorkspaceObselete.Name
-            => Id.Format();
-
-        ProjectId IProjectWsObsolete.Project
-            => Id;
     }
 }

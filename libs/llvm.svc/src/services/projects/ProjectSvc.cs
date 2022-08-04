@@ -20,7 +20,7 @@ namespace Z0
         public FS.FilePath AsmSyntaxTable(ProjectId project)
             => EtlContext.table<AsmSyntaxRow>(project);
 
-        public void BuildLlc(IWsProject project, LlvmSubtarget subtarget, bool runexe = false)
+        public void BuildLlc(IProjectWorkspace project, LlvmSubtarget subtarget, bool runexe = false)
         {
             var scriptid = subtarget switch
             {

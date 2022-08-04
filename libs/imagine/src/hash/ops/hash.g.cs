@@ -112,7 +112,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static uint hash<T>(Span<T> src)
-                => hash(Spans.@readonly(src));
+                => hash(Algs.@readonly(src));
 
             [MethodImpl(Inline)]
             public static uint hash<T>(T[] src)
@@ -238,7 +238,6 @@ namespace Z0
                     (uint)(x?.GetHashCode() ?? 0),
                     (uint)(y?.GetHashCode() ?? 0)
                     );
-
         }
     }
 }

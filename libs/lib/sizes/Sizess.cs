@@ -6,7 +6,6 @@ namespace Z0
 {
     using static ScalarCast;
     using static Spans;
-    using static Refs;
     using static Arrays;
     using static Sized;
 
@@ -248,11 +247,11 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static DataSize sum(params DataSize[] src)
-            => sum(@readonly(src));
+            => sum(Algs.@readonly(src));
 
         [MethodImpl(Inline), Op]
         public static DataSize max(params DataSize[] src)
-            => max(@readonly(src));
+            => max(Algs.@readonly(src));
 
         [MethodImpl(Inline), Op]
         public static ByteSize bytes(NativeSizeCode src)

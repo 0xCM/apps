@@ -4,13 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Sized;
-
-    partial class XTend
-    {
-        public static MemoryFile MemoryMap(this FS.FilePath src, bool stream = false)
-            => MemoryFiles.map(src, stream);
-    }
+    using static Algs;
+    using static Spans;
 
     [ApiHost]
     public readonly struct MemoryFiles
@@ -44,11 +39,11 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static Span<byte> edit(in MemoryFile src)
-            => core.cover<byte>(src.BaseAddress, src.FileSize);
+            => cover<byte>(src.BaseAddress, src.FileSize);
 
         [MethodImpl(Inline), Op]
         public static Span<byte> slice(MemoryAddress @base, ulong offset, ByteSize size)
-            => core.cover<byte>(@base + offset, size);
+            => cover<byte>(@base + offset, size);
 
         /// <summary>
         /// Computes the address offset at a specified T-measured cell count
@@ -65,7 +60,7 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static Span<T> edit<T>(in MemoryFile src)
-            => core.cover<T>(src.BaseAddress, src.FileSize/size<T>());
+            => cover<T>(src.BaseAddress, src.FileSize/size<T>());
 
         /// <summary>
         /// Presents file content as a <typeparamref name='T'/>  sequence beginning at a <typeparamref name='T'/> measured offset and continuing to the end of the file
@@ -120,11 +115,11 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static ReadOnlySpan<T> view<T>(in MemoryFile src, uint index)
-            => core.slice(view<T>(src), index);
+            => Spans.slice(view<T>(src), index);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static ReadOnlySpan<T> view<T>(in MemoryFile src, uint index, uint count)
-            => core.slice(view<T>(src), index, count);
+            => Spans.slice(view<T>(src), index, count);
 
         [Op]
         public static MemoryFileInfo describe(MemoryFile src)

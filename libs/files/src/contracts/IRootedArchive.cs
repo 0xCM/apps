@@ -72,6 +72,9 @@ namespace Z0
         FS.Files Files()
             => DbFiles.Files(true);
 
+        FS.Files Files(bool recurse)
+            => DbFiles.Files(recurse);
+
         FS.Files Files(FS.FileExt ext)
             => DbFiles.Files(ext);
 

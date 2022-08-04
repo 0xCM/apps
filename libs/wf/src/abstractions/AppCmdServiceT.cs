@@ -16,7 +16,7 @@ namespace Z0
         public static T create(IWfRuntime wf, params ICmdProvider[] src)
         {
             var service = new T();
-            ApiGlobals.Instance.Inject(Cmd.dispatcher(service, wf.EventLog, src));
+            ApiGlobals.Instance.Inject(Cmd.dispatcher(service, wf.Emitter(service.GetType()), src));
             service.Init(wf);
             service.PublishCommands();
             return service;

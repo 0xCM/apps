@@ -12,7 +12,7 @@ namespace Z0
         Outcome Blah(CmdArgs args)
         {
             var project = Project();
-            var blocks = AsmObjects.LoadBlocks(project.Project);
+            var blocks = AsmObjects.LoadBlocks(project.ProjectId);
             iter(blocks, block => Write(string.Format("'{0}'", block.BlockName)));
             return true;
         }

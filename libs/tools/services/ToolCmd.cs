@@ -13,7 +13,7 @@ namespace Z0
 
         static readonly Toolbase TB = new();
 
-        [CmdOp("env/includes")]
+        [CmdOp("tools/includes")]
         void LoadToolEnv()
             => Tooling.EmitIncludePaths();        
 
@@ -30,10 +30,37 @@ namespace Z0
         void ListTools()
         {
             var tools = TB.Tools();
+            var dst = AppDb.App().Path("tools", FileKind.Log);
+            var emitting = Emitter.EmittingFile(dst);
+            var counter = 0u;
+
+            using var emitter = dst.Emitter();
             for(var i=0; i<tools.Count; i++)
             {
                 ref readonly var tool = ref tools[i];
+                var location = tool.Location;                
+                var docs = tool.Docs().Files();
+                emitter.AppendLine(RP.PageBreak120);
+                emitter.AppendLine($"Tool={tool.Name}");             
+                emitter.AppendLine($"Home={tool.Location.Root}");
+                emitter.AppendLine("[Docs]");
+                iter(docs, doc => emitter.AppendLine(doc.ToUri().Format()));
+                counter += (4 + docs.Count);
+
+                var envpath = tool.Location.Path(tool.Name, FileKind.Env);
+                if(envpath.Exists)
+                {
+                    emitter.AppendLine("[Env]");
+                    emitter.AppendLine($"ConfigPath={envpath.ToUri()}");
+                    var settings = Tooling.config(envpath);
+                    emitter.WriteLine("Settings=[");
+                    settings.Iter(setting => emitter.IndentLineFormat(4, "{0},", setting.Format(Chars.Eq)));
+                    emitter.WriteLine("]");
+                    counter += (2 + settings.Count);
+                }
             }
+
+            EmittedFile(emitting, counter);
         }
 
         [CmdOp("tools/env")]

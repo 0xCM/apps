@@ -34,7 +34,7 @@ namespace Z0
             return true;
         }
 
-        public static DataFlowCatalog load(IWsProject src)
+        public static DataFlowCatalog load(IProjectWorkspace src)
         {
             var path = BuildContext.path(src);
             var lines = path.ReadLines(TextEncodingKind.Asci,true);
@@ -62,7 +62,7 @@ namespace Z0
     public class FlowContext
     {
         [MethodImpl(Inline), Op]
-        public static FileFlowContext create(IWsProject src)
+        public static FileFlowContext create(IProjectWorkspace src)
             => new FileFlowContext(src, FlowCatalogs.load(src));
     }
 
@@ -77,12 +77,11 @@ namespace Z0
         public static FS.FilePath table<T>(ProjectId src, string scope)
             where T : struct
                 => AppDb.EtlTargets(src).Targets(scope).Path(FS.file(string.Format("{0}.{1}", src, TableId.identify<T>()),FS.Csv));
-
     }
 
     public class BuildContext
     {
-        public static FS.FilePath path(IWsProject src)
-            => src.BuildOut() + FS.file($"{src.Id}.build.flows",FileKind.Csv);
+        public static FS.FilePath path(IProjectWorkspace src)
+            => src.BuildOut() + FS.file($"{src.ProjectId}.build.flows",FileKind.Csv);
     }
 }

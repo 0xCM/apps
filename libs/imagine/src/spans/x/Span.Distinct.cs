@@ -23,6 +23,6 @@ namespace Z0
         [Op, Closures(Closure)]
         public static T[] Distinct<T>(this Span<T> src)
             where T : IEquatable<T>
-                => @readonly(src).Distinct();
+                => Algs.@readonly(src).Distinct();
     }
 }

@@ -6,7 +6,7 @@ namespace Z0
 {
     partial class ProjectSvc
     {
-        public void Etl(IWsProject project)
+        public void Etl(IProjectWorkspace project)
         {
             var context = FlowContext.create(project);
             AsmObjects.RunEtl(context);

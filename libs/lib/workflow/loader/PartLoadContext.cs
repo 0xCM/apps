@@ -37,7 +37,7 @@ namespace Z0
 
         public Assembly Component {get;}
 
-        public Index<Assembly> Dependencies {get;}
+        public ReadOnlySeq<Assembly> Dependencies {get;}
 
         public PartLoadContext(FS.FilePath src)
             : base(true)

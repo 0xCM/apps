@@ -1,5 +1,4 @@
 <Project>
-
   <PropertyGroup>
     <OutputPath>$(SlnBuild)bin\$(MsBuildProjectName)\$(Configuration)\</OutputPath>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -8,5 +7,4 @@
     <BaseIntermediateOutputPath>$(IntermediateRoot)</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(IntermediateRoot)</IntermediateOutputPath>
   </PropertyGroup>
-
 </Project>

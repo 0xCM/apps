@@ -16,6 +16,9 @@ namespace Z0
 
         readonly ProjectArchives WsArchives;
 
+        public static FS.FileName hostfile(ApiHostUri host, FileKind kind)
+            => FS.file(string.Format("{0}.{1}", host.Part.Format(), host.HostName), kind);
+
         public IDbSources Settings()
             => DbRoot().Sources("settings");
 
@@ -61,9 +64,6 @@ namespace Z0
 
         public IDbArchive Symbols()
             => new DbArchive(setting(WsArchives.Path(Names.Repos), FS.dir));
-
-        // public IDbArchive Views()
-        //     => new DbArchive(Envvars)
 
         public IDbArchive Env()
             => new DbArchive(DbRoot().Targets("env"));
@@ -161,7 +161,7 @@ namespace Z0
         public IDbSources EnvConfig()
             => new DbSources(setting(WsArchives.Path(Names.EnvConfig), FS.dir));
 
-        public IWsProject EtlSource(ProjectId src)
+        public IProjectWorkspace EtlSource(ProjectId src)
             => WsProject.load(Dev($"llvm.models/{src}"), src);
 
         public IDbTargets EtlTargets(ProjectId project)

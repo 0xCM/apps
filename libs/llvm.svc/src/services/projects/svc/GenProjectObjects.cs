@@ -8,7 +8,7 @@ namespace Z0
 
     partial class ProjectSvc
     {
-        public void GenProjectObjects(IWsProject project)
+        public void GenProjectObjects(IProjectWorkspace project)
         {
             var context = FlowContext.create(project);
             var catalog = context.Files;

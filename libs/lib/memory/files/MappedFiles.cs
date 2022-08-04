@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
 
     using api = MemoryFiles;
 
@@ -22,7 +23,7 @@ namespace Z0
             {
                 FileIndex = src.Sort();
                 var count = FileIndex.Count;
-                Addresses = alloc<MemoryAddress>(count);
+                Addresses = sys.alloc<MemoryAddress>(count);
                 for(var i=0; i<count; i++)
                     Addresses[i] = FileIndex[i].BaseAddress;
                 FileInfo = FileIndex.Select(api.describe);

@@ -10,7 +10,7 @@ namespace Z0
         public new static S create(IWfRuntime wf)
         {
             var svc = new S();
-            svc.Dispatcher = Cmd.dispatcher(svc, wf.EventLog, svc.Actions);
+            svc.Dispatcher = Cmd.dispatcher(svc, wf.Emitter(svc.GetType()), svc.Actions);
             svc.Init(wf);
             return svc;
         }

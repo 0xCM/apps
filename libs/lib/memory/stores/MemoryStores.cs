@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
+    using static Arrays;
 
     [ApiHost]
     public class MemoryStores
@@ -12,7 +14,7 @@ namespace Z0
         public static MemoryStores load(ReadOnlySpan<ProcessMemoryRegion> src)
         {
             var count = src.Length;
-            var symbols = MemoryStores.create(count);
+            var symbols = create(count);
             for(var i=0; i<count; i++)
             {
                 ref readonly var region = ref skip(src,i);
@@ -24,7 +26,7 @@ namespace Z0
         public static MemoryStores stores(ReadOnlySpan<ProcessPartition> src)
         {
             var count = src.Length;
-            var dst = MemoryStores.create(count);
+            var dst = create(count);
             for(var i=0; i<count; i++)
             {
                 ref readonly var part = ref skip(src,i);
@@ -37,7 +39,7 @@ namespace Z0
         {
             var codes = src.Select(x => x.HashCode);
             var count = (uint)codes.Length;
-            dst = alloc<HashEntry<MemorySymbol>>(count);
+            dst = sys.alloc<HashEntry<MemorySymbol>>(count);
             ref var records = ref dst.First;
             for(var i=0u; i<count; i++)
             {
@@ -134,7 +136,7 @@ namespace Z0
         public static MemoryStore lookup(Index<MemorySymbol> symbols, uint count)
         {
             var capacity = (uint)symbols.Length;
-            var keys = alloc<uint>(capacity);
+            var keys = sys.alloc<uint>(capacity);
             ref var k = ref first(keys);
             ref var s = ref symbols.First;
             for(var i=0; i<count; i++)
@@ -170,8 +172,8 @@ namespace Z0
         MemoryStores(uint count)
         {
             Capacity = count;
-            _Addresses = alloc<MemoryAddress>(count);
-            _Symbols = alloc<MemorySymbol>(count);
+            _Addresses = sys.alloc<MemoryAddress>(count);
+            _Symbols = sys.alloc<MemorySymbol>(count);
             CurrentIndex = 0;
         }
 

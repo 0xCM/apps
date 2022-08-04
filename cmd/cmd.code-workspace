@@ -1,0 +1,29 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "..\\cg"
+		},
+		{
+			"path": "..\\libs"
+		},
+		{
+			"path": "..\\props"
+		},
+		{
+			"path": "..\\scripts"
+		},
+		{
+			"path": "..\\shells"
+		},
+		{
+			"path": "..\\test"
+		},
+		{
+			"path": "..\\docs"
+		}
+	],
+	"settings": {}
+}

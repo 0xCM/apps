@@ -15,7 +15,7 @@ namespace Z0
 
     public interface IDbEtl
     {
-        IWsProject EtlSource(ProjectId src);
+        IProjectWorkspace EtlSource(ProjectId src);
 
         IDbTargets EtlTargets(ProjectId src);
 

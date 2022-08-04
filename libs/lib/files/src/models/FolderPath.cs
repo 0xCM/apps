@@ -220,6 +220,12 @@ namespace Z0
             public override bool Equals(object src)
                 => src is FolderPath x && Equals(x);
 
+            [MethodImpl(Inline)]
+            public FolderPath Replace(string src, string dst)
+                => new FolderPath(Name.Replace(src,dst));
+
+            public FileUri ToUri()
+                => new FileUri(this);
             public static FolderPath Empty
                 => new FolderPath(PathPart.Empty);
 

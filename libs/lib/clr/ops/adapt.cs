@@ -5,7 +5,7 @@
 namespace Z0
 {
     using static Spans;
-    using static Arrays;
+    using static Algs;
 
     partial struct Clr
     {

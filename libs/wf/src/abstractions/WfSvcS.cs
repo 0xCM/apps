@@ -41,7 +41,7 @@ namespace Z0
         protected static AppDb AppDb => AppDb.Service;
 
         [MethodImpl(Inline)]
-        public IWsProject Project()
+        public IProjectWorkspace Project()
             => WfSvc.project();
 
         protected void Try(Action f, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
@@ -59,7 +59,7 @@ namespace Z0
         protected FileFlowContext Context()
         {
             var project = Project();
-            return _Context.GetOrAdd(project.Id, _ => FlowContext.create(project));
+            return _Context.GetOrAdd(project.ProjectId, _ => FlowContext.create(project));
         }
 
         [CmdOp("project/home")]
@@ -79,7 +79,7 @@ namespace Z0
         public Outcome LoadProject(CmdArgs args)
             => LoadProjectSources(AppDb.EtlSource(arg(args, 0).Value));
 
-        protected Outcome LoadProjectSources(IWsProject ws)
+        protected Outcome LoadProjectSources(IProjectWorkspace ws)
         {
             var result = Outcome.Success;
             if (ws == null)
@@ -91,13 +91,13 @@ namespace Z0
                 ProjectFiles = FileCatalog.load(WfSvc.project().ProjectFiles().Storage.ToSortedSpan());
                 var dir = ws.Home();
                 if (dir.Exists)
-                    Files(ws.SrcFiles());
+                    Files(ws.SourceFiles());
                 Status($"Project={WfSvc.project()}");
             }
             return result;
         }
 
-        protected Outcome LoadProject(IWsProject src)
+        protected Outcome LoadProject(IProjectWorkspace src)
         {
             var result = Outcome.Success;
             if (src == null)
@@ -107,9 +107,9 @@ namespace Z0
                 var dir = src.Home();
                 result = dir.Exists;
                 if (result)
-                    Files(src.SrcFiles());
+                    Files(src.SourceFiles());
                 else
-                    result = Outcome.fail($"{src.Project.Id} not found"); ;
+                    result = Outcome.fail($"{src.ProjectId} not found"); ;
             }
             return result;
         }

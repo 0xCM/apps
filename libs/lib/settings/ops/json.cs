@@ -8,6 +8,6 @@ namespace Z0
     {
 
         public static string json(Setting src)
-            => string.Concat(text.enquote(src.Name), Chars.Colon, Chars.Space, src.ValueText.Enquote());
+            => string.Concat(RP.enquote(src.Name), Chars.Colon, Chars.Space, src.ValueText.Enquote());
     }
 }
