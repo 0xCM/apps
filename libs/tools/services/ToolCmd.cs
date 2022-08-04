@@ -13,9 +13,6 @@ namespace Z0
 
         static readonly Toolbase TB = new();
 
-        [CmdOp("tools/includes")]
-        void LoadToolEnv()
-            => Tooling.EmitIncludePaths();        
 
         [CmdOp("llvm/toolset")]
         void LlvmConfig(CmdArgs args)
@@ -52,15 +49,22 @@ namespace Z0
                 {
                     emitter.AppendLine("[Env]");
                     emitter.AppendLine($"ConfigPath={envpath.ToUri()}");
-                    var settings = Tooling.config(envpath);
-                    emitter.WriteLine("Settings=[");
-                    settings.Iter(setting => emitter.IndentLineFormat(4, "{0},", setting.Format(Chars.Eq)));
-                    emitter.WriteLine("]");
-                    counter += (2 + settings.Count);
+                    var settings = Tooling.settings(envpath);
+                    emitter.WriteLine("Settings={");
+                    emitter.Write(settings.Format(4));
+                    emitter.WriteLine("}");
+                    counter += 2*6;
                 }
             }
 
             EmittedFile(emitting, counter);
+        }
+
+        [CmdOp("tool/cmd")]
+        void ExecToolCmd(CmdArgs args)
+        {
+            var tool = TB.Tool(arg(args,0).Value);
+
         }
 
         [CmdOp("tools/env")]
@@ -79,19 +83,13 @@ namespace Z0
         void ToolDocs(CmdArgs args)
             => iter(Tooling.LoadDocs(arg(args,0).Value), doc => Write(doc));
 
-        [CmdOp("tool/config")]
+        [CmdOp("tool/env")]
         void ToolConfig(CmdArgs args)
         {
-            var tool = arg(args,0);
-            var src = AppDb.Toolbase().Sources(tool).Path(tool, FileKind.Config);
-            Write($"{tool}:{src.ToUri()}");
-            var settings = Tooling.config(src);
-            var count = settings.Count;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var setting = ref settings[i];
-                Write($"{setting}");
-            }
+            var tool = TB.Tool(arg(args,0).Value);
+            var path = tool.EnvPath();
+            var settings = Tooling.settings(path);
+            Row(settings.Format());
         }
     }
 }

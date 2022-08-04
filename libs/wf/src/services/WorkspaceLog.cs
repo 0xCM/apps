@@ -4,17 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class WsLog : IDisposable
+    public class WorkspaceLog : IDisposable
     {
-        public static FS.FilePath target(IProjectWorkspace project, string name, FileKind kind = FileKind.Log)
-            => project.BuildOut()+ FS.file(name, kind.Ext());
-
-        public static WsLog open(FS.FilePath dst, bool overwrite = true)
-            => new (dst, overwrite);
-
-        public static WsLog open(IProjectWorkspace project, string name, FileKind kind = FileKind.Log, bool overwrite = true)
-            => open(target(project,name,kind), overwrite);
-
         ITextEmitter _Emitter;
 
         [MethodImpl(Inline)]
@@ -51,7 +42,7 @@ namespace Z0
 
         readonly bool Overwrite;
 
-        WsLog(FS.FilePath dst, bool overwrite)
+        internal WorkspaceLog(FS.FilePath dst, bool overwrite)
         {
             Overwrite = overwrite;
             Path = dst;

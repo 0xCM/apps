@@ -10,15 +10,15 @@ namespace Z0
     {
         readonly IDbArchive Archive;
 
-        public readonly Name Name;
+        public FS.FolderPath Root {get;}
 
         public readonly ReadOnlySeq<IWorkspace> Deps;
 
         [MethodImpl(Inline)]
-        internal Workspace(IDbArchive archive)
+        public Workspace(IDbArchive archive)
         {
             Archive = archive;
-            Name = archive.Root.FolderName.Format();
+            Root = archive.Root;
             Deps = sys.empty<IWorkspace>();
         }
 
@@ -42,8 +42,5 @@ namespace Z0
 
         public Deferred<FS.FileUri> Members()
             => IsNonEmpty ? Location.Enumerate() : defer<FS.FileUri>();
-
-        Name IWorkspace.Name
-            => Name;
     }
 }

@@ -20,7 +20,7 @@ namespace Z0
                 Emit(fields, dst.Metadata(CliSections.Literals).Path(FS.file(src.GetSimpleName(), FileKind.Csv)));
         }
 
-        void Emit(FieldRef[] src, FS.FilePath dst)
+        void Emit(ReadOnlySpan<FieldRef> src, FS.FilePath dst)
         {
             const string Sep = "| ";
 
@@ -46,9 +46,8 @@ namespace Z0
                     "Value".PadRight(48), Sep
                     );
 
-
             var flow = EmittingFile(dst);
-            var input = span(src);
+            var input = src;
             var count = input.Length;
             var buffer = sys.alloc<Paired<FieldRef,string>>(count);
             ref var emissions = ref first(buffer);

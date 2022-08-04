@@ -3,6 +3,7 @@
 namespace Msil
 {
     using System.IO;
+    using Z0;
 
     public class RichILStringToTextWriter : ReadableILStringToTextWriter
     {

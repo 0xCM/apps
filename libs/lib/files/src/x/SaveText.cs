@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XFs
+    partial class XTend
     {
         public static Outcome Save(this FS.FilePath dst, string src)
         {

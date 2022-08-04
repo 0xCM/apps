@@ -11,13 +11,13 @@ namespace Z0
     {
         Name Name {get;}
 
-        SettingLookup Settings {get;}
+        SettingLookup Lookup {get;}
 
         bool INullity.IsEmpty
-            => Settings.IsEmpty;
+            => Lookup.IsEmpty;
 
         bool INullity.IsNonEmpty
-            => Settings.IsNonEmpty;
+            => Lookup.IsNonEmpty;
 
         string IExpr.Format()
             => api.format(this);
@@ -30,7 +30,7 @@ namespace Z0
         Name ISettings.Name
             => typeof(S).Name;
 
-        SettingLookup ISettings.Settings
+        SettingLookup ISettings.Lookup
             => api.lookup((S)this);
 
         string IExpr.Format()

@@ -4,26 +4,28 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly record struct SettingMembers
-    {
-        public readonly ReadOnlySeq<FieldInfo> Fields;
+    using api = Settings;
 
-        public readonly ReadOnlySeq<PropertyInfo> Props;
+    public class SettingMembers : ReadOnlySeq<SettingMembers,FieldInfo>
+    {
+        public SettingMembers()
+        {
+
+        }
 
         [MethodImpl(Inline), Op]
-        public SettingMembers(FieldInfo[] fields, PropertyInfo[] props)
+        public SettingMembers(FieldInfo[] fields)
+            : base(fields)
         {
-            Fields = fields;
-            Props = props;
         }
 
         public bool Member(string name, out FieldInfo dst)
         {
             var result = false;
             dst = EmptyVessels.EmptyField;
-            for(var i=0; i<Fields.Count; i++)
+            for(var i=0; i<Count; i++)
             {
-                ref readonly var member = ref Fields[i];
+                ref readonly var member = ref this[i];
                 if(member.Name == name)
                 {
                     dst = member;
@@ -33,40 +35,7 @@ namespace Z0
             return result;
         }
 
-        public bool Member(string name, out PropertyInfo dst)
-        {
-            var result = false;
-            dst = default;
-            for(var i=0; i<Fields.Count; i++)
-            {
-                ref readonly var member = ref Props[i];
-                if(member.Name == name)
-                {
-                    dst = member;
-                    break;
-                }
-            }
-            return result;
-        }
-
-        public string Format()
-        {
-            var dst = text.emitter();
-            for(var i=0; i<Fields.Count; i++)
-            {
-                ref readonly var member = ref Fields[i];
-                dst.AppendLine($"{member.Name}:{member.FieldType.DisplayName()}");
-            }
-            for(var i=0; i<Props.Count; i++)
-            {
-                ref readonly var member = ref Props[i];
-                dst.AppendLine($"{member.Name}:{member.PropertyType.DisplayName()}");
-            }
-
-            return dst.Emit();
-        }
-
-        public override string ToString()
-            => Format();
+        public override string Format()
+            => api.format(this, Chars.Eq);
     }
 }

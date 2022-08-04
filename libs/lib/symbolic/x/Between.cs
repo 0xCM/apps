@@ -8,6 +8,6 @@ namespace Z0
     {
         [TextUtility]
         public static string Between(this string src, char left, char right)
-            => RpOps.between(src, left, right);
+            => RP.between(src, left, right);
     }
 }

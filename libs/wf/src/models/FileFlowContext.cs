@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class FileFlowContext : FlowContext<FileFlowContext>
+    public class FileFlowContext
     {
         public readonly IProjectWorkspace Project;
 

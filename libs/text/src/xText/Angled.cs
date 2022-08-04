@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XText
+    partial class XTend
     {
         /// <summary>
         /// Encloses text between less than and greater than characters

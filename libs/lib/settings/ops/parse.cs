@@ -13,12 +13,12 @@ namespace Z0
 
     partial class Settings
     {
-        public static bool parse<T>(ReadOnlySpan<string> src, char sep, out T dst)
+        public static uint parse<T>(ReadOnlySpan<string> src, char sep, out T dst)
             where T : new()
         {
             dst = new();
+            var counter = 0u;
             var settings = parse(src, sep);
-            var result = Outcome.Success;
             var fields = typeof(T).PublicInstanceFields().Select(x => (x.Name,x)).ToDictionary();
             var count = src.Length;
             for(var i=0; i<count; i++)
@@ -29,14 +29,14 @@ namespace Z0
 
                 if(fields.TryGetValue(setting.Name, out var field))
                 {
-                    var type = field.FieldType;
-                    result = parse(setting.Format(sep), type, sep, out var s);
-                    if(result.Fail)
-                        break;
-                    field.SetValue(dst, s.Value);
+                    if(parse(setting.ValueText, field.FieldType, out var x))
+                    {
+                        field.SetValue(dst, x);
+                        counter++;
+                    }
                 }
             }
-            return result;
+            return counter;
         }
 
         public static Setting parse(string src, char sep)
@@ -107,67 +107,103 @@ namespace Z0
             return new(slice(buffer,0,counter).ToArray());
         }
 
-        public static Outcome parse(string src, Type type, char sep, out Setting dst)
+        public static bool parse(string src, Type type, out dynamic? dst)
         {
-            dst = Setting.Empty;
+            dst = null;
             if(nonempty(src))
             {
-                var name = EmptyString;
                 var input = src;
-                if(SQ.contains(src, sep))
-                {
-                    name = src.LeftOfFirst(sep);
-                    input = src.RightOfFirst(sep);
-                }
-
                 if(type == typeof(string))
                 {
-                    dst = setting(name, SettingType.String, input);
-                    return true;
+                    dst = input;
                 }
                 else if (type == typeof(bool))
                 {
-                    if(BitParser.semantic(input, out var value))
-                    {
-                        dst = setting(name, SettingType.Bool, value);
-                        return true;
-                    }
-                }
+                    if(BitParser.semantic(input, out bit x))
+                        dst = (bool)x;
+                }                
                 else if(type == typeof(bit))
                 {
-                    if(BitParser.parse(input, out bit u1))
-                    {
-                        dst = setting(name, SettingType.Bit, u1);
-                        return true;
-                    }
+                    if(BitParser.parse(input, out bit x))
+                        dst = x;
                 }
+                else if(type == typeof(FS.FilePath))
+                    dst = FS.path(src);
+                else if(type == typeof(FS.FileUri))
+                    dst =  FS.uri(src);
+                else if(type == typeof(FS.FolderPath))
+                    dst = FS.dir(src);
                 else if(type.IsPrimalNumeric())
-                {
-                    if(numeric(input, type, out var n))
-                    {
-                        type.ClrPrimitiveKind();
-                        dst = setting(name, SettingType.Integer, n);
-                        return true;
-                    }
-                }
+                    numeric(input, type, out dst);
                 else if(type.IsEnum)
                 {
-                    if(Enums.parse(type, src, out object o))
+                    if(Enums.parse(type, src, out object x))
                     {
-                        dst = setting(name, SettingType.Enum, o);
-                        return true;
+                        dst = x;
                     }
                 }
                 else if(src.Length == 1 && type == typeof(char))
-                {
-                    dst = setting(name, SettingType.Char, name[0]);
-                    return true;
-                }
+                    dst = src[0];
             }
-            return false;
+            return dst != null;
         }
 
-        public static Outcome parse<T>(string src, char sep, out T dst)
+        static bool numeric(string src, Type type, out dynamic? dst)
+        {
+            dst = null;
+            if(type.IsUInt8())
+            {
+                if(NP.parse(src, out byte x))
+                    dst = x;
+            }
+            else if(type.IsInt8())
+            {
+                if(NP.parse(src, out sbyte x))
+                    dst = x;
+            }
+            else if(type.IsInt16())
+            {
+                if(NP.parse(src, out short x))
+                    dst = x;
+            }
+            else if(type.IsUInt16())
+            {
+                if(NP.parse(src, out ushort x))
+                    dst = x;
+            }
+            else if(type.IsUInt32())
+            {
+                if(NP.parse(src, out uint x))
+                    dst = x;
+            }
+            else if(type.IsInt32())
+            {
+                if(NP.parse(src, out int x))
+                    dst = x;
+            }
+            else if(type.IsUInt64())
+            {
+                if(NP.parse(src, out ulong x))
+                    dst = x;
+            }
+            else if(type.IsInt64())
+            {
+                if(NP.parse(src, out long x))
+                    dst = x;
+            }
+            else if(type.IsFloat32())
+            {
+                if(NP.parse(src, out float x))
+                    dst = x;
+            }
+            else if(type.IsFloat64())
+            {
+                if(NP.parse(src, out double x))
+                    dst = x;
+            }
+            return dst != null;
+        }
+        public static bool parse<T>(string src, char sep, out T dst)
         {
             dst = Setting<T>.Empty;
             if(nonempty(src))
@@ -223,71 +259,6 @@ namespace Z0
             return false;
         }
 
-        static bool numeric(string src, Type type, out dynamic dst)
-        {
-            Outcome result = (false, string.Format("The {0} type is unsupported", type.Name));
-            dst = 0;
-            if(type.IsUInt8())
-            {
-                result = NP.parse(src, out byte x);
-                if(result)
-                    dst = x;
-            }
-            else if(type.IsInt8())
-            {
-                result = NP.parse(src, out sbyte x);
-                if(result)
-                    dst = x;
-            }
-            else if(type.IsInt16())
-            {
-                result = NP.parse(src, out short x);
-                if(result)
-                    dst = x;
-            }
-            else if(type.IsUInt16())
-            {
-                result = NP.parse(src, out ushort x);
-                if(result)
-                    dst = x;
-            }
-            else if(type.IsUInt32())
-            {
-                result = NP.parse(src, out uint x);
-                if(result)
-                    dst = x;
-            }
-            else if(type.IsInt32())
-            {
-                result = NP.parse(src, out int x);
-                if(result)
-                    dst = x;
-            }
-            else if(type.IsUInt64())
-            {
-                result = NP.parse(src, out ulong x);
-                if(result)
-                    dst = x;
-            }
-            else if(type.IsInt64())
-            {
-                result = NP.parse(src, out long x);
-                if(result)
-                    dst = x;
-            }
-            else if(type.IsFloat32())
-            {
-                result = NP.parse(src, out float x);
-                if(result)
-                    dst = x;
-            }
-            else if(type.IsFloat64())
-            {
-                result = NP.parse(src, out double x);
-                if(result)
-                    dst = x;
-            }
-            return result;
-        }
+
     }
 }

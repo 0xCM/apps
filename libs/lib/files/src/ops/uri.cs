@@ -4,9 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IWsCmd<C> : ICmd<C>
-        where C : unmanaged, IWsCmd<C>
+    partial struct FS
     {
-
+        [MethodImpl(Inline), Op]
+        public static FileUri uri(string name)
+            => path(name).ToUri();
     }
 }

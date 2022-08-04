@@ -367,7 +367,7 @@ namespace Z0
         //     You are attempting to access the System.Diagnostics.Process.Modules property
         //     for either the system process or the idle process. These processes do not have
         //     modules.
-        public Index<ProcessModule> Modules
+        public ReadOnlySeq<ProcessModule> Modules
         {
             [MethodImpl(Inline)]
             get => Subject.Modules.Cast<D.ProcessModule>().Map(ProcessModule.adapt);

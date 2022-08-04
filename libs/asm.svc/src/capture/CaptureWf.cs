@@ -5,6 +5,7 @@
 namespace Z0
 {
     using System.Reflection;
+
     using static Algs;
 
     public class CaptureWf : WfSvc<CaptureWf>, ICaptureReceiver

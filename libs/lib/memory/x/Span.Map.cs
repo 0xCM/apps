@@ -19,7 +19,7 @@ namespace Z0
         public static T[] Map<S,T>(this ReadOnlySpan<S> src, Func<S,T> f)
         {
             var count = (uint)src.Length;
-            var dst = alloc<T>(count);
+            var dst = sys.alloc<T>(count);
             ref readonly var current = ref first(src);
             ref var target = ref first(dst);
             for(var i= 0u; i<count; i++)
@@ -32,7 +32,7 @@ namespace Z0
             where I : unmanaged
         {
             var count = (uint)src.Length;
-            var dst = alloc<T>(count);
+            var dst = sys.alloc<T>(count);
             ref readonly var source = ref first(src);
             ref var target = ref first(dst);
             for(var i= 0ul; i<count; i++)

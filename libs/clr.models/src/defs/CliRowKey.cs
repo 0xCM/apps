@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct CliRowKey : IEquatable<CliRowKey>, ITextual
+    public readonly struct CliRowKey : IEquatable<CliRowKey>, IExpr
     {
-        public uint Value {get;}
+        public readonly uint Value;
 
         [MethodImpl(Inline)]
         public CliRowKey(uint value)

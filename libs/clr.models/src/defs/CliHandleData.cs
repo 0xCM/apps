@@ -23,7 +23,6 @@ namespace Z0
             return new CliRowKey(dat.Table, dat.RowId);
         }
 
-
         [MethodImpl(Inline), Op]
         public Handle handle(CliToken src)
             => handle(new CliHandleData(src.Table, src.Row));

@@ -45,7 +45,7 @@ namespace Z0
                 if(line.IsEmpty)
                     continue;
 
-                var result = ImageMemory.parse(line.Content, out seek(dst,i));
+                var result = RegionProcessor.parse(line.Content, out seek(dst,i));
                 if(!result)
                     return result;
 
@@ -57,7 +57,7 @@ namespace Z0
 
         public ReadOnlySeq<ProcessMemoryRegion> EmitRegions(Process process, IApiPack dst)
         {
-            var regions = ImageMemory.regions(process);
+            var regions = RegionProcessor.regions(process);
             EmitRegions(regions, dst.RegionPath());
             return regions;
         }

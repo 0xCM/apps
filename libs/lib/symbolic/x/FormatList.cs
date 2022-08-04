@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-
-
     partial class XTend
     {
         [TextUtility, Closures(Closure)]

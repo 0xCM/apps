@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Free]
-    public class FileModuleInfo
+    public record class FileModuleInfo
     {
         public readonly PeFileInfo Info;
 

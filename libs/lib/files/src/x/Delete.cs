@@ -6,7 +6,7 @@ namespace Z0
 {
     using System.IO;
 
-    using static core;
+    using static Algs;
 
     partial class XTend
     {

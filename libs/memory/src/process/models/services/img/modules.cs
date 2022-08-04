@@ -4,54 +4,28 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Linq;
-
-    using static Algs;
-    using static Spans;
-
     partial class ImageMemory
     {
         [Op]
-        public static MemoryAddress @base(Assembly src)
-            => @base(Path.GetFileNameWithoutExtension(src.Location));
-
-        [MethodImpl(Inline), Op]
-        public static MemoryAddress @base(string procname)
+        public static ReadOnlySeq<ProcessModuleRow> modules(ProcessAdapter process)
         {
-            var module = ImageMemory.modules(Process.GetCurrentProcess()).Where(m => Path.GetFileNameWithoutExtension(m.ImagePath.Name) == procname).First();
-            return module.BaseAddress;
-        }
-
-        [Op]
-        public static ReadOnlySeq<ProcessModuleRow> modules(Process src)
-        {
-            var modules = src.Modules.Cast<System.Diagnostics.ProcessModule>().Array();
-            var count = modules.Length;
-            var buffer = sys.alloc<ProcessModuleRow>(count);
-            fill(modules, buffer);
-            return buffer.Sort().Resequence();
-        }
-
-        [MethodImpl(Inline), Op]
-        static void fill(ReadOnlySpan<System.Diagnostics.ProcessModule> src, Span<ProcessModuleRow> dst)
-        {
-            var count = min(src.Length, dst.Length);
+            var modules = process.Modules;
+            var count = modules.Count;
+            var buffer = Seq.alloc<ProcessModuleRow>(count);
             for(var i=0u; i<count; i++)
-                fill(i,skip(src,i), ref seek(dst,i));
-        }
-
-        [MethodImpl(Inline), Op]
-        static ref ProcessModuleRow fill(uint seq, System.Diagnostics.ProcessModule src, ref ProcessModuleRow dst)
-        {
-            dst.Seq = seq;
-            dst.ImageName = src.ModuleName;
-            dst.BaseAddress = src.BaseAddress;
-            dst.EntryAddress = src.EntryPointAddress;
-            dst.MaxAddress = dst.BaseAddress + src.ModuleMemorySize;
-            dst.MemorySize = src.ModuleMemorySize;
-            dst.Version = ((uint)src.FileVersionInfo.FileMajorPart, (uint)src.FileVersionInfo.FileMinorPart);
-            dst.ImagePath = FS.path(src.FileName);
-            return ref dst;
+            {
+                ref readonly var src = ref modules[i];
+                ref var dst = ref buffer[i];
+                dst.Seq = i;
+                dst.ImageName = src.ModuleName;
+                dst.BaseAddress = src.BaseAddress;
+                dst.EntryAddress = src.EntryPointAddress;
+                dst.MaxAddress = dst.BaseAddress + src.ModuleMemorySize;
+                dst.MemorySize = src.ModuleMemorySize;
+                dst.Version = ((uint)src.FileVersionInfo.FileMajorPart, (uint)src.FileVersionInfo.FileMinorPart);
+                dst.ImagePath = src.Path;
+            }
+            return buffer.Sort().Resequence();
         }
     }
 }

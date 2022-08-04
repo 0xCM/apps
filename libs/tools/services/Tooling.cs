@@ -8,9 +8,34 @@ namespace Z0
     using static Arrays;
     using static Spans;
 
+    using S = ToolSettings;
     public class Tooling : WfSvc<Tooling>
     {
         const byte FieldCount = ToolProfile.FieldCount;
+
+        public static ToolSettings settings(FS.FilePath src)
+        {
+            var data = Settings.env(src);
+            var dst = new ToolSettings();
+            var setting = EmptyString;
+            if(data.Find(nameof(S.ToolId), out setting))
+                dst.ToolId = setting;
+            if(data.Find(nameof(S.Group), out setting))
+                dst.Group = setting;
+            if(data.Find(nameof(S.ToolEnv), out setting))
+                dst.ToolEnv = FS.uri(setting);
+            if(data.Find(nameof(S.InstallBase), out setting))
+                dst.InstallBase = FS.dir(setting);
+            if(data.Find(nameof(S.ToolHome), out setting))
+                dst.ToolHome = FS.dir(setting);
+            if(data.Find(nameof(S.ToolLogs), out setting))
+                dst.ToolLogs = FS.dir(setting);
+            if(data.Find(nameof(S.ToolDocs), out setting))
+                dst.ToolDocs = FS.dir(setting);
+            if(data.Find(nameof(S.ToolScripts), out setting))
+                dst.ToolScripts = FS.dir(setting);
+            return dst;
+        }
 
         [Op]
         public static void render(ToolCmdArgs src, ITextBuffer dst)
@@ -100,10 +125,10 @@ namespace Z0
             => AppDb.Toolbase();
 
         public static SettingLookup env(FS.FilePath src)
-            => Settings.load(src,Chars.Eq);
+            => Settings.lookup(src,Chars.Eq);
 
         public static SettingLookup config(FS.FilePath src)
-            => Settings.load(src,Chars.Colon);
+            => Settings.lookup(src,Chars.Colon);
 
         public FS.FilePath ScriptPath(Actor tool, string name, FileKind kind)
             => Home(tool).Script(name, kind);
@@ -297,28 +322,27 @@ namespace Z0
             return docs.ToArray();
         }
 
+        // public void EmitIncludePaths()
+        // {
+        //     var result = Outcome.Success;
+        //     var settings = LoadEnv();
+        //     var env = ToolEnv.load(settings);
+        //     var dst = AppDb.App().Path("env", FileKind.Log);
+        //     var emitting = EmittingFile(dst);
+        //     using var writer = dst.AsciWriter();
+        //     var headers = env.HeaderIncludes();
+        //     writer.WriteLine("Header Includes");
+        //     writer.WriteLine(RP.PageBreak120);
+        //     headers.Iter(h => writer.WriteLine(string.Format("{0,-8} {1,-8} {2}", "Header", h.Exists ? "Found" : "Mising", h)));
+        //     writer.WriteLine();
 
-        public void EmitIncludePaths()
-        {
-            var result = Outcome.Success;
-            var settings = LoadEnv();
-            var env = ToolEnv.load(settings);
-            var dst = AppDb.App().Path("env", FileKind.Log);
-            var emitting = EmittingFile(dst);
-            using var writer = dst.AsciWriter();
-            var headers = env.HeaderIncludes();
-            writer.WriteLine("Header Includes");
-            writer.WriteLine(RP.PageBreak120);
-            headers.Iter(h => writer.WriteLine(string.Format("{0,-8} {1,-8} {2}", "Header", h.Exists ? "Found" : "Mising", h)));
-            writer.WriteLine();
+        //     var libs = env.LibIncludes();
+        //     writer.WriteLine("Lib Includes");
+        //     writer.WriteLine(RP.PageBreak120);
+        //     libs.Iter(lib => writer.WriteLine(string.Format("{0,-8} {1,-8} {2}", "Lib", lib.Exists ? "Found" : "Mising", lib)));
 
-            var libs = env.LibIncludes();
-            writer.WriteLine("Lib Includes");
-            writer.WriteLine(RP.PageBreak120);
-            libs.Iter(lib => writer.WriteLine(string.Format("{0,-8} {1,-8} {2}", "Lib", lib.Exists ? "Found" : "Mising", lib)));
-
-            EmittedFile(emitting, 2);
-        }
+        //     EmittedFile(emitting, 2);
+        // }
 
         public ConstLookup<ToolIdOld,ToolHelpDoc> LoadHelpDocs(IDbSources src)
         {

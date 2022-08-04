@@ -40,7 +40,7 @@ namespace Z0
             Data = sys.empty<T>();
         }
 
-        internal T[] Storage
+        public T[] Storage
         {
             [MethodImpl(Inline)]
             get => Data.Storage;

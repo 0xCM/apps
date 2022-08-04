@@ -2,6 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 namespace Msil
 {
+    using Z0;
+    
     public class ReadableILStringVisitor : ILInstructionVisitor
     {
         protected readonly IMsilFormatProvider formatProvider;

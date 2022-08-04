@@ -4,9 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class ToolRegistry : Seq<ToolRegistry,ToolRegistration>
+    public interface IDbSettings
     {
+        IDbSources Settings();
 
+        FS.FilePath SettingsPath(string name, FileKind kind);
 
+        FS.FilePath SettingsPath<S>(FileKind kind);
     }
 }

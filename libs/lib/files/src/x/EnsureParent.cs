@@ -4,15 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.IO;
-
-    partial class XFs
+    partial class XTend
     {
         public static FS.FilePath EnsureParentExists(this FS.FilePath src)
         {
             if(src.IsEmpty)
-                Throw.sourced("The source path is unspecified");
+                sys.@throw("The source path is unspecified");
 
             var dir = System.IO.Path.GetDirectoryName(src.Name.Format());
             if(!Directory.Exists(dir))
@@ -22,6 +19,5 @@ namespace Z0
 
         public static FS.FilePath CreateParentIfMissing(this FS.FilePath src)
             => src.EnsureParentExists();
-
     }
 }

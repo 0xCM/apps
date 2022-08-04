@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XText
+    partial class XTend
     {
         /// <summary>
         /// Removes a substring from the source string if it exists

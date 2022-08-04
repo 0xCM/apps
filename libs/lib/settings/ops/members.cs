@@ -8,7 +8,7 @@ namespace Z0
     {
         [MethodImpl(Inline), Op]
         public static SettingMembers members(Type src)
-            => new (src.PublicInstanceFields().Where(f => !f.IsInitOnly), src.PublicInstanceProperties().WithSet());
+            => new (src.PublicInstanceFields().Where(f => !f.IsInitOnly));
 
         public static SettingMembers<T> members<T>()
             where T : new()

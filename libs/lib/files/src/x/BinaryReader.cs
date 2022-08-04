@@ -7,7 +7,7 @@ namespace Z0
     using System.IO;
     using System.Text;
 
-    partial class XFs
+    partial class XTend
     {
         public static BinaryReader BinaryReader(this Stream src)
             => new BinaryReader(src);

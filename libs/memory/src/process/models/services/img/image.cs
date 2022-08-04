@@ -14,8 +14,8 @@ namespace Z0
         [Op]
         public static ReadOnlySeq<ImageLocation> locations(ProcessAdapter src)
         {
-            var dst =list<ImageLocation>();
-            iter(src.Modules, m => dst.Add(location(m)));
+            var dst = bag<ImageLocation>();
+            iter(src.Modules, m => dst.Add(location(m)),AppData.get().PllExec());
             return dst.ToArray();
         }
 

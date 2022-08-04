@@ -64,10 +64,6 @@ namespace Z0
 
         public Tool Tool {get;}
 
-        public Hash32 Hash => throw new NotImplementedException();
-
-        public bool IsEmpty => throw new NotImplementedException();
-
         public bool Settings(Actor tool, out ToolConfig dst)
             => ConfigLookup.TryGetValue(tool, out dst);
 

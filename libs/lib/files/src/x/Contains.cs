@@ -6,7 +6,7 @@ namespace Z0
 {
     using System;
 
-    partial class XFs
+    partial class XTend
     {
         /// <summary>
         /// Determines whether some line of a text file contains a specified substring

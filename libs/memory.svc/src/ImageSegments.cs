@@ -15,7 +15,7 @@ namespace Z0
         static MsgPattern<Count,Count> LocatedSegments => "Computed {0} segment entries for {0} methods";
 
         public void EmitSegments(IApiPack dst)
-            => EmitSegments(dst, ImageMemory.regions());
+            => EmitSegments(dst, RegionProcessor.regions());
 
         public void EmitSegments(IApiPack dst, ReadOnlySeq<ProcessMemoryRegion> src)
             => TableEmit(ImageRegions.addresses(src).Segments, dst.Context().Table<ProcessSegment>());

@@ -10,6 +10,23 @@ namespace Z0
     {
         ImageRegions Regions => Wf.ImageRegions();
 
+        [Op]
+        public static ReadOnlySeq<ProcessPartition> partitions(ReadOnlySeq<ImageLocation> src)
+        {
+            var count = src.Count;
+            var buffer = Seq.alloc<ProcessPartition>(count);
+            for(var i=0u; i<count; i++)
+            {
+                ref readonly var image = ref src[i];
+                ref var dst = ref buffer[i];
+                dst.MinAddress = image.BaseAddress;
+                dst.MaxAddress = image.MaxAddress;
+                dst.Size = image.Size;
+                dst.ImageName = image.ImageName;
+            }
+
+            return buffer.Sort();
+        }
         public ReadOnlySpan<AddressBankEntry> LoadContextAddresses(IApiPack src)
         {
             var worker = new RegionProcessor();
@@ -45,7 +62,7 @@ namespace Z0
 
         public ReadOnlySeq<ProcessPartition> EmitPartitions(Process process, IApiPack dst)
         {
-            var summaries = ImageMemory.partitions(ImageMemory.locations(process));
+            var summaries = partitions(ImageMemory.locations(process));
             TableEmit(summaries, dst.PartitionPath());
             return summaries;
         }

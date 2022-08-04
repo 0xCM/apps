@@ -6,7 +6,7 @@ namespace Z0
 {
     using System.Linq;
 
-    partial class XText
+    partial class XTend
     {
         /// <summary>
         /// Determines whether a string contains any of the characters in a supplied sequence

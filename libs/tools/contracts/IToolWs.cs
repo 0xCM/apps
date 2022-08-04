@@ -12,9 +12,21 @@ namespace Z0
         
         IDbArchive Location  {get;}
 
+        bool INullity.IsEmpty
+            => Tool.IsEmpty;
+
+        string IExpr.Format()
+            => Tool.Format();
+
+        Hash32 IHashed.Hash
+            => Tool.Hash;
+            
         Name INamed.Name 
             => Location.Root.FolderName.Format();
             
+        FS.FilePath EnvPath()
+            => Location.Path(Tool.Name, FileKind.Env);
+
         IDbArchive Docs()
             => new DbArchive(Location.Sources(docs));
 

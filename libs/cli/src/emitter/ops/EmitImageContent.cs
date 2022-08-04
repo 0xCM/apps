@@ -11,21 +11,20 @@ namespace Z0
         public void EmitImageContent(IApiPack dst)
         {
             var flow = Running();
-            iter(ApiMd.Assemblies, c => EmitImageContent(c,dst));
+            iter(ApiMd.Assemblies, c => EmitImageContent(c, dst), PllExec);
             Ran(flow);
         }
 
         [Op]
-        public MemoryRange EmitImageContent(Assembly src, IApiPack pack, byte bpl = HexCsvRow.BPL)
+        public MemoryRange EmitImageContent(Assembly src, IApiPack dst, byte bpl = HexCsvRow.BPL)
         {
-            var dst =  pack.Metadata("image.content").PrefixedTable<HexCsvRow>(src.GetSimpleName());
-            var flow = EmittingTable<HexCsvRow>(dst);
+            var path =  dst.Metadata("image.content").PrefixedTable<HexCsvRow>(src.GetSimpleName());
+            var flow = EmittingTable<HexCsvRow>(path);
             var @base = ImageMemory.@base(src);
             var formatter = HexDataFormatter.create(@base, bpl);
-            var path = FS.path(src.Location);
-            using var stream = path.Utf8Reader();
+            using var stream = FS.path(src.Location).Utf8Reader();
             using var reader = stream.BinaryReader();
-            using var writer = dst.Writer();
+            using var writer = path.Writer();
             writer.WriteLine(string.Concat($"Address".PadRight(16), RpOps.SpacedPipe, "Data"));
             var buffer = sys.alloc<byte>(bpl);
             var k = Read(reader, buffer);

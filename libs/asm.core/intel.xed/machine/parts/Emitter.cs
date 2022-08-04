@@ -13,16 +13,16 @@ namespace Z0
 
             object LogLocker = new();
 
-            WsLog _Log;
+            WorkspaceLog _Log;
 
-            WsLog Log
+            WorkspaceLog Log
             {
                 get
                 {
                     lock(LogLocker)
                     {
                         if(_Log == null)
-                            _Log = WsLog.open(Ws, $"xed.machine.{Machine.Id}", FileKind.Csv);
+                            _Log = ProjectWorkspace.log(Ws, $"xed.machine.{Machine.Id}", FileKind.Csv);
                     }
                     return _Log;
                 }

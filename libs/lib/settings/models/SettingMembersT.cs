@@ -4,29 +4,27 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly record struct SettingMembers<T>
+    public sealed class SettingMembers<T> : ReadOnlySeq<SettingMembers<T>,FieldInfo>
         where T : new()
     {
-        public readonly SettingMembers Data;
+        readonly SettingMembers Members;
 
-        [MethodImpl(Inline), Op]
+        public SettingMembers()
+        {   
+            Members = new();
+        }
+
         public SettingMembers(SettingMembers src)
+            : base(src.Storage)
         {
-            Data = src;
+            Members = src;    
         }
 
         public bool Member(string name, out FieldInfo dst)
-            => Data.Member(name, out dst);
+            => Members.Member(name, out dst);
 
-        public bool Member(string name, out PropertyInfo dst)
-            => Data.Member(name, out dst);
-
-        public string Format()
+        public override string Format()
             => Data.Format();
-
-
-        public override string ToString()
-            => Format();
 
         [MethodImpl(Inline), Op]
         public static implicit operator SettingMembers<T>(SettingMembers src)

@@ -18,7 +18,6 @@ namespace Z0
         static IApiPack Dst
             => ApiPacks.create();
 
-
         [CmdOp("cli/emit/hex")]
         void EmitApiHex()
             => CliEmitter.EmitLocatedMetadata(Dst);

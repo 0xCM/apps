@@ -162,7 +162,7 @@ namespace Z0
             => new DbSources(setting(WsArchives.Path(Names.EnvConfig), FS.dir));
 
         public IProjectWorkspace EtlSource(ProjectId src)
-            => WsProject.load(Dev($"llvm.models/{src}"), src);
+            => ProjectWorkspace.load(Dev($"llvm.models/{src}"), src);
 
         public IDbTargets EtlTargets(ProjectId project)
             => DbOut().Targets("projects").Targets(project.Format());

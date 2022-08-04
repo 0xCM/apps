@@ -1,5 +1,8 @@
 {
 	"folders": [
+		{	"name": "artifacts",
+			"path": "..\\..\\.build\\bin\\z0.tools.shell\\Release\\net6.0\\win-x64\\publish"
+		},
 		{
 			"path": "..\\..\\props"
 		},
@@ -50,7 +53,7 @@
 		},
 		{
 			"path": "."
-		},
+		},		
 	],
 	"settings": {
 		"powershell.cwd": "d:\\drives\\z\\dev\\z0\\libs\\tools.shell"

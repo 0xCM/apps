@@ -8,7 +8,7 @@ namespace Z0
     using System.IO;
     using System.Text;
 
-    partial class XFs
+    partial class XTend
     {
         public static BinaryWriter BinaryWriter(this FS.FilePath dst)
             => new BinaryWriter(File.Open(dst.EnsureParentExists().Name, FileMode.Create), Encoding.ASCII);

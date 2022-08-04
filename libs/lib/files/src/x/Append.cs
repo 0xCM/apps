@@ -6,7 +6,7 @@ namespace Z0
 {
     using System.IO;
 
-    partial class XFs
+    partial class XTend
     {
         public static FS.FilePath Path(this Assembly src)
             => FS.path(src.Location);

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IProjectWorkspace : IDbArchive
+    public interface IProjectWorkspace : IWorkspace
     {
         ProjectId ProjectId  => Name;
 

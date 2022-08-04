@@ -4,42 +4,77 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public struct CliRowIndex
+    public readonly record struct CliRowIndex : IDataType<CliRowIndex>
     {
-        public CliToken Token {get;}
+        readonly CliToken Data;
 
         public CliTableKind Table
         {
             [MethodImpl(Inline)]
-            get  => Token.Table;
+            get  => Data.Table;
         }
+
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Data.Hash;
+        }
+
+        public override int GetHashCode()
+            => Hash;
+
+        [MethodImpl(Inline)]
+        public bool Equals(CliRowIndex src)
+            => Data == src.Data;
 
         public uint RowId
         {
             [MethodImpl(Inline)]
-            get => Token.Row;
+            get => Data.Row;
         }
 
         [MethodImpl(Inline)]
         public CliRowIndex(CliToken token)
         {
-            Token = token;
+            Data = token;
         }
+
+        public CliToken Token
+        {
+            [MethodImpl(Inline)]
+            get => Data;
+        }
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Data.IsEmpty;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Data.IsNonEmpty;
+        }
+
+        public string Format()
+            => Data.Format();
+
+        public override string ToString()
+            => Format();
+
+        [MethodImpl(Inline)]
+        public int CompareTo(CliRowIndex src)
+            => Data.CompareTo(src.Data);
+
+        [MethodImpl(Inline)]
+        public static implicit operator CliRowIndex(CliToken src)
+            => new CliRowIndex(src);
 
         public static CliRowIndex Empty
         {
             [MethodImpl(Inline)]
             get => new CliRowIndex(CliToken.Empty);
         }
-
-        public bool IsEmpty
-        {
-            [MethodImpl(Inline)]
-            get => Token.IsEmpty;
-        }
-
-        [MethodImpl(Inline)]
-        public static implicit operator CliRowIndex(CliToken src)
-            => new CliRowIndex(src);
     }
 }

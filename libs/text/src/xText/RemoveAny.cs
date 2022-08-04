@@ -6,7 +6,7 @@ namespace Z0
 {
     using System.Linq;
 
-    partial class XText
+    partial class XTend
     {
         /// <summary>
         /// Erases a specified set of character occurrences in a string

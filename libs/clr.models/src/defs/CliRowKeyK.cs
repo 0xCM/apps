@@ -7,7 +7,7 @@ namespace Z0
     public readonly struct CliRowKey<K>
         where K : unmanaged, ICliTableKind<K>
     {
-        public uint Value {get;}
+        public readonly uint Value;
 
         [MethodImpl(Inline)]
         public CliRowKey(uint value)
