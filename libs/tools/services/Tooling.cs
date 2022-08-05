@@ -9,9 +9,13 @@ namespace Z0
     using static Spans;
 
     using S = ToolSettings;
+
     public class Tooling : WfSvc<Tooling>
     {
         const byte FieldCount = ToolProfile.FieldCount;
+
+        public static SettingLookup lookup(FS.FilePath src, char sep = Chars.Eq)
+            => Settings.lookup(src, sep);
 
         public static ToolSettings settings(FS.FilePath src)
         {
@@ -96,9 +100,6 @@ namespace Z0
         public static ToolScript script(FS.FilePath script, CmdVars vars)
             => new ToolScript(script, vars);
 
-        public static EnvVars<string> vars(string name = null)
-            => AppDb.Service.LoadEnv(text.ifempty(name, Environment.MachineName.ToLower()));
-
         public static Tool tool(CmdArgs args, byte index = 0)
             => arg(args,index).Value;
 
@@ -124,12 +125,6 @@ namespace Z0
         public IDbArchive ToolBase
             => AppDb.Toolbase();
 
-        public static SettingLookup env(FS.FilePath src)
-            => Settings.lookup(src,Chars.Eq);
-
-        public static SettingLookup config(FS.FilePath src)
-            => Settings.lookup(src,Chars.Colon);
-
         public FS.FilePath ScriptPath(Actor tool, string name, FileKind kind)
             => Home(tool).Script(name, kind);
 
@@ -154,7 +149,6 @@ namespace Z0
             var path = Home(tool).Script("tools", FileKind.Env);
             return Settings.parse(path.ReadNumberedLines(), Chars.Colon);
         }
-
 
         void LoadProfiles(FS.FilePath src, Lookup<Actor,ToolProfile> dst)
         {

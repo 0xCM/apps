@@ -100,6 +100,5 @@ namespace Z0
 
             return counter;
         }
-
     }
 }

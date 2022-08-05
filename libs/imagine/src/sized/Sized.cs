@@ -52,10 +52,10 @@ namespace Z0
         }
 
         public static string format(Kb src)
-            => string.Format("{0,-8} {1}", src.Count != 0 ? src.Count.ToString("#,#") : "0", Kb.UOM);
+            => size(src).Format();
 
         public static string format(Mb src)
-            => string.Format("{0,-8} {1}", src.Count != 0 ? src.Count.ToString("#,#") : "0", Mb.UOM);
+            => size(src).Format();
 
         /// <summary>
         /// Computes the bit-width of the represented primitive

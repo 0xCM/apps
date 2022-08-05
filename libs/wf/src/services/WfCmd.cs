@@ -11,11 +11,11 @@ namespace Z0
     public class WfCmd : AppCmdService<WfCmd>
     {
         [CmdOp("files")]
-        protected void ListFiles(CmdArgs args)
+        void ListFiles(CmdArgs args)
         {
             var src = FS.dir(arg(args,0));
             var files = FS.listing(src);
-            TableEmit(files, AppDb.Logs("files").Table<ListedFile>(FS.identifier(src)));
+            TableEmit(files, AppDb.Catalogs("files").Table<ListedFile>(FS.identifier(src)));
         }
 
         void CalcRelativePaths()
@@ -190,12 +190,10 @@ namespace Z0
             => Write(Environment.ProcessId);
 
         [CmdOp("env/cpucore")]
-        protected Outcome ShowCurrentCore(CmdArgs args)
+        void ShowCurrentCore()
         {
             Write(string.Format("Cpu:{0}", Kernel32.GetCurrentProcessorNumber()));
-            return true;
         }
-
 
         void ShowMemory()
         {
@@ -203,7 +201,6 @@ namespace Z0
             var formatter = Tables.formatter<BasicMemoryInfo>(16,RecordFormatKind.KeyValuePairs);
             Wf.Data(formatter.Format(info));
         }
-
 
         [CmdOp("env/stack")]
         void Stack()
@@ -231,16 +228,7 @@ namespace Z0
 
         [CmdOp("env/cwd")]
         void Cwd()
-        {
-            Write(FS.dir(Environment.CurrentDirectory));
-        }
-
-        public static EnvVars<string> vars(string name = null)
-            => AppDb.Service.LoadEnv(ifempty(name, Environment.MachineName.ToLower()));
-
-        [CmdOp("env/load")]
-        void LoadEnv(CmdArgs args)
-            => iter(vars(args.Count != 0 ? arg(args,0).Value : null).View, member => Write(member.Format()));
+            => Write(FS.dir(Environment.CurrentDirectory)); 
 
         [CmdOp("mem/query")]
         void QueryMemory(CmdArgs args)

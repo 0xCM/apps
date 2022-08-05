@@ -59,7 +59,7 @@ namespace Z0
         public IDbTargets DbOut()
             => Datasets.archive(setting(WsArchives.Path(Names.DbTargets), FS.dir));
 
-        public IDbSources Repos()
+        public IDbArchive Repos()
             => Datasets.archive(setting(WsArchives.Path(Names.Repos), FS.dir));
 
         public IDbArchive Symbols()
@@ -68,11 +68,8 @@ namespace Z0
         public IDbArchive Env()
             => Datasets.archive(DbRoot().Targets("env"));
 
-        public IDbSources Repos(string scope)
-            => Repos().Sources(scope);
-
-        public EnvVars<string> LoadEnv(string name)
-            => Z0.Settings.env(WsArchives.EnvPath(name));
+        public IDbArchive Repos(string scope)
+            => Repos().Scoped(scope);
 
         public IDbTargets DbOut(string scope)
             => DbOut().Targets(scope);
@@ -82,6 +79,12 @@ namespace Z0
 
         public IDbTargets Commands()
             => DbRoot().Targets("commands");
+
+        public IDbArchive Catalogs()
+            => Datasets.archive(DbRoot().Sources("catalogs"));
+
+        public IDbArchive Catalogs(string scope)
+            => Catalogs().Scoped(scope);
 
         public IDbTargets Commands(string scope)
             => Commands().Targets(scope);
@@ -99,16 +102,16 @@ namespace Z0
             => App(part).Targets(scope);
 
         public IDbSources DbIn()
-            => new DbSources(setting(WsArchives.Path(Names.DbSources), FS.dir));
+            => Datasets.archive(setting(WsArchives.Path(Names.DbSources), FS.dir));
 
         public IDbSources DbCapture()
-            => new DbSources(setting(WsArchives.Path(Names.DbCapture), FS.dir));
+            => Datasets.archive(setting(WsArchives.Path(Names.DbCapture), FS.dir));
 
         public IDbSources DbIn(string scope)
             => DbIn().Sources(scope);
 
         public IDbTargets Logs()
-            => new DbTargets(setting(WsArchives.Path(Names.Logs), FS.dir));
+            => Datasets.archive(setting(WsArchives.Path(Names.Logs), FS.dir));
 
         public IDbSources DbRoot()
             => new DbSources(setting(WsArchives.Path(Names.DbRoot), FS.dir));
@@ -120,31 +123,31 @@ namespace Z0
             => new DbArchive(setting(WsArchives.Path(Names.Control), FS.dir));
 
         public IDbArchive Control(string scope)
-            => new DbArchive(Control().Sources(scope));
+            => Datasets.archive(Control().Sources(scope));
 
         public IDbArchive Tools()
-            => new DbArchive(setting(WsArchives.Path(Names.Tools), FS.dir));        
+            => Datasets.archive(setting(WsArchives.Path(Names.Tools), FS.dir));        
 
         public IDbSources Tools(string scope)
             => Tools().Sources(scope);
 
         public IDbArchive Views()
-            => new DbArchive(setting(WsArchives.Path(Names.Views), FS.dir));
+            => Datasets.archive(setting(WsArchives.Path(Names.Views), FS.dir));
 
         public IDbArchive Toolsets()
             => Views(toolsets);
 
         public IDbArchive Toolset(string name)
-            => new DbArchive(Views(toolsets).Sources(name));
+            => Datasets.archive(Views(toolsets).Sources(name));
 
         public IDbArchive Views(string scope)
-            => new DbArchive(Views().Sources(scope));
+            => Datasets.archive(Views().Sources(scope));
 
         public IDbArchive Toolbase()
             => Toolset(toolbase);
 
         public IDbArchive Toolbase(string scope)
-            => new DbArchive(Toolbase().Sources(scope));
+            => Datasets.archive(Toolbase().Sources(scope));
             
         public IDbSources Dev()
             => new DbSources(setting(WsArchives.Path(Names.DevRoot), FS.dir));

@@ -13,21 +13,12 @@ namespace Z0
 
         static readonly Toolbase TB = new();
 
-
-        [CmdOp("llvm/toolset")]
-        void LlvmConfig(CmdArgs args)
-        {
-            // d:/views/llvm/llvm.config
-            var path = FS.path(arg(args,0));
-            var Lookup = Tooling.config(path);
-            Lookup.Iter(setting => Write(setting.Format(Chars.Colon)));
-        }
-
         [CmdOp("tools")]
         void ListTools()
         {
             var tools = TB.Tools();
-            var dst = AppDb.App().Path("tools", FileKind.Log);
+            //var dst = AppDb.App().Path("tools", FileKind.Log);
+            var dst = TB.Location.Path("inventory",FileKind.Env);
             var emitting = Emitter.EmittingFile(dst);
             var counter = 0u;
 
