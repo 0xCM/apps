@@ -1,7 +1,19 @@
 {
 	"folders": [
         {
-            "path": "."
+            "path": "../literals"
+        },
+        {
+            "path": "../api.contracts"
+        },
+        {
+            "path": "../sys"
+        },
+        {
+            "path": "../imagine"
+        },
+        {
+            "path": "../lib"
         },
         {
             "path": "..\\containers"
@@ -14,7 +26,10 @@
         },
         {
             "path": "..\\digital"
-        }
+        },
+        {
+            "path": "."
+        },
     ],
 	"settings": {}
 }

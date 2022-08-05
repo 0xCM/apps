@@ -24,8 +24,8 @@ namespace Z0
             var i = 0u;
             while(reader.Next(out var line))
             {
-                var parts = text.trim(text.split(line,Chars.Pipe));
-                Require.equal(parts.Length,CmdFlow.FieldCount);
+                var parts = text.trim(text.split(line, Chars.Pipe));
+                Require.equal(parts.Length, CmdFlow.FieldCount);
                 var cells = parts.Reader();
                 ref var dst = ref seek(buffer,i++);
                 parse(cells.Next(), out dst.Tool).Require();

@@ -11,6 +11,14 @@ namespace Z0
 
         const NumericKind Closure = UnsignedInts;
 
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static Flow<T,T> flow<T>(T src, T dst)
+            => new (src,dst);
+
+        [MethodImpl(Inline)]
+        public static Flow<A,B> flow<A,B>(A src, B dst)
+            => new (src,dst);
+
         [MethodImpl(Inline)]
         public static FlowId identify<A,S,T>(A actor, S src, T dst)
             => new FlowId(Algs.hash(actor), Algs.hash(src), Algs.hash(dst));

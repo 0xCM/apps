@@ -32,7 +32,7 @@ set WsObj=%WsBuild%\obj
 set TestLog=%WsLogs%\z0.%ProjectId%.tests.trx
 set BuildLogs=%WsLogs%
 set BuildTool=dotnet build
-set PublishTool=dotnet publish --verbosity normal
+set PublishTool=dotnet publish --verbosity normal -c %BuildKind%
 set PackageTool=dotnet pack --include-symbols --include-source --verbosity normal
 
 set BuildLog=%BuildLogs%\z0.%ProjectId%.log

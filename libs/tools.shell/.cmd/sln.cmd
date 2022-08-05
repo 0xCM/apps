@@ -1,10 +1,10 @@
 @echo off
-call %~dp0config.cmd
-set WsId=cmd
-set ZDev=%Views%\z0
-set WsRoot=%ZDev%\cmd
-set SlnFile=z0.%WsId%.sln
-set SlnPath=%WsRoot%\%SlnFile%
-dotnet sln %SlnPath% add %ZDev%\libs\z0.libs.csproj
-dotnet sln %SlnPath% add %ZDev%\cmd\z0.cmd.csproj
-dotnet sln %SlnPath% add %ZDev%\cg\cg.libs\z0.cg.libs.csproj
+set SlnRoot=D:\Drives\Z\dev\z0\libs\tools.shell
+set SlnPath=%SlnRoot%\z0.tools.shell.sln
+set SlnTool=dotnet sln %SlnPath% add
+set LibsRoot=D:\Drives\Z\dev\z0\libs
+
+set CmdSpec=%SlnTool% %LibsRoot%\tools.shell\z0.tools.shell.csproj
+call %CmdSpec%
+set CmdSpec=%SlnTool% %LibsRoot%\tools\z0.tools.csproj
+call %CmdSpec%
