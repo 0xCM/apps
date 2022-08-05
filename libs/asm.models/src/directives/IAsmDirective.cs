@@ -15,6 +15,7 @@ namespace Z0
         AsmDirectiveOp Op2 {get;}
 
         AsmDirectiveOp Op3 {get;}
+
         bool INullity.IsEmpty
             => Name.IsEmpty;
 

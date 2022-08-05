@@ -8,6 +8,8 @@ namespace Z0
     using static Arrays;
     using static Refs;
 
+    using C = AsciCode;
+
     partial struct Hex
     {
         /// <summary>
@@ -35,6 +37,26 @@ namespace Z0
                 {
                     ref readonly var c = ref skip(src,src.Length-1);
                     if(c == 'h')
+                        output = slice(src,0, src.Length - 1);
+                }
+            }
+            return output;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static ReadOnlySpan<C> clear(ReadOnlySpan<C> src)
+        {
+            var output = src;
+            if(src.Length >= 2)
+            {
+                ref readonly var c0 = ref skip(src,0);
+                ref readonly var c1 = ref skip(src,1);
+                if(c0 == C.d0 & c1 == C.x)
+                    output = slice(src,2);
+                else
+                {
+                    ref readonly var c = ref skip(src,src.Length-1);
+                    if(c == C.h)
                         output = slice(src,0, src.Length - 1);
                 }
             }

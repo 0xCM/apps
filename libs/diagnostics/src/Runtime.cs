@@ -6,18 +6,6 @@ namespace Z0
 {
     public class Runtime : WfSvc<Runtime>
     {
-        public ApiMembers JitCatalog()
-            => ClrJit.jit(Wf.ApiParts.Catalog, EventLog);
-
-        public void CollectMemStats()
-        {
-            var pre = ApiPacks.create(core.timestamp());
-            EmitContext(pre);
-            var members = JitCatalog();
-            var post = ApiPacks.create(core.timestamp());
-            EmitContext(post);
-        }
-
         public void EmitContext(IApiPack dst)
         {
             var flow = Running("Emiting process context");

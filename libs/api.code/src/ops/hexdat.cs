@@ -9,8 +9,13 @@ namespace Z0
 
     partial class ApiCode
     {
+        /// <summary>
+        /// Emits a line of hex data that specifies the encoding for each emember
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
         [Op]
-        public static ByteSize hex(ReadOnlySpan<ApiEncoded> src, FS.FilePath dst)
+        public static ByteSize hexdat(ReadOnlySpan<ApiEncoded> src, FS.FilePath dst)
         {
             var options = HexFormatOptions.define();
             using var writer = dst.AsciWriter();
@@ -26,7 +31,7 @@ namespace Z0
         }
 
         [Op]
-        public static Outcome hex(FS.FilePath src, out BinaryCode dst)
+        public static Outcome hexdat(FS.FilePath src, out BinaryCode dst)
         {
             var result = Outcome.Success;
             var cells = src.ReadLines().SelectMany(x => text.split(x,Chars.Space));

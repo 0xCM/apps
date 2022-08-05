@@ -120,7 +120,7 @@ namespace Z0
         {
             var count = src.Count;
             var emitting = EmittingFile(dst);
-            var size = ApiCode.hex(src, dst);
+            var size = ApiCode.hexdat(src, dst);
             EmittedFile(emitting,count);
             return size;
         }
@@ -131,7 +131,7 @@ namespace Z0
             var collected = src;
             var count = collected.Count;
             var emitting = EmittingFile(hex);
-            var size = ApiCode.hex(collected, hex);
+            var size = ApiCode.hexdat(collected, hex);
             EmittedFile(emitting,count);
             var encoded = alloc<EncodedMember>(count);
             for(var i=0; i<count; i++)

@@ -47,6 +47,5 @@ namespace Z0
         public static ref HexStrings<K> generic<K>(in HexStrings<Hex4Kind> src)
             where K : unmanaged
                 => ref @as<HexStrings<Hex4Kind>, HexStrings<K>>(edit(src));
-
     }
 }

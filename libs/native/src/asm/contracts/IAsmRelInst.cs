@@ -29,6 +29,6 @@ namespace Z0
         T Disp {get;}
 
         NativeSize IAsmRelInst.RelSize
-            => Sizes.native(core.width<T>());
+            => Sizes.native(Sized.width<T>());
     }
 }

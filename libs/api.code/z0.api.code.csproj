@@ -12,6 +12,7 @@
     <ProjectReference Include="$(MemorySvc)" />
     <ProjectReference Include="$(Dynamic)" />
     <ProjectReference Include="$(AsmModels)" />
+    <ProjectReference Include="$(Heaps)" />
   </ItemGroup>
 
 </Project>

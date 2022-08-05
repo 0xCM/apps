@@ -4,11 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    /// <summary>
+    /// Defines a directive operand
+    /// </summary>
     public readonly struct AsmDirectiveOp : IAsmSourcePart
     {
         public static AsmDirectiveOp noprefix => "noprefix";
 
-        public readonly @string Value {get;}
+        public readonly @string Value;
 
         [MethodImpl(Inline)]
         public AsmDirectiveOp(string value)

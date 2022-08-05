@@ -7,7 +7,7 @@ namespace Z0
     [Record(TableId), StructLayout(LayoutKind.Sequential, Pack=1)]
     public struct EncodedMember : IComparable<EncodedMember>
     {
-        const string TableId = "api.members.info";
+        const string TableId = "members.encoded";
 
         public const byte FieldCount = 11;
 

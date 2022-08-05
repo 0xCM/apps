@@ -24,13 +24,6 @@ export interface ApiCmdSpec extends CmdSpec<ApiCmd,ApiCmdGroup> {
 
 }
 
-// export type ApiCmdSpec = {
-//     Name:ApiCmd
-//     Group:GroupName
-//     Intent:string
-// }
-
-
 export const CmdSpecs:Array<ApiCmdSpec> = [
     {
         Name:"api/emit/cmddefs",

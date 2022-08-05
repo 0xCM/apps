@@ -38,7 +38,6 @@ namespace Z0
             return false;
         }
 
-
         [MethodImpl(Inline), Op]
         public static bool parse(UpperCased @case, AsciCode c, out byte dst)
         {
@@ -176,7 +175,6 @@ namespace Z0
             return (true, counter);
         }
 
-
         [Op]
         public static bool parse(ReadOnlySpan<AsciCode> src, out ulong dst)
         {
@@ -219,6 +217,21 @@ namespace Z0
             if(result)
                 dst = n;
             return result;
+        }
+
+        public static bool parse(ReadOnlySpan<AsciCode> src, out MemoryAddress dst)
+        {
+            var result = parse(clear(src), out Hex64 x64);
+            if(result)
+            {
+                dst = x64;
+                return true;
+            }
+            else
+            {
+                dst = MemoryAddress.Zero;
+                return false;
+            }
         }
 
         [MethodImpl(Inline)]

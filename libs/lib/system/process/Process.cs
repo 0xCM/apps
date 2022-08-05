@@ -232,6 +232,12 @@ namespace Z0
             get => new ProcessModule(Subject.MainModule);
         }
 
+        public FS.FileUri Uri
+        {
+            [MethodImpl(Inline)]
+            get => MainModule.Path;
+        }
+
         //
         // Summary:
         //     Gets the window handle of the main window of the associated process.

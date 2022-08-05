@@ -17,16 +17,17 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static Disp16 disp16(MemoryAddress rip, MemoryAddress dst)
-            => (sbyte)(dst - rip);
+            => (short)(dst - rip);
 
         [MethodImpl(Inline), Op]
         public static Disp32 disp32(MemoryAddress rip, MemoryAddress dst)
-            => (sbyte)(dst - rip);
+            => (int)(dst - rip);
 
         [MethodImpl(Inline), Op]
         public static Disp64 disp64(MemoryAddress rip, MemoryAddress dst)
-            => (sbyte)(dst - rip);
+            => (long)(dst - rip);
 
+        [MethodImpl(Inline), Op]
         public static Disp8 disp8(Rip rip, MemoryAddress dst)
             => (sbyte)((long)dst - (long)rip);
 

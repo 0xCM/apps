@@ -67,11 +67,6 @@ namespace Z0.Asm
             }
         }
 
-        public void CheckAssemblyMetadata(Assembly subject, FS.FilePath src)
-        {
-            var emitted = Heaps.located(src);            
-        }
-
         void CheckHeaps1(IApiPack src)
         {
             var files = ApiPartFiles.create(src, PartId.Assets);

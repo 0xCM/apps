@@ -32,7 +32,7 @@ namespace Z0
                     var left = SQ.left(codes,i);
                     result = Hex.parse(left, out ulong address);
                     if(!result)
-                        Errors.Throw(AppMsg.ParseFailure.Format("Location", left.Format()));
+                        sys.@throw(AppMsg.ParseFailure.Format("Location", left.Format()));
 
                     if(@base == 0)
                         @base = address;
@@ -45,7 +45,7 @@ namespace Z0
                         rebased += size.Data;
                     }
                     else
-                        Errors.Throw(AppMsg.ParseFailure.Format("Hex", right.Format()));
+                        sys.@throw(AppMsg.ParseFailure.Format("Hex", right.Format()));
                 }
 
             }

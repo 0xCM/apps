@@ -179,7 +179,6 @@ namespace Z0
             return (true,counter);
         }
 
-
         [MethodImpl(Inline)]
         static bool whitespace(char src)
             => whitespace((AsciCode)src);

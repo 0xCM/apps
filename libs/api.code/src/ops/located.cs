@@ -8,36 +8,18 @@ namespace Z0
     using static Spans;
     using static Arrays;
 
+    public interface IHeapReceiver<S>
+    {
+        void Receive(in S src, in MemoryHeap dst);
+    }
+
     partial class ApiCode
     {
-        public static void located(IDbArchive src, IMemoryDispenser alloc)
-        {
-            var dst = bag<HexCsvRow>();        
-            iter(src.Files(FileKind.LocatedHex), file => located(file, alloc), PllExec);   
-        }
+        public static void located(IDbArchive src, IHeapReceiver<FS.FilePath> receiver)
+            => iter(src.Files(FileKind.LocatedHex), file => located(file, receiver), PllExec);   
 
-        static bool PllExec
-        {
-            [MethodImpl(Inline)]
-            get => AppData.get().PllExec();
-        }
-
-        public static void located(FS.FilePath src, IMemoryDispenser alloc)
-        {
-            var size = ByteSize.Zero;
-            void calc(in HexCsvRow row)
-            {
-                size += row.Data.Size;
-            }
-            located(src, calc);            
-
-            var memory = alloc.Memory(size);
-            void fill(in HexCsvRow row)
-            {
-                
-            }
-
-        }
+        public static void located(FS.FilePath src, IHeapReceiver<FS.FilePath> receiver)
+            => receiver.Receive(src, Heaps.located(src));               
 
         public static void located(FS.FilePath src, Receiver<HexCsvRow> dst)
         {

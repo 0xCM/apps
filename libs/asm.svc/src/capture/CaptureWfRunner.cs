@@ -8,14 +8,7 @@ namespace Z0
 
     using static core;
 
-    public interface ICaptureReceiver
-    {
-        void Capturing(Assembly src);
-
-        void Captured(Assembly src);
-    }
-
-    public sealed class CaptureWfRunner : IRunnable<CaptureWfSettings>
+    public sealed class CaptureWfRunner
     {
         readonly IWfRuntime Wf;
 
@@ -27,21 +20,21 @@ namespace Z0
 
         readonly WfEmit Emitter;
 
-        readonly ICaptureReceiver Receiver;
+        readonly CaptureTransport Transport;
 
-        public CaptureWfRunner(IWfSvc svc, CaptureWfSettings settings, IApiPack dst, ICaptureReceiver receiver)
+        public CaptureWfRunner(IWfSvc svc, CaptureWfSettings settings, IApiPack dst, CaptureTransport transport)
         {
             Wf = svc.Wf;
             Target = dst;
             Settings = settings;
             EventTarget =  svc.Wf.EventLog;
             Emitter = svc.Emitter;
-            Receiver = receiver;
+            Transport = transport;
             Wf.RedirectEmissions(Loggers.emission(Target.Path("capture.emissions", FileKind.Csv)));
         }
 
-        CaptureWfSettings IRunnable<CaptureWfSettings>.Settings
-            => Settings;
+        ICompositeDispenser Dispenser
+            => Transport.Dispenser;
 
         ApiMd ApiMd => Wf.ApiMd();
 
@@ -53,19 +46,11 @@ namespace Z0
 
         CliEmitter CliEmitter => Wf.CliEmitter();
 
-        Runtime Runtime => Wf.Runtime();
-
         ApiPacks ApiPacks => Wf.ApiPacks();
 
         ImageRegions Regions => Wf.ImageRegions();
 
-        public void Run()
-        {            
-            using var dispenser = Dispense.composite();
-            var hosts = Run(dispenser);
-        }
-
-        ExecToken EmitCaptureIndex(ReadOnlySeq<ApiEncoded> src, IApiPack dst)
+        ExecToken EmitMemberIndex(ReadOnlySeq<ApiEncoded> src, IApiPack dst)
         {
             var count = src.Count;
             var buffer = sys.alloc<EncodedMember>(count);
@@ -78,26 +63,27 @@ namespace Z0
                 seek(buffer,i).TargetRebase = skip(buffer,i).TargetAddress - rebase;
             }
 
-            return Emitter.TableEmit(buffer, dst.Path("capture.index", FileKind.Csv));
+            return Emitter.TableEmit(Transport.Transmit(buffer).View, dst.Table<EncodedMember>());
         }
 
-        public ReadOnlySeq<ApiEncoded> Run(ICompositeDispenser dispenser)
+        public ReadOnlySeq<ApiEncoded> Run()
         {
+            var dispenser = Transport.Dispenser;
             var parts = Settings.Parts.IsEmpty ? Catalog.PartIdentities.ToSeq() : Settings.Parts;
-            var running = Emitter.Running($"Caturing {parts.Count} parts");
+            var running = Emitter.Running("Running capture workflow");
             var dst = bag<CollectedHost>();
-            Capture(parts.View, dispenser, dst);
-            var collected = dst.ToSeq();
+            Capture(parts.View, dst);
+            var collected = Transport.Transmit(dst.ToSeq());
             var blocks = collected.SelectMany(x => x.Blocks).Sort();
-            EmitCaptureIndex(blocks, Target);
+            EmitMemberIndex(blocks, Target);
 
             if(Settings.EmitCatalog)
             {
-                var members = ApiQuery.members(collected.SelectMany(x => x.Resolved.Members));
-                var rebased = ApiCode.catalog(members);
+                var members = Transport.TransmitResolved(ApiQuery.members(collected.SelectMany(x => x.Resolved.Members)));
+                var rebased = Transport.TransmitRebased(ApiCode.catalog(members));
                 var path = Target.Table<ApiCatalogEntry>();
                 Emitter.TableEmit(rebased, path, UTF8);
-                var reloaded = ApiCode.catalog(path, EventTarget);
+                Transport.TransmitReloaded(ApiCode.catalog(path, EventTarget));
             }
 
             if(Settings.EmitMetadata)
@@ -113,12 +99,12 @@ namespace Z0
 
             if(Settings.EmitContext)
             {
-                Runtime.EmitContext(Target);                
+                RuntimeEmitter.emit(Target,Emitter);
             }
 
             if(Settings.RunChecks)
             {
-                CheckReloaded(EventTarget);
+                
             }
 
             ApiPacks.Link(Target);
@@ -126,48 +112,52 @@ namespace Z0
             return blocks;
         }
 
-        public HostCollection Capture(ICompositeDispenser dispenser)
-            => Capture(Catalog, dispenser);
-
-        public HostCollection Capture(IApiCatalog src, ICompositeDispenser dispenser)
+        ExecToken Capture(ReadOnlySpan<PartId> src, ConcurrentBag<CollectedHost> dst)
         {
-            var dst = bag<CollectedHost>();
-            Capture(src.PartCatalogs(), dispenser);
-            return new HostCollection(dst.ToIndex());
+            const string On = "concurrent execution enabled";
+            const string Off = "concurrent execution disabled";
+            var pll = Settings.PllExec;
+            var pllmsg = pll ? On : Off;
+            var parts = Catalog.PartIdentities.ToHashSet().Intersect(src).ToSeq();
+            var running = Emitter.Running($"Capturing {parts.Count} parts with concurrent execution {pllmsg}:{parts.Delimit()}");
+            iter(parts, id => Capture(id, dst), pll);
+            return Emitter.Ran(running);
         }
 
-        public HostCollection Capture(ReadOnlySpan<IApiPartCatalog> src, ICompositeDispenser dispenser)
-        {
-            var buffer = bag<CollectedHost>();
-            iter(src, part => Capture(part, dispenser, buffer, EventTarget), Settings.PllExec);
-            return new HostCollection(buffer.Array());
+        void Capture(PartId part, ConcurrentBag<CollectedHost> dst)
+        {        
+            var result = Catalog.PartCatalog(part, out var catalog);
+            if(result)
+            {
+                Capture(catalog, Dispenser, dst, EventTarget);
+            }
+            else
+                Emitter.Warn($"Part identifier {part} not found");
         }
+
+        // public HostCollection Capture(IApiCatalog src)
+        // {
+        //     var dst = bag<CollectedHost>();
+        //     Capture(src.PartCatalogs(), Dispenser);
+        //     return new HostCollection(dst.ToIndex());
+        // }
+
+        // public HostCollection Capture(ReadOnlySpan<IApiPartCatalog> src, ICompositeDispenser dispenser)
+        // {
+        //     var buffer = bag<CollectedHost>();
+        //     iter(src, part => Capture(part, dispenser, buffer, EventTarget), Settings.PllExec);
+        //     return new HostCollection(buffer.Array());
+        // }
 
         void Capture(IApiPartCatalog src, ICompositeDispenser dispenser, ConcurrentBag<CollectedHost> dst, IWfEventTarget log)
         {
-            Receiver.Capturing(src.Component);
             var tmp = bag<CollectedHost>();
             ApiCode.gather(src, dispenser, tmp, log, Settings.PllExec);
             var code = tmp.ToArray();
             ApiCodeSvc.Emit(src.PartId, code, Target, Settings.PllExec);
             EmitAsm(dispenser, code);
             iter(tmp, x => dst.Add(x));
-            Receiver.Captured(src.Component);
-        }
-
-        public void Capture(ReadOnlySpan<PartId> parts, ICompositeDispenser dispenser, ConcurrentBag<CollectedHost> dst)
-        {
-            var selected = Catalog.PartIdentities.ToHashSet().Intersect(parts);
-            iter(selected, part => Capture(part, dispenser, dst), Settings.PllExec);
-        }
-
-        public void Capture(PartId part, ICompositeDispenser dispenser, ConcurrentBag<CollectedHost> dst)
-        {
-            var result = Catalog.PartCatalog(part, out var catalog);
-            if(result)
-                Capture(catalog, dispenser, dst, EventTarget);
-            else
-                Emitter.Warn($"Part identifier {part} not found");
+            Transport.Transmit(src.Component);
         }
 
         void EmitAsm(ICompositeDispenser symbols, ReadOnlySeq<CollectedHost> src)
@@ -191,20 +181,5 @@ namespace Z0
             }
         }
 
-        void CheckReloaded(IWfEventTarget log)
-        {
-            using var members = Z0.ApiCode.load(Target, PartId.AsmCore, log);
-            for(var i=0; i<members.MemberCount; i++)
-            {
-                ref readonly var member = ref members.Member(i);
-                ref readonly var token = ref members.Token(i);
-                var encoding = members.Encoding(i);
-                ref readonly var entry = ref member.EntryAddress;
-                ref readonly var entryRb = ref member.EntryRebase;
-                ref readonly var target = ref member.TargetAddress;
-                ref readonly var targetRb = ref member.TargetRebase;
-                ref readonly var uri = ref member.Uri;
-            }
-        }
    }
 }
