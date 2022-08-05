@@ -35,6 +35,8 @@ set BuildTool=dotnet build
 set PublishTool=dotnet publish --verbosity normal -c %BuildKind%
 set PackageTool=dotnet pack --include-symbols --include-source --verbosity normal
 
+set PublishCmd=%PublishTool% %SlnRootPath%
+
 set BuildLog=%BuildLogs%\z0.%ProjectId%.log
 set SlnBuildLog=%BuildLogs%\z0.%SlnId%.log
 

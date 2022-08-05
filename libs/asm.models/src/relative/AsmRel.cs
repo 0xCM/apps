@@ -12,12 +12,51 @@ namespace Z0
     public readonly struct AsmRel
     {
         [MethodImpl(Inline), Op]
+        public static Disp8 disp8(MemoryAddress rip, MemoryAddress dst)
+            => (sbyte)(dst - rip);
+
+        [MethodImpl(Inline), Op]
+        public static Disp16 disp16(MemoryAddress rip, MemoryAddress dst)
+            => (sbyte)(dst - rip);
+
+        [MethodImpl(Inline), Op]
+        public static Disp32 disp32(MemoryAddress rip, MemoryAddress dst)
+            => (sbyte)(dst - rip);
+
+        [MethodImpl(Inline), Op]
+        public static Disp64 disp64(MemoryAddress rip, MemoryAddress dst)
+            => (sbyte)(dst - rip);
+
+        public static Disp8 disp8(Rip rip, MemoryAddress dst)
+            => (sbyte)((long)dst - (long)rip);
+
+        [MethodImpl(Inline), Op]
+        public static Disp16 disp16(Rip rip, MemoryAddress dst)
+            => (Disp16)((long)dst - (long)rip);
+
+        [MethodImpl(Inline), Op]
+        public static Disp32 disp32(Rip rip, MemoryAddress dst)
+            => (Disp32)((long)dst - (long)rip);
+
+        [MethodImpl(Inline), Op]
+        public static Disp64 disp64(Rip rip, MemoryAddress dst)
+            => (Disp64)((long)dst - (long)rip);
+
+        [MethodImpl(Inline), Op]
         public static bool isCall32(ReadOnlySpan<byte> encoding)
             => encoding.Length >= CallRel32.InstSize && core.first(encoding) == CallRel32.OpCode;
 
         [MethodImpl(Inline), Op]
         public static bool isJmp8(ReadOnlySpan<byte> encoding)
             => encoding.Length >= JmpRel8.InstSize && first(encoding) == JmpRel8.OpCode;
+
+        [MethodImpl(Inline), Op]
+        public static Disp8 disp8(ReadOnlySpan<byte> encoding)
+            => skip(encoding,1);
+
+        [MethodImpl(Inline), Op]
+        public static Disp32 disp32(ReadOnlySpan<byte> encoding)
+            => @as<Disp32>(slice(encoding,1,4));
 
         [MethodImpl(Inline), Op]
         public static CallRel32 call(Rip rip, Disp32 disp)
@@ -29,21 +68,10 @@ namespace Z0
             var encoding = AsmHexCode.Empty;
             var buffer = encoding.Bytes;
             seek(buffer,0) = CallRel32.OpCode;
-            @as<Disp32>(seek(buffer,1)) = AsmRel.disp32(spec.Rip, spec.TargetAddress);
+            @as<Disp32>(seek(buffer,1)) = disp32(spec.Rip, spec.TargetAddress);
             seek(buffer,15) = CallRel32.InstSize;
             return encoding;
         }
-
-        [MethodImpl(Inline), Op]
-        public static Disp8 disp8(ReadOnlySpan<byte> encoding)
-            => skip(encoding,1);
-
-        public static Disp8 disp8(Rip rip, MemoryAddress dst)
-            => (sbyte)((long)dst - (long)rip);
-
-        [MethodImpl(Inline), Op]
-        public static Disp8 disp8(MemoryAddress rip, MemoryAddress dst)
-            => (sbyte)(dst - rip);
 
         [MethodImpl(Inline), Op]
         public static MemoryAddress target(Rip rip, Disp8 disp)
@@ -68,10 +96,6 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public static Disp32 disp32(Rip rip, MemoryAddress dst)
-            => (Disp32)((long)dst - (long)rip);
-
-        [MethodImpl(Inline), Op]
         public static MemoryAddress target(Rip rip, Disp32 disp)
             => (MemoryAddress)((long)rip + (long)disp);
 
@@ -82,16 +106,6 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static Address32 target(Disp32 disp)
             => (Address32)((int)disp + (int)JmpRel32.InstSize);
-
-        [MethodImpl(Inline), Op]
-        public static Disp32 disp32(ReadOnlySpan<byte> encoding)
-        {
-            //var storage = ByteBlock4.Empty;
-            //var buffer = storage.Bytes;
-            //ref var dst = ref @as<Disp32>(buffer);
-            return @as<Disp32>(slice(encoding,1,4));
-            //return dst;
-        }
 
         [MethodImpl(Inline), Op]
         public static JmpStub stub32(MemoryAddress src, MemoryAddress dst)
@@ -120,6 +134,5 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static JmpRel32 jmp32(Rip rip, Disp32 disp)
             => new JmpRel32(rip.Address, AsmRel.target(rip, disp));
-
     }
 }

@@ -26,13 +26,13 @@ namespace Z0
         protected Toolset(string name)
         {
             Name = name;
-            Location = AppDb.DbArchive(AppDb.Toolset(Name));
+            Location = Datasets.archive(AppDb.Toolset(Name));
         }
 
         protected Toolset()
         {
             Name = "toolbase";
-            Location = AppDb.DbArchive(AppDb.Toolset(Name));
+            Location = Datasets.archive(AppDb.Toolset(Name));
         }
 
         public IToolWs Tool(Tool tool)

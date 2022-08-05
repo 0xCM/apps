@@ -45,7 +45,7 @@ namespace Z0
             DataParser.parse(skip(fields, i++), out dst.Sequence);
             DataParser.parse(skip(fields, i++), out dst.ProcessBase);
             DataParser.parse(skip(fields, i++), out dst.MemberBase);
-            DataParser.parse(skip(fields, i++), out dst.MemberOffset);
+            Disp32.parse(skip(fields, i++), out dst.MemberOffset);
             DataParser.parse(skip(fields, i++), out dst.MemberRebase);
             DataParser.parse(skip(fields, i++), out dst.PartName);
             DataParser.parse(skip(fields, i++), out dst.HostName);
@@ -67,7 +67,7 @@ namespace Z0
                     record.Sequence = i;
                     record.ProcessBase = @base;
                     record.MemberBase = member.BaseAddress;
-                    record.MemberOffset = member.BaseAddress - @base;
+                    record.MemberOffset = AsmRel.disp32(@base, member.BaseAddress);
                     record.MemberRebase = (uint)(member.BaseAddress - rebase);
                     record.HostName = member.Host.HostName;
                     record.PartName = member.Host.Part.Format();

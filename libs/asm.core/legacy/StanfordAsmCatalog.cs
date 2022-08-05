@@ -121,10 +121,10 @@ namespace Z0.Asm
         public ReadOnlySpan<StanfordInstruction> LoadSource()
             => LoadSource(AppDb.DbIn().Sources("asm.stanford").Path("stanford-asm-catalog",FileKind.Csv));
 
-        public ReadOnlySpan<StanfordInstruction> Import()
+        public ReadOnlySpan<StanfordInstruction> RunEtl()
         {
             var imports = LoadSource();
-            TableEmit(imports, AppDb.DbOut().Targets("asm.refs").Table<StanfordInstruction>());
+            TableEmit(imports, AppDb.AsmDb().Targets("asm.refs").Table<StanfordInstruction>());
             return imports;
         }
 

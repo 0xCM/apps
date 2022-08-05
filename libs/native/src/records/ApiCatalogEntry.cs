@@ -17,7 +17,7 @@ namespace Z0
 
         public MemoryAddress MemberBase;
 
-        public MemoryAddress MemberOffset;
+        public Disp32 MemberOffset;
 
         public Address32 MemberRebase;
 

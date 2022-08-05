@@ -32,41 +32,41 @@ namespace Z0
             where T : struct
                 => Settings().Table<T>();
 
+        public IDbArchive AsmDb()
+            => Datasets.archive(DbOut().Targets("asm.db"));
+
+        public IDbArchive AsmDb(string scope)
+            => AsmDb().Scoped(scope);
+
         public FS.FilePath SettingsPath(string name, FileKind kind)
             => Settings().Path(name,kind);
 
         public FS.FilePath SettingsPath<S>(FileKind kind)
             => Settings().Path(Z0.Settings.name<S>(), kind);
 
-        public IDbArchive DbArchive(FS.FolderPath home) 
-            => new DbArchive(home);
-
-        public IDbArchive DbArchive(IRootedArchive home) 
-            => new DbArchive(home);
-
         public IDbArchive Archives()
-            => new DbArchive(setting(WsArchives.Path(Names.Archives), FS.dir));
+            => Datasets.archive(setting(WsArchives.Path(Names.Archives), FS.dir));
 
         public IDbArchive Archive(string name)
-            => new DbArchive(Archives().Sources(name).Root);
+            => Datasets.archive(Archives().Sources(name).Root);
 
         public IDbSources LlvmRoot()
-            => new DbArchive(setting(WsArchives.Path(Names.LlvmRoot), FS.dir));
+            => Datasets.archive(setting(WsArchives.Path(Names.LlvmRoot), FS.dir));
 
         public IDbSources LlvmDist()
-            => new DbArchive(setting(WsArchives.Path(Names.LlvmDist), FS.dir));
+            => Datasets.archive(setting(WsArchives.Path(Names.LlvmDist), FS.dir));
 
         public IDbTargets DbOut()
-            => new DbTargets(setting(WsArchives.Path(Names.DbTargets), FS.dir));
+            => Datasets.archive(setting(WsArchives.Path(Names.DbTargets), FS.dir));
 
         public IDbSources Repos()
-            => new DbArchive(setting(WsArchives.Path(Names.Repos), FS.dir));
+            => Datasets.archive(setting(WsArchives.Path(Names.Repos), FS.dir));
 
         public IDbArchive Symbols()
-            => new DbArchive(setting(WsArchives.Path(Names.Repos), FS.dir));
+            => Datasets.archive(setting(WsArchives.Path(Names.Repos), FS.dir));
 
         public IDbArchive Env()
-            => new DbArchive(DbRoot().Targets("env"));
+            => Datasets.archive(DbRoot().Targets("env"));
 
         public IDbSources Repos(string scope)
             => Repos().Sources(scope);
@@ -85,7 +85,7 @@ namespace Z0
 
         public IDbTargets Commands(string scope)
             => Commands().Targets(scope);
-
+        
         public IDbTargets App(PartId part)
             => Apps().Targets(part.Format());
 
@@ -122,8 +122,8 @@ namespace Z0
         public IDbArchive Control(string scope)
             => new DbArchive(Control().Sources(scope));
 
-        public IDbSources Tools()
-            => new DbSources(setting(WsArchives.Path(Names.Tools), FS.dir));        
+        public IDbArchive Tools()
+            => new DbArchive(setting(WsArchives.Path(Names.Tools), FS.dir));        
 
         public IDbSources Tools(string scope)
             => Tools().Sources(scope);

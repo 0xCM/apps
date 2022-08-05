@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
     using Asm;
 
     partial class AsmCoreCmd
@@ -20,7 +19,6 @@ namespace Z0
                 ref readonly var opcode = ref details[i];
 
                 Write(string.Format("{0,-16} | {1,-64} | {2}", form.Mnemonic, form.Sig, form.OpCode));
-
             }
         }
     }

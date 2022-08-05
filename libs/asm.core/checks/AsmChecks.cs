@@ -36,13 +36,6 @@ namespace Z0
     [ApiHost]
     public partial class AsmCheckCmd : CheckCmd<AsmCheckCmd>
     {
-        [CmdOp("asm/emit/tokens")]
-        void EmitAsmSymbols()
-        {
-            TableEmit(AsmTokens.OcTokenDefs.View, AppDb.ApiTargets().Path("api.asm.tokens.opcodes", FileKind.Csv), UTF16);
-            TableEmit(AsmTokens.SigTokenDefs.View, AppDb.ApiTargets().Path("api.asm.tokens.sigs", FileKind.Csv), UTF16);
-            TableEmit(AsmTokens.TokenDefs.View, AppDb.ApiTargets().Path("api.asm.tokens", FileKind.Csv), UTF16);
-        }
 
         [CmdOp("asm/check/flags")]
         Outcome CheckAsmFlags(CmdArgs args)

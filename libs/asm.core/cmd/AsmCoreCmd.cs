@@ -44,12 +44,6 @@ namespace Z0
             return true;
         }
 
-
-        [CmdOp("asm/stanford/import")]
-        void ImportStanfordCatalog()
-            => StanfordCatalog.Import();
-
-
         ref readonly Index<InstPattern> Patterns
             => ref Xed.Views.Patterns;
     }

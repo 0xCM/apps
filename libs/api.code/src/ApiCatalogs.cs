@@ -74,7 +74,7 @@ namespace Z0
                 record.Sequence = seq;
                 record.ProcessBase = @base;
                 record.MemberBase = member.BaseAddress;
-                record.MemberOffset = member.BaseAddress - @base;
+                record.MemberOffset = AsmRel.disp32(@base, member.BaseAddress);
                 record.MemberRebase = (uint)(member.BaseAddress - rebase);
                 record.HostName = member.Host.HostName;
                 record.PartName = member.Host.Part.Format();

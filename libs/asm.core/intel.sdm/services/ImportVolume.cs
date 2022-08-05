@@ -6,10 +6,11 @@ namespace Z0.Asm
 {
     partial class IntelSdm
     {
-        public Outcome ImportVolume(byte vol)
+        void ImportVolume(byte vol)
         {
-            var result = Outcome.Success;
             var src = SdmPaths.SdmSrcVol(vol);
+            if(!src.Exists)
+                sys.@throw($"{src.ToUri()} has gone missing");
             var dst = SdmPaths.SdmDstVol(vol);
             var emitting = EmittingFile(dst);
             var counter = 0u;
@@ -21,7 +22,6 @@ namespace Z0.Asm
                 counter++;
             }
             EmittedFile(emitting,counter);
-            return result;
         }
     }
 }

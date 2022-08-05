@@ -34,20 +34,11 @@ namespace Z0
         IDbTargets Targets()
             => DbFiles.Targets();
 
-        IDbArchive Archive(FS.FolderPath home)
-            => new DbArchive(home);
-
-        IDbArchive Archive(IRootedArchive home)
-            => new DbArchive(home);
-
         IDbSources Sources(string scope)
             => DbFiles.Sources(scope);
 
         IDbTargets Targets(string scope)
             => DbFiles.Targets(scope);
-
-        FS.FileName HostFile(ApiHostUri host, FileKind kind)
-            => FS.file(string.Format("{0}.{1}", host.Part.Format(), host.HostName), kind);
 
         FS.FilePath Table<T>()
             where T : struct
@@ -60,14 +51,6 @@ namespace Z0
         FS.FilePath PrefixedTable<T>(string prefix)
             where T : struct
                 => DbFiles.PrefixedTable<T>(prefix);
-
-        FS.FileName SuffixedTable<T>(string suffix)
-            where T : struct
-                => FS.file(string.Format("{0}.{1}", DbFiles.Table<T>(), suffix), FileKind.Csv);
-
-        FS.FileName TableFile<T>(string prefix, string suffix)
-            where T : struct
-                => FS.file(string.Format("{0}.{1}.{2}",prefix, DbFiles.Table<T>(), suffix), FileKind.Csv);
 
         FS.Files Files()
             => DbFiles.Files(true);

@@ -10,12 +10,6 @@ namespace Z0.Asm
     {
         AsmDocs AsmDocs => Wf.AsmDocs();
 
-        [CmdOp("asm/docs/emit")]
-        void EmitAsmDocs()
-        {
-            AsmDocs.Emit();
-        }
-
         Outcome AsmExe(CmdArgs args)
         {
             var result = Outcome.Success;

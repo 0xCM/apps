@@ -9,21 +9,16 @@ namespace Z0.Asm
     {
         CharMapper CharMapper => Service(Wf.CharMapper);
 
-        IntelSdmPaths SdmPaths;
-
-        protected override void OnInit()
-        {
-            SdmPaths = IntelSdmPaths.create(Wf);
-        }
-
+        IntelSdmPaths SdmPaths => Wf.SdmPaths();
+        
         TextMap SigNormalRules
-            => Data(nameof(SigNormalRules), () => Rules.textmap(SdmPaths.SigNormalConfig()));
+            => data(nameof(SigNormalRules), () => Rules.textmap(SdmPaths.SigNormalConfig()));
 
         TextReplace OcFixupRules
-            => Data(nameof(OcFixupRules), () => Rules.replace(SdmPaths.OcFixupConfig()));
+            => data(nameof(OcFixupRules), () => Rules.replace(SdmPaths.OcFixupConfig()));
 
         TextReplace SigFixupRules
-            => Data(nameof(SigFixupRules), () => Rules.replace(SdmPaths.SigFixupConfig()));
+            => data(nameof(SigFixupRules), () => Rules.replace(SdmPaths.SigFixupConfig()));
 
         void Clear()
         {
@@ -33,27 +28,36 @@ namespace Z0.Asm
 
         public void RunEtl()
         {
-            Clear();
+            var running = Running();
+            try
+            {
+                Clear();
+                EmitTokens();
+                Emit(CalcOcDetails());
 
-            EmitCharMaps();
+                EmitCharMaps();
 
-            ImportVolume(1);
+                ImportVolume(1);
 
-            ImportVolume(2);
+                ImportVolume(2);
 
-            ImportVolume(3);
+                ImportVolume(3);
 
-            ImportVolume(4);
+                ImportVolume(4);
 
-            EmitSdmSplits();
+                EmitSdmSplits();
 
-            EmitCombinedToc();
+                EmitCombinedToc();
 
-            EmitTocRecords();
+                EmitTocRecords();
 
-            EmitTokens();
-            var details = CalcOcDetails();
-            Emit(details);
+            }
+            catch(Exception e)
+            {
+                Emitter.Error(e);
+            }
+
+            Ran(running);
         }
    }
 }

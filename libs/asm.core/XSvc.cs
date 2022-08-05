@@ -57,6 +57,7 @@ namespace Z0
 
             public AsmCoreCmd AsmCoreCmd(IWfRuntime wf)
                 => Service<AsmCoreCmd>(wf);
+
             public StanfordAsmCatalog StanfordCatalog(IWfRuntime wf)
                 => Service<StanfordAsmCatalog>(wf);
 
@@ -71,6 +72,9 @@ namespace Z0
 
             public AsmDisamSvc AsmDisasmSvc(IWfRuntime wf)
                 => Service<AsmDisamSvc>(wf);
+
+            public IntelSdmPaths SdmPaths(IWfRuntime wf)
+                => Service<IntelSdmPaths>(wf);
         }
 
         static Svc Services => Svc.Instance;
@@ -134,5 +138,8 @@ namespace Z0
 
         public static CharMapper CharMapper(this IWfRuntime wf)
             => Services.CharMapper(wf);
+
+        public static IntelSdmPaths SdmPaths(this IWfRuntime wf)
+            => Services.SdmPaths(wf);
     }
 }

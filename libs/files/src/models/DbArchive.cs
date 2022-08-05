@@ -49,11 +49,11 @@ namespace Z0
         public int CompareTo(DbArchive src)
             => Root.CompareTo(src.Root);
 
-        public IDbSources ProjectSources(ProjectId id)
-            => new DbSources(Root, id.Format());
+        // public IDbSources ProjectSources(ProjectId id)
+        //     => new DbSources(Root, id.Format());
 
-        public IDbTargets ProjectData(ProjectId id)
-            => new DbTargets(FS.dir($"{Root}/projects"), id.Format());
+        // public IDbTargets ProjectData(ProjectId id)
+        //     => new DbTargets(FS.dir($"{Root}/projects"), id.Format());
 
         public IDbTargets Targets()
             => new DbTargets(Root);

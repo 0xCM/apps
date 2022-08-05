@@ -10,7 +10,7 @@ namespace Z0.Asm
     public class IntelSdmPaths : WfSvc<IntelSdmPaths>
     {
         public IDbTargets Output()
-            => AppDb.DbOut("sdm");
+            => AppDb.AsmDb("sdm");
 
         public FS.FilePath SdmTable<T>()
             where T : struct

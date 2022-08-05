@@ -8,6 +8,14 @@ namespace Z0
 
     public class Datasets
     {
+        [MethodImpl(Inline), Op]
+        public static IDbArchive archive(FS.FolderPath home)
+            => new DbArchive(home);
+
+        [MethodImpl(Inline), Op]
+        public static IDbArchive archive(IRootedArchive home)
+            => new DbArchive(home);
+
         [MethodImpl(Inline)]
         public static RecordSet<T> records<T>(T[] src)
             where T : struct

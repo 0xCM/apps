@@ -81,7 +81,6 @@ namespace Z0
                 Fail.ngt(a,b,caller,file,line);
             return a;
         }
-
         public static T gt<T>(string name, T a, T b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             where T : IComparable<T>
         {

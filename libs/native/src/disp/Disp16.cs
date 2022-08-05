@@ -112,6 +112,10 @@ namespace Z0
             => (uint)src.Value;
 
         [MethodImpl(Inline)]
+        public static explicit operator Disp16(long src)
+            => new Disp16((short)src);
+
+        [MethodImpl(Inline)]
         public static explicit operator ByteSize(Disp16 src)
             => src.Value;
 

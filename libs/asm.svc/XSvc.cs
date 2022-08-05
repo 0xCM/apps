@@ -25,6 +25,9 @@ namespace Z0
 
             public CaptureWf CaptureWf(IWfRuntime wf)
                 => Service<CaptureWf>(wf);
+
+            public AsmDbCmd AsmDbCmd(IWfRuntime wf)
+                => Service<AsmDbCmd>(wf);
         }
 
         static ServiceCache Services => ServiceCache.Instance;
@@ -41,8 +44,10 @@ namespace Z0
         public static CaptureWfCmd CaptureCmd(this IWfRuntime wf)
             => Services.CaptureCmd(wf);
 
-       public static CaptureWf CaptureWf(this IWfRuntime wf)
+        public static CaptureWf CaptureWf(this IWfRuntime wf)
             => Services.CaptureWf(wf);
-             
+
+        public static AsmDbCmd AsmDbCmd(this IWfRuntime wf)
+            => Services.AsmDbCmd(wf);
     }
 }

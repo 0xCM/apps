@@ -6,52 +6,69 @@ namespace Z0
 {
     using Z0.Asm;
 
-    using static core;
+    //using static core;
+
+    using static Algs;
+    using static Spans;
 
     public class CultProcessor : WfSvc<CultProcessor>, IEtlService
     {
-        public uint BatchSize => Pow2.T16;
+        const uint BatchSize = Pow2.T16;
 
-        DataList<CultSummaryRecord> Summaries;
+        List<CultSummaryRecord> Summaries;
 
-        DataList<AsmSourceLine> AsmLines;
+        List<AsmSourceLine> AsmLines;
 
         Index<char> HexCharBuffer;
 
         FS.FolderPath DetailRoot;
 
-        readonly Actor Tool = "cult";
+        const string Tool = "cult";
 
-        public CultProcessor()
-        {
-            Summaries = new();
-            AsmLines = new();
-            HexCharBuffer = sys.alloc<char>(HexBufferLength);
-        }
+        //FS.FilePath SummaryPath;
 
-        protected override void OnInit()
-        {
-            var targets = AppDb.DbOut().Targets(Tool.Format());
-            DetailRoot = targets.Root + FS.folder("details");
-            SummaryPath = targets.Root + FS.file(Tool.Format() + ".summary", FS.Csv);
-        }
+        // public CultProcessor()
+        // {
+        //     Summaries = new();
+        //     AsmLines = new();
+        //     HexCharBuffer = sys.alloc<char>(HexBufferLength);
+        // }
 
-        FS.FilePath SummaryPath;
+        // protected override void OnInit()
+        // {
+        //     var targets = AppDb.DbOut().Targets(Tool.Format());
+        //     DetailRoot = targets.Root + FS.folder("details");
+        //     SummaryPath = targets.Root + FS.file(Tool.Format() + ".summary", FS.Csv);
+        // }
 
         public void RunEtl()
-            => RunEtl(AppDb.DbIn().Path("cult", FileKind.Asm));
-
-        public void RunEtl(FS.FilePath src)
         {
+            var src = AppDb.DbIn().Path("cult", FileKind.Asm);
             if(!src.Exists)
+                Emitter.Error($"{src.ToUri()} has gone missing");
+            else
             {
-                Error(FS.Msg.DoesNotExist.Format(src));
-                return;
+                var running = Emitter.Running($"Importing {src.ToUri()}");
+                try
+                {
+                    RunEtl(src);
+                }
+                catch(Exception e)
+                {
+                   Emitter.Error(e);
+                }
+
+                Ran(running);
             }
+        }
 
-             Summaries.Clear();
-             AsmLines.Clear();
-
+        void RunEtl(FS.FilePath src)
+        {            
+            var targets = AppDb.AsmDb().Targets(Tool);
+            AsmLines = new();
+            Summaries = new();
+            DetailRoot = targets.Root + FS.folder("details");
+            HexCharBuffer = sys.alloc<char>(HexBufferLength);
             var output = span<CultRecord>(BatchSize);
             var input = span<TextLine>(BatchSize);
             using var reader = src.AsciReader();
@@ -77,14 +94,11 @@ namespace Z0
             if(current != 0)
                 Process(batch, counter, input, output);
 
-            EmitSummary();
-
-            return;
+            EmitSummary(targets.Root + FS.file(Tool + ".summary", FS.Csv));
         }
 
         uint Parse(ReadOnlySpan<TextLine> src, Span<CultRecord> dst)
         {
-            var count = src.Length;
             var j=0u;
             for(var i=0; i<src.Length; i++)
             {
@@ -95,8 +109,8 @@ namespace Z0
             return j;
         }
 
-        void EmitSummary()
-            => TableEmit(Summaries.Emit(), SummaryPath);
+        void EmitSummary(FS.FilePath dst)
+            => TableEmit(Summaries.ViewDeposited(), dst);
 
         void Process(uint batch, uint counter, ReadOnlySpan<TextLine> input, Span<CultRecord> output)
         {
@@ -106,25 +120,46 @@ namespace Z0
             Ran(processing, ProcessedBatch.Format(batch, counter, parsed.Length, BatchSize));
         }
 
-        void Process(ReadOnlySpan<CultRecord> input)
+        void Process(ReadOnlySpan<CultRecord> src)
         {
-            var count = input.Length;
+            var count = src.Length;
             for(var i=0; i<count; i++)
             {
-                ref readonly var src = ref skip(input,i);
-                if(src.RecordKind == CultRecordKind.Statement)
+                ref readonly var record = ref skip(src,i);
+                if(record.RecordKind == CultRecordKind.Statement)
                 {
-                    AsmExpr.parse(src.Statement, out var expr);
-                    AsmLines.Add(new AsmSourceLine(src.LineNumber, AsmLineClass.AsmSource, EmptyString, expr, new AsmComment(src.Comment)));
+                    AsmExpr.parse(record.Statement, out var expr);
+                    AsmLines.Add(new AsmSourceLine(record.LineNumber, AsmLineClass.AsmSource, EmptyString, expr, new AsmComment(record.Comment)));
                 }
-                else if(src.RecordKind == CultRecordKind.Label)
-                    AsmLines.Add(new AsmSourceLine(src.LineNumber, AsmLineClass.Label, src.Label.Format(), EmptyString, new AsmComment(src.Comment)));
-                else if(src.RecordKind == CultRecordKind.Summary)
+                else if(record.RecordKind == CultRecordKind.Label)
+                    AsmLines.Add(new AsmSourceLine(record.LineNumber, AsmLineClass.Label, record.Label.Format(), EmptyString, new AsmComment(record.Comment)));
+                else if(record.RecordKind == CultRecordKind.Summary)
                 {
-                    var summary = Summarize(src);
+                    var summary = Summarize(record);
                     Summaries.Add(summary);
-                    EmitDetails(summary);
+                    EmitDetails(DetailRoot, summary);
                 }
+            }
+        }
+
+        void EmitDetails(FS.FolderPath dir, in CultSummaryRecord summary)
+        {
+            var mnemonic = summary.Mnemonic.Format(MnemonicCase.Lowercase);
+            var path = dir + DetailFile(mnemonic);
+            using var writer = path.Writer(true);
+            writer.WriteLine();
+            writer.WriteLine(new AsmComment(summary.Id.Format()));
+            writer.WriteLine(new AsmComment(PageBreak));
+
+            if(AsmLines.Count != 0)
+            {
+                foreach(var line in AsmLines)
+                {
+                    var lf =  line.Format();
+                    if(lf.StartsWith(summary.Mnemonic.Format(MnemonicCase.Lowercase) + Chars.Space))
+                        writer.WriteLine(lf);
+                }
+                AsmLines.Clear();
             }
         }
 
@@ -250,30 +285,6 @@ namespace Z0
             {
                 var len = skip(chars,j-1) == Chars.Space ? j - 1 : j;
                 return slice(chars,0,len);
-            }
-        }
-
-        FS.FilePath DetailPath(AsmMnemonic src)
-            => DetailRoot + DetailFile(src);
-
-        void EmitDetails(in CultSummaryRecord summary)
-        {
-            var mnemonic = summary.Mnemonic.Format(MnemonicCase.Lowercase);
-            var path = DetailPath(summary.Mnemonic);
-            using var writer = path.Writer(true);
-            writer.WriteLine();
-            writer.WriteLine(new AsmComment(summary.Id.Format()));
-            writer.WriteLine(new AsmComment(PageBreak));
-
-            if(AsmLines.IsNonEmpty)
-            {
-                foreach(var line in AsmLines)
-                {
-                    var lf =  line.Format();
-                    if(lf.StartsWith(summary.Mnemonic.Format(MnemonicCase.Lowercase) + Chars.Space))
-                        writer.WriteLine(lf);
-                }
-                AsmLines.Clear();
             }
         }
 

@@ -78,10 +78,10 @@ namespace Z0
 
         static ReadOnlySpan<byte> SourceWidths => new byte[]{12,16,64,64,32};
 
-        public ReadOnlySpan<NasmInstruction> ImportInstructions()
+        public ReadOnlySpan<NasmInstruction> RunEtl()
             => ImportInstructions(
                 AppDb.DbIn().Path(FS.file("nasm.instructions", FS.Txt)),
-                AppDb.DbOut().Targets("asm.refs").Table<NasmInstruction>()
+                AppDb.AsmDb().Targets("asm.refs").Table<NasmInstruction>()
                 );
 
         ReadOnlySpan<NasmInstruction> ImportInstructions(FS.FilePath src, FS.FilePath dst)
