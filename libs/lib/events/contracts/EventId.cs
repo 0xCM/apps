@@ -55,7 +55,6 @@ namespace Z0
             Identifier = string.Format(PatternBase + " | {2,-24}", Ts, name, step);
         }
 
-
         [MethodImpl(Inline)]
         EventId(string name, string label, WfStepId step, PartToken ct, Timestamp? ts = null)
         {

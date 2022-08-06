@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "main": "App.ts",
   "license": "MIT",
-
   "scripts": {
     "build": "tsc",
     "start": "ts-node app.ts"
+  },
+  "dependencies": {
+    "fp-ts": "^2.12.2"
   }
 }

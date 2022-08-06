@@ -147,6 +147,11 @@ namespace Z0
         IEnumerator IEnumerable.GetEnumerator()
             => (Data as IIndex<T>).GetEnumerator();
 
+
+        public Seq<Y> Cast<Y>()
+            => Seq.cast<T,Y>(Storage);
+ 
+        
         public static S Empty => new ();
     }
 }

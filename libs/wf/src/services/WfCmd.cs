@@ -15,7 +15,7 @@ namespace Z0
         {
             var src = FS.dir(arg(args,0));
             var files = FS.listing(src);
-            TableEmit(files, AppDb.Catalogs("files").Table<ListedFile>(FS.identifier(src)));
+            TableEmit(files, AppDb.Catalogs("files").Table<ListedFile>(Archives.identifier(src)));
         }
 
         void CalcRelativePaths()

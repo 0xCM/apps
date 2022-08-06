@@ -15,22 +15,22 @@ export type ApiCmd =
     | "api/emit/tokens"
     | "api/emit/types"
 
-export type ApiCmdGroup = "api"
+type CmdGroup = "api"
 
-const group:ApiCmdGroup = "api";
+const group:CmdGroup = "api"
 
 
-export interface ApiCmdSpec extends CmdSpec<ApiCmd,ApiCmdGroup> {
+export interface ApiCmdSpec extends CmdSpec<ApiCmd,CmdGroup> {
 
 }
 
 export const CmdSpecs:Array<ApiCmdSpec> = [
     {
         Name:"api/emit/cmddefs",
-        Group:group,
+        Divison:group,
     },
     {
         Name:"api/emit/deps",
-        Group:group,
+        Divison:group,
     }
 ]

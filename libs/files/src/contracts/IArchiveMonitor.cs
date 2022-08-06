@@ -5,12 +5,10 @@
 namespace Z0
 {
     [Free]
-    public delegate void FileChanged(FileChange change);
+    public delegate void FileChanged(FileChangeEvent change);
 
     public interface IMonitor : IDisposable
     {
-        void Start();
-
         void Stop();
     }
 

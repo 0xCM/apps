@@ -11,10 +11,14 @@ namespace Z0
     public sealed class ApiPacks : WfSvc<ApiPacks>
     {
         public static IApiPack create()
-            => new ApiPack(AppDb.Service.Capture().Targets(AppDb.Ts.Format()).Root, AppDb.Ts);
+            => create(AppDb.Ts);
+
+//            => new ApiPack(AppDb.Service.Capture().Targets(AppDb.Ts.Format()).Root, AppDb.Ts);
 
         public static IApiPack create(Timestamp ts)
-            => new ApiPack(AppDb.Service.Capture().Targets(ts.Format()).Root, ts);
+            => new ApiPack(Archives.archive(ts, AppDb.Service.Capture()).Root, ts);
+            
+            //=> new ApiPack(AppDb.Service.Capture().Targets(ts.Format()).Root, ts);
 
         public static ReadOnlySeq<IApiPack> discover()
         {

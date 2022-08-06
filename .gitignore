@@ -14,3 +14,4 @@ tools/obj/
 dotnet/
 repo
 artifacts/
+node_modules

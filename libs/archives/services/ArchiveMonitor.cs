@@ -34,7 +34,7 @@ namespace Z0
         public void Dispose()
             => Watcher?.Dispose();
 
-        void SignalChange(FileChange change)
+        void SignalChange(FileChangeEvent change)
         {
             try
             {
@@ -47,8 +47,8 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        static FileChange change(FileSystemEventArgs e)
-            => new FileChange(FS.path(e.FullPath), (FileChangeKind)e.ChangeType);
+        static FileChangeEvent change(FileSystemEventArgs e)
+            => new FileChangeEvent(FS.path(e.FullPath), (FileChangeKind)e.ChangeType);
 
         [MethodImpl(Inline)]
         void Created(object sender, FileSystemEventArgs e)

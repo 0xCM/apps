@@ -8,8 +8,6 @@ namespace Z0
     public class EmittedTableEvent<T> : ITerminalEvent<EmittedTableEvent<T>>
         where  T : struct
     {
-        public const string EventName = GlobalEvents.EmittedTable;
-
         public const EventKind Kind = EventKind.EmittedTable;
 
         public EventId EventId {get;}

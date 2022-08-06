@@ -8,18 +8,6 @@ namespace Z0
 
     public readonly record struct LogSettings
     {
-        public readonly string LogId;
-
-        /// <summary>
-        /// The controlling part identifier
-        /// </summary>
-        public readonly PartId Control;
-
-        /// <summary>
-        /// The log file root directory
-        /// </summary>
-        public readonly FS.FolderPath LogRoot;
-
         /// <summary>
         /// The status log path
         /// </summary>
@@ -30,31 +18,30 @@ namespace Z0
         /// </summary>
         public readonly FS.FilePath ErrorPath;
 
+        public LogSettings(FS.FilePath status, FS.FilePath errors)
+        {
+            StatusPath = status;
+            ErrorPath = errors;
+        }
+
         public LogSettings(FS.FolderPath root)
         {
             var ts = core.timestamp();
             var control = ExecutingPart.Component;
-            LogId = control.Format();
-            LogRoot = root.Create();
-            Control = control.Id();
-            StatusPath = LogRoot + FS.folder($"{control.Format()}/status") + FS.file($"{LogId}.status.{ts}", FS.Log);
-            ErrorPath = LogRoot + FS.folder(control.Format()) + FS.file($"{LogId}.errors.{ts}", FS.Log);
+            var id = control.Format();
+            StatusPath = root + FS.folder($"{control.Format()}/status") + FS.file($"{id}.status.{ts}", FS.Log);
+            ErrorPath = root + FS.folder(control.Format()) + FS.file($"{id}.errors.{ts}", FS.Log);
         }
 
-        public LogSettings(PartId control, FS.FolderPath root, string name = EmptyString)
+        public LogSettings(PartId control, FS.FolderPath root, string name)
         {
-            LogId = text.empty(name) ? control.Format() : $"{control.Format()}.{name}";
-            Control = control;
-            LogRoot = root;
+            var id = text.empty(name) ? control.Format() : $"{control.Format()}.{name}";
             var ts = core.timestamp();
-            StatusPath = LogRoot + FS.folder($"{control.Format()}/status") + FS.file($"{LogId}.status.{ts}", FS.Log);
-            ErrorPath = LogRoot + FS.folder(control.Format()) + FS.file($"{LogId}.errors.{ts}", FS.Log);
+            StatusPath = root + FS.folder($"{id}/status") + FS.file($"{id}.status.{ts}", FS.Log);
+            ErrorPath = root + FS.folder(id) + FS.file($"{id}.errors.{ts}", FS.Log);
         }
 
         public string Format()
-            => api.format(this);
-
-        public override string ToString()
-            => Format();
+            => ToString();
     }
 }

@@ -51,15 +51,6 @@ namespace Z0
             return dst + FS.file($"{id}.{ts ?? core.timestamp()}", kind.Ext());
         }
 
-        [Op]
-        public static string format(LogSettings src)
-           => string.Format(RpOps.Settings4,
-                nameof(src.LogRoot), src.LogRoot.Format(),
-                nameof(src.StatusPath), src.StatusPath.Format(),
-                nameof(src.ErrorPath), src.ErrorPath.Format()
-                );
-
-
         [MethodImpl(Inline), Op]
         public static IWorkerLog worker(FS.FolderPath home)
             => new WorkerLog(new LogSettings(home));
@@ -78,6 +69,6 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static LogSettings configure(string name = EmptyString)
-            => new LogSettings(core.controller().Id(), FS.dir("d:/views/db/logs"), name);
+            => new LogSettings(ExecutingPart.Component.Id(), FS.dir("d:/views/db/logs"), name);
     }
 }

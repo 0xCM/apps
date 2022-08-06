@@ -6,9 +6,6 @@ namespace Z0
 {
     partial struct FS
     {
-        public static string identifier(FS.FolderPath src)
-            => src.Format(PathSeparator.FS).Replace(Chars.FSlash, Chars.Dot).Replace(Chars.Colon, Chars.Dot).Replace("..", ".");
-
         /// <summary>
         /// Creates the specified folder if it does not exist; if it already exists, the file system is unmodified.
         /// </summary>

@@ -69,5 +69,6 @@ namespace Z0
 
         public new Seq<T> Where(Func<T,bool> predicate)
             => Seq.where(Edit, predicate);
+
     }
 }

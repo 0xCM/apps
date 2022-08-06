@@ -158,8 +158,8 @@ namespace Z0
         public IDbTargets CgRoot()
             => new DbTargets(setting(WsArchives.Path(Names.CgRoot), FS.dir));
 
-        public IDbTargets Capture()
-            => new DbTargets(setting(WsArchives.Path(Names.DbCapture), FS.dir));
+        public IDbArchive Capture()
+            => Datasets.archive(setting(WsArchives.Path(Names.DbCapture), FS.dir));
 
         public IDbSources EnvConfig()
             => new DbSources(setting(WsArchives.Path(Names.EnvConfig), FS.dir));

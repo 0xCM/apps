@@ -7,8 +7,6 @@ namespace Z0
     [Event(Kind)]
     public readonly struct Disposed<T> : IWfEvent<Disposed<T>,T>
     {
-        public const string EventName = GlobalEvents.Disposed;
-
         public const EventKind Kind = EventKind.Disposed;
 
         public EventId EventId {get;}

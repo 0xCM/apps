@@ -50,8 +50,11 @@ namespace Z0
         ProcessingFile,
 
         ProcessedFile,
+
         Data,
 
         Row,
+
+        FileChange,
     }
 }
