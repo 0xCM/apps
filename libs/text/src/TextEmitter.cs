@@ -28,7 +28,7 @@ namespace Z0
 
         readonly ITextBuffer Target;
 
-        TextEmitter(ITextBuffer dst, bool owns)
+        internal TextEmitter(ITextBuffer dst, bool owns)
         {
             Owns = owns;
             Target = dst;

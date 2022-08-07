@@ -4,18 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class MemDb
+    partial class Algs
     {
-        [Free]
-        public interface ITable : IEntity
+        [MethodImpl(Inline), Op]
+        public static void split(uint src, out ushort a, out ushort b)
         {
-
-        }
-
-        [Free]
-        public interface ITable<T> : ITable, IEntity<T>
-            where T : ITable<T>
-        {
+            a = (ushort)(src & 0x0000_FFFF);
+            b = (ushort)((src & 0xFFFF_0000) >> 16);
         }
     }
 }

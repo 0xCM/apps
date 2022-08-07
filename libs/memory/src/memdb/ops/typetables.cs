@@ -4,35 +4,33 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial class MemDb
     {
         [MethodImpl(Inline), Op]
-        public static DbDataType type(uint seq, asci32 name, asci32 primitive, DataSize size, asci32 refinement = default)
-            => new DbDataType(seq, name, primitive, size, !refinement.IsNull, refinement);
+        public static DbDataType type(uint seq, Name name, Name primitive, DataSize size, Name refinement = default)
+            => new DbDataType(seq, name, primitive, size, refinement.IsNonEmpty, refinement);
 
-        public static Index<TypeTableRow> rows(Index<TypeTable> src)
+        public static Index<TypeTableRow> rows(Index<DbTypeTable> src)
             => src.SelectMany(x => x.Rows).Sort().Resequence();
 
-        public static Index<TypeTable> typetables(Assembly src, string group, ICompositeDispenser dst)
+        public static Index<DbTypeTable> typetables(Assembly src, string group, ICompositeDispenser dst)
         {
             var types = MeasuredType.symbolic(src, group);
-            Index<TypeTable> tables = core.alloc<TypeTable>(types.Count);
+            Index<DbTypeTable> tables = core.alloc<DbTypeTable>(types.Count);
             for(var i=0; i<types.Count; i++)
                 tables[i] = MemDb.typetable(types[i], dst);
             return tables.Sort();
         }
 
-        public static TypeTable typetable(MeasuredType type, ICompositeDispenser dst)
+        public static DbTypeTable typetable(MeasuredType type, ICompositeDispenser dst)
         {
             var symbols = Symbols.syminfo(type.Definition);
-            Index<TypeTableRow> rows = alloc<TypeTableRow>(symbols.Count);
+            Index<TypeTableRow> rows = sys.alloc<TypeTableRow>(symbols.Count);
             for(var j=0; j<symbols.Count; j++)
             {
                 ref readonly var sym = ref symbols[j];
                 ref var row = ref rows[j];
-                row.Seq = NextSeq(ObjectKind.TypeTableRow);
+                row.Seq = NextSeq(DbObjectKind.TypeTableRow);
                 row.TypeName = dst.Label(type.Definition.Name);
                 row.LiteralName = dst.Label(sym.Name.Text);
                 row.Position = (ushort)sym.Index;
@@ -43,8 +41,8 @@ namespace Z0
                 row.Description = dst.String(sym.Description.Text);
             }
 
-            return new TypeTable(
-                NextSeq(ObjectKind.TypeTable),
+            return new DbTypeTable(
+                NextSeq(DbObjectKind.TypeTable),
                 dst.Label(type.Definition.Name),
                 type.Size,
                 rows

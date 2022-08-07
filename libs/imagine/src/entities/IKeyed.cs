@@ -5,9 +5,18 @@
 namespace Z0
 {
     [Free]
-    public interface IKeyed
+    public interface IKeyed : IExpr
     {
         dynamic Key {get;}
+
+        bool INullity.IsEmpty 
+            => Key is null;
+
+        bool INullity.IsNonEmpty
+            => Key is not null;
+
+        string IExpr.Format()
+            => $"{Key}";
     }
 
     [Free]

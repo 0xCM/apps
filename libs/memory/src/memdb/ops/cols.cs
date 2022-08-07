@@ -4,16 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Spans;
 
     partial class MemDb
     {
         [MethodImpl(Inline), Op]
-        public static ColDef col(ushort pos, asci32 name, ReadOnlySpan<byte> widths)
-            => new ColDef(pos, name, skip(widths, pos));
+        public static DbCol col(ushort pos, Name name, ReadOnlySpan<byte> widths)
+            => new DbCol(pos, name, skip(widths, pos));
 
         [MethodImpl(Inline), Op]
-        public static Index<ColDef> cols(params ColDef[] cols)
+        public static Index<DbCol> cols(params DbCol[] cols)
             => cols;
     }
 }

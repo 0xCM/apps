@@ -4,31 +4,28 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public record struct DbEntity : IEntity<DbEntity,uint>
+    [StructLayout(LayoutKind.Sequential,Pack=1)]
+    public record struct DbColSpec : IEntity<DbColSpec,uint>
     {
         public readonly uint Key;
 
+        public readonly DbDataType Type;
+
         public readonly Name Name;
 
-        public readonly Index<Relation32> Rels;
-
-        public readonly Index<DbColSpec> Cols;
-
         [MethodImpl(Inline)]
-        public DbEntity(uint key, Name name, DbColSpec[] cols, Relation32[] rels)
+        public DbColSpec(uint key, DbDataType type, Name name)
         {
             Key = key;
+            Type = type;
             Name = name;
-            Cols = cols;
-            Rels = rels;
         }
 
-        uint IKeyed<uint>.Key   
+        uint IKeyed<uint>.Key
             => Key;
 
         [MethodImpl(Inline)]
-        public int CompareTo(DbEntity src)
+        public int CompareTo(DbColSpec src)
             => Key.CompareTo(src.Key);
-    }
-   
+    }   
 }

@@ -4,8 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    [Entity(EntityKind)]
     public record struct ToolShimSpec : IEntity<ToolShimSpec,Name>
     {       
+        const string EntityKind = "tools.shims.spec";
+
         public Name ShimName;
 
         public FS.FilePath ShimPath;

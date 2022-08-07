@@ -4,19 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class MemDb
+    [Free]
+    public interface IDbTable : IEntity
     {
-        public enum ObjectKind : byte
-        {
-            None,
 
-            TypeTableRow,
-
-            TypeTable,
-
-            DataType,
-
-            Grid,
-        }
     }
+
+    [Free]
+    public interface IDbTable<T> : IDbTable, IEntity<T>
+        where T : IDbTable<T>, new()
+    {
+    }    
 }

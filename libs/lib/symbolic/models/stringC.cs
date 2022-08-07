@@ -4,8 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Algs;
     using static Spans;
+
     public readonly struct @string<C> : IString16<@string<C>,C>
         where C : unmanaged, ICharBlock<C>
     {

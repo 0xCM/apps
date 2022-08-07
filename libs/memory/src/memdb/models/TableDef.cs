@@ -13,10 +13,10 @@ namespace Z0
 
             public readonly asci32 Name;
 
-            public readonly Index<ColDef> Cols;
+            public readonly Index<DbCol> Cols;
 
             [MethodImpl(Inline)]
-            public TableDef(uint seq, asci32 name, ColDef[] cols)
+            public TableDef(uint seq, asci32 name, DbCol[] cols)
             {
                 Key = seq;
                 Name = name;

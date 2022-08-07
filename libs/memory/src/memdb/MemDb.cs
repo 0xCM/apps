@@ -32,7 +32,6 @@ namespace Z0
                 c = or(sll(src, (byte)cell.CellWidth), and(c, LowerMask));
         }
 
-
         readonly MemoryFile DbMap;
 
         public readonly MemoryFileInfo Description;
@@ -91,8 +90,8 @@ namespace Z0
             => Description;
 
         [MethodImpl(Inline)]
-        public static uint NextSeq(ObjectKind kind)
-            => core.inc(ref ObjSeqSource[kind]);
+        public static uint NextSeq(DbObjectKind kind)
+            => Algs.inc(ref ObjSeqSource[kind]);
 
         [MethodImpl(Inline)]
         static AllocToken token(MemoryAddress @base, uint offset, uint size)
@@ -105,6 +104,6 @@ namespace Z0
 
         const byte ObjTypeCount = 24;
 
-        static Index<ObjectKind,uint> ObjSeqSource = sys.alloc<uint>(ObjTypeCount);
+        static Index<DbObjectKind,uint> ObjSeqSource = sys.alloc<uint>(ObjTypeCount);
     }
 }

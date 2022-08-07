@@ -4,9 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class MemDb
+    [Free]
+    public interface IExpr<K> : IExpr, IKinded<K>
+        where K : unmanaged
     {
-        public static DbGrid<T> grid<T>(Dim2<uint> shape)
-            => new DbGrid<T>(new DbRowGrid<T>(shape), new DbColGrid<T>(shape));
+        ulong IKinded.Kind
+            => Algs.bw64((this as IKinded<K>).Kind);
     }
 }

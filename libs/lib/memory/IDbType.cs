@@ -5,9 +5,17 @@
 namespace Z0
 {
     [Free]
-    public interface INativeKey<K> : IKeyed<K>
-        where K : unmanaged, IEquatable<K>, IComparable<K>
+    public interface IDbType : IEntity
+    {
+        Name Name {get;}
+
+        DataSize Size {get;}
+    }
+
+    [Free]
+    public interface IDbType<T> : IDbType, IEntity<T>, IComparable<T>, IEquatable<T>
+        where T : IDbType<T>, new()
     {
 
-    }
+    }   
 }

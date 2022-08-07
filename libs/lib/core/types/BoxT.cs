@@ -4,13 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    [DataTypeAttributeD("box<t:{0}>")]
     public sealed class Box<T> : StrongBox<T>
-        //where T : struct
     {
         [MethodImpl(Inline)]
         public Box(T src)

@@ -6,7 +6,7 @@ namespace Z0
 {
     public interface INativeLiteral
     {
-        asci64 Name {get;}
+        Name Name {get;}
 
         ReadOnlySpan<byte> Data {get;}
     }

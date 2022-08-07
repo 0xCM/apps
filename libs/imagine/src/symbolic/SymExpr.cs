@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines the literal content of a symbol
     /// </summary>
-    public readonly struct SymExpr : ITextual
+    public readonly record struct SymExpr : IExpr
     {
         [Parser]
         public static Outcome parse(string src, out SymExpr dst)
@@ -36,12 +36,20 @@ namespace Z0
 
         public bool IsNonEmpty
         {
+            [MethodImpl(Inline)]
             get => CharCount != 0;
         }
+
         public string Text
         {
             [MethodImpl(Inline)]
             get => Content ?? EmptyString;
+        }
+
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Algs.hash(Data);
         }
 
         public ReadOnlySpan<char> Data
@@ -59,22 +67,13 @@ namespace Z0
             => Format();
 
         public override int GetHashCode()
-            => Text.GetHashCode();
+            => Hash;
 
         public bool Equals(SymExpr src)
             => Text.Equals(src.Text, NoCase);
 
-        public override bool Equals(object src)
-            => src is SymExpr e && Equals(e);
-
         public static implicit operator SymExpr(string src)
             => new SymExpr(src);
-
-        public static bool operator ==(SymExpr a, SymExpr b)
-            => a.Equals(b);
-
-        public static bool operator !=(SymExpr a, SymExpr b)
-            => !a.Equals(b);
 
         public static SymExpr Empty
         {

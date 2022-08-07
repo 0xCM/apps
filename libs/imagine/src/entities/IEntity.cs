@@ -11,7 +11,7 @@ namespace Z0
 
     [Free]
     public interface IEntity<E> : IEntity, IEquatable<E>
-        where E : IEntity<E>
+        where E : IEntity<E>, new()
     {
 
     }
@@ -19,7 +19,7 @@ namespace Z0
     [Free]
     public interface IEntity<E,K> : IEntity<E>, IKeyed<K>
         where K : IEquatable<K>, IComparable<K>
-        where E : IEntity<E,K>
+        where E : IEntity<E,K>, new()
     {
 
     }

@@ -7,6 +7,14 @@ namespace Z0
     [ApiHost]
     public class TextFormat
     {
+        [Op]
+        public static ITextEmitter emitter(StringBuilder src)
+            => new TextEmitter(new TextBuffer(src), false);
+
+        [Op]
+        public static ITextEmitter emitter()
+            => new TextEmitter(new TextBuffer(new StringBuilder()), true);
+
         [MethodImpl(Inline)]
         public static string format<T>(T src)
             => TextFormatters.Service.Format(src);
@@ -17,11 +25,11 @@ namespace Z0
                 => TextFormatters.Service.Format(src, selector);
 
         [MethodImpl(Inline)]
-        public static ITextFormatter Formatter(Type type)
+        public static ITextFormatter formatter(Type type)
             => TextFormatters.Service.FirstOrDefault(type);
 
         [MethodImpl(Inline)]
-        public static ITextFormatter Formatter<K>(Type type, K selector)
+        public static ITextFormatter formatter<K>(Type type, K selector)
             where K : unmanaged
                 => TextFormatters.Service.RefinedOrDefault(type, selector);
 

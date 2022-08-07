@@ -21,9 +21,6 @@ namespace Z0
             => new TextBuffer(capacity);
 
         public static ITextEmitter emitter()
-            => TextEmitter.cover(new StringBuilder());
-
-        public static ITextEmitter emitter(StringBuilder buffer)
-            => TextEmitter.cover(buffer);
+            => TextFormat.emitter();
     }
 }

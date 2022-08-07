@@ -4,38 +4,32 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class MemDb
+    [StructLayout(LayoutKind.Sequential,Pack=1)]
+    public readonly record struct EntityRef<T>: IComparable<EntityRef<T>>
+        where T : unmanaged, IEquatable<T>, IComparable<T>
     {
-        [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public readonly record struct EntityRef<T>: IComparable<EntityRef<T>>
+        public readonly T Key;
+
+        [MethodImpl(Inline)]
+        public EntityRef(T key)
         {
-            public readonly uint Key;
-
-            [MethodImpl(Inline)]
-            public EntityRef(uint key)
-            {
-                Key  = key;
-            }
-
-            [MethodImpl(Inline)]
-            public int CompareTo(EntityRef<T> src)
-                => Key.CompareTo(src.Key);
-
-            [MethodImpl(Inline)]
-            public uint Kind()
-                => alg.hash.marvin(typeof(T).AssemblyQualifiedName);
-
-            [MethodImpl(Inline)]
-            public static implicit operator EntityRef<T>(uint key)
-                => new EntityRef<T>(key);
-
-            [MethodImpl(Inline)]
-            public static implicit operator uint(EntityRef<T> src)
-                => src.Key;
-
-            [MethodImpl(Inline)]
-            public static implicit operator EntityRef(EntityRef<T> src)
-                => new EntityRef(src.Kind(), src.Key);
+            Key  = key;
         }
-    }
+
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Algs.native(Key);
+        }
+
+        public override int GetHashCode()
+            => Hash;
+
+        [MethodImpl(Inline)]
+        public int CompareTo(EntityRef<T> src)
+            => Key.CompareTo(src.Key);
+
+        public bool Equals(EntityRef<T> src)
+            => Key.Equals(src.Key);
+    }    
 }

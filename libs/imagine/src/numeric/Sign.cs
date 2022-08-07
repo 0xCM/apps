@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct Sign
+    public readonly record struct Sign : IDataType<Sign>
     {
         public readonly SignKind Kind;
 
@@ -12,6 +12,27 @@ namespace Z0
         public Sign(SignKind kind)
             => Kind = kind;
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => (byte)Kind;
+        }
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Kind == 0;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Kind != 0;
+        }
+
+        public override int GetHashCode()
+            => Hash;
+ 
         public string Format()
             => Kind switch{
                 SignKind.Negative => "-",
@@ -21,6 +42,14 @@ namespace Z0
 
         public override string ToString()
             => Format();
+
+        [MethodImpl(Inline)]
+        public bool Equals(Sign src)
+            => Kind == src.Kind;
+
+        [MethodImpl(Inline)]
+        public int CompareTo(Sign src)
+            => ((byte)Kind).CompareTo((byte)src.Kind);
 
         [MethodImpl(Inline)]
         public static implicit operator Sign(SignKind src)

@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct HResult<T> : ITextual, IEquatable<HResult<T>>
     {
         public HResult Code {get;}

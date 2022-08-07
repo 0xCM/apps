@@ -5,10 +5,17 @@
 namespace Z0
 {
     [Free]
-    public interface IExpr<K> : IExpr, IKinded<K>
-        where K : unmanaged
+    public interface IDbRow : IEntity, IKeyed<uint>, ISequential
     {
-        ulong IKinded.Kind
-            => core.bw64((this as IKinded<K>).Kind);
+        uint IKeyed<uint>.Key
+            => Seq;
     }
+
+    [Free]
+    public interface IDbRow<T> : IDbRow, IEntity<T>, ISequential<T>
+        where T : IDbRow<T>, new()
+    {
+
+    }
+
 }

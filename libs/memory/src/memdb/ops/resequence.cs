@@ -4,14 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Arrays;
 
     partial class MemDb
     {
-        public static Index<ColDef> resequence(Index<ColDef> left, Index<ColDef> right)
+        public static Index<DbCol> resequence(Index<DbCol> left, Index<DbCol> right)
         {
             var count = left.Count + right.Count;
-            var dst = alloc<ColDef>(count);
+            var dst = sys.alloc<DbCol>(count);
             var k=z8;
             for(var i=0; i<left.Count; i++, k++)
                 seek(dst,k) = (left[i].Reposition(k));

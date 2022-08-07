@@ -17,6 +17,9 @@
 			"path": "..\\sys"
 		},
 		{
+			"path": "..\\text"
+		},
+		{
 			"path": "..\\interop"
 		},
 		{
@@ -67,9 +70,6 @@
 		{
 			"path": "."
 		},
-		{
-			"path": "..\\text"
-		}
 	],
 	"settings": {
 		"powershell.cwd": "d:\\drives\\z\\dev\\z0\\libs\\tools.shell"

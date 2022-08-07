@@ -4,9 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class MemDb
+    public enum DbObjectKind : byte
     {
-        public static DbGrid<T> grid<T>(Dim2<uint> shape)
-            => new DbGrid<T>(new DbRowGrid<T>(shape), new DbColGrid<T>(shape));
+        None,
+
+        TypeTableRow,
+
+        TypeTable,
+
+        DataType,
+
+        Grid,
     }
+    
 }

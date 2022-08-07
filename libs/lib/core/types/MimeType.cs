@@ -4,12 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    public readonly struct MimeType : ITextual
+    public readonly struct MimeType
     {
         public string BaseTypeName {get;}
 

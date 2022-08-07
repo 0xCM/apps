@@ -8,6 +8,11 @@ namespace Z0
 
     partial class Algs
     {
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static Hash32 native<T>(T src)
+            where T : unmanaged
+                => G.native(src);
+                
         [MethodImpl(Inline)]
         public static Hash32 nhash<A,B>(A a, B b)
             where A : unmanaged

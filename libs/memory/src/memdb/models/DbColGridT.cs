@@ -7,7 +7,7 @@ namespace Z0
     using static Algs;
     using static Spans;
 
-    public class DbRowGrid<T>
+    public class DbColGrid<T>
     {
         readonly Index<T> Data;
 
@@ -19,19 +19,25 @@ namespace Z0
 
         public readonly uint ColCount;
 
-        public DbRowGrid(Dim2<uint> shape)
+        public DbColGrid(DbRowGrid<T> src)
+        {
+            CellCount = src.CellCount;
+            RowCount = src.RowCount;
+            ColCount = src.ColCount;
+            Data = sys.alloc<T>(CellCount);
+            _Offsets = DbGrids.CalcColOffsets(new Dim2<uint>(src.RowCount,src.ColCount));
+            for(var j=0u; j<RowCount; j++)
+                for(var i=0u; i<ColCount; i++)
+                    this[j,i] = src[i,j];
+        }
+
+        public DbColGrid(Dim2<uint> shape)
         {
             RowCount = shape.I;
             ColCount = shape.J;
             CellCount = shape.I*shape.J;
             Data = sys.alloc<T>(CellCount);
-            _Offsets = DbGrids.CalcRowOffsets(shape);
-        }
-
-        public Span<T> Cells
-        {
-            [MethodImpl(Inline)]
-            get => Data;
+            _Offsets = DbGrids.CalcColOffsets(shape);
         }
 
         public ref readonly Index<uint> Offsets
@@ -40,26 +46,25 @@ namespace Z0
             get => ref _Offsets;
         }
 
+        public Span<T> Cells
+        {
+            [MethodImpl(Inline)]
+            get => Data;
+        }
+
         [MethodImpl(Inline)]
-        public Span<T> Row(uint row)
-            =>  slice(Data.Edit, Offsets[row], ColCount);
+        public Span<T> Col(uint col)
+            =>  slice(Data.Edit, Offsets[col], RowCount);
 
         [MethodImpl(Inline)]
         public ref T Cell(uint row, uint col)
-            => ref seek(Row(row), col);
-
-        [MethodImpl(Inline)]
-        uint index(uint row, uint col)
-            => row == 0 ? col : row*ColCount + col;
+            => ref seek(Col(col), row);
 
         public ref T this[uint row, uint col]
         {
             [MethodImpl(Inline)]
-            get => ref Data[index(row,col)];
+            get => ref Cell(row,col);
         }
-
-        public DbColGrid<T> Columns()
-            => new DbColGrid<T>(this);
     }
 
 }

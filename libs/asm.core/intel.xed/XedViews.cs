@@ -97,10 +97,10 @@ namespace Z0
             get => ref Load<Index<CpuIdImport>>(XedRecord.CpuIdImport);
         }
 
-        public ref readonly Index<TypeTable> TypeTables
+        public ref readonly Index<DbTypeTable> TypeTables
         {
             [MethodImpl(Inline)]
-            get => ref Load<Index<TypeTable>>(XedRecord.TypeTables);
+            get => ref Load<Index<DbTypeTable>>(XedRecord.TypeTables);
         }
 
         public ref readonly Index<TypeTableRow> TypeTableRows
