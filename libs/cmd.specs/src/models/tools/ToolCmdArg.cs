@@ -8,27 +8,15 @@ namespace Z0
 
     public readonly record struct ToolCmdArg : IToolCmdArg<string>
     {
-        public readonly ushort Position {get;}
+        public readonly string Name;
 
-        public readonly string Name {get;}
+        public readonly string Value;
 
-        public readonly string Value {get;}
-
-        public readonly bool IsFlag {get;}
-
-        [MethodImpl(Inline)]
-        public ToolCmdArg(ushort pos, string name, string value, bool flag = false)
-        {
-            Position = pos;
-            Name = name;
-            Value = value;
-            IsFlag = flag;
-        }
+        public readonly bool IsFlag;
 
         [MethodImpl(Inline)]
         public ToolCmdArg(string name, string value, bool flag = false)
         {
-            Position = 0;
             Name = name;
             Value = value;
             IsFlag = flag;
@@ -52,6 +40,12 @@ namespace Z0
 
         public override string ToString()
             => Format();
+
+        string IToolCmdArg<string>.Value 
+            => Value;
+
+        string IToolCmdArg.Name  
+            => Name;
 
         [MethodImpl(Inline)]
         public static implicit operator ToolCmdArg(Pair<string> src)

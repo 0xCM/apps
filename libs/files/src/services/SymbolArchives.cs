@@ -6,17 +6,14 @@ namespace Z0
 {
     using static EnvFolders;
 
-    public readonly struct SymbolPaths : IFileArchive
+    public readonly struct SymbolArchives : IDbArchive
     {
-        // public static SymbolPaths create(in EnvData env)
-        //     => new SymbolPaths(env.CacheRoot + FS.folder(symbols));
-
-        public static SymbolPaths create(IDbArchive src)
-            => new SymbolPaths(src.Root);
+        public static SymbolArchives create(IDbArchive src)
+            => new SymbolArchives(src.Root);
 
         public FS.FolderPath Root {get;}
 
-        internal SymbolPaths(FS.FolderPath root)
+        public SymbolArchives(FS.FolderPath root)
         {
             Root = root;
         }

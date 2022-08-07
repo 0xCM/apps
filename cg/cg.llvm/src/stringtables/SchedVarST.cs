@@ -107,6 +107,7 @@ namespace Z0.llvm.strings
         anonymous_22679 = 98,
     }
 
+    [ApiCompleteAttribute]
     public readonly struct SchedVarST
     {
         public const uint EntryCount = 99;

@@ -11,6 +11,7 @@ namespace Z0.llvm.strings
         IsZeroIdiomDecl = 2,
     }
 
+    [ApiCompleteAttribute]
     public readonly struct STIPredicateDeclST
     {
         public const uint EntryCount = 3;

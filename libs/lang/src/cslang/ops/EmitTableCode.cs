@@ -8,6 +8,31 @@ namespace Z0
 
     partial class CsLang
     {
+        public void EmitTableCode(StringTableSpec syntax, ItemList<string> src, IDbTargets dst)
+        {
+            var path = SourceFile(syntax.TableName, "stringtables", dst);
+            var emitter = text.emitter();
+            render(syntax, src, emitter);
+            FileEmit(emitter.Emit(), src.Count, path);
+        }
+
+        public void EmitTableCode<K>(SymbolStrings<K> spec, FS.FilePath dst)
+            where K : unmanaged
+        {
+            var emitter = text.emitter();
+            var def = StringTables.create(spec);
+            render(def.Spec, spec.Entries, emitter);
+            FileEmit(emitter.Emit(), spec.Entries.Count, dst);
+        }
+
+        public void EmitTableCode(StringTableSpec spec, ReadOnlySpan<string> src, IDbTargets dst)
+        {
+            var path = SourceFile(spec.TableName, "stringtables", dst);
+            var emitter = text.emitter();
+            render(spec, src, emitter);
+            FileEmit(emitter.Emit(), src.Length, path);
+        }
+
         FS.FileUri EmitTableCode(StringTableSpec syntax, ItemList<string> src, CgTarget cgdst)
         {
             var dst = SourceFile(syntax.TableName, "stringtables", cgdst);
@@ -17,39 +42,12 @@ namespace Z0
             return dst;
         }
 
-        void EmitTableCode(StringTableSpec syntax, ItemList<string> src, IDbTargets dst)
-        {
-            var path = SourceFile(syntax.TableName, "stringtables", dst);
-            var emitter = text.emitter();
-            render(syntax, src, emitter);
-            FileEmit(emitter.Emit(), src.Count, path);
-        }
-
-        FS.FileUri EmitTableCode<K>(SymbolStrings<K> spec, FS.FilePath dst)
-            where K : unmanaged
-        {
-            var emitter = text.emitter();
-            var def = StringTables.create(spec);
-            render(def.Spec, spec.Entries, emitter);
-            FileEmit(emitter.Emit(), spec.Entries.Count, dst);
-            return dst;
-        }
-
-        FS.FileUri EmitTableCode(StringTableSpec spec, ReadOnlySpan<string> src, CgTarget cgdst)
+        void EmitTableCode(StringTableSpec spec, ReadOnlySpan<string> src, CgTarget cgdst)
         {
             var dst = SourceFile(spec.TableName, "stringtables", cgdst);
             var emitter = text.emitter();
             render(spec, src, emitter);
             FileEmit(emitter.Emit(), src.Length, dst);
-            return dst;
-        }
-
-        void EmitTableCode(StringTableSpec spec, ReadOnlySpan<string> src, IDbTargets dst)
-        {
-            var path = SourceFile(spec.TableName, "stringtables", dst);
-            var emitter = text.emitter();
-            render(spec, src, emitter);
-            FileEmit(emitter.Emit(), src.Length, path);
         }
 
         static uint render(in StringTableSpec spec, ItemList<string> src, ITextEmitter dst)
@@ -101,6 +99,7 @@ namespace Z0
                 dst.AppendLine();
             }
 
+            dst.IndentLine(margin, CustomAttribute(nameof(ApiCompleteAttribute)));
             dst.IndentLine(margin, PublicReadonlyStruct(syntax.TableName));
             dst.IndentLine(margin, Open());
             margin+=4;

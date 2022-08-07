@@ -156,6 +156,7 @@ namespace Z0.llvm.strings
         TuningUseSLMArithCosts = 147,
     }
 
+    [ApiCompleteAttribute]
     public readonly struct SubtargetFeatureST
     {
         public const uint EntryCount = 148;

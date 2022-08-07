@@ -12,6 +12,7 @@ namespace Z0.llvm.strings
         srcidx8 = 3,
     }
 
+    [ApiCompleteAttribute]
     public readonly struct X86SrcIdxOperandST
     {
         public const uint EntryCount = 4;

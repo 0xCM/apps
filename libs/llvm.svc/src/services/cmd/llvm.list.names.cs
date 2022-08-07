@@ -2,15 +2,16 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.llvm
 {
-    using static core;
-    using static text;
+    using static Algs;
 
-    [ApiHost]
-    public readonly struct SizedText
+    partial class LlvmCmd
     {
-
-
+        [CmdOp("llvm/list/names")]
+        void ListNames()
+        {
+           iter(DataProvider.Lists(), list => Write(list.Name));
+        }
     }
 }

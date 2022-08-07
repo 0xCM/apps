@@ -5,16 +5,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public unsafe sealed class SymMetadataProvider : ISymMetadataProvider
+    public unsafe sealed class SymbolMetadata : ISymMetadataProvider
     {
-        public static SymMetadataProvider create(in PdbSymbolSource source)
-            => new SymMetadataProvider(source);
-
         readonly PEReader PeReader;
 
         readonly MetadataReader MdReader;
 
-        public SymMetadataProvider(PdbSymbolSource source)
+        public SymbolMetadata(PdbSymbolSource source)
         {
             if(!source.Streams)
                 PeReader = new PEReader(source.PeSrc.Pointer(), source.PeSrc.Size, source.RuntimeLoaded);

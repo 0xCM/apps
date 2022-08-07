@@ -8,11 +8,6 @@ namespace Z0
     public interface IToolCmdArg : IExpr
     {
         /// <summary>
-        /// The argument's relative position
-        /// </summary>
-        ushort Position {get;}
-
-        /// <summary>
         /// The argument name, if any
         /// </summary>
         string Name {get;}

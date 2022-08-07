@@ -102,6 +102,7 @@ namespace Z0.llvm.strings
         anonymous_9303 = 93,
     }
 
+    [ApiCompleteAttribute]
     public readonly struct SDTypeConstraintST
     {
         public const uint EntryCount = 94;

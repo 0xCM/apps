@@ -15,7 +15,7 @@ namespace Z0
 
     [Free]
     public interface ICmd<T> : ICmd
-        where T : struct, ICmd<T>
+        where T : ICmd<T>, new()
     {
         CmdId ICmd.CmdId
             => CmdId.identify<T>();

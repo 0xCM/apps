@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
 
     public sealed class PdbIndexBuilder : WfSvc<PdbIndexBuilder>
     {
@@ -19,7 +20,7 @@ namespace Z0
             {
                 stats.Pdb = pdbpath;
                 stats.Assembly = asmpath;
-                var reader = PdbReader.create(Wf, asmpath, pdbpath);
+                var reader = PdbSymbols.reader(asmpath, pdbpath);
                 var methods = src.Methods().Index();
                 var count = methods.Length;
                 stats.DocCount += dst.Include(reader.Documents);

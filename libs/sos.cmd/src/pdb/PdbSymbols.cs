@@ -10,6 +10,21 @@ namespace Z0
 
     public sealed class PdbSymbols : AppService<PdbSymbols>
     {
+        public static PdbReader reader(PdbSymbolSource src)
+            => PdbReader.create(src);
+
+        public static PdbReader reader(FS.FilePath pe, FS.FilePath pdb)
+        {
+            if(!pe.Exists)
+                Throw.sourced(FS.Msg.DoesNotExist.Format(pe));
+            if(!pdb.Exists)
+                Throw.sourced(FS.Msg.DoesNotExist.Format(pdb));
+            return PdbReader.create(PdbSymbols.source(pe, pdb));
+        }
+
+        public static SymbolMetadata metadata(PdbSymbolSource source)
+            => new SymbolMetadata(source);
+
         /// <summary>
         /// Loads a symbol source from specified binary data
         /// </summary>
@@ -36,44 +51,23 @@ namespace Z0
         public static PdbSymbolSource source(FS.FilePath pe)
             => new PdbSymbolSource(pe, pe.ChangeExtension(FS.Pdb));
 
-        SymbolPaths SymPaths => Z0.SymbolPaths.create(AppDb.Service.Symbols());
+        public static DirectorySymbolStore store(FS.FolderPath src, WfEmit channel)
+            => new DirectorySymbolStore(tracer(channel), null, src.Name);
 
-        public FS.Files EmitDefaultSymbolPaths(FS.FilePath dst)
-        {
-            var paths = SymbolPaths(SymPaths.DefaultSymbolCache());
-            var buffer = text.buffer();
-            FS.render(paths.View, buffer);
-            using var writer = dst.Writer();
-            writer.Write(buffer.Emit());
-            return paths;
-        }
-
-        public DirectorySymbolStore DirectoryStore(FS.FolderPath dir)
-            => new DirectorySymbolStore(tracer(Wf), null, dir.Name);
-
-        public SymbolStoreFile SymbolFile(FS.FilePath src)
+        public static SymbolStoreFile file(FS.FilePath src)
             => new SymbolStoreFile(src.Stream(), src.FileName.Name);
 
-        public KeyGenerator KeyGenerator(SymbolStoreFile src)
-            => new PortablePDBFileKeyGenerator(tracer(Wf), src);
+        public static KeyGenerator keygen(SymbolStoreFile src, WfEmit channel)
+            => new PortablePDBFileKeyGenerator(tracer(channel), src);
 
-        public Index<SymbolStoreKey> Identities(KeyGenerator src)
+        public static ReadOnlySeq<SymbolStoreKey> keys(KeyGenerator src)
             => src.GetKeys(KeyTypeFlags.IdentityKey).Array();
 
-        public Index<SymbolStoreKey> Identities(SymbolStoreFile src)
-            => Identities(KeyGenerator(src)).Array();
-
-        public Index<SymbolStoreKey> SymbolKeys(KeyGenerator src)
-            => src.GetKeys(KeyTypeFlags.IdentityKey).Array();
-
-        public Index<SymbolStoreKey> SymbolKeys(SymbolStoreFile src)
-            => SymbolKeys(KeyGenerator(src)).Array();
-
-        public FS.Files SymbolPaths(FS.FolderPath src)
-            => src.Files(FS.Pdb, true);
+        public static ReadOnlySeq<SymbolStoreKey> keys(SymbolStoreFile src, WfEmit channel)
+            => keys(keygen(src, channel)).Array();
 
         [MethodImpl(Inline)]
-        static ITracer tracer(IWfRuntime wf)
-            => new SymbolTracer(wf);
+        public static ITracer tracer(WfEmit channel)
+            => new SymbolTracer(channel);
     }
 }

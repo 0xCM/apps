@@ -28,6 +28,7 @@ namespace Z0.llvm.strings
         SETUO = 19,
     }
 
+    [ApiCompleteAttribute]
     public readonly struct CondCodeST
     {
         public const uint EntryCount = 20;

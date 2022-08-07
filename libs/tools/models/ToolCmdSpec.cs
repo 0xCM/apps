@@ -4,44 +4,39 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using api = Tooling;
+
     /// <summary>
     /// Defines a tool execution specification
     /// </summary>
     public class ToolCmdSpec : IToolCmd
     {
-        public static string format(IToolCmd src)
-        {
-            var count = src.Args.Count;
-            var dst = text.emitter();
-            dst.AppendFormat("{0}{1}", src.CmdName.Format(), Chars.LParen);
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var arg = ref src.Args[i];
-                dst.AppendFormat(RP.Assign, arg.Name, arg.Value);
-                if(i != count - 1)
-                    dst.Append(", ");
-            }
-
-            dst.Append(Chars.RParen);
-            return dst.Emit();
-        }
-
         public readonly Tool Tool;
 
-        public readonly Name CmdName;
-
+        public readonly Name Type;
+        
         public readonly ToolCmdArgs Args;
 
         [MethodImpl(Inline)]
-        public ToolCmdSpec(Tool tool, Name cmd, params ToolCmdArg[] args)
-        {
+        public ToolCmdSpec(Tool tool, Name type, params ToolCmdArg[] args)
+        {            
             Tool = tool;
-            CmdName = cmd;
+            Type = type;
             Args = args;
         }
 
+
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Tool.Hash | Type.Hash | Args.Hash;
+        }
+
+        public override int GetHashCode()
+            => Hash;
+
         public string Format()
-            => format(this);
+            => api.serialize(this);
 
         public override string ToString()
             => Format();
@@ -52,10 +47,14 @@ namespace Z0
             get => new ToolCmdSpec(Actor.Empty, EmptyString);
         }
 
-        Name IToolCmd.CmdName
-            => CmdName;
 
         ToolCmdArgs IToolCmd.Args
             => Args;
+
+        Tool IToolCmd.Tool
+             => Tool;
+
+        Name IToolCmd.Type 
+            => Type;
     }
 }

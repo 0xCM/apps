@@ -10,20 +10,20 @@ namespace Z0
     public readonly record struct ToolCmdArg<K,T>
         where K : unmanaged
     {
-        public readonly K Kind;
+        public readonly K Name;
 
         public readonly T Value;
 
         [MethodImpl(Inline)]
         public ToolCmdArg(K kind, T value)
         {
-            Kind = kind;
+            Name = kind;
             Value = value;
         }
 
         [MethodImpl(Inline)]
         public string Format()
-            => string.Format(RP.Assign, Kind, Value);
+            => string.Format(RP.Assign, Name, Value);
 
         public override string ToString()
             => Format();
@@ -38,10 +38,10 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator ToolCmdArg(ToolCmdArg<K,T> src)
-            => new ToolCmdArg(src.Kind.ToString(), src.Value?.ToString() ?? EmptyString);
+            => new ToolCmdArg(src.Name.ToString(), src.Value?.ToString() ?? EmptyString);
 
         [MethodImpl(Inline)]
         public static implicit operator ToolCmdArg<T>(ToolCmdArg<K,T> src)
-            => new ToolCmdArg<T>(src.Kind.ToString(), src.Value);
+            => new ToolCmdArg<T>(src.Name.ToString(), src.Value);
     }
 }

@@ -61,6 +61,7 @@ namespace Z0.llvm.strings
         RetCC_X86_Win64_RegCall = 52,
     }
 
+    [ApiCompleteAttribute]
     public readonly struct CallingConvST
     {
         public const uint EntryCount = 53;

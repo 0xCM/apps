@@ -6,12 +6,8 @@ namespace Z0
 {
     using Microsoft.DiaSymReader;
 
-    public readonly struct PdbMethod : IAppSymAdapter<PdbMethod, ISymUnmanagedMethod>
+    public readonly record struct PdbMethod : IAppSymAdapter<PdbMethod, ISymUnmanagedMethod>
     {
-        [MethodImpl(Inline), Op]
-        public static PdbMethod adapt(ISymUnmanagedMethod src)
-            => new PdbMethod(src);
-
         [Op]
         public static uint SeqPointCount(PdbMethod src)
         {
@@ -26,7 +22,7 @@ namespace Z0
             return result ? token : CliToken.Empty;
         }
 
-        internal readonly ISymUnmanagedMethod Source;
+        readonly ISymUnmanagedMethod Source;
 
         [MethodImpl(Inline)]
         internal PdbMethod(ISymUnmanagedMethod src)

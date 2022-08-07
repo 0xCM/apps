@@ -72,6 +72,7 @@ namespace Z0.llvm.strings
         anonymous_17949 = 63,
     }
 
+    [ApiCompleteAttribute]
     public readonly struct MCInstPredicateST
     {
         public const uint EntryCount = 64;

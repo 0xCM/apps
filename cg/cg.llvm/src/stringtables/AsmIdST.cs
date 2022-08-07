@@ -17715,6 +17715,7 @@ namespace Z0.llvm.strings
         XTEST = 17706,
     }
 
+    [ApiCompleteAttribute]
     public readonly struct AsmIdST
     {
         public const uint EntryCount = 17707;

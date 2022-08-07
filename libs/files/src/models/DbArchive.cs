@@ -34,6 +34,9 @@ namespace Z0
         public bool Equals(DbArchive src)
             => Root == src.Root;
 
+        public IDbArchive Scoped(string scope)
+            => Datasets.archive(Root + FS.folder(scope));
+
         public string Format()
             => Root.Format();
 
@@ -48,12 +51,6 @@ namespace Z0
 
         public int CompareTo(DbArchive src)
             => Root.CompareTo(src.Root);
-
-        // public IDbSources ProjectSources(ProjectId id)
-        //     => new DbSources(Root, id.Format());
-
-        // public IDbTargets ProjectData(ProjectId id)
-        //     => new DbTargets(FS.dir($"{Root}/projects"), id.Format());
 
         public IDbTargets Targets()
             => new DbTargets(Root);

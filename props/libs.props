@@ -71,8 +71,6 @@
     <ProjectReference Include="$(Rules)" />
     <ProjectReference Include="$(Render)" />
 
-    <ProjectReference Include="$(SizedText)" />
-
     <ProjectReference Include="$(SosCmd)" />
 
     <ProjectReference Include="$(Tuples)" />

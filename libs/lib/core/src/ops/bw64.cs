@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
-    using static System.Runtime.CompilerServices.Unsafe;
-
     partial struct core
     {
         /// <summary>

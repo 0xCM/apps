@@ -209,6 +209,7 @@ namespace Z0.llvm.strings
         G_ZEXTLOAD = 200,
     }
 
+    [ApiCompleteAttribute]
     public readonly struct GenericInstructionST
     {
         public const uint EntryCount = 201;

@@ -4,26 +4,27 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [StructLayout(StructLayout,Pack =1)]
-    public readonly struct PdbSeqPoint
+    [StructLayout(StructLayout,Pack=1)]
+    public readonly record struct PdbSeqPoint
     {
-        public static PdbSeqPoint adapt(SymUnmanagedSequencePoint src)
-            => new PdbSeqPoint((uint)src.Offset,
-                ((uint)src.StartLine, (uint)src.StartColumn),
-                ((uint)src.EndLine, (uint)src.EndColumn));
-
         public readonly uint Offset;
 
-        public readonly CellIndex<uint> UpperLeft;
+        public readonly CellIndex UpperLeft;
 
-        public readonly CellIndex<uint> LowerRight;
+        public readonly CellIndex LowerRight;
 
         [MethodImpl(Inline)]
-        public PdbSeqPoint(uint offset, CellIndex<uint> x, CellIndex<uint> y)
+        public PdbSeqPoint(uint offset, CellIndex x, CellIndex y)
         {
             Offset = offset;
             UpperLeft = x;
             LowerRight = y;
+        }
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => UpperLeft.IsZero && LowerRight.IsZero;
         }
 
         public uint StartLine
@@ -57,7 +58,7 @@ namespace Z0
         }
 
         public string Format()
-            =>  string.Format("[{0:D3}, ({1:D3},{2:D3}), ({3:D3},{4:D3})]", Offset, StartLine, StartColumn, EndLine, EndColumn);
+            => string.Format("[{0:D3}, ({1:D3},{2:D3}), ({3:D3},{4:D3})]", Offset, StartLine, StartColumn, EndLine, EndColumn);
 
         public override string ToString()
             => Format();

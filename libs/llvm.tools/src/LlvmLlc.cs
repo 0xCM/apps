@@ -10,10 +10,8 @@ namespace Z0.llvm
 
     public class LlvmLlcSvc : ToolService<LlvmLlcSvc>
     {
-        public const string ToolId = ToolNames.llc;
-
         public LlvmLlcSvc()
-            : base(ToolId)
+            : base("llc")
         {
 
         }

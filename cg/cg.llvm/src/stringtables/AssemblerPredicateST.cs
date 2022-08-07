@@ -13,6 +13,7 @@ namespace Z0.llvm.strings
         Not64BitMode = 4,
     }
 
+    [ApiCompleteAttribute]
     public readonly struct AssemblerPredicateST
     {
         public const uint EntryCount = 5;

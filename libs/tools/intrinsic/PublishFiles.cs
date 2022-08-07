@@ -23,6 +23,5 @@ namespace Z0
             FS.FolderPath IFlowCmd<FS.FolderPath, FS.FolderPath>.Target
                 => Target;
         }
-
     }
 }

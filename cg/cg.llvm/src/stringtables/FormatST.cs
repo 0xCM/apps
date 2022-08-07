@@ -124,6 +124,7 @@ namespace Z0.llvm.strings
         RawFrmSrc = 115,
     }
 
+    [ApiCompleteAttribute]
     public readonly struct FormatST
     {
         public const uint EntryCount = 116;

@@ -74,7 +74,6 @@
     <Rules>$(SlnLibs)rules\z0.rules.csproj</Rules>
     <Render>$(SlnLibs)render\z0.render.csproj</Render>
 
-    <SizedText>$(SlnLibs)text.sized\z0.text.sized.csproj</SizedText>
     <SosCmd>$(SlnLibs)sos.cmd\z0.sos.cmd.csproj</SosCmd>
 
     <Validity>$(SlnLibs)validity\z0.validity.csproj</Validity>

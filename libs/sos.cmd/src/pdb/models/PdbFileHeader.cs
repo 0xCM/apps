@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Record(TableId), StructLayout(LayoutKind.Sequential, Pack=1)]
-    public struct PdbFileHeader : IRecord<PdbFileHeader>
+    public struct PdbFileHeader
     {
         public const string TableId = "pdb.header";
 

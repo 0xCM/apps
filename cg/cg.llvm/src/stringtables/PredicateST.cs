@@ -160,6 +160,7 @@ namespace Z0.llvm.strings
         UseSSSE3 = 151,
     }
 
+    [ApiCompleteAttribute]
     public readonly struct PredicateST
     {
         public const uint EntryCount = 152;

@@ -4,11 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static System.Runtime.CompilerServices.Unsafe;
 
-    public class ToolCmd
+    partial class Algs
     {
-
-        
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static ref bool @bool<T>(in T src)
+            => ref As<T,bool>(ref edit(src));
     }
-
 }

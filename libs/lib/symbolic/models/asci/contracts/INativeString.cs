@@ -4,22 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Free]
-    public interface INativeString<S,K> : IString<S,K>
-        where K : unmanaged, IEquatable<K>, IComparable<K>
-        where S : unmanaged, INativeString<S,K>
-    {
-
-    }
-
-    [Free]
-    public interface INativeString<S,K,B> : INativeString<S,K>
-        where K : unmanaged, IEquatable<K>, IComparable<K>
-        where B : unmanaged, IStorageBlock<B>
-        where S : unmanaged, INativeString<S,K,B>
-    {
-
-    }
+    using static Algs;
 
     [Free]
     public interface IString8<S,B> : INativeString<S,AsciSymbol>
@@ -27,13 +12,13 @@ namespace Z0
         where S : unmanaged, IString8<S,B>
     {
         BitWidth ISized.BitWidth
-            => core.width<B>();
+            => width<B>();
 
         ByteSize ISized.ByteCount
-            => core.size<B>();
+            => size<B>();
 
         int IByteSeq.Capacity
-            => (int)core.size<B>();
+            => (int)size<B>();
     }
 
     [Free]
@@ -42,12 +27,12 @@ namespace Z0
         where B : unmanaged, ICharBlock<B>
     {
         BitWidth ISized.BitWidth
-            => core.width<B>();
+            => width<B>();
 
         ByteSize ISized.ByteCount
-            => core.size<B>();
+            => size<B>();
 
         int IByteSeq.Capacity
-            => (int)core.size<B>()/2;
+            => (int)size<B>()/2;
     }
 }

@@ -4,9 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    using static core;
+    using static Algs;
 
     public interface IFormatPattern
     {
@@ -35,7 +33,8 @@ namespace Z0
     {
         string Format(in A0 a0, in A1 a1);
 
-        byte IFormatPattern.ArgCount => 2;
+        byte IFormatPattern.ArgCount 
+            => 2;
 
         ReadOnlySpan<Type> IFormatPattern.ArgTypes
             => array(typeof(A0), typeof(A1));
@@ -48,7 +47,8 @@ namespace Z0
 
         RenderCapture Capture(in A0 a0, in A1 a1, in A2 a2);
 
-        byte IFormatPattern.ArgCount => 3;
+        byte IFormatPattern.ArgCount 
+            => 3;
 
         ReadOnlySpan<Type> IFormatPattern.ArgTypes
             => array(typeof(A0), typeof(A1), typeof(A2));
@@ -61,7 +61,8 @@ namespace Z0
 
         RenderCapture Capture(in A0 a0, in A1 a1, in A2 a2, in A3 a3);
 
-        byte IFormatPattern.ArgCount => 4;
+        byte IFormatPattern.ArgCount 
+            => 4;
 
         ReadOnlySpan<Type> IFormatPattern.ArgTypes
             => array(typeof(A0), typeof(A1), typeof(A2), typeof(A3));
@@ -72,7 +73,8 @@ namespace Z0
     {
         string Format(in A0 a0, in A1 a1, in A2 a2, in A3 a3, in A4 a4);
 
-        byte IFormatPattern.ArgCount => 5;
+        byte IFormatPattern.ArgCount 
+            => 5;
 
         ReadOnlySpan<Type> IFormatPattern.ArgTypes
             => array(typeof(A0), typeof(A1), typeof(A2), typeof(A3), typeof(A4));

@@ -12,7 +12,7 @@ namespace Z0
     public unsafe readonly struct PdbQuery
     {
         public static Index<PdbSeqPoint> points(ISymUnmanagedMethod src)
-            => src.GetSequencePoints().Array().Select(PdbSeqPoint.adapt);
+            => src.GetSequencePoints().Array().Select(PdbDocs.point);
 
         [MethodImpl(Inline), Op]
         public static PdbKind pdbkind(in byte src)
@@ -20,7 +20,7 @@ namespace Z0
 
         [Op]
         public static PdbDocument[] documents(ISymUnmanagedMethod src)
-            => src.GetDocumentsForMethod().Select(PdbDocument.adapt);
+            => src.GetDocumentsForMethod().Select(PdbDocs.doc);
 
         [MethodImpl(Inline), Op]
         public static PdbKind pdbkind(ReadOnlySpan<byte> src)

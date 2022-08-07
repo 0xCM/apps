@@ -19,6 +19,7 @@ namespace Z0.llvm.strings
         offset64_8 = 10,
     }
 
+    [ApiCompleteAttribute]
     public readonly struct X86MemOffsOperandST
     {
         public const uint EntryCount = 11;

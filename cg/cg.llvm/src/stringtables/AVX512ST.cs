@@ -11132,6 +11132,7 @@ namespace Z0.llvm.strings
         VXORPSZrrkz = 11123,
     }
 
+    [ApiCompleteAttribute]
     public readonly struct AVX512ST
     {
         public const uint EntryCount = 11124;

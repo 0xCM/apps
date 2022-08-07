@@ -94,6 +94,7 @@ namespace Z0.llvm.strings
         anonymous_22768 = 85,
     }
 
+    [ApiCompleteAttribute]
     public readonly struct ProcessorST
     {
         public const uint EntryCount = 86;

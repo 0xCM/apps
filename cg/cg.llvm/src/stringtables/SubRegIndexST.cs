@@ -18,6 +18,7 @@ namespace Z0.llvm.strings
         sub_ymm = 9,
     }
 
+    [ApiCompleteAttribute]
     public readonly struct SubRegIndexST
     {
         public const uint EntryCount = 10;

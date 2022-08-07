@@ -1669,6 +1669,7 @@ namespace Z0.llvm.strings
         ZnXADD = 1660,
     }
 
+    [ApiCompleteAttribute]
     public readonly struct SchedWriteST
     {
         public const uint EntryCount = 1661;

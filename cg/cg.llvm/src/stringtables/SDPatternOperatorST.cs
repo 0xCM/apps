@@ -12145,6 +12145,7 @@ namespace Z0.llvm.strings
         zextloadvi32 = 12136,
     }
 
+    [ApiCompleteAttribute]
     public readonly struct SDPatternOperatorST
     {
         public const uint EntryCount = 12137;

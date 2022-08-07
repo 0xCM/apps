@@ -67,6 +67,7 @@ namespace Z0.llvm.strings
         X86SrcIdx8Operand = 58,
     }
 
+    [ApiCompleteAttribute]
     public readonly struct AsmOperandClassST
     {
         public const uint EntryCount = 59;

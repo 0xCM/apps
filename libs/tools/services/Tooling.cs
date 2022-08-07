@@ -17,6 +17,48 @@ namespace Z0
         public static SettingLookup lookup(FS.FilePath src, char sep = Chars.Eq)
             => Settings.lookup(src, sep);
 
+        public static string format<T,C>(C src)
+            where C : IToolCmd,new()
+            where T : ITool, new()
+        {
+            var dst = text.emitter();
+            
+            return dst.Emit();
+        }
+
+        public static async Task<int> start(ToolCmdSpec cmd, CmdContext context, Action<string> status, Action<string> error)
+        {
+            var info = new ProcessStartInfo
+            {
+                FileName = cmd.Tool.Format(),
+                Arguments = cmd.Format(),
+                RedirectStandardError = true,
+                RedirectStandardOutput = true,
+                RedirectStandardInput = true
+            };
+
+            var process = new Process {StartInfo = info};
+
+            if (!context.WorkingDir.IsNonEmpty)
+                process.StartInfo.WorkingDirectory = context.WorkingDir.Name;
+
+            iter(context.EnvVars, v => process.StartInfo.Environment.Add(v.Name, v.Value));
+            process.OutputDataReceived += (s,d) => status(d.Data ?? EmptyString);
+            process.ErrorDataReceived += (s,d) => error(d.Data ?? EmptyString);
+            process.Start();
+            process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
+            return await wait(process);
+
+            static async Task<int> wait(Process process)
+            {
+                return await Task.Run(() => {
+                    process.WaitForExit();
+                    return Task.FromResult(process.ExitCode);
+                });
+            }
+        }
+
         public static ToolSettings settings(FS.FilePath src)
         {
             var data = Settings.env(src);
@@ -53,11 +95,11 @@ namespace Z0
             }
         }
 
-        public static string format(IToolCmd src)
+        public static string serialize(IToolCmd src)
         {
             var count = src.Args.Count;
             var buffer = text.buffer();
-            buffer.AppendFormat("{0}{1}", src.CmdName.Format(), Chars.LParen);
+            buffer.AppendFormat("{0}{1}", src.Tool, Chars.LParen);
             for(var i=0; i<count; i++)
             {
                 ref readonly var arg = ref src.Args[i];

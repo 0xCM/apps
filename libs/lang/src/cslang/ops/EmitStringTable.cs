@@ -39,6 +39,22 @@ namespace Z0
             return def;
         }
 
+        public StringTable EmitStringTable(Identifier tableNs, ClrIntegerType indexType, ItemList<string> src, IDbArchive dst, bool emitIndex)
+        {
+            var name = src.Name;
+            var spec = StringTables.spec(
+                tableNs: tableNs,
+                tableName: name +"ST",
+                indexNs: tableNs,
+                indexName: name + "Kind",
+                indexType: indexType,
+                emitIndex: emitIndex);
+            var def = StringTables.create(spec, src);
+            EmitTableCode(spec, src, dst);
+            EmitTableData(def, DataFile(spec.TableName, "stringtables", dst));
+            return def;
+        }
+
         public StringTable EmitStringTable(Identifier tableNs, Identifier tableName, Identifier indexName, ReadOnlySpan<string> strings, CgTarget dst, bool emitIndex)
         {
             var spec = StringTables.spec(

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
 
     /// <summary>
     /// Locates a cell in a grid with <typeparamref name='T'/> parametric coordinates
@@ -28,6 +28,18 @@ namespace Z0
         {
             Row = row;
             Col = col;
+        }
+
+        public bool IsZero
+        {
+            [MethodImpl(Inline)]
+            get => u32(Row) == 0 && u32(Col) == 0;
+        }
+
+        public bool IsNonZero
+        {
+            [MethodImpl(Inline)]
+            get => u32(Row) != 0 || u32(Col) != 0;
         }
 
         public Hash32 Hash

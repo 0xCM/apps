@@ -10768,6 +10768,7 @@ namespace Z0.llvm.strings
         int_xray_typedevent = 10759,
     }
 
+    [ApiCompleteAttribute]
     public readonly struct IntrinsicST
     {
         public const uint EntryCount = 10760;

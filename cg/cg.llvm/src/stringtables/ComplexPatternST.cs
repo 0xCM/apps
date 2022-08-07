@@ -19,6 +19,7 @@ namespace Z0.llvm.strings
         vectoraddr = 10,
     }
 
+    [ApiCompleteAttribute]
     public readonly struct ComplexPatternST
     {
         public const uint EntryCount = 11;

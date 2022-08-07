@@ -1,20 +1,32 @@
 {
 	"folders": [
 		{
-			"path": "..\\llvm.svc"
+			"path": "..\\containers"
 		},
 		{
-			"path": "."
+			"path": "..\\archives"
+		},
+		{
+			"path": "..\\memory"
+		},
+		{
+			"path": "..\\native"
 		},
 		{
 			"path": "..\\asm.core"
 		},
 		{
+			"path": "..\\tools"
+		},
+		{
 			"path": "..\\asm.models"
 		},
 		{
-			"path": "..\\containers"
-		}
+			"path": "..\\llvm.svc"
+		},
+		{
+			"path": "."
+		},
 	],
 	"settings": {}
 }

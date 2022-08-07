@@ -17472,6 +17472,7 @@ namespace Z0.llvm.strings
         XTEST = 17463,
     }
 
+    [ApiCompleteAttribute]
     public readonly struct X86InstST
     {
         public const uint EntryCount = 17464;

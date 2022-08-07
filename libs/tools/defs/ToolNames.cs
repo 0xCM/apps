@@ -36,5 +36,7 @@ namespace Z0
         public const string bddisasm = "disasmtool";
 
         public const string msvs = "devenv";
+
+        public const string mklink = "mklink";
     }
 }

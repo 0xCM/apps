@@ -432,6 +432,7 @@ namespace Z0.llvm.strings
         anonymous_23192 = 423,
     }
 
+    [ApiCompleteAttribute]
     public readonly struct CCActionST
     {
         public const uint EntryCount = 424;

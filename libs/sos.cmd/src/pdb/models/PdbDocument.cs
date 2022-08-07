@@ -6,9 +6,6 @@ namespace Z0
 {
     public readonly struct PdbDocument : IEquatable<PdbDocument>
     {
-        public static PdbDocument adapt(ISymUnmanagedDocument src)
-            => new PdbDocument(src, src.GetName(), src.GetDocumentType());
-
         public readonly string Name;
 
         public readonly Guid Type;
@@ -23,6 +20,12 @@ namespace Z0
             Type = type;
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Algs.hash(Name);
+        }
+
         public FS.FilePath Path
         {
             [MethodImpl(Inline)]
@@ -34,7 +37,7 @@ namespace Z0
             => Name;
 
         public override int GetHashCode()
-            => (int)alg.hash.calc(Name);
+            => Hash;
 
         public override string ToString()
             => Format();

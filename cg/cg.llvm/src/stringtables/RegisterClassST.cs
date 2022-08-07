@@ -84,6 +84,7 @@ namespace Z0.llvm.strings
         VR64 = 75,
     }
 
+    [ApiCompleteAttribute]
     public readonly struct RegisterClassST
     {
         public const uint EntryCount = 76;

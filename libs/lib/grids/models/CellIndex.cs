@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static Algs;
+
     /// <summary>
     /// Identifies a cell within the context of a table
     /// </summary>
@@ -29,10 +31,22 @@ namespace Z0
             Col = col;
         }
 
+        public bool IsZero
+        {
+            [MethodImpl(Inline)]
+            get => u32(Row) == 0 && u32(Col) == 0;
+        }
+
+        public bool IsNonZero
+        {
+            [MethodImpl(Inline)]
+            get => u32(Row) != 0 || u32(Col) != 0;
+        }
+
         public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => alg.hash.combine(Row,Col);
+            get => hash(Row, Col);
         }
 
         public string Format()

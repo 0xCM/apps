@@ -12,6 +12,7 @@ namespace Z0.llvm.strings
         AdSizeX = 3,
     }
 
+    [ApiCompleteAttribute]
     public readonly struct AddressSizeST
     {
         public const uint EntryCount = 4;

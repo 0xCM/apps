@@ -70,9 +70,6 @@ namespace Z0
             public AsmDocs AsmDocs(IWfRuntime wf)
                 => Service<AsmDocs>(wf);
 
-            public AsmDisamSvc AsmDisasmSvc(IWfRuntime wf)
-                => Service<AsmDisamSvc>(wf);
-
             public IntelSdmPaths SdmPaths(IWfRuntime wf)
                 => Service<IntelSdmPaths>(wf);
         }

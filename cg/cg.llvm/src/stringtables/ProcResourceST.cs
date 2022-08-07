@@ -152,6 +152,7 @@ namespace Z0.llvm.strings
         ZnMultiplier = 143,
     }
 
+    [ApiCompleteAttribute]
     public readonly struct ProcResourceST
     {
         public const uint EntryCount = 144;

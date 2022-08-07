@@ -187,6 +187,7 @@ namespace Z0.llvm.strings
         vz512mem = 178,
     }
 
+    [ApiCompleteAttribute]
     public readonly struct DAGOperandST
     {
         public const uint EntryCount = 179;

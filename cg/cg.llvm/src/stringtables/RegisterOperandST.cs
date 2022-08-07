@@ -16,6 +16,7 @@ namespace Z0.llvm.strings
         VK8Pair = 7,
     }
 
+    [ApiCompleteAttribute]
     public readonly struct RegisterOperandST
     {
         public const uint EntryCount = 8;

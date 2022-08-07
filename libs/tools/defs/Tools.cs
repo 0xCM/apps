@@ -12,7 +12,7 @@ namespace Z0
     }
 
     [ApiHost]
-    public class Tools : ITools
+    public partial class Tools : ITools
     {
         public static ITools Service => new Tools();
 

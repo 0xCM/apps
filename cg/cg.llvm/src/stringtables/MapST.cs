@@ -18,6 +18,7 @@ namespace Z0.llvm.strings
         XOPA = 9,
     }
 
+    [ApiCompleteAttribute]
     public readonly struct MapST
     {
         public const uint EntryCount = 10;

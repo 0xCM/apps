@@ -8,50 +8,50 @@ namespace Z0
 
     readonly struct SymbolTracer : ITracer
     {
-        readonly IWfRuntime Wf;
+        readonly WfEmit Channel;
 
         [MethodImpl(Inline)]
-        public SymbolTracer(IWfRuntime wf)
-            => Wf = wf;
+        public SymbolTracer(WfEmit wf)
+            => Channel = wf;
 
         [MethodImpl(Inline), Op]
         public void Error(string message)
-            => Wf.Error(message);
+            => Channel.Error(message);
 
         [MethodImpl(Inline), Op]
         public void Error(string format, params object[] arguments)
-            => Wf.Error(string.Format(format, arguments));
+            => Channel.Error(string.Format(format, arguments));
 
         [MethodImpl(Inline), Op]
         public void Information(string message)
-            => Wf.Status(message);
+            => Channel.Status(message);
 
         [MethodImpl(Inline), Op]
         public void Information(string format, params object[] arguments)
-            => Wf.Status(string.Format(format, arguments));
+            => Channel.Status(string.Format(format, arguments));
 
         [MethodImpl(Inline), Op]
         public void Verbose(string message)
-            => Wf.Status(message);
+            => Channel.Status(message);
 
         [MethodImpl(Inline), Op]
         public void Verbose(string format, params object[] arguments)
-            => Wf.Status(string.Format(format, arguments));
+            => Channel.Status(string.Format(format, arguments));
 
         [MethodImpl(Inline), Op]
         public void Warning(string message)
-            => Wf.Warn(message);
+            => Channel.Warn(message);
 
         [MethodImpl(Inline), Op]
         public void Warning(string format, params object[] arguments)
-            => Wf.Warn(string.Format(format, arguments));
+            => Channel.Warn(string.Format(format, arguments));
 
         [MethodImpl(Inline), Op]
         public void WriteLine(string message)
-            => Wf.Data(message);
+            => Channel.Row(message);
 
         [MethodImpl(Inline), Op]
         public void WriteLine(string format, params object[] arguments)
-            => Wf.Data(string.Format(format, arguments));
+            => Channel.Row(string.Format(format, arguments));
     }
 }

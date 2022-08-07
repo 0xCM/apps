@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public struct PdbMethodInfo : IRecord<PdbMethodInfo>
+    public struct PdbMethodInfo
     {
         public CliToken Token;
 

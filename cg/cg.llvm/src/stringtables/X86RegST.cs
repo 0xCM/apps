@@ -291,6 +291,7 @@ namespace Z0.llvm.strings
         ZMM9 = 282,
     }
 
+    [ApiCompleteAttribute]
     public readonly struct X86RegST
     {
         public const uint EntryCount = 283;

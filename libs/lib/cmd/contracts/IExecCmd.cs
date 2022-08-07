@@ -14,17 +14,8 @@ namespace Z0
 
     }
 
-    /// <summary>
-    /// Characterizes an executable command
-    /// </summary>
     [Free]
-    public interface IExecCmd
-    {
-
-    }
-
-    [Free]
-    public interface IExecCmd<C,E> : IExecCmd
+    public interface IExecCmd<C,E>
         where C : IExecCmd<C,E>
         where E : IExecSpec
 

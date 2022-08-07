@@ -8,12 +8,8 @@ namespace Z0
     {
         sealed class Svc : AppServices<Svc>
         {
-
             public PdbIndexBuilder PdbIndexBuilder(IWfRuntime wf)
                 => Service<PdbIndexBuilder>(wf);
-
-            public PdbSymbols PdbSymbolStore(IWfRuntime wf)
-                => Service<PdbSymbols>(wf);
 
             public PdbSvc PdbSvc(IWfRuntime wf)
                 => Service<PdbSvc>(wf);
@@ -30,13 +26,7 @@ namespace Z0
         public static PdbIndexBuilder PdbIndexBuilder(this IWfRuntime wf)
             => Services.PdbIndexBuilder(wf);
 
-        public static PdbSymbols PdbSymbolStore(this IWfRuntime wf)
-            => Services.PdbSymbolStore(wf);
-
         public static PdbSvc PdbSvc(this IWfRuntime wf)
             => Services.PdbSvc(wf);
-
-        public static PdbReader PdbReader(this IWfRuntime wf, in PdbSymbolSource src)
-            => Z0.PdbReader.create(wf,src);
     }
 }

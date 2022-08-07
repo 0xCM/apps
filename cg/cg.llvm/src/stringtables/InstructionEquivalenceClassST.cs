@@ -41,6 +41,7 @@ namespace Z0.llvm.strings
         anonymous_21649 = 32,
     }
 
+    [ApiCompleteAttribute]
     public readonly struct InstructionEquivalenceClassST
     {
         public const uint EntryCount = 33;

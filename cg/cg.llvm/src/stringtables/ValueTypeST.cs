@@ -194,6 +194,7 @@ namespace Z0.llvm.strings
         x86mmx = 185,
     }
 
+    [ApiCompleteAttribute]
     public readonly struct ValueTypeST
     {
         public const uint EntryCount = 186;

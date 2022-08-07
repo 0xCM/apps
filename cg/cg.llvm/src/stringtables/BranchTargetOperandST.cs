@@ -15,6 +15,7 @@ namespace Z0.llvm.strings
         i64i32imm_brtarget = 6,
     }
 
+    [ApiCompleteAttribute]
     public readonly struct BranchTargetOperandST
     {
         public const uint EntryCount = 7;

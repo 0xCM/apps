@@ -19,9 +19,9 @@ namespace Z0
 
         DirectoryMonitor(IDbSources src, IDbArchive dst)
         {
-            var storage = Archives.archive(Timestamp.now(), dst);
+            var ts = Timestamp.now();
             var id = Archives.identifier(src.Root);
-            var settings = new LogSettings(storage.Path(id,FileKind.Log), storage.Path("errors", FileKind.Log));
+            var settings = new LogSettings(dst.Path($"{id}.{ts}",FileKind.Log), dst.Path($"{ts}.errors", FileKind.Log));
             Target = Loggers.worker(settings);
             Sources = src;
             Service = ArchiveMonitor.start(Sources, OnChange);

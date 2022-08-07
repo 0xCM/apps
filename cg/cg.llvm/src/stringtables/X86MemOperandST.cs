@@ -60,6 +60,7 @@ namespace Z0.llvm.strings
         vz512mem = 51,
     }
 
+    [ApiCompleteAttribute]
     public readonly struct X86MemOperandST
     {
         public const uint EntryCount = 52;

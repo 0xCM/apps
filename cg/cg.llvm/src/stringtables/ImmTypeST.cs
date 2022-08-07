@@ -18,6 +18,7 @@ namespace Z0.llvm.strings
         NoImm = 9,
     }
 
+    [ApiCompleteAttribute]
     public readonly struct ImmTypeST
     {
         public const uint EntryCount = 10;

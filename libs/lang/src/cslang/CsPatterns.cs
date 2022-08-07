@@ -61,6 +61,10 @@ namespace Z0
             => @public + Space + ReadonlyStruct(name);
 
         [MethodImpl(Inline)]
+        public static string CustomAttribute(string name)
+            => $"[{name}]";
+
+        [MethodImpl(Inline)]
         public static string InlineAttrib()
             => L.InlineAttribute;
 

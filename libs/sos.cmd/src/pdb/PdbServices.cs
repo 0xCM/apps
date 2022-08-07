@@ -34,7 +34,7 @@ namespace Z0
         {
             var hosts = src.Hosts.View;
             using var symbols = SymbolSource(src.Location);
-            var reader = Wf.PdbReader(symbols);
+            var reader = PdbSymbols.reader(symbols);
             var flow = Running(string.Format("Indexing symbols for {0} from {1}", symbols.PePath, symbols.PdbPath));
             var counter = 0u;
             var buffer = list<PdbMethod>();
@@ -66,7 +66,7 @@ namespace Z0
             using var symbols = SymbolSource(FS.path(src.Location));
             var pePath = symbols.PePath;
             var pdbPath = symbols.PdbPath;
-            using var pdbReader = Wf.PdbReader(symbols);
+            using var pdbReader = PdbSymbols.reader(symbols);
             var counter = 0u;
             var dst = AppDb.ApiTargets("pdb").Path(string.Format("{0}.pdbinfo", src.GetSimpleName()), FileKind.Csv);
             using var writer = dst.Writer();
@@ -91,18 +91,6 @@ namespace Z0
             return dst;
         }
 
-        public PdbSymbolSource SymbolSource(FileModule src)
-        {
-            try
-            {
-                return PdbSymbols.source(src.Path, src.Path.ChangeExtension(FS.Pdb));
-            }
-            catch(Exception e)
-            {
-                Wf.Error(e);
-                return PdbSymbolSource.Empty;
-            }
-        }
 
         public PdbSymbolSource SymbolSource(FS.FilePath module)
             => PdbSymbols.source(module);

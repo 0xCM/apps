@@ -25,9 +25,6 @@ namespace Z0
         IDbTargets Logs()
             => Targets("logs");
 
-        FS.FilePath Log(string name, FileKind kind)
-            => Logs().Path(name,kind);
-
         IDbSources Sources()
             => DbFiles.Sources();
 
@@ -39,6 +36,9 @@ namespace Z0
 
         IDbTargets Targets(string scope)
             => DbFiles.Targets(scope);
+
+        IDbArchive Scoped(string name)
+            => Datasets.archive(DbFiles.Sources(name));
 
         FS.FilePath Table<T>()
             where T : struct

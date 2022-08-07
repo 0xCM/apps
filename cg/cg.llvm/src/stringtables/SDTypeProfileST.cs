@@ -226,6 +226,7 @@ namespace Z0.llvm.strings
         anonymous_9305 = 217,
     }
 
+    [ApiCompleteAttribute]
     public readonly struct SDTypeProfileST
     {
         public const uint EntryCount = 218;

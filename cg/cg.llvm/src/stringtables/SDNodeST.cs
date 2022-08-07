@@ -623,6 +623,7 @@ namespace Z0.llvm.strings
         zext_invec = 614,
     }
 
+    [ApiCompleteAttribute]
     public readonly struct SDNodeST
     {
         public const uint EntryCount = 615;

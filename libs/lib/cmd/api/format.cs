@@ -11,7 +11,7 @@ namespace Z0
     partial class Cmd
     {
          public static string format<T>(ICmd<T> src)
-            where T : struct, ICmd<T>
+            where T : ICmd<T>, new()
         {
             var buffer = text.emitter();
             buffer.AppendFormat("{0}{1}", src.CmdId, Chars.LParen);

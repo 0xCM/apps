@@ -160,6 +160,7 @@ namespace Z0.llvm.strings
         mips_v4q7_ty = 151,
     }
 
+    [ApiCompleteAttribute]
     public readonly struct LLVMTypeST
     {
         public const uint EntryCount = 152;

@@ -8,26 +8,27 @@ namespace Z0.llvm
 
     using static core;
 
-    public class LlvmCodeGen : AppService<LlvmCodeGen>
+    public class LlvmCodeGen : WfSvc<LlvmCodeGen>
     {
-        LlvmPaths LlvmPaths => Service(Wf.LlvmPaths);
+        LlvmDataProvider DataProvider => Wf.LlvmDataProvider();
 
-        LlvmDataProvider DataProvider => Service(Wf.LlvmDataProvider);
-
-        CsLang CsLang => Service(Wf.CsLang);
+        CsLang CsLang => Wf.CsLang();
 
         const string TargetNs = "Z0.llvm.strings";
 
-        public void Run()
+        const string CgSrc = "cg.llvm/src";
+
+        const byte Margin = 4;
+
+        public void Run(bool staged, bool index = true)
         {
-            //LlvmPaths.CodeGen().Clear();
-            EmitStringTables();
-            EmitAsmIds();
+            EmitStringTables(staged, index);
+            EmitAsmIds(staged, index);
         }
 
         static ItemList<string> reduce(ItemList<AsmIdentifier,ushort,asci32> src)
         {
-            var dst = new ItemList<string>(src.Name, alloc<ListItem<string>>(src.Count));
+            var dst = new ItemList<string>(src.Name, sys.alloc<ListItem<string>>(src.Count));
             for(var i=0; i<src.Count; i++)
             {
                 ref readonly var item = ref src[i];
@@ -36,40 +37,46 @@ namespace Z0.llvm
             return dst;
         }
 
-        public void EmitAsmIds()
+        IDbArchive Staged()
+            => AppDb.CgStage().Scoped(CgSrc);
+
+        IDbArchive Live()
+            => AppDb.CgRoot().Scoped(CgSrc);
+
+        IDbArchive CgOut(bool staged)
+            => staged ? Staged() : Live();
+
+        public void EmitAsmIds(bool staged, bool index)
         {
-            var asmids = reduce(DataProvider.AsmIdentifiers().ToItemList());
+            var src = reduce(DataProvider.AsmIdentifiers().ToItemList());
             var name = "AsmId";
-            //ItemList<string> items = (name, asmids.Map(x => new ListItem<string>(x.Key, x.Value.Format())));
-            CsLang.EmitStringTable(TargetNs, ClrEnumKind.U16, asmids, CgTarget.Llvm, true);
-            var literals = @readonly(map(DataProvider.AsmIdentifiers().Entries,e => Literals.literal(e.Key, e.Value.Id)));
-            var buffer = text.buffer();
+            CsLang.EmitStringTable(TargetNs, ClrEnumKind.U16, src, CgOut(staged), index);
             var offset = 0u;
+            var buffer = text.emitter();
             buffer.IndentLineFormat(offset, "namespace {0}", "Z0");
             buffer.IndentLine(offset, Chars.LBrace);
-            offset+=4;
-            CsRender.@enum(offset, name, literals, buffer);
-            offset-=4;
+            offset+=Margin;
+            CsRender.@enum(offset, name, @readonly(map(DataProvider.AsmIdentifiers().Entries,e => Literals.literal(e.Key, e.Value.Id))), buffer);
+            offset-=Margin;
             buffer.IndentLine(offset, Chars.RBrace);
-
-            var dst = LlvmPaths.CodeGen().Path(FS.file(name, FS.Cs));
+            var dst = CgOut(staged).Path(name,FileKind.Cs);
             using var writer = dst.Utf8Writer();
             writer.WriteLine(buffer.Emit());
         }
 
-        public void EmitStringTables()
-            => EmitStringTables(DataProvider.Lists().Where(x => x.Name != "vcodes"));
+        public void EmitStringTables(bool staged, bool index)
+            => EmitStringTables(DataProvider.Lists().Where(x => x.Name != "vcodes"), staged, index);
 
-        public void EmitStringTables(ReadOnlySpan<LlvmList> src)
+        public void EmitStringTables(ReadOnlySpan<LlvmList> src, bool staged, bool index)
         {
             var result = Outcome.Success;
             var count = src.Length;
             var flows = new DataList<Arrow<FS.FileUri>>();
             for(var i=0; i<count; i++)
-                EmitStringTable(skip(src,i));
+                EmitStringTable(skip(src,i), staged, true);
         }
 
-        StringTable EmitStringTable(LlvmList src)
-            => CsLang.EmitStringTable(TargetNs, ClrEnumKind.U32, src.ToItemList(), CgTarget.Llvm, true);
+        StringTable EmitStringTable(LlvmList src, bool staged, bool index)
+            => CsLang.EmitStringTable(TargetNs, ClrEnumKind.U32, src.ToItemList(), CgOut(staged), index);
    }
 }
