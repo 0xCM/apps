@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// An homogenous mutable 2-tuple
     /// </summary>
-    public struct Pair<T> : IPair<Pair<T>,T>
+    public struct Pair<T> : ITupledPair<Pair<T>,T>
     {
         /// <summary>
         /// The first member
@@ -79,13 +79,13 @@ namespace Z0
         public static Pair<T> Empty
             => new Pair<T>(default,default);
 
-        T IPair<Pair<T>,T>.Left
+        T ITupledPair<Pair<T>,T>.Left
         {
             [MethodImpl(Inline)]
             get => Left;
         }
 
-        T IPair<Pair<T>, T>.Right
+        T ITupledPair<Pair<T>, T>.Right
         {
             [MethodImpl(Inline)]
             get => Right;

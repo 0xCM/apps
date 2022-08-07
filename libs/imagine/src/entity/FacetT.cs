@@ -4,19 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    using api = Faceted;
-
-    [DataTypeAttributeD("facet<t:{0}>")]
-    public readonly struct Facet<T> : IFacet<string,T>
+    public readonly record struct Facet<T> : IFacet<string,T>
     {
-        public string Key {get;}
+        public readonly string Key;
 
-        public T Value {get;}
+        public readonly T Value;
 
         [MethodImpl(Inline)]
         public Facet(string name, T value)
@@ -24,6 +16,12 @@ namespace Z0
             Key = name;
             Value = value;
         }
+
+        T IFacet<string,T>.Value 
+            => Value;
+
+        string IKeyed<string>.Key 
+            => Key;
 
         [MethodImpl(Inline)]
         public void Deconstruct(string key, T value)
@@ -33,14 +31,7 @@ namespace Z0
         }
 
         public string Format()
-        {
-            var k = RpOps.format("{0}", Key);
-            var v = RpOps.format("{0}", Value);
-            if(text.nonempty(v))
-                return RpOps.facet(k, v);
-            else
-                return k;
-        }
+            => RP.attrib(Key,Value);
 
         public override string ToString()
             => Format();

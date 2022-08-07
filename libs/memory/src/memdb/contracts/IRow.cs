@@ -7,9 +7,9 @@ namespace Z0
     partial class MemDb
     {
         [Free]
-        public interface IRow : IEntity, ISequential
+        public interface IRow : IEntity, IKeyed<uint>, ISequential
         {
-            uint IEntity.Key
+            uint IKeyed<uint>.Key
                 => Seq;
         }
 

@@ -9,7 +9,7 @@ namespace Z0
     /// <summary>
     /// An homogenous immutable 2-tuple
     /// </summary>
-    public readonly record struct ConstPair<T> : IPair<ConstPair<T>,T>
+    public readonly record struct ConstPair<T> : ITupledPair<ConstPair<T>,T>
     {
         /// <summary>
         /// The first/left/lo member of the pair
@@ -41,13 +41,13 @@ namespace Z0
             right = Right;
         }
 
-        T IPair<ConstPair<T>,T>.Left
+        T ITupledPair<ConstPair<T>,T>.Left
         {
             [MethodImpl(Inline)]
             get => Left;
         }
 
-        T IPair<ConstPair<T>,T>.Right
+        T ITupledPair<ConstPair<T>,T>.Right
         {
             [MethodImpl(Inline)]
             get => Right;

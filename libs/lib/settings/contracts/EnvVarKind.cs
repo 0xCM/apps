@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public enum SysEnvKind : byte
+    public enum EnvVarKind : byte
     {
         //
         // Summary:

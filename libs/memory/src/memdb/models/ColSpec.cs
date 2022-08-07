@@ -7,7 +7,7 @@ namespace Z0
     partial class MemDb
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public record class ColSpec : IEntity<ColSpec>
+        public record class ColSpec : IEntity<ColSpec,uint>
         {
             public readonly uint Key;
 
@@ -23,7 +23,7 @@ namespace Z0
                 Name = name;
             }
 
-            uint IEntity.Key
+            uint IKeyed<uint>.Key
                 => Key;
 
             [MethodImpl(Inline)]

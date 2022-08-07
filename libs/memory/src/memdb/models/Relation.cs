@@ -7,27 +7,27 @@ namespace Z0
     partial class MemDb
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public readonly record struct Relation : IElement<Relation>
+        public readonly record struct Relation16 : IEntity<Relation16,uint>
         {
             public readonly ushort Source;
 
-            public readonly ushort Target;
+            public readonly ushort Target;            
 
             [MethodImpl(Inline)]
-            public Relation(ushort src, ushort dst)
+            public Relation16(ushort src, ushort dst)
             {
                 Source = src;
                 Target = dst;
             }
 
             [MethodImpl(Inline)]
-            public Relation(Arrow<ushort> def)
+            public Relation16(Arrow<ushort> def)
             {
                 Source = def.Source;
                 Target = def.Target;
             }
 
-            public uint Id
+            public uint Key
             {
                 [MethodImpl(Inline)]
                 get => (uint)Source | (uint)Target << 16;
@@ -40,7 +40,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public int CompareTo(Relation src)
+            public int CompareTo(Relation16 src)
             {
                 var result = Source.CompareTo(src.Source);
                 if(result==0)
@@ -49,27 +49,27 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public static explicit operator Relation(uint id)
+            public static explicit operator Relation16(uint id)
             {
                 split(id, out var src, out var dst);
-                return new Relation(src,dst);
+                return new Relation16(src,dst);
             }
 
             [MethodImpl(Inline)]
-            public static explicit operator uint(Relation src)
-                => src.Id;
+            public static explicit operator uint(Relation16 src)
+                => src.Key;
 
             [MethodImpl(Inline)]
-            public static implicit operator Relation((ushort src, ushort dst) x)
-                => new Relation(x.src, x.dst);
+            public static implicit operator Relation16((ushort src, ushort dst) x)
+                => new Relation16(x.src, x.dst);
 
             [MethodImpl(Inline)]
-            public static implicit operator Arrow<ushort>(Relation def)
+            public static implicit operator Arrow<ushort>(Relation16 def)
                 => def.Arrow;
 
             [MethodImpl(Inline)]
-            public static implicit operator Relation(Arrow<ushort> def)
-                => new Relation(def);
+            public static implicit operator Relation16(Arrow<ushort> def)
+                => new Relation16(def);
         }
     }
 }

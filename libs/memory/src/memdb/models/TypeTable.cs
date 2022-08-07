@@ -7,9 +7,9 @@ namespace Z0
     partial class MemDb
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public readonly record struct TypeTable : ITable<TypeTable>
+        public readonly record struct TypeTable : IEntity<TypeTable,uint>
         {
-            public readonly uint TypeKey;
+            public readonly uint Key;
 
             public readonly Label TypeName;
 
@@ -24,7 +24,7 @@ namespace Z0
             [MethodImpl(Inline)]
             public TypeTable(uint key, Label name, DataSize size, TypeTableRow[] rows)
             {
-                TypeKey = key;
+                Key = key;
                 TypeName = name;
                 NativeWidth = size.NativeWidth;
                 PackedWidth = (byte)size.PackedWidth;
@@ -32,12 +32,13 @@ namespace Z0
                 Rows = rows;
             }
 
+            uint IKeyed<uint>.Key 
+                => Key;
+
             [MethodImpl(Inline)]
             public int CompareTo(TypeTable src)
                 => TypeName.CompareTo(src.TypeName);
 
-            uint IEntity.Key
-                => TypeKey;
         }
     }
 }

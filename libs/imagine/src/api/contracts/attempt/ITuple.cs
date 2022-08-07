@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     /// <summary>
     /// Common non-parametric tuple contract
     /// </summary>

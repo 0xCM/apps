@@ -168,22 +168,22 @@ namespace Z0
         void EmitEnv(CmdArgs args)
         {
             var dst = AppDb.Env().Root;
-            EnvVars.emit(Emitter,SysEnvKind.Process, dst);
-            EnvVars.emit(Emitter,SysEnvKind.User, dst);
-            EnvVars.emit(Emitter,SysEnvKind.Machine, dst);
+            EnvVars.emit(Emitter,EnvVarKind.Process, dst);
+            EnvVars.emit(Emitter,EnvVarKind.User, dst);
+            EnvVars.emit(Emitter,EnvVarKind.Machine, dst);
         }
 
         [CmdOp("env/machine")]
         void EmitMachineEnv()
-            => EnvVars.emit(Emitter, SysEnvKind.Machine, AppDb.Env().Root);
+            => EnvVars.emit(Emitter, EnvVarKind.Machine, AppDb.Env().Root);
 
         [CmdOp("env/user")]
         void EmitUserEnv()
-            => EnvVars.emit(Emitter, SysEnvKind.User, AppDb.Env().Root);
+            => EnvVars.emit(Emitter, EnvVarKind.User, AppDb.Env().Root);
 
         [CmdOp("env/process")]
         void EmitProcessEnv()
-            => EnvVars.emit(Emitter, SysEnvKind.Process, AppDb.Env().Root);
+            => EnvVars.emit(Emitter, EnvVarKind.Process, AppDb.Env().Root);
 
         [CmdOp("env/pid")]
         void ProcessId()

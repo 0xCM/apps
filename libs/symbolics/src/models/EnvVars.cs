@@ -11,18 +11,18 @@ namespace Z0
     {
         public static EnvVars Empty => new EnvVars(sys.empty<EnvVar>());
 
-        public static void emit(WfEmit emitter, SysEnvKind kind, FS.FolderPath dst)
+        public static void emit(WfEmit emitter, EnvVarKind kind, FS.FolderPath dst)
         {
             var vars = EnvVars.Empty;
             switch(kind)
             {
-                case SysEnvKind.Machine:
+                case EnvVarKind.Machine:
                     vars = EnvVars.machine();
                 break;
-                case SysEnvKind.Process:
+                case EnvVarKind.Process:
                     vars = EnvVars.process();
                 break;
-                case SysEnvKind.User:
+                case EnvVarKind.User:
                     vars = EnvVars.user();
                 break;
             }
@@ -33,7 +33,7 @@ namespace Z0
             }
         }
 
-        public static ExecToken emit(WfEmit emitter, EnvVars src, SysEnvKind kind, FS.FolderPath dst)
+        public static ExecToken emit(WfEmit emitter, EnvVars src, EnvVarKind kind, FS.FolderPath dst)
         {
             var name =  $"{ExecutingPart.Name}.{EnumRender.format(kind)}";
             var table = dst + FS.file($"{name}.settings",FileKind.Csv);
@@ -56,7 +56,7 @@ namespace Z0
             return emitter.EmittedTable(emitting, src.Length);
         }
 
-        public static EnvVar<T> var<T>(SysEnvKind kind, string name, Func<string,T> parser)
+        public static EnvVar<T> var<T>(EnvVarKind kind, string name, Func<string,T> parser)
             where T : IEquatable<T>
         {
             var dst = EnvVar<T>.Empty;
@@ -65,22 +65,22 @@ namespace Z0
                 dst = new(name,parser(value));
             return dst;
         }
-        public static EnvVars vars(SysEnvKind kind)
+        public static EnvVars vars(EnvVarKind kind)
         {
             var dst = list<EnvVar>();
             foreach(DictionaryEntry kv in Environment.GetEnvironmentVariables((EnvironmentVariableTarget)kind))
-                 dst.Add(new EnvVar(kv.Key?.ToString() ?? EmptyString, kv.Value?.ToString() ?? EmptyString));
+                 dst.Add(new EnvVar(kind, kv.Key?.ToString() ?? EmptyString, kv.Value?.ToString() ?? EmptyString));
             return dst.ToArray().Sort();
         }
 
         public static EnvVars machine()
-            => vars(SysEnvKind.Machine);
+            => vars(EnvVarKind.Machine);
 
         public static EnvVars user()
-            => vars(SysEnvKind.User);
+            => vars(EnvVarKind.User);
 
         public static EnvVars process()
-            => vars(SysEnvKind.Process);
+            => vars(EnvVarKind.Process);
 
         public static Index<EnvVarRow> records(EnvVars src, string name)
         {

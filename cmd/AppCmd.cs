@@ -35,8 +35,9 @@ namespace Z0
                 wf.FsmCmd(),
                 wf.CalcChecker(),
                 wf.TestCmd(),
-                wf.GenCmd(),
+                wf.AsmGenCmd(),
                 wf.SosCmd(),
+                wf.CsGenCmd(),
                 wf.CgChecks()
                 };
 

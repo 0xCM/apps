@@ -41,13 +41,22 @@
 			"path": "..\\cmd.specs"
 		},
 		{
+			"path": "..\\memory"
+		},
+		{
 			"path": "..\\digital"
+		},
+		{
+			"path": "..\\numbers"
 		},
 		{
 			"path": "..\\files"
 		},
 		{
 			"path": "..\\archives"
+		},
+		{
+			"path": "..\\lang"
 		},
 		{
 			"path": "..\\wf"
@@ -58,6 +67,9 @@
 		{
 			"path": "."
 		},
+		{
+			"path": "..\\text"
+		}
 	],
 	"settings": {
 		"powershell.cwd": "d:\\drives\\z\\dev\\z0\\libs\\tools.shell"

@@ -6,18 +6,18 @@ namespace Z0
 {
     partial class MemDb
     {
-        public record class Entity : IEntity<Entity>
+        public record class Entity : IEntity<Entity,uint>
         {
             public readonly uint Key;
 
             public readonly asci32 Name;
 
-            public readonly Index<Relation> Rels;
+            public readonly Index<Relation16> Rels;
 
             public readonly Index<ColSpec> Cols;
 
             [MethodImpl(Inline)]
-            public Entity(uint key, asci32 name, ColSpec[] cols, Relation[] rels)
+            public Entity(uint key, asci32 name, ColSpec[] cols, Relation16[] rels)
             {
                 Key = key;
                 Name = name;
@@ -25,7 +25,7 @@ namespace Z0
                 Rels = rels;
             }
 
-            uint IEntity.Key
+            uint IKeyed<uint>.Key   
                 => Key;
 
             [MethodImpl(Inline)]

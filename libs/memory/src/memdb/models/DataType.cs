@@ -7,7 +7,7 @@ namespace Z0
     partial class MemDb
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public readonly record struct DbDataType : IType<DbDataType>
+        public readonly record struct DbDataType : IDataType<DbDataType>, IKeyed<uint>
         {
             /// <summary>
             /// Specifies a surrogate key
@@ -50,13 +50,19 @@ namespace Z0
                 Refinement = refinement;
             }
 
-            asci32 IType.Name
-                => Name;
+            public bool IsEmpty 
+            {
+                [MethodImpl(Inline)]
+                get => Name.IsEmpty;
+            }
+            
+            public Hash32 Hash
+            {
+                [MethodImpl(Inline)]
+                get => (Hash32)Key | Name.Hash | Primitive.Hash | Size.Hash | Refines.Hash | Refinement.Hash;
+            }
 
-            DataSize IType.Size
-                => Size;
-
-            uint IEntity.Key
+            uint IKeyed<uint>.Key 
                 => Key;
 
             [MethodImpl(Inline)]

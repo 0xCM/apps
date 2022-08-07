@@ -5,21 +5,22 @@
 namespace Z0
 {
     [Free]
-    public interface IEntity : IElement
-    {
-        uint Key {get;}
+    public interface IEntity : IKeyed
+    {        
     }
 
     [Free]
-    public interface IEntity<T> : IEntity, IElement<T>
-        where T : IEntity<T>
+    public interface IEntity<E> : IEntity, IEquatable<E>
+        where E : IEntity<E>
     {
 
     }
 
     [Free]
-    public interface IEntity<K,V> : IValue<V>
+    public interface IEntity<E,K> : IEntity<E>, IKeyed<K>
+        where K : IEquatable<K>, IComparable<K>
+        where E : IEntity<E,K>
     {
-        K Key {get;}
+
     }
 }

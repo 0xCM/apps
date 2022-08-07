@@ -20,8 +20,8 @@ namespace Z0
             public AsmCmdService AsmCmdSvc(IWfRuntime wf)
                 => Service<AsmCmdService>(wf);
 
-            public GenCmd GenCmd(IWfRuntime wf)
-                => Service<GenCmd>(wf);
+            public AsmGenCmd AsmGenCmd(IWfRuntime wf)
+                => Service<AsmGenCmd>(wf);
 
             public CaptureWf CaptureWf(IWfRuntime wf)
                 => Service<CaptureWf>(wf);
@@ -32,8 +32,8 @@ namespace Z0
 
         static ServiceCache Services => ServiceCache.Instance;
 
-        public static GenCmd GenCmd(this IWfRuntime wf)
-            => Services.GenCmd(wf);
+        public static AsmGenCmd AsmGenCmd(this IWfRuntime wf)
+            => Services.AsmGenCmd(wf);
 
         public static ApiCapture ApiCapture(this IWfRuntime wf)
             => Services.ApiCapture(wf);

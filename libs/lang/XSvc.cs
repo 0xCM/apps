@@ -25,9 +25,6 @@ namespace Z0
             public GLiteralProvider GenLitProviders(IWfRuntime wf)
                 => Service<GLiteralProvider>(wf);
 
-            public GShim GenShims(IWfRuntime wf)
-                => Service<GShim>(wf);
-
             public BuildSvc BuildSvc(IWfRuntime wf)
                 => Service<BuildSvc>(wf);
 
@@ -36,6 +33,10 @@ namespace Z0
 
             public SymbolFactories SymbolFactories(IWfRuntime wf)
                 => Service<SymbolFactories>(wf);
+
+            public CsGenCmd CsGenCmd(IWfRuntime wf)
+                => Service<CsGenCmd>(wf);
+
         }
 
         static ServiceCache Services => ServiceCache.Instance;
@@ -55,9 +56,6 @@ namespace Z0
         public static GLiteralProvider GenLitProviders(this IWfRuntime wf)
             => Services.GenLitProviders(wf);
 
-        public static GShim GenShims(this IWfRuntime wf)
-            => Services.GenShims(wf);
-
         public static BuildSvc BuildSvc(this IWfRuntime wf)
             => Services.BuildSvc(wf);
 
@@ -66,6 +64,9 @@ namespace Z0
 
         public static SymbolFactories SymbolFactories(this IWfRuntime wf)
             => Services.SymbolFactories(wf);
+
+       public static CsGenCmd CsGenCmd(this IWfRuntime wf)
+            => Services.CsGenCmd(wf);
 
     }
 }

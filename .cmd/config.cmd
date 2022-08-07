@@ -32,8 +32,8 @@ set WsObj=%WsBuild%\obj
 set TestLog=%WsLogs%\z0.%ProjectId%.tests.trx
 set BuildLogs=%WsLogs%
 set BuildTool=dotnet build
-set PublishTool=dotnet publish --verbosity normal -c %BuildKind%
-set PackageTool=dotnet pack --include-symbols --include-source --verbosity normal
+set PublishTool=dotnet publish -c %BuildKind%
+set PackageTool=dotnet pack --include-symbols --include-source
 
 set PublishCmd=%PublishTool% %SlnRootPath%
 
@@ -79,7 +79,6 @@ set shell=%ShellExePath%
 set dllshell=%DllShellPath%
 
 set LibPath=%TargetBuildRoot%\%LibName%
-
 set LibProject=%LibRoot%\%ProjectId%
 set CsProjectPath=%LibProject%\%CsProjectFile%
 set BuildLib=%BuildTool% %CsProjectPath% %BuildProps% %BinLogSpec%; %BuildOptions%
@@ -103,6 +102,10 @@ set zcmd-pub=%WsBin%\z0.cmd\%BuildKind%\%TargetFramework%\%RuntimeMoniker%\publi
 set CleanBuild=rmdir %WsBuild% /s/q
 
 set AddSln=%~dp0sln-add.cmd
-set PublishShell=dotnet publish %CmdProject%
 
 mkdir %BuildLogs% 1>nul 2>nul
+
+set PubRoot=%Views%\tools\z0
+set ShellPubRoot=%PubRoot%\%ShellId%
+set PublishShell=dotnet publish %ProjectPath% --output %ShellPubRoot%
+

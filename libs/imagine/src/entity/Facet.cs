@@ -4,21 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    using api = Faceted;
-
     public readonly struct Facet : IFacet<string,object>
     {
-        public static Outcome parse(string src, out Facet dst)
-            => api.parse(src, out dst);
+        public readonly string Key;
 
-        public string Key {get;}
-
-        public dynamic Value {get;}
+        public readonly dynamic Value;
 
         [MethodImpl(Inline)]
         public Facet(string name, dynamic value)
@@ -27,19 +17,36 @@ namespace Z0
             Value = value;
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Algs.hash(Format());
+        }
+
+        public override int GetHashCode()
+            => Hash;
+
         public string Format()
         {
             var k = Key ?? EmptyString;
             var v = (Value ?? EmptyString).ToString();
 
-            if(text.nonempty(v))
-                return RpOps.facet(k, v);
+            if(sys.nonempty(v))
+                return RP.facet(k, v);
             else
                 return k;
         }
+    
 
         public override string ToString()
             => Format();
+
+
+        object IFacet<string, object>.Value 
+            => Value;
+
+        string IKeyed<string>.Key 
+            => Key;
 
         [MethodImpl(Inline)]
         public static implicit operator Facet((string name, dynamic value) src)

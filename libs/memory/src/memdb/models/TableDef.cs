@@ -7,7 +7,7 @@ namespace Z0
     partial class MemDb
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public readonly record struct TableDef : IEntity<TableDef>
+        public readonly record struct TableDef : IEntity<TableDef,uint>
         {
             public readonly uint Key;
 
@@ -23,12 +23,12 @@ namespace Z0
                 Cols = cols;
             }
 
+            uint IKeyed<uint>.Key 
+                => Key;
+
             [MethodImpl(Inline)]
             public int CompareTo(TableDef src)
                 => Name.CompareTo(src.Name);
-
-            uint IEntity.Key
-                => Key;
         }
     }
 }

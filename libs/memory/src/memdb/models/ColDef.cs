@@ -9,7 +9,7 @@ namespace Z0
     partial class MemDb
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public readonly record struct ColDef : IEntity<ColDef>, IComparable<ColDef>
+        public readonly record struct ColDef : IEntity<ColDef,ushort>, IComparable<ColDef>
         {
             public readonly ushort Pos;
 
@@ -24,6 +24,9 @@ namespace Z0
                 ColName = name;
                 RenderWidth = rw;
             }
+
+            ushort IKeyed<ushort>.Key
+                => Pos;
 
             public Hash32 Hash
             {
@@ -46,8 +49,6 @@ namespace Z0
             public ColDef Reposition(ushort pos)
                 => new ColDef(pos, ColName, RenderWidth);
 
-            uint IEntity.Key
-                => Pos;
         }
     }
 }

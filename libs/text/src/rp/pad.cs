@@ -5,8 +5,7 @@
 namespace Z0
 {
     partial class RP
-    {
-       
+    {               
         [MethodImpl(Inline), Op]
         public static string pad(int pad)
             => pad == 0 ? "{0}" : "{0," + pad.ToString() + "}";

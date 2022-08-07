@@ -12,6 +12,9 @@ namespace Z0
     {
         const string TableId = "env";
 
+        [Render(12)]
+        public readonly EnvVarKind Kind;
+
         [Render(64)]
         public readonly Name VarName;
 
@@ -22,8 +25,9 @@ namespace Z0
         public readonly string VarValue;
 
         [MethodImpl(Inline)]
-        public EnvVar(Name name, string value)
+        public EnvVar(EnvVarKind kind, Name name, string value)
         {
+            Kind = kind;
             VarName = name;
             VarValue = value;
         }
@@ -74,17 +78,13 @@ namespace Z0
             => VarName.CompareTo(src.VarName);
 
         [MethodImpl(Inline)]
-        public static implicit operator EnvVar((string name, string value) src)
-            => new EnvVar(src.name, src.value);
-
-        [MethodImpl(Inline)]
         public static implicit operator string(EnvVar src)
             => src.VarValue;
 
         public static EnvVar Empty
         {
             [MethodImpl(Inline)]
-            get => new EnvVar(EmptyString, EmptyString);
+            get => new EnvVar(0,EmptyString, EmptyString);
         }
 
         Name IVarValue.VarName

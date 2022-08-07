@@ -5,17 +5,9 @@
 namespace Z0
 {
     [Free]
-    public interface IElement
+    public interface IFacet<K,V> : IKeyed<K>
+        where K : IEquatable<K>, IComparable<K>
     {
-
-
+        V Value {get;}
     }
-
-    [Free]
-    public interface IElement<T> : IElement, IEquatable<T>, IComparable<T>
-        where T : IElement<T>
-    {
-
-    }
-
 }

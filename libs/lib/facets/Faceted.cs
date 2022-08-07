@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
+    using static Arrays;
 
     public readonly struct Faceted
     {
@@ -14,14 +16,14 @@ namespace Z0
             if(empty(src))
                 return false;
 
-            var i = text.index(src,Chars.Colon);
+            var i = text.index(src, Chars.Colon);
             if(i > 0)
                 dst = new Facet(
-                    text.trim(text.left(src,i)),
-                    text.trim(text.right(src,i))
+                    sys.trim(text.left(src,i)),
+                    sys.trim(text.right(src,i))
                     );
             else
-                dst = new Facet(text.trim(src), EmptyString);
+                dst = new Facet(sys.trim(src), EmptyString);
             return true;
         }
 
@@ -35,7 +37,7 @@ namespace Z0
             var propcount = props.Length;
             var fieldcount = fields.Length;
             var count = propcount + fieldcount;
-            var buffer = alloc<Facet>(count);
+            var buffer = sys.alloc<Facet>(count);
             ref var dst = ref first(buffer);
             var j=0u;
             for(var i=0; i<propcount; i++)
@@ -57,7 +59,7 @@ namespace Z0
             dst = Facets.Empty;
             var result = Outcome.Success;
             var count = src.Length;
-            var buffer = alloc<Facet>(count);
+            var buffer = sys.alloc<Facet>(count);
             for(var i=0; i<count; i++)
             {
                 result = parse(skip(src,i), out seek(buffer,i));
@@ -65,25 +67,6 @@ namespace Z0
                     break;
             }
             return result;
-        }
-
-        internal static string format<K,V>(Facet<K,V> src)
-        {
-            var k = string.Format("{0}", src.Key);
-            var v = string.Format("{0}", src.Value);
-            if(nonempty(v))
-                return RpOps.facet(k, v);
-            else
-                return k;
-        }
-
-        internal static string format(Facets src)
-        {
-            var dst = text.buffer();
-            var count = src.Count;
-            for(var i=0; i<count; i++)
-                dst.AppendLine(src[i].Format());
-            return dst.Emit();
         }
     }
 }

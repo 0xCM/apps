@@ -7,7 +7,7 @@ namespace Z0
     partial class MemDb
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public readonly record struct ColType : IEntity<ColType>
+        public readonly record struct ColType : IEntity<ColType,uint>
         {
             public readonly uint Key;
 
@@ -20,7 +20,7 @@ namespace Z0
                 TypeName = name;
             }
 
-            uint IEntity.Key
+            uint IKeyed<uint>.Key
                 => Key;
 
             public int CompareTo(ColType src)

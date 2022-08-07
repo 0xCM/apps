@@ -4,14 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
     [Free]
-    public interface IFacet<K,V> : IKeyed<K>
+    public interface INativeKey<K> : IKeyed<K>
+        where K : unmanaged, IEquatable<K>, IComparable<K>
     {
-        V Value {get;}
 
-        string ITextual.Format()
-            => string.Format("{0}:{1}", Key, Value);
     }
 }

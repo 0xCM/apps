@@ -71,9 +71,6 @@ namespace Z0
         public GAsciLookup AsciLookups()
             => Service(Wf.GenAsciLookups);
 
-        public GShim Shims()
-            => Wf.GenShims();
-
         public GInterface Interfaces()
             => Service(() => GInterface.create(Wf));
 
