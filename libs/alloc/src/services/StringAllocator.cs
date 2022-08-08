@@ -27,7 +27,7 @@ namespace Z0
 
         public ByteSize Size {get;}
 
-        StringAllocator(StringBuffer buffer)
+        internal StringAllocator(StringBuffer buffer)
         {
             Buffer = buffer;
             BaseAddress = buffer.BaseAddress;

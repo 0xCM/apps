@@ -4,14 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Free]
-    public interface IAllocation<T> : IBufferAllocation, ICellular<T>
-        where T : unmanaged
+    partial class XTend
     {
-        new ByteSize Size
-            => core.size<T>();
-
-        ByteSize IBufferAllocation.Size
-            => core.size<T>();
+        public static Seq<T> Sort<T>(this Index<T> src)
+            where T : IComparable<T>
+                => src.Storage.Sort();
     }
 }

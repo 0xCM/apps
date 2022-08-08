@@ -5,6 +5,7 @@
 namespace Z0
 {
     using Windows;
+
     using static Windows.Kernel32;
 
     unsafe partial struct memory

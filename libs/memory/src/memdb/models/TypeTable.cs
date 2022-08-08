@@ -5,7 +5,7 @@
 namespace Z0
 {
     [StructLayout(LayoutKind.Sequential,Pack=1)]
-    public readonly record struct DbTypeTable : IEntity<DbTypeTable,uint>
+    public readonly record struct DbTypeTable : IEntity<DbTypeTable,uint>, IComparable<DbTypeTable>
     {
         public readonly uint Key;
 
@@ -37,5 +37,4 @@ namespace Z0
         public int CompareTo(DbTypeTable src)
             => TypeName.CompareTo(src.TypeName);
     }
-
 }

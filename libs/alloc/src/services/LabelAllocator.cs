@@ -22,7 +22,7 @@ namespace Z0
 
         public ByteSize Size {get;}
 
-        LabelAllocator(StringBuffer buffer)
+        internal LabelAllocator(StringBuffer buffer)
         {
             Buffer = buffer;
             BaseAddress = buffer.BaseAddress;

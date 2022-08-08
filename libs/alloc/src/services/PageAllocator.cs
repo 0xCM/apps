@@ -5,7 +5,6 @@
 namespace Z0
 {
     using static Algs;
-    using static Spans;
 
     public unsafe class PageAllocator : Allocation<MemoryAddress>, IPageAllocator
     {
@@ -36,7 +35,7 @@ namespace Z0
             get => Memory.Width;
         }
 
-        PageAllocator(uint pages)
+        internal PageAllocator(uint pages)
         {
             PageCount = pages;
             Memory = PageAllocation.alloc(PageCount);

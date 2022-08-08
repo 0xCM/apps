@@ -90,7 +90,7 @@ namespace Z0
                 break;
             }
 
-            if(text.empty(pattern))
+            if(sys.empty(pattern))
                 return RP.Error;
 
             return string.Format(pattern, src.Type, src.Name);
@@ -115,7 +115,7 @@ namespace Z0
                 break;
             }
 
-            if(text.empty(pattern))
+            if(sys.empty(pattern))
                 return RP.Error;
 
             return string.Format(pattern, src.Type, src.Name);
@@ -123,7 +123,7 @@ namespace Z0
 
         static string functional(in NativeSigSpec src)
         {
-            var dst = text.buffer();
+            var dst = TextFormat.emitter();
             if(empty(src.Scope))
                 dst.Append(src.Name);
             else
@@ -146,7 +146,7 @@ namespace Z0
 
         static string functional(in NativeSig src)
         {
-            var dst = text.buffer();
+            var dst = TextFormat.emitter();
             dst.AppendFormat("{0}::{1}:", src.Scope, src.Name);
 
             ref readonly var opcount = ref src.OperandCount;
@@ -165,7 +165,7 @@ namespace Z0
 
         static string cstyle(in NativeSig src)
         {
-            var dst = text.buffer();
+            var dst = TextFormat.emitter();
             dst.AppendFormat("{0} {1}(", src.Return.Type, src.Name);
 
             ref readonly var opcount = ref src.OperandCount;
@@ -184,7 +184,7 @@ namespace Z0
 
         static string cstyle(in NativeSigSpec src)
         {
-            var dst = text.buffer();
+            var dst = TextFormat.emitter();
             dst.AppendFormat("{0} {1}(", src.ReturnType, src.Name);
 
             var operands = src.Operands;

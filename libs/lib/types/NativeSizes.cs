@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
 
     [ApiHost]
     public readonly struct NativeSizes
@@ -17,14 +17,14 @@ namespace Z0
         public static NativeSegType seg(NativeClass @class, NativeSizeCode total, NativeSizeCode cell)
         {
             var a = (uint)total;
-            var count = ((uint)Sizes.width(total))/((uint)Sizes.width(cell));
+            var count = ((uint)Sized.width(total))/((uint)Sized.width(cell));
             var dst =  (ushort)((uint)cell | ((uint)@class << 4) | (count << 8));
             return @as<ushort,NativeSegType>(dst);
         }
 
         [MethodImpl(Inline)]
         public static NativeSegType seg(NativeClass @class, ushort total, ushort cell)
-            => seg(@class, Sizes.native(total), Sizes.native(cell));
+            => seg(@class, Sized.native(total), Sized.native(cell));
 
         [MethodImpl(Inline)]
         public static NativeSegType seg(NativeSegKind kind)

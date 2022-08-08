@@ -275,6 +275,9 @@ public enum PartId : byte
     [Symbol("api.identity")]
     ApiIdentity,
 
+    [Symbol("alloc")]
+    Alloc,
+
     [Symbol("rules")]
     Rules,
 

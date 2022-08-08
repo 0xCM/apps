@@ -5,7 +5,7 @@
 namespace Z0
 {
     [StructLayout(LayoutKind.Sequential,Pack=1), Record(TableId)]
-    public record struct TypeTableRow : IDbRow<TypeTableRow>
+    public record struct TypeTableRow : IDbRow<TypeTableRow>, IComparable<TypeTableRow>
     {
         const string TableId = "typetables";
 

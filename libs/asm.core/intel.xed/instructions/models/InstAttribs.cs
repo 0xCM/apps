@@ -59,12 +59,6 @@ namespace Z0
                 get => ref Data[i];
             }
 
-            public InstAttribs Sort()
-            {
-                Data.Sort();
-                return this;
-            }
-
             public bool Locked
             {
                 [MethodImpl(Inline)]

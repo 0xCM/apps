@@ -95,12 +95,12 @@ namespace Z0
             get => Sized.size<T>()*Count;
         }
 
-        public Index<T> Sort()
-        {
-            if(Length != 0)
-                Array.Sort(Data);
-            return this;
-        }
+        // public Index<T> Sort()
+        // {
+        //     if(Length != 0)
+        //         Array.Sort(Data);
+        //     return this;
+        // }
 
         [MethodImpl(Inline)]
         public bool Any(Func<T,bool> predicate)

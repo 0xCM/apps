@@ -49,7 +49,7 @@ namespace Z0
             get => ref skip(Data,i);
         }
 
-        public virtual ByteSize Size => Data.Length*core.size<T>();
+        public virtual ByteSize Size => Data.Length*Sized.size<T>();
 
 
         void IDisposable.Dispose()

@@ -17,7 +17,7 @@ namespace Z0
 
         MemoryAddress MaxAddress;
 
-        MemAllocator(ByteSize size)
+        internal MemAllocator(ByteSize size)
         {
             Size = size;
             Buffer = memory.native(size);

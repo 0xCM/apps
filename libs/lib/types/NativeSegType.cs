@@ -27,13 +27,19 @@ namespace Z0
         public NativeSegKind SegKind
         {
             [MethodImpl(Inline)]
-            get => core.@as<NativeSegType,NativeSegKind>(this);
+            get => Algs.@as<NativeSegType,NativeSegKind>(this);
         }
 
         public NativeSize Size
         {
             [MethodImpl(Inline)]
-            get => Sizes.native(Width);
+            get => Sized.native(Width);
+        }
+
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Algs.hash(CellType.GetHashCode(), CellCount);
         }
 
         public bool IsVoid
@@ -47,7 +53,7 @@ namespace Z0
             => CellType.Equals(src.CellType) && CellCount == src.CellCount;
 
         public override int GetHashCode()
-            => (int)alg.hash.combine(CellType.GetHashCode(), CellCount);
+            => Hash;
 
         public string Format()
             => NativeRender.format(this);
@@ -61,7 +67,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator NativeSegType(NativeSegKind kind)
-            => core.@as<NativeSegKind,NativeSegType>(kind);
+            => Algs.@as<NativeSegKind,NativeSegType>(kind);
 
         [MethodImpl(Inline)]
         public static implicit operator NativeSegKind(NativeSegType src)

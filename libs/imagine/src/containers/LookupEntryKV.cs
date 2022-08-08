@@ -26,13 +26,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator LookupEntry<K,V>((K key, V value) src)
             => new LookupEntry<K,V>(src.key, src.value);
-
-        [MethodImpl(Inline)]
-        public static implicit operator LookupEntry<K,V>(Paired<K,V> src)
-            => new LookupEntry<K,V>(src.Left, src.Right);
-
-        [MethodImpl(Inline)]
-        public static implicit operator Paired<K,V>(LookupEntry<K,V> src)
-            => core.paired(src.Key,src.Value);
     }
 }

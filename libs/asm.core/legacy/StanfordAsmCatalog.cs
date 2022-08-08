@@ -71,14 +71,14 @@ namespace Z0.Asm
             return buffer;
         }
 
-        public ReadOnlySpan<NameOld> DeriveEncodingKinds()
+        public ReadOnlySeq<string> DeriveEncodingKinds()
         {
             var rows = LoadSource();
             var count = rows.Length;
-            var dst = hashset<NameOld>();
+            var dst = hashset<string>();
             for(var i=0u; i<count; i++)
                 dst.Add(skip(rows,i).EncodingKind);
-            return dst.Index().Sort();
+            return dst.ToSeq().Sort();
         }
 
         public ReadOnlySpan<StanfordInstruction> LoadSource(FS.FilePath src)
