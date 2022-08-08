@@ -18,7 +18,7 @@ namespace Z0
         where T : ICmd<T>, new()
     {
         CmdId ICmd.CmdId
-            => CmdId.identify<T>();
+            => Cmd.identify<T>();
 
         string IExpr.Format()
             => Cmd.format(this);

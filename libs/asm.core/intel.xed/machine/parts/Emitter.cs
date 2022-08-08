@@ -13,9 +13,9 @@ namespace Z0
 
             object LogLocker = new();
 
-            WorkspaceLog _Log;
+            WsLog _Log;
 
-            WorkspaceLog Log
+            WsLog Log
             {
                 get
                 {

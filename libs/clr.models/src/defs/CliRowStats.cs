@@ -5,21 +5,21 @@
 namespace Z0
 {
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct CliRowStats
+    public struct CliRowStats : IComparable<CliRowStats>
     {
         const string TableId = "cli.stats";
 
-        [Render(8)]
-        public uint Seq;
+        [Render(48)]
+        public Label AssemblyName;
 
         [Render(12)]
         public byte TableIndex;
 
         [Render(32)]
-        public StringAddress TableName;
+        public Label TableName;
 
-        [Render(48)]
-        public StringAddress Component;
+        [Render(12)]
+        public Address32 TableOffset;        
 
         [Render(12)]
         public uint RowCount;
@@ -29,5 +29,13 @@ namespace Z0
 
         [Render(12)]
         public ByteSize TableSize;
+
+        public int CompareTo(CliRowStats src)
+        {
+            var result = AssemblyName.CompareTo(src.AssemblyName);
+            if(result == 0)
+                result = TableIndex.CompareTo(src.TableIndex);
+            return result;
+        }
     }
 }

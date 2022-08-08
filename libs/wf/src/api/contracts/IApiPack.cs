@@ -23,10 +23,6 @@ namespace Z0
         IDbTargets Analysis()
             => Targets("analysis");
 
-        FS.FilePath SectionTable<T>(string section,string prefix)
-            where T : struct
-                => Context().Targets(section).Table<T>(prefix);
-
         IDbTargets Docs()
             => Targets("docs");
 
@@ -65,9 +61,6 @@ namespace Z0
 
         FS.Files AsmExtracts(PartId part)
             => AsmExtracts().Where(path => path.FileName.StartsWith($"{part.PartName().Format()}."));
-
-        FS.Files ExtractReports()
-            => Extracts().Files(FileKind.Csv);
 
         FS.Files MsilExtracts()
             => Extracts().Files(FileKind.Il);

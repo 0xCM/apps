@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Free]
-    public interface IToolCmd
+    public interface IToolCmd : ICmd
     {
         Tool Tool {get;}
         
@@ -20,6 +20,8 @@ namespace Z0
         where T : ITool, new()
         where C : ICmd<C>, new()
     {
+        CmdId ICmd.CmdId
+            => Cmd.identify<C>();
 
         new T Tool => new T();
 

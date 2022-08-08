@@ -13,6 +13,9 @@ namespace Z0
 
             public OmniScript OmniScript(IWfRuntime wf)
                 => Service<OmniScript>(wf);
+
+            public WsRegistry WsRegistry(IWfRuntime wf)
+                => Service<WsRegistry>(wf);
         }
 
         static ServiceCache Services => ServiceCache.Instance;
@@ -22,5 +25,8 @@ namespace Z0
 
         public static OmniScript OmniScript(this IWfRuntime wf)
             => Services.OmniScript(wf);
+
+        public static WsRegistry WsRegistry(this IWfRuntime wf)
+            => Services.WsRegistry(wf);
     }
 }

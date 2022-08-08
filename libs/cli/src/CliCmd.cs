@@ -12,6 +12,8 @@ namespace Z0
 
         CliEmitter CliEmitter => Wf.CliEmitter();
 
+        ApiMd ApiMd => Wf.ApiMd();
+
         public static unsafe PEReader PeReader(MemorySeg src)
             => new PEReader(src.BaseAddress.Pointer<byte>(), src.Size);
 
@@ -32,7 +34,7 @@ namespace Z0
 
         [CmdOp("cli/emit/stats")]
         void EmitStats()
-            => CliEmitter.EmitRowStats(Dst);
+            => CliEmitter.EmitRowStats(ApiMd.Assemblies, AppDb.ApiTargets().Table<CliRowStats>());
 
         [CmdOp("cli/emit/blobs")]
         void EmitBlobs()

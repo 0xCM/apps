@@ -4,13 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public abstract class Tool<T,L> : ITool<L>
+    public abstract class Tool<T,L>
         where T : Tool<T,L>, new()
         where L : IExpr
     {
         public Name Name {get;}
-
-        public abstract L Location {get;}
 
         protected Tool(Name name)
         {
@@ -22,11 +20,5 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Name.Hash;
         }
-       public string Format()
-            => Location.Format();
-
-        
-        public override string ToString()
-            => Format();
     }
 }

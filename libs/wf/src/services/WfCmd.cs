@@ -10,6 +10,8 @@ namespace Z0
 
     public class WfCmd : AppCmdService<WfCmd>
     {
+        WsRegistry WsRegistry => Wf.WsRegistry();
+
         [CmdOp("files")]
         void ListFiles(CmdArgs args)
         {
@@ -195,6 +197,13 @@ namespace Z0
             Write(string.Format("Cpu:{0}", Kernel32.GetCurrentProcessorNumber()));
         }
 
+        [CmdOp("ws/register")]
+        void RegisterWorkspace(CmdArgs args)
+        {
+            WsRegistry.Register(arg(args,0).Value, FS.dir(arg(args,1).Value));
+            var entries = WsRegistry.Entries();
+            
+        }
         void ShowMemory()
         {
             var info = WinMem.basic();

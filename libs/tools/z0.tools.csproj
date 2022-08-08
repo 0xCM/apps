@@ -8,6 +8,8 @@
   <Import Project="$(ImportDefs)usings.props"/>
 
   <ItemGroup>
+    <EmbeddedResource Include="assets/**/*.*" />
+
       <ProjectReference Include="$(Wf)"/>
       <ProjectReference Include="$(Native)"/>
       <ProjectReference Include="$(Archives)"/>

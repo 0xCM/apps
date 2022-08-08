@@ -9,10 +9,10 @@ namespace Z0
         static FS.FilePath target(IProjectWorkspace project, string name, FileKind kind = FileKind.Log)
             => project.BuildOut()+ FS.file(name, kind.Ext());
 
-        public static WorkspaceLog log(FS.FilePath dst, bool overwrite = true)
+        public static WsLog log(FS.FilePath dst, bool overwrite = true)
             => new (dst, overwrite);
 
-        public static WorkspaceLog log(IProjectWorkspace project, string name, FileKind kind = FileKind.Log, bool overwrite = true)
+        public static WsLog log(IProjectWorkspace project, string name, FileKind kind = FileKind.Log, bool overwrite = true)
             => log(target(project,name,kind), overwrite);
 
         public static IProjectWorkspace load(FS.FolderPath root, ProjectId id)

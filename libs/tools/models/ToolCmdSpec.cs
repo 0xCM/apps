@@ -17,14 +17,16 @@ namespace Z0
         
         public readonly ToolCmdArgs Args;
 
+        public readonly CmdId CmdId;
+
         [MethodImpl(Inline)]
         public ToolCmdSpec(Tool tool, Name type, params ToolCmdArg[] args)
         {            
             Tool = tool;
             Type = type;
             Args = args;
+            CmdId = new (type);            
         }
-
 
         public Hash32 Hash
         {
@@ -56,5 +58,8 @@ namespace Z0
 
         Name IToolCmd.Type 
             => Type;
+
+        CmdId ICmd.CmdId 
+            => CmdId;
     }
 }

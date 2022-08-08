@@ -4,30 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     public readonly record struct CmdId : IIdentity<CmdId>
     {
-        public static CmdId identify<T>()
-            => identify(typeof(T));
-
-        [Op]
-        public static CmdId identify(Type spec)
-        {
-            var tag = spec.Tag<CmdAttribute>();
-            if(tag)
-            {
-                var name = tag.Value.Name;
-                if(empty(name))
-                    return new CmdId(spec.Name);
-                else
-                    return new CmdId(name);
-            }
-            else
-                return new CmdId(spec.Name);
-        }
-
-        readonly string Data;
+        readonly asci32 Data;
 
         [MethodImpl(Inline)]
         public CmdId(string src)
@@ -36,19 +15,19 @@ namespace Z0
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => sys.empty(Data);
+            get => Data.IsEmpty;
         }
 
         public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
-            get => sys.nonempty(Data);
+            get => Data.IsNonEmpty;
         }
 
         public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => core.hash(Data);
+            get => Data.Hash;
         }
 
         public override int GetHashCode()
@@ -70,7 +49,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator CmdId(Type spec)
-            => identify(spec);
+            => Cmd.identify(spec);
 
         [MethodImpl(Inline)]
         public static implicit operator CmdId(string name)

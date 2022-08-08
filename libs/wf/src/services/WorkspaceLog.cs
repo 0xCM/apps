@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class WorkspaceLog : IDisposable
+    public class WsLog : IDisposable
     {
         ITextEmitter _Emitter;
 
@@ -42,7 +42,7 @@ namespace Z0
 
         readonly bool Overwrite;
 
-        internal WorkspaceLog(FS.FilePath dst, bool overwrite)
+        internal WsLog(FS.FilePath dst, bool overwrite)
         {
             Overwrite = overwrite;
             Path = dst;

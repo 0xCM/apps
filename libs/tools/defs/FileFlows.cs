@@ -13,7 +13,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public static FileFlowKind kind(FileKind src, FileKind dst)
             =>  new (src,dst);
-
     }
 
     public class TypedFileFlows

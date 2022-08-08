@@ -13,29 +13,30 @@ namespace Z0
         public void EmitRowStats(IApiPack dst)
         {
             var src = ApiMd.Assemblies;
-            var seq = 0u;
-            var path = dst.Metadata().Table<CliRowStats>();
-            var flow = EmittingTable<CliRowStats>(path);
-            var formatter = Tables.formatter<CliRowStats>();
-            using var writer = path.Writer();
-            writer.WriteLine(formatter.FormatHeader());
-            for(var i=0; i<src.Length; i++)
-            {
-                ref readonly var a = ref skip(src,i);
-                var rows = CollectRowStats(a,ref seq);
-                for(var j=0; j<rows.Length; j++)
-                    writer.WriteLine(formatter.Format(skip(rows,j)));
-            }
-
-            EmittedTable(flow,seq);
+            var buffer = bag<CliRowStats>();
+            stats(src,buffer);
+            EmitRowStats(ApiMd.Assemblies, dst.Metadata().Table<CliRowStats>());
         }
 
-        public ReadOnlySpan<CliRowStats> CollectRowStats(Assembly a, ref uint seq)
+        public void EmitRowStats(ReadOnlySpan<Assembly> src, FS.FilePath dst)
         {
-            var entries = list<CliRowStats>();
-            var reader = CliReader.create(a);
-            var counts = reader.GetRowCounts();
-            var sizes = reader.GetRowSizes();
+            var buffer = bag<CliRowStats>();
+            stats(src,buffer);
+            var rows = buffer.ToSeq().Sort();
+            TableEmit(rows, dst);
+        }
+
+        public static void stats(ReadOnlySpan<Assembly> src, ConcurrentBag<CliRowStats> dst)
+            => iter(src, a => stats(a,dst), PllExec);
+
+        public static void stats(Assembly src, ConcurrentBag<CliRowStats> dst)
+        {
+            var indicies = Symbols.values<TableIndex,byte>();
+            var reader = CliReader.create(src);
+            var counts = reader.GetRowCounts(indicies);
+            var offsets = reader.GetTableOffsets(indicies);
+            var sizes = reader.GetRowSizes(indicies);
+            var name = src.GetSimpleName();
             for(byte j=0; j<counts.Count; j++)
             {
                 var table = (TableIndex)j;
@@ -44,18 +45,16 @@ namespace Z0
                 if(rowcount != 0)
                 {
                     var entry = new CliRowStats();
-                    entry.Seq = seq++;
-                    entry.Component = a.GetSimpleName();
+                    entry.AssemblyName = name;
                     entry.TableName = table.ToString();
+                    entry.TableOffset = offsets[table];
                     entry.TableIndex = j;
                     entry.RowCount = rowcount;
                     entry.RowSize = rowsize;
                     entry.TableSize = rowcount*rowsize;
-
-                    entries.Add(entry);
+                    dst.Add(entry);
                 }
             }
-            return entries.ViewDeposited();
         }
     }
 }

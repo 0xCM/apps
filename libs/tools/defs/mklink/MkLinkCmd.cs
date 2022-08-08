@@ -8,21 +8,6 @@ namespace Z0
 
     partial class Tools
     {
-        public sealed class MkLink : Tool<MkLink>
-        {
-            public MkLink()
-                : base(N.mklink)
-            {
-
-            }
-
-            public string Format()
-                => Name.Format();
-
-            public override string ToString()
-                => Format();
-        }        
-
         [Cmd(N.mklink)]
         public struct MkLinkCmd : IToolCmd<MkLink,MkLinkCmd>
         {            
@@ -43,6 +28,7 @@ namespace Z0
             [SymSource(tools)]
             public enum Flag : byte
             {
+                [Symbol("")]
                 None,
 
                 [Symbol("D","Creates a directory symbolic link")]
