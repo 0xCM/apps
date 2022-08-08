@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "../imagine"
+		},
+		{
+			"path": "../lib"
+		},
+		{
+			"path": "."
+		},
+	],
+	"settings": {}
+}

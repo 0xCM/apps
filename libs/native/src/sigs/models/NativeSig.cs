@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
 
     [StructLayout(LayoutKind.Sequential,Pack=1)]
     public struct NativeSig

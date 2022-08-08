@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     public class PageDispenser : Dispenser<PageDispenser>, IPageDispenser
     {
         readonly Dictionary<long,IPageAllocator> Allocators;
