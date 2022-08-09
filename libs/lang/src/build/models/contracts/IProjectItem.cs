@@ -4,15 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class BuildSvc
+    partial class Build
     {
-        public record class Solution
+        public interface IProjectItem : IProjectElement
         {
-            public const string TableId = "sln";
-
-            public SlnFile Path;
-
-            public IndexedSeq<SlnProject> Projects;
+            string Type {get;}
         }
     }
 }

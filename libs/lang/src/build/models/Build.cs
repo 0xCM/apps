@@ -4,15 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class BuildSvc
+    public partial class Build
     {
-        public enum BuildTargetKind : byte
-        {
-            None,
 
-            Exe,
-
-            Library
-        }
     }
 }

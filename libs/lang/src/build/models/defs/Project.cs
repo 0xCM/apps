@@ -6,7 +6,7 @@ namespace Z0
 {
     using E = Microsoft.Build.Evaluation;
 
-    partial class BuildSvc
+    partial class Build
     {
         public record class ProjectSpec
         {
@@ -20,8 +20,8 @@ namespace Z0
             internal ProjectSpec(E.Project src)
             {
                 Source = src;
-                Props = Source.AllEvaluatedProperties.Array().Select(property);
-                Items = Source.AllEvaluatedItems.Array().Select(item);
+                Props = Source.AllEvaluatedProperties.Array().Select(BuildSvc.property);
+                Items = Source.AllEvaluatedItems.Array().Select(BuildSvc.item);
             }
 
             public string Format()

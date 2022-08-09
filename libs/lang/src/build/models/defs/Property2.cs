@@ -6,7 +6,7 @@ namespace Z0
 {
     using E = Microsoft.Build.Evaluation;
 
-    partial class BuildSvc
+    partial class Build
     {
         public readonly record struct Property : IProjectProperty<string>
         {

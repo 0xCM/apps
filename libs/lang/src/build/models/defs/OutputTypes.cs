@@ -4,15 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class BuildSvc
+    partial class Build
     {
-        public enum GroupKind
+        public readonly record struct OutputTypes
         {
-            None,
+            public const string Library = nameof(Library);
 
-            PropertyGroup,
-
-            ItemGroup,
+            public const string Exe = nameof(Exe);
         }
     }
 }

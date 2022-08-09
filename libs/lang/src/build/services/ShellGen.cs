@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static Build;
+    
     partial class BuildSvc
     {
         public class ShellGen : AppService<ShellGen>

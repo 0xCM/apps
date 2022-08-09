@@ -4,12 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class BuildSvc
+    partial class Build
     {
-        public readonly struct TargetFrameworks
+        public enum GroupKind
         {
-            public const string netcoreapp = nameof(netcoreapp);
+            None,
 
+            PropertyGroup,
+
+            ItemGroup,
         }
     }
 }

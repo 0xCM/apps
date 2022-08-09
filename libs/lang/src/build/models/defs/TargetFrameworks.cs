@@ -4,13 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class BuildSvc
+    partial class Build
     {
-        public readonly record struct OutputTypes
+        public readonly struct TargetFrameworks
         {
-            public const string Library = nameof(Library);
+            public const string netcoreapp = nameof(netcoreapp);
 
-            public const string Exe = nameof(Exe);
         }
     }
 }

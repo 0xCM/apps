@@ -25,7 +25,7 @@ namespace Z0
             var project = BuildSvc.LoadProject(src);
             var data = project.Format();
             Write(data);
-            FileEmit(data, AppDb.App().Path(src.FileName.WithoutExtension.Format(), FileKind.Env), (ByteSize)data.Length);
+            FileEmit(data, AppDb.App("build/env").Path(src.FileName.WithoutExtension.Format(), FileKind.Env), (ByteSize)data.Length);
         }
 
         [CmdOp("build/libinfo")]

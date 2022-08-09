@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class BuildSvc
+    using static Build;
+
+    partial class Build
     {
         public abstract record class ProjectGroup<T> : IProjectGroup<T>
             where T : IProjectElement

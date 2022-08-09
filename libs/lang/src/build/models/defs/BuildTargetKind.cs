@@ -4,11 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class BuildSvc
+    partial class Build
     {
-        public interface IProjectItem : IProjectElement
+        public enum BuildTargetKind : byte
         {
-            string Type {get;}
+            None,
+
+            Exe,
+
+            Library
         }
     }
 }

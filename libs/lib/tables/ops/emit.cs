@@ -26,6 +26,19 @@ namespace Z0
              log.Deposit(emitted);
         }
 
+        public static ExecToken emit<T>(WfEmit channel, ReadOnlySpan<T> rows, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci,
+            ushort rowpad = 0, RecordFormatKind fk = RecordFormatKind.Tablular)
+                where T : struct
+        {
+            var emitting = channel.EmittingTable<T>(dst);
+            var formatter = RecordFormatters.create(typeof(T), rowpad, fk);
+            using var writer = dst.Writer(encoding);
+            writer.WriteLine(formatter.FormatHeader());
+            for(var i=0; i<rows.Length; i++)
+                writer.WriteLine(formatter.Format(skip(rows,i)));
+             return channel.EmittedTable(emitting, rows.Length, dst);
+        }
+
         public static void emit<T>(ReadOnlySpan<T> rows, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci,
             ushort rowpad = 0, RecordFormatKind fk = RecordFormatKind.Tablular)
                 where T : struct

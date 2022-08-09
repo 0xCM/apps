@@ -7,9 +7,12 @@ namespace Z0
     using E = Microsoft.Build.Evaluation;
     using D = Microsoft.Build.Definition;
     using C = Microsoft.Build.Construction;
+    using B = Build;
 
     using static core;
 
+    using static Build;
+    
     [ApiHost]
     public partial class BuildSvc : WfSvc<BuildSvc>
     {
@@ -18,8 +21,8 @@ namespace Z0
         ConcurrentDictionary<FS.FilePath, ProjectSpec> ProjectLookup = new();
 
         [MethodImpl(Inline), Op]
-        internal static Property property(E.ProjectProperty src)
-            => new Property(src);
+        internal static B.Property property(E.ProjectProperty src)
+            => new B.Property(src);
 
         public ProjectSpec LoadProject(FS.FilePath src)
             => ProjectLookup.GetOrAdd(src, project);

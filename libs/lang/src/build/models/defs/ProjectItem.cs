@@ -6,7 +6,7 @@ namespace Z0
 {
     using E = Microsoft.Build.Evaluation;
 
-    partial class BuildSvc
+    partial class Build
     {
         public record class ProjectItem : IProjectItem
         {
@@ -28,7 +28,7 @@ namespace Z0
                 var dst = text.emitter();
                 dst.Append($"{Type}");
                 if(text.nonempty(Include))
-                    dst.AppendLine($":{Include}");
+                    dst.AppendLine($"={Include}");
 
                 return dst.Emit();
             }

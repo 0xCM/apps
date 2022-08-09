@@ -6,7 +6,7 @@ namespace Z0
 {
     using static Algs;
 
-    partial class BuildSvc
+    partial class Build
     {
         public readonly record struct Property<T> : IProjectProperty<Property<T>,T>
             where T : IProjectProperty

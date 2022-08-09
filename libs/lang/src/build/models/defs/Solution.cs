@@ -6,14 +6,13 @@ namespace Z0
 {
     partial class Build
     {
-        const string OpenTagFence = "<";
+        public record class Solution
+        {
+            public const string TableId = "sln";
 
-        const string Delimiter =" ";
+            public SlnFile Path;
 
-        const string AttribSetOpen = "=\"";
-
-        const string AttribSetClose = "\"";
-
-        const string Arg0 = "{0}";
+            public IndexedSeq<SlnProject> Projects;
+        }
     }
 }

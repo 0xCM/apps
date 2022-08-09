@@ -43,11 +43,18 @@ namespace Z0
             log.Deposit(Events.emittedFile(src.GetType(), dst, src.Count));
         }
 
-        public static void emit(CmdCatalog src, FS.FilePath dst, IWfEventTarget log)
+        // public static void emit(CmdCatalog src, FS.FilePath dst, IWfEventTarget log)
+        // {
+        //     var data = src.Entries;
+        //     iter(data, x => log.Deposit(Events.row(x.Uri.Name)));
+        //     Tables.emit(log, data.View, dst);
+        // }
+
+        public static void emit(CmdCatalog src, FS.FilePath dst, WfEmit channel)
         {
             var data = src.Entries;
-            iter(data, x => log.Deposit(Events.row(x.Uri.Name)));
-            Tables.emit(log, data.View, dst);
+            iter(data, x => channel.Row(x.Uri.Name));
+            Tables.emit(channel, data.View, dst);
         }
     }
 }

@@ -15,7 +15,8 @@ namespace Z0
             return next == -1 ? ids.Substring(idStart) : ids.Substring(idStart, next - idStart);
         }
 
-        public static int Compare(BuildVersion s1, BuildVersion s2)
+        [MethodImpl(Inline), Op]
+        public static int cmp(BuildVersion s1, BuildVersion s2)
         {
             // compare(u.v.w-p+b, x.y.z-q+c)
             if (s1.Major != s2.Major)
@@ -101,20 +102,17 @@ namespace Z0
             while ((nextId = ids.IndexOf('.', idStart)) != -1)
             {
                 if (!ValidIdentifier(ids.Substring(idStart, nextId - idStart), buildMeta))
-                {
                     return false;
-                }
                 idStart = nextId + 1;
             }
 
             if (!ValidIdentifier(ids.Substring(idStart), buildMeta))
-            {
                 return false;
-            }
 
             return true;
         }
 
+        [MethodImpl(Inline), Op]
         public static int IndexOfNonNumeric(string s, int startIndex)
         {
             for (int i = startIndex; i < s.Length; ++i)
@@ -127,9 +125,9 @@ namespace Z0
             return -1;
         }
 
-        public static bool TryParse(string fxVersionString, out BuildVersion BuildVersion)
+        public static bool parse(string fxVersionString, out BuildVersion dst)
         {
-            BuildVersion = default;
+            dst = default;
             if (string.IsNullOrEmpty(fxVersionString))
             {
                 return false;
@@ -188,7 +186,7 @@ namespace Z0
                     return false;
                 }
 
-                BuildVersion = new BuildVersion(major, minor, patch);
+                dst = new BuildVersion(major, minor, patch);
                 return true;
             }
 
@@ -217,7 +215,7 @@ namespace Z0
                 }
             }
 
-            BuildVersion = new BuildVersion(major, minor, patch);
+            dst = new BuildVersion(major, minor, patch);
 
             return true;
         }
