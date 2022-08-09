@@ -1,5 +1,5 @@
 @echo off
-call %~dp0config.cmd
+call %~dp0..\scripts\config.cmd
 
 set CommitLogPath=%RepoArchives%\z0-commit.log
 

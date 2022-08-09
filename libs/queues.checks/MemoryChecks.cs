@@ -4,61 +4,47 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Arrays;
+    using static Spans;
 
-    partial class AsmCheckCmd
+    public class MemoryChecks : AppCmdService<MemoryChecks>
     {
-        [CmdOp("alloc/check")]
-        Outcome CheckAlloc(CmdArgs args)
+        [CmdOp("memory/check/alloc")]
+        void CheckMemAlloc()
         {
-            var result = Outcome.Success;
-
-            result = CheckStringAllocator();
-            if(result.Fail)
-                return result;
-            else
-                Status(result.Message);
-
-            result = CheckLabelAllocator();
-            if(result.Fail)
-                return result;
-            else
-                Status(result.Message);
-
-            return result;
+            CheckStringAllocator(Emitter);
+            CheckLabelAllocator(Emitter);
         }
 
-        Outcome CheckStringAllocator()
+        static void CheckStringAllocator(WfEmit channel)
         {
-            var result = Outcome.Success;
             var count = Pow2.T16;
             var inputlen = Pow2.T04;
             var totallen = count*inputlen;
-            var size = totallen*core.size<char>();
+            var size = totallen*Sized.size<char>();
             using var dispenser = Dispense.strings(size);
-            var strings = core.alloc<StringRef>(count);
+            var strings = sys.alloc<StringRef>(count);
             for(var i=0; i<count; i++)
             {
                 var input = BitRender.format16((ushort)i);
-                ref var @string = ref seek(strings,i);
-                @string = dispenser.String(input);
-                if(!input.Equals(@string.Format()))
+                ref var dispensed = ref seek(strings,i);
+                dispensed = dispenser.String(input);
+                if(!input.Equals(dispensed.Format()))
                 {
-                    result = (false, string.Format("input:{0} != output:{1}", input, @string.Format()));
-                    break;
+                    channel.Error($"input:{input} != output:{dispensed}");
+                    return;
                 }
             }
-            if(result)
-                result = (true, string.Format("Verified string allocator for {0} inputs over a buffer of size {1}", count, size));
 
-            return result;
+            channel.Status($"Verified string allocator for {count} inputs over a buffer of size {size}");
         }
 
-        Outcome CheckLabelAllocator()
+        static void CheckLabelAllocator(WfEmit channel)
         {
             var count = 256;
             var result = Outcome.Success;
-            var src = alloc<string>(count);
+            var src = sys.alloc<string>(count);
             for(uint i=0; i<count; i++)
                 seek(src,i) = BitRender.format8((byte)i);
 
@@ -75,15 +61,18 @@ namespace Z0
                     var same = label.Format() == input;
                     if(!same)
                     {
-                        result = (false, string.Format("{0} != {1}", label, input));
+                        channel.Error($"{label} != {input}");
                         break;
                     }
                 }
             }
             if(result)
-                result = (true, string.Format("Verified {0} label allocations", count));
-
-            return result;
+                channel.Status($"Verified {count} label allocations");
         }
+
+
+    }
+    partial class AsmCheckCmd
+    {
     }
 }

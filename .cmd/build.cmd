@@ -1,5 +1,3 @@
 @echo off
-call %~dp0config.cmd
-
+call %~dp0..\scripts\config.cmd
 call %BuildSlnRoot%
-if errorlevel 1 goto:eof

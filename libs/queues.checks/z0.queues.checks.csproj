@@ -12,8 +12,10 @@
 
   <ItemGroup>
     <ProjectReference Include="$(Queues)" />
-    <ProjectReference Include="$(Graphs)" />
     <ProjectReference Include="$(Archives)" />
+    <ProjectReference Include="$(Wf)" />
+    <ProjectReference Include="$(Alloc)" />
+    <ProjectReference Include="$(ZLib)" />
   </ItemGroup>
 
 </Project>

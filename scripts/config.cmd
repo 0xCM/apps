@@ -13,11 +13,12 @@ set ProjectSlnFile=z0.%ProjectId%.sln
 set CsProjectFile=z0.%ProjectId%.csproj
 set LibName=z0.%ProjectId%.dll
 
-set SlnRoot=%~dp0..\
-set Publications=%SlnRoot%\artifacts
-set SlnRootPath=%SlnRoot%\z0.sln
+set SlnRoot=%~dp0..
+set Artifacts=%SlnRoot%\artifacts
+
 set CgRoot=%SlnRoot%\cg
 set ShellRoot=%SlnRoot%\shells
+
 set TestRoot=%SlnRoot%\test
 set LibRoot=%SlnRoot%\libs
 set ShellWs=%SlnRoot%\shells
@@ -25,15 +26,22 @@ set LibSlnPath=%LibWs%\%WsId%.sln
 set AreaRoot=%SlnRoot%\%Area%
 set SlnScripts=%SlnRoot%\.cmd
 set SlnPath=%SlnRoot%\%Area%\z0.%Area%.sln
-set WsBuild=%SlnRoot%\.build
-set WsLogs=%WsBuild%\logs
-set WsBin=%WsBuild%\bin
-set WsObj=%WsBuild%\obj
+set WsBuild=%Artifacts%
+set WsLogs=%Artifacts%\logs
+set WsBin=%Artifacts%\bin
 set TestLog=%WsLogs%\z0.%ProjectId%.tests.trx
-set BuildLogs=%WsLogs%
+set BuildLogs=%Artifacts%\logs
 set BuildTool=dotnet build
-set PublishTool=dotnet publish --verbosity normal
-set PackageTool=dotnet pack --include-symbols --include-source --verbosity normal
+set PublishTool=dotnet publish -c %BuildKind%
+set PackageTool=dotnet pack --include-symbols --include-source
+
+set RootSlnLogPath=%WsLogs%\z0.sln.binlog
+set RootSlnLogSpec=-bl:%RootSlnLogPath%
+
+set RootSlnPath=%SlnRoot%\z0.sln
+
+set SlnRootPath=%SlnRoot%\z0.sln
+set PublishCmd=%PublishTool% %RootSlnPath%
 
 set BuildLog=%BuildLogs%\z0.%ProjectId%.log
 set SlnBuildLog=%BuildLogs%\z0.%SlnId%.log
@@ -65,8 +73,7 @@ set CommitLog=%Views%\db\logs\%WsId%.commit.log
 set TargetBuildRoot=%WsBin%\z0.%ProjectId%\%BuildKind%\%TargetFramework%
 set ShellBin=%TargetBuildRoot%\%RuntimeMoniker%\%ShellName%
 
-set RootSlnLogSpec=-bl:%ProjectBinLogPath%
-set BuildSlnRoot=%BuildTool% %SlnRootPath% %BuildProps% %BinLogSpec%; %BuildOptions%
+set BuildSlnRoot=%BuildTool% %RootSlnPath% %BuildProps% %RootSlnLogSpec%; %BuildOptions%
 
 set ShellName=%ShellId%.exe
 set ShellExePath=%TargetBuildRoot%\%RuntimeMoniker%\%ShellName%
@@ -77,7 +84,6 @@ set shell=%ShellExePath%
 set dllshell=%DllShellPath%
 
 set LibPath=%TargetBuildRoot%\%LibName%
-
 set LibProject=%LibRoot%\%ProjectId%
 set CsProjectPath=%LibProject%\%CsProjectFile%
 set BuildLib=%BuildTool% %CsProjectPath% %BuildProps% %BinLogSpec%; %BuildOptions%
@@ -98,9 +104,12 @@ set ZCmdDir=%WsBin%\z0.cmd\%BuildKind%\%TargetFramework%\%RuntimeMoniker%
 set zcmd=%ZCmdDir%\zcmd.exe
 set zcmd-pub=%WsBin%\z0.cmd\%BuildKind%\%TargetFramework%\%RuntimeMoniker%\publish\zcmd.exe
 
-set CleanBuild=rmdir %WsBuild% /s/q
+set CleanBuild=rmdir %Artifacts% /s/q
 
 set AddSln=%~dp0sln-add.cmd
-set PublishShell=dotnet publish %CmdProject%
 
 mkdir %BuildLogs% 1>nul 2>nul
+
+set PubRoot=%Views%\tools\z0
+set ShellPubRoot=%PubRoot%\%ShellId%
+set PublishShell=dotnet publish %ProjectPath% --output %ShellPubRoot%

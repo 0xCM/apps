@@ -15,3 +15,4 @@ dotnet/
 repo
 artifacts/
 node_modules
+*.log

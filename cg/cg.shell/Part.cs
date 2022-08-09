@@ -13,12 +13,10 @@ global using System.Runtime.InteropServices;
 global using static Z0.Root;
 global using SQ = Z0.SymbolicQuery;
 
-
 [assembly: PartId(PartId.CgShell)]
 
 namespace Z0.Parts
 {
-
     public sealed class GenApp : Part<GenApp>
     {
         public static AssetData.DataSources Assets
@@ -31,7 +29,7 @@ namespace Z0.Parts
         {
             public static DataSources Assets = new ();
 
-            public static IAssets AssetSet
+            public static AssetData.DataSources AssetSet
                 => Assets;
 
             public sealed class DataSources : Assets<DataSources>

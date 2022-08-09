@@ -1,28 +1,34 @@
 {
 	"folders": [
 		{
+			"path": "../imagine"
+		},
+		{
+			"path": "../lib"
+		},
+		{
+			"path": "../alloc"
+		},
+		{
+			"path": "../containers"
+		},
+		{
+			"path": "../symbolics"
+		},
+		{
+			"path": "../queues"
+		},
+		{
+			"path": "../wf"
+		},
+		{
+			"path": "../cmd.specs"
+		},
+		{
+			"path": "../archives"
+		},
+		{
 			"path": "."
-		},
-		{
-			"path": "..\\queues"
-		},
-		{
-			"path": "..\\wf"
-		},
-		{
-			"path": "..\\cmd.specs"
-		},
-		{
-			"path": "..\\cmd.svc"
-		},
-		{
-			"path": "..\\cmd.exec"
-		},
-		{
-			"path": "..\\archives"
-		},
-		{
-			"path": "..\\graphs"
 		},
 	],
 	"settings": {}
