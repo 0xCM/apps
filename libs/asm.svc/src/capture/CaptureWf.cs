@@ -28,36 +28,19 @@ namespace Z0
         //     capture.Run(dispenser);
         // }
 
+
+        public void RunChecks(IApiPack src)
+        {
+            CaptureWfChecks.run(src, Emitter);            
+        }
+
         public void Run()
         {
             var dst = ApiPacks.create(timestamp());
             using var transport = new CaptureTransport(Dispense.composite(), Emitter);
             var capture = new CaptureWfRunner(this, new(), dst, transport);
             capture.Run();    
-            RunChecks(transport, dst);
-        }
-
-        void RunChecks(CaptureTransport transport, IApiPack dst)
-        {
-            //var emitted = Heaps.located(src);            
-
-            //CheckReloaded(transport, dst);
-        }
-
-        void CheckReloaded(CaptureTransport transport, IApiPack src)
-        {
-            var members = transport.TransmitReloaded(ApiCode.load(src, PartId.AsmCore, Emitter));
-            for(var i=0; i<members.MemberCount; i++)
-            {
-                ref readonly var member = ref members.Member(i);
-                ref readonly var token = ref members.Token(i);
-                var encoding = members.Encoding(i);
-                ref readonly var entry = ref member.EntryAddress;
-                ref readonly var entryRb = ref member.EntryRebase;
-                ref readonly var target = ref member.TargetAddress;
-                ref readonly var targetRb = ref member.TargetRebase;
-                ref readonly var uri = ref member.Uri;
-            }
+            RunChecks(dst);
         }
 
         static SettingsStore Store = new();

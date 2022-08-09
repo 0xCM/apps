@@ -27,8 +27,29 @@ namespace Z0
             => new ApiHostBlocks(host, apiblocks(src));
 
         [Op]
-        public static SortedIndex<ApiCodeBlock> apiblocks(IApiPack src)
-            => apicode(src.HexExtracts());
+        public static SortedIndex<ApiCodeBlock> apiblocks(IApiPack src, bool pll = true)
+            => apicode(src.HexExtracts(), pll);
+
+        [MethodImpl(Inline), Op]
+        public static ApiCodeRow apicode(in MemberCodeBlock src, uint seq)
+        {
+            var dst = ApiCodeRow.Empty;
+            dst.Seq = seq;
+            dst.SourceSeq = src.Sequence;
+            dst.Address = src.Address;
+            dst.CodeSize = src.Encoded.Size;
+            dst.Uri = src.OpUri;
+            dst.Data = src.Encoded;
+            return dst;
+        }
+
+        [Op]
+        public static SortedIndex<ApiCodeBlock> apicode(FS.Files src, bool pll = true)
+        {
+            var dst = bag<ApiCodeBlock>();
+            iter(src, file => iter(apirows(file), row => dst.Add(apiblock(row))), pll);
+            return SortedIndex<ApiCodeBlock>.sort(dst.Array());
+        }
 
         [Op]
         public static Index<ApiCodeBlock> apiblocks(FS.FilePath src)
@@ -41,7 +62,7 @@ namespace Z0
             return dst;
         }
 
-        static Index<ApiCodeRow> apirows(FS.FilePath src)
+        public static Index<ApiCodeRow> apirows(FS.FilePath src)
         {
             var result = Outcome.Success;
             var data = src.ReadLines().Storage.Skip(1);

@@ -14,17 +14,19 @@ namespace Z0
     public readonly struct MemorySlots<K>
         where K : unmanaged
     {
-        readonly MemorySeg[] Data;
+        readonly MemorySeg[] Storage;
 
         [MethodImpl(Inline)]
         public MemorySlots(MemorySeg[] slots)
-            => Data = slots;
+        {
+            Storage = slots;
+        }
 
         [MethodImpl(Inline)]
-        public ref readonly MemorySeg Lookup(K index)
-            => ref skip(Data, uint32(index));
+        public ref MemorySeg Lookup(K index)
+            => ref seek(Storage, uint32(index));
 
-        public ref readonly MemorySeg this[K index]
+        public ref MemorySeg this[K index]
         {
             [MethodImpl(Inline)]
             get => ref Lookup(index);
@@ -33,25 +35,13 @@ namespace Z0
         public ref MemorySeg First
         {
             [MethodImpl(Inline)]
-            get => ref first(Data);
-        }
-
-        public MemorySeg[] Content
-        {
-            [MethodImpl(Inline)]
-            get => Data;
-        }
-
-        public ref MemorySeg this[uint index]
-        {
-            [MethodImpl(Inline)]
-            get => ref Data[index];
+            get => ref first(Storage);
         }
 
         public int Length
         {
             [MethodImpl(Inline)]
-            get => Data.Length;
+            get => Storage.Length;
         }
     }
 }

@@ -4,19 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial class ClrQuery
     {
         /// <summary>
-        /// Computes the effective type of the source <see cref='Type'/>
+        /// Queries the source <see cref='Type'/> for the <see cref='Type'/> it wraps
         /// </summary>
         /// <param name="src">The source type</param>
         [MethodImpl(Inline), Op]
-        public static Type EffectiveType(this Type src)
-            => src.UnderlyingSystemType.IsByRef ? src.ElementType() : src;
+        public static Type ElementType(this Type src)
+            => src.GetElementType();
     }
 }

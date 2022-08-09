@@ -2,14 +2,20 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
+[assembly: PartId(PartId.Events)]
+namespace Z0.Parts
+{
+    public sealed class Events : Part<Events>
+    {
+
+    }
+}
+
 namespace Z0
 {
-    public interface IAssets
+    class SymbolicQuery
     {
-        Assembly DataSource {get;}
 
-        ReadOnlySpan<Asset> Data {get;}
 
-        ref readonly Asset Asset(string id);
     }
 }

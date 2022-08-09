@@ -5,10 +5,16 @@
 namespace Z0
 {
     [Free]
-    public interface ITableId : ITextual
+    public interface ITableId : IExpr
     {
         Identifier Identifier {get;}
-        string ITextual.Format()
+        string IExpr.Format()
             => Identifier.Format();
+
+        bool INullity.IsEmpty
+            => Identifier.IsEmpty;
+
+        bool INullity.IsNonEmpty
+            => Identifier.IsNonEmpty;
     }
 }

@@ -5,7 +5,6 @@
 namespace Z0
 {
     using static Algs;
-    using static Spans;
 
     public class ManagedBuffer<T> :  Allocation<T>
         where T : unmanaged

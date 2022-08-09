@@ -52,6 +52,10 @@ namespace Z0
         public static SymbolDispenser symbols()
             => dispenser(() => new SymbolDispenser());
 
+        public static CellDispenser<T> cels<T>(uint partition)
+            where T : unmanaged
+                => dispenser(() => new CellDispenser<T>(partition));
+
         public static StringDispenser strings()
             => dispenser(() => new StringDispenser());
 

@@ -58,6 +58,12 @@ namespace Z0
             get => (ushort)(Data >> 48);
         }
 
+        public string Expr
+        {
+            [MethodImpl(Inline)]
+            get => Format();
+        }
+
         public string Format()
         {
             var dst = A.ToString();
@@ -76,5 +82,8 @@ namespace Z0
 
         public override string ToString()
             => Format();
+
+        public int CompareTo(Version64 src)
+            => Expr.CompareTo(src.Expr);
     }
 }

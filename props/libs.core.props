@@ -10,7 +10,7 @@
         <ProjectReference Include="$(ClrModels)" />
         <ProjectReference Include="$(Monadic)" />
         <ProjectReference Include="$(Nats)" />
-        <ProjectReference Include="$(Alloc)" />
+        <ProjectReference Include="$(Events)" />
         <ProjectReference Include="$(ZLib)" />
     </ItemGroup>
 </Project>

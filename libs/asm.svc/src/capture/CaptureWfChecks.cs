@@ -2,12 +2,80 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
     using static core;
 
     public class CaptureWfChecks : Checker<CaptureWfChecks>
     {
+        public static void run(IApiPack src, WfEmit channel)
+        {
+            var log = text.emitter();
+            var capacity = Pow2.T16;
+            var blocks = ApiCode.apiblocks(src).View;
+            // var count = blocks.Length;
+            // var result = Outcome.Success;
+            // if(count > capacity)
+            // {
+            //     result = (false, "Insufficient cpacity");
+            //     log.AppendLine(result.Message);
+            //     Errors.Throw(result);
+            // }
+
+            // var distinct = blocks.Map(b => b.BaseAddress).ToHashSet();
+            // if(distinct.Count != count)
+            // {
+            //     result = (false, string.Format("There should be {0} distinct base addresses and yet there are {1}", count, distinct.Count));
+            //     log.AppendLine(result.Message);
+            //     Errors.Throw(result);
+            // }
+
+            // var symbols = MemoryStores.create(capacity);
+            // for(var i=0; i<count; i++)
+            // {
+            //     ref readonly var block = ref skip(blocks,i);
+            //     symbols.Deposit(block.BaseAddress, block.Size, block.OpUri.Format());
+            // }
+
+            // log.AppendLine("Creating lookup");
+
+            // var lookup = symbols.ToLookup();
+            // var entries = slice(lookup.Symbols, 0,symbols.EntryCount);
+            // channel.TableEmit(entries, AppDb.ApiTargets().PrefixedTable<MemorySymbol>("api.addresses"));
+            // var found = 0;
+            // var hashes = entries.Map(x => x.HashCode).ToHashSet();
+            // if(hashes.Count != count)
+            //     log.AppendLineFormat("There should be {0} distinct hash codes and yet there are {1}", count, hashes.Count);
+
+            // for(var i=0; i<count; i++)
+            // {
+            //     ref readonly var block = ref skip(blocks,i);
+            //     if(lookup.FindIndex(block.BaseAddress, out var index))
+            //         found++;
+            // }
+
+            // log.AppendLineFormat("Blocks: {0}", count);
+            // log.AppendLineFormat("Found: {0}", found);
+            // channel.Row(log.Emit());
+        }
+
+
+        void CheckReloaded(CaptureTransport transport, IApiPack src)
+        {
+            var members = transport.TransmitReloaded(ApiCode.load(src, PartId.AsmCore, Emitter));
+            for(var i=0; i<members.MemberCount; i++)
+            {
+                ref readonly var member = ref members.Member(i);
+                ref readonly var token = ref members.Token(i);
+                var encoding = members.Encoding(i);
+                ref readonly var entry = ref member.EntryAddress;
+                ref readonly var entryRb = ref member.EntryRebase;
+                ref readonly var target = ref member.TargetAddress;
+                ref readonly var targetRb = ref member.TargetRebase;
+                ref readonly var uri = ref member.Uri;
+            }
+        }
+
         public static FS.FilePath csv(FS.FolderPath src, ApiHostUri host)
             => src + host.FileName(FS.PCsv);
 
@@ -80,57 +148,6 @@ namespace Z0.Asm
                 ref readonly var res = ref src[i];
              
             }
-        }
-
-        void CheckLookups(IApiPack src, IWfEventTarget dst)
-        {
-            var log = text.emitter();
-            var capacity = Pow2.T16;
-            var blocks = Z0.ApiCode.apiblocks(src).View;
-            var count = blocks.Length;
-            var result = Outcome.Success;
-            if(count > capacity)
-            {
-                result = (false, "Insufficient cpacity");
-                log.AppendLine(result.Message);
-                Errors.Throw(result);
-            }
-
-            var distinct = blocks.Map(b => b.BaseAddress).ToHashSet();
-            if(distinct.Count != count)
-            {
-                result = (false, string.Format("There should be {0} distinct base addresses and yet there are {1}", count, distinct.Count));
-                log.AppendLine(result.Message);
-                Errors.Throw(result);
-            }
-
-            var symbols = MemoryStores.create(capacity);
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var block = ref skip(blocks,i);
-                symbols.Deposit(block.BaseAddress, block.Size, block.OpUri.Format());
-            }
-
-            log.AppendLine("Creating lookup");
-
-            var lookup = symbols.ToLookup();
-            var entries = slice(lookup.Symbols, 0,symbols.EntryCount);
-            Emitter.TableEmit(entries, AppDb.ApiTargets().PrefixedTable<MemorySymbol>("api.addresses"));
-            var found = 0;
-            var hashes = entries.Map(x => x.HashCode).ToHashSet();
-            if(hashes.Count != count)
-                log.AppendLineFormat("There should be {0} distinct hash codes and yet there are {1}", count, hashes.Count);
-
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var block = ref skip(blocks,i);
-                if(lookup.FindIndex(block.BaseAddress, out var index))
-                    found++;
-            }
-
-            log.AppendLineFormat("Blocks: {0}", count);
-            log.AppendLineFormat("Found: {0}", found);
-            dst.Deposit(Events.row(log.Emit()));
         }
     }
 }

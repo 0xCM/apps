@@ -6,7 +6,7 @@
 
 namespace Z0.Parts
 {
-    public sealed partial class EMath : Part<EMath>
+    public sealed class EMath : Part<EMath>
     {
 
     }

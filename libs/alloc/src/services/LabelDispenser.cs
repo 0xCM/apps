@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
 
     public class LabelDispenser : Dispenser<LabelDispenser>, ILabelDispenser
     {
@@ -36,8 +36,6 @@ namespace Z0
         }
 
         protected override void Dispose()
-        {
-            iter(Allocators.Values, a => a.Dispose());
-        }
+            => iter(Allocators.Values, a => a.Dispose());
     }
 }

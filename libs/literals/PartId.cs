@@ -290,6 +290,9 @@ public enum PartId : byte
     [Symbol("emath")]
     EMath,
 
+    [Symbol("events")]
+    Events,
+
     [Symbol("symbolics")]
     Symbolics,
 

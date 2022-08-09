@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
 
     public class MemoryDispenser : Dispenser<MemoryDispenser>, IMemoryDispenser
     {
@@ -43,6 +43,5 @@ namespace Z0
             }
             return dst;
         }
-
     }
 }

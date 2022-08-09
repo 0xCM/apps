@@ -9,7 +9,22 @@ namespace Z0
     /// </summary>
     public class OpIdentity : IMethodIdentity<OpIdentity>
     {
-        static string safe(string src)
+        /// <summary>
+        /// Determines whether a type is classified as an intrinsic vector
+        /// </summary>
+        /// <param name="t">The type to test</param>
+        [Op]
+        public static bool IsVector(Type t)
+        {
+            var eff = t.EffectiveType();
+            var def = eff.IsGenericType ? eff.GetGenericTypeDefinition() : (eff.IsGenericTypeDefinition ? eff : null);
+            if(def == null)
+                return false;
+
+            return def == typeof(Vector128<>) || def == typeof(Vector256<>) || def.Tagged<VectorAttribute>();
+        }
+
+        public static string safe(string src)
             => (src ?? EmptyString).Replace(Chars.Lt, IDI.TypeArgsOpen).Replace(Chars.Gt, IDI.TypeArgsClose).Replace(Chars.Pipe, Chars.Caret);
 
         public static OpIdentity define(string src)

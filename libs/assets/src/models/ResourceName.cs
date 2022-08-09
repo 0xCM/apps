@@ -15,7 +15,7 @@ namespace Z0
         public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => core.hash(Data);
+            get => Algs.hash(Data);
         }
 
         public bool Equals(ResourceName src)

@@ -20,7 +20,7 @@ namespace Z0
             for(var i=0; i<count; i++)
                 total += (uint)skip(src,i).Length;
             var alloc = LabelAllocator.cover(StringBuffers.buffer(total));
-            var labels = core.alloc<Label>(count);
+            var labels = sys.alloc<Label>(count);
             for(var i=0; i<count; i++)
                 alloc.Alloc(skip(src,i), out seek(labels,i));
             return new LabelAllocation(alloc, labels);

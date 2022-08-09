@@ -4,20 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
-    public class HashedSymbols : Dispenser<HashedSymbols>
+    [Free]
+    public interface ICellDispenser<T> : IAllocDispenser<T>
+        where T : unmanaged
     {
 
-        internal HashedSymbols(bool owns)
-            : base(owns)
-        {
-
-        }
-
-        protected override void Dispose()
-        {
-
-        }
     }
+
 }

@@ -12,7 +12,7 @@ namespace Z0
 
     [Free]
     public interface IDataString<K> : IDataString
-        where K : IExpr, IDataType
+        where K : IExpr
     {
 
     }

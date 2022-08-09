@@ -5,7 +5,6 @@
 namespace Z0
 {
     using static Algs;
-    using static Spans;
 
     /// <summary>
     /// Defines a reference to a memory segment

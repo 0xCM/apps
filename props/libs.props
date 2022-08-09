@@ -13,6 +13,8 @@
     <ProjectReference Include="$(ApiSvc)" />
     <ProjectReference Include="$(ApiIdentity)" />
 
+    <ProjectReference Include="$(Alloc)" />
+
     <ProjectReference Include="$(Asm)" />
     <ProjectReference Include="$(AsmCore)" />
     <ProjectReference Include="$(AsmModels)" />

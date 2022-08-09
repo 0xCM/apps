@@ -3,7 +3,7 @@
 // License     :  MIT
 //-----------------------------------------------------------------------------
 namespace Z0
-{
+{    
     [StructLayout(StructLayout,Pack=1)]
     public struct MemorySymbol : IComparable<MemorySymbol>, IEquatable<MemorySymbol>
     {

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public abstract class Assets<T> : IAssets
+    public abstract class Assets<T>
         where T : Assets<T>, new()
     {
         public static T create()

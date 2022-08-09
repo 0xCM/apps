@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
 
     public class Alloc : IDisposable
     {
@@ -25,6 +25,8 @@ namespace Z0
             NativeSig,
 
             Composite,
+
+            Cell,
         }
 
         public static Alloc create()
@@ -52,6 +54,10 @@ namespace Z0
 
         public SymbolDispenser Symbols()
             => (SymbolDispenser)Data.GetOrAdd(AllocationKind.Symbol, k => Dispense.symbols());
+
+        public CellDispenser<T> Cells<T>(uint partition)
+            where T : unmanaged
+                => (CellDispenser<T>)Data.GetOrAdd(AllocationKind.Cell, k => Dispense.cels<T>(partition));
 
         public CompositeDispenser Composite()
             => (CompositeDispenser)Data.GetOrAdd(AllocationKind.Composite, k => Dispense.composite(Memory(), Strings(), Labels(), Symbols(), Source()));

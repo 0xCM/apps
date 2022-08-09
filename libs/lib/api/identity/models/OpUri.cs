@@ -34,7 +34,7 @@ namespace Z0
         {
             Host = host;
             OpId = opid;
-            UriText = ApiIdentity.safe(Require.notnull(uritext));
+            UriText = OpIdentity.safe(Require.notnull(uritext));
             Hash = Algs.hash(UriText);
         }
 

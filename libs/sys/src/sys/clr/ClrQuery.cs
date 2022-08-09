@@ -1,13 +1,12 @@
-
 //-----------------------------------------------------------------------------
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Free]
-    public interface ISymbolHash : IAllocation<HashedSymbol>
+    [ApiHost]
+    public static partial class ClrQuery
     {
-        bool HashSymbol(string src);
+
     }
 }

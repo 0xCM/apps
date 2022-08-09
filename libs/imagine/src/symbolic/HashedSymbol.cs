@@ -8,14 +8,14 @@ namespace Z0
     /// Pairs a symbol with it's hash
     /// </summary>
     [StructLayout(StructLayout,Pack=1)]
-    public readonly struct SymHash
+    public readonly record struct HashedSymbol
     {
         public readonly StringRef Symbol;
 
         public readonly Hash32 HashCode;
 
         [MethodImpl(Inline)]
-        public SymHash(StringRef symbol, Hash32 hash)
+        public HashedSymbol(StringRef symbol, Hash32 hash)
         {
             Symbol = symbol;
             HashCode = hash;
@@ -34,15 +34,15 @@ namespace Z0
         }
 
         public string Format()
-            => string.Format("hash({0}) = {1}", Symbol, HashCode);
+            => Symbol.Format();
 
         public override string ToString()
             => Format();
 
-        public static SymHash Empty
+        public static HashedSymbol Empty
         {
             [MethodImpl(Inline)]
-            get => new SymHash(StringRef.Empty, 0);
+            get => new HashedSymbol(StringRef.Empty, 0);
         }
     }
 }

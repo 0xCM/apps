@@ -10,13 +10,13 @@ namespace Z0
 
     public readonly struct MemorySlots
     {
-       readonly MemorySeg[] Data;
+        readonly Seq<MemorySeg> Data;
 
-        public static void update<E,T>(ReadOnlySpan<BinaryCode> src, MemorySlots<E> slots, T dst)
-            where E : unmanaged
+        public static void update<T>(ReadOnlySpan<BinaryCode> src, MemorySlots<T> slots)
+            where T : unmanaged
         {
             var count = slots.Length;
-            ref readonly var lead = ref slots.Lookup(default(E));
+            ref readonly var lead = ref slots.First;
             for(var i=0u; i<count; i++)
             {
                 ref readonly var code = ref skip(src,i);

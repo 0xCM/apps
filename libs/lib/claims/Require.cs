@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     [ApiHost]
     public readonly struct Require
     {
@@ -26,14 +25,14 @@ namespace Z0
         public static void invariant(bool invariant, in Func<string> f)
         {
             if(!invariant)
-                Throw.message(f);
+                sys.@throw(f());
         }
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static T invariant<T>(bool invariant, T src, in Func<string> f)
         {
             if(!invariant)
-                Throw.message(f);
+                sys.@throw(f());
             return src;
         }
 
@@ -41,10 +40,8 @@ namespace Z0
         public static T nonzero<T>(T src)
             where T : unmanaged
         {
-            if(core.bw64(src) == 0)
-            {
+            if(Sized.bw64(src) == 0)
                 sys.@throw("The source value is zero");
-            }
             return src;
         }
 
