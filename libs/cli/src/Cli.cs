@@ -39,20 +39,20 @@ namespace Z0
             return dst.ToArray();
         }
 
-        public void EmitHostMsil(string hostid, IApiPack dst)
-        {
-            var result = Outcome.Success;
-            result = ApiParsers.host(hostid, out var uri);
-            if(result.Ok)
-            {
-                result = ApiRuntimeCatalog.FindHost(uri, out var host);
-                if(result.Ok)
-                    EmitMsil(array(host), dst);
-            }
+        // public void EmitHostMsil(string hostid, IApiPack dst)
+        // {
+        //     var result = Outcome.Success;
+        //     result = ApiParsers.host(hostid, out var uri);
+        //     if(result.Ok)
+        //     {
+        //         result = ApiRuntimeCatalog.FindHost(uri, out var host);
+        //         if(result.Ok)
+        //             EmitMsil(array(host), dst);
+        //     }
 
-            if(result.Fail)
-                Errors.Throw(result.Message);
-        }
+        //     if(result.Fail)
+        //         Errors.Throw(result.Message);
+        // }
 
         public void EmitMsil(ReadOnlySpan<IApiHost> src, IApiPack dst)
         {

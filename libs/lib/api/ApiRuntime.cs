@@ -17,11 +17,8 @@ namespace Z0
         public static IWfRuntime create(string[] args)
             => create(parts(controller(), args), args, EmptyString);
 
-        public static IWfRuntime create(PartId[] ids, string[] args)
-            => create(parts(controller(), ids, true), args, EmptyString);
-
-        public static IWfRuntime create(PartId[] ids, string[] args, string log)
-            => create(parts(controller(), ids, true), args, log);
+        public static IWfRuntime create(PartId[] src)
+            => create(parts(controller(), src, true), sys.empty<string>(), EmptyString);
 
         public static IWfRuntime create(IApiParts parts, string[] args)
         {
@@ -47,37 +44,37 @@ namespace Z0
             return wf;
         }
 
-        public static Assembly[] assemblies(bool justParts, bool libonly)
-            => assemblies(location(), justParts, libonly);
+        // public static Assembly[] assemblies(bool justParts, bool libonly)
+        //     => assemblies(location(), justParts, libonly);
 
-        public static Index<Assembly> assemblies(FS.FolderPath dir, PartId[] parts)
-        {
-            var dst = list<Assembly>();
-            var candidates = dir.TopFiles;
-            foreach(var path in candidates)
-            {
-                if((path.Is(FS.Dll) || path.Is(FS.Exe)) && FS.managed(path))
-                {
-                    foreach(var id in parts)
-                    {
-                        var match = dir + FS.component(id, path.Ext);
-                        if(match.Equals(path))
-                            dst.Add(Assembly.LoadFrom(match.Name));
-                    }
-                }
-            }
+        // public static Index<Assembly> assemblies(FS.FolderPath dir, PartId[] parts)
+        // {
+        //     var dst = list<Assembly>();
+        //     var candidates = dir.TopFiles;
+        //     foreach(var path in candidates)
+        //     {
+        //         if((path.Is(FS.Dll) || path.Is(FS.Exe)) && FS.managed(path))
+        //         {
+        //             foreach(var id in parts)
+        //             {
+        //                 var match = dir + FS.component(id, path.Ext);
+        //                 if(match.Equals(path))
+        //                     dst.Add(Assembly.LoadFrom(match.Name));
+        //             }
+        //         }
+        //     }
 
-            return dst.ToArray();
-        }
+        //     return dst.ToArray();
+        // }
 
         public static IApiParts parts()
             => parts(controller(), Environment.GetCommandLineArgs());
 
-        public static IApiParts parts(Assembly control)
-            => new ApiParts(control, home(control), managed(home(control), true) , array(control.Id()));
+        // public static IApiParts parts(Assembly control)
+        //     => new ApiParts(control, home(control), managed(home(control), true) , array(control.Id()));
 
-        public static IApiParts parts(string[] args)
-            => parts(controller(), args);
+        // public static IApiParts parts(string[] args)
+        //     => parts(controller(), args);
 
         public static IApiParts parts(Assembly control, string[] args)
         {
@@ -131,9 +128,6 @@ namespace Z0
             }
         }
 
-        public static Assembly[] assemblies(FS.FilePath[] src)
-            => src.Where(x => FS.managed(x)).Map(assembly).Where(x => x.IsSome()).Select(x => x.Value);
-
         public static Assembly[] assemblies(FS.FolderPath dir, bool justParts, bool libonly)
         {
             var dst = list<Assembly>();
@@ -153,19 +147,6 @@ namespace Z0
             return dst.ToArray();
         }
 
-        static Option<Assembly> assembly(FS.FilePath src)
-        {
-            try
-            {
-                return Assembly.LoadFrom(src.Name);
-            }
-            catch(Exception e)
-            {
-                term.warn(string.Format("Unable to load {0}: {1}", src.ToUri(), e.Message));
-                return default;
-            }
-        }
-
         static FolderFiles managed(FS.FolderPath dir, bool libonly)
         {
             var src = dir.Exclude("System.Private.CoreLib");
@@ -173,8 +154,8 @@ namespace Z0
             return new FolderFiles(dir, src.Where(f => FS.managed(f)));
         }
 
-        static FS.FolderPath location()
-            => FS.path(controller().Location).FolderPath;
+        // static FS.FolderPath location()
+        //     => FS.path(controller().Location).FolderPath;
 
         internal static IWfRuntime create(IApiParts parts, string[] args, string logname = EmptyString)
         {

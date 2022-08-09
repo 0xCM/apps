@@ -8,13 +8,9 @@ namespace Z0
     {
         sealed class AppSvcCache : AppServices<AppSvcCache>
         {
-            public WfCmd WfCmd(IWfRuntime wf)
-                => Service<WfCmd>(wf);
         }
 
         static AppSvcCache Services => AppSvcCache.Instance;
 
-        public static IAppCmdSvc WfCmd(this IWfRuntime wf)
-            => Services.WfCmd(wf);
     }
 }

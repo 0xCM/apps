@@ -66,19 +66,19 @@ namespace Z0
             return dst;
         }
 
-        [Op]
-        public static ApiMembers jit(IApiCatalog catalog, IWfEventTarget log)
-        {
-            var @base = Process.GetCurrentProcess().MainModule.BaseAddress;
-            var parts = catalog.Parts;
-            var kParts = parts.Length;
-            var all = list<ApiMembers>();
-            var total = 0u;
-            foreach(var part in parts)
-                all.Add(ClrJit.jit(part, log));
+        // [Op]
+        // public static ApiMembers jit(IApiCatalog catalog, IWfEventTarget log)
+        // {
+        //     var @base = Process.GetCurrentProcess().MainModule.BaseAddress;
+        //     var parts = catalog.Parts;
+        //     var kParts = parts.Length;
+        //     var all = list<ApiMembers>();
+        //     var total = 0u;
+        //     foreach(var part in parts)
+        //         all.Add(ClrJit.jit(part, log));
 
-            return ApiQuery.members(all.SelectMany(x => x).Array());
-        }
+        //     return ApiQuery.members(all.SelectMany(x => x).Array());
+        // }
 
         [Op]
         public static ApiMembers jit(IPart src, IWfEventTarget log)
@@ -164,13 +164,13 @@ namespace Z0
             where D : Delegate
                 => jit(src.Untyped);
 
-        [Op]
-        public static ApiMembers jit(IApiCatalog src, IWfEventTarget log, bool pll)
-        {
-            var dst = bag<ApiMembers>();
-            iter(src.PartCatalogs(), catalog => dst.Add(jit(catalog,log)), pll);
-            return ApiQuery.members(Process.GetCurrentProcess().MainModule.BaseAddress, dst.SelectMany(x => x).Array());
-        }
+        // [Op]
+        // public static ApiMembers jit(IApiCatalog src, IWfEventTarget log, bool pll)
+        // {
+        //     var dst = bag<ApiMembers>();
+        //     iter(src.PartCatalogs(), catalog => dst.Add(jit(catalog,log)), pll);
+        //     return ApiQuery.members(Process.GetCurrentProcess().MainModule.BaseAddress, dst.SelectMany(x => x).Array());
+        // }
 
         [Op]
         public static ApiMembers jit(ReadOnlySpan<Assembly> src, IWfEventTarget log, bool pll)
@@ -180,6 +180,10 @@ namespace Z0
             iter(src, part => dst.Add(jit(part,log)), pll);
             return ApiQuery.members(@base, dst.SelectMany(x => x).Array());
         }
+
+        [Op]
+        public static Index<ApiMember> complete(Type src, IWfEventTarget log)
+            => members(complete(src, CommonExclusions).Select(m => new JittedMethod(src.ApiHostUri(), m, jit(m))));
 
         [Op]
         public static ApiMembers jit(IApiPartCatalog src, IWfEventTarget log)
@@ -197,10 +201,6 @@ namespace Z0
         [Op]
         public static MethodInfo[] complete(Type src, HashSet<string> exclusions)
             => src.DeclaredMethods().Unignored().NonGeneric().Exclude(exclusions);
-
-        [Op]
-        public static Index<ApiMember> complete(Type src, IWfEventTarget log)
-            => members(complete(src, CommonExclusions).Select(m => new JittedMethod(src.ApiHostUri(), m, ClrJit.jit(m))));
 
         [Op]
         public static ApiMembers members(IApiHost src, IWfEventTarget log)

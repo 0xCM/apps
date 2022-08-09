@@ -187,7 +187,7 @@ namespace Z0.Roslyn
         {
             var metadata = reference(src);
             var dst = CaSymbols.set(metadata);
-            var name = string.Format("{0}.compilation",src.GetSimpleName());
+            var name = $"{src.GetSimpleName()}.compilation";
             var comp = Roslyn.Compilation(name, metadata);
             var asymbol = comp.GetAssemblySymbol(metadata);
             dst.Assemblies = sys.array(asymbol);
@@ -210,50 +210,41 @@ namespace Z0.Roslyn
             }
         }
 
-        [CmdOp("check/api/metadata")]
-        Outcome CheckMetadata(CmdArgs args)
+        [CmdOp("api/emit/sigs")]
+        void EmitMemberSigs()
         {
-            CheckMetadata(PartId.Lib);
-            return true;
+            iter(ApiMd.Assemblies, a => EmitMemberSigs(a, Emitter), true);
         }
 
-        void CheckMetadata(PartId part)
+        static void emit(CaSymbolModels.TypeSymbol type, ITextEmitter dst)
+        {
+            var indent = 0;
+            dst.AppendLine(type);
+            var members = type.GetMembers();
+            var count = members.Length;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var member = ref skip(members,i);
+                var docs = member.DocXml();
+                var desc = member.Format();
+                dst.AppendLine(desc);
+            }
+        }
+
+        void EmitMemberSigs(Assembly src, WfEmit channel)
         {
             var tool = Wf.Roslyn();
-
-            if(ApiRuntimeCatalog.Assembly(part, out var assembly))
-            {
-                var name = string.Format("z0.{0}.compilation", part.Format());
-                var metadata = RoslnCmd.reference(assembly);
-                var comp = tool.Compilation(name, metadata);
-                var symbol = comp.GetAssemblySymbol(metadata);
-                var gns = symbol.GlobalNamespace;
-                var types = gns.GetTypes();
-                iter(types, show);
-            }
-
-            void show(CaSymbolModels.TypeSymbol src)
-            {
-                Write(src);
-                var members = src.GetMembers();
-                var count = members.Length;
-                for(var i=0; i<count; i++)
-                {
-                    ref readonly var member = ref skip(members,i);
-                    var desc = string.Format("{0}", member.Format());
-                    var locations = member.Locations;
-                    if(locations.Length != 0)
-                    {
-                        ref readonly var loc = ref first(locations);
-                        if(loc != null)
-                        {
-                            desc += string.Format("{0} {1}", desc, loc.ToString());
-                        }
-                    }
-
-                    Write(desc);
-                }
-            }
+            var name = $"{src.GetSimpleName()}.compilation";
+            var metadata = RoslnCmd.reference(src);
+            var comp = tool.Compilation(name, metadata);
+            var symbol = comp.GetAssemblySymbol(metadata);
+            var gns = symbol.GlobalNamespace;
+            var types = gns.GetTypes();
+            var path = AppDb.ApiTargets("sigs").Path(src.GetSimpleName(), FileKind.Txt);
+            var flow = channel.EmittingFile(path);
+            using var emitter = path.Emitter(UTF8);
+            iter(types, t => emit(t,emitter));
+            channel.EmittedFile(flow,types.Length);
         }
 
         public readonly struct SymbolKindFilter : IUnaryPred<SymbolKindFilter,CaSymbol>

@@ -83,79 +83,78 @@ namespace Z0
             return (uint)count;
         }
 
-        public Index<MemberCodeBlock> Correlate()
-            => Correlate(ApiRuntimeCatalog.PartCatalogs());
+        // public Index<MemberCodeBlock> Correlate()
+        //     => Correlate(ApiRuntimeCatalog.PartCatalogs());
 
-        public Index<MemberCodeBlock> Correlate(FS.FilePath dst)
-            => Correlate(ApiRuntimeCatalog.PartCatalogs(), dst);
+        // public Index<MemberCodeBlock> Correlate(FS.FilePath dst)
+        //     => Correlate(ApiRuntimeCatalog.PartCatalogs(), dst);
 
-        public Index<MemberCodeBlock> Correlate(ReadOnlySpan<IApiPartCatalog> src)
-            => Correlate(src, FS.FilePath.Empty);
+        // public Index<MemberCodeBlock> Correlate(ReadOnlySpan<IApiPartCatalog> src)
+        //     => Correlate(src, FS.FilePath.Empty);
 
-        public Index<MemberCodeBlock> Correlate(ReadOnlySpan<IApiPartCatalog> src, FS.FilePath path)
-        {
-            var flow = Running(Msg.CorrelatingParts.Format(src.Length));
-            var count = src.Length;
-            var code = list<MemberCodeBlock>();
-            var records = list<ApiCorrelationEntry>();
-            var catalogs = bag<ApiHostCatalog>();
-            for(var i=0; i<count; i++)
-            {
-                var part = skip(src,i);
-                var inner = Running(Msg.CorrelatingOperations.Format(part.PartId.Format()));
-                var hosts = part.ApiHosts.View;
-                for(var j=0; j<hosts.Length; j++)
-                {
-                    ref readonly var srcHost = ref skip(hosts,j);
-                    //var hexpath = Db.ParsedExtractPath(srcHost.HostUri);
-                    var hexpath = FS.FilePath.Empty;
-                    if(hexpath.Exists)
-                    {
-                        Require.invariant(ApiRuntimeCatalog.FindHost(srcHost.HostUri, out var host));
-                        var catalog = ApiCatalogs.catalog(host, EventLog);
-                        Correlate(catalog, ApiCode.apiblocks(hexpath), code, records);
-                        catalogs.Add(catalog);
-                    }
-                }
-                Ran(inner);
-            }
+        // public Index<MemberCodeBlock> Correlate(ReadOnlySpan<IApiPartCatalog> src, FS.FilePath path)
+        // {
+        //     var flow = Running(Msg.CorrelatingParts.Format(src.Length));
+        //     var count = src.Length;
+        //     var code = list<MemberCodeBlock>();
+        //     var records = list<ApiCorrelationEntry>();
+        //     var catalogs = bag<ApiHostCatalog>();
+        //     for(var i=0; i<count; i++)
+        //     {
+        //         var part = skip(src,i);
+        //         var inner = Running(Msg.CorrelatingOperations.Format(part.PartId.Format()));
+        //         var hosts = part.ApiHosts.View;
+        //         for(var j=0; j<hosts.Length; j++)
+        //         {
+        //             ref readonly var srcHost = ref skip(hosts,j);
+        //             var hexpath = FS.FilePath.Empty;
+        //             if(hexpath.Exists)
+        //             {
+        //                 Require.invariant(ApiRuntimeCatalog.FindHost(srcHost.HostUri, out var host));
+        //                 var catalog = ApiCatalogs.catalog(host, EventLog);
+        //                 Correlate(catalog, ApiCode.apiblocks(hexpath), code, records);
+        //                 catalogs.Add(catalog);
+        //             }
+        //         }
+        //         Ran(inner);
+        //     }
 
-            TableEmit(records.OrderBy(x => x.RuntimeAddress).Array(), path);
+        //     TableEmit(records.OrderBy(x => x.RuntimeAddress).Array(), path);
 
-            Ran(flow);
-            return code.ToArray();
-        }
+        //     Ran(flow);
+        //     return code.ToArray();
+        // }
 
-        int Correlate(ApiHostCatalog src, Index<ApiCodeBlock> blocks, List<MemberCodeBlock> dst, List<ApiCorrelationEntry> entries)
-        {
-            var part = src.Host.PartId;
-            var members = src.Members.OrderBy(x => x.Id).Array();
-            var targets = blocks.Where(x => x.IsNonEmpty && x.OpId.IsNonEmpty).OrderBy(x => x.OpId).Array();
-            var correlated = (
-                from m in members
-                join t in targets on m.Id equals t.OpId orderby m.Id
-                select paired(m, t)).Array();
+        // int Correlate(ApiHostCatalog src, Index<ApiCodeBlock> blocks, List<MemberCodeBlock> dst, List<ApiCorrelationEntry> entries)
+        // {
+        //     var part = src.Host.PartId;
+        //     var members = src.Members.OrderBy(x => x.Id).Array();
+        //     var targets = blocks.Where(x => x.IsNonEmpty && x.OpId.IsNonEmpty).OrderBy(x => x.OpId).Array();
+        //     var correlated = (
+        //         from m in members
+        //         join t in targets on m.Id equals t.OpId orderby m.Id
+        //         select paired(m, t)).Array();
 
-            var count = correlated.Length;
-            if(count > 0)
-            {
-                var view = @readonly(correlated);
-                var seq = Seq16x2.create(0, (byte)(part));
-                for(var i=0u; i<count; i++)
-                {
-                    ref readonly var pair = ref skip(view,i);
-                    ref readonly var right = ref pair.Right;
-                    ref readonly var left = ref pair.Left;
-                    var entry = new ApiCorrelationEntry();
-                    entry.Key = seq++;
-                    entry.CaptureAddress = right.BaseAddress;
-                    entry.RuntimeAddress = left.BaseAddress;
-                    entry.Id = right.OpUri;
-                    entries.Add(entry);
-                    dst.Add(new MemberCodeBlock(left, right, i));
-                }
-            }
-            return count;
-        }
+        //     var count = correlated.Length;
+        //     if(count > 0)
+        //     {
+        //         var view = @readonly(correlated);
+        //         var seq = Seq16x2.create(0, (byte)(part));
+        //         for(var i=0u; i<count; i++)
+        //         {
+        //             ref readonly var pair = ref skip(view,i);
+        //             ref readonly var right = ref pair.Right;
+        //             ref readonly var left = ref pair.Left;
+        //             var entry = new ApiCorrelationEntry();
+        //             entry.Key = seq++;
+        //             entry.CaptureAddress = right.BaseAddress;
+        //             entry.RuntimeAddress = left.BaseAddress;
+        //             entry.Id = right.OpUri;
+        //             entries.Add(entry);
+        //             dst.Add(new MemberCodeBlock(left, right, i));
+        //         }
+        //     }
+        //     return count;
+        // }
     }
 }

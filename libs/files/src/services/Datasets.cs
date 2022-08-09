@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Arrays;
 
     public class Datasets
     {
@@ -57,7 +58,7 @@ namespace Z0
             public ColumnBuffer(TableColumns cols)
             {
                 Cols = cols;
-                var storage = alloc<dynamic>(cols.Count);
+                var storage = sys.alloc<dynamic>(cols.Count);
                 Writer = storage.Writer();
             }
 

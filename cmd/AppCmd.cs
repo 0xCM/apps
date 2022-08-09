@@ -28,6 +28,7 @@ namespace Z0
                 wf.ToolCmd(),
                 wf.WfCmd(),
                 wf.WsDbCmd(),
+                wf.RoslynCmd(),
                 wf.XedCmd(),
                 wf.XedChecks(),
                 wf.BuildCmd(),

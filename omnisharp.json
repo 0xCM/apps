@@ -4,6 +4,6 @@
         "Configuration": "Release"
     },
     "FileOptions": {
-        "ExcludeSearchPatterns": ["./build"]
+        "ExcludeSearchPatterns": ["artifacts"]
     }
 }

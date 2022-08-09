@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static ApiClasses;
-
-    using BLK = ApiClasses;
-
     partial class AlgDynamic
     {
         internal readonly struct CalcBytes

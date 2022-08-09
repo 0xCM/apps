@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <ShellId>zwf</ShellId>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <TargetFramework>$(FrameworkMoniker)</TargetFramework>
+    <AssemblyName>$(ShellId)</AssemblyName>
+    <ShellRoot>$(LibsRoot)</ShellRoot>
+  </PropertyGroup>
+
+  <Import Project="$(ImportDefs)shells.props"/>
+  <Import Project="$(ImportDefs)usings.props"/>
+
+  <ItemGroup>
+    <ProjectReference Include="$(Wf)" />
+  </ItemGroup>
+
+</Project>

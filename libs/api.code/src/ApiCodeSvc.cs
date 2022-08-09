@@ -81,20 +81,20 @@ namespace Z0
             return collected;
         }
 
-        public ReadOnlySeq<ApiEncoded> Collect(ICompositeDispenser symbols, PartId src, IApiPack dst)
-        {
-            var entries = ApiCode.entries(ApiRuntimeCatalog, src, EventLog);
-            var collected = ReadOnlySeq<ApiEncoded>.Empty;
-            if(entries.IsNonEmpty)
-            {
-                collected = ApiCode.gather(entries, symbols, EventLog);
-                Emit(collected, dst.HexExtractPath(src), dst.CsvExtractPath(src));
-            }
-            else
-                Warn($"{src} has no exposed methods");
+        // public ReadOnlySeq<ApiEncoded> Collect(ICompositeDispenser symbols, PartId src, IApiPack dst)
+        // {
+        //     var entries = ApiCode.entries(ApiRuntimeCatalog, src, EventLog);
+        //     var collected = ReadOnlySeq<ApiEncoded>.Empty;
+        //     if(entries.IsNonEmpty)
+        //     {
+        //         collected = ApiCode.gather(entries, symbols, EventLog);
+        //         Emit(collected, dst.HexExtractPath(src), dst.CsvExtractPath(src));
+        //     }
+        //     else
+        //         Warn($"{src} has no exposed methods");
 
-            return collected;
-        }
+        //     return collected;
+        // }
 
         public ReadOnlySeq<ApiEncoded> Collect(ApiHostUri src, IApiPack dst)
         {
@@ -102,11 +102,11 @@ namespace Z0
             return Collect(symbols, src, dst);
         }
 
-        public ReadOnlySeq<ApiEncoded> Collect(PartId src, IApiPack dst)
-        {
-            using var symbols = Dispense.composite();
-            return Collect(symbols,src, dst);
-        }
+        // public ReadOnlySeq<ApiEncoded> Collect(PartId src, IApiPack dst)
+        // {
+        //     using var symbols = Dispense.composite();
+        //     return Collect(symbols,src, dst);
+        // }
 
         public void Emit(PartId part, ReadOnlySpan<CollectedHost> src, IApiPack dst, bool pll)
             => iter(src, code => Emit(code,dst), pll);

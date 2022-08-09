@@ -44,5 +44,13 @@ namespace Z0
                 Spans.seek(dst, i)= f((int)i, Spans.skip(src, i));
             return dst;
         }
+
+        public static Index<T> mapi<S,T>(Index<S> src, Func<int,S,T> f)
+        {
+            var dst = sys.alloc<T>(src.Length);
+            mapi(src.View, f, dst);
+            return dst;
+        }
+
     }
 }

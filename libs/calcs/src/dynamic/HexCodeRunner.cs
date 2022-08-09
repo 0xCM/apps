@@ -8,7 +8,7 @@ namespace Z0
 
     public unsafe class HexCodeRunner : IDisposable
     {
-        public static unsafe void slots(WfEventLogger log)
+        public static unsafe void slots(WfEmit channel)
         {
             var slots = ClrDynamic.slots(typeof(SlotBox64));
             var box = new SlotBox64();
@@ -32,26 +32,25 @@ namespace Z0
                     };
 
                 var @return = Dispatch(i,i);
-                log(Events.data(string.Format("{0}: {1}", i, @return)));
+                channel.Row(string.Format("{0}: {1}", i, @return));
             }
         }
 
         readonly NativeBuffer CodeBuffer;
 
-        readonly WfEventLogger Log;
+        readonly WfEmit Channel;
 
-        public HexCodeRunner(IWfRuntime wf, WfEventLogger log)
+        public HexCodeRunner(IWfRuntime wf, WfEmit channel)
         {
             CodeBuffer = memory.native(Pow2.T10);
-            Log = log;
+            Channel = channel;
         }
 
         public void RunAlgs()
         {
-            AlgDynamic.runA(result => Log(Events.data(result)));
-            AlgDynamic.runB(result => Log(Events.data(result)));
-            AlgDynamic.runC(result => Log(Events.data(result)));
-
+            AlgDynamic.runA(result => Channel.Row(result));
+            AlgDynamic.runB(result => Channel.Row(result));
+            AlgDynamic.runC(result => Channel.Row(result));
             ExecDemo();
         }
 
@@ -79,7 +78,7 @@ namespace Z0
             var a = 4ul;
             var b = 12ul;
             var c = f(a,b);
-            Log(Events.data(string.Format("{0}({1},{2})={3}", name, a, b, c)));
+            Channel.Row(string.Format("{0}({1},{2})={3}", name, a, b, c));
         }
 
         readonly struct SlotBox64
@@ -102,7 +101,6 @@ namespace Z0
             public ulong f3(ulong a0)
                 => ulong.MaxValue;
         }
-
 
         // mov rax,rcx -> ret
         static ReadOnlySpan<byte> GetThis => new byte[]{0x48, 0x8b, 0xc1, 0xc3};

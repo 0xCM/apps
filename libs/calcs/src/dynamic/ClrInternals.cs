@@ -6,29 +6,29 @@ namespace Z0
 {
     public static class ClrInternals
     {
-        public static void check(WfEventLogger log)
-        {
-            var src = typeof(math);
-            var table = ClrInternals.methods(src);
-            var eec = ClrInternals.eeclass(table);
-            var c0 = ClrInternals.chunk(eec);
-            var c1 = ClrInternals.next(c0);
-            var c2 = ClrInternals.next(c1);
-            var c3 = ClrInternals.next(c2);
-            log(Events.data(c0));
-            log(Events.data(c1));
-            log(Events.data(c2));
-            log(Events.data(c3));
-        }
-        public static void Introspect(Type src)
-        {
-            var t = typeof(System.String);
-            var mt = Marshal.PtrToStructure<MethodTable>(t.TypeHandle.Value);
-            var ec = Marshal.PtrToStructure<EEClass>(mt.m_pEEClass);
-            var mdc = Marshal.PtrToStructure<MethodDescChunk>(ec.m_pChunks);
-            var md = Marshal.PtrToStructure<MethodDesc>((IntPtr)ec.m_pChunks + 0x18);
+        // public static void check(WfEventLogger log)
+        // {
+        //     var src = typeof(math);
+        //     var table = ClrInternals.methods(src);
+        //     var eec = ClrInternals.eeclass(table);
+        //     var c0 = ClrInternals.chunk(eec);
+        //     var c1 = ClrInternals.next(c0);
+        //     var c2 = ClrInternals.next(c1);
+        //     var c3 = ClrInternals.next(c2);
+        //     log(Events.data(c0));
+        //     log(Events.data(c1));
+        //     log(Events.data(c2));
+        //     log(Events.data(c3));
+        // }
+        // public static void Introspect(Type src)
+        // {
+        //     var t = typeof(System.String);
+        //     var mt = Marshal.PtrToStructure<MethodTable>(t.TypeHandle.Value);
+        //     var ec = Marshal.PtrToStructure<EEClass>(mt.m_pEEClass);
+        //     var mdc = Marshal.PtrToStructure<MethodDescChunk>(ec.m_pChunks);
+        //     var md = Marshal.PtrToStructure<MethodDesc>((IntPtr)ec.m_pChunks + 0x18);
 
-        }
+        // }
 
         public static MethodTable methods(Type src)
             => Marshal.PtrToStructure<MethodTable>(src.TypeHandle.Value);
@@ -143,6 +143,7 @@ namespace Z0
         }
 
         public const int mdcHasNonVtableSlot = 0x0008;
+
         public const int mdcHasNativeCodeSlot = 0x0020;
 
         [Flags]

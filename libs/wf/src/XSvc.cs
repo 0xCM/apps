@@ -16,6 +16,9 @@ namespace Z0
 
             public WsRegistry WsRegistry(IWfRuntime wf)
                 => Service<WsRegistry>(wf);
+
+            public WfCmd WfCmd(IWfRuntime wf)
+                => Service<WfCmd>(wf);
         }
 
         static ServiceCache Services => ServiceCache.Instance;
@@ -28,5 +31,8 @@ namespace Z0
 
         public static WsRegistry WsRegistry(this IWfRuntime wf)
             => Services.WsRegistry(wf);
+
+        public static WfCmd WfCmd(this IWfRuntime wf)
+            => Services.WfCmd(wf);
     }
 }

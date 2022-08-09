@@ -64,6 +64,7 @@ namespace Z0
         protected void RunCmd(CmdArgs args)
             => CmdScripts.start(args);
 
+        // tool ilc help
         [CmdOp("tool")]
         void RunTool(CmdArgs args)
         {
@@ -169,7 +170,7 @@ namespace Z0
         [CmdOp("env")]
         void EmitEnv(CmdArgs args)
         {
-            var dst = AppDb.App().Root;
+            var dst = AppDb.App("env").Root;
             EnvVars.emit(Emitter,EnvVarKind.Process, dst);
             EnvVars.emit(Emitter,EnvVarKind.User, dst);
             EnvVars.emit(Emitter,EnvVarKind.Machine, dst);

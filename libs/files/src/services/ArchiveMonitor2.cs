@@ -19,10 +19,11 @@ namespace Z0
 
         event FileChanged Listener;
 
-        public ArchiveMonitor(IDbSources target, FileChanged listener, bool recursive = true, string filter = null)
+        public ArchiveMonitor(IDbSources target, FileChanged listener, bool recursive = true, string filter = null, ushort capacity = Pow2.T14)
         {
             Target = target;
             Watcher = new FileSystemWatcher(target.Root.Format(), filter ?? "*.*");
+            Watcher.InternalBufferSize = capacity;
             Watcher.IncludeSubdirectories = recursive;
             Handler = SignalChange;
             Listener += listener;

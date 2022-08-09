@@ -233,12 +233,6 @@ public enum PartId : byte
     [Symbol("lib")]
     Lib,
 
-    [Symbol("test")]
-    LibTest,
-
-    [Symbol("libs.root")]
-    LibsRoot,
-
     [Symbol("math")]
     Math,
 
@@ -317,14 +311,8 @@ public enum PartId : byte
     [Symbol("sos.cmd")]
     SosCmd,
 
-    [Symbol("sos.checks")]
-    SosChecks,
-
-    [Symbol("ws")]
-    Ws,
-
-    [Symbol("ws.checks")]
-    WsChecks,
+    [Symbol("wf.shell")]
+    WfShell,
 
     // ~ Generated 100 .. 127
     // ~ -------------------------------------------------------------------------------
@@ -358,9 +346,6 @@ public enum PartId : byte
 
     [Symbol("codegen.test")]
     CgTest,
-
-    [Symbol("calc.shell")]
-    CalcShell,
 
     [Symbol("calc.checks")]
     CalcChecks,

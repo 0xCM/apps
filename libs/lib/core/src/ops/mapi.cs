@@ -6,15 +6,6 @@ namespace Z0
 {
     partial struct core
     {
-        public static Index<T> mapi<S,T>(ReadOnlySpan<S> rows, Func<int,S,T> f)
-        {
-            var count = rows.Length;
-            var dst = alloc<T>(count);
-            for(var i=0; i<count; i++)
-                seek(dst,i) = f(i, skip(rows,i));
-            return dst;
-        }
-
         public static Index<T> mapi<S,T>(Index<S> src, Func<int,S,T> f)
         {
             var dst = sys.alloc<T>(src.Length);

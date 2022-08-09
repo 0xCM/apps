@@ -17,7 +17,7 @@ namespace Z0
 
         readonly RunningEvent<string> Running;
 
-        DirectoryMonitor(IDbSources src, IDbArchive dst)
+        internal DirectoryMonitor(IDbSources src, IDbArchive dst)
         {
             var ts = Timestamp.now();
             var id = Archives.identifier(src.Root);

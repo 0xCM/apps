@@ -546,11 +546,11 @@ namespace Z0.Asm
             return 0;
         }
 
-        void FilterApiBlocks()
-        {
-            var blocks = Wf.ApiCatalogs().Correlate();
-            var f1 = ApiCode.filter(blocks,ApiClassKind.And);
-            iter(f1,f => Wf.Data(f.Uri));
-        }
+        // void FilterApiBlocks()
+        // {
+        //     var blocks = Wf.ApiCatalogs().Correlate();
+        //     var f1 = ApiCode.filter(blocks,ApiClassKind.And);
+        //     iter(f1,f => Wf.Data(f.Uri));
+        // }
     }
 }

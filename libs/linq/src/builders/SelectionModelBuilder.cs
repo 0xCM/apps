@@ -14,6 +14,7 @@ namespace Z0.DynamicModels
     using G = System.Collections.Generic;
 
     using static FacetsDynamic;
+    using static Algs;
 
     public class SelectionModelBuilder
     {
@@ -118,7 +119,7 @@ namespace Z0.DynamicModels
 
             if (method.IsPrimary)
                 orders
-                    = core.mapi(orders.Reverse<MemberItemOrder>(), (i, e) => e.Clone(NewPrecedence: i)).ToList();
+                    = mapi(orders.Reverse<MemberItemOrder>(), (i, e) => e.Clone(NewPrecedence: i)).ToList();
         }
 
         void HandleMethodCall(WhereMethod method, MethodCallExpression X)
