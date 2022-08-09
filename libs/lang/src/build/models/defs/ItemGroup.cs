@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using E = Microsoft.Build.Evaluation;
-
     partial class Build
     {
         public sealed record class ItemGroup : ProjectGroup<IProjectItem>

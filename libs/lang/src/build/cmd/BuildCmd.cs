@@ -4,28 +4,50 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static Algs;
+
     class BuildCmd : AppCmdService<BuildCmd>
     {
-        BuildSvc BuildSvc => Wf.BuildSvc();
+        MsBuild BuildSvc => Wf.BuildSvc();
 
-        [CmdOp("build/projects")]
+        [CmdOp("build/libs")]
         void LoadProjects()
         {
-            var ws = AppDb.Dev("z0");
-            var src = ws.Sources("props").Path(FS.file("projects", FileKind.Props));
-            var project = BuildSvc.LoadProject(src);
-            Write(project.Format());
+            var sources = AppDb.Dev("z0/libs");
+            var files = sources.Files(FileKind.CsProj);
+            iter(files, file =>{
+                var project = BuildSvc.LoadProject(file);
+                var data = project.Format();    
+                Write(data);
+                FileEmit(data, AppDb.App("build/libs").Path(file.FileName.WithoutExtension.Format(), FileKind.Env), (ByteSize)data.Length);
+            });
+
+            // var src = ws.Sources("props").Path(FS.file("projects", FileKind.Props));
+            // var project = BuildSvc.LoadProject(src);
+            // Write(project.Format());
+
         }
 
         [CmdOp("build/props")]
         void BuildProps(CmdArgs args)
         {
-            var ws = AppDb.Dev("z0");
-            var src =  ws.Sources("props").Path(FS.file(arg(args,0), FileKind.Props));
-            var project = BuildSvc.LoadProject(src);
-            var data = project.Format();
-            Write(data);
-            FileEmit(data, AppDb.App("build/env").Path(src.FileName.WithoutExtension.Format(), FileKind.Env), (ByteSize)data.Length);
+            var sources = AppDb.Dev("z0").Sources("props");
+            var files = FS.Files.Empty;
+            if(args.Count == 0)
+            {
+                files = sources.Files(FileKind.Props);
+            }
+            else
+            {
+                files = array(sources.Path(FS.file(arg(args,0), FileKind.Props)));
+            }
+
+            iter(files, file =>{
+                var project = BuildSvc.LoadProject(file);
+                var data = project.Format();    
+                Write(data);
+                FileEmit(data, AppDb.App("build/env").Path(file.FileName.WithoutExtension.Format(), FileKind.Env), (ByteSize)data.Length);
+            });
         }
 
         [CmdOp("build/libinfo")]
@@ -46,7 +68,7 @@ namespace Z0
         {
             var ws = AppDb.Dev("z0");
             var src =  ws.Path(FS.file(arg(args,0), FileKind.Sln));
-            var sln = BuildSvc.sln(src);
+            var sln = Build.sln(src);
             var data = sln.ToString();
             Write(data);
             FileEmit(data, AppDb.App().Path(src.FileName.WithoutExtension.Format(), FileKind.Env), (ByteSize)data.Length);

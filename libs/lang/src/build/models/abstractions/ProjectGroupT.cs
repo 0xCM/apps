@@ -4,16 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Build;
-
     partial class Build
     {
         public abstract record class ProjectGroup<T> : IProjectGroup<T>
             where T : IProjectElement
         {
-            public GroupKind GroupKind {get;}
+            public readonly GroupKind GroupKind;
 
-            public DataList<T> Members {get;}
+            public readonly DataList<T> Members;
 
             protected ProjectGroup(GroupKind kind)
             {
@@ -26,6 +24,12 @@ namespace Z0
                 GroupKind = kind;
                 Members = members;
             }
+
+            DataList<T> IProjectGroup<T>.Members 
+                => Members;
+
+            GroupKind IProjectGroup.GroupKind 
+                => GroupKind;
 
             public string Format()
             {

@@ -11,11 +11,11 @@ namespace Z0
         {
             public const string TableId = "sln.project-config";
 
-            public Identifier SimpleName;
+            public string SimpleName;
 
-            public Identifier Platform;
+            public string Platform;
 
-            public Identifier FullName;
+            public string FullName;
 
             public bool Build;
         }

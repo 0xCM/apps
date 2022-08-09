@@ -10,29 +10,22 @@ namespace Z0
     {
         public record class ProjectSpec
         {
-            readonly E.Project Source;
+            internal readonly E.Project Source;
 
-            readonly ReadOnlySeq<Property> Props;
+            public readonly ReadOnlySeq<Property> Props;
 
-            readonly ReadOnlySeq<ProjectItem> Items;
+            public readonly ReadOnlySeq<ProjectItem> Items;
 
             [MethodImpl(Inline)]
             internal ProjectSpec(E.Project src)
             {
                 Source = src;
-                Props = Source.AllEvaluatedProperties.Array().Select(BuildSvc.property);
-                Items = Source.AllEvaluatedItems.Array().Select(BuildSvc.item);
+                Props = Source.AllEvaluatedProperties.Array().Select(MsBuild.property);
+                Items = Source.AllEvaluatedItems.Array().Select(MsBuild.item);
             }
 
             public string Format()
-            {
-                var dst = text.emitter();
-                for(var i=0; i<Props.Count; i++)
-                    dst.AppendLine(Props[i].Format());
-                for(var i=0; i<Items.Count; i++)
-                    dst.Append(Items[i].Format());
-                return dst.Emit();
-            }
+                => Build.format(this);
 
             public override string ToString()
                 => Format();

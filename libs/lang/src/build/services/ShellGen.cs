@@ -6,13 +6,13 @@ namespace Z0
 {
     using static Build;
     
-    partial class BuildSvc
+    partial class MsBuild
     {
         public class ShellGen : AppService<ShellGen>
         {
             public void Generate(ShellSpec spec, FS.FolderPath dst)
             {
-                // var project = new NetCoreProject(spec.ProjectName, spec.AssemblyName);
+                var project = new NetCoreProject(spec.ProjectName, spec.AssemblyName);
                 // project.Props.WithOutputType("Exe").WithRuntimeIdentifier("win-x64");
                 // project.Items.WithPackageReference("z0.tools", "$(ZLibVersion)");
                 // var path = dst + FS.file(project.ProjectName, FS.CsProj);

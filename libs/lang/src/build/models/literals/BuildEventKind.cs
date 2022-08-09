@@ -6,10 +6,25 @@ namespace Z0
 {
     partial class Build
     {
-        public readonly struct TargetFrameworks
+        public enum BuildEventKind : byte
         {
-            public const string netcoreapp = nameof(netcoreapp);
+            None,
 
+            ProjectStarted,
+
+            ProjectFinished,
+
+            BuildStarted,
+
+            BuildFinished,
+
+            BuildWarning,
+
+            BuildError,
+
+            BuildStatus,
+
+            BuildMessage
         }
     }
 }

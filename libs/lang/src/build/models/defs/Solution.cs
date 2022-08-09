@@ -8,8 +8,6 @@ namespace Z0
     {
         public record class Solution
         {
-            public const string TableId = "sln";
-
             public SlnFile Path;
 
             public IndexedSeq<SlnProject> Projects;

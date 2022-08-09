@@ -6,6 +6,7 @@ namespace Z0
 {
     partial class Build
     {
+        [LiteralProvider("build")]
         public readonly record struct OutputTypes
         {
             public const string Library = nameof(Library);

@@ -11,7 +11,7 @@ namespace Z0
         /// </summary>
         public readonly record struct SlnFile : IFsEntry<SlnFile>
         {
-            public readonly FS.FilePath Path {get;}
+            public readonly FS.FilePath Path;
 
             public PathPart Name
             {

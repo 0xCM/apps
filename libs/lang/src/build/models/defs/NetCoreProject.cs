@@ -12,27 +12,34 @@ namespace Z0
 
             public readonly string AssemblyName;
 
-            List<PropertyGroup> PropertyGroups {get;}
+            readonly List<PropertyGroup> Props;
 
-            List<ItemGroup> ItemGroups {get;}
+            readonly List<ItemGroup> Items;
 
             public NetCoreProject(string project, string ass)
             {
-                PropertyGroups = new();
-                ItemGroups = new();
-                ItemGroups.Add(new ItemGroup());
+                Props = new();
+                Items = new();
+                Items.Add(new ItemGroup());
                 ProjectName = project;
                 AssemblyName = ass;
             }
 
-            public PropertyGroup Props => PropertyGroups[0];
+            public NetCoreProject With(PropertyGroup group)
+            {
+                Props.Add(group);
+                return this;
+            }
 
-            public ItemGroup Items => ItemGroups[0];
+            public NetCoreProject With(ItemGroup group)
+            {
+                Items.Add(group);
+                return this;
+            }
 
             const string ProjectOpen = "<Project Sdk=\"Microsoft.NET.Sdk\" xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003\">";
 
             const string ProjectClose = "</Project>";
         }
-
     }
 }

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using api = BuildVersions;
+    using api = Build;
 
     /// <summary>
     /// Defines a symver-aligned build/publication version specifier

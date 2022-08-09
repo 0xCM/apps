@@ -16,22 +16,6 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public static int cmp(BuildVersion s1, BuildVersion s2)
-        {
-            // compare(u.v.w-p+b, x.y.z-q+c)
-            if (s1.Major != s2.Major)
-                return s1.Major > s2.Major ? 1 : -1;
-
-            if (s1.Minor != s2.Minor)
-                return s1.Minor > s2.Minor ? 1 : -1;
-
-            if (s1.Patch != s2.Patch)
-                return s1.Patch > s2.Patch ? 1 : -1;
-
-            return 0;
-        }
-
-        [MethodImpl(Inline), Op]
         public static bool ValidIdentifierCharSet(string id)
         {
             // ids must be of the set [0-9a-zA-Z-]

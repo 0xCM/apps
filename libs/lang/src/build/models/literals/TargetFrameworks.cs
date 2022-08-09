@@ -4,24 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public enum BuildEventKind : byte
+    partial class Build
     {
-        None,
-
-        ProjectStarted,
-
-        ProjectFinished,
-
-        BuildStarted,
-
-        BuildFinished,
-
-        BuildWarning,
-
-        BuildError,
-
-        BuildStatus,
-
-        BuildMessage
+        [LiteralProvider("build")]
+        public readonly struct TargetFrameworks
+        {
+            public const string netcoreapp = nameof(netcoreapp);
+        }
     }
 }

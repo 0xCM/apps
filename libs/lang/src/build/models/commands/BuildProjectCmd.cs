@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static Build;
+    
     [Cmd(CmdName)]
     public struct BuildProjectCmd : ICmd<BuildProjectCmd>
     {
@@ -17,9 +19,9 @@ namespace Z0
 
         public string Platform;
 
-        public BuildLogVerbosity Verbosity;
+        public LogVerbosity Verbosity;
 
-        public byte MaxCpuCount;
+        public uint MaxCpuCount;
 
         public bool Graph;
     }
