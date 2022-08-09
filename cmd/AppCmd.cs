@@ -38,6 +38,7 @@ namespace Z0
                 wf.AsmGenCmd(),
                 wf.SosCmd(),
                 wf.CsGenCmd(),
+                wf.MemoryChecks(),
                 wf.CgChecks()
                 };
 

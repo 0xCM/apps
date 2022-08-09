@@ -55,8 +55,8 @@ public enum PartId : byte
     [Symbol("cmd.exec")]
     CmdExec,
 
-    [Symbol("queues.checks")]
-    QueueChecks,
+    [Symbol("memory.checks")]
+    MemoryChecks,
 
     [Symbol("cmd.svc")]
     CmdSvc,
@@ -214,9 +214,6 @@ public enum PartId : byte
 
     [Symbol("memory.svc")]
     MemorySvc,
-
-    [Symbol("memory.checks")]
-    MemoryChecks,
 
     [Symbol("memory.models")]
     MemoryModels,

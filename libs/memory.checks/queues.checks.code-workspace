@@ -16,10 +16,16 @@
 			"path": "../symbolics"
 		},
 		{
-			"path": "../queues"
+			"path": "../memory"
+		},
+		{
+			"path": "../native"
 		},
 		{
 			"path": "../wf"
+		},
+		{
+			"path": "../memory.svc"
 		},
 		{
 			"path": "../cmd.specs"

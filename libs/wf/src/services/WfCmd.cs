@@ -169,7 +169,7 @@ namespace Z0
         [CmdOp("env")]
         void EmitEnv(CmdArgs args)
         {
-            var dst = AppDb.Env().Root;
+            var dst = AppDb.App().Root;
             EnvVars.emit(Emitter,EnvVarKind.Process, dst);
             EnvVars.emit(Emitter,EnvVarKind.User, dst);
             EnvVars.emit(Emitter,EnvVarKind.Machine, dst);
@@ -204,6 +204,7 @@ namespace Z0
             var entries = WsRegistry.Entries();
             
         }
+
         void ShowMemory()
         {
             var info = WinMem.basic();
@@ -239,7 +240,7 @@ namespace Z0
         void Cwd()
             => Write(FS.dir(Environment.CurrentDirectory)); 
 
-        [CmdOp("mem/query")]
+        [CmdOp("memory/query")]
         void QueryMemory(CmdArgs args)
         {            
             var @base = ExecutingPart.Process.Adapt().BaseAddress;

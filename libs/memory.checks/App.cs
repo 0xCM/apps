@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-[assembly: PartId(PartId.QueueChecks)]
+[assembly: PartId(PartId.MemoryChecks)]
 namespace Z0
 {
     sealed class AppCmd : AppCmdService<AppCmd>
@@ -10,6 +10,7 @@ namespace Z0
         public static ICmdProvider[] providers(IWfRuntime wf)
             => new ICmdProvider[]{
                 wf.WfCmd(),
+                wf.MemoryChecks(),
                 wf.QueueCmd()
             };
 
@@ -27,7 +28,7 @@ namespace Z0
 
 namespace Z0.Parts
 {
-    public sealed class QueueChecks : Part<QueueChecks>
+    public sealed class MemoryChecks : Part<MemoryChecks>
     {
 
     }

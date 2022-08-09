@@ -2,8 +2,9 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <TargetFramework>$(FrameworkMoniker)</TargetFramework>
-    <ShellId>queues.checks</ShellId>
+    <AssemblyName>zmemc</AssemblyName>
     <ShellRoot>$(LibsRoot)</ShellRoot>
   </PropertyGroup>
 
@@ -15,7 +16,7 @@
     <ProjectReference Include="$(Archives)" />
     <ProjectReference Include="$(Wf)" />
     <ProjectReference Include="$(Alloc)" />
-    <ProjectReference Include="$(ZLib)" />
+    <ProjectReference Include="$(MemorySvc)" />
   </ItemGroup>
 
 </Project>

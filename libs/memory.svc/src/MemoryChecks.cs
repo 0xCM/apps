@@ -10,7 +10,7 @@ namespace Z0
 
     public class MemoryChecks : AppCmdService<MemoryChecks>
     {
-        [CmdOp("memory/check/alloc")]
+        [CmdOp("memory/checks")]
         void CheckMemAlloc()
         {
             CheckStringAllocator(Emitter);

@@ -1,8 +1,8 @@
 @echo off
 set WsId=z0
-call %~dp0config.cmd
+call %~dp0..\config.cmd
 
-set SlnPath=%SlnRoot%/z0.sln
+set SlnPath=%SlnRoot%\z0.sln
 
 dotnet sln %SlnPath% add %SlnRoot%/cmd/z0.cmd.csproj
 
@@ -17,7 +17,7 @@ dotnet sln %SlnPath% add %SlnLibs%/api.checks/z0.api.checks.csproj
 dotnet sln %SlnPath% add %SlnLibs%/asm.checks/z0.asm.checks.csproj
 dotnet sln %SlnPath% add %SlnLibs%/db.shell/z0.db.shell.csproj
 dotnet sln %SlnPath% add %SlnLibs%/wf.workers/z0.wf.workers.csproj
-dotnet sln %SlnPath% add %SlnLibs%/queues.checks/z0.queues.checks.csproj
+dotnet sln %SlnPath% add %SlnLibs%/memory.checks/z0.memory.checks.csproj
 
 dotnet sln %SlnPath% add %SlnShells%/calcs.check/z0.calcs.check.csproj
 dotnet sln %SlnPath% add %SlnShells%/intel/z0.intel.csproj
