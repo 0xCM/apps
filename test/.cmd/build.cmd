@@ -1,2 +1,2 @@
-call %~dp0config.cmd
+call %~dp0..\config.cmd
 call %BuildSln%

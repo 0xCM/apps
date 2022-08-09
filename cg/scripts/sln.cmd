@@ -1,6 +1,6 @@
 @echo off
 set SlnName=z0.cg.sln
-call %~dp0config.cmd
+call %~dp0..\config.cmd
 set SlnPath=%~dp0..\%SlnName%
 
 dotnet sln %SlnPath% add %CgRoot%/cg.libs/z0.cg.libs.csproj

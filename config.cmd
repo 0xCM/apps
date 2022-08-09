@@ -13,29 +13,26 @@ set ProjectSlnFile=z0.%ProjectId%.sln
 set CsProjectFile=z0.%ProjectId%.csproj
 set LibName=z0.%ProjectId%.dll
 
-set SlnRoot=%~dp0..
-set Artifacts=%SlnRoot%\artifacts
+set SlnRoot=%~dp0
+set CgRoot=%SlnRoot%cg
 
-set CgRoot=%SlnRoot%\cg
-set ShellRoot=%SlnRoot%\shells
-
-set TestRoot=%SlnRoot%\test
-set LibRoot=%SlnRoot%\libs
-set ShellWs=%SlnRoot%\shells
-set LibSlnPath=%LibWs%\%WsId%.sln
-set AreaRoot=%SlnRoot%\%Area%
-set SlnScripts=%SlnRoot%\.cmd
-set SlnPath=%SlnRoot%\%Area%\z0.%Area%.sln
-set WsBuild=%Artifacts%
-set WsLogs=%Artifacts%\logs
-set WsBin=%Artifacts%\bin
-set TestLog=%WsLogs%\z0.%ProjectId%.tests.trx
+set Artifacts=%SlnRoot%artifacts
+set ShellRoot=%SlnRoot%shells
+set TestRoot=%SlnRoot%test
+set LibRoot=%SlnRoot%libs
+set ShellWs=%SlnRoot%shells
+set AreaRoot=%SlnRoot%%Area%
+set SlnScripts=%SlnRoot%scripts
+set SlnPath=%AreaRoot%\z0.%Area%.sln
 set BuildLogs=%Artifacts%\logs
+
+set WsBin=%Artifacts%\bin
+set TestLog=%BuildLogs%\z0.%ProjectId%.tests.trx
 set BuildTool=dotnet build
 set PublishTool=dotnet publish -c %BuildKind%
 set PackageTool=dotnet pack --include-symbols --include-source
 
-set RootSlnLogPath=%WsLogs%\z0.sln.binlog
+set RootSlnLogPath=%BuildLogs%\z0.sln.binlog
 set RootSlnLogSpec=-bl:%RootSlnLogPath%
 
 set RootSlnPath=%SlnRoot%\z0.sln
@@ -46,7 +43,7 @@ set PublishCmd=%PublishTool% %RootSlnPath%
 set BuildLog=%BuildLogs%\z0.%ProjectId%.log
 set SlnBuildLog=%BuildLogs%\z0.%SlnId%.log
 
-set BinLogPath=%WsLogs%\z0.%ProjectId%.binlog
+set BinLogPath=%BuildLogs%\z0.%ProjectId%.binlog
 set BinLogSpec=-bl:%BinLogPath%
 
 set ImportDefs=%SlnRoot%\props\
