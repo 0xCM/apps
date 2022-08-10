@@ -19,14 +19,14 @@ namespace Z0
         {
             Home = home;
             ManagedSources = ma;
-            Catalog = ApiLoader.catalog(home, parts, true);
+            Catalog = ApiLoader.catalog(home, parts);
         }
 
-        internal ApiParts(Assembly control, FS.FolderPath home, FolderFiles ma, IApiCatalog catalog)
-        {
-            Home = home;
-            ManagedSources = ma;
-            Catalog = catalog;
-        }
+        // internal ApiParts(Assembly control, FS.FolderPath home, FolderFiles ma, IApiCatalog catalog)
+        // {
+        //     Home = home;
+        //     ManagedSources = ma;
+        //     Catalog = catalog;
+        // }
     }
 }

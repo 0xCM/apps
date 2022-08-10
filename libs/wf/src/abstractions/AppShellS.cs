@@ -8,7 +8,7 @@ namespace Z0
         where S : AppShell<S>, new()
     {
         protected static S shell(params string[] args)
-            => create(ApiRuntime.create());
+            => create(ApiRuntime.create(args));
 
         protected static void run(params string[] args)
         {

@@ -132,7 +132,7 @@ namespace Z0
             return Files();
         }
 
-        protected IApiCatalog ApiRuntimeCatalog => GetApiCatalog();
+        //protected IApiCatalog ApiRuntimeCatalog => @throw<IApiCatalog>();
 
         protected void Babble(string pattern, params object[] args)
             => WfMsg.Babble(pattern, args);
@@ -238,18 +238,18 @@ namespace Z0
         protected static RanEvent<T> ran<T>(T msg)
             => Events.ran(typeof(H), msg);
 
-        static IApiCatalog _ApiCatalog;
+        // static IApiCatalog _ApiCatalog;
 
-        static object _ApiLocker = new object();
+        // static object _ApiLocker = new object();
 
-        static IApiCatalog GetApiCatalog()
-        {
-            lock(_ApiLocker)
-            {
-                if(_ApiCatalog == null)
-                    _ApiCatalog = ApiLoader.catalog(true);
-            }
-            return _ApiCatalog;
-        }
+        // static IApiCatalog GetApiCatalog()
+        // {
+        //     lock(_ApiLocker)
+        //     {
+        //         if(_ApiCatalog == null)
+        //             _ApiCatalog = ApiLoader.catalog();
+        //     }
+        //     return _ApiCatalog;
+        // }
     }
 }

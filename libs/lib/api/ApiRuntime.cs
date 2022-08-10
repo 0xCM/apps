@@ -8,17 +8,14 @@ namespace Z0
 
     public class ApiRuntime
     {
-        public static FS.FolderPath home(Assembly control)
-            => FS.path(control.Location).FolderPath;
-
-        public static IWfRuntime create()
-            => create(parts(), array<string>(), EmptyString);
+        // public static IWfRuntime create()
+        //     => create(parts(), array<string>(), EmptyString);
 
         public static IWfRuntime create(string[] args)
             => create(parts(controller(), args), args, EmptyString);
 
-        public static IWfRuntime create(PartId[] src)
-            => create(parts(controller(), src, true), sys.empty<string>(), EmptyString);
+        // public static IWfRuntime create(PartId[] src)
+        //     => create(parts(controller(), src, true), sys.empty<string>(), EmptyString);
 
         public static IWfRuntime create(IApiParts parts, string[] args)
         {
@@ -44,45 +41,19 @@ namespace Z0
             return wf;
         }
 
-        // public static Assembly[] assemblies(bool justParts, bool libonly)
-        //     => assemblies(location(), justParts, libonly);
-
-        // public static Index<Assembly> assemblies(FS.FolderPath dir, PartId[] parts)
-        // {
-        //     var dst = list<Assembly>();
-        //     var candidates = dir.TopFiles;
-        //     foreach(var path in candidates)
-        //     {
-        //         if((path.Is(FS.Dll) || path.Is(FS.Exe)) && FS.managed(path))
-        //         {
-        //             foreach(var id in parts)
-        //             {
-        //                 var match = dir + FS.component(id, path.Ext);
-        //                 if(match.Equals(path))
-        //                     dst.Add(Assembly.LoadFrom(match.Name));
-        //             }
-        //         }
-        //     }
-
-        //     return dst.ToArray();
-        // }
-
         public static IApiParts parts()
             => parts(controller(), Environment.GetCommandLineArgs());
 
-        // public static IApiParts parts(Assembly control)
-        //     => new ApiParts(control, home(control), managed(home(control), true) , array(control.Id()));
-
-        // public static IApiParts parts(string[] args)
-        //     => parts(controller(), args);
+        static FS.FolderPath home(Assembly control)
+            => FS.path(control.Location).FolderPath;
 
         public static IApiParts parts(Assembly control, string[] args)
         {
             var dir = home(control);
-            var sources = managed(dir, true);
+            var sources = managed(dir);
 
             if(args.Length == 0)
-                return new ApiParts(control, dir, sources, assemblies(dir, true, true).Select(x => x.Id()));
+                return new ApiParts(control, dir, sources, assemblies(dir, true).Select(x => x.Id()));
             var ids = parts(args, true);
             if(ids.Length != 0)
                 return new ApiParts(control, dir, sources, array<PartId>(control.Id()));
@@ -115,23 +86,23 @@ namespace Z0
             return slice(dst, 0, counter).ToArray();
         }
 
-        [Op]
-        public static IApiParts parts(Assembly control, PartId[] ids, bool libonly)
-        {
-            var folder = home(control);
-            var sources = managed(folder, libonly);
-            if(ids.Length != 0)
-               return new ApiParts(control, folder, sources, ids);
-            else
-            {
-                return new ApiParts(control, folder, sources, ApiLoader.catalog(sources));
-            }
-        }
+        // [Op]
+        // public static IApiParts parts(Assembly control, PartId[] ids, bool libonly)
+        // {
+        //     var folder = home(control);
+        //     var sources = managed(folder);
+        //     if(ids.Length != 0)
+        //        return new ApiParts(control, folder, sources, ids);
+        //     else
+        //     {
+        //         return new ApiParts(control, folder, sources, ApiLoader.catalog(sources));
+        //     }
+        // }
 
-        public static Assembly[] assemblies(FS.FolderPath dir, bool justParts, bool libonly)
+        public static Assembly[] assemblies(FS.FolderPath dir, bool justParts)
         {
             var dst = list<Assembly>();
-            var candidates = managed(dir, libonly);
+            var candidates = managed(dir);
             foreach(var path in candidates)
             {
                 var component = Assembly.LoadFrom(path.Name);
@@ -147,17 +118,23 @@ namespace Z0
             return dst.ToArray();
         }
 
-        static FolderFiles managed(FS.FolderPath dir, bool libonly)
-        {
-            var src = dir.Exclude("System.Private.CoreLib");
-            src = src.Where(x => !x.Format().EndsWith(".exe"));
-            return new FolderFiles(dir, src.Where(f => FS.managed(f)));
+        static FolderFiles managed(FS.FolderPath src, bool libonly = true)
+        {            
+            var candidates = src.Files(FileKind.Dll);
+            var dst = list<FS.FilePath>();
+            foreach(var file in candidates)
+            {
+                if(file.FileName.Contains("System.Private.CoreLib"))
+                    continue;
+
+                if(FS.managed(file))
+                    dst.Add(file);
+            }
+
+            return new FolderFiles(src, dst.Array());
         }
 
-        // static FS.FolderPath location()
-        //     => FS.path(controller().Location).FolderPath;
-
-        internal static IWfRuntime create(IApiParts parts, string[] args, string logname = EmptyString)
+        static IWfRuntime create(IApiParts parts, string[] args, string logname = EmptyString)
         {
             term.inform(InitializingRuntime.Format(now()));
             var clock = Time.counter(true);

@@ -38,37 +38,31 @@ namespace Z0.Asm
             EmitRefined(selected, dst);
         }
 
-        public void Emit(ReadOnlySpan<ApiHostUri> hosts, IApiPack pack)
+        public void Emit(ReadOnlySpan<IApiHost> hosts, IApiPack pack)
         {
             var count = hosts.Length;
             var exchange = Exchange;
             for(var i=0; i<count; i++)
             {
-                ref readonly var uri = ref skip(hosts,i);
-                if(Wf.ApiCatalog.FindHost(uri, out var host))
-                {
-                    var writer = new AsmImmWriter(Wf, host.HostUri, pack);
-                    EmitDirectRefinements(exchange, host, writer);
-                    EmitGenericRefinements(exchange, host, writer);
-                }
+                ref readonly var host = ref skip(hosts,i);
+                var writer = new AsmImmWriter(Wf, host.HostUri, pack);
+                EmitDirectRefinements(exchange, host, writer);
+                EmitGenericRefinements(exchange, host, writer);                
             }
         }
 
-        public void Emit(ReadOnlySpan<ApiHostUri> hosts, IApiPack dst, SpanReceiver<AsmRoutine> receiver = null)
+        public void Emit(ReadOnlySpan<IApiHost> hosts, IApiPack dst, SpanReceiver<AsmRoutine> receiver = null)
         {
             var count = hosts.Length;
             var exchange = Exchange;
             for(var i=0; i<count; i++)
             {
-                ref readonly var uri = ref skip(hosts,i);
-                if(Wf.ApiCatalog.FindHost(uri, out var host))
-                {
-                    var writer = new AsmImmWriter(Wf, host.HostUri,dst);
-                    var direct = EmitDirectRefinements(exchange, host, writer);
-                    receiver?.Invoke(direct);
-                    var generic = EmitGenericRefinements(exchange, host, writer);
-                    receiver?.Invoke(generic);
-                }
+                ref readonly var host = ref skip(hosts,i);
+                var writer = new AsmImmWriter(Wf, host.HostUri,dst);
+                var direct = EmitDirectRefinements(exchange, host, writer);
+                receiver?.Invoke(direct);
+                var generic = EmitGenericRefinements(exchange, host, writer);
+                receiver?.Invoke(generic);
             }
         }
 

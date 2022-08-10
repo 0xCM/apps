@@ -1,3 +1,4 @@
 @echo off
-call %~dp0..\config.cmd
-git archive -v -o %RepoArchive% HEAD
+call %~dp0archive-files.cmd
+call %~dp0archive-git.cmd
+

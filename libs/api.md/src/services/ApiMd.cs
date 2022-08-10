@@ -20,7 +20,7 @@ namespace Z0
             => AppDb.ApiTargets("assets");
 
         public IApiCatalog Catalog
-            => ApiRuntimeCatalog;
+            => data("ApiCatalog", ApiLoader.catalog);
 
         public Assembly[] Assemblies
             => DbArchives.assemblies();
@@ -36,8 +36,15 @@ namespace Z0
         public ReadOnlySeq<SymLiteralRow> SymLits
             => data(nameof(SymLiteralRow), () => Symbolic.symlits(Assemblies));
 
-        public Index<IApiHost> ApiHosts
-            => data(K.ApiHosts, () => Catalog.ApiHosts.Index());
+        ReadOnlySeq<IApiHost> CalcApiHosts()
+        {
+            var dst = bag<IApiHost>();
+            iter(Assemblies, a => iter(ApiLoader.hosts(a), h => dst.Add(h)), PllExec);
+            return dst.Array();
+        }
+
+        public ReadOnlySeq<IApiHost> ApiHosts
+            => data(K.ApiHosts, CalcApiHosts);
 
         public ReadOnlySeq<ComponentAssets> ComponentAssets
             => data(K.ApiAssets, () => CalcAssets());

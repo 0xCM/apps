@@ -1,5 +1,14 @@
 @echo off
 
+set SlnId=z0
+set SlnRoot=%~dp0
+set Artifacts=%SlnRoot%artifacts
+set SlnScripts=%SlnRoot%scripts
+set Archives=%Views%\archives
+set RepoArchives=%Archives%\repos
+set RepoArchive=%RepoArchives%\%SlnId%.zip
+set CommitLog=%RepoArchives%\%SlnId%.commit.log
+
 set ZVersion=0.0.0.2
 set BuildPlatform="Any CPU"
 set FrameworkMoniker=net6.0
@@ -9,22 +18,19 @@ set RuntimeMoniker=win-x64
 set BuildVerbosity=normal
 set BuildProps=/p:Configuration=%BuildKind% /p:Platform=%BuildPlatform%
 
-set ProjectSlnFile=z0.%ProjectId%.sln
-set CsProjectFile=z0.%ProjectId%.csproj
-set LibName=z0.%ProjectId%.dll
-
-set SlnRoot=%~dp0
-set CgRoot=%SlnRoot%cg
-
-set Artifacts=%SlnRoot%artifacts
 set ShellRoot=%SlnRoot%shells
 set TestRoot=%SlnRoot%test
 set LibRoot=%SlnRoot%libs
 set ShellWs=%SlnRoot%shells
 set AreaRoot=%SlnRoot%%Area%
-set SlnScripts=%SlnRoot%scripts
 set SlnPath=%AreaRoot%\z0.%Area%.sln
 set BuildLogs=%Artifacts%\logs
+
+set ProjectSlnFile=z0.%ProjectId%.sln
+set CsProjectFile=z0.%ProjectId%.csproj
+set LibName=z0.%ProjectId%.dll
+
+set CgRoot=%SlnRoot%cg
 
 set WsBin=%Artifacts%\bin
 set TestLog=%BuildLogs%\z0.%ProjectId%.tests.trx
@@ -36,10 +42,8 @@ set RootSlnLogPath=%BuildLogs%\z0.sln.binlog
 set RootSlnLogSpec=-bl:%RootSlnLogPath%
 
 set RootSlnPath=%SlnRoot%\z0.sln
-
 set SlnRootPath=%SlnRoot%\z0.sln
 set PublishCmd=%PublishTool% %RootSlnPath%
-
 set BuildLog=%BuildLogs%\z0.%ProjectId%.log
 set SlnBuildLog=%BuildLogs%\z0.%SlnId%.log
 
@@ -62,10 +66,6 @@ set PublishProject=%PublishTool%
 set PackageProject=%PackageTool% %ProjectPath%
 set PackageSln=%PackageTool% %ProjectSln%
 set PublishSln=%PublishTool% %ProjecSln%
-
-set RepoArchives=%Views%\archives\repos
-set RepoArchive=%RepoArchives%\%WsId%.repo.archive.zip
-set CommitLog=%Views%\db\logs\%WsId%.commit.log
 
 set TargetBuildRoot=%WsBin%\z0.%ProjectId%\%BuildKind%\%TargetFramework%
 set ShellBin=%TargetBuildRoot%\%RuntimeMoniker%\%ShellName%
@@ -105,8 +105,8 @@ set CleanBuild=rmdir %Artifacts% /s/q
 
 set AddSln=%~dp0sln-add.cmd
 
-mkdir %BuildLogs% 1>nul 2>nul
-
 set PubRoot=%Views%\tools\z0
 set ShellPubRoot=%PubRoot%\%ShellId%
 set PublishShell=dotnet publish %ProjectPath% --output %ShellPubRoot%
+
+mkdir %BuildLogs% 1>nul 2>nul

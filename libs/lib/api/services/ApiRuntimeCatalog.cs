@@ -48,7 +48,6 @@ namespace Z0
             locker = new();
         }
 
-
         public ReadOnlySpan<string> ComponentNames
         {
             [MethodImpl(Inline)]
@@ -102,12 +101,6 @@ namespace Z0
             return false;
         }
 
-        public bool FindHost(ApiHostUri uri, out IApiHost host)
-        {
-            host = _ApiHosts.Where(h => h.HostUri == uri).FirstOrDefault();
-            return host != null;
-        }
-
         public Index<IApiPartCatalog> PartCatalogs(params PartId[] parts)
         {
             if(parts.Length == 0)
@@ -136,8 +129,5 @@ namespace Z0
 
         ApiPartCatalogs IApiCatalog.Catalogs
             => _Catalogs;
-
-        IApiHost[] IApiCatalog.ApiHosts
-            => _ApiHosts;
     }
 }

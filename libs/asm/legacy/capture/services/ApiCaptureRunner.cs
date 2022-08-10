@@ -22,14 +22,14 @@ namespace Z0
             Wf.Ran(flow);
         }
 
-        public void EmitImm(ReadOnlySpan<ApiHostUri> hosts, IApiPack dst, SpanReceiver<AsmRoutine> receiver = null)
+        public void EmitImm(ReadOnlySpan<IApiHost> hosts, IApiPack dst, SpanReceiver<AsmRoutine> receiver = null)
         {
             var flow = Running("EmitImm");
             ImmEmitter.Emit(hosts, dst, receiver);
             Ran(flow);
         }
 
-        void EmitImm(ReadOnlySpan<ApiHostUri> hosts, IApiPack dst)
+        void EmitImm(ReadOnlySpan<IApiHost> hosts, IApiPack dst)
         {
             var flow = Running();
             ImmEmitter.Emit(hosts,dst);

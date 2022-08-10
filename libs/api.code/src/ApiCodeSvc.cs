@@ -67,21 +67,7 @@ namespace Z0
         public ReadOnlySeq<EncodedMember> Emit(PartId part, ReadOnlySeq<ApiEncoded> src, IApiPack dst)
             => Emit(src, dst.HexExtractPath(part), dst.CsvExtractPath(part));
 
-        public ReadOnlySeq<ApiEncoded> Collect(ICompositeDispenser symbols, ApiHostUri src, IApiPack dst)
-        {
-            var entries = ApiCode.entries(ApiRuntimeCatalog, src, EventLog);
-            var collected = ReadOnlySeq<ApiEncoded>.Empty;
-            if(entries.IsNonEmpty)
-            {
-                collected = ApiCode.gather(entries, symbols, EventLog);
-                Emit(collected, dst.HexExtractPath(src), dst.CsvExtractPath(src));
-            }
-            else
-                Warn($"{src} has no exposed methods");
-            return collected;
-        }
-
-        // public ReadOnlySeq<ApiEncoded> Collect(ICompositeDispenser symbols, PartId src, IApiPack dst)
+        // public ReadOnlySeq<ApiEncoded> Collect(ICompositeDispenser symbols, ApiHostUri src, IApiPack dst)
         // {
         //     var entries = ApiCode.entries(ApiRuntimeCatalog, src, EventLog);
         //     var collected = ReadOnlySeq<ApiEncoded>.Empty;
@@ -92,21 +78,15 @@ namespace Z0
         //     }
         //     else
         //         Warn($"{src} has no exposed methods");
-
         //     return collected;
         // }
 
-        public ReadOnlySeq<ApiEncoded> Collect(ApiHostUri src, IApiPack dst)
-        {
-            using var symbols = Dispense.composite();
-            return Collect(symbols, src, dst);
-        }
-
-        // public ReadOnlySeq<ApiEncoded> Collect(PartId src, IApiPack dst)
+        // public ReadOnlySeq<ApiEncoded> Collect(ApiHostUri src, IApiPack dst)
         // {
         //     using var symbols = Dispense.composite();
-        //     return Collect(symbols,src, dst);
+        //     return Collect(symbols, src, dst);
         // }
+
 
         public void Emit(PartId part, ReadOnlySpan<CollectedHost> src, IApiPack dst, bool pll)
             => iter(src, code => Emit(code,dst), pll);
@@ -124,7 +104,6 @@ namespace Z0
             EmittedFile(emitting,count);
             return size;
         }
-
 
         ReadOnlySeq<EncodedMember> Emit(ReadOnlySeq<ApiEncoded> src, FS.FilePath hex, FS.FilePath csv)
         {

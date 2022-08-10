@@ -68,6 +68,9 @@ namespace Z0
             public FilePath[] Files(FileExt ext, bool recurse = false)
                 => Files(this, ext, recurse);
 
+            public FilePath[] Files(FileKind kind, bool recurse = false)
+                => Files(this, kind.Ext(), recurse);
+
             public FS.Files Files(bool recurse, params FileExt[] ext)
                 => Files(this, recurse, ext);
 
