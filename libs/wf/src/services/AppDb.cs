@@ -113,8 +113,8 @@ namespace Z0
         public IDbTargets Logs()
             => Datasets.archive(setting(WsArchives.Path(Names.Logs), FS.dir));
 
-        public IDbSources DbRoot()
-            => new DbSources(setting(WsArchives.Path(Names.DbRoot), FS.dir));
+        public IDbArchive DbRoot()
+            => Datasets.archive(setting(WsArchives.Path(Names.DbRoot), FS.dir));
 
         public IDbTargets Logs(string scope)
             => Logs().Targets(scope);

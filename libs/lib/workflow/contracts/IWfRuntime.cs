@@ -152,6 +152,18 @@ namespace Z0
             return Completed(flow);
         }
 
+        ExecToken Completed<T>(WfExecFlow<T> flow, Type host, Exception e, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine]int? line = null)
+        {
+            signal(this).Raise(Events.error(host, e, caller,file,line));
+            return Completed(flow);
+        }
+
+        ExecToken Completed<T>(WfExecFlow<T> flow, Type host, Exception e, EventOrigin origin)
+        {
+            signal(this).Raise(Events.error(host, e, origin));
+            return Completed(flow);
+        }
+
         WfTableFlow<T> EmittingTable<T>(FS.FilePath dst)
             where T : struct
         {

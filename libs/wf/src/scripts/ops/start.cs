@@ -74,5 +74,34 @@ namespace Z0
             }
             return Algs.start(run);
         }
+
+        public static Task<ExecToken> start(CmdLine cmd, WfEmit channel)
+        {
+            void OnError(in string src)
+                => channel.Error(src);
+
+            void OnStatus(in string src)
+                => channel.Babble(src);
+
+            ExecToken run()
+            {
+                var running = channel.Running($"Executing '{cmd}'");
+                var log = AppDb.Logs("procs").Path(timestamp().Format(),FileKind.Log);
+                using var logger = log.AsciWriter();
+                try
+                {
+                    var process = Cmd.process(cmd, OnStatus, OnError).Wait();
+                    var lines =  Lines.read(process.Output);
+                    iter(lines, line => logger.WriteLine(line));
+                    return channel.Ran(running, $"Executed '{cmd}");
+                }
+                catch(Exception e)
+                {
+                    logger.WriteLine(e.ToString());
+                    return channel.Ran(running,$"error:cmd='{cmd}, description='{e}");
+                }
+            }
+            return Algs.start(run);
+        }
     }
 }

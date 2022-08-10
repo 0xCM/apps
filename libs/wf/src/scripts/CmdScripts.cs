@@ -11,6 +11,7 @@ namespace Z0
 
         static AppDb AppDb => AppDb.Service;
 
+
         [MethodImpl(Inline), Op]
         public static CmdScript create(Name name, CmdScriptExpr src)
             => new CmdScript(name, src);

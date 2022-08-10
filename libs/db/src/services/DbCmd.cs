@@ -9,8 +9,25 @@ namespace Z0
         [CmdOp("db/purge")]
         void Purge(CmdArgs args)
         {
-            var src = AppDb.DbRoot().Scoped(FS.relative(arg(args,0).Value)).Root;
-            Write(src);
+            var src = FS.relative(arg(args,0).Value);
+            var flow = Running("db/purge");
+            Db.purge(AppDb.DbRoot().Root, src, Emitter).ContinueWith(x => Ran(flow));
+        }
+
+        [CmdOp("db/archive")]
+        void Zip(CmdArgs args)
+        {
+            var folder = arg(args,0).Value;
+            var i = text.index(folder, Chars.FSlash,Chars.BSlash);
+            var scope = "default";
+            if(i > 0)
+                scope = text.left(folder,i);
+            var src = AppDb.DbRoot().Scoped(folder).Root;
+            var name = src.FolderName.Format();
+            var file = FS.file($"{scope}.{name}",FileKind.Zip);
+            var cmd = DbCmdSpecs.archive(src, AppDb.Archive(scope).Path(file));
+            
+            Db.start(cmd, Emitter);            
         }
     }
 }

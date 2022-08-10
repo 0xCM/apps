@@ -30,6 +30,20 @@ namespace Z0
         public static Task<T> start<T>(Func<T> f)
             => Task.Run(f);
 
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static Task<T> @try<T>(Func<T> f, Action<Exception> fail)
+        {
+            try
+            {
+                return Task.Run(f);
+            }
+            catch(Exception e)
+            {
+                fail(e);
+                return new Task<T>(() => default(T));
+            }
+        }
+
         /// <summary>
         /// Asyncronously executes a transformation
         /// </summary>

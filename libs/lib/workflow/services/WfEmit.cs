@@ -81,6 +81,12 @@ namespace Z0
         public void Write<T>(string name, T value)
             => Wf.Data(HostType, RpOps.attrib(name, value));
 
+        public ExecToken Completed<T>(WfExecFlow<T> flow, Type host, Exception e, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine]int? line = null)
+            => Wf.Completed(flow,host,e, caller, file, line);
+
+        public ExecToken Completed<T>(WfExecFlow<T> flow, Type host, Exception e, EventOrigin origin)
+            => Wf.Completed(flow,host,e, origin);
+
         public WfExecFlow<T> Running<T>(T msg)
             => Wf.Running(HostType, msg);
 

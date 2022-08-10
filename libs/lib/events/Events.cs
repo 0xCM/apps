@@ -7,6 +7,9 @@ namespace Z0
     [ApiHost]
     public class Events
     {
+        // [Op]
+        // public static ErrorEvent<Exception> error(Type host, Exception e, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
+        //     => new ErrorEvent<Exception>(host, e, originate(host, caller,file,line));            
 
         [Op]
         public static StackFrame frame(int index)

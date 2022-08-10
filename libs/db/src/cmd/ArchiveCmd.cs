@@ -4,8 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    class WsDb : WfSvc<WsDb>
+    [Cmd(CmdId)]
+    public record struct ArchiveCmd : IApiCmd<ArchiveCmd>
     {
+        const string CmdId = "archive";
 
+        public FS.FolderPath Source;
+
+        public FS.FilePath Target;
     }
 }

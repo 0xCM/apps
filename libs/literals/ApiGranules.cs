@@ -34,6 +34,8 @@ namespace Z0
 
         public const string d9 = "9";
 
+        public const string app = nameof(app);
+
         public const string x32 = nameof(x32);
 
         public const string x64 = nameof(x64);

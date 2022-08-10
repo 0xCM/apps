@@ -8,7 +8,7 @@ namespace Z0
     {
         IDbSources DbIn();
 
-        IDbSources DbRoot();
+        IDbArchive DbRoot();
 
         IDbSources DbIn(string scope);
 

@@ -6,14 +6,6 @@ namespace Z0
 {
     using System.IO.Compression;
 
-    [SymSource(files)]
-    public enum PackageKind : byte
-    {
-        None,
-
-        Zip
-    }
-
     public sealed record class Archives : ApiSet<Archives>
     {
         [Api]

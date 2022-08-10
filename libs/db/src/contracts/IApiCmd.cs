@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class WsDbCmd : CmdService<WsDbCmd>
+    public interface IApiCmd<T> : ICmd<T>, IEquatable<T>
+        where T : IApiCmd<T>, new()
     {
 
     }
