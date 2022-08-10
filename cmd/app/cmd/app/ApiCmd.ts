@@ -1,6 +1,6 @@
 export {}
 
-import { AppCmdSpec, IKinded, ApiGroupName } from "../core";
+import { AppCmdSpec, IKinded} from "../core";
 
 export type ApiCmd = 
     | "api/emit/tables"

@@ -4,24 +4,26 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IPartId : ITextual
+    public interface IPartId : IExpr
     {
         /// <summary>
         /// The part identifier
         /// </summary>
         PartId Id {get;}
 
-        uint Hash
-            => (uint)Id.GetHashCode();
-        string ITextual.Format()
+        bool INullity.IsEmpty
+            => Id==0;
+
+        bool INullity.IsNonEmpty
+            => Id!=0;
+
+        string IExpr.Format()
             => Id.Format();
     }
 
     public interface IPartId<P> : IPartId, IEquatable<P>
         where P : IPartId, new()
     {
-        string ITextual.Format()
-            => Id.Format();
 
         bool IEquatable<P>.Equals(P src)
             => src.Id == Id;

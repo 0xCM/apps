@@ -6,12 +6,6 @@ namespace Z0
 {
     partial class ClrQuery
     {
-        // public static string Name(this Assembly src)
-        // {
-        //     var id = PartIdAttribute.id(src);
-        //     return id != 0 ? id.Format() : src.GetName().Name;
-        // }
-
         [Op]
         public static string Format(this PartId id)
             => PartNames.format(id);

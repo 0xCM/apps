@@ -314,11 +314,8 @@ public enum PartId : byte
     [Symbol("wf.shell")]
     WfShell,
 
-    // ~ Generated 100 .. 127
-    // ~ -------------------------------------------------------------------------------
-
     [Symbol("codegen.common")]
-    CgCommon = 100,
+    CgCommon,
 
     [Symbol("codegen.intel")]
     CgIntel,
@@ -329,11 +326,8 @@ public enum PartId : byte
     [Symbol("cg.libs")]
     CgLibs,
 
-    // ~ Shells : 128 ..
-    // ~ -------------------------------------------------------------------------------
-
     [Symbol("gen.shell")]
-    CgShell = 128,
+    CgShell,
 
     [Symbol("intel.shell")]
     IntelShell,
@@ -370,4 +364,22 @@ public enum PartId : byte
 
     [Symbol("workers")]
     Workers,
+
+    [Symbol("<0>")]
+    Extern00 = 0xE0,
+
+    [Symbol("<1>")]
+    Extern01,
+
+    [Symbol("<2>")]
+    Extern02,
+
+    [Symbol("<3>")]
+    Extern03,
+
+    [Symbol("<4>")]
+    Extern04,
+
+    [Symbol("<5>")]
+    Extern05,    
 }

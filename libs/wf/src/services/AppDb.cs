@@ -25,8 +25,11 @@ namespace Z0
         public FS.FilePath Settings(string name, FileKind kind)
             => Settings().Path(name,kind);
 
-        public IDbSources Jobs()
-            => DbRoot().Sources("jobs");
+        public IDbArchive Jobs()
+            => DbRoot().Scoped("jobs");
+            
+        public IDbArchive Jobs(string scope)
+            => Jobs().Scoped(scope);
 
         public FS.FilePath Settings<T>()
             where T : struct

@@ -19,16 +19,31 @@ namespace Z0
             return dst.IsNonEmpty;
         }
 
+        [MethodImpl(Inline), Op]
+        public static bool external(PartId src)
+            => src >= PartId.Extern00;
+
+        static string env(string name) 
+            => Environment.GetEnvironmentVariable(name) ?? EmptyString;
+
         [Op]
         public static string format(PartId part)
         {
+            var dst = EmptyString;
             var lookup = names();
             var name = PartName.Empty;
-            var dst = EmptyString;
-            if(lookup.TryGetValue(part, out name))
+            if(external(part))
+            {
+                name = new PartName(part, env(part.ToString()));
                 dst = name.Format();
+            }
             else
-                dst = part.ToString().ToLower();
+            {
+                if(lookup.TryGetValue(part, out name))
+                    dst = name.Format();
+                else
+                    dst = part.ToString().ToLower();
+            }
             return dst;
         }
 

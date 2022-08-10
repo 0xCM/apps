@@ -34,25 +34,6 @@ namespace Z0
         }
 
         [Api]
-        public static Task<ExecToken> archive(FS.RelativePath src, string scope, string name, WfEmit channel)
-        {
-            var uri = $"{app}://{group}/archive?src={src}&scope={scope}&name={name}";
-            var running = channel.Running(uri);
-
-            ExecToken run()
-            {
-                var input = root.Scoped(src);
-                var dst = db.Archive(scope).Path(name,FileKind.Zip);
-                var flow = channel.EmittingFile(dst);
-                ZipFile.CreateFromDirectory(src.Name, dst.Name, CompressionLevel.Fastest, true);
-                var emitted = channel.EmittedBytes(flow,dst.Size);
-                return channel.Ran(running, uri); 
-            }
-
-            return @try(run, e => channel.Completed(running, typeof(Db), e));                                                    
-        }
-
-        [Api]
         public static Task<ExecToken> purge(FS.FolderPath src, FS.RelativePath scope, WfEmit channel)
         {
             var uri = $"{app}://{group}/purge?src={src}&scope={scope}";

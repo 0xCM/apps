@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static Algs;
+
     /// <summary>
     /// Defines a nonparametric environment variable
     /// </summary>
@@ -35,7 +37,7 @@ namespace Z0
         public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => VarName.Hash | Algs.hash(VarValue);
+            get => VarName.Hash | hash(VarValue);
         }
 
         public bool IsEmpty
@@ -78,19 +80,23 @@ namespace Z0
             => VarName.CompareTo(src.VarName);
 
         [MethodImpl(Inline)]
+        public EnvVar<FS.FolderPath> AsFolderPath()
+            => new(VarName,FS.dir(VarValue));
+
+        [MethodImpl(Inline)]
         public static implicit operator string(EnvVar src)
             => src.VarValue;
-
-        public static EnvVar Empty
-        {
-            [MethodImpl(Inline)]
-            get => new EnvVar(0,EmptyString, EmptyString);
-        }
 
         Name IVarValue.VarName
             => VarName;
 
         object IVarValue.VarValue
             => VarValue;
+
+        public static EnvVar Empty
+        {
+            [MethodImpl(Inline)]
+            get => new EnvVar(0,EmptyString, EmptyString);
+        }
     }
 }

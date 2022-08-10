@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static Algs;
+    
     class DbCmd : AppCmdService<DbCmd>
     {
         [CmdOp("db/purge")]
@@ -24,10 +26,18 @@ namespace Z0
                 scope = text.left(folder,i);
             var src = AppDb.DbRoot().Scoped(folder).Root;
             var name = src.FolderName.Format();
-            var file = FS.file($"{scope}.{name}",FileKind.Zip);
+            var file = FS.file($"{scope}.{name}", FileKind.Zip);
             var cmd = DbCmdSpecs.archive(src, AppDb.Archive(scope).Path(file));
             
             Db.start(cmd, Emitter);            
         }
+
+        [CmdOp("db/jobs")]
+        void Jobs(CmdArgs args)
+        {
+            var src = AppDb.Jobs("queue");
+            iter(src.Files(), file => Write(file.ToUri()));
+        }
+
     }
 }

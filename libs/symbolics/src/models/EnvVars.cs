@@ -123,7 +123,7 @@ namespace Z0
             return buffer.ToIndex();
         }
 
-        Index<EnvVar> Data {get;}
+        readonly Index<EnvVar> Data;
 
         [MethodImpl(Inline)]
         public EnvVars(EnvVar[] src)
