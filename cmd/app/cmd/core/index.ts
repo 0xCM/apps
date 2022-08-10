@@ -1,99 +1,82 @@
 export {}
 
-export interface Named<N>
-{
-    Name:N
+import { ApiGroup } from "./groups"
+import { UriScheme } from "./uri"
+
+export type ToolName<N> = {
+    ToolName:N
 }
 
-export interface Valued<V>
+export type CmdUri = {
+    scheme:UriScheme<"cmd">
+}
+
+export type Tool<T> = {
+    Tool:T
+}
+
+export function tool<T>(name: T) : Tool<T>
 {
+    return {
+        Tool: name
+    }
+}
+
+export interface Valued<V> {
     Value:V
 }
 
-export interface Node<N> extends Named<N>
-{
-    
-}
-
-export interface Actor<A> extends Node<A>
-{
-
-}
-
-export interface IKinded<K>
-{
-    Kind:K
-}
-
-export interface Action<K,A> extends Node<A>, IKinded<K>
-{
-
-}
-
-export interface Group<G>
-{
-    Group:G
-}
-
-
-// export interface Tool<E> extends Actor<E>
-// {
-
-// }
-
-
-export type Tool<N> = {
+export interface Named<N> {
     Name:N
 }
 
+export interface Node<N> extends Named<N> {
+    
+}
+
+export interface Actor<A> extends Node<A> {
+
+}
+
+export interface IKinded<K> {
+    Kind:K
+}
+
+export interface Action<K,A> extends Node<A>, IKinded<K> {
+}
+
+
 export type Tools<N> = Array<Tool<N>>
 
-export interface Flow<S,T>
-{
+export interface Flow<S,T> {
     Source:S
     Target:T
 }
 
 
-export interface Workflow<W,S,T> extends Flow<S,T>
-{
-
+export interface Workflow<W,S,T> extends Flow<S,T> {
     run:W
 }
 
 
-export interface SubDivision<S,G> extends Group<G>
-{
-    Subgroup:S
-}
-
-export interface CmdGroup<G> extends Group<G>
-{
-
-}
-
 export type ActionKind = "app" | "tool"
 
-export interface ToolGroup<G>  extends Group<G>
-{
 
-}
-
-export interface CmdSpec<K,N,G> extends Action<K,N>, CmdGroup<G> {
+export interface CmdSpec<K,N> extends ApiGroup {
     Intent?:string
 }
 
 
-export interface AppCmdSpec<N,G> extends CmdSpec<ActionKind,N,G> {
+export interface AppCmdSpec<N> extends CmdSpec<ActionKind,N>, Named<N> {    
     Kind:"app"
 }
 
-export interface SubCmd<K,N,G> extends CmdSpec<K,N,G>
+export interface SubCmd<K,N> extends CmdSpec<K,N>
 {
 
 }
 
-export type CmdSpecs<K,C,N> = Array<CmdSpec<K,C,N>>
+export type CmdSpecs<K,C> = Array<CmdSpec<K,C>>
 
 
 export interface CmdActionSpec<F,N> {
@@ -123,12 +106,6 @@ export function cmd<N>(name: N) : Cmd<N>
     }
 }
 
-export function tool<N>(name: N) : Tool<N>
-{
-    return {
-        Name: name
-    }
-}
 
 export declare function commands<N>(names: Array<N>): Array<Cmd<N>>;
 

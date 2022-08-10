@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    class WsDb : WfSvc<WsDb>
+    [ApiSet]
+    public abstract record class ApiSet<T> : IApiSet<T>
+        where T : ApiSet<T>, new()
     {
 
     }

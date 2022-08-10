@@ -2,8 +2,6 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-using Z0;
-
 /// <summary>
 /// Identifies a formal operation for inclusing in the identity assignment and catalog system
 /// </summary>

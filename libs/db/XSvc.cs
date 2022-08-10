@@ -15,15 +15,6 @@ namespace Z0
             public DbCmd DbCmd(IWfRuntime wf)
                 => Service<DbCmd>(wf);
 
-            public SqlDb SqlDb(IWfRuntime wf)
-                => Service<SqlDb>(wf);
-
-            public WsDb WsDb(IWfRuntime wf)
-                => Service<WsDb>(wf);
-
-            public ToolDb ToolDb(IWfRuntime wf)
-                => Service<ToolDb>(wf);
-
             public WsDbCmd WsDbCmd(IWfRuntime wf)
                 => Service<WsDbCmd>(wf);
         }
@@ -36,16 +27,8 @@ namespace Z0
         public static WsDbCmd WsDbCmd(this IWfRuntime wf)
             => Services.WsDbCmd(wf);
 
-        public static DbCmd DbCmd(this IWfRuntime wf)
+        public static ICmdProvider DbCmd(this IWfRuntime wf)
             => Services.DbCmd(wf);
 
-        public static WsDb WsDb(this IWfRuntime wf)
-            => Services.WsDb(wf);
-
-        public static ToolDb ToolDb(this IWfRuntime wf)
-            => Services.ToolDb(wf);
-
-        public static SqlDb SqlDb(this IWfRuntime wf)
-            => Services.SqlDb(wf);
     }
 }

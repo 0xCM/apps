@@ -40,6 +40,9 @@ namespace Z0
         IDbArchive Scoped(string name)
             => Datasets.archive(DbFiles.Sources(name));
 
+        IDbArchive Scoped(FS.RelativePath src)
+            => Datasets.archive(Root + src);
+
         FS.FilePath Table<T>()
             where T : struct
                 => DbFiles.Table<T>();

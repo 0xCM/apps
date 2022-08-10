@@ -4,36 +4,48 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct PartKind : ITextual, IEquatable<PartKind>
+    public readonly record struct PartKind : IExpr, IEquatable<PartKind>, IComparable<PartKind>
     {
-        readonly byte Class;
+        readonly uint Data;
 
         [MethodImpl(Inline)]
         public PartKind(PartId id)
         {
-            Class = (byte)id;
+            Data = (byte)id;
         }
 
         public PartId ClassId
         {
             [MethodImpl(Inline)]
-            get => (PartId)Class;
+            get => (PartId)Data;
         }
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Data == 0;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Data != 0;
+        }
+
+        public int CompareTo(PartKind src)
+            => Format().CompareTo(src.Format());
 
         public string Format()
             => PartNames.format(ClassId);
 
         public bool Equals(PartKind src)
-            => Class == src.Class;
-
-        public override bool Equals(object src)
-            => src is PartKind k && Equals(k);
+            => Data == src.Data;
 
         public override string ToString()
             => Format();
 
         public override int GetHashCode()
-            => Class;
+            => (int)Data;
 
         [MethodImpl(Inline)]
         public static implicit operator PartKind(PartId src)

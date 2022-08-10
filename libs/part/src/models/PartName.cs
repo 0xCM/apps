@@ -4,46 +4,56 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct PartName : IComparable<PartName>, IEquatable<PartName>
+    public readonly record struct PartName : IComparable<PartName>, IEquatable<PartName>, IExpr
     {
-        public readonly PartId Part;
+        public readonly PartId PartId;
 
-        public readonly string Name;
+        public readonly string PartExpr;
+
+        [MethodImpl(Inline)]
+        public PartName()
+        {
+            PartId = 0;
+            PartExpr = EmptyString;
+        }
 
         public PartName(PartId id)
         {
-            Part = id;
-            Name = id.Format();
+            PartId = id;
+            PartExpr = id.Format();
         }
 
         [MethodImpl(Inline)]
         public PartName(PartId id, string name)
         {
-            Part = id;
-            Name = name;
+            PartId = id;
+            PartExpr = name;
         }
 
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => Part == 0;
+            get => PartId == 0;
         }
 
         public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
-            get => Part != 0;
+            get => PartId != 0;
         }
 
+        public override int GetHashCode()
+            => (int)PartId;
+
         public bool Equals(PartName src)
-            => Part == src.Part && Name == src.Name;
+            => PartId == src.PartId && PartExpr == src.PartExpr;
 
         public int CompareTo(PartName src)
-            => Name.CompareTo(src.Name);
+            => PartExpr.CompareTo(src.PartExpr);
 
         [MethodImpl(Inline)]
         public string Format()
-            => Name ?? EmptyString;
+            => PartExpr ?? EmptyString;
 
         public override string ToString()
             => Format();
@@ -54,8 +64,8 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator PartId(PartName name)
-            => name.Part;
+            => name.PartId;
 
-        public static PartName Empty => new PartName(PartId.None, EmptyString);
+        public static PartName Empty => new PartName();
     }
 }

@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class DbCmd : CmdService<DbCmd>
+    public abstract class ApiSets<H>
+        where H : ApiSets<H>, new()
     {
 
     }

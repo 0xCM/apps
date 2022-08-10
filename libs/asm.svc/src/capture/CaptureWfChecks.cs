@@ -10,9 +10,9 @@ namespace Z0
     {
         public static void run(IApiPack src, WfEmit channel)
         {
-            var log = text.emitter();
-            var capacity = Pow2.T16;
-            var blocks = ApiCode.apiblocks(src).View;
+            // var log = text.emitter();
+            // var capacity = Pow2.T16;
+            // var blocks = ApiCode.apiblocks(src).View;
             // var count = blocks.Length;
             // var result = Outcome.Success;
             // if(count > capacity)

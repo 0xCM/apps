@@ -34,13 +34,29 @@ namespace Z0
             CaptureWfChecks.run(src, Emitter);            
         }
 
-        public void Run()
+        static CaptureWfRunner runner(IWfSvc svc, CaptureWfSettings settings, IApiPack dst, CaptureTransport transport)
+            => new CaptureWfRunner(svc, settings, dst, transport);
+
+        public void Run(CmdArgs args)
         {
             var dst = ApiPacks.create(timestamp());
+            var settings = new CaptureWfSettings();
+            var svc = this;
             using var transport = new CaptureTransport(Dispense.composite(), Emitter);
-            var capture = new CaptureWfRunner(this, new(), dst, transport);
-            capture.Run();    
-            RunChecks(dst);
+            if(args.Count !=0)
+            {
+                var parts = Algs.list<PartId>();
+                iter(args, arg => {
+                    if(PartNames.parse(arg.Value, out var name))
+                        parts.Add(name);
+                    else
+                        Warn($"{arg.Value} is not a part");
+                });
+
+                settings.Parts = parts.ToSeq();
+            }
+            
+            runner(svc, settings, dst, transport).Run();
         }
 
         static SettingsStore Store = new();

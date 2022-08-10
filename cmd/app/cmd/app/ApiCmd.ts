@@ -1,6 +1,6 @@
 export {}
 
-import { AppCmdSpec, IKinded } from "../core";
+import { AppCmdSpec, IKinded, ApiGroupName } from "../core";
 
 export type ApiCmd = 
     | "api/emit/tables"
@@ -23,19 +23,19 @@ class Xyx implements IKinded<CmdGroup>{
     Kind = group;
 }
 
-export type ApiCmdSpec = AppCmdSpec<ApiCmd,CmdGroup>
+export type ApiCmdSpec = AppCmdSpec<ApiCmd>
 
 export type ApiCmdSpecs = Array<ApiCmdSpec>
 
 export const CmdSpecs:ApiCmdSpecs = [
     {
         Kind:"app",
-        Name:"api/emit/cmddefs",
+        Name:"api/emit/tables",
         Group:group,
     },
     {
         Kind:"app",
-        Name:"api/emit/deps",
+        Name:"api/emit/cmddefs",
         Group:group,
     }
 ]

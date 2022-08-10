@@ -19,13 +19,6 @@ namespace Z0
         public static ref T @as<S,T>(in S src)
             => ref As<S,T>(ref edit(src));
 
-        [MethodImpl(Inline)]
-        public static ref T noinit<T>(out T dst)
-        {
-            SkipInit(out dst);
-            return ref dst;
-        }
-
         /// <summary>
         /// Presents an S-cell as a <typeparamref name='T'/>-cell reference
         /// </summary>

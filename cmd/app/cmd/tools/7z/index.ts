@@ -1,8 +1,6 @@
-import {CmdActionSpec} from "../core"
+import {CmdActionSpec} from "./../../core"
 
-type ToolGroup = "tools"
-
-const group:ToolGroup = "tools"
+export type _7z = "7z"
 
 export type ToolId = "7z"
 
@@ -11,9 +9,7 @@ export type Flag = "a" | "b" | "d" | "e" | "h" | "i" | "l" | "l" | "rn" | "t" | 
 export type FlagName = "add" | "benchmark" | "delete" |  "extractUnpathed" | "hash" | "info" | "list" | "rename" | "test" | "update" | "extract"
 
 
-export interface ToolActionSpec extends CmdActionSpec<Flag,FlagName>
-{
-
+export interface ToolActionSpec extends CmdActionSpec<Flag,FlagName> {
 }
 
 export type ToolActionSpecs = Array<ToolActionSpec>

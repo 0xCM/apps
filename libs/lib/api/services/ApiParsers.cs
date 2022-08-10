@@ -44,7 +44,7 @@ namespace Z0
         }
 
         [Parser]
-        public static Outcome part(string src, out PartId dst)
+        public static bool part(string src, out PartId dst)
         {
             dst = PartId.None;
             var symbols = Symbols.index<PartId>();

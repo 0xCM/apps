@@ -4,8 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    class ToolDb : WfSvc<ToolDb>
+    public abstract class ApiProvider<H,T>
+        where H : ApiProvider<H,T>, new()
+        where T : IApiSet<T>, new()
     {
+        public Type Host
+            => typeof(H);
 
-    }
+        public Assembly Source  
+            => Host.Assembly;
+    }    
 }

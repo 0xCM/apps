@@ -155,7 +155,7 @@ namespace Z0
             var count = blocks.Length;
             var buffer = alloc<ApiHexIndexRow>(count);
             var target = span(buffer);
-            var parts = PartNames.Lookup();
+            var parts = PartNames.names();
             using var writer = dst.Utf8Writer();
             var formatter = Tables.formatter<ApiHexIndexRow>();
             writer.WriteLine(formatter.FormatHeader());

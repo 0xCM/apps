@@ -69,8 +69,10 @@ namespace Z0
         public ReadOnlySeq<ApiEncoded> Run()
         {
             var dispenser = Transport.Dispenser;
-            var parts = Settings.Parts.IsEmpty ? Catalog.PartIdentities.ToSeq() : Settings.Parts;
-            var running = Emitter.Running("Running capture workflow");
+            var src = ApiMd.Assemblies;
+            //var parts = Settings.Parts.IsEmpty ? Catalog.PartIdentities.ToSeq() : Settings.Parts;
+            var parts = Settings.Parts.IsEmpty ? src.Select(x => x.Id()).Where(x => x != 0).ToSeq() : Settings.Parts;
+            var running = Emitter.Running($"Running capture workflow: {parts.Delimit()}");
             var dst = bag<CollectedHost>();
             Capture(parts.View, dst);
             var collected = Transport.Transmit(dst.ToSeq());

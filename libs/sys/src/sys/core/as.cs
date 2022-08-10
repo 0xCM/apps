@@ -20,10 +20,10 @@ namespace Z0
             => ref As<S,T>(ref edit(src));
 
         [MethodImpl(Inline)]
-        public static ref T noinit<T>(out T dst)
+        public static T noinit<T>(out T dst)
         {
             SkipInit(out dst);
-            return ref dst;
+            return dst;
         }
 
         /// <summary>

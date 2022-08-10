@@ -1,16 +1,11 @@
 export {}
 
-import {Tools, tool} from "../core"
-
-type robocopy = "robocopy"
-type _7z = "7z"
+import {rmdir} from "./rmdir"
+import {_7z} from "./7z"
+import {robocopy} from "./robocopy"
 
 export type ToolName = 
     | _7z
     | robocopy
+    | rmdir
 
-
-export const ToolNames : Tools<ToolName> = [
-    tool("7z"),
-    tool("robocopy")
-]

@@ -4,8 +4,29 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class Archives
+    using System.IO.Compression;
+
+    [SymSource(files)]
+    public enum PackageKind : byte
     {
+        None,
+
+        Zip
+    }
+
+    public sealed record class Archives : ApiSet<Archives>
+    {
+        [Api]
+        public static ExecToken zip(FS.FolderPath src, FS.FilePath dst, WfEmit channel)
+        {
+            var uri = $"app://archives/zip?src={src}?dst={dst.ToUri()}";
+            var running = channel.Running(uri);
+            var flow = channel.EmittingFile(dst);
+            ZipFile.CreateFromDirectory(src.Name, dst.Name, CompressionLevel.Fastest, true);
+            var emitted = channel.EmittedBytes(flow,dst.Size);
+            return channel.Ran(running, uri);
+        }
+
         public static string identifier(FS.FolderPath src)
             => src.Format(PathSeparator.FS).Replace(Chars.FSlash, Chars.Dot).Replace(Chars.Colon, Chars.Dot).Replace("..", ".");
 

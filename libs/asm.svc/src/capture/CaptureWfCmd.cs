@@ -18,7 +18,7 @@ namespace Z0
 
         [CmdOp("capture")]
         void Capture(CmdArgs args)
-            => CaptureWf.Run();
+            => CaptureWf.Run(args);
 
         [CmdOp("capture/check")]
         void RunCaptureChecks(CmdArgs args)

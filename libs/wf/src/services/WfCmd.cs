@@ -40,6 +40,15 @@ namespace Z0
             jobs.Root.Folders(true).Iter(f => Write(f.Format()));
         }
 
+        // archives/zip D:\Drives\Z\db\capture\2022-08-06.10.29.21.749 capture
+        [CmdOp("archives/zip")]
+        void Zip(CmdArgs args)
+        {
+            var src = FS.dir(arg(args,0).Value);
+            var dst = AppDb.Archive(arg(args,1));
+            Archives.zip(src, dst.Path(src.FolderName.Format(), FileKind.Zip), Emitter);
+        }
+
         [CmdOp("env/thread")]
         Outcome ShowThread(CmdArgs args)
         {

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class SqlDb : WfSvc<SqlDb>
+    class SqlDb : WfSvc<SqlDb>
     {
 
     }
