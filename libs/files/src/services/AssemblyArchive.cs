@@ -10,7 +10,7 @@ namespace Z0
     public sealed class AssemblyArchive : AssemblyLoadContext, IDisposable
     {
         public static AssemblyArchive init()
-            => rooted(ExecutingPart.Component);
+            => rooted(ExecutingPart.Assembly);
 
         public static AssemblyArchive rooted(Assembly src)
             => new AssemblyArchive(src.Path());

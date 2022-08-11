@@ -48,6 +48,12 @@ namespace Z0
             locker = new();
         }
 
+        public ApiPartCatalogs PartCatalogs
+        {
+            [MethodImpl(Inline)]
+            get => _Catalogs;
+        }
+
         public ReadOnlySpan<string> ComponentNames
         {
             [MethodImpl(Inline)]
@@ -62,8 +68,16 @@ namespace Z0
 
         public bool PartCatalog(PartId id, out IApiPartCatalog dst)
         {
-            var match = PartCatalogs(id);
-            dst = match.IsNonEmpty ? match.First : null;
+            var matched = _Catalogs.Where(x => x.PartId == id);
+            if(matched.IsNonEmpty)
+            {
+                dst = matched.First;
+            }
+            else
+            {
+                dst = null;
+            }
+
             return dst != null;
         }
 
@@ -101,15 +115,15 @@ namespace Z0
             return false;
         }
 
-        public Index<IApiPartCatalog> PartCatalogs(params PartId[] parts)
-        {
-            if(parts.Length == 0)
-                return _Catalogs.Storage;
-            else
-                return from c in _Catalogs.Storage
-                       where parts.Contains(c.PartId)
-                       select c;
-        }
+        // public Index<IApiPartCatalog> PartCatalogs(params PartId[] src)
+        // {
+        //     if(src.Length == 0)
+        //         return _Catalogs.Storage;
+        //     else
+        //         return from c in _Catalogs.Storage
+        //                where src.Contains(c.PartId)
+        //                select c;
+        // }
 
         public Index<IApiHost> PartHosts(params PartId[] parts)
         {
@@ -126,8 +140,5 @@ namespace Z0
 
         PartId[] IApiCatalog.PartIdentities
             => _PartIdentities;
-
-        ApiPartCatalogs IApiCatalog.Catalogs
-            => _Catalogs;
     }
 }

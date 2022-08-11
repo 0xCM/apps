@@ -54,7 +54,7 @@ namespace Z0
         void Deploy()
         {
             var dst = AppDb.Tools("z0/cmd").Targets().Root;
-            var src = ExecutingPart.Component.Path().FolderPath;
+            var src = ExecutingPart.Assembly.Path().FolderPath;
             Archives.robocopy(src,dst);
         }
 
@@ -229,7 +229,7 @@ namespace Z0
 
         [CmdOp("process/location")]
         void ProcessHome()
-            => Write(FS.path(ExecutingPart.Component.Location).FolderPath);
+            => Write(FS.path(ExecutingPart.Assembly.Location).FolderPath);
 
         [CmdOp("env/mem-physical")]
         void WorkingSet()

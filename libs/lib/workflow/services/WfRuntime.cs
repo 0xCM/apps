@@ -7,21 +7,13 @@ namespace Z0
     [ApiHost]
     public partial class WfRuntime : IWfRuntime
     {
-        public IApiParts ApiParts {get;}
-
         public IEventBroker EventBroker {get;}
-
-        public string[] Args {get;}
-
-        public IFileArchive AppPaths {get;}
 
         public IJsonSettings Settings {get;}
 
         public IApiCatalog ApiCatalog {get;}
 
-        public string AppName {get;}
-
-        public WfController Controller {get;}
+        public PartName AppName {get;}
 
         public WfHost Host {get; private set;}
 
@@ -38,12 +30,9 @@ namespace Z0
             EventBroker = init.EventBroker;
             Host = init.Host;
             Verbosity = LogLevel.Status;
-            Args = init.Args;
             Settings = init.Settings;
-            ApiParts = init.ApiParts;
-            ApiCatalog = init.ApiParts.Catalog;
-            Controller = init.Control;
-            AppName = init.AppName.Format();
+            ApiCatalog = init.ApiCatalog;
+            AppName = ExecutingPart.Assembly.PartName();
             Emissions = init.EmissionLog;           
         }
 
@@ -75,6 +64,6 @@ namespace Z0
             Emissions?.Dispose();
         }
         string ITextual.Format()
-            => AppName;
+            => AppName.Format();
     }
 }

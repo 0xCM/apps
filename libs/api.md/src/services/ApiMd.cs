@@ -19,11 +19,8 @@ namespace Z0
         IDbTargets AssetTargets
             => AppDb.ApiTargets("assets");
 
-        public IApiCatalog Catalog
-            => data("ApiCatalog", ApiLoader.catalog);
-
         public Assembly[] Assemblies
-            => DbArchives.assemblies();
+            => DbArchives.parts();
 
         public Type[] EnumTypes
             => data(K.EnumTypes, () => Assemblies
@@ -39,7 +36,7 @@ namespace Z0
         ReadOnlySeq<IApiHost> CalcApiHosts()
         {
             var dst = bag<IApiHost>();
-            iter(Assemblies, a => iter(ApiLoader.hosts(a), h => dst.Add(h)), PllExec);
+            iter(Assemblies, a => iter(ApiRuntime.hosts(a), h => dst.Add(h)), PllExec);
             return dst.Array();
         }
 
@@ -148,52 +145,6 @@ namespace Z0
         internal void EmitEnums(ReadOnlySpan<ClrEnumRecord> src, FS.FilePath dst)
             => TableEmit(src,dst);
 
-        // internal ReadOnlySeq<SymLiteralRow> EmitSymLits()
-        //     => EmitSymLits(ApiTargets().Table<SymLiteralRow>());
-
-        // internal ReadOnlySeq<SymLiteralRow> EmitSymLits<E>()
-        //     where E : unmanaged, Enum
-        //         => EmitSymLits<E>(ApiTargets().PrefixedTable<SymLiteralRow>(typeof(E).FullName));
-
-        // internal ReadOnlySeq<SymLiteralRow> EmitSymLits(FS.FilePath dst)
-        //     => EmitSymLits(Assemblies, dst);
-
-        // internal ReadOnlySeq<SymLiteralRow> EmitSymLits<E>(FS.FilePath dst)
-        //     where E : unmanaged, Enum
-        // {
-        //     var flow = EmittingTable<SymLiteralRow>(dst);
-        //     var rows = Symbolic.symlits<E>();
-        //     var count = rows.Length;
-        //     var formatter = Tables.formatter<SymLiteralRow>();
-        //     using var writer = dst.Writer(TextEncodingKind.Unicode);
-        //     writer.WriteLine(formatter.FormatHeader());
-        //     for(var i=0; i<count; i++)
-        //         writer.WriteLine(formatter.Format(rows[i]));
-        //     EmittedTable<SymLiteralRow>(flow, count);
-        //     return rows;
-        // }
-
-        // internal void Emit(ReadOnlySpan<SymKindRow> src)
-        //     => TableEmit(src, AppDb.ApiTargets().Table<SymKindRow>());
-
-        // internal ReadOnlySeq<SymLiteralRow> EmitSymLits(Assembly[] src, FS.FilePath dst)
-        // {
-        //     var data = Symbolic.symlits(src);
-        //     TableEmit(data, dst, TextEncodingKind.Unicode);
-        //     return data;
-        // }
-
-        // internal ReadOnlySeq<SymDetailRow> EmitSymDetails<E>(Symbols<E> src, FS.FilePath dst)
-        //     where E : unmanaged, Enum
-        // {
-        //     var count = src.Count;
-        //     var buffer = alloc<SymDetailRow>(count);
-        //     for(var i=0; i<count; i++)
-        //         Symbols.detail(src[i], (ushort)count, out seek(buffer,i));
-        //     TableEmit(buffer,dst);
-        //     return buffer;
-        // }
-
         internal static uint CountFields(Index<Type> tables)
         {
             var counter = 0u;
@@ -235,8 +186,5 @@ namespace Z0
             }
             return buffer;
         }
-
-        void Emit(ReadOnlySpan<ApiFlowSpec> src)
-            => TableEmit(src, AppDb.ApiTargets().Table<ApiFlowSpec>());
     }
 }

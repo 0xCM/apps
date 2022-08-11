@@ -147,9 +147,9 @@ namespace Z0
             return ev;
         }
 
-        public WarnEvent<T> Warn<T>(T msg)
+        public WarnEvent<T> Warn<T>(T msg, EventOrigin origin)
         {
-            var ev = warn(Source.Type, msg);
+            var ev = warn(Source.Type, msg, origin);
             Raise(ev);
             return ev;
         }

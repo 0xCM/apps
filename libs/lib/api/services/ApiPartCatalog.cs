@@ -25,16 +25,6 @@ namespace Z0
         public Index<ApiCompleteType> ApiTypes {get;}
 
         /// <summary>
-        /// The data types defined by the assembly
-        /// </summary>
-        public Index<IApiHost> OperationHosts {get;}
-
-        /// <summary>
-        /// The api service types types defined by the assembly
-        /// </summary>
-        public Index<Type> ServiceHosts {get;}
-
-        /// <summary>
         /// The api hosts known to the catalog, including both operation and data type hosts
         /// </summary>
         public ApiHosts ApiHosts {get;}
@@ -44,21 +34,14 @@ namespace Z0
         /// </summary>
         public Index<MethodInfo> Methods {get;}
 
-        public ApiPartCatalog(PartId part, Assembly component, Index<ApiCompleteType> apitypes, IApiHost[] apihosts, Type[] svchosts)
+        public ApiPartCatalog(PartId part, Assembly component, Index<ApiCompleteType> types, IApiHost[] apihosts, Type[] svchosts)
         {
             PartId = part;
             Component = component;
-            ApiTypes = apitypes;
-            OperationHosts = apihosts.Map(h => (IApiHost)h);
-            ServiceHosts = svchosts;
+            ApiTypes = types;
+            //OperationHosts = apihosts.Map(h => (IApiHost)h);
             ApiHosts = apihosts;
             Methods = apihosts.SelectMany(x => x.Methods);
-        }
-
-        public Module ManifestModule
-        {
-            [MethodImpl(Inline)]
-            get => Component.ManifestModule;
         }
 
         /// <summary>
@@ -66,23 +49,5 @@ namespace Z0
         /// </summary>
         public bool IsIdentified
             => PartId != 0;
-
-        /// <summary>
-        /// Specifies whether the catalog describes any api hosts
-        /// </summary>
-        public bool IsNonEmpty
-            => (OperationHosts.Length + ApiTypes.Count) != 0;
-
-        /// <summary>
-        /// Specifies whether the catalog describes any api hosts
-        /// </summary>
-        public bool IsEmpty
-            => (OperationHosts.Length + ApiTypes.Count) == 0;
-
-        public string ComponentPath
-            => FS.path(Component.Location).Format(PathSeparator.BS);
-
-        public bool Host(ApiHostUri uri, out IApiHost host)
-            => ApiHosts.Host(uri, out host);
     }
 }

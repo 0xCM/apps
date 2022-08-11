@@ -24,7 +24,6 @@ namespace Z0
         void RunCaptureChecks(CmdArgs args)
             => CaptureWf.RunChecks(ApiPacks.Current());
 
-
         [CmdOp("capture/current")]
         void Captured()
         {

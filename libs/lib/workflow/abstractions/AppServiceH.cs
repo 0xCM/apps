@@ -140,17 +140,17 @@ namespace Z0
         protected void Status<T>(T content, FlairKind flair = FlairKind.Status)
             => WfMsg.Status(content, flair);
 
-        public void Status(ReadOnlySpan<char> src, FlairKind flair = FlairKind.Status)
-            => WfMsg.Status(src, flair);
+        // public void Status(ReadOnlySpan<char> src, FlairKind flair = FlairKind.Status)
+        //     => WfMsg.Status(src, flair);
 
-        protected void Status(string pattern, params object[] args)
-            => WfMsg.Status(pattern, args);
+        // protected void Status(string pattern, params object[] args)
+        //     => WfMsg.Status(pattern, args);
 
-        public void Status(FlairKind flair, string pattern, params object[] args)
-            => WfMsg.Status(pattern, flair, args);
+        // public void Status(FlairKind flair, string pattern, params object[] args)
+        //     => WfMsg.Status(pattern, flair, args);
 
-        protected void Warn<T>(T content)
-            => WfMsg.Warn(content);
+        // protected void Warn<T>(T content)
+        //     => WfMsg.Warn(content);
 
         protected void Warn(string pattern, params object[] args)
             => WfMsg.Warn(pattern, args);
@@ -158,8 +158,8 @@ namespace Z0
         protected virtual void Error<T>(T content, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => WfMsg.Error(content, caller, file, line);
 
-        protected WfExecFlow<T> Running<T>(T msg)
-            => WfMsg.Running(msg);
+        // protected WfExecFlow<T> Running<T>(T msg)
+        //     => WfMsg.Running(msg);
 
         protected WfExecFlow<string> Running([CallerName] string msg = null)
             => WfMsg.Running(msg);
@@ -190,8 +190,8 @@ namespace Z0
         protected IWfEventTarget EventLog
             => EventLogger.ToTarget(GetType());
 
-        protected void EmittedFile(FileWritten file, Count count, Arrow<FS.FileUri> flow)
-            => Wf.EmittedFile(HostType, file, count);
+        // protected void EmittedFile(FileWritten file, Count count, Arrow<FS.FileUri> flow)
+        //     => Wf.EmittedFile(HostType, file, count);
 
         protected virtual void OnInit()
         {
@@ -211,32 +211,32 @@ namespace Z0
             Wf.Disposed();
         }
 
-        protected static StatusEvent<T> write<T>(T msg, FlairKind flair = FlairKind.StatusData)
-            => Events.status(typeof(H), msg, flair);
+        // protected static StatusEvent<T> write<T>(T msg, FlairKind flair = FlairKind.StatusData)
+        //     => Events.status(typeof(H), msg, flair);
 
-        protected static BabbleEvent<T> babble<T>(T msg)
-            => Events.babble(typeof(H), msg);
+        // protected static BabbleEvent<T> babble<T>(T msg)
+        //     => Events.babble(typeof(H), msg);
 
-        protected static StatusEvent<T> status<T>(T msg, FlairKind flair = FlairKind.Status)
-            => Events.status(typeof(H), msg, flair);
+        // protected static StatusEvent<T> status<T>(T msg, FlairKind flair = FlairKind.Status)
+        //     => Events.status(typeof(H), msg, flair);
 
-        protected static WarnEvent<T> warn<T>(T msg)
-            => Events.warn(typeof(H), msg);
+        // protected static WarnEvent<T> warn<T>(T msg)
+        //     => Events.warn(typeof(H), msg);
 
-        protected static ErrorEvent<string> error(Exception e, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
-            => Events.error(typeof(H), e, caller, file, line);
+        // protected static ErrorEvent<string> error(Exception e, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
+        //     => Events.error(typeof(H), e, caller, file, line);
 
-        protected static ErrorEvent<T> error<T>(T msg, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
-            => Events.error(typeof(H), msg, Events.originate(typeof(H).Name,caller, file, line));
+        // protected static ErrorEvent<T> error<T>(T msg, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
+        //     => Events.error(typeof(H), msg, Events.originate(typeof(H).Name,caller, file, line));
 
-        protected static RunningEvent<T> running<T>(T msg)
-            => Events.running(typeof(H), msg);
+        // protected static RunningEvent<T> running<T>(T msg)
+        //     => Events.running(typeof(H), msg);
 
-        protected static RanEvent<T> ran<T>(RunningEvent<T> src, T msg = default)
-            => Events.ran(src, msg);
+        // protected static RanEvent<T> ran<T>(RunningEvent<T> src, T msg = default)
+        //     => Events.ran(src, msg);
 
-        protected static RanEvent<T> ran<T>(T msg)
-            => Events.ran(typeof(H), msg);
+        // protected static RanEvent<T> ran<T>(T msg)
+        //     => Events.ran(typeof(H), msg);
 
         // static IApiCatalog _ApiCatalog;
 

@@ -18,7 +18,7 @@ namespace Z0
             => new JsonDepsSources(context(src));
 
         public static JsonDepsSources load()
-            => parse(ExecutingPart.Component.Path().ChangeExtension(FileKind.JsonDeps));
+            => parse(ExecutingPart.Assembly.Path().ChangeExtension(FileKind.JsonDeps));
 
         [Op]
         public static JsonDepsSources load(Assembly src)

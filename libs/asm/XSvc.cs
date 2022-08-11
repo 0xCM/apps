@@ -68,12 +68,6 @@ namespace Z0
         public static ApiImmEmitter ImmEmitter(this IWfRuntime wf)
             => Services.ImmEmitter(wf);
 
-        public static ApiCaptureService ApiCaptureLegacy(this IWfRuntime wf)
-            => Z0.ApiCaptureService.create(wf);
-
-        public static ApiCaptureEmitter CaptureEmitter(this IWfRuntime wf)
-            => ApiCaptureEmitter.create(wf);
-
         public static ICaptureCore CaptureCore(this IWfRuntime wf)
             => Asm.CaptureCore.create(wf);
     }

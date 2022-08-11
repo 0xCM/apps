@@ -91,10 +91,6 @@ namespace Z0
         void ApiEmitHeaps()
             => ApiMd.Emitter().EmitHeap(Heaps.load(ApiMd.SymLits));
 
-        // [CmdOp("api/emit/index")]
-        // void EmitApiIndex()
-        //     => ApiMd.Emitter().EmitApiIndex();
-
         [CmdOp("api/emit/tables")]
         void EmitApiTables()
             => ApiMd.Emitter().EmitApiTables();

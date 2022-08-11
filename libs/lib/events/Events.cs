@@ -69,6 +69,10 @@ namespace Z0
             => new WarnEvent<T>(host, msg);
 
         [Op, Closures(Closure)]
+        public static WarnEvent<T> warn<T>(Type host, T msg, EventOrigin origin)
+            => new WarnEvent<T>(host, msg);
+
+        [Op, Closures(Closure)]
         public static ErrorEvent<T> error<T>(Type host, T msg, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => new ErrorEvent<T>(host, msg, originate(host, caller,file,line));
 
@@ -92,9 +96,9 @@ namespace Z0
         public static ErrorEvent<string> error(Type host, Exception e, EventOrigin source)
             => new ErrorEvent<string>(host, e, e.Message, source);
 
-        [Op, Closures(Closure)]
-        public static ErrorEvent<T> error<T>(string label, T data, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
-            => new ErrorEvent<T>(label, data, originate(caller, caller,file, line ?? 0));
+        // [Op, Closures(Closure)]
+        // public static ErrorEvent<T> error<T>(string label, T data, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
+        //     => new ErrorEvent<T>(label, data, originate(caller, caller,file, line ?? 0));
 
         [Op, Closures(UInt64k)]
         public static ErrorEvent<T> error<T>(Type host, T msg, EventOrigin source)
@@ -104,9 +108,9 @@ namespace Z0
         public static EventOrigin originate(string name, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => new EventOrigin(name, new CallingMember(caller, file, line ?? 0));
 
-        [Op]
-        public static EventOrigin originate<T>([CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
-            => originate(typeof(T), caller, file, line);
+        // [Op]
+        // public static EventOrigin originate<T>([CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
+        //     => originate(typeof(T), caller, file, line);
 
         [Op, Closures(Closure)]
         public static EmittingFileEvent emittingFile(Type host, FS.FilePath dst)
@@ -142,13 +146,13 @@ namespace Z0
         public static EmittedTableEvent emittedTable(Type host, TableId table, Count count, FS.FilePath dst)
             => new EmittedTableEvent(host, table, count, dst);
 
-        [Op]
-        public static ProcessingFileEvent processingFile(Type step, FS.FilePath dst)
-            => new ProcessingFileEvent(step, dst);
+        // [Op]
+        // public static ProcessingFileEvent processingFile(Type step, FS.FilePath dst)
+        //     => new ProcessingFileEvent(step, dst);
 
-        [Op]
-        public static ProcessedFileEvent processedFile(Type step, FS.FilePath dst)
-            => new ProcessedFileEvent(step, dst);
+        // [Op]
+        // public static ProcessedFileEvent processedFile(Type step, FS.FilePath dst)
+        //     => new ProcessedFileEvent(step, dst);
 
         [Op, Closures(Closure)]
         public static RunningEvent<T> running<T>(Type host, T msg)

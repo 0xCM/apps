@@ -10,13 +10,7 @@ namespace Z0
     {
         IJsonSettings Settings {get;}
 
-        IApiParts ApiParts {get;}
-
-        string[] Args {get;}
-
-        string AppName {get;}
-
-        WfController Controller {get;}
+        PartName AppName {get;}
 
         IApiCatalog ApiCatalog {get;}
 
@@ -94,7 +88,7 @@ namespace Z0
             => ApiCatalog.Components;
 
         string ITextual.Format()
-            => AppName;
+            => AppName.Format();
 
         WfExecFlow<T> Flow<T>(T data)
             => new WfExecFlow<T>(this, data, NextExecToken());
@@ -125,11 +119,8 @@ namespace Z0
         void Status<T>(WfHost host,T data, FlairKind flair = FlairKind.Status)
             => signal(this, host).Status(data, flair);
 
-        void Warn<T>(T content)
-            => signal(this).Warn(content);
-
-        void Warn<T>(WfHost host, T content)
-            => signal(this, host).Warn(content);
+        void Warn<T>(T msg, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
+            => signal(this).Warn(msg, originate(this.GetType(), caller, file, line));
 
         void Error(Exception e, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => signal(this).Error(e, Events.originate("WorkflowError", caller, file, line));

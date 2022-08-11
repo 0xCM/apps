@@ -10,39 +10,39 @@ namespace Z0
 
     public class ApiCatalogs : WfSvc<ApiCatalogs>
     {
-        public static ReadOnlySeq<ApiRuntimeMember> members(IApiCatalog catalog, IWfEventTarget log, bool pll)
-        {
-            var dst = bag<ApiRuntimeMember>();
-            var hosts = bag<ApiHostCatalog>();
-            catalogs(catalog, log, hosts, pll);
-            iter(hosts, catalog => {
-                var members = catalog.Members;
-                for(var i=0; i<members.Count; i++)
-                {
-                    var row = ApiRuntimeMember.Empy;
-                    ref readonly var member = ref members[i];
-                    row.Part = member.Host.Part;
-                    row.Token = member.Msil.Token;
-                    row.Address = member.BaseAddress;
-                    row.DisplaySig = Clr.display(member.Method.Artifact());
-                    row.Uri = member.OpUri;
-                    dst.Add(row);
-                }
-            }, pll);
-            return dst.Array().Sort().Resequence();
-        }
+        // public static ReadOnlySeq<ApiRuntimeMember> members(IApiCatalog catalog, IWfEventTarget log, bool pll)
+        // {
+        //     var dst = bag<ApiRuntimeMember>();
+        //     var hosts = bag<ApiHostCatalog>();
+        //     catalogs(catalog, log, hosts, pll);
+        //     iter(hosts, catalog => {
+        //         var members = catalog.Members;
+        //         for(var i=0; i<members.Count; i++)
+        //         {
+        //             var row = ApiRuntimeMember.Empy;
+        //             ref readonly var member = ref members[i];
+        //             row.Part = member.Host.Part;
+        //             row.Token = member.Msil.Token;
+        //             row.Address = member.BaseAddress;
+        //             row.DisplaySig = Clr.display(member.Method.Artifact());
+        //             row.Uri = member.OpUri;
+        //             dst.Add(row);
+        //         }
+        //     }, pll);
+        //     return dst.Array().Sort().Resequence();
+        // }
 
-        public static void catalogs(IApiPartCatalog src, IWfEventTarget log, ConcurrentBag<ApiHostCatalog> dst, bool pll)
-            => iter(src.ApiHosts, host => catalog(host, log, dst), pll);
+        // public static void catalogs(IApiPartCatalog src, IWfEventTarget log, ConcurrentBag<ApiHostCatalog> dst, bool pll)
+        //     => iter(src.ApiHosts, host => catalog(host, log, dst), pll);
 
-        public static void catalog(IApiHost src, IWfEventTarget log, ConcurrentBag<ApiHostCatalog> dst)
-            => dst.Add(new ApiHostCatalog(src, ClrJit.members(src, log)));
+        // public static void catalog(IApiHost src, IWfEventTarget log, ConcurrentBag<ApiHostCatalog> dst)
+        //     => dst.Add(new ApiHostCatalog(src, ClrJit.members(src, log)));
 
-        public static ApiHostCatalog catalog(IApiHost src, IWfEventTarget log)
-            => new ApiHostCatalog(src, ClrJit.members(src, log));
+        // public static ApiHostCatalog catalog(IApiHost src, IWfEventTarget log)
+        //     => new ApiHostCatalog(src, ClrJit.members(src, log));
 
-        public static void catalogs(IApiCatalog src, IWfEventTarget log, ConcurrentBag<ApiHostCatalog> dst, bool pll)
-            => iter(src.PartCatalogs(),  part => catalogs(part, log, dst, pll), pll);
+        // public static void catalogs(IApiCatalog src, IWfEventTarget log, ConcurrentBag<ApiHostCatalog> dst, bool pll)
+        //     => iter(src.PartCatalogs(),  part => catalogs(part, log, dst, pll), pll);
 
         public void Emit(ApiMembers src, IApiPack dst)
         {

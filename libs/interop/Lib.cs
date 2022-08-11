@@ -28,6 +28,10 @@ global using NBK = Z0.NumericBaseKind;
 
 global using CC = System.Runtime.InteropServices.CallingConvention;
 
+//global using static System.Runtime.InteropServices.CallingConvention;
+
+global using Fp = System.Runtime.InteropServices.UnmanagedFunctionPointerAttribute;
+
 [assembly: PartId(PartId.Interop)]
 
 class Root

@@ -12,28 +12,28 @@ namespace Z0
 
         public static void dispatch(string[] args)
         {
-            try
-            {
-                var parts = ApiRuntime.parts();
-                term.inform(AppMsg.status(TextProp.define("PartCount", parts.Catalog.Components.Length)));
-                using var wf = ApiRuntime.create(parts, args);
-                if(args.Length == 0)
-                {
-                    wf.Status("usage: run <command> [options]");
-                    var settings = wf.Settings;
-                    wf.Data(settings.Format());
-                }
-                else
-                {
-                    wf.Status("Dispatching");
-                    Reactor.create(wf).Dispatch(args);
-                }
+            // try
+            // {
+            //     var parts = ApiRuntime.parts();
+            //     term.inform(AppMsg.status(TextProp.define("PartCount", parts.Catalog.Components.Length)));
+            //     using var wf = ApiRuntime.create(parts, args);
+            //     if(args.Length == 0)
+            //     {
+            //         wf.Status("usage: run <command> [options]");
+            //         var settings = wf.Settings;
+            //         wf.Data(settings.Format());
+            //     }
+            //     else
+            //     {
+            //         wf.Status("Dispatching");
+            //         Reactor.create(wf).Dispatch(args);
+            //     }
 
-            }
-            catch(Exception e)
-            {
-                term.error(e);
-            }
+            // }
+            // catch(Exception e)
+            // {
+            //     term.error(e);
+            // }
         }
 
         protected override Reactor Init(out int state)

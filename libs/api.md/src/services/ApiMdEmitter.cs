@@ -116,7 +116,7 @@ namespace Z0
             => Comments.Collect(AppDb.ApiTargets(comments));
 
         public void EmitApiDeps()
-            => iter(sys.array(ExecutingPart.Component), a => EmitApiDeps(a, AppDb.ApiTargets().Path($"{a.GetSimpleName()}", FileKind.DepsList)), true);
+            => iter(sys.array(ExecutingPart.Assembly), a => EmitApiDeps(a, AppDb.ApiTargets().Path($"{a.GetSimpleName()}", FileKind.DepsList)), true);
 
         public void EmitApiSymbols()
             => TableEmit(Symbolic.symlits(Md.Assemblies), AppDb.ApiTargets().Table<SymLiteralRow>(), UTF16);
@@ -128,7 +128,7 @@ namespace Z0
             => Comments.Collect(dst);
 
         void EmitApiDeps(IApiPack dst)
-            => iter(sys.array(ExecutingPart.Component), a => EmitApiDeps(a,Target.Runtime().Path($"{a.GetSimpleName()}", FileKind.DepsList)), true);
+            => iter(sys.array(ExecutingPart.Assembly), a => EmitApiDeps(a,Target.Runtime().Path($"{a.GetSimpleName()}", FileKind.DepsList)), true);
 
         ReadOnlySeq<ApiCmdRow> CalcCmdDefs()
             => CmdTypes.rows(CmdTypes.discover(Md.Assemblies));

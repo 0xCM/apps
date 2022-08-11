@@ -12,29 +12,29 @@ namespace Z0
     {
         const byte ZeroLimit = 10;
 
-        protected static StatusEvent<T> write<T>(T msg, FlairKind flair = FlairKind.StatusData)
-            => Events.status(typeof(ApiCode), msg, flair);
+        // protected static StatusEvent<T> write<T>(T msg, FlairKind flair = FlairKind.StatusData)
+        //     => Events.status(typeof(ApiCode), msg, flair);
 
-        protected static BabbleEvent<T> babble<T>(T msg)
-            => Events.babble(typeof(ApiCode), msg);
+        // protected static BabbleEvent<T> babble<T>(T msg)
+        //     => Events.babble(typeof(ApiCode), msg);
 
-        protected static StatusEvent<T> status<T>(T msg, FlairKind flair = FlairKind.Status)
-            => Events.status(typeof(ApiCode), msg, flair);
+        // protected static StatusEvent<T> status<T>(T msg, FlairKind flair = FlairKind.Status)
+        //     => Events.status(typeof(ApiCode), msg, flair);
 
-        protected static WarnEvent<T> warn<T>(T msg)
-            => Events.warn(typeof(ApiCode), msg);
+        // protected static WarnEvent<T> warn<T>(T msg)
+        //     => Events.warn(typeof(ApiCode), msg);
 
-        protected static ErrorEvent<string> error(Exception e, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
-            => Events.error(typeof(ApiCode), e, caller, file, line);
+        // protected static ErrorEvent<string> error(Exception e, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
+        //     => Events.error(typeof(ApiCode), e, caller, file, line);
 
-        protected static ErrorEvent<T> error<T>(T msg, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
-            => Events.error(typeof(ApiCode), msg, Events.originate(typeof(ApiCode).Name,caller, file, line));
+        // protected static ErrorEvent<T> error<T>(T msg, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
+        //     => Events.error(typeof(ApiCode), msg, Events.originate(typeof(ApiCode).Name,caller, file, line));
 
         protected static RunningEvent<T> running<T>(T msg)
             => Events.running(typeof(ApiCode), msg);
 
-        protected static RanEvent<T> ran<T>(RunningEvent<T> src, T msg = default)
-            => Events.ran(src, msg);
+        // protected static RanEvent<T> ran<T>(RunningEvent<T> src, T msg = default)
+        //     => Events.ran(src, msg);
 
         protected static RanEvent<T> ran<T>(T msg)
             => Events.ran(typeof(ApiCode), msg);

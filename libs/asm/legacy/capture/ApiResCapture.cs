@@ -12,18 +12,10 @@ namespace Z0.Asm
 
         AsmFormatConfig FormatConfig;
 
-        ApiCaptureService ApiCapture;
-
         protected override void Initialized()
         {
             Decoder = Wf.AsmDecoder();
             FormatConfig = AsmFormatConfig.@default(out var _);
-            ApiCapture = Wf.ApiCaptureLegacy();
-        }
-
-        protected override void Disposing()
-        {
-            ApiCapture.Dispose();
         }
 
         public void Emit(ReadOnlySpan<CapturedApiRes> src, FS.FilePath dst)

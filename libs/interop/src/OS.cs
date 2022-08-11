@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Fp = System.Runtime.InteropServices.UnmanagedFunctionPointerAttribute;
-
     public readonly struct OS
     {
         public readonly struct Delegates

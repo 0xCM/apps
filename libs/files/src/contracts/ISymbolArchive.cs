@@ -6,15 +6,15 @@ namespace Z0
 {
     using static ApiAtomic;
 
-    public interface ISymbolArchive : IRootedArchive
+    public interface ISymbolArchives : IRootedArchive
     {
-        IDbSources DotNet()
-            => Sources(dotnet);
+        IDbArchive DotNet()
+            => Scoped(dotnet);
 
-        IDbSources DotNet(string name)
-            => DotNet().Sources(name);
+        IDbArchive DotNet(string name)
+            => DotNet().Scoped(name);
 
-        FS.FolderPath DotNet(byte major, byte minor, byte revision)
-            => DotNet(FS.FolderName.version(major, minor, revision).Format()).Root;
+        IDbArchive DotNet(byte major, byte minor, byte revision)
+            => DotNet(FS.FolderName.version(major, minor, revision).Format());
     }
 }

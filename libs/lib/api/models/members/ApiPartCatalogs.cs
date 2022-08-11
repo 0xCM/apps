@@ -4,38 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct ApiPartCatalogs : IIndexedView<ApiPartCatalogs,uint,IApiPartCatalog>
+    public sealed class ApiPartCatalogs : Seq<ApiPartCatalogs,ApiPartCatalog>
     {
-        readonly Index<ApiPartCatalog> Data;
+        public ApiPartCatalogs()
+        {
+
+        }
 
         [MethodImpl(Inline)]
         public ApiPartCatalogs(ApiPartCatalog[] src)
-            => Data = src;
-
-        public IApiPartCatalog[] Storage
+            : base(src)
         {
-            [MethodImpl(Inline)]
-            get => Data.Storage;
+            Data = src;
         }
-
-        public ReadOnlySpan<ApiPartCatalog> View
-        {
-            [MethodImpl(Inline)]
-            get => Data.Storage;
-        }
-
-        public string Format()
-            => Data.Format();
-
-        public override string ToString()
-            => Format();
-
-        [MethodImpl(Inline)]
-        public static implicit operator ApiPartCatalogs(ApiPartCatalog[] src)
-            => new ApiPartCatalogs(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator ApiPartCatalog[](ApiPartCatalogs src)
-            => src.Data.Storage;
     }
 }

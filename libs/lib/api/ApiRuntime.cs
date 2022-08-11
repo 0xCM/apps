@@ -4,67 +4,139 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
+    using static Arrays;
 
     public class ApiRuntime
     {
-        // public static IWfRuntime create()
-        //     => create(parts(), array<string>(), EmptyString);
-
         public static IWfRuntime create(string[] args)
-            => create(parts(controller(), args), args, EmptyString);
+            => create(match(ExecutingPart.Assembly, args));
 
-        // public static IWfRuntime create(PartId[] src)
-        //     => create(parts(controller(), src, true), sys.empty<string>(), EmptyString);
-
-        public static IWfRuntime create(IApiParts parts, string[] args)
+        public static IWfRuntime create(IApiCatalog src)
         {
             term.inform(InitializingRuntime.Format(now()));
             var clock = Time.counter(true);
-            var control = controller();
+            var control = ExecutingPart.Assembly;
             var id = control.Id();
             var dst = new WfInit();
-            dst.Ct = PartToken.create(id);
             dst.Tokens = TokenDispenser.create();
             dst.Settings = JsonSettings.load(control);
-            dst.Control = control;
-            dst.ControlId = id;
-            dst.LogConfig = Loggers.configure();
-            dst.ApiParts = parts;
-            dst.Args = args;
-            dst.AppName = id.PartName();
+            dst.LogConfig = Loggers.configure(EmptyString);
+            dst.ApiCatalog = src;
             dst.EventBroker = Events.broker(dst.LogConfig);
             dst.Host = new WfHost(typeof(WfRuntime));
-            dst.EmissionLog = Loggers.emission(control);
+            dst.EmissionLog = Loggers.emission(control, timestamp());
             var wf = new WfRuntime(dst);
             term.inform(AppMsg.status(InitializedRuntime.Format(now(), clock.Elapsed())));
             return wf;
         }
 
-        public static IApiParts parts()
-            => parts(controller(), Environment.GetCommandLineArgs());
+        [Op]
+        public static Index<IApiHost> hosts(Assembly src)
+        {
+            var id = src.Id();
+            return ApiHostTypes(src).Select(h => host(id, h));
+        }
+
+        public static bool load(Assembly src, out IPart dst)
+        {
+            var attempt = src.GetTypes().Where(t => t.Reifies<IPart>() && !t.IsAbstract).Map(t => (IPart)Activator.CreateInstance(t)).ToArray();
+            if(attempt.Length != 0)
+            {
+                dst = attempt.First();
+                return true;
+            }
+            else
+            {
+                 dst = default;
+                 return false;
+            }
+        }
+
+        public static Assembly[] assemblies(FS.FolderPath src)
+        {
+            var dst = list<Assembly>();
+            var candidates = libs(src);
+            foreach(var path in candidates)
+            {
+                var component = Assembly.LoadFrom(path.Name);
+                if(component.Id() != 0)
+                    dst.Add(component);
+            }
+
+            return dst.ToArray();
+        }
+
+        public static IApiCatalog catalog()
+        {
+            var src = FS.path(ExecutingPart.Assembly.Location).FolderPath;
+            var candidates = ApiRuntime.assemblies(src).Where(x => x.Id() != 0);
+            var count = candidates.Length;
+            var parts = list<IPart>();
+            for(var i=0; i<count; i++)
+            {
+                if(ApiRuntime.load(skip(candidates,i), out var part))
+                    parts.Add(part);
+            }
+
+            return catalog(parts.Array());
+        }
+
+        public static ApiPartCatalog catalog(Assembly src)
+            => new ApiPartCatalog(src.Id(), src, complete(src), hosts(src), SvcHostTypes(src));
+
+        // public static IWfRuntime create(IApiParts parts, string[] args)
+        // {
+        //     term.inform(InitializingRuntime.Format(now()));
+        //     var clock = Time.counter(true);
+        //     var control = ExecutingPart.Assembly;
+        //     var id = control.Id();
+        //     var dst = new WfInit();
+        //     dst.Tokens = TokenDispenser.create();
+        //     dst.Settings = JsonSettings.load(control);
+        //     dst.LogConfig = Loggers.configure();
+        //     dst.ApiCatalog = parts.Catalog;
+        //     dst.EventBroker = Events.broker(dst.LogConfig);
+        //     dst.Host = new WfHost(typeof(WfRuntime));
+        //     dst.EmissionLog = Loggers.emission(control);
+        //     var wf = new WfRuntime(dst);
+        //     term.inform(AppMsg.status(InitializedRuntime.Format(now(), clock.Elapsed())));
+        //     return wf;
+        // }
+
+        // public static IApiParts parts()
+        //     => parts(ExecutingPart.Assembly, Environment.GetCommandLineArgs());
 
         static FS.FolderPath home(Assembly control)
             => FS.path(control.Location).FolderPath;
 
-        public static IApiParts parts(Assembly control, string[] args)
+        static IApiCatalog match(Assembly control, string[] args)
         {
             var dir = home(control);
-            var sources = managed(dir);
+            var libs = ApiRuntime.libs(dir);
 
             if(args.Length == 0)
-                return new ApiParts(control, dir, sources, assemblies(dir, true).Select(x => x.Id()));
-            var ids = parts(args, true);
-            if(ids.Length != 0)
-                return new ApiParts(control, dir, sources, array<PartId>(control.Id()));
+            {
+                var parts = ApiRuntime.assemblies(dir).Select(x => x.Id());
+                return ApiRuntime.catalog(dir, parts);
+            }
             else
-                return new ApiParts(control, dir, sources, ids);
+            {
+                var ids = ApiRuntime.parts(args);
+                if(ids.Length != 0)
+                {
+                    var _parts = sys.array<PartId>(control.Id());
+                    return ApiRuntime.catalog(dir,_parts);
+                }
+                else
+                {
+                    return ApiRuntime.catalog(dir, ids);
+                }
+            }
         }
 
-        const PartId FirstShell = PartId.CgShell;
-
-        [Op]
-        public static Index<PartId> parts(ReadOnlySpan<string> src, bool libonly)
+        static Index<PartId> parts(ReadOnlySpan<string> src)
         {
             var count = src.Length;
             if(count == 0)
@@ -78,47 +150,90 @@ namespace Z0
                 ref readonly var name = ref skip(src,i);
                 if(symbols.Lookup(name, out var sym))
                 {
-                    if(libonly && sym.Kind >= FirstShell)
-                        continue;
                     seek(dst, counter++) = sym.Kind;
                 }
             }
             return slice(dst, 0, counter).ToArray();
         }
 
-        // [Op]
-        // public static IApiParts parts(Assembly control, PartId[] ids, bool libonly)
-        // {
-        //     var folder = home(control);
-        //     var sources = managed(folder);
-        //     if(ids.Length != 0)
-        //        return new ApiParts(control, folder, sources, ids);
-        //     else
-        //     {
-        //         return new ApiParts(control, folder, sources, ApiLoader.catalog(sources));
-        //     }
-        // }
-
-        public static Assembly[] assemblies(FS.FolderPath dir, bool justParts)
+        static IApiCatalog catalog(IPart[] src)
         {
-            var dst = list<Assembly>();
-            var candidates = managed(dir);
-            foreach(var path in candidates)
-            {
-                var component = Assembly.LoadFrom(path.Name);
-                if(justParts)
-                {
-                    if(component.Id() != 0)
-                        dst.Add(component);
-                }
-                else
-                    dst.Add(component);
-            }
-
-            return dst.ToArray();
+            var catalogs = src.Select(x => catalog(x.Owner)).Where(c => c.IsIdentified);
+            var dst = new ApiRuntimeCatalog(
+                src,
+                src.Select(p => p.Owner),
+                new ApiPartCatalogs(catalogs),
+                catalogs.SelectMany(c => c.ApiHosts.Storage).Where(h => nonempty(h.HostUri.HostName)),
+                src.Select(p => p.Id),
+                catalogs.SelectMany(x => x.Methods)
+                );
+            return dst;
         }
 
-        static FolderFiles managed(FS.FolderPath src, bool libonly = true)
+        static Type[] SvcHostTypes(Assembly src)
+            => src.GetTypes().Where(t => t.Tagged<FunctionalServiceAttribute>());
+
+        static IApiCatalog catalog(FS.FolderPath src, PartId[] parts)
+            => catalog(ApiRuntime.parts(src, parts));
+
+        /// <summary>
+        /// Searches an assembly for types tagged with the <see cref="ApiCompleteAttribute"/>
+        /// </summary>
+        /// <param name="src">The assembly to search</param>
+        [Op]
+        static Index<ApiCompleteType> complete(Assembly src)
+        {
+            var part = src.Id();
+            var types = span(src.GetTypes().Where(t => t.Tagged<ApiCompleteAttribute>()));
+            var count = types.Length;
+            var buffer = sys.alloc<ApiCompleteType>(count);
+            for(var i=0u; i<count; i++)
+            {
+                ref readonly var type = ref skip(types,i);
+                var attrib = type.Tag<ApiCompleteAttribute>();
+                var name = text.ifempty(attrib.MapValueOrDefault(a => a.Name, type.Name),type.Name).ToLower();
+                var uri = new ApiHostUri(part, name);
+                var declared = type.DeclaredMethods();
+                seek(buffer, i) = new ApiCompleteType(type, name, part, uri, declared, index(declared));
+            }
+            return buffer;
+        }
+
+
+        /// <summary>
+        /// Searches an assembly for types tagged with the <see cref="ApiHostAttribute"/>
+        /// </summary>
+        /// <param name="src">The assembly to search</param>
+        [Op]
+        static Index<Type> ApiHostTypes(Assembly src)
+            => src.GetTypes().Where(IsApiHost);
+
+        [Op]
+        static bool IsApiHost(Type src)
+            => src.Tagged<ApiHostAttribute>();
+
+        /// <summary>
+        /// Describes an api host
+        /// </summary>
+        /// <param name="part">The defining part</param>
+        /// <param name="t">The reifying type</param>
+        [Op]
+        static IApiHost host(PartId part, Type type)
+        {
+            var uri = ApiIdentity.host(type);
+            var declared = type.DeclaredMethods();
+            return new ApiHost(type, uri.HostName, part, uri, declared, index(declared));
+        }
+
+        [Op]
+        static Dictionary<string,MethodInfo> index(Index<MethodInfo> src)
+        {
+            var index = new Dictionary<string, MethodInfo>();
+            iter(src, m => index.TryAdd(ApiIdentity.identify(m).IdentityText, m));
+            return index;
+        }
+
+        static FolderFiles libs(FS.FolderPath src)
         {            
             var candidates = src.Files(FileKind.Dll);
             var dst = list<FS.FilePath>();
@@ -134,30 +249,79 @@ namespace Z0
             return new FolderFiles(src, dst.Array());
         }
 
-        static IWfRuntime create(IApiParts parts, string[] args, string logname = EmptyString)
+
+        static IPart[] parts(FS.FolderPath src, ReadOnlySpan<PartId> ids)
         {
-            term.inform(InitializingRuntime.Format(now()));
-            var clock = Time.counter(true);
-            var control = controller();
-            var id = control.Id();
-            var dst = new WfInit();
-            dst.Ct = PartToken.create(id);
-            dst.Tokens = TokenDispenser.create();
-            dst.Settings = JsonSettings.load(control);
-            dst.Control = control;
-            dst.ControlId = id;
-            dst.LogConfig = Loggers.configure(logname);
-            dst.ApiParts = parts;
-            dst.Args = args;
-            dst.AppName = id.PartName();
-            dst.EventBroker = Events.broker(dst.LogConfig);
-            dst.Host = new WfHost(typeof(WfRuntime));
-            dst.EmissionLog = Loggers.emission(control, core.timestamp());
-            var wf = new WfRuntime(dst);
-            term.inform(AppMsg.status(InitializedRuntime.Format(now(), clock.Elapsed())));
-            return wf;
+            var count = ids.Length;
+            var dst = list<IPart>();
+            var set = hashset<PartId>();
+            iter(ids, p => set.Add(p));
+            var candidates = PartPaths(src);
+            foreach(var (id,path) in candidates)
+            {
+                if(set.Contains(id) && path.Exists)
+                    ApiRuntime.load(path).OnSome(part => dst.Add(part));
+            }
+            return dst.ToArray();
         }
 
+        static ReadOnlySpan<Paired<PartId,FS.FilePath>> PartPaths(FS.FolderPath dir)
+        {
+            var dst = list<Paired<PartId,FS.FilePath>>();
+            var symbols = Symbols.index<PartId>().View;
+            var count = symbols.Length;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var symbol = ref skip(symbols,i);
+                dst.Add((symbol.Kind, dir + FS.file("z0." + symbol.Expr.Format(), FS.Dll)));
+            }
+            return dst.ViewDeposited();
+        }
+
+        /// <summary>
+        /// Attempts to resolve a part from an assembly file path
+        /// </summary>
+        [Op]
+        static Option<IPart> load(FS.FilePath src)
+            => from c in assembly(src)
+            from t in resolve(c)
+            from p in resolve(t)
+            from part in resolve(p)
+            select part;
+
+        [Op]
+        static Option<Assembly> assembly(FS.FilePath src)
+        {
+            try
+            {
+                return Assembly.LoadFrom(src.Name);
+            }
+            catch(Exception e)
+            {
+                term.warn($"Unable to load {src.ToUri()}: {e.Message}");
+                return default;
+            }
+        }
+
+        /// <summary>
+        /// Attempts to resolve a part resolution type
+        /// </summary>
+        static Option<Type> resolve(Assembly src)
+            => src.GetTypes().Where(t => t.Reifies<IPart>() && !t.IsAbstract).FirstOrDefault();
+
+        /// <summary>
+        /// Attempts to resolve a part resolution property
+        /// </summary>
+        static Option<PropertyInfo> resolve(Type src)
+            => src.StaticProperties().Where(p => p.Name == "Resolved").FirstOrDefault();
+
+        /// <summary>
+        /// Attempts to resolve a part from a resolution property
+        /// </summary>
+        [Op]
+        static Option<IPart> resolve(PropertyInfo src)
+            => Option.Try(src, x => (IPart)x.GetValue(null));
+ 
         static MsgPattern<Timestamp> InitializingRuntime => "Initializing runtime at {0}";
 
         static MsgPattern<Timestamp,Duration> InitializedRuntime => "Initialized runtime at {0} in {1}";

@@ -8,6 +8,6 @@ namespace Z0
     {
         [MethodImpl(Inline), Op]
         public static ref readonly Assembly controller()
-            => ref ExecutingPart.Component;
+            => ref ExecutingPart.Assembly;
    }
 }

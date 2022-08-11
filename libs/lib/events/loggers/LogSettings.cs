@@ -27,7 +27,7 @@ namespace Z0
         public LogSettings(FS.FolderPath root)
         {
             var ts = core.timestamp();
-            var control = ExecutingPart.Component;
+            var control = ExecutingPart.Assembly;
             var id = control.Format();
             StatusPath = root + FS.folder($"{control.Format()}/status") + FS.file($"{id}.status.{ts}", FS.Log);
             ErrorPath = root + FS.folder(control.Format()) + FS.file($"{id}.errors.{ts}", FS.Log);

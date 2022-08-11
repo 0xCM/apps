@@ -124,8 +124,8 @@ namespace Z0
             return result;
         }
 
-        public void Babble<T>(T content)
-            => Emitter.Babble(content);
+        // public void Babble<T>(T content)
+        //     => Emitter.Babble(content);
 
         public new void Babble(string pattern, params object[] args)
             => Emitter.Babble(pattern, args);
@@ -133,20 +133,23 @@ namespace Z0
         public new void Status<T>(T content, FlairKind flair = FlairKind.Status)
             => Emitter.Status(content, flair);
 
-        public new void Status(ReadOnlySpan<char> src, FlairKind flair = FlairKind.Status)
-            => Emitter.Status(src, flair);
+        // public void Status(ReadOnlySpan<char> src, FlairKind flair = FlairKind.Status)
+        //     => Emitter.Status(src, flair);
 
-        public new void Status(FlairKind flair, string pattern, params object[] args)
-            => Emitter.Status(pattern, flair, args);
+        // public void Status(FlairKind flair, string pattern, params object[] args)
+        //     => Emitter.Status(pattern, flair, args);
 
-        public new void Status(string pattern, params object[] args)
-            => Emitter.Status(pattern, args);
+        // public void Status(string pattern, params object[] args)
+        //     => Emitter.Status(pattern, args);
 
-        public new void Warn<T>(T content)
-            => Emitter.Warn(content);
+        public void Warn<T>(T content, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
+            => Emitter.Warn(content, caller, file, line);
 
-        public new void Warn(string pattern, params object[] args)
-            => Emitter.Warn(pattern, args);
+        // public void Warn(string msg, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
+        //     => Emitter.Warn(msg, caller, file, line);
+
+        // public new void Warn(string msg, object[] args)
+        //     => Emitter.Warn(msg, args);
 
         public new void Error<T>(T content, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => Emitter.Error(content, caller, file, line);
@@ -172,7 +175,7 @@ namespace Z0
         public void Write<T>(string name, T value)
             => Emitter.Write(name, value);
 
-        public new WfExecFlow<T> Running<T>(T msg)
+        public WfExecFlow<T> Running<T>(T msg)
             => Emitter.Running(msg);
 
         public new WfExecFlow<string> Running([CallerName] string msg = null)
@@ -181,8 +184,8 @@ namespace Z0
         public new ExecToken Ran<T>(WfExecFlow<T> flow, [CallerName] string msg = null)
             => Emitter.Ran(flow, msg);
 
-        public ExecToken Ran<T>(WfExecFlow<T> flow, string msg, FlairKind flair = FlairKind.Ran)
-            => Emitter.Ran(flow, msg, flair);
+        // public ExecToken Ran<T>(WfExecFlow<T> flow, string msg, FlairKind flair = FlairKind.Ran)
+        //     => Emitter.Ran(flow, msg, flair);
 
         public ExecToken Ran<T, D>(WfExecFlow<T> src, D data)
             => Emitter.Ran(src, data);
@@ -190,8 +193,8 @@ namespace Z0
         public new FileWritten EmittingFile(FS.FilePath dst)
             => Emitter.EmittingFile(dst);
 
-        public new ExecToken EmittedFile(FileWritten flow, Count count)
-            => Emitter.EmittedFile(flow, count);
+        // public new ExecToken EmittedFile(FileWritten flow, Count count)
+        //     => Emitter.EmittedFile(flow, count);
 
         public ExecToken EmittedFile(FileWritten flow, int count)
             => Emitter.EmittedFile(flow, count);
@@ -199,8 +202,8 @@ namespace Z0
         public ExecToken EmittedFile(FileWritten flow, uint count)
             => Emitter.EmittedFile(flow, count);
 
-        public ExecToken EmittedFile<T>(FileWritten flow, T msg)
-            => Emitter.EmittedFile(flow, msg);
+        // public ExecToken EmittedFile<T>(FileWritten flow, T msg)
+        //     => Emitter.EmittedFile(flow, msg);
 
         public ExecToken EmittedBytes(FileWritten flow, ByteSize size)
             => Emitter.EmittedBytes(flow, size);

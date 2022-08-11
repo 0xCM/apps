@@ -69,6 +69,6 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static LogSettings configure(string name = EmptyString)
-            => new LogSettings(ExecutingPart.Component.Id(), FS.dir("d:/views/db/logs"), name);
+            => new LogSettings(ExecutingPart.Assembly.Id(), FS.dir("d:/views/db/logs"), name);
     }
 }

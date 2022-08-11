@@ -9,17 +9,5 @@ namespace Z0
     {
         protected static S shell(params string[] args)
             => create(ApiRuntime.create(args));
-
-        protected static void run(params string[] args)
-        {
-            using var app = shell(args);
-            app.Run();
-        }
-
-        protected static void run(Func<IWfRuntime> f)
-        {
-            using var app = create(f());
-            app.Run();
-        }
     }
 }

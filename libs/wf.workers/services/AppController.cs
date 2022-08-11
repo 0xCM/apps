@@ -15,10 +15,9 @@ namespace Z0
 
         readonly IMonitor Monitor;
         
-        public AppController(IWfRuntime wf, ILogger<AppController> logger)
+        public AppController(IWfRuntime wf, ILogger<AppController> logger, string[] args)
         {
             Wf = wf;
-            var args = wf.Args;
             var src = Datasets.archive(FS.dir(args[0]));
             var dst = AppDb.Service.Catalogs("fs.change");
             Require.invariant(src.Exists);

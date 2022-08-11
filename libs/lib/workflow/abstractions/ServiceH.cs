@@ -58,8 +58,8 @@ namespace Z0
         protected StatusEvent<T> Status<T>(T src)
             => Signal.Status(src);
 
-        protected WarnEvent<T> Warn<T>(T src)
-            => Signal.Warn(src);
+        protected WarnEvent<T> Warn<T>(T src, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
+            => Signal.Warn(src, Events.originate(GetType(), caller, file, line));
 
         protected ErrorEvent<string> Error(Type source, Exception e, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => Signal.Error(e, Events.originate(source.Name, caller, file, line));

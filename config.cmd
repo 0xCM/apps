@@ -27,7 +27,16 @@ set SlnPath=%AreaRoot%\z0.%Area%.sln
 set BuildLogs=%Artifacts%\logs
 
 set ProjectSlnFile=z0.%ProjectId%.sln
-set CsProjectFile=z0.%ProjectId%.csproj
+set ProjectBin=%Artifacts%\bin\z0.%ProjectId%
+set ProjectObj=%Artifacts%\obj\z0.%ProjectId%
+set ProjectFile=z0.%ProjectId%.csproj
+set ProjectHome=%SlnRoot%\%Area%\%ProjectId%
+set ProjectPath=%ProjectHome%\z0.%ProjectId%.csproj
+set ProjectSln=%ProjectHome%\z0.%ProjectId%.sln
+
+set CleanProjectBin=rmdir %ProjectBin% /s/q
+set CleanProjectObj=rmdir %ProjectObj% /s/q
+
 set LibName=z0.%ProjectId%.dll
 
 set CgRoot=%SlnRoot%cg
@@ -56,10 +65,9 @@ set AppSettings=%ImportDefs%app.settings.csv
 set ControlScripts=%Views%\control\.cmd
 
 set BuildOptions=-graph:true -m:24
-set ProjectHome=%SlnRoot%\%Area%\%ProjectId%
-set ProjectPath=%ProjectHome%\z0.%ProjectId%.csproj
-set ProjectSln=%ProjectHome%\z0.%ProjectId%.sln
+
 set BuildProject=%BuildTool% %ProjectPath% %BuildProps% %BinLogSpec%; %BuildOptions%
+
 set BuildSln=%BuildTool% %SlnPath% %BuildProps% %BinLogSpec%; %BuildOptions%
 set BuildProjectSln=%BuildTool% %ProjectSln% %BuildProps% %BinLogSpec%; %BuildOptions%
 set PublishProject=%PublishTool%
@@ -82,8 +90,8 @@ set dllshell=%DllShellPath%
 
 set LibPath=%TargetBuildRoot%\%LibName%
 set LibProject=%LibRoot%\%ProjectId%
-set CsProjectPath=%LibProject%\%CsProjectFile%
-set BuildLib=%BuildTool% %CsProjectPath% %BuildProps% %BinLogSpec%; %BuildOptions%
+set LibProjectPath=%LibProject%\%ProjectFile%
+set BuildLib=%BuildTool% %LibProjectPath% %BuildProps% %BinLogSpec%; %BuildOptions%
 
 set CmdShellRoot=%SlnRoot%\cmd
 set CmdProject=%CmdShellRoot%\z0.cmd.csproj
@@ -110,3 +118,4 @@ set ShellPubRoot=%PubRoot%\%ShellId%
 set PublishShell=dotnet publish %ProjectPath% --output %ShellPubRoot%
 
 mkdir %BuildLogs% 1>nul 2>nul
+

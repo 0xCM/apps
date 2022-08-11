@@ -21,14 +21,6 @@ namespace Z0
             }
         }
 
-        // void Run(ICompositeDispenser dispenser, IApiPack dst)
-        // {
-        //     var receiver = new CaptureReceiver(dispenser, Emitter);
-        //     var capture = new CaptureWfRunner(this, new(), dst, receiver);
-        //     capture.Run(dispenser);
-        // }
-
-
         public void RunChecks(IApiPack src)
         {
             CaptureWfChecks.run(src, Emitter);            
@@ -56,7 +48,7 @@ namespace Z0
                 settings.Parts = parts.ToSeq();
             }
             
-            runner(svc, settings, dst, transport).Run();
+            runner(svc, settings, dst, transport).Run(ApiRuntime.catalog());
         }
 
         static SettingsStore Store = new();

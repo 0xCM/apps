@@ -30,24 +30,6 @@ namespace Z0
         public static ApiMember member(in ResolvedMethod src)
             => new ApiMember(src.Uri, src.Method, src.EntryPoint, ClrDynamic.msil(src.EntryPoint, src.Uri, src.Method));
 
-        // [Op]
-        // public static ApiMembers members(Index<ApiMember> src)
-        // {
-        //     if(src.Count != 0)
-        //         return new ApiMembers(src.First.BaseAddress, src.Sort());
-        //     else
-        //         return ApiMembers.Empty;
-        // }
-
-        // [Op]
-        // public static ApiMembers members(MemoryAddress @base, Index<ApiMember> src)
-        // {
-        //     if(src.Length != 0)
-        //         return new ApiMembers(@base, src.Sort());
-        //     else
-        //         return ApiMembers.Empty;
-        // }
-
         [Op]
         static Index<ApiMember> members(JittedMethod[] src)
         {
@@ -66,25 +48,11 @@ namespace Z0
             return dst;
         }
 
-        // [Op]
-        // public static ApiMembers jit(IApiCatalog catalog, IWfEventTarget log)
-        // {
-        //     var @base = Process.GetCurrentProcess().MainModule.BaseAddress;
-        //     var parts = catalog.Parts;
-        //     var kParts = parts.Length;
-        //     var all = list<ApiMembers>();
-        //     var total = 0u;
-        //     foreach(var part in parts)
-        //         all.Add(ClrJit.jit(part, log));
-
-        //     return ApiQuery.members(all.SelectMany(x => x).Array());
-        // }
-
         [Op]
         public static ApiMembers jit(IPart src, IWfEventTarget log)
         {
             var buffer = list<ApiMember>();
-            var catalog = ApiLoader.catalog(src.Owner);
+            var catalog = ApiRuntime.catalog(src.Owner);
 
             var types = catalog.ApiTypes;
             foreach(var t in types)
@@ -196,7 +164,7 @@ namespace Z0
 
         [Op]
         public static ApiMembers jit(Assembly src, IWfEventTarget log)
-            => jit(ApiLoader.catalog(src), log);
+            => jit(ApiRuntime.catalog(src), log);
 
         [Op]
         public static MethodInfo[] complete(Type src, HashSet<string> exclusions)

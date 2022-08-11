@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly record struct ClrPrimitiveInfo : ITextual
+    public readonly record struct ClrPrimitiveInfo : IExpr
     {
         public readonly PrimalKind Kind;
 
@@ -21,6 +21,18 @@ namespace Z0
             Width = width;
             Sign = sign;
             TypeCode = tc;
+        }
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Kind == 0;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Kind != 0;
         }
 
         public string Format()

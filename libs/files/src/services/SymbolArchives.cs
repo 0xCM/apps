@@ -6,7 +6,7 @@ namespace Z0
 {
     using static EnvFolders;
 
-    public readonly struct SymbolArchives : IDbArchive
+    public readonly struct SymbolArchives : ISymbolArchives
     {
         public static SymbolArchives create(IDbArchive src)
             => new SymbolArchives(src.Root);

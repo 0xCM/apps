@@ -7,8 +7,10 @@ namespace Z0
     [Free]
     public interface IApiCatalog
     {
-        Index<IApiPartCatalog> PartCatalogs(params PartId[] parts);
+        //Index<IApiPartCatalog> PartCatalogs(params PartId[] parts);
 
+        ApiPartCatalogs PartCatalogs {get;}
+        
         Index<IApiHost> PartHosts(params PartId[] parts);
 
         IPart[] Parts {get;}
@@ -18,8 +20,6 @@ namespace Z0
         Index<Assembly> Components {get;}
 
         ReadOnlySpan<string> ComponentNames {get;}
-
-        ApiPartCatalogs Catalogs {get;}
 
         bool PartCatalog(PartId part, out IApiPartCatalog catalog);
 

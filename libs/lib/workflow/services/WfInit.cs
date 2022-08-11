@@ -4,28 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    /// <summary>
-    /// Captures workflow configuration data
-    /// </summary>
-    public class WfInit
+    public record class WfInit
     {
-        public Assembly Control;
-
-        public PartId ControlId;
-
         public LogSettings LogConfig;
 
-        public IApiParts ApiParts;
+        public IApiCatalog ApiCatalog;
 
         public IJsonSettings Settings;
 
-        public string[] Args;
-
-        public PartName AppName;
-
         public TokenDispenser Tokens;
-
-        public PartToken Ct;
 
         public IEventBroker EventBroker;
 

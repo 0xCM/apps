@@ -51,11 +51,14 @@ namespace Z0
         public void Status(string pattern, params object[] args)
             => Wf.Status(HostType, string.Format(pattern, args));
 
-        public void Warn<T>(T content)
-            => Wf.Warn(HostType, content);
+        public void Warn<T>(T content, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
+            => Wf.Warn(content, caller, file, line);
 
-        public void Warn(string pattern, params object[] args)
-            => Wf.Warn(HostType, string.Format(pattern, args));
+        // public void Warn(string msg, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
+        //     => Wf.Warn(HostType, msg, caller, file, line);
+
+        // public void Warn(string pattern, object[] args)
+        //     => Wf.Warn(HostType, string.Format(pattern, args));
 
         public void Error<T>(T content, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => Wf.Error(HostType, core.require(content), caller, file, line);

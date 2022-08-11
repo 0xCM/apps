@@ -14,9 +14,9 @@ namespace Z0.Asm
                 var m64 = detail.Mode64.Format().Trim();
                 var m32 = detail.Mode32.Format().Trim();
                 if(!(m64 == "Valid" || m64 == "Invalid"))
-                    Warn(string.Format("Invalid 64-bit mode specifier for {0}", detail.AsmSig.Format().Trim()));
+                    Warn($"Invalid 64-bit mode specifier for {detail.AsmSig.Format().Trim()}");
                 if(!(m32 == "Valid" || m32 == "Invalid"))
-                    Warn(string.Format("Invalid 32-bit mode specifier for {0}", detail.AsmSig.Format().Trim()));
+                    Warn($"Invalid 32-bit mode specifier for {detail.AsmSig.Format().Trim()}");
             }
         }
 

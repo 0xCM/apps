@@ -54,7 +54,7 @@ namespace Z0
             }
 
             if(counter == 0)
-                Warn(string.Format("No jobs identified by '{0}'", match));
+                Warn($"No jobs identified by '{match}'");
         }
 
         protected virtual string PromptTitle {get;}

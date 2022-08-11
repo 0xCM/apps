@@ -105,7 +105,7 @@ namespace Z0.Asm
 
                     if(empty(name))
                     {
-                        Warn(string.Format("Unnamed column with content '{0}'", content));
+                        Warn($"Unnamed column with content '{content}'");
                         continue;
                     }
                     switch(name)

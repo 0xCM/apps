@@ -68,27 +68,33 @@ namespace Z0
             }
         }
 
-        public ReadOnlySpan<string> ReadUserStrings(PartId part)
+        // public ReadOnlySpan<string> ReadUserStrings(PartId part)
+        // {
+        //     var dst =  ReadOnlySpan<string>.Empty;
+        //     if(Reader(part, out var reader))
+        //         dst = reader.ReadStrings(CliStringKind.User);
+        //     return dst;
+        // }
+
+        public bool Reader(Assembly src, out CliReader dst)
         {
-            var dst =  ReadOnlySpan<string>.Empty;
-            if(Reader(part, out var reader))
-                dst = reader.ReadStrings(CliStringKind.User);
-            return dst;
+            dst = CliReader.create(src);
+            return true;
         }
 
-        public bool Reader(PartId part, out CliReader dst)
-        {
-            if(ApiMd.Catalog.Assembly(part, out var component))
-            {
-                dst = CliReader.create(component);
-                return true;
-            }
-            else
-            {
-                dst = default;
-                return false;
-            }
-        }
+        // public bool Reader(PartId part, out CliReader dst)
+        // {
+        //     if(ApiMd.Catalog.Assembly(part, out var component))
+        //     {
+        //         dst = CliReader.create(component);
+        //         return true;
+        //     }
+        //     else
+        //     {
+        //         dst = default;
+        //         return false;
+        //     }
+        // }
 
         /// <summary>
         /// Defines a parametric table source over a specified <see cref='Assembly'/>

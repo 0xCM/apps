@@ -24,15 +24,16 @@ namespace Z0
             return result;
         }
 
-        static IServiceCollection configure(IWfRuntime wf, HostBuilderContext context, IServiceCollection services)
+        static IServiceCollection configure(IWfRuntime wf, HostBuilderContext context, IServiceCollection services, string[] args)
         {
             AppController AddController(IServiceProvider provider)
-                => new AppController(wf, provider.GetService<ILogger<AppController>>());
+                => new AppController(wf, provider.GetService<ILogger<AppController>>(), args);
+
             return services.AddHostedService(AddController);
         }
 
         public static IHostBuilder CreateHostBuilder(IWfRuntime wf, string[] args)
             => Host.CreateDefaultBuilder(args)
-                .ConfigureServices((c,s) => configure(wf,c,s));
+                .ConfigureServices((c,s) => configure(wf,c,s, args));
     }
 }
