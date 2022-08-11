@@ -5,6 +5,7 @@
     <PackageReference Include="Microsoft.Extensions.FileSystemGlobbing" Version="$(MsExtVer)" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="$(MsExtVer)" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="$(MsExtVer)" />
-    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="$(MsExtVer)" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Abstractions" Version="$(MsExtVer)" />
   </ItemGroup>
 </Project>

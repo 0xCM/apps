@@ -1,0 +1,13 @@
+@echo off
+set ProjectId=deps
+set ShellId=deps
+set Configuration=Release
+set FrameworkMoniker=net6.0
+set RuntimeIdentifer=win-x64
+set ProjectRoot=%~dp0
+set PhysicalArtifacts=%~dp0..\artifacts\bin\%ProjectId%\%Configuration%\%FrameworkMoniker%\%RuntimeIdentifer%
+set ShellPath=%PhysicalArtifacts%\%ShellId%.exe
+set deps=%ShellPath%
+set Artifacts=%ProjectRoot%artifacts
+set TsBuild=%Artifacts%\ts
+set Reports=%Artifacts%\reports

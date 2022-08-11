@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>deps</AssemblyName>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <StartupObject>deps</StartupObject>
+  </PropertyGroup>
+
+  <Import Project="$(ImportDefs)diagnostics.props"/>
+  <Import Project="$(ImportDefs)microsoft.build.props"/>
+  <Import Project="$(ImportDefs)microsoft.codeanalysis.props"/>
+  <Import Project="$(ImportDefs)microsoft.dia.props"/>
+  <Import Project="$(ImportDefs)microsoft.test.props"/>
+
+</Project>

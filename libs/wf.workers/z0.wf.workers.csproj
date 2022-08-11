@@ -7,7 +7,6 @@
     <AssemblyName>zwf</AssemblyName>
   </PropertyGroup>
 
-  <Import Project="$(ImportDefs)microsoft.extensions.props"/>
   <Import Project="$(ImportDefs)usings.props"/>
   <Import Project="$(ImportDefs)shells.props"/>
 

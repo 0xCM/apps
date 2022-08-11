@@ -159,6 +159,10 @@ namespace Z0
 
         public const string il = nameof(il);
 
+        public const string tar = nameof(tar);
+
+        public const string gz = nameof(gz);
+
         public const string extracts = nameof(extracts);
 
         public const string xed = nameof(xed);
@@ -310,6 +314,13 @@ namespace Z0
         public const string ops = nameof(ops);
 
         public const string sln = nameof(sln);
+
+        public const string ico = nameof(ico);
+
+        public const string bmp = nameof(bmp);
+        public const string svg = nameof(svg);
+
+        public const string bitmap = nameof(bitmap);
 
         public const string sorted = nameof(sorted);
 

@@ -1,7 +1,5 @@
 <Project>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" IsImplicitlyDefined="true" Version="17.2.0"/>
-    <PackageReference Include="NUnit" IsImplicitlyDefined="true" Version="3.13.1" />
-    <PackageReference Include="NUnit3TestAdapter" IsImplicitlyDefined="true" Version="4.2.1" />
   </ItemGroup>
 </Project>

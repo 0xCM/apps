@@ -17,6 +17,8 @@ dotnet sln %SlnPath% add %SlnLibs%/api.checks/z0.api.checks.csproj
 dotnet sln %SlnPath% add %SlnLibs%/asm.checks/z0.asm.checks.csproj
 dotnet sln %SlnPath% add %SlnLibs%/db.shell/z0.db.shell.csproj
 dotnet sln %SlnPath% add %SlnLibs%/wf.workers/z0.wf.workers.csproj
+dotnet sln %SlnPath% add %SlnLibs%/wf.shell/z0.wf.shell.csproj
+
 dotnet sln %SlnPath% add %SlnLibs%/memory.checks/z0.memory.checks.csproj
 
 dotnet sln %SlnPath% add %SlnShells%/calcs.check/z0.calcs.check.csproj

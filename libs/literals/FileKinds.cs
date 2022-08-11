@@ -7,6 +7,16 @@ namespace Z0
     using static ApiAtomic;
 
     [SymSource(files)]
+    public enum FileSort : byte
+    {
+        None,
+
+        Document,
+
+        binary
+    }
+
+    [SymSource(files)]
     public enum FileKind : uint
     {
         None = 0,
@@ -159,7 +169,7 @@ namespace Z0
         [Symbol(md, "A Mardown document")]
         Md,
 
-        [Symbol(mlir)]
+        [Symbol(mlir, "An LLVM mlir document")]
         Mlir,
 
         [Symbol(mir)]
@@ -228,34 +238,40 @@ namespace Z0
         [Symbol(xeddisasm_detail, "Xed disassembly details in columnar format")]
         XedDisasmDetail,
 
-        [Symbol(zip, "A zip archive file")]
+        [Symbol(zip, "A zip archive binary")]
         Zip,
 
-        [Symbol(env, "An environment configuration file")]
+        [Symbol(env, "An environment configuration document")]
         Env,
 
-        [Symbol(help, "A plaintext tool help file")]
+        [Symbol(help, "A plaintext tool help document")]
         Help,
 
-        [Symbol(dot, "A .dot graph file")]
+        [Symbol(dot, "A .dot graph document")]
         Dot,
 
         [Symbol(kvp, "A text file where each line defines a key-value pair")]
         Kvp,
 
-        [Symbol(yaml)]
+        [Symbol(yaml, "A Yaml file")]
         Yaml,
 
-        [Symbol(props)]
+        [Symbol(props, "A Microsoft Build property document")]
         Props,
 
-        [Symbol(sln)]
+        [Symbol(sln, "A Visual Studio Solution document")]
         Sln,
+
+        [Symbol(bmp, "A bitmap file")]
+        Bmp,
+
+        [Symbol(ico, "An icon file")]
+        Ico,
+
+        [Symbol(svg, "An svg file")]
+        Svg,
 
         [Symbol(cmdkvp, "A file with KVP semantics/syntax refined to specify a sequence of application commands")]
         CmdKvp
-
-
-
     }
 }

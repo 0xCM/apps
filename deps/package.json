@@ -1,0 +1,6 @@
+{
+  "name": "deps",
+  "version": "1.0.0",
+  "main": "src/deps.ts",
+  "license": "MIT"
+}

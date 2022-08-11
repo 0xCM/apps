@@ -16,3 +16,4 @@ repo
 artifacts/
 node_modules
 *.log
+deps/win-x64

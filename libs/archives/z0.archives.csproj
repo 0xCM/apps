@@ -4,7 +4,6 @@
     <OutputType>Library</OutputType>
   </PropertyGroup>
 
-  <Import Project="$(ImportDefs)microsoft.extensions.props"/>
   <Import Project="$(ImportDefs)usings.props"/>
 
   <ItemGroup>
