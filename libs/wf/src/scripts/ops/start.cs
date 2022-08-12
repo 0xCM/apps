@@ -70,6 +70,7 @@ namespace Z0
                 {
                     writer.WriteLine(e.ToString());
                 }
+                term.write("cmd> ", (FlairKind)ConsoleColor.Cyan);
                 return log;
             }
             return Algs.start(run);
@@ -87,19 +88,23 @@ namespace Z0
             {
                 var running = channel.Running($"Executing '{cmd}'");
                 var log = AppDb.Logs("procs").Path(timestamp().Format(),FileKind.Log);
+                var ran = ExecToken.Empty;
                 using var logger = log.AsciWriter();
                 try
                 {
                     var process = Cmd.process(cmd, OnStatus, OnError).Wait();
                     var lines =  Lines.read(process.Output);
                     iter(lines, line => logger.WriteLine(line));
-                    return channel.Ran(running, $"Executed '{cmd}");
+                    ran = channel.Ran(running, $"Executed {text.quote(cmd)}");
                 }
                 catch(Exception e)
                 {
                     logger.WriteLine(e.ToString());
-                    return channel.Ran(running,$"error:cmd='{cmd}, description='{e}");
+                    ran = channel.Ran(running,$"error:cmd='{cmd}, description='{e}'");
                 }
+
+                term.write("cmd> ", (FlairKind)ConsoleColor.Cyan);
+                return ran;
             }
             return Algs.start(run);
         }

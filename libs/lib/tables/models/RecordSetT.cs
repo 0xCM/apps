@@ -67,6 +67,6 @@ namespace Z0
             => src.Storage;
 
         public static RecordSet<T> Empty
-            => new RecordSet<T>(core.array<T>());
+            => new RecordSet<T>(sys.empty<T>());
     }
 }

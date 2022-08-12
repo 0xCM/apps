@@ -19,6 +19,9 @@ namespace Z0
 
             public WfCmd WfCmd(IWfRuntime wf)
                 => Service<WfCmd>(wf);
+
+            public ProjectScripts ProjectScripts(IWfRuntime wf)
+                => Service<ProjectScripts>(wf);
         }
 
         static ServiceCache Services => ServiceCache.Instance;
@@ -35,6 +38,8 @@ namespace Z0
         public static WfCmd WfCmd(this IWfRuntime wf)
             => Services.WfCmd(wf);
 
+        public static ProjectScripts ProjectScripts(this IWfRuntime wf)
+            => Services.ProjectScripts(wf);
 
     }
 }

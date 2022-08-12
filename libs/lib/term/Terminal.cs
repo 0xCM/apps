@@ -14,7 +14,7 @@ namespace Z0
     /// <summary>
     /// Implements a thread-safe/thread-aware terminal abstraction
     /// </summary>
-    public class Terminal : ITerminal
+    public class Terminal //: ITerminal
     {
         [MethodImpl(Inline)]
         public static Terminal Get()
@@ -130,12 +130,8 @@ namespace Z0
             }
         }
 
-        public string ReadLine(IAppMsg msg = null)
-        {
-             if(msg != null)
-                WriteMessage(msg);
-             return Console.ReadLine();
-        }
+        public string ReadLine()
+            => Console.ReadLine();
 
         public string Prompt(object msg)
         {

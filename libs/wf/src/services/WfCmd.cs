@@ -12,6 +12,8 @@ namespace Z0
     {
         WsRegistry WsRegistry => Wf.WsRegistry();
 
+        ProjectScripts ProjectScripts => Wf.ProjectScripts();
+
         [CmdOp("files")]
         void ListFiles(CmdArgs args)
         {
@@ -28,6 +30,14 @@ namespace Z0
             iter(links, r=> Write(r.Format()));
         }
 
+        [CmdOp("scripts")]
+        void Scripts(CmdArgs args)
+            => iter(ProjectScripts.List(args), path => Emitter.Write(path.ToUri()));
+
+        [CmdOp("scripts/cmd")]
+        void Script(CmdArgs args)
+            => ProjectScripts.Start(args);
+
         [CmdOp("jobs/types")]
         void ListJobTypes()
         {
@@ -39,8 +49,6 @@ namespace Z0
 
             jobs.Root.Folders(true).Iter(f => Write(f.Format()));
         }
-
-        // archives/zip D:\Drives\Z\db\capture\2022-08-06.10.29.21.749 capture
 
         [CmdOp("env/thread")]
         Outcome ShowThread(CmdArgs args)
@@ -83,8 +91,8 @@ namespace Z0
                 emitter.Append(args[i].Value);
             }
             
-            var cmd = Cmd.cmdline(path,CmdKind.Tool, emitter.Emit());        
-            CmdScripts.start(cmd);        
+            var cmd = Cmd.cmdline(path, CmdKind.Tool, emitter.Emit());        
+            CmdScripts.start(cmd, Emitter);        
         }
 
         [CmdOp("cmd/copy")]

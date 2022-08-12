@@ -70,7 +70,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public string Format()
-             => $"{Name}({Data}:{kind(this).Keyword()}) := " + text.enquote(Text);
+             => $"{Name}({Data}:{kind(this).Keyword()}) := " + text.dquote(Text);
 
         public override string ToString()
             => Format();

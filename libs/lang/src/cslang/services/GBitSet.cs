@@ -18,7 +18,7 @@ namespace Z0
                 => text.concat(AsciLetterLoSym.b, TypeDigits(m,n));
 
             public string DeclareLiteral(string name, string value)
-                => $"public const string {name} = {text.enquote(value)};";
+                => $"public const string {name} = {text.dquote(value)};";
 
             /// <summary>
             /// Generates public const string TypeName = "B{m}{n}";

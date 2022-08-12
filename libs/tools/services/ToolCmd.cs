@@ -17,11 +17,10 @@ namespace Z0
         void ListTools()
         {
             var tools = TB.Tools();
-            //var dst = AppDb.App().Path("tools", FileKind.Log);
-            var dst = TB.Location.Path("inventory",FileKind.Env);
+            var dst = AppDb.App().Path("tools",FileKind.Env);
             var emitting = Emitter.EmittingFile(dst);
             var counter = 0u;
-
+            var indent = 0u;
             using var emitter = dst.Emitter();
             for(var i=0; i<tools.Count; i++)
             {
@@ -29,21 +28,31 @@ namespace Z0
                 var location = tool.Location;                
                 var docs = tool.Docs().Files();
                 emitter.AppendLine(RP.PageBreak120);
-                emitter.AppendLine($"Tool={tool.Name}");             
-                emitter.AppendLine($"Home={tool.Location.Root}");
-                emitter.AppendLine("[Docs]");
-                iter(docs, doc => emitter.AppendLine(doc.ToUri().Format()));
-                counter += (4 + docs.Count);
+                emitter.AppendLine($"Tool={tool.Name},");             
+                emitter.AppendLine($"Home={tool.Location.Root},");
+                
+                if(docs.Count != 0)
+                {
+                    emitter.AppendLine("Docs={");
+                    
+                    indent += 4;
+
+                    iteri(docs.View, (i,doc) => emitter.IndentLine(indent, $"{text.quote(doc.ToUri())},"));
+                    counter += (4 + docs.Count);
+                    indent -= 4;
+                    emitter.AppendLine("},");
+                }
 
                 var envpath = tool.Location.Path(tool.Name, FileKind.Env);
                 if(envpath.Exists)
                 {
-                    emitter.AppendLine("[Env]");
-                    emitter.AppendLine($"ConfigPath={envpath.ToUri()}");
+                    emitter.AppendLine($"ConfigPath={text.quote(envpath.ToUri())},");
                     var settings = Tooling.settings(envpath);
                     emitter.WriteLine("Settings={");
-                    emitter.Write(settings.Format(4));
+                    indent += 4;
+                    emitter.Write(settings.Format(indent));
                     emitter.WriteLine("}");
+                    indent -= 4;
                     counter += 2*6;
                 }
             }

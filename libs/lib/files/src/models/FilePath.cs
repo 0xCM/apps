@@ -223,7 +223,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public string Format(PathSeparator sep, bool quote = false)
-                => quote ? text.enquote(Name.Format(sep)) : Name.Format(sep);
+                => quote ? text.dquote(Name.Format(sep)) : Name.Format(sep);
 
             [MethodImpl(Inline)]
             public FileUri ToUri()

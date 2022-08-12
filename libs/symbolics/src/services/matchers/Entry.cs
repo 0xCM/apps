@@ -26,7 +26,7 @@ namespace Z0
             }
 
             public string Format()
-                => string.Format("[{0}, {1}, {2}, <{3}>", Key, text.enquote(Target), Length, Indices);
+                => string.Format("[{0}, {1}, {2}, <{3}>", Key, text.dquote(Target), Length, Indices);
 
             public override string ToString()
                 => Format();

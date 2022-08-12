@@ -4,10 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class text
+    partial struct term
     {
-        // [MethodImpl(Inline), Op]
-        // public static TextArea area(LineNumber minline, ushort mincol, LineNumber maxline, ushort maxcol)
-        //     =>  new TextArea(minline, mincol, maxline,maxcol);
+        /// <summary>
+        /// Reads a line of text from the terminal after printing a supplied message
+        /// </summary>
+        public static string prompt(object msg)
+            => T.Prompt(msg);
     }
 }

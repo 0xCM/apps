@@ -12,10 +12,10 @@ namespace Z0
         /// <param name="src">The string to evaluate</param>
         [MethodImpl(Inline), Op]
         public static bool blank(string src)
-            => string.IsNullOrWhiteSpace(src);
+            => sys.blank(src);
 
         [MethodImpl(Inline), Op]
         public static bool blank(ReadOnlySpan<char> src)
-            => blank(new string(src));
+            => sys.blank(src);
     }
 }

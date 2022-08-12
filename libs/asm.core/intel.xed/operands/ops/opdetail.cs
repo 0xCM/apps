@@ -66,7 +66,7 @@ namespace Z0
 
             var expr = op.SourceExpr.Value;
             var exprFmt = op.SourceExpr.Format();
-            Demand.lteq(text.squote(exprFmt), exprFmt.Length, asci64.Size);
+            Demand.lteq(text.quote(exprFmt), exprFmt.Length, asci64.Size);
             dst.SourceExpr = expr;
             return dst;
         }

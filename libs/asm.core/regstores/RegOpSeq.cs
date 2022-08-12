@@ -85,7 +85,7 @@ namespace Z0.Asm
         public string ToNameArray(string name)
         {
             const string Pattern = "string[] {0} = new string[]{1};";
-            return string.Format(Pattern, name, text.embrace(View.Map(x => text.enquote(x.Name.Format().Trim())).Delimit(Chars.Comma).Format()));
+            return string.Format(Pattern, name, text.embrace(View.Map(x => text.dquote(x.Name.Format().Trim())).Delimit(Chars.Comma).Format()));
         }
     }
 }

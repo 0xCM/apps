@@ -7,9 +7,6 @@ namespace Z0
     partial class text
     {
         public static string quote<T>(T src)
-            => enclose(src, CharText.Quote);
-
-        public static string squote<T>(T src)
             => enclose(src, CharText.SQuote);
     }
 }

@@ -36,7 +36,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline), Op]
         public static AsmDirectiveOp operand(string src)
-            => text.enquote(src);
+            => text.dquote(src);
 
         [MethodImpl(Inline), Op]
         public static AsmDirectiveOp operand(Hex8 src)

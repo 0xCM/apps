@@ -1,7 +1,6 @@
 //-----------------------------------------------------------------------------
-// Derivative Work based on https://github.com/intelxed/xed
-// Author : Chris Moore
-// License: https://github.com/intelxed/xed/blob/main/LICENSE
+// Copyright   :  (c) Chris Moore, 2020
+// License     :  MIT
 //-----------------------------------------------------------------------------
 namespace Z0
 {
@@ -107,49 +106,14 @@ namespace Z0
             return result;
         }
 
-        protected Outcome LoadProject(IProjectWorkspace src)
-        {
-            var result = Outcome.Success;
-            if (src == null)
-                result = Outcome.fail("Project unspecified");
-            else
-            {
-                var dir = src.Home();
-                result = dir.Exists;
-                if (result)
-                    Files(src.SourceFiles());
-                else
-                    result = Outcome.fail($"{src.ProjectId} not found"); ;
-            }
-            return result;
-        }
-
-        // public void Babble<T>(T content)
-        //     => Emitter.Babble(content);
-
         public new void Babble(string pattern, params object[] args)
             => Emitter.Babble(pattern, args);
 
         public new void Status<T>(T content, FlairKind flair = FlairKind.Status)
             => Emitter.Status(content, flair);
 
-        // public void Status(ReadOnlySpan<char> src, FlairKind flair = FlairKind.Status)
-        //     => Emitter.Status(src, flair);
-
-        // public void Status(FlairKind flair, string pattern, params object[] args)
-        //     => Emitter.Status(pattern, flair, args);
-
-        // public void Status(string pattern, params object[] args)
-        //     => Emitter.Status(pattern, args);
-
         public void Warn<T>(T content, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => Emitter.Warn(content, caller, file, line);
-
-        // public void Warn(string msg, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
-        //     => Emitter.Warn(msg, caller, file, line);
-
-        // public new void Warn(string msg, object[] args)
-        //     => Emitter.Warn(msg, args);
 
         public new void Error<T>(T content, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => Emitter.Error(content, caller, file, line);
@@ -184,26 +148,17 @@ namespace Z0
         public new ExecToken Ran<T>(WfExecFlow<T> flow, [CallerName] string msg = null)
             => Emitter.Ran(flow, msg);
 
-        // public ExecToken Ran<T>(WfExecFlow<T> flow, string msg, FlairKind flair = FlairKind.Ran)
-        //     => Emitter.Ran(flow, msg, flair);
-
         public ExecToken Ran<T, D>(WfExecFlow<T> src, D data)
             => Emitter.Ran(src, data);
 
         public new FileWritten EmittingFile(FS.FilePath dst)
             => Emitter.EmittingFile(dst);
 
-        // public new ExecToken EmittedFile(FileWritten flow, Count count)
-        //     => Emitter.EmittedFile(flow, count);
-
         public ExecToken EmittedFile(FileWritten flow, int count)
             => Emitter.EmittedFile(flow, count);
 
         public ExecToken EmittedFile(FileWritten flow, uint count)
             => Emitter.EmittedFile(flow, count);
-
-        // public ExecToken EmittedFile<T>(FileWritten flow, T msg)
-        //     => Emitter.EmittedFile(flow, msg);
 
         public ExecToken EmittedBytes(FileWritten flow, ByteSize size)
             => Emitter.EmittedBytes(flow, size);

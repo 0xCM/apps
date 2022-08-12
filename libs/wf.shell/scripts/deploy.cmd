@@ -1,7 +1,7 @@
 @echo off
 call %~dp0..\config.cmd
-call %BuildProject%
+call %DeployShell%
 
 if errorlevel 1 goto:eof
 echo Actor=%ShellId%
-echo ShellPath=%ProjectShell%
+echo ShellPath=%DeployedShell%

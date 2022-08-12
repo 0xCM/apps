@@ -1,38 +1,53 @@
 @echo off
 
+set BuildPrefix=z0
+set SlnVersion=0.0.1
+set VersionSuffix=1
+set BuildPlatform="Any CPU"
+set FrameworkMoniker=net6.0
+set TargetFramework=%FrameworkMoniker%
+set BuildKind=Release
+set RuntimeMoniker=win-x64
+
 set SlnId=z0
 set SlnRoot=%~dp0
+set AreaRoot=%SlnRoot%%Area%
 set Artifacts=%SlnRoot%artifacts
+set Reports=%Artifacts%\reports
+set Distributions=%Artifacts%\dist
+set Deployments=%Views%\tools\z0
+
+set ProjectDist=%Distributions%\%ProjectId%
+
+set BuildLogs=%Artifacts%\logs
 set SlnScripts=%SlnRoot%scripts
 set Archives=%Views%\archives
 set RepoArchives=%Archives%\repos
 set RepoArchive=%RepoArchives%\%SlnId%.zip
 set CommitLog=%RepoArchives%\%SlnId%.commit.log
 
-set ZVersion=0.0.0.2
-set BuildPlatform="Any CPU"
-set FrameworkMoniker=net6.0
-set TargetFramework=%FrameworkMoniker%
-set BuildKind=Release
-set RuntimeMoniker=win-x64
-set BuildVerbosity=normal
+set ImportDefs=%SlnRoot%\props\
+set AppSettings=%ImportDefs%app.settings.csv
+
+set ProjectRoot=%SlnRoot%\%Area%\%ProjectId%
+set ProjectSlnFile=%BuildPrefix%.%ProjectId%.sln
+set ProjectFile=%BuildPrefix%.%ProjectId%.csproj
+set ProjectScripts=%ProjectRoot%\scripts
+set ProjectPath=%ProjectRoot%\%BuildPrefix%.%ProjectId%.csproj
+set ProjectSln=%ProjectRoot%\%BuildPrefix%.%ProjectId%.sln
+set ProjectBin=%Artifacts%\bin\%BuildPrefix%.%ProjectId%
+set ProjectObj=%Artifacts%\obj\%BuildPrefix%.%ProjectId%
+set ProjectShell=%ProjectBin%\%Configuration%\%TargetFramework%\%RuntimeIdentifier%\%ShellId%.exe
+set ProjectPubs=%Distributions%\%ProjectId%
+set PublishedShell=%ProjectPubs%\%ShellId%.exe
+set DeployedShell=%Deployments%\%ProjectId%\%ShellId%.exe
+
 set BuildProps=/p:Configuration=%BuildKind% /p:Platform=%BuildPlatform%
 
-set ShellRoot=%SlnRoot%shells
 set TestRoot=%SlnRoot%test
 set LibRoot=%SlnRoot%libs
-set ShellWs=%SlnRoot%shells
-set AreaRoot=%SlnRoot%%Area%
 set SlnPath=%AreaRoot%\z0.%Area%.sln
 set BuildLogs=%Artifacts%\logs
-
-set ProjectSlnFile=z0.%ProjectId%.sln
-set ProjectBin=%Artifacts%\bin\z0.%ProjectId%
-set ProjectObj=%Artifacts%\obj\z0.%ProjectId%
-set ProjectFile=z0.%ProjectId%.csproj
-set ProjectHome=%SlnRoot%\%Area%\%ProjectId%
-set ProjectPath=%ProjectHome%\z0.%ProjectId%.csproj
-set ProjectSln=%ProjectHome%\z0.%ProjectId%.sln
 
 set CleanProjectBin=rmdir %ProjectBin% /s/q
 set CleanProjectObj=rmdir %ProjectObj% /s/q
@@ -44,39 +59,30 @@ set CgRoot=%SlnRoot%cg
 set WsBin=%Artifacts%\bin
 set TestLog=%BuildLogs%\z0.%ProjectId%.tests.trx
 set BuildTool=dotnet build
-set PublishTool=dotnet publish -c %BuildKind%
 set PackageTool=dotnet pack --include-symbols --include-source
 
-set RootSlnLogPath=%BuildLogs%\z0.sln.binlog
+set RootSlnLogPath=%BuildLogs%\%BuildPrefix%.sln.binlog
 set RootSlnLogSpec=-bl:%RootSlnLogPath%
 
 set RootSlnPath=%SlnRoot%\z0.sln
 set SlnRootPath=%SlnRoot%\z0.sln
-set PublishCmd=%PublishTool% %RootSlnPath%
-set BuildLog=%BuildLogs%\z0.%ProjectId%.log
-set SlnBuildLog=%BuildLogs%\z0.%SlnId%.log
+set BuildLog=%BuildLogs%\%BuildPrefix%.%ProjectId%.log
+set SlnBuildLog=%BuildLogs%\%BuildPrefix%.%SlnId%.log
 
-set BinLogPath=%BuildLogs%\z0.%ProjectId%.binlog
-set BinLogSpec=-bl:%BinLogPath%
-
-set ImportDefs=%SlnRoot%\props\
-set AppSettings=%ImportDefs%app.settings.csv
-
-set ControlScripts=%Views%\control\.cmd
+set BuildLogPath=%BuildLogs%\%BuildPrefix%.%ProjectId%.binlog
+set BuildLogSpec=-bl:%BuildLogPath%
 
 set BuildOptions=-graph:true -m:24
 
-set BuildProject=%BuildTool% %ProjectPath% %BuildProps% %BinLogSpec%; %BuildOptions%
+set BuildProject=%BuildTool% %ProjectPath% %BuildProps% %BuildLogSpec%; %BuildOptions%
 
-set BuildSln=%BuildTool% %SlnPath% %BuildProps% %BinLogSpec%; %BuildOptions%
-set BuildProjectSln=%BuildTool% %ProjectSln% %BuildProps% %BinLogSpec%; %BuildOptions%
-set PublishProject=%PublishTool%
+set BuildSln=%BuildTool% %SlnPath% %BuildProps% %BuildLogSpec%; %BuildOptions%
+set BuildProjectSln=%BuildTool% %ProjectSln% %BuildProps% %BuildLogSpec%; %BuildOptions%
 set PackageProject=%PackageTool% %ProjectPath%
 set PackageSln=%PackageTool% %ProjectSln%
 set PublishSln=%PublishTool% %ProjecSln%
 
-set TargetBuildRoot=%WsBin%\z0.%ProjectId%\%BuildKind%\%TargetFramework%
-set ShellBin=%TargetBuildRoot%\%RuntimeMoniker%\%ShellName%
+set TargetBuildRoot=%ProjectBin%\%BuildPrefix%.%ProjectId%\%BuildKind%\%TargetFramework%
 
 set BuildSlnRoot=%BuildTool% %RootSlnPath% %BuildProps% %RootSlnLogSpec%; %BuildOptions%
 
@@ -88,34 +94,24 @@ set DllShellPath=%DllShellBin%\z0.%ProjectId%.exe
 set shell=%ShellExePath%
 set dllshell=%DllShellPath%
 
-set LibPath=%TargetBuildRoot%\%LibName%
-set LibProject=%LibRoot%\%ProjectId%
-set LibProjectPath=%LibProject%\%ProjectFile%
-set BuildLib=%BuildTool% %LibProjectPath% %BuildProps% %BinLogSpec%; %BuildOptions%
-
 set CmdShellRoot=%SlnRoot%\cmd
 set CmdProject=%CmdShellRoot%\z0.cmd.csproj
-set CmdShellLog=%BinLogSpec%
-set BuildCmdShell=%BuildTool% %CmdProject% %BuildProps% %BinLogSpec%; %BuildOptions%
+set BuildCmdShell=%BuildTool% %CmdProject% %BuildProps% %BuildLogSpec%; %BuildOptions%
 set ShellArtifacts=%TargetBuildRoot%\%RuntimeMoniker%
 set ShellPath=%ShellArtifacts%\%ShellId%.exe
+set ZCmdDir=%SlnRoot%cmd\%BuildPrefix%.cmd\%BuildKind%\%TargetFramework%\%RuntimeMoniker%
 
 set SlnLibs=%SlnRoot%\libs
 set SlnShells=%SlnRoot%\shells
 set SlnCg=%SlnRoot%\cg
 set SlnTests=%SlnRoot%\test
 
-set ZCmdDir=%WsBin%\z0.cmd\%BuildKind%\%TargetFramework%\%RuntimeMoniker%
-set zcmd=%ZCmdDir%\zcmd.exe
-set zcmd-pub=%WsBin%\z0.cmd\%BuildKind%\%TargetFramework%\%RuntimeMoniker%\publish\zcmd.exe
+set ShellDeployment=%Deployments%\%ShellId%
 
 set CleanBuild=rmdir %Artifacts% /s/q
-
 set AddSln=%~dp0sln-add.cmd
-
-set PubRoot=%Views%\tools\z0
-set ShellPubRoot=%PubRoot%\%ShellId%
-set PublishShell=dotnet publish %ProjectPath% --output %ShellPubRoot%
+set PulishProject=dotnet publish %ProjectPath% --output %ProjectDist% --configuration %Configuration% --framework %FrameworkMoniker% --version-suffix %VersionSuffix%
+set PublishShell=dotnet publish %ProjectPath% --output %ProjectDist% --configuration %Configuration% --framework %FrameworkMoniker% --version-suffix %VersionSuffix%
+set DeployShell=dotnet publish %ProjectPath% --output %ShellDeployment% --configuration %Configuration% --framework %FrameworkMoniker% --version-suffix %VersionSuffix%
 
 mkdir %BuildLogs% 1>nul 2>nul
-

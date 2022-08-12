@@ -42,6 +42,5 @@ namespace Z0
                 _ => Z0.CmdLine.Empty
             };
         }
-
     }
 }

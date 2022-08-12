@@ -4,10 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System.Text;
+
     using C = AsciCode;
 
     [ApiHost]
-    public readonly struct AsciCodes
+    public class AsciCodes
     {
         [MethodImpl(Inline), Op]
         public static ReadOnlySpan<C> whitespace()

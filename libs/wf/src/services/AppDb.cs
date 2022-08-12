@@ -14,7 +14,7 @@ namespace Z0
 
         public static AppDb Service => Instance;
 
-        readonly ProjectArchives WsArchives;
+        readonly ProjectSettings WsArchives;
 
         public static FS.FileName hostfile(ApiHostUri host, FileKind kind)
             => FS.file(string.Format("{0}.{1}", host.Part.Format(), host.HostName), kind);
@@ -85,6 +85,15 @@ namespace Z0
 
         public IDbArchive Catalogs()
             => Datasets.archive(DbRoot().Sources("catalogs"));
+
+        public IDbArchive SlnRoot()
+            => Datasets.archive(setting(WsArchives.Path(Names.SlnRoot), FS.dir));
+
+        public IDbArchive ProjectRoot<T>(string area, T name)
+            => SlnRoot().Scoped($"{area}/{name}");
+
+        public IDbArchive ProjectLib<T>(T name)
+            => ProjectRoot("libs", name);
 
         public IDbArchive Catalogs(string scope)
             => Catalogs().Scoped(scope);
@@ -194,7 +203,7 @@ namespace Z0
 
         AppDb()
         {
-            WsArchives = ProjectArchives.load();
+            WsArchives = ProjectSettings.load();
         }
 
         static AppDb Instance;

@@ -63,7 +63,7 @@ namespace Z0
             => Hash;
 
         public string Format()
-            => $"{Name}({Data}:{NumericKinds.kind<T>().Keyword()}) := " + text.enquote(Text);
+            => $"{Name}({Data}:{NumericKinds.kind<T>().Keyword()}) := " + text.dquote(Text);
 
         public override string ToString()
             => Format();

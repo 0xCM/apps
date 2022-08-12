@@ -50,7 +50,7 @@ namespace Z0
                 var name = member.Name;
                 var tag = member.Definition.Tag<SymbolAttribute>();
                 var symbol = text.ifempty(tag.MapValueOrDefault(t => t.Symbol, name),name);
-                var func = PublicOneLineFunc("string", name, Empty(), text.enquote(symbol));
+                var func = PublicOneLineFunc("string", name, Empty(), text.dquote(symbol));
                 dst.IndentLine(margin, func);
                 dst.AppendLine();
                 counter++;

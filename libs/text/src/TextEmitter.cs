@@ -7,17 +7,6 @@ namespace Z0
     using System.IO;
     using System.Text;
 
-    partial class XTend
-    {
-        [MethodImpl(Inline)]
-        public static ITextEmitter Emitter(this TextWriter src)
-            => new TextWriterWrap(src);
-
-        [MethodImpl(Inline)]
-        public static ITextEmitter Emitter(this StringBuilder src)
-            => new TextBuffer(src);
-    }
-
     public sealed class TextEmitter : TextWriter, ITextEmitter
     {
         [MethodImpl(Inline)]
@@ -180,5 +169,16 @@ namespace Z0
 
         public void IndentFormat<T>(uint margin, string pattern, T src)
             => Target.IndentFormat(margin, pattern,src);
+    }
+
+    partial class XTend
+    {
+        [MethodImpl(Inline)]
+        public static ITextEmitter Emitter(this TextWriter src)
+            => new TextWriterWrap(src);
+
+        [MethodImpl(Inline)]
+        public static ITextEmitter Emitter(this StringBuilder src)
+            => new TextBuffer(src);
     }
 }

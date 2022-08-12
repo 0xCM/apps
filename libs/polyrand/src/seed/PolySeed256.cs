@@ -186,7 +186,7 @@ namespace Z0
         public static void generate()
         {
             static string guid()
-                => text.enquote(Guid.NewGuid().ToString());
+                => text.dquote(Guid.NewGuid().ToString());
 
             for(var i = 0; i< 200; i++)
                 Console.WriteLine($"Guid.Parse({guid()}),");

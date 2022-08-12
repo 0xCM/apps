@@ -1,5 +1,5 @@
 <Project>
   <PropertyGroup>
-    <Version>$(ZVersion)</Version>
+    <Version>$(SlnVersion)</Version>
   </PropertyGroup>
 </Project>

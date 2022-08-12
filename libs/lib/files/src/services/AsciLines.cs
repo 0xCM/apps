@@ -12,6 +12,10 @@ namespace Z0
     [Free,ApiHost]
     public class AsciLines
     {
+        [MethodImpl(Inline), Op]
+        static BinaryCode tobytes(string src)
+            => Encoding.ASCII.GetBytes(src);
+
         [Op]
         public static bool next(ref LineReaderState state, out AsciLineCover<byte> dst)
         {
@@ -19,7 +23,7 @@ namespace Z0
             var line = state.Source.ReadLine();
             if(line == null)
                 return false;
-            var data = text.asci(line).Storage;
+            var data = tobytes(line).Storage;
             state.LineCount++;
 
             if(AsciLines.number(data, out var length, out var num))
@@ -241,7 +245,7 @@ namespace Z0
                     if(SQ.eol(skip(data, i), skip(data, i + 1)))
                     {
                         length = i - i0;
-                        dst = asci<byte>(text.asci(text.slice(src, i0, length)).View);
+                        dst = asci<byte>(tobytes(text.slice(src, i0, length)).View);
                         i+=2;
                         break;
                     }

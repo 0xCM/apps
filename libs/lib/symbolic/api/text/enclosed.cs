@@ -8,7 +8,6 @@ namespace Z0
     {
         [Op]
         public static ClosedInterval<int> enclosed(string src, int offset, Fence<char> fence)
-            => SQ.enclosed(src,offset,fence);
-
+            => SQ.enclosed(src, offset, fence);
    }
 }

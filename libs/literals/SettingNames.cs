@@ -25,6 +25,8 @@ namespace Z0
 
         public const string Archives = nameof(Archives);
 
+        public const string SlnRoot = nameof(SlnRoot);
+
         public const string Control = nameof(Control);
 
         public const string EnvConfig = nameof(EnvConfig);
