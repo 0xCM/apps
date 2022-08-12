@@ -2,12 +2,13 @@
 
 set BuildPrefix=z0
 set SlnVersion=0.0.1
-set VersionSuffix=1
-set BuildPlatform="Any CPU"
+set VersionSuffix=3
+set Platform="Any CPU"
 set FrameworkMoniker=net6.0
 set TargetFramework=%FrameworkMoniker%
 set BuildKind=Release
 set RuntimeMoniker=win-x64
+set Configuration=Release
 
 set SlnId=z0
 set SlnRoot=%~dp0
@@ -15,9 +16,11 @@ set AreaRoot=%SlnRoot%%Area%
 set Artifacts=%SlnRoot%artifacts
 set Reports=%Artifacts%\reports
 set Distributions=%Artifacts%\dist
+set Packages=%Artifacts%\packages
 set Deployments=%Views%\tools\z0
 
 set ProjectDist=%Distributions%\%ProjectId%
+set PackageDist=%Packages%
 
 set BuildLogs=%Artifacts%\logs
 set SlnScripts=%SlnRoot%scripts
@@ -42,8 +45,7 @@ set ProjectPubs=%Distributions%\%ProjectId%
 set PublishedShell=%ProjectPubs%\%ShellId%.exe
 set DeployedShell=%Deployments%\%ProjectId%\%ShellId%.exe
 
-set BuildProps=/p:Configuration=%BuildKind% /p:Platform=%BuildPlatform%
-
+set BuildProps=/p:Configuration=%Configuration% /p:Platform=%Platform%
 set TestRoot=%SlnRoot%test
 set LibRoot=%SlnRoot%libs
 set SlnPath=%AreaRoot%\z0.%Area%.sln
@@ -108,10 +110,13 @@ set SlnTests=%SlnRoot%\test
 
 set ShellDeployment=%Deployments%\%ShellId%
 
+set PackageFlags=--include-symbols --include-source
 set CleanBuild=rmdir %Artifacts% /s/q
 set AddSln=%~dp0sln-add.cmd
-set PulishProject=dotnet publish %ProjectPath% --output %ProjectDist% --configuration %Configuration% --framework %FrameworkMoniker% --version-suffix %VersionSuffix%
+set PublishLib=dotnet publish %ProjectPath% --output %ProjectDist% --configuration %Configuration% --framework %FrameworkMoniker% --version-suffix %VersionSuffix%
 set PublishShell=dotnet publish %ProjectPath% --output %ProjectDist% --configuration %Configuration% --framework %FrameworkMoniker% --version-suffix %VersionSuffix%
 set DeployShell=dotnet publish %ProjectPath% --output %ShellDeployment% --configuration %Configuration% --framework %FrameworkMoniker% --version-suffix %VersionSuffix%
+set PackageLib=dotnet pack %ProjectPath% --output %PackageDist% --configuration %Configuration% --version-suffix %VersionSuffix% %PackageFlags%
+set PackagePath=%PackageDist%\%BuildPrefix%.%ProjectId%.%SlnVersion%.nupkg
 
 mkdir %BuildLogs% 1>nul 2>nul
