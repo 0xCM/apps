@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <Import Project="$(ImportDefs)shells.props"/>
-  <Import Project="$(ImportDefs)usings.props"/>
+  <Import Project="$(ProjectProps)usings.props"/>
 
   <ItemGroup>
     <ProjectReference Include="$(Tools)" />

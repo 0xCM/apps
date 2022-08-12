@@ -1,6 +1,0 @@
-<Project>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Build.Runtime" Version="$(MsBuildVer)" />
-    <PackageReference Include="MSBuild.StructuredLogger" Version="2.1.669" />
-  </ItemGroup>
-</Project>

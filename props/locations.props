@@ -1,8 +1,8 @@
 <Project>
   <PropertyGroup>
     <SlnLibs>$(SlnRoot)libs\</SlnLibs>
-    <ImportDefs>$(SlnRoot)props\</ImportDefs>
-    <DependencyDefs>$(ImportDefs)deps\</DependencyDefs>
+    <ProjectProps>$(SlnRoot)props\</ProjectProps>
+    <ImportDefs>$(ProjectProps)deps\</ImportDefs>
     <EnvConfig>$(SlnRoot)env\</EnvConfig>
     <SlnBuild>$(SlnRoot)artifacts\</SlnBuild>
     <SlnBin>$(SlnBuild)bin\</SlnBin>

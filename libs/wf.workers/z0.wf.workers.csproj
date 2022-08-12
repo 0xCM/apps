@@ -7,8 +7,8 @@
     <AssemblyName>zwf</AssemblyName>
   </PropertyGroup>
 
-  <Import Project="$(ImportDefs)usings.props"/>
-  <Import Project="$(ImportDefs)shells.props"/>
+  <Import Project="$(ProjectProps)usings.props"/>
+  <Import Project="$(ProjectProps)shells.props"/>
 
   <ItemGroup>
     <ProjectReference Include="$(Archives)" />

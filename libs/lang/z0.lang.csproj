@@ -5,8 +5,8 @@
     <TargetFramework>$(FrameworkMoniker)</TargetFramework>
   </PropertyGroup>
 
-  <Import Project="$(DependencyDefs)microsoft.codeanalysis.props"/>
-  <Import Project="$(DependencyDefs)microsoft.build.props"/>
+  <Import Project="$(ImportDefs)microsoft.codeanalysis.props"/>
+  <Import Project="$(ImportDefs)microsoft.build.props"/>
 
   <ItemGroup>
     <ProjectReference Include="$(Assets)" />

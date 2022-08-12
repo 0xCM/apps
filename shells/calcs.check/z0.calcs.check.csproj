@@ -7,7 +7,7 @@
     <ShellRoot>$(ShellCommon)</ShellRoot>
   </PropertyGroup>
 
-  <Import Project="$(ImportDefs)shells.props"/>
+  <Import Project="$(ProjectProps)shells.props"/>
 
   <ItemGroup>
     <ProjectReference Include="$(Services)" />

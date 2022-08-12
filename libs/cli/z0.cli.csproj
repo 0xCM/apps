@@ -5,9 +5,9 @@
     <TargetFramework>$(FrameworkMoniker)</TargetFramework>
   </PropertyGroup>
 
-  <Import Project="$(DependencyDefs)microsoft.diagnostics.props"/>
-  <Import Project="$(DependencyDefs)microsoft.codeanalysis.props"/>
-  <Import Project="$(ImportDefs)usings.props"/>
+  <Import Project="$(ImportDefs)microsoft.diagnostics.props"/>
+  <Import Project="$(ImportDefs)microsoft.codeanalysis.props"/>
+  <Import Project="$(ProjectProps)usings.props"/>
 
   <ItemGroup>
     <ProjectReference Include="$(Diagnostics)"/>

@@ -35,7 +35,7 @@ namespace Z0
             var files = FS.Files.Empty;
             if(args.Count == 0)
             {
-                files = sources.Files(FileKind.Props);
+                files = sources.Files(FileKind.Props, true);
             }
             else
             {

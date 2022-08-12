@@ -29,8 +29,8 @@ set RepoArchives=%Archives%\repos
 set RepoArchive=%RepoArchives%\%SlnId%.zip
 set CommitLog=%RepoArchives%\%SlnId%.commit.log
 
-set ImportDefs=%SlnRoot%\props\
-set AppSettings=%ImportDefs%app.settings.csv
+set ProjectProps=%SlnRoot%\props\
+set AppSettings=%ProjectProps%app.settings.csv
 
 set ProjectRoot=%SlnRoot%\%Area%\%ProjectId%
 set ProjectSlnFile=%BuildPrefix%.%ProjectId%.sln
@@ -99,9 +99,6 @@ set dllshell=%DllShellPath%
 set CmdShellRoot=%SlnRoot%\cmd
 set CmdProject=%CmdShellRoot%\z0.cmd.csproj
 set BuildCmdShell=%BuildTool% %CmdProject% %BuildProps% %BuildLogSpec%; %BuildOptions%
-set ShellArtifacts=%TargetBuildRoot%\%RuntimeMoniker%
-set ShellPath=%ShellArtifacts%\%ShellId%.exe
-set ZCmdDir=%SlnRoot%cmd\%BuildPrefix%.cmd\%BuildKind%\%TargetFramework%\%RuntimeMoniker%
 
 set SlnLibs=%SlnRoot%\libs
 set SlnShells=%SlnRoot%\shells
