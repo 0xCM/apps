@@ -50,10 +50,11 @@ namespace Z0
 
             public FolderPath(PathPart name)
             {
-                if(name.EndsWith(Chars.FSlash) || name.EndsWith(Chars.BSlash))
-                    Name = name.RemoveLast();
-                else
-                    Name = name;
+                Name = normalize(name.EndsWith(Chars.FSlash) || name.EndsWith(Chars.BSlash) ? name.RemoveLast() : name);
+                // if(name.EndsWith(Chars.FSlash) || name.EndsWith(Chars.BSlash))
+                //     Name = name.RemoveLast();
+                // else
+                //     Name = name;
             }
 
             public FS.FolderName FolderName
@@ -61,9 +62,6 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get => FS.folder(Info.Name);
             }
-
-            public FilePath[] Exclude(string substring, string match = null)
-                => Z0.text.nonempty(substring) ? Match(match).Where(f => !f.Name.Contains(substring)) : Match(match);
 
             public FilePath[] Files(FileExt ext, bool recurse = false)
                 => Files(this, ext, recurse);

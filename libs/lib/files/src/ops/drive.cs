@@ -9,7 +9,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static Drive drive(DriveLetter letter)
             => new Drive(letter);
-
+            
         [Op]
         public static Outcome drive(FS.FolderPath src, out Drive dst)
             => drive(src.Format(), out dst);

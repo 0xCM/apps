@@ -8,9 +8,6 @@ namespace Z0
 
     public sealed record class Archives : ApiSet<Archives>
     {
-        // public static string version(byte major, byte minor, byte revision)
-        //     => $"{major}.{minor}.{revision}";
-
         [Api]
         public static ExecToken zip(FS.FolderPath src, FS.FilePath dst, WfEmit channel)
         {

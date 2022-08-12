@@ -7,10 +7,6 @@ namespace Z0
     [ApiHost]
     public class Events
     {
-        // [Op]
-        // public static ErrorEvent<Exception> error(Type host, Exception e, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
-        //     => new ErrorEvent<Exception>(host, e, originate(host, caller,file,line));            
-
         [Op]
         public static StackFrame frame(int index)
             => new StackFrame(index);
@@ -96,10 +92,6 @@ namespace Z0
         public static ErrorEvent<string> error(Type host, Exception e, EventOrigin source)
             => new ErrorEvent<string>(host, e, e.Message, source);
 
-        // [Op, Closures(Closure)]
-        // public static ErrorEvent<T> error<T>(string label, T data, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
-        //     => new ErrorEvent<T>(label, data, originate(caller, caller,file, line ?? 0));
-
         [Op, Closures(UInt64k)]
         public static ErrorEvent<T> error<T>(Type host, T msg, EventOrigin source)
             => new ErrorEvent<T>(host, msg, source);
@@ -108,10 +100,6 @@ namespace Z0
         public static EventOrigin originate(string name, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => new EventOrigin(name, new CallingMember(caller, file, line ?? 0));
 
-        // [Op]
-        // public static EventOrigin originate<T>([CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
-        //     => originate(typeof(T), caller, file, line);
-
         [Op, Closures(Closure)]
         public static EmittingFileEvent emittingFile(Type host, FS.FilePath dst)
             => new EmittingFileEvent(host, dst);
@@ -119,6 +107,10 @@ namespace Z0
         [Op]
         public static EmittedFileEvent emittedFile(Type host, FS.FilePath path, Count count)
             => new EmittedFileEvent(host, path, count);
+
+        [Op]
+        public static EmittedFileEvent emittedFile(Type host, FS.FilePath path)
+            => new EmittedFileEvent(host, path);
 
         [Op]
         public static EmittedFileEvent emittedFile(Type host, FS.FilePath path, ByteSize size)
@@ -145,14 +137,6 @@ namespace Z0
         [Op]
         public static EmittedTableEvent emittedTable(Type host, TableId table, Count count, FS.FilePath dst)
             => new EmittedTableEvent(host, table, count, dst);
-
-        // [Op]
-        // public static ProcessingFileEvent processingFile(Type step, FS.FilePath dst)
-        //     => new ProcessingFileEvent(step, dst);
-
-        // [Op]
-        // public static ProcessedFileEvent processedFile(Type step, FS.FilePath dst)
-        //     => new ProcessedFileEvent(step, dst);
 
         [Op, Closures(Closure)]
         public static RunningEvent<T> running<T>(Type host, T msg)

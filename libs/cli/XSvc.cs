@@ -21,8 +21,8 @@ namespace Z0
             public MsilPipe MsilSvc(IWfRuntime wf)
                 => Service<MsilPipe>(wf);
 
-            public CliCmd CliCmd(IWfRuntime wf)
-                => Service<CliCmd>(wf);
+            public EcmaCmd CliCmd(IWfRuntime wf)
+                => Service<EcmaCmd>(wf);
 
             public RoslnCmd RoslynCmd(IWfRuntime wf)
                 => Service<RoslnCmd>(wf);
@@ -42,7 +42,7 @@ namespace Z0
         public static Cli Cli(this IWfRuntime wf)
             => Services.Cli(wf);
 
-        public static CliCmd CliCmd(this IWfRuntime wf)
+        public static ICmdProvider CliCmd(this IWfRuntime wf)
             => Services.CliCmd(wf);
 
         public static R Roslyn(this IWfRuntime wf)

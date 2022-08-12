@@ -39,10 +39,6 @@ namespace Z0
             return dst.ToArray();
         }
 
-        public void EmitMsil(Assembly src, IApiPack dst)
-        {
-            
-        }
         public void EmitMsil(ReadOnlySpan<IApiHost> src, IApiPack dst)
         {
             var buffer = text.buffer();

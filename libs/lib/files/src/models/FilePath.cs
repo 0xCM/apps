@@ -15,7 +15,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public FilePath(PathPart name)
-                => Name = name;
+                => Name = normalize(name);
 
             public Drive Drive
             {

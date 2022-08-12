@@ -14,13 +14,27 @@ namespace Z0
 
         ProjectScripts ProjectScripts => Wf.ProjectScripts();
 
-        [CmdOp("files")]
-        void ListFiles(CmdArgs args)
+        void CatalogFiles(FS.FolderPath src)
         {
-            var src = FS.dir(arg(args,0));
             var files = FS.listing(src);
-            TableEmit(files, AppDb.Catalogs("files").Table<ListedFile>(Archives.identifier(src)));
+            var name = Archives.identifier(src);
+            var records = AppDb.Catalogs("files").Table<ListedFile>(name);
+            Emitter.TableEmit(files, records);            
+            var list = AppDb.Catalogs("files").Path(name,FileKind.List);
+            var flow = Emitter.EmittingFile(list);
+            using var writer = list.Utf8Writer();
+            var counter = 0u;
+            foreach(var file in files)
+            {
+                writer.AppendLine(file.Path);
+                counter++;
+            }
+            Emitter.EmittedFile(flow,counter);
         }
+
+        [CmdOp("files")]
+        void CatalogFiles(CmdArgs args)
+            => CatalogFiles(FS.dir(arg(args,0)));
 
         void CalcRelativePaths()
         {

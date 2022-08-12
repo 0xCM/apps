@@ -120,6 +120,9 @@ namespace Z0
         public ExecToken EmittedFile<T>(FileWritten flow, T msg)
             => Wf.EmittedFile(flow, msg);
 
+        public ExecToken EmittedFile(FileWritten flow)
+            => Wf.EmittedFile(flow);
+
         public ExecToken EmittedBytes(FileWritten flow, ByteSize size)
             => EmittedFile(flow, AppMsg.EmittedBytes.Capture(size, flow.Target));
 

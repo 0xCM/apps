@@ -112,6 +112,13 @@ namespace Z0
             return ev;
         }
 
+        public EmittedFileEvent EmittedFile(FileWritten ran)
+        {
+            var ev = emittedFile(Source.Type, ran.Target);
+            Raise(ev);
+            return ev;
+        }
+
         public EmittedFileEvent<T> EmittedFile<T>(FS.FilePath dst, T msg)
         {
             var ev = emittedFile(Source.Type, dst, msg);

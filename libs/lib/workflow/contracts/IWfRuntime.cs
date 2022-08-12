@@ -210,6 +210,13 @@ namespace Z0
             return completed;
         }
 
+        ExecToken EmittedFile(FileWritten flow)
+        {
+            var completed = Completed(flow);
+            signal(this).EmittedFile(flow.WithToken(completed));
+            return completed;
+        }
+        
         ExecToken EmittedFile(FileWritten flow, int count)
             => EmittedFile(flow, (Count)count);
 

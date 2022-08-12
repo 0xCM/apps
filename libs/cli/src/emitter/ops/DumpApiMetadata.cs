@@ -10,8 +10,9 @@ namespace Z0
 
     partial class CliEmitter
     {
-        public void EmitMetadump(FS.FilePath src, FS.FilePath dst)
+        public ExecToken EmitMetadump(FS.FilePath src, FS.FilePath dst)
         {
+            var token = ExecToken.Empty;
             try
             {
                 if(ClrModules.valid(src))
@@ -21,7 +22,7 @@ namespace Z0
                     using var pe = ImageMemory.pe(stream);
                     using var target = dst.Writer();
                     Cil.mdv(pe.GetMetadataReader(), target).Visualize();
-                    EmittedFile(flow,1);
+                    token = Emitter.EmittedFile(flow);
                 }
             }
             catch(BadImageFormatException bfe)
@@ -32,6 +33,7 @@ namespace Z0
             {
                 Error(e);
             }
+            return token;
         }
 
         public void EmitApiMetadump(IApiPack dst)

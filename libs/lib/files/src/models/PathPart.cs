@@ -49,16 +49,21 @@ namespace Z0
         public string Format()
             => TextData.Trim();
 
+        [MethodImpl(Inline), Op]
+        static PathPart normalize(string src, PathSeparator sep)
+        {
+            if(sep == PathSeparator.FS)
+                return src.Replace('\\', '/');
+            else
+                return src.Replace('/', '\\');
+        }
+
         [MethodImpl(Inline)]
         public string Format(PathSeparator sep)
-            => FS.normalize(Format(), sep);
+            => normalize(Format(), sep);
 
         public override string ToString()
             => Format();
-
-        [MethodImpl(Inline)]
-        public PathPart[] Split(char delimiter)
-            => TextData.SplitClean(delimiter).Select(from);
 
         public bool IsEmpty
         {

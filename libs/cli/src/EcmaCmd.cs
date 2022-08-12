@@ -5,8 +5,9 @@
 namespace Z0
 {
     using static Spans;
+    using static Algs;
 
-    public class CliCmd : AppCmdService<CliCmd>
+    class EcmaCmd : AppCmdService<EcmaCmd>
     {
         Cli Cli => Wf.Cli();
 
@@ -20,45 +21,72 @@ namespace Z0
         static IApiPack Dst
             => ApiPacks.create();
 
-        [CmdOp("cli/emit/hex")]
+        [CmdOp("ecma/emit/hex")]
         void EmitApiHex()
             => CliEmitter.EmitLocatedMetadata(Dst);
 
-        [CmdOp("cli/emit/refs")]
+        [CmdOp("ecma/emit/refs")]
         void EmitMemberRefs()
             => CliEmitter.EmitRefs(Dst);
 
-        [CmdOp("cli/emit/strings")]
+        [CmdOp("ecma/emit/strings")]
         void EmitStrings()
             => CliEmitter.EmitStrings(Dst);
 
-        [CmdOp("cli/emit/stats")]
+        [CmdOp("ecma/emit/stats")]
         void EmitStats()
             => CliEmitter.EmitRowStats(ApiMd.Assemblies, AppDb.ApiTargets().Table<CliRowStats>());
 
-        [CmdOp("cli/emit/blobs")]
+        [CmdOp("ecma/emit/blobs")]
         void EmitBlobs()
             => CliEmitter.EmitBlobs(Dst);
 
-        [CmdOp("cli/emit/msil")]
+        [CmdOp("ecma/emit/msil")]
         void EmitMsil()
             => Cli.EmitIl(Dst);
 
-        [CmdOp("cli/emit/ildat")]
+        [CmdOp("ecma/emit/ildat")]
         void EmitIlDat()
             => CliEmitter.EmitIlDat(Dst);
 
-        [CmdOp("cli/emit/fields")]
+        [CmdOp("ecma/emit/fields")]
         void EmitFields()
             => CliEmitter.EmitFieldMetadata(Dst);
 
-        [CmdOp("cli/emit/literals")]
+        [CmdOp("ecma/emit/literals")]
         void EmitLiterals()
             => CliEmitter.EmitLiterals(Dst);
 
-        [CmdOp("cli/emit/headers")]
+        [CmdOp("ecma/emit/headers")]
         void EmitHeaders()
             => CliEmitter.EmitSectionHeaders(Dst);
+
+        FS.FilePath EcmaArchive(FS.FilePath src)
+            => AppDb.Archive("ecma").Path(src.FileName.WithExtension(FS.Txt));
+
+        void EmitMetadumps(ReadOnlySeq<ListItem<uint,FS.FilePath>> src)        
+            => iter(src, file => CliEmitter.EmitMetadump(file.Value,EcmaArchive(file.Value)), PllExec);
+
+        static Outcome<FS.FilePath> parse(string src)
+            => FS.path(src);
+
+        [CmdOp("ecma/dump")]
+        void EmitCliDump(CmdArgs args)
+        {
+            foreach(var arg in args)
+            {
+                var value = arg.Value;
+                var src = FS.path(value);
+                if(src.Is(FileKind.List))
+                {
+                    EmitMetadumps(ListArchives.load(src, parse, Emitter));
+                }
+                else
+                {
+                    CliEmitter.EmitMetadump(src, EcmaArchive(src));
+                }
+            }
+        }
 
         [CmdOp("api/emit/corelib")]
         void EmitCorLib()

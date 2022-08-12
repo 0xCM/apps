@@ -78,9 +78,16 @@ namespace Z0
         [Op]
         public static bool valid(FS.FilePath src)
         {
-            using var stream = File.OpenRead(src.Name);
-            using var reader = new PEReader(stream);
-            return reader.HasMetadata;
+            try
+            {
+                using var stream = File.OpenRead(src.Name);
+                using var reader = new PEReader(stream);
+                return reader.HasMetadata;
+            }
+            catch(Exception)
+            {
+                return false;
+            }
         }
 
         [MethodImpl(Inline), Op]
