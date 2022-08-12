@@ -7,10 +7,11 @@
     <StartupObject>deps</StartupObject>
   </PropertyGroup>
 
-  <Import Project="$(ImportDefs)diagnostics.props"/>
-  <Import Project="$(ImportDefs)microsoft.build.props"/>
-  <Import Project="$(ImportDefs)microsoft.codeanalysis.props"/>
-  <Import Project="$(ImportDefs)microsoft.dia.props"/>
-  <Import Project="$(ImportDefs)microsoft.test.props"/>
+  <Import Project="$(DependencyDefs)microsoft.diagnostics.props"/>
+  <Import Project="$(DependencyDefs)microsoft.build.props"/>
+  <Import Project="$(DependencyDefs)microsoft.codeanalysis.props"/>
+  <Import Project="$(DependencyDefs)microsoft.dia.props"/>
+  <Import Project="$(DependencyDefs)microsoft.test.props"/>
+  <Import Project="$(DependencyDefs)llvm.sharp.props"/>
 
 </Project>

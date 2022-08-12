@@ -2,6 +2,7 @@
   <PropertyGroup>
     <SlnLibs>$(SlnRoot)libs\</SlnLibs>
     <ImportDefs>$(SlnRoot)props\</ImportDefs>
+    <DependencyDefs>$(ImportDefs)deps\</DependencyDefs>
     <EnvConfig>$(SlnRoot)env\</EnvConfig>
     <SlnBuild>$(SlnRoot)artifacts\</SlnBuild>
     <SlnBin>$(SlnBuild)bin\</SlnBin>

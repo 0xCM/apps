@@ -11,3 +11,4 @@ set deps=%ShellPath%
 set Artifacts=%ProjectRoot%artifacts
 set TsBuild=%Artifacts%\ts
 set Reports=%Artifacts%\reports
+set DependencyDeps=%~dp0..\props\deps\

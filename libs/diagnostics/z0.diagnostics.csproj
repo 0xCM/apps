@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <Import Project="$(ImportDefs)microsoft.codeanalysis.props"/>
-  <Import Project="$(ImportDefs)diagnostics.props"/>
+  <Import Project="$(ImportDefs)microsoft.diagnostics.props"/>
 
   <ItemGroup>
     <ProjectReference Include="$(ApiCode)" />
