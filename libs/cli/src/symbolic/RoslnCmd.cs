@@ -216,7 +216,7 @@ namespace Z0.Roslyn
             iter(ApiMd.Assemblies, a => EmitMemberSigs(a, Emitter), true);
         }
 
-        static void emit(CaSymbolModels.TypeSymbol type, ITextEmitter dst)
+        static void emit(TypeSymbol type, ITextEmitter dst)
         {
             var indent = 0;
             dst.AppendLine(type);

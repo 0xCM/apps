@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
+    using static Arrays;
 
     partial class StringTables
     {
@@ -20,14 +22,14 @@ namespace Z0
             for(var i=0; i<count; i++)
                 seek(strings, i) = src[i].Value;
             var offset = 0u;
-            var offsets = alloc<uint>(count);
-            var content = alloc<char>(text.length(strings));
+            var offsets = sys.alloc<uint>(count);
+            var content = sys.alloc<char>(text.length(strings));
             var j = 0u;
             for(var i=0u; i<count; i++)
             {
                 ref readonly var entry = ref src[i];
                 seek(offsets, i) = j;
-                StringTables.copy(entry.Value, ref j, content);
+                copy(entry.Value, ref j, content);
             }
             return new StringTable(spec, content, offsets, src.Map(x => x.Value), rows(src));
         }
@@ -40,8 +42,8 @@ namespace Z0
                 seek(strings, src[i].Key) = src[i].Value;
 
             var offset = 0u;
-            var offsets = alloc<uint>(count);
-            var chars = alloc<char>(text.length(strings));
+            var offsets = sys.alloc<uint>(count);
+            var chars = sys.alloc<char>(text.length(strings));
             ref var cuts = ref first(offsets);
             var j = 0u;
             for(var i=0u; i<count; i++)
@@ -58,8 +60,8 @@ namespace Z0
         {
             var count = src.Length;
             var offset = 0u;
-            var offsets = alloc<uint>(count);
-            var chars = alloc<char>(text.length(src));
+            var offsets = sys.alloc<uint>(count);
+            var chars = sys.alloc<char>(text.length(src));
             ref var cuts = ref first(offsets);
             var j = 0u;
             for(var i=0u; i<count; i++)

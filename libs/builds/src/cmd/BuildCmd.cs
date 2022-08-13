@@ -21,11 +21,6 @@ namespace Z0
                 Write(data);
                 FileEmit(data, AppDb.App("build/libs").Path(file.FileName.WithoutExtension.Format(), FileKind.Env), (ByteSize)data.Length);
             });
-
-            // var src = ws.Sources("props").Path(FS.file("projects", FileKind.Props));
-            // var project = BuildSvc.LoadProject(src);
-            // Write(project.Format());
-
         }
 
         [CmdOp("build/props")]
@@ -34,13 +29,9 @@ namespace Z0
             var sources = AppDb.Dev("z0").Sources("props");
             var files = FS.Files.Empty;
             if(args.Count == 0)
-            {
                 files = sources.Files(FileKind.Props, true);
-            }
             else
-            {
                 files = array(sources.Path(FS.file(arg(args,0), FileKind.Props)));
-            }
 
             iter(files, file =>{
                 var project = BuildSvc.LoadProject(file);

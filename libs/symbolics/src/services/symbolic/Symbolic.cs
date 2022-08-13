@@ -4,11 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
+    using static Arrays;
 
     [ApiHost]
     public partial class Symbolic
     {
+        static int SegCount;
+
         const NumericKind Closure = UnsignedInts;
 
         [Op]
@@ -34,8 +38,8 @@ namespace Z0
         {
             var count = 12u;
             var store = Symbolic.store<string>(count);
-            var refs = alloc<SymRef>(count);
-            var found = alloc<string>(count);
+            var refs = sys.alloc<SymRef>(count);
+            var found = sys.alloc<string>(count);
 
             store.Deposit("abc", out var s1);
             store.Deposit("def", out var s2);

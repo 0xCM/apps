@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
+    using static Arrays;
 
     partial class StringTables
     {
@@ -12,7 +14,7 @@ namespace Z0
             where K : unmanaged
         {
             var count = src.Length;
-            var dst = alloc<string>(count);
+            var dst = sys.alloc<string>(count);
             for(var i=0; i<count; i++)
                 seek(dst, i) = src[i].Value;
             return dst;

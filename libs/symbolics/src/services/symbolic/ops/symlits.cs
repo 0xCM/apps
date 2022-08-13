@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
+    using static Arrays;
 
     partial class Symbolic
     {
@@ -12,7 +14,7 @@ namespace Z0
             where E : unmanaged, Enum
         {
             var symbols = Symbols.index<E>().View;
-            var dst = alloc<SymLiteralRow>(symbols.Length);
+            var dst = sys.alloc<SymLiteralRow>(symbols.Length);
             fill<E>(symbols, dst);
             return dst;
         }
@@ -21,7 +23,7 @@ namespace Z0
         public static ReadOnlySeq<SymLiteralRow> symlits(Type src)
         {
             var fields = @readonly(src.LiteralFields());
-            var dst = alloc<SymLiteralRow>(fields.Length);
+            var dst = sys.alloc<SymLiteralRow>(fields.Length);
             fill(src, PrimalBits.kind(src), fields, dst);
             return dst;
         }

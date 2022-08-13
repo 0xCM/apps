@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Spans;
 
     public struct SymStore<T>
     {
@@ -12,7 +12,7 @@ namespace Z0
 
         uint k;
 
-        public readonly uint Segment {get;}
+        public readonly uint Segment;
 
         internal SymStore(uint seg, T[] buffer)
         {
@@ -38,12 +38,12 @@ namespace Z0
             => ref Data[src.Key];
 
         [MethodImpl(Inline)]
-        public bit Deposit(in T src, out SymRef dst)
+        public bool Deposit(in T src, out SymRef dst)
         {
             if(k < Capacity - 1)
             {
                 Data[k] = src;
-                dst = new SymRef((ushort)Segment,(ushort)k);
+                dst = new SymRef((ushort)Segment, (ushort)k);
                 k++;
                 return true;
             }

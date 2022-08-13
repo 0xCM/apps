@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Roslyn;
+    
     using static CaSymbolModels;
     using static core;
 
@@ -68,7 +70,7 @@ namespace Z0
                 => recover<S,CaSymbol>(src);
 
         [MethodImpl(Inline)]
-        public static CaSymbols<T> index<T>(T[] src)
+        public static Roslyn.Symbols<T> index<T>(T[] src)
             where T : ISymbol
                 => src;
 

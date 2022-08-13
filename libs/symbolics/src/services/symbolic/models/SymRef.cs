@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct SymRef
+    [StructLayout(StructLayout)]
+    public readonly record struct SymRef
     {
         public readonly ushort Seg;
 

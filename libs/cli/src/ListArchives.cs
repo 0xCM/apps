@@ -4,17 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Spans;
     using static Algs;
 
     public class ListArchives
     {
         public delegate Outcome<T> ItemParser<T>(string src);
 
-        public static Seq<ListItem<uint,string>> load(FS.FilePath src, WfEmit channel)
+        public static ItemList<uint,string> load(FS.FilePath src, WfEmit channel)
             => load(src, trim, channel);
 
-        public static Seq<ListItem<uint,T>> load<T>(FS.FilePath src, ItemParser<T> parser, WfEmit channel)
+        public static ItemList<uint,T> load<T>(FS.FilePath src, ItemParser<T> parser, WfEmit channel)
         {
             var dst = list<ListItem<uint,T>>();
             var counter = 0u;
@@ -38,8 +37,7 @@ namespace Z0
                     break;
                 }                                
             }
-
-            return dst.ToSeq();            
+            return dst.Array();            
         }
 
         static Outcome<string> trim(string src)

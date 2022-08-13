@@ -2,26 +2,26 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.Roslyn
 {
     using static core;
 
-    public sealed class CaSymbols<T> : CaSymbols<CaSymbols<T>,T>, ICaSymbols<T>
+    public sealed class Symbols<T> : CaSymbols<Symbols<T>,T>, ICaSymbols<T>
         where T : ISymbol
     {
-        public CaSymbols()
+        public Symbols()
         {
 
         }
 
-        public CaSymbols(uint count)
+        public Symbols(uint count)
             : base(count)
         {
 
         }
 
         [MethodImpl(Inline)]
-        public CaSymbols(T[] src)
+        public Symbols(T[] src)
         {
             Data = src;
         }
@@ -45,7 +45,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public static implicit operator CaSymbols<T>(T[] src)
-            => new CaSymbols<T>(src);
+        public static implicit operator Symbols<T>(T[] src)
+            => new Symbols<T>(src);
     }
 }

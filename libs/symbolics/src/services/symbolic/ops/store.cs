@@ -4,18 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
 
     partial class Symbolic
     {
-        static int SegCount;
-
         [Op, Closures(UInt64k)]
         public static SymStore<T> store<T>(ushort capacity)
-            => new SymStore<T>((uint)inc(ref SegCount), alloc<T>(capacity));
+            => new SymStore<T>((uint)inc(ref SegCount), sys.alloc<T>(capacity));
 
         [Op, Closures(UInt64k)]
         public static SymStore<T> store<T>(uint capacity)
-            => new SymStore<T>((uint)inc(ref SegCount), alloc<T>(capacity));
+            => new SymStore<T>((uint)inc(ref SegCount), sys.alloc<T>(capacity));
     }
 }

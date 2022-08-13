@@ -2,10 +2,8 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.Roslyn
 {
-    using static CaSymbolModels;
-
     public readonly struct SymbolicMethod : ICaSymbolArtifact<ClrMethodAdapter,MethodSymbol>
     {
         public readonly ClrMethodAdapter Artifact;

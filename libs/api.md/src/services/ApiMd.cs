@@ -60,7 +60,7 @@ namespace Z0
 
         public Index<SymLiteralRow> LoadSymLits(FS.FilePath src)
         {
-            using var reader = src.TableReader<SymLiteralRow>(SymLiteralRow.parse);
+            using var reader = src.TableReader<SymLiteralRow>(Symbolic.parse);
             var header = reader.Header.Split(Chars.Tab);
             if(header.Length != SymLiteralRow.FieldCount)
             {

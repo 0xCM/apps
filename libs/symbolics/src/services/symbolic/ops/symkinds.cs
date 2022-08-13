@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static Algs;
+    using static Spans;
+    using static Arrays;
 
     public partial class Symbolic
     {
@@ -13,7 +15,7 @@ namespace Z0
         {
             var src = Symbols.index<K>();
             var count = src.Count;
-            var dst = alloc<SymKindRow>(count);
+            var dst = sys.alloc<SymKindRow>(count);
             symkinds(src, dst);
             return dst;
         }

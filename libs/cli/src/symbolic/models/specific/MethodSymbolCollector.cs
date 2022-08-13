@@ -2,10 +2,9 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.Roslyn
 {
     using static Spans;
-    using static CaSymbolModels;
 
     public class MethodSymbolCollector
     {

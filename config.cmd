@@ -124,9 +124,9 @@ set PackagePath=%PackageDist%\%BuildPrefix%.%ProjectId%.%SlnVersion%.nupkg
 set PublishSln=dotnet publish %RootSlnPath% --output %SlnDist% --version-suffix %VersionSuffix%
 set RestoreProject=dotnet restore %ProjectPath% --packages %NuGetDeps% --use-current-runtime --verbosity normal --force-evaluate
 set ProjectNugetConfig=%ProjectRoot%\nuget.config
-set LocalRestore==dotnet restore %ProjectPath% --packages %NuGetDeps% --use-current-runtime --verbosity normal --force-evaluate --configfile %ProjectNugetConfig%
+set LocalRestore=dotnet restore %ProjectPath% --packages %NuGetDeps% --use-current-runtime --verbosity normal --force-evaluate --configfile %ProjectNugetConfig%
 set MimeTypes=%Views%\db\servers\mime.types
-set ServeSln=http-server %SlnRoot% --port 48005 --ext txt --mimetypes %MimeTypes% --gzip --brotli -o
-
+set WsServe=http-server %SlnRoot% --port 48005 --ext txt --mimetypes %MimeTypes% --gzip --brotli -o
+set RestoreDeps=dotnet restore %ProjectProps%deps.props --packages %NuGetDeps% --use-current-runtime --verbosity normal --force-evaluate
 mkdir %BuildLogs% 1>nul 2>nul
 mkdir %NuGetDeps% 1>nul 2>nul
