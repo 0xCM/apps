@@ -4,5 +4,6 @@
     <MsDiaVer>1.6.0</MsDiaVer>
     <MsBuildVer>17.2.0</MsBuildVer>
     <MsExtVer>6.0.0</MsExtVer>
+    <MsDiaRuntimeVer>2.2.332302</MsDiaRuntimeVer>
   </PropertyGroup>
 </Project>

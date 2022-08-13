@@ -26,6 +26,7 @@
     <Archives>$(SlnLibs)archives\z0.archives.csproj</Archives>
 
     <Bits>$(SlnLibs)bits\z0.bits.csproj</Bits>
+    <Builds>$(SlnLibs)builds\z0.builds.csproj</Builds>
 
     <Cli>$(SlnLibs)cli\z0.cli.csproj</Cli>
     <ClrCil>$(SlnLibs)clr.cil\z0.clr.cil.csproj</ClrCil>

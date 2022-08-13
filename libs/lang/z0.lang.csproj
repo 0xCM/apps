@@ -12,6 +12,7 @@
     <ProjectReference Include="$(Assets)" />
     <ProjectReference Include="$(Memory)" />
     <ProjectReference Include="$(Rules)" />
+    <ProjectReference Include="$(Builds)" />
   </ItemGroup>
 
 </Project>

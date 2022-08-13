@@ -25,12 +25,6 @@ namespace Z0
             public GLiteralProvider GenLitProviders(IWfRuntime wf)
                 => Service<GLiteralProvider>(wf);
 
-            public MsBuild BuildSvc(IWfRuntime wf)
-                => Service<MsBuild>(wf);
-
-            public BuildCmd BuildCmd(IWfRuntime wf)
-                => Service<BuildCmd>(wf);
-
             public SymbolFactories SymbolFactories(IWfRuntime wf)
                 => Service<SymbolFactories>(wf);
 
@@ -55,12 +49,6 @@ namespace Z0
 
         public static GLiteralProvider GenLitProviders(this IWfRuntime wf)
             => Services.GenLitProviders(wf);
-
-        public static MsBuild BuildSvc(this IWfRuntime wf)
-            => Services.BuildSvc(wf);
-
-        public static IAppCmdSvc BuildCmd(this IWfRuntime wf)
-            => Services.BuildCmd(wf);
 
         public static SymbolFactories SymbolFactories(this IWfRuntime wf)
             => Services.SymbolFactories(wf);

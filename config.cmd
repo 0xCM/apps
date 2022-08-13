@@ -12,7 +12,7 @@ set TargetFramework=%FrameworkMoniker%
 set BuildKind=Release
 set RuntimeMoniker=win-x64
 set Configuration=Release
-
+set Db=
 set SlnId=z0
 set SlnRoot=%~dp0
 set AreaRoot=%SlnRoot%%Area%
@@ -125,6 +125,8 @@ set PublishSln=dotnet publish %RootSlnPath% --output %SlnDist% --version-suffix 
 set RestoreProject=dotnet restore %ProjectPath% --packages %NuGetDeps% --use-current-runtime --verbosity normal --force-evaluate
 set ProjectNugetConfig=%ProjectRoot%\nuget.config
 set LocalRestore==dotnet restore %ProjectPath% --packages %NuGetDeps% --use-current-runtime --verbosity normal --force-evaluate --configfile %ProjectNugetConfig%
+set MimeTypes=%Views%\db\servers\mime.types
+set ServeSln=http-server %SlnRoot% --port 48005 --ext txt --mimetypes %MimeTypes% --gzip --brotli -o
 
 mkdir %BuildLogs% 1>nul 2>nul
 mkdir %NuGetDeps% 1>nul 2>nul
