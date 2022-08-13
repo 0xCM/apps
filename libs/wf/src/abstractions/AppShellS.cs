@@ -9,5 +9,8 @@ namespace Z0
     {
         protected static S shell(params string[] args)
             => create(ApiRuntime.create(args));
+
+        protected static S shell(bool catalog, params string[] args)
+            => create(ApiRuntime.create(catalog, args));
     }
 }

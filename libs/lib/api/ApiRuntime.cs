@@ -13,6 +13,14 @@ namespace Z0
         public static IWfRuntime create(string[] args)
             => create(match(ExecutingPart.Assembly, args));
 
+        public static IWfRuntime create(bool catalog, params string[] args)
+        {            
+            if(catalog)
+                return create(args);
+            else
+                return  create(ApiRuntimeCatalog.Empty);
+        }
+
         public static IWfRuntime create(IApiCatalog src)
         {
             term.inform(InitializingRuntime.Format(now()));
@@ -86,53 +94,18 @@ namespace Z0
         public static ApiPartCatalog catalog(Assembly src)
             => new ApiPartCatalog(src.Id(), src, complete(src), hosts(src), SvcHostTypes(src));
 
-        // public static IWfRuntime create(IApiParts parts, string[] args)
-        // {
-        //     term.inform(InitializingRuntime.Format(now()));
-        //     var clock = Time.counter(true);
-        //     var control = ExecutingPart.Assembly;
-        //     var id = control.Id();
-        //     var dst = new WfInit();
-        //     dst.Tokens = TokenDispenser.create();
-        //     dst.Settings = JsonSettings.load(control);
-        //     dst.LogConfig = Loggers.configure();
-        //     dst.ApiCatalog = parts.Catalog;
-        //     dst.EventBroker = Events.broker(dst.LogConfig);
-        //     dst.Host = new WfHost(typeof(WfRuntime));
-        //     dst.EmissionLog = Loggers.emission(control);
-        //     var wf = new WfRuntime(dst);
-        //     term.inform(AppMsg.status(InitializedRuntime.Format(now(), clock.Elapsed())));
-        //     return wf;
-        // }
-
-        // public static IApiParts parts()
-        //     => parts(ExecutingPart.Assembly, Environment.GetCommandLineArgs());
-
-        static FS.FolderPath home(Assembly control)
-            => FS.path(control.Location).FolderPath;
 
         static IApiCatalog match(Assembly control, string[] args)
         {
-            var dir = home(control);
-            var libs = ApiRuntime.libs(dir);
-
+            var dir = FS.path(control.Location).FolderPath;
             if(args.Length == 0)
             {
-                var parts = ApiRuntime.assemblies(dir).Select(x => x.Id());
-                return ApiRuntime.catalog(dir, parts);
+                return ApiRuntime.catalog(dir, ApiRuntime.assemblies(dir).Select(x => x.Id()));
             }
             else
             {
                 var ids = ApiRuntime.parts(args);
-                if(ids.Length != 0)
-                {
-                    var _parts = sys.array<PartId>(control.Id());
-                    return ApiRuntime.catalog(dir,_parts);
-                }
-                else
-                {
-                    return ApiRuntime.catalog(dir, ids);
-                }
+                return ids.Length == 0 ? ApiRuntime.catalog(dir, sys.array<PartId>(control.Id())) : ApiRuntime.catalog(dir,ids);
             }
         }
 
@@ -149,9 +122,7 @@ namespace Z0
             {
                 ref readonly var name = ref skip(src,i);
                 if(symbols.Lookup(name, out var sym))
-                {
                     seek(dst, counter++) = sym.Kind;
-                }
             }
             return slice(dst, 0, counter).ToArray();
         }

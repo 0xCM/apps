@@ -115,16 +115,6 @@ namespace Z0
             return false;
         }
 
-        // public Index<IApiPartCatalog> PartCatalogs(params PartId[] src)
-        // {
-        //     if(src.Length == 0)
-        //         return _Catalogs.Storage;
-        //     else
-        //         return from c in _Catalogs.Storage
-        //                where src.Contains(c.PartId)
-        //                select c;
-        // }
-
         public Index<IApiHost> PartHosts(params PartId[] parts)
         {
             if(parts.Length == 0)
@@ -140,5 +130,15 @@ namespace Z0
 
         PartId[] IApiCatalog.PartIdentities
             => _PartIdentities;
+
+        public static IApiCatalog Empty =>
+            new ApiRuntimeCatalog(
+                    sys.empty<IPart>(),
+                    sys.empty<Assembly>(),
+                    ApiPartCatalogs.Empty,
+                    sys.empty<IApiHost>(),
+                    sys.empty<PartId>(),
+                    sys.empty<MethodInfo>()
+                    );        
     }
 }

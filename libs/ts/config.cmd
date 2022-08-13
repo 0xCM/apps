@@ -1,0 +1,11 @@
+@echo off
+set Area=libs
+set BuildPrefix=z0
+set ShellId=zts
+set ExeName=%ShellId%.exe
+set ProjectId=ts
+set Configuration=Release
+set FrameworkMoniker=net6.0
+set RuntimeIdentifier=win-x64
+call %~dp0..\config.cmd
+set zts=%ProjectShell%

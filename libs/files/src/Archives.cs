@@ -12,11 +12,9 @@ namespace Z0
         public static ExecToken zip(FS.FolderPath src, FS.FilePath dst, WfEmit channel)
         {
             var uri = $"app://archives/zip?src={src}?dst={dst.ToUri()}";
-            var running = channel.Running(uri);
             var flow = channel.EmittingFile(dst);
-            ZipFile.CreateFromDirectory(src.Name, dst.Name, CompressionLevel.Fastest, true);
-            var emitted = channel.EmittedBytes(flow,dst.Size);
-            return channel.Ran(running, uri);
+            ZipFile.CreateFromDirectory(src.Name, dst.Name, CompressionLevel.SmallestSize, true);
+            return channel.EmittedBytes(flow, dst.Size);
         }
 
         public static string identifier(FS.FolderPath src)

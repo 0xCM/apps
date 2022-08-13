@@ -20,6 +20,7 @@ namespace Z0
                 wf.LlvmCmd(),
                 wf.RoslynCmd(),
                 wf.IntelInxCmd(),
+                wf.ArchiveCmd(),
                 wf.MemCmd(),
                 wf.Machines(),
                 wf.ProjectCmd(),

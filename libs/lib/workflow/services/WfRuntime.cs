@@ -12,7 +12,7 @@ namespace Z0
         public IJsonSettings Settings {get;}
 
         public IApiCatalog ApiCatalog {get;}
-
+        
         public PartName AppName {get;}
 
         public WfHost Host {get; private set;}

@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-[assembly: PartId(PartId.WfShell)]
+[assembly: PartId(PartId.Ts)]
 namespace Z0
 {
     sealed class AppCmd : AppCmdService<AppCmd>
@@ -10,7 +10,6 @@ namespace Z0
         public static ICmdProvider[] providers(IWfRuntime wf)
             => new ICmdProvider[]{
                 wf.WfCmd(),
-                wf.ArchiveCmd(),
             };
 
         public static AppCmd commands(IWfRuntime wf)
@@ -21,13 +20,13 @@ namespace Z0
     sealed class App : AppCmdShell<App>
     {
         public static void Main(params string[] args)
-            => run(wf => AppCmd.commands(wf), false, args);
+            => run(wf => AppCmd.commands(wf), args);
     }
 }
 
 namespace Z0.Parts
 {
-    public sealed class WfShell : Part<WfShell>
+    public sealed class Ts : Part<Ts>
     {
 
     }

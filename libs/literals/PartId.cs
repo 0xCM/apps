@@ -145,6 +145,9 @@ public enum PartId : byte
     [Symbol("tools")]
     Tools,
 
+    [Symbol("ts")]
+    Ts,
+
     [Symbol("tools.shell")]
     ToolShell,
 

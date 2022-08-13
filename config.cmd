@@ -1,5 +1,8 @@
 @echo off
 
+set BuildTool=dotnet build
+set PackageTool=dotnet pack --include-symbols --include-source
+
 set BuildPrefix=z0
 set SlnVersion=0.0.1
 set VersionSuffix=3
@@ -21,6 +24,7 @@ set Deployments=%Views%\tools\z0
 
 set ProjectDist=%Distributions%\%ProjectId%
 set PackageDist=%Packages%
+set SlnDist=%Distributions%\%SlnId%
 
 set BuildLogs=%Artifacts%\logs
 set SlnScripts=%SlnRoot%scripts
@@ -40,7 +44,7 @@ set ProjectPath=%ProjectRoot%\%BuildPrefix%.%ProjectId%.csproj
 set ProjectSln=%ProjectRoot%\%BuildPrefix%.%ProjectId%.sln
 set ProjectBin=%Artifacts%\bin\%BuildPrefix%.%ProjectId%
 set ProjectObj=%Artifacts%\obj\%BuildPrefix%.%ProjectId%
-set ProjectShell=%ProjectBin%\%Configuration%\%TargetFramework%\%RuntimeIdentifier%\%ShellId%.exe
+set ProjectShell=%ProjectBin%\%Configuration%\%TargetFramework%\%RuntimeMoniker%\%ShellId%.exe
 set ProjectPubs=%Distributions%\%ProjectId%
 set PublishedShell=%ProjectPubs%\%ShellId%.exe
 set DeployedShell=%Deployments%\%ProjectId%\%ShellId%.exe
@@ -60,13 +64,11 @@ set CgRoot=%SlnRoot%cg
 
 set WsBin=%Artifacts%\bin
 set TestLog=%BuildLogs%\z0.%ProjectId%.tests.trx
-set BuildTool=dotnet build
-set PackageTool=dotnet pack --include-symbols --include-source
 
 set RootSlnLogPath=%BuildLogs%\%BuildPrefix%.sln.binlog
 set RootSlnLogSpec=-bl:%RootSlnLogPath%
 
-set RootSlnPath=%SlnRoot%\z0.sln
+set RootSlnPath=%SlnRoot%z0.sln
 set SlnRootPath=%SlnRoot%\z0.sln
 set BuildLog=%BuildLogs%\%BuildPrefix%.%ProjectId%.log
 set SlnBuildLog=%BuildLogs%\%BuildPrefix%.%SlnId%.log
@@ -115,5 +117,6 @@ set PublishShell=dotnet publish %ProjectPath% --output %ProjectDist% --configura
 set DeployShell=dotnet publish %ProjectPath% --output %ShellDeployment% --configuration %Configuration% --framework %FrameworkMoniker% --version-suffix %VersionSuffix%
 set PackageLib=dotnet pack %ProjectPath% --output %PackageDist% --configuration %Configuration% --version-suffix %VersionSuffix% %PackageFlags%
 set PackagePath=%PackageDist%\%BuildPrefix%.%ProjectId%.%SlnVersion%.nupkg
+set PublishSln=dotnet publish %RootSlnPath% --output %SlnDist% --version-suffix %VersionSuffix%
 
 mkdir %BuildLogs% 1>nul 2>nul

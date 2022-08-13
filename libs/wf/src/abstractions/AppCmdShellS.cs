@@ -16,6 +16,13 @@ namespace Z0
             app.Run();
         }
 
+        protected static void run(Func<IWfRuntime,IAppCmdSvc> f, bool catalog, params string[] args)
+        {
+            using var app = shell(catalog, args);
+            app.CmdService = f(app.Wf);
+            app.Run();
+        }
+
         protected override void Disposing()
         {
             CmdService?.Dispose();

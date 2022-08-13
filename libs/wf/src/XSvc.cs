@@ -20,6 +20,9 @@ namespace Z0
             public WfCmd WfCmd(IWfRuntime wf)
                 => Service<WfCmd>(wf);
 
+            public ArchiveCmd ArchiveCmd(IWfRuntime wf)
+                => Service<ArchiveCmd>(wf);
+
             public ProjectScripts ProjectScripts(IWfRuntime wf)
                 => Service<ProjectScripts>(wf);
         }
@@ -40,6 +43,9 @@ namespace Z0
 
         public static ProjectScripts ProjectScripts(this IWfRuntime wf)
             => Services.ProjectScripts(wf);
+
+        public static ICmdProvider ArchiveCmd(this IWfRuntime wf)
+            => Services.ArchiveCmd(wf);
 
     }
 }
