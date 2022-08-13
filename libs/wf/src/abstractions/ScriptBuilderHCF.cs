@@ -87,29 +87,29 @@ namespace Z0
             return new CmdScript(dst.Emit());
         }
 
-        public Index<CmdLine> BuildCmdLines(IProjectWsObsolete project, string scope, string cmdname)
-        {
-            var ext = Flow.SourceKind.Ext();
-            var files = project.SrcFiles(recurse:false).Where(f => f.Is(ext));
-            var buffer = core.bag<CmdLine>();
-            CmdLine Gen(FS.FilePath file)
-            {
-                var cmd= BuildCmd(project, scope, file);
-                var script = BuildCmdScript(cmd);
-                var scriptdir = project.Out(string.Format("{0}.scripts", scope));
-                var spath =  scriptdir + FS.file(string.Format("{0}.{1}", file.FileName, cmdname), FS.Cmd);
-                using var writer = spath.AsciWriter();
-                var formatted = script.Format();
-                writer.WriteLine(formatted);
-                return new CmdLine(spath.Format(PathSeparator.BS));
-            }
+        // public Index<CmdLine> BuildCmdLines(IProjectWsObsolete project, string scope, string cmdname)
+        // {
+        //     var ext = Flow.SourceKind.Ext();
+        //     var files = project.SrcFiles(recurse:false).Where(f => f.Is(ext));
+        //     var buffer = core.bag<CmdLine>();
+        //     CmdLine Gen(FS.FilePath file)
+        //     {
+        //         var cmd= BuildCmd(project, scope, file);
+        //         var script = BuildCmdScript(cmd);
+        //         var scriptdir = project.Out(string.Format("{0}.scripts", scope));
+        //         var spath =  scriptdir + FS.file(string.Format("{0}.{1}", file.FileName, cmdname), FS.Cmd);
+        //         using var writer = spath.AsciWriter();
+        //         var formatted = script.Format();
+        //         writer.WriteLine(formatted);
+        //         return new CmdLine(spath.Format(PathSeparator.BS));
+        //     }
 
-            iter(files, file => buffer.Add(Gen(file)), true);
+        //     iter(files, file => buffer.Add(Gen(file)), true);
 
-            return buffer.Array();
-        }
+        //     return buffer.Array();
+        // }
 
-        public abstract C BuildCmd(IProjectWsObsolete project, string scope, FS.FilePath src);
+        // public abstract C BuildCmd(IProjectWsObsolete project, string scope, FS.FilePath src);
 
         protected FS.FilePath GetTargetPath(IProjectWsObsolete project, string scope, FS.FilePath src)
             => project.Out(scope).Create() + src.FileName.ChangeExtension(Flow.TargetKind);

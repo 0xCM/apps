@@ -25,10 +25,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.wf.shell", "..\libs\wf.s
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.memory.checks", "..\libs\memory.checks\z0.memory.checks.csproj", "{3C661EDC-21D6-4CC5-A068-292753320FF0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.calcs.check", "..\shells\calcs.check\z0.calcs.check.csproj", "{3F3D8467-F175-4041-9014-C888E189F207}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.intel", "..\shells\intel\z0.intel.csproj", "{7E20B3A6-6CDA-4BB1-B8E0-872CC2ECBE01}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.test.units", "..\test\test.units\z0.test.units.csproj", "{25D5136D-1B1F-4B81-A86A-4EE1E2EE0780}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.test.checks", "..\test\test.checks\z0.test.checks.csproj", "{2D4A1061-829A-42C1-861A-4337A99021B0}"
@@ -88,14 +84,6 @@ Global
 		{3C661EDC-21D6-4CC5-A068-292753320FF0}.Debug|Any CPU.Build.0 = Debug|x64
 		{3C661EDC-21D6-4CC5-A068-292753320FF0}.Release|Any CPU.ActiveCfg = Release|x64
 		{3C661EDC-21D6-4CC5-A068-292753320FF0}.Release|Any CPU.Build.0 = Release|x64
-		{3F3D8467-F175-4041-9014-C888E189F207}.Debug|Any CPU.ActiveCfg = Debug|x64
-		{3F3D8467-F175-4041-9014-C888E189F207}.Debug|Any CPU.Build.0 = Debug|x64
-		{3F3D8467-F175-4041-9014-C888E189F207}.Release|Any CPU.ActiveCfg = Release|x64
-		{3F3D8467-F175-4041-9014-C888E189F207}.Release|Any CPU.Build.0 = Release|x64
-		{7E20B3A6-6CDA-4BB1-B8E0-872CC2ECBE01}.Debug|Any CPU.ActiveCfg = Debug|x64
-		{7E20B3A6-6CDA-4BB1-B8E0-872CC2ECBE01}.Debug|Any CPU.Build.0 = Debug|x64
-		{7E20B3A6-6CDA-4BB1-B8E0-872CC2ECBE01}.Release|Any CPU.ActiveCfg = Release|x64
-		{7E20B3A6-6CDA-4BB1-B8E0-872CC2ECBE01}.Release|Any CPU.Build.0 = Release|x64
 		{25D5136D-1B1F-4B81-A86A-4EE1E2EE0780}.Debug|Any CPU.ActiveCfg = Debug|x64
 		{25D5136D-1B1F-4B81-A86A-4EE1E2EE0780}.Debug|Any CPU.Build.0 = Debug|x64
 		{25D5136D-1B1F-4B81-A86A-4EE1E2EE0780}.Release|Any CPU.ActiveCfg = Release|x64

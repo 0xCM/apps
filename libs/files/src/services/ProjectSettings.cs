@@ -8,6 +8,12 @@ namespace Z0
 
     public class ProjectSettings
     {
+        public static ref readonly ProjectSettings Default
+        {
+            [MethodImpl(Inline)]
+            get => ref _Default;
+        }
+
         public static ProjectSettings load()
             => load(ConfigSets.app());
 
@@ -19,6 +25,13 @@ namespace Z0
         internal ProjectSettings(SettingLookup src)
         {
             Data = src;
+        }
+
+        static ProjectSettings _Default;
+
+        static ProjectSettings()
+        {
+            _Default = load();
         }
 
         public FS.FolderPath EnvSource()
@@ -42,5 +55,7 @@ namespace Z0
 
         public override string ToString()
             => Format();
+
+
     }
 }

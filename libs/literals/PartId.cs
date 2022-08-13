@@ -100,6 +100,9 @@ public enum PartId : byte
     [Symbol("cli")]
     Cli,
 
+    [Symbol("builds")]
+    Builds,
+
     [Symbol("clr.checks")]
     ClrChecks,
 

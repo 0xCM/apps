@@ -10,6 +10,35 @@ namespace Z0.Asm
     {
         AsmDocs AsmDocs => Wf.AsmDocs();
 
+        void CheckHexExec()
+        {
+            HexCodeRunner.slots(Emitter);
+            var runner = new HexCodeRunner(Wf,Emitter);
+            runner.RunAlgs();
+        }
+
+        void EmitBitMasks()
+        {
+            var dst = AppDb.App(ApiAtomic.logs).Path("bitmasks", FileKind.Csv);
+            var src = BitMask.masks(typeof(BitMaskLiterals));
+            var formatter = Tables.formatter<BitMaskInfo>();
+            for(var i=0; i<src.Count; i++)
+            {
+                ref readonly var mask = ref src[i];
+                Row(formatter.Format(mask));
+                Write(mask.Text);
+            }
+            TableEmit(src,dst,TextEncodingKind.Unicode);
+
+        }
+
+        [CmdOp("calcs/check")]
+        void Hello()
+        {
+            CheckHexExec();
+            EmitBitMasks();
+        }
+
         Outcome AsmExe(CmdArgs args)
         {
             var result = Outcome.Success;

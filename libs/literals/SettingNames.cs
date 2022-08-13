@@ -48,5 +48,7 @@ namespace Z0
         public const string LlvmDist = nameof(LlvmDist);       
 
         public const string Views = nameof(Views);
+
+        public const string NUGET_PACKAGES = nameof(NUGET_PACKAGES);
     }
 }

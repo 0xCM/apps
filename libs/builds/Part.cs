@@ -2,10 +2,25 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
+[assembly: PartId(PartId.Builds)]
+namespace Z0.Parts
+{
+    public sealed class Builds : Part<Builds>
+    {
+
+    }
+}
+
 namespace Z0
 {
-    public interface IValueWrapper<V> : IEquatable<V>, IComparable<V>
+    public static partial class XTend
     {
-        V Value {get;}
+
+    }
+
+    public static class XSvc
+    {
+
+        
     }
 }

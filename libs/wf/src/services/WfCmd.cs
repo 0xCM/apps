@@ -128,8 +128,10 @@ namespace Z0
         [CmdOp("launchers")]
         protected void Launchers(CmdArgs args)
         {
-            var src = AppDb.Control().Sources("launch").Files(FileKind.Ps1);
+            var src = AppDb.Control().Sources("launch").Files(FileKind.Ps1);            
             iter(src, file => Write(file.FileName.WithoutExtension));
+            
+            //Emitter.FileEmit()
         }
 
         [CmdOp("launch")]

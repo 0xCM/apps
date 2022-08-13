@@ -8,14 +8,20 @@ namespace Z0
     /// Characterizes a file system repository
     /// </summary>
     [Free]
-    public interface IFileArchive : ITextual, ITablePaths
+    public interface IFileArchive : ITablePaths, IExpr
     {
         FS.FolderPath Root {get;}
 
+        bool INullity.IsEmpty
+            => Root.IsEmpty;
+
+        bool INullity.IsNonEmpty
+            => Root.IsNonEmpty;
+            
         FS.FolderPath Subdir(string scope)
             => Root + FS.folder(scope);
 
-        string ITextual.Format()
+        string IExpr.Format()
             => Root.Format();
 
         FS.FilePath TablePath<T>(string scope)

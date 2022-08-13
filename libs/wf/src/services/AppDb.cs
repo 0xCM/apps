@@ -16,8 +16,8 @@ namespace Z0
 
         readonly ProjectSettings WsArchives;
 
-        public static FS.FileName hostfile(ApiHostUri host, FileKind kind)
-            => FS.file(string.Format("{0}.{1}", host.Part.Format(), host.HostName), kind);
+        // public static FS.FileName hostfile(ApiHostUri host, FileKind kind)
+        //     => FS.file(string.Format("{0}.{1}", host.Part.Format(), host.HostName), kind);
 
         public IDbSources Settings()
             => DbRoot().Sources("settings");

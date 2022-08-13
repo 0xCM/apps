@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static TypedFileFlows;
-
     public class AsmFlowCmd : AppCmdService<AsmFlowCmd>
     {
         AsmFlowCmd AsmFlows => Wf.AsmFlowCmd();
@@ -16,7 +14,7 @@ namespace Z0
             var cmdname = "cleanse";
             var scope = "att/64";
             var project = Project();
-            var cmd = AsmFlows.Select(SToAsm.Instance);
+            //var cmd = AsmFlows.Select(SToAsm.Instance);
             //cmd.Execute(project, (scope, cmdname));
             return true;
         }
@@ -27,14 +25,9 @@ namespace Z0
             var cmdname = "asm-to-mcasm";
             var scope = "asm";
             var project = Project();
-            var builder = AsmFlows.Select(AsmToMcAsm.Instance);
+            //var builder = AsmFlows.Select(AsmToMcAsm.Instance);
             //builder.Execute(project, (scope, cmdname));
             return true;
         }
-        public SToAsmCmd Select(SToAsm flow)
-            => Service(() => new SToAsmCmd());
-
-        public AsmToMcAsmCmd Select(AsmToMcAsm flow)
-            => Service(() => new AsmToMcAsmCmd());
     }
 }

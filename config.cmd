@@ -21,6 +21,8 @@ set Reports=%Artifacts%\reports
 set Distributions=%Artifacts%\dist
 set Packages=%Artifacts%\packages
 set Deployments=%Views%\tools\z0
+set ExternalDeps=%Artifacts%\deps
+set NuGetDeps=%ExternalDeps%\nuget
 
 set ProjectDist=%Distributions%\%ProjectId%
 set PackageDist=%Packages%
@@ -111,6 +113,8 @@ set ShellDeployment=%Deployments%\%ShellId%
 
 set PackageFlags=--include-symbols --include-source
 set CleanBuild=rmdir %Artifacts% /s/q
+set CleanObj=rmdir %Artifacts%\obj /s/q
+set CleanBin=rmdir %Artifacts%\bin /s/q
 set AddSln=%~dp0sln-add.cmd
 set PublishLib=dotnet publish %ProjectPath% --output %ProjectDist% --configuration %Configuration% --framework %FrameworkMoniker% --version-suffix %VersionSuffix%
 set PublishShell=dotnet publish %ProjectPath% --output %ProjectDist% --configuration %Configuration% --framework %FrameworkMoniker% --version-suffix %VersionSuffix%
@@ -118,5 +122,9 @@ set DeployShell=dotnet publish %ProjectPath% --output %ShellDeployment% --config
 set PackageLib=dotnet pack %ProjectPath% --output %PackageDist% --configuration %Configuration% --version-suffix %VersionSuffix% %PackageFlags%
 set PackagePath=%PackageDist%\%BuildPrefix%.%ProjectId%.%SlnVersion%.nupkg
 set PublishSln=dotnet publish %RootSlnPath% --output %SlnDist% --version-suffix %VersionSuffix%
+set RestoreProject=dotnet restore %ProjectPath% --packages %NuGetDeps% --use-current-runtime --verbosity normal --force-evaluate
+set ProjectNugetConfig=%ProjectRoot%\nuget.config
+set LocalRestore==dotnet restore %ProjectPath% --packages %NuGetDeps% --use-current-runtime --verbosity normal --force-evaluate --configfile %ProjectNugetConfig%
 
 mkdir %BuildLogs% 1>nul 2>nul
+mkdir %NuGetDeps% 1>nul 2>nul
