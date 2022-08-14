@@ -4,9 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Refs;
-    using static Sized;
-
+    using static sys;
+    
     partial struct Enums
     {
         [MethodImpl(Inline)]

@@ -26,7 +26,7 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static Hash32 hash<T>(T a, T b, T c, T d)
             => Generic.hash(a,b,c,d);
-                
+
         [MethodImpl(Inline)]
         public static ulong hash64<X,Y>(X x, Y y)
             => Generic.hash(x) | (Generic.hash(y) << 32);
@@ -34,7 +34,7 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static Hash32 native<T>(ReadOnlySpan<T> src)
             where T : unmanaged
-        {                
+        {
             var dst = Hash32.Zero;
             var count = src.Length;
             if(count > 0)
@@ -65,7 +65,7 @@ namespace Z0
             [MethodImpl(Inline), Op, Closures(AllNumeric)]
             public static uint bytehash<C>(C src)
                 where C : struct
-                    => hash<byte>(Refs.bytes(src));
+                    => hash<byte>(sys.bytes(src));
 
             /// <summary>
             /// Creates a 32-bit calc code predicated on a type parameter

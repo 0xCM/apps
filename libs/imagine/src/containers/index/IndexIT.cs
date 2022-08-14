@@ -6,7 +6,7 @@ namespace Z0
 {
     using System.Linq;
 
-    using static Refs;
+    using static sys;
 
     public readonly struct Index<I,T> : IIndex<I,T>
         where I : unmanaged

@@ -4,9 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Refs;
+    using static sys;
     using static Spans;
-    using static Arrays;
 
     partial class Algs
     {
@@ -72,7 +71,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public static T[] map<S,T>(IEnumerable<S> src, Func<S,T> f)
         {
-            var source = span(src);
+            var source = sys.span(src);
             var count = source.Length;
             var buffer = sys.alloc<T>(count);
             var target = span(buffer);

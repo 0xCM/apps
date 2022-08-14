@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static System.Runtime.CompilerServices.Unsafe;
     using static System.Runtime.InteropServices.MemoryMarshal;
 
     partial class Spans
@@ -17,7 +16,7 @@ namespace Z0
         /// <typeparam name="T">The target cell type</typeparam>
         [MethodImpl(Inline)]
         public static Span<T> recover<S,T>(Span<S> src)
-            => CreateSpan(ref Refs.@as<S,T>(first(src)), (int)((src.Length * Sized.size<S>())/Sized.size<T>()));
+            => CreateSpan(ref sys.@as<S,T>(sys.first(src)), (int)((src.Length * sys.size<S>())/sys.size<T>()));
 
         /// <summary>
         /// Presents a readonly span of S-cells as a readonly span of T-cells
@@ -27,23 +26,7 @@ namespace Z0
         /// <typeparam name="T">The target cell type</typeparam>
         [MethodImpl(Inline)]
         public static ReadOnlySpan<T> recover<S,T>(ReadOnlySpan<S> src)
-            => CreateReadOnlySpan(ref Refs.@as<S,T>(first(src)), (int)((src.Length * Sized.size<S>())/Sized.size<T>()));
-
-        /// <summary>
-        /// Presents a <see cref='sbyte'/> span as a T-span
-        /// </summary>
-        /// <param name="src">The source span</param>
-        /// <typeparam name="T">The target span cell type</typeparam>
-        /// <remarks>
-        /// width[T] = 8: mov rax,[rdx] => [rcx],rax => mov dword ptr [rcx+8],1 => mov rax,rcx
-        /// width[T] = 16: mov rax,[rdx] => [rcx],rax => mov dword ptr [rcx+8],2 => mov rax,rcx
-        /// width[T] = 32: mov rax,[rdx] => [rcx],rax => mov dword ptr [rcx+8],4 => mov rax,rcx
-        /// width[T] = 64: mov rax,[rdx] => [rcx],rax => mov dword ptr [rcx+8],8 => mov rax,rcx
-        /// </remarks>
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static ReadOnlySpan<T> recover<T>(ReadOnlySpan<sbyte> src)
-            where T : struct
-                => recover<sbyte,T>(src);
+            => CreateReadOnlySpan(ref sys.@as<S,T>(sys.first(src)), (int)((src.Length * sys.size<S>())/sys.size<T>()));
 
         /// <summary>
         /// Presents a <see cref='byte'/> span as a T-span
@@ -248,44 +231,6 @@ namespace Z0
             where T : struct
                 => recover<long,T>(src);
 
-        /// <summary>
-        /// Presents a source span as a T-span
-        /// </summary>
-        /// <param name="src">The source span</param>
-        /// <typeparam name="T">The target span cell type</typeparam>
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Span<T> recover<T>(Span<ulong> src)
-            where T : struct
-                 => recover<ulong,T>(src);
 
-        /// <summary>
-        /// Presents a source span as a T-span
-        /// </summary>
-        /// <param name="src">The source span</param>
-        /// <typeparam name="T">The target span cell type</typeparam>
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Span<T> recover<T>(Span<float> src)
-            where T : struct
-                 => recover<float,T>(src);
-
-        /// <summary>
-        /// Presents a source span as a T-span
-        /// </summary>
-        /// <param name="src">The source span</param>
-        /// <typeparam name="T">The target span cell type</typeparam>
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Span<T> recover<T>(Span<double> src)
-            where T : struct
-                 => recover<double,T>(src);
-
-        /// <summary>
-        /// Presents a source span as a T-span
-        /// </summary>
-        /// <param name="src">The source span</param>
-        /// <typeparam name="T">The target span cell type</typeparam>
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Span<T> recover<T>(Span<decimal> src)
-            where T : struct
-                 => recover<decimal,T>(src);
     }
 }

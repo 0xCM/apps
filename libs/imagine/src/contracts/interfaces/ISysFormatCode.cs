@@ -34,7 +34,7 @@ namespace Z0
         new K Kind {get;}
 
         SysFormatKind ISysFormatCode.Kind
-            => Refs.@as<K,SysFormatKind>(Kind);
+            => sys.@as<K,SysFormatKind>(Kind);
 
         new C Code {get;}
 

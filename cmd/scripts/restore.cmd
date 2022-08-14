@@ -1,4 +1,5 @@
 @echo off
 call %~dp0..\config.cmd
-: call %RestoreProject%
-call %LocalRestore%
+mkdir %NuGetDeps% 1>nul 2>nul
+call %RestoreProject%
+: call %LocalRestore%

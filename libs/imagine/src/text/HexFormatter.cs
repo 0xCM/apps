@@ -8,9 +8,8 @@ namespace Z0
 
     using static Spans;
     using static Arrays;
-    using static Refs;
-    using static Sized;
     using static Scalars;
+    using static Sized;
 
     using static HexFormatSpecs;
     using static HexOptionData;
@@ -722,6 +721,6 @@ namespace Z0
         [MethodImpl(Inline)]
         static ref readonly F generalize<X,F>(in X src)
             where X : struct
-                => ref @as<X,F>(src);
+                => ref sys.@as<X,F>(src);
     }
 }

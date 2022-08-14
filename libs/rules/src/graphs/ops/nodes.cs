@@ -5,14 +5,13 @@
 namespace Z0
 {
     using static Arrays;
-    using static Refs;
-
+    
     partial struct Graphs
     {
         public static Index<Node<V,T>> nodes<V,T>(V s0, params T[] data)
             where V : unmanaged
         {
-            var start = u32(s0);
+            var start = sys.u32(s0);
             var dst = sys.alloc<Node<V,T>>(data.Length);
             for(var i=0; i<data.Length; i++, start++)
                 seek(dst,i) = new Node<V,T>(Numeric.force<V>(start), data[i]);

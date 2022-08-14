@@ -5,7 +5,7 @@
 namespace Z0
 {
     using static Spans;
-    using static Refs;
+    using static sys;
 
     public ref struct SpanStack<T>
         where T : unmanaged
@@ -47,7 +47,7 @@ namespace Z0
         {
             if(Pos < Capacity - 1)
             {
-                cell = skip(Buffer,++Pos);
+                cell = sys.skip(Buffer,++Pos);
                 return true;
             }
             else
@@ -62,7 +62,7 @@ namespace Z0
         {
             if(Pos > 0)
             {
-                seek(Buffer, Pos--) = cell;
+                sys.seek(Buffer, Pos--) = cell;
                 return true;
             }
             else
@@ -72,7 +72,7 @@ namespace Z0
         ref T Head
         {
             [MethodImpl(Inline)]
-            get => ref first(Buffer);
+            get => ref sys.first(Buffer);
         }
 
         uint MaxPos
@@ -90,6 +90,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public S Peek<S>()
             where S : unmanaged
-                => first(Buffer.Recover<T,S>());
+                => sys.first(Buffer.Recover<T,S>());
     }
 }

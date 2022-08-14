@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Refs;
     using static Spans;
     using static Scalars;
     using static value;
@@ -53,7 +52,7 @@ namespace Z0
         public Span<byte> Bytes
         {
             [MethodImpl(Inline)]
-            get => bytes(Data);
+            get => sys.bytes(Data);
         }
 
         [MethodImpl(Inline)]

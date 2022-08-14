@@ -79,7 +79,7 @@ namespace Z0
                 ref readonly var arr = ref Arrays.skip(src,i);
                 var len = arr.Length;
                 for(var j = 0; j<len; j++)
-                    Refs.seek(dst, counter++) = Arrays.skip(arr,j);
+                    sys.seek(dst, counter++) = Arrays.skip(arr,j);
             }
             return buffer;
         }

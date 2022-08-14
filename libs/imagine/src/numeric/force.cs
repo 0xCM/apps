@@ -19,7 +19,7 @@ namespace Z0
         /// <typeparam name="T">The source type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         static ref char c16<T>(in T src)
-            => ref Refs.@as<T,char>(src);
+            => ref sys.@as<T,char>(src);
 
         [MethodImpl(Inline), Op, Closures(AllNumeric)]
         static float float32<T>(T src)
@@ -40,7 +40,7 @@ namespace Z0
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         static ref decimal float128<T>(in T src)
-            => ref As<T,decimal>(ref Refs.edit(src));
+            => ref As<T,decimal>(ref sys.edit(src));
 
         /// <summary>
         /// Unconditionally converts the source values to values of parametric numeric type

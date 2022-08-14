@@ -11,6 +11,6 @@ namespace Z0
         new T Count {get;}
 
         uint ICounted.Count
-            => Refs.@as<T,uint>(Count);
+            => sys.@as<T,uint>(Count);
     }
 }

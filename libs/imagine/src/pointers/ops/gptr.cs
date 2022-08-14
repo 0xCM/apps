@@ -11,7 +11,7 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static unsafe T* gptr<T>(in T src)
             where T : unmanaged
-                => (T*)AsPointer(ref Refs.edit(src));
+                => (T*)AsPointer(ref sys.edit(src));
 
         /// <summary>
         /// Presents a generic reference r:T as a generic pointer p:T
@@ -23,7 +23,7 @@ namespace Z0
         public static unsafe T* gptr<S,T>(in S src)
             where S : unmanaged
             where T : unmanaged
-                => (T*)AsPointer(ref Refs.edit(src));
+                => (T*)AsPointer(ref sys.edit(src));
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public unsafe static T* gptr<T>(SafeHandle src)
@@ -49,7 +49,7 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static unsafe T* gptr<T>(in T src, int offset)
             where T : unmanaged
-                => Refs.refptr(ref Refs.edit(in Refs.skip(in src, (uint)offset)));
+                => sys.refptr(ref sys.edit(in sys.skip(in src, (uint)offset)));
 
         /// <summary>
         /// Presents the leading element of a readonly span as a pointer
@@ -59,8 +59,8 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public unsafe static T* gptr<T>(ReadOnlySpan<T> src)
             where T : unmanaged
-                => (T*)AsPointer(ref Refs.edit(Spans.first(src)));
+                => (T*)AsPointer(ref sys.edit(Spans.first(src)));
 
- 
+
     }
 }

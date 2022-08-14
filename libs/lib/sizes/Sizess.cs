@@ -313,7 +313,7 @@ namespace Z0
         {
             if(NumericParser.parse<ulong>(src, out var x))
             {
-                dst = new Size<T>(Refs.@as<T>(x));
+                dst = new Size<T>(sys.@as<T>(x));
                 return true;
             }
             else

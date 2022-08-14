@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Refs;
+    using static sys;
 
     public interface IApiClass<K> : IApiClass
         where K : unmanaged

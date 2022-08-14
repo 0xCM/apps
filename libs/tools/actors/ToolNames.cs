@@ -38,5 +38,9 @@ namespace Z0
         public const string msvs = "devenv";
 
         public const string mklink = "mklink";
+
+        public const string winget = "winget";
+
+        public const string sqlite = "sqlite";
     }
 }

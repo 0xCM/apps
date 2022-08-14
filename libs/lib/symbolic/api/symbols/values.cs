@@ -51,7 +51,7 @@ namespace Z0
             for(var i=0u; i<count; i++)
             {
                 ref readonly var s = ref src[i];
-                seek(dst,i) = new KeyedValue<E,T>(s.Kind, @as<ulong,T>(s.Value));
+                seek(dst,i) = new KeyedValue<E,T>(s.Kind, sys.@as<ulong,T>(s.Value));
             }
             return dst;
         }

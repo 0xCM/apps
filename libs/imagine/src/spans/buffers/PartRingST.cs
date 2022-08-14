@@ -5,8 +5,7 @@
 namespace Z0
 {
     using static Spans;
-    using static Refs;
-    using static Sized;
+    using static sys;
 
     /// <summary>
     /// Defines a mutable circular S-cell buffer partitioned into T-cell parts
@@ -38,7 +37,7 @@ namespace Z0
                 if(CurrentPart == parts)
                     CurrentPart = 0;
 
-                ref var next = ref seek(first(Buffer), CurrentPart*partwidth);
+                ref var next = ref seek(sys.first(Buffer), CurrentPart*partwidth);
                 CurrentPart++;
                 return ref @as<S,T>(next);
             }

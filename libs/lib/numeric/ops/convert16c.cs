@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-     using static Refs;
+    using static Refs;
 
     partial struct Numeric
     {

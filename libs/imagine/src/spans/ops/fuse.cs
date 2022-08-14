@@ -13,7 +13,7 @@ namespace Z0
             ref var xh = ref Spans.first(xs);
             ref var yh = ref Spans.first(ys);
             for(var i = 0u; i<count ; i++)
-                Refs.seek(xh, i) = f(Refs.skip(xh,i), Refs.skip(yh, i));
+                sys.seek(xh, i) = f(sys.skip(xh,i), sys.skip(yh, i));
             return xs;
         }
     }

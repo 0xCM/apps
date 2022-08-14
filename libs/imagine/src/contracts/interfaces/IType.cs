@@ -4,17 +4,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IType
+    [Free]
+    public interface IType : INullity, IExpr
     {
         Identifier Name {get;}
 
         ulong Kind => 0;
 
-        bool IsEmpty => Name.IsEmpty;
+        bool INullity.IsEmpty 
+            => Name.IsEmpty;
 
-        bool IsNonEmpty => !IsEmpty;
+        bool INullity.IsNonEmpty 
+            => !IsEmpty;
 
-        string Format()
+        string IExpr.Format()
             => Name;
     }
 

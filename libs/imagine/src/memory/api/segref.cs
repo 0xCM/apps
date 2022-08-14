@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Refs;
     using static Sized;
     using static Spans;
     using static Arrays;
@@ -112,7 +111,7 @@ namespace Z0
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static unsafe SegRef<T> segref<T>(Span<T> src)
-            => new SegRef<T>(Pointers.pvoid(first(src)), size<T>((uint)src.Length));
+            => new SegRef<T>(Pointers.pvoid(sys.first(src)), size<T>((uint)src.Length));
 
         [MethodImpl(Inline), Op]
         public static SegRef<T>[] segrefs<T>(ReadOnlySpan<T> src)
@@ -128,7 +127,7 @@ namespace Z0
             where T : struct
         {
             for(var i=0u; i<src.Length; i++)
-                seek(dst,i) = segref(skip<T>(src,i), size<T>());
+                seek(dst,i) = segref(skip<T>(src,i), sys.size<T>());
         }
 
         [Op]
@@ -157,7 +156,7 @@ namespace Z0
         {
             var count = src.Length;
             for(var i=0u; i<count; i++)
-                seek(dst,i) = first(recover<T>(skip(src,i).Edit));
+                seek(dst,i) = sys.first(sys.recover<T>(skip(src,i).Edit));
         }
     }
 }

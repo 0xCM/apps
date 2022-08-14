@@ -5,9 +5,7 @@
 namespace Z0
 {
     using static Spans;
-    using static Refs;
     using static Arrays;
-    using static Sized;
 
     partial struct Seq
     {
@@ -125,13 +123,13 @@ namespace Z0
         public static void select<I,T>(ReadOnlySpan<T> src, ReadOnlySpan<I> indices, Span<T> dst)
             where I : unmanaged
         {
-            if(size<I>() == 1)
+            if(sys.size<I>() == 1)
                 select8(src, indices, dst);
-            else if(size<I>() == 2)
+            else if(sys.size<I>() == 2)
                 select16(src, indices, dst);
-            else if(size<I>() == 4)
+            else if(sys.size<I>() == 4)
                 select32(src, indices, dst);
-            else if(size<I>() == 8)
+            else if(sys.size<I>() == 8)
                 select64(src, indices, dst);
             else
                 throw no<I>();
@@ -143,7 +141,7 @@ namespace Z0
         {
             var count = (byte)indices.Length;
             for(byte i=0; i<count; i++)
-                seek(dst,i) = skip(src, @as<I,byte>(skip(indices,i)));
+                seek(dst,i) = skip(src, sys.@as<I,byte>(skip(indices,i)));
         }
 
         [MethodImpl(Inline)]
@@ -152,7 +150,7 @@ namespace Z0
         {
             var count = (ushort)indices.Length;
             for(ushort i=0; i<count; i++)
-                seek(dst,i) = skip(src, @as<I,ushort>(skip(indices,i)));
+                seek(dst,i) = skip(src, sys.@as<I,ushort>(skip(indices,i)));
         }
 
         [MethodImpl(Inline)]
@@ -161,7 +159,7 @@ namespace Z0
         {
             var count = (uint)indices.Length;
             for(uint i=0; i<count; i++)
-                seek(dst,i) = skip(src, @as<I,uint>(skip(indices,i)));
+                seek(dst,i) = skip(src, sys.@as<I,uint>(skip(indices,i)));
         }
 
         [MethodImpl(Inline)]
@@ -170,7 +168,7 @@ namespace Z0
         {
             var count = (ulong)indices.Length;
             for(ulong i=0; i<count; i++)
-                seek(dst,i) = skip(src, @as<I,ulong>(skip(indices,i)));
+                seek(dst,i) = skip(src, sys.@as<I,ulong>(skip(indices,i)));
         }
     }
 }

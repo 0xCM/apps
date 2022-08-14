@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static Refs;
     using static Spans;
 
     using C = AsciCode;

@@ -5,7 +5,6 @@
 namespace Z0
 {
     using static Spans;
-    using static Refs;
 
     partial struct Hex
     {
@@ -13,7 +12,7 @@ namespace Z0
         public static uint hexchars(Hex64 src, LowerCased @case, Span<char> dst)
         {
             var i=0u;
-            var data = bytes(src);
+            var data = sys.bytes(src);
             var count = data.Length;
             for(var j=0; j<count; j++)
             {
@@ -30,7 +29,7 @@ namespace Z0
         public static uint hexchars(Hex64 src, LowerCased @case, ref uint i, Span<char> dst)
         {
             var i0=i;
-            var data = bytes(src);
+            var data = sys.bytes(src);
             var count = data.Length;
             for(var j=0; j<count; j++)
             {
@@ -46,7 +45,7 @@ namespace Z0
         public static uint hexchars(Hex64 src, UpperCased @case, Span<char> dst)
         {
             var i=0u;
-            var data = bytes(src);
+            var data = sys.bytes(src);
             var count = data.Length;
             for(var j=0; j<count; j++)
             {

@@ -57,11 +57,11 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public Span<T> Cells(uint offset, uint count)
-            => Algs.cover(Refs.@as<T>(Rebase(offset)), count);
+            => Algs.cover(sys.@as<T>(Rebase(offset)), count);
 
         [MethodImpl(Inline)]
         public ref NativeCell<T> Cell(uint index)
-            => ref Refs.@as<NativeCell<T>>((BaseAddress + CellSize*index).Pointer());
+            => ref sys.@as<NativeCell<T>>((BaseAddress + CellSize*index).Pointer());
 
         [MethodImpl(Inline)]
         public ref NativeCell<T> Cell(int index)

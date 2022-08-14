@@ -13,9 +13,9 @@ namespace Z0
             where T : unmanaged
         {
             var tmp = a;
-            ref var x = ref Refs.edit(a);
+            ref var x = ref sys.edit(a);
             x = b;
-            ref var y = ref Refs.edit(b);
+            ref var y = ref sys.edit(b);
             y = tmp;
         }
 
@@ -72,7 +72,7 @@ namespace Z0
             while(current < _max)
             {
                 storage = current++;
-                dst = Refs.@as<ulong,T>(storage);
+                dst = sys.@as<ulong,T>(storage);
                 yield return dst;
             }
         }

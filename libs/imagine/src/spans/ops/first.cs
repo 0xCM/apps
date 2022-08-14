@@ -51,7 +51,7 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static ref readonly T first<T>(ReadOnlySpan<byte> src)
             where T : struct
-                => ref Refs.@as<byte,T>(first(src));
+                => ref sys.@as<byte,T>(first(src));
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static ref T first<T>(Span<byte> src)

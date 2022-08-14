@@ -4,9 +4,24 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly partial struct Sqlite
+    using N = ToolNames;
+
+    partial class Tools
     {
-        static Identifier identifier(Identifier? id, FS.FileName file)
-            => id != null ? id.Value.Format() : file.WithoutExtension.Format();
+        public sealed partial class Sqlite : Tool<Sqlite>
+        {
+
+            public Sqlite()
+                : base(N.sqlite)
+            {
+
+            }
+
+            public string Format()
+                => Name.Format();
+
+            public override string ToString()
+                => Format();
+        }
     }
 }

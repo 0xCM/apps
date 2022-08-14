@@ -4,22 +4,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static MarvinHash;
-
     [Free,ApiHost]
     public partial class HashCodes
     {
         [MethodImpl(Inline), Op]
         public static Hash32 hash(string src)
-            => marvin(sys.empty(src) ? EmptyString : src);
+            => sys.hash(sys.empty(src) ? EmptyString : src);
 
         [MethodImpl(Inline), Op]
         public static Hash32 hash(ReadOnlySpan<char> src)
-            => marvin(src);
+            => sys.hash(src);
 
         [MethodImpl(Inline), Op]
         public static Hash32 hash(ReadOnlySpan<byte> src)
-            => marvin(src);
+            => sys.hash(src);
 
         [MethodImpl(Inline)]
         public static Hash32 bytehash<C>(C src)

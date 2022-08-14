@@ -5,8 +5,7 @@
 namespace Z0
 {
     using static Spans;
-    using static Refs;
-    using static Sized;
+    using static sys;
 
     /// <summary>
     /// Characterizes a type that occupies a fixed amount of space at runtime
@@ -33,7 +32,7 @@ namespace Z0
             => bytes((T)this);
 
         uint IDataCell.Width
-            => width<T>();
+            => Sized.width<T>();
 
         ByteSize IDataCell.Size
             => size<T>();

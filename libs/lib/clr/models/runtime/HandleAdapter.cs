@@ -47,7 +47,7 @@ namespace Z0
             => kind switch {
                 HandleAddress => Address.Format(),
                 PointerAddress => FunctionPointer.Format(),
-                _ => Refs.@as<RuntimeMethodHandle,MemoryAddress>(Data).Format()
+                _ => sys.@as<RuntimeMethodHandle,MemoryAddress>(Data).Format()
             };
 
         public override string ToString()

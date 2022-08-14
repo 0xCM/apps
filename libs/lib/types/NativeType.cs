@@ -15,13 +15,13 @@ namespace Z0
         [MethodImpl(Inline)]
         public NativeType(NativeScalar src)
         {
-            Data = Refs.@as<NativeScalar,byte>(src);
+            Data = sys.@as<NativeScalar,byte>(src);
         }
 
         [MethodImpl(Inline)]
         public NativeType(NativeSegType src)
         {
-            Data = Refs.@as<NativeSegType,ushort>(src);
+            Data = sys.@as<NativeSegType,ushort>(src);
         }
 
         public bool IsCellType
@@ -39,7 +39,7 @@ namespace Z0
         public NativeScalar CellType
         {
             [MethodImpl(Inline)]
-            get => Refs.@as<NativeType,NativeScalar>(this);
+            get => sys.@as<NativeType,NativeScalar>(this);
         }
 
         public NativeClass Class
@@ -62,11 +62,11 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public NativeSegType AsSegType()
-            => Refs.@as<NativeType,NativeSegType>(this);
+            => sys.@as<NativeType,NativeSegType>(this);
 
         [MethodImpl(Inline)]
         public NativeScalar AsCellType()
-            => Refs.@as<NativeType,NativeScalar>(this);
+            => sys.@as<NativeType,NativeScalar>(this);
 
         [MethodImpl(Inline)]
         public bool Equals(NativeType src)

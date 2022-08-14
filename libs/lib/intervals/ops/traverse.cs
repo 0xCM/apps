@@ -16,7 +16,7 @@ namespace Z0
             var min = Sized.bw64(src.Min);
             var max = Sized.bw64(src.Max);
             for(var i=min; i<max; i++)
-                f(Refs.@as<T>(i));
+                f(sys.@as<T>(i));
         }
 
         [MethodImpl(Inline)]
@@ -28,7 +28,7 @@ namespace Z0
             var i0=offset;
             var j=offset;
             for(var i=i0; i<max; i++, j++)
-                seek(dst,j) = f(Refs.@as<S>(i));
+                seek(dst,j) = f(sys.@as<S>(i));
             return i0 - j;
         }
     }

@@ -5,7 +5,6 @@
 namespace Z0
 {
     using static Spans;
-    using static Refs;
     using static HexCharData;
 
     using H = HexCharData;
@@ -38,7 +37,7 @@ namespace Z0
         /// <param name="src">The value to be hex-encoded</param>
         [MethodImpl(Inline), Op]
         public static HexUpperCode code(UpperCased upper, Hex4 src)
-            => (HexUpperCode)skip(first(UpperHexDigits), src);
+            => (HexUpperCode)sys.skip(first(UpperHexDigits), src);
 
         /// <summary>
         /// Returns the hex character code for a <see cref='uint4'/> value
@@ -46,7 +45,7 @@ namespace Z0
         /// <param name="src">The value to be hex-encoded</param>
         [MethodImpl(Inline), Op]
         public static HexLowerCode code(LowerCased lower, Hex4 src)
-            => (HexLowerCode)skip(first(LowerHexDigits), src);
+            => (HexLowerCode)sys.skip(first(LowerHexDigits), src);
 
         /// <summary>
         /// Returns the hex character code for a specified value of at most 4 bits
@@ -54,7 +53,7 @@ namespace Z0
         /// <param name="src">The value to be hex-encoded</param>
         [MethodImpl(Inline), Op]
         public static HexUpperCode code(N4 n, UpperCased upper, byte src)
-            => (HexUpperCode)skip(first(UpperHexDigits), src);
+            => (HexUpperCode)sys.skip(first(UpperHexDigits), src);
 
         /// <summary>
         /// Returns the hex character code for a <see cref='uint4'/> value
@@ -62,6 +61,6 @@ namespace Z0
         /// <param name="src">The value to be hex-encoded</param>
         [MethodImpl(Inline), Op]
         public static HexLowerCode code(N4 n, LowerCased lower, byte src)
-            => (HexLowerCode)skip(first(LowerHexDigits), src);
+            => (HexLowerCode)sys.skip(first(LowerHexDigits), src);
    }
 }

@@ -4,8 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Spans;
-    using static Refs;
+    using static sys;
 
     partial class math
     {
@@ -98,7 +97,7 @@ namespace Z0
 
                 ref readonly var current = ref first(src);
                 for(var i=0u; i<src.Length; i++)
-                    sum += skip(current,i);
+                    sum += sys.skip(current,i);
 
                 return (sbyte)(sum/(long)src.Length);
             }
@@ -113,7 +112,7 @@ namespace Z0
 
                 ref readonly var current = ref first(src);
                 for(var i=0u; i<src.Length; i++)
-                    sum += skip(current,i);
+                    sum += sys.skip(current,i);
 
                 return (byte)(sum/(ulong)src.Length);
             }
@@ -128,7 +127,7 @@ namespace Z0
 
                 ref readonly var current = ref first(src);
                 for(var i=0u; i<src.Length; i++)
-                    sum += skip(current,i);
+                    sum += sys.skip(current,i);
 
                 return (short)(sum/(long)src.Length);
             }
@@ -158,7 +157,7 @@ namespace Z0
 
                 ref readonly var current = ref first(src);
                 for(var i=0u; i<src.Length; i++)
-                    sum += skip(current,i);
+                    sum += sys.skip(current,i);
 
                 return (int)(sum/(long)src.Length);
             }
@@ -173,7 +172,7 @@ namespace Z0
 
                 ref readonly var current = ref first(src);
                 for(var i=0u; i<src.Length; i++)
-                    sum += skip(current,i);
+                    sum += sys.skip(current,i);
 
                 return (uint)(sum/(ulong)src.Length);
             }
@@ -188,7 +187,7 @@ namespace Z0
 
                 ref readonly var current = ref first(src);
                 for(var i=0u; i<src.Length; i++)
-                    sum += skip(current,i);
+                    sum += sys.skip(current,i);
 
                 return sum/src.Length;
             }
@@ -203,7 +202,7 @@ namespace Z0
 
                 ref readonly var current = ref first(src);
                 for(var i=0u; i<src.Length; i++)
-                    sum += skip(current,i);
+                    sum += sys.skip(current,i);
 
                 return sum/(ulong)src.Length;
             }
@@ -258,7 +257,7 @@ namespace Z0
 
                 ref readonly var current = ref first(src);
                 for(var i=0u; i<src.Length; i++)
-                    sum += skip(current,i);
+                    sum += sys.skip(current,i);
 
                 return (float)(sum/(float)src.Length);
             }
@@ -273,7 +272,7 @@ namespace Z0
 
                 ref readonly var current = ref first(src);
                 for(var i=0u; i<src.Length; i++)
-                    sum += skip(current,i);
+                    sum += sys.skip(current,i);
 
                 return sum/(double)src.Length;
             }

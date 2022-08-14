@@ -5,7 +5,6 @@
 namespace Z0
 {
     using static Spans;
-    using static Refs;
     using static bit;
 
     using C = AsciCode;
@@ -47,7 +46,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ReadOnlySpan<char> render4x4<T>(char sep, uint n, in T src, Span<char> dst)
             where T : unmanaged
-                => render4x4(sep, n, bytes(src), dst);
+                => render4x4(sep, n, sys.bytes(src), dst);
 
         [MethodImpl(Inline), Op]
         public static uint render4x4(ReadOnlySpan<byte> src, Span<C> dst, C sep = C.Space)

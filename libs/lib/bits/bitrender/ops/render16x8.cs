@@ -5,7 +5,6 @@
 namespace Z0
 {
     using static Spans;
-    using static Refs;
     using static bit;
 
     partial struct BitRender
@@ -40,13 +39,13 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ReadOnlySpan<char> render16x8<T>(char sep, uint n, in T src, Span<char> dst)
             where T : unmanaged
-                => render16x8(sep, n, bytes(src), dst);
+                => render16x8(sep, n, sys.bytes(src), dst);
 
         [MethodImpl(Inline), Op]
         public static uint render16x8(char sep, ushort src, uint offset, Span<char> dst)
         {
             var counter = 0u;
-            var cells = bytes(src);
+            var cells = sys.bytes(src);
             counter += render8(skip(cells,1), counter + offset, dst);
             counter += separate(counter + offset, sep, dst);
             counter += render8(skip(cells,0), counter + offset, dst);
@@ -57,7 +56,7 @@ namespace Z0
         public static uint render16x8(char sep, ushort src, ref uint i, Span<char> dst)
         {
             var i0 = i;
-            var cells = bytes(src);
+            var cells = sys.bytes(src);
             render8(skip(cells,1), ref i, dst);
             seek(dst,i++) = sep;
             render8(skip(cells,0), ref i, dst);

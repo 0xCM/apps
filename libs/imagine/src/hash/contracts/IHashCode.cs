@@ -25,7 +25,7 @@ namespace Z0
             => Value.ToString();
 
         ReadOnlySpan<byte> IHashCode.Data
-            => Refs.bytes(Value);
+            => sys.bytes(Value);
      }
 
     [Free]

@@ -128,7 +128,7 @@ namespace Z0
             where T : unmanaged
         {
             if(typeof(T) == typeof(byte))
-                return generic<T>(math.or(uint8(a), uint8(b), uint8(c)));
+                return sys.generic<T>(math.or(uint8(a), uint8(b), uint8(c)));
             else if(typeof(T) == typeof(ushort))
                 return generic<T>(math.or(uint16(a), uint16(b), uint16(c)));
             else if(typeof(T) == typeof(uint))

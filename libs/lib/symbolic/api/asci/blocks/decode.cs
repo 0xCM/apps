@@ -47,12 +47,12 @@ namespace Z0
         public static ReadOnlySpan<char> decode(in AsciBlock4 src)
         {
             var storage = 0ul;
-            ref var dst = ref @as<ulong,char>(storage);
-            ref readonly var input = ref @as<byte,uint>(src.First);
-            seek(dst, 0) = (char)(byte)(input >> 0);
-            seek(dst, 1) = (char)(byte)(input >> 8);
-            seek(dst, 2) = (char)(byte)(input >> 16);
-            seek(dst, 3) = (char)(byte)(input >> 24);
+            ref var dst = ref sys.@as<ulong,char>(storage);
+            ref readonly var input = ref sys.@as<byte,uint>(src.First);
+            sys.seek(dst, 0) = (char)(byte)(input >> 0);
+            sys.seek(dst, 1) = (char)(byte)(input >> 8);
+            sys.seek(dst, 2) = (char)(byte)(input >> 16);
+            sys.seek(dst, 3) = (char)(byte)(input >> 24);
             return Algs.cover(dst, ByteBlock4.Size);
         }
 
@@ -74,7 +74,7 @@ namespace Z0
         public static void decode(in AsciBlock32 src, ref char dst)
         {
             decode(src.Lo, ref dst);
-            decode(src.Hi, ref seek(dst, 16));
+            decode(src.Hi, ref sys.seek(dst, 16));
         }
 
         [MethodImpl(Inline), Op]
@@ -106,7 +106,7 @@ namespace Z0
         {
             ref var storage = ref src.First;
             var v1 = cpu.vload(w256, storage);
-            var v2 = cpu.vload(w256, seek(storage, 32));
+            var v2 = cpu.vload(w256, sys.seek(storage, 32));
             var x0 = vpack.vinflatelo256x16u(v1);
             var x1 = vpack.vinflatehi256x16u(v1);
             var x2 = vpack.vinflatelo256x16u(v2);

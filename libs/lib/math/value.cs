@@ -6,7 +6,6 @@ namespace Z0
 {
     using static Refs;
     using static Spans;
-    using static Sized;
     using static Scalars;
 
     using M = math;
@@ -35,7 +34,7 @@ namespace Z0
         public static Hash32 hash<T>(value<T> src)
             where T : unmanaged
         {
-            if(size<T>() == 8)
+            if(Refs.size<T>() == 8)
                 return uint8(src.Data);
             else if(size<T>() == 16)
                 return uint16(src.Data);
@@ -48,7 +47,7 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static value<T> from<T>(ReadOnlySpan<byte> src)
             where T : unmanaged
-                => new value<T>(first(recover<T>(src)));
+                => new value<T>(sys.first(sys.recover<T>(src)));
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static bit eq<T>(value<T> a, value<T> b)
@@ -165,7 +164,7 @@ namespace Z0
             where T : unmanaged
         {
             if(size<T>() == 1)
-                return new value<T>(@as<T>(M.sll(uint8(a.Data), count)));
+                return new value<T>(sys.@as<T>(M.sll(uint8(a.Data), count)));
             else if(size<T>() == 2)
                 return new value<T>(@as<T>(M.sll(uint16(a.Data), count)));
             else if(size<T>() == 4)

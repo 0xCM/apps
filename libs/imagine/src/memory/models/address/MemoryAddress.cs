@@ -93,7 +93,7 @@ namespace Z0
         public ref T As<T>()
         {
             var pSrc = Pointer();
-            return ref Refs.@as<T>(pSrc);
+            return ref sys.@as<T>(pSrc);
         }
 
         [MethodImpl(Inline)]

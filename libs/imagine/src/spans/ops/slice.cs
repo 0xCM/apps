@@ -16,7 +16,7 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static ReadOnlySpan<T> slice<T>(ReadOnlySpan<T> src, uint offset)
-            => Algs.cover(skip(src,offset), (uint)(src.Length - offset));
+            => sys.cover(skip(src,offset), (uint)(src.Length - offset));
 
         /// <summary>
         /// Selects a segment [offset, length(src) - 1] from a source span src:ReadOnlySpan[T]
@@ -26,7 +26,7 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static ReadOnlySpan<T> slice<T>(ReadOnlySpan<T> src, ulong offset)
-            => Algs.cover(skip(src,offset), (ulong)((ulong)src.Length - offset));
+            => sys.cover(skip(src,offset), (ulong)((ulong)src.Length - offset));
 
         /// <summary>
         /// Selects a segment [offset, length(src) - 1] from a source span src:ReadOnlySpan[T]
@@ -36,7 +36,7 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static ReadOnlySpan<T> slice<T>(ReadOnlySpan<T> src, int offset)
-            => Algs.cover(skip(src,(uint)offset), src.Length - offset);
+            => sys.cover(skip(src,(uint)offset), src.Length - offset);
 
         /// <summary>
         /// Draws a specified count of T-cells from a source span beginning at a specified offset
@@ -47,7 +47,7 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static ReadOnlySpan<T> slice<T>(ReadOnlySpan<T> src, int offset, int length)
-            => Algs.cover(skip(src,(uint)offset), length);
+            => sys.cover(skip(src,(uint)offset), length);
 
         /// <summary>
         /// Draws a specified count of T-cells from a source span beginning at a specified offset
@@ -58,7 +58,7 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static ReadOnlySpan<T> slice<T>(ReadOnlySpan<T> src, uint offset, uint length)
-            => Algs.cover(skip(src, offset), length);
+            => sys.cover(skip(src, offset), length);
 
         /// <summary>
         /// Draws a specified count of T-cells from a source span beginning at a specified offset
@@ -69,7 +69,7 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static ReadOnlySpan<T> slice<T>(ReadOnlySpan<T> src, long offset, long length)
-            => Algs.cover(skip(src, offset), length);
+            => sys.cover(skip(src, offset), length);
 
         /// <summary>
         /// Draws a specified count of T-cells from a source span beginning at a specified offset
@@ -80,7 +80,7 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static ReadOnlySpan<T> slice<T>(ReadOnlySpan<T> src, ulong offset, ulong length)
-            => Algs.cover(skip(src, offset), length);
+            => sys.cover(skip(src, offset), length);
 
         /// <summary>
         /// Selects a segment [offset, length(src) - 1] from a source span src:Span[T]
@@ -90,7 +90,7 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static Span<T> slice<T>(Span<T> src, int offset)
-            => CreateSpan(ref Refs.seek(first(src), offset), src.Length - offset);
+            => CreateSpan(ref sys.seek(first(src), offset), src.Length - offset);
 
         /// <summary>
         /// Selects a segment [offset, length(src) - 1] from a source span src:Span[T]
@@ -100,7 +100,7 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static Span<T> slice<T>(Span<T> src, uint offset)
-            => CreateSpan(ref Refs.seek(first(src), offset), (int)(src.Length - offset));
+            => CreateSpan(ref sys.seek(first(src), offset), (int)(src.Length - offset));
 
         /// <summary>
         /// Draws a specified count of T-cells from a source span beginning at a specified offset
@@ -111,7 +111,7 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static Span<T> slice<T>(Span<T> src, int offset, int length)
-            => CreateSpan(ref Refs.seek(first(src), offset), length);
+            => CreateSpan(ref sys.seek(first(src), offset), length);
 
         /// <summary>
         /// Draws a specified count of T-cells from a source span beginning at a specified offset
@@ -122,7 +122,7 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static Span<T> slice<T>(Span<T> src, uint offset, uint length)
-            => CreateSpan(ref Refs.seek(first(src), offset), (int)length);
+            => CreateSpan(ref sys.seek(first(src), offset), (int)length);
 
         /// <summary>
         /// Draws a specified count of T-cells from a source span beginning at a specified offset
@@ -133,7 +133,7 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static Span<T> slice<T>(Span<T> src, long offset, long length)
-            => CreateSpan(ref Refs.seek(first(src), offset), (int)length);
+            => CreateSpan(ref sys.seek(first(src), offset), (int)length);
 
         /// <summary>
         /// Draws a specified count of T-cells from a source span beginning at a specified offset
@@ -144,6 +144,6 @@ namespace Z0
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static Span<T> slice<T>(Span<T> src, ulong offset, ulong length)
-            => CreateSpan(ref Refs.seek(first(src), offset), (int)length);
+            => CreateSpan(ref sys.seek(first(src), offset), (int)length);
    }
 }

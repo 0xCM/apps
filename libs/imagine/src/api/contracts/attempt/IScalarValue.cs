@@ -20,7 +20,7 @@ namespace Z0
         where T : unmanaged
     {
         T IValued<T>.Value
-            => Refs.@as<IScalarValue<T>,T>(this);
+            => sys.@as<IScalarValue<T>,T>(this);
 
         string IExpr.Format()
             => $"{Value}";

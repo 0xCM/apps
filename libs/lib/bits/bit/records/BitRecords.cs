@@ -4,9 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Refs;
-    using static Spans;
-    using static Sized;
+    using static sys;
 
     [ApiHost]
     public readonly partial struct BitRecords
@@ -88,7 +86,7 @@ namespace Z0
             }
 
             if(rem != 0)
-                dep += store(slice(src,0,dep), slice(dst,0,dep));
+                dep += store(Spans.slice(src,0,dep), slice(dst,0,dep));
 
             return dep;
         }

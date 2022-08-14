@@ -5,7 +5,6 @@
 namespace Z0
 {
     using static Spans;
-    using static Refs;
 
     partial struct BitRender
     {
@@ -20,7 +19,7 @@ namespace Z0
         public static uint render32x8(char sep, uint src, ref uint i, Span<char> dst)
         {
             var i0 = i;
-            var cells = bytes(src);
+            var cells = sys.bytes(src);
             render8(skip(cells,3), ref i, dst);
             seek(dst,i++) = sep;
 

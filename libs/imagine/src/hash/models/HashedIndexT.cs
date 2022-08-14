@@ -5,7 +5,7 @@
 namespace Z0
 {
     using static Arrays;
-    using static Refs;
+    using static sys;
 
     public class HashedIndex<T>
         where T : IEquatable<T>

@@ -4,8 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Refs;
-    using static Spans;
+    using static sys;
 
     [ApiHost]
     public readonly struct ArrayBuilder
@@ -48,9 +47,9 @@ namespace Z0
         {
             var deposited = src.ViewDeposited();
             var count = deposited.Length;
-            ref var target = ref seek(dst, offset);
+            ref var target = ref Spans.seek(dst, offset);
             for(var i=offset; i<count; i++)
-                seek(target,i) = skip(deposited, i);
+                seek(target,i) = Spans.skip(deposited, i);
         }
     }
 }

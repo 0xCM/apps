@@ -56,11 +56,11 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public ref T Var<T>(uint index)
-            => ref Refs.@as<object,T>(Vars[index]);
+            => ref sys.@as<object,T>(Vars[index]);
 
         [MethodImpl(Inline)]
         public ref T Var<T>(int index)
-            => ref Refs.@as<object,T>(Vars[index]);
+            => ref sys.@as<object,T>(Vars[index]);
 
         public ref object this[uint i]
         {

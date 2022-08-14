@@ -5,7 +5,7 @@
 namespace Z0
 {
     using static Spans;
-    using static Refs;
+    using static sys;
 
     public ref struct RingBuffer<T>
         where T : unmanaged
@@ -65,7 +65,7 @@ namespace Z0
         ref T Head
         {
             [MethodImpl(Inline)]
-            get => ref first(Buffer);
+            get => ref sys.first(Buffer);
         }
 
         int MaxPos

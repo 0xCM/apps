@@ -4,8 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Spans;
     using static Refs;
+    using static Spans;
 
     using A = AsciBlock64;
     using B = ByteBlock64;

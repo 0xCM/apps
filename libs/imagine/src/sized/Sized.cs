@@ -6,8 +6,7 @@ namespace Z0
 {
     using static System.Runtime.CompilerServices.Unsafe;
     using static ScalarCast;
-    using static Spans;
-    using static Refs;
+    using static sys;
 
     [ApiHost,Free]
     public class Sized

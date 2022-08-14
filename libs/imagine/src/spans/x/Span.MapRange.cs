@@ -4,9 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Spans;
     using static Arrays;
-    using static Refs;
+    using static sys;
     using static Algs;
 
     partial class XTend
@@ -24,7 +23,7 @@ namespace Z0
         {
             var dst = new T[length];
             for (uint i = (uint)offset; i<length; i++)
-                seek(dst,i) = f(skip(src,i));
+                seek(dst,i) = f(sys.skip(src,i));
             return dst;
         }
 

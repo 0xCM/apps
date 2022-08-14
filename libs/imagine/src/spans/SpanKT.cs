@@ -5,7 +5,7 @@
 namespace Z0
 {
     using static Spans;
-    using static Refs;
+    using static sys;
 
     /// <summary>
     /// Defines a <typeparamref name="K"/> -indexed span
@@ -54,13 +54,13 @@ namespace Z0
         public ref T this[K i]
         {
             [MethodImpl(Inline)]
-            get => ref seek(Data, u32(i));
+            get => ref sys.seek(Data, u32(i));
         }
 
         public ref T First
         {
             [MethodImpl(Inline)]
-            get => ref first(Data);
+            get => ref sys.first(Data);
         }
 
         [MethodImpl(Inline)]

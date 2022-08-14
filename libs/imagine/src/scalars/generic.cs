@@ -18,11 +18,11 @@ namespace Z0
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static int int32<T>(T src)
-            => Refs.@as<T,int>(src);
+            => sys.@as<T,int>(src);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static long int64<T>(T src)
-            => Refs.@as<T,long>(src);
+            => sys.@as<T,long>(src);
 
         /// <summary>
         /// Converts a parametric source to a <see cref='byte'/>
@@ -31,7 +31,7 @@ namespace Z0
         /// <typeparam name="T">The source type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static byte uint8<T>(T src)
-            => Refs.@as<T,byte>(src);
+            => sys.@as<T,byte>(src);
 
         /// <summary>
         /// Presents a parametric source to a <see cref='ushort'/>
@@ -40,7 +40,7 @@ namespace Z0
         /// <typeparam name="T">The source type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static ushort uint16<T>(T src)
-            => Refs.@as<T,ushort>(src);
+            => sys.@as<T,ushort>(src);
 
         /// <summary>
         /// Presents a parametric source to a <see cref='uint'/>
@@ -49,7 +49,7 @@ namespace Z0
         /// <typeparam name="T">The source type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static uint uint32<T>(T src)
-            => Refs.@as<T,uint>(src);
+            => sys.@as<T,uint>(src);
 
         /// <summary>
         /// Converts a parametric source to a <see cref='ulong'/>
@@ -58,19 +58,19 @@ namespace Z0
         /// <typeparam name="T">The source type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static ulong uint64<T>(T src)
-            => Refs.@as<T,ulong>(src);
+            => sys.@as<T,ulong>(src);
 
         [MethodImpl(Inline), Op, Closures(AllNumeric)]
         public static float float32<T>(T src)
-            => Refs.@as<T,float>(src);
+            => sys.@as<T,float>(src);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static double float64<T>(T src)
-            => Refs.@as<T,double>(src);
+            => sys.@as<T,double>(src);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static bool @bool<T>(T src)
-            => Refs.@as<T,bool>(src);
+            => sys.@as<T,bool>(src);
 
         /// <summary>
         /// Presents a parametric reference as a <see cref='char'/> reference
@@ -79,7 +79,7 @@ namespace Z0
         /// <typeparam name="T">The source type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static char c16<T>(T src)
-            => Refs.@as<T,char>(src);
+            => sys.@as<T,char>(src);
 
         [MethodImpl(Inline), Op, Closures(AllNumeric)]
         public static decimal float128<T>(T src)

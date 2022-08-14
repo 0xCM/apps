@@ -6,7 +6,7 @@ namespace Z0
 {
     using N = ToolNames;
 
-    public partial class Tools
+    partial class Tools
     {
         public sealed class Msvs : Tool<Msvs>
         {
@@ -22,7 +22,5 @@ namespace Z0
             public override string ToString()
                 => Format();
         }
-
-
     }
 }

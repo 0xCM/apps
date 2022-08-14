@@ -5,7 +5,6 @@
 namespace Z0
 {
     using static Spans;
-    using static Refs;
 
     public ref struct SpanBuffer<T>
     {

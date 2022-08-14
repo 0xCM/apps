@@ -15,6 +15,6 @@ namespace Z0
         /// <typeparam name="T">The type of the referenced data</typeparam>
         [MethodImpl(Inline), Op, Closures(AllNumeric)]
         public static unsafe void* pvoid<T>(in T src)
-            => AsPointer(ref Refs.edit(src));
+            => AsPointer(ref sys.edit(src));
     }
 }

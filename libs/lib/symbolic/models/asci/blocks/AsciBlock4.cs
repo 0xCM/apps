@@ -4,8 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Spans;
-    using static Refs;
+    using static sys;
 
     using A = AsciBlock4;
     using B = ByteBlock4;
@@ -79,7 +78,7 @@ namespace Z0
         public ref byte First
         {
             [MethodImpl(Inline)]
-            get => ref first(Bytes);
+            get => ref sys.first(Bytes);
         }
 
         [MethodImpl(Inline)]

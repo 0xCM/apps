@@ -84,7 +84,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator Size<T>(ByteSize src)
-            => new Size<T>(Refs.@as<T>((ulong)src));
+            => new Size<T>(sys.@as<T>((ulong)src));
 
         [MethodImpl(Inline)]
         public static implicit operator ByteSize(Size<T> src)

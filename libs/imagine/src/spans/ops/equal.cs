@@ -20,7 +20,7 @@ namespace Z0
             ref readonly var a = ref Spans.first(src);
             ref readonly var b = ref Spans.first(dst);
             for(var i=0; i<count; i++)
-                if(!Refs.skip(a,i).Equals(Refs.skip(b,i)))
+                if(!sys.skip(a,i).Equals(sys.skip(b,i)))
                     return false;
 
             return true;

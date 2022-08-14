@@ -16,7 +16,7 @@ namespace Z0
         /// <typeparam name="T">The source type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         static ref char c16<T>(in T src)
-            => ref Refs.@as<T,char>(src);
+            => ref sys.@as<T,char>(src);
 
         /// <summary>
         /// Unconditionally converts the source values to values of parametric numeric type

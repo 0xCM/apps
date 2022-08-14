@@ -4,8 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Spans;
-    using static Refs;
+    using static sys;
 
     using A = AsciBlock24;
     using B = ByteBlock24;
@@ -65,13 +64,13 @@ namespace Z0
         public ref S this[int index]
         {
             [MethodImpl(Inline)]
-            get => ref seek(Symbols,index);
+            get => ref sys.seek(Symbols,index);
         }
 
         public ref S this[uint index]
         {
             [MethodImpl(Inline)]
-            get => ref seek(Symbols,index);
+            get => ref sys.seek(Symbols,index);
         }
 
         public ref byte First

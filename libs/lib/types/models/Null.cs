@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct Null : ITextual, INullity, INullary<Null>, IType
+    public readonly struct Null : IType
     {
         public static Null Empty => default;
 

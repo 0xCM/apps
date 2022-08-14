@@ -16,13 +16,13 @@ namespace Z0
             where T : unmanaged
         {
             if(Sized.width<T>() == 8)
-                return Refs.u8(src);
+                return sys.u8(src);
             if(Sized.width<T>() == 16)
-                return Refs.u16(src);
+                return sys.u16(src);
             else if(Sized.width<T>() == 32)
-                return Refs.u32(src);
+                return sys.u32(src);
             else
-                return Refs.u64(src);
+                return sys.u64(src);
         }
 
         [MethodImpl(Inline), Op, Closures(AllNumeric)]
@@ -30,23 +30,23 @@ namespace Z0
             where T : unmanaged
         {
             if(Sized.width<T>() == 8)
-                return Refs.i8(src);
+                return sys.i8(src);
             if(Sized.width<T>() == 16)
-                return Refs.i16(src);
+                return sys.i16(src);
             else if(Sized.width<T>() == 32)
-                return Refs.i32(src);
+                return sys.i32(src);
             else
-                return Refs.i64(src);
+                return sys.i64(src);
         }
 
         [MethodImpl(Inline), Op]
         public static long bw64i(ReadOnlySpan<byte> src)
         {
             var storage = z64i;
-            ref var dst = ref Refs.@as<byte>(storage);
+            ref var dst = ref sys.@as<byte>(storage);
             var count = min(8,src.Length);
             for(var i=0; i<count; i++)
-                Refs.seek(dst,i) = Spans.skip(src,i);
+                sys.seek(dst,i) = Spans.skip(src,i);
             return storage;
         }
 
@@ -54,10 +54,10 @@ namespace Z0
         public static ulong bw64u(ReadOnlySpan<byte> src)
         {
             var storage = z64;
-            ref var dst = ref Refs.@as<byte>(storage);
+            ref var dst = ref sys.@as<byte>(storage);
             var count = min(8,src.Length);
             for(var i=0; i<count; i++)
-                Refs.seek(dst,i) = Spans.skip(src,i);
+                sys.seek(dst,i) = Spans.skip(src,i);
             return storage;
         }
     }

@@ -4,8 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Spans;
-    using static Refs;
+    using static sys;
 
     using A = AsciBlock8;
     using B = ByteBlock8;
@@ -67,13 +66,13 @@ namespace Z0
         public ref S this[int index]
         {
             [MethodImpl(Inline)]
-            get => ref seek(Symbols,index);
+            get => ref sys.seek(Symbols,index);
         }
 
         public ref S this[uint index]
         {
             [MethodImpl(Inline)]
-            get => ref seek(Symbols,index);
+            get => ref sys.seek(Symbols,index);
         }
 
         public ref byte First
@@ -91,7 +90,7 @@ namespace Z0
         public ref H Hi
         {
             [MethodImpl(Inline)]
-            get => ref seek(@as<H>(First), 1);
+            get => ref sys.seek(@as<H>(First), 1);
         }
 
         [MethodImpl(Inline)]
@@ -105,7 +104,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator ulong(A src)
-            => u64(src);
+            => sys.u64(src);
 
         [MethodImpl(Inline)]
         public static implicit operator A(string src)

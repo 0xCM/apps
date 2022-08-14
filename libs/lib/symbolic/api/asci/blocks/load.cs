@@ -5,8 +5,8 @@
 namespace Z0
 {
     using static Refs;
-    using static Scalars;
     using static Spans;
+    using static Scalars;
 
     using C = AsciCode;
     using S = AsciSymbol;
@@ -21,7 +21,7 @@ namespace Z0
             var count = min(src.Length,target.ByteCount);
             ref var dst = ref @as<C>(target.First);
             for(var i=0; i<count; i++)
-                seek(dst, i) = skip(src, i);
+                sys.seek(dst, i) = skip(src, i);
             return ref target;
         }
 
@@ -33,7 +33,7 @@ namespace Z0
             var count = min(src.Length,target.ByteCount);
             ref var dst = ref @as<S>(target.First);
             for(var i=0; i<count; i++)
-                seek(dst, i) = skip(src, i);
+                sys.seek(dst, i) = skip(src, i);
             return ref target;
         }
 

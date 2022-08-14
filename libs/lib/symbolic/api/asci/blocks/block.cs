@@ -4,12 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Refs;
     using static Spans;
     using static Arrays;
     using static Scalars;
-
-    using C = AsciCode;
     using S = AsciSymbol;
 
     partial struct AsciBlocks
@@ -27,7 +24,7 @@ namespace Z0
             ref var dst = ref first(buffer);
             var count = min(buffer.Length, chars.Length);
             for(var i=0; i<count; i++)
-                seek(dst,i) = skip(chars,i);
+                sys.seek(dst,i) = skip(chars,i);
             return new AsciBlock<N>(buffer);
         }
     }

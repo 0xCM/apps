@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static sys;
+    using static Refs;
     using static Arrays;
 
     [ApiHost]
@@ -81,7 +81,7 @@ namespace Z0
         public static LiteralType[] literals(params Type[] src)
         {
             var count = src.Length;
-            var dst = alloc<LiteralType>(count);
+            var dst = sys.alloc<LiteralType>(count);
             for(var i=0; i<count; i++)
                 seek(dst,i) = literal(NextKey(DataTypeKind.Literal), skip(src,i));
             return dst;
@@ -154,7 +154,7 @@ namespace Z0
         static void init(out Index<DataTypeKind,TypeKey> dst)
         {
             var kinds = Symbols.index<DataTypeKind>();
-            dst = alloc<TypeKey>(kinds.Count);
+            dst = sys.alloc<TypeKey>(kinds.Count);
             for(var i=0; i<kinds.Count; i++)
                 dst[kinds[i].Kind] = TypeKey.Empty;
         }
