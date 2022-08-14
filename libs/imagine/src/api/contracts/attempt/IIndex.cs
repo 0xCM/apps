@@ -3,7 +3,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Arrays;
     using static sys;
     using static Spans;
 

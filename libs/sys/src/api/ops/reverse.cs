@@ -4,11 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct Enums
+    partial class sys
     {
-        [MethodImpl(Inline)]
-        public static ClrEnumFieldAdapter<E> field<E>(uint index, FieldInfo src, E value)
-            where E : unmanaged, Enum
-                => new ClrEnumFieldAdapter<E>(index,src,value);
+        [Op, Closures(Closure)]
+        public static T[] reverse<T>(T[] src)
+        {
+            Array.Reverse(src);
+            return src;
+        }
     }
 }

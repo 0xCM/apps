@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     partial struct Enums
@@ -15,10 +11,10 @@ namespace Z0
         public static EnumLiteralDetails<E> details<E>()
             where E : unmanaged, Enum
         {
-            var type = Enums.@base<E>();
+            var type = @base<E>();
             var fields = @readonly(typeof(E).LiteralFields());
             var count = fields.Length;
-            var buffer = alloc<EnumLiteralDetail<E>>(count);
+            var buffer = sys.alloc<EnumLiteralDetail<E>>(count);
             ref var dst = ref first(buffer);
             for(var i=0u; i<count; i++)
             {
