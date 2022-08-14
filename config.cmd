@@ -130,5 +130,5 @@ set LocalRestore=dotnet restore %ProjectPath% --packages %NuGetDeps% --use-curre
 set MimeTypes=%Views%\db\servers\mime.types
 set WsServe=http-server %SlnRoot% --port 48005 --ext txt --mimetypes %MimeTypes% --gzip --brotli -o
 set RestoreDeps=dotnet restore %ProjectProps%deps.props --packages %NuGetDeps% --use-current-runtime --verbosity normal --force-evaluate
-mkdir %BuildLogs% 1>nul 2>nul
-mkdir %NuGetDeps% 1>nul 2>nul
+: mkdir %BuildLogs% 1>nul 2>nul
+: mkdir %NuGetDeps% 1>nul 2>nul
