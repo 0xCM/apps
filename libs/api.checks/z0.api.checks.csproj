@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="$(ApiCode)" />
-    <ProjectReference Include="$(ApiContracts)" />
     <ProjectReference Include="$(Tools)" />
     <ProjectReference Include="$(ApiMd)" />
     <ProjectReference Include="$(ApiSvc)" />

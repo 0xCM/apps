@@ -1,1 +1,0 @@
-Start-Process -UseNewEnvironment -FilePath $env:vscode -ArgumentList "." -WorkingDirectory "."

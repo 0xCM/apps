@@ -6,13 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="$(Literals)" />
-    <ProjectReference Include="$(Interop)" />
-    <ProjectReference Include="$(Nats)" />
-    <ProjectReference Include="$(Monadic)" />
     <ProjectReference Include="$(ClrQuery)" />
     <ProjectReference Include="$(Imagine)" />
-    <ProjectReference Include="$(ApiIdentity)" />
   </ItemGroup>
 
 </Project>

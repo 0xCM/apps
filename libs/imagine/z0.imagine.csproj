@@ -8,11 +8,6 @@
   <ItemGroup>
     <ProjectReference Include="$(Sys)" />
     <ProjectReference Include="$(Text)" />
-    <ProjectReference Include="$(Nats)" />
-    <ProjectReference Include="$(Monadic)" />
-    <ProjectReference Include="$(Interop)" />
-
-    <ProjectReference Include="$(ApiContracts)" />
   </ItemGroup>
 
 </Project>

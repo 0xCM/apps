@@ -6,7 +6,6 @@
 
   <PropertyGroup>
     <ApiCode>$(SlnLibs)api.code\z0.api.code.csproj</ApiCode>
-    <ApiContracts>$(SlnLibs)api.contracts\z0.api.contracts.csproj</ApiContracts>
     <Assets>$(SlnLibs)assets\z0.assets.csproj</Assets>
     <Agents>$(SlnLibs)agents\z0.agents.csproj</Agents>
 

@@ -9,8 +9,6 @@
 
   <ItemGroup>
     <ProjectReference Include="$(Imagine)" />
-    <ProjectReference Include="$(Literals)" />
-    <ProjectReference Include="$(Monadic)" />
     <ProjectReference Include="$(ClrModels)" />
   </ItemGroup>
 
