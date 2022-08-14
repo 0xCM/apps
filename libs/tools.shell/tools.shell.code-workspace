@@ -14,16 +14,22 @@
 			"path": "..\\literals"
 		},
 		{
+			"path": "..\\api.contracts"
+		},
+		{
+			"path": "..\\part"
+		},
+		{
 			"path": "..\\sys"
+		},
+		{
+			"path": "..\\monadic"
 		},
 		{
 			"path": "..\\text"
 		},
 		{
 			"path": "..\\interop"
-		},
-		{
-			"path": "..\\api.contracts"
 		},
 		{
 			"path": "..\\part"
@@ -66,6 +72,9 @@
 		},
 		{
 			"path": "..\\tools"
+		},
+		{
+			"path": "..\\builds"
 		},
 		{
 			"path": "."

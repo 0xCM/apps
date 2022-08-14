@@ -13,7 +13,7 @@ namespace Z0
     {
         public static XedDisasmSummary summary(FileFlowContext context, in DataFile src)
         {
-            var lines = bag<XedDisasmLines>();
+            var lines = sys.bag<XedDisasmLines>();
             summary(src.Source, context.Root(src.Source), src.Blocks, lines).Require();
             var sorted = lines.ToArray().Sort();
             return new XedDisasmSummary(src, src.Origin, resequence(sorted.Select(line => line.Row)), sorted);

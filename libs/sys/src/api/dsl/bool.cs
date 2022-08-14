@@ -8,11 +8,8 @@ namespace Z0
 
     partial class sys
     {
-        [MethodImpl(Inline)]
-        public static T noinit<T>(out T dst)
-        {
-            SkipInit(out dst);
-            return dst;
-        }
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static ref bool @bool<T>(in T src)
+            => ref As<T,bool>(ref edit(src));
     }
 }

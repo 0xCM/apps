@@ -15,7 +15,7 @@ namespace Z0
         {
             if(pll)
             {
-                var dst = bag<StateRecord>();
+                var dst = sys.bag<StateRecord>();
                 iter(src.Blocks, b => dst.Add(state(b)));
                 return new OperandStates(dst.Array().Sort());
             }

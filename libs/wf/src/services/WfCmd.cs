@@ -128,8 +128,13 @@ namespace Z0
         [CmdOp("launchers")]
         protected void Launchers(CmdArgs args)
         {
-            var src = AppDb.Control().Sources("launch").Files(FileKind.Ps1);            
-            iter(src, file => Write(file.FileName.WithoutExtension));
+            var src = AppDb.Control().Sources("launch").Files(FileKind.Ps1);
+            var emitter = text.emitter();
+            iter(src, file => emitter.AppendLine(file.ToUri()));
+            var data = emitter.Emit();
+            Emitter.Row(data);
+            Emitter.FileEmit(data, AppDb.App().Path("launchers", FileKind.List));
+            //Emitter.FileEmit()
             
             //Emitter.FileEmit()
         }
@@ -150,7 +155,8 @@ namespace Z0
         void ReadSettings(CmdArgs args)
         {
             var src = AppSettings.load();
-            iter(src, setting => Write(setting.Format()));
+
+            //iter(src, setting => Write(setting.Format()));
         }
 
         [CmdOp("setting")]

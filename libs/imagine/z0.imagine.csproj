@@ -10,7 +10,6 @@
     <ProjectReference Include="$(Text)" />
     <ProjectReference Include="$(Nats)" />
     <ProjectReference Include="$(Monadic)" />
-    <ProjectReference Include="$(Part)" />
     <ProjectReference Include="$(Interop)" />
 
     <ProjectReference Include="$(ApiContracts)" />

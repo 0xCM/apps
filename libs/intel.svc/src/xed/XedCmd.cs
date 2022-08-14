@@ -54,7 +54,7 @@ namespace Z0
         {
             var context = Context();
             var flow = XedDisasm.flow(context);
-            var targets = bag<ITarget>();
+            var targets = sys.bag<ITarget>();
             var sources = XedDisasm.sources(context);
             iter(XedDisasm.sources(context), src => {
                 var dst = Wf.DisasmAnalyser();

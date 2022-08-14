@@ -37,7 +37,7 @@ namespace Z0
 
         public static Index<Field32> pack(BfDataset<FieldName,Field32> spec, ReadOnlySpan<Field32Source> src, bool pll = true)
         {
-            var dst = bag<Field32>();
+            var dst = sys.bag<Field32>();
             iter(src,opcode => dst.Add(pack(spec,opcode)), pll);
             return dst.Index().Sort();
         }

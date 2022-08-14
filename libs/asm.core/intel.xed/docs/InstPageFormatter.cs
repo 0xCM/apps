@@ -24,7 +24,7 @@ namespace Z0
 
             public Index<InstIsaFormat> GroupFormats(Index<InstPattern> src)
             {
-                var buffer = bag<InstIsaFormat>();
+                var buffer = sys.bag<InstIsaFormat>();
                 iter(src.GroupBy(x => x.Isa.Kind), g => buffer.Add(format(g.Key, g.Array())), AppData.PllExec());
                 return buffer.Array().Sort();
             }

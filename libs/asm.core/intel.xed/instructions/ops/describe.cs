@@ -16,7 +16,7 @@ namespace Z0
         public static Index<InstPatternRecord> records(Index<InstPattern> src, bool pll = true)
         {
             var count = src.Count;
-            var dst = bag<InstPatternRecord>();
+            var dst = sys.bag<InstPatternRecord>();
             iter(src, p => dst.Add(record(p)), pll);
             var sorted = dst.Array().Sort(PatternSort.comparer());
             return sorted.Resequence();

@@ -6,8 +6,8 @@ namespace Z0
 {
     using static System.Runtime.CompilerServices.Unsafe;
 
-    [ApiHost]
-    public readonly struct ScalarCast
+    [ApiHost, Free]
+    public class ScalarCast
     {
         [MethodImpl(Inline), Op, Closures(AllNumeric)]
         public static sbyte int8<T>(T src)
@@ -81,7 +81,6 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(AllNumeric)]
         public static double float64<T>(T src)
             => As<T,double>(ref src);
-
 
         /// <summary>
         /// Converts a <see cref='sbyte'/> to a <see cref='byte'/>

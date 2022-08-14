@@ -12,7 +12,7 @@ namespace Z0
         {
             public static Index<FieldUsage> fields(CellTables src)
             {
-                var buffer = bag<FieldUsage>();
+                var buffer = sys.bag<FieldUsage>();
                 iter(src.View, table => collect(table,buffer),true);
                 return buffer.Index().Sort();
             }

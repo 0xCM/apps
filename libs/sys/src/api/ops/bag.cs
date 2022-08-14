@@ -4,12 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static System.Runtime.CompilerServices.Unsafe;
-
-    partial class Algs
+    partial class sys
     {
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static ref bool @bool<T>(in T src)
-            => ref As<T,bool>(ref edit(src));
+        [MethodImpl(Options), Op, Closures(Closure)]
+        public static ConcurrentBag<T> bag<T>()
+            => new();
     }
 }

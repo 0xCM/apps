@@ -144,7 +144,7 @@ namespace Z0
         public static ApiMembers jit(ReadOnlySpan<Assembly> src, IWfEventTarget log, bool pll)
         {
             var @base = Process.GetCurrentProcess().MainModule.BaseAddress;
-            var dst = bag<ApiMembers>();
+            var dst = sys.bag<ApiMembers>();
             iter(src, part => dst.Add(jit(part,log)), pll);
             return ApiQuery.members(@base, dst.SelectMany(x => x).Array());
         }

@@ -5,7 +5,7 @@
 namespace Z0
 {
     using static core;
-
+    
     public sealed class AppSettings : SettingLookup<Name,string>
     {
         static AppSettings _Service = AppSettings.load();
@@ -30,6 +30,13 @@ namespace Z0
 
         }
 
+        public override string Format()
+        {
+            var dst = text.emitter();            
+            iter(Data, s => dst.AppendLine(s));
+            return dst.Emit();
+        }
+
         public static AppSettings load(FS.FilePath src)
         {
             var data = src.ReadLines(true);
@@ -39,7 +46,7 @@ namespace Z0
                 ref readonly var line = ref data[i];
                 var parts = text.split(line, Chars.Pipe);
                 Require.equal(parts.Length,2);
-                seek(dst,i-1)= new Setting(text.trim(skip(parts,0)), text.trim(skip(parts,1)));
+                seek(dst,i-1)= new Setting(text.trim(sys.skip(parts,0)), text.trim(sys.skip(parts,1)));
             }
             return new AppSettings(dst);
         }
@@ -51,6 +58,6 @@ namespace Z0
             => load(path());
 
         public static FS.FilePath path()
-            => FS.path(controller().Location).FolderPath + FS.file("app.settings", FileKind.Csv);
+            => FS.path(sys.controller().Location).FolderPath + FS.file("app.settings", FileKind.Csv);
     }
 }

@@ -12,7 +12,7 @@ namespace Z0
     {
         public static Index<Document> docs(FileFlowContext context, bool pll = true)
         {
-            var dst = bag<Document>();
+            var dst = sys.bag<Document>();
             iter(sources(context), src => dst.Add(doc(context,src)), pll);
             return dst.Index();
         }

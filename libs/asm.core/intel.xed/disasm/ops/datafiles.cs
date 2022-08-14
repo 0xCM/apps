@@ -12,7 +12,7 @@ namespace Z0
         public static Index<DataFile> datafiles(FileFlowContext context, bool pll = true)
         {
             var src = sources(context);
-            var dst = bag<DataFile>();
+            var dst = sys.bag<DataFile>();
             iter(src, file => dst.Add(datafile(context,file)), pll);
             return dst.Index().Sort();
         }

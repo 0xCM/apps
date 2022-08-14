@@ -66,7 +66,7 @@ namespace Z0
 
         Seq<CollectedHost> Capture(IApiCatalog catalog, ReadOnlySeq<Assembly> src)
         {
-            var dst = bag<CollectedHost>();
+            var dst = sys.bag<CollectedHost>();
             var ids = Settings.Parts.IsEmpty ? src.Select(x => x.Id()).Where(x => x != 0).ToSeq() : Settings.Parts;
             var running = Emitter.Running($"Running capture workflow: {ids.Delimit()}");
             Capture(catalog, ids.View, dst);
@@ -77,7 +77,7 @@ namespace Z0
 
         Seq<CollectedHost> Capture(IApiCatalog src)
         {
-            var dst = bag<CollectedHost>();
+            var dst = sys.bag<CollectedHost>();
             var parts = src.PartCatalogs;
             var ids = parts.Select(x => x.PartId);
             var running = Emitter.Running($"Running capture workflow: {ids.Delimit()}");
@@ -143,7 +143,7 @@ namespace Z0
 
         void Capture(IApiPartCatalog src, ICompositeDispenser dispenser, ConcurrentBag<CollectedHost> dst, IWfEventTarget log)
         {
-            var tmp = bag<CollectedHost>();
+            var tmp = sys.bag<CollectedHost>();
             ApiCode.gather(src, dispenser, tmp, log, Settings.PllExec);
             var code = tmp.ToArray();
             ApiCodeSvc.Emit(src.PartId, code, Target, Settings.PllExec);

@@ -68,7 +68,7 @@ namespace Z0.Asm
 
         static Index<Outcome<uint>> rows(FS.Files src, ConcurrentBag<HostAsmRecord> dst)
         {
-            var results = bag<Outcome<uint>>();
+            var results = sys.bag<Outcome<uint>>();
             iter(src, path => {
                 results.Add(rows(path, dst));
             }, true);
@@ -139,7 +139,7 @@ namespace Z0.Asm
         {
             const string TableId = HostAsmRecord.TableId;
             var counter = 0u;
-            var dst = bag<HostAsmRecord>();
+            var dst = sys.bag<HostAsmRecord>();
             var flow = Running(string.Format("Parsing {0} records from {1} documents", TableId, src.Count));
             if(pll)
             {

@@ -12,7 +12,7 @@ namespace Z0
     {
         public static Detail detail(XedDisasmSummary summary, bool pll = true)
         {
-            var dst = bag<DetailBlock>();
+            var dst = sys.bag<DetailBlock>();
             iter(summary.LineIndex, lines => dst.Add(block(lines)), pll);
             return new Detail(summary.DataFile, resequence(dst.ToArray()));
         }

@@ -98,7 +98,7 @@ namespace Z0
 
         public static ReadOnlySpan<TextGrid> load(ReadOnlySpan<FS.FilePath> src)
         {
-            var dst = bag<TextGrid>();
+            var dst = sys.bag<TextGrid>();
             iter(src, path => {
                 using var reader = path.Utf8Reader();
                 var attempt = parse(reader);

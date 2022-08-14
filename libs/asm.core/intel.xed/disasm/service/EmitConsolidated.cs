@@ -14,8 +14,8 @@ namespace Z0
     {
         void EmitConsolidated(FileFlowContext context, Index<Document> src)
         {
-            var summaries = bag<XedDisasmRow>();
-            var details = bag<DetailBlock>();
+            var summaries = sys.bag<XedDisasmRow>();
+            var details = sys.bag<DetailBlock>();
             iter(src, pair =>{
                 iter(pair.Summary.Rows, r => summaries.Add(r));
                 iter(pair.Detail.Blocks, b => details.Add(b));

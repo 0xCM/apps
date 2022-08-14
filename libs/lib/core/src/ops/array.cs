@@ -8,9 +8,6 @@ namespace Z0
 
     partial struct core
     {
-        public static ConcurrentBag<T> bag<T>()
-            => new();
-
         [MethodImpl(Inline)]
         public static T[] array<T>(IEnumerable<T> src)
             => sys.array(src);

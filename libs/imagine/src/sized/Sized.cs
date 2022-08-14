@@ -217,7 +217,7 @@ namespace Z0
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static uint width<T>()
-            => (uint)SizeOf<T>()*8;
+            => (uint)sys.size<T>()*8;
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static uint size<T>()

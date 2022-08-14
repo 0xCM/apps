@@ -119,7 +119,7 @@ namespace Z0
             iter(codes.Kinds, chip => {
                 var kinds = map[chip];
                 var dst = Targets("isaforms").Path(FS.file(string.Format("xed.isa.{0}", chip), FS.Csv));
-                var matches = bag<FormImport>();
+                var matches = sys.bag<FormImport>();
                 iter(kinds, k => {
                     if(isaforms.TryGetValue(k, out var forms))
                         matches.AddRange(forms);

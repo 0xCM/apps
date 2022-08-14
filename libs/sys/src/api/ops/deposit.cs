@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class Algs
+    partial class sys
     {
         [MethodImpl(Inline), Closures(Closure)]
         public static void deposit<T>(ReadOnlySpan<T> src, HashSet<T> dst)

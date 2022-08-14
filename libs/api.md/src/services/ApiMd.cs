@@ -35,7 +35,7 @@ namespace Z0
 
         ReadOnlySeq<IApiHost> CalcApiHosts()
         {
-            var dst = bag<IApiHost>();
+            var dst = sys.bag<IApiHost>();
             iter(Assemblies, a => iter(ApiRuntime.hosts(a), h => dst.Add(h)), PllExec);
             return dst.Array();
         }

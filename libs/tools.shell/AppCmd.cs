@@ -11,6 +11,7 @@ namespace Z0
                 wf.WfCmd(),
                 wf.ToolCmd(), 
                 wf.CsGenCmd(),
+                wf.BuildCmd(),
                 };
 
         public static AppShellCmd commands(IWfRuntime wf)

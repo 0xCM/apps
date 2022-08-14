@@ -11,7 +11,7 @@ namespace Z0.llvm
         public Index<LlvmAsmPattern> CalcAsmStrings(Index<LlvmEntity> src)
         {
             var count = src.Count;
-            var dst = bag<LlvmAsmPattern>();
+            var dst = sys.bag<LlvmAsmPattern>();
             iter(src, entity => {
 
                 if(entity.IsInstruction())

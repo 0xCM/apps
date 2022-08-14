@@ -10,7 +10,7 @@ namespace Z0.Asm
     {
         public Index<AsmCallRow> EmitRows(ReadOnlySpan<ApiPartRoutines> src, FS.FolderPath dir)
         {
-            var dst = bag<AsmCallRow>();
+            var dst = sys.bag<AsmCallRow>();
             var count = src.Length;
             for(var i=0; i<count; i++)
                 EmitRows(skip(src,i), dst, FS.FilePath.Empty);

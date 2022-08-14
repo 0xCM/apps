@@ -8,6 +8,6 @@ namespace Z0
     {
         [MethodImpl(Inline)]
         public static uint size<T>()
-            => Sized.size<T>();
+            => sys.size<T>();
     }
 }
