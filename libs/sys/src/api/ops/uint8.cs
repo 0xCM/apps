@@ -5,7 +5,7 @@
 namespace Z0
 {
     partial class sys
-    {
+    {        
         /// <summary>
         /// Presents a parametric source reference to a <see cref='byte'/>
         /// </summary>

@@ -4,24 +4,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
-    /// <summary>
-    /// Defines a catalog over <see cref='ApiMember'/> values for a specified <see cref='IApiHost'/>
-    /// </summary>
     public readonly struct ApiHostMethods : IIndex<MethodInfo>
     {
         [MethodImpl(Inline), Op]
         public static ApiHostMethods load(IApiHost host, MethodInfo[] methods)
-            => new ApiHostMethods(host, methods);
+            => ApiQuery.methods(host,methods);
 
         [MethodImpl(Inline), Op]
         public static ApiHostMethods load(IApiHost src)
-            => load(src, src.Methods);
+            => ApiQuery.methods(src);
 
-        public IApiHost Host {get;}
+        public readonly IApiHost Host;
 
-        public MethodInfo[] Storage {get;}
+        public readonly MethodInfo[] Storage;
 
         [MethodImpl(Inline)]
         public ApiHostMethods(IApiHost host, MethodInfo[] src)
@@ -57,14 +52,17 @@ namespace Z0
         public ReadOnlySpan<ClrMethodAdapter> View
         {
             [MethodImpl(Inline)]
-            get => recover<MethodInfo,ClrMethodAdapter>(@readonly(Storage));
+            get => sys.recover<MethodInfo,ClrMethodAdapter>(sys.@readonly(Storage));
         }
 
         public static ApiHostMethods Empty
         {
             [MethodImpl(Inline)]
-            get => new ApiHostMethods(ApiHost.Empty, array<MethodInfo>());
+            get => new ApiHostMethods(ApiHost.Empty, sys.array<MethodInfo>());
         }
+
+        MethodInfo[] IIndex<MethodInfo>.Storage 
+            => Storage;
 
         [MethodImpl(Inline)]
         public static implicit operator MethodInfo[](ApiHostMethods src)

@@ -13,7 +13,7 @@ namespace Z0
         /// <param name="generic">Whether generic or non-generic methods should be selected</param>
         [Op]
         public static ApiHostMethods vectorized(IApiHost host, W128 w, GenericState g = default)
-            => ApiHostMethods.load(host, g.IsGeneric() ? ApiHostMethods.load(host).Storage.VectorizedGeneric(w) : ApiHostMethods.load(host).Storage.VectorizedDirect(w));
+            => methods(host, g.IsGeneric() ? methods(host).Storage.VectorizedGeneric(w) : methods(host).Storage.VectorizedDirect(w));
 
         /// <summary>
         /// Queries the host for operations vectorized over 128-bit vectors
@@ -22,17 +22,17 @@ namespace Z0
         /// <param name="generic">Whether generic or non-generic methods should be selected</param>
         [Op]
         public static ApiHostMethods vectorized(IApiHost host, W256 w, GenericState g = default)
-            => ApiHostMethods.load(host, g.IsGeneric() ? ApiHostMethods.load(host).Storage.VectorizedGeneric(w) : ApiHostMethods.load(host).Storage.VectorizedDirect(w));
+            => methods(host, g.IsGeneric() ? methods(host).Storage.VectorizedGeneric(w) : methods(host).Storage.VectorizedDirect(w));
 
         [Op, Closures(Closure)]
         public static ApiHostMethods vectorized<K>(IApiHost host, W128 w, K kind, GenericState g = default)
             where K : unmanaged
-                => ApiHostMethods.load(host, classified(host,kind,g).Storage.VectorizedDirect(w));
+                => methods(host, classified(host,kind,g).Storage.VectorizedDirect(w));
 
         [Op, Closures(Closure)]
         public static ApiHostMethods vectorized<K>(IApiHost host, W256 w, K kind, GenericState g = default)
             where K : unmanaged
-                => ApiHostMethods.load(host, classified(host,kind,g).Storage.VectorizedDirect(w));
+                => methods(host, classified(host,kind,g).Storage.VectorizedDirect(w));
 
         /// <summary>
         /// Queries the host for vectorized methods of specified vector width, name and generic partition
@@ -42,7 +42,7 @@ namespace Z0
         /// <param name="g">The generic partition to consider</param>
         [Op]
         public static ApiHostMethods vectorized(IApiHost host, W128 w, string name, GenericState g = default)
-            => ApiHostMethods.load(host, ApiHostMethods.load(host).Storage.Vectorized(w,name,g));
+            => methods(host, methods(host).Storage.Vectorized(w,name,g));
 
         /// <summary>
         /// Queries the host for vectorized methods of specified vector width, name and generic partition
@@ -52,6 +52,6 @@ namespace Z0
         /// <param name="g">The generic partition to consider</param>
         [Op]
         public static ApiHostMethods vectorized(IApiHost host, W256 w, string name, GenericState g = default)
-            => ApiHostMethods.load(host, ApiHostMethods.load(host).Storage.Vectorized(w,name,g));
+            => methods(host, methods(host).Storage.Vectorized(w,name,g));
     }
 }

@@ -72,6 +72,17 @@ namespace Z0
 
             public IntelSdmPaths SdmPaths(IWfRuntime wf)
                 => Service<IntelSdmPaths>(wf);
+
+            public XedToolCmd XedToolCmd(IWfRuntime wf)
+                => Service<XedToolCmd>(wf);
+
+            public CultProcessor CultProcessor(IWfRuntime wf)
+                => Service<CultProcessor>(wf);
+ 
+            public AsmFlowCmd AsmFlowCmd(IWfRuntime wf)
+                => Service<AsmFlowCmd>(wf);
+
+ 
         }
 
         static Svc Services => Svc.Instance;
@@ -138,5 +149,15 @@ namespace Z0
 
         public static IntelSdmPaths SdmPaths(this IWfRuntime wf)
             => Services.SdmPaths(wf);
+
+        public static XedToolCmd XedToolCmd(this IWfRuntime wf)
+            => Services.XedToolCmd(wf);
+
+         public static AsmFlowCmd AsmFlowCmd(this IWfRuntime wf)
+           => Services.AsmFlowCmd(wf);
+
+         public static CultProcessor CultProcessor(this IWfRuntime wf)
+            => Services.CultProcessor(wf);
+          
     }
 }

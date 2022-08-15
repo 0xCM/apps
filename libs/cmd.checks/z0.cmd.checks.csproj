@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="$(CmdSpecs)" />
-    <ProjectReference Include="$(ApiSvc)" />
     <ProjectReference Include="$(Rules)" />
   </ItemGroup>
 

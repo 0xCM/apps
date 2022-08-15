@@ -28,7 +28,7 @@ namespace Z0
         public Span<T> Edit
         {
             [MethodImpl(Inline)]
-            get => Algs.cover(First, CellCount);
+            get => sys.cover(First, CellCount);
         }
 
         public ReadOnlySpan<T> View
@@ -40,19 +40,19 @@ namespace Z0
         public ref T this[long index]
         {
             [MethodImpl(Inline)]
-            get => ref seek(First,index);
+            get => ref sys.seek(First,index);
         }
 
         public ref T this[ulong index]
         {
             [MethodImpl(Inline)]
-            get => ref seek(First,index);
+            get => ref sys.seek(First,index);
         }
 
         public uint CellCount
         {
             [MethodImpl(Inline)]
-            get => Range.ByteCount/size<T>();
+            get => Range.ByteCount/sys.size<T>();
         }
 
         [MethodImpl(Inline)]

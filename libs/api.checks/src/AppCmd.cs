@@ -12,7 +12,6 @@ namespace Z0
                 wf.WfCmd(),
                 wf.ToolCmd(),
                 wf.ApiCmd(),
-                wf.AsmFlowCmd(),
             };
 
         public static AppCmd commands(IWfRuntime wf)

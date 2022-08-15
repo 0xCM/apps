@@ -20,11 +20,11 @@ namespace Z0
         [MethodImpl(Inline)]
         public static Span<T> map<S,T>(ReadOnlySpan<S> src, Func<S,T> f, Span<T> dst)
         {
-            var count = min(src.Length, dst.Length);
-            ref readonly var input = ref Spans.first(src);
-            ref var target = ref Spans.first(dst);
+            var count = sys.min(src.Length, dst.Length);
+            ref readonly var input = ref sys.first(src);
+            ref var target = ref sys.first(dst);
             for(var i=0u; i<count; i++)
-                seek(target,i) = f(skip(input,i));
+                sys.seek(target,i) = f(sys.skip(input,i));
             return dst;
         }
 
@@ -76,7 +76,7 @@ namespace Z0
             var buffer = sys.alloc<T>(count);
             var target = span(buffer);
             for(var i=0u; i<count; i++)
-                Spans.seek(target,i) = f(Spans.skip(source,i));
+                sys.seek(target,i) = f(sys.skip(source,i));
             return buffer;
         }
 
@@ -152,7 +152,7 @@ namespace Z0
             var count = src.Length;
             var dst = sys.alloc<T>(count);
             for(var i=0; i<count; i++)
-                Arrays.seek(dst,i) = f(Arrays.skip(src,i));
+                sys.seek(dst,i) = f(sys.skip(src,i));
             return dst;
         }
    }

@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     /// <summary>
     /// A <see cref='IByteSequence'/> with mutable cells
     /// </summary>
@@ -17,13 +15,13 @@ namespace Z0
         new ref byte this[uint i]
         {
             [MethodImpl(Inline)]
-            get => ref seek(Edit,i);
+            get => ref sys.seek(Edit,i);
         }
 
         new ref byte this[int i]
         {
             [MethodImpl(Inline)]
-            get => ref seek(Edit,i);
+            get => ref sys.seek(Edit,i);
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Z0
     using static System.Runtime.Intrinsics.X86.Bmi1.X64;
     using static core;
 
-    unsafe partial  class Bytes
+    unsafe partial class Bytes
     {
         [MethodImpl(Inline), Op]
         public static void read4096(byte* pSrc, ref MemoryPage dst)

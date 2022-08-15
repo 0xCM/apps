@@ -28,6 +28,9 @@ namespace Z0
 
             public AsmDbCmd AsmDbCmd(IWfRuntime wf)
                 => Service<AsmDbCmd>(wf);
+
+            public NasmCatalog NasmCatalog(IWfRuntime wf)
+                => Service<NasmCatalog>(wf);
         }
 
         static ServiceCache Services => ServiceCache.Instance;
@@ -49,5 +52,8 @@ namespace Z0
 
         public static AsmDbCmd AsmDbCmd(this IWfRuntime wf)
             => Services.AsmDbCmd(wf);
+
+        public static NasmCatalog NasmCatalog(this IWfRuntime wf)
+            => Services.NasmCatalog(wf);
     }
 }

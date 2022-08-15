@@ -16,6 +16,5 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static ReadOnlySpan<T> ReadOnly<T>(this Span<T> src)
             => src;
-
     }
 }

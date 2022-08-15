@@ -29,10 +29,10 @@ namespace Z0
             var count = min(src?.Length ?? 0, dst?.Length ?? 0);
             if(count != 0)
             {
-                ref var target = ref first(dst);
-                ref readonly var source = ref first(src);
+                ref var target = ref sys.first(dst);
+                ref readonly var source = ref sys.first(src);
                 for(var i=0; i<count; i++)
-                    seek(target,i) = skip(source, i);
+                    sys.seek(target,i) = sys.skip(source, i);
             }
             return count;
         }

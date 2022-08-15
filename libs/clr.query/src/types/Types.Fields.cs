@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection;
-    using System.Linq;
-
     partial class ClrQuery
     {
         /// <summary>
@@ -16,6 +12,6 @@ namespace Z0
         /// <param name="src">The types to search</param>
         [Op]
         public static FieldInfo[] Fields(this Type[] src)
-            => src.SelectMany(x => x.Fields()).ToArray();
+            => src.SelectMany(x => x.Fields()).Array();
     }
 }

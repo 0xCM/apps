@@ -27,5 +27,25 @@ namespace Z0
             src.CopyTo(dst);
             return ref dst;
         }
+
+        /// <summary>
+        /// Copies a source array to a target array
+        /// </summary>
+        /// <param name="src">The list containing the elements to copy</param>
+        /// <param name="dst">The array that will receive the copied elements</param>
+        /// <typeparam name="T">The element type</typeparam>
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static int copy<T>(T[] src, T[] dst)
+        {
+            var count = min(src?.Length ?? 0, dst?.Length ?? 0);
+            if(count != 0)
+            {
+                ref var target = ref sys.first(dst);
+                ref readonly var source = ref sys.first(src);
+                for(var i=0; i<count; i++)
+                    sys.seek(target,i) = sys.skip(source, i);
+            }
+            return count;
+        }
     }
 }

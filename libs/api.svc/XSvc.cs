@@ -9,31 +9,9 @@ namespace Z0
     {
         sealed class AppSvcCache : AppServices<AppSvcCache>
         {
-            public AsmFlowCmd AsmFlowCmd(IWfRuntime wf)
-                => Service<AsmFlowCmd>(wf);
-
-            public XedToolCmd XedToolCmd(IWfRuntime wf)
-                => Service<XedToolCmd>(wf);
-
-            public NasmCatalog NasmCatalog(IWfRuntime wf)
-                => Service<NasmCatalog>(wf);
-
-            public CultProcessor CultProcessor(IWfRuntime wf)
-                => Service<CultProcessor>(wf);
         }
 
         static AppSvcCache Services => AppSvcCache.Instance;
 
-        public static AsmFlowCmd AsmFlowCmd(this IWfRuntime wf)
-           => Services.AsmFlowCmd(wf);
-
-        public static XedToolCmd XedToolCmd(this IWfRuntime wf)
-            => Services.XedToolCmd(wf);
-
-        public static NasmCatalog NasmCatalog(this IWfRuntime wf)
-            => Services.NasmCatalog(wf);
-
-        public static CultProcessor CultProcessor(this IWfRuntime wf)
-            => Services.CultProcessor(wf);
     }
 }

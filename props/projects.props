@@ -13,8 +13,6 @@
 
     <ApiMd>$(SlnLibs)api.md\z0.api.md.csproj</ApiMd>
     <ApiChecks>$(SlnLibs)api.checks\z0.api.checks.csproj</ApiChecks>
-    <ApiSvc>$(SlnLibs)api.svc\z0.api.svc.csproj</ApiSvc>
-    <ApiIdentity>$(SlnLibs)api.identity\z0.api.identity.csproj</ApiIdentity>
 
     <Asm>$(SlnLibs)asm\z0.asm.csproj</Asm>
     <AsmCore>$(SlnLibs)asm.core\z0.asm.core.csproj</AsmCore>

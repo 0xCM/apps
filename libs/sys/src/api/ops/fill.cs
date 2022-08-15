@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static System.Runtime.CompilerServices.Unsafe;
+    
     partial class sys
     {
         /// <summary>
@@ -41,6 +42,6 @@ namespace Z0
         {
             Array.Fill(dst, src);
             return dst;
-        }
+        }        
     }
 }

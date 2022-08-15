@@ -16,7 +16,7 @@ namespace Z0
         [Op, Closures(Closure)]
         public static ApiHostMethods classified<K>(IApiHost src, K k)
             where K : unmanaged
-                => ApiHostMethods.load(src,(from m in ApiHostMethods.load(src).Storage.Tagged(typeof(OpKindAttribute))
+                => methods(src,(from m in ApiHostMethods.load(src).Storage.Tagged(typeof(OpKindAttribute))
                 let a = m.Tag<OpKindAttribute>().Require()
                 where a.ApiClass.ToString() == k.ToString()
                     select m).Array());
@@ -29,6 +29,6 @@ namespace Z0
         [Op, Closures(Closure)]
         public static ApiHostMethods classified<K>(IApiHost host, K k, GenericState g)
             where K : unmanaged
-                => ApiHostMethods.load(host, classified(host,k).Storage.MemberOf(g));
+                => methods(host, classified(host,k).Storage.MemberOf(g));
     }
 }

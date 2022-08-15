@@ -4,12 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection;
-
     partial class ApiQuery
     {
-
         /// <summary>
         /// Determines the <see cref='ApiClassKind'/> classifier of the source method, if any
         /// </summary>

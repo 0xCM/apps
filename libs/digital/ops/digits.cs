@@ -5,7 +5,6 @@
 namespace Z0
 {
     using static sys;
-    using static Scalars;
 
     using BDS = BinaryDigitSym;
     using BDV = BinaryDigitValue;
