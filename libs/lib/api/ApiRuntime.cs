@@ -18,7 +18,7 @@ namespace Z0
             if(catalog)
                 return create(args);
             else
-                return  create(ApiRuntimeCatalog.Empty);
+                return create(ApiRuntimeCatalog.Empty);
         }
 
         public static IWfRuntime create(IApiCatalog src)
@@ -68,23 +68,21 @@ namespace Z0
             var candidates = libs(src);
             foreach(var path in candidates)
             {
-                var component = Assembly.LoadFrom(path.Name);
-                if(component.Id() != 0)
-                    dst.Add(component);
+                var assembly = Assembly.LoadFrom(path.Name);
+                if(assembly.Id() != 0)
+                    dst.Add(assembly);
             }
 
             return dst.ToArray();
         }
 
-        public static IApiCatalog catalog()
+        public static IApiCatalog catalog(Assembly[] src)
         {
-            var src = FS.path(ExecutingPart.Assembly.Location).FolderPath;
-            var candidates = ApiRuntime.assemblies(src).Where(x => x.Id() != 0);
-            var count = candidates.Length;
+            var count = src.Length;
             var parts = list<IPart>();
             for(var i=0; i<count; i++)
             {
-                if(ApiRuntime.load(skip(candidates,i), out var part))
+                if(ApiRuntime.load(skip(src,i), out var part))
                     parts.Add(part);
             }
 
@@ -94,18 +92,15 @@ namespace Z0
         public static ApiPartCatalog catalog(Assembly src)
             => new ApiPartCatalog(src.Id(), src, complete(src), hosts(src), SvcHostTypes(src));
 
-
         static IApiCatalog match(Assembly control, string[] args)
         {
             var dir = FS.path(control.Location).FolderPath;
             if(args.Length == 0)
-            {
-                return ApiRuntime.catalog(dir, ApiRuntime.assemblies(dir).Select(x => x.Id()));
-            }
+                return catalog(dir, assemblies(dir).Select(x => x.Id()));
             else
             {
-                var ids = ApiRuntime.parts(args);
-                return ids.Length == 0 ? ApiRuntime.catalog(dir, sys.array<PartId>(control.Id())) : ApiRuntime.catalog(dir,ids);
+                var ids = parts(args);
+                return ids.Length == 0 ? catalog(dir, sys.array<PartId>(control.Id())) : catalog(dir,ids);
             }
         }
 
@@ -147,10 +142,6 @@ namespace Z0
         static IApiCatalog catalog(FS.FolderPath src, PartId[] parts)
             => catalog(ApiRuntime.parts(src, parts));
 
-        /// <summary>
-        /// Searches an assembly for types tagged with the <see cref="ApiCompleteAttribute"/>
-        /// </summary>
-        /// <param name="src">The assembly to search</param>
         [Op]
         static Index<ApiCompleteType> complete(Assembly src)
         {
@@ -169,7 +160,6 @@ namespace Z0
             }
             return buffer;
         }
-
 
         /// <summary>
         /// Searches an assembly for types tagged with the <see cref="ApiHostAttribute"/>
@@ -219,7 +209,6 @@ namespace Z0
 
             return new FolderFiles(src, dst.Array());
         }
-
 
         static IPart[] parts(FS.FolderPath src, ReadOnlySpan<PartId> ids)
         {

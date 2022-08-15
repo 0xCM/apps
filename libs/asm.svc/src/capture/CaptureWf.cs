@@ -8,6 +8,8 @@ namespace Z0
 
     public class CaptureWf : WfSvc<CaptureWf>
     {
+        ApiMd ApiMd => Wf.ApiMd();
+
         public class SettingsStore : Repository<FS.FilePath, CaptureWfSettings, FS.FilePath>
         {
             public override CaptureWfSettings Load(FS.FilePath key)
@@ -48,7 +50,9 @@ namespace Z0
                 settings.Parts = parts.ToSeq();
             }
             
-            runner(svc, settings, dst, transport).Run(ApiRuntime.catalog());
+            var src = FS.path(ExecutingPart.Assembly.Location).FolderPath;
+            var catalog = ApiRuntime.catalog(ApiRuntime.assemblies(src));
+            runner(svc, settings, dst, transport).Run(catalog);
         }
 
         static SettingsStore Store = new();

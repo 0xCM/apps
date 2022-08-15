@@ -14,8 +14,6 @@ namespace Z0
 
         readonly IApiPack Target;
 
-        readonly IWfEventTarget EventTarget;
-
         public readonly CaptureWfSettings Settings;
 
         readonly WfEmit Emitter;
@@ -27,7 +25,6 @@ namespace Z0
             Wf = svc.Wf;
             Target = dst;
             Settings = settings;
-            EventTarget =  svc.Wf.EventLog;
             Emitter = svc.Emitter;
             Transport = transport;
             Wf.RedirectEmissions(Loggers.emission(Target.Path("capture.emissions", FileKind.Csv)));
