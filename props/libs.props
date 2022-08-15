@@ -53,13 +53,10 @@
     <ProjectReference Include="$(Linq)" />
 
     <ProjectReference Include="$(Machines)" />
-    <ProjectReference Include="$(Models)" />
 
     <ProjectReference Include="$(Memory)" />
     <ProjectReference Include="$(MemoryModels)" />
     <ProjectReference Include="$(MemorySvc)" />
-
-    <ProjectReference Include="$(Models)" />
 
     <ProjectReference Include="$(Native)" />
     <ProjectReference Include="$(Numbers)" />
