@@ -12,34 +12,7 @@ namespace Z0
     {
         const byte ZeroLimit = 10;
 
-        // protected static StatusEvent<T> write<T>(T msg, FlairKind flair = FlairKind.StatusData)
-        //     => Events.status(typeof(ApiCode), msg, flair);
-
-        // protected static BabbleEvent<T> babble<T>(T msg)
-        //     => Events.babble(typeof(ApiCode), msg);
-
-        // protected static StatusEvent<T> status<T>(T msg, FlairKind flair = FlairKind.Status)
-        //     => Events.status(typeof(ApiCode), msg, flair);
-
-        // protected static WarnEvent<T> warn<T>(T msg)
-        //     => Events.warn(typeof(ApiCode), msg);
-
-        // protected static ErrorEvent<string> error(Exception e, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
-        //     => Events.error(typeof(ApiCode), e, caller, file, line);
-
-        // protected static ErrorEvent<T> error<T>(T msg, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
-        //     => Events.error(typeof(ApiCode), msg, Events.originate(typeof(ApiCode).Name,caller, file, line));
-
-        protected static RunningEvent<T> running<T>(T msg)
-            => Events.running(typeof(ApiCode), msg);
-
-        // protected static RanEvent<T> ran<T>(RunningEvent<T> src, T msg = default)
-        //     => Events.ran(src, msg);
-
-        protected static RanEvent<T> ran<T>(T msg)
-            => Events.ran(typeof(ApiCode), msg);
-
-        static ConcurrentDictionary<ApiToken,ApiEncoded> parse(ReadOnlySpan<RawMemberCode> src, IWfEventTarget log)
+        static ConcurrentDictionary<ApiToken,ApiEncoded> parse(ReadOnlySpan<RawMemberCode> src, WfEmit log)
         {
             var count = src.Length;
             var buffer = span<byte>(Pow2.T16);
@@ -73,29 +46,29 @@ namespace Z0
             return parse(dst, log);
         }
 
-        static ConcurrentDictionary<ApiToken,ApiEncoded> parse(Dictionary<ApiHostUri,CollectedCodeExtracts> src, IWfEventTarget log)
+        static ConcurrentDictionary<ApiToken,ApiEncoded> parse(Dictionary<ApiHostUri,CollectedCodeExtracts> src, WfEmit log)
         {
-            log.Deposit(running(Msg.ParsingHosts.Format(src.Count)));
+            var flow = log.Running(Msg.ParsingHosts.Format(src.Count));
             var buffer = sys.alloc<byte>(Pow2.T14);
             var parser = ApiCode.parser(buffer);
             var dst = new ConcurrentDictionary<ApiToken,ApiEncoded>();
             var counter = 0u;
             foreach(var host in src.Keys)
             {
-                log.Deposit(running(Msg.ParsingHostMembers.Format(host)));
+                var running = log.Running(Msg.ParsingHostMembers.Format(host));
                 var extracts = src[host];
                 foreach(var extract in extracts)
                 {
                     parser.Parse(extract.TargetExtract);
                     if(!dst.TryAdd(extract.Token,new ApiEncoded(extract.Token, parser.Parsed)))
-                        log.Deposit(Events.warn(log.Host,$"Duplicate:{extract.Token}"));
+                        log.Warn($"Duplicate:{extract.Token}");
                     else
                         counter++;
                 }
-                log.Deposit(ran(Msg.ParsedHostMembers.Format(extracts.Count, host)));
+                log.Ran(running, Msg.ParsedHostMembers.Format(extracts.Count, host));
             }
 
-            log.Deposit(ran(Msg.ParsedHosts.Format(counter, src.Keys.Count)));
+            log.Ran(flow, Msg.ParsedHosts.Format(counter, src.Keys.Count));
             return dst;
         }
 

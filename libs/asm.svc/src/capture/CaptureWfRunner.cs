@@ -91,7 +91,6 @@ namespace Z0
         {
             var dispenser = Transport.Dispenser;
             var src = ApiMd.Assemblies;
-            //var collected = Capture(catalog, src);
             var collected = Capture(catalog);
             var blocks = collected.SelectMany(x => x.Blocks).Sort();
             EmitMemberIndex(blocks, Target);
@@ -102,7 +101,7 @@ namespace Z0
                 var rebased = Transport.TransmitRebased(ApiCode.catalog(members));
                 var path = Target.Table<ApiCatalogEntry>();
                 Emitter.TableEmit(rebased, path, UTF8);
-                Transport.TransmitReloaded(ApiCode.catalog(path, EventTarget));
+                Transport.TransmitReloaded(ApiCode.catalog(path, Emitter));
             }
 
             if(Settings.EmitMetadata)
@@ -141,7 +140,7 @@ namespace Z0
             return Emitter.Ran(running);
         }
 
-        void Capture(IApiPartCatalog src, ICompositeDispenser dispenser, ConcurrentBag<CollectedHost> dst, IWfEventTarget log)
+        void Capture(IApiPartCatalog src, ICompositeDispenser dispenser, ConcurrentBag<CollectedHost> dst, WfEmit log)
         {
             var tmp = sys.bag<CollectedHost>();
             ApiCode.gather(src, dispenser, tmp, log, Settings.PllExec);
@@ -167,7 +166,7 @@ namespace Z0
         {        
             var result = find(src, id, out var pc);
             if(result)
-                Capture(pc, Dispenser, dst, EventTarget);
+                Capture(pc, Dispenser, dst, Emitter);
             else
                 Emitter.Warn($"Part identifier {id} not found");
         }

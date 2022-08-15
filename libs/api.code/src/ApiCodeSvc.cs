@@ -59,7 +59,7 @@ namespace Z0
 
         public ReadOnlySeq<ApiEncoded> Collect(IPart part, ICompositeDispenser symbols, IApiPack dst)
         {
-            var collected = ApiCode.collect(symbols, part, EventLog);
+            var collected = ApiCode.collect(symbols, part, Emitter);
             Emit(part.Id, collected, dst);
             return collected;
         }
@@ -67,29 +67,8 @@ namespace Z0
         public ReadOnlySeq<EncodedMember> Emit(PartId part, ReadOnlySeq<ApiEncoded> src, IApiPack dst)
             => Emit(src, dst.HexExtractPath(part), dst.CsvExtractPath(part));
 
-        // public ReadOnlySeq<ApiEncoded> Collect(ICompositeDispenser symbols, ApiHostUri src, IApiPack dst)
-        // {
-        //     var entries = ApiCode.entries(ApiRuntimeCatalog, src, EventLog);
-        //     var collected = ReadOnlySeq<ApiEncoded>.Empty;
-        //     if(entries.IsNonEmpty)
-        //     {
-        //         collected = ApiCode.gather(entries, symbols, EventLog);
-        //         Emit(collected, dst.HexExtractPath(src), dst.CsvExtractPath(src));
-        //     }
-        //     else
-        //         Warn($"{src} has no exposed methods");
-        //     return collected;
-        // }
-
-        // public ReadOnlySeq<ApiEncoded> Collect(ApiHostUri src, IApiPack dst)
-        // {
-        //     using var symbols = Dispense.composite();
-        //     return Collect(symbols, src, dst);
-        // }
-
-
         public void Emit(PartId part, ReadOnlySpan<CollectedHost> src, IApiPack dst, bool pll)
-            => iter(src, code => Emit(code,dst), pll);
+            => iter(src, code => Emit(code, dst), pll);
 
         void Emit(CollectedHost src, IApiPack dst)
         {

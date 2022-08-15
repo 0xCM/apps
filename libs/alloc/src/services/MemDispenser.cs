@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Algs;
-
     public class MemoryDispenser : Dispenser<MemoryDispenser>, IMemoryDispenser
     {
         const uint Capacity = MemoryPage.PageSize*16;
@@ -21,7 +19,7 @@ namespace Z0
 
         protected override void Dispose()
         {
-            iter(Allocators.Values, a => a.Dispose());
+            sys.iter(Allocators.Values, a => a.Dispose());
         }
 
         public MemorySeg Memory(ByteSize size)

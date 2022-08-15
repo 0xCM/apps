@@ -9,9 +9,9 @@ namespace Z0
         where T : unmanaged
     {
         new ByteSize Size
-            => Sized.size<T>();
+            => sys.size<T>();
 
         ByteSize IBufferAllocation.Size
-            => Sized.size<T>();
+            => sys.size<T>();
     }
 }

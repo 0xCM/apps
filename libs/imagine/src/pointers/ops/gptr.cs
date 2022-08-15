@@ -28,12 +28,12 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public unsafe static T* gptr<T>(SafeHandle src)
             where T : unmanaged
-                =>  src.DangerousGetHandle().ToPointer<T>();
+                => sys.gptr<T>(src.DangerousGetHandle());
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public unsafe static T* gptr<T>(RuntimeFieldHandle src)
             where T : unmanaged
-                =>  src.Value.ToPointer<T>();
+                =>  sys.gptr<T>(src.Value);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static unsafe T* gptr<T>(IntPtr src)

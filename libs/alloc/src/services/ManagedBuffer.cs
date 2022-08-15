@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Algs;
+    using static sys;
 
     public class ManagedBuffer : Allocation<byte>
     {
@@ -47,13 +47,13 @@ namespace Z0
         public ref byte First
         {
             [MethodImpl(Inline)]
-            get => ref  @ref<byte>(BaseAddress);
+            get => ref  Algs.@ref<byte>(BaseAddress);
         }
 
         protected override Span<byte> Data
         {
             [MethodImpl(Inline)]
-            get => cover<byte>(BaseAddress, _Size);
+            get => Algs.cover<byte>(BaseAddress, _Size);
         }
 
         public BitWidth Width

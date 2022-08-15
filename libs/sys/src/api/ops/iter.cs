@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class Algs
+    partial class sys
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static void iter<T>(ReadOnlySpan<T> src, Action<T> f)

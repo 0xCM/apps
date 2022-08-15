@@ -13,11 +13,11 @@ namespace Z0
     partial class ApiCode
     {
         [Op]
-        public static void gather(IApiPartCatalog src, ICompositeDispenser dispenser, ConcurrentBag<CollectedHost> dst, IWfEventTarget log, bool pll)
+        public static void gather(IApiPartCatalog src, ICompositeDispenser dispenser, ConcurrentBag<CollectedHost> dst, WfEmit log, bool pll)
             => iter(jit(src, log), member => dst.Add(gather(member, dispenser, log)), pll);
 
         [Op]
-        static ConcurrentBag<ApiHostMembers> jit(IApiPartCatalog src, IWfEventTarget log)
+        static ConcurrentBag<ApiHostMembers> jit(IApiPartCatalog src, WfEmit log)
         {
             var members = bag<ApiHostMembers>();
             iter(src.ApiHosts, host => ClrJit.jit(host, members, log));
@@ -25,8 +25,12 @@ namespace Z0
             return members;          
         }
 
+        // [Op]
+        // public static ReadOnlySeq<ApiEncoded> gather(ReadOnlySpan<MethodEntryPoint> src, ICompositeDispenser dispenser, IWfEventTarget log)
+        //     => parse(raw(dispenser, src, log), log).Values.Array().Sort();
+
         [Op]
-        public static ReadOnlySeq<ApiEncoded> gather(ReadOnlySpan<MethodEntryPoint> src, ICompositeDispenser dispenser, IWfEventTarget log)
+        public static ReadOnlySeq<ApiEncoded> gather(ReadOnlySpan<MethodEntryPoint> src, ICompositeDispenser dispenser, WfEmit log)
             => parse(raw(dispenser, src, log), log).Values.Array().Sort();
 
         [Op]
@@ -49,11 +53,11 @@ namespace Z0
         }
 
         [Op]
-        static CollectedHost gather(ApiHostMembers src, ICompositeDispenser dst, IWfEventTarget log)
+        static CollectedHost gather(ApiHostMembers src, ICompositeDispenser dst, WfEmit log)
             => new (src, gather(entries(src.Members), dst, log));
 
         [Op]
-        static Index<RawMemberCode> raw(ICompositeDispenser dispenser, ReadOnlySpan<MethodEntryPoint> src, IWfEventTarget log)
+        static Index<RawMemberCode> raw(ICompositeDispenser dispenser, ReadOnlySpan<MethodEntryPoint> src, WfEmit log)
         {
             var code = sys.alloc<RawMemberCode>(src.Length);
             for(var i=0; i<src.Length; i++)
@@ -67,7 +71,7 @@ namespace Z0
         }
 
         [Op]
-        static RawMemberCode raw(MethodEntryPoint src, ICompositeDispenser dispenser, IWfEventTarget log)
+        static RawMemberCode raw(MethodEntryPoint src, ICompositeDispenser dispenser, WfEmit log)
         {
             var dst = new RawMemberCode();
             dst.Entry = src.Location;
@@ -83,6 +87,6 @@ namespace Z0
             else
                 dst.Token = token(dispenser, src);
             return dst;
-        }
+        }        
     }
 }

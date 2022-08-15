@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Algs;
-
     public abstract class Dispenser<T> : IAllocDispenser
         where T : Dispenser<T>
     {
@@ -13,7 +11,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         protected static uint next()
-            => (uint)inc(ref Seq);
+            => (uint)sys.inc(ref Seq);
 
         protected object Locker;
 

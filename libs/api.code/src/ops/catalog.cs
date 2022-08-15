@@ -9,7 +9,28 @@ namespace Z0
 
     partial class ApiCode
     {
-        public static Index<ApiCatalogEntry> catalog(FS.FilePath src, IWfEventTarget log)
+        // public static Index<ApiCatalogEntry> catalog(FS.FilePath src, IWfEventTarget log)
+        // {
+        //     var rows = list<ApiCatalogEntry>();
+        //     using var reader = src.Utf8Reader();
+        //     reader.ReadLine();
+        //     var line = reader.ReadLine();
+        //     while(line != null)
+        //     {
+        //         var outcome = parse(line, out ApiCatalogEntry row);
+        //         if(outcome)
+        //             rows.Add(row);
+        //         else
+        //         {
+        //             log.Deposit(Events.error(typeof(ApiCatalogs), outcome.Message));
+        //             return array<ApiCatalogEntry>();
+        //         }
+        //         line = reader.ReadLine();
+        //     }
+        //     return rows.ToArray();
+        // }
+
+        public static Index<ApiCatalogEntry> catalog(FS.FilePath src, WfEmit log)
         {
             var rows = list<ApiCatalogEntry>();
             using var reader = src.Utf8Reader();
@@ -22,7 +43,7 @@ namespace Z0
                     rows.Add(row);
                 else
                 {
-                    log.Deposit(Events.error(typeof(ApiCatalogs), outcome.Message));
+                    log.Error(typeof(ApiCatalogs), outcome.Message);
                     return array<ApiCatalogEntry>();
                 }
                 line = reader.ReadLine();

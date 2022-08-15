@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Algs;
-
     public class CellDispenser<T> : Dispenser<CellDispenser<T>>    
         where T : unmanaged
     {
@@ -18,14 +16,14 @@ namespace Z0
         internal CellDispenser(uint partition)
             : base(true)
         {
-            CellSize = size<T>();
+            CellSize = sys.size<T>();
             CellCount = partition;
             Dispenser = Dispense.memory(CellCount*CellSize);
         }
 
         [MethodImpl(Inline)]
         public ref T Cell()
-            => ref @as<T>(Dispenser.Memory(CellSize).Cell(0));
+            => ref sys.@as<T>(Dispenser.Memory(CellSize).Cell(0));
 
         protected override void Dispose()
             => (Dispenser as IDisposable).Dispose();

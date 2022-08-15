@@ -22,7 +22,7 @@ namespace Z0
             var size = 0u;
             for(var i=0; i<src.Length; i++)
             {
-                ref readonly var code = ref src[i].Code;
+                ref readonly var code = ref sys.skip(src,i).Code;
                 writer.WriteLine(code.Format(options));
                 size += code.Size;
             }

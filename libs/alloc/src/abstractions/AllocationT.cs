@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Algs;
-    using static Spans;
-
     /// <summary>
     /// Abstraction for a container that owns a sequence of <typeparamref name='T'/> allocations
     /// </summary>
@@ -40,19 +37,19 @@ namespace Z0
         public ref readonly T this[uint i]
         {
             [MethodImpl(Inline)]
-            get => ref skip(Data,i);
+            get => ref sys.skip(Data,i);
         }
 
         public ref readonly T this[int i]
         {
             [MethodImpl(Inline)]
-            get => ref skip(Data,i);
+            get => ref sys.skip(Data,i);
         }
 
         public virtual ByteSize Size 
         {
             [MethodImpl(Inline)]
-            get => Data.Length*Sized.size<T>();
+            get => Data.Length*sys.size<T>();
         }
 
 

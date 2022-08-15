@@ -47,7 +47,7 @@ namespace Z0
             for(var i=0; i<src.Length; i++)
             {
                 ref readonly var host = ref skip(src, i);
-                var members = ClrJit.members(host,EventLog);
+                var members = ClrJit.members(host, Emitter);
                 var count = members.Length;
                 if(members.Count == 0)
                     continue;
@@ -64,33 +64,11 @@ namespace Z0
             }
         }
 
-        // public ReadOnlySpan<string> ReadUserStrings(PartId part)
-        // {
-        //     var dst =  ReadOnlySpan<string>.Empty;
-        //     if(Reader(part, out var reader))
-        //         dst = reader.ReadStrings(CliStringKind.User);
-        //     return dst;
-        // }
-
         public bool Reader(Assembly src, out CliReader dst)
         {
             dst = CliReader.create(src);
             return true;
         }
-
-        // public bool Reader(PartId part, out CliReader dst)
-        // {
-        //     if(ApiMd.Catalog.Assembly(part, out var component))
-        //     {
-        //         dst = CliReader.create(component);
-        //         return true;
-        //     }
-        //     else
-        //     {
-        //         dst = default;
-        //         return false;
-        //     }
-        // }
 
         /// <summary>
         /// Defines a parametric table source over a specified <see cref='Assembly'/>

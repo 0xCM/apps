@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Algs;
+    using static sys;
 
     public class CaptureWf : WfSvc<CaptureWf>
     {
@@ -31,13 +31,13 @@ namespace Z0
 
         public void Run(CmdArgs args)
         {
-            var dst = ApiPacks.create(timestamp());
+            var dst = ApiPacks.create(Algs.timestamp());
             var settings = new CaptureWfSettings();
             var svc = this;
             using var transport = new CaptureTransport(Dispense.composite(), Emitter);
             if(args.Count !=0)
             {
-                var parts = Algs.list<PartId>();
+                var parts = list<PartId>();
                 iter(args, arg => {
                     if(PartNames.parse(arg.Value, out var name))
                         parts.Add(name);
