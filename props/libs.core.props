@@ -2,6 +2,7 @@
     <ItemGroup>
         <ProjectReference Include="$(Literals)" />
         <ProjectReference Include="$(Sys)" />
+        <ProjectReference Include="$(Bit)" />
         <ProjectReference Include="$(Imagine)" />
         <ProjectReference Include="$(Text)" />
         <ProjectReference Include="$(ClrQuery)" />

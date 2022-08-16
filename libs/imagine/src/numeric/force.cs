@@ -12,6 +12,7 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
+
         /// <summary>
         /// Presents a parametric reference as a <see cref='char'/> reference
         /// </summary>

@@ -208,7 +208,7 @@ namespace Z0.Logix
             {
                 var x = Random.Next<T>();
                 var y = Random.Next<T>();
-                var expect = bit.promote<T>(gmath.lt(x,y));
+                var expect = bits.promote<T>(gmath.lt(x,y));
                 var actual = S.lt(x,y);
                 Claim.eq(expect,actual);
             }
@@ -221,7 +221,7 @@ namespace Z0.Logix
             {
                 var x = Random.Next<T>();
                 var y = Random.Next<T>();
-                var expect = bit.promote<T>(gmath.lteq(x,y));
+                var expect = bits.promote<T>(gmath.lteq(x,y));
                 var actual = S.lteq(x,y);
                 Claim.eq(expect,actual);
             }
@@ -234,7 +234,7 @@ namespace Z0.Logix
             {
                 var x = Random.Next<T>();
                 var y = Random.Next<T>();
-                var expect = bit.promote<T>(gmath.gt(x,y));
+                var expect = bits.promote<T>(gmath.gt(x,y));
                 var actual = S.gt(x,y);
                 Claim.eq(expect,actual);
             }
@@ -247,7 +247,7 @@ namespace Z0.Logix
             {
                 var x = Random.Next<T>();
                 var y = Random.Next<T>();
-                var expect = bit.promote<T>(gmath.gteq(x,y));
+                var expect = bits.promote<T>(gmath.gteq(x,y));
                 var actual = S.gteq(x,y);
                 Claim.eq(expect,actual);
             }

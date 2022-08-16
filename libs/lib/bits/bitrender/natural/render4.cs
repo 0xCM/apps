@@ -5,7 +5,7 @@
 namespace Z0
 {
     using static core;
-    using static bit;
+    using static Numeric;
 
     using C = AsciCode;
 

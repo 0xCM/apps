@@ -4,13 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class text
+    partial struct bit
     {
         /// <summary>
-        /// Encloses text between '[' and ']' characters
+        /// Returns the right operand molested
         /// </summary>
-        /// <param name="content">The content to enclose</param>
-        public static string bracket<T>(T content)
-            => enclose($"{content}", Chars.LBracket, Chars.RBracket);
+        /// <param name="a">The left operand</param>
+        /// <param name="b">The right operand</param>
+        [MethodImpl(Inline), RProject]
+        public static bit right(bit a, bit b)
+            => b;
     }
 }

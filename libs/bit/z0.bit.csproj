@@ -5,10 +5,10 @@
     <TargetFramework>$(FrameworkMoniker)</TargetFramework>
   </PropertyGroup>
 
+  <Import Project="$(ProjectProps)usings.props"/>
+
   <ItemGroup>
-    <ProjectReference Include="$(ClrQuery)" />
-    <ProjectReference Include="$(Imagine)" />
-    <ProjectReference Include="$(Bit)" />
+    <ProjectReference Include="$(Sys)" />
   </ItemGroup>
 
 </Project>

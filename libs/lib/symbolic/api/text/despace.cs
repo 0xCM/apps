@@ -4,8 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Algs;
-    using static Spans;
+    using static sys;
 
     partial class text
     {
@@ -37,7 +36,7 @@ namespace Z0
                     seek(buffer,j++) = c;
                 }
             }
-            return sys.@string(Spans.slice(buffer,0,j));
+            return sys.@string(sys.slice(buffer,0,j));
         }
     }
 }

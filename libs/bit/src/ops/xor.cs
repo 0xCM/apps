@@ -4,13 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class text
+    partial struct bit
     {
         /// <summary>
-        /// Encloses text between '[' and ']' characters
+        /// Computes c = a ^ b
         /// </summary>
-        /// <param name="content">The content to enclose</param>
-        public static string bracket<T>(T content)
-            => enclose($"{content}", Chars.LBracket, Chars.RBracket);
+        /// <param name="a">The left bit</param>
+        /// <param name="b">The right bit</param>
+        [MethodImpl(Inline), Xor]
+        public static bit xor(bit a, bit b)
+            => new bit(a.State ^ b.State);
     }
 }

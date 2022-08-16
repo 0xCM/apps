@@ -4,13 +4,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class text
+    using K = FileKind;
+
+    partial class Tools
     {
         /// <summary>
-        /// Encloses text between '[' and ']' characters
+        /// *.obj -> *.hex.dat
         /// </summary>
-        /// <param name="content">The content to enclose</param>
-        public static string bracket<T>(T content)
-            => enclose($"{content}", Chars.LBracket, Chars.RBracket);
+        public class OToHexDat : FileFlow<OToHexDat,ZTool>
+        {
+            public OToHexDat()
+                : base(ztool, K.O, K.HexDat)
+            {
+
+            }
+        }
     }
 }

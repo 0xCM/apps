@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Captures evidence that k1:K1 & k2:K2 & k3:K3 => k1 % k2 = k3
     /// </summary>

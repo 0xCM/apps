@@ -4,13 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [ApiHost]
-    public readonly partial struct Tables
+    public static partial class XTend
     {
-        const NumericKind Closure = UInt64k;
+        const NumericKind Closure = NumericKind.UnsignedInts;
+    }
 
-        internal const string DefaultDelimiter = " | ";
-
-        internal const byte DefaultFieldWidth = 24;
+    partial class Root
+    {
+        
     }
 }
+

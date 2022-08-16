@@ -24,5 +24,4 @@ namespace Z0
         IActor IFlowCmd.Actor
             => Actor;
     }
-
 }

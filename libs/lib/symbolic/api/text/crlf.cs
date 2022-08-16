@@ -12,8 +12,8 @@ namespace Z0
         public static uint crlf(ref uint i, Span<char> dst)
         {
             var i0 = i;
-            Spans.seek(dst,i++) = (char)AsciControlSym.CR;
-            Spans.seek(dst,i++) = (char)AsciControlSym.LF;
+            sys.seek(dst,i++) = (char)AsciControlSym.CR;
+            sys.seek(dst,i++) = (char)AsciControlSym.LF;
             return i - i0;
         }
     }

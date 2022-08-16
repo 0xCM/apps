@@ -248,6 +248,9 @@ public enum PartId : byte
     [Symbol("fsm")]
     Fsm,
 
+    [Symbol("bit")]
+    Bit,
+
     [Symbol("intel.svc")]
     IntelSvc,
 

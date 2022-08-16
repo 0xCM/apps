@@ -22,6 +22,7 @@
 
     <Archives>$(SlnLibs)archives\z0.archives.csproj</Archives>
 
+    <Bit>$(SlnLibs)bit\z0.bit.csproj</Bit>
     <Bits>$(SlnLibs)bits\z0.bits.csproj</Bits>
     <Builds>$(SlnLibs)builds\z0.builds.csproj</Builds>
 

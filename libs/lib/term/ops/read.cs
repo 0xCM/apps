@@ -17,6 +17,5 @@ namespace Z0
         /// </summary>
         public static char readKey(string content = null)
             => T.ReadKey(content != null ? AppMsg.called(content, LogLevel.Status) : null);
-
     }
 }

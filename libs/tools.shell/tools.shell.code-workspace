@@ -4,35 +4,19 @@
 			"path": "..\\..\\.cmd"
 		},
 		{
-			"name": "artifacts",
-			"path": "..\\..\\.build\\bin\\z0.tools.shell\\Release\\net6.0\\win-x64\\publish"
-		},
-		{
 			"path": "..\\..\\props"
 		},
 		{
 			"path": "..\\literals"
 		},
 		{
-			"path": "..\\api.contracts"
-		},
-		{
-			"path": "..\\part"
-		},
-		{
 			"path": "..\\sys"
-		},
-		{
-			"path": "..\\monadic"
 		},
 		{
 			"path": "..\\text"
 		},
 		{
 			"path": "..\\interop"
-		},
-		{
-			"path": "..\\part"
 		},
 		{
 			"path": "..\\imagine"

@@ -4,34 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using K = FileKind;
-
     partial class Tools
     {
-
-        /// <summary>
-        /// *.obj -> *.hex.dat
-        /// </summary>
-        public class OToHexDat : FileFlow<OToHexDat,ZTool>
-        {
-            public OToHexDat()
-                : base(ztool, K.O, K.HexDat)
-            {
-
-            }
-        }
-
-        /// <summary>
-        /// *.enc.asm -> *.syn.asm.log
-        /// </summary>
-        public class EncAsmToSynLog : FileFlow<EncAsmToSynLog, LlvmMc>
-        {
-            public EncAsmToSynLog()
-                : base(llvm_mc, K.EncAsm, K.SynAsmLog)
-            {
-
-            }
-        }
 
         sealed class EmptyFlow : IFileFlowType
         {

@@ -195,32 +195,32 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static T equals<T>(T a, T b)
             where T : unmanaged
-                => bit.promote<T>(gmath.eq(a,b));
+                => bits.promote<T>(gmath.eq(a,b));
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static T neq<T>(T a, T b)
             where T : unmanaged
-                => bit.promote<T>(gmath.neq(a,b));
+                => bits.promote<T>(gmath.neq(a,b));
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static T lt<T>(T a, T b)
             where T : unmanaged
-                => bit.promote<T>(gmath.lt(a,b));
+                => bits.promote<T>(gmath.lt(a,b));
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static T lteq<T>(T a, T b)
             where T : unmanaged
-                => bit.promote<T>(gmath.lteq(a,b));
+                => bits.promote<T>(gmath.lteq(a,b));
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static T gt<T>(T a, T b)
             where T : unmanaged
-                => bit.promote<T>(gmath.gt(a,b));
+                => bits.promote<T>(gmath.gt(a,b));
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static T gteq<T>(T a, T b)
             where T : unmanaged
-                => bit.promote<T>(gmath.gteq(a,b));
+                => bits.promote<T>(gmath.gteq(a,b));
 
         [MethodImpl(Inline)]
         public static bit same<T>(T a, T b)
