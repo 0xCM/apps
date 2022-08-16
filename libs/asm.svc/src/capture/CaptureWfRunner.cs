@@ -103,7 +103,7 @@ namespace Z0
 
             if(Settings.EmitMetadata)
             {
-                ApiMd.EmitDatasets(Target);
+                ApiMd.Emitter().Emit(Target);
                 CliEmitter.Emit(Settings.CliEmissions, Target);
             }
 

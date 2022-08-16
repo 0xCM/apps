@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Spans;
+    using static sys;
 
     using N = N32;
     using W = W256;
@@ -19,6 +19,10 @@ namespace Z0
     public readonly struct asci32 : IAsciSeq<A,N>
     {
         internal readonly S Storage;
+
+        [MethodImpl(Inline), Op]
+        public static bool eq(asci32 a, asci32 b)
+            => cpu.vtestc(cpu.veq(a.Storage,b.Storage));
 
         [MethodImpl(Inline)]
         public asci32(Vector256<byte> src)

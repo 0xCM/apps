@@ -6,7 +6,7 @@ namespace Z0
 {
     using A = MemoryAddress;
 
-    public unsafe readonly struct MemoryAddress : IAddress<MemoryAddress,ulong>
+    public unsafe readonly struct MemoryAddress : IDataType<MemoryAddress>, IDataString<MemoryAddress> //: IAddress<MemoryAddress,ulong>
     {
         public const NativeSizeCode StorageSize = NativeSizeCode.W64;
 

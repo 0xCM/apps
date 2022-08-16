@@ -4,21 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Spans;
+    using static sys;
 
     using C = AsciCode;
 
     partial struct SymbolicQuery
     {
-        [MethodImpl(Inline), Op]
-        public static bool contains(AsciSeq src, char match)
-            => AsciG.contains(src, (AsciCharSym)match);
-
-        [MethodImpl(Inline), Op]
-        public static bool contains<T>(AsciSeq<T> src, char match)
-            where T : unmanaged, IAsciSeq<T>
-                => AsciG.contains(src, (AsciCharSym)match);
-
         /// <summary>
         /// Determines whether a specified asci character code is within a specified range
         /// </summary>

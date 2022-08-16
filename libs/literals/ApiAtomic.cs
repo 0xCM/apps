@@ -219,6 +219,8 @@ namespace Z0
 
         public const string symbols = nameof(symbols);
 
+        public const string limits = nameof(limits);
+
         public const string images = nameof(images);
 
         public const string steps = nameof(steps);

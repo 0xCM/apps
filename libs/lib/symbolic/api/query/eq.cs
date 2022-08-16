@@ -4,19 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static AsciCode;
-
-    using C = AsciCode;
-
-    using static Spans;
-    using static Algs;
+    using static sys;
 
     partial struct SymbolicQuery
     {
-        [MethodImpl(Inline), Op]
-        public static bool eq(asci32 a, asci32 b)
-            => cpu.vtestc(cpu.veq(a.Storage,b.Storage));
-
         /// <summary>
         /// Returns true if the character spans are equal as strings, false otherwise
         /// </summary>

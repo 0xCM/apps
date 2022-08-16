@@ -124,7 +124,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public int CellCount<W>(W w = default)
             where W : struct, ITypeWidth
-                => ((int)default(W).TypeWidth)/BitWidth.measure<T>();
+                => (int)((ulong)default(W).TypeWidth/BitWidth.measure<T>());
 
         void ReportCaseResult(string casename, bool succeeded, TimeSpan duration)
         {

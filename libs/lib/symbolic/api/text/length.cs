@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Spans;
+    using static sys;
 
     partial class text
     {
@@ -28,7 +28,7 @@ namespace Z0
         /// <param name="src">The data source</param>
         [MethodImpl(Inline), Op]
         public static uint length(ReadOnlySpan<char> src)
-            => SQ.length(src);
+            => UQ.length(src);
 
         /// <summary>
         /// Determines the length of a specified <see cref='string'/>

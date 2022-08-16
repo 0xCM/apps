@@ -23,16 +23,17 @@ namespace Z0
         ReadOnlySeq<ApiTypeInfo> DataTypeInfo()
             => data("DataTypeInfo", () => ApiTypes.describe(DataTypes()));
 
-        internal static ApiMdEmitter create(IWfRuntime wf, ApiMd md, IApiPack dst)
+        internal static ApiMdEmitter create(IWfRuntime wf, ApiMd md)
         {
             var svc = create(wf);
-            svc.Target = dst;
             svc.Md = md;
             return svc;
         }
 
-        public void Emit()
+
+        public void Emit(IApiPack dst)
         {
+            Target = dst;
             var src = Md.Assemblies;
             var symlits = Symbolic.symlits(src);
             exec(true,
@@ -43,9 +44,14 @@ namespace Z0
                 EmitApiLiterals,
                 () => EmitApiDeps(Target),
                 EmitParsers,
+                EmitApiDeps,
                 EmitApiTables,
+                EmitApiTokens,
                 EmitCmdDefs,
+                EmitDataTypes,
                 EmitTypeLists,
+                EmitApiSymbols,
+                EmitPartList,
                 () => EmitSymHeap(Heaps.load(symlits), Target)
             );
         }

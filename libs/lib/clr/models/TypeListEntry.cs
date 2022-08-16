@@ -71,7 +71,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public bool Equals(TypeListEntry src)
-            => SQ.eq(_TypeName,src._TypeName);
+            => asci32.eq(_TypeName,src._TypeName);
         
         [MethodImpl(Inline)]
         public static implicit operator TypeListEntry(string name)

@@ -8,7 +8,7 @@ namespace Z0
 
     using static ScalarCast;
 
-    partial struct Numeric
+    public partial struct Numeric
     {
         const NumericKind Closure = UnsignedInts;
 

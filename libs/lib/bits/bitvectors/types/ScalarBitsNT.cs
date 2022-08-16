@@ -40,7 +40,7 @@ namespace Z0
         /// <summary>
         /// The physical width of the vector
         /// </summary>
-        public static int MaxWidth
+        public static ulong MaxWidth
             => BitWidth.measure<T>();
 
         /// <summary>

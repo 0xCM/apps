@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     public class ApiCmd : AppCmdService<ApiCmd>
     {
         ApiMd ApiMd => Wf.ApiMd();
@@ -58,25 +56,26 @@ namespace Z0
             return result;
         }
 
-        [CmdOp("api/emit/deps")]
-        void EmitApiDeps()
-            => ApiMd.Emitter().EmitApiDeps();
 
-        [CmdOp("api/emit/literals")]
-        void EmitApiLiterals()
-            => ApiMd.Emitter().EmitApiLiterals();
+        // [CmdOp("api/emit/deps")]
+        // void EmitApiDeps()
+        //     => ApiMd.Emitter().EmitApiDeps();
 
-        [CmdOp("api/emit/cmddefs")]
-        void EmitCmdDefs()
-            => ApiMd.Emitter().EmitCmdDefs();
+        // [CmdOp("api/emit/literals")]
+        // void EmitApiLiterals()
+        //     => ApiMd.Emitter().EmitApiLiterals();
 
-        [CmdOp("api/emit/tokens")]
-        void EmitApiTokens()
-            => ApiMd.Emitter().EmitApiTokens();
+        // [CmdOp("api/emit/cmddefs")]
+        // void EmitCmdDefs()
+        //     => ApiMd.Emitter().EmitCmdDefs();
 
-        [CmdOp("api/emit/types")]
-        void EmitDataTypes()
-            => ApiMd.Emitter().EmitDataTypes();
+        // [CmdOp("api/emit/tokens")]
+        // void EmitApiTokens()
+        //     => ApiMd.Emitter().EmitApiTokens();
+
+        // [CmdOp("api/emit/types")]
+        // void EmitDataTypes()
+        //     => ApiMd.Emitter().EmitDataTypes();
             
         [CmdOp("api/emit/impls")]
         void EmitImplMaps()
@@ -87,24 +86,24 @@ namespace Z0
                 src[i].Render(s => writer.WriteLine(s));
         }
 
-        [CmdOp("api/emit/heap")]
-        void ApiEmitHeaps()
-            => ApiMd.Emitter().EmitHeap(Heaps.load(ApiMd.SymLits));
+        // [CmdOp("api/emit/heap")]
+        // void ApiEmitHeaps()
+        //     => ApiMd.Emitter().EmitHeap(Heaps.load(ApiMd.SymLits));
 
-        [CmdOp("api/emit/tables")]
-        void EmitApiTables()
-            => ApiMd.Emitter().EmitApiTables();
+        // [CmdOp("api/emit/tables")]
+        // void EmitApiTables()
+        //     => ApiMd.Emitter().EmitApiTables();
 
-        [CmdOp("api/emit/symbols")]
-        void EmitApiSymbols()
-            => ApiMd.Emitter().EmitApiSymbols();
+        // [CmdOp("api/emit/symbols")]
+        // void EmitApiSymbols()
+        //     => ApiMd.Emitter().EmitApiSymbols();
 
-        [CmdOp("api/emit/partlist")]
-        void Parts()
-            => ApiMd.Emitter().EmitPartList();
+        // [CmdOp("api/emit/partlist")]
+        // void Parts()
+        //     => ApiMd.Emitter().EmitPartList();
 
-        [CmdOp("api/emit/comments")]
-        void ApiEmitComments()
-            => ApiMd.Emitter().EmitApiComments();
+        // [CmdOp("api/emit/comments")]
+        // void ApiEmitComments()
+        //     => ApiMd.Emitter().EmitApiComments();
     }
 }

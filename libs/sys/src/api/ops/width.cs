@@ -12,7 +12,7 @@ namespace Z0
         /// Computes the bit-width of a parametrically-identified type
         /// </summary>
         /// <typeparam name="T">The source type</typeparam>
-        public static uint width<T>()
-            => (uint)SizeOf<T>()*8;
+        public static ulong width<T>()
+            => ((ulong)SizeOf<T>())*8ul;
     }
 }

@@ -7,6 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines character representations of the partitions identified by the NumericClass kind
     /// </summary>
+    [SymSource(numeric)]
     public enum NumericIndicator : byte
     {
         None = 0,

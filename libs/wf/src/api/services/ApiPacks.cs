@@ -13,13 +13,9 @@ namespace Z0
         public static IApiPack create()
             => create(AppDb.Ts);
 
-//            => new ApiPack(AppDb.Service.Capture().Targets(AppDb.Ts.Format()).Root, AppDb.Ts);
-
         public static IApiPack create(Timestamp ts)
             => new ApiPack(Archives.archive(ts, AppDb.Service.Capture()).Root, ts);
             
-            //=> new ApiPack(AppDb.Service.Capture().Targets(ts.Format()).Root, ts);
-
         public static ReadOnlySeq<IApiPack> discover()
         {
             var src = AppDb.Service.Capture().Root.SubDirs(false);

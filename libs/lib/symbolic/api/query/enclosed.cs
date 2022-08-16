@@ -20,7 +20,7 @@ namespace Z0
             var i1 = 0;
             for(var i=offset; i<count; i++)
             {
-                ref readonly var c = ref core.skip(src,i);
+                ref readonly var c = ref sys.skip(src,i);
                 switch(state)
                 {
                     case Searching:

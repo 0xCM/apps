@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
     [ApiHost, Free]
     public partial class math
     {

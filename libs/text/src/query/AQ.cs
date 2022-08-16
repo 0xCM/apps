@@ -4,12 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Spans;
+    using static sys;
 
     using C = AsciCode;
 
-    partial struct SymbolicQuery
+    [ApiHost]
+    public class AQ
     {
+        const NumericKind Closure = UnsignedInts;
+
         /// <summary>
         /// Returns the number of asci character codes that precede a null-terminator, if any; otherwise returns the lenght of the source
         /// </summary>
@@ -30,22 +33,24 @@ namespace Z0
         }
 
         /// <summary>
-        /// Returns the number of characters that precede a null-terminator, if any; otherwise returns the lenght of the source
+        /// Counts the number of character codes in a specified source that match one of the codes in a specified sequence
         /// </summary>
         /// <param name="src">The data source</param>
+        /// <param name="matches">The characters to match</param>
         [MethodImpl(Inline), Op]
-        public static uint length(ReadOnlySpan<char> src)
+        public static uint count(ReadOnlySpan<C> src, params C[] matches)
         {
-            var counter = 0u;
-            var max = (uint)src.Length;
-
-            if(max == 0)
-                return 0;
-
-            for(var i=0u; i<max; i++)
-                if(skip(src,i) == 0)
-                    return i;
-            return max;
-        }
+            var count = 0u;
+            var tests = @readonly(matches);
+            var mcount = tests.Length;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var c = ref skip(src,i);
+                for(var j=0; j<mcount; j++)
+                    if(c == skip(tests,j))
+                        mcount++;
+            }
+            return count;
+        }        
     }
 }

@@ -43,7 +43,7 @@ namespace Z0
 
         public static ref readonly BdDisasm bddisasm => ref BdDisasm.Instance;
 
-        public static ref readonly Msvs msvs => ref Msvs.Instance;
+        public static ref readonly VisualStudio msvs => ref VisualStudio.Instance;
 
         public sealed class ZTool : Tool<ZTool>
         {

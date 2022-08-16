@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static math;
-    using static Root;
-
     public static class XFMath
     {
         [MethodImpl(Inline)]

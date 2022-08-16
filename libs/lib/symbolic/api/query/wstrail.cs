@@ -4,10 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static sys;
 
     using C = AsciCode;
-    using S = AsciSymbol;
 
     partial struct SymbolicQuery
     {

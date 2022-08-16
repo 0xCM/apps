@@ -8,8 +8,6 @@ namespace Z0
 
     public class CaptureWf : WfSvc<CaptureWf>
     {
-        ApiMd ApiMd => Wf.ApiMd();
-
         public class SettingsStore : Repository<FS.FilePath, CaptureWfSettings, FS.FilePath>
         {
             public override CaptureWfSettings Load(FS.FilePath key)

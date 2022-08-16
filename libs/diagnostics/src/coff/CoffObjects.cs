@@ -120,7 +120,7 @@ namespace Z0
             var kind = name.NameKind;
             var len  = 0u;
             if(kind == CoffNameKind.String)
-                len = SymbolicQuery.length(recover<AsciCode>(name.Bytes));
+                len = AQ.length(recover<AsciCode>(name.Bytes));
             else if(kind == CoffNameKind.Address)
                 len = length(strings, name.Address);
             return len;

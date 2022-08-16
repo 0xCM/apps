@@ -21,8 +21,8 @@ namespace Z0
         /// </summary>
         /// <typeparam name="T">The type to measure</typeparam>
         [MethodImpl(Inline)]
-        public static int measure<T>()
-            => Unsafe.SizeOf<T>()*8;
+        public static ulong measure<T>()
+            => sys.width<T>();
 
         /// <summary>
         /// Computes the quotient q :=  a / bitsize[T] of an operand a and parametric type T
@@ -30,9 +30,9 @@ namespace Z0
         /// <param name="a">The operand</param>
         /// <typeparam name="T">The parametric type from which a bit-width will be determined</typeparam>
         [MethodImpl(Inline)]
-        public static int div<T>(int a)
+        public static ulong div<T>(ulong a)
             where T : unmanaged
-                => a/(Unsafe.SizeOf<T>()*8);
+                => (ulong)a/(measure<T>());
 
         /// <summary>
         /// Computes the remainder r :=  a % bitsize[T] of an operand a and parametric type T
@@ -40,9 +40,9 @@ namespace Z0
         /// <param name="a">The operand</param>
         /// <typeparam name="T">The parametric type from which a bit-width will be determined</typeparam>
         [MethodImpl(Inline)]
-        public static int mod<T>(int a)
+        public static ulong mod<T>(ulong a)
             where T : unmanaged
-                => a % (Unsafe.SizeOf<T>()*8);
+                => a % (measure<T>());
 
         [MethodImpl(Inline)]
         public BitWidth(sbyte bits)

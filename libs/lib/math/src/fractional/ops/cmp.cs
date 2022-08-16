@@ -4,13 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static sys;
 
     partial class fmath
     {
         public static ReadOnlySpan<bool> fcmp(Span<float> a, Span<float> b, FpCmpMode kind)
         {
-            var count =  core.min(a.Length,b.Length);
+            var count =  sys.min(a.Length,b.Length);
             var dst = span<bool>(count);
             for(var i = 0; i<count; i++)
                 seek(dst,i) = fmath.fcmp(a[i], b[i], kind);
@@ -19,7 +19,7 @@ namespace Z0
 
         public static ReadOnlySpan<bool> fcmp(Span<double> a, Span<double> b, FpCmpMode kind)
         {
-            var count = core.min(a.Length,b.Length);
+            var count = sys.min(a.Length,b.Length);
             var dst = span<bool>(count);
             for(var i = 0; i< count; i++)
                 seek(dst,i) = fmath.fcmp(a[i], b[i], kind);

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Refs;
+    using static sys;
 
     [ApiHost]
     public readonly struct NumericParser
@@ -99,11 +99,11 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static bool IsHexLiteral(string src)
-            => text.begins(src, HexFormatSpecs.PreSpec);
+            => UQ.begins(src, HexFormatSpecs.PreSpec);
 
         [MethodImpl(Inline)]
         public static bool IsBinaryLiteral(string src)
-            => text.begins(src, "0b");
+            => UQ.begins(src, "0b");
 
         [MethodImpl(Inline)]
         static bool parse_u<T>(string src, out T dst)

@@ -8,10 +8,13 @@ namespace Z0
 
     partial class Tools
     {
-        public sealed partial class Sqlite : Tool<Sqlite>
+        public static object robocopy(FS.FolderPath src, FS.FolderPath dst)
+            => (src,dst);
+
+        public sealed partial class RoboCopy : Tool<RoboCopy>
         {
-            public Sqlite()
-                : base(N.sqlite)
+            public RoboCopy()
+                : base(N.robocopy)
             {
 
             }

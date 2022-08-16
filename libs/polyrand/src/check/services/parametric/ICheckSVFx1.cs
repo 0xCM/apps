@@ -19,7 +19,7 @@ namespace Z0
         [MethodImpl(Inline)]
         int CellCount<W>(W w = default)
             where W : struct, ITypeWidth
-                => ((int)default(W).TypeWidth)/BitWidth.measure<T>();
+                => (int)((ulong)default(W).TypeWidth/BitWidth.measure<T>());
 
         void ICheckBinarySVFD<W128,IBinaryOp128D<T>,T>.CheckSVF(IBinaryOp128D<T> f)
         {

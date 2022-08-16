@@ -42,5 +42,7 @@ namespace Z0
         public const string winget = "winget";
 
         public const string sqlite = "sqlite";
+
+        public const string robocopy = "robocopy";
     }
 }

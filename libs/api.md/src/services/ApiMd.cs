@@ -50,13 +50,7 @@ namespace Z0
             => data(K.Parsers, () => Z0.Parsers.contracted(Assemblies));
 
         public new ApiMdEmitter Emitter()
-            => ApiMdEmitter.create(Wf, this, ApiPacks.create());
-
-        public new ApiMdEmitter Emitter(IApiPack dst)
-            => ApiMdEmitter.create(Wf, this, dst);
-
-        public void EmitDatasets(IApiPack dst)
-            => Emitter(dst).Emit();
+            => ApiMdEmitter.create(Wf, this);
 
         public Index<SymLiteralRow> LoadSymLits(FS.FilePath src)
         {

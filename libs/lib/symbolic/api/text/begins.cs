@@ -8,10 +8,10 @@ namespace Z0
     {
         [MethodImpl(Inline)]
         public static bool begins(ReadOnlySpan<char> src, char match)
-            => SQ.begins(src, match);
+            => UQ.begins(src, match);
 
         [MethodImpl(Inline)]
         public static bool begins(ReadOnlySpan<char> src, ReadOnlySpan<char> match)
-            => SQ.begins(src, match);
+            => UQ.begins(src, match);
     }
 }

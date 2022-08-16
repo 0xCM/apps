@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial struct CellCalcs
     {
         [MethodImpl(Inline)]
@@ -20,9 +15,9 @@ namespace Z0
             var rowCellCount = ScalarCast.uint16(mincells<N,T>());
             var rowOffset = ScalarCast.uint32(rowCellCount*row);
             return index(
-                CellIndex: ScalarCast.uint16(rowOffset + BitWidth.div<T>(col)),
+                CellIndex: ScalarCast.uint16(rowOffset + BitWidth.div<T>((ulong)col)),
                 RowCellCount: rowCellCount,
-                BitOffset: ScalarCast.uint8(BitWidth.mod<T>(col)),
+                BitOffset: (byte)ScalarCast.uint8(BitWidth.mod<T>((ulong)col)),
                 BitIndex: ScalarCast.uint32(rowOffset + col),
                 RowIndex: row,
                 ColIndex: col);

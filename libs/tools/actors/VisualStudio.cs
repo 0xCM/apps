@@ -8,9 +8,9 @@ namespace Z0
 
     partial class Tools
     {
-        public sealed class Msvs : Tool<Msvs>
+        public sealed class VisualStudio : Tool<VisualStudio>
         {
-            public Msvs()
+            public VisualStudio()
                 : base(N.msvs)
             {
 
