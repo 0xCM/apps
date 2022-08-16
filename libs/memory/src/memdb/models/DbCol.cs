@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Algs;
-
     [StructLayout(LayoutKind.Sequential,Pack=1)]
     public readonly record struct DbCol : IEntity<DbCol,ushort>, IComparable<DbCol>
     {
@@ -29,7 +27,7 @@ namespace Z0
         public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => hash(ColName.GetHashCode(),Pos);
+            get => HashCodes.hash(ColName.GetHashCode(),Pos);
         }
 
         public override int GetHashCode()

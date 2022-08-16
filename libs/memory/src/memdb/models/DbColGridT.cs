@@ -4,8 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Algs;
-    using static Spans;
+    using static sys;
 
     public class DbColGrid<T>
     {
@@ -66,5 +65,4 @@ namespace Z0
             get => ref Cell(row,col);
         }
     }
-
 }

@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static TypeNats;
 
     partial class NatCalc
@@ -28,7 +24,7 @@ namespace Z0
         public static ulong wdiv<W,K2>(W w = default, K2 k2 = default)
             where W : unmanaged, IDataWidth
             where K2 : unmanaged, ITypeNat
-                => (ulong)Widths.data<W>() / value(k2);
+                => (ulong)DataWidths.measure<W>() / value(k2);
 
         /// <summary>
         /// Computes k := (k1*k2) / k3

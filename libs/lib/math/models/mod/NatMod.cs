@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Represents div/mod operations for a divisor of type N; This type forms a commutative
     /// ring over the set of least residues {0,...,N-1}, i.e. the ring of integers modulo N,

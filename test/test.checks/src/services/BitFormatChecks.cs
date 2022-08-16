@@ -242,7 +242,7 @@ namespace Z0
             dst.Seq = seq;
             dst.Value = input;
             dst.Formatted = formatted;
-            dst.LengthExpect = (uint)Widths.data(w);
+            dst.LengthExpect = (uint)DataWidths.measure(w);
             dst.LengthActual = (uint)formatted.Length;
             dst.LenthMatch = dst.LengthExpect == dst.LengthActual;
             return dst;

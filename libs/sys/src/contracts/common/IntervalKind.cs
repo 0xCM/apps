@@ -7,7 +7,6 @@ namespace Z0
     /// <summary>
     /// Defines interval classifications predicated on endpoint containment
     /// </summary>
-    [FormatPatternSource]
     public enum IntervalKind : byte
     {
         /// <summary>

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct CapturedAccessor
+    public readonly record struct CapturedAccessor
     {
         public readonly ApiEncoded Member;
 

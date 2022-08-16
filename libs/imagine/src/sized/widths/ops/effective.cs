@@ -5,8 +5,6 @@
 namespace Z0
 {
     using System.Runtime.Intrinsics.X86;
-    using static System.Runtime.CompilerServices.Unsafe;
-    using static System.Runtime.InteropServices.MemoryMarshal;
 
     partial class Widths
     {

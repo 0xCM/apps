@@ -7,11 +7,11 @@ namespace Z0
     using static System.Runtime.CompilerServices.Unsafe;
 
     using static ScalarCast;
+    using static sys;
 
     public partial struct Numeric
     {
         const NumericKind Closure = UnsignedInts;
-
 
         /// <summary>
         /// Presents a parametric reference as a <see cref='char'/> reference
@@ -20,7 +20,7 @@ namespace Z0
         /// <typeparam name="T">The source type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         static ref char c16<T>(in T src)
-            => ref sys.@as<T,char>(src);
+            => ref @as<T,char>(src);
 
         [MethodImpl(Inline), Op, Closures(AllNumeric)]
         static float float32<T>(T src)
@@ -55,7 +55,7 @@ namespace Z0
         {
             var count = src.Length;
             for(var i=0; i<count; i++)
-                Arrays.seek(dst,(uint)i) = force<S,T>(Arrays.skip(src,(uint)i));
+                seek(dst,(uint)i) = force<S,T>(skip(src,(uint)i));
             return dst;
         }
 
@@ -69,9 +69,9 @@ namespace Z0
             where T : unmanaged
             where S : unmanaged
         {
-            var dst = sys.alloc<T>(src.Length);
+            var dst = alloc<T>(src.Length);
             for(var i=0; i<src.Length; i++)
-                Arrays.seek(dst,(uint)i) = force<S,T>(Arrays.skip(src,(uint)i));
+                seek(dst,(uint)i) = force<S,T>(skip(src,(uint)i));
             return dst;
         }
 

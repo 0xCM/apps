@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static sys;
 
     [StructLayout(LayoutKind.Sequential)]
     public struct CpuIdExchange
@@ -52,7 +52,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public static ref CpuIdExchange clear(ref CpuIdExchange target)
         {
-            core.@as<CpuIdExchange,ByteBlock24>(target) = ByteBlocks.alloc(n24);
+            @as<CpuIdExchange,ByteBlock24>(target) = ByteBlocks.alloc(n24);
             return ref target;
         }
 

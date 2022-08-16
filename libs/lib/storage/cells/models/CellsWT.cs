@@ -32,7 +32,7 @@ namespace Z0
         public uint CellWidth
         {
             [MethodImpl(Inline)]
-            get => (uint)Widths.data<W>();
+            get => (uint)DataWidths.measure<W>();
         }
 
         public uint DataSize

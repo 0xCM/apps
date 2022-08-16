@@ -6,14 +6,14 @@ namespace Z0
 {
     using K = DataWidth;
 
-    partial class Widths
+    public class DataWidths
     {
         /// <summary>
         /// Computes the literal data width from a parametric width
         /// </summary>
         /// <typeparam name="W">The parametric width</typeparam>
         [MethodImpl(Inline)]
-        public static K data<W>(W w = default)
+        public static K measure<W>(W w = default)
             where W : struct, IDataWidth
                 => data_1<W>();
 
@@ -69,6 +69,6 @@ namespace Z0
                 return K.W1024;
             else
                 return 0;
-        }
+        }        
     }
 }

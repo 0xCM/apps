@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static sys;
 
     /// <summary>
     /// Defines a parametric displacement that may resolve to an 8-bit, 16-bit or 32-bit signed displacement

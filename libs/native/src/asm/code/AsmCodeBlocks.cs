@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    public readonly struct AsmCodeBlocks : IIndex<AsmCodeBlock>
+    public readonly record struct AsmCodeBlocks : IIndex<AsmCodeBlock>
     {
         readonly Index<AsmCodeBlock> Data;
 
@@ -57,7 +57,6 @@ namespace Z0.Asm
             [MethodImpl(Inline)]
             get => ref Data[i];
         }
-
 
         [MethodImpl(Inline)]
         public static implicit operator AsmCodeBlock[](AsmCodeBlocks src)

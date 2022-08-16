@@ -7,8 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines a datatype that represents a discrete percentage
     /// </summary>
-    [DataTypeAttributeD("percent")]
-    public struct Percent : ITextual
+    public record struct Percent
     {
         public Quotient<uint> Value;
 
@@ -29,7 +28,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public string Format()
             => Div().ToString();
-
 
         public override string ToString()
             => Format();

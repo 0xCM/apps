@@ -156,6 +156,10 @@ namespace Z0
             => new H((K)src.Value);
 
         [MethodImpl(Inline)]
+        public static explicit operator Hash32(H src)
+            => (uint)src;
+
+        [MethodImpl(Inline)]
         public static H operator+(H x, H y)
             => new H((K)(x.Value + y.Value));
 

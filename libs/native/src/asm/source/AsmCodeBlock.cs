@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    public readonly struct AsmCodeBlock
+    public readonly record struct AsmCodeBlock
     {
         public readonly LocatedSymbol Label;
 

@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct ApiCodeBlockHeader
+    [StructLayout(LayoutKind.Sequential)]
+    public readonly record struct ApiCodeBlockHeader
     {
         public readonly OpUri Uri;
 

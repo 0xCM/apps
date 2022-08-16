@@ -58,6 +58,12 @@ namespace Z0
             Value = value;
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Value.Hash;
+        }
+
         public bool IsEmpty
         {
             [MethodImpl(Inline)]

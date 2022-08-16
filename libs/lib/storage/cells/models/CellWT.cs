@@ -20,7 +20,7 @@ namespace Z0
         public uint Width
         {
             [MethodImpl(Inline)]
-            get => (uint)Widths.data<W>();
+            get => (uint)DataWidths.measure<W>();
         }
 
         public string Format()

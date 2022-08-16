@@ -2,12 +2,11 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
-    using static RegFacets;
-
-    partial struct AsmRegs
+    partial class MemDb
     {
-
+        public static Index<TypeTableRow> rows(Index<DbTypeTable> src)
+            => src.SelectMany(x => x.Rows).Sort().Resequence();
     }
 }

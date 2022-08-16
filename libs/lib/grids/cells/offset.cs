@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     partial struct CellCalcs
@@ -71,6 +67,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public static uint offset<W>(uint row, uint col, W w = default)
             where W : unmanaged, IDataWidth
-                => (uint)row * (uint)Widths.data(w) + col;
+                => (uint)row * (uint)DataWidths.measure(w) + col;
     }
 }

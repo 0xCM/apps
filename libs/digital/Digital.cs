@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Root;
     using static core;
 
     using C = AsciCode;
@@ -12,7 +11,7 @@ namespace Z0
     /// <summary>
     /// Defines operations over character digits
     /// </summary>
-    [ApiHost]
+    [ApiHost("api")]
     public readonly partial struct Digital
     {
         const NumericKind Closure = UnsignedInts;

@@ -36,6 +36,6 @@ namespace Z0
             => Name == src.Name;
 
         public int CompareTo(AsmMnemonicRow src)
-            =>  Name.CompareTo(src.Name);
+            => Name.CompareTo(src.Name);
     }
 }

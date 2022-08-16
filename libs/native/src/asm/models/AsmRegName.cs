@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct AsmRegName
+    public readonly record struct AsmRegName : IDataType<AsmRegName>
     {
         readonly text7 Data;
 
@@ -26,6 +26,20 @@ namespace Z0
             get => Data.IsEmpty;
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Data.Hash;
+        }
+
+        public override int GetHashCode()
+            => Hash;
+
+        [MethodImpl(Inline)]
+        public int CompareTo(AsmRegName src)
+            => Data.CompareTo(src.Data);
+
+        [MethodImpl(Inline)]
         public bool Equals(AsmRegName src)
             => Data.Equals(src.Data);
 

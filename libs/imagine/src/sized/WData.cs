@@ -8,7 +8,7 @@ namespace Z0
         where W : struct, WData<W>
     {
         DataWidth IDataWidth.DataWidth
-            => (DataWidth)Widths.data<W>();
+            => (DataWidth)DataWidths.measure<W>();
 
         bool IEquatable<W>.Equals(W src)
             => src.BitWidth == BitWidth;

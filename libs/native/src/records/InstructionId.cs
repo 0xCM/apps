@@ -4,10 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static sys;
 
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public readonly struct InstructionId : IEquatable<InstructionId>
+    public readonly record struct InstructionId : IEquatable<InstructionId>
     {
         public static bool parse(ReadOnlySpan<char> src, out InstructionId dst)
         {
@@ -44,6 +44,15 @@ namespace Z0
             EncodingId = encoding;
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => EncodingId.Hash | (Hash32)DocId;
+        }
+
+        public override int GetHashCode()
+            => Hash;
+
         [MethodImpl(Inline)]
         public bool Equals(InstructionId src)
             => DocId == src.DocId && EncodingId == src.EncodingId;
@@ -59,6 +68,5 @@ namespace Z0
             => new InstructionId(src.docid, src.enc);
 
         public static InstructionId Empty => default;
-
     }
 }

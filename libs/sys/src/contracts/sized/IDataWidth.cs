@@ -4,9 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IDataWidth : IBitWidth, ITextual
+    public interface IDataWidth : IBitWidth, IExpr
     {
         DataWidth DataWidth {get;}
+
+        bool INullity.IsEmpty
+            => DataWidth == 0;
+
+        bool INullity.IsNonEmpty
+            => DataWidth != 0;
 
         TypeSignKind TypeSign
             => TypeSignKind.Unsigned;
@@ -14,7 +20,7 @@ namespace Z0
         uint IBitWidth.BitWidth
             => (uint)DataWidth;
 
-        string ITextual.Format()
+        string IExpr.Format()
             => DataWidth.FormatValue();
     }
 

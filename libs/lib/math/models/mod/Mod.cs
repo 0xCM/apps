@@ -8,7 +8,7 @@ namespace Z0
     /// Defines mod/div operations
     /// </summary>
     /// <remarks>See https://arxiv.org/pdf/1902.01961.pdf</remarks>
-     public struct Mod
+     public record struct Mod
      {
         readonly ulong M;
 
@@ -45,55 +45,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public static Mod Define(uint n, uint state)
             => new Mod(n,state);
-
-        /// <summary>
-        /// Increments the source operand in-place
-        /// </summary>
-        /// <param name="src">The source operand</param>
-        [MethodImpl(Inline)]
-        public static Mod operator ++(Mod src)
-        {
-            if(src.state == src.stateMax)
-            {
-                src.state = 0;
-                return src;
-            }
-            else
-            {
-                ++src.state;
-                return src;
-            }
-        }
-
-        /// <summary>
-        /// Decrements the source operand in-place
-        /// </summary>
-        /// <param name="src">The source operand</param>
-        [MethodImpl(Inline)]
-        public static Mod operator --(Mod src)
-        {
-            if(src.state == 0u)
-                src.state = src.stateMax;
-            else
-                --src.state;
-            return src;
-        }
-
-        [MethodImpl(Inline)]
-        public static Mod operator +(Mod lhs, Mod rhs)
-            => Define(lhs.n, lhs.state + rhs.state);
-
-        [MethodImpl(Inline)]
-        public static Mod operator *(Mod lhs, Mod rhs)
-            => Define(lhs.n, lhs.state * rhs.state);
-
-        [MethodImpl(Inline)]
-        public static bool operator ==(Mod lhs, Mod rhs)
-            => lhs.state == rhs.state && lhs.n == rhs.n;
-
-        [MethodImpl(Inline)]
-        public static bool operator !=(Mod lhs, Mod rhs)
-            => lhs.state != rhs.state&& lhs.n == rhs.n;
 
         [MethodImpl(Inline)]
         Mod(uint n, uint state)
@@ -147,10 +98,48 @@ namespace Z0
         public override int GetHashCode()
             => (int)(state | n);
 
-        public override bool Equals(object rhs)
-            => rhs is Mod x ? x.state == state : false;
-
         public override string ToString()
             => Format();
+
+        [MethodImpl(Inline)]
+        public static Mod operator +(Mod lhs, Mod rhs)
+            => Define(lhs.n, lhs.state + rhs.state);
+
+        [MethodImpl(Inline)]
+        public static Mod operator *(Mod lhs, Mod rhs)
+            => Define(lhs.n, lhs.state * rhs.state);
+
+        /// <summary>
+        /// Increments the source operand in-place
+        /// </summary>
+        /// <param name="src">The source operand</param>
+        [MethodImpl(Inline)]
+        public static Mod operator ++(Mod src)
+        {
+            if(src.state == src.stateMax)
+            {
+                src.state = 0;
+                return src;
+            }
+            else
+            {
+                ++src.state;
+                return src;
+            }
+        }
+
+        /// <summary>
+        /// Decrements the source operand in-place
+        /// </summary>
+        /// <param name="src">The source operand</param>
+        [MethodImpl(Inline)]
+        public static Mod operator --(Mod src)
+        {
+            if(src.state == 0u)
+                src.state = src.stateMax;
+            else
+                --src.state;
+            return src;
+        }
     }
 }

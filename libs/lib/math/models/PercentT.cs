@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines a datatype that represents a discrete percentage
     /// </summary>
-    public struct Percent<T> : ITextual
+    public struct Percent<T>
         where T : unmanaged
     {
         public Quotient<T> Value;

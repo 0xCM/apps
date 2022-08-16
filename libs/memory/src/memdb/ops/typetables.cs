@@ -10,9 +10,6 @@ namespace Z0
         public static DbDataType type(uint seq, Name name, Name primitive, DataSize size, Name refinement = default)
             => new DbDataType(seq, name, primitive, size, refinement.IsNonEmpty, refinement);
 
-        public static Index<TypeTableRow> rows(Index<DbTypeTable> src)
-            => src.SelectMany(x => x.Rows).Sort().Resequence();
-
         public static Index<DbTypeTable> typetables(Assembly src, string group, ICompositeDispenser dst)
         {
             var types = MeasuredType.symbolic(src, group);

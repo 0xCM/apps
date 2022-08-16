@@ -20,7 +20,7 @@ namespace Z0
     /// </summary>
     /// <typeparam name="F">The reification type</typeparam>
     [Free]
-    public interface IVectorType<F,W> : IVectorWidth<F>, IEquatable<F>,  IDataWidth
+    public interface IVectorType<F,W> : IVectorWidth<F>, IEquatable<F>, IDataWidth
         where F : unmanaged, IVectorType<F,W>
         where W : unmanaged, ITypeWidth
     {
@@ -28,7 +28,7 @@ namespace Z0
             => true;
 
         DataWidth IDataWidth.DataWidth
-            => Widths.data<W>();
+            => DataWidths.measure<W>();
     }
 
     [Free]
@@ -37,6 +37,12 @@ namespace Z0
         where W : unmanaged, ITypeWidth
         where T : unmanaged
     {
+        bool INullity.IsEmpty
+            => DataWidth == 0;
+
+        bool INullity.IsNonEmpty
+            => DataWidth != 0;
+
         NumericKind CellKind
             => NumericKinds.kind<T>();
 

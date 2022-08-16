@@ -21,7 +21,7 @@ namespace Z0
         public int BlockWidth
         {
             [MethodImpl(Inline)]
-            get => (int)Widths.data<W>();
+            get => (int)DataWidths.measure<W>();
         }
 
         /// <summary>

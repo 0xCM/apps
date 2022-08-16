@@ -10,7 +10,7 @@ namespace Z0
     /// Represents an asm statement together with its context and encoding
     /// </summary>
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct AssembledAsm
+    public record struct AssembledAsm
     {
         public const string TableId = "asm.assembled";
 

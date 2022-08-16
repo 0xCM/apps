@@ -4,9 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
-
-    [StructLayout(LayoutKind.Sequential, Pack=1)]
+    [StructLayout(LayoutKind.Sequential, Pack=1), ApiComplete]
     public readonly struct Imm : IImm<Imm,ulong>
     {
         public static byte width(ImmKind src)
