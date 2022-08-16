@@ -5,7 +5,7 @@
 namespace Z0
 {
     using static ApiAtomic;
-    using static core;
+    using static sys;
 
     public sealed class ToolWs : Workspace<ToolWs>, IToolWs
     {

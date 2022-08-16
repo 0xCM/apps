@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static sys;
 
-    public struct CellEmitter<F> : ICellValues<F>, IEmitter<F>
+    public struct CellEmitter<F> : ICellValues<F>, IProducer<F>
         where F : struct, IDataCell
     {
         readonly ISource DataSource;

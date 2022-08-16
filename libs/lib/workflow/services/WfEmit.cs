@@ -6,9 +6,16 @@ namespace Z0
 {
     using static core;
 
+
+    public interface IWfChannel
+    {
+
+
+    }
+
     public class WfEmit
     {
-        public IWfRuntime Wf {get;}
+        public readonly IWfRuntime Wf;
 
         readonly Type HostType;
 
@@ -53,12 +60,6 @@ namespace Z0
 
         public void Warn<T>(T content, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => Wf.Warn(content, caller, file, line);
-
-        // public void Warn(string msg, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
-        //     => Wf.Warn(HostType, msg, caller, file, line);
-
-        // public void Warn(string pattern, object[] args)
-        //     => Wf.Warn(HostType, string.Format(pattern, args));
 
         public void Error<T>(T content, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => Wf.Error(HostType, core.require(content), caller, file, line);

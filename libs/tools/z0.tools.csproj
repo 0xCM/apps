@@ -8,11 +8,10 @@
   <Import Project="$(ProjectProps)usings.props"/>
 
   <ItemGroup>
-    <EmbeddedResource Include="assets/**/*.*" />
-
+     <EmbeddedResource Include="assets/**/*.*" />
       <ProjectReference Include="$(Wf)"/>
       <ProjectReference Include="$(Native)"/>
-      <ProjectReference Include="$(Archives)"/>
+      <ProjectReference Include="$(Builds)"/>
   </ItemGroup>
 
 </Project>

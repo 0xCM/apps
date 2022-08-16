@@ -24,10 +24,10 @@ namespace Z0
         new K Kind {get;}
 
         bool INullity.IsEmpty
-            => Sized.bw64(Kind) == 0;
+            => sys.bw64(Kind) == 0;
 
         ulong IKinded.Kind
-            => Sized.bw64(Kind);
+            => sys.bw64(Kind);
 
         string IExpr.Format()
             => Kind.ToString();

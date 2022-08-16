@@ -68,7 +68,7 @@ namespace Z0
         }
 
         [Op]
-        public static CpuWorker<S,T> create<S,T>(CpuWorkerSettings settings, IEmitter<S> emitter, Func<S,T> projector, IReceiver<T> receiver)
+        public static CpuWorker<S,T> create<S,T>(CpuWorkerSettings settings, IProducer<S> emitter, Func<S,T> projector, IReceiver<T> receiver)
             where S : struct
             where T : struct
                 => new CpuWorker<S,T>(settings, emitter, projector, receiver);

@@ -11,7 +11,5 @@
 
   <ItemGroup>
     <ProjectReference Include="$(Tools)" />
-    <ProjectReference Include="$(Lang)" />
-    <ProjectReference Include="$(Builds)" />
   </ItemGroup>
 </Project>

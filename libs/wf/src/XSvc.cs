@@ -25,6 +25,14 @@ namespace Z0
 
             public ProjectScripts ProjectScripts(IWfRuntime wf)
                 => Service<ProjectScripts>(wf);
+
+
+            public Tooling Tooling(IWfRuntime wf)
+                => Service<Tooling>(wf);
+
+            public ToolScripts ToolScripts(IWfRuntime wf)
+                => Service<ToolScripts>(wf);
+
         }
 
         static ServiceCache Services => ServiceCache.Instance;
@@ -46,6 +54,12 @@ namespace Z0
 
         public static ICmdProvider ArchiveCmd(this IWfRuntime wf)
             => Services.ArchiveCmd(wf);
+
+        public static Tooling Tooling(this IWfRuntime wf)
+            => Services.Tooling(wf);             
+
+        public static ToolScripts ToolScripts(this IWfRuntime wf)
+            => Services.ToolScripts(wf);
 
     }
 }

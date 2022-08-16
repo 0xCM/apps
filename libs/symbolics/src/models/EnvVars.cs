@@ -26,6 +26,7 @@ namespace Z0
                     vars = EnvVars.user();
                 break;
             }
+
             if(vars.IsNonEmpty)
             {
                 vars.Iter(v => emitter.Write(v.Format()));
@@ -33,7 +34,7 @@ namespace Z0
             }
         }
 
-        public static ExecToken emit(WfEmit emitter, EnvVars src, EnvVarKind kind, FS.FolderPath dst)
+        public static ExecToken emit(WfEmit channel, EnvVars src, EnvVarKind kind, FS.FolderPath dst)
         {
             var name =  $"{ExecutingPart.Name}.{EnumRender.format(kind)}";
             var table = dst + FS.file($"{name}.settings",FileKind.Csv);
@@ -41,7 +42,7 @@ namespace Z0
             using var writer = env.AsciWriter();
             for(var i=0; i<src.Count; i++)
                 writer.WriteLine(src[i].Format());
-            return emit(emitter, records(src, name).View, table, ASCI);
+            return emit(channel, records(src, name).View, table, ASCI);
         }
 
         static ExecToken emit<T>(WfEmit emitter, ReadOnlySpan<T> src, FS.FilePath dst, TextEncodingKind encoding, ushort rowpad = 0, RecordFormatKind fk = RecordFormatKind.Tablular, string delimiter = " | ")

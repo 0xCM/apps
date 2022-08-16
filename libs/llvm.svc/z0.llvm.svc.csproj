@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <ProjectReference Include="$(AsmCore)" />
-    <ProjectReference Include="$(Tools)" />
   </ItemGroup>
 
 </Project>

@@ -4,8 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IEmitterOpFactory<T> : IOperatorFactory<Func<T>,T>
+    [Free]
+    public interface IProducer<T>
     {
-
+        bool Next(out T dst);
     }
 }

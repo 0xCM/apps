@@ -5,8 +5,13 @@
 namespace Z0
 {
     [Free]
-    public interface IEventEmitter : IProducer<IWfEvent>
+    public interface ISeqChannel<S,T> 
+        where T : ISeqReceiver<S>         
     {
-
+        void Deposit(ReadOnlySpan<S> src, T dst)
+            => dst.Deposit(src);
+        
+        Task Transmit(ReadOnlySpan<S> src, T dst)
+            => dst.Enqueue(src);
     }
 }

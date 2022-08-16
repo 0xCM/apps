@@ -6,7 +6,6 @@ namespace Z0
 {
     partial class Tools
     {
-
         sealed class EmptyFlow : IFileFlowType
         {
             public static EmptyFlow Instance = new();

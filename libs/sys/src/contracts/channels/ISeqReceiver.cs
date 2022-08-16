@@ -4,12 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    sealed class ShellAssets : Assets<ShellAssets>
+    [Free]
+    public interface ISeqReceiver<T>
     {
-        static ShellAssets _Service = new();
+        void Deposit(ReadOnlySpan<T> src);
 
-        public static ref readonly ShellAssets Service => ref _Service;
-
-        public Asset ArchiveCapture() => Asset("archive-capture.template");
+        Task Enqueue(ReadOnlySpan<T> src);
     }
 }

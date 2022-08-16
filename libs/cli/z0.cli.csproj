@@ -15,7 +15,6 @@
     <ProjectReference Include="$(Lang)"/>
     <ProjectReference Include="$(Bits)"/>
     <ProjectReference Include="$(ClrCil)"/>
-    <ProjectReference Include="$(Tools)"/>
   </ItemGroup>
 
 </Project>

@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Free]
-    public interface IEmitter<T>
-    {
-        bool Next(out T dst);
-    }
-
     /// <summary>
     /// Characterizes an operation that produces a value that does not depend on arguments
     /// </summary>

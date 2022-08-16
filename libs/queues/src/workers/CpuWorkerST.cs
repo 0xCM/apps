@@ -15,7 +15,7 @@ namespace Z0
     {
         internal CpuWorkerSettings Settings;
 
-        IEmitter<S> Emitter;
+        IProducer<S> Emitter;
 
         Func<S,T> Projector;
 
@@ -27,7 +27,7 @@ namespace Z0
 
         bool Continue;
 
-        public CpuWorker(CpuWorkerSettings settings, IEmitter<S> emitter, Func<S,T> projector, IReceiver<T> receiver)
+        public CpuWorker(CpuWorkerSettings settings, IProducer<S> emitter, Func<S,T> projector, IReceiver<T> receiver)
         {
             Settings = settings;
             Emitter = emitter;

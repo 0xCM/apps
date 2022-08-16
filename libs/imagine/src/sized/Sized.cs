@@ -142,14 +142,6 @@ namespace Z0
             => src + (src % factor);
 
         [MethodImpl(Inline), Op]
-        public static BitWidth align(BitWidth src, ulong factor)
-            => src + (src % factor);
-
-        [MethodImpl(Inline), Op]
-        public static BitWidth align(BitWidth src, long factor)
-            => src + (src % factor);
-
-        [MethodImpl(Inline), Op]
         public static ByteSize bytes(NativeSizeCode src)
             => (ByteSize)width(src);
 

@@ -25,7 +25,7 @@ namespace Z0
                 wf.Machines(),
                 wf.ProjectCmd(),
                 wf.RuntimeCmd(),
-                wf.ToolCmd(),
+                //wf.ToolCmd(),
                 wf.WfCmd(),
                 wf.RoslynCmd(),
                 wf.XedCmd(),
