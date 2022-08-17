@@ -20,7 +20,7 @@ namespace Z0
             => AppMsg.colorize(string.Concat(prefix(title, host, caller), Chars.Pipe, Chars.Space, msg), flair);
 
         public static EventBroker broker(LogSettings config)
-            => new EventBroker(Loggers.events(config), true);
+            => new EventBroker(new WfEventLog(config), true);
 
         public static EventBroker broker(IEventSink target)
             => new EventBroker(target,false);

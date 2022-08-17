@@ -10,7 +10,7 @@ namespace Z0
 
         public IApiCatalog ApiCatalog;
 
-        public IJsonSettings Settings;
+        //public IJsonSettings Settings;
 
         public TokenDispenser Tokens;
 

@@ -47,6 +47,5 @@ namespace Z0
         public static ReadOnlySpan<E> interpret<E>(ReadOnlySpan<ulong> src)
             where E : unmanaged, Enum
                 => recover<ulong,E>(src);
-
     }
 }

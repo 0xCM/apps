@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-    using static bits;
-    using static BitMasks;
-
     partial class PolyBits
     {
         /// <summary>

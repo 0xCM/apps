@@ -6,33 +6,22 @@ namespace Z0
 {
     using static core;
 
-
-    public interface IWfChannel
-    {
-
-
-    }
-
     public class WfEmit
     {
         public readonly IWfRuntime Wf;
 
         readonly Type HostType;
 
-        readonly IWfEventTarget EventLog;
-
         public WfEmit(IWfRuntime wf, Type host)
         {
             Wf = wf;
             HostType = host;
-            EventLog = wf.EventLog;
         }
 
         public WfEmit(IWfSvc svc)
         {
             Wf = svc.Wf;
             HostType = svc.HostType;
-            EventLog = svc.Wf.EventLog;
         }
 
         public void Dispose()

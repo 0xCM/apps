@@ -13,12 +13,29 @@ namespace Z0
 
         }
 
-        public static T create(IWfRuntime wf, params ICmdProvider[] src)
+        public static T create(IWfRuntime wf, ICmdProvider[] src)
         {
-            var service = new T();
-            ApiGlobals.Instance.Inject(Cmd.dispatcher(service, wf.Emitter(service.GetType()), src));
+            var service = new T();            
+            var emitter = wf.Emitter(service.GetType());
+            wf.Babble($"Created emitter");
+            var dispatcher = Cmd.dispatcher(service, emitter, src);
+            ApiGlobals.Instance.Inject(dispatcher);
+            wf.Babble($"Injected dispatcher");
             service.Init(wf);
+            wf.Babble($"Initialized application command service");
             service.PublishCommands();
+            wf.Babble($"Published commands");
+            return service;
+        }
+
+        public static new T create(IWfRuntime wf)
+        {
+            var service = new T();            
+            var emitter = wf.Emitter(service.GetType());
+            var dispatcher = Cmd.dispatcher(service, emitter, sys.empty<ICmdProvider>());
+            ApiGlobals.Instance.Inject(dispatcher);
+            service.AppInit(wf);
+            service.PublishCommands();            
             return service;
         }
 

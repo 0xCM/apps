@@ -25,7 +25,6 @@ namespace Z0
                 wf.Machines(),
                 wf.ProjectCmd(),
                 wf.RuntimeCmd(),
-                //wf.ToolCmd(),
                 wf.WfCmd(),
                 wf.RoslynCmd(),
                 wf.XedCmd(),
@@ -39,13 +38,21 @@ namespace Z0
                 wf.SosCmd(),
                 wf.CsGenCmd(),
                 wf.MemoryChecks(),
-                wf.CgChecks()
+                wf.CgChecks(),
                 };
 
         public static AppCmd commands(IWfRuntime wf)
         {
-            var xed = ApiGlobals.Instance.Inject(wf.XedRuntime());
-            return create(wf, providers(wf));
+            ApiGlobals.Instance.Inject(wf.XedRuntime());
+            var flow = wf.Running("Creating application command providers");
+            var commands = providers(wf);
+            wf.Ran(flow);
+
+            flow = wf.Running($"Creating application host with");
+            var cmd = create(wf, commands);
+            wf.Ran(flow, $"Created application host with {commands.Length} command providers");
+
+            return cmd;
         }
 
         protected override void Initialized()

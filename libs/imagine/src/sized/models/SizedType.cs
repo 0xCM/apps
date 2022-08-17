@@ -6,6 +6,11 @@ namespace Z0
 {
     public class SizedType : ISizedType
     {
+        [MethodImpl(Inline)]
+        public static ByteSize untyped<T>(Size<T> src)
+            where T : unmanaged
+                => Sized.bw64(src.Measure);
+
         public virtual Identifier Name {get;}
 
         public Identifier Class {get;}

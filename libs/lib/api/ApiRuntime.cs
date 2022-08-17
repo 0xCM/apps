@@ -23,18 +23,23 @@ namespace Z0
 
         public static IWfRuntime create(IApiCatalog src)
         {
-            term.inform(InitializingRuntime.Format(now()));
+            var ts = now();
+            term.inform(InitializingRuntime.Format(ts));
             var clock = Time.counter(true);
             var control = ExecutingPart.Assembly;
             var id = control.Id();
             var dst = new WfInit();
             dst.Tokens = TokenDispenser.create();
-            dst.Settings = JsonSettings.load(control);
-            dst.LogConfig = Loggers.configure(EmptyString);
+            term.babble(Step.Format(now(), "Created token dispenser"));
+            dst.LogConfig = Loggers.configure();
+            term.babble(Step.Format(now(), "Configured status log output"));
             dst.ApiCatalog = src;
             dst.EventBroker = Events.broker(dst.LogConfig);
+            term.babble(Step.Format(now(), "Created event broker"));
             dst.Host = new WfHost(typeof(WfRuntime));
+            term.babble(Step.Format(now(), "Created host"));
             dst.EmissionLog = Loggers.emission(control, timestamp());
+            term.babble(Step.Format(now(), "Configured emission logs"));
             var wf = new WfRuntime(dst);
             term.inform(AppMsg.status(InitializedRuntime.Format(now(), clock.Elapsed())));
             return wf;
@@ -74,6 +79,25 @@ namespace Z0
             }
 
             return dst.ToArray();
+        }
+
+        public static Assembly[] assemblies(Assembly control, ReadOnlySpan<PartId> ids)
+        {
+            var candidates = libs(FS.path(control.Location).FolderPath);
+            var dst = list<Assembly>();
+            var names = ids.Select(x => x.PartName().Format()).ToHashSet();
+            foreach(var path in candidates)
+            {
+                var name = path.FileName.Name.Format();
+                if(text.begins(name,"z0."))
+                {
+                    name = text.remove(name,"z0.");
+                    if(names.Contains(name))
+                        dst.Add(Assembly.LoadFrom(path.Name));
+                }                
+            }
+
+            return dst.Array();
         }
 
         public static IApiCatalog catalog(Assembly[] src)
@@ -281,7 +305,9 @@ namespace Z0
         [Op]
         static Option<IPart> resolve(PropertyInfo src)
             => Option.Try(src, x => (IPart)x.GetValue(null));
- 
+
+        static MsgPattern<Timestamp,string> Step => "{0}: {1}";
+
         static MsgPattern<Timestamp> InitializingRuntime => "Initializing runtime at {0}";
 
         static MsgPattern<Timestamp,Duration> InitializedRuntime => "Initialized runtime at {0} in {1}";

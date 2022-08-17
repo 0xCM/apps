@@ -10,9 +10,10 @@ namespace Z0
     [Free]
     public interface IService
     {
-        Type HostType => GetType();
+        Type HostType {get;}
 
-        Type EffectiveHost => HostType;
+        Type EffectiveHost 
+            => HostType;
     }
 
     /// <summary>

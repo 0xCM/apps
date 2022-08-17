@@ -5,7 +5,6 @@
 namespace Z0
 {
     using static sys;
-    using static Spans;
 
     partial class Algs
     {
@@ -74,7 +73,7 @@ namespace Z0
             var source = sys.span(src);
             var count = source.Length;
             var buffer = sys.alloc<T>(count);
-            var target = span(buffer);
+            var target = sys.span(buffer);
             for(var i=0u; i<count; i++)
                 sys.seek(target,i) = f(sys.skip(source,i));
             return buffer;

@@ -4,10 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
-    using static core;
-    using static ApiAtomic;
+    using static sys;
 
     partial class PolyBits
     {

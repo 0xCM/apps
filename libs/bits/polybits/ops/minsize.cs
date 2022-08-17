@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static sys;
 
     partial class PolyBits
     {
@@ -16,7 +16,7 @@ namespace Z0
             var packed = 0u;
             for(var i=0; i<count; i++)
                 packed += skip(src,i).Width;
-            return new (packed,Sizes.align(packed,1));
+            return new (packed, Sized.align(packed,1));
         }
 
         [MethodImpl(Inline), Op]
@@ -28,7 +28,7 @@ namespace Z0
             var segments = src.Segments;
             for(byte i=0; i<count; i++)
                 packed += skip(segments, i).Width;
-            return new (packed,Sizes.align(packed,1));
+            return new (packed, Sized.align(packed,1));
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Z0
             var packed = 0u;
             for(var i=0; i<count; i++)
                 packed += skip(src,i).Width;
-            return new (packed,Sizes.align(packed,1));
+            return new (packed, Sized.align(packed,1));
         }
     }
 }

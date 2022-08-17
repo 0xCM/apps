@@ -13,7 +13,7 @@ namespace Z0
         public static Index<DbTypeTable> typetables(Assembly src, string group, ICompositeDispenser dst)
         {
             var types = MeasuredType.symbolic(src, group);
-            Index<DbTypeTable> tables = core.alloc<DbTypeTable>(types.Count);
+            Index<DbTypeTable> tables = sys.alloc<DbTypeTable>(types.Count);
             for(var i=0; i<types.Count; i++)
                 tables[i] = MemDb.typetable(types[i], dst);
             return tables.Sort();

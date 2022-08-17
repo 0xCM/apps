@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static sys;
 
     using LK = ClrLiteralKind;
     using EK = ClrEnumKind;
@@ -41,7 +41,7 @@ namespace Z0
                 case LK.F64:
                     return (ulong)(double)src;
                 case LK.String:
-                    return address((string)src);
+                    return core.address((string)src);
                 default:
                     return 0;
             }

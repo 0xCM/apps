@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static sys;
 
     public readonly struct BitNumber<N,T> : IBitNumber<BitNumber<N,T>,T>, IEquatable<T>, IEquatable<BitNumber<T>>, IComparable<BitNumber<T>>, IComparable<T>
         where T : unmanaged

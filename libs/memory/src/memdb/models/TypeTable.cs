@@ -4,6 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    /// <summary>
+    /// Defines typetable content
+    /// </summary>
     [StructLayout(LayoutKind.Sequential,Pack=1)]
     public readonly record struct DbTypeTable : IEntity<DbTypeTable,uint>, IComparable<DbTypeTable>
     {

@@ -8,7 +8,7 @@ namespace Z0
 
     public interface IWfRuntime : IDisposable, ITextual, IServiceContext
     {
-        IJsonSettings Settings {get;}
+        //IJsonSettings Settings {get;}
 
         PartName AppName {get;}
 

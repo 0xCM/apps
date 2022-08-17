@@ -26,16 +26,6 @@ namespace Z0
             FS.write(Formatter.FormatHeader() + Eol, Stream);
         }
 
-        public WfEmissionLog(Assembly src, FS.FolderPath root, Timestamp? ts = null, string name = null)
-        {
-            Closed = false;
-            Target = Loggers.config(src, root, name ?? "emissions", FileKind.Csv, ts);
-            Target.EnsureParentExists().Delete();
-            Stream = Target.Stream();
-            Formatter = Tables.formatter<EmissionLogEntry>();
-            FS.write(Formatter.FormatHeader() + Eol, Stream);
-        }
-
         public void Close()
         {
             if(!Closed)

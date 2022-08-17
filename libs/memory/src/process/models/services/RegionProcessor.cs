@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static sys;
 
     public sealed class RegionProcessor
     {
@@ -63,7 +63,7 @@ namespace Z0
             Selectors = new();
             Bases = new();
             Segments = new();
-            HostProcessName = process().ProcessName;
+            HostProcessName = core.process().ProcessName;
         }
 
         public ref readonly ProcAddresses Complete()
@@ -94,7 +94,7 @@ namespace Z0
             if(src.Type != 0 && src.Protection != 0)
             {
                 var sidx = (ushort)Index(src.BaseAddress.Quadrant(n2));
-                Bases[sidx].Add(paired(src.BaseAddress.Lo(), (uint)src.Size));
+                Bases[sidx].Add(core.paired(src.BaseAddress.Lo(), (uint)src.Size));
                 ImageMemory.segment(src, ref Segments[index]);
             }
         }

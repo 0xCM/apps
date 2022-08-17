@@ -55,10 +55,7 @@ namespace Z0
             text.copy(Chars.Space, ref i, dst);
             if(Finished != null)
                 text.copy(Finished.Value.Format(), ref i, dst);
-
             return text.format(slice(dst,0,i));
-
-            //return string.Format("{0} | {1} | {2}", string.Format("{0:D5}:{1:D5}", StartSeq, EndSeq), Started, Finished ?? Timestamp.Zero);
         }
 
         public override string ToString()

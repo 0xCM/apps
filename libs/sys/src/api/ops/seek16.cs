@@ -16,5 +16,10 @@ namespace Z0
         public static ref T seek16k<T,K>(in T src, K count)
             where K : unmanaged
                 => ref Add(ref edit(src), u16(count));
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static ref short seek16i<T>(in T src, ulong count)
+            => ref Add(ref As<T,short>(ref edit(src)), (int)count);
+
     }
 }

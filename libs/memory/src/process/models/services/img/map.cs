@@ -4,8 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Algs;
-    using static Arrays;
+    using static sys;
 
     partial class ImageMemory
     {
@@ -16,7 +15,7 @@ namespace Z0
         {
             var src = locations(process);
             var count = src.Count;
-            var addresses = sys.alloc<MemoryAddress>(count);
+            var addresses = alloc<MemoryAddress>(count);
             for(var i=0u; i<count; i++)
                 seek(addresses, i) = src[i].BaseAddress;
             var state = new ProcessMemoryState();

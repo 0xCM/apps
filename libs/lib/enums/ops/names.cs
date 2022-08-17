@@ -16,11 +16,8 @@ namespace Z0
             where E : unmanaged, Enum
                 => names(typeof(E));
 
-
         [MethodImpl(Inline), Op]
         public static string[] names(Type src)
             => Enum.GetNames(src);
-
-
     }
 }

@@ -22,7 +22,7 @@ namespace Z0
         {
             var dst = pack.DumpPath(process);
             var dumping = EmittingFile(dst);
-            DumpEmitter.emit(process, dst.Format(PathSeparator.BS), DumpTypeOption.Everything);
+            DumpEmitter.emit(process, dst);
             EmittedBytes(dumping, dst.Size);
         }
    }

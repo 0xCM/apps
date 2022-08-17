@@ -4,13 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Collections.Generic;
-    using System.Linq;
+    //using System.Linq;
 
     using static System.Runtime.InteropServices.MemoryMarshal;
-    using static Root;
 
     partial struct core
     {

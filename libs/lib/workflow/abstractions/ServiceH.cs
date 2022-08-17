@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public abstract class Service<H> : IService
+    public abstract class Service<H> : IService<H>
         where H : Service<H>, new()
     {
         /// <summary>
@@ -27,6 +27,8 @@ namespace Z0
         protected IServiceContext Context {get; private set;}
 
         protected IServiceContext Wf => Context;
+
+        public Type HostType => typeof(H);
 
         EventSignal Signal;
 

@@ -9,7 +9,7 @@ namespace Z0
     /// <summary>
     /// Defines a character in a bitstring/bitfield representation
     /// </summary>
-    public readonly struct BitChar : IEquatable<BitChar>
+    public readonly record struct BitChar : IEquatable<BitChar>
     {
         public readonly BitCharKind Kind;
 
@@ -19,14 +19,23 @@ namespace Z0
             Kind = kind;
         }
 
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => false;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => true;
+        }
+
         [MethodImpl(Inline)]
         public bool Equals(BitChar src)
             => (byte)Kind == (byte)src.Kind;
 
-        public override bool Equals(object src)
-            => src is BitChar c && Equals(c);
-
-        public uint Hash
+        public Hash32 Hash
         {
             [MethodImpl(Inline)]
             get => (byte)Kind;
@@ -57,13 +66,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator char(BitChar src)
             => api.render(src);
-
-        [MethodImpl(Inline)]
-        public static bool operator ==(BitChar a, BitChar b)
-            => a.Equals(b);
-
-        [MethodImpl(Inline)]
-        public static bool operator !=(BitChar a, BitChar b)
-            => !a.Equals(b);
     }
 }

@@ -20,7 +20,7 @@ namespace Z0
         public ByteSize Untyped
         {
             [MethodImpl(Inline)]
-            get => api.untyped(this);
+            get => SizedType.untyped(this);
         }
 
         public bool IsEmpty

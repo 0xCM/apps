@@ -7,6 +7,7 @@ namespace Z0
 {
     using static XedRules;
     using static XedRules.RuleName;
+    using static sys;
 
     using I = XedModels.GprWidthIndex;
 
@@ -17,7 +18,7 @@ namespace Z0
             public static ReadOnlySpan<GprWidth> All
             {
                 [MethodImpl(Inline)]
-                get => core.recover<GprWidth>(Data);
+                get => recover<GprWidth>(Data);
             }
 
             [MethodImpl(Inline)]
@@ -26,7 +27,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static ref readonly GprWidth widths(GprWidthIndex index)
-                => ref core.skip(All, (byte)index);
+                => ref skip(All, (byte)index);
 
             public static bool widths(Nonterminal src, out GprWidth dst)
             {
@@ -136,7 +137,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public GprWidth(byte o16, byte o32, byte o64)
-                : this(Sizes.native(o16), Sizes.native(o32), Sizes.native(o64))
+                : this(Sized.native(o16), Sized.native(o32), Sized.native(o64))
             {
 
             }
@@ -144,7 +145,7 @@ namespace Z0
             [MethodImpl(Inline)]
             public GprWidth(NativeSize o16, NativeSize o32, NativeSize o64)
             {
-                Value = BitNumbers.join((uint2)(byte)o16.Code,(uint2)(byte)o32.Code,(uint2)(byte)o64.Code);
+                Value = BitNumbers.join((uint2)(byte)o16.Code, (uint2)(byte)o32.Code, (uint2)(byte)o64.Code);
             }
 
             public bool IsEmpty

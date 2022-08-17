@@ -281,10 +281,10 @@ namespace Z0
             BitWidth w32 = 32;
             BitWidth w64 = 64;
 
-            var sz8 = Sizes.native(w8);
-            var sz16 = Sizes.native(w16);
-            var sz32 = Sizes.native(w32);
-            var sz64 = Sizes.native(w64);
+            var sz8 = Sized.native(w8);
+            var sz16 = Sized.native(w16);
+            var sz32 = Sized.native(w32);
+            var sz64 = Sized.native(w64);
             Write(sz8);
             Write(sz16);
             Write(sz32);
@@ -408,32 +408,32 @@ namespace Z0
         [Op]
         public static bit check(ref AsmSizeCheck src)
         {
-            src.Actual = (ushort)Sizes.width(src.Input);
+            src.Actual = (ushort)Sized.width(src.Input);
             switch(src.Input.Code)
             {
                 case NativeSizeCode.W8:
-                    src.Expect = (ushort)Sizes.native(w8).Width;
+                    src.Expect = (ushort)Sized.native(w8).Width;
                 break;
                 case NativeSizeCode.W16:
-                    src.Expect = (ushort)Sizes.native(w16).Width;
+                    src.Expect = (ushort)Sized.native(w16).Width;
                 break;
                 case NativeSizeCode.W32:
-                    src.Expect = (ushort)Sizes.native(w32).Width;
+                    src.Expect = (ushort)Sized.native(w32).Width;
                 break;
                 case NativeSizeCode.W64:
-                    src.Expect = (ushort)Sizes.native(w64).Width;
+                    src.Expect = (ushort)Sized.native(w64).Width;
                 break;
                 case NativeSizeCode.W128:
-                    src.Expect = (ushort)Sizes.native(w128).Width;
+                    src.Expect = (ushort)Sized.native(w128).Width;
                 break;
                 case NativeSizeCode.W256:
-                    src.Expect = (ushort)Sizes.native(w256).Width;
+                    src.Expect = (ushort)Sized.native(w256).Width;
                 break;
                 case NativeSizeCode.W512:
-                    src.Expect = (ushort)Sizes.native(w512).Width;
+                    src.Expect = (ushort)Sized.native(w512).Width;
                 break;
                 case NativeSizeCode.W80:
-                    src.Expect = (ushort)Sizes.native(w80).Width;
+                    src.Expect = (ushort)Sized.native(w80).Width;
                 break;
             }
             return src.Passed;

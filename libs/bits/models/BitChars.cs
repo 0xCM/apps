@@ -4,22 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static sys;
 
     using K = BitCharKind;
     using D = BitChars.CharData;
-
-    partial class XTend
-    {
-        public static BitChar ToBitChar(this bit src)
-            => BitChars.from(src);
-
-        public static string Format(this ReadOnlySpan<BitChar> src)
-            => BitChars.format(src);
-
-        public static string Format(this Span<BitChar> src)
-            => BitChars.format(src);
-    }
 
     [ApiHost]
     public readonly struct BitChars
@@ -162,6 +150,18 @@ namespace Z0
 
             public static ReadOnlySpan<BitCharKind> Kinds
                 => new BitCharKind[7]{K.On, K.Off, K.SectionSep, K.SegSep, K.LeftFence, K.RightFence, K.Space};
-        }
+        }        
+    }
+
+    partial class XTend
+    {
+        public static BitChar ToBitChar(this bit src)
+            => BitChars.from(src);
+
+        public static string Format(this ReadOnlySpan<BitChar> src)
+            => BitChars.format(src);
+
+        public static string Format(this Span<BitChar> src)
+            => BitChars.format(src);
     }
 }

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly record struct DataSize : IDataString<DataSize>
+    public readonly record struct DataSize : IExpr
     {
         readonly ulong Data;
 

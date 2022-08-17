@@ -84,11 +84,9 @@ namespace Z0
             return collected;
         }
 
-        public ReadOnlySeq<ApiEncoded> Run(IApiCatalog catalog)
+        public ReadOnlySeq<ApiEncoded> Run(IApiCatalog src)
         {
-            var dispenser = Transport.Dispenser;
-            var src = ApiMd.Assemblies;
-            var collected = Capture(catalog);
+            var collected = Capture(src);
             var blocks = collected.SelectMany(x => x.Blocks).Sort();
             EmitMemberIndex(blocks, Target);
 
@@ -114,7 +112,7 @@ namespace Z0
 
             if(Settings.EmitContext)
             {
-                RuntimeEmitter.emit(Target,Emitter);
+                RuntimeContext.emit(Target,Emitter);
             }
 
             if(Settings.RunChecks)

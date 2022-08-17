@@ -8,4 +8,10 @@ namespace Z0
     {
         WfEmit Emitter {get;}
     }
+
+    public interface IWfSvc<S> : IWfSvc, IAppService<S>
+        where S : IWfSvc<S>, new()
+    {
+
+    }
 }

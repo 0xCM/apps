@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public abstract class WfSvc<S> : AppService<S>, IWfSvc
+    public abstract class WfSvc<S> : AppService<S>, IWfSvc<S>
         where S : WfSvc<S>, new()
     {
         ConcurrentDictionary<ProjectId, FileFlowContext> _Context = new();
@@ -29,9 +29,8 @@ namespace Z0
         public WfEmit Emitter {get; private set;}
 
         protected override void OnInit()
-        {
-            base.OnInit();
-            Emitter = new WfEmit(this);
+        {            
+            Emitter = new WfEmit(Wf,typeof(S));
         }
 
         protected static CmdArg arg(in CmdArgs src, int index)

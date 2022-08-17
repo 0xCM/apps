@@ -9,7 +9,7 @@ namespace Z0
     {
         public IEventBroker EventBroker {get;}
 
-        public IJsonSettings Settings {get;}
+        //public IJsonSettings Settings {get;}
 
         public IApiCatalog ApiCatalog {get;}
         
@@ -30,7 +30,7 @@ namespace Z0
             EventBroker = init.EventBroker;
             Host = init.Host;
             Verbosity = LogLevel.Status;
-            Settings = init.Settings;
+            //Settings = init.Settings;
             ApiCatalog = init.ApiCatalog;
             AppName = ExecutingPart.Assembly.PartName();
             Emissions = init.EmissionLog;           

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static sys;
 
     public readonly struct BitNumber : IBitNumber<BitNumber,ulong>
     {
@@ -57,7 +57,7 @@ namespace Z0
 
         static int parse(string src, Span<bit> dst)
         {
-            var input = span(BitParser.cleanse(src)).Reverse();
+            var input = core.span(BitParser.cleanse(src)).Reverse();
             var result = true;
             var count = min(input.Length, dst.Length);
             var counter = 0;

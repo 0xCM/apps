@@ -30,26 +30,17 @@ namespace Z0
             return ref dst;
         }
 
-        public static FS.FolderPath logs(Assembly src)
-            => FS.dir($"d:/views/db/logs/{src.Id().Format()}");
-
-        public static IWfEmissionLog emission(Assembly src)
-            => new WfEmissionLog(src, logs(src) + FS.folder("emissions"));
-
         public static IWfEmissionLog emission(Assembly src, Timestamp ts)
-            => new WfEmissionLog(src, logs(src) + FS.folder("emissions"), ts);
+            => new WfEmissionLog(emissions(src,ts));
 
-        public static IWfEmissionLog emission(Assembly src, FS.FolderPath dst, Timestamp ts, string name)
-            => new WfEmissionLog(src, dst, ts, name);
+        static FS.FilePath emissions(Assembly src, Timestamp ts)
+        {
+            var name = src.Id().Format();
+            return FS.path($"d:/views/db/logs/{name}/emissions/{name}.emissions.{ts}");
+        }
 
         public static IWfEmissionLog emission(FS.FilePath dst)
             => new WfEmissionLog(dst);
-
-        internal static FS.FilePath config(Assembly src, FS.FolderPath dst, string name, FileKind kind, Timestamp? ts = null)
-        {
-            var id = text.empty(name) ? src.Id().Format() : $"{src.Id().Format()}.{name}";
-            return dst + FS.file($"{id}.{ts ?? core.timestamp()}", kind.Ext());
-        }
 
         [MethodImpl(Inline), Op]
         public static IWorkerLog worker(FS.FolderPath home)

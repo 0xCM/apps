@@ -29,28 +29,33 @@ namespace Z0
         static CaptureWfRunner runner(IWfSvc svc, CaptureWfSettings settings, IApiPack dst, CaptureTransport transport)
             => new CaptureWfRunner(svc, settings, dst, transport);
 
+        void CollectSelected(CmdArgs args, CaptureTransport transport, IApiPack dst)
+        {
+            var src = FS.path(ExecutingPart.Assembly.Location).FolderPath;
+            var settings = new CaptureWfSettings();
+            var parts = list<PartId>();
+            iter(args, arg => {
+                if(PartNames.parse(arg.Value, out var name))
+                    parts.Add(name);
+                else
+                    Warn($"{arg.Value} is not a part");
+            });
+
+            settings.Parts = parts.ToSeq();
+
+            var selected = ApiRuntime.assemblies(sys.controller(), settings.Parts.View); 
+            runner(this, settings, dst, transport).Run(ApiRuntime.catalog(selected));
+        }
+
         public void Run(CmdArgs args)
         {
             var dst = ApiPacks.create(Algs.timestamp());
-            var settings = new CaptureWfSettings();
-            var svc = this;
             using var transport = new CaptureTransport(Dispense.composite(), Emitter);
-            if(args.Count !=0)
-            {
-                var parts = list<PartId>();
-                iter(args, arg => {
-                    if(PartNames.parse(arg.Value, out var name))
-                        parts.Add(name);
-                    else
-                        Warn($"{arg.Value} is not a part");
-                });
-
-                settings.Parts = parts.ToSeq();
-            }
-            
-            var src = FS.path(ExecutingPart.Assembly.Location).FolderPath;
-            var catalog = ApiRuntime.catalog(ApiRuntime.assemblies(src));
-            runner(svc, settings, dst, transport).Run(catalog);
+            var settings = new CaptureWfSettings();
+            if(args.Count != 0)
+                CollectSelected(args, transport,dst);
+            else
+                runner(this, settings, dst, transport).Run(ApiRuntime.catalog(ApiRuntime.assemblies(FS.path(ExecutingPart.Assembly.Location).FolderPath)));
         }
 
         static SettingsStore Store = new();

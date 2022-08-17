@@ -14,6 +14,5 @@ namespace Z0
         public static BinaryLiteral<T> define<T>(Base2 @base2, string name, T value, string text)
             where T : unmanaged
                 => new BinaryLiteral<T>(name, value, text);
-
     }
 }
