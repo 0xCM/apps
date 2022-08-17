@@ -3,7 +3,6 @@
 namespace Msil
 {
     using Z0;
-    
     public class ReadableILStringVisitor : ILInstructionVisitor
     {
         protected readonly IMsilFormatProvider formatProvider;

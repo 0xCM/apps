@@ -9,9 +9,8 @@
 
   <ItemGroup>
      <EmbeddedResource Include="assets/**/*.*" />
-      <ProjectReference Include="$(Wf)"/>
-      <ProjectReference Include="$(Native)"/>
-      <ProjectReference Include="$(Builds)"/>
+     <ProjectReference Include="$(Builds)"/>
+     <ProjectReference Include="$(Native)"/>
   </ItemGroup>
 
 </Project>

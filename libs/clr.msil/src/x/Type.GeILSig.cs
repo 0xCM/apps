@@ -96,9 +96,6 @@ namespace Z0
             }
         }
 
-        public static string GetILSig(this FieldInfo field)
-            => field.DeclaringType.GetILSig() + "::" + field.Name;
-
         static readonly Dictionary<TypeInfo, string> s_primitives = new Dictionary<Type,string>
         {
             { typeof(object), "object" },

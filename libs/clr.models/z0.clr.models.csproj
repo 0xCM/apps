@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="$(Imagine)" />
+    <ProjectReference Include="$(ClrMsil)" />
   </ItemGroup>
 
 </Project>

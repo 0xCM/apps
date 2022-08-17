@@ -1,9 +1,6 @@
 {
 	"folders": [
 		{
-			"path": "..\\..\\.cmd"
-		},
-		{
 			"path": "..\\..\\props"
 		},
 		{
@@ -13,13 +10,19 @@
 			"path": "..\\sys"
 		},
 		{
+			"path": "..\\bit"
+		},
+		{
 			"path": "..\\text"
 		},
 		{
-			"path": "..\\interop"
+			"path": "..\\imagine"
 		},
 		{
-			"path": "..\\imagine"
+			"path": "..\\clr.models"
+		},
+		{
+			"path": "..\\clr.query"
 		},
 		{
 			"path": "..\\lib"
@@ -46,19 +49,13 @@
 			"path": "..\\files"
 		},
 		{
-			"path": "..\\archives"
-		},
-		{
-			"path": "..\\lang"
-		},
-		{
 			"path": "..\\wf"
 		},
 		{
-			"path": "..\\tools"
+			"path": "..\\builds"
 		},
 		{
-			"path": "..\\builds"
+			"path": "..\\tools"
 		},
 		{
 			"path": "."

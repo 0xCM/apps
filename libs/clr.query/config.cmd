@@ -1,3 +1,3 @@
 @echo off
 set ProjectId=clr.query
-call %~dp0..\..\.cmd\config.cmd
+call %~dp0..\config.cmd
