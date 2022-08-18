@@ -15,6 +15,8 @@ namespace Z0
         }
 
         public FS.Files List(CmdArgs args)
-            => AppDb.ProjectLib(arg(args, 0).Value).Scoped(scripts).Files();
+        {
+            return AppDb.ProjectLib(arg(args, 0).Value).Scoped(scripts).Files();
+        }
     }
 }

@@ -85,7 +85,7 @@ namespace Z0.Asm
             {
                 ref readonly var seg = ref skip(src,i);
                 buffer.Clear();
-                writer.WriteLine(ApiCode.pack(seg, i, buffer));
+                writer.WriteLine(ApiCodeBlocks.pack(seg, i, buffer));
             }
             EmittedFile(flow, count);
         }

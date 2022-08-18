@@ -11,8 +11,6 @@ namespace Z0
             public ImageRegions ImageRegions(IWfRuntime wf)
                 => Service<ImageRegions>(wf);
 
-            public HexDataReader HexDataReader(IWfRuntime wf)
-                => Service<HexDataReader>(wf);
 
             public MemCmd MemCmd(IWfRuntime wf)
                 => Service<MemCmd>(wf);
@@ -32,8 +30,5 @@ namespace Z0
 
        public static MemoryChecks MemoryChecks(this IWfRuntime wf)
             => Services.MemoryChecks(wf);
-
-        public static HexDataReader HexDataReader(this IWfRuntime wf)
-            => Services.HexDataReader(wf);
     }
 }

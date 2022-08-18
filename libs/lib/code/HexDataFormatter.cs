@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static sys;
 
     using static HexOptionData;
 
@@ -33,7 +33,7 @@ namespace Z0
 
         public string FormatLine(ReadOnlySpan<byte> data, ulong offset, char delimiter)
         {
-            var line = text.buffer();
+            var line = TextFormat.buffer();
             var count = data.Length;
             if(LineConfig.LineLabels)
             {
@@ -49,7 +49,7 @@ namespace Z0
 
         public void FormatLines(ReadOnlySpan<byte> data, Action<string> receiver)
         {
-            var line = text.buffer();
+            var line = TextFormat.buffer();
             var count = data.Length;
             var offset = MemoryAddress.Zero;
             for(var i=0u; i<count; i++)
@@ -87,7 +87,7 @@ namespace Z0
         {
             const char delimiter = Chars.Space;
             var dst = list<string>();
-            var line = text.buffer();
+            var line = TextFormat.buffer();
             var count = src.Length;
 
             for(var i=0; i<count; i++)
@@ -109,7 +109,7 @@ namespace Z0
             }
 
             var last = line.Emit().Trim();
-            if(text.nonempty(last))
+            if(nonempty(last))
                 dst.Add(last);
 
             return dst.ToArray();

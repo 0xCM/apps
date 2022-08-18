@@ -28,5 +28,23 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Members.Count != 0;
         }
+
+        public uint Count
+        {
+            [MethodImpl(Inline)]
+            get => Members.Count;
+        }
+
+        public ref readonly ApiMember this[uint i]
+        {
+            [MethodImpl(Inline)]
+            get => ref Members[i];
+        }
+
+        public ref readonly ApiMember this[int i]
+        {
+            [MethodImpl(Inline)]
+            get => ref Members[i];
+        }        
     }
 }

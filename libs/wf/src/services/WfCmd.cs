@@ -65,12 +65,12 @@ namespace Z0
         }
 
         [CmdOp("env/thread")]
-        Outcome ShowThread(CmdArgs args)
-        {
-            var id = Kernel32.GetCurrentThreadId();
-            Wf.Data(string.Format("ThreadId:{0}", id));
-            return true;
-        }
+        void ShowThread()
+            => Write(string.Format("ThreadId:{0}", Kernel32.GetCurrentThreadId()));
+
+        [CmdOp("env/exe")]
+        void ProcessOrigin()
+            => Write(FS.path(Environment.ProcessPath));
 
         [CmdOp("app/deploy")]
         void Deploy()
@@ -80,9 +80,6 @@ namespace Z0
             Archives.robocopy(src,dst);
         }
 
-        [CmdOp("process/origin")]
-        void ProcessOrigin()
-            => Write(FS.path(Environment.ProcessPath));
 
         [CmdOp("cmd")]
         protected void RunCmd(CmdArgs args)
@@ -134,9 +131,6 @@ namespace Z0
             var data = emitter.Emit();
             Emitter.Row(data);
             Emitter.FileEmit(data, AppDb.App().Path("launchers", FileKind.List));
-            //Emitter.FileEmit()
-            
-            //Emitter.FileEmit()
         }
 
         [CmdOp("launch")]
@@ -226,16 +220,13 @@ namespace Z0
 
         [CmdOp("env/cpucore")]
         void ShowCurrentCore()
-        {
-            Write(string.Format("Cpu:{0}", Kernel32.GetCurrentProcessorNumber()));
-        }
+            => Emitter.Write(string.Format("Cpu:{0}", Kernel32.GetCurrentProcessorNumber()));
 
         [CmdOp("ws/register")]
         void RegisterWorkspace(CmdArgs args)
         {
             WsRegistry.Register(arg(args,0).Value, FS.dir(arg(args,1).Value));
-            var entries = WsRegistry.Entries();
-            
+            var entries = WsRegistry.Entries();            
         }
 
         void ShowMemory()
@@ -256,10 +247,6 @@ namespace Z0
         [CmdOp("env/ticks")]
         void Ticks()
             => Write(Environment.TickCount64);
-
-        [CmdOp("process/location")]
-        void ProcessHome()
-            => Write(FS.path(ExecutingPart.Assembly.Location).FolderPath);
 
         [CmdOp("env/mem-physical")]
         void WorkingSet()

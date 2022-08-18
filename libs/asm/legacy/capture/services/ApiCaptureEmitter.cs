@@ -21,47 +21,6 @@ namespace Z0
             
         }
 
-        public AsmHostRoutines Emit(ApiHostUri host, Index<ApiMemberExtract> src, IApiPack dst)
-        {
-            var routines = AsmHostRoutines.Empty;
-            try
-            {
-                // EmitApiHex(host, parsed, Db.ParsedExtractPath(host));
-                // EmitMsilData(host, parsed, dst.Path(host,FileKind.Msil));
-                // EmitMsilCode(host, parsed, dst.Path(host,FileKind.MsilDat));
-                // routines = DecodeMembers(host, parsed, src);
-            }
-            catch(Exception e)
-            {
-                Wf.Error(e);
-            }
-            return routines;
-        }
-
-        // public AsmHostRoutines Emit(ApiHostUri host, Index<ApiMemberExtract> src, FS.FolderPath dst)
-        // {
-        //     var routines = AsmHostRoutines.Empty;
-        //     try
-        //     {
-        //         var flow = Running(Msg.RunningHostEmissionWorkflow.Format(host,src.Count));
-        //         var extracts = EmitExtracts(host, src, Db.RawExtractPath(dst, host));
-        //         var parsed = ParseExtracts(host, src);
-        //         if(parsed.Length != 0)
-        //         {
-        //             EmitApiHex(host, parsed, dst);
-        //             EmitMsilData(host, parsed, dst + FS.file(host,FileKind.MsilDat));
-        //             EmitMsilCode(host, parsed, dst + FS.file(host,FileKind.Msil));
-        //             routines = DecodeMembers(host, parsed, src, FS.FilePath.Empty);
-        //         }
-        //         Ran(flow);
-        //     }
-        //     catch(Exception e)
-        //     {
-        //         Error(e);
-        //     }
-        //     return routines;
-        // }
-
         public Index<ApiCodeRow> EmitApiHex(ApiHostUri host, Index<MemberCodeBlock> src, IApiPack dst)
             => ApiCode.EmitApiHex(host, src.View, dst);
 
@@ -84,19 +43,6 @@ namespace Z0
             Wf.EmittedTable(flow, count);
             return emitted;
         }
-
-        // Index<ApiMemberCode> ParseExtracts(ApiHostUri host, Index<ApiMemberExtract> src)
-        // {
-        //     if(src.Length != 0)
-        //     {
-        //         var flow = Running();
-        //         var parsed = ExtractParser.ParseMembers(src);
-        //         Ran(flow, Msg.ParsedExtractBlocks.Format(parsed.Count, host));
-        //         return parsed;
-        //     }
-        //     else
-        //         return Index<ApiMemberCode>.Empty;
-        // }
 
         AsmHostRoutines DecodeMembers(ApiHostUri host, Index<MemberCodeBlock> src, Index<ApiMemberExtract> extracts, FS.FilePath dst)
         {

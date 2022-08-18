@@ -3,9 +3,11 @@ set ToolId=sde
 set ToolGroup=tools
 set InstallBase=b:\tools\sde
 set ToolExe=%ToolId%.exe
-set HelpArgs=-help
-call %Toolbase%\config.cmd
+set ToolPath=%InstallBase%\%ToolExe%
 set sde=%ToolPath%
+
+set HelpArgs=-help
+: call %Toolbase%\config.cmd
 set ToolHome=B:\devops\modules\toolsets\%ToolId%
 set ToolDocs=%ToolHome%\docs
 
@@ -35,3 +37,7 @@ call %HelpCmd% 2>%HelpPath%
 @REM set HelpArgs=-debugtrace -thelp 
 @REM set HelpKind=debugtrace
 @REM call %EmitHelp%
+
+
+: b:\tools\sde\sde -cpuid-in b:/tools/sde/misc/cpuid/adl/cpuid.def -- cmd.exe
+

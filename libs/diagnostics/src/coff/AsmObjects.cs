@@ -110,7 +110,7 @@ namespace Z0
             => Coff.LoadSymIndex(id);
 
         public Index<ObjDumpRow> LoadRows(ProjectId id)
-            => rows(AppDb.EtlTable<ObjDumpRow>(id));
+            => CoffObjects.rows(AppDb.EtlTable<ObjDumpRow>(id));
 
         public Index<ObjBlock> LoadBlocks(ProjectId id)
             => blocks(AppDb.EtlTable<ObjBlock>(id));
@@ -216,7 +216,7 @@ namespace Z0
                 var counter = 0u;
                 while(reader.Next(out var line))
                 {
-                    if(AsmObjects.parse(line.Content, ref counter, out var sym))
+                    if(CoffObjects.parse(line.Content, ref counter, out var sym))
                     {
                         sym.Seq = seq++;
                         sym.OriginId = origin.DocId;
@@ -237,7 +237,7 @@ namespace Z0
             var buffer = sys.bag<ObjDumpRow>();
 
             iter(src, path => {
-                result = parse(context, context.Doc(path), out var records);
+                result = CoffObjects.parse(context, context.Doc(path), out var records);
                 if(result.Fail)
                 {
                     Error(result.Message);
@@ -300,7 +300,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var file = ref files[i];
-                var result = parse(context, file, out var rows);
+                var result = CoffObjects.parse(context, file, out var rows);
                 if(result.Fail)
                     Errors.Throw(result.Message);
 

@@ -39,6 +39,8 @@
     <CmdFlows>$(SlnLibs)cmd.flows\z0.cmd.flows.csproj</CmdFlows>
     <CmdChecks>$(SlnLibs)cmd.checks\z0.cmd.checks.csproj</CmdChecks>
 
+    <Coff>$(SlnLibs)coff\z0.coff.csproj</Coff>
+
     <Db>$(SlnLibs)db\z0.db.csproj</Db>
     <Diagnostics>$(SlnLibs)diagnostics\z0.diagnostics.csproj</Diagnostics>
     <Dynamic>$(SlnLibs)dynamic\z0.dynamic.csproj</Dynamic>

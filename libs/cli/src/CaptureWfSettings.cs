@@ -31,9 +31,9 @@ namespace Z0
         {
             PllExec = true;
             EmitCatalog = true;
-            EmitMetadata = true;
+            EmitMetadata = false;
             EmitContext = true;
-            EmitRegions = true;
+            EmitRegions = false;
             RunChecks = false;
             PurgeTarget = false;
             CliEmissions = CliEmissionSettings.Default;

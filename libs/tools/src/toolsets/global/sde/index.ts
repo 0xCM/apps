@@ -1,4 +1,4 @@
-export type ChipCode= 
+export type ChipCode = 
     | 'adl'
     | 'bdw'
     | 'clx'
@@ -29,3 +29,8 @@ export type ChipCode=
     | 'tgl'
     | 'tnt'
     | 'wsm'
+
+export function path<T>(tools:T, chip:ChipCode)
+{
+    return `${tools}/sde/misc/cpuid/${chip}/cpuid.def`
+}

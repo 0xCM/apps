@@ -2,16 +2,15 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <DebugSymbols>true</DebugSymbols>
     <TargetFramework>$(FrameworkMoniker)</TargetFramework>
   </PropertyGroup>
 
+  <Import Project="$(ProjectProps)usings.props"/>
+
   <ItemGroup>
-    <ProjectReference Include="$(Memory)" />
-    <ProjectReference Include="$(EMath)" />
     <ProjectReference Include="$(Native)" />
-    <ProjectReference Include="$(Archives)" />
-    <ProjectReference Include="$(Coff)" />
+    <ProjectReference Include="$(Digital)" />
+    <ProjectReference Include="$(Wf)" />
   </ItemGroup>
 
 </Project>

@@ -4,11 +4,79 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static sys;
 
-    [ApiHost]
-    public readonly struct CoffObjects
+    [ApiHost,Free]
+    public class CoffObjects : WfSvc<CoffObjects>
     {
+        public static Index<ObjDumpRow> rows(FS.FilePath src)
+        {
+            var result = TextGrids.load(src, TextEncodingKind.Asci, out var grid);
+            if(result.Fail)
+                Errors.Throw(result.Message);
+
+            var count = grid.RowCount;
+            var buffer = alloc<ObjDumpRow>(count);
+            ref var target = ref first(buffer);
+            for(var i=0u; i<count; i++)
+            {
+                ref readonly var data = ref grid[(int)i];
+                ref var dst = ref seek(target,i);
+                var j=0;
+                result = DataParser.parse(data[j++], out dst.Seq);
+                result = DataParser.parse(data[j++], out dst.DocSeq);
+                result = DataParser.parse(data[j++], out dst.OriginId);
+                result = EncodingId.parse(data[j++].Text, out dst.EncodingId);
+                result = InstructionId.parse(data[j++].Text, out dst.InstructionId);
+                result = DataParser.parse(data[j++], out dst.Section);
+                result = DataParser.parse(data[j++], out dst.BlockAddress);
+                result = DataParser.parse(data[j++], out dst.BlockName);
+                result = DataParser.parse(data[j++], out dst.IP);
+                result = DataParser.parse(data[j++], out dst.Size);
+                result = ApiNative.parse(data[j++].View, out dst.Encoded);
+                dst.Asm = text.trim(data[j++].Text);
+                result = AsmInlineComment.parse(data[j++].View, out dst.Comment);
+                result = DataParser.parse(data[j++], out dst.Source);
+            }
+
+            return buffer;
+        }
+
+
+        public static Outcome parse(FileFlowContext context, in FileRef src, out Index<ObjDumpRow> dst)
+            => new ObjDumpParser().Parse(context, src, out dst);
+
+        public static Outcome parse(string src, ref uint seq, out ObjSymRow dst)
+        {
+            var result = Outcome.Success;
+            var content = src;
+            dst = default;
+            var j = text.index(content, Chars.Colon);
+            if(j > 0)
+            {
+                var k = text.index(content, j + 1, Chars.Colon);
+                if(k > 0)
+                {
+                    dst.Source = FS.path(text.left(content,k));
+                    var digits = text.slice(text.right(content,k),1,8).Trim();
+                    var hex = Hex32.Max;
+                    if(nonempty(digits))
+                        DataParser.parse(digits, out hex);
+                    dst.DocSeq = seq++;
+                    dst.Offset = hex;
+                    var pos = k + 1 + 8 + 2;
+                    SymCodes.ExprKind(content[pos].ToString(), out dst.Code);
+                    dst.Name = text.right(content, pos + 1).Trim();
+                    if(dst.Code == ObjSymCode.t && dst.Name != ".text")
+                        dst.Code = ObjSymCode.T;
+                    else if(dst.Code == ObjSymCode.r && dst.Name != ".rdata")
+                        dst.Code = ObjSymCode.R;
+                    dst.Kind = ObjSymCalcs.kind(dst.Code);
+                }
+            }
+            return result;
+        }        
+
         [MethodImpl(Inline), Op]
         public static SymAddress address(in ObjSymRow src)
         {
@@ -54,7 +122,7 @@ namespace Z0
 
         public static Outcome validate(CoffObject coff, HexDataRow[] src, out BinaryCode hex)
         {
-            hex = ApiCode.pack(src);
+            hex = ApiCodeBlocks.pack(src);
             var hexsize = hex.Size;
             var objsize = coff.Size;
             if(hexsize != objsize)
@@ -163,5 +231,9 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ref readonly CoffHeader header(ReadOnlySpan<byte> src, uint offset)
             => ref skip(recover<CoffHeader>(src), offset);
+
+        public static readonly Symbols<ObjSymCode> SymCodes = Symbols.index<ObjSymCode>();
+
+        public static readonly Symbols<ObjSymKind> SymKinds = Symbols.index<ObjSymKind>();             
     }
 }

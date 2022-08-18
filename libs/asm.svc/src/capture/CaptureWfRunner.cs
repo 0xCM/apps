@@ -45,6 +45,8 @@ namespace Z0
 
         ImageRegions Regions => Wf.ImageRegions();
 
+        Cli Cli => Wf.Cli();
+
         ExecToken EmitMemberIndex(ReadOnlySeq<ApiEncoded> src, IApiPack dst)
         {
             var count = src.Count;
@@ -78,7 +80,7 @@ namespace Z0
             var parts = src.PartCatalogs;
             var ids = parts.Select(x => x.PartId);
             var running = Emitter.Running($"Running capture workflow: {ids.Delimit()}");
-            Capture(src,ids.View, dst);
+            Capture(src, ids.View, dst);
             var collected = Transport.Transmit(dst.ToSeq());
             Emitter.Ran(running, $"Captured {collected.Count} hosts");
             return collected;
@@ -106,14 +108,10 @@ namespace Z0
             }
 
             if(Settings.EmitRegions)
-            {
                 Regions.EmitRegions(Process.GetCurrentProcess(), Target);
-            }
 
             if(Settings.EmitContext)
-            {
                 RuntimeContext.emit(Target,Emitter);
-            }
 
             if(Settings.RunChecks)
             {
@@ -131,9 +129,19 @@ namespace Z0
             var pll = Settings.PllExec;
             var pllmsg = pll ? On : Off;
             var running = Emitter.Running($"Capturing {src.Length} parts with concurrent execution {pllmsg}:{src.Delimit().Format()}");
-            iter(src, id => Capture(catalog,id, dst), pll);
+            iter(src, id => Capture(catalog, id, dst), pll);
             return Emitter.Ran(running);
         }
+
+        void Capture(IApiCatalog src, PartId id, ConcurrentBag<CollectedHost> dst)
+        {        
+            var result = find(src, id, out var pc);
+            if(result)
+                Capture(pc, Dispenser, dst, Emitter);
+            else
+                Emitter.Warn($"Part identifier {id} not found");
+        }
+
 
         void Capture(IApiPartCatalog src, ICompositeDispenser dispenser, ConcurrentBag<CollectedHost> dst, WfEmit log)
         {
@@ -142,7 +150,14 @@ namespace Z0
             var code = tmp.ToArray();
             ApiCodeSvc.Emit(src.PartId, code, Target, Settings.PllExec);
             EmitAsm(dispenser, code);
-            iter(tmp, x => dst.Add(x));
+
+            iter(tmp, x =>  {
+                
+                Cli.EmitMsil(x,Target);
+                dst.Add(x);
+
+                }
+            );
             Transport.Transmit(src.Component);
         }
 
@@ -155,15 +170,6 @@ namespace Z0
                 dst = null;
 
             return dst != null;
-        }
-
-        void Capture(IApiCatalog src, PartId id, ConcurrentBag<CollectedHost> dst)
-        {        
-            var result = find(src, id, out var pc);
-            if(result)
-                Capture(pc, Dispenser, dst, Emitter);
-            else
-                Emitter.Warn($"Part identifier {id} not found");
         }
 
         void EmitAsm(ICompositeDispenser symbols, ReadOnlySeq<CollectedHost> src)

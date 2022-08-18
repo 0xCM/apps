@@ -28,6 +28,18 @@ namespace Z0
             get => Blocks.Count;            
         }
 
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Count == 0;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Count != 0;
+        }
+
         public ref readonly ApiEncoded this[uint i]
         {
             [MethodImpl(Inline)]

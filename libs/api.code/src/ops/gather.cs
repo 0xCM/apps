@@ -25,10 +25,6 @@ namespace Z0
             return members;          
         }
 
-        // [Op]
-        // public static ReadOnlySeq<ApiEncoded> gather(ReadOnlySpan<MethodEntryPoint> src, ICompositeDispenser dispenser, IWfEventTarget log)
-        //     => parse(raw(dispenser, src, log), log).Values.Array().Sort();
-
         [Op]
         public static ReadOnlySeq<ApiEncoded> gather(ReadOnlySpan<MethodEntryPoint> src, ICompositeDispenser dispenser, WfEmit log)
             => parse(raw(dispenser, src, log), log).Values.Array().Sort();

@@ -8,6 +8,18 @@ namespace Z0
     public class TextFormat
     {
         [Op]
+        public static ITextBuffer buffer()
+            => new TextBuffer(new StringBuilder());
+
+        [Op]
+        public static ITextBuffer buffer(StringBuilder src)
+            => new TextBuffer(src);
+
+        [Op]
+        public static ITextBuffer buffer(uint capacity)
+            => new TextBuffer(capacity);
+
+        [Op]
         public static ITextEmitter emitter(StringBuilder src)
             => new TextEmitter(new TextBuffer(src), false);
 

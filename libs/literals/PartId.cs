@@ -130,6 +130,9 @@ public enum PartId : byte
     [Symbol("llvm.checks")]
     LlvmChecks,
 
+    [Symbol("coff")]
+    Coff,
+    
     [Symbol("calcs")]
     Calcs,
 

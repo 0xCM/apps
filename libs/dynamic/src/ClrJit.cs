@@ -175,10 +175,6 @@ namespace Z0
         public static ApiMembers jit(Assembly src, WfEmit log)
             => jit(ApiRuntime.catalog(src), log);
 
-        // [Op]
-        // public static ApiMembers jit(Assembly src, WfEmit log)
-        //     => jit(ApiRuntime.catalog(src), log);
-
         [Op]
         public static MethodInfo[] complete(Type src, HashSet<string> exclusions)
             => src.DeclaredMethods().Unignored().NonGeneric().Exclude(exclusions);

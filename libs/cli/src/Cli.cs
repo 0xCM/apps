@@ -39,6 +39,18 @@ namespace Z0
             return dst.ToArray();
         }
 
+        public void EmitMsil(CollectedHost src, IApiPack dst)
+        {
+            ref readonly var resolved = ref src.Resolved;
+            if(resolved.IsNonEmpty)
+            {
+                var buffer = text.buffer();
+                for(var j=0; j<resolved.Count; j++)   
+                    MsilSvc.RenderCode(resolved[j].Msil, buffer);
+                FileEmit(buffer.Emit(), resolved.Count, dst.MsilPath(src.Host), TextEncodingKind.Unicode);
+            }
+        }
+
         public void EmitMsil(ReadOnlySpan<IApiHost> src, IApiPack dst)
         {
             var buffer = text.buffer();

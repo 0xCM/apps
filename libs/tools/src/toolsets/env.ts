@@ -1,10 +1,11 @@
 export type EnvRoot='b:'
 export type TsProject=`toolsets`
-export type CsProject=`tools`
 export type TsRoot=`${EnvRoot}/devops/modules/${TsProject}`
 export type Parent=`${EnvRoot}/devops/modules`
 export type TsIndex=`${TsRoot}/index.ts`
 export type Global=`${EnvRoot}/tools`
+
+export type CsProject=`tools`
 type ZDev='d:/drives/z/dev/z0'
 type CsRoot=`${ZDev}/libs/${CsProject}`
 
