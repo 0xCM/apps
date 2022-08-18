@@ -20,8 +20,13 @@ namespace Z0
         public void BuildCpp(IProjectWorkspace src, bool runexe = false)
             => RunBuildScripts(src, FileKind.Cpp, src.Script("build-cpp"), runexe);
 
-        public void RunBuildScripts(IProjectWorkspace project ,FileKind kind, FS.FilePath script, bool runexe)
-            => RunBuildScript(project, kind, script, flow => OnExec(flow, runexe));
+        public void RunBuildScripts(IProjectWorkspace project, FileKind kind, FS.FilePath script, bool runexe)
+        {
+            if(!script.Exists)
+                sys.@throw(AppMsg.NotFound.Format(script));
+                
+            RunBuildScript(project, kind, script, flow => OnExec(flow, runexe));
+        }
 
         void RunExe(CmdFlow flow)
         {

@@ -119,7 +119,6 @@ namespace Z0
             wf.Babble($"Initialized {typeof(H).AssemblyQualifiedName}");
             Initialized();
             WfMsg.Created(flow);
-
         }
 
         protected AppService()
@@ -144,6 +143,8 @@ namespace Z0
                 iter(src, path => Write(path.ToUri()));
             return Files();
         }
+
+        protected IApiCatalog ApiCatalog => Wf.ApiCatalog;
 
         protected void Babble(string pattern, params object[] args)
             => WfMsg.Babble(pattern, args);

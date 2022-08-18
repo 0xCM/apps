@@ -153,6 +153,12 @@ namespace Z0
             //iter(src, setting => Write(setting.Format()));
         }
 
+        [CmdOp("services")]
+        void GetServices()
+        {
+            Write(ServiceSpecs.discover(ApiCatalog.Components));
+        }
+
         [CmdOp("setting")]
         Outcome Setting(CmdArgs args)
         {

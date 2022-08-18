@@ -14,6 +14,19 @@ namespace Z0
 
         bool _PllExec;
 
+        readonly ConcurrentDictionary<AssemblyName,Assembly>  _Components = new();
+
+        public ICollection<Assembly> Assemblies
+        {
+            [MethodImpl(Inline)]
+            get => _Components.Values;
+        }
+
+        public void Store(Assembly[] src)
+        {
+            sys.iter(src, a => _Components.TryAdd(a.GetName(),a));
+        }
+
         AppData()
         {
         }

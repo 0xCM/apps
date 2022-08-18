@@ -9,8 +9,6 @@ namespace Z0
     {
         public IEventBroker EventBroker {get;}
 
-        //public IJsonSettings Settings {get;}
-
         public IApiCatalog ApiCatalog {get;}
         
         public PartName AppName {get;}
